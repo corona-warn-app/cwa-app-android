@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.LastCombinedRiskResults
-import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
@@ -23,7 +22,6 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Days
 import org.joda.time.Instant
-import org.joda.time.LocalTime
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -36,7 +34,6 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     @MockK lateinit var analyticsPcrKeySubmissionStorage: AnalyticsPCRKeySubmissionStorage
     @MockK lateinit var analyticsRaKeySubmissionStorage: AnalyticsRAKeySubmissionStorage
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
-    @MockK lateinit var riskLevelSettings: RiskLevelSettings
     @MockK lateinit var ewRiskLevelResult: EwRiskLevelResult
     @MockK lateinit var ptRiskLevelResult: PtRiskLevelResult
 
@@ -52,12 +49,20 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     fun `save test registered`() {
         val combinedEwPtRiskLevelResult = CombinedEwPtRiskLevelResult(ptRiskLevelResult, ewRiskLevelResult)
         coEvery { analyticsSettings.analyticsEnabled.value } returns true
+
         every { ewRiskLevelResult.riskState } returns RiskState.INCREASED_RISK
         every { ptRiskLevelResult.riskState } returns RiskState.LOW_RISK
+        every { ewRiskLevelResult.calculatedAt } returns now
+        every { ptRiskLevelResult.calculatedAt } returns now
+        every { ewRiskLevelResult.wasSuccessfullyCalculated } returns true
+        every { ptRiskLevelResult.wasSuccessfullyCalculated } returns true
 
         coEvery {
             riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult
         } returns flowOf(LastCombinedRiskResults(combinedEwPtRiskLevelResult, combinedEwPtRiskLevelResult))
+
+        coEvery { riskLevelStorage.allEwRiskLevelResults } returns flowOf(listOf(ewRiskLevelResult))
+        coEvery { riskLevelStorage.allPtRiskLevelResults } returns flowOf(listOf(ptRiskLevelResult))
 
         val pcrTestRegisteredAt = mockFlowPreference(now.millis)
         coEvery { analyticsPcrKeySubmissionStorage.testRegisteredAt } returns pcrTestRegisteredAt
@@ -72,12 +77,6 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
             hoursSinceHighRiskWarningAtTestRegistration
         every { analyticsRaKeySubmissionStorage.ewHoursSinceHighRiskWarningAtTestRegistration } returns
             hoursSinceHighRiskWarningAtTestRegistration
-
-        coEvery {
-            riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp
-        } returns now
-            .minus(Days.days(2).toStandardDuration()).toDateTime().toLocalDate()
-            .toDateTime(LocalTime(22, 0)).toInstant()
 
         val daysSinceMostRecentDateAtRiskLevelAtTestRegistration = mockFlowPreference(0)
         every { analyticsPcrKeySubmissionStorage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns
@@ -256,6 +255,5 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         analyticsPcrKeySubmissionStorage,
         analyticsRaKeySubmissionStorage,
         riskLevelStorage,
-        riskLevelSettings
     )
 }

@@ -19,7 +19,6 @@ import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingRiskWo
 import de.rki.coronawarnapp.presencetracing.storage.retention.TraceLocationDbCleanUpScheduler
 import de.rki.coronawarnapp.risk.changedetection.CombinedRiskLevelChangeDetector
 import de.rki.coronawarnapp.risk.changedetection.EwRiskLevelChangeDetector
-import de.rki.coronawarnapp.risk.changedetection.PtRiskLevelChangeDetector
 import de.rki.coronawarnapp.risk.execution.ExposureWindowRiskWorkScheduler
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.task.TaskController
@@ -56,7 +55,6 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var workManager: WorkManager
     @MockK lateinit var configChangeDetector: ConfigChangeDetector
     @MockK lateinit var ewRiskLevelChangeDetector: EwRiskLevelChangeDetector
-    @MockK lateinit var ptRiskLevelChangeDetector: PtRiskLevelChangeDetector
     @MockK lateinit var combinedRiskLevelChangeDetector: CombinedRiskLevelChangeDetector
     @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
     @MockK lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
@@ -110,7 +108,6 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.workManager = workManager
                 app.configChangeDetector = configChangeDetector
                 app.ewRiskLevelChangeDetector = ewRiskLevelChangeDetector
-                app.ptRiskLevelChangeDetector = ptRiskLevelChangeDetector
                 app.combinedRiskLevelChangeDetector = combinedRiskLevelChangeDetector
                 app.deadmanNotificationScheduler = deadmanNotificationScheduler
                 app.contactDiaryWorkScheduler = contactDiaryWorkScheduler
@@ -166,7 +163,6 @@ class CoronaWarnApplicationTest : BaseTest() {
             deviceTimeHandler.launch()
             configChangeDetector.launch()
             ewRiskLevelChangeDetector.launch()
-            ptRiskLevelChangeDetector.launch()
             combinedRiskLevelChangeDetector.launch()
             autoSubmission.setup()
             autoCheckOut.setupMonitor()

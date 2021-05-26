@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.LastCombinedRiskResults
-import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.util.TimeStamper
 import io.mockk.Called
@@ -36,7 +35,6 @@ class AnalyticsTestResultDataCollectorTest : BaseTest() {
     @MockK lateinit var raTestResultDonorSettings: AnalyticsRATestResultSettings
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
     @MockK lateinit var timeStamper: TimeStamper
-    @MockK lateinit var riskLevelSettings: RiskLevelSettings
     @MockK lateinit var combinedResult: CombinedEwPtRiskLevelResult
 
     private lateinit var analyticsTestResultCollector: AnalyticsTestResultCollector
@@ -59,7 +57,6 @@ class AnalyticsTestResultDataCollectorTest : BaseTest() {
             raTestResultDonorSettings,
             riskLevelStorage,
             timeStamper,
-            riskLevelSettings,
         )
     }
 
