@@ -56,7 +56,8 @@ object DialogHelper {
             negativeButton: Int? = null,
             cancelable: Boolean? = true,
             positiveButtonFunction: () -> Unit? = {},
-            negativeButtonFunction: () -> Unit? = {}
+            negativeButtonFunction: () -> Unit? = {},
+            cancelFunction: () -> Unit? = {}
         ) : this(
             context = context,
             title = context.resources.getString(title),
@@ -65,7 +66,8 @@ object DialogHelper {
             negativeButton = negativeButton?.let { context.resources.getString(it) },
             cancelable = cancelable,
             positiveButtonFunction = positiveButtonFunction,
-            negativeButtonFunction = negativeButtonFunction
+            negativeButtonFunction = negativeButtonFunction,
+            cancelFunction = cancelFunction
         )
     }
 
@@ -96,9 +98,7 @@ object DialogHelper {
                         dialogInstance.negativeButtonFunction()
                     }
                 }
-                if (dialogInstance.cancelFunction != null) {
-                    setOnCancelListener { dialogInstance.cancelFunction() }
-                }
+                setOnCancelListener { dialogInstance.cancelFunction() }
             }
             builder.create()
         }
