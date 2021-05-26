@@ -19,3 +19,12 @@ data class DefaultVaccinationValueSet(
         ) : VaccinationValueSet.ValueSet.Item
     }
 }
+
+internal val emptyVaccinationValueSet: VaccinationValueSet by lazy {
+    DefaultVaccinationValueSet(
+        languageCode = Locale.ENGLISH,
+        vp = DefaultVaccinationValueSet.DefaultValueSet(items = emptyList()),
+        mp = DefaultVaccinationValueSet.DefaultValueSet(items = emptyList()),
+        ma = DefaultVaccinationValueSet.DefaultValueSet(items = emptyList())
+    )
+}

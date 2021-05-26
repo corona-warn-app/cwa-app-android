@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
 import de.rki.coronawarnapp.bugreporting.censors.submission.CoronaTestCensor
-import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
@@ -13,6 +12,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -46,23 +46,15 @@ class CoronaTestCensorTest : BaseTest() {
     }
 
     private fun createInstance() = CoronaTestCensor(
+        debugScope = TestCoroutineScope(),
         coronaTestRepository = coronaTestRepository
     )
 
     @Test
     fun `censoring replaces the logline message`() = runBlockingTest {
         val instance = createInstance()
-        val filterMe = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "I'm a shy registration token: $testToken and we are extrovert $pcrIdentifier and $ratIdentifier",
-            tag = "I'm a tag",
-            throwable = null
-        )
-        instance.checkLog(filterMe) shouldBe filterMe.copy(
-            message = "I'm a shy registration token: ########-####-####-####-########3a2" +
-                "f and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier"
-        )
+        val filterMe = "I'm a shy registration token: $testToken and we are extrovert $pcrIdentifier and $ratIdentifier"
+        instance.checkLog(filterMe)!!.string shouldBe "I'm a shy registration token: ########-####-####-####-########3a2f and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier"
 
         verify { coronaTestRepository.coronaTests }
     }
@@ -72,26 +64,15 @@ class CoronaTestCensorTest : BaseTest() {
         coronaTests.value = emptySet()
 
         val instance = createInstance()
-        val filterMeNot = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "I'm a shy registration token: $testToken and we are extrovert $pcrIdentifier and $ratIdentifier",
-            tag = "I'm a tag",
-            throwable = null
-        )
+        val filterMeNot =
+            "I'm a shy registration token: $testToken and we are extrovert $pcrIdentifier and $ratIdentifier"
         instance.checkLog(filterMeNot) shouldBe null
     }
 
     @Test
     fun `censoring returns null if there is no match`() = runBlockingTest {
         val instance = createInstance()
-        val filterMeNot = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "I'm not a registration token ;)",
-            tag = "I'm a tag",
-            throwable = null
-        )
+        val filterMeNot = "I'm not a registration token ;)"
         instance.checkLog(filterMeNot) shouldBe null
     }
 
@@ -100,25 +81,13 @@ class CoronaTestCensorTest : BaseTest() {
 
         val censor = createInstance()
 
-        val filterMe = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "I'm a shy registration token: $testToken and we are extrovert $pcrIdentifier and $ratIdentifier",
-            tag = "I'm a tag",
-            throwable = null
-        )
+        val filterMe = "I'm a shy registration token: $testToken and we are extrovert $pcrIdentifier and $ratIdentifier"
 
-        censor.checkLog(filterMe) shouldBe filterMe.copy(
-            message = "I'm a shy registration token: ########-####-####-####-########3a2" +
-                "f and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier"
-        )
+        censor.checkLog(filterMe)!!.string shouldBe "I'm a shy registration token: ########-####-####-####-########3a2f and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier"
 
         // delete all tests
         coronaTests.value = emptySet()
 
-        censor.checkLog(filterMe) shouldBe filterMe.copy(
-            message = "I'm a shy registration token: ########-####-####-####-########3" +
-                "a2f and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier"
-        )
+        censor.checkLog(filterMe)!!.string shouldBe "I'm a shy registration token: ########-####-####-####-########3a2f and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier"
     }
 }

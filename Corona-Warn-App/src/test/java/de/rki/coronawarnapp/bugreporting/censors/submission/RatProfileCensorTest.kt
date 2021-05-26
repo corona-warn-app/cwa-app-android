@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.bugreporting.censors.submission
 
-import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
 import io.kotest.matchers.shouldBe
@@ -9,6 +8,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.format.DateTimeFormat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -33,13 +33,7 @@ internal class RatProfileCensorTest : BaseTest() {
 
         val censor = createInstance()
 
-        val logLine = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "Lorem ipsum",
-            tag = "I'm a tag",
-            throwable = null
-        )
+        val logLine = "Lorem ipsum"
 
         censor.checkLog(logLine) shouldBe null
     }
@@ -50,13 +44,7 @@ internal class RatProfileCensorTest : BaseTest() {
 
         val censor = createInstance()
 
-        val logLine = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "Lorem ipsum",
-            tag = "I'm a tag",
-            throwable = null
-        )
+        val logLine = "I'm a tag"
 
         censor.checkLog(logLine) shouldBe null
     }
@@ -67,33 +55,28 @@ internal class RatProfileCensorTest : BaseTest() {
 
         val censor = createInstance()
 
-        val logLine = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message =
+        val logLine =
             "Mister First name who is also known as Last name and is born on 1950-08-01 lives in Main street, " +
-                "12132 in the beautiful city of London. You can reach him by phone: 111111111 or email:" +
-                " email@example.com",
-            tag = "I'm a tag",
-            throwable = null
-        )
+                "12132 in the beautiful city of London. You can reach him by phone: 111111111 or email: email@example.com"
 
-        censor.checkLog(logLine) shouldBe logLine.copy(
-            message = "Mister RAT-Profile/FirstName who is also known as RAT-Profile/LastName" +
-                " and is born on RAT-Profile/DateOfBirth lives in RAT-Profile/Street, " +
-                "RAT-Profile/Zip-Code in the beautiful city of RAT-Profile/City." +
-                " You can reach him by phone: RAT-Profile/Phone or email: RAT-Profile/eMail"
-        )
+        censor.checkLog(logLine)!!.string shouldBe
+            "Mister RAT-Profile/FirstName who is also known as RAT-Profile/LastName and is born on RAT-Profile/DateOfBirth lives in RAT-Profile/Street, " +
+            "RAT-Profile/Zip-Code in the beautiful city of RAT-Profile/City. You can reach him by phone: RAT-Profile/Phone or email: RAT-Profile/eMail"
+    }
 
-        // censoring should still work after the user deletes his profile
-        every { ratProfileSettings.profile.flow } returns flowOf(null)
+    @Test
+    fun `censoring should still work after the user deletes his profile`() = runBlockingTest {
+        every { ratProfileSettings.profile.flow } returns flowOf(profile, null)
 
-        censor.checkLog(logLine) shouldBe logLine.copy(
-            message = "Mister RAT-Profile/FirstName who is also known as RAT-Profile" +
-                "/LastName and is born on RAT-Profile/DateOfBirth lives in RAT-Profile/Street, " +
-                "RAT-Profile/Zip-Code in the beautiful city of RAT-Profile/City." +
-                " You can reach him by phone: RAT-Profile/Phone or email: RAT-Profile/eMail"
-        )
+        val censor = createInstance()
+
+        val logLine =
+            "Mister First name who is also known as Last name and is born on 1950-08-01 lives in Main street, " +
+                "12132 in the beautiful city of London. You can reach him by phone: 111111111 or email: email@example.com"
+
+        censor.checkLog(logLine)!!.string shouldBe
+            "Mister RAT-Profile/FirstName who is also known as RAT-Profile/LastName and is born on RAT-Profile/DateOfBirth lives in RAT-Profile/Street, " +
+            "RAT-Profile/Zip-Code in the beautiful city of RAT-Profile/City. You can reach him by phone: RAT-Profile/Phone or email: RAT-Profile/eMail"
     }
 
     private val formatter = DateTimeFormat.forPattern("yyyy-MM-dd")

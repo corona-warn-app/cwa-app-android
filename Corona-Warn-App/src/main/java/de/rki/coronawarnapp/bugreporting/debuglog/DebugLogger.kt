@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.bugreporting.debuglog
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebugLogStorageCheck
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebugLogTree
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebugLoggerScope
@@ -12,6 +13,8 @@ import de.rki.coronawarnapp.util.di.ApplicationComponent
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -160,10 +163,28 @@ class DebugLogger(
                 launch {
                     // Censor data sources need a moment to know what to censor
                     delay(1000)
-                    val censoredLine = bugCensors.get().fold(rawLine) { prev, censor ->
-                        censor.checkLog(prev) ?: prev
+
+                    val formattedMessage = rawLine.format()
+                    val censored: Collection<BugCensor.CensoredString> = bugCensors.get()
+                        .map {
+                            async {
+                                it.checkLog(formattedMessage)
+                            }
+                        }
+                        .awaitAll()
+                        .filterNotNull()
+                        .filter { it.range != null }
+
+                    val toWrite: String = when (censored.size) {
+                        0 -> formattedMessage
+                        1 -> censored.single().string
+                        else -> {
+                            val minMin = censored.minOf { it.range!!.first }
+                            val maxMax = censored.maxOf { it.range!!.last }
+                            formattedMessage.replaceRange(minMin, maxMax, CENSOR_COLLISION_PLACERHOLDER)
+                        }
                     }
-                    logWriter.write(censoredLine)
+                    logWriter.write(toWrite)
                 }
             }
         } catch (e: CancellationException) {
@@ -174,6 +195,7 @@ class DebugLogger(
     }
 
     companion object {
+        private const val CENSOR_COLLISION_PLACERHOLDER = "<censoring-collision>"
         internal const val TAG = "DebugLogger"
     }
 }

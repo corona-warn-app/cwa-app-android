@@ -1,16 +1,20 @@
 package de.rki.coronawarnapp.bugreporting.debuglog.internal
 
-import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContain
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
+import kotlinx.coroutines.test.runBlockingTest
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -21,7 +25,7 @@ class DebugLogStorageCheckTest : BaseTest() {
     @MockK lateinit var targetPath: File
     @MockK lateinit var logWriter: LogWriter
 
-    private var currentTime: Long = 5001L
+    private var ourTime: Long = 5001L
 
     @BeforeEach
     fun setup() {
@@ -30,17 +34,21 @@ class DebugLogStorageCheckTest : BaseTest() {
         every { targetPath.usableSpace } returns 250 * 1000 * 1024L
         every { targetPath.parentFile } returns null
         every { targetPath.exists() } returns true
-        every { logWriter.write(any()) } just Runs
+        coEvery { logWriter.write(any()) } just Runs
+    }
+
+    @AfterEach
+    fun teardown() {
     }
 
     private fun createInstance() = DebugLogStorageCheck(
         targetPath = targetPath,
-        timeProvider = { currentTime },
+        timeProvider = { ourTime },
         logWriter = logWriter
     )
 
     @Test
-    fun `normal not low storage case`() {
+    fun `normal not low storage case`() = runBlockingTest {
         val instance = createInstance()
         instance.isLowStorage() shouldBe false
 
@@ -48,34 +56,37 @@ class DebugLogStorageCheckTest : BaseTest() {
     }
 
     @Test
-    fun `on errors we print it but do expect low storage`() {
-        val unexpectedError = Exception("ಠ_ಠ")
-        every { targetPath.usableSpace } throws unexpectedError
+    fun `on errors we print it but do expect low storage`() = runBlockingTest {
+        val unexpectedException = IllegalThreadStateException("ಠ_ಠ")
+        every { targetPath.usableSpace } throws unexpectedException
 
-        val logSlot = slot<LogLine>()
-        every { logWriter.write(capture(logSlot)) } just Runs
+        val logSlot = slot<String>()
+        coEvery { logWriter.write(capture(logSlot)) } just Runs
 
         val instance = createInstance()
         instance.isLowStorage() shouldBe true
 
-        logSlot.captured.throwable shouldBe unexpectedError
+        logSlot.captured.apply {
+            this shouldContain "ಠ_ಠ"
+            this shouldContain "IllegalThreadStateException"
+        }
     }
 
     @Test
-    fun `low storage default is 200MB`() {
+    fun `low storage default is 200MB`() = runBlockingTest {
         every { targetPath.usableSpace } returns 199 * 1000 * 1024L
         val instance = createInstance()
         instance.isLowStorage() shouldBe true
 
-        currentTime += 60 * 1000L
+        ourTime += 60 * 1000L
         instance.isLowStorage() shouldBe true
 
         // We only write the warning once
-        verify(exactly = 1) { logWriter.write(any()) }
+        coVerify(exactly = 1) { logWriter.write(any()) }
     }
 
     @Test
-    fun `target path does not exists`() {
+    fun `target path does not exists`() = runBlockingTest {
         val parentPath = mockk<File>()
         every { parentPath.exists() } returns true
         every { parentPath.parentFile } returns null
@@ -92,7 +103,7 @@ class DebugLogStorageCheckTest : BaseTest() {
     }
 
     @Test
-    fun `checks happen at most every 5 seconds`() {
+    fun `checks happen at most every 5 seconds`() = runBlockingTest {
         val instance = createInstance()
         instance.isLowStorage() shouldBe false
 
@@ -102,7 +113,7 @@ class DebugLogStorageCheckTest : BaseTest() {
 
         verify(exactly = 1) { targetPath.usableSpace }
 
-        currentTime += 5000L
+        ourTime += 5000L
 
         instance.isLowStorage() shouldBe true
 

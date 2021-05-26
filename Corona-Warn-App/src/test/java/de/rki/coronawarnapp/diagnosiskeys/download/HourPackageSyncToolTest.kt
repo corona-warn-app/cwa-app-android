@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.diagnosiskeys.download
 
 import de.rki.coronawarnapp.appconfig.mapping.RevokedKeyPackage
-import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
-import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo.Type
 import de.rki.coronawarnapp.exception.http.NetworkConnectTimeoutException
 import io.kotest.matchers.shouldBe
@@ -10,9 +8,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.coVerifySequence
 import io.mockk.every
-import io.mockk.mockk
 import kotlinx.coroutines.test.runBlockingTest
-import org.joda.time.DateTimeZone
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -193,16 +189,8 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
 
     @Test
     fun `EXPECT_NEW_HOUR_PACKAGES evaluation`() = runBlockingTest {
-        val cachedKey1 = mockk<CachedKey>().apply {
-            every { info } returns mockk<CachedKeyInfo>().apply {
-                every { toDateTime() } returns Instant.parse("2020-01-01T00:00:03.000Z").toDateTime(DateTimeZone.UTC)
-            }
-        }
-        val cachedKey2 = mockk<CachedKey>().apply {
-            every { info } returns mockk<CachedKeyInfo>().apply {
-                every { toDateTime() } returns Instant.parse("2020-01-01T01:00:03.000Z").toDateTime(DateTimeZone.UTC)
-            }
-        }
+        val cachedKey1 = mockCachedHour("EUR".loc, "2020-01-01".day, "00:00".hour)
+        val cachedKey2 = mockCachedHour("EUR".loc, "2020-01-01".day, "01:00".hour)
 
         val instance = createInstance()
 
@@ -216,11 +204,7 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
 
     @Test
     fun `EXPECT_NEW_HOUR_PACKAGES does not get confused by same hour on next day`() = runBlockingTest {
-        val cachedKey1 = mockk<CachedKey>().apply {
-            every { info } returns mockk<CachedKeyInfo>().apply {
-                every { toDateTime() } returns Instant.parse("2020-01-01T00:00:03.000Z").toDateTime(DateTimeZone.UTC)
-            }
-        }
+        val cachedKey1 = mockCachedHour("EUR".loc, "2020-01-01".day, "00:00".hour)
 
         val instance = createInstance()
 

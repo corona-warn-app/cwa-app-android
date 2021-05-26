@@ -51,7 +51,10 @@ data class VaccinationContainer internal constructor(
     val personIdentifier: VaccinatedPersonIdentifier
         get() = certificate.personIdentifier
 
-    fun toVaccinationCertificate(valueSet: VaccinationValueSet?) = object : VaccinationCertificate {
+    fun toVaccinationCertificate(
+        valueSet: VaccinationValueSet?,
+        userLocale: Locale = Locale.getDefault(),
+    ) = object : VaccinationCertificate {
         override val personIdentifier: VaccinatedPersonIdentifier
             get() = certificate.personIdentifier
 
@@ -83,9 +86,10 @@ data class VaccinationContainer internal constructor(
             get() = vaccination.certificateIssuer
         override val certificateCountry: String
             get() = Locale(
-                Locale.getDefault().language,
+                userLocale.language,
                 vaccination.countryOfVaccination.uppercase()
-            ).displayCountry
+            ).getDisplayCountry(userLocale)
+
         override val certificateId: String
             get() = vaccination.uniqueCertificateIdentifier
 

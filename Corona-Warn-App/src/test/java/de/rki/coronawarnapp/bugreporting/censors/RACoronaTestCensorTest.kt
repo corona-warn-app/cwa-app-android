@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
 import de.rki.coronawarnapp.bugreporting.censors.submission.RACoronaTestCensor
-import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import io.kotest.matchers.shouldBe
@@ -12,6 +11,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -32,7 +32,7 @@ internal class RACoronaTestCensorTest : BaseTest() {
     )
 
     @Test
-    fun `checkLog() should return censored LogLine`() = runBlocking {
+    fun `checkLog() should return censored LogLine`() = runBlockingTest {
         every { coronaTestRepository.coronaTests } returns flowOf(
             setOf(
                 mockk<RACoronaTest>().apply {
@@ -45,35 +45,42 @@ internal class RACoronaTestCensorTest : BaseTest() {
 
         val censor = createInstance(this)
 
-        val logLineToCensor = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message =
+        val logLineToCensor =
             """
-                Hello! My name is John. My friends call me Mister Doe and I was born on 2020-01-01.
-            """.trimIndent(),
-            tag = "I am tag",
-            throwable = null
+            Hello! My name is John. My friends call me Mister Doe and I was born on 2020-01-01.
+            """.trimIndent()
+
+        censor.checkLog(logLineToCensor)!!.string shouldBe
+            """
+            Hello! My name is RATest/FirstName. My friends call me Mister RATest/LastName and I was born on RATest/DateOfBirth.
+            """.trimIndent()
+    }
+
+    @Test
+    fun `censoring should still work when test gets deleted`() = runBlockingTest {
+        every { coronaTestRepository.coronaTests } returns flowOf(
+            setOf(
+                mockk<RACoronaTest>().apply {
+                    every { firstName } returns "John"
+                    every { lastName } returns "Doe"
+                    every { dateOfBirth } returns LocalDate.parse("2020-01-01")
+                }
+            ),
+            // Test got deleted
+            emptySet()
         )
 
-        censor.checkLog(logLineToCensor) shouldBe logLineToCensor.copy(
-            message =
-            (
-                "Hello! My name is RATest/FirstName. My friends call me " +
-                    "Mister RATest/LastName and I was born on RATest/DateOfBirth."
-                ).trimIndent()
-        )
+        val censor = createInstance(this)
 
-        // censoring should still work when test gets deleted
-        every { coronaTestRepository.coronaTests } returns flowOf(emptySet())
+        val logLineToCensor =
+            """
+            Hello! My name is John. My friends call me Mister Doe and I was born on 2020-01-01.
+            """.trimIndent()
 
-        censor.checkLog(logLineToCensor) shouldBe logLineToCensor.copy(
-            message =
-            (
-                "Hello! My name is RATest/FirstName. My friends call me Mister" +
-                    " RATest/LastName and I was born on RATest/DateOfBirth."
-                ).trimIndent()
-        )
+        censor.checkLog(logLineToCensor)!!.string shouldBe
+            """
+            Hello! My name is RATest/FirstName. My friends call me Mister RATest/LastName and I was born on RATest/DateOfBirth.
+            """.trimIndent()
     }
 
     @Test
@@ -82,13 +89,7 @@ internal class RACoronaTestCensorTest : BaseTest() {
 
         val censor = createInstance(this)
 
-        val logLine = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "Lorem ipsum",
-            tag = "I'm a tag",
-            throwable = null
-        )
+        val logLine = "Lorem ipsum"
 
         censor.checkLog(logLine) shouldBe null
     }
@@ -107,13 +108,7 @@ internal class RACoronaTestCensorTest : BaseTest() {
 
         val censor = createInstance(this)
 
-        val logLine = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "Lorem ipsum",
-            tag = "I'm a tag",
-            throwable = null
-        )
+        val logLine = "Lorem ipsum"
         censor.checkLog(logLine) shouldBe null
     }
 }

@@ -54,7 +54,7 @@ class TracingPermissionHelper @AssistedInject constructor(
 
     fun handleActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
         Timber.v(
-            "handleActivityResult(requesutCode=%d, resultCode=%d, data=%s)",
+            "handleActivityResult(requestCode=%d, resultCode=%d, data=%s)",
             requestCode,
             resultCode,
             data
