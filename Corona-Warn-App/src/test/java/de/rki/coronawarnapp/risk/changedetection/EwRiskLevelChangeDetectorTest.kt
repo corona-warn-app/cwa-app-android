@@ -59,7 +59,6 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
         every { riskLevelSettings.ewLastChangeToHighRiskLevelTimestamp } returns null
 
         coEvery { surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER) } just Runs
-
     }
 
     private fun createEwRiskLevel(
@@ -254,7 +253,6 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
             instance.launch()
             advanceUntilIdle()
         }
-
 
         every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(
             listOf(
