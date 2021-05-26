@@ -375,4 +375,39 @@ class DebugLoggerTest : BaseIOTest() {
         instance.stop()
         advanceUntilIdle()
     }
+
+    // Censoring bounds need to be determined on the original string
+    @Test
+    fun `censoring collision with missmatching original and replacements`() = runBlockingTest {
+        val before = "StrawBerryCake" // Without timestamp
+
+        coEvery { coronaTestCensor1.checkLog(any()) } answers {
+            val msg = arg<String>(0)
+            BugCensor.CensoredString.fromOriginal(msg).censor("Berry", "Banana")
+
+        }
+        coEvery { coronaTestCensor2.checkLog(any()) } answers {
+            val msg = arg<String>(0)
+            var orig = BugCensor.CensoredString.fromOriginal(msg)
+
+            orig += orig.censor("StrawBerry", "StrawBerryBananaPie")
+            orig += orig.censor("StrawBerryBananaPie", "Apple")
+            orig
+        }
+
+        val instance = createInstance(scope = this).apply {
+            init()
+            setInjectionIsReady(component)
+        }
+
+        instance.start()
+
+        Timber.tag("Test").v(before)
+        advanceTimeBy(2000L)
+
+        runningLog.readLines().last().substring(25) shouldBe "V/Test: <censoring-collision>Cake"
+
+        instance.stop()
+        advanceUntilIdle()
+    }
 }
