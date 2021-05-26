@@ -99,6 +99,10 @@ class ContactDiaryOverviewFragmentTest : BaseUITest() {
         onView(withId(R.id.contact_diary_overview_recyclerview))
             .perform(recyclerScrollTo(4))
         takeScreenshot<ContactDiaryOverviewFragment>("2")
+
+        onView(withId(R.id.contact_diary_overview_recyclerview))
+            .perform(recyclerScrollTo(10))
+        takeScreenshot<ContactDiaryOverviewFragment>("3")
     }
 
     private fun contactDiaryOverviewItemLiveData(): LiveData<List<DiaryOverviewItem>> {
@@ -139,11 +143,20 @@ class ContactDiaryOverviewFragmentTest : BaseUITest() {
                     else -> null
                 }
 
+                val coronaTestEvent = when (index) {
+                    8 -> {
+                        DiaryData.TEST_ITEM
+                    }
+
+                    else -> null
+                }
+
                 DayOverviewItem(
                     date = localDate,
                     contactItem = ContactItem(dayData),
                     riskEnfItem = riskEnf,
-                    riskEventItem = riskEvent
+                    riskEventItem = riskEvent,
+                    coronaTestItem = coronaTestEvent
                 ) {
                     // onClick
                 }
