@@ -19,6 +19,9 @@
     <!--    Vaccination graph-->
     <include app:graph="@navigation/vaccination_nav_graph" />
 
+    <!--    Certificates graph-->
+    <include app:graph="@navigation/green_certificate_graph" />
+
     <!-- Main -->
     <fragment
         android:id="@+id/mainFragment"
