@@ -71,13 +71,15 @@ internal class CertificateQrCodeCensorTest {
 
         val logLineToCensor = "Here comes the rawString: $testRawString of the vaccine certificate"
 
-        censor.checkLog(logLineToCensor)!!.string shouldBe "Here comes the rawString: ########-####-####-####-########C\$AH of the vaccine certificate"
+        censor.checkLog(logLineToCensor)!!.string shouldBe "Here comes the rawString:" +
+            " ########-####-####-####-########C\$AH of the vaccine certificate"
 
         val certDataToCensor = "Hello my name is Kevin Bob, i was born at 1969-11-16, i have been " +
             "vaccinated with: 12345 1214765 aaEd/easd ASD-2312 1969-04-20 DE Herbert" +
             " urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"
 
-        censor.checkLog(certDataToCensor)!!.string shouldBe "Hello my name is nameData/familyName nameData/givenName, i was born at " +
+        censor.checkLog(certDataToCensor)!!.string shouldBe "Hello my name is " +
+            "nameData/familyName nameData/givenName, i was born at " +
             "vaccinationCertificate/dob, i have been vaccinated with: vaccinationData/targetId " +
             "vaccinationData/vaccineId vaccinationData/medicalProductId" +
             " vaccinationData/marketAuthorizationHolderId vaccinationData/dt" +

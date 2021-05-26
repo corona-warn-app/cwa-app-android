@@ -41,7 +41,8 @@ internal class RatQrCodeCensorTest {
         val logLineToCensor =
             "Here comes the hash: $testHash of the rat test of Milhouse Van Houten. He was born on 1980-07-01"
 
-        censor.checkLog(logLineToCensor)!!.string shouldBe "Here comes the hash: SHA256HASH-ENDING-WITH-15ad of the rat test of RATest/FirstName RATest/LastName. He was born on RATest/DateOfBirth"
+        censor.checkLog(logLineToCensor)!!.string shouldBe "Here comes the hash: SHA256HASH-ENDING-WITH-15ad" +
+            " of the rat test of RATest/FirstName RATest/LastName. He was born on RATest/DateOfBirth"
     }
 
     @Test

@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import kotlin.concurrent.thread
 
+@Suppress("MaxLineLength")
 class DiaryLocationCensorTest : BaseTest() {
 
     @MockK lateinit var diaryRepo: ContactDiaryRepository
