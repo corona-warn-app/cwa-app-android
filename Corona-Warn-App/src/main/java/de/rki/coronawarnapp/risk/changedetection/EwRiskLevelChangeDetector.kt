@@ -67,9 +67,5 @@ class EwRiskLevelChangeDetector @Inject constructor(
         if (oldResult.riskState.hasChangedFromLowToHigh(newResult.riskState)) {
             riskLevelSettings.ewLastChangeToHighRiskLevelTimestamp = newResult.calculatedAt
         }
-
-        if (newResult.wasSuccessfullyCalculated) {
-            riskLevelSettings.ewMostRecentDateWithHighOrLowRiskLevel = newResult.lastRiskEncounterAt
-        }
     }
 }

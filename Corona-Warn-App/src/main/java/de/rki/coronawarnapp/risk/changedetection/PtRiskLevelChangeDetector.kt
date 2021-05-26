@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.risk.changedetection
 
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.risk.RiskLevelSettings
-import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
@@ -50,14 +49,6 @@ class PtRiskLevelChangeDetector @Inject constructor(
 
         if (oldResult.riskState.hasChangedFromLowToHigh(newResult.riskState)) {
             riskLevelSettings.ptLastChangeToHighRiskLevelTimestamp = newResult.calculatedAt
-        }
-
-        if (newResult.wasSuccessfullyCalculated) {
-            riskLevelSettings.ptMostRecentDateWithHighOrLowRiskLevel = when (newResult.riskState) {
-                RiskState.INCREASED_RISK -> newResult.mostRecentDateWithHighRisk
-                RiskState.LOW_RISK -> newResult.mostRecentDateWithLowRisk
-                else -> riskLevelSettings.ptMostRecentDateWithHighOrLowRiskLevel
-            }
         }
     }
 }

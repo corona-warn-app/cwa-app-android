@@ -34,24 +34,24 @@ class AnalyticsTestResultCollector @Inject constructor(
         val testRegisteredAt = timeStamper.nowUTC
         type.settings.testRegisteredAt.update { testRegisteredAt }
 
+        val lastResult = riskLevelStorage
+            .latestAndLastSuccessfulCombinedEwPtRiskLevelResult
+            .first()
+            .lastSuccessfullyCalculated
+
         type.settings.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                riskLevelSettings.ewMostRecentDateWithHighOrLowRiskLevel?.toLocalDateUtc(),
+                lastResult.ewRiskLevelResult.mostRecentDateAtRiskState?.toLocalDateUtc(),
                 testRegisteredAt.toLocalDateUtc()
             )
         }
 
         type.settings.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                riskLevelSettings.ptMostRecentDateWithHighOrLowRiskLevel,
+                lastResult.ptRiskLevelResult.mostRecentDateAtRiskState,
                 testRegisteredAt.toLocalDateUtc()
             )
         }
-
-        val lastResult = riskLevelStorage
-            .latestAndLastSuccessfulCombinedEwPtRiskLevelResult
-            .first()
-            .lastSuccessfullyCalculated
 
         val ewRiskLevelAtRegistration = lastResult.ewRiskLevelResult.toMetadataRiskLevel()
         if (ewRiskLevelAtRegistration == PpaData.PPARiskLevel.RISK_LEVEL_HIGH) {

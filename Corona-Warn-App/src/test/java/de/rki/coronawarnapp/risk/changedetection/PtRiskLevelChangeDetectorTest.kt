@@ -52,7 +52,6 @@ class PtRiskLevelChangeDetectorTest : BaseTest() {
 
         every { riskLevelSettings.ptLastChangeToHighRiskLevelTimestamp = any() } just Runs
         every { riskLevelSettings.ptLastChangeToHighRiskLevelTimestamp } returns null
-        every { riskLevelSettings.ptMostRecentDateWithHighOrLowRiskLevel = any() } just Runs
     }
 
     private fun createPtRiskLevel(
@@ -83,7 +82,6 @@ class PtRiskLevelChangeDetectorTest : BaseTest() {
 
             coVerify(exactly = 0) {
                 riskLevelSettings.ptLastChangeToHighRiskLevelTimestamp
-                riskLevelSettings.ptMostRecentDateWithHighOrLowRiskLevel
             }
         }
     }
@@ -105,7 +103,6 @@ class PtRiskLevelChangeDetectorTest : BaseTest() {
 
             coVerify(exactly = 0) {
                 riskLevelSettings.ptLastChangeToHighRiskLevelTimestamp
-                riskLevelSettings.ptMostRecentDateWithHighOrLowRiskLevel
             }
         }
     }
@@ -132,8 +129,6 @@ class PtRiskLevelChangeDetectorTest : BaseTest() {
             coVerify(exactly = 1) {
                 riskLevelSettings.ptLastChangeToHighRiskLevelTimestamp =
                     Instant.EPOCH.plus(1)
-                riskLevelSettings.ptMostRecentDateWithHighOrLowRiskLevel =
-                    Instant.EPOCH.plus(1).toLocalDateUtc()
             }
         }
     }
@@ -157,11 +152,6 @@ class PtRiskLevelChangeDetectorTest : BaseTest() {
             instance.launch()
 
             advanceUntilIdle()
-
-            coVerify(exactly = 1) {
-                riskLevelSettings.ptMostRecentDateWithHighOrLowRiskLevel =
-                    Instant.EPOCH.plus(1).toLocalDateUtc()
-            }
 
             coVerify(exactly = 0) {
                 riskLevelSettings.ptLastChangeToHighRiskLevelTimestamp

@@ -72,14 +72,14 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
 
         type.storage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                riskLevelSettings.ewMostRecentDateWithHighOrLowRiskLevel?.toLocalDateUtc(),
+                lastResult.ewRiskLevelResult.mostRecentDateAtRiskState?.toLocalDateUtc(),
                 testRegisteredAt.toLocalDateUtc()
             )
         }
 
         type.storage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                riskLevelSettings.ptMostRecentDateWithHighOrLowRiskLevel,
+                lastResult.ptRiskLevelResult.mostRecentDateAtRiskState,
                 testRegisteredAt.toLocalDateUtc()
             )
         }
