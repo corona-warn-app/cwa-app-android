@@ -18,16 +18,6 @@ fun List<EwRiskLevelResult>.tryLatestEwResultsWithDefaults(): DisplayableEwRiskR
     )
 }
 
-fun List<PtRiskLevelResult>.getLastCalculatedWithDefaults(): PtRiskLevelResult {
-    return maxByOrNull { it.calculatedAt }
-        ?: PtRiskLevelResult(
-            calculatedAt = Instant.now(),
-            riskState = RiskState.LOW_RISK,
-            presenceTracingDayRisk = null,
-            checkInWarningOverlaps = null
-        )
-}
-
 data class DisplayableEwRiskResults(
     val lastCalculated: EwRiskLevelResult,
     val lastSuccessfullyCalculated: EwRiskLevelResult
