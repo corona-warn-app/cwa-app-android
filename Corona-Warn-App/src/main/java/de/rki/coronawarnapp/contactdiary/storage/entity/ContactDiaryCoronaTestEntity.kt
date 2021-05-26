@@ -38,7 +38,7 @@ data class ContactDiaryCoronaTestEntity(
 }
 
 fun CoronaTest.canBeAddedToJournal(): Boolean {
-    return isViewed && (isNegative || isPositive)
+    return isNegative || (isViewed && isPositive)
 }
 
 fun Map.Entry<CoronaTestGUID, CoronaTest>.asTestResultEntity(): ContactDiaryCoronaTestEntity {
