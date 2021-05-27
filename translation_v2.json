@@ -11,7 +11,8 @@
             "release_info_strings.xml",
             "event_registration_strings.xml",
             "antigen_strings.xml",
-            "vaccination_strings.xml"
+            "vaccination_strings.xml",
+            "green_certificate_strings.xml"
           ],
           "targetFolderPath": "../values-[langCode]"
         }

@@ -34,9 +34,6 @@ data class RACoronaTest(
     @SerializedName("isAdvancedConsentGiven")
     override val isAdvancedConsentGiven: Boolean = false,
 
-    @SerializedName("isJournalEntryCreated")
-    override val isJournalEntryCreated: Boolean = false,
-
     @SerializedName("isResultAvailableNotificationSent")
     override val isResultAvailableNotificationSent: Boolean = false,
 
@@ -91,6 +88,9 @@ data class RACoronaTest(
 
     override val isPositive: Boolean
         get() = testResult == RAT_POSITIVE
+
+    override val isNegative: Boolean
+        get() = testResult == RAT_NEGATIVE
 
     override val isPending: Boolean
         get() = setOf(PCR_OR_RAT_PENDING, RAT_PENDING).contains(testResult)

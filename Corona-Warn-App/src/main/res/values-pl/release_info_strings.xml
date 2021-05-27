@@ -16,25 +16,21 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Rejestruj dzienniki rozwiązywania problemów"</item>
-        <item>"Utwórz profile szybkich testów"</item>
+        <item>"Cyfrowy dowód szczepienia"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Możesz teraz wygenerować dziennik błędów w funkcji pomocy technicznej dla aplikacji. Rejestruje on kroki, które wykonujesz w aplikacji, aby uprościć analizę potencjalnych błędów i pomóc nam szybciej je poprawić."</item>
-        <item>"Możesz teraz utworzyć profil szybkiego testu w swoich danych osobowych. Twój profil będzie można później w szybki i łatwy sposób zeskanować w punktach testowania za pomocą kodu QR."</item>
+        <item>"Teraz możesz dodać swoje świadectwa szczepienia w aplikacji i okazywać je za pomocą kodu QR. Aplikacja wyświetla pełną ochronę poszczepienną 14 dni po ostatnim szczepieniu."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
         <item/>
     </string-array>
 
