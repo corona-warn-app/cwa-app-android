@@ -51,7 +51,7 @@ class PCRProcessor @Inject constructor(
         }
 
         // This saves received at
-        analyticsTestResultCollector.saveTestResult(registrationData.testResult, type)
+        analyticsTestResultCollector.saveTestResult(registrationData.testResultResponse.coronaTestResult, type)
 
         return createCoronaTest(request, registrationData)
     }

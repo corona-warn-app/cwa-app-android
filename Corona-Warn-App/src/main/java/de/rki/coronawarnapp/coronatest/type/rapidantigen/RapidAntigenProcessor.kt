@@ -137,7 +137,7 @@ class RapidAntigenProcessor @Inject constructor(
                 }
             }
 
-            if (newTestResult == RAT_POSITIVE) {
+            if (newTestResult.coronaTestResult == RAT_POSITIVE) {
                 analyticsKeySubmissionCollector.reportPositiveTestResultReceived(type)
             }
 
