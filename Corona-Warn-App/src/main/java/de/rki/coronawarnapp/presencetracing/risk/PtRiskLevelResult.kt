@@ -47,14 +47,15 @@ data class PtRiskLevelResult(
             ?.localDateUtc
     }
 
+    val mostRecentDateAtRiskState: LocalDate? by lazy {
+        when (riskState) {
+            RiskState.INCREASED_RISK -> mostRecentDateWithHighRisk
+            RiskState.LOW_RISK -> mostRecentDateWithLowRisk
+            else -> null
+        }
+    }
+
     val checkInOverlapCount: Int by lazy {
         checkInWarningOverlaps?.size ?: 0
     }
-
-    val mostRecentDateAtRiskState: LocalDate?
-        get() = if (riskState == RiskState.INCREASED_RISK) {
-            mostRecentDateWithHighRisk
-        } else {
-            mostRecentDateWithLowRisk
-        }
 }

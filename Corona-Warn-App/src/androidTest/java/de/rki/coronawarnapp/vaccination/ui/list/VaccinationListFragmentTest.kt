@@ -198,8 +198,8 @@ internal class VaccinationListFragmentTest : BaseUITest() {
     )
 
     private fun createNameCardItem() = VaccinationListNameCardItem(
-        fullName = "Max Mustermann",
-        dayOfBirth = LocalDate.parse("01.02.1976", formatter).toDayFormat()
+        fullName = "Andrea Schneider",
+        dayOfBirth = LocalDate.parse("18.04.1943", formatter).toDayFormat()
     )
 
     private fun createQrCodeCardItem(

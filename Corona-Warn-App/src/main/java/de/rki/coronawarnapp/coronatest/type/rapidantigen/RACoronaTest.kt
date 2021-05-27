@@ -58,6 +58,9 @@ data class RACoronaTest(
     @SerializedName("dateOfBirth")
     val dateOfBirth: LocalDate? = null,
 
+    @SerializedName("sampleCollectedAt")
+    val sampleCollectedAt: Instant? = null,
+
     @Transient override val isProcessing: Boolean = false,
     @Transient override val lastError: Throwable? = null,
 ) : CoronaTest {
@@ -65,8 +68,10 @@ data class RACoronaTest(
     override val type: CoronaTest.Type
         get() = CoronaTest.Type.RAPID_ANTIGEN
 
-    private fun isOutdated(nowUTC: Instant, testConfig: CoronaTestConfig) =
-        testedAt.plus(testConfig.coronaRapidAntigenTestParameters.hoursToDeemTestOutdated).isBefore(nowUTC)
+    private fun isOutdated(nowUTC: Instant, testConfig: CoronaTestConfig): Boolean {
+        val timeoutTime = sampleCollectedAt ?: testedAt
+        return timeoutTime.plus(testConfig.coronaRapidAntigenTestParameters.hoursToDeemTestOutdated).isBefore(nowUTC)
+    }
 
     fun getState(nowUTC: Instant, testConfig: CoronaTestConfig) =
         if (testResult == RAT_NEGATIVE && isOutdated(nowUTC, testConfig)) {

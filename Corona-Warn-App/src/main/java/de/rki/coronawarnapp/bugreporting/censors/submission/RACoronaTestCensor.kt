@@ -1,10 +1,7 @@
 package de.rki.coronawarnapp.bugreporting.censors.submission
 
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensoredString
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.censor
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.plus
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNullIfUnmodified
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensorContainer
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidName
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
@@ -38,24 +35,24 @@ class RACoronaTestCensor @Inject constructor(
             .launchIn(debugScope)
     }
 
-    override suspend fun checkLog(message: String): CensoredString? = mutex.withLock {
+    override suspend fun checkLog(message: String): CensorContainer? = mutex.withLock {
 
-        var newMessage = CensoredString(message)
+        var newMessage = CensorContainer(message)
 
         ratCoronaTestHistory.forEach { ratCoronaTest ->
             withValidName(ratCoronaTest.firstName) { firstName ->
-                newMessage += newMessage.censor(firstName, "RATest/FirstName")
+                newMessage = newMessage.censor(firstName, "RATest/FirstName")
             }
 
             withValidName(ratCoronaTest.lastName) { lastName ->
-                newMessage += newMessage.censor(lastName, "RATest/LastName")
+                newMessage = newMessage.censor(lastName, "RATest/LastName")
             }
 
             ratCoronaTest.dateOfBirth?.toString(dayOfBirthFormatter)?.let { dateOfBirthString ->
-                newMessage += newMessage.censor(dateOfBirthString, "RATest/DateOfBirth")
+                newMessage = newMessage.censor(dateOfBirthString, "RATest/DateOfBirth")
             }
         }
 
-        return newMessage.toNullIfUnmodified()
+        return newMessage.nullIfEmpty()
     }
 }
