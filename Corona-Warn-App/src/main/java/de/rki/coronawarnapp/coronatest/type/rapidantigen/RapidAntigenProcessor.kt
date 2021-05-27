@@ -103,9 +103,8 @@ class RapidAntigenProcessor @Inject constructor(
             val newTestResult = try {
                 submissionService.asyncRequestTestResult(test.registrationToken).let {
                     Timber.tag(TAG).v("Raw test result was %s", it)
-                    CoronaTestResultResponse(
-                        coronaTestResult = it.coronaTestResult.toValidatedResult(),
-                        sampleCollectedAt = it.sampleCollectedAt
+                    it.copy(
+                        coronaTestResult = it.coronaTestResult.toValidatedResult()
                     )
                 }
             } catch (e: BadRequestException) {
