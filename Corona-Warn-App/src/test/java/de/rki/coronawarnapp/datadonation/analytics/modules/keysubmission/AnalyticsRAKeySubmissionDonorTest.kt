@@ -102,5 +102,5 @@ class AnalyticsRAKeySubmissionDonorTest : BaseTest() {
         }
     }
 
-    fun createInstance() = AnalyticsRaKeySubmissionDonor(repository, timeStamper)
+    fun createInstance() = AnalyticsRAKeySubmissionDonor(repository, timeStamper)
 }

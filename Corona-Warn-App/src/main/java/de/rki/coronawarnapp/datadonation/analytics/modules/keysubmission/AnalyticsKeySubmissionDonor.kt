@@ -11,18 +11,18 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AnalyticsPcrKeySubmissionDonor @Inject constructor(
+class AnalyticsPCRKeySubmissionDonor @Inject constructor(
     pcrRepository: AnalyticsPCRKeySubmissionRepository,
     timeStamper: TimeStamper
-) : AnalyticsBaseKeySubmissionDonor(pcrRepository, timeStamper)
+) : AnalyticsKeySubmissionDonor(pcrRepository, timeStamper)
 
 @Singleton
-class AnalyticsRaKeySubmissionDonor @Inject constructor(
+class AnalyticsRAKeySubmissionDonor @Inject constructor(
     raRepository: AnalyticsRAKeySubmissionRepository,
     timeStamper: TimeStamper
-) : AnalyticsBaseKeySubmissionDonor(raRepository, timeStamper)
+) : AnalyticsKeySubmissionDonor(raRepository, timeStamper)
 
-abstract class AnalyticsBaseKeySubmissionDonor(
+abstract class AnalyticsKeySubmissionDonor(
     private val repository: AnalyticsKeySubmissionRepository,
     private val timeStamper: TimeStamper
 ) : DonorModule {

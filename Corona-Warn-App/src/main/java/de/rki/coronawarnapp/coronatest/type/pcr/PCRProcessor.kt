@@ -74,6 +74,7 @@ class PCRProcessor @Inject constructor(
     ): PCRCoronaTest {
 
         analyticsKeySubmissionCollector.reset(type)
+        analyticsTestResultCollector.clear(type)
 
         val testResult = response.testResult.let {
             Timber.tag(TAG).v("Raw test result $it")
@@ -176,7 +177,7 @@ class PCRProcessor @Inject constructor(
 
     override suspend fun onRemove(toBeRemoved: CoronaTest) {
         Timber.tag(TAG).v("onRemove(toBeRemoved=%s)", toBeRemoved)
-        analyticsTestResultCollector.clear()
+        // Currently nothing to do
     }
 
     override suspend fun markSubmitted(test: CoronaTest): PCRCoronaTest {

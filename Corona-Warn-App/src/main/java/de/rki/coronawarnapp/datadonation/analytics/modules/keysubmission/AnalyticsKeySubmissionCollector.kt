@@ -4,8 +4,8 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.datadonation.analytics.common.calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
-import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighRiskEw
-import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighRiskPt
+import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighEwRiskBefore
+import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighPtRiskBefore
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
@@ -47,7 +47,7 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
         if (lastResult.ewRiskLevelResult.riskState == RiskState.INCREASED_RISK) {
             riskLevelStorage.allEwRiskLevelResults
                 .first()
-                .getLastChangeToHighRiskEw(testRegisteredAt)
+                .getLastChangeToHighEwRiskBefore(testRegisteredAt)
                 ?.let {
                     val hours = Duration(
                         it,
@@ -62,7 +62,7 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
         if (lastResult.ptRiskLevelResult.riskState == RiskState.INCREASED_RISK) {
             riskLevelStorage.allPtRiskLevelResults
                 .first()
-                .getLastChangeToHighRiskPt(testRegisteredAt)
+                .getLastChangeToHighPtRiskBefore(testRegisteredAt)
                 ?.let {
                     val hours = Duration(
                         it,

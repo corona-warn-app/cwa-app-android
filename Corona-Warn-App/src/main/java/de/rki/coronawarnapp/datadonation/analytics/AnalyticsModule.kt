@@ -8,8 +8,8 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.modules.clientmetadata.ClientMetadataDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata.ExposureRiskMetadataDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindowDonor
-import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsPcrKeySubmissionDonor
-import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsRaKeySubmissionDonor
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsPCRKeySubmissionDonor
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsRAKeySubmissionDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsPCRTestResultDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsRATestResultDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.usermetadata.UserMetadataDonor
@@ -50,11 +50,11 @@ class AnalyticsModule {
 
     @IntoSet
     @Provides
-    fun pcrKeySubmission(module: AnalyticsPcrKeySubmissionDonor): DonorModule = module
+    fun pcrKeySubmission(module: AnalyticsPCRKeySubmissionDonor): DonorModule = module
 
     @IntoSet
     @Provides
-    fun raKeySubmission(module: AnalyticsRaKeySubmissionDonor): DonorModule = module
+    fun raKeySubmission(module: AnalyticsRAKeySubmissionDonor): DonorModule = module
 
     @IntoSet
     @Provides

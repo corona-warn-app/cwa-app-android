@@ -46,6 +46,7 @@ class RapidAntigenProcessor @Inject constructor(
         request as CoronaTestQRCode.RapidAntigen
 
         analyticsKeySubmissionCollector.reset(type)
+        analyticsTestResultCollector.clear(type)
 
         val registrationData = submissionService.asyncRegisterDeviceViaGUID(request.registrationIdentifier).also {
             Timber.tag(TAG).d("Request %s gave us %s", request, it)

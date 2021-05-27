@@ -62,15 +62,16 @@ class RapidAntigenProcessorTest : BaseTest() {
 
         analyticsKeySubmissionCollector.apply {
             coEvery { reportRegisteredWithTeleTAN() } just Runs
-            coEvery { reset(any()) } just Runs
-            coEvery { reportPositiveTestResultReceived(any()) } just Runs
-            coEvery { reportTestRegistered(any()) } just Runs
+            coEvery { reset(RAPID_ANTIGEN) } just Runs
+            coEvery { reportPositiveTestResultReceived(RAPID_ANTIGEN) } just Runs
+            coEvery { reportTestRegistered(RAPID_ANTIGEN) } just Runs
         }
 
         analyticsTestResultCollector.apply {
             coEvery { saveTestResult(any(), RAPID_ANTIGEN) } just Runs
             coEvery { updatePendingTestResultReceivedTime(any(), RAPID_ANTIGEN) } just Runs
             coEvery { reportTestRegistered(RAPID_ANTIGEN) } just Runs
+            coEvery { clear(RAPID_ANTIGEN) } just Runs
         }
     }
 

@@ -20,14 +20,14 @@ fun calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
     ).days
 }
 
-fun List<PtRiskLevelResult>.getLastChangeToHighRiskPt(testRegisteredAt: Instant): Instant? {
-    val relevantResults = filter { it.wasSuccessfullyCalculated }
+fun List<PtRiskLevelResult>.getLastChangeToHighPtRiskBefore(testRegisteredAt: Instant): Instant? {
+    val successfulResults = filter { it.wasSuccessfullyCalculated }
         .filter { it.calculatedAt <= testRegisteredAt }
         .sortedByDescending { it.calculatedAt }
 
-    relevantResults.forEachIndexed { index, ptRiskLevelResult ->
+    successfulResults.forEachIndexed { index, ptRiskLevelResult ->
         if (ptRiskLevelResult.riskState == RiskState.INCREASED_RISK &&
-            (index == relevantResults.lastIndex || relevantResults[index + 1].riskState == RiskState.LOW_RISK)
+            (index == successfulResults.lastIndex || successfulResults[index + 1].riskState == RiskState.LOW_RISK)
         ) {
             return ptRiskLevelResult.calculatedAt
         }
@@ -35,14 +35,14 @@ fun List<PtRiskLevelResult>.getLastChangeToHighRiskPt(testRegisteredAt: Instant)
     return null
 }
 
-fun List<EwRiskLevelResult>.getLastChangeToHighRiskEw(testRegisteredAt: Instant): Instant? {
-    val relevantResults = filter { it.wasSuccessfullyCalculated }
+fun List<EwRiskLevelResult>.getLastChangeToHighEwRiskBefore(testRegisteredAt: Instant): Instant? {
+    val successfulResults = filter { it.wasSuccessfullyCalculated }
         .filter { it.calculatedAt <= testRegisteredAt }
         .sortedByDescending { it.calculatedAt }
 
-    relevantResults.forEachIndexed { index, ptRiskLevelResult ->
+    successfulResults.forEachIndexed { index, ptRiskLevelResult ->
         if (ptRiskLevelResult.riskState == RiskState.INCREASED_RISK &&
-            (index == relevantResults.lastIndex || relevantResults[index + 1].riskState == RiskState.LOW_RISK)
+            (index == successfulResults.lastIndex || successfulResults[index + 1].riskState == RiskState.LOW_RISK)
         ) {
             return ptRiskLevelResult.calculatedAt
         }

@@ -5,8 +5,8 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.datadonation.analytics.common.calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
-import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighRiskEw
-import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighRiskPt
+import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighEwRiskBefore
+import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighPtRiskBefore
 import de.rki.coronawarnapp.datadonation.analytics.common.isFinal
 import de.rki.coronawarnapp.datadonation.analytics.common.isPending
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
@@ -52,36 +52,32 @@ class AnalyticsTestResultCollector @Inject constructor(
             )
         }
 
-        val ewLastChangeToHighRiskLevelTimestamp = riskLevelStorage.allEwRiskLevelResults
-            .first()
-            .getLastChangeToHighRiskEw(testRegisteredAt)
-
         if (lastResult.ewRiskLevelResult.riskState == RiskState.INCREASED_RISK) {
-            ewLastChangeToHighRiskLevelTimestamp?.let {
-                val hours = Duration(
-                    it,
-                    testRegisteredAt
-                ).standardHours.toInt()
-                type.settings.ewHoursSinceHighRiskWarningAtTestRegistration.update {
-                    hours
+            riskLevelStorage.allEwRiskLevelResults
+                .first()
+                .getLastChangeToHighEwRiskBefore(testRegisteredAt)?.let {
+                    val hours = Duration(
+                        it,
+                        testRegisteredAt
+                    ).standardHours.toInt()
+                    type.settings.ewHoursSinceHighRiskWarningAtTestRegistration.update {
+                        hours
+                    }
                 }
-            }
         }
 
-        val ptLastChangeToHighRiskLevelTimestamp = riskLevelStorage.allPtRiskLevelResults
-            .first()
-            .getLastChangeToHighRiskPt(testRegisteredAt)
-
         if (lastResult.ptRiskLevelResult.riskState == RiskState.INCREASED_RISK) {
-            ptLastChangeToHighRiskLevelTimestamp?.let {
-                val hours = Duration(
-                    it,
-                    testRegisteredAt
-                ).standardHours.toInt()
-                type.settings.ptHoursSinceHighRiskWarningAtTestRegistration.update {
-                    hours
+            riskLevelStorage.allPtRiskLevelResults
+                .first()
+                .getLastChangeToHighPtRiskBefore(testRegisteredAt)?.let {
+                    val hours = Duration(
+                        it,
+                        testRegisteredAt
+                    ).standardHours.toInt()
+                    type.settings.ptHoursSinceHighRiskWarningAtTestRegistration.update {
+                        hours
+                    }
                 }
-            }
         }
     }
 
@@ -127,10 +123,9 @@ class AnalyticsTestResultCollector @Inject constructor(
     /**
      * Clear saved test donor saved metadata
      */
-    fun clear() {
+    fun clear(type: CoronaTest.Type) {
         Timber.d("clear TestResultDonorSettings")
-        pcrSettings.clear()
-        raSettings.clear()
+        type.settings.clear()
     }
 
     private val analyticsDisabled: Boolean

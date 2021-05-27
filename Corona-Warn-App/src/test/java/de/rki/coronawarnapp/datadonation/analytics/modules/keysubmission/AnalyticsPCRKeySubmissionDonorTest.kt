@@ -102,5 +102,5 @@ class AnalyticsPCRKeySubmissionDonorTest : BaseTest() {
         }
     }
 
-    fun createInstance() = AnalyticsPcrKeySubmissionDonor(repository, timeStamper)
+    fun createInstance() = AnalyticsPCRKeySubmissionDonor(repository, timeStamper)
 }

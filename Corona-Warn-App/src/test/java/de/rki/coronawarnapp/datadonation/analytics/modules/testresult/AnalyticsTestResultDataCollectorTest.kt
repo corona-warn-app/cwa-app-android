@@ -5,7 +5,9 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_NEGATIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_OR_RAT_PENDING
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_POSITIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_REDEEMED
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
 import de.rki.coronawarnapp.risk.LastCombinedRiskResults
@@ -75,10 +77,17 @@ class AnalyticsTestResultDataCollectorTest : BaseTest() {
         runBlockingTest {
             every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(true)
             every { pcrTestResultDonorSettings.saveTestResultDonorDataAtRegistration(any(), any()) } just Runs
+            every { raTestResultDonorSettings.saveTestResultDonorDataAtRegistration(any(), any()) } just Runs
             analyticsTestResultCollector.saveTestResult(PCR_POSITIVE, PCR)
 
             verify(exactly = 1) {
                 pcrTestResultDonorSettings.saveTestResultDonorDataAtRegistration(any(), any())
+            }
+
+            analyticsTestResultCollector.saveTestResult(RAT_POSITIVE, RAPID_ANTIGEN)
+
+            verify(exactly = 1) {
+                raTestResultDonorSettings.saveTestResultDonorDataAtRegistration(any(), any())
             }
         }
 
@@ -166,9 +175,12 @@ class AnalyticsTestResultDataCollectorTest : BaseTest() {
 
     @Test
     fun `clear is clearing saved data`() {
-        analyticsTestResultCollector.clear()
+        analyticsTestResultCollector.clear(PCR)
         verify {
             pcrTestResultDonorSettings.clear()
+        }
+        analyticsTestResultCollector.clear(RAPID_ANTIGEN)
+        verify {
             raTestResultDonorSettings.clear()
         }
     }

@@ -36,7 +36,14 @@ class CalculationsTest : BaseTest() {
             riskState = RiskState.INCREASED_RISK
         )
         val registeredAt = LocalDate(2021, 3, 24).toDateTimeAtStartOfDay().toInstant()
-        listOf(ptRisk0, ptRisk1, ptRisk2, ptRisk3, ptRisk4, ptRisk5).getLastChangeToHighRiskPt(registeredAt) shouldBe
+        listOf(
+            ptRisk0,
+            ptRisk1,
+            ptRisk2,
+            ptRisk3,
+            ptRisk4,
+            ptRisk5
+        ).getLastChangeToHighPtRiskBefore(registeredAt) shouldBe
             LocalDate(2021, 3, 22).toDateTimeAtStartOfDay().toInstant()
     }
 
@@ -67,7 +74,14 @@ class CalculationsTest : BaseTest() {
             riskState = RiskState.INCREASED_RISK
         )
         val registeredAt = LocalDate(2021, 3, 21).toDateTimeAtStartOfDay().toInstant()
-        listOf(ptRisk0, ptRisk1, ptRisk2, ptRisk3, ptRisk4, ptRisk5).getLastChangeToHighRiskPt(registeredAt) shouldBe
+        listOf(
+            ptRisk0,
+            ptRisk1,
+            ptRisk2,
+            ptRisk3,
+            ptRisk4,
+            ptRisk5
+        ).getLastChangeToHighPtRiskBefore(registeredAt) shouldBe
             LocalDate(2021, 3, 20).toDateTimeAtStartOfDay().toInstant()
     }
 
@@ -98,7 +112,14 @@ class CalculationsTest : BaseTest() {
             riskState = RiskState.LOW_RISK
         )
         val registeredAt = LocalDate(2021, 3, 23).toDateTimeAtStartOfDay().toInstant()
-        listOf(ptRisk0, ptRisk1, ptRisk2, ptRisk3, ptRisk4, ptRisk5).getLastChangeToHighRiskPt(registeredAt) shouldBe
+        listOf(
+            ptRisk0,
+            ptRisk1,
+            ptRisk2,
+            ptRisk3,
+            ptRisk4,
+            ptRisk5
+        ).getLastChangeToHighPtRiskBefore(registeredAt) shouldBe
             LocalDate(2021, 3, 22).toDateTimeAtStartOfDay().toInstant()
     }
 
@@ -129,7 +150,14 @@ class CalculationsTest : BaseTest() {
             riskState = RiskState.LOW_RISK
         )
         val registeredAt = LocalDate(2021, 3, 23).toDateTimeAtStartOfDay().toInstant()
-        listOf(ptRisk0, ptRisk1, ptRisk2, ptRisk3, ptRisk4, ptRisk5).getLastChangeToHighRiskPt(registeredAt) shouldBe
+        listOf(
+            ptRisk0,
+            ptRisk1,
+            ptRisk2,
+            ptRisk3,
+            ptRisk4,
+            ptRisk5
+        ).getLastChangeToHighPtRiskBefore(registeredAt) shouldBe
             null
     }
 
@@ -140,14 +168,14 @@ class CalculationsTest : BaseTest() {
             riskState = RiskState.LOW_RISK
         )
         val registeredAt = LocalDate(2021, 3, 23).toDateTimeAtStartOfDay().toInstant()
-        listOf(ptRisk0).getLastChangeToHighRiskPt(registeredAt) shouldBe
+        listOf(ptRisk0).getLastChangeToHighPtRiskBefore(registeredAt) shouldBe
             null
     }
 
     @Test
     fun `getLastChangeToHighRiskPt works 6`() {
         val registeredAt = LocalDate(2021, 3, 23).toDateTimeAtStartOfDay().toInstant()
-        listOf<PtRiskLevelResult>().getLastChangeToHighRiskPt(registeredAt) shouldBe
+        listOf<PtRiskLevelResult>().getLastChangeToHighPtRiskBefore(registeredAt) shouldBe
             null
     }
 
@@ -158,7 +186,7 @@ class CalculationsTest : BaseTest() {
             riskState = RiskState.INCREASED_RISK
         )
         val registeredAt = LocalDate(2021, 3, 23).toDateTimeAtStartOfDay().toInstant()
-        listOf(ptRisk0).getLastChangeToHighRiskPt(registeredAt) shouldBe
+        listOf(ptRisk0).getLastChangeToHighPtRiskBefore(registeredAt) shouldBe
             LocalDate(2021, 3, 19).toDateTimeAtStartOfDay().toInstant()
     }
 }

@@ -73,7 +73,8 @@ fun EwRiskLevelResult.toMetadataRiskLevel(): PpaData.PPARiskLevel = riskState.to
 fun RiskState.toMetadataRiskLevel(): PpaData.PPARiskLevel =
     when (this) {
         RiskState.INCREASED_RISK -> PpaData.PPARiskLevel.RISK_LEVEL_HIGH
-        else -> PpaData.PPARiskLevel.RISK_LEVEL_LOW
+        RiskState.LOW_RISK -> PpaData.PPARiskLevel.RISK_LEVEL_LOW
+        else -> PpaData.PPARiskLevel.RISK_LEVEL_UNKNOWN
     }
 
 val CoronaTestResult?.isFinal
