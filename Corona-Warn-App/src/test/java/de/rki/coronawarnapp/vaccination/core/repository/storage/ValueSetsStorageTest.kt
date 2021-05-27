@@ -10,12 +10,14 @@ import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.valueSetDe
 import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.valueSetEn
 import de.rki.coronawarnapp.vaccination.core.validateValues
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.extensions.toComparableJsonPretty
 import testhelpers.preferences.MockSharedPreferences
 
 class ValueSetsStorageTest : BaseTest() {
@@ -75,5 +77,66 @@ class ValueSetsStorageTest : BaseTest() {
                 it.toStoredVaccinationValueSet().validateValues(it)
             }
         }
+    }
+
+    @Test
+    fun `storage inits empty without sideeffects`() {
+        createInstance().vaccinationValueSet shouldNotBe null
+        prefs.dataMapPeek.isEmpty() shouldBe true
+    }
+
+    @Test
+    fun `storage format`() {
+        createInstance().vaccinationValueSet = storedValueSetDe
+        (prefs.dataMapPeek["valueset"] as String).toComparableJsonPretty() shouldBe """
+            {
+              "languageCode": "de",
+              "vp": {
+                "items": [
+                  {
+                    "key": "1119305005",
+                    "displayText": "Impfstoff-Name"
+                  }
+                ]
+              },
+              "mp": {
+                "items": [
+                  {
+                    "key": "EU/1/21/1529",
+                    "displayText": "Arzneimittel-Name"
+                  }
+                ]
+              },
+              "ma": {
+                "items": [
+                  {
+                    "key": "ORG-100001699",
+                    "displayText": "Hersteller-Name"
+                  }
+                ]
+              }
+            }
+        """.toComparableJsonPretty()
+
+        createInstance().apply {
+            vaccinationValueSet shouldBe storedValueSetDe
+            vaccinationValueSet = emptyStoredValueSet
+        }
+        (prefs.dataMapPeek["valueset"] as String).toComparableJsonPretty() shouldBe """
+            {
+              "languageCode": "en",
+              "vp": {
+                "items": []
+              },
+              "mp": {
+                "items": []
+              },
+              "ma": {
+                "items": []
+              }
+            }
+        """.toComparableJsonPretty()
+
+        createInstance().vaccinationValueSet shouldBe emptyStoredValueSet
     }
 }

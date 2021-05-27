@@ -64,7 +64,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
         }
 
         every { enfClient.isTracingEnabled } returns flowOf(true)
-        every { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS) } just Runs
+        every { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS, any()) } just Runs
     }
 
     private fun createViewModel() = SubmissionResultPositiveOtherWarningNoConsentViewModel(
@@ -97,13 +97,19 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
     fun `onResume() should call analyticsKeySubmissionCollector for PCR tests`() {
         testType = PCR
         createViewModel().onResume()
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS) }
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS, PCR) }
+        verify(exactly = 0) {
+            analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS, RAPID_ANTIGEN)
+        }
     }
 
     @Test
-    fun `onResume() should NOT call analyticsKeySubmissionCollector for RAT tests`() {
+    fun `onResume() should call analyticsKeySubmissionCollector for RAT tests`() {
         testType = RAPID_ANTIGEN
         createViewModel().onResume()
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS) }
+        verify(exactly = 0) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS, PCR) }
+        verify(exactly = 1) {
+            analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS, RAPID_ANTIGEN)
+        }
     }
 }

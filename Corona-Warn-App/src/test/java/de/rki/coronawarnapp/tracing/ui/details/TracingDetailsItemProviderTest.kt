@@ -94,8 +94,6 @@ class TracingDetailsItemProviderTest : BaseTest() {
             lastSuccessfullyCalculated = combinedResult
         )
         every { ewRiskLevelTaskResult.matchedKeyCount } returns matchedKeyCount
-        every { riskLevelStorage.latestAndLastSuccessfulEwRiskLevelResult } returns
-            flowOf(listOf(ewRiskLevelTaskResult))
         every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns flowOf(lastCombined)
     }
 

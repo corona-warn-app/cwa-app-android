@@ -139,8 +139,8 @@ class SubmissionTaskTest : BaseTest() {
 
         coEvery { playbook.submit(any()) } just Runs
 
-        every { analyticsKeySubmissionCollector.reportSubmitted() } just Runs
-        every { analyticsKeySubmissionCollector.reportSubmittedInBackground() } just Runs
+        every { analyticsKeySubmissionCollector.reportSubmitted(any()) } just Runs
+        every { analyticsKeySubmissionCollector.reportSubmittedInBackground(any()) } just Runs
 
         every { testResultAvailableNotificationService.cancelTestResultAvailableNotification() } just Runs
 
@@ -397,12 +397,15 @@ class SubmissionTaskTest : BaseTest() {
 
         createTask().run(SubmissionTask.Arguments(checkUserActivity = true))
 
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmitted() }
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedInBackground() }
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmitted(PCR) }
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedInBackground(PCR) }
+
+        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmitted(RAPID_ANTIGEN) }
+        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedInBackground(RAPID_ANTIGEN) }
     }
 
     @Test
-    fun `PPA is NOT collected for RAT tests`() = runBlockingTest {
+    fun `PPA is collected for RAT tests`() = runBlockingTest {
         coronaTestsFlow.value = setOf(
             mockk<CoronaTest>().apply {
                 every { type } returns RAPID_ANTIGEN
@@ -416,7 +419,10 @@ class SubmissionTaskTest : BaseTest() {
 
         createTask().run(SubmissionTask.Arguments(checkUserActivity = true))
 
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmitted() }
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedInBackground() }
+        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmitted(PCR) }
+        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedInBackground(PCR) }
+
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmitted(RAPID_ANTIGEN) }
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedInBackground(RAPID_ANTIGEN) }
     }
 }
