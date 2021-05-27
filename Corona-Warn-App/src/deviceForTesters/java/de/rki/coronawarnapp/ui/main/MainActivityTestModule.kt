@@ -16,6 +16,8 @@ import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragment
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragmentModule
 import de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaOnboardingFragmentModule
 import de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaonboardingFragment
+import de.rki.coronawarnapp.test.greencertificate.GreenCertificateTestFragment
+import de.rki.coronawarnapp.test.greencertificate.GreenCertificateTestFragmentModule
 import de.rki.coronawarnapp.test.hometestcards.ui.HomeTestCardsFragment
 import de.rki.coronawarnapp.test.hometestcards.ui.HomeTestCardsFragmentModule
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragment
@@ -90,4 +92,7 @@ abstract class MainActivityTestModule {
 
     @ContributesAndroidInjector(modules = [VaccinationTestFragmentModule::class])
     abstract fun vaccinationTest(): VaccinationTestFragment
+
+    @ContributesAndroidInjector(modules = [GreenCertificateTestFragmentModule::class])
+    abstract fun greenCertificateTestFragment(): GreenCertificateTestFragment
 }
