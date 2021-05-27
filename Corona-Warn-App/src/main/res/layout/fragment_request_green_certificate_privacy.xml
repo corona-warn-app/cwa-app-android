@@ -58,6 +58,31 @@
         app:layout_constraintTop_toBottomOf="@id/first_bulletpoint_text" />
 
     <include
+        android:id="@+id/extra_pcr_bulletpoint"
+        layout="@layout/include_bullet_point"
+        android:layout_width="@dimen/bullet_point_size"
+        android:layout_height="@dimen/bullet_point_size"
+        app:layout_constraintBaseline_toBaselineOf="@id/extra_pcr_bulletpoint_text"
+        app:layout_constraintStart_toStartOf="@id/bulletpoint_two" />
+
+    <TextView
+        android:id="@+id/extra_pcr_bulletpoint_text"
+        style="@style/subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:text="@string/request_green_certificate_privacy_pcr_extra_section"
+        app:layout_constraintEnd_toEndOf="@id/second_bulletpoint_text"
+        app:layout_constraintStart_toStartOf="@id/second_bulletpoint_text"
+        app:layout_constraintTop_toBottomOf="@id/second_bulletpoint_text" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/pcrExtraBullet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="extra_pcr_bulletpoint_text,extra_pcr_bulletpoint" />
+
+    <include
         android:id="@+id/bulletpoint_three"
         layout="@layout/include_bullet_point"
         android:layout_width="@dimen/bullet_point_size"
@@ -72,9 +97,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_normal"
         android:text="@string/request_green_certificate_privacy_section_3"
-        app:layout_constraintEnd_toEndOf="@id/second_bulletpoint_text"
-        app:layout_constraintStart_toStartOf="@id/second_bulletpoint_text"
-        app:layout_constraintTop_toBottomOf="@id/second_bulletpoint_text" />
+        app:layout_constraintEnd_toEndOf="@id/extra_pcr_bulletpoint_text"
+        app:layout_constraintStart_toStartOf="@id/extra_pcr_bulletpoint_text"
+        app:layout_constraintTop_toBottomOf="@id/extra_pcr_bulletpoint_text" />
 
     <include
         android:id="@+id/bulletpoint_four"

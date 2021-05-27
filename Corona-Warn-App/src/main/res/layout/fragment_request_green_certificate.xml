@@ -54,6 +54,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/illustration_image" />
 
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/birthDateGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="date_input_layout,birth_date_description" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/date_input_layout"
                 style="@style/TextInputLayoutTheme"
@@ -71,6 +77,10 @@
                     android:id="@+id/date_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:cursorVisible="false"
+                    android:focusable="true"
+                    android:focusableInTouchMode="false"
                     android:imeOptions="actionDone"
                     android:inputType="date" />
 

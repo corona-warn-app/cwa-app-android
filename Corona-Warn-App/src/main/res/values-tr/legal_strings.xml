@@ -179,11 +179,20 @@
     <string name="vaccination_privacy_card_fourth_bulletpoint_title_text" translatable="false">"Aşı sertifikasını istediğiniz zaman Uygulamadan kaldırma seçeneğiniz vardır. Bunu yapıncaya kadar aşı sertifikaları akıllı telefonunuzda kayıtlı kalacaktır."</string>
 
     <!--    Green Certificate -->
+    <!-- XTXT: Request GC title for privacy card -->
     <string name="request_green_certificate_privacy_title" translatable="false">Veri gizliliği ve veri güvenliği</string>
+    <!-- XTXT: Request GC bullet point 1 for privacy card -->
     <string name="request_green_certificate_privacy_section_1" translatable="false">Dijital COVID-19 test sertifikasının talep etmek ve kullanmak isteğe bağlıdır. Yapılan testin negatif çıktığına ilişkin sertifikanın kanıtı, başka yollarla da sağlanabilir.</string>
+    <!-- XTXT: Request GC bullet point 2 for privacy card -->
     <string name="request_green_certificate_privacy_section_2" translatable="false">Verileriniz, test sertifikanızı oluşturmak üzere bir kez şifrelenir ve RKI’ye aktarılır. RKI, bu verilerin geçerliliğini onaylamak için onları elektronik olarak imzalar. Veriler RKI’de saklanmaz.</string>
+    <!-- XTXT: Request GC extra bullet point PCR test  for privacy card -->
+    <string name="request_green_certificate_privacy_pcr_extra_section" translatable="false">Hiç kimsenin QR kodunuz üzerinden test sonucunuza erişememesi için test sonucunuz, doğum tarihinizle korunur. Doğum tarihiniz şifrelenir ve test sonucunu çağırmak üzere ilgili laboratuvara gönderilir.</string>
+    <!-- XTXT: Request GC bullet point 3 for privacy card -->
     <string name="request_green_certificate_privacy_section_3" translatable="false">COVID-19 test sertifikası, yaptırdığınız Korona testinize ilişkin verileri içerir. Yasal açıdan zorunlu durumlarda ilgili test sonucunu kanıtlamak için, Uygulamadaki QR kodu göstermeniz yeterli olacaktır. Söz konusu verilerin okunmasını istemiyorsanız, test sertifikasını hiç kimseye göstermeyin.</string>
+    <!-- XTXT: Request GC bullet point 4 for privacy card -->
     <string name="request_green_certificate_privacy_section_4" translatable="false">Eğer Uygulamada test sertifikasına ilişkin QR kodu gösterirseniz ve bu bir kontrol uygulamasıyla taranırsa, diğer kişiler sizin test sertifikanızı öğrenebilir. Kontrol işlemi sırasında adınız ve doğum tarihiniz de resmi kontrol uygulamasında görüntülenecektir.</string>
+    <!-- XTXT: Request GC bullet point 5 for privacy card -->
     <string name="request_green_certificate_privacy_section_5" translatable="false">Test sertifikasını istediğiniz zaman Uygulamadan kaldırma seçeneğiniz vardır. Bunu yapıncaya kadar test sertifikaları akıllı telefonunuzda kayıtlı kalacaktır.</string>
+    <!-- XTXT: Request GC legal information section for privacy card -->
     <string name="request_green_certificate_privacy_legal_information" translatable="false">Veri işleme ile ilgili ayrıntılı bilgileri Veri Gizliliği Beyanında bulabilirsiniz</string>
 </resources>

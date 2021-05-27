@@ -16,4 +16,8 @@
     <string name="request_green_certificate_disagree_button">Nein Danke</string>
     <string name="request_green_certificate_birthdate_description">Zur Sicherheit wird Ihr Testergebnis mit Ihrem Geburtsdatum geschützt. Das Testergebnis kann nur bei korrekt angegebenem Geburtstdatum zugestellt werden.</string>
     <string name="request_green_certificate_birthdate_hint">Geburtsdatum</string>
+    <string name="request_gc_dialog_title">Registrierung abbrechen</string>
+    <string name="request_gc_dialog_message">Wenn Sie die Test-Registrierung abbrechen, können Sie Ihr Testergebnis nicht in der App erhalten.</string>
+    <string name="request_gc_dialog_positive_button">Abbrechen</string>
+    <string name="request_gc_dialog_negative_button">OK</string>
 </resources>
