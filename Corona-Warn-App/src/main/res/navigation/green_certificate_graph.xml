@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/green_certificate_graph"
+    app:startDestination="@id/certificatesFragment">
+
+    <fragment
+        android:id="@+id/certificatesFragment"
+        android:name="de.rki.coronawarnapp.greencertificate.ui.certificates.CertificatesFragment"
+        android:label="fragment_certificates"
+        tools:layout="@layout/fragment_certificates" />
+</navigation>
