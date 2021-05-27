@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/content_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/contact_diary_onboarding_background"
+        android:contentDescription="@string/contact_diary_title"
+        android:focusable="true">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@string/green_certificates_onboarding_title" />
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="@dimen/spacing_small"
+            app:layout_constraintBottom_toTopOf="@id/onboarding_next_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/onboarding_illustration"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/green_certificates_onboarding_illustration_description"
+                    android:focusable="true"
+                    app:srcCompat="@drawable/ic_green_certificate_onboarding_illustration"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/ic_contact_diary_illustration_onboarding" />
+
+                <TextView
+                    android:id="@+id/onboarding_body"
+                    style="@style/subtitleMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="31dp"
+                    android:focusable="true"
+                    android:text="@string/green_certificates_onboarding_body"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/onboarding_illustration"
+                    tools:text="Erstellen Sie eine Übersicht über Ihre Kontakte der letzten 14 Tage. So haben Sie bei Bedarf schnell eine vollständige Liste zur Hand." />
+
+                <ImageView
+                    android:id="@+id/onboarding_digital_certificates_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_normal"
+                    android:layout_marginTop="32dp"
+                    android:importantForAccessibility="no"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/onboarding_body"
+                    app:srcCompat="@drawable/ic_qr_tracing_static" />
+
+                <TextView
+                    android:id="@+id/onboarding_digital_certificates"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:text="@string/green_certificates_onboarding_digital_certificates"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/onboarding_digital_certificates_image"
+                    app:layout_constraintTop_toTopOf="@id/onboarding_digital_certificates_image" />
+
+                <ImageView
+                    android:id="@+id/valid_for_travel_image"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="@dimen/spacing_normal"
+                    android:layout_marginTop="24dp"
+                    app:srcCompat="@drawable/ic_qr_code"
+                    android:background="@drawable/circle"
+                    android:backgroundTint="@color/card_dark"
+                    android:padding="8dp"
+                    android:importantForAccessibility="no"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/onboarding_digital_certificates" />
+
+                <TextView
+                    android:id="@+id/valid_for_travel"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:text="@string/green_certificates_onboarding_valid_for_travel"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/onboarding_digital_certificates_image"
+                    app:layout_constraintTop_toTopOf="@id/valid_for_travel_image" />
+
+                <ImageView
+                    android:id="@+id/stored_in_smartphone_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_normal"
+                    android:layout_marginTop="24dp"
+                    android:importantForAccessibility="no"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/valid_for_travel"
+                    app:srcCompat="@drawable/ic_shield_illustration" />
+
+                <TextView
+                    android:id="@+id/stored_in_smartphone"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:text="@string/green_certificates_onboarding_stored_in_smartphone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/onboarding_digital_certificates_image"
+                    app:layout_constraintTop_toTopOf="@id/stored_in_smartphone_image" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/check_in_onboarding_card_container"
+                    style="@style/cardTracing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/guideline_card"
+                    android:layout_marginTop="29dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/stored_in_smartphone">
+
+                    <TextView
+                        android:id="@+id/onboarding_privacy_title"
+                        style="@style/headline5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/green_certificates_privacy_onboarding_title"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/onboarding_privacy_bulletpoint1"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:layout_marginTop="28dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/onboarding_privacy_title"
+                        app:srcCompat="@drawable/bullet_point" />
+
+                    <TextView
+                        android:id="@+id/green_certificates_privacy_onboarding_first_bulletpoint_title"
+                        style="@style/subtitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="21dp"
+                        android:focusable="true"
+                        android:text="@string/green_certificates_privacy_onboarding_first_bulletpoint_title_text"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/onboarding_privacy_bulletpoint1"
+                        app:layout_constraintTop_toBottomOf="@id/onboarding_privacy_title" />
+
+                    <ImageView
+                        android:id="@+id/onboarding_privacy_bulletpoint2"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:layout_marginTop="22dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/green_certificates_privacy_onboarding_first_bulletpoint_title"
+                        app:srcCompat="@drawable/bullet_point" />
+
+                    <TextView
+                        android:id="@+id/green_certificates_privacy_onboarding_second_bulletpoint_title"
+                        style="@style/subtitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="16dp"
+                        android:focusable="true"
+                        android:text="@string/green_certificates_privacy_onboarding_second_bulletpoint_title_text"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/onboarding_privacy_bulletpoint2"
+                        app:layout_constraintTop_toBottomOf="@id/green_certificates_privacy_onboarding_first_bulletpoint_title" />
+
+                    <ImageView
+                        android:id="@+id/onboarding_privacy_bulletpoint3"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:layout_marginTop="22dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/green_certificates_privacy_onboarding_second_bulletpoint_title"
+                        app:srcCompat="@drawable/bullet_point" />
+
+                    <TextView
+                        android:id="@+id/green_certificates_privacy_onboarding_third_bulletpoint_title"
+                        style="@style/subtitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="16dp"
+                        android:focusable="true"
+                        android:text="@string/green_certificates_privacy_onboarding_third_bulletpoint_title_text"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/onboarding_privacy_bulletpoint3"
+                        app:layout_constraintTop_toBottomOf="@id/green_certificates_privacy_onboarding_second_bulletpoint_title" />
+
+                    <ImageView
+                        android:id="@+id/onboarding_privacy_bulletpoint4"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:layout_marginTop="22dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/green_certificates_privacy_onboarding_third_bulletpoint_title"
+                        app:srcCompat="@drawable/bullet_point" />
+
+                    <TextView
+                        android:id="@+id/green_certificates_privacy_onboarding_fourth_bulletpoint_title"
+                        style="@style/subtitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="16dp"
+                        android:focusable="true"
+                        android:text="@string/green_certificates_privacy_onboarding_fourth_bulletpoint_title_text"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/onboarding_privacy_bulletpoint4"
+                        app:layout_constraintTop_toBottomOf="@id/green_certificates_privacy_onboarding_third_bulletpoint_title" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <de.rki.coronawarnapp.ui.view.MoreInformationView
+                    android:id="@+id/onboarding_privacy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="24dp"
+                    android:paddingBottom="10dp"
+                    android:focusable="true"
+                    app:layout_constraintTop_toBottomOf="@+id/check_in_onboarding_card_container"
+                    app:titleText="@string/green_certificates_onboarding_privacy_button" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="@dimen/guideline_start" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="@dimen/guideline_end" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <Button
+            android:id="@+id/onboarding_next_button"
+            style="@style/buttonPrimary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:text="@string/green_certificates_onboarding_next_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="@string/green_certificates_onboarding_next_button" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

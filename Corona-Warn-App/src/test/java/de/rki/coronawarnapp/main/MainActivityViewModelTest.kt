@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.main
 
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.greencertificate.ui.CertificatesSettings
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
@@ -34,6 +35,7 @@ class MainActivityViewModelTest : BaseTest() {
     @MockK lateinit var onboardingSettings: OnboardingSettings
     @MockK lateinit var traceLocationSettings: TraceLocationSettings
     @MockK lateinit var checkInRepository: CheckInRepository
+    @MockK lateinit var certificatesSettings: CertificatesSettings
 
     @BeforeEach
     fun setup() {
@@ -59,6 +61,7 @@ class MainActivityViewModelTest : BaseTest() {
         onboardingSettings = onboardingSettings,
         checkInRepository = checkInRepository,
         traceLocationSettings = traceLocationSettings,
+        certificatesSettings = certificatesSettings,
     )
 
     @Test
@@ -91,6 +94,7 @@ class MainActivityViewModelTest : BaseTest() {
     @Test
     fun `User is not onboarded when settings returns NOT_ONBOARDED `() {
         every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.NOT_ONBOARDED
+        every { certificatesSettings.onboardingStatus } returns CertificatesSettings.OnboardingStatus.NOT_ONBOARDED
         val vm = createInstance()
         vm.onBottomNavSelected()
         vm.isContactDiaryOnboardingDone.value shouldBe false
@@ -99,8 +103,27 @@ class MainActivityViewModelTest : BaseTest() {
     @Test
     fun `User is onboarded when settings returns RISK_STATUS_1_12 `() {
         every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
+        every { certificatesSettings.onboardingStatus } returns CertificatesSettings.OnboardingStatus.NOT_ONBOARDED
         val vm = createInstance()
         vm.onBottomNavSelected()
         vm.isContactDiaryOnboardingDone.value shouldBe true
+    }
+
+    @Test
+    fun `Certificates is not onboarded when settings returns NOT_ONBOARDED `() {
+        every { certificatesSettings.onboardingStatus } returns CertificatesSettings.OnboardingStatus.NOT_ONBOARDED
+        every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.NOT_ONBOARDED
+        val vm = createInstance()
+        vm.onBottomNavSelected()
+        vm.isCertificatesOnboardingDone.value shouldBe false
+    }
+
+    @Test
+    fun `Certificates is onboarded when settings returns ONBOARDED `() {
+        every { certificatesSettings.onboardingStatus } returns CertificatesSettings.OnboardingStatus.ONBOARDED
+        every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.NOT_ONBOARDED
+        val vm = createInstance()
+        vm.onBottomNavSelected()
+        vm.isCertificatesOnboardingDone.value shouldBe true
     }
 }

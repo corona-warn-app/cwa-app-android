@@ -7,6 +7,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.greencertificate.ui.CertificatesSettings
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
@@ -29,6 +30,7 @@ class MainActivityViewModel @AssistedInject constructor(
     private val backgroundNoise: BackgroundNoise,
     private val onboardingSettings: OnboardingSettings,
     private val traceLocationSettings: TraceLocationSettings,
+    private val certificatesSettings: CertificatesSettings,
     checkInRepository: CheckInRepository
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
@@ -42,6 +44,8 @@ class MainActivityViewModel @AssistedInject constructor(
     val isContactDiaryOnboardingDone: LiveData<Boolean> = mutableIsContactDiaryOnboardingDone
     private val mutableIsTraceLocationOnboardingDone = MutableLiveData<Boolean>()
     val isTraceLocationOnboardingDone: LiveData<Boolean> = mutableIsTraceLocationOnboardingDone
+    private val mutableIsCertificatesOnboardingDone = MutableLiveData<Boolean>()
+    val isCertificatesOnboardingDone: LiveData<Boolean> = mutableIsCertificatesOnboardingDone
 
     val activeCheckIns = checkInRepository.checkInsWithinRetention
         .map { checkins -> checkins.filter { !it.completed }.size }
@@ -84,6 +88,7 @@ class MainActivityViewModel @AssistedInject constructor(
     fun onBottomNavSelected() {
         mutableIsContactDiaryOnboardingDone.value = contactDiarySettings.isOnboardingDone
         mutableIsTraceLocationOnboardingDone.value = traceLocationSettings.isOnboardingDone
+        mutableIsCertificatesOnboardingDone.value = certificatesSettings.isOnboardingDone
     }
 
     private suspend fun checkForEnergyOptimizedEnabled() {

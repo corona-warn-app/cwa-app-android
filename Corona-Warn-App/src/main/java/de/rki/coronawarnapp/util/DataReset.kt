@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.survey.SurveySettings
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
+import de.rki.coronawarnapp.greencertificate.storage.CertificatesPreferences
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
@@ -67,6 +68,7 @@ class DataReset @Inject constructor(
     private val valueSetsRepository: ValueSetsRepository,
     private val vaccinationPreferences: VaccinationPreferences,
     private val vaccinationRepository: VaccinationRepository,
+    private val certificatesPreferences: CertificatesPreferences,
 ) {
 
     private val mutex = Mutex()
@@ -114,6 +116,7 @@ class DataReset @Inject constructor(
         valueSetsRepository.clear()
         vaccinationRepository.clear()
         vaccinationPreferences.clear()
+        certificatesPreferences.clear()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }

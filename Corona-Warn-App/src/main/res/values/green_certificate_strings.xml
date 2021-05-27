@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
 
+    <!-- XHED: Onboarding: title -->
+    <string name="green_certificates_onboarding_title">"Nachweise hinzufügen"</string>
+    <!-- XACT: Onboarding: illustraction description, header image -->
+    <string name="green_certificates_onboarding_illustration_description">""</string>
+    <!-- XTXT: Onboarding: body -->
+    <string name="green_certificates_onboarding_body">"Fügen Sie ihre digitalen COVID-Zertifikate in der App hinzu, um mit der App Ihren Impfschutz oder ein negatives Testergebnis nachweisen zu können."</string>
+    <!-- XTXT: Onboarding: digital certificates -->
+    <string name="green_certificates_onboarding_digital_certificates">"Sie können digitale COVID-19-Impfzertifikate oder COVID-19-Testzertifikate in der App hinzufügen."</string>
+    <!-- XTXT: Onboarding: valid for travel -->
+    <string name="green_certificates_onboarding_valid_for_travel">"Die Zertifikate gelten innerhalb der EU als gültiger Nachweis (z.B. für Reisen)."</string>
+    <!-- XTXT: Onboarding: stored in smartphone -->
+    <string name="green_certificates_onboarding_stored_in_smartphone">"Nach dem Hinzufügen bleiben die Zertifikate auf Ihrem Smartphone. Andere Personen können Ihre Daten nur einsehen, wenn Sie diesen ein Zertifikat zur Überprüfung vorzeigen."</string>
+    <!-- XBUT: Onboarding: privacy button -->
+    <string name="green_certificates_onboarding_privacy_button">"Ausführliche Informationen zur Datenverarbeitung finden Sie in der Datenschutzerklärung."</string>
+    <!-- XBUT: Onboarding: next button -->
+    <string name="green_certificates_onboarding_next_button">"Weiter"</string>
+
 </resources>

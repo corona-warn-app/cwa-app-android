@@ -98,6 +98,9 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         vm.isTraceLocationOnboardingDone.observe(this) { isOnboardingDone ->
             startTraceLocationNestedGraphDestination(navController, isOnboardingDone)
         }
+        vm.isCertificatesOnboardingDone.observe(this) { isOnboardingDone ->
+            startCertificatesNestedGraphDestination(navController, isOnboardingDone)
+        }
 
         vm.activeCheckIns.observe(this) { count ->
             val targetId = R.id.trace_location_attendee_nav_graph
@@ -164,6 +167,15 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             R.id.checkInsFragment
         } else {
             R.id.checkInOnboardingFragment
+        }
+    }
+
+    private fun startCertificatesNestedGraphDestination(navController: NavController, isOnboardingDone: Boolean) {
+        val nestedGraph = navController.graph.findNode(R.id.green_certificate_graph) as NavGraph
+        nestedGraph.startDestination = if (isOnboardingDone) {
+            R.id.certificatesFragment
+        } else {
+            R.id.certificatesOnboardingFragment
         }
     }
 

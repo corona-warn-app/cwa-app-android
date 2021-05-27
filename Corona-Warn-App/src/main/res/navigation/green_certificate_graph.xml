@@ -9,5 +9,33 @@
         android:id="@+id/certificatesFragment"
         android:name="de.rki.coronawarnapp.greencertificate.ui.certificates.CertificatesFragment"
         android:label="fragment_certificates"
-        tools:layout="@layout/fragment_certificates" />
+        tools:layout="@layout/fragment_certificates" >
+        <action
+            android:id="@+id/action_certificatesFragment_to_certificatesOnboardingFragment"
+            app:destination="@id/certificatesOnboardingFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/certificatesOnboardingFragment"
+        android:name="de.rki.coronawarnapp.greencertificate.ui.onboarding.CertificatesOnboardingFragment"
+        android:label="fragment_certificates_onboarding"
+        tools:layout="@layout/fragment_certificates_onboarding" >
+        <action
+            android:id="@+id/action_certificatesOnboardingFragment_to_certificatesFragment"
+            app:destination="@id/certificatesFragment" />
+        <action
+            android:id="@+id/action_certificatesOnboardingFragment_to_checkInPrivacyFragment"
+            app:destination="@id/checkInPrivacyFragment" />
+        <argument
+            android:name="showBottomNav"
+            android:defaultValue="true"
+            app:argType="boolean" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/checkInPrivacyFragment"
+        android:name="de.rki.coronawarnapp.ui.information.InformationPrivacyFragment"
+        android:label="InformationPrivacyFragment"
+        tools:layout="@layout/fragment_information_privacy" />
+
 </navigation>

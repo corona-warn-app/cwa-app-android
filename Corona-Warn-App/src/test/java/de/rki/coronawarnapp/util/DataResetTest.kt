@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.survey.SurveySettings
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
+import de.rki.coronawarnapp.greencertificate.storage.CertificatesPreferences
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
@@ -64,6 +65,7 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var vaccinationRepository: VaccinationRepository
     @MockK lateinit var vaccinationPreferences: VaccinationPreferences
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
+    @MockK lateinit var certificatesPreferences: CertificatesPreferences
 
     @BeforeEach
     fun setUp() {
@@ -97,7 +99,8 @@ internal class DataResetTest : BaseTest() {
         ratProfileSettings = ratProfileSettings,
         vaccinationPreferences = vaccinationPreferences,
         vaccinationRepository = vaccinationRepository,
-        valueSetsRepository = valueSetsRepository
+        valueSetsRepository = valueSetsRepository,
+        certificatesPreferences = certificatesPreferences
     )
 
     @Test
@@ -132,6 +135,7 @@ internal class DataResetTest : BaseTest() {
             vaccinationRepository.clear()
             vaccinationPreferences.clear()
             valueSetsRepository.clear()
+            certificatesPreferences.clear()
         }
     }
 }
