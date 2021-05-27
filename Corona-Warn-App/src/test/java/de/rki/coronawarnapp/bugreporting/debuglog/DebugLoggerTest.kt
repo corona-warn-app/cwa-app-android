@@ -25,7 +25,7 @@ import testhelpers.logging.JUnitTree
 import timber.log.Timber
 import java.io.File
 
-@Suppress("BlockingMethodInNonBlockingContext")
+@Suppress("BlockingMethodInNonBlockingContext", "MaxLineLength")
 class DebugLoggerTest : BaseIOTest() {
 
     @MockK lateinit var application: Application
@@ -439,6 +439,65 @@ class DebugLoggerTest : BaseIOTest() {
         runningLog.readLines()
             .last()
             .substring(25) shouldBe "V/Test: StrapBarryCakeMoreSugar"
+
+        instance.stop()
+        advanceUntilIdle()
+    }
+
+    @Test
+    fun `exception during single bugcensor execution`() = runBlockingTest {
+        val before = "StrawberryCake" // Without timestamp
+
+        coEvery { coronaTestCensor1.checkLog(any()) } answers {
+            null
+        }
+        coEvery { coronaTestCensor2.checkLog(any()) } answers {
+            throw IllegalArgumentException("I give up")
+        }
+
+        val instance = createInstance(scope = this).apply {
+            init()
+            setInjectionIsReady(component)
+        }
+
+        instance.start()
+
+        Timber.tag("Test").v(before)
+        advanceTimeBy(2000L)
+
+        runningLog.readLines()
+            .last()
+            .substring(25) shouldBe "V/Test: <censor-error>Module BugCensor\$Subclass1: java.lang.IllegalArgumentException: I give up</censor-error>"
+
+        instance.stop()
+        advanceUntilIdle()
+    }
+
+    @Test
+    fun `exception during multi bugcensor execution`() = runBlockingTest {
+        val before = "StrawberryCake" // Without timestamp
+
+        coEvery { coronaTestCensor1.checkLog(any()) } answers {
+            val msg = arg<String>(0)
+            BugCensor.CensorContainer(msg).censor("Cake", "Pancake")
+        }
+        coEvery { coronaTestCensor2.checkLog(any()) } answers {
+            throw IllegalArgumentException("I give up")
+        }
+
+        val instance = createInstance(scope = this).apply {
+            init()
+            setInjectionIsReady(component)
+        }
+
+        instance.start()
+
+        Timber.tag("Test").v(before)
+        advanceTimeBy(2000L)
+
+        runningLog.readLines()
+            .last()
+            .substring(25) shouldBe "V/Test: <censor-collision/>"
 
         instance.stop()
         advanceUntilIdle()

@@ -172,7 +172,7 @@ class DebugLogger(
                                     it.checkLog(formattedMessage)
                                 } catch (e: Exception) {
                                     Log.e(TAG, "Error in censor module $it", e)
-                                    null
+                                    BugCensor.containerForError(it, formattedMessage, e)
                                 }
                             }
                         }
@@ -192,7 +192,7 @@ class DebugLogger(
                                 combinedContainer.compile()?.censored ?: formattedMessage
                             } catch (e: Exception) {
                                 Log.e(TAG, "Censoring collision fail.", e)
-                                "<censor-error>Global combination: $e</censor-error"
+                                "<censor-error>Global combination: $e</censor-error>"
                             }
                     }
                     logWriter.write(rawLine.formatFinal(toWrite))

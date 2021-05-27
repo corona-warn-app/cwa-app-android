@@ -148,5 +148,22 @@ interface BugCensor {
             action(zipCode)
             return true
         }
+
+        fun containerForError(
+            censor: BugCensor,
+            original: String,
+            error: Exception
+        ): CensorContainer = CensorContainer(
+            original = original,
+            actions = setOf(
+                CensorContainer.Action(
+                    range = 0..original.length,
+                    modifier = CensorContainer.Action.SimpleReplace(
+                        original,
+                        "<censor-error>Module ${censor.javaClass.simpleName}: $error</censor-error>"
+                    )
+                )
+            )
+        )
     }
 }
