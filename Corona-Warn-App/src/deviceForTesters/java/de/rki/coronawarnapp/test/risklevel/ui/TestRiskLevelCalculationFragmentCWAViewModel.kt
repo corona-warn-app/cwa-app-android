@@ -71,7 +71,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     val dataResetEvent = SingleLiveEvent<String>()
     val shareFileEvent = SingleLiveEvent<File>()
 
-    private val lastRiskResult = riskLevelStorage.allEwRiskLevelResults.map { results ->
+    private val lastRiskResult = riskLevelStorage.allEwRiskLevelResultsWithExposureWindows.map { results ->
         results.maxByOrNull { it.calculatedAt }
     }
 

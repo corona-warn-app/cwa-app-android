@@ -5,7 +5,6 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor
@@ -53,8 +52,8 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
                     )
                 )
             } else {
-                if (isConsentGiven && coronaTestQRCode.type == CoronaTest.Type.PCR) {
-                    analyticsKeySubmissionCollector.reportAdvancedConsentGiven()
+                if (isConsentGiven) {
+                    analyticsKeySubmissionCollector.reportAdvancedConsentGiven(coronaTestQRCode.type)
                 }
                 qrCodeRegistrationStateProcessor.startQrCodeRegistration(coronaTestQRCode, isConsentGiven)
             }

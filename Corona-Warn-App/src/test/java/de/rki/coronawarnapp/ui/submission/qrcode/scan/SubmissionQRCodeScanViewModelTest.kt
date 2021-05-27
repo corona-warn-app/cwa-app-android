@@ -108,12 +108,13 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
         val coronaTestQRCode = CoronaTestQRCode.PCR(qrCodeGUID = "123456-12345678-1234-4DA7-B166-B86D85475064")
 
         every { qrCodeValidator.validate(any()) } returns coronaTestQRCode
-        every { analyticsKeySubmissionCollector.reportAdvancedConsentGiven() } just Runs
+        every { analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any()) } just Runs
         coEvery { qrCodeRegistrationStateProcessor.startQrCodeRegistration(any(), any()) } just Runs
 
         createViewModel().startQrCodeRegistration(rawResult = "", isConsentGiven = true)
 
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportAdvancedConsentGiven() }
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportAdvancedConsentGiven(CoronaTest.Type.PCR) }
+        verify(exactly = 0) { analyticsKeySubmissionCollector.reportAdvancedConsentGiven(CoronaTest.Type.RAPID_ANTIGEN) }
     }
 
     @Test
@@ -121,11 +122,12 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
         val coronaTestQRCode = CoronaTestQRCode.PCR(qrCodeGUID = "123456-12345678-1234-4DA7-B166-B86D85475064")
 
         every { qrCodeValidator.validate(any()) } returns coronaTestQRCode
-        every { analyticsKeySubmissionCollector.reportAdvancedConsentGiven() } just Runs
+        every { analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any()) } just Runs
         coEvery { qrCodeRegistrationStateProcessor.startQrCodeRegistration(any(), any()) } just Runs
 
         createViewModel().startQrCodeRegistration(rawResult = "", isConsentGiven = true)
 
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportAdvancedConsentGiven() }
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportAdvancedConsentGiven(CoronaTest.Type.PCR) }
+        verify(exactly = 0) { analyticsKeySubmissionCollector.reportAdvancedConsentGiven(CoronaTest.Type.RAPID_ANTIGEN) }
     }
 }

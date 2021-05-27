@@ -2,10 +2,7 @@ package de.rki.coronawarnapp.bugreporting.censors.contactdiary
 
 import dagger.Reusable
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensoredString
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.censor
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.plus
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNullIfUnmodified
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensorContainer
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidEmail
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidName
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidPhoneNumber
@@ -36,26 +33,26 @@ class DiaryPersonCensor @Inject constructor(
             .launchIn(debugScope)
     }
 
-    override suspend fun checkLog(message: String): CensoredString? = mutex.withLock {
+    override suspend fun checkLog(message: String): CensorContainer? = mutex.withLock {
 
         if (personHistory.isEmpty()) return null
 
-        val newMessage = personHistory.fold(CensoredString(message)) { orig, person ->
+        val newMessage = personHistory.fold(CensorContainer(message)) { orig, person ->
             var wip = orig
 
             withValidName(person.fullName) {
-                wip += wip.censor(it, "Person#${person.personId}/Name")
+                wip = wip.censor(it, "Person#${person.personId}/Name")
             }
             withValidEmail(person.emailAddress) {
-                wip += wip.censor(it, "Person#${person.personId}/EMail")
+                wip = wip.censor(it, "Person#${person.personId}/EMail")
             }
             withValidPhoneNumber(person.phoneNumber) {
-                wip += wip.censor(it, "Person#${person.personId}/PhoneNumber")
+                wip = wip.censor(it, "Person#${person.personId}/PhoneNumber")
             }
 
             wip
         }
 
-        return newMessage.toNullIfUnmodified()
+        return newMessage.nullIfEmpty()
     }
 }

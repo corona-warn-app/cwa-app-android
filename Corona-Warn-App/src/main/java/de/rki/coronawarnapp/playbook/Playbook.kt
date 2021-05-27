@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.playbook
 
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResultResponse
 import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload
@@ -26,9 +27,9 @@ interface Playbook {
     suspend fun initialRegistration(
         key: String,
         keyType: VerificationKeyType
-    ): Pair<String, CoronaTestResult>
+    ): Pair<String, CoronaTestResultResponse>
 
-    suspend fun testResult(registrationToken: String): CoronaTestResult
+    suspend fun testResult(registrationToken: String): CoronaTestResultResponse
 
     suspend fun submit(data: SubmissionData)
 

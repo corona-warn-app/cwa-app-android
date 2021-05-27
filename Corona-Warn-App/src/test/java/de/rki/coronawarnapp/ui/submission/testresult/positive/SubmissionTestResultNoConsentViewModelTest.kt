@@ -37,12 +37,18 @@ internal class SubmissionTestResultNoConsentViewModelTest : BaseTest() {
     @Test
     fun `onTestOpened() should call analyticsKeySubmissionCollector for PCR tests`() {
         createInstance(PCR).onTestOpened()
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT) }
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT, PCR) }
+        verify(exactly = 0) {
+            analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT, RAPID_ANTIGEN)
+        }
     }
 
     @Test
-    fun `onTestOpened() should NOT call analyticsKeySubmissionCollector for RAT tests`() {
+    fun `onTestOpened() should call analyticsKeySubmissionCollector for RAT tests`() {
         createInstance(RAPID_ANTIGEN).onTestOpened()
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT) }
+        verify(exactly = 0) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT, PCR) }
+        verify(exactly = 1) {
+            analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT, RAPID_ANTIGEN)
+        }
     }
 }
