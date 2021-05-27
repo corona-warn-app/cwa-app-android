@@ -10,9 +10,9 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class AnalyticsKeySubmissionRepositoryTest : BaseTest() {
+class AnalyticsRAKeySubmissionRepositoryTest : BaseTest() {
 
-    @MockK lateinit var storage: AnalyticsKeySubmissionStorage
+    @MockK lateinit var storage: AnalyticsRAKeySubmissionStorage
 
     private val now = Instant.now()
 
@@ -21,7 +21,7 @@ class AnalyticsKeySubmissionRepositoryTest : BaseTest() {
         MockKAnnotations.init(this)
     }
 
-    private fun createInstance() = AnalyticsKeySubmissionRepository(
+    private fun createInstance() = AnalyticsRAKeySubmissionRepository(
         storage
     )
 

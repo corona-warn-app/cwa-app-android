@@ -14,9 +14,10 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.values
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
-import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDataCollector
+import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultCollector
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
@@ -38,7 +39,7 @@ class PCRProcessorTest : BaseTest() {
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var submissionService: CoronaTestService
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
-    @MockK lateinit var testResultDataCollector: TestResultDataCollector
+    @MockK lateinit var analyticsTestResultCollector: AnalyticsTestResultCollector
 
     private val nowUTC = Instant.parse("2021-03-15T05:45:00.000Z")
 
@@ -62,13 +63,15 @@ class PCRProcessorTest : BaseTest() {
 
         analyticsKeySubmissionCollector.apply {
             coEvery { reportRegisteredWithTeleTAN() } just Runs
-            coEvery { reset() } just Runs
-            coEvery { reportPositiveTestResultReceived() } just Runs
-            coEvery { reportTestRegistered() } just Runs
+            coEvery { reset(PCR) } just Runs
+            coEvery { reportPositiveTestResultReceived(PCR) } just Runs
+            coEvery { reportTestRegistered(PCR) } just Runs
         }
-        testResultDataCollector.apply {
-            coEvery { updatePendingTestResultReceivedTime(any()) } just Runs
-            coEvery { saveTestResultAnalyticsSettings(any()) } just Runs
+        analyticsTestResultCollector.apply {
+            coEvery { updatePendingTestResultReceivedTime(any(), any()) } just Runs
+            coEvery { saveTestResult(any(), PCR) } just Runs
+            coEvery { reportTestRegistered(PCR) } just Runs
+            coEvery { clear(PCR) } just Runs
         }
     }
 
@@ -76,7 +79,7 @@ class PCRProcessorTest : BaseTest() {
         timeStamper = timeStamper,
         submissionService = submissionService,
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
-        testResultDataCollector = testResultDataCollector
+        analyticsTestResultCollector = analyticsTestResultCollector
     )
 
     @Test
