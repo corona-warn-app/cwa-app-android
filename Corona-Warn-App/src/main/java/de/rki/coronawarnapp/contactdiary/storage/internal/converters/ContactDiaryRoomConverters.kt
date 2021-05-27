@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.contactdiary.storage.internal.converters
 
 import androidx.room.TypeConverter
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
 import org.joda.time.Duration
 
 class ContactDiaryRoomConverters {
@@ -25,4 +26,18 @@ class ContactDiaryRoomConverters {
     fun fromJodaDuration(duration: Duration?): Long? {
         return duration?.millis
     }
+
+    @TypeConverter
+    fun toTestType(value: String?): ContactDiaryCoronaTestEntity.TestType? =
+        ContactDiaryCoronaTestEntity.TestType.values().singleOrNull { it.raw == value }
+
+    @TypeConverter
+    fun fromTestType(type: ContactDiaryCoronaTestEntity.TestType?): String? = type?.raw
+
+    @TypeConverter
+    fun toTestResult(value: String?): ContactDiaryCoronaTestEntity.TestResult? =
+        ContactDiaryCoronaTestEntity.TestResult.values().singleOrNull { it.raw == value }
+
+    @TypeConverter
+    fun fromTestResult(type: ContactDiaryCoronaTestEntity.TestResult?): String? = type?.raw
 }

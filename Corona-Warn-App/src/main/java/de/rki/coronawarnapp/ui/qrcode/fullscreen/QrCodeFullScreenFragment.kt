@@ -29,7 +29,8 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
         constructorCall = { factory, _ ->
             factory as QrCodeFullScreenViewModel.Factory
             factory.create(
-                qrcodeText = args.qrCodeText
+                qrcodeText = args.qrCodeText,
+                correctionLevel = args.correctionLevel
             )
         }
     )

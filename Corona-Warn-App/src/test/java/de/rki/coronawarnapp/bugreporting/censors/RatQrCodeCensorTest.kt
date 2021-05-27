@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
 import de.rki.coronawarnapp.bugreporting.censors.submission.RatQrCodeCensor
-import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import kotlinx.coroutines.test.runBlockingTest
@@ -39,30 +38,18 @@ internal class RatQrCodeCensorTest {
 
         val censor = createInstance()
 
-        val logLineToCensor = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "Here comes the hash: $testHash of the rat test of Milhouse Van Houten. He was born on 1980-07-01",
-            tag = "I am tag",
-            throwable = null
-        )
+        val logLineToCensor =
+            "Here comes the hash: $testHash of the rat test of Milhouse Van Houten. He was born on 1980-07-01"
 
-        censor.checkLog(logLineToCensor) shouldBe logLineToCensor.copy(
-            message = "Here comes the hash: SHA256HASH-ENDING-WITH-15ad of the rat test of RATest/FirstName RATest/LastName. He was born on RATest/DateOfBirth"
-        )
+        censor.checkLog(logLineToCensor)!!
+            .compile()!!.censored shouldBe "Here comes the hash: SHA256HASH-ENDING-WITH-15ad of the rat test of RATest/FirstName RATest/LastName. He was born on RATest/DateOfBirth"
     }
 
     @Test
     fun `checkLog() should return null if no data to censor was set`() = runBlockingTest {
         val censor = createInstance()
 
-        val logLineNotToCensor = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "Here comes the hash: $testHash",
-            tag = "I am tag",
-            throwable = null
-        )
+        val logLineNotToCensor = "Here comes the hash: $testHash"
 
         censor.checkLog(logLineNotToCensor) shouldBe null
     }
@@ -79,13 +66,7 @@ internal class RatQrCodeCensorTest {
 
         val censor = createInstance()
 
-        val logLineNotToCensor = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "Here comes the hash: $testHash",
-            tag = "I am tag",
-            throwable = null
-        )
+        val logLineNotToCensor = "Here comes the hash: $testHash"
 
         censor.checkLog(logLineNotToCensor) shouldBe null
     }

@@ -14,8 +14,8 @@ data class CombinedEwPtDayRisk(
 )
 
 data class CombinedEwPtRiskLevelResult(
-    private val ptRiskLevelResult: PtRiskLevelResult,
-    private val ewRiskLevelResult: EwRiskLevelResult,
+    val ptRiskLevelResult: PtRiskLevelResult,
+    val ewRiskLevelResult: EwRiskLevelResult,
     private val exposureWindowDayRisks: List<ExposureWindowDayRisk>? = null
 ) {
 

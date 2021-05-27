@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNewLogLineIfDifferent
-import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.junit.jupiter.api.Test
@@ -100,15 +98,152 @@ class BugCensorTest : BaseTest() {
     }
 
     @Test
-    fun `loglines are only copied if the message is different`() {
-        val logLine = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "Message",
-            tag = "Tag",
-            throwable = null
-        )
-        logLine.toNewLogLineIfDifferent("Message") shouldBe null
-        logLine.toNewLogLineIfDifferent("Message ") shouldNotBe logLine
+    fun `censor string is nulled if not modified`() {
+        BugCensor.CensorContainer("abc").compile() shouldBe null
+        BugCensor.CensorContainer("abc").censor("abc", "123").compile() shouldNotBe null
+        BugCensor.CensorContainer("abc").censor("123", "abc").compile() shouldBe null
+    }
+
+    @Test
+    fun `censoring range determination`() {
+        val input = "1234567890ABCDEFG"
+        val one = BugCensor.CensorContainer(input)
+
+        one.censor("1234", "").apply {
+            actions.single().apply {
+                range shouldBe 0..4
+                execute(original) shouldBe "567890ABCDEFG"
+            }
+        }
+
+        one.censor("1234", "....").apply {
+            actions.single().apply {
+                execute(original) shouldBe "....567890ABCDEFG"
+                range shouldBe 0..4
+            }
+        }
+
+        one.censor("DEFG", "....").apply {
+            actions.single().apply {
+                execute(original) shouldBe "1234567890ABC...."
+                range shouldBe 13..(13 + 4)
+            }
+        }
+
+        one.censor("1234567890ABCDEFG", "...").apply {
+            actions.single().apply {
+                execute(original) shouldBe "..."
+                range shouldBe 0..(0 + 17)
+            }
+        }
+
+        one.censor("#", "...").actions shouldBe emptyList()
+
+        one.censor("1234567890ABCDEFG", "1234567890ABCDEFG###").apply {
+            actions.single().apply {
+                execute(original) shouldBe "1234567890ABCDEFG###"
+                range shouldBe 0..(0 + 17)
+            }
+        }
+
+        one.censor("", " ").apply {
+            actions.single().apply {
+                execute(original) shouldBe " 1 2 3 4 5 6 7 8 9 0 A B C D E F G "
+                range shouldBe 0..16
+            }
+        }
+    }
+
+    @Test
+    fun `censoring range combination`() {
+        val container1 = BugCensor.CensorContainer("abcdefg")
+        container1.actions shouldBe emptyList()
+        val container2 = container1.censor("cde", "345")
+        container2.actions.map { it.range }.toSet() shouldBe setOf(2..5)
+        val container3 = container2.censor("ab", "12")
+        container3.actions.map { it.range }.toSet() shouldBe setOf(0..2, 2..5)
+    }
+
+    @Test
+    fun `censoring disjoint`() {
+        BugCensor.CensorContainer("#abcdefg*")
+            .censor("abc", "123")
+            .censor("efg", "567")
+            .compile()!!
+            .apply {
+                censored shouldBe "#123d567*"
+                ranges shouldBe setOf(1..4, 5..8)
+            }
+    }
+
+    @Test
+    fun `censoring disjoint - touching`() {
+        BugCensor.CensorContainer("#abcefg*")
+            .censor("abc", "123")
+            .censor("efg", "567")
+            .compile()!!
+            .apply {
+                censored shouldBe "#123567*"
+                ranges shouldBe setOf(1..4, 4..7)
+            }
+    }
+
+    @Test
+    fun `censoring overlap`() {
+        BugCensor.CensorContainer("#abcdefg*")
+            .censor("abcd", "1234")
+            .censor("defg", "4567")
+            .compile()!!
+            .apply {
+                censored shouldBe "#<censor-collision/>*"
+                ranges shouldBe setOf(1..8)
+            }
+    }
+
+    @Test
+    fun `censoring complete overlap`() {
+        BugCensor.CensorContainer("#abcdefg*")
+            .censor("abc", "---")
+            .censor("abc", "+++")
+            .compile()!!
+            .apply {
+                censored shouldBe "#<censor-collision/>defg*"
+                ranges shouldBe setOf(1..4, 1..4)
+            }
+    }
+
+    @Test
+    fun `full replacement collision`() {
+        BugCensor.CensorContainer("#abcdefg*")
+            .censor("#abcdefg*", "#1234567*")
+            .censor("#abcdefg*", "#*")
+            .compile()!!
+            .apply {
+                censored shouldBe "<censor-collision/>"
+                ranges shouldBe setOf(0..9, 0..9)
+            }
+    }
+
+    @Test
+    fun `nested replacement collision`() {
+        BugCensor.CensorContainer("#abcdefg*")
+            .censor("#abcdefg*", "#abcdefg*")
+            .censor("abcdefg", "abcdefg")
+            .compile()!!
+            .apply {
+                censored shouldBe "<censor-collision/>"
+                ranges shouldBe setOf(0..9)
+            }
+    }
+
+    @Test
+    fun `string length boundary check`() {
+        BugCensor.CensorContainer("#abcdefg*")
+            .censor("*", "**")
+            .compile()!!
+            .apply {
+                censored shouldBe "#abcdefg**"
+                ranges shouldBe setOf(8..9)
+            }
     }
 }

@@ -124,7 +124,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
         coronaTestFlow.value = mockk<CoronaTest>().apply {
             every { isAdvancedConsentGiven } returns false
         }
-        every { analyticsKeySubmissionCollector.reportConsentWithdrawn() } just Runs
+        every { analyticsKeySubmissionCollector.reportConsentWithdrawn(any()) } just Runs
 
         val viewModel = createViewModel()
 
@@ -142,11 +142,12 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
 
         createViewModel().proceed()
 
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportConsentWithdrawn() }
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportConsentWithdrawn(PCR) }
+        verify(exactly = 0) { analyticsKeySubmissionCollector.reportConsentWithdrawn(RAPID_ANTIGEN) }
     }
 
     @Test
-    fun `proceed() should NOT call analyticsKeySubmissionCollector for RAT tests`() {
+    fun `proceed() should call analyticsKeySubmissionCollector for RAT tests`() {
         testType = RAPID_ANTIGEN
         coronaTestFlow.value = mockk<CoronaTest>().apply {
             every { isAdvancedConsentGiven } returns false
@@ -154,6 +155,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
 
         createViewModel().proceed()
 
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportConsentWithdrawn() }
+        verify(exactly = 0) { analyticsKeySubmissionCollector.reportConsentWithdrawn(PCR) }
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportConsentWithdrawn(RAPID_ANTIGEN) }
     }
 }

@@ -6,7 +6,7 @@
     <!-- XHED: Register test homescreen card: title -->
     <string name="ag_homescreen_card_test_register_title">"Testinizi Kaydedin"</string>
     <!-- XTXT: Register test homescreen card: body -->
-    <string name="ag_homescreen_card_test_register_body">"Diğer kullanıcıları daha hızlı uyarmak için test sonuçlarınızı almak üzere uygulamayı kullanın."</string>
+    <string name="ag_homescreen_card_test_register_body">"Diğer kullanıcıları daha hızlı uyarmak için testlerinizi kaydetmek ve test sonuçlarınızı almak üzere uygulamayı kullanın."</string>
 
     <!-- ####################################
         Homescreen cards - common buttons
@@ -142,7 +142,7 @@
     <!-- XHED: Create RAT profile card title -->
     <string name="rat_profile_create_card_title">"Hızlı Test Profili Oluştur"</string>
     <!-- XTXT: Create RAT profile card subtitle -->
-    <string name="rat_profile_create_card_subtitle">"Kişisel verilerinizle bir profil oluşturabilir ve her hızlı test sırasında QR kod aracılığıyla gönderebilirsiniz."</string>
+    <string name="rat_profile_create_card_subtitle">"Kişisel verilerinizle bir profil oluşturabilir ve her katılan test noktasına QR kod aracılığıyla gönderebilirsiniz."</string>
     <!-- XHED: Open RAT profile card title -->
     <string name="rat_profile_open_card_title">"Hızlı Test Profili"</string>
     <!-- XTXT: Open RAT profile card subtitle -->
@@ -158,7 +158,7 @@
     <!-- XBUT: Create RAT profile save button -->
     <string name="rat_profile_create_button">"Kaydet"</string>
     <!-- XTXT: Create RAT profile description -->
-    <string name="rat_profile_create_description">"Test noktalarında kaydınızı hızlandırmak için kişisel verilerinizi bir QR kod olarak kaydedin."</string>
+    <string name="rat_profile_create_description">"Kişisel verilerinizle bir profil oluşturabilir ve her katılan test noktasına QR kod aracılığıyla gönderebilirsiniz."</string>
     <!-- XTXT: Create RAT profile street hint -->
     <string name="rat_profile_create_street_hint">"Sokak ve Konut Numarası"</string>
     <!-- XTXT: Create RAT profile post code hint -->
@@ -173,7 +173,7 @@
     <!--RAT profile onboarding-->
     <string name="rat_profile_onboarding_image_content_description">"Elinde akıllı telefon tutan bir kadın bir binanın önünde duruyor. QR kod, taranacak hızlı test profilini sembolize ediyor."</string>
     <!-- XTXT: Create RAT profile onboarding title -->
-    <string name="rat_profile_onboarding_title">"Test noktalarında kaydınızı hızlandırmak için kişisel verilerinizi bir QR kod olarak kaydedin."</string>
+    <string name="rat_profile_onboarding_title">"Kişisel verilerinizle bir profil oluşturabilir ve her katılan test noktasına QR kod aracılığıyla gönderebilirsiniz."</string>
     <!-- XTXT: Create RAT profile onboarding subtitle -->
     <string name="rat_profile_onboarding_subtitle">"Hızlı test profili oluşturduğunuzda her hızlı testten önce kişisel verilerinizi yeniden doldurmanız gerekmez."</string>
     <!-- XTXT: Create RAT profile onboarding next button -->

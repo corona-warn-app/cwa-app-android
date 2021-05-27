@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo.Type
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
+import de.rki.coronawarnapp.diagnosiskeys.storage.pkgDateTime
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaUnknownHostException
 import de.rki.coronawarnapp.exception.http.NetworkConnectTimeoutException
@@ -126,7 +127,7 @@ class HourPackageSyncTool @Inject constructor(
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun expectNewHourPackages(cachedHours: List<CachedKey>, now: Instant): Boolean {
         val today = now.toDateTime(DateTimeZone.UTC)
-        val newestHour = cachedHours.map { it.info.toDateTime() }.maxOrNull()
+        val newestHour = cachedHours.map { it.info.pkgDateTime }.maxOrNull()
 
         return today.minusHours(1).hourOfDay != newestHour?.hourOfDay || today.toLocalDate() != newestHour.toLocalDate()
     }

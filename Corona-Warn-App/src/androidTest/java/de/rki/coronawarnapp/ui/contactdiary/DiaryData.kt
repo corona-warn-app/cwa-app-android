@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPersonEncounte
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.location.DiaryLocationListItem
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.person.DiaryPersonListItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.contact.ContactItem
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.coronatest.CoronaTestItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskenf.RiskEnfItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskevent.RiskEventItem
 import org.joda.time.Duration
@@ -110,6 +111,20 @@ object DiaryData {
         drawableId = R.drawable.ic_low_risk_alert,
         events = listOf(LOW_RISK_EVENT)
     )
+
+    val PCR_TEST_NEGATIVE = CoronaTestItem.Data(
+        icon = R.drawable.ic_corona_test_icon_green,
+        header = R.string.contact_diary_corona_test_pcr_title,
+        body = R.string.contact_diary_corona_test_negative
+    )
+
+    val RAT_TEST_POSITIVE = CoronaTestItem.Data(
+        icon = R.drawable.ic_corona_test_icon_red,
+        header = R.string.contact_diary_corona_test_rat_title,
+        body = R.string.contact_diary_corona_test_positive
+    )
+
+    val TEST_ITEM = CoronaTestItem(listOf(PCR_TEST_NEGATIVE, RAT_TEST_POSITIVE))
 
     val LOCATIONS: List<DiaryLocationListItem> = listOf(
         DiaryLocationListItem(

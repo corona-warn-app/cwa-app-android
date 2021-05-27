@@ -2,9 +2,8 @@ package de.rki.coronawarnapp.bugreporting.censors.submission
 
 import dagger.Reusable
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNewLogLineIfDifferent
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensorContainer
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidName
-import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.coronatest.qrcode.RapidAntigenHash
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
@@ -15,31 +14,31 @@ class RatQrCodeCensor @Inject constructor() : BugCensor {
 
     private val dayOfBirthFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
 
-    override suspend fun checkLog(entry: LogLine): LogLine? {
+    override suspend fun checkLog(message: String): CensorContainer? {
 
         val dataToCensor = dataToCensor ?: return null
 
-        var newMessage = entry.message
+        var newMessage = CensorContainer(message)
 
         with(dataToCensor) {
-            newMessage = newMessage.replace(rawString, "RatQrCode/ScannedRawString")
+            newMessage = newMessage.censor(rawString, "RatQrCode/ScannedRawString")
 
-            newMessage = newMessage.replace(hash, PLACEHOLDER + hash.takeLast(4))
+            newMessage = newMessage.censor(hash, PLACEHOLDER + hash.takeLast(4))
 
             withValidName(firstName) { firstName ->
-                newMessage = newMessage.replace(firstName, "RATest/FirstName")
+                newMessage = newMessage.censor(firstName, "RATest/FirstName")
             }
 
             withValidName(lastName) { lastName ->
-                newMessage = newMessage.replace(lastName, "RATest/LastName")
+                newMessage = newMessage.censor(lastName, "RATest/LastName")
             }
 
             val dateOfBirthString = dateOfBirth?.toString(dayOfBirthFormatter) ?: return@with
 
-            newMessage = newMessage.replace(dateOfBirthString, "RATest/DateOfBirth")
+            newMessage = newMessage.censor(dateOfBirthString, "RATest/DateOfBirth")
         }
 
-        return entry.toNewLogLineIfDifferent(newMessage)
+        return newMessage.nullIfEmpty()
     }
 
     companion object {

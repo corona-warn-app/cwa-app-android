@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.PosterTemplateProvider
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.Template
@@ -30,6 +31,7 @@ class QrCodePosterTestViewModel @AssistedInject constructor(
     private val qrCodeGenerator: QrCodeGenerator,
     private val posterTemplateProvider: PosterTemplateProvider,
     private val traceLocationRepository: TraceLocationRepository,
+    private val appConfigProvider: AppConfigProvider,
     private val fileSharing: FileSharing
 ) : CWAViewModel(dispatcher) {
 
@@ -81,10 +83,12 @@ class QrCodePosterTestViewModel @AssistedInject constructor(
             if (isRunning) return@launch
             isRunning = true
             val traceLocation = traceLocation()
+            val correctionLevel = appConfigProvider.getAppConfig().presenceTracing.qrCodeErrorCorrectionLevel
             val qrCode = qrCodeGenerator.createQrCode(
                 input = traceLocation.locationUrl,
                 length = length,
-                margin = 0
+                margin = 0,
+                correctionLevel = correctionLevel
             )
             qrCodeBitmap.postValue(qrCode)
         } catch (e: Exception) {
@@ -99,11 +103,13 @@ class QrCodePosterTestViewModel @AssistedInject constructor(
         try {
             val traceLocation = traceLocation()
             val template = posterTemplateProvider.template()
+            val correctionLevel = appConfigProvider.getAppConfig().presenceTracing.qrCodeErrorCorrectionLevel
             Timber.d("template=$template")
             val qrCode = qrCodeGenerator.createQrCode(
                 input = traceLocation.locationUrl,
                 length = template.qrCodeLength,
-                margin = 0
+                margin = 0,
+                correctionLevel = correctionLevel
             )
 
             val textInfo = buildString {
