@@ -24,12 +24,8 @@ class RSACryptography @Inject constructor() {
         }
 
         return cipher.doFinal(toDecrypt.toByteArray()).toByteString().also {
-            Timber.v("Decrypted %s... bytes to %s... bytes", toDecrypt.size, it.size)
+            Timber.v("Decrypted %s bytes to %s bytes", toDecrypt.size, it.size)
         }
-    }
-
-    interface CipherProvider {
-        fun createCipher(): Cipher
     }
 
     enum class CipherType(

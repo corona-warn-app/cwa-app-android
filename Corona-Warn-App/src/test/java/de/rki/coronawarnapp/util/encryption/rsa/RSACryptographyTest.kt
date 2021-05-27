@@ -5,6 +5,7 @@ import okio.ByteString.Companion.decodeBase64
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
+@Suppress("MaxLineLength")
 class RSACryptographyTest : BaseTest() {
     private fun createInstance() = RSACryptography()
 
