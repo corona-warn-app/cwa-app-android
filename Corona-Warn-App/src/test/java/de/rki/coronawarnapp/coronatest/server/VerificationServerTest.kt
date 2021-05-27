@@ -115,7 +115,10 @@ class VerificationServerTest : BaseIOTest() {
             VerificationApiV1.TestResultResponse(testResult = 2, sampleCollectedAt = null)
         }
 
-        server.pollTestResult("testRegistrationToken") shouldBe (CoronaTestResult.PCR_POSITIVE to null)
+        server.pollTestResult("testRegistrationToken") shouldBe CoronaTestResultResponse(
+            coronaTestResult = CoronaTestResult.PCR_POSITIVE,
+            sampleCollectedAt = null
+        )
 
         coVerify { verificationApi.getTestResult(any(), any(), any()) }
     }

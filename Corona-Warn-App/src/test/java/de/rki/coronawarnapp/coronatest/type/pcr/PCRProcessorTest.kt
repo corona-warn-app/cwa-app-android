@@ -210,7 +210,7 @@ class PCRProcessorTest : BaseTest() {
     fun `polling is skipped if test is older than 21 days and state was already REDEEMED`() = runBlockingTest {
         coEvery { submissionService.asyncRequestTestResult(any()) } answers {
             CoronaTestResultResponse(
-                coronaTestResult = PCR_OR_RAT_PENDING,
+                coronaTestResult = PCR_POSITIVE,
                 sampleCollectedAt = null,
             )
         }
