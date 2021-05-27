@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata
 
+import de.rki.coronawarnapp.datadonation.analytics.common.toMetadataRiskLevel
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
-import de.rki.coronawarnapp.risk.EwRiskLevelResult
+import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.risk.tryLatestEwResultsWithDefaults
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import kotlinx.coroutines.flow.first
@@ -21,30 +21,19 @@ class ExposureRiskMetadataDonor @Inject constructor(
     override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
         val previousMetadata = analyticsSettings.previousExposureRiskMetadata.value
 
-        val lastRiskResult = riskLevelStorage
-            .latestAndLastSuccessfulEwRiskLevelResult
-            .first()
-            .tryLatestEwResultsWithDefaults()
-            .lastCalculated
+        val erMetadataBuilder = PpaData.ExposureRiskMetadata.newBuilder()
 
-        val riskLevelForMetadata = lastRiskResult.toMetadataRiskLevel()
-        val mostRecentDateAtRiskLevel = lastRiskResult.lastRiskEncounterAt?.seconds ?: -1
+        buildEWMetadata(previousMetadata, erMetadataBuilder)
+        buildPTMetadata(previousMetadata, erMetadataBuilder)
 
-        val newMetadata = PpaData.ExposureRiskMetadata.newBuilder()
-            .setRiskLevel(riskLevelForMetadata)
-            .setRiskLevelChangedComparedToPreviousSubmission(previousMetadata?.riskLevel != riskLevelForMetadata)
-            .setMostRecentDateAtRiskLevel(mostRecentDateAtRiskLevel)
-            .setDateChangedComparedToPreviousSubmission(
-                previousMetadata?.mostRecentDateAtRiskLevel != mostRecentDateAtRiskLevel
-            )
-            .build()
+        val erMetadata = erMetadataBuilder.build()
 
         return ExposureRiskMetadataContribution(
-            contributionProto = newMetadata,
+            contributionProto = erMetadata,
             onContributionFinished = {
                 if (it) {
                     analyticsSettings.previousExposureRiskMetadata.update {
-                        newMetadata
+                        erMetadata
                     }
                 } else {
                     analyticsSettings.previousExposureRiskMetadata.update {
@@ -53,6 +42,50 @@ class ExposureRiskMetadataDonor @Inject constructor(
                 }
             }
         )
+    }
+
+    private suspend fun buildEWMetadata(
+        previousMetadata: PpaData.ExposureRiskMetadata?,
+        builder: PpaData.ExposureRiskMetadata.Builder
+    ) {
+        val lastEWRiskResult = riskLevelStorage
+            .latestAndLastSuccessfulCombinedEwPtRiskLevelResult
+            .first()
+            .lastCalculated
+            .ewRiskLevelResult
+
+        val riskLevelEWForMetadata = lastEWRiskResult.toMetadataRiskLevel()
+        val mostRecentDateAtEWRiskLevel = lastEWRiskResult.mostRecentDateAtRiskState?.seconds ?: -1
+
+        builder
+            .setRiskLevel(riskLevelEWForMetadata)
+            .setRiskLevelChangedComparedToPreviousSubmission(previousMetadata?.riskLevel != riskLevelEWForMetadata)
+            .setMostRecentDateAtRiskLevel(mostRecentDateAtEWRiskLevel).dateChangedComparedToPreviousSubmission =
+            previousMetadata?.mostRecentDateAtRiskLevel != mostRecentDateAtEWRiskLevel
+    }
+
+    private suspend fun buildPTMetadata(
+        previousMetadata: PpaData.ExposureRiskMetadata?,
+        builder: PpaData.ExposureRiskMetadata.Builder
+    ) {
+        val lastPTRiskResult = riskLevelStorage
+            .latestAndLastSuccessfulCombinedEwPtRiskLevelResult
+            .first()
+            .lastCalculated
+            .ptRiskLevelResult
+
+        val riskLevelPtForMetadata = lastPTRiskResult.toMetadataRiskLevel()
+        val mostRecentDateAtPtRiskLevel = lastPTRiskResult
+            .mostRecentDateAtRiskState
+            ?.toDateTimeAtStartOfDay()
+            ?.toInstant()
+            ?.seconds ?: -1
+
+        builder
+            .setPtRiskLevel(riskLevelPtForMetadata)
+            .setPtRiskLevelChangedComparedToPreviousSubmission(previousMetadata?.ptRiskLevel != riskLevelPtForMetadata)
+            .setPtMostRecentDateAtRiskLevel(mostRecentDateAtPtRiskLevel).ptDateChangedComparedToPreviousSubmission =
+            previousMetadata?.ptMostRecentDateAtRiskLevel != mostRecentDateAtPtRiskLevel
     }
 
     override suspend fun deleteData() {
@@ -75,7 +108,7 @@ class ExposureRiskMetadataDonor @Inject constructor(
     }
 }
 
-private fun EwRiskLevelResult.toMetadataRiskLevel(): PpaData.PPARiskLevel =
+private fun PtRiskLevelResult.toMetadataRiskLevel(): PpaData.PPARiskLevel =
     when (riskState) {
         RiskState.LOW_RISK -> PpaData.PPARiskLevel.RISK_LEVEL_LOW
         RiskState.INCREASED_RISK -> PpaData.PPARiskLevel.RISK_LEVEL_HIGH

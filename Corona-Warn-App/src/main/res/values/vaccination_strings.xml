@@ -1,123 +1,115 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- XTXT: Vaccination Details birth date -->
-    <string name="vaccination_details_birth_date">Geboren %1$s</string>
+    <string name="vaccination_details_birth_date">"Born %1$s"</string>
     <!-- XTXT: Vaccination Details certificate date -->
-    <string name="vaccination_details_certificate_date">Datum der Impfung</string>
+    <string name="vaccination_details_certificate_date">"Vaccination Date"</string>
     <!-- XTXT: Vaccination Details vaccine name -->
-    <string name="vaccination_details_vaccine_name">Impfstoff</string>
+    <string name="vaccination_details_vaccine_name">"Vaccine"</string>
     <!-- XTXT: Vaccination Details vaccine manufacturer -->
-    <string name="vaccination_details_vaccine_manufacturer">Hersteller</string>
+    <string name="vaccination_details_vaccine_manufacturer">"Manufacturer"</string>
     <!-- XTXT: Vaccination Details vaccine type -->
-    <string name="vaccination_details_vaccine_medical_product_name">Impfstoffart</string>
+    <string name="vaccination_details_vaccine_medical_product_name">"Vaccine type"</string>
     <!-- XTXT: Vaccination Details certificate issuer -->
-    <string name="vaccination_details_certificate_issuer">Aussteller</string>
+    <string name="vaccination_details_certificate_issuer">"Issuer"</string>
     <!-- XTXT: Vaccination Details certificate country -->
-    <string name="vaccination_details_certificate_country">Land</string>
+    <string name="vaccination_details_certificate_country">"Country"</string>
     <!-- XTXT: Vaccination Details certificate id -->
-    <string name="vaccination_details_certificate_id">Zertifikationsnummer</string>
+    <string name="vaccination_details_certificate_id">"Certification Number"</string>
     <!-- XTXT: Vaccination Details subtitle-->
-    <string name="vaccination_details_subtitle">Impfzertifikat</string>
+    <string name="vaccination_details_subtitle">"Vaccination Certificate"</string>
     <!-- XTXT: Vaccination Details title-->
-    <string name="vaccination_details_title">Impfung %1$d von %2$d</string>
+    <string name="vaccination_details_title">"Vaccination %1$d of %2$d"</string>
     <!-- XTXT: Vaccination Qr Code card title-->
-    <string name="vaccination_qrcode_card_title">Impfzertifikat %1$d von %2$d</string>
+    <string name="vaccination_qrcode_card_title">"Vaccination certificate %1$d of %2$d"</string>
     <!-- XTXT: Vaccination Qr Code card subtitle-->
-    <string name="vaccination_qrcode_card_subtitle">Geimpft %1$s - gültig bis %2$s</string>
+    <string name="vaccination_qrcode_card_subtitle">"Vaccinated %1$s - valid to %2$s"</string>
 
     <!-- XTXT: Vaccination List title-->
-    <string name="vaccination_list_title">Digitaler Impfnachweis</string>
+    <string name="vaccination_list_title">"Digital Proof of Vaccination"</string>
     <!-- XTXT: Vaccination List complete vaccination subtitle-->
-    <string name="vaccination_list_complete_vaccination_subtitle">SARS-CoV-2-Impfschutz</string>
-    <!-- XTXT: Vaccination List top card title-->
-    <string name="vaccination_list_top_card_title">SARS-CoV-2 Impfung</string>
+    <string name="vaccination_list_complete_vaccination_subtitle">"SARS-CoV-2 Vaccination Protection"</string>
     <!-- XTXT: Vaccination List top card subtitle-->
-    <string name="vaccination_list_top_card_subtitle">Unvollständiger Impfschutz</string>
-    <!-- XTXT: Vaccination List name card subtitle-->
-    <string name="vaccination_list_name_card_subtitle">geboren %1$s</string>
+    <string name="vaccination_list_name_card_subtitle">"Born %1$s"</string>
     <!-- XTXT: Vaccination List top card subtitle-->
-    <string name="vaccination_list_vaccination_card_title">Impfung %1$d von %2$d</string>
+    <string name="vaccination_list_vaccination_card_title">"Vaccination %1$d of %2$d"</string>
     <!-- XTXT: Vaccination List top card subtitle-->
-    <string name="vaccination_list_vaccination_card_subtitle">durchgeführt am %1$s</string>
+    <string name="vaccination_list_vaccination_card_subtitle">"Performed on %1$s"</string>
     <!-- XTXT: Vaccination List immunity information card body-->
     <plurals name="vaccination_list_immunity_card_body">
-        <item quantity="one">Sie haben nun alle Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tag vollständig.</item>
-        <item quantity="other">Sie haben nun alle Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
-        <item quantity="zero">Sie haben nun alle Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
-        <item quantity="two">Sie haben nun alle Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
-        <item quantity="few">Sie haben nun alle Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
-        <item quantity="many">Sie haben nun alle Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
+        <item quantity="one">"You have now received all the vaccinations, however, your vaccination protection will not be complete for another %1$d day."</item>
+        <item quantity="other">"You have now received all the vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
+        <item quantity="zero">"You have now received all the vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
+        <item quantity="two">"You have now received all the vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
+        <item quantity="few">"You have now received all the vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
+        <item quantity="many">"You have now received all the vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
     </plurals>
     <!-- XBUT: Vaccination List register additional vaccination button -->
-    <string name="vaccination_list_register_new_vaccination_button">Weitere Impfung registrieren</string>
+    <string name="vaccination_list_register_new_vaccination_button">"Register Another Vaccination"</string>
     <!-- XBUT: Vaccination List delete button -->
-    <string name="vaccination_list_delete_button">Entfernen</string>
+    <string name="vaccination_list_delete_button">"Delete"</string>
     <!-- XTXT: Vaccination List deletion dialog title-->
-    <string name="vaccination_list_deletion_dialog_title">Wollen Sie das Impfzertifikat wirklich entfernen?</string>
+    <string name="vaccination_list_deletion_dialog_title">"Do you want to delete the vaccination certificate?"</string>
     <!-- XTXT: Vaccination List deletion dialog message-->
-    <string name="vaccination_list_deletion_dialog_message">Wenn Sie das Impfzertifikat entfernen, kann die App die Impfung nicht mehr für die Prüfung Ihres Impfstatus berücksichtigen.</string>
+    <string name="vaccination_list_deletion_dialog_message">"If you delete the vaccination certificate, the app can no longer use the vaccination for the verification of your vaccination status."</string>
     <!-- XBUT: Vaccination List deletion dialog positive button-->
-    <string name="vaccination_list_deletion_dialog_positive_button">Entfernen</string>
+    <string name="vaccination_list_deletion_dialog_positive_button">"Delete"</string>
     <!-- XBUT: Vaccination List deletion dialog negative button-->
-    <string name="vaccination_list_deletion_dialog_negative_button">Abbrechen</string>
+    <string name="vaccination_list_deletion_dialog_negative_button">"Cancel"</string>
     <!-- XACT: Vaccination List Qr-Code for screen readers -->
-    <string name="vaccination_list_qr_code_accessibility">Qr-Code</string>
+    <string name="vaccination_list_qr_code_accessibility">"QR Code"</string>
 
     <!-- ####################################
         Homescreen cards
     ###################################### -->
     <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_registration_title">"Impfzertifikat registrieren"</string>
+    <string name="vaccination_card_registration_title">"Add Vaccination Certificate"</string>
     <!-- YTXT: Body text for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_registration_body">"Scannen Sie den QR-Code auf Ihrem Impfzertifikat, um Ihre Impfung zu registrieren und einen digitalen Impfnachweis zu erhalten."</string>
+    <string name="vaccination_card_registration_body">"Add vaccination certificates in the app so you always have them with you. To do so, scan the QR code on your document."</string>
     <!-- XBUT: button for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_register">"Registrieren"</string>
-
-    <!-- XHED: Homescreen card title -->
-    <string name="vaccination_card_status_title">Digitaler Impfnachweis</string>
+    <string name="vaccination_card_register">"Add"</string>
+    <!-- XHED: Homescreen vaccination status card title -->
+    <string name="vaccination_card_status_title">"Digital Proof of Vaccination"</string>
     <!-- XHED: Homescreen vaccination status card vaccination name -->
-    <string name="vaccination_card_status_vaccination_name">SARS-CoV-2 Impfschutz</string>
+    <string name="vaccination_card_status_vaccination_name">"SARS-CoV-2 Vaccination"</string>
     <!-- XTXT: Homescreen card incomplete vaccination status label -->
-    <string name="vaccination_card_status_vaccination_incomplete">Unvollständiger Impfschutz</string>
+    <string name="vaccination_card_status_vaccination_incomplete">"Vaccination incomplete"</string>
     <!-- XTXT: Homescreen card complete vaccination status label -->
-    <plurals name="vaccination_card_status_vaccination_complete">
-        <item quantity="one">Vollständiger Impfschutz in %1$d Tag</item>
-        <item quantity="other">Vollständiger Impfschutz in %1$d Tagen</item>
-        <item quantity="zero">Vollständiger Impfschutz in %1$d Tagen</item>
-        <item quantity="two">Vollständiger Impfschutz in %1$d Tagen</item>
-        <item quantity="few">Vollständiger Impfschutz in %1$d Tagen</item>
-        <item quantity="many">Vollständiger Impfschutz in %1$d Tagen</item>
+    <plurals name="vaccination_card_status_vaccination_complete" tools:ignore="UnusedQuantity">
+        <item quantity="one">"Full vaccination protection in %1$d day"</item>
+        <item quantity="other">"Full vaccination protection in %1$d days"</item>
+        <item quantity="zero">"Full vaccination protection in %1$d days"</item>
+        <item quantity="two">"Full vaccination protection in %1$d days"</item>
+        <item quantity="few">"Full vaccination protection in %1$d days"</item>
+        <item quantity="many">"Full vaccination protection in %1$d days"</item>
     </plurals>
 
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_invalid"></string>
+    <string name="error_vc_invalid">"This QR code is not a valid vaccination certificate."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_not_yet_supported"></string>
+    <string name="error_vc_not_yet_supported">"This vaccination certificate is not supported in your app version yet. Please update your app or contact the technical hotline under “App Information”."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_scan_again"></string>
+    <string name="error_vc_scan_again">"The vaccination certificate could not be saved on your smartphone. Please try again later or contact the technical hotline under “App Information”."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_already_registered"></string>
+    <string name="error_vc_already_registered">"The vaccination certificate is already registered in your app."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_different_person"></string>
+    <string name="error_vc_different_person">"The personal information of this vaccination certificate does not match that of the certificates already registered. You can only register certificates for one person in the app."</string>
 
     <!-- XTXT: Vaccination Consent title-->
-    <string name="vaccination_consent_title">Ihr Einverständnis</string>
+    <string name="vaccination_consent_title">"Your Consent"</string>
     <!-- XTXT: Vaccination Consent subtitle-->
-    <string name="vaccination_consent_headline">Impfzertifikat registrieren</string>
+    <string name="vaccination_consent_headline">"Add Vaccination Certificate"</string>
     <!-- XTXT: Vaccination Consent subtitle of qr info -->
-    <string name="vaccination_consent_info_subtitle_text">"Erstellen Sie einen digitalen Impfnachweis. Sie finden weitere Informationen in der FAQ zum Impfen."</string>
-    <!-- XTXT: Vaccination Consent subtitle of qr info (part that should be displayed as link) -->
-    <string name="vaccination_consent_info_subtitle_text_link_label">"FAQ zum Impfen."</string>
+    <string name="vaccination_consent_info_subtitle_text">"Add your digital vaccination certificate in the app. As soon as your vaccination protection is complete, you can present the QR code in your app as proof of your vaccination."</string>
     <!-- XTXT: Vaccination Consent text of qr info -->
-    <string name="vaccination_consent_qr_info_text">"Scannen Sie den QR-Code auf Ihrem Impfzertifikat, um das Zertifikat zu registrieren."</string>
+    <string name="vaccination_consent_qr_info_text">"To add a vaccination certificate in the app, scan the QR code that you received during your vaccination."</string>
     <!-- XTXT: Vaccination Consent qr code text -->
-    <string name="vaccination_consent_qr_info_qr_code_text">"Die App erstellt einen Impfnachweis. Der QR-Code zum vollständigen Impfnachweis erhalten Sie, wenn Sie alle Impfungen erhalten haben. Je nach Impfstoff können mehrere Impftermine nötig sein."</string>
+    <string name="vaccination_consent_qr_info_qr_code_text">"The app reads the information from the QR code and saves it in a secure area on your smartphone."</string>
     <!-- XTXT: Vaccination Consent time text  -->
-    <string name="vaccination_consent_qr_info_time_text">"Ihr Impfnachweis wird in regelmäßigen Abständen automatisch aktualisiert. Wenn durch Mutationen des Coronavirus neue Impfungen nötig werden, kann Ihr Impfnachweis ungültig werden."</string>
+    <string name="vaccination_consent_qr_info_time_text">"The data will remain on the smartphone. It will only be transmitted to others if you present your vaccination certificate for verification."</string>
     <!-- XTXT: Text for vaccination consent legal information button -->
-    <string name="vaccination_consent_onboarding_legal_information">"Weitere Hinweise finden Sie in der Datenschutzerklärung."</string>
+    <string name="vaccination_consent_onboarding_legal_information">"For more information, please refer to the privacy notice."</string>
     <!-- XBUT: Text for vaccination consent accept button -->
-    <string name="vaccination_consent_accept_button">"Einverstanden"</string>
-    <!-- XTXT: Vaccination Consent FAQ Url -->
-    <string name="vaccination_consent_faq_url">"https://www.coronawarn.app/de/faq/"</string>
+    <string name="vaccination_consent_accept_button">"Continue"</string>
+
 </resources>

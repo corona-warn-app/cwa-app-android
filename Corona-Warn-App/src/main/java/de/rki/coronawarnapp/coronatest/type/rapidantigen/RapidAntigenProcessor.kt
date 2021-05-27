@@ -13,12 +13,15 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_NEGATIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_PENDING
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResultResponse
 import de.rki.coronawarnapp.coronatest.server.VerificationServer
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.coronatest.type.isOlderThan21Days
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultCollector
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaWebException
@@ -33,6 +36,8 @@ import javax.inject.Inject
 class RapidAntigenProcessor @Inject constructor(
     private val timeStamper: TimeStamper,
     private val submissionService: CoronaTestService,
+    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
+    private val analyticsTestResultCollector: AnalyticsTestResultCollector,
 ) : CoronaTestProcessor {
 
     override val type: CoronaTest.Type = CoronaTest.Type.RAPID_ANTIGEN
@@ -41,14 +46,29 @@ class RapidAntigenProcessor @Inject constructor(
         Timber.tag(TAG).d("create(data=%s)", request)
         request as CoronaTestQRCode.RapidAntigen
 
+        analyticsKeySubmissionCollector.reset(type)
+        analyticsTestResultCollector.clear(type)
+
         val registrationData = submissionService.asyncRegisterDeviceViaGUID(request.registrationIdentifier).also {
             Timber.tag(TAG).d("Request %s gave us %s", request, it)
         }
 
-        val testResult = registrationData.testResult.let {
+        val testResult = registrationData.testResultResponse.coronaTestResult.let {
             Timber.tag(TAG).v("Raw test result was %s", it)
+            // This saves received at
+            analyticsTestResultCollector.saveTestResult(it, type)
+            analyticsTestResultCollector.updatePendingTestResultReceivedTime(it, type)
             it.toValidatedResult()
         }
+
+        if (testResult == RAT_POSITIVE) {
+            analyticsKeySubmissionCollector.reportPositiveTestResultReceived(type)
+        }
+
+        analyticsKeySubmissionCollector.reportTestRegistered(type)
+        analyticsTestResultCollector.reportTestRegistered(type)
+
+        val sampleCollectedAt = registrationData.testResultResponse.sampleCollectedAt
 
         val now = timeStamper.nowUTC
 
@@ -63,6 +83,7 @@ class RapidAntigenProcessor @Inject constructor(
             firstName = request.firstName,
             lastName = request.lastName,
             dateOfBirth = request.dateOfBirth,
+            sampleCollectedAt = sampleCollectedAt
         )
     }
 
@@ -99,23 +120,33 @@ class RapidAntigenProcessor @Inject constructor(
             val newTestResult = try {
                 submissionService.asyncRequestTestResult(test.registrationToken).let {
                     Timber.tag(TAG).v("Raw test result was %s", it)
-                    it.toValidatedResult()
+                    it.copy(
+                        coronaTestResult = it.coronaTestResult.toValidatedResult()
+                    )
                 }
             } catch (e: BadRequestException) {
                 if (isOlderThan21Days) {
                     Timber.tag(TAG).w("HTTP 400 error after 21 days, remapping to RAT_REDEEMED.")
-                    RAT_REDEEMED
+                    CoronaTestResultResponse(
+                        coronaTestResult = RAT_REDEEMED,
+                        sampleCollectedAt = null
+                    )
                 } else {
                     Timber.tag(TAG).v("Unexpected HTTP 400 error, rethrowing...")
                     throw e
                 }
             }
 
+            if (newTestResult.coronaTestResult == RAT_POSITIVE) {
+                analyticsKeySubmissionCollector.reportPositiveTestResultReceived(type)
+            }
+
             test.copy(
-                testResult = check60Days(test, newTestResult),
-                testResultReceivedAt = determineReceivedDate(test, newTestResult),
+                testResult = check60Days(test, newTestResult.coronaTestResult),
+                testResultReceivedAt = determineReceivedDate(test, newTestResult.coronaTestResult),
                 lastUpdatedAt = nowUTC,
-                lastError = null
+                lastError = null,
+                sampleCollectedAt = newTestResult.sampleCollectedAt
             )
         } catch (e: Exception) {
             Timber.tag(TAG).e(e, "Failed to poll server for  %s", test)

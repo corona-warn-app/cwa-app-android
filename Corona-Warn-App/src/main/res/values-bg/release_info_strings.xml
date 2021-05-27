@@ -16,25 +16,21 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Водене на журнали за анализ на грешки"</item>
-        <item>"Създаване на профили за бързи тестове"</item>
+        <item>"Електронно доказателство за ваксиниране"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Вече можете да генерирате отчети за грешките чрез функцията за техническа поддръжка. В тях се записват действията Ви в приложението, за да можем по-лесно да анализираме евентуални проблеми и да ги отстраним по-бързо."</item>
-        <item>"Вече можете да си създадете профил с личните данни, необходими при бързи тестове. Информацията се преобразува в QR код, който лесно и бързо се сканира в пунктовете за тестване."</item>
+        <item>"Вече можете да добавите в приложението сертификатите си за ваксиниране и да ги представите чрез QR код. Приложението ще покаже пълна защита от ваксиниране 14 дни след крайната ваксинация."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
         <item/>
     </string-array>
 

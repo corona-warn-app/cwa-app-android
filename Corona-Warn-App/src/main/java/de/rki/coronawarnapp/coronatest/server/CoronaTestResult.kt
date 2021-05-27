@@ -3,7 +3,21 @@ package de.rki.coronawarnapp.coronatest.server
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
+import org.joda.time.Instant
 import org.json.JSONObject
+
+data class CoronaTestResultResponse(
+    val coronaTestResult: CoronaTestResult,
+    val sampleCollectedAt: Instant?
+) {
+    companion object {
+        fun fromResponse(response: VerificationApiV1.TestResultResponse) =
+            CoronaTestResultResponse(
+                coronaTestResult = CoronaTestResult.fromInt(response.testResult),
+                sampleCollectedAt = response.sampleCollectedAt?.toLong()?.let { Instant.ofEpochSecond(it) }
+            )
+    }
+}
 
 enum class CoronaTestResult(val value: Int) {
     /**

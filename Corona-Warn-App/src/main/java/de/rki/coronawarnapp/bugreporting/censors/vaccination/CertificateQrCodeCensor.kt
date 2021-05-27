@@ -2,8 +2,7 @@ package de.rki.coronawarnapp.bugreporting.censors.vaccination
 
 import dagger.Reusable
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNewLogLineIfDifferent
-import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensorContainer
 import de.rki.coronawarnapp.vaccination.core.certificate.VaccinationDGCV1
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateData
 import java.util.LinkedList
@@ -12,27 +11,27 @@ import javax.inject.Inject
 @Reusable
 class CertificateQrCodeCensor @Inject constructor() : BugCensor {
 
-    override suspend fun checkLog(entry: LogLine): LogLine? {
-        var newMessage = entry.message
+    override suspend fun checkLog(message: String): CensorContainer? {
+        var newMessage = CensorContainer(message)
 
         synchronized(qrCodeStringsToCensor) { qrCodeStringsToCensor.toList() }.forEach {
-            newMessage = newMessage.replace(
-                it,
-                PLACEHOLDER + it.takeLast(4)
-            )
+            newMessage = newMessage.censor(it, PLACEHOLDER + it.takeLast(4))
         }
 
         synchronized(certsToCensor) { certsToCensor.toList() }.forEach {
             it.certificate.apply {
-                newMessage = newMessage.replace(
-                    dob,
-                    "vaccinationCertificate/dob"
-                )
+                val dobFormatted = dateOfBirth.toString()
 
-                newMessage = newMessage.replace(
-                    dateOfBirth.toString(),
+                newMessage = newMessage.censor(
+                    dobFormatted,
                     "vaccinationCertificate/dateOfBirth"
                 )
+                if (dobFormatted != dob) {
+                    newMessage = newMessage.censor(
+                        dob,
+                        "vaccinationCertificate/dob"
+                    )
+                }
 
                 newMessage = censorNameData(nameData, newMessage)
 
@@ -42,87 +41,89 @@ class CertificateQrCodeCensor @Inject constructor() : BugCensor {
             }
         }
 
-        return entry.toNewLogLineIfDifferent(newMessage)
+        return newMessage.nullIfEmpty()
     }
 
     private fun censorVaccinationData(
         vaccinationData: VaccinationDGCV1.VaccinationData,
-        message: String
-    ): String {
+        message: CensorContainer
+    ): CensorContainer {
         var newMessage = message
 
-        newMessage = newMessage.replace(
-            vaccinationData.dt,
-            "vaccinationData/dt"
-        )
-
-        newMessage = newMessage.replace(
+        newMessage = newMessage.censor(
             vaccinationData.marketAuthorizationHolderId,
             "vaccinationData/marketAuthorizationHolderId"
         )
 
-        newMessage = newMessage.replace(
+        newMessage = newMessage.censor(
             vaccinationData.medicalProductId,
             "vaccinationData/medicalProductId"
         )
 
-        newMessage = newMessage.replace(
+        newMessage = newMessage.censor(
             vaccinationData.targetId,
             "vaccinationData/targetId"
         )
 
-        newMessage = newMessage.replace(
+        newMessage = newMessage.censor(
             vaccinationData.certificateIssuer,
             "vaccinationData/certificateIssuer"
         )
 
-        newMessage = newMessage.replace(
+        newMessage = newMessage.censor(
             vaccinationData.uniqueCertificateIdentifier,
             "vaccinationData/uniqueCertificateIdentifier"
         )
 
-        newMessage = newMessage.replace(
+        newMessage = newMessage.censor(
             vaccinationData.countryOfVaccination,
             "vaccinationData/countryOfVaccination"
         )
 
-        newMessage = newMessage.replace(
+        newMessage = newMessage.censor(
             vaccinationData.vaccineId,
             "vaccinationData/vaccineId"
         )
 
-        newMessage = newMessage.replace(
-            vaccinationData.vaccinatedAt.toString(),
+        val vaccinatedAt = vaccinationData.vaccinatedAt.toString()
+        newMessage = newMessage.censor(
+            vaccinatedAt,
             "vaccinationData/vaccinatedAt"
         )
+        if (vaccinatedAt != vaccinationData.dt) {
+            newMessage = newMessage.censor(
+                vaccinationData.dt,
+                "vaccinationData/dt"
+            )
+        }
 
         return newMessage
     }
 
-    private fun censorNameData(nameData: VaccinationDGCV1.NameData, message: String): String {
+    private fun censorNameData(nameData: VaccinationDGCV1.NameData, message: CensorContainer): CensorContainer {
         var newMessage = message
 
         nameData.familyName?.let { fName ->
-            newMessage = newMessage.replace(
+            newMessage = newMessage.censor(
                 fName,
                 "nameData/familyName"
             )
         }
 
-        newMessage = newMessage.replace(
+        newMessage = newMessage.censor(
             nameData.familyNameStandardized,
             "nameData/familyNameStandardized"
         )
 
         nameData.givenName?.let { gName ->
-            newMessage = newMessage.replace(
+            newMessage = newMessage.censor(
                 gName,
                 "nameData/givenName"
             )
         }
 
         nameData.givenNameStandardized?.let { gName ->
-            newMessage = newMessage.replace(
+            newMessage = newMessage.censor(
                 gName,
                 "nameData/givenNameStandardized"
             )
