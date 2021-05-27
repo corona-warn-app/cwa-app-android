@@ -1028,6 +1028,8 @@
     <string name="submission_consent_call_test_result_scan_your_test_only">"Now scan the QR code for your test and retrieve your test result."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_test_only_once">"Each test can only be scanned once. The app can manage a maximum of one rapid test and one PCR test at the same time."</string>
+    <!-- YTXT:  Body sub text 3 for Submission Consent call test result   -->
+    <string name="submission_consent_call_test_result_checkmark_text">"Wenn Ihr Testergebnis negativ ist, können Sie dies in Form eines offiziellen COVID-19-Testzertifikats bestätigen lassen. Fordern Sie hierfür in den folgenden Schritten das Testzertifikat an."</string>
     <!-- XHED: Page subheadline for consent help by warning others  -->
     <string name="submission_consent_help_by_warning_others_headline">"Please help others you have encountered by warning them!"</string>
     <!-- YTXT: Body for consent help by warning others -->
