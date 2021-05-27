@@ -87,9 +87,7 @@ class ValueSetsStorageTest : BaseTest() {
 
     @Test
     fun `storage format`() {
-        val instance = createInstance()
-
-        instance.vaccinationValueSet = storedValueSetDe
+        createInstance().vaccinationValueSet = storedValueSetDe
         (prefs.dataMapPeek["valueset"] as String).toComparableJsonPretty() shouldBe """
             {
               "languageCode": "de",
@@ -120,51 +118,25 @@ class ValueSetsStorageTest : BaseTest() {
             }
         """.toComparableJsonPretty()
 
-        instance.vaccinationValueSet = storedValueSetEn
+        createInstance().apply {
+            vaccinationValueSet shouldBe storedValueSetDe
+            vaccinationValueSet = emptyStoredValueSet
+        }
         (prefs.dataMapPeek["valueset"] as String).toComparableJsonPretty() shouldBe """
             {
               "languageCode": "en",
               "vp": {
-                "items": [
-                  {
-                    "key": "1119305005",
-                    "displayText": "Vaccine-Name"
-                  }
-                ]
+                "items": []
               },
               "mp": {
-                "items": [
-                  {
-                    "key": "EU/1/21/1529",
-                    "displayText": "MedicalProduct-Name"
-                  }
-                ]
+                "items": []
               },
               "ma": {
-                "items": [
-                  {
-                    "key": "ORG-100001699",
-                    "displayText": "Manufactorer-Name"
-                  }
-                ]
+                "items": []
               }
             }
         """.toComparableJsonPretty()
 
-        instance.vaccinationValueSet = emptyStoredValueSet
-        (prefs.dataMapPeek["valueset"] as String).toComparableJsonPretty() shouldBe """
-            {
-              "languageCode": "en",
-              "vp": {
-                "items": []
-              },
-              "mp": {
-                "items": []
-              },
-              "ma": {
-                "items": []
-              }
-            }
-        """.toComparableJsonPretty()
+        createInstance().vaccinationValueSet shouldBe emptyStoredValueSet
     }
 }
