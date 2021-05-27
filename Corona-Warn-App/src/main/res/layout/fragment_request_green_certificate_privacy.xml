@@ -80,6 +80,7 @@
         android:id="@+id/pcrExtraBullet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:constraint_referenced_ids="extra_pcr_bulletpoint_text,extra_pcr_bulletpoint" />
 
     <include
@@ -97,8 +98,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_normal"
         android:text="@string/request_green_certificate_privacy_section_3"
-        app:layout_constraintEnd_toEndOf="@id/extra_pcr_bulletpoint_text"
-        app:layout_constraintStart_toStartOf="@id/extra_pcr_bulletpoint_text"
+        app:layout_constraintEnd_toEndOf="@id/second_bulletpoint_text"
+        app:layout_constraintStart_toStartOf="@id/second_bulletpoint_text"
         app:layout_constraintTop_toBottomOf="@id/extra_pcr_bulletpoint_text" />
 
     <include

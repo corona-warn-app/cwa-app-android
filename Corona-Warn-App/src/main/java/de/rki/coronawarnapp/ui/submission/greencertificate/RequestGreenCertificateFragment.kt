@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -37,6 +38,10 @@ class RequestGreenCertificateFragment : Fragment(R.layout.fragment_request_green
             val isPCR = args.testType == CoronaTest.Type.PCR
             birthDateGroup.isVisible = isPCR
             privacyCard.pcrExtraBullet.isVisible = isPCR
+
+            dateInputEdit.doOnTextChanged { text, _, _, _ ->
+                if (text.toString().isEmpty()) viewModel.birthDateChanged(null)
+            }
 
             toolbar.setNavigationOnClickListener { showDialog() }
             buttonConsent.setOnClickListener { popBackStack() }

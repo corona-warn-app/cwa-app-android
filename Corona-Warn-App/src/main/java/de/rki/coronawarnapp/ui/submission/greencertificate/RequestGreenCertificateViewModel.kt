@@ -12,7 +12,8 @@ class RequestGreenCertificateViewModel @AssistedInject constructor(
     @Assisted private val testType: CoronaTest.Type,
 ) : CWAViewModel() {
 
-    fun birthDateChanged(localDate: LocalDate) {
+    fun birthDateChanged(localDate: LocalDate?) {
+        // TODO
     }
 
     @AssistedFactory

@@ -6,6 +6,7 @@ import androidx.navigation.NavDirections
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
@@ -117,11 +118,10 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
                         )
                         .run { routeToScreen.postValue(this) }
                 } else {
-                    SubmissionDeletionWarningFragmentDirections
-                        .actionSubmissionDeletionWarningFragmentToSubmissionTestResultPendingFragment(
-                            testType = coronaTestQrCode!!.type
-                        )
-                        .run { routeToScreen.postValue(this) }
+                    // TODO check RAT Test
+                    NavGraphDirections.actionSubmissionTestResultGreenCertificateFragment(
+                        testType = coronaTestQrCode!!.type
+                    ).run { routeToScreen.postValue(this) }
                 }
             }
             RegistrationType.TAN -> {
