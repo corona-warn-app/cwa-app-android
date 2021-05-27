@@ -169,7 +169,7 @@ class HomeFragmentViewModelTest : BaseTest() {
 
         with(createInstance()) {
             showPopUps()
-            popupEvents.getOrAwaitValue() shouldBe HomeFragmentEvents.ShowErrorResetDialog
+            events.getOrAwaitValue() shouldBe HomeFragmentEvents.ShowErrorResetDialog
         }
     }
 }
