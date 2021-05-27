@@ -6,8 +6,8 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.datadonation.analytics.common.calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
 import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighRiskEw
 import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighRiskPt
-import de.rki.coronawarnapp.datadonation.analytics.common.toMetadataRiskLevel
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
+import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
@@ -44,38 +44,34 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
             .first()
             .lastCalculated
 
-        val ewLastChangeToHighRiskLevelTimestamp = riskLevelStorage.allEwRiskLevelResults
-            .first()
-            .getLastChangeToHighRiskEw(testRegisteredAt)
-
-        val ewRiskLevelAtRegistration = lastResult.ewRiskLevelResult.toMetadataRiskLevel()
-        if (ewRiskLevelAtRegistration == PpaData.PPARiskLevel.RISK_LEVEL_HIGH) {
-            ewLastChangeToHighRiskLevelTimestamp?.let {
-                val hours = Duration(
-                    it,
-                    testRegisteredAt
-                ).standardHours.toInt()
-                type.storage.ewHoursSinceHighRiskWarningAtTestRegistration.update {
-                    hours
+        if (lastResult.ewRiskLevelResult.riskState == RiskState.INCREASED_RISK) {
+            riskLevelStorage.allEwRiskLevelResults
+                .first()
+                .getLastChangeToHighRiskEw(testRegisteredAt)
+                ?.let {
+                    val hours = Duration(
+                        it,
+                        testRegisteredAt
+                    ).standardHours.toInt()
+                    type.storage.ewHoursSinceHighRiskWarningAtTestRegistration.update {
+                        hours
+                    }
                 }
-            }
         }
 
-        val ptLastChangeToHighRiskLevelTimestamp = riskLevelStorage.allPtRiskLevelResults
-            .first()
-            .getLastChangeToHighRiskPt(testRegisteredAt)
-
-        val ptRiskLevelAtRegistration = lastResult.ptRiskLevelResult.riskState.toMetadataRiskLevel()
-        if (ptRiskLevelAtRegistration == PpaData.PPARiskLevel.RISK_LEVEL_HIGH) {
-            ptLastChangeToHighRiskLevelTimestamp?.let {
-                val hours = Duration(
-                    it,
-                    testRegisteredAt
-                ).standardHours.toInt()
-                type.storage.ptHoursSinceHighRiskWarningAtTestRegistration.update {
-                    hours
+        if (lastResult.ptRiskLevelResult.riskState == RiskState.INCREASED_RISK) {
+            riskLevelStorage.allPtRiskLevelResults
+                .first()
+                .getLastChangeToHighRiskPt(testRegisteredAt)
+                ?.let {
+                    val hours = Duration(
+                        it,
+                        testRegisteredAt
+                    ).standardHours.toInt()
+                    type.storage.ptHoursSinceHighRiskWarningAtTestRegistration.update {
+                        hours
+                    }
                 }
-            }
         }
 
         type.storage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {

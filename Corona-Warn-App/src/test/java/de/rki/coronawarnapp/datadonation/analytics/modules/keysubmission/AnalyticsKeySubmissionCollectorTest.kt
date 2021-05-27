@@ -62,6 +62,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         } returns flowOf(LastCombinedRiskResults(combinedEwPtRiskLevelResult, combinedEwPtRiskLevelResult))
 
         coEvery { riskLevelStorage.allEwRiskLevelResultsWithExposureWindows } returns flowOf(listOf(ewRiskLevelResult))
+        coEvery { riskLevelStorage.allEwRiskLevelResults } returns flowOf(listOf(ewRiskLevelResult))
         coEvery { riskLevelStorage.allPtRiskLevelResults } returns flowOf(listOf(ptRiskLevelResult))
 
         val pcrTestRegisteredAt = mockFlowPreference(now.millis)

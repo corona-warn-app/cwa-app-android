@@ -9,10 +9,9 @@ import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighRis
 import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighRiskPt
 import de.rki.coronawarnapp.datadonation.analytics.common.isFinal
 import de.rki.coronawarnapp.datadonation.analytics.common.isPending
-import de.rki.coronawarnapp.datadonation.analytics.common.toMetadataRiskLevel
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
+import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
@@ -57,8 +56,7 @@ class AnalyticsTestResultCollector @Inject constructor(
             .first()
             .getLastChangeToHighRiskEw(testRegisteredAt)
 
-        val ewRiskLevelAtRegistration = lastResult.ewRiskLevelResult.toMetadataRiskLevel()
-        if (ewRiskLevelAtRegistration == PpaData.PPARiskLevel.RISK_LEVEL_HIGH) {
+        if (lastResult.ewRiskLevelResult.riskState == RiskState.INCREASED_RISK) {
             ewLastChangeToHighRiskLevelTimestamp?.let {
                 val hours = Duration(
                     it,
@@ -74,8 +72,7 @@ class AnalyticsTestResultCollector @Inject constructor(
             .first()
             .getLastChangeToHighRiskPt(testRegisteredAt)
 
-        val ptRiskLevelAtRegistration = lastResult.ptRiskLevelResult.riskState.toMetadataRiskLevel()
-        if (ptRiskLevelAtRegistration == PpaData.PPARiskLevel.RISK_LEVEL_HIGH) {
+        if (lastResult.ptRiskLevelResult.riskState == RiskState.INCREASED_RISK) {
             ptLastChangeToHighRiskLevelTimestamp?.let {
                 val hours = Duration(
                     it,
