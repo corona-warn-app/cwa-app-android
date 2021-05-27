@@ -9,6 +9,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
+@Suppress("MaxLineLength")
 internal class RatQrCodeCensorTest {
 
     private val testHash = "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
@@ -41,8 +42,8 @@ internal class RatQrCodeCensorTest {
         val logLineToCensor =
             "Here comes the hash: $testHash of the rat test of Milhouse Van Houten. He was born on 1980-07-01"
 
-        censor.checkLog(logLineToCensor)!!.string shouldBe "Here comes the hash: SHA256HASH-ENDING-WITH-15ad" +
-            " of the rat test of RATest/FirstName RATest/LastName. He was born on RATest/DateOfBirth"
+        censor.checkLog(logLineToCensor)!!
+            .compile()!!.censored shouldBe "Here comes the hash: SHA256HASH-ENDING-WITH-15ad of the rat test of RATest/FirstName RATest/LastName. He was born on RATest/DateOfBirth"
     }
 
     @Test

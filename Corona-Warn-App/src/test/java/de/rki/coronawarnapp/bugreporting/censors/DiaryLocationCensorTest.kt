@@ -60,7 +60,7 @@ class DiaryLocationCensorTest : BaseTest() {
             Both agreed that their emails (bürgermeister@münchen.de|karl@aachen.de) are awesome,
             and that Bielefeld doesn't exist as it has neither phonenumber (null) nor email (null).
             """.trimIndent()
-        instance.checkLog(censorMe)!!.string shouldBe
+        instance.checkLog(censorMe)!!.compile()!!.censored shouldBe
             """
             Bürgermeister of Location#1/Name (Location#1/PhoneNumber) and Karl of Location#3/Name [Location#3/PhoneNumber] called each other.
             Both agreed that their emails (Location#1/EMail|Location#3/EMail) are awesome,
@@ -90,7 +90,7 @@ class DiaryLocationCensorTest : BaseTest() {
             Both agreed that their emails (bürgermeister@münchen.de|karl@aachen.de) are awesome,
             and that Bielefeld doesn't exist as it has neither phonenumber (null) nor email (null).
             """.trimIndent()
-        instance.checkLog(censorMe)!!.string shouldBe
+        instance.checkLog(censorMe)!!.compile()!!.censored shouldBe
             """
             Bürgermeister of Location#1/Name (Location#1/PhoneNumber) and Karl of Location#3/Name [Location#3/PhoneNumber] called each other.
             Both agreed that their emails (Location#1/EMail|Location#3/EMail) are awesome,

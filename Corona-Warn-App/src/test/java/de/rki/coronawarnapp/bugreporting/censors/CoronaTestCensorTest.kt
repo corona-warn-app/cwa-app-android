@@ -18,6 +18,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
+@Suppress("MaxLineLength")
 class CoronaTestCensorTest : BaseTest() {
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
 
@@ -54,9 +55,8 @@ class CoronaTestCensorTest : BaseTest() {
     fun `censoring replaces the logline message`() = runBlockingTest {
         val instance = createInstance()
         val filterMe = "I'm a shy registration token: $testToken and we are extrovert $pcrIdentifier and $ratIdentifier"
-        instance.checkLog(filterMe)!!.string shouldBe
-            "I'm a shy registration token: ########-####-####-####-########3a2f " +
-            "and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier"
+        instance.checkLog(filterMe)!!
+            .compile()!!.censored shouldBe "I'm a shy registration token: ########-####-####-####-########3a2f and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier"
 
         verify { coronaTestRepository.coronaTests }
     }
@@ -85,13 +85,13 @@ class CoronaTestCensorTest : BaseTest() {
 
         val filterMe = "I'm a shy registration token: $testToken and we are extrovert $pcrIdentifier and $ratIdentifier"
 
-        censor.checkLog(filterMe)!!.string shouldBe "I'm a shy registration token: ########-####-####-####-########" +
-            "3a2f and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier"
+        censor.checkLog(filterMe)!!
+            .compile()!!.censored shouldBe "I'm a shy registration token: ########-####-####-####-########3a2f and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier"
 
         // delete all tests
         coronaTests.value = emptySet()
 
-        censor.checkLog(filterMe)!!.string shouldBe "I'm a shy registration token: ########-####-####-####-########" +
-            "3a2f and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier"
+        censor.checkLog(filterMe)!!
+            .compile()!!.censored shouldBe "I'm a shy registration token: ########-####-####-####-########3a2f and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier"
     }
 }

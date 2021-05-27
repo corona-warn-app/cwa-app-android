@@ -11,6 +11,8 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestPositiveCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestSubmissionDoneCard
+import de.rki.coronawarnapp.submission.ui.homecards.RapidTestPositiveCard
+import de.rki.coronawarnapp.submission.ui.homecards.RapidTestSubmissionDoneCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestResultItem
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingStateItem
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
@@ -135,7 +137,7 @@ class HomeFragmentTest : BaseUITest() {
     @Test
     fun captureHomeFragmentTestSubmissionDone() {
         every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
-            submissionTestResultItem = HomeData.Submission.TEST_SUBMISSION_DONE_ITEM
+            submissionTestResultItems = listOf(HomeData.Submission.TEST_SUBMISSION_DONE_ITEM)
         )
         captureHomeFragment("submission_done")
     }
@@ -144,7 +146,7 @@ class HomeFragmentTest : BaseUITest() {
     @Test
     fun captureHomeFragmentTestError() {
         every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
-            submissionTestResultItem = HomeData.Submission.TEST_ERROR_ITEM
+            submissionTestResultItems = listOf(HomeData.Submission.TEST_ERROR_ITEM)
         )
         captureHomeFragment("test_error")
     }
@@ -153,7 +155,7 @@ class HomeFragmentTest : BaseUITest() {
     @Test
     fun captureHomeFragmentTestFetching() {
         every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
-            submissionTestResultItem = HomeData.Submission.TEST_FETCHING_ITEM
+            submissionTestResultItems = listOf(HomeData.Submission.TEST_FETCHING_ITEM)
         )
         captureHomeFragment("test_fetching")
     }
@@ -162,7 +164,7 @@ class HomeFragmentTest : BaseUITest() {
     @Test
     fun captureHomeFragmentTestInvalid() {
         every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
-            submissionTestResultItem = HomeData.Submission.TEST_INVALID_ITEM
+            submissionTestResultItems = listOf(HomeData.Submission.TEST_INVALID_ITEM)
         )
         captureHomeFragment("test_invalid")
     }
@@ -171,16 +173,30 @@ class HomeFragmentTest : BaseUITest() {
     @Test
     fun captureHomeFragmentTestNegative() {
         every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
-            submissionTestResultItem = HomeData.Submission.TEST_NEGATIVE_ITEM
+            submissionTestResultItems = listOf(HomeData.Submission.TEST_NEGATIVE_ITEM)
         )
         captureHomeFragment("test_negative")
     }
 
     @Screenshot
     @Test
+    fun captureHomeFragmentTwoTestsNegative() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
+            submissionTestResultItems = listOf(
+                HomeData.Submission.TEST_NEGATIVE_ITEM,
+                HomeData.Submission.TEST_NEGATIVE_ITEM_RAT
+            )
+        )
+        launchInMainActivity<HomeFragment>()
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2, additionalY = -25))
+        takeScreenshot<HomeFragment>("tests_negative")
+    }
+
+    @Screenshot
+    @Test
     fun captureHomeFragmentTestPositive() {
         every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
-            submissionTestResultItem = HomeData.Submission.TEST_POSITIVE_ITEM
+            submissionTestResultItems = listOf(HomeData.Submission.TEST_POSITIVE_ITEM)
         )
         captureHomeFragment("test_positive")
     }
@@ -189,7 +205,7 @@ class HomeFragmentTest : BaseUITest() {
     @Test
     fun captureHomeFragmentTestPending() {
         every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
-            submissionTestResultItem = HomeData.Submission.TEST_PENDING_ITEM
+            submissionTestResultItems = listOf(HomeData.Submission.TEST_PENDING_ITEM)
         )
         captureHomeFragment("test_pending")
     }
@@ -290,24 +306,30 @@ class HomeFragmentTest : BaseUITest() {
     // LiveData item for fragments
     private fun homeFragmentItemsLiveData(
         tracingStateItem: TracingStateItem = HomeData.Tracing.LOW_RISK_ITEM_WITH_ENCOUNTERS,
-        submissionTestResultItem: TestResultItem = HomeData.Submission.TEST_UNREGISTERED_ITEM,
+        submissionTestResultItems: List<TestResultItem> = listOf(HomeData.Submission.TEST_UNREGISTERED_ITEM),
         vaccinationStatus: VaccinationStatusItem? = null,
     ): LiveData<List<HomeItem>> =
         MutableLiveData(
             mutableListOf<HomeItem>().apply {
-                when (submissionTestResultItem) {
-                    is PcrTestSubmissionDoneCard.Item,
-                    is PcrTestPositiveCard.Item -> {
-                        Timber.d("Tracing item is not added, submission:$submissionTestResultItem")
-                    }
-                    else -> add(tracingStateItem)
+
+                val hideTracingState = submissionTestResultItems.any {
+                    it is PcrTestPositiveCard.Item ||
+                        it is PcrTestSubmissionDoneCard.Item ||
+                        it is RapidTestPositiveCard.Item ||
+                        it is RapidTestSubmissionDoneCard.Item
+                }
+
+                if (hideTracingState) {
+                    Timber.d("Tracing item is not added, submission:$submissionTestResultItems")
+                } else {
+                    add(tracingStateItem)
                 }
 
                 vaccinationStatus?.let {
                     add(it)
                 }
 
-                add(submissionTestResultItem)
+                addAll(submissionTestResultItems)
 
                 add(CreateVaccinationHomeCard.Item {})
 

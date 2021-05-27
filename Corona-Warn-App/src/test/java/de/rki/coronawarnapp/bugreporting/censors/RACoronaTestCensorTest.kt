@@ -51,7 +51,7 @@ internal class RACoronaTestCensorTest : BaseTest() {
             Hello! My name is John. My friends call me Mister Doe and I was born on 2020-01-01.
             """.trimIndent()
 
-        censor.checkLog(logLineToCensor)!!.string shouldBe
+        censor.checkLog(logLineToCensor)!!.compile()!!.censored shouldBe
             """
             Hello! My name is RATest/FirstName. My friends call me Mister RATest/LastName and I was born on RATest/DateOfBirth.
             """.trimIndent()
@@ -78,7 +78,7 @@ internal class RACoronaTestCensorTest : BaseTest() {
             Hello! My name is John. My friends call me Mister Doe and I was born on 2020-01-01.
             """.trimIndent()
 
-        censor.checkLog(logLineToCensor)!!.string shouldBe
+        censor.checkLog(logLineToCensor)!!.compile()!!.censored shouldBe
             """
             Hello! My name is RATest/FirstName. My friends call me Mister RATest/LastName and I was born on RATest/DateOfBirth.
             """.trimIndent()

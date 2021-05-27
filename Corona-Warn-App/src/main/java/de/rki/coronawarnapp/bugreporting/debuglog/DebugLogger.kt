@@ -165,26 +165,37 @@ class DebugLogger(
                     delay(1000)
 
                     val formattedMessage = rawLine.format()
-                    val censored: Collection<BugCensor.CensoredString> = bugCensors.get()
+                    val censored: Collection<BugCensor.CensorContainer> = bugCensors.get()
                         .map {
                             async {
-                                it.checkLog(formattedMessage)
+                                try {
+                                    it.checkLog(formattedMessage)
+                                } catch (e: Exception) {
+                                    Log.e(TAG, "Error in censor module $it", e)
+                                    BugCensor.containerForError(it, formattedMessage, e)
+                                }
                             }
                         }
                         .awaitAll()
                         .filterNotNull()
-                        .filter { it.range != null }
 
                     val toWrite: String = when (censored.size) {
                         0 -> formattedMessage
-                        1 -> censored.single().string
-                        else -> {
-                            val minMin = censored.minOf { it.range!!.first }
-                            val maxMax = censored.maxOf { it.range!!.last }
-                            formattedMessage.replaceRange(minMin, maxMax, CENSOR_COLLISION_PLACERHOLDER)
-                        }
+                        1 -> censored.single().compile()?.censored ?: formattedMessage
+                        else ->
+                            try {
+                                val combinedContainer = BugCensor.CensorContainer(
+                                    original = formattedMessage,
+                                    actions = censored.flatMap { it.actions }.toSet()
+                                )
+
+                                combinedContainer.compile()?.censored ?: formattedMessage
+                            } catch (e: Exception) {
+                                Log.e(TAG, "Censoring collision fail.", e)
+                                "<censor-error>Global combination: $e</censor-error>"
+                            }
                     }
-                    logWriter.write(toWrite)
+                    logWriter.write(rawLine.formatFinal(toWrite))
                 }
             }
         } catch (e: CancellationException) {
@@ -195,7 +206,6 @@ class DebugLogger(
     }
 
     companion object {
-        private const val CENSOR_COLLISION_PLACERHOLDER = "<censoring-collision>"
         internal const val TAG = "DebugLogger"
     }
 }

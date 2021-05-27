@@ -17,9 +17,14 @@ class LogLineTest : BaseTest() {
             tag = "IamATag",
             message = "Low storage check failed.",
             throwable = null
-        ).format() shouldBe """
-            1970-01-01T00:00:00.123Z E/IamATag: Low storage check failed.
-        """.trimIndent()
+        ).apply {
+            format() shouldBe """
+                Low storage check failed.
+            """.trimIndent()
+            formatFinal("abc") shouldBe """
+                1970-01-01T00:00:00.123Z E/IamATag: abc
+            """.trimIndent()
+        }
     }
 
     @Test
@@ -30,10 +35,15 @@ class LogLineTest : BaseTest() {
             tag = "IamATag",
             message = "Low storage check failed.",
             throwable = IOException()
-        ).format().trimToLength(182) shouldBe """
-            1970-01-01T00:00:00.123Z E/IamATag: Low storage check failed.
-            java.io.IOException
-            	at de.rki.coronawarnapp.bugreporting.debuglog.LogLineTest.log formatting with error(LogLineTest.kt:
-        """.trimIndent()
+        ).apply {
+            format().trimToLength(146) shouldBe """
+                Low storage check failed.
+                java.io.IOException
+                	at de.rki.coronawarnapp.bugreporting.debuglog.LogLineTest.log formatting with error(LogLineTest.kt:
+            """.trimIndent()
+            formatFinal("abc") shouldBe """
+                1970-01-01T00:00:00.123Z E/IamATag: abc
+            """.trimIndent()
+        }
     }
 }
