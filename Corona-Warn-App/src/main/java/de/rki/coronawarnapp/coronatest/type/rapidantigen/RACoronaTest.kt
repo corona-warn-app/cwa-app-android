@@ -60,6 +60,13 @@ data class RACoronaTest(
 
     @Transient override val isProcessing: Boolean = false,
     @Transient override val lastError: Throwable? = null,
+
+    @SerializedName("isDccSupportedByPoc")
+    override val isDccSupportedByPoc: Boolean = false,
+    @SerializedName("isDccConsentGiven")
+    override val isDccConsentGiven: Boolean = false,
+    @SerializedName("isDccDataSetCreated")
+    override val isDccDataSetCreated: Boolean = false,
 ) : CoronaTest {
 
     override val type: CoronaTest.Type

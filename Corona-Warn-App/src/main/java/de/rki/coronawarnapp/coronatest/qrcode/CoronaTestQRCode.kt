@@ -38,7 +38,8 @@ sealed class CoronaTestQRCode : Parcelable, TestRegistrationRequest {
         val lastName: String? = null,
         val dateOfBirth: LocalDate? = null,
         val testid: String? = null,
-        val salt: String? = null
+        val salt: String? = null,
+        val isDccSupportedbyPoc: Boolean = false,
     ) : CoronaTestQRCode() {
 
         @IgnoredOnParcel

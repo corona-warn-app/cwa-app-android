@@ -41,6 +41,13 @@ class PCRProcessorTest : BaseTest() {
     @MockK lateinit var testResultDataCollector: TestResultDataCollector
 
     private val nowUTC = Instant.parse("2021-03-15T05:45:00.000Z")
+    private val defaultTest = PCRCoronaTest(
+        identifier = "identifier",
+        lastUpdatedAt = Instant.EPOCH,
+        registeredAt = nowUTC,
+        registrationToken = "regtoken",
+        testResult = PCR_OR_RAT_PENDING
+    )
 
     @BeforeEach
     fun setup() {
@@ -83,12 +90,8 @@ class PCRProcessorTest : BaseTest() {
     fun `if we receive a pending result 60 days after registration, we map to REDEEMED`() = runBlockingTest {
         val instance = createInstance()
 
-        val pcrTest = PCRCoronaTest(
-            identifier = "identifier",
-            lastUpdatedAt = Instant.EPOCH,
-            registeredAt = nowUTC,
-            registrationToken = "regtoken",
-            testResult = PCR_POSITIVE
+        val pcrTest = defaultTest.copy(
+            testResult = PCR_POSITIVE,
         )
 
         instance.pollServer(pcrTest).testResult shouldBe PCR_OR_RAT_PENDING
@@ -138,12 +141,8 @@ class PCRProcessorTest : BaseTest() {
 
         val instance = createInstance()
 
-        val pcrTest = PCRCoronaTest(
-            identifier = "identifier",
-            lastUpdatedAt = Instant.EPOCH,
-            registeredAt = nowUTC,
-            registrationToken = "regtoken",
-            testResult = PCR_POSITIVE
+        val pcrTest = defaultTest.copy(
+            testResult = PCR_POSITIVE,
         )
 
         values().forEach {
@@ -189,12 +188,9 @@ class PCRProcessorTest : BaseTest() {
 
         val instance = createInstance()
 
-        val pcrTest = PCRCoronaTest(
-            identifier = "identifier",
-            lastUpdatedAt = Instant.EPOCH,
+        val pcrTest = defaultTest.copy(
             registeredAt = nowUTC.minus(Duration.standardDays(22)),
-            registrationToken = "regtoken",
-            testResult = PCR_REDEEMED
+            testResult = PCR_REDEEMED,
         )
 
         // Older than 21 days and already redeemed
@@ -213,12 +209,8 @@ class PCRProcessorTest : BaseTest() {
 
         val instance = createInstance()
 
-        val pcrTest = PCRCoronaTest(
-            identifier = "identifier",
-            lastUpdatedAt = Instant.EPOCH,
-            registeredAt = nowUTC,
-            registrationToken = "regtoken",
-            testResult = PCR_POSITIVE
+        val pcrTest = defaultTest.copy(
+            testResult = PCR_POSITIVE,
         )
 
         // Test is not older than 21 days, we want the error!
@@ -232,5 +224,29 @@ class PCRProcessorTest : BaseTest() {
             testResult shouldBe PCR_REDEEMED
             lastError shouldBe null
         }
+    }
+
+    @Test
+    fun `giving submission consent`() = runBlockingTest {
+        val instance = createInstance()
+
+        instance.updateSubmissionConsent(defaultTest, true) shouldBe defaultTest.copy(
+            isAdvancedConsentGiven = true
+        )
+        instance.updateSubmissionConsent(defaultTest, false) shouldBe defaultTest.copy(
+            isAdvancedConsentGiven = false
+        )
+    }
+
+    @Test
+    fun `giving digital covid certificate consent`() = runBlockingTest {
+        val instance = createInstance()
+
+        instance.updateDccConsent(defaultTest, true) shouldBe defaultTest.copy(
+            isDccConsentGiven = true
+        )
+        instance.updateDccConsent(defaultTest, false) shouldBe defaultTest.copy(
+            isDccConsentGiven = false
+        )
     }
 }

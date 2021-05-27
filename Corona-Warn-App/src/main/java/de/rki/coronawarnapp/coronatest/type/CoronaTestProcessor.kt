@@ -24,7 +24,9 @@ interface CoronaTestProcessor {
 
     suspend fun markViewed(test: CoronaTest): CoronaTest
 
-    suspend fun updateConsent(test: CoronaTest, consented: Boolean): CoronaTest
+    suspend fun updateSubmissionConsent(test: CoronaTest, consented: Boolean): CoronaTest
+
+    suspend fun updateDccConsent(test: CoronaTest, consented: Boolean): CoronaTest
 
     suspend fun updateResultNotification(test: CoronaTest, sent: Boolean): CoronaTest
 }

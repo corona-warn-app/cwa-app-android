@@ -35,6 +35,15 @@ class RapidAntigenProcessorTest : BaseTest() {
 
     private val nowUTC = Instant.parse("2021-03-15T05:45:00.000Z")
 
+    private val defaultTest = RACoronaTest(
+        identifier = "identifier",
+        lastUpdatedAt = Instant.EPOCH,
+        registeredAt = nowUTC,
+        registrationToken = "regtoken",
+        testResult = RAT_PENDING,
+        testedAt = Instant.EPOCH,
+    )
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
@@ -63,13 +72,8 @@ class RapidAntigenProcessorTest : BaseTest() {
     fun `if we receive a pending result 60 days after registration, we map to REDEEMED`() = runBlockingTest {
         val instance = createInstance()
 
-        val raTest = RACoronaTest(
-            identifier = "identifier",
-            lastUpdatedAt = Instant.EPOCH,
-            registeredAt = nowUTC,
-            registrationToken = "regtoken",
+        val raTest = defaultTest.copy(
             testResult = RAT_POSITIVE,
-            testedAt = Instant.EPOCH,
         )
 
         instance.pollServer(raTest).testResult shouldBe PCR_OR_RAT_PENDING
@@ -121,13 +125,8 @@ class RapidAntigenProcessorTest : BaseTest() {
 
         val instance = createInstance()
 
-        val raTest = RACoronaTest(
-            identifier = "identifier",
-            lastUpdatedAt = Instant.EPOCH,
-            registeredAt = nowUTC,
-            registrationToken = "regtoken",
+        val raTest = defaultTest.copy(
             testResult = RAT_POSITIVE,
-            testedAt = Instant.EPOCH,
         )
 
         values().forEach {
@@ -154,13 +153,9 @@ class RapidAntigenProcessorTest : BaseTest() {
 
         val instance = createInstance()
 
-        val raTest = RACoronaTest(
-            identifier = "identifier",
-            lastUpdatedAt = Instant.EPOCH,
+        val raTest = defaultTest.copy(
             registeredAt = nowUTC.minus(Duration.standardDays(22)),
-            registrationToken = "regtoken",
             testResult = RAT_REDEEMED,
-            testedAt = Instant.EPOCH,
         )
 
         // Older than 21 days and already redeemed
@@ -199,5 +194,29 @@ class RapidAntigenProcessorTest : BaseTest() {
             testResult shouldBe RAT_REDEEMED
             lastError shouldBe null
         }
+    }
+
+    @Test
+    fun `giving submission consent`() = runBlockingTest {
+        val instance = createInstance()
+
+        instance.updateSubmissionConsent(defaultTest, true) shouldBe defaultTest.copy(
+            isAdvancedConsentGiven = true
+        )
+        instance.updateSubmissionConsent(defaultTest, false) shouldBe defaultTest.copy(
+            isAdvancedConsentGiven = false
+        )
+    }
+
+    @Test
+    fun `giving digital covid certificate consent`() = runBlockingTest {
+        val instance = createInstance()
+
+        instance.updateDccConsent(defaultTest, true) shouldBe defaultTest.copy(
+            isDccConsentGiven = true
+        )
+        instance.updateDccConsent(defaultTest, false) shouldBe defaultTest.copy(
+            isDccConsentGiven = false
+        )
     }
 }

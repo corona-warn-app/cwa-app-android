@@ -198,11 +198,20 @@ class PCRProcessor @Inject constructor(
         return test.copy(isViewed = true)
     }
 
-    override suspend fun updateConsent(test: CoronaTest, consented: Boolean): CoronaTest {
-        Timber.tag(TAG).v("updateConsent(test=%s, consented=%b)", test, consented)
+    override suspend fun updateSubmissionConsent(test: CoronaTest, consented: Boolean): CoronaTest {
+        Timber.tag(TAG).v("updateSubmissionConsent(test=%s, consented=%b)", test, consented)
         test as PCRCoronaTest
 
         return test.copy(isAdvancedConsentGiven = consented)
+    }
+
+    override suspend fun updateDccConsent(test: CoronaTest, consented: Boolean): CoronaTest {
+        Timber.tag(TAG).v("updateDccConsent(test=%s, consented=%b)", test, consented)
+        test as PCRCoronaTest
+
+        // TODO trigger server request?
+
+        return test.copy(isDccConsentGiven = consented)
     }
 
     override suspend fun updateResultNotification(test: CoronaTest, sent: Boolean): CoronaTest {

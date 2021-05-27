@@ -198,11 +198,19 @@ class CoronaTestRepository @Inject constructor(
         }
     }
 
-    suspend fun updateConsent(identifier: TestIdentifier, consented: Boolean) {
-        Timber.tag(TAG).i("updateConsent(identifier=%s, consented=%b)", identifier, consented)
+    suspend fun updateSubmissionConsent(identifier: TestIdentifier, consented: Boolean) {
+        Timber.tag(TAG).i("updateSubmissionConsent(identifier=%s, consented=%b)", identifier, consented)
 
         modifyTest(identifier) { processor, before ->
-            processor.updateConsent(before, consented)
+            processor.updateSubmissionConsent(before, consented)
+        }
+    }
+
+    suspend fun updateDccConsent(identifier: TestIdentifier, consented: Boolean) {
+        Timber.tag(TAG).i("updateDccConsent(identifier=%s, consented=%b)", identifier, consented)
+
+        modifyTest(identifier) { processor, before ->
+            processor.updateDccConsent(before, consented)
         }
     }
 
