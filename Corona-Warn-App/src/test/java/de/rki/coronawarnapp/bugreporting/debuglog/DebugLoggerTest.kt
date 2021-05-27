@@ -8,6 +8,8 @@ import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.string.shouldEndWith
+import io.kotest.matchers.string.shouldStartWith
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
@@ -467,7 +469,10 @@ class DebugLoggerTest : BaseIOTest() {
 
         runningLog.readLines()
             .last()
-            .substring(25) shouldBe "V/Test: <censor-error>Module BugCensor\$Subclass1: java.lang.IllegalArgumentException: I give up</censor-error>"
+            .substring(25).apply {
+                this shouldStartWith "V/Test: <censor-error>Module BugCensor"
+                this shouldEndWith "lang.IllegalArgumentException: I give up</censor-error>"
+            }
 
         instance.stop()
         advanceUntilIdle()
