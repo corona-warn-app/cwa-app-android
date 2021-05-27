@@ -24,14 +24,19 @@ class ContactDiaryCleanTask @Inject constructor(
     override suspend fun run(arguments: Task.Arguments) = try {
         Timber.d("Running with arguments=%s", arguments)
 
-        retentionCalculation.clearObsoleteContactDiaryLocationVisits()
-        Timber.tag(TAG).d("Obsolete contact diary location visits cleaned up")
+        retentionCalculation.run {
+            clearObsoleteContactDiaryLocationVisits()
+            Timber.tag(TAG).d("Obsolete contact diary location visits cleaned up")
 
-        retentionCalculation.clearObsoleteContactDiaryPersonEncounters()
-        Timber.tag(TAG).d("Obsolete contact diary person encounters cleaned up")
+            clearObsoleteContactDiaryPersonEncounters()
+            Timber.tag(TAG).d("Obsolete contact diary person encounters cleaned up")
 
-        retentionCalculation.clearObsoleteRiskPerDate()
-        Timber.tag(TAG).d("Obsolete Aggregated Risk Per Date Results cleaned up")
+            clearObsoleteRiskPerDate()
+            Timber.tag(TAG).d("Obsolete Aggregated Risk Per Date Results cleaned up")
+
+            clearObsoleteCoronaTests()
+            Timber.tag(TAG).d("Obsolete Contact Diary Corona Tests cleaned up")
+        }
 
         object : Task.Result {}
     } catch (error: Exception) {

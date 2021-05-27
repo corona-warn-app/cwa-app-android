@@ -4,6 +4,11 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestResult.NEGATIVE
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestResult.POSITIVE
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestType.ANTIGEN
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestType.PCR
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationVisitEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationVisitWrapper
@@ -16,6 +21,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Duration
+import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.junit.After
 import org.junit.Test
@@ -57,6 +63,12 @@ class ContactDiaryDatabaseTest : BaseTestInstrumentation() {
         circumstances = "I had to buy snacks.",
         checkInID = 101
     )
+    private val coronaTest = ContactDiaryCoronaTestEntity(
+        id = "123-456-7890",
+        testType = PCR,
+        result = POSITIVE,
+        time = Instant.now()
+    )
 
     // DB
     private val contactDiaryDatabase: ContactDiaryDatabase = Room.inMemoryDatabaseBuilder(
@@ -68,6 +80,7 @@ class ContactDiaryDatabaseTest : BaseTestInstrumentation() {
     private val locationDao = contactDiaryDatabase.locationDao()
     private val personEncounterDao = contactDiaryDatabase.personEncounterDao()
     private val locationVisitDao = contactDiaryDatabase.locationVisitDao()
+    private val coronaTestsDao = contactDiaryDatabase.coronaTestDao()
 
     private fun List<ContactDiaryPersonEncounterWrapper>.toContactDiaryPersonEncounterEntityList(): List<ContactDiaryPersonEncounterEntity> =
         this.map { it.contactDiaryPersonEncounterEntity }
@@ -228,5 +241,52 @@ class ContactDiaryDatabaseTest : BaseTestInstrumentation() {
         )
         personEncounterDao.update(updatedEncounter)
         personEncounterFlow.first().single() shouldBe updatedEncounter
+    }
+
+    @Test
+    fun updatingCoronaTests(): Unit = runBlocking {
+        val coronaTestsFlow = coronaTestsDao.allTests()
+
+        coronaTestsDao.insertTest(coronaTest)
+        coronaTestsFlow.first().single() shouldBe coronaTest
+
+        val updatedTest = coronaTest.copy(
+            time = Instant.now(),
+            result = NEGATIVE,
+            testType = ANTIGEN
+        )
+
+        coronaTestsDao.insertTest(updatedTest)
+        coronaTestsFlow.first().single() shouldBe coronaTest
+
+        val newTest = coronaTest.copy(
+            id = "AAAAA-AAAAA-AAAAAA"
+        )
+
+        coronaTestsDao.insertTest(newTest)
+        coronaTestsFlow.first().containsAll(listOf(coronaTest, newTest)) shouldBe true
+    }
+
+    @Test
+    fun deletingCoronaTests(): Unit = runBlocking {
+        val coronaTestFlow = coronaTestsDao.allTests()
+        val coronaTest2 = coronaTest.copy(id = "Test #2")
+        val coronaTest3 = coronaTest.copy(id = "Test #3")
+
+        coronaTestFlow.first() shouldBe emptyList()
+
+        coronaTestsDao.run {
+            insertTest(coronaTest)
+            insertTest(coronaTest2)
+            insertTest(coronaTest3)
+        }
+
+        coronaTestFlow.first() shouldBe listOf(coronaTest, coronaTest2, coronaTest3)
+
+        coronaTestsDao.delete(listOf(coronaTest2))
+        coronaTestFlow.first() shouldBe listOf(coronaTest, coronaTest3)
+
+        coronaTestsDao.delete(listOf(coronaTest, coronaTest3))
+        coronaTestFlow.first() shouldBe emptyList()
     }
 }

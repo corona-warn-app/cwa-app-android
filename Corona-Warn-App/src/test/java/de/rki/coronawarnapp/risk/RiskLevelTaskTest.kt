@@ -5,8 +5,8 @@ import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindowCollector
+import de.rki.coronawarnapp.diagnosiskeys.download.createMockCachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
-import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
@@ -64,11 +64,7 @@ class RiskLevelTaskTest : BaseTest() {
     private val testAggregatedResult = mockk<EwAggregatedRiskResult>().apply {
         every { isIncreasedRisk() } returns true
     }
-    private val testCachedKey = mockk<CachedKey>().apply {
-        every { info } returns mockk<CachedKeyInfo>().apply {
-            every { toDateTime() } returns testTimeNow.toDateTime().minusDays(1)
-        }
-    }
+    private val testCachedKey = mockCachedKey(testTimeNow.toDateTime().minusDays(1))
 
     @BeforeEach
     fun setup() {
@@ -118,6 +114,13 @@ class RiskLevelTaskTest : BaseTest() {
         coronaTestRepository = coronaTestRepository,
         analyticsExposureWindowCollector = analyticsExposureWindowCollector,
     )
+
+    private fun mockCachedKey(
+        dateTime: DateTime,
+        isComplete: Boolean = true,
+    ): CachedKey = mockk<CachedKey>().apply {
+        every { info } returns createMockCachedKeyInfo(dateTime.toLocalDate(), dateTime.toLocalTime(), isComplete)
+    }
 
     @Test
     fun `last used config ID is set after calculation`() = runBlockingTest {
@@ -172,11 +175,7 @@ class RiskLevelTaskTest : BaseTest() {
 
     @Test
     fun `risk calculation is skipped if results are outdated while in background mode`() = runBlockingTest {
-        val cachedKey = mockk<CachedKey>().apply {
-            every { info } returns mockk<CachedKeyInfo>().apply {
-                every { toDateTime() } returns DateTime.parse("2020-12-28").minusDays(3)
-            }
-        }
+        val cachedKey = mockCachedKey(DateTime.parse("2020-12-28").minusDays(3))
         val now = Instant.parse("2020-12-28")
 
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
@@ -191,11 +190,7 @@ class RiskLevelTaskTest : BaseTest() {
 
     @Test
     fun `risk calculation is skipped if results are outdated while no background mode`() = runBlockingTest {
-        val cachedKey = mockk<CachedKey>().apply {
-            every { info } returns mockk<CachedKeyInfo>().apply {
-                every { toDateTime() } returns DateTime.parse("2020-12-28").minusDays(3)
-            }
-        }
+        val cachedKey = mockCachedKey(DateTime.parse("2020-12-28").minusDays(3))
         val now = Instant.parse("2020-12-28")
 
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
@@ -210,11 +205,7 @@ class RiskLevelTaskTest : BaseTest() {
 
     @Test
     fun `risk calculation is skipped if positive test is registered and viewed`() = runBlockingTest {
-        val cachedKey = mockk<CachedKey>().apply {
-            every { info } returns mockk<CachedKeyInfo>().apply {
-                every { toDateTime() } returns DateTime.parse("2020-12-28").minusDays(1)
-            }
-        }
+        val cachedKey = mockCachedKey(DateTime.parse("2020-12-28").minusDays(1))
         val now = Instant.parse("2020-12-28")
 
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
@@ -236,11 +227,7 @@ class RiskLevelTaskTest : BaseTest() {
 
     @Test
     fun `risk calculation is not skipped if positive test is registered and not viewed`() = runBlockingTest {
-        val cachedKey = mockk<CachedKey>().apply {
-            every { info } returns mockk<CachedKeyInfo>().apply {
-                every { toDateTime() } returns DateTime.parse("2020-12-28").minusDays(1)
-            }
-        }
+        val cachedKey = mockCachedKey(DateTime.parse("2020-12-28").minusDays(1))
         val now = Instant.parse("2020-12-28")
         val aggregatedRiskResult = mockk<EwAggregatedRiskResult>().apply {
             every { isIncreasedRisk() } returns true

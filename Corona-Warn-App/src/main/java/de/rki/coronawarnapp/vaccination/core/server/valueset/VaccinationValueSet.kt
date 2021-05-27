@@ -24,6 +24,6 @@ fun VaccinationValueSet.getDisplayText(key: String): String? =
 
 fun VaccinationValueSet.ValueSet.getDisplayText(key: String): String? = items.find { key == it.key }?.displayText
 
-fun VaccinationValueSet.isEmpty(): Boolean = vp.isEmpty() && mp.isEmpty() && ma.isEmpty()
+fun VaccinationValueSet?.isEmpty(): Boolean = (this == null) || (vp.isEmpty() && mp.isEmpty() && ma.isEmpty())
 
 fun VaccinationValueSet.ValueSet.isEmpty(): Boolean = items.isEmpty()
