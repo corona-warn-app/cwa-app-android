@@ -411,7 +411,9 @@
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_4">"Jeśli chcesz, możesz użyć aplikacji, aby udowodnić swój osobisty status dotyczący zakażenia (na przykład negatywny wynik szybkiego testu). Pamiętaj jednak, że nie masz obowiązku korzystania z aplikacji w celu potwierdzenia swojego statusu dotyczącego zakażenia. Możesz również udowodnić swój status dotyczący zakażenia w inny sposób, zgodny z przepisami prawnymi obowiązującymi w Twoim miejscu zamieszkania."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
-    <string name="onboarding_body_5">"Aplikacja rejestruje kontakty między osobami poprzez wymianę zaszyfrowanych, losowych identyfikatorów między ich smartfonami bez uzyskiwania dostępu do danych osobowych."</string>
+    <string name="onboarding_body_5">"Ponadto masz możliwość weryfikacji swojego osobistego statusu szczepienia."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_6">"Aplikacja rejestruje kontakty między osobami poprzez wymianę zaszyfrowanych, losowych identyfikatorów między ich smartfonami bez uzyskiwania dostępu do danych osobowych."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
     <string name="onboarding_illustration_description">"Grupa osób korzysta ze smartfonów na mieście."</string>
     <!-- XACT: Onboarding (privacy) page title -->
@@ -1070,6 +1072,10 @@
     <string name="submission_test_result_pending_steps_waiting_heading">"Twój wynik testu nie jest jeszcze dostępny."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_body">"Wynik testu zostanie wyświetlony w aplikacji, jak tylko będzie dostępny.\n\nWynik testu otrzymasz również poza aplikacją. Organ ds. zdrowia publicznego powiadomi Cię, jeśli wynik testu będzie pozytywny.\n\nJeśli otrzymasz powiadomienie o pozytywnym wyniku testu poza aplikacją, usuń test aktualnie zarejestrowany w aplikacji. Zadzwoń na numer podany w sekcji „Poproś o TAN”, aby otrzymać numer TAN. Będziesz mieć wówczas możliwość zarejestrowania swojego wyniku w aplikacji za pomocą tego numeru, aby ostrzegać innych."</string>
+    <!-- XHED: Page headline for pending test result next steps  -->
+    <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Twój wynik testu nie jest jeszcze dostępny."</string>
+    <!-- YTXT: Body text for next steps section of waiting test result page -->
+    <string name="submission_test_result_pending_steps_waiting_pcr_body">"Wynik testu zostanie wyświetlony w aplikacji, jak tylko będzie dostępny.\n\nWynik testu otrzymasz również poza aplikacją. Organ ds. zdrowia publicznego powiadomi Cię, jeśli wynik testu będzie pozytywny.\n\nJeśli otrzymasz powiadomienie o pozytywnym wyniku testu poza aplikacją, usuń test aktualnie zarejestrowany w aplikacji. Zadzwoń na numer podany w sekcji „Poproś o TAN”, aby otrzymać numer TAN. Będziesz mieć wówczas możliwość zarejestrowania swojego wyniku w aplikacji za pomocą tego numeru, aby ostrzegać innych."</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_rat_heading">"Twój szybki test został dodany."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
@@ -1171,9 +1177,9 @@
     <!-- XHED: Page subheadline for dispatcher options asking if they already have a positive test: tele-TAN  -->
     <string name="submission_dispatcher_already_positive_subheadline">"Czy wynik Twojego testu PCR był pozytywny?"</string>
     <!-- YTXT: Dispatcher text for QR code option -->
-    <string name="submission_dispatcher_card_qr">"Test z kodem QR"</string>
+    <string name="submission_dispatcher_card_qr">"Skanuj kod QR"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Zarejestruj test poprzez zeskanowanie kodu QR dokumentu testu."</string>
+    <string name="submission_dispatcher_qr_card_text">"Odbierz wynik testu w aplikacji i ostrzegaj innych."</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"Wpisz TAN do testu PCR"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->

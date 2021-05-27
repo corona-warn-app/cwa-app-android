@@ -411,7 +411,9 @@
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_4">"Dacă doriți, puteți utiliza aplicația pentru a dovedi starea de infectare personală (de exemplu, un test rapid negativ). Rețineți, totuși, că nu aveți nicio obligație de a utiliza aplicația pentru a dovedi starea dvs. de infectare. De asemenea, puteți dovedi starea dvs. de infectare într-un alt mod care respectă reglementările legale din localitatea dvs. de domiciliu."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
-    <string name="onboarding_body_5">"Aplicația înregistrează în jurnal întâlnirile dintre persoane prin smartphone-urile acestora, care schimbă ID-uri aleatorii criptate, fără a accesa niciun fel de date personale."</string>
+    <string name="onboarding_body_5">"De asemenea, puteți verifica starea vaccinării personale."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_6">"Aplicația înregistrează în jurnal întâlnirile dintre persoane prin smartphone-urile acestora, care schimbă ID-uri aleatorii criptate, fără a accesa niciun fel de date personale."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
     <string name="onboarding_illustration_description">"Un grup de persoane își utilizează smartphone-urile prin oraș."</string>
     <!-- XACT: Onboarding (privacy) page title -->
@@ -1070,6 +1072,10 @@
     <string name="submission_test_result_pending_steps_waiting_heading">"Rezultatul testului dvs. nu este încă disponibil."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_body">"Imediat ce devine disponibil, rezultatul testului dvs. va fi afișat în aplicație.\n\nDe asemenea, veți primi rezultatul testului în afara aplicației. Autoritățile de sănătate publică vă vor anunța dacă testul dvs. este pozitiv.\n\nDacă sunteți notificat privind un rezultat pozitiv al testului în afara aplicației, ștergeți testul curent înregistrat în aplicație. Apelați numărul indicat la „Solicitare TAN” pentru a obține un număr TAN. Apoi, puteți utiliza acest TAN pentru a vă înregistra rezultatul în aplicație și pentru a-i avertiza pe ceilalți."</string>
+    <!-- XHED: Page headline for pending test result next steps  -->
+    <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Rezultatul testului dvs. nu este încă disponibil."</string>
+    <!-- YTXT: Body text for next steps section of waiting test result page -->
+    <string name="submission_test_result_pending_steps_waiting_pcr_body">"Imediat ce devine disponibil, rezultatul testului dvs. va fi afișat în aplicație.\n\nDe asemenea, veți primi rezultatul testului în afara aplicației. Autoritățile de sănătate publică vă vor anunța dacă testul dvs. este pozitiv.\n\nDacă sunteți notificat privind un rezultat pozitiv al testului în afara aplicației, ștergeți testul curent înregistrat în aplicație. Apelați numărul indicat la „Solicitare TAN” pentru a obține un număr TAN. Apoi, puteți utiliza acest TAN pentru a vă înregistra rezultatul în aplicație și pentru a-i avertiza pe ceilalți."</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_rat_heading">"Testul dvs. rapid a fost adăugat."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
@@ -1171,9 +1177,9 @@
     <!-- XHED: Page subheadline for dispatcher options asking if they already have a positive test: tele-TAN  -->
     <string name="submission_dispatcher_already_positive_subheadline">"Testul dvs. PCR a fost pozitiv?"</string>
     <!-- YTXT: Dispatcher text for QR code option -->
-    <string name="submission_dispatcher_card_qr">"Testarea cu cod QR"</string>
+    <string name="submission_dispatcher_card_qr">"Scanare cod QR"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Înregistrați-vă testul scanând codul QR al documentului de testare."</string>
+    <string name="submission_dispatcher_qr_card_text">"Primiți rezultatul testului dvs. în aplicație și avertizați-i pe ceilalți."</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"Introduceți codul TAN pentru testul PCR"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
