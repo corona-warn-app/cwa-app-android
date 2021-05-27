@@ -9,7 +9,6 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type
-import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -91,18 +90,14 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
             ).also { Timber.tag(TAG).v("Symptoms updated to %s", it) }
         }
         performSubmission {
-            if (testType == PCR) {
-                analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow()
-            }
+            analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(testType)
         }
     }
 
     fun onCancelConfirmed() {
         Timber.d("onCancelConfirmed() clicked on calendar screen.")
         performSubmission {
-            if (testType == PCR) {
-                analyticsKeySubmissionCollector.reportSubmittedAfterCancel()
-            }
+            analyticsKeySubmissionCollector.reportSubmittedAfterCancel(testType)
         }
     }
 
@@ -126,9 +121,7 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
 
     fun onNewUserActivity() {
         Timber.d("onNewUserActivity()")
-        if (testType == PCR) {
-            analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOM_ONSET)
-        }
+        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOM_ONSET, testType)
         autoSubmission.updateLastSubmissionUserActivity()
     }
 

@@ -55,7 +55,7 @@ class DiaryVisitCensorTest : BaseTest() {
             I got my beard shaved without mask,
             only to find out the supermarket was out of toiletpaper.
             """.trimIndent()
-        instance.checkLog(censorMe)!!.string shouldBe
+        instance.checkLog(censorMe)!!.compile()!!.censored shouldBe
             """
             After having a Visit#1/Circumstances,
             I got my Visit#2/Circumstances,
@@ -84,7 +84,7 @@ class DiaryVisitCensorTest : BaseTest() {
             I got my beard shaved without mask,
             only to find out the supermarket was out of toiletpaper.
             """.trimIndent()
-        instance.checkLog(censorMe)!!.string shouldBe
+        instance.checkLog(censorMe)!!.compile()!!.censored shouldBe
             """
             After having a Visit#1/Circumstances,
             I got my Visit#2/Circumstances,

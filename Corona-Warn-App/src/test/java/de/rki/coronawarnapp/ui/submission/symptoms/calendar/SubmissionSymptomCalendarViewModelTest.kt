@@ -125,7 +125,12 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
 
         createViewModel().onNewUserActivity()
 
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOM_ONSET) }
+        verify(exactly = 1) {
+            analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOM_ONSET, PCR)
+        }
+        verify(exactly = 0) {
+            analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOM_ONSET, RAPID_ANTIGEN)
+        }
     }
 
     @Test
@@ -134,7 +139,12 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
 
         createViewModel().onNewUserActivity()
 
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOM_ONSET) }
+        verify(exactly = 0) {
+            analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOM_ONSET, PCR)
+        }
+        verify(exactly = 1) {
+            analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOM_ONSET, RAPID_ANTIGEN)
+        }
     }
 
     @Test
@@ -143,7 +153,8 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
 
         createViewModel().onCancelConfirmed()
 
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedAfterCancel() }
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedAfterCancel(PCR) }
+        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedAfterCancel(RAPID_ANTIGEN) }
     }
 
     @Test
@@ -152,7 +163,8 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
 
         createViewModel().onCancelConfirmed()
 
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedAfterCancel() }
+        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedAfterCancel(PCR) }
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedAfterCancel(RAPID_ANTIGEN) }
     }
 
     @Test
@@ -164,7 +176,8 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
             onDone()
         }
 
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow() }
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(PCR) }
+        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(RAPID_ANTIGEN) }
     }
 
     @Test
@@ -176,6 +189,7 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
             onDone()
         }
 
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow() }
+        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(PCR) }
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(RAPID_ANTIGEN) }
     }
 }
