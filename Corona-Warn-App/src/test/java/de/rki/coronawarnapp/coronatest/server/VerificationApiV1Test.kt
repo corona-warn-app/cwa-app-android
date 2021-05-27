@@ -124,7 +124,8 @@ class VerificationApiV1Test : BaseIOTest() {
             headerPadding = "testPadding",
             requestBody
         ) shouldBe VerificationApiV1.TestResultResponse(
-            testResult = 1
+            testResult = 1,
+            sampleCollectedAt = null
         )
 
         webServer.takeRequest(5, TimeUnit.SECONDS)!!.apply {
