@@ -2,9 +2,6 @@ package de.rki.coronawarnapp.bugreporting.censors
 
 interface BugCensor {
 
-    /**
-     * If there is something to censor a new log line is returned, otherwise returns null
-     */
     suspend fun checkLog(message: String): CensorContainer?
 
     data class CensorContainer(
@@ -32,11 +29,11 @@ interface BugCensor {
             val ranges = actions.map { it.range }
             if (ranges.isEmpty()) return null
 
-            val isIntersecting = ranges.any { outter ->
+            val isIntersecting = ranges.any { outer ->
                 ranges.any { inner ->
-                    outter != inner &&
-                        (inner.contains(outter.first) || inner.contains(outter.last)) &&
-                        (inner.last != outter.first && inner.first != outter.last)
+                    outer != inner &&
+                        (inner.contains(outer.first) || inner.contains(outer.last)) &&
+                        (inner.last != outer.first && inner.first != outer.last)
                 }
             }
 
