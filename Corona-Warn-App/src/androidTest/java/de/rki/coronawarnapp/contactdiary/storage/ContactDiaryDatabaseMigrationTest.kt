@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEncoun
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEntity
 import de.rki.coronawarnapp.contactdiary.storage.internal.migrations.ContactDiaryDatabaseMigration1To2
 import de.rki.coronawarnapp.contactdiary.storage.internal.migrations.ContactDiaryDatabaseMigration2To3
+import de.rki.coronawarnapp.contactdiary.storage.internal.migrations.ContactDiaryDatabaseMigration3To4
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
@@ -208,6 +209,78 @@ class ContactDiaryDatabaseMigrationTest : BaseTestInstrumentation() {
             3,
             true,
             ContactDiaryDatabaseMigration2To3
+        )
+
+        val daoDb = ContactDiaryDatabase.Factory(
+            ctx = ApplicationProvider.getApplicationContext()
+        ).create(databaseName = DB_NAME)
+
+        runBlocking {
+            daoDb.locationVisitDao().allEntries().first().single() shouldBe ContactDiaryLocationVisitWrapper(
+                contactDiaryLocationEntity = location,
+                contactDiaryLocationVisitEntity = locationVisit
+            )
+
+            // Test if new attributes are added correctly
+            daoDb.locationDao().update(locationAfter)
+            daoDb.locationVisitDao().update(locationVisitAfter)
+
+            daoDb.locationVisitDao().allEntries().first().single() shouldBe ContactDiaryLocationVisitWrapper(
+                contactDiaryLocationEntity = locationAfter,
+                contactDiaryLocationVisitEntity = locationVisitAfter
+            )
+        }
+    }
+
+    @Test
+    fun migrate3To4() {
+        val location = ContactDiaryLocationEntity(
+            locationId = 1,
+            locationName = "My Location Name",
+            phoneNumber = "1234567890",
+            emailAddress = "email@address.com",
+            traceLocationID = null
+        )
+
+        val locationVisit = ContactDiaryLocationVisitEntity(
+            id = 2,
+            date = LocalDate.parse("2020-12-31"),
+            fkLocationId = 1,
+            duration = Duration.standardMinutes(13),
+            circumstances = "N/A",
+            checkInID = null
+        )
+
+        val locationAfter = location.copy(traceLocationID = "jshrgu-aifhioaio-aofsjof-samofp-kjsadngsgf".decodeBase64())
+        val locationVisitAfter = locationVisit.copy(checkInID = 101)
+
+        val locationValues = ContentValues().apply {
+            put("locationId", location.locationId)
+            put("locationName", location.locationName)
+            put("phoneNumber", location.phoneNumber)
+            put("emailAddress", location.emailAddress)
+        }
+
+        val locationVisitValues = ContentValues().apply {
+            put("id", locationVisit.id)
+            put("date", locationVisit.date.toString())
+            put("fkLocationId", locationVisit.fkLocationId)
+            put("duration", locationVisit.duration?.millis)
+            put("circumstances", locationVisit.circumstances)
+        }
+
+        helper.createDatabase(DB_NAME, 3).apply {
+            insert("locations", SQLiteDatabase.CONFLICT_FAIL, locationValues)
+            insert("locationvisits", SQLiteDatabase.CONFLICT_FAIL, locationVisitValues)
+            close()
+        }
+
+        // Run migration
+        helper.runMigrationsAndValidate(
+            DB_NAME,
+            4,
+            true,
+            ContactDiaryDatabaseMigration3To4
         )
 
         val daoDb = ContactDiaryDatabase.Factory(

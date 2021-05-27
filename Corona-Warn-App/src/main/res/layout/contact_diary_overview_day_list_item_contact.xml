@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <View
         android:layout_width="match_parent"
@@ -18,6 +19,8 @@
         android:layout_height="wrap_content"
         android:nestedScrollingEnabled="false"
         android:paddingVertical="@dimen/spacing_tiny"
+        tools:itemCount="2"
+        tools:listitem="@layout/contact_diary_overview_nested_list_item"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

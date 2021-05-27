@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
 import de.rki.coronawarnapp.bugreporting.censors.contactdiary.DiaryLocationCensor
-import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import io.kotest.matchers.shouldBe
@@ -54,50 +53,55 @@ class DiaryLocationCensorTest : BaseTest() {
             )
         )
         val instance = createInstance(this)
-        val censorMe = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message =
-                """
-                Bürgermeister of Munich (+49 089 3333) and Karl of Aachen [+49 0241 9999] called each other.
-                Both agreed that their emails (bürgermeister@münchen.de|karl@aachen.de) are awesome,
-                and that Bielefeld doesn't exist as it has neither phonenumber (null) nor email (null).
-                """.trimIndent(),
-            tag = "I'm a tag",
-            throwable = null
-        )
-        instance.checkLog(censorMe) shouldBe censorMe.copy(
-            message =
-                """
-                Bürgermeister of Location#1/Name (Location#1/PhoneNumber) and Karl of Location#3/Name [Location#3/PhoneNumber] called each other.
-                Both agreed that their emails (Location#1/EMail|Location#3/EMail) are awesome,
-                and that Location#2/Name doesn't exist as it has neither phonenumber (null) nor email (null).
-                """.trimIndent()
+        val censorMe =
+            """
+            Bürgermeister of Munich (+49 089 3333) and Karl of Aachen [+49 0241 9999] called each other.
+            Both agreed that their emails (bürgermeister@münchen.de|karl@aachen.de) are awesome,
+            and that Bielefeld doesn't exist as it has neither phonenumber (null) nor email (null).
+            """.trimIndent()
+        instance.checkLog(censorMe)!!.string shouldBe
+            """
+            Bürgermeister of Location#1/Name (Location#1/PhoneNumber) and Karl of Location#3/Name [Location#3/PhoneNumber] called each other.
+            Both agreed that their emails (Location#1/EMail|Location#3/EMail) are awesome,
+            and that Location#2/Name doesn't exist as it has neither phonenumber (null) nor email (null).
+            """.trimIndent()
+    }
+
+    @Test
+    fun `censoring should still work after locations are deleted`() = runBlockingTest {
+        every { diaryRepo.locations } returns flowOf(
+            listOf(
+                mockLocation(1, "Munich", phone = "+49 089 3333", mail = "bürgermeister@münchen.de"),
+                mockLocation(2, "Bielefeld", phone = null, mail = null),
+                mockLocation(3, "Aachen", phone = "+49 0241 9999", mail = "karl@aachen.de")
+            ),
+            listOf(
+                mockLocation(1, "Munich", phone = "+49 089 3333", mail = "bürgermeister@münchen.de"),
+                // Bielefeld was deleted
+                mockLocation(3, "Aachen", phone = "+49 0241 9999", mail = "karl@aachen.de")
+            )
         )
 
-        // censoring should still work after locations are deleted
-        every { diaryRepo.locations } returns flowOf(emptyList())
-        instance.checkLog(censorMe) shouldBe censorMe.copy(
-            message =
-                """
-                Bürgermeister of Location#1/Name (Location#1/PhoneNumber) and Karl of Location#3/Name [Location#3/PhoneNumber] called each other.
-                Both agreed that their emails (Location#1/EMail|Location#3/EMail) are awesome,
-                and that Location#2/Name doesn't exist as it has neither phonenumber (null) nor email (null).
-                """.trimIndent()
-        )
+        val instance = createInstance(this)
+        val censorMe =
+            """
+            Bürgermeister of Munich (+49 089 3333) and Karl of Aachen [+49 0241 9999] called each other.
+            Both agreed that their emails (bürgermeister@münchen.de|karl@aachen.de) are awesome,
+            and that Bielefeld doesn't exist as it has neither phonenumber (null) nor email (null).
+            """.trimIndent()
+        instance.checkLog(censorMe)!!.string shouldBe
+            """
+            Bürgermeister of Location#1/Name (Location#1/PhoneNumber) and Karl of Location#3/Name [Location#3/PhoneNumber] called each other.
+            Both agreed that their emails (Location#1/EMail|Location#3/EMail) are awesome,
+            and that Location#2/Name doesn't exist as it has neither phonenumber (null) nor email (null).
+            """.trimIndent()
     }
 
     @Test
     fun `censoring returns null if there are no locations no match`() = runBlockingTest {
         every { diaryRepo.locations } returns flowOf(emptyList())
         val instance = createInstance(this)
-        val notCensored = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "Can't visit many cities during lockdown...",
-            tag = "I'm a tag",
-            throwable = null
-        )
+        val notCensored = "Can't visit many cities during lockdown..."
         instance.checkLog(notCensored) shouldBe null
     }
 
@@ -111,13 +115,7 @@ class DiaryLocationCensorTest : BaseTest() {
             )
         )
         val instance = createInstance(this)
-        val logLine = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "Lorem ipsum",
-            tag = "I'm a tag",
-            throwable = null
-        )
+        val logLine = "Lorem ipsum"
         instance.checkLog(logLine) shouldBe null
     }
 
@@ -132,13 +130,7 @@ class DiaryLocationCensorTest : BaseTest() {
             )
         )
 
-        val logLine = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "Lorem ipsum",
-            tag = "I'm a tag",
-            throwable = null
-        )
+        val logLine = "Lorem ipsum"
 
         var isFinished = false
 

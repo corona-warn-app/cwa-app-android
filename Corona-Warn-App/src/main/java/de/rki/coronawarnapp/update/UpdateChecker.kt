@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.CWAConfig
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationCorruptException
 import de.rki.coronawarnapp.environment.BuildConfigWrap
+import kotlinx.coroutines.withTimeout
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -29,13 +30,15 @@ class UpdateChecker @Inject constructor(
         )
 
         Result(isUpdateNeeded = true, updateIntent = createUpdateAction())
-    } catch (exception: Exception) {
-        Timber.tag(TAG).e("Exception caught:%s", exception.localizedMessage)
+    } catch (e: Exception) {
+        Timber.tag(TAG).e(e, "Update check failed, network connection?")
         Result(isUpdateNeeded = false)
     }
 
     private suspend fun isUpdateNeeded(): Boolean {
-        val cwaAppConfig: CWAConfig = appConfigProvider.getAppConfig()
+        val cwaAppConfig: CWAConfig = withTimeout(UPDATE_CHECK_TIMEOUT) {
+            appConfigProvider.getAppConfig()
+        }
 
         val minVersionFromServer = cwaAppConfig.minVersionCode
 
@@ -43,7 +46,6 @@ class UpdateChecker @Inject constructor(
 
         Timber.tag(TAG).d("minVersionFromServer:%s", minVersionFromServer)
         Timber.tag(TAG).d("Current app version:%s", currentVersion)
-
         val needsImmediateUpdate = VersionComparator.isVersionOlder(
             currentVersion,
             minVersionFromServer
@@ -67,7 +69,7 @@ class UpdateChecker @Inject constructor(
 
     companion object {
         private const val TAG: String = "UpdateChecker"
-
+        private const val UPDATE_CHECK_TIMEOUT = 5_000L
         private const val STORE_PREFIX = "https://play.google.com/store/apps/details?id="
         private const val COM_ANDROID_VENDING = "com.android.vending"
     }

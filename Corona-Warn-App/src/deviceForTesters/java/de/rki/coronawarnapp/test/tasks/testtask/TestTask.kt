@@ -3,11 +3,13 @@ package de.rki.coronawarnapp.test.tasks.testtask
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
+import de.rki.coronawarnapp.task.common.Finished
+import de.rki.coronawarnapp.task.common.ProgressResult
+import de.rki.coronawarnapp.task.common.Started
 import de.rki.coronawarnapp.task.common.DefaultProgress
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
@@ -16,8 +18,8 @@ import javax.inject.Provider
 
 class TestTask @Inject constructor() : Task<DefaultProgress, TestTask.Result> {
 
-    private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
-    override val progress: Flow<DefaultProgress> = internalProgress.asFlow()
+    private val internalProgress = MutableStateFlow<DefaultProgress>(Started)
+    override val progress: Flow<DefaultProgress> = internalProgress
 
     private var isCanceled = false
 
@@ -28,13 +30,12 @@ class TestTask @Inject constructor() : Task<DefaultProgress, TestTask.Result> {
             if (isCanceled) throw TaskCancellationException()
         }
     } finally {
-        internalProgress.close()
+        internalProgress.value = Finished
     }
 
     private suspend fun runSafely(arguments: Arguments): Result {
         for (it in 1..10) {
-            internalProgress.send(DefaultProgress("${arguments.prefix}: ${Instant.now()}"))
-
+            internalProgress.value = ProgressResult("${arguments.prefix}: ${Instant.now()}")
             delay(1000)
 
             if (isCanceled) break

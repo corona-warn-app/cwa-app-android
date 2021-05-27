@@ -10,6 +10,10 @@ import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationVisitDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonEncounterDao
+import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryCoronaTestDao
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.asTestResultEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.canBeAddedToJournal
 import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryLocationEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryLocationVisitEntity
@@ -18,6 +22,8 @@ import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryPersonEnco
 import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryPersonEncounterEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryPersonEncounterSortedList
 import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryPersonEntity
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.joda.time.LocalDate
@@ -45,6 +51,10 @@ class DefaultContactDiaryRepository @Inject constructor(
     }
     private val contactDiaryPersonEncounterDao: ContactDiaryPersonEncounterDao by lazy {
         contactDiaryDatabase.personEncounterDao()
+    }
+
+    private val contactDiaryCoronaTestDao: ContactDiaryCoronaTestDao by lazy {
+        contactDiaryDatabase.coronaTestDao()
     }
 
     // Location
@@ -241,6 +251,21 @@ class DefaultContactDiaryRepository @Inject constructor(
     override suspend fun deleteAllPersonEncounters() {
         Timber.d("Clearing contact diary person encounter table")
         contactDiaryPersonEncounterDao.deleteAll()
+    }
+
+    override val testResults: Flow<List<ContactDiaryCoronaTestEntity>> by lazy {
+        contactDiaryCoronaTestDao.allTests()
+    }
+
+    override suspend fun updateTests(tests: Map<CoronaTestGUID, CoronaTest>) {
+        tests.filter { it.value.canBeAddedToJournal() }
+            .map { it.asTestResultEntity() }
+            .forEach { contactDiaryCoronaTestDao.insertTest(it) }
+    }
+
+    override suspend fun deleteTests(tests: List<ContactDiaryCoronaTestEntity>) {
+        Timber.d("deleteTests(tests=%s)", tests)
+        contactDiaryCoronaTestDao.delete(tests)
     }
 
     private suspend fun executeWhenIdNotDefault(id: Long, action: (suspend () -> Unit) = { }) {

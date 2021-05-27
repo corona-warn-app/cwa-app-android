@@ -26,7 +26,7 @@ import javax.inject.Inject
 class CoronaTestTestFragment : Fragment(R.layout.fragment_test_coronatest), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: CoronaTestTestFragmentViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: CoronaTestTestFragmentViewModel by cwaViewModels { viewModelFactory }
 
     private val binding: FragmentTestCoronatestBinding by viewBinding()
 
@@ -50,7 +50,7 @@ class CoronaTestTestFragment : Fragment(R.layout.fragment_test_coronatest), Auto
                     qrcodeScanContainer.isVisible = true
                     qrcodeScanPreview.resume()
                     qrcodeScanPreview.decodeSingle { result ->
-                        vm.onQRCodeScanner(result)
+                        viewModel.onQRCodeScanner(result)
                         stop()
                     }
                 }
@@ -65,25 +65,29 @@ class CoronaTestTestFragment : Fragment(R.layout.fragment_test_coronatest), Auto
             qrcodeScanViewfinder.setCameraPreview(binding.qrcodeScanPreview)
         }
 
-        vm.pcrtState.observe2(this) {
-            binding.pcrtData.text = it.getNiceTextForHumans(requireContext())
+        viewModel.pcrtState.observe2(this) {
+            binding.pcrtData.text = it.getNiceTextForHumans()
         }
         binding.apply {
-            pcrtDeleteAction.setOnClickListener { vm.deletePCRT() }
-            pcrtRefreshAction.setOnClickListener { vm.refreshPCRT() }
+            pcrtDeleteAction.setOnClickListener { viewModel.deletePCRT() }
+            pcrtRefreshAction.setOnClickListener { viewModel.refreshPCRT() }
         }
 
-        vm.ratState.observe2(this) {
-            binding.ratData.text = it.getNiceTextForHumans(requireContext())
+        viewModel.ratState.observe2(this) {
+            binding.ratData.text = it.getNiceTextForHumans()
         }
         binding.apply {
-            ratDeleteAction.setOnClickListener { vm.deleteRAT() }
-            ratRefreshAction.setOnClickListener { vm.refreshRAT() }
+            ratDeleteAction.setOnClickListener { viewModel.deleteRAT() }
+            ratRefreshAction.setOnClickListener { viewModel.refreshRAT() }
         }
 
-        vm.errorEvents.observe2(this) {
+        viewModel.errorEvents.observe2(this) {
             val error = it.tryHumanReadableError(requireContext())
             Toast.makeText(requireContext(), error.description, Toast.LENGTH_LONG).show()
+        }
+
+        viewModel.testsInContactDiary.observe2(this) {
+            binding.testsOutput.text = it
         }
     }
 

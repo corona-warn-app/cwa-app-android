@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindowCollector
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
+import de.rki.coronawarnapp.diagnosiskeys.storage.pkgDateTime
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
@@ -18,12 +19,13 @@ import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
+import de.rki.coronawarnapp.task.common.Finished
+import de.rki.coronawarnapp.task.common.Started
 import de.rki.coronawarnapp.task.common.DefaultProgress
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -45,8 +47,8 @@ class RiskLevelTask @Inject constructor(
     private val analyticsExposureWindowCollector: AnalyticsExposureWindowCollector,
 ) : Task<DefaultProgress, EwRiskLevelTaskResult> {
 
-    private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
-    override val progress: Flow<DefaultProgress> = internalProgress.asFlow()
+    private val internalProgress = MutableStateFlow<DefaultProgress>(Started)
+    override val progress: Flow<DefaultProgress> = internalProgress
 
     private var isCanceled = false
 
@@ -56,7 +58,7 @@ class RiskLevelTask @Inject constructor(
         val configData: ConfigData = appConfigProvider.getAppConfig()
 
         determineRiskLevelResult(configData).also {
-            Timber.i("Risklevel determined: %s", it)
+            Timber.i("Risk level determined: %s", it)
 
             checkCancel()
 
@@ -71,7 +73,7 @@ class RiskLevelTask @Inject constructor(
         throw error
     } finally {
         Timber.i("Finished (isCanceled=$isCanceled).")
-        internalProgress.close()
+        internalProgress.value = Finished
     }
 
     private suspend fun determineRiskLevelResult(configData: ConfigData): EwRiskLevelTaskResult {
@@ -124,14 +126,14 @@ class RiskLevelTask @Inject constructor(
         Timber.tag(TAG).d("Evaluating areKeyPkgsOutDated(nowUTC=%s)", nowUTC)
 
         val latestDownload = keyCacheRepository.getAllCachedKeys().maxByOrNull {
-            it.info.toDateTime()
+            it.info.pkgDateTime
         }
         if (latestDownload == null) {
             Timber.w("areKeyPkgsOutDated(): No downloads available, why is the RiskLevelTask running? Aborting!")
             return true
         }
 
-        val downloadAge = Duration(latestDownload.info.toDateTime(), nowUTC).also {
+        val downloadAge = Duration(latestDownload.info.pkgDateTime, nowUTC).also {
             Timber.d("areKeyPkgsOutDated(): Age is %dh for latest key package: %s", it.standardHours, latestDownload)
         }
 
