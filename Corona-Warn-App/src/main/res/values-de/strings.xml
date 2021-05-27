@@ -1096,7 +1096,7 @@
     <string name="submission_test_result_pending_steps_test_certificate_not_available_yet_body">"Ihr Testzertifikat liegt noch nicht vor. Sobald es vorliegt, wird es Ihnen in der App angezeigt."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not desired by the user, PCR Test no consent given -->
     <string name="submission_test_result_pending_steps_test_certificate_not_desired_by_user_body">"Auf Ihren Wunsch hin wurde kein Testzertifikat ausgestellt."</string>
-    
+
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Aktualisieren"</string>
     <!-- XBUT: test result pending : remove the test button -->
