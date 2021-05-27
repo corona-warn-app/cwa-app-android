@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.service.submission
 
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResultResponse
 import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.deniability.NoiseScheduler
@@ -48,7 +49,12 @@ class SubmissionServiceTest : BaseTest() {
     fun registrationWithGUIDSucceeds() {
         coEvery {
             mockPlaybook.initialRegistration(guid, VerificationKeyType.GUID)
-        } returns (registrationToken to CoronaTestResult.PCR_OR_RAT_PENDING)
+        } returns (
+            registrationToken to CoronaTestResultResponse(
+                coronaTestResult = CoronaTestResult.PCR_OR_RAT_PENDING,
+                sampleCollectedAt = null
+            )
+            )
 
         runBlocking {
             submissionService.asyncRegisterDeviceViaGUID(guid)
@@ -63,7 +69,12 @@ class SubmissionServiceTest : BaseTest() {
     fun registrationWithTeleTANSucceeds() {
         coEvery {
             mockPlaybook.initialRegistration(any(), VerificationKeyType.TELETAN)
-        } returns (registrationToken to CoronaTestResult.PCR_OR_RAT_PENDING)
+        } returns (
+            registrationToken to CoronaTestResultResponse(
+                coronaTestResult = CoronaTestResult.PCR_OR_RAT_PENDING,
+                sampleCollectedAt = null
+            )
+            )
 
         runBlocking {
             submissionService.asyncRegisterDeviceViaTAN(tan)
@@ -76,10 +87,16 @@ class SubmissionServiceTest : BaseTest() {
 
     @Test
     fun requestTestResultSucceeds() {
-        coEvery { mockPlaybook.testResult(registrationToken) } returns CoronaTestResult.PCR_NEGATIVE
+        coEvery { mockPlaybook.testResult(registrationToken) } returns CoronaTestResultResponse(
+            coronaTestResult = CoronaTestResult.PCR_NEGATIVE,
+            sampleCollectedAt = null
+        )
 
         runBlocking {
-            submissionService.asyncRequestTestResult(registrationToken) shouldBe CoronaTestResult.PCR_NEGATIVE
+            submissionService.asyncRequestTestResult(registrationToken) shouldBe CoronaTestResultResponse(
+                coronaTestResult = CoronaTestResult.PCR_NEGATIVE,
+                sampleCollectedAt = null,
+            )
         }
         coVerify(exactly = 1) {
             mockPlaybook.testResult(registrationToken)
