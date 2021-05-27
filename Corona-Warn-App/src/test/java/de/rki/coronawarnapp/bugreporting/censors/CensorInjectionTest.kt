@@ -69,7 +69,7 @@ class MockProvider {
 
     @Singleton
     @Provides
-    fun diary(): ContactDiaryRepository = mockk() {
+    fun diary(): ContactDiaryRepository = mockk {
         every { people } returns flowOf(emptyList())
         every { personEncounters } returns flowOf(emptyList())
         every { locations } returns flowOf(emptyList())
@@ -82,19 +82,19 @@ class MockProvider {
 
     @Singleton
     @Provides
-    fun coronaTestRepository(): CoronaTestRepository = mockk() {
+    fun coronaTestRepository(): CoronaTestRepository = mockk {
         every { coronaTests } returns flowOf(emptySet())
     }
 
     @Singleton
     @Provides
-    fun checkInRepository(): CheckInRepository = mockk() {
+    fun checkInRepository(): CheckInRepository = mockk {
         every { allCheckIns } returns flowOf(emptyList())
     }
 
     @Singleton
     @Provides
-    fun traceLocationRepository(): TraceLocationRepository = mockk() {
+    fun traceLocationRepository(): TraceLocationRepository = mockk {
         every { allTraceLocations } returns flowOf(emptyList())
     }
 

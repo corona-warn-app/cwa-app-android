@@ -77,9 +77,7 @@ class SubmissionTestResultConsentGivenViewModel @AssistedInject constructor(
 
     fun onNewUserActivity() {
         Timber.d("onNewUserActivity()")
-        if (testType == Type.PCR) {
-            analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT)
-        }
+        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT, testType)
         autoSubmission.updateLastSubmissionUserActivity()
     }
 

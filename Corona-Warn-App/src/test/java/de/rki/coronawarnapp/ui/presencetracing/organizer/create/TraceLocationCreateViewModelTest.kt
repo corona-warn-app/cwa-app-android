@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.presencetracing.organizer.create
 
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.censors.presencetracing.TraceLocationCensor
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.presencetracing.locations.TraceLocationCreator
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
@@ -15,6 +16,7 @@ import okio.ByteString.Companion.encode
 import org.joda.time.DateTime
 import org.joda.time.Duration
 import org.joda.time.Instant
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -33,6 +35,11 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+    }
+
+    @AfterEach
+    fun teardown() {
+        TraceLocationCensor.dataToCensor = null
     }
 
     @ParameterizedTest

@@ -21,7 +21,7 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.coronatest.type.isOlderThan21Days
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
-import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDataCollector
+import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultCollector
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaWebException
@@ -37,7 +37,7 @@ class PCRProcessor @Inject constructor(
     private val timeStamper: TimeStamper,
     private val submissionService: CoronaTestService,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
-    private val testResultDataCollector: TestResultDataCollector
+    private val analyticsTestResultCollector: AnalyticsTestResultCollector
 ) : CoronaTestProcessor {
 
     override val type: CoronaTest.Type = CoronaTest.Type.PCR
@@ -50,7 +50,8 @@ class PCRProcessor @Inject constructor(
             Timber.tag(TAG).d("Request %s gave us %s", request, it)
         }
 
-        testResultDataCollector.saveTestResultAnalyticsSettings(registrationData.testResult) // This saves received at
+        // This saves received at
+        analyticsTestResultCollector.saveTestResult(registrationData.testResultResponse.coronaTestResult, type)
 
         return createCoronaTest(request, registrationData)
     }
@@ -72,20 +73,23 @@ class PCRProcessor @Inject constructor(
         request: TestRegistrationRequest,
         response: CoronaTestService.RegistrationData
     ): PCRCoronaTest {
-        analyticsKeySubmissionCollector.reset()
 
-        val testResult = response.testResult.let {
+        analyticsKeySubmissionCollector.reset(type)
+        analyticsTestResultCollector.clear(type)
+
+        val testResult = response.testResultResponse.coronaTestResult.let {
             Timber.tag(TAG).v("Raw test result $it")
-            testResultDataCollector.updatePendingTestResultReceivedTime(it)
-
+            analyticsTestResultCollector.updatePendingTestResultReceivedTime(it, type)
             it.toValidatedResult()
         }
 
         if (testResult == PCR_POSITIVE) {
-            analyticsKeySubmissionCollector.reportPositiveTestResultReceived()
+            analyticsKeySubmissionCollector.reportPositiveTestResultReceived(type)
         }
 
-        analyticsKeySubmissionCollector.reportTestRegistered()
+        analyticsKeySubmissionCollector.reportTestRegistered(type)
+        // only collect for QR code test
+        if (request is CoronaTestQRCode) analyticsTestResultCollector.reportTestRegistered(type)
 
         val now = timeStamper.nowUTC
 
@@ -118,9 +122,9 @@ class PCRProcessor @Inject constructor(
             }
 
             val newTestResult = try {
-                submissionService.asyncRequestTestResult(test.registrationToken).let {
+                submissionService.asyncRequestTestResult(test.registrationToken).coronaTestResult.let {
                     Timber.tag(TAG).d("Raw test result was %s", it)
-                    testResultDataCollector.updatePendingTestResultReceivedTime(it)
+                    analyticsTestResultCollector.updatePendingTestResultReceivedTime(it, type)
 
                     it.toValidatedResult()
                 }
@@ -135,7 +139,7 @@ class PCRProcessor @Inject constructor(
             }
 
             if (newTestResult == PCR_POSITIVE) {
-                analyticsKeySubmissionCollector.reportPositiveTestResultReceived()
+                analyticsKeySubmissionCollector.reportPositiveTestResultReceived(type)
             }
 
             test.copy(
@@ -174,7 +178,7 @@ class PCRProcessor @Inject constructor(
 
     override suspend fun onRemove(toBeRemoved: CoronaTest) {
         Timber.tag(TAG).v("onRemove(toBeRemoved=%s)", toBeRemoved)
-        testResultDataCollector.clear()
+        // Currently nothing to do
     }
 
     override suspend fun markSubmitted(test: CoronaTest): PCRCoronaTest {
