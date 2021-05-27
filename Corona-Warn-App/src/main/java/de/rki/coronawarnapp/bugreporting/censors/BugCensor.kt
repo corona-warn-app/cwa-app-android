@@ -7,7 +7,7 @@ interface BugCensor {
     data class CensorContainer(
         // Original String, necessary for correct censoring ranges
         val original: String,
-        val actions: List<Action> = emptyList()
+        val actions: Set<Action> = emptySet()
     ) {
 
         fun censor(toReplace: String, replacement: String): CensorContainer {
@@ -20,7 +20,7 @@ interface BugCensor {
 
             val newAction = Action(
                 range = start..end,
-                execute = { it.replace(toReplace, replacement) }
+                modifier = Action.SimpleReplace(toReplace, replacement)
             )
             return this.copy(actions = actions.plus(newAction))
         }
@@ -31,7 +31,7 @@ interface BugCensor {
 
             val isIntersecting = ranges.any { outer ->
                 ranges.any { inner ->
-                    outer != inner &&
+                    outer !== inner &&
                         (inner.contains(outer.first) || inner.contains(outer.last)) &&
                         (inner.last != outer.first && inner.first != outer.last)
                 }
@@ -46,7 +46,9 @@ interface BugCensor {
                 )
             } else {
                 CensoredString(
-                    censored = actions.fold(original) { notOriginal, action -> action.execute(notOriginal) },
+                    censored = actions.fold(original) { notOriginal, action ->
+                        action.execute(notOriginal)
+                    },
                     ranges = ranges
                 )
             }
@@ -56,8 +58,22 @@ interface BugCensor {
 
         data class Action(
             val range: IntRange,
-            val execute: (String) -> String
-        )
+            val modifier: StringModifier,
+        ) {
+
+            fun execute(original: String) = modifier.execute(original)
+
+            data class SimpleReplace(
+                val oldValue: String,
+                val newValue: String,
+            ) : StringModifier {
+                override val execute: (String) -> String = { it.replace(oldValue, newValue) }
+            }
+
+            interface StringModifier {
+                val execute: (String) -> String
+            }
+        }
 
         companion object {
             const val COLLISION_STRING = "<censor-collision/>"

@@ -186,7 +186,7 @@ class DebugLogger(
                             try {
                                 val combinedContainer = BugCensor.CensorContainer(
                                     original = formattedMessage,
-                                    actions = censored.flatMap { it.actions }
+                                    actions = censored.flatMap { it.actions }.toSet()
                                 )
 
                                 combinedContainer.compile()?.censored ?: formattedMessage

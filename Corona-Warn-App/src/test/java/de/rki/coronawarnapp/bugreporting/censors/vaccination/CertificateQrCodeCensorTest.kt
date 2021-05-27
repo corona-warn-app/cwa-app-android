@@ -20,9 +20,9 @@ internal class CertificateQrCodeCensorTest {
             version = "1",
             nameData = VaccinationDGCV1.NameData(
                 familyName = "Kevin",
-                familyNameStandardized = "Kevin2",
+                familyNameStandardized = "KEVIN",
                 givenName = "Bob",
-                givenNameStandardized = "Bob2"
+                givenNameStandardized = "BOB"
             ),
             dob = "1969-11-16",
             vaccinationDatas = listOf(
@@ -73,9 +73,9 @@ internal class CertificateQrCodeCensorTest {
 
         censor.checkLog(certDataToCensor)!!
             .compile()!!.censored shouldBe "Hello my name is nameData/familyName nameData/givenName, i was born at " +
-            "vaccinationCertificate/dob, i have been vaccinated with: vaccinationData/targetId " +
+            "vaccinationCertificate/dateOfBirth, i have been vaccinated with: vaccinationData/targetId " +
             "vaccinationData/vaccineId vaccinationData/medicalProductId" +
-            " vaccinationData/marketAuthorizationHolderId vaccinationData/dt" +
+            " vaccinationData/marketAuthorizationHolderId vaccinationData/vaccinatedAt" +
             " vaccinationData/countryOfVaccination vaccinationData/certificateIssuer" +
             " vaccinationData/uniqueCertificateIdentifier"
     }

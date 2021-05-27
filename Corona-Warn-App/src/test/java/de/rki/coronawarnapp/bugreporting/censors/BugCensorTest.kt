@@ -159,10 +159,9 @@ class BugCensorTest : BaseTest() {
         val container1 = BugCensor.CensorContainer("abcdefg")
         container1.actions shouldBe emptyList()
         val container2 = container1.censor("cde", "345")
-        container2.actions[0].range shouldBe 2..5
+        container2.actions.map { it.range }.toSet() shouldBe setOf(2..5)
         val container3 = container2.censor("ab", "12")
-        container3.actions[0].range shouldBe 2..5
-        container3.actions[1].range shouldBe 0..2
+        container3.actions.map { it.range }.toSet() shouldBe setOf(0..2, 2..5)
     }
 
     @Test
@@ -173,7 +172,7 @@ class BugCensorTest : BaseTest() {
             .compile()!!
             .apply {
                 censored shouldBe "#123d567*"
-                ranges shouldBe listOf(1..4, 5..8)
+                ranges shouldBe setOf(1..4, 5..8)
             }
     }
 
@@ -185,7 +184,7 @@ class BugCensorTest : BaseTest() {
             .compile()!!
             .apply {
                 censored shouldBe "#123567*"
-                ranges shouldBe listOf(1..4, 4..7)
+                ranges shouldBe setOf(1..4, 4..7)
             }
     }
 
@@ -197,7 +196,54 @@ class BugCensorTest : BaseTest() {
             .compile()!!
             .apply {
                 censored shouldBe "#<censor-collision/>*"
-                ranges shouldBe listOf(1..8)
+                ranges shouldBe setOf(1..8)
+            }
+    }
+
+    @Test
+    fun `censoring complete overlap`() {
+        BugCensor.CensorContainer("#abcdefg*")
+            .censor("abc", "---")
+            .censor("abc", "+++")
+            .compile()!!
+            .apply {
+                censored shouldBe "#<censor-collision/>defg*"
+                ranges shouldBe setOf(1..4, 1..4)
+            }
+    }
+
+    @Test
+    fun `full replacement collision`() {
+        BugCensor.CensorContainer("#abcdefg*")
+            .censor("#abcdefg*", "#1234567*")
+            .censor("#abcdefg*", "#*")
+            .compile()!!
+            .apply {
+                censored shouldBe "<censor-collision/>"
+                ranges shouldBe setOf(0..9, 0..9)
+            }
+    }
+
+    @Test
+    fun `nested replacement collision`() {
+        BugCensor.CensorContainer("#abcdefg*")
+            .censor("#abcdefg*", "#abcdefg*")
+            .censor("abcdefg", "abcdefg")
+            .compile()!!
+            .apply {
+                censored shouldBe "<censor-collision/>"
+                ranges shouldBe setOf(0..9)
+            }
+    }
+
+    @Test
+    fun `string length boundary check`() {
+        BugCensor.CensorContainer("#abcdefg*")
+            .censor("*", "**")
+            .compile()!!
+            .apply {
+                censored shouldBe "#abcdefg**"
+                ranges shouldBe setOf(8..9)
             }
     }
 }

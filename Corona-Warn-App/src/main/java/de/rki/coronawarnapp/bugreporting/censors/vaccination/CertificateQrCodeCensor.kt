@@ -20,15 +20,18 @@ class CertificateQrCodeCensor @Inject constructor() : BugCensor {
 
         synchronized(certsToCensor) { certsToCensor.toList() }.forEach {
             it.certificate.apply {
-                newMessage = newMessage.censor(
-                    dob,
-                    "vaccinationCertificate/dob"
-                )
+                val dobFormatted = dateOfBirth.toString()
 
                 newMessage = newMessage.censor(
-                    dateOfBirth.toString(),
+                    dobFormatted,
                     "vaccinationCertificate/dateOfBirth"
                 )
+                if (dobFormatted != dob) {
+                    newMessage = newMessage.censor(
+                        dob,
+                        "vaccinationCertificate/dob"
+                    )
+                }
 
                 newMessage = censorNameData(nameData, newMessage)
 
@@ -46,11 +49,6 @@ class CertificateQrCodeCensor @Inject constructor() : BugCensor {
         message: CensorContainer
     ): CensorContainer {
         var newMessage = message
-
-        newMessage = newMessage.censor(
-            vaccinationData.dt,
-            "vaccinationData/dt"
-        )
 
         newMessage = newMessage.censor(
             vaccinationData.marketAuthorizationHolderId,
@@ -87,10 +85,17 @@ class CertificateQrCodeCensor @Inject constructor() : BugCensor {
             "vaccinationData/vaccineId"
         )
 
+        val vaccinatedAt = vaccinationData.vaccinatedAt.toString()
         newMessage = newMessage.censor(
-            vaccinationData.vaccinatedAt.toString(),
+            vaccinatedAt,
             "vaccinationData/vaccinatedAt"
         )
+        if (vaccinatedAt != vaccinationData.dt) {
+            newMessage = newMessage.censor(
+                vaccinationData.dt,
+                "vaccinationData/dt"
+            )
+        }
 
         return newMessage
     }
