@@ -313,6 +313,9 @@
         android:label="SubmissionTestResultPendingFragment"
         tools:layout="@layout/fragment_submission_test_result_pending">
         <argument
+            android:name="testType"
+            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
+        <argument
             android:name="forceTestResultUpdate"
             android:defaultValue="false"
             app:argType="boolean" />
@@ -334,9 +337,6 @@
             app:destination="@id/submissionTestResultAvailableFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
-        <argument
-            android:name="testType"
-            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
         <action
             android:id="@+id/action_submissionTestResultPendingFragment_to_submissionNegativeAntigenTestResultFragment"
             app:destination="@id/submissionNegativeAntigenTestResultFragment"
