@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools">
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- XTXT: Vaccination Details birth date -->
     <string name="vaccination_details_birth_date">"Data urodzenia %1$s"</string>
     <!-- XTXT: Vaccination Details certificate date -->
@@ -18,18 +18,20 @@
     <!-- XTXT: Vaccination Details subtitle-->
     <string name="vaccination_details_subtitle">"Świadectwo szczepienia"</string>
     <!-- XTXT: Vaccination Details title-->
-    <string name="vaccination_details_title">"Szczepienie %1$d %2$d"</string>
+    <string name="vaccination_details_title">"Szczepienie %1$d / %2$d"</string>
     <!-- XTXT: Vaccination Qr Code card title-->
-    <string name="vaccination_qrcode_card_title">"Świadectwo szczepienia %1$d %2$d"</string>
+    <string name="vaccination_qrcode_card_title">"Świadectwo szczepienia %1$d / %2$d"</string>
     <!-- XTXT: Vaccination Qr Code card subtitle-->
     <string name="vaccination_qrcode_card_subtitle">"Zaszczepiony(-a) %1$s - ważne do %2$s"</string>
 
     <!-- XTXT: Vaccination List title-->
     <string name="vaccination_list_title">"Cyfrowy dowód szczepienia"</string>
+    <!-- XTXT: Vaccination List complete vaccination subtitle-->
+    <string name="vaccination_list_complete_vaccination_subtitle">"Ochrona poszczepienna przed SARS-CoV-2"</string>
     <!-- XTXT: Vaccination List top card subtitle-->
     <string name="vaccination_list_name_card_subtitle">"Data urodzenia %1$s"</string>
     <!-- XTXT: Vaccination List top card subtitle-->
-    <string name="vaccination_list_vaccination_card_title">"Szczepienie %1$d %2$d"</string>
+    <string name="vaccination_list_vaccination_card_title">"Szczepienie %1$d / %2$d"</string>
     <!-- XTXT: Vaccination List top card subtitle-->
     <string name="vaccination_list_vaccination_card_subtitle">"Wykonano dnia %1$s"</string>
     <!-- XTXT: Vaccination List immunity information card body-->

@@ -86,6 +86,7 @@
         android:accessibilityHeading="true"
         android:focusable="false"
         android:textColor="@color/colorTextPrimary1InvertedStable"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/icon"
         app:layout_constraintStart_toStartOf="parent"
