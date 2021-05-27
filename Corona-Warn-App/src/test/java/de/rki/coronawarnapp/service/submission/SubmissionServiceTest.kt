@@ -49,10 +49,12 @@ class SubmissionServiceTest : BaseTest() {
     fun registrationWithGUIDSucceeds() {
         coEvery {
             mockPlaybook.initialRegistration(guid, VerificationKeyType.GUID)
-        } returns (registrationToken to CoronaTestResultResponse(
-            coronaTestResult = CoronaTestResult.PCR_OR_RAT_PENDING,
-            sampleCollectedAt = null
-        ))
+        } returns (
+            registrationToken to CoronaTestResultResponse(
+                coronaTestResult = CoronaTestResult.PCR_OR_RAT_PENDING,
+                sampleCollectedAt = null
+            )
+            )
 
         runBlocking {
             submissionService.asyncRegisterDeviceViaGUID(guid)
@@ -67,10 +69,12 @@ class SubmissionServiceTest : BaseTest() {
     fun registrationWithTeleTANSucceeds() {
         coEvery {
             mockPlaybook.initialRegistration(any(), VerificationKeyType.TELETAN)
-        } returns (registrationToken to CoronaTestResultResponse(
-            coronaTestResult = CoronaTestResult.PCR_OR_RAT_PENDING,
-            sampleCollectedAt = null
-        ))
+        } returns (
+            registrationToken to CoronaTestResultResponse(
+                coronaTestResult = CoronaTestResult.PCR_OR_RAT_PENDING,
+                sampleCollectedAt = null
+            )
+            )
 
         runBlocking {
             submissionService.asyncRegisterDeviceViaTAN(tan)
