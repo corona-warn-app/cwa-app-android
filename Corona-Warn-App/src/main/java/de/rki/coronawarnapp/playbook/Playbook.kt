@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.playbook
 
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResultResponse
 import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
-import org.joda.time.Instant
 
 /**
  * The concept of Plausible Deniability aims to hide the existence of a positive test result by always using a defined
@@ -27,9 +27,9 @@ interface Playbook {
     suspend fun initialRegistration(
         key: String,
         keyType: VerificationKeyType
-    ): Pair<String, Pair<CoronaTestResult, Instant?>>
+    ): Pair<String, CoronaTestResultResponse>
 
-    suspend fun testResult(registrationToken: String): Pair<CoronaTestResult, Instant?>
+    suspend fun testResult(registrationToken: String): CoronaTestResultResponse
 
     suspend fun submit(data: SubmissionData)
 

@@ -1,11 +1,10 @@
 package de.rki.coronawarnapp.coronatest.type
 
-import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResultResponse
 import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.deniability.NoiseScheduler
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.worker.BackgroundConstants
-import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -14,7 +13,7 @@ class CoronaTestService @Inject constructor(
     private val noiseScheduler: NoiseScheduler,
 ) {
 
-    suspend fun asyncRequestTestResult(registrationToken: String): Pair<CoronaTestResult, Instant?> {
+    suspend fun asyncRequestTestResult(registrationToken: String): CoronaTestResultResponse {
         return playbook.testResult(registrationToken)
     }
 
@@ -52,6 +51,6 @@ class CoronaTestService @Inject constructor(
 
     data class RegistrationData(
         val registrationToken: String,
-        val testResult: Pair<CoronaTestResult, Instant?>
+        val testResultResponse: CoronaTestResultResponse
     )
 }
