@@ -54,6 +54,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/test_result_section_status_icon"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/test_result_section_content"
             tools:text="@string/test_result_card_registered_at_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

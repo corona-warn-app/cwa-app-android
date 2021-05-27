@@ -3,19 +3,20 @@ package de.rki.coronawarnapp.bugreporting.debuglog
 import android.app.Application
 import dagger.Lazy
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.censor
-import de.rki.coronawarnapp.bugreporting.censors.submission.CoronaTestCensor
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebugLogTree
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.string.shouldEndWith
+import io.kotest.matchers.string.shouldStartWith
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -26,13 +27,13 @@ import testhelpers.logging.JUnitTree
 import timber.log.Timber
 import java.io.File
 
-@Suppress("BlockingMethodInNonBlockingContext")
+@Suppress("BlockingMethodInNonBlockingContext", "MaxLineLength")
 class DebugLoggerTest : BaseIOTest() {
 
     @MockK lateinit var application: Application
     @MockK lateinit var component: ApplicationComponent
-    @MockK lateinit var coronaTestCensor1: CoronaTestCensor
-    @MockK lateinit var coronaTestCensor2: CoronaTestCensor
+    @MockK lateinit var coronaTestCensor1: BugCensor
+    @MockK lateinit var coronaTestCensor2: BugCensor
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
     private val cacheDir = File(testDir, "cache")
@@ -240,7 +241,7 @@ class DebugLoggerTest : BaseIOTest() {
 
         coEvery { coronaTestCensor1.checkLog(any()) } answers {
             val msg = arg<String>(0)
-            BugCensor.CensoredString(msg).censor("says: A hot coffee", "says: A hot tea")
+            BugCensor.CensorContainer(msg).censor("says: A hot coffee", "says: A hot tea")
         }
 
         instance.start()
@@ -248,17 +249,260 @@ class DebugLoggerTest : BaseIOTest() {
         Timber.tag("Test").v(logMsg)
         advanceTimeBy(2000L)
 
+        delay(5000)
+
         runningLog.readLines().last().substring(25) shouldBe "V/Test: Lukas says: A hot tea is really nice!"
 
         coEvery { coronaTestCensor2.checkLog(any()) } answers {
             val msg = arg<String>(0)
-            BugCensor.CensoredString(msg).censor("says:", "sings:")
+            BugCensor.CensorContainer(msg).censor("says:", "sings:")
         }
 
         Timber.tag("Test").v(logMsg)
         advanceTimeBy(2000L)
 
-        runningLog.readLines().last().substring(25) shouldBe "V/Test: Lukas <censoring-collision> is really nice!"
+        runningLog.readLines().last().substring(25) shouldBe "V/Test: Lukas <censor-collision/> is really nice!"
+
+        instance.stop()
+        advanceUntilIdle()
+    }
+
+    @Test
+    fun `censoring collision handling for multiple values in the same string`() = runBlockingTest {
+        val before =
+            """
+            RACoronaTest(
+                identifier=qrcode-RAPID_ANTIGEN-9a9a35fa1cf3261be3349fc50a37b58280634bf42487c8e4eca060c48f259eb7,
+                registeredAt=2021-05-25T10:18:05.275Z,
+                registrationToken=b0d451f9-a4ea-45ea-b634-f503458a64c9,
+                isSubmitted=false, isViewed=true, isAdvancedConsentGiven=true, isJournalEntryCreated=false,
+                isResultAvailableNotificationSent=true,
+                testResultReceivedAt=2021-05-25T10:18:41.616Z,
+                lastUpdatedAt=2021-05-25T10:18:41.152Z,
+                testResult=RAT_POSITIVE(7),
+                testedAt=2021-05-25T10:17:51.000Z,
+                firstName=Rüdiger, lastName=Müller,
+                dateOfBirth=1994-05-18, isProcessing=true,
+                lastError=null
+            )
+            updated to
+            RACoronaTest(
+                identifier=qrcode-RAPID_ANTIGEN-9a9a35fa1cf3261be3349fc50a37b58280634bf42487c8e4eca060c48f259eb7,
+                registeredAt=2021-05-25T10:18:05.275Z,
+                registrationToken=b0d451f9-a4ea-45ea-b634-f503458a64c9,
+                isSubmitted=true, isViewed=true, isAdvancedConsentGiven=true, isJournalEntryCreated=false,
+                isResultAvailableNotificationSent=true,
+                testResultReceivedAt=2021-05-25T10:18:41.616Z,
+                lastUpdatedAt=2021-05-25T10:18:41.152Z,
+                testResult=RAT_POSITIVE(7),
+                testedAt=2021-05-25T10:17:51.000Z,
+                firstName=Rüdiger, lastName=Müller,
+                dateOfBirth=1994-05-18, isProcessing=false,
+                lastError=IOException()
+            )
+            """.trimIndent()
+        val after =
+            """
+            RACoronaTest(
+                identifier=<censor-collision/>,
+                dateOfBirth=1994-05-18, isProcessing=false,
+                lastError=IOException()
+            )
+            """.trimIndent()
+
+        coEvery { coronaTestCensor1.checkLog(any()) } answers {
+            val msg = arg<String>(0)
+            BugCensor.CensorContainer(msg).censor(
+                "firstName=Rüdiger, lastName=Müller",
+                "firstName=FIRSTNAME, lastName=LASTNAME"
+            )
+        }
+        coEvery { coronaTestCensor2.checkLog(any()) } answers {
+            val msg = arg<String>(0)
+            BugCensor.CensorContainer(msg).censor(
+                "qrcode-RAPID_ANTIGEN-9a9a35fa1cf3261be3349fc50a37b58280634bf42487c8e4eca060c48f259eb7",
+                "IDENTIFIER"
+            )
+        }
+
+        val instance = createInstance(scope = this).apply {
+            init()
+            setInjectionIsReady(component)
+        }
+
+        instance.start()
+
+        Timber.tag("Test").v(before)
+        advanceTimeBy(2000L)
+
+        val rawWritten = runningLog.readText()
+        val cleanedWritten = rawWritten.substring(rawWritten.indexOf("RACoronaTest"))
+
+        cleanedWritten shouldBe after + "\n"
+
+        instance.stop()
+        advanceUntilIdle()
+    }
+
+    @Test
+    fun `censoring collision with larger than original index bounds`() = runBlockingTest {
+        val before = "shortBefore" // Without timestamp
+
+        coEvery { coronaTestCensor1.checkLog(any()) } answers {
+            val msg = arg<String>(0)
+            BugCensor.CensorContainer(msg).censor("Before", "After")
+        }
+        coEvery { coronaTestCensor2.checkLog(any()) } answers {
+            val msg = arg<String>(0)
+            var orig = BugCensor.CensorContainer(msg)
+
+            orig = orig.censor("ortBef", "thisReallyIsNotShortAnymore")
+            orig = orig.censor("Anymore", "Nevermore")
+            orig
+        }
+
+        val instance = createInstance(scope = this).apply {
+            init()
+            setInjectionIsReady(component)
+        }
+
+        instance.start()
+
+        Timber.tag("Test").v(before)
+        advanceTimeBy(2000L)
+
+        runningLog.readLines().last().substring(25) shouldBe "V/Test: sh<censor-collision/>"
+
+        instance.stop()
+        advanceUntilIdle()
+    }
+
+    // Censoring bounds need to be determined on the original string
+    @Test
+    fun `censoring collision with missmatching original and replacements`() = runBlockingTest {
+        val before = "StrawBerryCake" // Without timestamp
+
+        coEvery { coronaTestCensor1.checkLog(any()) } answers {
+            val msg = arg<String>(0)
+            BugCensor.CensorContainer(msg).censor("Berry", "Banana")
+        }
+        coEvery { coronaTestCensor2.checkLog(any()) } answers {
+            val msg = arg<String>(0)
+            var orig = BugCensor.CensorContainer(msg)
+
+            orig = orig.censor("StrawBerry", "StrawBerryBananaPie")
+            orig = orig.censor("StrawBerryBananaPie", "Apple")
+            orig
+        }
+
+        val instance = createInstance(scope = this).apply {
+            init()
+            setInjectionIsReady(component)
+        }
+
+        instance.start()
+
+        Timber.tag("Test").v(before)
+        advanceTimeBy(2000L)
+
+        runningLog.readLines().last().substring(25) shouldBe "V/Test: <censor-collision/>Cake"
+
+        instance.stop()
+        advanceUntilIdle()
+    }
+
+    @Test
+    fun `censoring collision without overlap`() = runBlockingTest {
+        val before = "StrawBerryCakeWithCream" // Without timestamp
+
+        coEvery { coronaTestCensor1.checkLog(any()) } answers {
+            val msg = arg<String>(0)
+            BugCensor.CensorContainer(msg)
+                .censor("Straw", "Strap")
+                .censor("With", "More")
+        }
+        coEvery { coronaTestCensor2.checkLog(any()) } answers {
+            val msg = arg<String>(0)
+            BugCensor.CensorContainer(msg)
+                .censor("Berry", "Barry")
+                .censor("Cream", "Sugar")
+        }
+
+        val instance = createInstance(scope = this).apply {
+            init()
+            setInjectionIsReady(component)
+        }
+
+        instance.start()
+
+        Timber.tag("Test").v(before)
+        advanceTimeBy(2000L)
+
+        runningLog.readLines()
+            .last()
+            .substring(25) shouldBe "V/Test: StrapBarryCakeMoreSugar"
+
+        instance.stop()
+        advanceUntilIdle()
+    }
+
+    @Test
+    fun `exception during single bugcensor execution`() = runBlockingTest {
+        val before = "StrawberryCake" // Without timestamp
+
+        coEvery { coronaTestCensor1.checkLog(any()) } answers {
+            null
+        }
+        coEvery { coronaTestCensor2.checkLog(any()) } answers {
+            throw IllegalArgumentException("I give up")
+        }
+
+        val instance = createInstance(scope = this).apply {
+            init()
+            setInjectionIsReady(component)
+        }
+
+        instance.start()
+
+        Timber.tag("Test").v(before)
+        advanceTimeBy(2000L)
+
+        runningLog.readLines()
+            .last()
+            .substring(25).apply {
+                this shouldStartWith "V/Test: <censor-error>Module BugCensor"
+                this shouldEndWith "lang.IllegalArgumentException: I give up</censor-error>"
+            }
+
+        instance.stop()
+        advanceUntilIdle()
+    }
+
+    @Test
+    fun `exception during multi bugcensor execution`() = runBlockingTest {
+        val before = "StrawberryCake" // Without timestamp
+
+        coEvery { coronaTestCensor1.checkLog(any()) } answers {
+            val msg = arg<String>(0)
+            BugCensor.CensorContainer(msg).censor("Cake", "Pancake")
+        }
+        coEvery { coronaTestCensor2.checkLog(any()) } answers {
+            throw IllegalArgumentException("I give up")
+        }
+
+        val instance = createInstance(scope = this).apply {
+            init()
+            setInjectionIsReady(component)
+        }
+
+        instance.start()
+
+        Timber.tag("Test").v(before)
+        advanceTimeBy(2000L)
+
+        runningLog.readLines()
+            .last()
+            .substring(25) shouldBe "V/Test: <censor-collision/>"
 
         instance.stop()
         advanceUntilIdle()

@@ -59,7 +59,7 @@ internal class RatProfileCensorTest : BaseTest() {
             "Mister First name who is also known as Last name and is born on 1950-08-01 lives in Main street, " +
                 "12132 in the beautiful city of London. You can reach him by phone: 111111111 or email: email@example.com"
 
-        censor.checkLog(logLine)!!.string shouldBe
+        censor.checkLog(logLine)!!.compile()!!.censored shouldBe
             "Mister RAT-Profile/FirstName who is also known as RAT-Profile/LastName and is born on RAT-Profile/DateOfBirth lives in RAT-Profile/Street, " +
             "RAT-Profile/Zip-Code in the beautiful city of RAT-Profile/City. You can reach him by phone: RAT-Profile/Phone or email: RAT-Profile/eMail"
     }
@@ -74,9 +74,27 @@ internal class RatProfileCensorTest : BaseTest() {
             "Mister First name who is also known as Last name and is born on 1950-08-01 lives in Main street, " +
                 "12132 in the beautiful city of London. You can reach him by phone: 111111111 or email: email@example.com"
 
-        censor.checkLog(logLine)!!.string shouldBe
+        censor.checkLog(logLine)!!.compile()!!.censored shouldBe
             "Mister RAT-Profile/FirstName who is also known as RAT-Profile/LastName and is born on RAT-Profile/DateOfBirth lives in RAT-Profile/Street, " +
             "RAT-Profile/Zip-Code in the beautiful city of RAT-Profile/City. You can reach him by phone: RAT-Profile/Phone or email: RAT-Profile/eMail"
+    }
+
+    @Test
+    fun `self overlap`() = runBlockingTest {
+        val selfOverlap = profile.copy(
+            lastName = "Berlin",
+            city = "Berlin Kreuzberg"
+        )
+        every { ratProfileSettings.profile.flow } returns flowOf(selfOverlap, null)
+
+        val censor = createInstance()
+
+        val logLine =
+            "Mister First name who is also known as Last name and is born on 1950-08-01 lives in Main street, " +
+                "12132 in the beautiful city of Berlin Kreuzberg. You can reach him by phone: 111111111 or email: email@example.com, " +
+                "NotCensored"
+
+        censor.checkLog(logLine)!!.compile()!!.censored shouldBe "Mister <censor-collision/>, NotCensored"
     }
 
     private val formatter = DateTimeFormat.forPattern("yyyy-MM-dd")

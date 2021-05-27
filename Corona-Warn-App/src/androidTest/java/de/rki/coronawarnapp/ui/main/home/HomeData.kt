@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR.TestInvalid
 import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR.TestNegative
 import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR.TestPending
 import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR.TestPositive
+import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestErrorCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestInvalidCard
@@ -15,6 +16,7 @@ import de.rki.coronawarnapp.submission.ui.homecards.PcrTestNegativeCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestPendingCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestPositiveCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestSubmissionDoneCard
+import de.rki.coronawarnapp.submission.ui.homecards.RapidTestNegativeCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestFetchingCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestUnregisteredCard
 import de.rki.coronawarnapp.tracing.TracingProgress
@@ -148,6 +150,13 @@ object HomeData {
 
         val TEST_NEGATIVE_ITEM = PcrTestNegativeCard.Item(
             state = TestNegative(
+                testRegisteredAt = Instant.now()
+            ),
+            onClickAction = {}
+        )
+
+        val TEST_NEGATIVE_ITEM_RAT = RapidTestNegativeCard.Item(
+            state = SubmissionStateRAT.TestNegative(
                 testRegisteredAt = Instant.now()
             ),
             onClickAction = {}

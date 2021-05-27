@@ -1,12 +1,16 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission
 
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.datadonation.analytics.common.calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
-import de.rki.coronawarnapp.datadonation.analytics.common.toMetadataRiskLevel
+import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighEwRiskBefore
+import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighPtRiskBefore
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
-import de.rki.coronawarnapp.risk.RiskLevelSettings
+import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.risk.tryLatestEwResultsWithDefaults
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
 import org.joda.time.Duration
@@ -15,98 +19,130 @@ import javax.inject.Inject
 class AnalyticsKeySubmissionCollector @Inject constructor(
     private val timeStamper: TimeStamper,
     private val analyticsSettings: AnalyticsSettings,
-    private val analyticsKeySubmissionStorage: AnalyticsKeySubmissionStorage,
+    private val pcrStorage: AnalyticsPCRKeySubmissionStorage,
+    private val raStorage: AnalyticsRAKeySubmissionStorage,
     private val riskLevelStorage: RiskLevelStorage,
-    private val riskLevelSettings: RiskLevelSettings
 ) {
 
-    fun reset() {
-        analyticsKeySubmissionStorage.clear()
+    fun reset(type: CoronaTest.Type) {
+        type.storage.clear()
     }
 
-    fun reportPositiveTestResultReceived() {
+    fun reportPositiveTestResultReceived(type: CoronaTest.Type) {
         if (disabled) return
-        analyticsKeySubmissionStorage.testResultReceivedAt.update { timeStamper.nowUTC.millis }
+        type.storage.testResultReceivedAt.update { timeStamper.nowUTC.millis }
     }
 
-    suspend fun reportTestRegistered() {
+    suspend fun reportTestRegistered(type: CoronaTest.Type) {
         if (disabled) return
+
         val testRegisteredAt = timeStamper.nowUTC
-        analyticsKeySubmissionStorage.testRegisteredAt.update { testRegisteredAt.millis }
+        type.storage.testRegisteredAt.update { testRegisteredAt.millis }
 
-        val lastRiskResult = riskLevelStorage
-            .latestAndLastSuccessfulEwRiskLevelResult
+        val lastResult = riskLevelStorage
+            .latestAndLastSuccessfulCombinedEwPtRiskLevelResult
             .first()
-            .tryLatestEwResultsWithDefaults()
             .lastCalculated
-        val riskLevelAtRegistration = lastRiskResult.toMetadataRiskLevel()
-        analyticsKeySubmissionStorage.riskLevelAtTestRegistration.update {
-            riskLevelAtRegistration.number
-        }
 
-        if (riskLevelAtRegistration == PpaData.PPARiskLevel.RISK_LEVEL_HIGH) {
-            riskLevelSettings.lastChangeToHighRiskLevelTimestamp?.let {
-                val hours = Duration(
-                    it,
-                    testRegisteredAt
-                ).standardHours.toInt()
-                analyticsKeySubmissionStorage.hoursSinceHighRiskWarningAtTestRegistration.update {
-                    hours
+        if (lastResult.ewRiskLevelResult.riskState == RiskState.INCREASED_RISK) {
+            riskLevelStorage.allEwRiskLevelResults
+                .first()
+                .getLastChangeToHighEwRiskBefore(testRegisteredAt)
+                ?.let {
+                    val hours = Duration(
+                        it,
+                        testRegisteredAt
+                    ).standardHours.toInt()
+                    type.storage.ewHoursSinceHighRiskWarningAtTestRegistration.update {
+                        hours
+                    }
                 }
-            }
         }
 
-        analyticsKeySubmissionStorage.daysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
+        if (lastResult.ptRiskLevelResult.riskState == RiskState.INCREASED_RISK) {
+            riskLevelStorage.allPtRiskLevelResults
+                .first()
+                .getLastChangeToHighPtRiskBefore(testRegisteredAt)
+                ?.let {
+                    val hours = Duration(
+                        it,
+                        testRegisteredAt
+                    ).standardHours.toInt()
+                    type.storage.ptHoursSinceHighRiskWarningAtTestRegistration.update {
+                        hours
+                    }
+                }
+        }
+
+        type.storage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                riskLevelSettings.lastChangeCheckedRiskLevelTimestamp,
-                testRegisteredAt
+                lastResult.ewRiskLevelResult.mostRecentDateAtRiskState?.toLocalDateUtc(),
+                testRegisteredAt.toLocalDateUtc()
+            )
+        }
+
+        type.storage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
+            calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
+                lastResult.ptRiskLevelResult.mostRecentDateAtRiskState,
+                testRegisteredAt.toLocalDateUtc()
             )
         }
     }
 
-    fun reportSubmitted() {
+    fun reportSubmitted(type: CoronaTest.Type) {
         if (disabled) return
-        analyticsKeySubmissionStorage.submitted.update { true }
-        analyticsKeySubmissionStorage.submittedAt.update { timeStamper.nowUTC.millis }
+        type.storage.submitted.update { true }
+        type.storage.submittedAt.update { timeStamper.nowUTC.millis }
     }
 
-    fun reportSubmittedInBackground() {
+    fun reportSubmittedInBackground(type: CoronaTest.Type) {
         if (disabled) return
-        analyticsKeySubmissionStorage.submittedInBackground.update { true }
+        type.storage.submittedInBackground.update { true }
     }
 
-    fun reportSubmittedAfterCancel() {
+    fun reportSubmittedAfterCancel(type: CoronaTest.Type) {
         if (disabled) return
-        analyticsKeySubmissionStorage.submittedAfterCancel.update { true }
+        type.storage.submittedAfterCancel.update { true }
     }
 
-    fun reportSubmittedAfterSymptomFlow() {
+    fun reportSubmittedAfterSymptomFlow(type: CoronaTest.Type) {
         if (disabled) return
-        analyticsKeySubmissionStorage.submittedAfterSymptomFlow.update { true }
+        type.storage.submittedAfterSymptomFlow.update { true }
     }
 
-    fun reportLastSubmissionFlowScreen(screen: Screen) {
+    fun reportLastSubmissionFlowScreen(screen: Screen, type: CoronaTest.Type) {
         if (disabled) return
-        analyticsKeySubmissionStorage.lastSubmissionFlowScreen.update { screen.code }
+        type.storage.lastSubmissionFlowScreen.update { screen.code }
     }
 
-    fun reportAdvancedConsentGiven() {
+    fun reportAdvancedConsentGiven(type: CoronaTest.Type) {
         if (disabled) return
-        analyticsKeySubmissionStorage.advancedConsentGiven.update { true }
+        type.storage.advancedConsentGiven.update { true }
     }
 
-    fun reportConsentWithdrawn() {
+    fun reportConsentWithdrawn(type: CoronaTest.Type) {
         if (disabled) return
-        analyticsKeySubmissionStorage.advancedConsentGiven.update { false }
+        type.storage.advancedConsentGiven.update { false }
     }
 
     fun reportRegisteredWithTeleTAN() {
         if (disabled) return
-        analyticsKeySubmissionStorage.registeredWithTeleTAN.update { true }
+        pcrStorage.registeredWithTeleTAN.update { true }
+    }
+
+    fun reportSubmittedWithCheckIns(type: CoronaTest.Type) {
+        if (disabled) return
+        type.storage.submittedWithCheckIns.update { true }
     }
 
     private val disabled: Boolean
         get() = !analyticsSettings.analyticsEnabled.value
+
+    private val CoronaTest.Type.storage: AnalyticsKeySubmissionStorage
+        get() = when (this) {
+            PCR -> pcrStorage
+            RAPID_ANTIGEN -> raStorage
+        }
 }
 
 enum class Screen(val code: Int) {
