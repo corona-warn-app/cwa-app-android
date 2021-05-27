@@ -54,19 +54,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/illustration_image" />
 
-            <TextView
-                android:id="@+id/birth_date_description"
-                style="@style/body2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_normal"
-                android:layout_marginTop="16dp"
-                android:text="@string/request_green_certificate_birthdate_description"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/subtitle" />
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/date_input_layout"
                 style="@style/TextInputLayoutTheme"
@@ -78,7 +65,7 @@
                 app:endIconMode="clear_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/birth_date_description">
+                app:layout_constraintTop_toBottomOf="@id/subtitle">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/date_input_edit"
@@ -89,14 +76,27 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <TextView
+                android:id="@+id/birth_date_description"
+                style="@style/body2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:layout_marginTop="16dp"
+                android:text="@string/request_green_certificate_birthdate_description"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/date_input_layout" />
+
             <ImageView
                 android:id="@+id/request_green_certificate_info_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:importantForAccessibility="no"
-                app:layout_constraintStart_toStartOf="@id/date_input_layout"
-                app:layout_constraintTop_toBottomOf="@id/date_input_layout"
+                app:layout_constraintStart_toStartOf="@id/birth_date_description"
+                app:layout_constraintTop_toBottomOf="@id/birth_date_description"
                 app:srcCompat="@drawable/ic_green_certificate_virus" />
 
             <TextView
