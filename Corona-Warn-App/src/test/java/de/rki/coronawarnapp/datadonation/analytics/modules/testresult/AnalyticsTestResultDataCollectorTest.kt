@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_REDEEMED
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
-import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.LastCombinedRiskResults
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.util.TimeStamper
@@ -18,7 +17,6 @@ import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
@@ -76,16 +74,6 @@ class AnalyticsTestResultDataCollectorTest : BaseTest() {
     fun `saveTestResultAnalyticsSettings saves data when user gave consent`() =
         runBlockingTest {
             every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(true)
-
-            val mockRiskLevelResult = mockk<EwRiskLevelResult>().apply {
-                every { calculatedAt } returns Instant.now()
-                every { wasSuccessfullyCalculated } returns true
-            }
-            every { riskLevelStorage.latestAndLastSuccessfulEwRiskLevelResult } returns flowOf(
-                listOf(
-                    mockRiskLevelResult
-                )
-            )
             every { pcrTestResultDonorSettings.saveTestResultDonorDataAtRegistration(any(), any()) } just Runs
             analyticsTestResultCollector.saveTestResult(PCR_POSITIVE, PCR)
 

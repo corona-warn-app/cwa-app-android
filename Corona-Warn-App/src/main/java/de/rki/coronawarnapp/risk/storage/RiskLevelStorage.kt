@@ -17,16 +17,13 @@ interface RiskLevelStorage {
      * This is an expensive operation on tester builds due to mapping all available windows.
      * Newest item first.
      */
-    val allEwRiskLevelResults: Flow<List<EwRiskLevelResult>>
+    val allEwRiskLevelResultsWithExposureWindows: Flow<List<EwRiskLevelResult>>
 
     /** EXPOSURE WINDOW RISK RESULTS
-     * The newest 2 results.
      * Used by the risk level detector to check for state changes (LOW/INCREASED RISK),
      * collecting data for analytics and survey.
-     * Can be 0-2 entries.
-     * Newest item first.
      */
-    val latestEwRiskLevelResults: Flow<List<EwRiskLevelResult>>
+    val allEwRiskLevelResults: Flow<List<EwRiskLevelResult>>
 
     /** PRESENCE TRACING RISK RESULT
      * Used by the risk level detector to check for state changes (LOW/INCREASED RISK),

@@ -5,11 +5,12 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.datadonation.analytics.common.calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
+import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighRiskEw
+import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighRiskPt
 import de.rki.coronawarnapp.datadonation.analytics.common.isFinal
 import de.rki.coronawarnapp.datadonation.analytics.common.isPending
 import de.rki.coronawarnapp.datadonation.analytics.common.toMetadataRiskLevel
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
-import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
@@ -54,11 +55,7 @@ class AnalyticsTestResultCollector @Inject constructor(
 
         val ewLastChangeToHighRiskLevelTimestamp = riskLevelStorage.allEwRiskLevelResults
             .first()
-            .filter { it.wasSuccessfullyCalculated }
-            .filter { it.calculatedAt <= testRegisteredAt }
-            .sortedBy { it.calculatedAt }
-            .lastOrNull { it.riskState == RiskState.INCREASED_RISK }
-            ?.calculatedAt
+            .getLastChangeToHighRiskEw(testRegisteredAt)
 
         val ewRiskLevelAtRegistration = lastResult.ewRiskLevelResult.toMetadataRiskLevel()
         if (ewRiskLevelAtRegistration == PpaData.PPARiskLevel.RISK_LEVEL_HIGH) {
@@ -75,11 +72,7 @@ class AnalyticsTestResultCollector @Inject constructor(
 
         val ptLastChangeToHighRiskLevelTimestamp = riskLevelStorage.allPtRiskLevelResults
             .first()
-            .filter { it.wasSuccessfullyCalculated }
-            .filter { it.calculatedAt <= testRegisteredAt }
-            .sortedBy { it.calculatedAt }
-            .lastOrNull { it.riskState == RiskState.INCREASED_RISK }
-            ?.calculatedAt
+            .getLastChangeToHighRiskPt(testRegisteredAt)
 
         val ptRiskLevelAtRegistration = lastResult.ptRiskLevelResult.riskState.toMetadataRiskLevel()
         if (ptRiskLevelAtRegistration == PpaData.PPARiskLevel.RISK_LEVEL_HIGH) {

@@ -131,7 +131,6 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
     fun `nothing happens if there is only one result yet`() {
         every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
             flowOf(listOf(createCombinedRiskLevel(LOW_RISK)))
-        every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(listOf(createEwRiskLevel(LOW_RISK)))
 
         runBlockingTest {
             val instance = createInstance(scope = this)
@@ -147,13 +146,6 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
     @Test
     fun `no risk level change, nothing should happen`() {
-        every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(
-            listOf(
-                createEwRiskLevel(LOW_RISK),
-                createEwRiskLevel(LOW_RISK)
-            )
-        )
-
         every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
             flowOf(
                 listOf(
@@ -176,12 +168,6 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
     @Test
     fun `combined risk state change from HIGH to LOW triggers notification`() {
-        every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(
-            listOf(
-                createEwRiskLevel(LOW_RISK)
-            )
-        )
-
         every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
             flowOf(
                 listOf(
@@ -207,12 +193,6 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
     @Test
     fun `combined risk state change from LOW to HIGH triggers notification`() {
-        every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(
-            listOf(
-                createEwRiskLevel(LOW_RISK)
-            )
-        )
-
         every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
             flowOf(
                 listOf(
@@ -238,12 +218,6 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
     @Test
     fun `risk level went from LOW to HIGH but it is has already been processed`() {
-        every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(
-            listOf(
-                createEwRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
-                createEwRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
-            )
-        )
         every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
             flowOf(listOf(createCombinedRiskLevel(LOW_RISK)))
         every { riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp } returns Instant.EPOCH.plus(1)
@@ -262,12 +236,6 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
     @Test
     fun `combined risk level went from LOW to HIGH but it is has already been processed`() {
-        every { riskLevelStorage.latestEwRiskLevelResults } returns flowOf(
-            listOf(
-                createEwRiskLevel(LOW_RISK)
-            )
-        )
-
         every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
             flowOf(
                 listOf(

@@ -29,7 +29,7 @@ class EwRiskLevelChangeDetector @Inject constructor(
 ) {
     fun launch() {
         Timber.v("Monitoring risk level changes.")
-        riskLevelStorage.latestEwRiskLevelResults
+        riskLevelStorage.allEwRiskLevelResults
             .map { results ->
                 results.sortedBy { it.calculatedAt }.takeLast(2)
             }
