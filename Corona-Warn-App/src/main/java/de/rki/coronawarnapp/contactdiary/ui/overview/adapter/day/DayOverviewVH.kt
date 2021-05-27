@@ -93,7 +93,7 @@ class DayOverviewVH(parent: ViewGroup) :
     }
 
     private fun ContactDiaryOverviewDayListItemContactBinding.apply(contactItem: ContactItem?) {
-        root.isGone = contactItem == null
+        root.isGone = contactItem == null || contactItem.data.isEmpty()
 
         contactItem?.let {
             recyclerView.apply {

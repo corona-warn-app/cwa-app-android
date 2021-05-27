@@ -6,7 +6,7 @@
     <!-- XHED: Register test homescreen card: title -->
     <string name="ag_homescreen_card_test_register_title">"Zarejestruj test"</string>
     <!-- XTXT: Register test homescreen card: body -->
-    <string name="ag_homescreen_card_test_register_body">"Korzystaj z aplikacji do pobierania wyników swoich badań, aby szybciej ostrzegać innych."</string>
+    <string name="ag_homescreen_card_test_register_body">"Korzystaj z aplikacji do rejestrowania swoich testów i pobierania ich wyników, aby szybciej ostrzegać innych."</string>
 
     <!-- ####################################
         Homescreen cards - common buttons
@@ -142,7 +142,7 @@
     <!-- XHED: Create RAT profile card title -->
     <string name="rat_profile_create_card_title">"Utwórz profil szybkiego testu"</string>
     <!-- XTXT: Create RAT profile card subtitle -->
-    <string name="rat_profile_create_card_subtitle">"Możesz utworzyć profil ze swoimi danymi osobowymi, który będziesz przesyłać za pomocą kodu QR podczas wykonywania każdego szybkiego testu."</string>
+    <string name="rat_profile_create_card_subtitle">"Możesz utworzyć profil ze swoimi danymi osobowymi, który będziesz przesyłać za pomocą kodu QR do każdego uczestniczącego punktu testowania."</string>
     <!-- XHED: Open RAT profile card title -->
     <string name="rat_profile_open_card_title">"Profil szybkiego testu"</string>
     <!-- XTXT: Open RAT profile card subtitle -->
@@ -158,7 +158,7 @@
     <!-- XBUT: Create RAT profile save button -->
     <string name="rat_profile_create_button">"Zapisz"</string>
     <!-- XTXT: Create RAT profile description -->
-    <string name="rat_profile_create_description">"Zapisz swoje dane osobowe w postaci kodu QR, aby przyspieszyć rejestrację w punktach testowania."</string>
+    <string name="rat_profile_create_description">"Możesz utworzyć profil ze swoimi danymi osobowymi, który będziesz przesyłać za pomocą kodu QR do każdego uczestniczącego punktu testowania."</string>
     <!-- XTXT: Create RAT profile street hint -->
     <string name="rat_profile_create_street_hint">"Ulica i numer domu"</string>
     <!-- XTXT: Create RAT profile post code hint -->
@@ -173,7 +173,7 @@
     <!--RAT profile onboarding-->
     <string name="rat_profile_onboarding_image_content_description">"Przed budynkiem stoi kobieta ze smartfonem w dłoni. Kod QR symbolizuje profil szybkiego testu do zeskanowania."</string>
     <!-- XTXT: Create RAT profile onboarding title -->
-    <string name="rat_profile_onboarding_title">"Zapisz swoje dane osobowe w postaci kodu QR, aby przyspieszyć rejestrację w punktach testowania."</string>
+    <string name="rat_profile_onboarding_title">"Możesz utworzyć profil ze swoimi danymi osobowymi, który będziesz przesyłać za pomocą kodu QR do każdego uczestniczącego punktu testowania."</string>
     <!-- XTXT: Create RAT profile onboarding subtitle -->
     <string name="rat_profile_onboarding_subtitle">"Dzięki utworzeniu profilu szybkiego testu, nie będziesz musiał(a) ponownie wypełniać swoich danych osobowych przed wykonaniem szybkiego testu."</string>
     <!-- XTXT: Create RAT profile onboarding next button -->

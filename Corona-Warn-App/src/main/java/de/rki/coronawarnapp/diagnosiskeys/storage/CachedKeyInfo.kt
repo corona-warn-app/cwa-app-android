@@ -50,11 +50,6 @@ data class CachedKeyInfo(
         isDownloadComplete = true
     )
 
-    fun toDateTime(): DateTime = when (type) {
-        Type.LOCATION_DAY -> day.toDateTimeAtStartOfDay(DateTimeZone.UTC)
-        Type.LOCATION_HOUR -> day.toDateTime(hour, DateTimeZone.UTC)
-    }
-
     companion object {
         fun calcluateId(
             location: LocationCode,
@@ -89,3 +84,9 @@ data class CachedKeyInfo(
         @ColumnInfo(name = "completed") val isDownloadComplete: Boolean
     )
 }
+
+val CachedKeyInfo.pkgDateTime: DateTime
+    get() = when (type) {
+        CachedKeyInfo.Type.LOCATION_DAY -> day.toDateTimeAtStartOfDay(DateTimeZone.UTC)
+        CachedKeyInfo.Type.LOCATION_HOUR -> day.toDateTime(hour, DateTimeZone.UTC)
+    }

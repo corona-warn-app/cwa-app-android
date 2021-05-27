@@ -1,15 +1,47 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
-import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
+import kotlin.math.max
+import kotlin.math.min
 
 interface BugCensor {
 
     /**
      * If there is something to censor a new log line is returned, otherwise returns null
      */
-    suspend fun checkLog(entry: LogLine): LogLine?
+    suspend fun checkLog(message: String): CensoredString?
+
+    data class CensoredString(
+        // The censored version of the string
+        val string: String,
+        // The range that we censored
+        // If there is a collision, this range in the original needs to be removed.
+        val range: IntRange? = null
+    )
 
     companion object {
+        operator fun CensoredString.plus(newer: CensoredString?): CensoredString {
+            if (newer == null) return this
+
+            val range = when {
+                newer.range == null -> this.range
+                this.range == null -> newer.range
+                else -> min(this.range.first, newer.range.first)..max(this.range.last, newer.range.last)
+            }
+
+            return CensoredString(string = newer.string, range = range)
+        }
+
+        fun CensoredString.censor(orig: String, replacement: String): CensoredString? {
+            val start = this.string.indexOf(orig)
+            if (start == -1) return null
+
+            val end = start + orig.length
+            return CensoredString(
+                string = this.string.replace(orig, replacement),
+                range = start..end
+            )
+        }
+
         fun withValidName(name: String?, action: (String) -> Unit): Boolean {
             if (name.isNullOrBlank()) return false
             if (name.length < 3) return false
@@ -66,8 +98,8 @@ interface BugCensor {
             return true
         }
 
-        fun LogLine.toNewLogLineIfDifferent(newMessage: String): LogLine? {
-            return if (newMessage != message) copy(message = newMessage) else null
+        fun CensoredString.toNullIfUnmodified(): CensoredString? {
+            return if (range == null) null else this
         }
     }
 }
