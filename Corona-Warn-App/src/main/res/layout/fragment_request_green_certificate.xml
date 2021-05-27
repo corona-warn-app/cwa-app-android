@@ -112,7 +112,7 @@
                 app:layout_constraintTop_toTopOf="@id/request_green_certificate_info_icon" />
 
             <ImageView
-                android:id="@+id/request_green_certificate_qr_code_icon"
+                android:id="@+id/request_green_certificate_proof_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium"
@@ -122,7 +122,7 @@
                 app:srcCompat="@drawable/ic_green_certificate_proof" />
 
             <TextView
-                android:id="@+id/request_green_certificate_qr_code_text"
+                android:id="@+id/request_green_certificate_proof_text"
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -130,30 +130,8 @@
                 android:layout_marginEnd="@dimen/spacing_normal"
                 android:text="@string/request_green_certificate_body_2"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/request_green_certificate_qr_code_icon"
-                app:layout_constraintTop_toTopOf="@id/request_green_certificate_qr_code_icon" />
-
-            <ImageView
-                android:id="@+id/request_green_certificate_qrcode_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_medium"
-                android:importantForAccessibility="no"
-                app:layout_constraintStart_toStartOf="@id/request_green_certificate_qr_code_icon"
-                app:layout_constraintTop_toBottomOf="@id/request_green_certificate_qr_code_text"
-                app:srcCompat="@drawable/ic_green_certificate_qrcode" />
-
-            <TextView
-                android:id="@+id/request_green_certificate_qrcode_text"
-                style="@style/subtitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_small"
-                android:layout_marginEnd="@dimen/spacing_normal"
-                android:text="@string/request_green_certificate_body_3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/request_green_certificate_qrcode_icon"
-                app:layout_constraintTop_toTopOf="@id/request_green_certificate_qrcode_icon" />
+                app:layout_constraintStart_toEndOf="@id/request_green_certificate_proof_icon"
+                app:layout_constraintTop_toTopOf="@id/request_green_certificate_proof_icon" />
 
             <include
                 android:id="@+id/privacy_card"
@@ -165,7 +143,7 @@
                 android:layout_marginEnd="@dimen/spacing_small"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/request_green_certificate_qrcode_text" />
+                app:layout_constraintTop_toBottomOf="@id/request_green_certificate_proof_text" />
 
             <de.rki.coronawarnapp.ui.view.MoreInformationView
                 android:id="@+id/privacy_information"
