@@ -102,16 +102,20 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
         }
 
         viewModel.registrationState.observe2(this) { state ->
-            binding.submissionQrCodeScanSpinner.visibility = when (state.apiRequestState) {
-                ApiRequestState.STARTED -> View.VISIBLE
-                else -> View.GONE
+            when (state.apiRequestState) {
+                ApiRequestState.STARTED -> binding.submissionQrCodeScanSpinner.show()
+                else -> binding.submissionQrCodeScanSpinner.hide()
             }
+
             when (state.test?.testResult) {
                 CoronaTestResult.PCR_POSITIVE ->
                     NavGraphDirections.actionToSubmissionTestResultAvailableFragment(testType = Type.PCR)
 
-                CoronaTestResult.PCR_OR_RAT_PENDING ->
-                    NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = state.test.type)
+                CoronaTestResult.PCR_OR_RAT_PENDING -> {
+                    // TODO if test is RAT and has a certificate navigate to Request GC
+                    // otherwise Pending screen
+                    NavGraphDirections.actionSubmissionTestResultGreenCertificateFragment(testType = state.test.type)
+                }
 
                 CoronaTestResult.PCR_NEGATIVE,
                 CoronaTestResult.PCR_INVALID,

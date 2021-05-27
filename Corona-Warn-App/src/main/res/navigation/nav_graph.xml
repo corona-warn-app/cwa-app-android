@@ -395,6 +395,10 @@
         app:popUpToInclusive="false" />
 
     <action
+        android:id="@+id/action_submissionTestResultGreenCertificateFragment"
+        app:destination="@id/requestGreenCertificateFragment" />
+
+    <action
         android:id="@+id/action_to_submissionTestResultAvailableFragment"
         app:destination="@id/submissionTestResultAvailableFragment"
         app:popUpTo="@id/mainFragment"
@@ -812,10 +816,19 @@
             app:argType="string" />
         <argument
             android:name="correctionLevel"
-            app:argType="com.google.zxing.qrcode.decoder.ErrorCorrectionLevel"
-            android:defaultValue="Q" />
+            android:defaultValue="Q"
+            app:argType="com.google.zxing.qrcode.decoder.ErrorCorrectionLevel" />
     </fragment>
     <action
         android:id="@+id/action_global_qrCodeFullScreenFragment"
         app:destination="@id/qrCodeFullScreenFragment" />
+    <fragment
+        android:id="@+id/requestGreenCertificateFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.greencertificate.RequestGreenCertificateFragment"
+        android:label="fragment_request_green_certificate"
+        tools:layout="@layout/fragment_request_green_certificate">
+        <argument
+            android:name="testType"
+            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
+    </fragment>
 </navigation>

@@ -179,4 +179,13 @@
     <!-- XTXT: First bulletpoint title for privacy card -->
     <string name="vaccination_privacy_card_fourth_bulletpoint_title_text" translatable="false">"You have the possibility to delete vaccination certificates in the app at any time. Until then, the vaccination certificates will be stored on your smartphone."</string>
 
+    <!--    Green Certificate -->
+    <string name="request_green_certificate_privacy_title" translatable="false">Data protection and data security</string>
+    <string name="request_green_certificate_privacy_section_1" translatable="false">Requesting and using a digital COVID-19 test certificate is voluntary. There are other ways to prove that you have a negative test certificate.</string>
+    <string name="request_green_certificate_privacy_section_2" translatable="false">To create your test certificate, data is transmitted once in encrypted form to the RKI. The RKI signs this data electronically to confirm its validity. The RKI will not store the data.</string>
+    <string name="request_green_certificate_privacy_section_3" translatable="false">The COVID-19 test certificate contains the data about your coronavirus test. In cases where you are required by law to prove a negative test result, it is sufficient to show the QR code in the app. Do not provide the test certificate to anyone if you do not want the data to be read.</string>
+    <string name="request_green_certificate_privacy_section_4" translatable="false">If you present the QR code of the test certificate in the app and it is scanned using the verification app, others will be able to find out your test result. During verification, the official verification app will also display your name and date of birth.</string>
+    <string name="request_green_certificate_privacy_section_5" translatable="false">You have the possibility to delete test certificates in the app at any time. Until then, the test certificates will be stored on your smartphone.</string>
+    <string name="request_green_certificate_privacy_legal_information" translatable="false">Detailed information about this data processing is available in the privacy notice</string>
+
 </resources>

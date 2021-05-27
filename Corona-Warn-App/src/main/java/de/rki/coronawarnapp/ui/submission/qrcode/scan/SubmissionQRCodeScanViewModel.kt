@@ -20,9 +20,9 @@ import timber.log.Timber
 
 class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
+    @Assisted private val isConsentGiven: Boolean,
     private val cameraSettings: CameraSettings,
     private val qrCodeRegistrationStateProcessor: QrCodeRegistrationStateProcessor,
-    @Assisted private val isConsentGiven: Boolean,
     private val submissionRepository: SubmissionRepository,
     private val qrCodeValidator: CoronaTestQrCodeValidator,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
