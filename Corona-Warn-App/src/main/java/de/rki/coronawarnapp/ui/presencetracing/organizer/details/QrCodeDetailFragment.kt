@@ -5,26 +5,28 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.core.view.isGone
+import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerQrCodeDetailFragmentBinding
+import de.rki.coronawarnapp.ui.view.onOffsetChange
+import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
-import kotlin.math.abs
 
 class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_detail_fragment), AutoInject {
 
@@ -40,7 +42,7 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
         }
     )
 
-    private val binding: TraceLocationOrganizerQrCodeDetailFragmentBinding by viewBindingLazy()
+    private val binding: TraceLocationOrganizerQrCodeDetailFragmentBinding by viewBinding()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,16 +57,12 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
         setToolbarOverlay()
 
         binding.apply {
-            appBarLayout.addOnOffsetChangedListener(
-                OnOffsetChangedListener { appBarLayout, verticalOffset ->
-                    title.alpha = (
-                        1.0f - abs(verticalOffset / (appBarLayout.totalScrollRange.toFloat() * 0.5f))
-                        )
-                    subtitle.alpha = (
-                        1.0f - abs(verticalOffset / (appBarLayout.totalScrollRange.toFloat() * 0.7f))
-                        )
-                }
-            )
+            appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
+                title.alpha = titleAlpha
+                subtitle.alpha = subtitleAlpha
+                checkShadowVisibility()
+            }
+            root.viewTreeObserver.addOnGlobalLayoutListener { checkShadowVisibility() }
 
             toolbar.apply {
                 navigationIcon = context.getDrawableCompat(R.drawable.ic_close_white)
@@ -84,6 +82,10 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
             }
 
             root.transitionName = navArgs.traceLocationId.toString()
+
+            qrCodeImage.setOnClickListener {
+                viewModel.openFullScreen()
+            }
         }
 
         viewModel.routeToScreen.observe2(this) {
@@ -100,6 +102,12 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
                 is QrCodeDetailNavigationEvents.NavigateToQrCodePosterFragment -> doNavigate(
                     QrCodeDetailFragmentDirections.actionQrCodeDetailFragmentToQrCodePosterFragment(it.locationId)
                 )
+                is QrCodeDetailNavigationEvents.NavigateToFullScreenQrCode -> findNavController().navigate(
+                    R.id.action_global_qrCodeFullScreenFragment,
+                    QrCodeFullScreenFragmentArgs(it.qrcodeText, it.correctionLevel).toBundle(),
+                    null,
+                    FragmentNavigatorExtras(binding.qrCodeImage to binding.qrCodeImage.transitionName)
+                )
             }
         }
 
@@ -114,36 +122,39 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
                     val endTime = uiState.endDateTime!!.toDateTime()
 
                     eventDate.isGone = false
+
+                    val startDay = startTime.toLocalDate().toString("dd.MM.yyyy")
+                    val startHour = startTime.toLocalTime().toString("HH:mm")
+                    val endDay = endTime.toLocalDate().toString("dd.MM.yyyy")
+                    val endHour = endTime.toLocalTime().toString("HH:mm")
                     eventDate.text = if (startTime.toLocalDate() == endTime.toLocalDate()) {
                         requireContext().getString(
                             R.string.trace_location_organizer_detail_item_duration,
-                            startTime.toLocalDate().toString("dd.MM.yyyy"),
-                            startTime.toLocalTime().toString("HH:mm"),
-                            endTime.toLocalTime().toString("HH:mm")
+                            startDay,
+                            startHour,
+                            endHour
                         )
                     } else {
                         requireContext().getString(
                             R.string.trace_location_organizer_detail_item_duration_multiple_days,
-                            startTime.toLocalDate().toString("dd.MM.yyyy"),
-                            startTime.toLocalTime().toString("HH:mm"),
-                            endTime.toLocalDate().toString("dd.MM.yyyy"),
-                            endTime.toLocalTime().toString("HH:mm")
+                            startDay,
+                            startHour,
+                            endDay,
+                            endHour
                         )
                     }
                 } else {
                     eventDate.isGone = true
                 }
 
-                uiState.bitmap?.let {
-                    binding.progressBar.hide()
-                    binding.qrCodeImage.apply {
-                        val resourceId = RoundedBitmapDrawableFactory.create(resources, it)
-                        resourceId.cornerRadius = 15f
-                        setImageDrawable(resourceId)
-                    }
-                }
+                binding.progressBar.hide()
+                binding.qrCodeImage.setImageBitmap(uiState.bitmap)
             }
         }
+    }
+
+    private fun TraceLocationOrganizerQrCodeDetailFragmentBinding.checkShadowVisibility() {
+        shadowView.isInvisible = nestedScrollView.bottom <= shadowView.y
     }
 
     private fun setToolbarOverlay() {

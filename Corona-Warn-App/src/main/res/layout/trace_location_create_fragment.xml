@@ -51,8 +51,7 @@
                     android:layout_height="wrap_content"
                     android:imeOptions="actionNext"
                     android:inputType="textCapWords"
-                    android:maxLength="100"
-                    android:textStyle="bold" />
+                    android:maxLength="100" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

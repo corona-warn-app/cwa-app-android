@@ -1,12 +1,8 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
 import de.rki.coronawarnapp.bugreporting.censors.submission.PcrQrCodeCensor
-import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
-import de.rki.coronawarnapp.util.CWADebug
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.every
-import io.mockk.mockkObject
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -20,9 +16,6 @@ class PcrQrCodeCensorTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-
-        mockkObject(CWADebug)
-        every { CWADebug.isDeviceForTestersBuild } returns false
     }
 
     @AfterEach
@@ -36,34 +29,16 @@ class PcrQrCodeCensorTest : BaseTest() {
     fun `censoring replaces the logline message`() = runBlockingTest {
         PcrQrCodeCensor.lastGUID = testGUID
         val instance = createInstance()
-        val censored = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "I'm a shy qrcode: $testGUID",
-            tag = "I'm a tag",
-            throwable = null
-        )
-        instance.checkLog(censored) shouldBe censored.copy(
-            message = "I'm a shy qrcode: ########-####-####-####-########3a2f"
-        )
-
-        every { CWADebug.isDeviceForTestersBuild } returns true
-        instance.checkLog(censored) shouldBe censored.copy(
-            message = "I'm a shy qrcode: ########-e0de-4bd4-90c1-17c2bb683a2f"
-        )
+        val censored = "I'm a shy qrcode: $testGUID"
+        instance.checkLog(censored)!!
+            .compile()!!.censored shouldBe "I'm a shy qrcode: ########-####-####-####-########3a2f"
     }
 
     @Test
     fun `censoring returns null if there is no match`() = runBlockingTest {
         PcrQrCodeCensor.lastGUID = testGUID.replace("f", "a")
         val instance = createInstance()
-        val notCensored = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "I'm a shy qrcode: $testGUID",
-            tag = "I'm a tag",
-            throwable = null
-        )
+        val notCensored = "I'm a shy qrcode: $testGUID"
         instance.checkLog(notCensored) shouldBe null
     }
 
@@ -71,13 +46,7 @@ class PcrQrCodeCensorTest : BaseTest() {
     fun `censoring aborts if no qrcode was set`() = runBlockingTest {
         PcrQrCodeCensor.lastGUID = null
         val instance = createInstance()
-        val notCensored = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "I'm a shy qrcode: $testGUID",
-            tag = "I'm a tag",
-            throwable = null
-        )
+        val notCensored = "I'm a shy qrcode: $testGUID"
         instance.checkLog(notCensored) shouldBe null
     }
 }

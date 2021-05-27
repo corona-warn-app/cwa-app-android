@@ -12,6 +12,8 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.verify
+import okhttp3.Cache
 import okio.ByteString.Companion.decodeHex
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -31,6 +33,7 @@ class RemoteAppConfigSourceTest : BaseIOTest() {
     @MockK lateinit var configParser: ConfigParser
     @MockK lateinit var configData: ConfigData
     @MockK lateinit var timeStamper: TimeStamper
+    @MockK(relaxUnitFun = true) lateinit var remoteCache: Cache
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
 
@@ -71,7 +74,8 @@ class RemoteAppConfigSourceTest : BaseIOTest() {
         server = configServer,
         storage = configStorage,
         parser = configParser,
-        dispatcherProvider = TestDispatcherProvider()
+        dispatcherProvider = TestDispatcherProvider(),
+        remoteCache = remoteCache
     )
 
     @Test
@@ -101,6 +105,13 @@ class RemoteAppConfigSourceTest : BaseIOTest() {
         mockConfigStorage shouldBe dataFromServer
 
         coVerify(exactly = 0) { configStorage.setStoredConfig(any()) }
+    }
+
+    @Test
+    fun `clear clears okhttp cache`() {
+        createInstance().clear()
+
+        verify { remoteCache.evictAll() }
     }
 
     companion object {

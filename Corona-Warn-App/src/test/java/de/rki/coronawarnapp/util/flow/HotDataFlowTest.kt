@@ -124,7 +124,7 @@ class HotDataFlowTest : BaseTest() {
         }
 
         runBlocking {
-            testCollector.await { list, l -> list.size == 3201 }
+            testCollector.await { list, _ -> list.size == 3201 }
             testCollector.latestValues shouldBe (1..3201).toList()
         }
 
@@ -166,7 +166,7 @@ class HotDataFlowTest : BaseTest() {
         }
 
         runBlocking {
-            testCollector.await { list, l -> list.size == 4001 }
+            testCollector.await { list, _ -> list.size == 4001 }
             testCollector.latestValues.map { it.values.single().number } shouldBe (1L..4001L).toList()
         }
 
@@ -193,7 +193,7 @@ class HotDataFlowTest : BaseTest() {
         hotData.updateAsync { "1" }
 
         runBlocking {
-            testCollector.await { list, l -> list.size == 3 }
+            testCollector.await { list, _ -> list.size == 3 }
             testCollector.latestValues shouldBe listOf("1", "2", "1")
         }
     }
@@ -221,7 +221,7 @@ class HotDataFlowTest : BaseTest() {
             hotData.updateAsync { "C" }
 
             listOf(sub1, sub2, sub3).forEach {
-                it.await { list, s -> list.size == 4 }
+                it.await { list, _ -> list.size == 4 }
                 it.latestValues shouldBe listOf("Test", "A", "B", "C")
                 it.cancel()
             }
@@ -299,7 +299,7 @@ class HotDataFlowTest : BaseTest() {
 
         hotData.updateBlocking { this - 3 } shouldBe 0
 
-        testCollector.await { list, i -> i == 3 }
+        testCollector.await { _, i -> i == 3 }
         testCollector.latestValues shouldBe listOf(2, 3, 0)
 
         testCollector.cancel()

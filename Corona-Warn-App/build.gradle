@@ -12,6 +12,9 @@ def environmentExtractor = { File path ->
     return "\"${escapedJson}\""
 }
 
+jacoco {
+    toolVersion = "0.8.7"
+}
 
 android {
     println("Current VERSION_MAJOR: ${VERSION_MAJOR}")
@@ -20,8 +23,7 @@ android {
     println("Current VERSION_BUILD: ${VERSION_BUILD}")
 
     compileSdkVersion 29
-    buildToolsVersion "29.0.3"
-
+    buildToolsVersion "30.0.3"
     defaultConfig {
         applicationId 'de.rki.coronawarnapp'
         minSdkVersion 23
@@ -128,7 +130,7 @@ android {
             applicationIdSuffix '.test'
 
             ext {
-                envTypeDefault = [debug: "INT", release: "WRU-XD"]
+                envTypeDefault = [debug: "INT", release: "WRU"]
             }
 
             if (signingPropFile.canRead()) {
@@ -306,7 +308,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutineVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
-    testImplementation "org.jetbrains.kotlin:kotlin-reflect:1.4.21"
+    testImplementation "org.jetbrains.kotlin:kotlin-reflect:1.5.0"
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
 
     // ANDROID STANDARD
@@ -332,7 +334,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
 
     // DAGGER
-    def dagger_version = "2.31.2"
+    def dagger_version = "2.35.1"
     implementation "com.google.dagger:dagger:$dagger_version"
     implementation "com.google.dagger:dagger-android:$dagger_version"
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
@@ -353,7 +355,7 @@ dependencies {
 
     // Testing
     testImplementation "androidx.arch.core:core-testing:2.1.0"
-    testImplementation('org.robolectric:robolectric:4.4') {
+    testImplementation('org.robolectric:robolectric:4.5.1') {
         exclude group: 'com.google.protobuf'
     }
     testImplementation "io.mockk:mockk:1.10.4"
@@ -437,4 +439,7 @@ dependencies {
 
     // ANIMATIONS
     implementation "com.airbnb.android:lottie:3.5.0"
+
+    // HCert
+    implementation("com.upokecenter:cbor:4.4.1")
 }

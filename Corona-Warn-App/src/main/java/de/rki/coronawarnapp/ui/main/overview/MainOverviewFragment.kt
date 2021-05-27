@@ -6,8 +6,8 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentMainOverviewBinding
-import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.popBackStack
+import de.rki.coronawarnapp.util.ui.viewBinding
 
 /**
  * The fragment displays static informative content to the user
@@ -18,7 +18,7 @@ import de.rki.coronawarnapp.util.ui.viewBindingLazy
 
 class MainOverviewFragment : Fragment(R.layout.fragment_main_overview) {
 
-    private val binding: FragmentMainOverviewBinding by viewBindingLazy()
+    private val binding: FragmentMainOverviewBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,7 +32,7 @@ class MainOverviewFragment : Fragment(R.layout.fragment_main_overview) {
 
     private fun setButtonOnClickListener() {
         binding.mainOverviewHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            (activity as MainActivity).goBack()
+            popBackStack()
         }
     }
 }

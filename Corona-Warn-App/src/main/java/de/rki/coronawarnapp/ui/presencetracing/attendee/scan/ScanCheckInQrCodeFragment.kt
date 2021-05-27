@@ -8,31 +8,33 @@ import android.view.accessibility.AccessibilityEvent.TYPE_ANNOUNCEMENT
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.FragmentScanCheckInQrCodeBinding
+import de.rki.coronawarnapp.databinding.FragmentScanQrCodeBinding
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
+import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import timber.log.Timber
 import javax.inject.Inject
 
 class ScanCheckInQrCodeFragment :
-    Fragment(R.layout.fragment_scan_check_in_qr_code),
+    Fragment(R.layout.fragment_scan_qr_code),
     AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: ScanCheckInQrCodeViewModel by cwaViewModels { viewModelFactory }
 
-    private val binding: FragmentScanCheckInQrCodeBinding by viewBindingLazy()
+    private val binding: FragmentScanQrCodeBinding by viewBinding()
     private var showsPermissionDialog = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,13 +49,13 @@ class ScanCheckInQrCodeFragment :
         savedInstanceState: Bundle?
     ) {
         with(binding) {
-            checkInQrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
-                binding.checkInQrCodeScanPreview.setTorch(isChecked)
+            qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
+                binding.qrCodeScanPreview.setTorch(isChecked)
             }
 
-            checkInQrCodeScanToolbar.setNavigationOnClickListener { viewModel.onNavigateUp() }
-            checkInQrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
-            checkInQrCodeScanViewfinderView.setCameraPreview(binding.checkInQrCodeScanPreview)
+            qrCodeScanToolbar.setNavigationOnClickListener { viewModel.onNavigateUp() }
+            qrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
+            qrCodeScanViewfinderView.setCameraPreview(binding.qrCodeScanPreview)
         }
 
         viewModel.events.observe2(this) { navEvent ->
@@ -68,6 +70,7 @@ class ScanCheckInQrCodeFragment :
                             .build()
                     )
                 }
+                is ScanCheckInQrCodeNavigation.InvalidQrCode -> showInvalidQrCodeInformation(navEvent.errorText)
             }
         }
     }
@@ -76,7 +79,7 @@ class ScanCheckInQrCodeFragment :
         super.onResume()
         binding.checkInQrCodeScanContainer.sendAccessibilityEvent(TYPE_ANNOUNCEMENT)
         if (CameraPermissionHelper.hasCameraPermission(requireActivity())) {
-            binding.checkInQrCodeScanPreview.resume()
+            binding.qrCodeScanPreview.resume()
             startDecode()
             return
         }
@@ -104,7 +107,7 @@ class ScanCheckInQrCodeFragment :
         }
     }
 
-    private fun startDecode() = binding.checkInQrCodeScanPreview
+    private fun startDecode() = binding.qrCodeScanPreview
         .decodeSingle { barcodeResult ->
             viewModel.onScanResult(barcodeResult)
         }
@@ -124,6 +127,20 @@ class ScanCheckInQrCodeFragment :
         )
         showsPermissionDialog = true
         DialogHelper.showDialog(permissionDeniedDialog)
+    }
+
+    private fun showInvalidQrCodeInformation(lazyErrorText: LazyString) {
+        MaterialAlertDialogBuilder(requireContext()).apply {
+            val errorText = lazyErrorText.get(context)
+            setTitle(R.string.trace_location_attendee_invalid_qr_code_dialog_title)
+            setMessage(getString(R.string.trace_location_attendee_invalid_qr_code_dialog_message, errorText))
+            setPositiveButton(R.string.trace_location_attendee_invalid_qr_code_dialog_positive_button) { _, _ ->
+                startDecode()
+            }
+            setNegativeButton(R.string.trace_location_attendee_invalid_qr_code_dialog_negative_button) { _, _ ->
+                popBackStack()
+            }
+        }.show()
     }
 
     private fun showCameraPermissionRationaleDialog() {
@@ -156,7 +173,7 @@ class ScanCheckInQrCodeFragment :
 
     override fun onPause() {
         super.onPause()
-        binding.checkInQrCodeScanPreview.pause()
+        binding.qrCodeScanPreview.pause()
     }
 
     companion object {

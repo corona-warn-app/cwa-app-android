@@ -8,7 +8,9 @@ sealed class HomeFragmentEvents {
 
     object ShowErrorResetDialog : HomeFragmentEvents()
 
+    object GoToStatisticsExplanation : HomeFragmentEvents()
+
     data class ShowDeleteTestDialog(val type: CoronaTest.Type) : HomeFragmentEvents()
 
-    object GoToStatisticsExplanation : HomeFragmentEvents()
+    data class GoToVaccinationList(val personIdentifierCodeSha256: String) : HomeFragmentEvents()
 }

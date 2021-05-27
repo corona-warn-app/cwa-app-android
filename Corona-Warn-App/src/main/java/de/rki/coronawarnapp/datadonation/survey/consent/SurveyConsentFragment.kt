@@ -8,12 +8,12 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.SurveyConsentFragmentBinding
 import de.rki.coronawarnapp.util.DialogHelper
-import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
@@ -31,7 +31,7 @@ class SurveyConsentFragment : Fragment(R.layout.survey_consent_fragment), AutoIn
         }
     )
 
-    private val binding: SurveyConsentFragmentBinding by viewBindingLazy()
+    private val binding: SurveyConsentFragmentBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,7 +48,7 @@ class SurveyConsentFragment : Fragment(R.layout.survey_consent_fragment), AutoIn
                     activity?.onBackPressed()
 
                 is SurveyConsentNavigationEvents.NavigateWeb -> {
-                    ExternalActionHelper.openUrl(this, event.url)
+                    openUrl(event.url)
                     popBackStack()
                 }
                 is SurveyConsentNavigationEvents.NavigateToMoreInformationScreen -> {

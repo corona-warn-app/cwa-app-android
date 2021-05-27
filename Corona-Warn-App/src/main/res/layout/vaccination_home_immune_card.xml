@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/vaccination_compelete_gradient"
+    android:padding="@dimen/card_padding"
+    tools:ignore="UnusedAttribute">
+
+
+    <ImageView
+        android:id="@+id/show_more_action"
+        android:layout_width="@dimen/icon_size_risk_card"
+        android:layout_height="@dimen/icon_size_risk_card"
+        android:importantForAccessibility="no"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_forward"
+        app:tint="@color/colorStableLight" />
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/show_more_action"
+        app:srcCompat="@drawable/vaccination_card_icon_immune" />
+
+    <TextView
+        android:id="@+id/card_title"
+        style="@style/body2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:accessibilityHeading="true"
+        android:focusable="false"
+        android:text="@string/vaccination_card_status_title"
+        android:textColor="@color/colorTextPrimary1InvertedStable"
+        app:layout_constraintEnd_toStartOf="@id/show_more_action"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/vaccination_label"
+        style="@style/headline5Bold"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:accessibilityHeading="true"
+        android:focusable="false"
+        android:text="@string/vaccination_card_status_vaccination_name"
+        android:textColor="@color/colorTextPrimary1InvertedStable"
+        app:layout_constraintEnd_toStartOf="@+id/icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_title" />
+
+    <TextView
+        android:id="@+id/person_name"
+        style="@style/body1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:accessibilityHeading="true"
+        android:focusable="false"
+        android:textColor="@color/colorTextPrimary1InvertedStable"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vaccination_label"
+        tools:text="Andrea Schneider" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

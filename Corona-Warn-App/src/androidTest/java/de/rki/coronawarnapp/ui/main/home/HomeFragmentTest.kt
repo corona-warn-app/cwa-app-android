@@ -18,6 +18,8 @@ import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestPositiveCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestSubmissionDoneCard
+import de.rki.coronawarnapp.submission.ui.homecards.RapidTestPositiveCard
+import de.rki.coronawarnapp.submission.ui.homecards.RapidTestSubmissionDoneCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestResultItem
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.states.TracingStateProvider
@@ -32,6 +34,10 @@ import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
+import de.rki.coronawarnapp.vaccination.core.VaccinationSettings
+import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.vaccination.ui.homecard.CreateVaccinationHomeCard
+import de.rki.coronawarnapp.vaccination.ui.homecard.VaccinationStatusItem
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
@@ -68,9 +74,11 @@ class HomeFragmentTest : BaseUITest() {
     @MockK lateinit var statisticsProvider: StatisticsProvider
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
     @MockK lateinit var tracingSettings: TracingSettings
+    @MockK lateinit var vaccinationSettings: VaccinationSettings
     @MockK lateinit var traceLocationOrganizerSettings: TraceLocationOrganizerSettings
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var bluetoothSupport: BluetoothSupport
+    @MockK lateinit var vaccinationRepository: VaccinationRepository
 
     private lateinit var homeFragmentViewModel: HomeFragmentViewModel
 
@@ -85,7 +93,7 @@ class HomeFragmentTest : BaseUITest() {
             every { refreshRequiredData() } just Runs
             every { tracingHeaderState } returns MutableLiveData(TracingHeaderState.TracingActive)
             every { showLoweredRiskLevelDialog } returns MutableLiveData()
-            every { homeItems } returns MutableLiveData(emptyList())
+            every { homeItems } returns homeFragmentItemsLiveData()
             every { popupEvents } returns SingleLiveEvent()
             every { showPopUps() } just Runs
             every { restoreAppShortcuts() } just Runs
@@ -173,7 +181,7 @@ class HomeFragmentTest : BaseUITest() {
     @Test
     fun captureHomeFragmentTestSubmissionDone() {
         every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
-            submissionTestResultItem = HomeData.Submission.TEST_SUBMISSION_DONE_ITEM
+            submissionTestResultItems = listOf(HomeData.Submission.TEST_SUBMISSION_DONE_ITEM)
         )
         captureHomeFragment("submission_done")
     }
@@ -182,7 +190,7 @@ class HomeFragmentTest : BaseUITest() {
     @Test
     fun captureHomeFragmentTestError() {
         every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
-            submissionTestResultItem = HomeData.Submission.TEST_ERROR_ITEM
+            submissionTestResultItems = listOf(HomeData.Submission.TEST_ERROR_ITEM)
         )
         captureHomeFragment("test_error")
     }
@@ -191,7 +199,7 @@ class HomeFragmentTest : BaseUITest() {
     @Test
     fun captureHomeFragmentTestFetching() {
         every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
-            submissionTestResultItem = HomeData.Submission.TEST_FETCHING_ITEM
+            submissionTestResultItems = listOf(HomeData.Submission.TEST_FETCHING_ITEM)
         )
         captureHomeFragment("test_fetching")
     }
@@ -200,7 +208,7 @@ class HomeFragmentTest : BaseUITest() {
     @Test
     fun captureHomeFragmentTestInvalid() {
         every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
-            submissionTestResultItem = HomeData.Submission.TEST_INVALID_ITEM
+            submissionTestResultItems = listOf(HomeData.Submission.TEST_INVALID_ITEM)
         )
         captureHomeFragment("test_invalid")
     }
@@ -209,16 +217,30 @@ class HomeFragmentTest : BaseUITest() {
     @Test
     fun captureHomeFragmentTestNegative() {
         every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
-            submissionTestResultItem = HomeData.Submission.TEST_NEGATIVE_ITEM
+            submissionTestResultItems = listOf(HomeData.Submission.TEST_NEGATIVE_ITEM)
         )
         captureHomeFragment("test_negative")
     }
 
     @Screenshot
     @Test
+    fun captureHomeFragmentTwoTestsNegative() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
+            submissionTestResultItems = listOf(
+                HomeData.Submission.TEST_NEGATIVE_ITEM,
+                HomeData.Submission.TEST_NEGATIVE_ITEM_RAT
+            )
+        )
+        launchInMainActivity<HomeFragment>()
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2, additionalY = -25))
+        takeScreenshot<HomeFragment>("tests_negative")
+    }
+
+    @Screenshot
+    @Test
     fun captureHomeFragmentTestPositive() {
         every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
-            submissionTestResultItem = HomeData.Submission.TEST_POSITIVE_ITEM
+            submissionTestResultItems = listOf(HomeData.Submission.TEST_POSITIVE_ITEM)
         )
         captureHomeFragment("test_positive")
     }
@@ -227,7 +249,7 @@ class HomeFragmentTest : BaseUITest() {
     @Test
     fun captureHomeFragmentTestPending() {
         every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
-            submissionTestResultItem = HomeData.Submission.TEST_PENDING_ITEM
+            submissionTestResultItems = listOf(HomeData.Submission.TEST_PENDING_ITEM)
         )
         captureHomeFragment("test_pending")
     }
@@ -268,6 +290,51 @@ class HomeFragmentTest : BaseUITest() {
         captureHomeFragment("compatibility_ble_scan_not_supported")
     }
 
+    @Screenshot
+    @Test
+    fun captureVaccinationNoCertificate() {
+        launchInMainActivity<HomeFragment>()
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2, additionalY = 450))
+
+        takeScreenshot<HomeFragment>("vaccination_none")
+    }
+
+    @Screenshot
+    @Test
+    fun captureVaccinationIncomplete() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
+            vaccinationStatus = HomeData.Vaccination.INCOMPLETE
+        )
+        launchInMainActivity<HomeFragment>()
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2))
+
+        takeScreenshot<HomeFragment>("vaccination_incomplete")
+    }
+
+    @Screenshot
+    @Test
+    fun captureVaccinationComplete() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
+            vaccinationStatus = HomeData.Vaccination.COMPLETE
+        )
+        launchInMainActivity<HomeFragment>()
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2))
+
+        takeScreenshot<HomeFragment>("vaccination_complete")
+    }
+
+    @Screenshot
+    @Test
+    fun captureVaccinationImmunity() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
+            vaccinationStatus = HomeData.Vaccination.IMMUNITY
+        )
+        launchInMainActivity<HomeFragment>()
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2))
+
+        takeScreenshot<HomeFragment>("vaccination_immunity")
+    }
+
     @After
     fun teardown() {
         clearAllViewModels()
@@ -300,25 +367,42 @@ class HomeFragmentTest : BaseUITest() {
             tracingSettings = tracingSettings,
             traceLocationOrganizerSettings = traceLocationOrganizerSettings,
             timeStamper = timeStamper,
-            bluetoothSupport = bluetoothSupport
+            bluetoothSupport = bluetoothSupport,
+            vaccinationSettings = vaccinationSettings,
+            vaccinationRepository = vaccinationRepository
         )
     )
 
     // LiveData item for fragments
     private fun homeFragmentItemsLiveData(
         tracingStateItem: TracingStateItem = HomeData.Tracing.LOW_RISK_ITEM_WITH_ENCOUNTERS,
-        submissionTestResultItem: TestResultItem = HomeData.Submission.TEST_UNREGISTERED_ITEM
+        submissionTestResultItems: List<TestResultItem> = listOf(HomeData.Submission.TEST_UNREGISTERED_ITEM),
+        vaccinationStatus: VaccinationStatusItem? = null,
     ): LiveData<List<HomeItem>> =
         MutableLiveData(
             mutableListOf<HomeItem>().apply {
-                when (submissionTestResultItem) {
-                    is PcrTestSubmissionDoneCard.Item,
-                    is PcrTestPositiveCard.Item -> {
-                        Timber.d("Tracing item is not added, submission:$submissionTestResultItem")
-                    }
-                    else -> add(tracingStateItem)
+
+                val hideTracingState = submissionTestResultItems.any {
+                    it is PcrTestPositiveCard.Item ||
+                        it is PcrTestSubmissionDoneCard.Item ||
+                        it is RapidTestPositiveCard.Item ||
+                        it is RapidTestSubmissionDoneCard.Item
                 }
-                add(submissionTestResultItem)
+
+                if (hideTracingState) {
+                    Timber.d("Tracing item is not added, submission:$submissionTestResultItems")
+                } else {
+                    add(tracingStateItem)
+                }
+
+                vaccinationStatus?.let {
+                    add(it)
+                }
+
+                addAll(submissionTestResultItems)
+
+                add(CreateVaccinationHomeCard.Item {})
+
                 Statistics.statisticsData?.let {
                     add(StatisticsHomeCard.Item(data = it, onHelpAction = { }))
                 }

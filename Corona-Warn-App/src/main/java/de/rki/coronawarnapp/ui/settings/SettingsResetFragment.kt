@@ -1,19 +1,19 @@
 package de.rki.coronawarnapp.ui.settings
 
-import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsResetBinding
-import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.popBackStack
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
@@ -26,7 +26,7 @@ class SettingsResetFragment : Fragment(R.layout.fragment_settings_reset), AutoIn
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: SettingsResetViewModel by cwaViewModels { viewModelFactory }
-    private val binding: FragmentSettingsResetBinding by viewBindingLazy()
+    private val binding: FragmentSettingsResetBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,7 +38,7 @@ class SettingsResetFragment : Fragment(R.layout.fragment_settings_reset), AutoIn
         vm.clickEvent.observe2(this) {
             when (it) {
                 is SettingsEvents.ResetApp -> confirmReset()
-                is SettingsEvents.GoBack -> (activity as MainActivity).goBack()
+                is SettingsEvents.GoBack -> popBackStack()
                 is SettingsEvents.GoToOnboarding -> navigateToOnboarding()
             }
         }
@@ -66,7 +66,8 @@ class SettingsResetFragment : Fragment(R.layout.fragment_settings_reset), AutoIn
         )
 
         DialogHelper.showDialog(resetDialog).apply {
-            getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
+            getButton(DialogInterface.BUTTON_POSITIVE)
+                .setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
         }
     }
 }

@@ -2,18 +2,18 @@ package de.rki.coronawarnapp.bugreporting.censors.contactdiary
 
 import dagger.Reusable
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNewLogLineIfDifferent
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensorContainer
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidEmail
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidName
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidPhoneNumber
-import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
+import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 
 @Reusable
@@ -22,35 +22,37 @@ class DiaryPersonCensor @Inject constructor(
     diary: ContactDiaryRepository
 ) : BugCensor {
 
-    private val persons by lazy {
-        diary.people.stateIn(
-            scope = debugScope,
-            started = SharingStarted.Lazily,
-            initialValue = null
-        ).filterNotNull()
+    private val mutex = Mutex()
+
+    // We keep a history of all persons so that we can censor them even after they got deleted
+    private val personHistory = mutableSetOf<ContactDiaryPerson>()
+
+    init {
+        diary.people
+            .onEach { mutex.withLock { personHistory.addAll(it) } }
+            .launchIn(debugScope)
     }
 
-    override suspend fun checkLog(entry: LogLine): LogLine? {
-        val personsNow = persons.first()
+    override suspend fun checkLog(message: String): CensorContainer? = mutex.withLock {
 
-        if (personsNow.isEmpty()) return null
+        if (personHistory.isEmpty()) return null
 
-        val newMessage = personsNow.fold(entry.message) { orig, person ->
+        val newMessage = personHistory.fold(CensorContainer(message)) { orig, person ->
             var wip = orig
 
             withValidName(person.fullName) {
-                wip = wip.replace(it, "Person#${person.personId}/Name")
+                wip = wip.censor(it, "Person#${person.personId}/Name")
             }
             withValidEmail(person.emailAddress) {
-                wip = wip.replace(it, "Person#${person.personId}/EMail")
+                wip = wip.censor(it, "Person#${person.personId}/EMail")
             }
             withValidPhoneNumber(person.phoneNumber) {
-                wip = wip.replace(it, "Person#${person.personId}/PhoneNumber")
+                wip = wip.censor(it, "Person#${person.personId}/PhoneNumber")
             }
 
             wip
         }
 
-        return entry.toNewLogLineIfDifferent(newMessage)
+        return newMessage.nullIfEmpty()
     }
 }

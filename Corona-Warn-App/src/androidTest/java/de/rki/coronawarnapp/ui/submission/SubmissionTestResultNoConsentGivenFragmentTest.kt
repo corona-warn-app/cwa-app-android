@@ -27,6 +27,7 @@ import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
+import testhelpers.TestDispatcherProvider
 import testhelpers.captureScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
@@ -55,6 +56,7 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
         viewModel =
             spyk(
                 SubmissionTestResultNoConsentViewModel(
+                    TestDispatcherProvider(),
                     submissionRepository,
                     testResultAvailableNotificationService,
                     analyticsKeySubmissionCollector,

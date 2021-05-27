@@ -1,13 +1,13 @@
 package de.rki.coronawarnapp.bugreporting.debuglog.ui.upload
 
 import android.content.Context
-import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 
 class LogUploadBlockingDialog(val context: Context) {
 
     private val dialog by lazy {
-        AlertDialog.Builder(context).apply {
+        MaterialAlertDialogBuilder(context).apply {
             setCancelable(false)
             setView(R.layout.bugreporting_debuglog_upload_dialog)
         }.create()

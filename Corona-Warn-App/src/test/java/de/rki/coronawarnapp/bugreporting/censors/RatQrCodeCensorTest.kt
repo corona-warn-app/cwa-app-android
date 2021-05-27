@@ -1,12 +1,8 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
 import de.rki.coronawarnapp.bugreporting.censors.submission.RatQrCodeCensor
-import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
-import de.rki.coronawarnapp.util.CWADebug
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.every
-import io.mockk.mockkObject
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.AfterEach
@@ -21,9 +17,6 @@ internal class RatQrCodeCensorTest {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-
-        mockkObject(CWADebug)
-        every { CWADebug.isDeviceForTestersBuild } returns false
     }
 
     @AfterEach
@@ -45,35 +38,18 @@ internal class RatQrCodeCensorTest {
 
         val censor = createInstance()
 
-        val logLineToCensor = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "Here comes the hash: $testHash of the rat test of Milhouse Van Houten. He was born on 1980-07-01",
-            tag = "I am tag",
-            throwable = null
-        )
+        val logLineToCensor =
+            "Here comes the hash: $testHash of the rat test of Milhouse Van Houten. He was born on 1980-07-01"
 
-        censor.checkLog(logLineToCensor) shouldBe logLineToCensor.copy(
-            message = "Here comes the hash: SHA256HASH-ENDING-WITH-15ad of the rat test of RATest/FirstName RATest/LastName. He was born on RATest/DateOfBirth"
-        )
-
-        every { CWADebug.isDeviceForTestersBuild } returns true
-        censor.checkLog(logLineToCensor) shouldBe logLineToCensor.copy(
-            message = "Here comes the hash: SHA256HASH-ENDING-WITH-61a396177a9cb410ff61f20015ad of the rat test of RATest/FirstName RATest/LastName. He was born on RATest/DateOfBirth"
-        )
+        censor.checkLog(logLineToCensor)!!
+            .compile()!!.censored shouldBe "Here comes the hash: SHA256HASH-ENDING-WITH-15ad of the rat test of RATest/FirstName RATest/LastName. He was born on RATest/DateOfBirth"
     }
 
     @Test
     fun `checkLog() should return null if no data to censor was set`() = runBlockingTest {
         val censor = createInstance()
 
-        val logLineNotToCensor = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "Here comes the hash: $testHash",
-            tag = "I am tag",
-            throwable = null
-        )
+        val logLineNotToCensor = "Here comes the hash: $testHash"
 
         censor.checkLog(logLineNotToCensor) shouldBe null
     }
@@ -90,13 +66,7 @@ internal class RatQrCodeCensorTest {
 
         val censor = createInstance()
 
-        val logLineNotToCensor = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "Here comes the hash: $testHash",
-            tag = "I am tag",
-            throwable = null
-        )
+        val logLineNotToCensor = "Here comes the hash: $testHash"
 
         censor.checkLog(logLineNotToCensor) shouldBe null
     }

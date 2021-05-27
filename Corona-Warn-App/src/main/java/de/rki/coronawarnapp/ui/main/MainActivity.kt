@@ -18,7 +18,6 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmentDirections
 import de.rki.coronawarnapp.databinding.ActivityMainBinding
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
@@ -28,7 +27,6 @@ import de.rki.coronawarnapp.ui.setupWithNavController2
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentFragment
 import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.CWADebug
-import de.rki.coronawarnapp.util.ConnectivityHelper
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.device.PowerManagement
@@ -41,12 +39,6 @@ import org.joda.time.LocalDate
 import timber.log.Timber
 import javax.inject.Inject
 
-/**
- * This activity holds all the fragments (except onboarding) and also registers a listener for
- * connectivity and bluetooth to update the ui.
- *
- * @see ConnectivityHelper
- */
 class MainActivity : AppCompatActivity(), HasAndroidInjector {
     companion object {
         fun start(context: Context, launchIntent: Intent) {
@@ -75,7 +67,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     private val navController by lazy { supportFragmentManager.findNavController(R.id.nav_host_fragment) }
 
     @Inject lateinit var powerManagement: PowerManagement
-    @Inject lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
     @Inject lateinit var dataDonationAnalyticsScheduler: DataDonationAnalyticsScheduler
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -193,7 +184,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     override fun onResume() {
         super.onResume()
         vm.doBackgroundNoiseCheck()
-        contactDiaryWorkScheduler.schedulePeriodic()
         dataDonationAnalyticsScheduler.schedulePeriodic()
     }
 
@@ -261,12 +251,5 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             resultCode,
             data
         )
-    }
-
-    /**
-     * Function is called from back buttons in fragments.
-     */
-    fun goBack() {
-        onBackPressed()
     }
 }

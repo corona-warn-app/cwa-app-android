@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.PosterTemplateProvider
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.Template
@@ -19,6 +20,7 @@ import de.rki.coronawarnapp.util.files.FileSharing
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
@@ -30,6 +32,7 @@ class QrCodePosterViewModel @AssistedInject constructor(
     private val qrCodeGenerator: QrCodeGenerator,
     private val posterTemplateProvider: PosterTemplateProvider,
     private val traceLocationRepository: TraceLocationRepository,
+    private val appConfigProvider: AppConfigProvider,
     private val fileSharing: FileSharing
 ) : CWAViewModel(dispatcher) {
 
@@ -53,10 +56,12 @@ class QrCodePosterViewModel @AssistedInject constructor(
             val file = File(directory, "cwa-qr-code.pdf")
 
             val weakView = weakViewRef.get() ?: return@launch // View is not existing anymore
-            val pageInfo = PdfDocument.PageInfo.Builder(weakView.width, weakView.height, 1).create()
-
+            val pageInfo = PdfDocument.PageInfo.Builder(A4_WIDTH, A4_HEIGHT, 1).create()
             PdfDocument().apply {
                 startPage(pageInfo).apply {
+                    val sx = A4_WIDTH.toFloat() / weakView.width
+                    val sy = A4_HEIGHT.toFloat() / weakView.height
+                    canvas.scale(sx, sy)
                     weakView.draw(canvas)
                     finishPage(this)
                 }
@@ -70,7 +75,7 @@ class QrCodePosterViewModel @AssistedInject constructor(
             sharingIntent.postValue(fileSharing.getFileIntentProvider(file, traceLocation().description))
         } catch (e: Exception) {
             Timber.d(e, "Creating pdf failed")
-            e.report(ExceptionCategory.INTERNAL)
+            e.report(ExceptionCategory.UI)
         }
     }
 
@@ -78,11 +83,13 @@ class QrCodePosterViewModel @AssistedInject constructor(
         try {
             val traceLocation = traceLocation()
             val template = posterTemplateProvider.template()
+            val correctionLevel = appConfigProvider.currentConfig.first().presenceTracing.qrCodeErrorCorrectionLevel
             Timber.d("template=$template")
             val qrCode = qrCodeGenerator.createQrCode(
                 input = traceLocation.locationUrl,
                 length = template.qrCodeLength,
-                margin = 0
+                margin = 0,
+                correctionLevel = correctionLevel
             )
 
             val textInfo = buildString {
@@ -96,7 +103,7 @@ class QrCodePosterViewModel @AssistedInject constructor(
         } catch (e: Exception) {
             Timber.d(e, "Generating poster failed")
             posterLiveData.postValue(Poster())
-            e.report(ExceptionCategory.INTERNAL)
+            e.report(ExceptionCategory.UI)
         }
     }
 
@@ -107,6 +114,15 @@ class QrCodePosterViewModel @AssistedInject constructor(
         fun create(
             traceLocationId: Long
         ): QrCodePosterViewModel
+    }
+
+    companion object {
+        /**
+         * A4 size in PostScript
+         * @see <a href="https://www.cl.cam.ac.uk/~mgk25/iso-paper-ps.txt">Iso-paper-ps</a>
+         */
+        private const val A4_WIDTH = 595 // PostScript
+        private const val A4_HEIGHT = 842 // PostScript
     }
 }
 

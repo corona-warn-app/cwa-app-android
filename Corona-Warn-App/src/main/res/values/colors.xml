@@ -15,6 +15,7 @@
     <color name="colorHairline">#3317191A</color>
 
     <color name="cwaGrayHighlight">#5D6F80</color>
+    <color name="colorSystemUI">#F5F5F5</color>
 
     <!--Cards-->
     <color name="colorCardBackgroundHighlightGray">@color/cwaGrayHighlight</color>
@@ -97,7 +98,6 @@
     <color name="colorTraceLocationGradientBackground">#F5F5F5</color>
     <color name="colorTraceLocationButtonTextColor">#F5F5F5</color>
 
-
     <!-- QR Code Scan -->
     <color name="colorQrCodeScanToolbar">#000000</color>
     <color name="colorQrCodeScanMask">#BFFFFFFF</color>
@@ -105,5 +105,10 @@
     <!-- Swipe to delete background color -->
     <color name="swipeDeleteBackgroundColor">#EB4D3D</color>
 
+    <!-- Vaccination -->
+    <color name="colorVaccinationCardBackground">#FFFFFF</color>
+
     <color name="whiteAlpha60">#99FFFFFF</color>
+    <color name="greyAlpha60">#8ACCCCCC</color>
+    <color name="dividerColor">#DEDEDE</color>
 </resources>

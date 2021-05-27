@@ -1,13 +1,96 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
-import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
-
 interface BugCensor {
 
-    /**
-     * If there is something to censor a new log line is returned, otherwise returns null
-     */
-    suspend fun checkLog(entry: LogLine): LogLine?
+    suspend fun checkLog(message: String): CensorContainer?
+
+    data class CensorContainer(
+        // Original String, necessary for correct censoring ranges
+        val original: String,
+        val actions: Set<Action> = emptySet()
+    ) {
+
+        fun censor(toReplace: String, replacement: String): CensorContainer {
+            if (!original.contains(toReplace)) return this
+
+            val start = original.indexOf(toReplace)
+            if (start == -1) return this // Shouldn't happen
+
+            val end = original.lastIndexOf(toReplace) + toReplace.length
+
+            val newAction = Action(
+                range = start..end,
+                modifier = Action.SimpleReplace(toReplace, replacement)
+            )
+            return this.copy(actions = actions.plus(newAction))
+        }
+
+        fun compile(): CensoredString? {
+            val ranges = actions.map { it.range }
+            if (ranges.isEmpty()) return null
+
+            val isIntersecting = ranges.any { outer ->
+                ranges.any { inner ->
+                    outer !== inner &&
+                        (inner.contains(outer.first) || inner.contains(outer.last)) &&
+                        (inner.last != outer.first && inner.first != outer.last)
+                }
+            }
+
+            return if (isIntersecting) {
+                val minMin = ranges.minOf { it.first }
+                val maxMax = ranges.maxOf { it.last }
+                CensoredString(
+                    censored = original.replaceRange(minMin, maxMax, COLLISION_STRING),
+                    ranges = listOf(minMin..maxMax)
+                )
+            } else {
+                CensoredString(
+                    censored = actions.fold(original) { notOriginal, action ->
+                        action.execute(notOriginal)
+                    },
+                    ranges = ranges
+                )
+            }
+        }
+
+        fun nullIfEmpty(): CensorContainer? = if (actions.isEmpty()) null else this
+
+        data class Action(
+            val range: IntRange,
+            val modifier: StringModifier,
+        ) {
+
+            fun execute(original: String) = modifier.execute(original)
+
+            data class SimpleReplace(
+                val oldValue: String,
+                val newValue: String,
+            ) : StringModifier {
+                override val execute: (String) -> String = { it.replace(oldValue, newValue) }
+            }
+
+            interface StringModifier {
+                val execute: (String) -> String
+            }
+        }
+
+        companion object {
+            const val COLLISION_STRING = "<censor-collision/>"
+
+            fun createErrorContainer(censor: BugCensor, exception: Exception): CensorContainer {
+                return CensorContainer("<censor-error>$censor: $exception</censor-error>")
+            }
+        }
+    }
+
+    data class CensoredString(
+        // The censored version of the string
+        val censored: String,
+        // The range that we censored
+        // If there is a collision, this range in the original needs to be removed.
+        val ranges: List<IntRange>
+    )
 
     companion object {
         fun withValidName(name: String?, action: (String) -> Unit): Boolean {
@@ -66,8 +149,21 @@ interface BugCensor {
             return true
         }
 
-        fun LogLine.toNewLogLineIfDifferent(newMessage: String): LogLine? {
-            return if (newMessage != message) copy(message = newMessage) else null
-        }
+        fun containerForError(
+            censor: BugCensor,
+            original: String,
+            error: Exception
+        ): CensorContainer = CensorContainer(
+            original = original,
+            actions = setOf(
+                CensorContainer.Action(
+                    range = 0..original.length,
+                    modifier = CensorContainer.Action.SimpleReplace(
+                        original,
+                        "<censor-error>Module ${censor.javaClass.simpleName}: $error</censor-error>"
+                    )
+                )
+            )
+        )
     }
 }

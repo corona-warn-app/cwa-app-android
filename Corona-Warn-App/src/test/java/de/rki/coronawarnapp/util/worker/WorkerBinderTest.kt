@@ -28,6 +28,7 @@ import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
+import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
 import io.github.classgraph.ClassGraph
 import io.kotest.matchers.collections.shouldContainAll
 import io.mockk.mockk
@@ -167,4 +168,7 @@ class MockProvider {
 
     @Provides
     fun ratResultScheduler(): RAResultScheduler = mockk()
+
+    @Provides
+    fun vaccinationRepository(): VaccinationRepository = mockk()
 }

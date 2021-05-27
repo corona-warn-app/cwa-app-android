@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.databinding.FragmentSubmissionAntigenTestResultNegat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import org.joda.time.format.DateTimeFormat
@@ -20,7 +20,7 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: RATResultNegativeViewModel by cwaViewModels { viewModelFactory }
 
-    private val binding: FragmentSubmissionAntigenTestResultNegativeBinding by viewBindingLazy()
+    private val binding: FragmentSubmissionAntigenTestResultNegativeBinding by viewBinding()
 
     private val shortTime = DateTimeFormat.shortTime()
 
@@ -74,6 +74,6 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
     }
 
     companion object {
-        private const val DATE_FORMAT = "dd.MM.yy"
+        private const val DATE_FORMAT = "dd.MM.yyyy"
     }
 }

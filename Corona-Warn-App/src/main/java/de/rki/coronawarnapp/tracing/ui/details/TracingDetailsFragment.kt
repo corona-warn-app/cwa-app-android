@@ -3,18 +3,20 @@ package de.rki.coronawarnapp.tracing.ui.details
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TracingDetailsFragmentLayoutBinding
-import de.rki.coronawarnapp.util.ExternalActionHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.getDrawableCompat
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
@@ -29,7 +31,7 @@ class TracingDetailsFragment : Fragment(R.layout.tracing_details_fragment_layout
         ownerProducer = { requireActivity().viewModelStore },
         factoryProducer = { viewModelFactory }
     )
-    private val binding: TracingDetailsFragmentLayoutBinding by viewBindingLazy()
+    private val binding: TracingDetailsFragmentLayoutBinding by viewBinding()
 
     private val detailsAdapter = TracingDetailsAdapter { vm.onItemClicked(it) }
 
@@ -48,7 +50,7 @@ class TracingDetailsFragment : Fragment(R.layout.tracing_details_fragment_layout
 
         vm.buttonStates.observe2(this) {
             binding.tracingDetailsState = it
-            binding.toolbar.navigationIcon?.setTint(it.getStableTextColor(requireContext()))
+            binding.toolbar.navigationIcon = closeIcon(it)
         }
 
         vm.routeToScreen.observe2(this) {
@@ -56,10 +58,7 @@ class TracingDetailsFragment : Fragment(R.layout.tracing_details_fragment_layout
                 is TracingDetailsNavigationEvents.NavigateToSurveyConsentFragment -> doNavigate(
                     TracingDetailsFragmentDirections.actionRiskDetailsFragmentToSurveyConsentFragment(it.type)
                 )
-                is TracingDetailsNavigationEvents.NavigateToSurveyUrlInBrowser -> ExternalActionHelper.openUrl(
-                    this,
-                    it.url
-                )
+                is TracingDetailsNavigationEvents.NavigateToSurveyUrlInBrowser -> openUrl(it.url)
             }
         }
 
@@ -75,6 +74,18 @@ class TracingDetailsFragment : Fragment(R.layout.tracing_details_fragment_layout
             )
         }
     }
+
+    private fun closeIcon(it: TracingDetailsState) =
+        resources.getDrawableCompat(R.drawable.ic_close)?.let { drawable ->
+            DrawableCompat
+                .wrap(drawable)
+                .mutate()
+                .apply {
+                    setTint(
+                        it.getStableTextColor(requireContext())
+                    )
+                }
+        }
 
     override fun onResume() {
         super.onResume()

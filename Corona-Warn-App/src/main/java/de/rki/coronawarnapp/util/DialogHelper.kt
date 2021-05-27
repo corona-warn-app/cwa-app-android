@@ -7,6 +7,7 @@ import android.text.util.Linkify
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.TextViewCompat
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.ContextExtensions.getColorStateListCompat
 import java.util.regex.Pattern
@@ -22,7 +23,8 @@ object DialogHelper {
         val cancelable: Boolean? = true,
         val isTextSelectable: Boolean = false,
         val positiveButtonFunction: () -> Unit? = {},
-        val negativeButtonFunction: () -> Unit? = {}
+        val negativeButtonFunction: () -> Unit? = {},
+        val cancelFunction: () -> Unit? = {}
     ) {
         constructor(
             context: Context,
@@ -32,7 +34,8 @@ object DialogHelper {
             negativeButton: Int? = null,
             cancelable: Boolean? = true,
             positiveButtonFunction: () -> Unit? = {},
-            negativeButtonFunction: () -> Unit? = {}
+            negativeButtonFunction: () -> Unit? = {},
+            cancelFunction: () -> Unit? = {}
         ) : this(
             context = context,
             title = context.resources.getString(title),
@@ -41,7 +44,8 @@ object DialogHelper {
             negativeButton = negativeButton?.let { context.resources.getString(it) },
             cancelable = cancelable,
             positiveButtonFunction = positiveButtonFunction,
-            negativeButtonFunction = negativeButtonFunction
+            negativeButtonFunction = negativeButtonFunction,
+            cancelFunction = cancelFunction
         )
 
         constructor(
@@ -52,7 +56,8 @@ object DialogHelper {
             negativeButton: Int? = null,
             cancelable: Boolean? = true,
             positiveButtonFunction: () -> Unit? = {},
-            negativeButtonFunction: () -> Unit? = {}
+            negativeButtonFunction: () -> Unit? = {},
+            cancelFunction: () -> Unit? = {}
         ) : this(
             context = context,
             title = context.resources.getString(title),
@@ -61,7 +66,8 @@ object DialogHelper {
             negativeButton = negativeButton?.let { context.resources.getString(it) },
             cancelable = cancelable,
             positiveButtonFunction = positiveButtonFunction,
-            negativeButtonFunction = negativeButtonFunction
+            negativeButtonFunction = negativeButtonFunction,
+            cancelFunction = cancelFunction
         )
     }
 
@@ -73,8 +79,9 @@ object DialogHelper {
             dialogInstance.message,
             dialogInstance.isTextSelectable
         )
-        val alertDialog: AlertDialog = dialogInstance.context.let {
-            val builder = AlertDialog.Builder(it)
+
+        val alertDialog = dialogInstance.context.let {
+            val builder = MaterialAlertDialogBuilder(it)
             builder.apply {
                 setTitle(dialogInstance.title)
                 setView(message)
@@ -91,6 +98,7 @@ object DialogHelper {
                         dialogInstance.negativeButtonFunction()
                     }
                 }
+                setOnCancelListener { dialogInstance.cancelFunction() }
             }
             builder.create()
         }

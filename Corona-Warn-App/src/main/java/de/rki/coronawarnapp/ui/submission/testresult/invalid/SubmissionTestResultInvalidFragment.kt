@@ -1,12 +1,14 @@
 package de.rki.coronawarnapp.ui.submission.testresult.invalid
 
-import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultInvalidBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
@@ -14,7 +16,7 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
@@ -32,7 +34,7 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
         }
     )
 
-    private val binding: FragmentSubmissionTestResultInvalidBinding by viewBindingLazy()
+    private val binding: FragmentSubmissionTestResultInvalidBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -42,6 +44,20 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
         binding.apply {
             submissionTestResultButtonInvalidRemoveTest.setOnClickListener { removeTestAfterConfirmation() }
             submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener { popBackStack() }
+        }
+
+        binding.apply {
+
+            when (navArgs.testType) {
+                CoronaTest.Type.PCR -> {
+                    testResultInvalidStepsPcrAdded.isVisible = true
+                    testResultInvalidStepsRatAdded.isVisible = false
+                }
+                CoronaTest.Type.RAPID_ANTIGEN -> {
+                    testResultInvalidStepsPcrAdded.isVisible = false
+                    testResultInvalidStepsRatAdded.isVisible = true
+                }
+            }
         }
 
         viewModel.testResult.observe2(this) {
@@ -70,7 +86,8 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
             }
         )
         DialogHelper.showDialog(removeTestDialog).apply {
-            getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
+            getButton(DialogInterface.BUTTON_POSITIVE)
+                .setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
         }
     }
 }
