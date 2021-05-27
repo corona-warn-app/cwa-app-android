@@ -2,10 +2,7 @@ package de.rki.coronawarnapp.bugreporting.censors.contactdiary
 
 import dagger.Reusable
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensoredString
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.censor
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.plus
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNullIfUnmodified
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensorContainer
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
@@ -37,20 +34,20 @@ class DiaryVisitCensor @Inject constructor(
             .launchIn(debugScope)
     }
 
-    override suspend fun checkLog(message: String): CensoredString? = mutex.withLock {
+    override suspend fun checkLog(message: String): CensorContainer? = mutex.withLock {
 
         if (visitsHistory.isEmpty()) return null
 
-        val newMessage = visitsHistory.fold(CensoredString(message)) { orig, visit ->
+        val newMessage = visitsHistory.fold(CensorContainer(message)) { orig, visit ->
             var wip = orig
 
             BugCensor.withValidComment(visit.circumstances) {
-                wip += wip.censor(it, "Visit#${visit.id}/Circumstances")
+                wip = wip.censor(it, "Visit#${visit.id}/Circumstances")
             }
 
             wip
         }
 
-        return newMessage.toNullIfUnmodified()
+        return newMessage.nullIfEmpty()
     }
 }
