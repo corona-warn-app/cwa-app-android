@@ -51,7 +51,7 @@ class VerificationServer @Inject constructor(
 
     suspend fun pollTestResult(
         token: RegistrationToken
-    ): CoronaTestResult = withContext(Dispatchers.IO) {
+    ): CoronaTestResultResponse = withContext(Dispatchers.IO) {
         Timber.tag(TAG).v("retrieveTestResults(token=%s)", token)
         val response = api.getTestResult(
             fake = "0",
@@ -63,7 +63,8 @@ class VerificationServer @Inject constructor(
         )
 
         Timber.tag(TAG).d("retrieveTestResults(token=%s) -> %s", token, response)
-        CoronaTestResult.fromInt(response.testResult)
+
+        CoronaTestResultResponse.fromResponse(response)
     }
 
     suspend fun retrieveTan(
