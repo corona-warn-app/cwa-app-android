@@ -7,6 +7,11 @@
         android:title="@string/bottom_nav_home_title" />
 
     <item
+        android:id="@+id/green_certificate_graph"
+        android:icon="@drawable/ic_certificates"
+        android:title="@string/bottom_nav_certificates_title" />
+
+    <item
         android:id="@+id/trace_location_attendee_nav_graph"
         android:icon="@drawable/ic_nav_checkin"
         android:title="@string/bottom_nav_check_ins_title" />
