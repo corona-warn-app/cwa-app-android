@@ -194,7 +194,7 @@ abstract class BaseRiskLevelStorage constructor(
     // used for risk state in tracing state/details
     override val latestAndLastSuccessfulCombinedEwPtRiskLevelResult: Flow<LastCombinedRiskResults>
         get() = combine(
-            allEwRiskLevelResultsWithExposureWindows,
+            allEwRiskLevelResults,
             presenceTracingRiskRepository.allEntries(),
             ewDayRiskStates
         ) { ewRiskLevelResults, ptRiskLevelResults, ewDayRiskStates ->
@@ -226,10 +226,17 @@ abstract class BaseRiskLevelStorage constructor(
             .latestEntries(2)
             .shareLatest(tag = TAG, scope = scope)
 
+    private val latestEwRiskLevelResults: Flow<List<EwRiskLevelResult>> = riskResultsTables.latestEntries(2)
+        .map { results ->
+            Timber.v("Mapping latestRiskLevelResults:\n%s", results.joinToString("\n"))
+            results.map { it.toRiskResult() }
+        }
+        .shareLatest(tag = TAG, scope = scope)
+
     // used for risk level change detector to trigger notification
     override val latestCombinedEwPtRiskLevelResults: Flow<List<CombinedEwPtRiskLevelResult>>
         get() = combine(
-            allEwRiskLevelResults,
+            latestEwRiskLevelResults,
             latestPtRiskLevelResults
         ) { ewRiskLevelResults, ptRiskLevelResults ->
             riskCombinator.combineEwPtRiskLevelResults(ptRiskLevelResults, ewRiskLevelResults)
