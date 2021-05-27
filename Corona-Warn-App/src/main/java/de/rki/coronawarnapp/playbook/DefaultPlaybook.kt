@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.playbook
 
-import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResultResponse
 import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.coronatest.server.VerificationServer
 import de.rki.coronawarnapp.exception.TanPairingException
@@ -28,7 +28,7 @@ class DefaultPlaybook @Inject constructor(
     override suspend fun initialRegistration(
         key: String,
         keyType: VerificationKeyType
-    ): Pair<String, CoronaTestResult> {
+    ): Pair<String, CoronaTestResultResponse> {
         Timber.i("[$uid] New Initial Registration Playbook")
 
         // real registration
@@ -62,7 +62,7 @@ class DefaultPlaybook @Inject constructor(
         propagateException(registrationException, testResultException)
     }
 
-    override suspend fun testResult(registrationToken: String): CoronaTestResult {
+    override suspend fun testResult(registrationToken: String): CoronaTestResultResponse {
         Timber.i("[$uid] New Test Result Playbook")
 
         // real test result
