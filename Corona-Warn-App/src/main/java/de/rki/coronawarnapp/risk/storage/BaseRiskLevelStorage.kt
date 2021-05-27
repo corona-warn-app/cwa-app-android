@@ -72,7 +72,7 @@ abstract class BaseRiskLevelStorage constructor(
         }
     }
 
-    final override val allEwRiskLevelResults: Flow<List<EwRiskLevelResult>> = combine(
+    final override val allEwRiskLevelResultsWithExposureWindows: Flow<List<EwRiskLevelResult>> = combine(
         riskResultsTables.allEntries(),
         exposureWindowsTables.allEntries()
     ) { allRiskResults, allWindows ->
@@ -85,10 +85,10 @@ abstract class BaseRiskLevelStorage constructor(
     }
         .shareLatest(tag = TAG, scope = scope)
 
-    override val latestEwRiskLevelResults: Flow<List<EwRiskLevelResult>> = riskResultsTables.latestEntries(2)
+    override val allEwRiskLevelResults: Flow<List<EwRiskLevelResult>> = riskResultsTables.allEntries()
         .map { results ->
-            Timber.v("Mapping latestRiskLevelResults:\n%s", results.joinToString("\n"))
-            results.combineWithWindows(null)
+            Timber.v("Mapping allEwRiskLevelResults:\n%s", results.joinToString("\n"))
+            results.map { it.toRiskResult() }
         }
         .shareLatest(tag = TAG, scope = scope)
 
@@ -216,10 +216,22 @@ abstract class BaseRiskLevelStorage constructor(
             )
         }
 
+    override val allPtRiskLevelResults: Flow<List<PtRiskLevelResult>> =
+        presenceTracingRiskRepository
+            .allEntries()
+            .shareLatest(tag = TAG, scope = scope)
+
     private val latestPtRiskLevelResults: Flow<List<PtRiskLevelResult>> =
         presenceTracingRiskRepository
             .latestEntries(2)
             .shareLatest(tag = TAG, scope = scope)
+
+    private val latestEwRiskLevelResults: Flow<List<EwRiskLevelResult>> = riskResultsTables.latestEntries(2)
+        .map { results ->
+            Timber.v("Mapping latestRiskLevelResults:\n%s", results.joinToString("\n"))
+            results.map { it.toRiskResult() }
+        }
+        .shareLatest(tag = TAG, scope = scope)
 
     // used for risk level change detector to trigger notification
     override val latestCombinedEwPtRiskLevelResults: Flow<List<CombinedEwPtRiskLevelResult>>

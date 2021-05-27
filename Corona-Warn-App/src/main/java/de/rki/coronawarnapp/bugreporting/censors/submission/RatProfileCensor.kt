@@ -1,10 +1,7 @@
 package de.rki.coronawarnapp.bugreporting.censors.submission
 
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensoredString
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.censor
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.plus
-import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.toNullIfUnmodified
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensorContainer
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidAddress
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidCity
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidName
@@ -26,7 +23,7 @@ class RatProfileCensor @Inject constructor(
     private val dayOfBirthFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
     private val ratProfileHistory = mutableSetOf<RATProfile>()
 
-    override suspend fun checkLog(message: String): CensoredString? = mutex.withLock {
+    override suspend fun checkLog(message: String): CensorContainer? = mutex.withLock {
         val ratProfile = ratProfileSettings.profile.flow.first()
 
         // store the profile in a property so we still have a reference after it was deleted by the user
@@ -34,46 +31,46 @@ class RatProfileCensor @Inject constructor(
             ratProfileHistory.add(ratProfile)
         }
 
-        var newMessage = CensoredString(message)
+        var newMessage = CensorContainer(message)
 
         ratProfileHistory.forEach { profile ->
             with(profile) {
                 withValidName(firstName) { firstName ->
-                    newMessage += newMessage.censor(firstName, "RAT-Profile/FirstName")
+                    newMessage = newMessage.censor(firstName, "RAT-Profile/FirstName")
                 }
 
                 withValidName(lastName) { lastName ->
-                    newMessage += newMessage.censor(lastName, "RAT-Profile/LastName")
+                    newMessage = newMessage.censor(lastName, "RAT-Profile/LastName")
                 }
 
                 val dateOfBirthString = birthDate?.toString(dayOfBirthFormatter)
 
                 if (dateOfBirthString != null) {
-                    newMessage += newMessage.censor(dateOfBirthString, "RAT-Profile/DateOfBirth")
+                    newMessage = newMessage.censor(dateOfBirthString, "RAT-Profile/DateOfBirth")
                 }
 
                 withValidAddress(street) { street ->
-                    newMessage += newMessage.censor(street, "RAT-Profile/Street")
+                    newMessage = newMessage.censor(street, "RAT-Profile/Street")
                 }
 
                 withValidCity(city) { city ->
-                    newMessage += newMessage.censor(city, "RAT-Profile/City")
+                    newMessage = newMessage.censor(city, "RAT-Profile/City")
                 }
 
                 withValidZipCode(zipCode) { zipCode ->
-                    newMessage += newMessage.censor(zipCode, "RAT-Profile/Zip-Code")
+                    newMessage = newMessage.censor(zipCode, "RAT-Profile/Zip-Code")
                 }
 
                 withValidPhoneNumber(phone) { phone ->
-                    newMessage += newMessage.censor(phone, "RAT-Profile/Phone")
+                    newMessage = newMessage.censor(phone, "RAT-Profile/Phone")
                 }
 
                 withValidPhoneNumber(email) { phone ->
-                    newMessage += newMessage.censor(phone, "RAT-Profile/eMail")
+                    newMessage = newMessage.censor(phone, "RAT-Profile/eMail")
                 }
             }
         }
 
-        return newMessage.toNullIfUnmodified()
+        return newMessage.nullIfEmpty()
     }
 }
