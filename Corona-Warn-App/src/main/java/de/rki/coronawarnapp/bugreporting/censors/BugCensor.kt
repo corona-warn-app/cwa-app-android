@@ -38,8 +38,8 @@ interface BugCensor {
             }
 
             return if (isIntersecting) {
-                val minMin = ranges.minOf { it.first }.coerceAtLeast(0).coerceAtMost(original.length)
-                val maxMax = ranges.maxOf { it.last }.coerceAtLeast(0).coerceAtMost(original.length)
+                val minMin = ranges.minOf { it.first }
+                val maxMax = ranges.maxOf { it.last }
                 CensoredString(
                     censored = original.replaceRange(minMin, maxMax, COLLISION_STRING),
                     ranges = listOf(minMin..maxMax)
