@@ -4,7 +4,7 @@ import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
 import java.util.stream.Stream
-
+@Suppress("MaxLineLength")
 class WithPaddingTestProvider : ArgumentsProvider {
     override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> {
         return Stream.of(
@@ -18,13 +18,11 @@ class WithPaddingTestProvider : ArgumentsProvider {
             ),
             Arguments.of(
                 "die heiße zypernsonne quälte max und victoria ja böse auf dem weg bis zur küste.",
-                "MRUWKIDIMVU4HH3FEB5HS4DFOJXHG33ONZSSA4LVYOSGY5DFEBWWC6BAOVXGIIDWNFRXI33SNF" +
-                    "QSA2TBEBRMHNTTMUQGC5LGEBSGK3JAO5SWOIDCNFZSA6TVOIQGXQ54ON2GKLQ="
+                "MRUWKIDIMVU4HH3FEB5HS4DFOJXHG33ONZSSA4LVYOSGY5DFEBWWC6BAOVXGIIDWNFRXI33SNFQSA2TBEBRMHNTTMUQGC5LGEBSGK3JAO5SWOIDCNFZSA6TVOIQGXQ54ON2GKLQ="
             ),
             Arguments.of(
                 "DIE HEISSE ZYPERNSONNE QUÄLTE MAX UND VICTORIA JA BÖSE AUF DEM WEG BIS ZUR KÜSTE.",
-                "IREUKICIIVEVGU2FEBNFSUCFKJHFGT2OJZCSAUKVYOCEYVCFEBGUCWBAKVHEIICWJFBVIT2SJFA" +
-                    "SASSBEBBMHFSTIUQECVKGEBCEKTJAK5CUOICCJFJSAWSVKIQEXQ44KNKEKLQ="
+                "IREUKICIIVEVGU2FEBNFSUCFKJHFGT2OJZCSAUKVYOCEYVCFEBGUCWBAKVHEIICWJFBVIT2SJFASASSBEBBMHFSTIUQECVKGEBCEKTJAK5CUOICCJFJSAWSVKIQEXQ44KNKEKLQ="
             ),
             Arguments.of(
                 "Hello World!",
