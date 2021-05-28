@@ -7,7 +7,7 @@
     <!-- XHED: Register test homescreen card: title -->
     <string name="ag_homescreen_card_test_register_title">"Test registrieren"</string>
     <!-- XTXT: Register test homescreen card: body -->
-    <string name="ag_homescreen_card_test_register_body">"Nutzen Sie die App, um Ihr Testergebnis abzurufen und schneller andere warnen zu können oder Ihr Covid-19-Testzertifikat anzufordern."</string>
+    <string name="ag_homescreen_card_test_register_body">"Nutzen Sie die App, um Ihr Testergebnis abzurufen und andere schneller warnen zu können, oder um Ihr COVID-19-Testzertifikat anzufordern."</string>
 
     <!-- ####################################
         Homescreen cards - common buttons
