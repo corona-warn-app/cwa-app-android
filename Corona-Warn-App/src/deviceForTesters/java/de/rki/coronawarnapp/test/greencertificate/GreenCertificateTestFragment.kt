@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentTestGreenCertificateBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -26,13 +27,17 @@ class GreenCertificateTestFragment : Fragment(R.layout.fragment_test_green_certi
         super.onViewCreated(view, savedInstanceState)
 
         binding.pcrScreen.setOnClickListener {
-            NavGraphDirections.actionSubmissionTestResultGreenCertificateFragment(
-                CoronaTest.Type.PCR
+            doNavigate(
+                NavGraphDirections.actionSubmissionTestResultGreenCertificateFragment(
+                    CoronaTest.Type.PCR
+                )
             )
         }
         binding.ratScreen.setOnClickListener {
-            NavGraphDirections.actionSubmissionTestResultGreenCertificateFragment(
-                CoronaTest.Type.RAPID_ANTIGEN
+            doNavigate(
+                NavGraphDirections.actionSubmissionTestResultGreenCertificateFragment(
+                    CoronaTest.Type.RAPID_ANTIGEN
+                )
             )
         }
     }
@@ -41,7 +46,7 @@ class GreenCertificateTestFragment : Fragment(R.layout.fragment_test_green_certi
         val MENU_ITEM = TestMenuItem(
             title = "Green Certificate",
             description = "View & Control green certificate related features.",
-            targetId = R.id.vaccinationTestFragment
+            targetId = R.id.greenCertificateTestFragment
         )
     }
 }
