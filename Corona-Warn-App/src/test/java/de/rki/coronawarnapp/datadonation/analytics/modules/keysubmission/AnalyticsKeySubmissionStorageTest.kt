@@ -24,12 +24,14 @@ class AnalyticsKeySubmissionStorageTest : BaseTest() {
         preferences = MockSharedPreferences()
         every {
             context.getSharedPreferences(
-                "$sharedPrefKey${AnalyticsPCRKeySubmissionStorage.sharedPrefKeySuffix}", Context.MODE_PRIVATE
+                "$sharedPrefKey${AnalyticsPCRKeySubmissionStorage.sharedPrefKeySuffix}",
+                Context.MODE_PRIVATE
             )
         } returns preferences
         every {
             context.getSharedPreferences(
-                "$sharedPrefKey${AnalyticsRAKeySubmissionStorage.sharedPrefKeySuffix}", Context.MODE_PRIVATE
+                "$sharedPrefKey${AnalyticsRAKeySubmissionStorage.sharedPrefKeySuffix}",
+                Context.MODE_PRIVATE
             )
         } returns preferences
         pcrStorage = AnalyticsPCRKeySubmissionStorage(

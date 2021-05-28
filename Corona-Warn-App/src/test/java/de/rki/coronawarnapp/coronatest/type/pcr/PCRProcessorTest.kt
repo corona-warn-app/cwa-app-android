@@ -78,8 +78,8 @@ class PCRProcessorTest : BaseTest() {
             coEvery { reportTestRegistered(PCR) } just Runs
         }
         analyticsTestResultCollector.apply {
-            coEvery { updatePendingTestResultReceivedTime(any(), any()) } just Runs
-            coEvery { saveTestResult(any(), PCR) } just Runs
+            coEvery { reportTestResultReceived(any(), any()) } just Runs
+            coEvery { saveTestResultAtRegistration(any(), PCR) } just Runs
             coEvery { reportTestRegistered(PCR) } just Runs
             coEvery { clear(PCR) } just Runs
         }

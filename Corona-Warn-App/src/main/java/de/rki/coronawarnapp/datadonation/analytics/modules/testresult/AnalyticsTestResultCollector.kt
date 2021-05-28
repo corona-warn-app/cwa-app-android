@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.datadonation.analytics.common.calculateDaysSinceMost
 import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighEwRiskBefore
 import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighPtRiskBefore
 import de.rki.coronawarnapp.datadonation.analytics.common.isFinal
-import de.rki.coronawarnapp.datadonation.analytics.common.isPending
+import de.rki.coronawarnapp.datadonation.analytics.common.toMetadataRiskLevel
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
@@ -81,7 +81,7 @@ class AnalyticsTestResultCollector @Inject constructor(
         }
     }
 
-    suspend fun saveTestResult(testResult: CoronaTestResult, type: CoronaTest.Type) {
+    suspend fun saveTestResultAtRegistration(testResult: CoronaTestResult, type: CoronaTest.Type) {
         if (analyticsDisabled) return
 
         val validTestResults = when (type) {
@@ -99,24 +99,31 @@ class AnalyticsTestResultCollector @Inject constructor(
 
         if (testResult !in validTestResults) return // Not interested in other values
 
+        type.settings.testResultAtRegistration.update { testResult }
+
+        if (testResult.isFinal) {
+            type.settings.finalTestResultReceivedAt.update { timeStamper.nowUTC }
+        }
+
         val lastRiskLevel = riskLevelStorage
             .latestAndLastSuccessfulCombinedEwPtRiskLevelResult
             .first()
             .lastSuccessfullyCalculated
 
-        type.settings.saveTestResultDonorDataAtRegistration(testResult, lastRiskLevel)
+        type.settings.ewRiskLevelAtTestRegistration.update {
+            lastRiskLevel.ewRiskLevelResult.riskState.toMetadataRiskLevel()
+        }
+        type.settings.ptRiskLevelAtTestRegistration.update {
+            lastRiskLevel.ptRiskLevelResult.riskState.toMetadataRiskLevel()
+        }
     }
 
-    fun updatePendingTestResultReceivedTime(testResult: CoronaTestResult, type: CoronaTest.Type) {
+    fun reportTestResultReceived(testResult: CoronaTestResult, type: CoronaTest.Type) {
         if (analyticsDisabled) return
-        val shouldUpdate = type.settings.testScannedAfterConsent.value &&
-            type.settings.testResultAtRegistration.value.isPending &&
-            testResult.isFinal
-        if (shouldUpdate) {
+        if (testResult.isFinal) {
             val receivedAt = timeStamper.nowUTC
-            Timber.d("updatePendingTestResultReceivedTime($testResult, $receivedAt")
+            Timber.d("finalTestResultReceivedAt($testResult, $receivedAt")
             type.settings.finalTestResultReceivedAt.update { receivedAt }
-            type.settings.testResultAtRegistration.update { testResult }
         }
     }
 

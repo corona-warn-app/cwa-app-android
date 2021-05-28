@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.testresult
 
 import android.content.Context
-import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsPCRKeySubmissionStorage
-import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsRAKeySubmissionStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
@@ -30,12 +28,14 @@ class AnalyticsTestResultSettingsTest : BaseTest() {
         preferences = MockSharedPreferences()
         every {
             context.getSharedPreferences(
-                "$sharedPrefKey${AnalyticsPCRKeySubmissionStorage.sharedPrefKeySuffix}", Context.MODE_PRIVATE
+                sharedPrefKey,
+                Context.MODE_PRIVATE
             )
         } returns preferences
         every {
             context.getSharedPreferences(
-                "$sharedPrefKey${AnalyticsRAKeySubmissionStorage.sharedPrefKeySuffix}", Context.MODE_PRIVATE
+                sharedPrefKey + "_RAT",
+                Context.MODE_PRIVATE
             )
         } returns preferences
         pcrStorage = AnalyticsPCRTestResultSettings(
@@ -56,10 +56,6 @@ class AnalyticsTestResultSettingsTest : BaseTest() {
 
     @Test
     fun dataIsNotMixedPcr() {
-        pcrStorage.testScannedAfterConsent.update { true }
-        pcrStorage.testScannedAfterConsent.value shouldBe true
-        raStorage.testScannedAfterConsent.value shouldBe false
-
         pcrStorage.testRegisteredAt.update { Instant.ofEpochMilli(1000) }
         pcrStorage.testRegisteredAt.value shouldBe Instant.ofEpochMilli(1000)
         raStorage.testRegisteredAt.value shouldBe null

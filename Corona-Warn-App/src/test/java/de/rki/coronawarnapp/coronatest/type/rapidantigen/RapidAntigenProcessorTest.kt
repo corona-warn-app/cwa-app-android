@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.values
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResultResponse
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
-import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultCollector
@@ -79,8 +78,8 @@ class RapidAntigenProcessorTest : BaseTest() {
         }
 
         analyticsTestResultCollector.apply {
-            coEvery { saveTestResult(any(), RAPID_ANTIGEN) } just Runs
-            coEvery { updatePendingTestResultReceivedTime(any(), RAPID_ANTIGEN) } just Runs
+            coEvery { saveTestResultAtRegistration(any(), RAPID_ANTIGEN) } just Runs
+            coEvery { reportTestResultReceived(any(), RAPID_ANTIGEN) } just Runs
             coEvery { reportTestRegistered(RAPID_ANTIGEN) } just Runs
             coEvery { clear(RAPID_ANTIGEN) } just Runs
         }

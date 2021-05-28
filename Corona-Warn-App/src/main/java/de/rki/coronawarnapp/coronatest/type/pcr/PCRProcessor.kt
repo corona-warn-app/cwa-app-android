@@ -46,12 +46,17 @@ class PCRProcessor @Inject constructor(
         Timber.tag(TAG).d("create(data=%s)", request)
         request as CoronaTestQRCode.PCR
 
+        analyticsKeySubmissionCollector.reset(type)
+        analyticsTestResultCollector.clear(type)
+
         val registrationData = submissionService.asyncRegisterDeviceViaGUID(request.qrCodeGUID).also {
             Timber.tag(TAG).d("Request %s gave us %s", request, it)
         }
 
-        // This saves received at
-        analyticsTestResultCollector.saveTestResult(registrationData.testResultResponse.coronaTestResult, type)
+        analyticsTestResultCollector.saveTestResultAtRegistration(
+            registrationData.testResultResponse.coronaTestResult,
+            type
+        )
 
         return createCoronaTest(request, registrationData)
     }
@@ -59,6 +64,9 @@ class PCRProcessor @Inject constructor(
     override suspend fun create(request: CoronaTestTAN): CoronaTest {
         Timber.tag(TAG).d("create(data=%s)", request)
         request as CoronaTestTAN.PCR
+
+        analyticsKeySubmissionCollector.reset(type)
+        analyticsTestResultCollector.clear(type)
 
         val registrationData = submissionService.asyncRegisterDeviceViaTAN(request.tan)
 
@@ -74,12 +82,9 @@ class PCRProcessor @Inject constructor(
         response: CoronaTestService.RegistrationData
     ): PCRCoronaTest {
 
-        analyticsKeySubmissionCollector.reset(type)
-        analyticsTestResultCollector.clear(type)
-
         val testResult = response.testResultResponse.coronaTestResult.let {
             Timber.tag(TAG).v("Raw test result $it")
-            analyticsTestResultCollector.updatePendingTestResultReceivedTime(it, type)
+            analyticsTestResultCollector.reportTestResultReceived(it, type)
             it.toValidatedResult()
         }
 
@@ -124,7 +129,7 @@ class PCRProcessor @Inject constructor(
             val newTestResult = try {
                 submissionService.asyncRequestTestResult(test.registrationToken).coronaTestResult.let {
                     Timber.tag(TAG).d("Raw test result was %s", it)
-                    analyticsTestResultCollector.updatePendingTestResultReceivedTime(it, type)
+                    analyticsTestResultCollector.reportTestResultReceived(it, type)
 
                     it.toValidatedResult()
                 }
