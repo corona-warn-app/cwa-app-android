@@ -8,12 +8,12 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class CertificateDetailsModule {
+abstract class GreenCertificateDetailsModule {
 
     @Binds
     @IntoMap
-    @CWAViewModelKey(CertificateDetailsViewModel::class)
+    @CWAViewModelKey(GreenCertificateDetailsViewModel::class)
     abstract fun vaccinationDetailsFragment(
-        factory: CertificateDetailsViewModel.Factory
+        factory: GreenCertificateDetailsViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }

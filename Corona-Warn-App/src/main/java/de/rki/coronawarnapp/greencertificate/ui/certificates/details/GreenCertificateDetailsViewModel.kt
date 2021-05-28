@@ -2,21 +2,18 @@ package de.rki.coronawarnapp.greencertificate.ui.certificates.details
 
 import android.graphics.Bitmap
 import androidx.lifecycle.asLiveData
-import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.greencertificate.ui.certificates.details.CertificateDetailsNavigation
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
 import kotlinx.coroutines.flow.MutableStateFlow
 import timber.log.Timber
 
-class CertificateDetailsViewModel @AssistedInject constructor(
+class GreenCertificateDetailsViewModel @AssistedInject constructor(
     private val qrCodeGenerator: QrCodeGenerator,
     dispatcherProvider: DispatcherProvider,
 ) : CWAViewModel(dispatcherProvider) {
@@ -44,6 +41,6 @@ class CertificateDetailsViewModel @AssistedInject constructor(
     }
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<CertificateDetailsViewModel>
+    interface Factory : SimpleCWAViewModelFactory<GreenCertificateDetailsViewModel>
 
 }
