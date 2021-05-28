@@ -16,6 +16,14 @@ class RequestGreenCertificateViewModel @AssistedInject constructor(
         // TODO
     }
 
+    fun onAgreeGC() {
+        // TODO
+    }
+
+    fun onDisagreeGC() {
+        // TODO
+    }
+
     @AssistedFactory
     interface Factory : CWAViewModelFactory<RequestGreenCertificateViewModel> {
         fun create(type: CoronaTest.Type): RequestGreenCertificateViewModel

@@ -44,8 +44,8 @@ class RequestGreenCertificateFragment : Fragment(R.layout.fragment_request_green
             }
 
             toolbar.setNavigationOnClickListener { showDialog() }
-            buttonConsent.setOnClickListener { popBackStack() }
-            buttonCancel.setOnClickListener { popBackStack() }
+            agreeButton.setOnClickListener { viewModel.onAgreeGC() }
+            disagreeButton.setOnClickListener { viewModel.onDisagreeGC() }
             dateInputEdit.setOnClickListener { openDatePicker() }
         }
 
@@ -53,8 +53,8 @@ class RequestGreenCertificateFragment : Fragment(R.layout.fragment_request_green
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.request_gc_dialog_title)
             .setMessage(R.string.request_gc_dialog_message)
-            .setNegativeButton(R.string.request_gc_dialog_positive_button) { _, _ -> }
-            .setPositiveButton(R.string.request_gc_dialog_negative_button) { _, _ -> }
+            .setNegativeButton(R.string.request_gc_dialog_positive_button) { _, _ -> /* TODO */ }
+            .setPositiveButton(R.string.request_gc_dialog_negative_button) { _, _ -> /* TODO */ }
             .create()
             .show()
     }
@@ -70,6 +70,6 @@ class RequestGreenCertificateFragment : Fragment(R.layout.fragment_request_green
                     viewModel.birthDateChanged(localDate)
                 }
             }
-            .show(childFragmentManager, "RATProfileCreateFragment.MaterialDatePicker")
+            .show(childFragmentManager, "RequestGreenCertificateFragment.MaterialDatePicker")
     }
 }

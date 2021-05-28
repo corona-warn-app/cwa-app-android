@@ -21,7 +21,7 @@
         android:id="@+id/scrollview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/button_consent"
+        app:layout_constraintBottom_toTopOf="@id/agree_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
@@ -176,7 +176,7 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/button_consent"
+        android:id="@+id/agree_button"
         style="@style/buttonPrimary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -185,13 +185,13 @@
         android:layout_marginEnd="@dimen/spacing_normal"
         android:layout_marginBottom="@dimen/spacing_small"
         android:text="@string/request_green_certificate_agree_button"
-        app:layout_constraintBottom_toTopOf="@id/button_cancel"
+        app:layout_constraintBottom_toTopOf="@id/disagree_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/scrollview" />
 
     <Button
-        android:id="@+id/button_cancel"
+        android:id="@+id/disagree_button"
         style="@style/button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

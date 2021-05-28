@@ -14,4 +14,16 @@
     <string name="request_green_certificate_agree_button">Testzertifikat Anfordern</string>
     <!-- XBUT: Request green certificate disagree button -->
     <string name="request_green_certificate_disagree_button">Nein Danke</string>
+    <!-- XTXT: Request green certificate birth date description -->
+    <string name="request_green_certificate_birthdate_description">Zur Sicherheit wird Ihr Testergebnis mit Ihrem Geburtsdatum geschützt. Das Testergebnis kann nur bei korrekt angegebenem Geburtstdatum zugestellt werden.</string>
+    <!-- XTXT: Request green certificate birth date hint -->
+    <string name="request_green_certificate_birthdate_hint">Geburtsdatum</string>
+    <!-- XTXT: Request green certificate exit dialog title -->
+    <string name="request_gc_dialog_title">Registrierung abbrechen</string>
+    <!-- XTXT: Request green certificate exit dialog message -->
+    <string name="request_gc_dialog_message">Wenn Sie die Test-Registrierung abbrechen, können Sie Ihr Testergebnis nicht in der App erhalten.</string>
+    <!-- XBUT: Request green certificate exit dialog negative button -->
+    <string name="request_gc_dialog_positive_button">Abbrechen</string>
+    <!-- XBUT: Request green certificate exit dialog positive button -->
+    <string name="request_gc_dialog_negative_button">OK</string>
 </resources>
