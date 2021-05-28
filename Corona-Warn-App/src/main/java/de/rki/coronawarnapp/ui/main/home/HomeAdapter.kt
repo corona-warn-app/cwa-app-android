@@ -79,13 +79,6 @@ class HomeAdapter :
                 TypedVHCreatorMod({ data[it] is RapidTestOutdatedCard.Item }) { RapidTestOutdatedCard(it) },
                 TypedVHCreatorMod({ data[it] is TestUnregisteredCard.Item }) { TestUnregisteredCard(it) },
                 TypedVHCreatorMod({ data[it] is StatisticsHomeCard.Item }) { StatisticsHomeCard(it) },
-                TypedVHCreatorMod({ data[it] is CreateVaccinationHomeCard.Item }) { CreateVaccinationHomeCard(it) },
-                TypedVHCreatorMod({ data[it] is ImmuneVaccinationHomeCard.Item }) {
-                    ImmuneVaccinationHomeCard(it)
-                },
-                TypedVHCreatorMod({ data[it] is VaccinationHomeCard.Item }) {
-                    VaccinationHomeCard(it)
-                },
                 SavedStateMod<HomeItemVH<HomeItem, ViewBinding>>() // For statistics card scroll position
             )
         )

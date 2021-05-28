@@ -154,29 +154,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 else -> add(tracingItem)
             }
 
-            vaccinatedPersons.forEach { vaccinatedPerson ->
-                val card = when (vaccinatedPerson.getVaccinationStatus()) {
-                    VaccinatedPerson.Status.COMPLETE,
-                    VaccinatedPerson.Status.INCOMPLETE -> VaccinationHomeCard.Item(
-                        vaccinatedPerson = vaccinatedPerson,
-                        onClickAction = {
-                            events.postValue(
-                                HomeFragmentEvents.GoToVaccinationList(vaccinatedPerson.identifier.codeSHA256)
-                            )
-                        }
-                    )
-                    VaccinatedPerson.Status.IMMUNITY -> ImmuneVaccinationHomeCard.Item(
-                        vaccinatedPerson = vaccinatedPerson,
-                        onClickAction = {
-                            events.postValue(
-                                HomeFragmentEvents.GoToVaccinationList(vaccinatedPerson.identifier.codeSHA256)
-                            )
-                        }
-                    )
-                }
-                add(card)
-            }
-
             if (bluetoothSupport.isAdvertisingSupported == false) {
                 val scanningSupported = bluetoothSupport.isScanningSupported != false
                 add(
@@ -209,18 +186,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     } else add(testRAT.toTestCardItem(coronaTestParameters))
                 }
             }
-
-            add(
-                CreateVaccinationHomeCard.Item(
-                    onClickAction = {
-                        events.postValue(
-                            HomeFragmentEvents.OpenVaccinationRegistrationGraph(
-                                vaccinationSettings.registrationAcknowledged
-                            )
-                        )
-                    }
-                )
-            )
 
             if (statsData.isDataAvailable) {
                 add(
