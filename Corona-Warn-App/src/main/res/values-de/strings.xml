@@ -282,6 +282,8 @@
     <string name="risk_details_behavior_body_wear_mask">"Tragen Sie einen Mund-Nasen-Schutz bei Begegnungen mit anderen Personen."</string>
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_away">"Halten Sie mindestens 1,5 Meter Abstand zu anderen Personen."</string>
+    <!-- XTXT: find details about exposures in the contact journal -->
+    <string name="risk_details_find_details_in_journal">Weitere Informationen zu Ihren Risiko-Begegnungen finden Sie in Ihrem Kontakt-Tagebuch.</string>
 
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
     <string name="risk_details_increased_risk_faq_link_text">"Falls Sie sich testen lassen, finden Sie weitere Informationen in der FAQ zum Testablauf."</string>
