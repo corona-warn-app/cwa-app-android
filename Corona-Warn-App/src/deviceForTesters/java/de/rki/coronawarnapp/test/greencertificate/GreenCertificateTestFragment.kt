@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentTestGreenCertificateBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -22,6 +24,17 @@ class GreenCertificateTestFragment : Fragment(R.layout.fragment_test_green_certi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.pcrScreen.setOnClickListener {
+            NavGraphDirections.actionSubmissionTestResultGreenCertificateFragment(
+                CoronaTest.Type.PCR
+            )
+        }
+        binding.ratScreen.setOnClickListener {
+            NavGraphDirections.actionSubmissionTestResultGreenCertificateFragment(
+                CoronaTest.Type.RAPID_ANTIGEN
+            )
+        }
     }
 
     companion object {
