@@ -8,34 +8,18 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
-import de.rki.coronawarnapp.storage.TracingRepository
-import de.rki.coronawarnapp.storage.TracingSettings
-import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestPositiveCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestSubmissionDoneCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestPositiveCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestSubmissionDoneCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestResultItem
-import de.rki.coronawarnapp.tracing.GeneralTracingStatus
-import de.rki.coronawarnapp.tracing.states.TracingStateProvider
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingStateItem
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
-import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
 import de.rki.coronawarnapp.ui.statistics.Statistics
-import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
-import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
-import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
-import de.rki.coronawarnapp.vaccination.core.VaccinationSettings
-import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.vaccination.ui.homecard.CreateVaccinationHomeCard
 import de.rki.coronawarnapp.vaccination.ui.homecard.VaccinationStatusItem
 import io.mockk.MockKAnnotations
@@ -43,17 +27,13 @@ import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import io.mockk.spyk
 import io.mockk.verify
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.SystemUIDemoModeRule
-import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchInMainActivity
 import testhelpers.recyclerScrollTo
@@ -63,32 +43,11 @@ import timber.log.Timber
 @RunWith(AndroidJUnit4::class)
 class HomeFragmentTest : BaseUITest() {
 
-    @MockK lateinit var errorResetTool: EncryptionErrorResetTool
-    @MockK lateinit var tracingStatus: GeneralTracingStatus
-    @MockK lateinit var tracingStateProviderFactory: TracingStateProvider.Factory
-    @MockK lateinit var coronaTestRepository: CoronaTestRepository
-    @MockK lateinit var tracingRepository: TracingRepository
-    @MockK lateinit var submissionRepository: SubmissionRepository
-    @MockK lateinit var cwaSettings: CWASettings
-    @MockK lateinit var appConfigProvider: AppConfigProvider
-    @MockK lateinit var statisticsProvider: StatisticsProvider
-    @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
-    @MockK lateinit var tracingSettings: TracingSettings
-    @MockK lateinit var vaccinationSettings: VaccinationSettings
-    @MockK lateinit var traceLocationOrganizerSettings: TraceLocationOrganizerSettings
-    @MockK lateinit var timeStamper: TimeStamper
-    @MockK lateinit var bluetoothSupport: BluetoothSupport
-    @MockK lateinit var vaccinationRepository: VaccinationRepository
-
-    private lateinit var homeFragmentViewModel: HomeFragmentViewModel
-
-    @get:Rule
-    val systemUIDemoModeRule = SystemUIDemoModeRule()
+    @MockK lateinit var homeFragmentViewModel: HomeFragmentViewModel
 
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        homeFragmentViewModel = homeFragmentViewModelSpy()
         with(homeFragmentViewModel) {
             every { refreshRequiredData() } just Runs
             every { tracingHeaderState } returns MutableLiveData(TracingHeaderState.TracingActive)
@@ -104,9 +63,6 @@ class HomeFragmentTest : BaseUITest() {
                 override fun create(): HomeFragmentViewModel = homeFragmentViewModel
             }
         )
-
-        every { bluetoothSupport.isScanningSupported } returns true
-        every { bluetoothSupport.isAdvertisingSupported } returns true
     }
 
     @Screenshot
@@ -271,8 +227,6 @@ class HomeFragmentTest : BaseUITest() {
     fun captureHomeFragmentCompatibilityBleBroadcastNotSupported() {
         every { homeFragmentViewModel.homeItems } returns
             homeFragmentItemsLiveData(HomeData.Tracing.TRACING_FAILED_ITEM)
-        every { bluetoothSupport.isScanningSupported } returns true
-        every { bluetoothSupport.isAdvertisingSupported } returns false
         launchInMainActivity<HomeFragment>()
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2))
         captureHomeFragment("compatibility_ble_broadcast_not_supported")
@@ -283,8 +237,6 @@ class HomeFragmentTest : BaseUITest() {
     fun captureHomeFragmentCompatibilityBleScanNotSupported() {
         every { homeFragmentViewModel.homeItems } returns
             homeFragmentItemsLiveData(HomeData.Tracing.TRACING_FAILED_ITEM)
-        every { bluetoothSupport.isScanningSupported } returns false
-        every { bluetoothSupport.isAdvertisingSupported } returns true
         launchInMainActivity<HomeFragment>()
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2))
         captureHomeFragment("compatibility_ble_scan_not_supported")
@@ -350,28 +302,6 @@ class HomeFragmentTest : BaseUITest() {
         launchInMainActivity<HomeFragment>()
         takeScreenshot<HomeFragment>(nameSuffix)
     }
-
-    private fun homeFragmentViewModelSpy() = spyk(
-        HomeFragmentViewModel(
-            dispatcherProvider = TestDispatcherProvider(),
-            errorResetTool = errorResetTool,
-            tracingRepository = tracingRepository,
-            tracingStateProviderFactory = tracingStateProviderFactory,
-            appConfigProvider = appConfigProvider,
-            tracingStatus = tracingStatus,
-            submissionRepository = submissionRepository,
-            coronaTestRepository = coronaTestRepository,
-            cwaSettings = cwaSettings,
-            statisticsProvider = statisticsProvider,
-            appShortcutsHelper = appShortcutsHelper,
-            tracingSettings = tracingSettings,
-            traceLocationOrganizerSettings = traceLocationOrganizerSettings,
-            timeStamper = timeStamper,
-            bluetoothSupport = bluetoothSupport,
-            vaccinationSettings = vaccinationSettings,
-            vaccinationRepository = vaccinationRepository
-        )
-    )
 
     // LiveData item for fragments
     private fun homeFragmentItemsLiveData(
