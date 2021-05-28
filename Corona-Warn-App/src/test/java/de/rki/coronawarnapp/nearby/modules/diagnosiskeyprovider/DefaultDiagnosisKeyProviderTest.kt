@@ -42,7 +42,8 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
 
         coEvery { googleENFClient.provideDiagnosisKeys(any<List<File>>()) } returns MockGMSTask.forValue(null)
 
-        coEvery { googleENFClient.provideDiagnosisKeys(any<DiagnosisKeyFileProvider>()) } returns MockGMSTask.forValue(null)
+        coEvery { googleENFClient.provideDiagnosisKeys(any<DiagnosisKeyFileProvider>()) } returns
+            MockGMSTask.forValue(null)
 
         coEvery { enfVersion.requireMinimumVersion(any()) } returns Unit
     }

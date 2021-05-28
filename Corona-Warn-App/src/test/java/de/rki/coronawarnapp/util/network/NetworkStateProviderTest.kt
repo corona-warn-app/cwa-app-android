@@ -253,7 +253,9 @@ class NetworkStateProviderTest : BaseTest() {
                 connectivityManager.getLinkProperties(network)
                 connectivityManager.registerNetworkCallback(networkRequest, any<ConnectivityManager.NetworkCallback>())
             }
-            verify(exactly = 0) { connectivityManager.unregisterNetworkCallback(any<ConnectivityManager.NetworkCallback>()) }
+            verify(exactly = 0) {
+                connectivityManager.unregisterNetworkCallback(any<ConnectivityManager.NetworkCallback>())
+            }
         }
 
     @Test
