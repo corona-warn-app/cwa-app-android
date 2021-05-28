@@ -7,6 +7,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.AppBarLayout
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.databinding.FragmentGreencertificateDetailsBinding
 import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -20,7 +21,7 @@ import javax.inject.Inject
 class GreenCertificateDetailsFragment : Fragment(R.layout.fragment_greencertificate_details), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val binding: FragmentVaccinationDetailsBinding by viewBinding()
+    private val binding: FragmentGreencertificateDetailsBinding by viewBinding()
     private val viewModel: GreenCertificateDetailsViewModel by cwaViewModels { viewModelFactory }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =

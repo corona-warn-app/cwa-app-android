@@ -135,6 +135,7 @@
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="Andrea Schneider"
                     tools:text="Andrea Schneider" />
 
                 <TextView
@@ -150,6 +151,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:text="geboren 18.04.1943"
                     tools:text="geboren 18.04.1943" />
 
                 <TextView
@@ -181,6 +183,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:text="Rapid Antigen Test"
                     tools:text="Rapid Antigen Test" />
 
                 <TextView
@@ -196,6 +199,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:text="Xep"
                     tools:text="Xep" />
 
                 <TextView
@@ -211,6 +215,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:text="Xup"
                     tools:text="Xup" />
 
                 <TextView
@@ -226,6 +231,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:text="negative"
                     tools:text="negative" />
 
                 <TextView
@@ -241,6 +247,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:text="AB123"
                     tools:text="AB123" />
 
                 <TextView
@@ -256,6 +263,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:text="Germany"
                     tools:text="Germany" />
 
                 <TextView
@@ -271,6 +279,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:text="G05930482748454836478695764787840"
                     tools:text="G05930482748454836478695764787840" />
 
 
@@ -287,6 +296,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:text="05930482748454836478695764787840"
                     tools:text="05930482748454836478695764787840" />
 
 

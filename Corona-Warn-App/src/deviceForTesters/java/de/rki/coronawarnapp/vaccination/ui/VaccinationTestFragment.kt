@@ -42,6 +42,13 @@ class VaccinationTestFragment : Fragment(R.layout.fragment_test_vaccination), Au
                     )
             )
         }
+
+        binding.openGreencertificateDetail.setOnClickListener {
+            doNavigate(
+                VaccinationTestFragmentDirections
+                    .actionVaccinationTestFragmentToGreenCertificateDetailsFragment()
+            )
+        }
     }
 
     companion object {
