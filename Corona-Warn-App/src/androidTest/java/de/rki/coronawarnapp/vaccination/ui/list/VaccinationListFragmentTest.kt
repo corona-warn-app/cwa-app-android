@@ -37,7 +37,7 @@ import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.launchFragment2
-import testhelpers.launchFragmentInContainer2
+import testhelpers.launchInEmptyActivity
 import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
@@ -96,7 +96,7 @@ internal class VaccinationListFragmentTest : BaseUITest() {
             itemList = listItems,
             vaccinationStatus = INCOMPLETE
         )
-        launchFragmentInContainer2<VaccinationListFragment>(fragmentArgs = fragmentArgs)
+        launchInEmptyActivity<VaccinationListFragment>(fragmentArgs = fragmentArgs)
         takeScreenshot<VaccinationListFragment>("incomplete")
         onView(withId(R.id.coordinator_layout)).perform(swipeUp())
         takeScreenshot<VaccinationListFragment>("incomplete_scrolled_down")
@@ -132,7 +132,7 @@ internal class VaccinationListFragmentTest : BaseUITest() {
             itemList = listItems,
             vaccinationStatus = COMPLETE
         )
-        launchFragmentInContainer2<VaccinationListFragment>(fragmentArgs = fragmentArgs)
+        launchInEmptyActivity<VaccinationListFragment>(fragmentArgs = fragmentArgs)
         takeScreenshot<VaccinationListFragment>("complete")
         onView(withId(R.id.coordinator_layout)).perform(swipeUp())
         takeScreenshot<VaccinationListFragment>("complete_scrolled_down")
@@ -166,7 +166,7 @@ internal class VaccinationListFragmentTest : BaseUITest() {
             itemList = listItems,
             vaccinationStatus = IMMUNITY
         )
-        launchFragmentInContainer2<VaccinationListFragment>(fragmentArgs = fragmentArgs)
+        launchInEmptyActivity<VaccinationListFragment>(fragmentArgs = fragmentArgs)
         takeScreenshot<VaccinationListFragment>("immunity")
         onView(withId(R.id.coordinator_layout)).perform(swipeUp())
         takeScreenshot<VaccinationListFragment>("immunity_scrolled_down")

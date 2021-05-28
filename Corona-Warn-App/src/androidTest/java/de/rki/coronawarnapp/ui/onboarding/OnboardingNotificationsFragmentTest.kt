@@ -12,7 +12,7 @@ import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.launchFragment2
-import testhelpers.launchFragmentInContainer2
+import testhelpers.launchInEmptyActivity
 import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
@@ -48,7 +48,7 @@ class OnboardingNotificationsFragmentTest : BaseUITest() {
     @Screenshot
     @Test
     fun capture_screenshot() {
-        launchFragmentInContainer2<OnboardingNotificationsFragment>()
+        launchInEmptyActivity<OnboardingNotificationsFragment>()
         takeScreenshot<OnboardingNotificationsFragment>()
     }
 }

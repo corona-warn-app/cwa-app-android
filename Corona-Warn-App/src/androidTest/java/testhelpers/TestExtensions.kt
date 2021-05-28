@@ -10,6 +10,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.launchActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.ui.main.FakeEmptyActivity
 import de.rki.coronawarnapp.ui.main.FakeMainActivity
 import de.rki.coronawarnapp.ui.main.MainActivity
 
@@ -56,7 +57,7 @@ inline fun <reified F : Fragment> launchFragment2(
  * ```
  * launchInMainActivity<HomeFragment>()
  * // Do espresso actions
- * // takeScreenshot<HomeFragment>()
+ * takeScreenshot<HomeFragment>()
  * ```
  */
 inline fun <reified F : Fragment> launchInMainActivity() {
@@ -67,4 +68,37 @@ inline fun <reified F : Fragment> launchInMainActivity() {
         putExtra(FakeMainActivity.FRAGMENT_CLASS, F::class.qualifiedName)
     }
     launchActivity<FakeMainActivity>(intent)
+}
+
+/**
+ * Helper to launch a Fragment in [FakeEmptyActivity].
+ * this helps to test each fragment in isolation from other fragments specially
+ * in [Screenshot] tests.
+ *
+ * Note: In cases where screenshots are not required, it is better to use testing framework launcher.
+ * If a [BottomNavigationView] should be visible in the screenshot, you should use [launchInMainActivity].
+ *
+ * This helper was introduced to be used instead of [launchFragment2] or [launchFragmentInContainer2] in screenshot
+ * tests, because we had some issues with [EmptyFragmentActivity] that was used with these function was no AppCompat
+ * Activity and therefore some Images in ImageViews didn't show up in the screenshot. This helper now loads the
+ * fragments in an [AppCompatActivity]
+ *
+ * Example:
+ * ```
+ * launchInEmptyActivity<OnboardingFragment>()
+ * // Do espresso actions
+ * takeScreenshot<OnboardingFragment>()
+ * ```
+ */
+inline fun <reified F : Fragment> launchInEmptyActivity(
+    fragmentArgs: Bundle? = null,
+) {
+    val intent = Intent(
+        ApplicationProvider.getApplicationContext(),
+        FakeEmptyActivity::class.java
+    ).apply {
+        putExtra(FakeEmptyActivity.FRAGMENT_CLASS, F::class.qualifiedName)
+        putExtra(FakeEmptyActivity.FRAGMENT_ARGUMENTS, fragmentArgs)
+    }
+    launchActivity<FakeEmptyActivity>(intent)
 }

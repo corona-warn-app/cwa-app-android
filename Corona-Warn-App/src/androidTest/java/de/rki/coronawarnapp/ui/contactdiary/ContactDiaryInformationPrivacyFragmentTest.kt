@@ -5,11 +5,11 @@ import de.rki.coronawarnapp.ui.information.InformationPrivacyFragment
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import testhelpers.takeScreenshot
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.launchFragment2
-import testhelpers.launchFragmentInContainer2
+import testhelpers.launchInEmptyActivity
+import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
@@ -29,7 +29,7 @@ class ContactDiaryInformationPrivacyFragmentTest {
     @Screenshot
     @Test
     fun capture_screenshot() {
-        launchFragmentInContainer2<InformationPrivacyFragment>()
+        launchInEmptyActivity<InformationPrivacyFragment>()
         takeScreenshot<InformationPrivacyFragment>()
     }
 }

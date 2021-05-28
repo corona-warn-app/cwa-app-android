@@ -22,7 +22,8 @@ import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
-import testhelpers.captureScreenshot
+import testhelpers.launchInEmptyActivity
+import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
@@ -30,7 +31,7 @@ class SubmissionYourConsentFragmentTest : BaseUITest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var interoperabilityRepository: InteroperabilityRepository
-    @MockK lateinit var testType: CoronaTest.Type
+    val testType = CoronaTest.Type.PCR
 
     @Rule
     @JvmField
@@ -67,9 +68,10 @@ class SubmissionYourConsentFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment_results() {
-        captureScreenshot<SubmissionYourConsentFragment>(
+        launchInEmptyActivity<SubmissionYourConsentFragment>(
             fragmentArgs = SubmissionYourConsentFragmentArgs(true, testType).toBundle()
         )
+        takeScreenshot<SubmissionYourConsentFragment>()
     }
 }
 

@@ -1,14 +1,7 @@
 package testhelpers
 
-import android.app.Activity
 import android.graphics.Bitmap
-import android.os.Bundle
 import android.util.Log
-import androidx.annotation.StyleRes
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentFactory
-import androidx.test.espresso.ViewAction
-import de.rki.coronawarnapp.R
 import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.ScreenshotCallback
 import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy
@@ -31,22 +24,6 @@ inline fun <reified T> takeScreenshot(suffix: String = "", delay: Long = SCREENS
         UiAutomatorScreenshotStrategy(),
         SDCardCallback
     )
-}
-
-/**
- * Launches and captures a screen [Fragment].
- * This function is not convenient if Espresso [ViewAction] is required
- * before taking screenshot or the screen is [Activity].
- * Better to use [takeScreenshot]
- */
-inline fun <reified F : Fragment> captureScreenshot(
-    suffix: String = "",
-    fragmentArgs: Bundle? = null,
-    @StyleRes themeResId: Int = R.style.AppTheme,
-    factory: FragmentFactory? = null
-) {
-    launchFragmentInContainer2<F>(fragmentArgs, themeResId, factory)
-    takeScreenshot<F>(suffix)
 }
 
 /**

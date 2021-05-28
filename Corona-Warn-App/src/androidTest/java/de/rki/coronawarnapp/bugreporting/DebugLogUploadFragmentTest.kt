@@ -19,7 +19,7 @@ import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
-import testhelpers.launchFragmentInContainer2
+import testhelpers.launchInEmptyActivity
 import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
@@ -67,7 +67,7 @@ class DebugLogUploadFragmentTest : BaseUITest() {
     @Screenshot
     @Test
     fun capture_screenshot() {
-        launchFragmentInContainer2<DebugLogUploadFragment>()
+        launchInEmptyActivity<DebugLogUploadFragment>()
         takeScreenshot<DebugLogUploadFragment>()
     }
 }

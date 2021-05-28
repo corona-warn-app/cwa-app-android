@@ -24,7 +24,8 @@ import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
-import testhelpers.captureScreenshot
+import testhelpers.launchInEmptyActivity
+import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
 @RunWith(AndroidJUnit4::class)
@@ -76,9 +77,8 @@ class SubmissionConsentFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment_results() {
-        captureScreenshot<SubmissionConsentFragment>(
-            fragmentArgs = fragmentArgs
-        )
+        launchInEmptyActivity<SubmissionConsentFragment>(fragmentArgs = fragmentArgs)
+        takeScreenshot<SubmissionConsentFragment>()
     }
 }
 

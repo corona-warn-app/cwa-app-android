@@ -23,7 +23,7 @@ import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
-import testhelpers.launchFragmentInContainer2
+import testhelpers.launchInEmptyActivity
 import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
@@ -71,7 +71,7 @@ class ContactDiaryEditPersonsFragmentTest : BaseUITest() {
     @Test
     fun capture_screenshot() {
         every { viewModel.personsLiveData } returns MutableLiveData(PERSONS_EDIT_LIST)
-        launchFragmentInContainer2<ContactDiaryEditPersonsFragment>()
+        launchInEmptyActivity<ContactDiaryEditPersonsFragment>()
         takeScreenshot<ContactDiaryEditPersonsFragment>()
     }
 }
