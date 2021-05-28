@@ -22,11 +22,11 @@ class GreenCertificateDetailsViewModel @AssistedInject constructor(
     private val mutableStateFlow = MutableStateFlow<Bitmap?>(null)
     val qrCode = mutableStateFlow.asLiveData(dispatcherProvider.Default)
 
-    val events = SingleLiveEvent<CertificateDetailsNavigation>()
+    val events = SingleLiveEvent<GreenCertificateDetailsNavigation>()
 
-    fun onClose() = events.postValue(CertificateDetailsNavigation.Back)
+    fun onClose() = events.postValue(GreenCertificateDetailsNavigation.Back)
 
-    fun openFullScreen() = qrCodeText?.let { events.postValue(CertificateDetailsNavigation.FullQrCode(it)) }
+    fun openFullScreen() = qrCodeText?.let { events.postValue(GreenCertificateDetailsNavigation.FullQrCode(it)) }
 
     private fun generateQrCode(certificate: VaccinationCertificate?) = launch {
         try {
@@ -42,5 +42,4 @@ class GreenCertificateDetailsViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<GreenCertificateDetailsViewModel>
-
 }

@@ -20,12 +20,8 @@ import javax.inject.Inject
 class GreenCertificateDetailsFragment : Fragment(R.layout.fragment_greencertificate_details), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-
-    //private val args by navArgs<DetailsFra>()
     private val binding: FragmentVaccinationDetailsBinding by viewBinding()
-
     private val viewModel: GreenCertificateDetailsViewModel by cwaViewModels { viewModelFactory }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
