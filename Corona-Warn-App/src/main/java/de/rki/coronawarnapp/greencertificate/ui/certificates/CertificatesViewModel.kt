@@ -33,7 +33,9 @@ class CertificatesViewModel @AssistedInject constructor(
                             vaccinatedPerson = vaccinatedPerson,
                             onClickAction = {
                                 events.postValue(
-                                    CertificatesFragmentEvents.GoToVaccinationList(vaccinatedPerson.identifier.codeSHA256)
+                                    CertificatesFragmentEvents.GoToVaccinationList(
+                                        vaccinatedPerson.identifier.codeSHA256
+                                    )
                                 )
                             }
                         )
@@ -41,7 +43,9 @@ class CertificatesViewModel @AssistedInject constructor(
                             vaccinatedPerson = vaccinatedPerson,
                             onClickAction = {
                                 events.postValue(
-                                    CertificatesFragmentEvents.GoToVaccinationList(vaccinatedPerson.identifier.codeSHA256)
+                                    CertificatesFragmentEvents.GoToVaccinationList(
+                                        vaccinatedPerson.identifier.codeSHA256
+                                    )
                                 )
                             }
                         )
