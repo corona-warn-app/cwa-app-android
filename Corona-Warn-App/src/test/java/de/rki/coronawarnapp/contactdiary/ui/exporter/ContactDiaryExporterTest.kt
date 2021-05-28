@@ -25,6 +25,7 @@ import testhelpers.extensions.CoroutinesTestExtension
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockKExtension::class, CoroutinesTestExtension::class)
+@Suppress("MaxLineLength")
 internal class ContactDiaryExporterTest {
 
     @MockK lateinit var timeStamper: TimeStamper
@@ -74,17 +75,17 @@ internal class ContactDiaryExporterTest {
                 personEncounters = emptyList(),
                 locationVisits = emptyList(),
                 expectedExport =
-                    """
+                """
                     Kontakte der letzten 15 Tage (01.01.2021 - 15.01.2021)
                     Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG.
                     
-                    """.trimIndent()
+                """.trimIndent()
             ),
             ExporterTestItem(
                 personEncounters = ContactDiaryData.TWO_PERSONS_NO_ADDITIONAL_DATA,
                 locationVisits = ContactDiaryData.TWO_LOCATIONS_NO_ADDITIONAL_DATA,
                 expectedExport =
-                    """
+                """
                     Kontakte der letzten 15 Tage (01.01.2021 - 15.01.2021)
                     Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG.
 
@@ -93,13 +94,13 @@ internal class ContactDiaryExporterTest {
                     01.01.2021 Andrea Steinhauer
                     01.01.2021 Bakery
                 
-                    """.trimIndent()
+                """.trimIndent()
             ),
             ExporterTestItem(
                 personEncounters = ContactDiaryData.TWO_PERSONS_WITH_PHONE_NUMBERS,
                 locationVisits = ContactDiaryData.TWO_LOCATIONS_WITH_EMAIL,
                 expectedExport =
-                    """
+                """
                     Kontakte der letzten 15 Tage (01.01.2021 - 15.01.2021)
                     Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG.
 
@@ -108,13 +109,13 @@ internal class ContactDiaryExporterTest {
                     01.01.2021 Andrea Steinhauer; Tel. +49 123 456789
                     01.01.2021 Bakery; eMail baker@ibakeyourbread.com
                 
-                    """.trimIndent()
+                """.trimIndent()
             ),
             ExporterTestItem(
                 personEncounters = ContactDiaryData.TWO_PERSONS_WITH_PHONE_NUMBERS_AND_EMAIL,
                 locationVisits = ContactDiaryData.TWO_LOCATIONS_WITH_PHONE_NUMBERS_AND_EMAIL,
                 expectedExport =
-                    """
+                """
                     Kontakte der letzten 15 Tage (01.01.2021 - 15.01.2021)
                     Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG.
 
@@ -123,13 +124,13 @@ internal class ContactDiaryExporterTest {
                     01.01.2021 Andrea Steinhauer; Tel. +49 123 456789; eMail andrea.steinhauer@example.com
                     01.01.2021 Bakery; Tel. +11 222 333333; eMail baker@ibakeyourbread.com
                 
-                    """.trimIndent()
+                """.trimIndent()
             ),
             ExporterTestItem(
                 personEncounters = ContactDiaryData.TWO_PERSONS_WITH_ATTRIBUTES,
                 locationVisits = ContactDiaryData.TWO_LOCATIONS_WITH_DURATION,
                 expectedExport =
-                    """
+                """
                     Kontakte der letzten 15 Tage (01.01.2021 - 15.01.2021)
                     Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG.
 
@@ -138,13 +139,13 @@ internal class ContactDiaryExporterTest {
                     01.01.2021 Andrea Steinhauer; Kontaktdauer < 15 Minuten; mit Maske; im Freien
                     01.01.2021 Bakery; Dauer 00:15 h
                 
-                    """.trimIndent()
+                """.trimIndent()
             ),
             ExporterTestItem(
                 personEncounters = ContactDiaryData.TWO_PERSONS_WITH_CIRCUMSTANCES,
                 locationVisits = ContactDiaryData.TWO_LOCATIONS_WITH_CIRCUMSTANCES,
                 expectedExport =
-                    """    
+                """    
                     Kontakte der letzten 15 Tage (01.01.2021 - 15.01.2021)
                     Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG.
 
@@ -153,7 +154,7 @@ internal class ContactDiaryExporterTest {
                     01.01.2021 Andrea Steinhauer; Sicherheitsmaßnahmen eingehalten
                     01.01.2021 Bakery; Very crowdy, but delicious bread
                 
-                    """.trimIndent()
+                """.trimIndent()
             )
         ).map { testItem -> Arguments.of(testItem) }
     }

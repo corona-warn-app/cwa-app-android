@@ -20,13 +20,17 @@ fun mockStringsForContactDiaryExporterTests(context: Context) {
 
     every {
         context.getString(R.string.contact_diary_export_intro_two)
-    } answers { "Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG." }
+    } answers {
+        "Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG."
+    }
 
     every { context.getString(R.string.contact_diary_export_prefix_phone) } returns "Tel."
     every { context.getString(R.string.contact_diary_export_prefix_email) } returns "eMail"
 
-    every { context.getString(R.string.contact_diary_export_durations_less_than_15min) } returns "Kontaktdauer < 15 Minuten"
-    every { context.getString(R.string.contact_diary_export_durations_longer_than_15min) } returns "Kontaktdauer > 15 Minuten"
+    every { context.getString(R.string.contact_diary_export_durations_less_than_15min) } returns
+        "Kontaktdauer < 15 Minuten"
+    every { context.getString(R.string.contact_diary_export_durations_longer_than_15min) } returns
+        "Kontaktdauer > 15 Minuten"
 
     every { context.getString(R.string.contact_diary_export_wearing_mask) } returns "mit Maske"
     every { context.getString(R.string.contact_diary_export_wearing_no_mask) } returns "ohne Maske"

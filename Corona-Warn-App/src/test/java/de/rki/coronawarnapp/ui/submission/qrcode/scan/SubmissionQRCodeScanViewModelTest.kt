@@ -114,7 +114,9 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
         createViewModel().startQrCodeRegistration(rawResult = "", isConsentGiven = true)
 
         verify(exactly = 1) { analyticsKeySubmissionCollector.reportAdvancedConsentGiven(CoronaTest.Type.PCR) }
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportAdvancedConsentGiven(CoronaTest.Type.RAPID_ANTIGEN) }
+        verify(exactly = 0) {
+            analyticsKeySubmissionCollector.reportAdvancedConsentGiven(CoronaTest.Type.RAPID_ANTIGEN)
+        }
     }
 
     @Test
@@ -128,6 +130,8 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
         createViewModel().startQrCodeRegistration(rawResult = "", isConsentGiven = true)
 
         verify(exactly = 1) { analyticsKeySubmissionCollector.reportAdvancedConsentGiven(CoronaTest.Type.PCR) }
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportAdvancedConsentGiven(CoronaTest.Type.RAPID_ANTIGEN) }
+        verify(exactly = 0) {
+            analyticsKeySubmissionCollector.reportAdvancedConsentGiven(CoronaTest.Type.RAPID_ANTIGEN)
+        }
     }
 }

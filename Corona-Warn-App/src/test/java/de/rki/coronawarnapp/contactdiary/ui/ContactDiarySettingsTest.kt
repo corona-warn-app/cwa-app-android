@@ -42,8 +42,9 @@ class ContactDiarySettingsTest {
     }
 
     @Test
-    fun `onboarded`() {
+    fun onboarded() {
         every { intPreference.value } returns 1
-        ContactDiarySettings(preferences).onboardingStatus shouldBe ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
+        ContactDiarySettings(preferences).onboardingStatus shouldBe
+            ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
     }
 }

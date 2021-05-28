@@ -47,7 +47,8 @@ class CheckInExtensionTest : BaseTest() {
 
     private fun CheckIn.validateLocationName() {
         locationName shouldBe when (traceLocationStart != null && traceLocationEnd != null) {
-            true -> "$description, $address, ${traceLocationStart?.toPrettyDate()} - ${traceLocationEnd?.toPrettyDate()}"
+            true ->
+                "$description, $address, ${traceLocationStart?.toPrettyDate()} - ${traceLocationEnd?.toPrettyDate()}"
             else -> "$description, $address"
         }
     }

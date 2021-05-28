@@ -31,9 +31,9 @@ class TEKHistoryAdapter : BaseAdapter<TEKHistoryAdapter.VH>(), AsyncDiffUtilAdap
     class VH(
         val parent: ViewGroup
     ) : BaseAdapter.VH(
-        R.layout.fragment_test_submission_tekhistory_line,
-        parent
-    ),
+            R.layout.fragment_test_submission_tekhistory_line,
+            parent
+        ),
         BindableVH<TEKHistoryItem, FragmentTestSubmissionTekhistoryLineBinding> {
 
         override val viewBinding = lazy { FragmentTestSubmissionTekhistoryLineBinding.bind(itemView) }
