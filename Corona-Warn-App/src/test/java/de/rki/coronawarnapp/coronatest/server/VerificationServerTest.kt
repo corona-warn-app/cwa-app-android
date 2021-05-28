@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.coronatest.server
 
 import android.content.Context
+import de.rki.coronawarnapp.coronatest.type.common.DateOfBirthKey
 import de.rki.coronawarnapp.http.HttpModule
 import de.rki.coronawarnapp.util.headerSizeIgnoringContentLength
 import io.kotest.matchers.shouldBe
@@ -13,7 +14,9 @@ import kotlinx.coroutines.runBlocking
 import okhttp3.ConnectionSpec
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
+import okhttp3.mockwebserver.RecordedRequest
 import org.joda.time.Duration
+import org.joda.time.LocalDate
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -30,7 +33,17 @@ class VerificationServerTest : BaseIOTest() {
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.java.simpleName)
     private val cacheDir = File(testDir, "cache")
-    private val httpCacheDir = File(cacheDir, "http_verification")
+
+    private val requestTan = RegistrationRequest(
+        "testKeyTan",
+        VerificationKeyType.TELETAN
+    )
+
+    private val requestGuid = RegistrationRequest(
+        key = "testKeyGuid",
+        type = VerificationKeyType.GUID,
+        dateOfBirthKey = DateOfBirthKey("testKeyGuid", LocalDate.parse("2020-09-11"))
+    )
 
     @BeforeEach
     fun setup() {
@@ -61,19 +74,17 @@ class VerificationServerTest : BaseIOTest() {
             arg<String>(0) shouldBe "0"
             arg<String>(1) shouldBe ""
             arg<VerificationApiV1.RegistrationTokenRequest>(2).apply {
-                keyType shouldBe VerificationKeyType.GUID.name
-                key shouldBe "15291f67d99ea7bc578c3544dadfbb991e66fa69cb36ff70fe30e798e111ff5f"
+                keyType shouldBe VerificationKeyType.GUID
+                key shouldBe "7620a19f93374e8d5acff090d3c10d0242a32fe140c50bbd40c95edf3c0af5b7"
                 requestPadding!!.length shouldBe 139
+                dateOfBirthKey shouldBe requestGuid.dateOfBirthKey!!.key
             }
             VerificationApiV1.RegistrationTokenResponse(
                 registrationToken = "testRegistrationToken"
             )
         }
 
-        server.retrieveRegistrationToken(
-            "testKey",
-            VerificationKeyType.GUID
-        ) shouldBe "testRegistrationToken"
+        server.retrieveRegistrationToken(requestGuid) shouldBe "testRegistrationToken"
 
         coVerify { verificationApi.getRegistrationToken(any(), any(), any()) }
     }
@@ -85,19 +96,17 @@ class VerificationServerTest : BaseIOTest() {
             arg<String>(0) shouldBe "0"
             arg<String>(1) shouldBe ""
             arg<VerificationApiV1.RegistrationTokenRequest>(2).apply {
-                keyType shouldBe VerificationKeyType.TELETAN.name
-                key shouldBe "testKey"
+                keyType shouldBe VerificationKeyType.TELETAN
+                key shouldBe "testKeyTan"
                 requestPadding!!.length shouldBe 190
+                dateOfBirthKey shouldBe null
             }
             VerificationApiV1.RegistrationTokenResponse(
                 registrationToken = "testRegistrationToken"
             )
         }
 
-        server.retrieveRegistrationToken(
-            "testKey",
-            VerificationKeyType.TELETAN
-        ) shouldBe "testRegistrationToken"
+        server.retrieveRegistrationToken(requestTan) shouldBe "testRegistrationToken"
 
         coVerify { verificationApi.getRegistrationToken(any(), any(), any()) }
     }
@@ -110,7 +119,7 @@ class VerificationServerTest : BaseIOTest() {
             arg<String>(1).length shouldBe 7 // Header-padding
             arg<VerificationApiV1.RegistrationRequest>(2).apply {
                 registrationToken shouldBe "testRegistrationToken"
-                requestPadding!!.length shouldBe 170
+                requestPadding.length shouldBe 170
             }
             VerificationApiV1.TestResultResponse(testResult = 2, sampleCollectedAt = null)
         }
@@ -131,7 +140,7 @@ class VerificationServerTest : BaseIOTest() {
             arg<String>(1).length shouldBe 14 // Header-padding
             arg<VerificationApiV1.TanRequestBody>(2).apply {
                 registrationToken shouldBe "testRegistrationToken"
-                requestPadding!!.length shouldBe 170
+                requestPadding.length shouldBe 170
             }
             VerificationApiV1.TanResponse(tan = "testTan")
         }
@@ -149,7 +158,7 @@ class VerificationServerTest : BaseIOTest() {
             arg<String>(1).length shouldBe 14 // Header-padding
             arg<VerificationApiV1.TanRequestBody>(2).apply {
                 registrationToken shouldBe "11111111-2222-4444-8888-161616161616"
-                requestPadding!!.length shouldBe 170
+                requestPadding.length shouldBe 170
             }
             VerificationApiV1.TanResponse(tan = "testTan")
         }
@@ -180,36 +189,31 @@ class VerificationServerTest : BaseIOTest() {
 
     @Test
     fun `all requests have the same footprint for pleasible deniability`(): Unit = runBlocking {
-        val guidExample = "3BF1D4-1C6003DD-733D-41F1-9F30-F85FA7406BF7"
-        val teletanExample = "9A3B578UMG"
         val registrationTokenExample = "63b4d3ff-e0de-4bd4-90c1-17c2bb683a2f"
+
+        val requests = mutableListOf<RecordedRequest>()
 
         val api = createServer(createRealApi())
         webServer.enqueue(MockResponse().setBody("{}"))
-        api.retrieveRegistrationToken(guidExample, VerificationKeyType.GUID)
+        api.retrieveRegistrationToken(requestGuid.copy(key = "3BF1D4-1C6003DD-733D-41F1-9F30-F85FA7406BF7"))
+        webServer.takeRequest().also { requests.add(it) }.bodySize shouldBe 250L
 
         webServer.enqueue(MockResponse().setBody("{}"))
-        api.retrieveRegistrationToken(teletanExample, VerificationKeyType.TELETAN)
+        api.retrieveRegistrationToken(requestTan.copy(key = "9A3B578UMG"))
+        webServer.takeRequest().also { requests.add(it) }.bodySize shouldBe 250L
 
         webServer.enqueue(MockResponse().setBody("{}"))
         api.pollTestResult(registrationTokenExample)
+        webServer.takeRequest().also { requests.add(it) }.bodySize shouldBe 250L
 
         webServer.enqueue(MockResponse().setBody("{}"))
         api.retrieveTan(registrationTokenExample)
+        webServer.takeRequest().also { requests.add(it) }.bodySize shouldBe 250L
 
         webServer.enqueue(MockResponse().setBody("{}"))
         api.retrieveTanFake()
+        webServer.takeRequest().also { requests.add(it) }.bodySize shouldBe 250L
 
-        val requests = listOf(
-            webServer.takeRequest(),
-            webServer.takeRequest(),
-            webServer.takeRequest(),
-            webServer.takeRequest(),
-            webServer.takeRequest()
-        )
-
-        // ensure all request have same size (header & body)
-        requests.forEach { it.bodySize shouldBe 250L }
 
         requests.zipWithNext().forEach { (a, b) ->
             a.headerSizeIgnoringContentLength() shouldBe b.headerSizeIgnoringContentLength()

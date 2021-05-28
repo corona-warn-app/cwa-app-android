@@ -20,32 +20,27 @@ class VerificationServer @Inject constructor(
         get() = verificationAPI.get()
 
     suspend fun retrieveRegistrationToken(
-        key: String,
-        keyType: VerificationKeyType
+        request: RegistrationRequest
     ): RegistrationToken = withContext(Dispatchers.IO) {
-        Timber.tag(TAG).v("retrieveRegistrationToken(key=%s, keyType=%s)", key, keyType)
-        val keyStr = if (keyType == VerificationKeyType.GUID) {
-            HashHelper.hash256(key)
+        Timber.tag(TAG).v("retrieveRegistrationToken(request=%s)", request)
+        val keyStr = if (request.type == VerificationKeyType.GUID) {
+            HashHelper.hash256(request.key)
         } else {
-            key
-        }
-
-        val paddingLength = when (keyType) {
-            VerificationKeyType.GUID -> PADDING_LENGTH_BODY_REGISTRATION_TOKEN_GUID
-            VerificationKeyType.TELETAN -> PADDING_LENGTH_BODY_REGISTRATION_TOKEN_TELETAN
+            request.key
         }
 
         val response = api.getRegistrationToken(
             fake = "0",
-            headerPadding = requestPadding(PADDING_LENGTH_HEADER_REGISTRATION_TOKEN),
+            headerPadding = requestPadding(0),
             requestBody = VerificationApiV1.RegistrationTokenRequest(
-                keyType = keyType.name,
+                keyType = request.type,
                 key = keyStr,
-                requestPadding = requestPadding(paddingLength)
+                dateOfBirthKey = request.dateOfBirthKey?.key,
+                requestPadding = requestPadding(requiredBodyPadding),
             )
         )
 
-        Timber.tag(TAG).d("retrieveRegistrationToken(key=%s, keyType=%s) -> %s", key, keyType, response)
+        Timber.tag(TAG).d("retrieveRegistrationToken(request=%s) -> %s", request, response)
         response.registrationToken
     }
 
@@ -53,6 +48,9 @@ class VerificationServer @Inject constructor(
         token: RegistrationToken
     ): CoronaTestResultResponse = withContext(Dispatchers.IO) {
         Timber.tag(TAG).v("retrieveTestResults(token=%s)", token)
+        var requiredHeaderSize = EXPECTED_HEADER_SIZE
+        var requiredBodyPadding = EXPECTED_BODY_SIZE
+
         val response = api.getTestResult(
             fake = "0",
             headerPadding = requestPadding(PADDING_LENGTH_HEADER_TEST_RESULT),
@@ -105,6 +103,7 @@ class VerificationServer @Inject constructor(
         const val PADDING_LENGTH_HEADER_REGISTRATION_TOKEN = 0
         const val PADDING_LENGTH_BODY_REGISTRATION_TOKEN_TELETAN = 51 + VERIFICATION_BODY_FILL
         const val PADDING_LENGTH_BODY_REGISTRATION_TOKEN_GUID = 0 + VERIFICATION_BODY_FILL
+        const val PADDING_LENGTH_DOB_KEY = 76
 
         // padding test result
         const val PADDING_LENGTH_HEADER_TEST_RESULT = 7
@@ -120,7 +119,7 @@ class VerificationServer @Inject constructor(
          * Test is available for this long on the server.
          * After this period the server will delete it and return PENDING if the regtoken is polled again.
          */
-        val TEST_AVAILABLBILITY = Duration.standardDays(60)
+        val TEST_AVAILABLBILITY: Duration = Duration.standardDays(60)
 
         private const val TAG = "VerificationServer"
     }
