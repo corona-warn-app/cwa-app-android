@@ -15,6 +15,9 @@ abstract class BaseUITest : BaseTestInstrumentation() {
         Manifest.permission.WRITE_EXTERNAL_STORAGE
     )
 
+    @get:Rule
+    val systemUIDemoModeRule = SystemUIDemoModeRule()
+
     inline fun <reified T : CWAViewModel> setupMockViewModel(factory: CWAViewModelFactory<T>) {
         MockViewModelModule.CREATORS[T::class.java] = factory
     }

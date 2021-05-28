@@ -42,9 +42,9 @@ class ExposureWindowRiskCalculationConfigMapper @Inject constructor() :
             transmissionRiskLevelEncoding = riskCalculationParameters.trlEncoding,
             transmissionRiskLevelFilters = riskCalculationParameters.trlFiltersList,
             normalizedTimePerExposureWindowToRiskLevelMapping =
-                riskCalculationParameters.normalizedTimePerEWToRiskLevelMappingList,
+            riskCalculationParameters.normalizedTimePerEWToRiskLevelMappingList,
             normalizedTimePerDayToRiskLevelMappingList =
-                riskCalculationParameters.normalizedTimePerDayToRiskLevelMappingList,
+            riskCalculationParameters.normalizedTimePerDayToRiskLevelMappingList,
             transmissionRiskValueMapping = riskCalculationParameters.transmissionRiskValueMappingList,
             diagnosisKeysDataMapping = rawConfig.diagnosisKeysDataMapping()
         )

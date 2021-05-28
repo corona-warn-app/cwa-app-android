@@ -82,7 +82,8 @@ class DefaultAppConfigSourceTest : BaseIOTest() {
 
     @Test
     fun `exceptions when getting the default config are rethrown`() = runBlockingTest {
-        every { assetManager.open("default_app_config_android.bin") } throws FileNotFoundException("default_app_config_android.bin does not exist")
+        every { assetManager.open("default_app_config_android.bin") } throws
+            FileNotFoundException("default_app_config_android.bin does not exist")
         val instance = createInstance()
 
         shouldThrowAny {

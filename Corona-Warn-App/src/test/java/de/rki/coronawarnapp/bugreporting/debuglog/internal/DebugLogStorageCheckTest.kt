@@ -14,7 +14,6 @@ import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -35,10 +34,6 @@ class DebugLogStorageCheckTest : BaseTest() {
         every { targetPath.parentFile } returns null
         every { targetPath.exists() } returns true
         coEvery { logWriter.write(any()) } just Runs
-    }
-
-    @AfterEach
-    fun teardown() {
     }
 
     private fun createInstance() = DebugLogStorageCheck(

@@ -51,6 +51,7 @@ class VaccinationServerTest : BaseTest() {
     )
 
     @Test
+    @Suppress("NestedBlockDepth")
     fun `valid export data`() {
         every { signatureValidation.hasValidSignature(any(), any()) } returns true
         exportZip.inputStream().use {

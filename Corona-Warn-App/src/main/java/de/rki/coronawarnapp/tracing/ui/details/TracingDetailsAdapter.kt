@@ -5,6 +5,7 @@ import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
 import de.rki.coronawarnapp.tracing.ui.details.items.DetailsItem
 import de.rki.coronawarnapp.tracing.ui.details.items.additionalinfos.AdditionalInfoLowRiskBox
+import de.rki.coronawarnapp.tracing.ui.details.items.additionalinfos.FindDetailsInJournalBox
 import de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorIncreasedRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorNormalRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.periodlogged.PeriodLoggedBox
@@ -49,6 +50,7 @@ class TracingDetailsAdapter(
                 TypedVHCreatorMod({ data[it] is BehaviorIncreasedRiskBox.Item }) { BehaviorIncreasedRiskBox(it) },
                 TypedVHCreatorMod({ data[it] is BehaviorNormalRiskBox.Item }) { BehaviorNormalRiskBox(it) },
                 TypedVHCreatorMod({ data[it] is AdditionalInfoLowRiskBox.Item }) { AdditionalInfoLowRiskBox(it) },
+                TypedVHCreatorMod({ data[it] is FindDetailsInJournalBox.Item }) { FindDetailsInJournalBox(it) },
                 TypedVHCreatorMod({ data[it] is UserSurveyBox.Item }) {
                     UserSurveyBox(
                         parent = it,
