@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.mockFlowPreference
 
-class AnalyticsPCRTestResultTest : BaseTest() {
+class AnalyticsPCRTestResultDonorTest : BaseTest() {
     @MockK lateinit var testResultSettings: AnalyticsPCRTestResultSettings
     @MockK lateinit var timeStamper: TimeStamper
 

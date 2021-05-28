@@ -5,7 +5,10 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_NEGATIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_OR_RAT_PENDING
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_POSITIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_REDEEMED
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_INVALID
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_NEGATIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
@@ -28,7 +31,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.mockFlowPreference
 
-class AnalyticsTestResultDataCollectorTest : BaseTest() {
+class AnalyticsTestResultCollectorTest : BaseTest() {
 
     @MockK lateinit var analyticsSettings: AnalyticsSettings
     @MockK lateinit var pcrTestResultDonorSettings: AnalyticsPCRTestResultSettings
@@ -70,6 +73,13 @@ class AnalyticsTestResultDataCollectorTest : BaseTest() {
                 pcrTestResultDonorSettings.saveTestResultDonorDataAtRegistration(any(), any())
                 raTestResultDonorSettings.saveTestResultDonorDataAtRegistration(any(), any())
             }
+
+            analyticsTestResultCollector.saveTestResult(RAT_POSITIVE, RAPID_ANTIGEN)
+
+            verify(exactly = 0) {
+                pcrTestResultDonorSettings.saveTestResultDonorDataAtRegistration(any(), any())
+                raTestResultDonorSettings.saveTestResultDonorDataAtRegistration(any(), any())
+            }
         }
 
     @Test
@@ -96,6 +106,7 @@ class AnalyticsTestResultDataCollectorTest : BaseTest() {
         runBlockingTest {
             every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(false)
             analyticsTestResultCollector.saveTestResult(PCR_INVALID, PCR)
+            analyticsTestResultCollector.saveTestResult(RAT_INVALID, RAPID_ANTIGEN)
 
             verify {
                 analyticsSettings.analyticsEnabled wasNot Called
@@ -107,7 +118,7 @@ class AnalyticsTestResultDataCollectorTest : BaseTest() {
         runBlockingTest {
             every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(false)
             analyticsTestResultCollector.saveTestResult(PCR_REDEEMED, PCR)
-
+            analyticsTestResultCollector.saveTestResult(RAT_REDEEMED, RAPID_ANTIGEN)
             verify {
                 analyticsSettings.analyticsEnabled wasNot Called
             }
@@ -116,12 +127,12 @@ class AnalyticsTestResultDataCollectorTest : BaseTest() {
     @Test
     fun `updatePendingTestResultReceivedTime doesn't update when TestResult isn't POS or NEG`() =
         runBlockingTest {
+            every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(true)
+            every { pcrTestResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(true)
+            every { pcrTestResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(
+                PCR_OR_RAT_PENDING
+            )
             for (testResult in listOf(PCR_REDEEMED, PCR_INVALID, PCR_OR_RAT_PENDING)) {
-                every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(true)
-                every { pcrTestResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(true)
-                every { pcrTestResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(
-                    PCR_OR_RAT_PENDING
-                )
                 analyticsTestResultCollector.updatePendingTestResultReceivedTime(testResult, PCR)
 
                 verify {
@@ -130,6 +141,22 @@ class AnalyticsTestResultDataCollectorTest : BaseTest() {
                     pcrTestResultDonorSettings.testResultAtRegistration
                     pcrTestResultDonorSettings.finalTestResultReceivedAt wasNot Called
                     pcrTestResultDonorSettings.testResultAtRegistration wasNot Called
+                }
+            }
+
+            every { raTestResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(true)
+            every { raTestResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(
+                PCR_OR_RAT_PENDING
+            )
+            for (testResult in listOf(RAT_REDEEMED, RAT_INVALID, PCR_OR_RAT_PENDING)) {
+                analyticsTestResultCollector.updatePendingTestResultReceivedTime(testResult, RAPID_ANTIGEN)
+
+                verify {
+                    analyticsSettings.analyticsEnabled
+                    raTestResultDonorSettings.testScannedAfterConsent
+                    raTestResultDonorSettings.testResultAtRegistration
+                    raTestResultDonorSettings.finalTestResultReceivedAt wasNot Called
+                    raTestResultDonorSettings.testResultAtRegistration wasNot Called
                 }
             }
         }
@@ -149,6 +176,18 @@ class AnalyticsTestResultDataCollectorTest : BaseTest() {
                 pcrTestResultDonorSettings.finalTestResultReceivedAt wasNot Called
                 pcrTestResultDonorSettings.testResultAtRegistration wasNot Called
             }
+
+            every { raTestResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(false)
+            every { raTestResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(PCR_OR_RAT_PENDING)
+            analyticsTestResultCollector.updatePendingTestResultReceivedTime(RAT_NEGATIVE, RAPID_ANTIGEN)
+
+            verify {
+                analyticsSettings.analyticsEnabled
+                raTestResultDonorSettings.testScannedAfterConsent
+                raTestResultDonorSettings.testResultAtRegistration wasNot Called
+                raTestResultDonorSettings.finalTestResultReceivedAt wasNot Called
+                raTestResultDonorSettings.testResultAtRegistration wasNot Called
+            }
         }
 
     @Test
@@ -162,6 +201,24 @@ class AnalyticsTestResultDataCollectorTest : BaseTest() {
                 )
                 every { pcrTestResultDonorSettings.finalTestResultReceivedAt } returns mockFlowPreference(Instant.EPOCH)
                 analyticsTestResultCollector.updatePendingTestResultReceivedTime(testResult, PCR)
+
+                verify {
+                    analyticsSettings.analyticsEnabled
+                    pcrTestResultDonorSettings.testScannedAfterConsent
+                    pcrTestResultDonorSettings.testResultAtRegistration
+                    pcrTestResultDonorSettings.finalTestResultReceivedAt
+                    pcrTestResultDonorSettings.testResultAtRegistration
+                }
+            }
+
+            for (testResult in listOf(RAT_NEGATIVE, RAT_POSITIVE)) {
+                every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(true)
+                every { raTestResultDonorSettings.testScannedAfterConsent } returns mockFlowPreference(true)
+                every { raTestResultDonorSettings.testResultAtRegistration } returns mockFlowPreference(
+                    PCR_OR_RAT_PENDING
+                )
+                every { raTestResultDonorSettings.finalTestResultReceivedAt } returns mockFlowPreference(Instant.EPOCH)
+                analyticsTestResultCollector.updatePendingTestResultReceivedTime(testResult, RAPID_ANTIGEN)
 
                 verify {
                     analyticsSettings.analyticsEnabled
