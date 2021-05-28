@@ -25,9 +25,9 @@ import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.TestDispatcherProvider
-import testhelpers.captureScreenshot
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
+import testhelpers.launchInEmptyActivity
 import testhelpers.preferences.mockFlowPreference
 import testhelpers.takeScreenshot
 
@@ -101,7 +101,9 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment() {
-        captureScreenshot<SubmissionDispatcherFragment>()
+        launchInEmptyActivity<SubmissionDispatcherFragment>()
+        takeScreenshot<SubmissionDispatcherFragment>()
+
         onView(withId(R.id.submission_dispatcher_tan_tele))
             .perform(scrollTo())
         takeScreenshot<SubmissionDispatcherFragment>("2")

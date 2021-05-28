@@ -27,7 +27,7 @@ import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
-import testhelpers.launchFragmentInContainer2
+import testhelpers.launchInEmptyActivity
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
@@ -125,7 +125,7 @@ class TracingDetailsFragmentTest : BaseUITest() {
     }
 
     private fun captureScreenshot(suffix: String) {
-        launchFragmentInContainer2<TracingDetailsFragment>()
+        launchInEmptyActivity<TracingDetailsFragment>()
         takeScreenshot<TracingDetailsFragment>(suffix)
     }
 }

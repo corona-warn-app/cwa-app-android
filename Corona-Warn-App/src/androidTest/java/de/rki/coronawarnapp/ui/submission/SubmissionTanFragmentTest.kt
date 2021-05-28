@@ -23,6 +23,7 @@ import testhelpers.Screenshot
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
+import testhelpers.launchInEmptyActivity
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
@@ -67,7 +68,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment_empty() {
-        launchFragmentInContainer2<SubmissionTanFragment>()
+        launchInEmptyActivity<SubmissionTanFragment>()
         onView(withId(R.id.tan_input_edittext))
             .perform(click())
             .perform(closeSoftKeyboard())
@@ -77,7 +78,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment_done() {
-        launchFragmentInContainer2<SubmissionTanFragment>()
+        launchInEmptyActivity<SubmissionTanFragment>()
         onView(withId(R.id.tan_input_edittext))
             .perform(click())
             .perform(typeText("AC9UHD65AF"), closeSoftKeyboard())
@@ -87,7 +88,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment_invalid() {
-        launchFragmentInContainer2<SubmissionTanFragment>()
+        launchInEmptyActivity<SubmissionTanFragment>()
         onView(withId(R.id.tan_input_edittext))
             .perform(click())
             .perform(typeText("AC9U0"), closeSoftKeyboard())

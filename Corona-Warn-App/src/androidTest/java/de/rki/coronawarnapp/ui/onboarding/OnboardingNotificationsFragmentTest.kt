@@ -10,7 +10,7 @@ import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.launchFragment2
-import testhelpers.launchFragmentInContainer2
+import testhelpers.launchInEmptyActivity
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
@@ -38,7 +38,7 @@ class OnboardingNotificationsFragmentTest : BaseUITest() {
     @Screenshot
     @Test
     fun capture_screenshot() {
-        launchFragmentInContainer2<OnboardingNotificationsFragment>()
+        launchInEmptyActivity<OnboardingNotificationsFragment>()
         takeScreenshot<OnboardingNotificationsFragment>()
     }
 }

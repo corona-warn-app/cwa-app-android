@@ -21,7 +21,7 @@ import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
-import testhelpers.launchFragmentInContainer2
+import testhelpers.launchInEmptyActivity
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
@@ -61,7 +61,7 @@ class DebugLogFragmentTest : BaseUITest() {
     @Screenshot
     @Test
     fun capture_inactive_screenshot() {
-        launchFragmentInContainer2<DebugLogFragment>()
+        launchInEmptyActivity<DebugLogFragment>()
         takeScreenshot<DebugLogFragment>()
     }
 
@@ -73,7 +73,7 @@ class DebugLogFragmentTest : BaseUITest() {
                 override fun create(): DebugLogViewModel = activeViewModel
             }
         )
-        launchFragmentInContainer2<DebugLogFragment>()
+        launchInEmptyActivity<DebugLogFragment>()
         takeScreenshot<DebugLogFragment>()
     }
 

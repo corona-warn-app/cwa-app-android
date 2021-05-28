@@ -20,9 +20,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.captureScreenshot
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
+import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionContactFragmentTest : BaseUITest() {
@@ -64,7 +64,8 @@ class SubmissionContactFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment() {
-        captureScreenshot<SubmissionContactFragment>()
+        launchFragmentInContainer2<SubmissionContactFragment>()
+        takeScreenshot<SubmissionContactFragment>()
     }
 }
 

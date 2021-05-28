@@ -28,9 +28,9 @@ import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.TestDispatcherProvider
-import testhelpers.captureScreenshot
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
+import testhelpers.launchInEmptyActivity
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
@@ -92,11 +92,12 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment() {
-        captureScreenshot<SubmissionSymptomIntroductionFragment>(
+        launchInEmptyActivity<SubmissionSymptomIntroductionFragment>(
             fragmentArgs = SubmissionSymptomIntroductionFragmentArgs(
                 CoronaTest.Type.PCR
             ).toBundle()
         )
+        takeScreenshot<SubmissionSymptomIntroductionFragment>()
         onView(withId(R.id.target_button_verify))
             .perform(scrollTo())
         takeScreenshot<SubmissionSymptomIntroductionFragment>("2")
