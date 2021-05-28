@@ -52,8 +52,8 @@ class RequestGreenCertificateFragment : Fragment(R.layout.fragment_request_green
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.request_gc_dialog_title)
             .setMessage(R.string.request_gc_dialog_message)
-            .setNegativeButton(R.string.request_gc_dialog_positive_button) { _, _ -> /* TODO */ }
-            .setPositiveButton(R.string.request_gc_dialog_negative_button) { _, _ -> /* TODO */ }
+            .setNegativeButton(R.string.request_gc_dialog_negative_button) { _, _ -> /* TODO */ }
+            .setPositiveButton(R.string.request_gc_dialog_positive_button) { _, _ -> /* TODO */ }
             .create()
             .show()
     }

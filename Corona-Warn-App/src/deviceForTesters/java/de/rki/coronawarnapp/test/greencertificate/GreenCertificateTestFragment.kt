@@ -6,7 +6,8 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.databinding.FragmentTestGreenCertificateBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -26,19 +27,13 @@ class GreenCertificateTestFragment : Fragment(R.layout.fragment_test_green_certi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.pcrScreen.setOnClickListener {
-            doNavigate(
-                NavGraphDirections.actionSubmissionTestResultGreenCertificateFragment(
-                    CoronaTest.Type.PCR
-                )
-            )
-        }
-        binding.ratScreen.setOnClickListener {
-            doNavigate(
-                NavGraphDirections.actionSubmissionTestResultGreenCertificateFragment(
-                    CoronaTest.Type.RAPID_ANTIGEN
-                )
-            )
+        binding.apply {
+            pcrScreen.setOnClickListener {
+                doNavigate(NavGraphDirections.actionSubmissionTestResultGreenCertificateFragment(PCR))
+            }
+            ratScreen.setOnClickListener {
+                doNavigate(NavGraphDirections.actionSubmissionTestResultGreenCertificateFragment(RAPID_ANTIGEN))
+            }
         }
     }
 
