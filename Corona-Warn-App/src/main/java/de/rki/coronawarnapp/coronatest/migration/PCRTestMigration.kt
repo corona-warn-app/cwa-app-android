@@ -75,8 +75,6 @@ class PCRTestMigration @Inject constructor(
             isViewed = hasViewedTestResult,
             isAdvancedConsentGiven = hasGivenConsent,
             isResultAvailableNotificationSent = testResultNotificationSent,
-            isDccConsentGiven = false,
-            isDccDataSetCreated = false,
         )
         return setOf(legacyPCRTest).also {
             Timber.tag(TAG).d("Offering converted legacy CoronaTest: %s", it)
