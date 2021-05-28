@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus.Status
 import de.rki.coronawarnapp.tracing.ui.details.items.DetailsItem
 import de.rki.coronawarnapp.tracing.ui.details.items.additionalinfos.AdditionalInfoLowRiskBox
+import de.rki.coronawarnapp.tracing.ui.details.items.additionalinfos.FindDetailsInJournalBox
 import de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorIncreasedRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorNormalRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.periodlogged.PeriodLoggedBox
@@ -44,11 +45,17 @@ class TracingDetailsItemProvider @Inject constructor(
 
         val latestCalc = riskLevelResults.lastCalculated
 
+        val lowRiskWithEncounters = latestCalc.riskState == RiskState.LOW_RISK &&
+            latestCalc.matchedRiskCount > 0
+
         mutableListOf<DetailsItem>().apply {
             if (status != Status.TRACING_INACTIVE &&
-                latestCalc.riskState == RiskState.LOW_RISK &&
-                latestCalc.matchedRiskCount > 0
+                (lowRiskWithEncounters || latestCalc.riskState == RiskState.INCREASED_RISK)
             ) {
+                add(FindDetailsInJournalBox.Item)
+            }
+
+            if (status != Status.TRACING_INACTIVE && lowRiskWithEncounters) {
                 add(AdditionalInfoLowRiskBox.Item)
             }
 
