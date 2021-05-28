@@ -11,9 +11,9 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.VaccinationSettings
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
-import de.rki.coronawarnapp.vaccination.ui.homecard.CreateVaccinationHomeCard
-import de.rki.coronawarnapp.vaccination.ui.homecard.ImmuneVaccinationHomeCard
-import de.rki.coronawarnapp.vaccination.ui.homecard.VaccinationHomeCard
+import de.rki.coronawarnapp.vaccination.ui.cards.CreateVaccinationCard
+import de.rki.coronawarnapp.vaccination.ui.cards.ImmuneVaccinationCard
+import de.rki.coronawarnapp.vaccination.ui.cards.VaccinationCard
 import kotlinx.coroutines.flow.map
 
 class CertificatesViewModel @AssistedInject constructor(
@@ -29,7 +29,7 @@ class CertificatesViewModel @AssistedInject constructor(
                 vaccinatedPersons.forEach { vaccinatedPerson ->
                     val card = when (vaccinatedPerson.getVaccinationStatus()) {
                         VaccinatedPerson.Status.COMPLETE,
-                        VaccinatedPerson.Status.INCOMPLETE -> VaccinationHomeCard.Item(
+                        VaccinatedPerson.Status.INCOMPLETE -> VaccinationCard.Item(
                             vaccinatedPerson = vaccinatedPerson,
                             onClickAction = {
                                 events.postValue(
@@ -37,7 +37,7 @@ class CertificatesViewModel @AssistedInject constructor(
                                 )
                             }
                         )
-                        VaccinatedPerson.Status.IMMUNITY -> ImmuneVaccinationHomeCard.Item(
+                        VaccinatedPerson.Status.IMMUNITY -> ImmuneVaccinationCard.Item(
                             vaccinatedPerson = vaccinatedPerson,
                             onClickAction = {
                                 events.postValue(
@@ -50,7 +50,7 @@ class CertificatesViewModel @AssistedInject constructor(
                 }
 
                 add(
-                    CreateVaccinationHomeCard.Item(
+                    CreateVaccinationCard.Item(
                         onClickAction = {
                             events.postValue(
                                 CertificatesFragmentEvents.OpenVaccinationRegistrationGraph(

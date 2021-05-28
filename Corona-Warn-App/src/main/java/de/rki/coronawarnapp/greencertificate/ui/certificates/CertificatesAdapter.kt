@@ -11,9 +11,9 @@ import de.rki.coronawarnapp.util.lists.modular.ModularAdapter
 import de.rki.coronawarnapp.util.lists.modular.mods.DataBinderMod
 import de.rki.coronawarnapp.util.lists.modular.mods.StableIdMod
 import de.rki.coronawarnapp.util.lists.modular.mods.TypedVHCreatorMod
-import de.rki.coronawarnapp.vaccination.ui.homecard.CreateVaccinationHomeCard
-import de.rki.coronawarnapp.vaccination.ui.homecard.ImmuneVaccinationHomeCard
-import de.rki.coronawarnapp.vaccination.ui.homecard.VaccinationHomeCard
+import de.rki.coronawarnapp.vaccination.ui.cards.CreateVaccinationCard
+import de.rki.coronawarnapp.vaccination.ui.cards.ImmuneVaccinationCard
+import de.rki.coronawarnapp.vaccination.ui.cards.VaccinationCard
 
 class CertificatesAdapter :
     ModularAdapter<CertificatesAdapter.CertificatesItemVH<CertificatesItem, ViewBinding>>(),
@@ -26,13 +26,13 @@ class CertificatesAdapter :
             listOf(
                 StableIdMod(data),
                 DataBinderMod<CertificatesItem, CertificatesItemVH<CertificatesItem, ViewBinding>>(data),
-                TypedVHCreatorMod({ data[it] is ImmuneVaccinationHomeCard.Item }) {
-                    ImmuneVaccinationHomeCard(it)
+                TypedVHCreatorMod({ data[it] is ImmuneVaccinationCard.Item }) {
+                    ImmuneVaccinationCard(it)
                 },
-                TypedVHCreatorMod({ data[it] is VaccinationHomeCard.Item }) {
-                    VaccinationHomeCard(it)
+                TypedVHCreatorMod({ data[it] is VaccinationCard.Item }) {
+                    VaccinationCard(it)
                 },
-                TypedVHCreatorMod({ data[it] is CreateVaccinationHomeCard.Item }) { CreateVaccinationHomeCard(it) },
+                TypedVHCreatorMod({ data[it] is CreateVaccinationCard.Item }) { CreateVaccinationCard(it) },
             )
         )
     }
