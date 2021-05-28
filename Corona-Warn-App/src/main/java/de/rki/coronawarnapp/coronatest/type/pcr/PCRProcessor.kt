@@ -42,9 +42,14 @@ class PCRProcessor @Inject constructor(
 
     override val type: CoronaTest.Type = CoronaTest.Type.PCR
 
-    override suspend fun create(request: CoronaTestQRCode): PCRCoronaTest {
-        Timber.tag(TAG).d("create(data=%s)", request)
-        request as CoronaTestQRCode.PCR
+    override suspend fun create(request: TestRegistrationRequest): CoronaTest = when (request) {
+        is CoronaTestQRCode.PCR -> createQR(request)
+        is CoronaTestTAN.PCR -> createTAN(request)
+        else -> throw IllegalArgumentException("PCRProcessor: Unknown test request: $request")
+    }
+
+    private suspend fun createQR(request: CoronaTestQRCode.PCR): PCRCoronaTest {
+        Timber.tag(TAG).d("createQR(data=%s)", request)
 
         val registrationData = submissionService.asyncRegisterDeviceViaGUID(request.qrCodeGUID).also {
             Timber.tag(TAG).d("Request %s gave us %s", request, it)
@@ -56,9 +61,8 @@ class PCRProcessor @Inject constructor(
         return createCoronaTest(request, registrationData)
     }
 
-    override suspend fun create(request: CoronaTestTAN): CoronaTest {
-        Timber.tag(TAG).d("create(data=%s)", request)
-        request as CoronaTestTAN.PCR
+    private suspend fun createTAN(request: CoronaTestTAN.PCR): CoronaTest {
+        Timber.tag(TAG).d("createTAN(data=%s)", request)
 
         val registrationData = submissionService.asyncRegisterDeviceViaTAN(request.tan)
 
@@ -207,15 +211,6 @@ class PCRProcessor @Inject constructor(
         test as PCRCoronaTest
 
         return test.copy(isAdvancedConsentGiven = consented)
-    }
-
-    override suspend fun updateDccConsent(test: CoronaTest, consented: Boolean): CoronaTest {
-        Timber.tag(TAG).v("updateDccConsent(test=%s, consented=%b)", test, consented)
-        test as PCRCoronaTest
-
-        // TODO trigger server request?
-
-        return test.copy(isDccConsentGiven = consented)
     }
 
     override suspend fun updateResultNotification(test: CoronaTest, sent: Boolean): CoronaTest {

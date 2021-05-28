@@ -268,16 +268,4 @@ class PCRProcessorTest : BaseTest() {
             isAdvancedConsentGiven = false
         )
     }
-
-    @Test
-    fun `giving digital covid certificate consent`() = runBlockingTest {
-        val instance = createInstance()
-
-        instance.updateDccConsent(defaultTest, true) shouldBe defaultTest.copy(
-            isDccConsentGiven = true
-        )
-        instance.updateDccConsent(defaultTest, false) shouldBe defaultTest.copy(
-            isDccConsentGiven = false
-        )
-    }
 }

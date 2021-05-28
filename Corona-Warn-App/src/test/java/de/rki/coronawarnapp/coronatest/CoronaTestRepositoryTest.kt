@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRProcessor
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
-import de.rki.coronawarnapp.coronatest.type.rapidantigen.RapidAntigenProcessor
+import de.rki.coronawarnapp.coronatest.type.rapidantigen.RAProcessor
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -40,7 +40,7 @@ class CoronaTestRepositoryTest : BaseTest() {
     )
     @MockK lateinit var pcrProcessor: PCRProcessor
 
-    @MockK lateinit var raProcessor: RapidAntigenProcessor
+    @MockK lateinit var raProcessor: RAProcessor
     private val raTest = RACoronaTest(
         identifier = "ra-identifier",
         lastUpdatedAt = Instant.EPOCH,
@@ -76,13 +76,11 @@ class CoronaTestRepositoryTest : BaseTest() {
 
         pcrProcessor.apply {
             coEvery { updateSubmissionConsent(any(), any()) } answers { arg<PCRCoronaTest>(0) }
-            coEvery { updateDccConsent(any(), any()) } answers { arg<PCRCoronaTest>(0) }
             every { type } returns CoronaTest.Type.PCR
         }
 
         raProcessor.apply {
             coEvery { updateSubmissionConsent(any(), any()) } answers { arg<RACoronaTest>(0) }
-            coEvery { updateDccConsent(any(), any()) } answers { arg<RACoronaTest>(0) }
             every { type } returns CoronaTest.Type.RAPID_ANTIGEN
         }
     }
@@ -101,12 +99,5 @@ class CoronaTestRepositoryTest : BaseTest() {
         createInstance(this).updateSubmissionConsent(pcrTest.identifier, true)
 
         coVerify { pcrProcessor.updateSubmissionConsent(pcrTest, true) }
-    }
-
-    @Test
-    fun `give dcc consent`() = runBlockingTest2(ignoreActive = true) {
-        createInstance(this).updateDccConsent(raTest.identifier, true)
-
-        coVerify { raProcessor.updateDccConsent(raTest, true) }
     }
 }

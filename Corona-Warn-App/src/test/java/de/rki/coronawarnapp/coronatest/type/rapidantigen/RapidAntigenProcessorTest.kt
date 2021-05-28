@@ -94,7 +94,7 @@ class RapidAntigenProcessorTest : BaseTest() {
         }
     }
 
-    fun createInstance() = RapidAntigenProcessor(
+    fun createInstance() = RAProcessor(
         timeStamper = timeStamper,
         submissionService = submissionService,
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
@@ -278,18 +278,6 @@ class RapidAntigenProcessorTest : BaseTest() {
         )
         instance.updateSubmissionConsent(defaultTest, false) shouldBe defaultTest.copy(
             isAdvancedConsentGiven = false
-        )
-    }
-
-    @Test
-    fun `giving digital covid certificate consent`() = runBlockingTest {
-        val instance = createInstance()
-
-        instance.updateDccConsent(defaultTest, true) shouldBe defaultTest.copy(
-            isDccConsentGiven = true
-        )
-        instance.updateDccConsent(defaultTest, false) shouldBe defaultTest.copy(
-            isDccConsentGiven = false
         )
     }
 }

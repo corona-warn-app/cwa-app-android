@@ -1,15 +1,12 @@
 package de.rki.coronawarnapp.coronatest.type
 
-import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
-import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
+import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 
 interface CoronaTestProcessor {
 
     val type: CoronaTest.Type
 
-    suspend fun create(request: CoronaTestQRCode): CoronaTest
-
-    suspend fun create(request: CoronaTestTAN): CoronaTest
+    suspend fun create(request: TestRegistrationRequest): CoronaTest
 
     suspend fun pollServer(test: CoronaTest): CoronaTest
 
@@ -25,8 +22,6 @@ interface CoronaTestProcessor {
     suspend fun markViewed(test: CoronaTest): CoronaTest
 
     suspend fun updateSubmissionConsent(test: CoronaTest, consented: Boolean): CoronaTest
-
-    suspend fun updateDccConsent(test: CoronaTest, consented: Boolean): CoronaTest
 
     suspend fun updateResultNotification(test: CoronaTest, sent: Boolean): CoronaTest
 }

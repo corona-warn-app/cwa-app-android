@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.coronatest.type.rapidantigen
 
 import dagger.Reusable
+import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_INVALID
@@ -15,7 +16,6 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResultResponse
 import de.rki.coronawarnapp.coronatest.server.VerificationServer
-import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
@@ -33,7 +33,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class RapidAntigenProcessor @Inject constructor(
+class RAProcessor @Inject constructor(
     private val timeStamper: TimeStamper,
     private val submissionService: CoronaTestService,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
@@ -42,9 +42,13 @@ class RapidAntigenProcessor @Inject constructor(
 
     override val type: CoronaTest.Type = CoronaTest.Type.RAPID_ANTIGEN
 
-    override suspend fun create(request: CoronaTestQRCode): RACoronaTest {
-        Timber.tag(TAG).d("create(data=%s)", request)
-        request as CoronaTestQRCode.RapidAntigen
+    override suspend fun create(request: TestRegistrationRequest): CoronaTest = when (request) {
+        is CoronaTestQRCode.RapidAntigen -> createQR(request)
+        else -> throw IllegalArgumentException("RAProcessor: Unknown test request: $request")
+    }
+
+    private suspend fun createQR(request: CoronaTestQRCode.RapidAntigen): RACoronaTest {
+        Timber.tag(TAG).d("createQR(data=%s)", request)
 
         analyticsKeySubmissionCollector.reset(type)
         analyticsTestResultCollector.clear(type)
@@ -86,12 +90,6 @@ class RapidAntigenProcessor @Inject constructor(
             sampleCollectedAt = sampleCollectedAt,
             isDccSupportedByPoc = request.isDccSupportedbyPoc,
         )
-    }
-
-    override suspend fun create(request: CoronaTestTAN): CoronaTest {
-        Timber.tag(TAG).d("create(data=%s)", request)
-        request as CoronaTestTAN.RapidAntigen
-        throw UnsupportedOperationException("There are no TAN based RATs")
     }
 
     private fun determineReceivedDate(oldTest: RACoronaTest?, newTestResult: CoronaTestResult): Instant? = when {
@@ -206,15 +204,6 @@ class RapidAntigenProcessor @Inject constructor(
         return test.copy(isAdvancedConsentGiven = consented)
     }
 
-    override suspend fun updateDccConsent(test: CoronaTest, consented: Boolean): CoronaTest {
-        Timber.tag(TAG).v("updateDccConsent(test=%s, consented=%b)", test, consented)
-        test as RACoronaTest
-
-        // TODO trigger server request?
-
-        return test.copy(isDccConsentGiven = consented)
-    }
-
     override suspend fun updateResultNotification(test: CoronaTest, sent: Boolean): CoronaTest {
         Timber.tag(TAG).v("updateResultNotification(test=%s, sent=%b)", test, sent)
         test as RACoronaTest
@@ -246,7 +235,7 @@ private fun CoronaTestResult.toValidatedResult(): CoronaTestResult {
     return if (isValid) {
         this
     } else {
-        Timber.tag(RapidAntigenProcessor.TAG).e("Server returned invalid RapidAntigen testresult $this")
+        Timber.tag(RAProcessor.TAG).e("Server returned invalid RapidAntigen testresult $this")
         RAT_INVALID
     }
 }

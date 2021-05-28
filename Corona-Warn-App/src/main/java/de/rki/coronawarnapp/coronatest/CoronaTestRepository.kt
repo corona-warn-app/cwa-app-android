@@ -4,12 +4,9 @@ import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.errors.DuplicateCoronaTestException
-import de.rki.coronawarnapp.coronatest.errors.UnknownTestTypeException
 import de.rki.coronawarnapp.coronatest.migration.PCRTestMigration
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
-import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.storage.CoronaTestStorage
-import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
@@ -86,13 +83,9 @@ class CoronaTestRepository @Inject constructor(
                 throw DuplicateCoronaTestException("There is already a test of this type: ${request.type}.")
             }
 
-            val test = when (request) {
-                is CoronaTestQRCode -> processor.create(request)
-                is CoronaTestTAN -> processor.create(request)
-                else -> throw UnknownTestTypeException("Unknown test request: $request")
+            val test = processor.create(request).also {
+                Timber.tag(TAG).i("New test created: %s", it)
             }
-
-            Timber.tag(TAG).i("Adding new test: %s", test)
 
             toMutableMap().apply { this[test.identifier] = test }
         }
@@ -203,14 +196,6 @@ class CoronaTestRepository @Inject constructor(
 
         modifyTest(identifier) { processor, before ->
             processor.updateSubmissionConsent(before, consented)
-        }
-    }
-
-    suspend fun updateDccConsent(identifier: TestIdentifier, consented: Boolean) {
-        Timber.tag(TAG).i("updateDccConsent(identifier=%s, consented=%b)", identifier, consented)
-
-        modifyTest(identifier) { processor, before ->
-            processor.updateDccConsent(before, consented)
         }
     }
 
