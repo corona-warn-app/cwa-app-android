@@ -103,7 +103,9 @@ class AnalyticsExposureWindowDonorTest : BaseTest() {
         coEvery { analyticsExposureWindowRepository.getAllNew() } returns wrappers
         coEvery { analyticsExposureWindowRepository.moveToReported(wrappers) } returns reported
         runBlockingTest {
-            (donor.beginDonation(request) as AnalyticsExposureWindowDonor.Contribution).data shouldBe wrappers.asPpaData()
+            (
+                donor.beginDonation(request) as AnalyticsExposureWindowDonor.Contribution
+                ).data shouldBe wrappers.asPpaData()
         }
     }
 

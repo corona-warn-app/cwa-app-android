@@ -182,6 +182,7 @@ class CheckInWarningMatcherTest : BaseTest() {
             endDateStr = "2021-03-04T10:12+01:00"
         )
 
+        @Suppress("TooGenericExceptionThrown")
         val warningPackage = object : TraceWarningPackage {
             override suspend fun extractWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
                 throw Exception()
@@ -219,6 +220,7 @@ class CheckInWarningMatcherTest : BaseTest() {
             endDateStr = "2021-03-04T10:12+01:00"
         )
 
+        @Suppress("TooGenericExceptionThrown")
         val warningPackage1 = object : TraceWarningPackage {
             override suspend fun extractWarnings() = throw Exception()
 

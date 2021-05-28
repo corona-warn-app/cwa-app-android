@@ -23,10 +23,14 @@ class TracingSettingsStateTest : BaseTest() {
 
     @Test
     fun `state mapping`() {
-        GeneralTracingStatus.Status.TRACING_ACTIVE.toTracingSettingsState() shouldBe TracingSettingsState.TracingActive
-        GeneralTracingStatus.Status.TRACING_INACTIVE.toTracingSettingsState() shouldBe TracingSettingsState.TracingInactive
-        GeneralTracingStatus.Status.LOCATION_DISABLED.toTracingSettingsState() shouldBe TracingSettingsState.LocationDisabled
-        GeneralTracingStatus.Status.BLUETOOTH_DISABLED.toTracingSettingsState() shouldBe TracingSettingsState.BluetoothDisabled
+        GeneralTracingStatus.Status.TRACING_ACTIVE.toTracingSettingsState() shouldBe
+            TracingSettingsState.TracingActive
+        GeneralTracingStatus.Status.TRACING_INACTIVE.toTracingSettingsState() shouldBe
+            TracingSettingsState.TracingInactive
+        GeneralTracingStatus.Status.LOCATION_DISABLED.toTracingSettingsState() shouldBe
+            TracingSettingsState.LocationDisabled
+        GeneralTracingStatus.Status.BLUETOOTH_DISABLED.toTracingSettingsState() shouldBe
+            TracingSettingsState.BluetoothDisabled
     }
 
     @Test
