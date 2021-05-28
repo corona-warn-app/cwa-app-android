@@ -51,7 +51,8 @@ class ContactDiaryEditPersonsViewModelTest {
         viewModel = createInstance()
         viewModel.navigationEvent.observeForever { }
         viewModel.onDeleteAllPersonsClick()
-        viewModel.navigationEvent.value shouldBe ContactDiaryEditPersonsViewModel.NavigationEvent.ShowDeletionConfirmationDialog
+        viewModel.navigationEvent.value shouldBe
+            ContactDiaryEditPersonsViewModel.NavigationEvent.ShowDeletionConfirmationDialog
     }
 
     @Test
@@ -74,7 +75,9 @@ class ContactDiaryEditPersonsViewModelTest {
         viewModel.navigationEvent.observeForever { }
         viewModel.onEditPersonClick(person)
         viewModel.navigationEvent.value shouldBe
-            ContactDiaryEditPersonsViewModel.NavigationEvent.ShowPersonDetailFragment(person.toContactDiaryPersonEntity())
+            ContactDiaryEditPersonsViewModel.NavigationEvent.ShowPersonDetailFragment(
+                person.toContactDiaryPersonEntity()
+            )
     }
 
     @Test
