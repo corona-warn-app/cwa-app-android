@@ -103,9 +103,10 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
             localDateUtc = now.minus(100000).toLocalDateUtc(),
             riskState = RiskState.LOW_RISK
         )
-        coEvery { presenceTracingRiskCalculator.calculateNormalizedTime(listOf(entity2.toCheckInWarningOverlap())) } returns listOf(
-            time
-        )
+        coEvery {
+            presenceTracingRiskCalculator.calculateNormalizedTime(listOf(entity2.toCheckInWarningOverlap()))
+        } returns listOf(time)
+
         coEvery { presenceTracingRiskCalculator.calculateCheckInRiskPerDay(listOf(time)) } returns listOf(riskPerDay)
         runBlockingTest {
             val riskStates = createInstance().traceLocationCheckInRiskStates.first()

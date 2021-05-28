@@ -22,6 +22,7 @@ class RetryMechanismTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+        @Suppress("TooGenericExceptionThrown")
         every { mockFunction.invoke() } answers {
             throw RuntimeException(UUID.randomUUID().toString())
         }

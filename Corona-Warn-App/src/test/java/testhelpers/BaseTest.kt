@@ -5,6 +5,7 @@ import org.junit.jupiter.api.AfterAll
 import testhelpers.logging.JUnitTree
 import timber.log.Timber
 
+@Suppress("UnnecessaryAbstractClass", "UtilityClassWithPublicConstructor")
 abstract class BaseTest {
 
     init {
