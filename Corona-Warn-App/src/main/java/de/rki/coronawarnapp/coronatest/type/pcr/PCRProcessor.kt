@@ -53,7 +53,7 @@ class PCRProcessor @Inject constructor(
             Timber.tag(TAG).d("Request %s gave us %s", request, it)
         }
 
-        analyticsTestResultCollector.saveTestResultAtRegistration(
+        analyticsTestResultCollector.reportTestResultAtRegistration(
             registrationData.testResultResponse.coronaTestResult,
             type
         )

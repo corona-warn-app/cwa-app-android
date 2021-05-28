@@ -56,7 +56,7 @@ class RapidAntigenProcessor @Inject constructor(
         val testResult = registrationData.testResultResponse.coronaTestResult.let {
             Timber.tag(TAG).v("Raw test result was %s", it)
             // This saves received at
-            analyticsTestResultCollector.saveTestResultAtRegistration(it, type)
+            analyticsTestResultCollector.reportTestResultAtRegistration(it, type)
             analyticsTestResultCollector.reportTestResultReceived(it, type)
             it.toValidatedResult()
         }

@@ -77,14 +77,14 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
     fun `saveTestResultAnalyticsSettings does not save anything when no user consent`() =
         runBlockingTest {
             every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(false)
-            analyticsTestResultCollector.saveTestResultAtRegistration(PCR_POSITIVE, PCR)
+            analyticsTestResultCollector.reportTestResultAtRegistration(PCR_POSITIVE, PCR)
 
             verify(exactly = 0) {
                 pcrTestResultSettings.testResultAtRegistration
                 raTestResultSettings.testResultAtRegistration
             }
 
-            analyticsTestResultCollector.saveTestResultAtRegistration(RAT_POSITIVE, RAPID_ANTIGEN)
+            analyticsTestResultCollector.reportTestResultAtRegistration(RAT_POSITIVE, RAPID_ANTIGEN)
 
             verify(exactly = 0) {
                 pcrTestResultSettings.testResultAtRegistration
@@ -107,7 +107,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
             every { pcrTestResultSettings.ptRiskLevelAtTestRegistration } returns
                 mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_LOW)
 
-            analyticsTestResultCollector.saveTestResultAtRegistration(PCR_POSITIVE, PCR)
+            analyticsTestResultCollector.reportTestResultAtRegistration(PCR_POSITIVE, PCR)
 
             verify {
                 analyticsSettings.analyticsEnabled
@@ -127,7 +127,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
             every { raTestResultSettings.ptRiskLevelAtTestRegistration } returns
                 mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_LOW)
 
-            analyticsTestResultCollector.saveTestResultAtRegistration(RAT_POSITIVE, RAPID_ANTIGEN)
+            analyticsTestResultCollector.reportTestResultAtRegistration(RAT_POSITIVE, RAPID_ANTIGEN)
 
             verify {
                 analyticsSettings.analyticsEnabled
@@ -141,8 +141,8 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
     fun `saveTestResultAnalyticsSettings does not save data when TestResult is INVALID`() =
         runBlockingTest {
             every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(false)
-            analyticsTestResultCollector.saveTestResultAtRegistration(PCR_INVALID, PCR)
-            analyticsTestResultCollector.saveTestResultAtRegistration(RAT_INVALID, RAPID_ANTIGEN)
+            analyticsTestResultCollector.reportTestResultAtRegistration(PCR_INVALID, PCR)
+            analyticsTestResultCollector.reportTestResultAtRegistration(RAT_INVALID, RAPID_ANTIGEN)
 
             verify {
                 analyticsSettings.analyticsEnabled wasNot Called
@@ -153,8 +153,8 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
     fun `saveTestResultAnalyticsSettings does not save data when TestResult is REDEEMED`() =
         runBlockingTest {
             every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(false)
-            analyticsTestResultCollector.saveTestResultAtRegistration(PCR_REDEEMED, PCR)
-            analyticsTestResultCollector.saveTestResultAtRegistration(RAT_REDEEMED, RAPID_ANTIGEN)
+            analyticsTestResultCollector.reportTestResultAtRegistration(PCR_REDEEMED, PCR)
+            analyticsTestResultCollector.reportTestResultAtRegistration(RAT_REDEEMED, RAPID_ANTIGEN)
             verify {
                 analyticsSettings.analyticsEnabled wasNot Called
             }

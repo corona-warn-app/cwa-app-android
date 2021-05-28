@@ -81,7 +81,7 @@ class AnalyticsTestResultCollector @Inject constructor(
         }
     }
 
-    suspend fun saveTestResultAtRegistration(testResult: CoronaTestResult, type: CoronaTest.Type) {
+    suspend fun reportTestResultAtRegistration(testResult: CoronaTestResult, type: CoronaTest.Type) {
         if (analyticsDisabled) return
 
         val validTestResults = when (type) {
