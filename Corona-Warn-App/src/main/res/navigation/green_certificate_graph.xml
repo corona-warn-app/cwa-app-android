@@ -9,5 +9,11 @@
         android:id="@+id/certificatesFragment"
         android:name="de.rki.coronawarnapp.greencertificate.ui.certificates.CertificatesFragment"
         android:label="fragment_certificates"
-        tools:layout="@layout/fragment_certificates" />
+        tools:layout="@layout/fragment_certificates">
+
+        <action
+            android:id="@+id/action_certificatesFragment_to_vaccinationNavGraph"
+            app:destination="@id/vaccination_nav_graph" />
+
+    </fragment>
 </navigation>

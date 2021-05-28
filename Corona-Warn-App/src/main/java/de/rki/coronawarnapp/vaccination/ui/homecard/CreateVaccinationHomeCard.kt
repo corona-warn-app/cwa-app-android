@@ -4,10 +4,7 @@ import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.VaccinationHomeRegistrationCardBinding
 import de.rki.coronawarnapp.greencertificate.ui.certificates.CertificatesAdapter
-import de.rki.coronawarnapp.greencertificate.ui.certificates.CertificatesViewModel
 import de.rki.coronawarnapp.greencertificate.ui.certificates.items.CertificatesItem
-import de.rki.coronawarnapp.ui.main.home.HomeAdapter
-import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class CreateVaccinationHomeCard(parent: ViewGroup) :

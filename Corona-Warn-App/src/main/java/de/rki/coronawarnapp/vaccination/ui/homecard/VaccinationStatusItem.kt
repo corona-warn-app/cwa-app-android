@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.vaccination.ui.homecard
 
 import de.rki.coronawarnapp.greencertificate.ui.certificates.items.CertificatesItem
-import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 
 interface VaccinationStatusItem : CertificatesItem {

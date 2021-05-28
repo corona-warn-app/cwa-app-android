@@ -38,9 +38,6 @@ import de.rki.coronawarnapp.util.lists.modular.mods.DataBinderMod
 import de.rki.coronawarnapp.util.lists.modular.mods.SavedStateMod
 import de.rki.coronawarnapp.util.lists.modular.mods.StableIdMod
 import de.rki.coronawarnapp.util.lists.modular.mods.TypedVHCreatorMod
-import de.rki.coronawarnapp.vaccination.ui.homecard.ImmuneVaccinationHomeCard
-import de.rki.coronawarnapp.vaccination.ui.homecard.CreateVaccinationHomeCard
-import de.rki.coronawarnapp.vaccination.ui.homecard.VaccinationHomeCard
 
 class HomeAdapter :
     ModularAdapter<HomeAdapter.HomeItemVH<HomeItem, ViewBinding>>(),

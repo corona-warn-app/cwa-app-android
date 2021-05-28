@@ -5,8 +5,6 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.greencertificate.ui.certificates.items.CertificatesItem
-import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents
-import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -23,7 +21,7 @@ class CertificatesViewModel @AssistedInject constructor(
     private val vaccinationSettings: VaccinationSettings
 ) : CWAViewModel() {
 
-    val events = SingleLiveEvent<HomeFragmentEvents>()
+    val events = SingleLiveEvent<CertificatesFragmentEvents>()
 
     val screenItems: LiveData<List<CertificatesItem>> =
         vaccinationRepository.vaccinationInfos.map { vaccinatedPersons ->
@@ -35,7 +33,7 @@ class CertificatesViewModel @AssistedInject constructor(
                             vaccinatedPerson = vaccinatedPerson,
                             onClickAction = {
                                 events.postValue(
-                                    HomeFragmentEvents.GoToVaccinationList(vaccinatedPerson.identifier.codeSHA256)
+                                    CertificatesFragmentEvents.GoToVaccinationList(vaccinatedPerson.identifier.codeSHA256)
                                 )
                             }
                         )
@@ -43,7 +41,7 @@ class CertificatesViewModel @AssistedInject constructor(
                             vaccinatedPerson = vaccinatedPerson,
                             onClickAction = {
                                 events.postValue(
-                                    HomeFragmentEvents.GoToVaccinationList(vaccinatedPerson.identifier.codeSHA256)
+                                    CertificatesFragmentEvents.GoToVaccinationList(vaccinatedPerson.identifier.codeSHA256)
                                 )
                             }
                         )
@@ -55,7 +53,7 @@ class CertificatesViewModel @AssistedInject constructor(
                     CreateVaccinationHomeCard.Item(
                         onClickAction = {
                             events.postValue(
-                                HomeFragmentEvents.OpenVaccinationRegistrationGraph(
+                                CertificatesFragmentEvents.OpenVaccinationRegistrationGraph(
                                     vaccinationSettings.registrationAcknowledged
                                 )
                             )

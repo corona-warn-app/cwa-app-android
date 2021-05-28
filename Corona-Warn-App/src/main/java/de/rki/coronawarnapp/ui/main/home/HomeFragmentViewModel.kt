@@ -74,12 +74,8 @@ import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.VaccinationSettings
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
-import de.rki.coronawarnapp.vaccination.ui.homecard.ImmuneVaccinationHomeCard
-import de.rki.coronawarnapp.vaccination.ui.homecard.CreateVaccinationHomeCard
-import de.rki.coronawarnapp.vaccination.ui.homecard.VaccinationHomeCard
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
