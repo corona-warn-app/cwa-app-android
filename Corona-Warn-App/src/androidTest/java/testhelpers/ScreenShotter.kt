@@ -75,6 +75,11 @@ object SDCard {
             throw RuntimeException("Unable to capture screenshot.", e)
         }
     }
-    
-    private val rootDir: String by lazy { if (Build.VERSION.SDK_INT < 30) SDCARD_DIRECTORY else DATA_DIRECTORY }
+
+    private val rootDir: String by lazy {
+        // Screenshots are saved in local directory on API 30+ due to scoped storage changes.
+        // Developer can explore screenshots taken locally using "Device File Explorer" in Android studio.
+        // Firebase TL  runs screenshots on API 29 and pulls them from sdcard.
+        if (Build.VERSION.SDK_INT < 30) SDCARD_DIRECTORY else DATA_DIRECTORY
+    }
 }
