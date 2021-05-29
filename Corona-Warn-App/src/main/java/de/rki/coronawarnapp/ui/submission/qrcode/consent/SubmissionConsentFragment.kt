@@ -8,7 +8,6 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionConsentBinding
@@ -63,7 +62,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                     )
                 is SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode -> {
                     doNavigate(
-                        NavGraphDirections
+                        SubmissionConsentFragmentDirections
                             .actionToSubmissionDeletionWarningFragment(
                                 it.consentGiven,
                                 it.coronaTestQRCode
@@ -108,12 +107,12 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                         when {
                             state.test.isPositive ->
                                 doNavigate(
-                                    NavGraphDirections.actionToSubmissionTestResultAvailableFragment(
+                                    SubmissionConsentFragmentDirections.actionToSubmissionTestResultAvailableFragment(
                                         CoronaTest.Type.RAPID_ANTIGEN
                                     )
                                 )
                             else -> doNavigate(
-                                NavGraphDirections.actionSubmissionTestResultPendingFragment(
+                                SubmissionConsentFragmentDirections.actionSubmissionTestResultPendingFragment(
                                     testType = CoronaTest.Type.RAPID_ANTIGEN
                                 )
                             )

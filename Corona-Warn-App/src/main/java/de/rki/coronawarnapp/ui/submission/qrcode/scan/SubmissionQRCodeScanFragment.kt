@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
-import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type
@@ -71,7 +70,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
         viewModel.routeToScreen.observe2(this) {
             when (it) {
                 is SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode -> {
-                    NavGraphDirections
+                    SubmissionQRCodeScanFragmentDirections
                         .actionToSubmissionDeletionWarningFragment(it.consentGiven, it.coronaTestQRCode)
                         .run { doNavigate(this) }
                 }
@@ -108,24 +107,29 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             }
             when (state.test?.testResult) {
                 CoronaTestResult.PCR_POSITIVE ->
-                    NavGraphDirections.actionToSubmissionTestResultAvailableFragment(testType = Type.PCR)
+                    SubmissionQRCodeScanFragmentDirections
+                        .actionToSubmissionTestResultAvailableFragment(testType = Type.PCR)
 
                 CoronaTestResult.PCR_OR_RAT_PENDING ->
-                    NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = state.test.type)
+                    SubmissionQRCodeScanFragmentDirections
+                        .actionSubmissionTestResultPendingFragment(testType = state.test.type)
 
                 CoronaTestResult.PCR_NEGATIVE,
                 CoronaTestResult.PCR_INVALID,
                 CoronaTestResult.PCR_REDEEMED ->
-                    NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = Type.PCR)
+                    SubmissionQRCodeScanFragmentDirections
+                        .actionSubmissionTestResultPendingFragment(testType = Type.PCR)
 
                 CoronaTestResult.RAT_POSITIVE ->
-                    NavGraphDirections.actionToSubmissionTestResultAvailableFragment(testType = Type.RAPID_ANTIGEN)
+                    SubmissionQRCodeScanFragmentDirections
+                        .actionToSubmissionTestResultAvailableFragment(testType = Type.RAPID_ANTIGEN)
 
                 CoronaTestResult.RAT_NEGATIVE,
                 CoronaTestResult.RAT_INVALID,
                 CoronaTestResult.RAT_PENDING,
                 CoronaTestResult.RAT_REDEEMED ->
-                    NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = Type.RAPID_ANTIGEN)
+                    SubmissionQRCodeScanFragmentDirections
+                        .actionSubmissionTestResultPendingFragment(testType = Type.RAPID_ANTIGEN)
                 null -> {
                     Timber.w("Successful API request, but test was null?")
                     return@observe2
