@@ -2,6 +2,7 @@ package testhelpers
 
 import android.app.Activity
 import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.StyleRes
@@ -74,6 +75,6 @@ object SDCard {
             throw RuntimeException("Unable to capture screenshot.", e)
         }
     }
-
-    private val rootDir: String by lazy { SDCARD_DIRECTORY }
+    
+    private val rootDir: String by lazy { if (Build.VERSION.SDK_INT < 30) SDCARD_DIRECTORY else DATA_DIRECTORY }
 }
