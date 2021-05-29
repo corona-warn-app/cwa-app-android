@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.test.espresso.ViewAction
 import androidx.test.platform.app.InstrumentationRegistry
+import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.R
 import java.io.BufferedOutputStream
 import java.io.File
@@ -47,14 +48,15 @@ inline fun <reified F : Fragment> captureScreenshot(
  * Saves screenshots on the device's sdcard
  */
 object SDCard {
-    private const val ROOT_DIRECTORY = "/sdcard"
+    private const val SDCARD_DIRECTORY = "/sdcard"
+    private const val DATA_DIRECTORY = "/data/data/${BuildConfig.APPLICATION_ID}"
     private const val SCREENSHOTS_DIRECTORY = "screenshots"
     private const val SCREENSHOT_FORMAT = ".png"
     private const val IMAGE_QUALITY = 100
 
     fun screenshotCaptured(screenshotName: String, screenshot: Bitmap) {
         try {
-            val directory = File(ROOT_DIRECTORY, SCREENSHOTS_DIRECTORY)
+            val directory = File(rootDir, SCREENSHOTS_DIRECTORY)
             if (!directory.exists()) {
                 directory.mkdirs()
             }
@@ -72,4 +74,6 @@ object SDCard {
             throw RuntimeException("Unable to capture screenshot.", e)
         }
     }
+
+    private val rootDir: String by lazy { SDCARD_DIRECTORY }
 }
