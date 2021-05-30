@@ -188,9 +188,23 @@
             android:name="vaccinationCertificateId"
             app:argType="string" />
     </fragment>
+
     <fragment
         android:id="@+id/greenCertificateTestFragment"
         android:name="de.rki.coronawarnapp.test.greencertificate.GreenCertificateTestFragment"
         android:label="GreenCertificateTestFragment"
-        tools:layout="@layout/fragment_test_green_certificate" />
+        tools:layout="@layout/fragment_test_green_certificate">
+        <action
+            android:id="@+id/action_greenCertificateTestFragment_to_requestGreenCertificateFragment"
+            app:destination="@id/requestGreenCertificateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/requestGreenCertificateFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.greencertificate.RequestGreenCertificateFragment"
+        android:label="fragment_request_green_certificate"
+        tools:layout="@layout/fragment_request_green_certificate">
+        <argument
+            android:name="testType"
+            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
+    </fragment>
 </navigation>

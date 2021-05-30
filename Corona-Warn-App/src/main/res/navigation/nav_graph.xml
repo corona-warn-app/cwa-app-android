@@ -404,10 +404,6 @@
             app:popUpToInclusive="false" />
     </fragment>
 
-    <action
-        android:id="@+id/action_submissionTestResultGreenCertificateFragment"
-        app:destination="@id/requestGreenCertificateFragment" />
-
     <fragment
         android:id="@+id/submissionResultReadyFragment"
         android:name="de.rki.coronawarnapp.ui.submission.resultready.SubmissionResultReadyFragment"
