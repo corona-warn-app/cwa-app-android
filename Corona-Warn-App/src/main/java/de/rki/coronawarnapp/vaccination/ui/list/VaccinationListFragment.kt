@@ -85,7 +85,7 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
                                     FragmentNavigatorExtras(image to image.transitionName)
                                 }
                         findNavController().navigate(
-                            R.id.action_global_qrCodeFullScreenFragment,
+                            R.id.action_vaccinationListFragment_to_qrCodeFullScreenFragment,
                             QrCodeFullScreenFragmentArgs(event.qrCode).toBundle(),
                             null,
                             navigatorExtras

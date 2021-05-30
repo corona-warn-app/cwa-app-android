@@ -103,7 +103,7 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
                     QrCodeDetailFragmentDirections.actionQrCodeDetailFragmentToQrCodePosterFragment(it.locationId)
                 )
                 is QrCodeDetailNavigationEvents.NavigateToFullScreenQrCode -> findNavController().navigate(
-                    R.id.action_global_qrCodeFullScreenFragment,
+                    R.id.action_qrCodeDetailFragment_to_qrCodeFullScreenFragment,
                     QrCodeFullScreenFragmentArgs(it.qrcodeText, it.correctionLevel).toBundle(),
                     null,
                     FragmentNavigatorExtras(binding.qrCodeImage to binding.qrCodeImage.transitionName)

@@ -824,9 +824,7 @@
             android:defaultValue="Q"
             app:argType="com.google.zxing.qrcode.decoder.ErrorCorrectionLevel" />
     </fragment>
-    <action
-        android:id="@+id/action_global_qrCodeFullScreenFragment"
-        app:destination="@id/qrCodeFullScreenFragment" />
+
     <fragment
         android:id="@+id/requestGreenCertificateFragment"
         android:name="de.rki.coronawarnapp.ui.submission.greencertificate.RequestGreenCertificateFragment"

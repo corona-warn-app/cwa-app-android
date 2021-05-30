@@ -75,7 +75,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 when (event) {
                     VaccinationDetailsNavigation.Back -> popBackStack()
                     is VaccinationDetailsNavigation.FullQrCode -> findNavController().navigate(
-                        R.id.action_global_qrCodeFullScreenFragment,
+                        R.id.action_vaccinationDetailsFragment_to_qrCodeFullScreenFragment,
                         QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
                         null,
                         FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)

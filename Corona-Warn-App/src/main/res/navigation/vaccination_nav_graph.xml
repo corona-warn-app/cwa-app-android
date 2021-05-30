@@ -48,6 +48,9 @@
         <action
             android:id="@+id/action_vaccinationListFragment_to_vaccinationQrCodeScanFragment"
             app:destination="@id/vaccinationQrCodeScanFragment" />
+        <action
+            android:id="@+id/action_vaccinationListFragment_to_qrCodeFullScreenFragment"
+            app:destination="@id/qrCodeFullScreenFragment" />
     </fragment>
 
     <fragment
@@ -58,6 +61,9 @@
         <argument
             android:name="vaccinationCertificateId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_vaccinationDetailsFragment_to_qrCodeFullScreenFragment"
+            app:destination="@id/qrCodeFullScreenFragment" />
     </fragment>
 
     <fragment
