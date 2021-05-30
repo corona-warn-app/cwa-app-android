@@ -71,7 +71,9 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             when (it) {
                 is SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode -> {
                     SubmissionQRCodeScanFragmentDirections
-                        .actionToSubmissionDeletionWarningFragment(it.consentGiven, it.coronaTestQRCode)
+                        .actionSubmissionQRCodeScanFragmentToSubmissionDeletionWarningFragment(
+                            it.consentGiven, it.coronaTestQRCode
+                        )
                         .run { doNavigate(this) }
                 }
                 is SubmissionNavigationEvents.NavigateToDispatcher -> navigateToDispatchScreen()
@@ -108,28 +110,38 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             when (state.test?.testResult) {
                 CoronaTestResult.PCR_POSITIVE ->
                     SubmissionQRCodeScanFragmentDirections
-                        .actionToSubmissionTestResultAvailableFragment(testType = Type.PCR)
+                        .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment(
+                            testType = Type.PCR
+                        )
 
                 CoronaTestResult.PCR_OR_RAT_PENDING ->
                     SubmissionQRCodeScanFragmentDirections
-                        .actionSubmissionTestResultPendingFragment(testType = state.test.type)
+                        .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(
+                            testType = state.test.type
+                        )
 
                 CoronaTestResult.PCR_NEGATIVE,
                 CoronaTestResult.PCR_INVALID,
                 CoronaTestResult.PCR_REDEEMED ->
                     SubmissionQRCodeScanFragmentDirections
-                        .actionSubmissionTestResultPendingFragment(testType = Type.PCR)
+                        .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(
+                            testType = Type.PCR
+                        )
 
                 CoronaTestResult.RAT_POSITIVE ->
                     SubmissionQRCodeScanFragmentDirections
-                        .actionToSubmissionTestResultAvailableFragment(testType = Type.RAPID_ANTIGEN)
+                        .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment(
+                            testType = Type.RAPID_ANTIGEN
+                        )
 
                 CoronaTestResult.RAT_NEGATIVE,
                 CoronaTestResult.RAT_INVALID,
                 CoronaTestResult.RAT_PENDING,
                 CoronaTestResult.RAT_REDEEMED ->
                     SubmissionQRCodeScanFragmentDirections
-                        .actionSubmissionTestResultPendingFragment(testType = Type.RAPID_ANTIGEN)
+                        .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment(
+                            testType = Type.RAPID_ANTIGEN
+                        )
                 null -> {
                     Timber.w("Successful API request, but test was null?")
                     return@observe2

@@ -80,7 +80,7 @@
             android:id="@+id/action_mainFragment_to_submissionTestResultKeysSharedFragment"
             app:destination="@id/submissionTestResultKeysSharedFragment" />
         <action
-            android:id="@+id/action_submissionConsentFragment"
+            android:id="@+id/action_mainFragment_to_submissionConsentFragment"
             app:destination="@id/submissionConsentFragment" />
         <action
             android:id="@+id/action_mainFragment_to_vaccinationNavGraph"
@@ -390,15 +390,15 @@
             app:popUpTo="@id/submissionQRCodeScanFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_to_submissionDeletionWarningFragment"
+            android:id="@+id/action_submissionQRCodeScanFragment_to_submissionDeletionWarningFragment"
             app:destination="@id/submissionDeletionWarningFragment" />
         <action
-            android:id="@+id/action_submissionTestResultPendingFragment"
+            android:id="@+id/action_submissionQRCodeScanFragment_to_submissionTestResultPendingFragment"
             app:destination="@id/submissionTestResultPendingFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
         <action
-            android:id="@+id/action_to_submissionTestResultAvailableFragment"
+            android:id="@+id/action_submissionQRCodeScanFragment_to_submissionTestResultAvailableFragment"
             app:destination="@id/submissionTestResultAvailableFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
@@ -493,15 +493,15 @@
             android:id="@+id/action_submissionConsentFragment_to_informationPrivacyFragment"
             app:destination="@id/informationPrivacyFragment" />
         <action
-            android:id="@+id/action_to_submissionDeletionWarningFragment"
+            android:id="@+id/action_submissionConsentFragment_to_submissionDeletionWarningFragment"
             app:destination="@id/submissionDeletionWarningFragment" />
         <action
-            android:id="@+id/action_submissionTestResultPendingFragment"
+            android:id="@+id/action_submissioConsentFragment_to_submissionTestResultPendingFragment"
             app:destination="@id/submissionTestResultPendingFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
         <action
-            android:id="@+id/action_to_submissionTestResultAvailableFragment"
+            android:id="@+id/action_submissionConsentFragment_to_submissionTestResultAvailableFragment"
             app:destination="@id/submissionTestResultAvailableFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />

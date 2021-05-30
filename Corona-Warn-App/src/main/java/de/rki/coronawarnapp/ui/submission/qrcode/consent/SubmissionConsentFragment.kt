@@ -63,7 +63,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                 is SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode -> {
                     doNavigate(
                         SubmissionConsentFragmentDirections
-                            .actionToSubmissionDeletionWarningFragment(
+                            .actionSubmissionConsentFragmentToSubmissionDeletionWarningFragment(
                                 it.consentGiven,
                                 it.coronaTestQRCode
                             )
@@ -107,14 +107,16 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                         when {
                             state.test.isPositive ->
                                 doNavigate(
-                                    SubmissionConsentFragmentDirections.actionToSubmissionTestResultAvailableFragment(
-                                        CoronaTest.Type.RAPID_ANTIGEN
-                                    )
+                                    SubmissionConsentFragmentDirections
+                                        .actionSubmissioConsentFragmentToSubmissionTestResultPendingFragment(
+                                            CoronaTest.Type.RAPID_ANTIGEN
+                                        )
                                 )
                             else -> doNavigate(
-                                SubmissionConsentFragmentDirections.actionSubmissionTestResultPendingFragment(
-                                    testType = CoronaTest.Type.RAPID_ANTIGEN
-                                )
+                                SubmissionConsentFragmentDirections
+                                    .actionSubmissioConsentFragmentToSubmissionTestResultPendingFragment(
+                                        testType = CoronaTest.Type.RAPID_ANTIGEN
+                                    )
                             )
                         }
                     }

@@ -174,7 +174,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             CheckInsFragment.canHandle(uriString) ->
                 navController.navigate(CheckInsFragment.createDeepLink(uriString))
             SubmissionConsentFragment.canHandle(uriString) ->
-                navController.navigate(HomeFragmentDirections.actionSubmissionConsentFragment(uriString))
+                navController.navigate(HomeFragmentDirections.actionMainFragmentToSubmissionConsentFragment(uriString))
         }
     }
 
