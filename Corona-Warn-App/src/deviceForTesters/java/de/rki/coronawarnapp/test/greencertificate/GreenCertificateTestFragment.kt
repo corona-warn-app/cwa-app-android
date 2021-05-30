@@ -28,13 +28,15 @@ class GreenCertificateTestFragment : Fragment(R.layout.fragment_test_green_certi
 
         binding.apply {
             pcrScreen.setOnClickListener {
-                doNavigate(GreenCertificateTestFragmentDirections
-                    .actionGreenCertificateTestFragmentToRequestGreenCertificateFragment(PCR)
+                doNavigate(
+                    GreenCertificateTestFragmentDirections
+                        .actionGreenCertificateTestFragmentToRequestGreenCertificateFragment(PCR)
                 )
             }
             ratScreen.setOnClickListener {
-                doNavigate(GreenCertificateTestFragmentDirections
-                    .actionGreenCertificateTestFragmentToRequestGreenCertificateFragment(RAPID_ANTIGEN)
+                doNavigate(
+                    GreenCertificateTestFragmentDirections
+                        .actionGreenCertificateTestFragmentToRequestGreenCertificateFragment(RAPID_ANTIGEN)
                 )
             }
         }
