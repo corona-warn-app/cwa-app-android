@@ -63,7 +63,9 @@
         Homescreen cards
     ###################################### -->
     <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_registration_title">"Add Vaccination Certificate"</string>
+    <string name="vaccination_card_registration_title_line_1">"Digitalen"</string>
+    <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
+    <string name="vaccination_card_registration_title_line_2">"Impfnachweis hinzufügen"</string>
     <!-- YTXT: Body text for Vaccination Certificate Registration Home Card -->
     <string name="vaccination_card_registration_body">"Add vaccination certificates in the app so you always have them with you. To do so, scan the QR code on your document."</string>
     <!-- XBUT: button for Vaccination Certificate Registration Home Card -->

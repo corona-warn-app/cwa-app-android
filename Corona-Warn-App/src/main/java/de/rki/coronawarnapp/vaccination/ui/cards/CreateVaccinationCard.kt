@@ -30,9 +30,6 @@ class CreateVaccinationCard(parent: ViewGroup) :
         itemView.setOnClickListener {
             onClick()
         }
-        nextStepsAction.setOnClickListener {
-            onClick()
-        }
     }
 
     data class Item(val onClickAction: (Item) -> Unit) : CertificatesItem, HasPayloadDiffer {

@@ -3,4 +3,5 @@
 
     <string name="certification_screen_title">Nachweise</string>
     <string name="menu_certification_information">Information</string>
+    <string name="green_certification_header_info">Hier werden ihre digitalen Impfzertifikate und Testzertifikate angezeigt.</string>
 </resources>
