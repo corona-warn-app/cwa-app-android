@@ -25,6 +25,7 @@ class CertificatesViewModel @AssistedInject constructor(
 
     val events = SingleLiveEvent<CertificatesFragmentEvents>()
 
+    // TODO: cards should be adjusted in the following PR
     val screenItems: LiveData<List<CertificatesItem>> =
         vaccinationRepository.vaccinationInfos.map { vaccinatedPersons ->
             mutableListOf<CertificatesItem>().apply {

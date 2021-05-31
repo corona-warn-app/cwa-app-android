@@ -32,13 +32,12 @@ class CertificatesFragment : Fragment(R.layout.fragment_certificates), AutoInjec
         super.onViewCreated(view, savedInstanceState)
 
         binding.recyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext())
             itemAnimator = DefaultItemAnimator()
             addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
             adapter = certificatesAdapter
         }
 
-        viewModel.screenItems.observe2(this) { certificatesAdapter.update(it) }
+        viewModel.screenItems.observe2(this) { items -> certificatesAdapter.update(items) }
         viewModel.events.observe2(this) { event ->
             when (event) {
                 is CertificatesFragmentEvents.GoToVaccinationList -> findNavController().navigate(

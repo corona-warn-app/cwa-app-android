@@ -26,8 +26,9 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:itemCount="2"
-        tools:listitem="@layout/home_submission_status_card_unregistered" />
+        tools:listitem="@layout/vaccination_home_registration_card" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
