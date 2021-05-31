@@ -441,4 +441,6 @@ dependencies {
 
     // HCert
     implementation("com.upokecenter:cbor:4.4.1")
+
+    implementation("bouncycastle:bcprov-jdk16:136")
 }

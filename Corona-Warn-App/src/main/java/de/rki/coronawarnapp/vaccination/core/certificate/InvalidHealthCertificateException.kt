@@ -46,6 +46,7 @@ class InvalidHealthCertificateException(
         VC_HC_CWT_NO_EXP("Expiration date missing."),
         VC_HC_CWT_NO_HCERT("Health certificate missing."),
         VC_HC_CWT_NO_ISS("Issuer missing."),
+        RSA_DECRYPTION_FAILED("RSA decryption failed"),
     }
 
     val errorMessage: LazyString
@@ -75,6 +76,10 @@ class InvalidHealthCertificateException(
             }
             VC_ALREADY_REGISTERED -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_ALREADY_REGISTERED)
+            }
+            // todo
+            else -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_VC_INVALID)
             }
         }
 

@@ -27,6 +27,13 @@ class ZLIBCompression @Inject constructor() {
     } catch (e: Throwable) {
         throw InvalidInputException("ZLIB decompression failed.", e)
     }
+
+    fun compress(input: ByteArray): ByteArray {
+        // todo
+        return input
+    }
 }
 
-fun ByteArray.inflate(sizeLimit: Long = -1L) = ZLIBCompression().decompress(this, sizeLimit)
+fun ByteArray.deflate(sizeLimit: Long = -1L) = ZLIBCompression().decompress(this, sizeLimit)
+
+fun ByteArray.inflate() = ZLIBCompression().compress(this)
