@@ -31,7 +31,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.TestDispatcherProvider
-import testhelpers.launchFragmentInContainer2
 import java.util.TimeZone
 
 @RunWith(AndroidJUnit4::class)
