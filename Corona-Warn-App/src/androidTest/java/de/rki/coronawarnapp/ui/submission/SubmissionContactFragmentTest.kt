@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.submission
 
+import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.Navigation
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
@@ -53,7 +54,7 @@ class SubmissionContactFragmentTest : BaseUITest() {
     fun testContactEnterTanClicked() {
         val navController = TestNavHostController(ApplicationProvider.getApplicationContext())
         runOnUiThread { navController.setGraph(R.navigation.nav_graph) }
-        launchFragmentInContainer2<SubmissionContactFragment>().onFragment { fragment ->
+        launchFragmentInContainer<SubmissionContactFragment>().onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), navController)
         }
 
