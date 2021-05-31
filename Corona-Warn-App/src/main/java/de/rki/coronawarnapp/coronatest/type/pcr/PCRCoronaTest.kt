@@ -40,6 +40,12 @@ data class PCRCoronaTest(
 
     @Transient override val isProcessing: Boolean = false,
     @Transient override val lastError: Throwable? = null,
+
+    @SerializedName("isDccConsentGiven")
+    override val isDccConsentGiven: Boolean = false,
+
+    @SerializedName("isDccDataSetCreated")
+    override val isDccDataSetCreated: Boolean = false,
 ) : CoronaTest {
 
     override val type: CoronaTest.Type
@@ -69,6 +75,9 @@ data class PCRCoronaTest(
             CoronaTestResult.PCR_REDEEMED -> State.REDEEMED
             else -> throw IllegalArgumentException("Invalid PCR test state $testResult")
         }
+
+    override val isDccSupportedByPoc: Boolean
+        get() = true
 
     enum class State {
         PENDING,

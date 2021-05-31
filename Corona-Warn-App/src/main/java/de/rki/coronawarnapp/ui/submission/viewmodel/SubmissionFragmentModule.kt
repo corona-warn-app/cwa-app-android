@@ -8,6 +8,8 @@ import de.rki.coronawarnapp.ui.submission.fragment.SubmissionContactFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionDispatcherFragment
 import de.rki.coronawarnapp.ui.submission.deletionwarning.SubmissionDeletionWarningFragment
 import de.rki.coronawarnapp.ui.submission.deletionwarning.SubmissionDeletionWarningModule
+import de.rki.coronawarnapp.ui.submission.greencertificate.RequestGreenCertificateFragment
+import de.rki.coronawarnapp.ui.submission.greencertificate.RequestGreenCertificateFragmentModule
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentFragment
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentModule
 import de.rki.coronawarnapp.ui.submission.qrcode.scan.SubmissionQRCodeScanFragment
@@ -110,4 +112,7 @@ internal abstract class SubmissionFragmentModule {
 
     @ContributesAndroidInjector(modules = [SubmissionTestResultKeysSharedModule::class])
     abstract fun submissionTestResultKeysSharedScreen(): SubmissionTestResultKeysSharedFragment
+
+    @ContributesAndroidInjector(modules = [RequestGreenCertificateFragmentModule::class])
+    abstract fun requestGreenCertificateFragment(): RequestGreenCertificateFragment
 }

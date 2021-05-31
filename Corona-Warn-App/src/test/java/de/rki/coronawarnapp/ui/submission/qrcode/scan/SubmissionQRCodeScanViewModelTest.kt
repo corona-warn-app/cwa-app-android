@@ -56,13 +56,13 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
     }
 
     private fun createViewModel() = SubmissionQRCodeScanViewModel(
-        TestDispatcherProvider(),
-        cameraSettings,
-        qrCodeRegistrationStateProcessor,
         isConsentGiven = true,
-        submissionRepository,
-        qrCodeValidator,
-        analyticsKeySubmissionCollector
+        dispatcherProvider = TestDispatcherProvider(),
+        cameraSettings = cameraSettings,
+        qrCodeRegistrationStateProcessor = qrCodeRegistrationStateProcessor,
+        submissionRepository = submissionRepository,
+        qrCodeValidator = qrCodeValidator,
+        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector
     )
 
     @Test
