@@ -475,6 +475,7 @@ workflows:
       - detekt
       - lint_device_release_check
       - ktlint_check
+      - firebase_screenshots
       - quick_build_device_release_no_tests
       - unit_tests_device_release
       - run_sonar:
