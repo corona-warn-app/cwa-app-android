@@ -9,8 +9,8 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.databinding.FragmentRequestGreenCertificateBinding
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
+import de.rki.coronawarnapp.databinding.FragmentRequestCovidCertificateBinding
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -19,22 +19,22 @@ import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import org.joda.time.LocalDate
 import javax.inject.Inject
 
-class RequestGreenCertificateFragment : Fragment(R.layout.fragment_request_green_certificate), AutoInject {
+class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid_certificate), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel by cwaViewModelsAssisted<RequestGreenCertificateViewModel>(
+    private val viewModel by cwaViewModelsAssisted<RequestCovidCertificateViewModel>(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
-            factory as RequestGreenCertificateViewModel.Factory
-            factory.create(args.testType)
+            factory as RequestCovidCertificateViewModel.Factory
+            factory.create(args.coronaTestQrCode, args.coronaTestConsent)
         }
     )
-    private val binding by viewBinding<FragmentRequestGreenCertificateBinding>()
-    private val args by navArgs<RequestGreenCertificateFragmentArgs>()
+    private val binding by viewBinding<FragmentRequestCovidCertificateBinding>()
+    private val args by navArgs<RequestCovidCertificateFragmentArgs>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
-            val isPCR = args.testType == CoronaTest.Type.PCR
+            val isPCR = args.coronaTestQrCode is CoronaTestQRCode.PCR
             birthDateGroup.isVisible = isPCR
             privacyCard.pcrExtraBullet.isVisible = isPCR
 

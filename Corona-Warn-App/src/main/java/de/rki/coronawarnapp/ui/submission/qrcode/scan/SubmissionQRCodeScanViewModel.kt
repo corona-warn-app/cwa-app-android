@@ -35,23 +35,23 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
 
     fun registerCoronaTest(rawResult: String) = launch {
         try {
-            val testQRCode = qrCodeValidator.validate(rawResult)
+            val ctQrCode = qrCodeValidator.validate(rawResult)
             qrCodeValidationState.postValue(QrCodeRegistrationStateProcessor.ValidationState.SUCCESS)
-            val coronaTest = submissionRepository.testForType(testQRCode.type).first()
+            val coronaTest = submissionRepository.testForType(ctQrCode.type).first()
             when {
                 coronaTest != null -> events.postValue(
                     SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode(
-                        coronaTestQRCode = testQRCode,
+                        coronaTestQRCode = ctQrCode,
                         consentGiven = isConsentGiven
                     )
                 )
 
-                else -> if (testQRCode is CoronaTestQRCode.RapidAntigen && !testQRCode.isDccSupportedByPoc) {
-                    if (isConsentGiven) analyticsKeySubmissionCollector.reportAdvancedConsentGiven(testQRCode.type)
-                    qrCodeRegistrationStateProcessor.startQrCodeRegistration(testQRCode, isConsentGiven)
+                else -> if (ctQrCode is CoronaTestQRCode.RapidAntigen && !ctQrCode.isDccSupportedByPoc) {
+                    if (isConsentGiven) analyticsKeySubmissionCollector.reportAdvancedConsentGiven(ctQrCode.type)
+                    qrCodeRegistrationStateProcessor.startQrCodeRegistration(ctQrCode, isConsentGiven)
                 } else {
                     events.postValue(
-                        SubmissionNavigationEvents.NavigateToRequestDccFragment(testQRCode, isConsentGiven)
+                        SubmissionNavigationEvents.NavigateToRequestDccFragment(ctQrCode, isConsentGiven)
                     )
                 }
             }

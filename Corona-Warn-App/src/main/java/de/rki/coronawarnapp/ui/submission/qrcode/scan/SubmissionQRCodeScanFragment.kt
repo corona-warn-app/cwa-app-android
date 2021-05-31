@@ -77,6 +77,9 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                 }
                 is SubmissionNavigationEvents.NavigateToDispatcher -> navigateToDispatchScreen()
                 is SubmissionNavigationEvents.NavigateToConsent -> goBack()
+                is SubmissionNavigationEvents.NavigateToRequestDccFragment -> doNavigate(
+                    NavGraphDirections.actionRequestCovidCertificateFragment(it.coronaTestQRCode, it.consentGiven)
+                )
             }
         }
 
