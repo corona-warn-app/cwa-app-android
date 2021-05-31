@@ -30,7 +30,7 @@ import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
-import testhelpers.launchInEmptyActivity
+import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
@@ -90,7 +90,7 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
     @Screenshot
     fun capture_fragment_with_consent() {
         every { viewModel.consent } returns MutableLiveData(true)
-        launchInEmptyActivity<SubmissionTestResultAvailableFragment>(
+        launchFragmentInContainer2<SubmissionTestResultAvailableFragment>(
             fragmentArgs = resultAvailableFragmentArgs
         )
         takeScreenshot<SubmissionTestResultAvailableFragment>(suffix = "_consent")
@@ -100,7 +100,7 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
     @Screenshot
     fun capture_fragment_without_consent() {
         every { viewModel.consent } returns MutableLiveData(false)
-        launchInEmptyActivity<SubmissionTestResultAvailableFragment>(
+        launchFragmentInContainer2<SubmissionTestResultAvailableFragment>(
             fragmentArgs = resultAvailableFragmentArgs
         )
         takeScreenshot<SubmissionTestResultAvailableFragment>(suffix = "_no_consent")

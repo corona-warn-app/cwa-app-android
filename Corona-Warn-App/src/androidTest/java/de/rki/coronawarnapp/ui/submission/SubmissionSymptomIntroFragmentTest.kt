@@ -32,7 +32,7 @@ import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
-import testhelpers.launchInEmptyActivity
+import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
@@ -102,7 +102,7 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment() {
-        launchInEmptyActivity<SubmissionSymptomIntroductionFragment>(
+        launchFragmentInContainer2<SubmissionSymptomIntroductionFragment>(
             fragmentArgs = SubmissionSymptomIntroductionFragmentArgs(
                 CoronaTest.Type.PCR
             ).toBundle()

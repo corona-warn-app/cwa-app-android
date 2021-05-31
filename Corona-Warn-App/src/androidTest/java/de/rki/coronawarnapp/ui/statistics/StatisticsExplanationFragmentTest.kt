@@ -10,7 +10,7 @@ import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
-import testhelpers.launchInEmptyActivity
+import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
@@ -27,7 +27,7 @@ class StatisticsExplanationFragmentTest : BaseUITest() {
     @Screenshot
     @Test
     fun capture_screenshot() {
-        launchInEmptyActivity<StatisticsExplanationFragment>()
+        launchFragmentInContainer2<StatisticsExplanationFragment>()
         takeScreenshot<StatisticsExplanationFragment>()
     }
 }

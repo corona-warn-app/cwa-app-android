@@ -29,7 +29,7 @@ import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
-import testhelpers.launchInEmptyActivity
+import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
@@ -83,7 +83,7 @@ class SubmissionSymptomCalendarFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment() {
-        launchInEmptyActivity<SubmissionSymptomCalendarFragment>(
+        launchFragmentInContainer2<SubmissionSymptomCalendarFragment>(
             fragmentArgs = SubmissionSymptomCalendarFragmentArgs(
                 Symptoms.Indication.POSITIVE,
                 CoronaTest.Type.PCR

@@ -29,7 +29,7 @@ import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
-import testhelpers.launchInEmptyActivity
+import testhelpers.launchFragmentInContainer2
 import testhelpers.preferences.mockFlowPreference
 import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
@@ -111,7 +111,7 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment() {
-        launchInEmptyActivity<SubmissionDispatcherFragment>()
+        launchFragmentInContainer2<SubmissionDispatcherFragment>()
         takeScreenshot<SubmissionDispatcherFragment>()
 
         onView(withId(R.id.submission_dispatcher_tan_tele))

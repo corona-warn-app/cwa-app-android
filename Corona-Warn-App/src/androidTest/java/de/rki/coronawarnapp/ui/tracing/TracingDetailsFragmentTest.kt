@@ -29,7 +29,7 @@ import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
-import testhelpers.launchInEmptyActivity
+import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
@@ -135,7 +135,7 @@ class TracingDetailsFragmentTest : BaseUITest() {
     }
 
     private fun captureScreenshot(suffix: String) {
-        launchInEmptyActivity<TracingDetailsFragment>()
+        launchFragmentInContainer2<TracingDetailsFragment>()
         takeScreenshot<TracingDetailsFragment>(suffix)
     }
 }

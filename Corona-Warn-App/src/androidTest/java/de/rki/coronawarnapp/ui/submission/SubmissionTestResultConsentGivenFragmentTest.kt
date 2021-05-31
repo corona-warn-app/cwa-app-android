@@ -39,7 +39,7 @@ import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
-import testhelpers.launchInEmptyActivity
+import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
@@ -122,7 +122,7 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
             )
         )
 
-        launchInEmptyActivity<SubmissionTestResultConsentGivenFragment>(fragmentArgs = consentGivenFragmentArgs)
+        launchFragmentInContainer2<SubmissionTestResultConsentGivenFragment>(fragmentArgs = consentGivenFragmentArgs)
         takeScreenshot<SubmissionTestResultConsentGivenFragment>()
     }
 }

@@ -22,7 +22,7 @@ import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
-import testhelpers.launchInEmptyActivity
+import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
@@ -68,7 +68,7 @@ class SubmissionYourConsentFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment_results() {
-        launchInEmptyActivity<SubmissionYourConsentFragment>(
+        launchFragmentInContainer2<SubmissionYourConsentFragment>(
             fragmentArgs = SubmissionYourConsentFragmentArgs(true, testType).toBundle()
         )
         takeScreenshot<SubmissionYourConsentFragment>()

@@ -24,7 +24,7 @@ import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
-import testhelpers.launchInEmptyActivity
+import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
@@ -75,7 +75,7 @@ class SubmissionContactFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment() {
-        launchInEmptyActivity<SubmissionContactFragment>()
+        launchFragmentInContainer2<SubmissionContactFragment>()
         takeScreenshot<SubmissionContactFragment>()
     }
 }

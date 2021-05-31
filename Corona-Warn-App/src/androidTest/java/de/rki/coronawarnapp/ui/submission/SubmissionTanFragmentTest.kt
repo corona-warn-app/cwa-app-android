@@ -25,7 +25,7 @@ import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
-import testhelpers.launchInEmptyActivity
+import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
@@ -78,7 +78,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment_empty() {
-        launchInEmptyActivity<SubmissionTanFragment>()
+        launchFragmentInContainer2<SubmissionTanFragment>()
         onView(withId(R.id.tan_input_edittext))
             .perform(click())
             .perform(closeSoftKeyboard())
@@ -88,7 +88,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment_done() {
-        launchInEmptyActivity<SubmissionTanFragment>()
+        launchFragmentInContainer2<SubmissionTanFragment>()
         onView(withId(R.id.tan_input_edittext))
             .perform(click())
             .perform(typeText("AC9UHD65AF"), closeSoftKeyboard())
@@ -98,7 +98,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment_invalid() {
-        launchInEmptyActivity<SubmissionTanFragment>()
+        launchFragmentInContainer2<SubmissionTanFragment>()
         onView(withId(R.id.tan_input_edittext))
             .perform(click())
             .perform(typeText("AC9U0"), closeSoftKeyboard())

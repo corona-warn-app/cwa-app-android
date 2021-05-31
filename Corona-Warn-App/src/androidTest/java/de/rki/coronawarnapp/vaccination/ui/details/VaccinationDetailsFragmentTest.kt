@@ -30,7 +30,7 @@ import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.launchFragment2
-import testhelpers.launchInEmptyActivity
+import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
@@ -70,7 +70,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
     @Test
     fun capture_screenshot_immune() {
         every { vaccinationDetailsViewModel.vaccinationCertificate } returns vaccinationDetailsData(true)
-        launchInEmptyActivity<VaccinationDetailsFragment>(fragmentArgs = args)
+        launchFragmentInContainer2<VaccinationDetailsFragment>(fragmentArgs = args)
         takeScreenshot<VaccinationDetailsFragment>("immune")
         onView(withId(R.id.coordinator_layout)).perform(swipeUp())
         takeScreenshot<VaccinationDetailsFragment>("immune_2")
@@ -80,7 +80,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
     @Test
     fun capture_screenshot_incomplete() {
         every { vaccinationDetailsViewModel.vaccinationCertificate } returns vaccinationDetailsData(false)
-        launchInEmptyActivity<VaccinationDetailsFragment>(fragmentArgs = args)
+        launchFragmentInContainer2<VaccinationDetailsFragment>(fragmentArgs = args)
         takeScreenshot<VaccinationDetailsFragment>("incomplete")
         onView(withId(R.id.coordinator_layout)).perform(swipeUp())
         takeScreenshot<VaccinationDetailsFragment>("incomplete_2")
