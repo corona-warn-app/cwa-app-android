@@ -38,6 +38,15 @@ interface CoronaTest {
 
     val isResultAvailableNotificationSent: Boolean
 
+    // Is the digital green certificate supported by the point of care that issued the test
+    val isDccSupportedByPoc: Boolean
+
+    // Has the user given consent to us obtaining the DGC
+    val isDccConsentGiven: Boolean
+
+    // Has the corresponding entry been created in the test certificate storage
+    val isDccDataSetCreated: Boolean
+
     enum class Type(val raw: String) {
         @SerializedName("PCR")
         PCR("PCR"),

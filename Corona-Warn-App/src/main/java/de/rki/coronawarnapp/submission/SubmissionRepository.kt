@@ -51,7 +51,7 @@ class SubmissionRepository @Inject constructor(
             val test = coronaTestRepository.coronaTests.first().singleOrNull { it.type == type }
                 ?: throw IllegalStateException("No test of type $type available")
             Timber.tag(TAG).v("giveConsentToSubmission(type=$type): %s", test)
-            coronaTestRepository.updateConsent(identifier = test.identifier, consented = true)
+            coronaTestRepository.updateSubmissionConsent(identifier = test.identifier, consented = true)
         }
     }
 
@@ -62,7 +62,7 @@ class SubmissionRepository @Inject constructor(
             val test = coronaTestRepository.coronaTests.first().singleOrNull { it.type == type }
                 ?: throw IllegalStateException("No test of type $type available")
 
-            coronaTestRepository.updateConsent(identifier = test.identifier, consented = false)
+            coronaTestRepository.updateSubmissionConsent(identifier = test.identifier, consented = false)
         }
     }
 
