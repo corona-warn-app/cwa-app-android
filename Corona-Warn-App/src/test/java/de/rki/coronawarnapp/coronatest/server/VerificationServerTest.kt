@@ -4,6 +4,7 @@ import android.content.Context
 import de.rki.coronawarnapp.coronatest.type.common.DateOfBirthKey
 import de.rki.coronawarnapp.http.HttpModule
 import de.rki.coronawarnapp.util.headerSizeIgnoringContentLength
+import de.rki.coronawarnapp.util.requestHeaderWithoutContentLength
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -21,6 +22,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
+import timber.log.Timber
 import java.io.File
 
 class VerificationServerTest : BaseIOTest() {
@@ -67,8 +69,27 @@ class VerificationServerTest : BaseIOTest() {
         customApi: VerificationApiV1 = verificationApi
     ) = VerificationServer(verificationAPI = { customApi })
 
+    private fun createRealApi(): VerificationApiV1 {
+        val httpModule = HttpModule()
+        val defaultHttpClient = httpModule.defaultHttpClient()
+        val gsonConverterFactory = httpModule.provideGSONConverter()
+
+        return VerificationModule().let {
+            val downloadHttpClient = it.cdnHttpClient(
+                defaultHttpClient,
+                listOf(ConnectionSpec.CLEARTEXT, ConnectionSpec.MODERN_TLS)
+            )
+            it.provideVerificationApi(
+                context = context,
+                client = downloadHttpClient,
+                url = serverAddress,
+                gsonConverterFactory = gsonConverterFactory
+            )
+        }
+    }
+
     @Test
-    fun `get registration token via GUID`(): Unit = runBlocking {
+    fun `get registration token via GUID - with dobHash`(): Unit = runBlocking {
         val server = createServer()
         coEvery { verificationApi.getRegistrationToken(any(), any(), any()) } answers {
             arg<String>(0) shouldBe "0"
@@ -76,7 +97,7 @@ class VerificationServerTest : BaseIOTest() {
             arg<VerificationApiV1.RegistrationTokenRequest>(2).apply {
                 keyType shouldBe VerificationKeyType.GUID
                 key shouldBe "7620a19f93374e8d5acff090d3c10d0242a32fe140c50bbd40c95edf3c0af5b7"
-                requestPadding!!.length shouldBe 139
+                requestPadding!!.length shouldBe 63
                 dateOfBirthKey shouldBe requestGuid.dateOfBirthKey!!.key
             }
             VerificationApiV1.RegistrationTokenResponse(
@@ -85,6 +106,30 @@ class VerificationServerTest : BaseIOTest() {
         }
 
         server.retrieveRegistrationToken(requestGuid) shouldBe "testRegistrationToken"
+
+        coVerify { verificationApi.getRegistrationToken(any(), any(), any()) }
+    }
+
+    @Test
+    fun `get registration token via GUID - without dobHash`(): Unit = runBlocking {
+        val server = createServer()
+        coEvery { verificationApi.getRegistrationToken(any(), any(), any()) } answers {
+            arg<String>(0) shouldBe "0"
+            arg<String>(1) shouldBe ""
+            arg<VerificationApiV1.RegistrationTokenRequest>(2).apply {
+                keyType shouldBe VerificationKeyType.GUID
+                key shouldBe "7620a19f93374e8d5acff090d3c10d0242a32fe140c50bbd40c95edf3c0af5b7"
+                requestPadding!!.length shouldBe 139
+                dateOfBirthKey shouldBe null
+            }
+            VerificationApiV1.RegistrationTokenResponse(
+                registrationToken = "testRegistrationToken"
+            )
+        }
+
+        server.retrieveRegistrationToken(
+            requestGuid.copy(dateOfBirthKey = null)
+        ) shouldBe "testRegistrationToken"
 
         coVerify { verificationApi.getRegistrationToken(any(), any(), any()) }
     }
@@ -168,25 +213,6 @@ class VerificationServerTest : BaseIOTest() {
         coVerify { verificationApi.getTAN(any(), any(), any()) }
     }
 
-    private fun createRealApi(): VerificationApiV1 {
-        val httpModule = HttpModule()
-        val defaultHttpClient = httpModule.defaultHttpClient()
-        val gsonConverterFactory = httpModule.provideGSONConverter()
-
-        return VerificationModule().let {
-            val downloadHttpClient = it.cdnHttpClient(
-                defaultHttpClient,
-                listOf(ConnectionSpec.CLEARTEXT, ConnectionSpec.MODERN_TLS)
-            )
-            it.provideVerificationApi(
-                context = context,
-                client = downloadHttpClient,
-                url = serverAddress,
-                gsonConverterFactory = gsonConverterFactory
-            )
-        }
-    }
-
     @Test
     fun `all requests have the same footprint for pleasible deniability`(): Unit = runBlocking {
         val registrationTokenExample = "63b4d3ff-e0de-4bd4-90c1-17c2bb683a2f"
@@ -194,28 +220,46 @@ class VerificationServerTest : BaseIOTest() {
         val requests = mutableListOf<RecordedRequest>()
 
         val api = createServer(createRealApi())
+
+        // Default happy path
+        webServer.enqueue(MockResponse().setBody("{}"))
+        api.retrieveRegistrationToken(requestGuid)
+        webServer.takeRequest().also { requests.add(it) }.bodySize shouldBe 250L
+
+        // No dobHash
+        webServer.enqueue(MockResponse().setBody("{}"))
+        api.retrieveRegistrationToken(requestGuid)
+        webServer.takeRequest().also { requests.add(it) }.bodySize shouldBe 250L
+
+        // Second happy path try
         webServer.enqueue(MockResponse().setBody("{}"))
         api.retrieveRegistrationToken(requestGuid.copy(key = "3BF1D4-1C6003DD-733D-41F1-9F30-F85FA7406BF7"))
         webServer.takeRequest().also { requests.add(it) }.bodySize shouldBe 250L
 
+        // Via tan
         webServer.enqueue(MockResponse().setBody("{}"))
         api.retrieveRegistrationToken(requestTan.copy(key = "9A3B578UMG"))
         webServer.takeRequest().also { requests.add(it) }.bodySize shouldBe 250L
 
+        // Polling for test result
         webServer.enqueue(MockResponse().setBody("{}"))
         api.pollTestResult(registrationTokenExample)
         webServer.takeRequest().also { requests.add(it) }.bodySize shouldBe 250L
 
+        // Submission TAN
         webServer.enqueue(MockResponse().setBody("{}"))
         api.retrieveTan(registrationTokenExample)
         webServer.takeRequest().also { requests.add(it) }.bodySize shouldBe 250L
 
+        // Playbook dummy request
         webServer.enqueue(MockResponse().setBody("{}"))
         api.retrieveTanFake()
         webServer.takeRequest().also { requests.add(it) }.bodySize shouldBe 250L
 
 
         requests.zipWithNext().forEach { (a, b) ->
+            Timber.i("Header a: %s", a.requestHeaderWithoutContentLength().replace('\n', ' '))
+            Timber.i("Header b: %s", b.requestHeaderWithoutContentLength().replace('\n', ' '))
             a.headerSizeIgnoringContentLength() shouldBe b.headerSizeIgnoringContentLength()
         }
     }
