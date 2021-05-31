@@ -83,7 +83,8 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
         @SerializedName("ln") val lastName: String?,
         @SerializedName("dob") val dateOfBirth: String?,
         @SerializedName("testid") val testid: String?,
-        @SerializedName("salt") val salt: String?
+        @SerializedName("salt") val salt: String?,
+        @SerializedName("dgcAsInt") val dgcAsInt: Int?
     )
 
     private data class CleanPayload(val raw: RawPayload) {
