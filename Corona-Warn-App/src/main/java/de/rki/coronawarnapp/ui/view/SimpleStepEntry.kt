@@ -31,9 +31,9 @@ class SimpleStepEntry @JvmOverloads constructor(
         }
     }
 
-    fun setEntryTitle(newText: CharSequence) = entryTitle.apply { text = newText }
+    fun setEntryTitle(newText: CharSequence?) = entryTitle.apply { text = newText }
 
-    fun setEntryText(newText: CharSequence) = entryText.apply {
+    fun setEntryText(newText: CharSequence?) = entryText.apply {
         text = newText
         visibility = if (text.isEmpty()) View.GONE else View.VISIBLE
     }
