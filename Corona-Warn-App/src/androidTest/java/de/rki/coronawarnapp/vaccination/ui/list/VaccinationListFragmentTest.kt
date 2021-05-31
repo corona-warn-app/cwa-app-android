@@ -35,7 +35,7 @@ import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.launchFragment2
-import testhelpers.launchInEmptyActivity
+import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
@@ -86,7 +86,7 @@ internal class VaccinationListFragmentTest : BaseUITest() {
             itemList = listItems,
             vaccinationStatus = INCOMPLETE
         )
-        launchInEmptyActivity<VaccinationListFragment>(fragmentArgs = fragmentArgs)
+        launchFragmentInContainer2<VaccinationListFragment>(fragmentArgs = fragmentArgs)
         takeScreenshot<VaccinationListFragment>("incomplete")
         onView(withId(R.id.coordinator_layout)).perform(swipeUp())
         takeScreenshot<VaccinationListFragment>("incomplete_scrolled_down")
@@ -122,7 +122,7 @@ internal class VaccinationListFragmentTest : BaseUITest() {
             itemList = listItems,
             vaccinationStatus = COMPLETE
         )
-        launchInEmptyActivity<VaccinationListFragment>(fragmentArgs = fragmentArgs)
+        launchFragmentInContainer2<VaccinationListFragment>(fragmentArgs = fragmentArgs)
         takeScreenshot<VaccinationListFragment>("complete")
         onView(withId(R.id.coordinator_layout)).perform(swipeUp())
         takeScreenshot<VaccinationListFragment>("complete_scrolled_down")
@@ -156,7 +156,7 @@ internal class VaccinationListFragmentTest : BaseUITest() {
             itemList = listItems,
             vaccinationStatus = IMMUNITY
         )
-        launchInEmptyActivity<VaccinationListFragment>(fragmentArgs = fragmentArgs)
+        launchFragmentInContainer2<VaccinationListFragment>(fragmentArgs = fragmentArgs)
         takeScreenshot<VaccinationListFragment>("immunity")
         onView(withId(R.id.coordinator_layout)).perform(swipeUp())
         takeScreenshot<VaccinationListFragment>("immunity_scrolled_down")

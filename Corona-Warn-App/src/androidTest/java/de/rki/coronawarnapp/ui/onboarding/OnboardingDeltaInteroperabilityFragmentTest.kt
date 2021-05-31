@@ -14,7 +14,8 @@ import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
-import testhelpers.launchInEmptyActivity
+import testhelpers.launchFragmentInContainer2
+import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
@@ -50,7 +51,7 @@ class OnboardingDeltaInteroperabilityFragmentTest : BaseUITest() {
     @Screenshot
     @Test
     fun capture_screenshot() {
-        launchInEmptyActivity<OnboardingDeltaInteroperabilityFragment>()
+        launchFragmentInContainer2<OnboardingDeltaInteroperabilityFragment>()
         takeScreenshot<OnboardingDeltaInteroperabilityFragment>()
     }
 }
