@@ -48,10 +48,10 @@ class GreenCertificateDetailsFragment : Fragment(R.layout.fragment_greencertific
             as (CoordinatorLayout.LayoutParams)
 
         val textParams = binding.subtitle.layoutParams as (LinearLayout.LayoutParams)
-        textParams.bottomMargin = (width / 3) - 24 /* 24 is space between screen border and QrCode */
-        binding.subtitle.requestLayout() /* 24 is space between screen border and QrCode */
+        textParams.bottomMargin = (width / 3) + 170
+        binding.subtitle.requestLayout()
 
         val behavior: AppBarLayout.ScrollingViewBehavior = params.behavior as (AppBarLayout.ScrollingViewBehavior)
-        behavior.overlayTop = (width / 3) - 24
+        behavior.overlayTop = (width / 3) + 170
     }
 }
