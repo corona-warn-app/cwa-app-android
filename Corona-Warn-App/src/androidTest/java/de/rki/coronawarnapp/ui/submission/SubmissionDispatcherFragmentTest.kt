@@ -29,7 +29,6 @@ import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
-import testhelpers.launchFragmentInContainer2
 import testhelpers.preferences.mockFlowPreference
 import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
