@@ -65,7 +65,7 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
             }
         }
 
-        val localTime = testAge.test.testedAt.toUserTimeZone()
+        val localTime = testAge.test.testTakenAt.toUserTimeZone()
         resultReceivedTimeAndDate.text = getString(
             R.string.coronatest_negative_antigen_result_time_date_placeholder,
             localTime?.toString(DATE_FORMAT),
