@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.VaccinationSettings
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.vaccination.ui.cards.CreateVaccinationCard
+import de.rki.coronawarnapp.vaccination.ui.cards.HeaderInfoVaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.ImmuneVaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.VaccinationCard
 import kotlinx.coroutines.flow.map
@@ -26,6 +27,8 @@ class CertificatesViewModel @AssistedInject constructor(
     val screenItems: LiveData<List<CertificatesItem>> =
         vaccinationRepository.vaccinationInfos.map { vaccinatedPersons ->
             mutableListOf<CertificatesItem>().apply {
+                add(HeaderInfoVaccinationCard.Item)
+
                 vaccinatedPersons.forEach { vaccinatedPerson ->
                     val card = when (vaccinatedPerson.getVaccinationStatus()) {
                         VaccinatedPerson.Status.COMPLETE,
