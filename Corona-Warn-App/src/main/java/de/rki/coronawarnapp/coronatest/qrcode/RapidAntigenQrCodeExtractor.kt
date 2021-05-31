@@ -41,7 +41,7 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
             dateOfBirth = payload.dateOfBirth,
             testid = payload.testId,
             salt = payload.salt,
-            isDccSupportedbyPoc = false, // TODO
+            isDccSupportedbyPoc = payload.isDccSupportedByPoc
         )
     }
 
@@ -127,6 +127,8 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
         val salt: String? by lazy {
             if (raw.salt.isNullOrEmpty()) null else raw.salt
         }
+
+        val isDccSupportedByPoc: Boolean by lazy { raw.dgcAsInt == 1 }
 
         fun requireValidData() {
             requireValidPersonalData()
