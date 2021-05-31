@@ -88,7 +88,7 @@ class RAProcessor @Inject constructor(
             lastName = request.lastName,
             dateOfBirth = request.dateOfBirth,
             sampleCollectedAt = sampleCollectedAt,
-            isDccSupportedByPoc = request.isDccSupportedbyPoc,
+            isDccSupportedByPoc = request.isDccSupportedByPoc,
         )
     }
 

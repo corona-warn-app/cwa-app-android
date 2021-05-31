@@ -68,7 +68,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             submissionQrCodeScanViewfinderView.setCameraPreview(submissionQrCodeScanPreview)
         }
 
-        viewModel.routeToScreen.observe2(this) {
+        viewModel.events.observe2(this) {
             when (it) {
                 is SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode -> {
                     NavGraphDirections
@@ -136,7 +136,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 
     private fun startDecode() {
         binding.submissionQrCodeScanPreview.decodeSingle {
-            viewModel.onQrCodeAvailable(it.text)
+            viewModel.registerCoronaTest(it.text)
         }
     }
 

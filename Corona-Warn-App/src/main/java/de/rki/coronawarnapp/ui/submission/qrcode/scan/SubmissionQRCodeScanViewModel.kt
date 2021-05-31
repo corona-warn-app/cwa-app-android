@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.submission.qrcode.scan
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
@@ -26,49 +27,42 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     private val qrCodeValidator: CoronaTestQrCodeValidator,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
-    val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
+    val events = SingleLiveEvent<SubmissionNavigationEvents>()
     val showRedeemedTokenWarning = qrCodeRegistrationStateProcessor.showRedeemedTokenWarning
     val qrCodeValidationState = SingleLiveEvent<QrCodeRegistrationStateProcessor.ValidationState>()
     val registrationState = qrCodeRegistrationStateProcessor.registrationState
     val registrationError = qrCodeRegistrationStateProcessor.registrationError
 
-    fun onQrCodeAvailable(rawResult: String) {
-        launch {
-            startQrCodeRegistration(rawResult, isConsentGiven)
-        }
-    }
-
-    suspend fun startQrCodeRegistration(rawResult: String, isConsentGiven: Boolean) {
+    fun registerCoronaTest(rawResult: String) = launch {
         try {
-            val coronaTestQRCode = qrCodeValidator.validate(rawResult)
+            val testQRCode = qrCodeValidator.validate(rawResult)
             qrCodeValidationState.postValue(QrCodeRegistrationStateProcessor.ValidationState.SUCCESS)
-            val coronaTest = submissionRepository.testForType(coronaTestQRCode.type).first()
-
-            if (coronaTest != null) {
-                routeToScreen.postValue(
+            val coronaTest = submissionRepository.testForType(testQRCode.type).first()
+            when {
+                coronaTest != null -> events.postValue(
                     SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode(
-                        coronaTestQRCode = coronaTestQRCode,
+                        coronaTestQRCode = testQRCode,
                         consentGiven = isConsentGiven
                     )
                 )
-            } else {
-                if (isConsentGiven) {
-                    analyticsKeySubmissionCollector.reportAdvancedConsentGiven(coronaTestQRCode.type)
+
+                else -> if (testQRCode is CoronaTestQRCode.RapidAntigen && !testQRCode.isDccSupportedByPoc) {
+                    if (isConsentGiven) analyticsKeySubmissionCollector.reportAdvancedConsentGiven(testQRCode.type)
+                    qrCodeRegistrationStateProcessor.startQrCodeRegistration(testQRCode, isConsentGiven)
+                } else {
+                    events.postValue(
+                        SubmissionNavigationEvents.NavigateToRequestDccFragment(testQRCode, isConsentGiven)
+                    )
                 }
-                qrCodeRegistrationStateProcessor.startQrCodeRegistration(coronaTestQRCode, isConsentGiven)
             }
         } catch (err: InvalidQRCodeException) {
             qrCodeValidationState.postValue(QrCodeRegistrationStateProcessor.ValidationState.INVALID)
         }
     }
 
-    fun onBackPressed() {
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToConsent)
-    }
+    fun onBackPressed() = events.postValue(SubmissionNavigationEvents.NavigateToConsent)
 
-    fun onClosePressed() {
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToDispatcher)
-    }
+    fun onClosePressed() = events.postValue(SubmissionNavigationEvents.NavigateToDispatcher)
 
     fun setCameraDeniedPermanently(denied: Boolean) {
         Timber.d("setCameraDeniedPermanently(denied=$denied)")
