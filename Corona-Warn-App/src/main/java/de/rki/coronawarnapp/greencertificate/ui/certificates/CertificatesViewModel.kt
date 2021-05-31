@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.VaccinationSettings
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.vaccination.ui.cards.BottomInfoVaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.CreateVaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.HeaderInfoVaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.ImmuneVaccinationCard
@@ -67,6 +68,7 @@ class CertificatesViewModel @AssistedInject constructor(
                         }
                     )
                 )
+                add(BottomInfoVaccinationCard.Item)
             }
         }.asLiveData()
 

@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
 
+    <!-- XTXT: Green certificate main screen title -->
     <string name="certification_screen_title">Nachweise</string>
+    <!-- XTXT: Green certificate menu item -->
     <string name="menu_certification_information">Information</string>
+    <!-- XTXT: Green certificate main screen header text -->
     <string name="green_certification_header_info">Hier werden ihre digitalen Impfzertifikate und Testzertifikate angezeigt.</string>
+    <!-- XTXT: Green certificate info card title 1st line -->
+    <string name="info_banner_title_1">Digitales</string>
+    <!-- XTXT: Green certificate info card title 2nd line  -->
+    <string name="info_banner_title_2">COVID-19-Testzertifikat</string>
+    <!-- XTXT: Green certificate info card body  -->
+    <string name="info_banner_body">Registrieren Sie einen Test auf der Startseite und stimmen Sie zu, ein digitales Testzertifikat zu erhalten. Sobald das Zertifikat vorliegt, wird es hier angezeigt.</string>
 
 </resources>

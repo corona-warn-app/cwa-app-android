@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.util.lists.modular.ModularAdapter
 import de.rki.coronawarnapp.util.lists.modular.mods.DataBinderMod
 import de.rki.coronawarnapp.util.lists.modular.mods.StableIdMod
 import de.rki.coronawarnapp.util.lists.modular.mods.TypedVHCreatorMod
+import de.rki.coronawarnapp.vaccination.ui.cards.BottomInfoVaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.CreateVaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.HeaderInfoVaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.ImmuneVaccinationCard
@@ -35,6 +36,7 @@ class CertificatesAdapter :
                 },
                 TypedVHCreatorMod({ data[it] is CreateVaccinationCard.Item }) { CreateVaccinationCard(it) },
                 TypedVHCreatorMod({ data[it] is HeaderInfoVaccinationCard.Item }) { HeaderInfoVaccinationCard(it) },
+                TypedVHCreatorMod({ data[it] is BottomInfoVaccinationCard.Item }) { BottomInfoVaccinationCard(it) },
             )
         )
     }
