@@ -28,6 +28,7 @@ class GreenCertificateDetailsViewModel @AssistedInject constructor(
 
     fun openFullScreen() = qrCodeText?.let { events.postValue(GreenCertificateDetailsNavigation.FullQrCode(it)) }
 
+    /* TODO: Adapt to Green Certificate */
     private fun generateQrCode(certificate: VaccinationCertificate?) = launch {
         try {
             mutableStateFlow.value = certificate?.let {

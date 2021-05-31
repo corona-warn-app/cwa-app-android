@@ -13,7 +13,7 @@ abstract class GreenCertificateDetailsModule {
     @Binds
     @IntoMap
     @CWAViewModelKey(GreenCertificateDetailsViewModel::class)
-    abstract fun vaccinationDetailsFragment(
+    abstract fun greenCertificateDetailsFragment(
         factory: GreenCertificateDetailsViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }
