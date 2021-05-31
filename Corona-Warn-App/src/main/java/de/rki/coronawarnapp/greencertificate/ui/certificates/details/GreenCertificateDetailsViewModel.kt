@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
 import kotlinx.coroutines.flow.MutableStateFlow
 import timber.log.Timber
 
@@ -29,10 +28,9 @@ class GreenCertificateDetailsViewModel @AssistedInject constructor(
     fun openFullScreen() = qrCodeText?.let { events.postValue(GreenCertificateDetailsNavigation.FullQrCode(it)) }
 
     /* TODO: Adapt to Green Certificate */
-     fun generateQrCode() = launch {
+    fun generateQrCode() = launch {
         try {
             mutableStateFlow.value = qrCodeGenerator.createQrCode("Sample String")
-
         } catch (e: Exception) {
             Timber.d(e, "generateQrCode failed for greenCertificate=%s", "Sample Certificate")
             mutableStateFlow.value = null

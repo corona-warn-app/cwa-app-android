@@ -47,8 +47,7 @@
                     android:textColor="@android:color/white"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:text="Digitales COVID-19-Testzertifikat"
-                    tools:text="Digitales COVID-19-Testzertifikat" />
+                    android:text="@string/detail_green_certificate_title"/>
 
                 <TextView
                     android:id="@+id/subtitle"
@@ -58,10 +57,9 @@
                     android:layout_marginHorizontal="24dp"
                     android:layout_marginBottom="8dp"
                     android:gravity="center"
-                    android:text="SARS-CoV-2-Test"
+                    android:text="@string/detail_green_certificate_test_type"
                     android:textColor="@android:color/white"
-                    android:textSize="18sp"
-                    tools:text="SARS-CoV-2-Test"/>
+                    android:textSize="18sp"/>
 
             </LinearLayout>
 
