@@ -180,4 +180,22 @@
     <string name="vaccination_privacy_card_third_bulletpoint_title_text" translatable="false">"Wenn Sie den QR-Code in der App vorzeigen und dieser mit der Prüf-App gescannt wird, können andere Personen nachvollziehen, ob Ihr Impfschutz vollständig ist. Bei der Prüfung werden in der offiziellen Prüf-App auch Ihr Name und Ihr Geburtsdatum angezeigt."</string>
     <!-- XTXT: First bulletpoint title for privacy card -->
     <string name="vaccination_privacy_card_fourth_bulletpoint_title_text" translatable="false">"Sie haben jederzeit die Möglichkeit, Impfzertifikate in der App wieder zu entfernen. Bis dahin bleiben die Impfzertifikate auf Ihrem Smartphone gespeichert."</string>
+
+    <!--    Green Certificate -->
+    <!-- XTXT: Request GC title for privacy card -->
+    <string name="request_green_certificate_privacy_title">Datenschutz und Datensicherheit</string>
+    <!-- XTXT: Request GC bullet point 1 for privacy card -->
+    <string name="request_green_certificate_privacy_section_1" translatable="false">Die Anforderung und Verwendung des digitalen COVID-19-Testzertifikats ist freiwillig. Der Nachweis eines negativen Testzertifikats kann auch auf andere Weise erbracht werden.</string>
+    <!-- XTXT: Request GC bullet point 3 for privacy card -->
+    <string name="request_green_certificate_privacy_section_2" translatable="false">Zur Erstellung Ihres Testzertifikats werden Daten einmalig verschlüsselt an das RKI übermittelt. Das RKI signiert die Daten elektronisch, um die Gültigkeit zu bestätigen. Die Daten werden beim RKI nicht gespeichert.</string>
+    <!-- XTXT: Request GC extra bullet point PCR test  for privacy card -->
+    <string name="request_green_certificate_privacy_pcr_extra_section" translatable="false">Um sicherzustellen, dass niemand mit Ihrem QR-Code Ihr Testergebnis abrufen kann, wird es mit Ihrem Geburtsdatum geschützt. Ihr Geburtsdatum wird verschlüsselt an das Labor übermittelt, um das Testergebnis abzurufen.</string>
+    <!-- XTXT: Request GC bullet point 3 for privacy card -->
+    <string name="request_green_certificate_privacy_section_3" translatable="false">Das COVID-19-Testzertifikat enthält die Daten über Ihren Corona-Test. Zum Nachweis des negativen Testergebnisses in den gesetzlich vorgesehenen Fällen genügt das Vorzeigen des QR-Codes in der App. Stellen Sie das Testzertifikat niemandem zur Verfügung, wenn Sie nicht wollen, dass die Daten ausgelesen werden.</string>
+    <!-- XTXT: Request GC bullet point 4 for privacy card -->
+    <string name="request_green_certificate_privacy_section_4" translatable="false">Wenn Sie den QR-Code des Testzertifikats in der App vorzeigen und dieser mit der Prüf-App gescannt wird, können andere Personen Ihr Testergebnis nachvollziehen. Bei der Prüfung werden in der offiziellen Prüf-App auch Ihr Name und Ihr Geburtsdatum angezeigt.</string>
+    <!-- XTXT: Request GC bullet point 5 for privacy card -->
+    <string name="request_green_certificate_privacy_section_5" translatable="false">Sie haben jederzeit die Möglichkeit, Testzertifikate in der App wieder zu entfernen. Bis dahin bleiben die Testzertifikate auf Ihrem Smartphone gespeichert.</string>    <!-- XTXT: Request GC bullet point 1 for privacy card -->
+    <!-- XTXT: Request GC legal information section for privacy card -->
+    <string name="request_green_certificate_privacy_legal_information" translatable="false">Ausführliche Hinweise zur Datenverarbeitung finden Sie in der Datenschutzerklärung</string>
 </resources>

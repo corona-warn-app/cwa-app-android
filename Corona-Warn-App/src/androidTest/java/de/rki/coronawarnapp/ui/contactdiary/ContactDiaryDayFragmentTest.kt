@@ -28,30 +28,19 @@ import kotlinx.coroutines.test.TestCoroutineScope
 import org.joda.time.LocalDate
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.selectTabAtPosition
 import testhelpers.takeScreenshot
-import tools.fastlane.screengrab.locale.LocaleTestRule
-import tools.fastlane.screengrab.locale.LocaleUtil
 import java.util.Locale
 
 @RunWith(AndroidJUnit4::class)
 class ContactDiaryDayFragmentTest : BaseUITest() {
-
-    @Rule
-    @JvmField
-    val localeTestRule = LocaleTestRule()
-
-    @get:Rule
-    val systemUIDemoModeRule = SystemUIDemoModeRule()
 
     @MockK lateinit var contactDiaryRepository: ContactDiaryRepository
 
@@ -69,7 +58,7 @@ class ContactDiaryDayFragmentTest : BaseUITest() {
 
         every { viewModel.uiState } returns MutableLiveData(
             ContactDiaryDayViewModel.UIState(
-                dayText = { LocalDate.now().toFormattedDay(LocaleUtil.getTestLocale() ?: Locale.getDefault()) },
+                dayText = { LocalDate.now().toFormattedDay(Locale.getDefault()) },
                 dayTextContentDescription = { "Description" }
             )
         )

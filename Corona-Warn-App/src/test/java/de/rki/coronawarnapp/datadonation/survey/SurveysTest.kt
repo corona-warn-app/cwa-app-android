@@ -67,7 +67,7 @@ internal class SurveysTest : BaseTest() {
     }
 
     @Test
-    fun `isConsentNeeded() should return Needed when an authorized otp was invalidated due to a risk change from high to low risk`() =
+    fun `isConsentNeeded() returns Needed when an auth-otp was invalidated due to a risk change from high to low`() =
         runBlockingTest {
             every { oneTimePasswordRepo.otpAuthorizationResult } returns OTPAuthorizationResult(
                 UUID.randomUUID(),

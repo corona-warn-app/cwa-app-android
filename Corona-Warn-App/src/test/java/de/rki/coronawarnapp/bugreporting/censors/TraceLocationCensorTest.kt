@@ -19,6 +19,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
+@Suppress("MaxLineLength")
 internal class TraceLocationCensorTest : BaseTest() {
 
     @MockK lateinit var traceLocationRepo: TraceLocationRepository

@@ -51,10 +51,13 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
         mockCachedHour("EUR".loc, "2020-01-04".day, "01:00".hour)
 
         val instance = createInstance()
-        instance.syncMissingHourPackages(listOf("EUR".loc), false) shouldBe BaseKeyPackageSyncTool.SyncResult(
-            successful = true,
-            newPackages = keyRepoData.values.filter { it.info.type == Type.LOCATION_HOUR && it.info.hour != "01:00".hour }
-        )
+        instance.syncMissingHourPackages(listOf("EUR".loc), false) shouldBe
+            BaseKeyPackageSyncTool.SyncResult(
+                successful = true,
+                newPackages = keyRepoData.values.filter {
+                    it.info.type == Type.LOCATION_HOUR && it.info.hour != "01:00".hour
+                }
+            )
 
         coVerifySequence {
             configProvider.getAppConfig()
@@ -93,10 +96,13 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
         )
 
         val instance = createInstance()
-        instance.syncMissingHourPackages(listOf("EUR".loc), false) shouldBe BaseKeyPackageSyncTool.SyncResult(
-            successful = true,
-            newPackages = keyRepoData.values.filter { it.info.type == Type.LOCATION_HOUR && it.info.hour != "01:00".hour }
-        )
+        instance.syncMissingHourPackages(listOf("EUR".loc), false) shouldBe
+            BaseKeyPackageSyncTool.SyncResult(
+                successful = true,
+                newPackages = keyRepoData.values.filter {
+                    it.info.type == Type.LOCATION_HOUR && it.info.hour != "01:00".hour
+                }
+            )
 
         coVerifySequence {
             configProvider.getAppConfig()
@@ -156,10 +162,13 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
         }
 
         val instance = createInstance()
-        instance.syncMissingHourPackages(listOf("EUR".loc), false) shouldBe BaseKeyPackageSyncTool.SyncResult(
-            successful = false,
-            newPackages = keyRepoData.values.filter { it.info.type == Type.LOCATION_HOUR && it.info.hour != "01:00".hour }
-        )
+        instance.syncMissingHourPackages(listOf("EUR".loc), false) shouldBe
+            BaseKeyPackageSyncTool.SyncResult(
+                successful = false,
+                newPackages = keyRepoData.values.filter {
+                    it.info.type == Type.LOCATION_HOUR && it.info.hour != "01:00".hour
+                }
+            )
 
         coVerifySequence {
             configProvider.getAppConfig()

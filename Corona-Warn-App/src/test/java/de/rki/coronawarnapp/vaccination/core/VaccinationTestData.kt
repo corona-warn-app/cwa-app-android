@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationConta
 import org.joda.time.Instant
 import javax.inject.Inject
 
+@Suppress("MaxLineLength")
 class VaccinationTestData @Inject constructor(
     private var qrCodeExtractor: VaccinationQRCodeExtractor,
 ) {

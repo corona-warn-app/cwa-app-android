@@ -42,12 +42,18 @@ class FormatterSubmissionHelperTest : BaseTest() {
 
         every { CoronaWarnApplication.getAppContext() } returns context
 
-        every { context.getString(R.string.test_result_card_status_positive) } returns R.string.test_result_card_status_positive.toString()
-        every { context.getString(R.string.test_result_card_status_negative) } returns R.string.test_result_card_status_negative.toString()
-        every { context.getString(R.string.test_result_card_status_invalid) } returns R.string.test_result_card_status_invalid.toString()
-        every { context.getString(R.string.test_result_card_virus_name_text) } returns R.string.test_result_card_virus_name_text.toString()
-        every { context.getString(R.string.test_result_card_status_pending) } returns R.string.test_result_card_status_pending.toString()
-        every { context.getString(R.string.test_result_card_status_invalid) } returns R.string.test_result_card_status_invalid.toString()
+        every { context.getString(R.string.test_result_card_status_positive) } returns
+            R.string.test_result_card_status_positive.toString()
+        every { context.getString(R.string.test_result_card_status_negative) } returns
+            R.string.test_result_card_status_negative.toString()
+        every { context.getString(R.string.test_result_card_status_invalid) } returns
+            R.string.test_result_card_status_invalid.toString()
+        every { context.getString(R.string.test_result_card_virus_name_text) } returns
+            R.string.test_result_card_virus_name_text.toString()
+        every { context.getString(R.string.test_result_card_status_pending) } returns
+            R.string.test_result_card_status_pending.toString()
+        every { context.getString(R.string.test_result_card_status_invalid) } returns
+            R.string.test_result_card_status_invalid.toString()
 
         with(context) {
             every { getColorCompat(R.color.colorTextSemanticGreen) } returns R.color.colorTextSemanticGreen
@@ -64,15 +70,22 @@ class FormatterSubmissionHelperTest : BaseTest() {
             every { getDrawableCompat(R.drawable.ic_test_result_illustration_negative) } returns drawable
         }
 
-        every { context.getString(R.string.submission_status_card_title_available) } returns R.string.submission_status_card_title_available.toString()
-        every { context.getString(R.string.submission_status_card_title_pending) } returns R.string.submission_status_card_title_pending.toString()
+        every { context.getString(R.string.submission_status_card_title_available) } returns
+            R.string.submission_status_card_title_available.toString()
+        every { context.getString(R.string.submission_status_card_title_pending) } returns
+            R.string.submission_status_card_title_pending.toString()
 
-        every { context.getString(R.string.submission_status_card_body_invalid) } returns R.string.submission_status_card_body_invalid.toString()
-        every { context.getString(R.string.submission_status_card_body_negative) } returns R.string.submission_status_card_body_negative.toString()
-        every { context.getString(R.string.submission_status_card_body_positive) } returns R.string.submission_status_card_body_positive.toString()
-        every { context.getString(R.string.submission_status_card_body_pending) } returns R.string.submission_status_card_body_pending.toString()
+        every { context.getString(R.string.submission_status_card_body_invalid) } returns
+            R.string.submission_status_card_body_invalid.toString()
+        every { context.getString(R.string.submission_status_card_body_negative) } returns
+            R.string.submission_status_card_body_negative.toString()
+        every { context.getString(R.string.submission_status_card_body_positive) } returns
+            R.string.submission_status_card_body_positive.toString()
+        every { context.getString(R.string.submission_status_card_body_pending) } returns
+            R.string.submission_status_card_body_pending.toString()
 
-        every { context.getString(R.string.submission_status_card_button_show_results) } returns R.string.submission_status_card_button_show_results.toString()
+        every { context.getString(R.string.submission_status_card_button_show_results) } returns
+            R.string.submission_status_card_button_show_results.toString()
     }
 
     private fun formatTestResultStatusTextBase(
@@ -107,7 +120,8 @@ class FormatterSubmissionHelperTest : BaseTest() {
 
         every { SpannableStringBuilder().append(any<String>()) } returns spannableStringBuilder1
         every { spannableStringBuilder1.append("\n") } returns spannableStringBuilder2
-        every { context.getString(R.string.test_result_card_virus_name_text) } returns R.string.test_result_card_virus_name_text.toString()
+        every { context.getString(R.string.test_result_card_virus_name_text) } returns
+            R.string.test_result_card_virus_name_text.toString()
         every {
             spannableStringBuilder2.append(
                 any<String>(),
