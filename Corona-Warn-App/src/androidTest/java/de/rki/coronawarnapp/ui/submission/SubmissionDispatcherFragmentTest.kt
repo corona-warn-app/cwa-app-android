@@ -80,9 +80,10 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
 
     @Test
     fun testEventQRClicked() {
-        launchFragmentInContainer<SubmissionDispatcherFragment>().onFragment {
-            Navigation.setViewNavController(it.requireView(), navController)
-        }
+        launchFragmentInContainer<SubmissionDispatcherFragment>(themeResId = R.style.AppTheme_Main)
+            .onFragment {
+                Navigation.setViewNavController(it.requireView(), navController)
+            }
         onView(withId(R.id.submission_dispatcher_qr))
             .perform(scrollTo())
             .perform(click())
@@ -90,9 +91,10 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
 
     @Test
     fun testEventTeleClicked() {
-        launchFragmentInContainer<SubmissionDispatcherFragment>().onFragment {
-            Navigation.setViewNavController(it.requireView(), navController)
-        }
+        launchFragmentInContainer<SubmissionDispatcherFragment>(themeResId = R.style.AppTheme_Main)
+            .onFragment {
+                Navigation.setViewNavController(it.requireView(), navController)
+            }
         onView(withId(R.id.submission_dispatcher_tan_tele))
             .perform(scrollTo())
             .perform(click())
@@ -100,9 +102,10 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
 
     @Test
     fun testEventTanClicked() {
-        launchFragmentInContainer<SubmissionDispatcherFragment>().onFragment {
-            Navigation.setViewNavController(it.requireView(), navController)
-        }
+        launchFragmentInContainer<SubmissionDispatcherFragment>(themeResId = R.style.AppTheme_Main)
+            .onFragment {
+                Navigation.setViewNavController(it.requireView(), navController)
+            }
         onView(withId(R.id.submission_dispatcher_tan_code))
             .perform(scrollTo())
             .perform(click())
