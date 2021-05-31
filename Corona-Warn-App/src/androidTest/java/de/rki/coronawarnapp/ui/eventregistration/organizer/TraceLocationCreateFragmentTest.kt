@@ -72,6 +72,7 @@ class TraceLocationCreateFragmentTest : BaseUITest() {
     @Test
     fun duplicateEventWithSameDatesTest() {
         launchFragmentInContainer<TraceLocationCreateFragment>(
+            themeResId = R.style.AppTheme_Main,
             fragmentArgs = TraceLocationCreateFragmentArgs(
                 category = TraceLocationData.categoryEvent,
                 originalItem = TraceLocationData.traceLocationSameDate
@@ -91,6 +92,7 @@ class TraceLocationCreateFragmentTest : BaseUITest() {
     @Test
     fun duplicateEventWithDifferentDatesTest() {
         launchFragmentInContainer<TraceLocationCreateFragment>(
+            themeResId = R.style.AppTheme_Main,
             fragmentArgs = TraceLocationCreateFragmentArgs(
                 category = TraceLocationData.categoryEvent,
                 originalItem = TraceLocationData.traceLocationDifferentDate
