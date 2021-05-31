@@ -43,7 +43,6 @@ class GreenCertificateDetailsFragment : Fragment(R.layout.fragment_greencertific
 
     private fun setToolbarOverlay() {
         val width = requireContext().resources.displayMetrics.widthPixels
-
         val params: CoordinatorLayout.LayoutParams = binding.scrollView.layoutParams
             as (CoordinatorLayout.LayoutParams)
 
