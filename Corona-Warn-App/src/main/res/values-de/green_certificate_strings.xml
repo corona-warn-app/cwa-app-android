@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
-
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- XTXT: Request green certificate title -->
+    <string name="request_green_certificate_title">COVID-19-Testzertifikat</string>
+    <!-- XTXT: Request green certificate subtitle -->
+    <string name="request_green_certificate_subtitle">Sie können über die App ein offizielles digitales Testzertifikat anfordern, das anschließend in der App hinzugefügt wird.</string>
+    <!-- XTXT: Request green certificate body section 1 -->
+    <string name="request_green_certificate_body_1">Das Testzertifikat wird nur bei einem negativen Testergebnis ausgestellt.</string>
+    <!-- XTXT: Request green certificate body section 2 -->
+    <string name="request_green_certificate_body_2">Das Testzertifikat gilt innerhalb der EU als gültiger Nachweis eines negativen Testergebnisses (z.B. für Reisen).</string>
+    <!-- XTXT: Request green certificate body section 3 -->
+    <string name="request_green_certificate_body_3">Das Testzertifikat enthält Daten, die der Prüf-App die Validierung Ihres Zertifikats erlauben.</string>
+    <!-- XBUT: Request green certificate agree button -->
+    <string name="request_green_certificate_agree_button">Testzertifikat Anfordern</string>
+    <!-- XBUT: Request green certificate disagree button -->
+    <string name="request_green_certificate_disagree_button">Nein Danke</string>
+    <!-- XTXT: Request green certificate birth date description -->
+    <string name="request_green_certificate_birthdate_description">Zur Sicherheit wird Ihr Testergebnis mit Ihrem Geburtsdatum geschützt. Das Testergebnis kann nur bei korrekt angegebenem Geburtstdatum zugestellt werden.</string>
+    <!-- XTXT: Request green certificate birth date hint -->
+    <string name="request_green_certificate_birthdate_hint">Geburtsdatum</string>
+    <!-- XTXT: Request green certificate exit dialog title -->
+    <string name="request_gc_dialog_title">Registrierung abbrechen</string>
+    <!-- XTXT: Request green certificate exit dialog message -->
+    <string name="request_gc_dialog_message">Wenn Sie die Test-Registrierung abbrechen, können Sie Ihr Testergebnis nicht in der App erhalten.</string>
+    <!-- XBUT: Request green certificate exit dialog negative button -->
+    <string name="request_gc_dialog_positive_button">OK</string>
+    <!-- XBUT: Request green certificate exit dialog negative button -->
+    <string name="request_gc_dialog_negative_button">Abbrechen</string>
     <!-- XTXT: Green certificate main screen title -->
     <string name="certification_screen_title">Nachweise</string>
     <!-- XTXT: Green certificate menu item -->
@@ -13,5 +38,4 @@
     <string name="info_banner_title_2">COVID-19-Testzertifikat</string>
     <!-- XTXT: Green certificate info card body  -->
     <string name="info_banner_body">Registrieren Sie einen Test auf der Startseite und stimmen Sie zu, ein digitales Testzertifikat zu erhalten. Sobald das Zertifikat vorliegt, wird es hier angezeigt.</string>
-
 </resources>

@@ -8,6 +8,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.RatProfileCreateFragmentBinding
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -80,7 +81,7 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
                 addOnPositiveButtonClickListener { timestamp ->
                     val localDate = LocalDate(timestamp)
                     binding.birthDateInputEdit.setText(
-                        localDate.toString("dd.MM.yyyy")
+                        localDate.toDayFormat()
                     )
                     viewModel.birthDateChanged(localDate)
                 }

@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherViewMode
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.findNestedGraph
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -61,9 +62,7 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                 }
 
                 is SubmissionNavigationEvents.NavigateToOpenProfile -> {
-                    val ratGraph = findNavController().graph.findNode(R.id.rapid_test_profile_nav_graph) as NavGraph
-                    ratGraph.startDestination = R.id.ratProfileQrCodeFragment
-
+                    findNestedGraph(R.id.rapid_test_profile_nav_graph).startDestination = R.id.ratProfileQrCodeFragment
                     doNavigate(
                         SubmissionDispatcherFragmentDirections
                             .actionSubmissionDispatcherFragmentToRapidTestProfileNavGraph()
