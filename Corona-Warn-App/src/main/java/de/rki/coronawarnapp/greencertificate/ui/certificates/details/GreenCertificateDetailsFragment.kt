@@ -26,6 +26,9 @@ class GreenCertificateDetailsFragment : Fragment(R.layout.fragment_greencertific
         with(binding) {
             toolbar.setNavigationOnClickListener { popBackStack() }
 
+            qrCodeCard.title.text = getString(R.string.detail_green_certificate_card_title)
+            qrCodeCard.subtitle.text = "Test durchgeführt am 12.05.21 18:01" //will be changed
+
             appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
                 title.alpha = titleAlpha
                 subtitle.alpha = subtitleAlpha

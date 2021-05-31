@@ -30,4 +30,6 @@
     <string name="detail_green_certificate_title">EU Digitales COVID-Testzertifikat</string>
     <!-- XTXT: Detail green certificate test type -->
     <string name="detail_green_certificate_test_type">SARS-CoV-2-Test</string>
+    <!-- XTXT: Detail green certificate card title -->
+    <string name="detail_green_certificate_card_title">"Testzertifikat"</string>
 </resources>

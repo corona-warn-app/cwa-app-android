@@ -108,7 +108,7 @@
 
             <include
                 android:id="@+id/qr_code_card"
-                layout="@layout/greencertificate_qrcode_card"
+                layout="@layout/include_certificate_qrcode_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
