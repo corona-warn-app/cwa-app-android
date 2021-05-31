@@ -13,7 +13,6 @@ import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
-import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
