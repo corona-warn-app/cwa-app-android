@@ -256,7 +256,6 @@ class VerificationServerTest : BaseIOTest() {
         api.retrieveTanFake()
         webServer.takeRequest().also { requests.add(it) }.bodySize shouldBe 250L
 
-
         requests.zipWithNext().forEach { (a, b) ->
             Timber.i("Header a: %s", a.requestHeaderWithoutContentLength().replace('\n', ' '))
             Timber.i("Header b: %s", b.requestHeaderWithoutContentLength().replace('\n', ' '))
