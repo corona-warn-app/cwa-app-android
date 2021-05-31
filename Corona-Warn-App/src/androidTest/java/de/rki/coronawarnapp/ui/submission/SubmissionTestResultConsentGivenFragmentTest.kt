@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.submission
 
+import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.Navigation
 import androidx.navigation.testing.TestNavHostController
@@ -101,7 +102,7 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
 
     @Test
     fun testEventConsentGivenContinueWithSymptomsClicked() {
-        launchFragmentInContainer2<SubmissionTestResultConsentGivenFragment>(consentGivenFragmentArgs).onFragment { fragment ->
+        launchFragmentInContainer<SubmissionTestResultConsentGivenFragment>(consentGivenFragmentArgs).onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), navController)
         }
         // Verify that performing a click prompts the correct Navigation action
