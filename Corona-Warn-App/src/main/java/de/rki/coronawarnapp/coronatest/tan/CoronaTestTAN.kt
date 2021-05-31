@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
+import org.joda.time.LocalDate
 
 sealed class CoronaTestTAN : Parcelable, TestRegistrationRequest {
 
@@ -20,15 +21,17 @@ sealed class CoronaTestTAN : Parcelable, TestRegistrationRequest {
         override val tan: TestTAN,
     ) : CoronaTestTAN() {
 
-        @IgnoredOnParcel override val type: CoronaTest.Type = CoronaTest.Type.PCR
-    }
+        @IgnoredOnParcel
+        override val type: CoronaTest.Type = CoronaTest.Type.PCR
 
-    @Parcelize
-    data class RapidAntigen(
-        override val tan: TestTAN,
-    ) : CoronaTestTAN() {
+        @IgnoredOnParcel
+        override val isDccSupportedbyPoc: Boolean = false
 
-        @IgnoredOnParcel override val type: CoronaTest.Type = CoronaTest.Type.RAPID_ANTIGEN
+        @IgnoredOnParcel
+        override val isDccConsentGiven: Boolean = false
+
+        @IgnoredOnParcel
+        override val dateOfBirth: LocalDate? = null
     }
 }
 
