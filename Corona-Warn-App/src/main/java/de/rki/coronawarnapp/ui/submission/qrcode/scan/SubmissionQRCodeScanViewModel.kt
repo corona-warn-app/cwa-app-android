@@ -56,6 +56,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
                 }
             }
         } catch (err: InvalidQRCodeException) {
+            Timber.d(err, "Invalid QrCode")
             qrCodeValidationState.postValue(QrCodeRegistrationStateProcessor.ValidationState.INVALID)
         }
     }
