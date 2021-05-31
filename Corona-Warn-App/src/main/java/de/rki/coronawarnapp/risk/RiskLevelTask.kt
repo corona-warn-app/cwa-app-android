@@ -93,8 +93,10 @@ class RiskLevelTask @Inject constructor(
 
         if (!configData.isDeviceTimeCorrect) {
             Timber.w("Device time is incorrect, offset: %s", configData.localOffset)
+            val currentServerTime = nowUTC.minus(configData.localOffset)
+            Timber.d("Calculated current server time: %s", currentServerTime)
             return EwRiskLevelTaskResult(
-                calculatedAt = nowUTC,
+                calculatedAt = currentServerTime,
                 failureReason = FailureReason.INCORRECT_DEVICE_TIME
             )
         }
