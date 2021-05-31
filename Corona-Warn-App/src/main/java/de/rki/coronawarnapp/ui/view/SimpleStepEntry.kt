@@ -16,16 +16,25 @@ class SimpleStepEntry @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : StepEntry(context, attrs, defStyleAttr) {
 
+    private lateinit var entryTitle: TextView
+    private lateinit var entryText: TextView
+
     init {
         inflate(context, R.layout.include_step_entry_simple_body, this)
 
         context.withStyledAttributes(attrs, R.styleable.SimpleStepEntry) {
-            findViewById<TextView>(R.id.simple_step_entry_title).text =
-                getText(R.styleable.SimpleStepEntry_simple_step_entry_title)
+            entryTitle = findViewById(R.id.simple_step_entry_title)
+            setEntryTitle(getText(R.styleable.SimpleStepEntry_simple_step_entry_title))
 
-            val body = findViewById<TextView>(R.id.simple_step_entry_body)
-            body.text = getText(R.styleable.SimpleStepEntry_simple_step_entry_text)
-            if (body.text.isEmpty()) body.visibility = View.GONE
+            entryText = findViewById(R.id.simple_step_entry_body)
+            setEntryText(getText(R.styleable.SimpleStepEntry_simple_step_entry_text))
         }
+    }
+
+    fun setEntryTitle(newText: CharSequence) = entryTitle.apply { text = newText }
+
+    fun setEntryText(newText: CharSequence) = entryText.apply {
+        text = newText
+        visibility = if (text.isEmpty()) View.GONE else View.VISIBLE
     }
 }
