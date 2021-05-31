@@ -13,7 +13,7 @@ class TestCertificateQRCodeExtractor @Inject constructor() {
     fun extract(
         decryptionKey: ByteArray,
         encryptedCoseComponents: ByteString,
-    ): TestCertificateData {
+    ): TestCertificateQRCode {
         throw NotImplementedError()
     }
 
