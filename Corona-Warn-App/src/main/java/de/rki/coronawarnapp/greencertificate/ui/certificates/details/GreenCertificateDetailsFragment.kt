@@ -28,15 +28,16 @@ class GreenCertificateDetailsFragment : Fragment(R.layout.fragment_greencertific
             toolbar.setNavigationOnClickListener { popBackStack() }
 
             qrCodeCard.title.text = getString(R.string.detail_green_certificate_card_title)
-            qrCodeCard.subtitle.text = "Test durchgeführt am 12.05.21 18:01" //will be changed
+            qrCodeCard.subtitle.text = "Test durchgeführt am 12.05.21 18:01" // will be changed
 
             appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
                 title.alpha = titleAlpha
                 subtitle.alpha = subtitleAlpha
             }
 
-            if (travelNoticeGerman.text == requireContext()
-                    .getString(R.string.green_certificate_attribute_certificate_travel_notice_german)) {
+            if (travelNoticeGerman.text ==
+                requireContext().getString(R.string.green_certificate_attribute_certificate_travel_notice_german)
+            ) {
                 travelNoticeGerman.setUrl(
                     R.string.green_certificate_attribute_certificate_travel_notice_german,
                     R.string.green_certificate_travel_notice_link_de,
@@ -44,8 +45,9 @@ class GreenCertificateDetailsFragment : Fragment(R.layout.fragment_greencertific
                 )
             }
 
-            if (travelNoticeEnglish.text == requireContext()
-                    .getString(R.string.green_certificate_attribute_certificate_travel_notice_english)) {
+            if (travelNoticeEnglish.text ==
+                requireContext().getString(R.string.green_certificate_attribute_certificate_travel_notice_english)
+            ) {
                 travelNoticeEnglish.setUrl(
                     R.string.green_certificate_attribute_certificate_travel_notice_english,
                     R.string.green_certificate_travel_notice_link_en,
