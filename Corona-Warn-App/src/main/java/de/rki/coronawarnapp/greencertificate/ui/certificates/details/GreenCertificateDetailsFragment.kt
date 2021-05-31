@@ -35,8 +35,8 @@ class GreenCertificateDetailsFragment : Fragment(R.layout.fragment_greencertific
                 subtitle.alpha = subtitleAlpha
             }
 
-            if (travelNoticeGerman.text ==
-                requireContext().getString(R.string.green_certificate_attribute_certificate_travel_notice_german)) {
+            if (travelNoticeGerman.text == requireContext()
+                    .getString(R.string.green_certificate_attribute_certificate_travel_notice_german)) {
                 travelNoticeGerman.setUrl(
                     R.string.green_certificate_attribute_certificate_travel_notice_german,
                     R.string.green_certificate_travel_notice_link_de,
@@ -44,8 +44,8 @@ class GreenCertificateDetailsFragment : Fragment(R.layout.fragment_greencertific
                 )
             }
 
-            if (travelNoticeEnglish.text ==
-                requireContext().getString(R.string.green_certificate_attribute_certificate_travel_notice_english)) {
+            if (travelNoticeEnglish.text == requireContext()
+                    .getString(R.string.green_certificate_attribute_certificate_travel_notice_english)) {
                 travelNoticeEnglish.setUrl(
                     R.string.green_certificate_attribute_certificate_travel_notice_english,
                     R.string.green_certificate_travel_notice_link_en,
