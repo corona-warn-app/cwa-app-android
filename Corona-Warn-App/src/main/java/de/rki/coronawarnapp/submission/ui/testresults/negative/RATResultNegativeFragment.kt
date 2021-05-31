@@ -65,12 +65,30 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
             }
         }
 
-        val localTime = testAge.test.testedAt.toUserTimeZone()
+        val localTime = testAge.test.testTakenAt.toUserTimeZone()
         resultReceivedTimeAndDate.text = getString(
             R.string.coronatest_negative_antigen_result_time_date_placeholder,
             localTime?.toString(DATE_FORMAT),
             localTime?.toString(shortTime)
         )
+
+        val isAnonymousTest = with(testAge.test) {
+            firstName == null && lastName == null && dateOfBirth == null
+        }
+
+        val titleString = if (isAnonymousTest) {
+            R.string.submission_test_result_antigen_negative_proof_title_anonymous
+        } else {
+            R.string.submission_test_result_antigen_negative_proof_title
+        }
+        negativeTestProofTitle.text = getString(titleString)
+
+        val proofBodyString = if (isAnonymousTest) {
+            R.string.submission_test_result_antigen_negative_proof_body_anonymous
+        } else {
+            R.string.submission_test_result_antigen_negative_proof_body
+        }
+        negativeTestProofBody.text = getString(proofBodyString)
     }
 
     companion object {
