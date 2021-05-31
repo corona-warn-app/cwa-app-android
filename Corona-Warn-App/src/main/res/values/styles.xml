@@ -362,6 +362,10 @@
         <item name="android:textColor">@color/colorTextPrimary1</item>
     </style>
 
+    <style name="body1Medium" parent="@style/TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/colorTextPrimary2</item>
+    </style>
+
     <style name="body2" parent="@style/TextAppearance.MaterialComponents.Body2">
         <item name="android:textColor">@color/colorTextPrimary1</item>
     </style>

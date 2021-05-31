@@ -124,7 +124,7 @@
                 android:padding="16dp">
 
                 <TextView
-                    style="@style/body1"
+                    style="@style/body1Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
@@ -139,7 +139,7 @@
                     tools:text="Andrea Schneider" />
 
                 <TextView
-                    style="@style/body1"
+                    style="@style/body1Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
@@ -147,7 +147,7 @@
 
                 <TextView
                     android:id="@+id/birth_date"
-                    style="@style/body2Medium"
+                    style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -155,7 +155,7 @@
                     tools:text="geboren 18.04.1943" />
 
                 <TextView
-                    style="@style/body1"
+                    style="@style/body1Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
@@ -163,7 +163,7 @@
 
                 <TextView
                     android:id="@+id/disease_type"
-                    style="@style/body2Medium"
+                    style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -171,7 +171,7 @@
                     tools:text="SARS-CoV-2" />
 
                 <TextView
-                    style="@style/body1"
+                    style="@style/body1Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
@@ -179,7 +179,7 @@
 
                 <TextView
                     android:id="@+id/test_type"
-                    style="@style/body2Medium"
+                    style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -187,7 +187,7 @@
                     tools:text="Rapid Antigen Test" />
 
                 <TextView
-                    style="@style/body1"
+                    style="@style/body1Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
@@ -195,7 +195,7 @@
 
                 <TextView
                     android:id="@+id/medical_product_name"
-                    style="@style/body2Medium"
+                    style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -203,7 +203,7 @@
                     tools:text="Xep" />
 
                 <TextView
-                    style="@style/body1"
+                    style="@style/body1Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
@@ -211,7 +211,7 @@
 
                 <TextView
                     android:id="@+id/test_manufacturer"
-                    style="@style/body2Medium"
+                    style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -219,7 +219,7 @@
                     tools:text="Xup" />
 
                 <TextView
-                    style="@style/body1"
+                    style="@style/body1Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
@@ -227,7 +227,7 @@
 
                 <TextView
                     android:id="@+id/test_date"
-                    style="@style/body2Medium"
+                    style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -235,7 +235,7 @@
                     tools:text="negative" />
 
                 <TextView
-                    style="@style/body1"
+                    style="@style/body1Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
@@ -243,7 +243,7 @@
 
                 <TextView
                     android:id="@+id/test_result"
-                    style="@style/body2Medium"
+                    style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -251,7 +251,7 @@
                     tools:text="AB123" />
 
                 <TextView
-                    style="@style/body1"
+                    style="@style/body1Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
@@ -259,7 +259,7 @@
 
                 <TextView
                     android:id="@+id/test_center"
-                    style="@style/body2Medium"
+                    style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -267,7 +267,7 @@
                     tools:text="Germany" />
 
                 <TextView
-                    style="@style/body1"
+                    style="@style/body1Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
@@ -275,7 +275,7 @@
 
                 <TextView
                     android:id="@+id/test_country"
-                    style="@style/body2Medium"
+                    style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -284,7 +284,7 @@
 
 
                 <TextView
-                    style="@style/body1"
+                    style="@style/body1Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
@@ -292,7 +292,7 @@
 
                 <TextView
                     android:id="@+id/certificate_issuer"
-                    style="@style/body2Medium"
+                    style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
