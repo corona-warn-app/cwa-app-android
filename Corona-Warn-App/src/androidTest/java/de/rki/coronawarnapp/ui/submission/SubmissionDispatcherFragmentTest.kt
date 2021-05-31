@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.submission
 
+import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.Navigation
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
@@ -79,7 +80,7 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
 
     @Test
     fun testEventQRClicked() {
-        launchFragmentInContainer2<SubmissionDispatcherFragment>().onFragment {
+        launchFragmentInContainer<SubmissionDispatcherFragment>().onFragment {
             Navigation.setViewNavController(it.requireView(), navController)
         }
         onView(withId(R.id.submission_dispatcher_qr))
@@ -89,7 +90,7 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
 
     @Test
     fun testEventTeleClicked() {
-        launchFragmentInContainer2<SubmissionDispatcherFragment>().onFragment {
+        launchFragmentInContainer<SubmissionDispatcherFragment>().onFragment {
             Navigation.setViewNavController(it.requireView(), navController)
         }
         onView(withId(R.id.submission_dispatcher_tan_tele))
@@ -99,7 +100,7 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
 
     @Test
     fun testEventTanClicked() {
-        launchFragmentInContainer2<SubmissionDispatcherFragment>().onFragment {
+        launchFragmentInContainer<SubmissionDispatcherFragment>().onFragment {
             Navigation.setViewNavController(it.requireView(), navController)
         }
         onView(withId(R.id.submission_dispatcher_tan_code))
