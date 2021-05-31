@@ -92,7 +92,10 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
 
     @Test
     fun testEventConsentGivenContinueWithSymptomsClicked() {
-        launchFragmentInContainer<SubmissionTestResultConsentGivenFragment>(consentGivenFragmentArgs).onFragment { fragment ->
+        launchFragmentInContainer<SubmissionTestResultConsentGivenFragment>(
+            themeResId = R.style.AppTheme_Main,
+            fragmentArgs = consentGivenFragmentArgs
+        ).onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), navController)
         }
         // Verify that performing a click prompts the correct Navigation action

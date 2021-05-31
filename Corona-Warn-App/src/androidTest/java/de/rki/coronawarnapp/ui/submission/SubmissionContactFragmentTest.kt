@@ -54,9 +54,10 @@ class SubmissionContactFragmentTest : BaseUITest() {
     fun testContactEnterTanClicked() {
         val navController = TestNavHostController(ApplicationProvider.getApplicationContext())
         runOnUiThread { navController.setGraph(R.navigation.nav_graph) }
-        launchFragmentInContainer<SubmissionContactFragment>().onFragment { fragment ->
-            Navigation.setViewNavController(fragment.requireView(), navController)
-        }
+        launchFragmentInContainer<SubmissionContactFragment>(themeResId = R.style.AppTheme_Main)
+            .onFragment { fragment ->
+                Navigation.setViewNavController(fragment.requireView(), navController)
+            }
 
         onView(withId(R.id.submission_contact_button_enter))
             .perform(click())
