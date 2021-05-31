@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentGreencertificateDetailsBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.setUrl
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -33,6 +34,25 @@ class GreenCertificateDetailsFragment : Fragment(R.layout.fragment_greencertific
                 title.alpha = titleAlpha
                 subtitle.alpha = subtitleAlpha
             }
+
+            if (travelNoticeGerman.text ==
+                requireContext().getString(R.string.green_certificate_attribute_certificate_travel_notice_german)) {
+                travelNoticeGerman.setUrl(
+                    R.string.green_certificate_attribute_certificate_travel_notice_german,
+                    R.string.green_certificate_travel_notice_link_de,
+                    R.string.green_certificate_travel_notice_link_de
+                )
+            }
+
+            if (travelNoticeEnglish.text ==
+                requireContext().getString(R.string.green_certificate_attribute_certificate_travel_notice_english)) {
+                travelNoticeEnglish.setUrl(
+                    R.string.green_certificate_attribute_certificate_travel_notice_english,
+                    R.string.green_certificate_travel_notice_link_en,
+                    R.string.green_certificate_travel_notice_link_en
+                )
+            }
+
             setToolbarOverlay()
 
             viewModel.qrCode.observe(viewLifecycleOwner) {
