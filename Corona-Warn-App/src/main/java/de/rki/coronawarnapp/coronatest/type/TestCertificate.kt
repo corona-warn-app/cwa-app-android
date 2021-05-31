@@ -13,7 +13,7 @@ interface TestCertificate {
     val rsaPrivateKey: RSAKey.Private
     val isPublicKeyRegistered: Boolean
     val encryptedDataEncryptionkey: ByteString?
-    val encryptedDgcCose: ByteString?
+    val encryptedDccCose: ByteString?
     val testCertificateQrCode: String?
 }
 

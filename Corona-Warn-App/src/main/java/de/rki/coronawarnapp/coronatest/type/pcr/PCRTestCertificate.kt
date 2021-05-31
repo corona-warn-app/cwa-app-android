@@ -29,8 +29,8 @@ data class PCRTestCertificate(
     @SerializedName("encryptedDataEncryptionkey")
     override val encryptedDataEncryptionkey: ByteString? = null,
 
-    @SerializedName("encryptedDgcCose")
-    override val encryptedDgcCose: ByteString? = null,
+    @SerializedName("encryptedDccCose")
+    override val encryptedDccCose: ByteString? = null,
 
     @SerializedName("testCertificateQrCode")
     override val testCertificateQrCode: String? = null,
