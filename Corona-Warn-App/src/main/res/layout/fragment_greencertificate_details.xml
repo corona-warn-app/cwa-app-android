@@ -72,8 +72,7 @@
                 app:layout_collapseMode="pin"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:navigationIcon="@drawable/ic_back"
-                app:navigationIconTint="@android:color/white"
-                app:titleTextColor="@color/colorAccentTintButton">
+                app:navigationIconTint="@android:color/white">
 
                 <LinearLayout
                     android:id="@+id/header_text_layout"
@@ -81,12 +80,14 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
-                    <androidx.appcompat.widget.AppCompatImageView
+
+                    <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="72dp"
                         android:importantForAccessibility="no"
                         app:srcCompat="@drawable/ic_cwa_logo_white" />
+
                 </LinearLayout>
 
             </com.google.android.material.appbar.MaterialToolbar>
@@ -151,8 +152,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="geboren 18.04.1943"
-                    tools:text="geboren 18.04.1943" />
+                    android:text="18.04.1943"
+                    tools:text="18.04.1943" />
 
                 <TextView
                     style="@style/body1Medium"

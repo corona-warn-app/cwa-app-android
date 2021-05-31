@@ -39,6 +39,9 @@ class GreenCertificateDetailsFragment : Fragment(R.layout.fragment_greencertific
                     qrCodeCard.progressBar.hide()
                 }
             }
+
+            // TODO: Will in the future be called when the data is loaded from the database
+            viewModel.generateQrCode()
         }
 
     private fun setToolbarOverlay() {

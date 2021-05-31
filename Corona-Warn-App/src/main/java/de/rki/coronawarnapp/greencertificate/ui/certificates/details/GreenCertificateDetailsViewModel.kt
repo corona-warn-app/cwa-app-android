@@ -29,14 +29,12 @@ class GreenCertificateDetailsViewModel @AssistedInject constructor(
     fun openFullScreen() = qrCodeText?.let { events.postValue(GreenCertificateDetailsNavigation.FullQrCode(it)) }
 
     /* TODO: Adapt to Green Certificate */
-    private fun generateQrCode(certificate: VaccinationCertificate?) = launch {
+     fun generateQrCode() = launch {
         try {
-            mutableStateFlow.value = certificate?.let {
-                qrCodeText = it.vaccinationQrCodeString
-                qrCodeGenerator.createQrCode(it.vaccinationQrCodeString)
-            }
+            mutableStateFlow.value = qrCodeGenerator.createQrCode("Sample String")
+
         } catch (e: Exception) {
-            Timber.d(e, "generateQrCode failed for vaccinationCertificate=%s", certificate)
+            Timber.d(e, "generateQrCode failed for greenCertificate=%s", "Sample Certificate")
             mutableStateFlow.value = null
         }
     }
