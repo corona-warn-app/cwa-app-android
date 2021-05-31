@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import de.rki.coronawarnapp.vaccination.ui.VaccinationTestFragmentDirections
 import javax.inject.Inject
 
 @SuppressLint("SetTextI18n")
@@ -43,7 +42,6 @@ class GreenCertificateTestFragment : Fragment(R.layout.fragment_test_green_certi
                 )
             }
         }
-
     }
 
     companion object {
