@@ -36,7 +36,7 @@ import testhelpers.Screenshot
 import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
-import testhelpers.launchInEmptyActivity
+import testhelpers.launchFragmentInContainer2
 import testhelpers.selectTabAtPosition
 import testhelpers.takeScreenshot
 import tools.fastlane.screengrab.locale.LocaleTestRule
@@ -108,10 +108,10 @@ class ContactDiaryDayFragmentTest : BaseUITest() {
         every { personListViewModel.uiList } returns MutableLiveData(persons)
         every { locationListViewModel.uiList } returns MutableLiveData(locations)
 
-        launchInEmptyActivity<ContactDiaryDayFragment>(
-            fragmentArgs = fragmentArgs
+        launchFragmentInContainer2<ContactDiaryDayFragment>(
+            fragmentArgs = fragmentArgs,
+            themeResId = R.style.AppTheme_Main
         )
-
         takeScreenshot<ContactDiaryDayFragment>("persons_$suffix")
         onView(withId(R.id.contact_diary_day_tab_layout))
             .perform(selectTabAtPosition(1))

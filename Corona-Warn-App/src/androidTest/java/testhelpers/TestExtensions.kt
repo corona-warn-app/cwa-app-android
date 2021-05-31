@@ -32,7 +32,9 @@ inline fun <reified F : Fragment> launchFragmentInContainer2(
     fragmentArgs: Bundle? = null,
     @StyleRes themeResId: Int = R.style.AppTheme,
     factory: FragmentFactory? = null
-) = FragmentScenario.launchInContainer(F::class.java, fragmentArgs, themeResId, factory)
+) = launchInEmptyActivity<F>(fragmentArgs)
+// TODO FragmentScenario.launchInContainer(F::class.java, fragmentArgs, themeResId, factory)
+// when https://issuetracker.google.com/issues/121347222 is fixed
 
 /**
  * Launches Fragment in Activity.

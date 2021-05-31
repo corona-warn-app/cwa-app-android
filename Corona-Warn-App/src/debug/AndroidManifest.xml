@@ -17,7 +17,7 @@
 
     <application
         android:requestLegacyExternalStorage="true"
-        tools:node="merge" >
+        tools:node="merge">
         <activity
             android:name="de.rki.coronawarnapp.ui.main.FakeMainActivity"
             android:theme="@style/AppTheme.Main" />
