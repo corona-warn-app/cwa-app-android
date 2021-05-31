@@ -18,6 +18,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
+@Suppress("MaxLineLength")
 class CoronaTestCensorTest : BaseTest() {
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
 

@@ -8,9 +8,9 @@ open class ReportedException(
     cause: Throwable? = null,
     override val resId: Int? = null
 ) : Exception(
-    message,
-    cause
-),
+        message,
+        cause
+    ),
     ReportedExceptionInterface
 
 open class ReportedIOException(
@@ -19,9 +19,9 @@ open class ReportedIOException(
     cause: Throwable? = null,
     override val resId: Int? = null
 ) : IOException(
-    message,
-    cause
-),
+        message,
+        cause
+    ),
     ReportedExceptionInterface
 
 interface ReportedExceptionInterface {

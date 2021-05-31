@@ -52,7 +52,8 @@ class ContactDiaryEditLocationsViewModelTest {
         viewModel = createInstance()
         viewModel.navigationEvent.observeForever { }
         viewModel.onDeleteAllLocationsClick()
-        viewModel.navigationEvent.value shouldBe ContactDiaryEditLocationsViewModel.NavigationEvent.ShowDeletionConfirmationDialog
+        viewModel.navigationEvent.value shouldBe
+            ContactDiaryEditLocationsViewModel.NavigationEvent.ShowDeletionConfirmationDialog
     }
 
     @Test
@@ -75,7 +76,9 @@ class ContactDiaryEditLocationsViewModelTest {
         viewModel.navigationEvent.observeForever { }
         viewModel.onEditLocationClick(location)
         viewModel.navigationEvent.value shouldBe
-            ContactDiaryEditLocationsViewModel.NavigationEvent.ShowLocationDetailFragment(location.toContactDiaryLocationEntity())
+            ContactDiaryEditLocationsViewModel.NavigationEvent.ShowLocationDetailFragment(
+                location.toContactDiaryLocationEntity()
+            )
     }
 
     @Test

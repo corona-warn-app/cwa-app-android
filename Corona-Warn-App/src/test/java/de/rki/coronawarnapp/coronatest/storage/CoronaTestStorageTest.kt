@@ -51,6 +51,8 @@ class CoronaTestStorageTest : BaseTest() {
         testResult = CoronaTestResult.PCR_POSITIVE,
         testResultReceivedAt = Instant.ofEpochMilli(2000),
         lastUpdatedAt = Instant.ofEpochMilli(2001),
+        isDccConsentGiven = true,
+        isDccDataSetCreated = true,
     )
     private val raTest = RACoronaTest(
         identifier = "identifier-ra",
@@ -67,6 +69,9 @@ class CoronaTestStorageTest : BaseTest() {
         dateOfBirth = LocalDate.parse("2021-12-24"),
         testedAt = Instant.ofEpochMilli(3000),
         lastUpdatedAt = Instant.ofEpochMilli(2001),
+        isDccSupportedByPoc = true,
+        isDccConsentGiven = true,
+        isDccDataSetCreated = true,
     )
 
     @Test
@@ -110,7 +115,9 @@ class CoronaTestStorageTest : BaseTest() {
                     "isResultAvailableNotificationSent": false,
                     "testResultReceivedAt": 2000,
                     "testResult": 2,
-                    "lastUpdatedAt": 2001
+                    "lastUpdatedAt": 2001,
+                    "isDccConsentGiven": true,
+                    "isDccDataSetCreated": true
                 }
             ]
         """.toComparableJsonPretty()
@@ -152,7 +159,10 @@ class CoronaTestStorageTest : BaseTest() {
                     "testedAt": 3000,
                     "firstName": "firstname",
                     "lastName": "lastname",
-                    "dateOfBirth": "2021-12-24"
+                    "dateOfBirth": "2021-12-24",
+                    "isDccSupportedByPoc": true,
+                    "isDccConsentGiven": true,
+                    "isDccDataSetCreated": true
                 }
             ]
         """.toComparableJsonPretty()

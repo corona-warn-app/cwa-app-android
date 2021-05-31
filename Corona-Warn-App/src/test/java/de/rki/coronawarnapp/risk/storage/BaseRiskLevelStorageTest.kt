@@ -378,7 +378,8 @@ class BaseRiskLevelStorageTest : BaseTest() {
                 )
             )
         )
-        every { presenceTracingRiskRepository.presenceTracingDayRisk } returns flowOf(listOf(testPresenceTracingDayRisk))
+        every { presenceTracingRiskRepository.presenceTracingDayRisk } returns
+            flowOf(listOf(testPresenceTracingDayRisk))
 
         every { riskResultTables.latestAndLastSuccessful() } returns flowOf(listOf(testRiskLevelResultDao))
         every { exposureWindowTables.getWindowsForResult(any()) } returns flowOf(listOf(testExposureWindowDaoWrapper))
@@ -437,7 +438,8 @@ class BaseRiskLevelStorageTest : BaseTest() {
                 numberOfDaysWithHighRisk = 6
             )
         )
-        every { presenceTracingRiskRepository.presenceTracingDayRisk } returns flowOf(listOf(testPresenceTracingDayRisk))
+        every { presenceTracingRiskRepository.presenceTracingDayRisk } returns
+            flowOf(listOf(testPresenceTracingDayRisk))
 
         every { riskResultTables.latestAndLastSuccessful() } returns flowOf(listOf(ewResultDao1, ewResultDao2))
         every { exposureWindowTables.getWindowsForResult(any()) } returns flowOf(listOf(testExposureWindowDaoWrapper))
@@ -496,7 +498,8 @@ class BaseRiskLevelStorageTest : BaseTest() {
                 numberOfDaysWithHighRisk = 6
             )
         )
-        every { presenceTracingRiskRepository.presenceTracingDayRisk } returns flowOf(listOf(testPresenceTracingDayRisk))
+        every { presenceTracingRiskRepository.presenceTracingDayRisk } returns
+            flowOf(listOf(testPresenceTracingDayRisk))
 
         every { riskResultTables.latestAndLastSuccessful() } returns flowOf(listOf(ewResultDao1, ewResultDao2))
         every { exposureWindowTables.getWindowsForResult(any()) } returns flowOf(listOf(testExposureWindowDaoWrapper))

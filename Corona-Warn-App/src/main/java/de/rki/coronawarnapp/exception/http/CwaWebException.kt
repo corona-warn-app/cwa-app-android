@@ -22,10 +22,10 @@ open class CwaServerError(
     message: String?,
     cause: Throwable? = null
 ) : CwaWebException(
-    statusCode = statusCode,
-    message = message,
-    cause = cause
-),
+        statusCode = statusCode,
+        message = message,
+        cause = cause
+    ),
     HasHumanReadableError {
     init {
         if (statusCode !in 500..599) {
