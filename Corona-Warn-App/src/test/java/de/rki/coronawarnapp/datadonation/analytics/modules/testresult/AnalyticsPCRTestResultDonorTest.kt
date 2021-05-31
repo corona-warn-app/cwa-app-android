@@ -80,14 +80,16 @@ class AnalyticsPCRTestResultDonorTest : BaseTest() {
         runBlockingTest {
             every { testResultSettings.testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.PCR_OR_RAT_PENDING)
 
-            testResultDonor.beginDonation(TestRequest) shouldBe AnalyticsTestResultDonor.TestResultMetadataNoContribution
+            testResultDonor.beginDonation(TestRequest) shouldBe
+                AnalyticsTestResultDonor.TestResultMetadataNoContribution
         }
     }
 
     @Test
     fun `Donation is collected when test result is PENDING and hours is greater or equal to config hours`() {
         runBlockingTest {
-            every { testResultSettings.testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.PCR_OR_RAT_PENDING)
+            every { testResultSettings.testResultAtRegistration } returns
+                mockFlowPreference(CoronaTestResult.PCR_OR_RAT_PENDING)
             val timeDayBefore = baseTime.minus(Duration.standardDays(1))
             every { testResultSettings.testRegisteredAt } returns mockFlowPreference(timeDayBefore)
 
@@ -106,8 +108,10 @@ class AnalyticsPCRTestResultDonorTest : BaseTest() {
     @Test
     fun `Donation is collected when test result is POSITIVE`() {
         runBlockingTest {
-            every { testResultSettings.testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.PCR_POSITIVE)
-            every { testResultSettings.finalTestResultReceivedAt } returns mockFlowPreference(baseTime)
+            every { testResultSettings.testResultAtRegistration } returns
+                mockFlowPreference(CoronaTestResult.PCR_POSITIVE)
+            every { testResultSettings.finalTestResultReceivedAt } returns
+                mockFlowPreference(baseTime)
 
             val donation =
                 testResultDonor.beginDonation(TestRequest) as AnalyticsTestResultDonor.TestResultMetadataContribution
@@ -124,8 +128,10 @@ class AnalyticsPCRTestResultDonorTest : BaseTest() {
     @Test
     fun `Donation is collected when test result is NEGATIVE`() {
         runBlockingTest {
-            every { testResultSettings.testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.PCR_NEGATIVE)
-            every { testResultSettings.finalTestResultReceivedAt } returns mockFlowPreference(baseTime)
+            every { testResultSettings.testResultAtRegistration } returns
+                mockFlowPreference(CoronaTestResult.PCR_NEGATIVE)
+            every { testResultSettings.finalTestResultReceivedAt } returns
+                mockFlowPreference(baseTime)
 
             val donation =
                 testResultDonor.beginDonation(TestRequest) as AnalyticsTestResultDonor.TestResultMetadataContribution
