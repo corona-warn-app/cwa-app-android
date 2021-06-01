@@ -4,6 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.vaccination.ui.consent.VaccinationConsentFragment
+import de.rki.coronawarnapp.vaccination.ui.consent.VaccinationConsentFragmentArgs
 import de.rki.coronawarnapp.vaccination.ui.consent.VaccinationConsentViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
@@ -21,6 +22,10 @@ import testhelpers.takeScreenshot
 class VaccinationConsentFragmentTest : BaseUITest() {
 
     @MockK lateinit var viewModel: VaccinationConsentViewModel
+
+    private val fragmentArgs = VaccinationConsentFragmentArgs(
+        showBottomNav = false
+    ).toBundle()
 
     @Before
     fun setup() {
@@ -40,13 +45,13 @@ class VaccinationConsentFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment2<VaccinationConsentFragment>()
+        launchFragment2<VaccinationConsentFragment>(fragmentArgs)
     }
 
     @Screenshot
     @Test
     fun capture_screenshot() {
-        launchFragmentInContainer2<VaccinationConsentFragment>()
+        launchFragmentInContainer2<VaccinationConsentFragment>(fragmentArgs)
         takeScreenshot<VaccinationConsentFragment>()
     }
 }
