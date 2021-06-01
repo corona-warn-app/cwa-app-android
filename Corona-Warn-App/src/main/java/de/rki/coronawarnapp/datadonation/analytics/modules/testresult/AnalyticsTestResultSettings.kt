@@ -2,9 +2,6 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.testresult
 
 import android.content.Context
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.datadonation.analytics.common.isFinal
-import de.rki.coronawarnapp.datadonation.analytics.common.toMetadataRiskLevel
-import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
@@ -47,11 +44,6 @@ open class AnalyticsTestResultSettings(
         writer = { key, value ->
             putLong(key, value?.millis ?: 0L)
         }
-    )
-
-    val testScannedAfterConsent = prefs.createFlowPreference(
-        key = PREFS_KEY_TEST_SCANNED_AFTER_CONSENT + sharedPrefKeySuffix,
-        defaultValue = false
     )
 
     val ewRiskLevelAtTestRegistration = prefs.createFlowPreference(
@@ -124,21 +116,9 @@ open class AnalyticsTestResultSettings(
         defaultValue = -1
     )
 
-    fun saveTestResultDonorDataAtRegistration(testResult: CoronaTestResult, lastResult: CombinedEwPtRiskLevelResult) {
-        testScannedAfterConsent.update { true }
-        testResultAtRegistration.update { testResult }
-        if (testResult.isFinal) {
-            finalTestResultReceivedAt.update { timeStamper.nowUTC }
-        }
-
-        ewRiskLevelAtTestRegistration.update { lastResult.ewRiskLevelResult.toMetadataRiskLevel() }
-        ptRiskLevelAtTestRegistration.update { lastResult.ptRiskLevelResult.riskState.toMetadataRiskLevel() }
-    }
-
     fun clear() = prefs.clearAndNotify()
 
     companion object {
-        private const val PREFS_KEY_TEST_SCANNED_AFTER_CONSENT = "testResultDonor.testScannedAfterConsent"
         private const val PREFS_KEY_TEST_RESULT_AT_REGISTRATION = "testResultDonor.testResultAtRegistration"
 
         private const val PREFS_KEY_RISK_LEVEL_AT_REGISTRATION_EW = "testResultDonor.riskLevelAtRegistration"

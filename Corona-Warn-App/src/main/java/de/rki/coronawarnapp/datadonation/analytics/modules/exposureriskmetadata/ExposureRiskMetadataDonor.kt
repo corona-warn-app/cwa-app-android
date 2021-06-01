@@ -54,7 +54,7 @@ class ExposureRiskMetadataDonor @Inject constructor(
             .lastCalculated
             .ewRiskLevelResult
 
-        val riskLevelEWForMetadata = lastEWRiskResult.toMetadataRiskLevel()
+        val riskLevelEWForMetadata = lastEWRiskResult.riskState.toMetadataRiskLevel()
         val mostRecentDateAtEWRiskLevel = lastEWRiskResult.mostRecentDateAtRiskState?.seconds ?: -1
 
         builder

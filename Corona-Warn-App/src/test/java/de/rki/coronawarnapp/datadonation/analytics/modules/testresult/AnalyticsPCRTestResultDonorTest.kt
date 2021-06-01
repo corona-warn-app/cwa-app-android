@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.mockFlowPreference
 
-class AnalyticsPCRTestResultTest : BaseTest() {
+class AnalyticsPCRTestResultDonorTest : BaseTest() {
     @MockK lateinit var testResultSettings: AnalyticsPCRTestResultSettings
     @MockK lateinit var timeStamper: TimeStamper
 
@@ -58,28 +58,19 @@ class AnalyticsPCRTestResultTest : BaseTest() {
     }
 
     @Test
-    fun `No donation when user did not allow consent`() = runBlockingTest {
-        every { testResultSettings.testScannedAfterConsent } returns mockFlowPreference(false)
-        testResultDonor.beginDonation(TestRequest) shouldBe AnalyticsTestResultDonor.TestResultMetadataNoContribution
-    }
-
-    @Test
     fun `No donation when timestamp at registration is missing`() = runBlockingTest {
         every { testResultSettings.testRegisteredAt } returns mockFlowPreference(null)
-        every { testResultSettings.testScannedAfterConsent } returns mockFlowPreference(true)
         testResultDonor.beginDonation(TestRequest) shouldBe AnalyticsTestResultDonor.TestResultMetadataNoContribution
     }
 
     @Test
     fun `No donation when test result is INVALID`() = runBlockingTest {
-        every { testResultSettings.testScannedAfterConsent } returns mockFlowPreference(true)
         every { testResultSettings.testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.PCR_INVALID)
         testResultDonor.beginDonation(TestRequest) shouldBe AnalyticsTestResultDonor.TestResultMetadataNoContribution
     }
 
     @Test
     fun `No donation when test result is REDEEMED`() = runBlockingTest {
-        every { testResultSettings.testScannedAfterConsent } returns mockFlowPreference(true)
         every { testResultSettings.testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.PCR_REDEEMED)
         testResultDonor.beginDonation(TestRequest) shouldBe AnalyticsTestResultDonor.TestResultMetadataNoContribution
     }
@@ -87,7 +78,6 @@ class AnalyticsPCRTestResultTest : BaseTest() {
     @Test
     fun `No donation when test result is PENDING and hours isn't greater or equal to config hours`() {
         runBlockingTest {
-            every { testResultSettings.testScannedAfterConsent } returns mockFlowPreference(true)
             every { testResultSettings.testResultAtRegistration } returns
                 mockFlowPreference(CoronaTestResult.PCR_OR_RAT_PENDING)
 
@@ -99,7 +89,6 @@ class AnalyticsPCRTestResultTest : BaseTest() {
     @Test
     fun `Donation is collected when test result is PENDING and hours is greater or equal to config hours`() {
         runBlockingTest {
-            every { testResultSettings.testScannedAfterConsent } returns mockFlowPreference(true)
             every { testResultSettings.testResultAtRegistration } returns
                 mockFlowPreference(CoronaTestResult.PCR_OR_RAT_PENDING)
             val timeDayBefore = baseTime.minus(Duration.standardDays(1))
@@ -120,10 +109,10 @@ class AnalyticsPCRTestResultTest : BaseTest() {
     @Test
     fun `Donation is collected when test result is POSITIVE`() {
         runBlockingTest {
-            every { testResultSettings.testScannedAfterConsent } returns mockFlowPreference(true)
             every { testResultSettings.testResultAtRegistration } returns
                 mockFlowPreference(CoronaTestResult.PCR_POSITIVE)
-            every { testResultSettings.finalTestResultReceivedAt } returns mockFlowPreference(baseTime)
+            every { testResultSettings.finalTestResultReceivedAt } returns
+                mockFlowPreference(baseTime)
 
             val donation =
                 testResultDonor.beginDonation(TestRequest) as AnalyticsTestResultDonor.TestResultMetadataContribution
@@ -140,10 +129,10 @@ class AnalyticsPCRTestResultTest : BaseTest() {
     @Test
     fun `Donation is collected when test result is NEGATIVE`() {
         runBlockingTest {
-            every { testResultSettings.testScannedAfterConsent } returns mockFlowPreference(true)
             every { testResultSettings.testResultAtRegistration } returns
                 mockFlowPreference(CoronaTestResult.PCR_NEGATIVE)
-            every { testResultSettings.finalTestResultReceivedAt } returns mockFlowPreference(baseTime)
+            every { testResultSettings.finalTestResultReceivedAt } returns
+                mockFlowPreference(baseTime)
 
             val donation =
                 testResultDonor.beginDonation(TestRequest) as AnalyticsTestResultDonor.TestResultMetadataContribution
@@ -160,7 +149,6 @@ class AnalyticsPCRTestResultTest : BaseTest() {
     @Test
     fun `Scenario 1 LowRisk`() = runBlockingTest {
         with(testResultSettings) {
-            every { testScannedAfterConsent } returns mockFlowPreference(true)
             every { testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.PCR_NEGATIVE)
             every { finalTestResultReceivedAt } returns mockFlowPreference(
                 Instant.parse("2021-03-20T20:00:00Z")
@@ -186,7 +174,6 @@ class AnalyticsPCRTestResultTest : BaseTest() {
     @Test
     fun `Scenario 2 HighRisk`() = runBlockingTest {
         with(testResultSettings) {
-            every { testScannedAfterConsent } returns mockFlowPreference(true)
             every { testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.PCR_POSITIVE)
             every { finalTestResultReceivedAt } returns mockFlowPreference(
                 Instant.parse("2021-03-20T20:00:00Z")
