@@ -8,50 +8,50 @@
 
         <TextView
             android:id="@+id/submission_consent_call_test_result"
+            style="@style/headline6"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
-            app:layout_constraintTop_toBottomOf="@+id/submission_consent_illustration"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintEnd_toEndOf="@id/guideline_end"
             android:text="@string/submission_consent_call_test_result"
-            style="@style/headline6" />
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/submission_consent_illustration" />
 
         <TextView
             android:id="@+id/submission_consent_call_test_result_body"
+            style="@style/subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
-            app:layout_constraintTop_toBottomOf="@id/submission_consent_call_test_result"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintEnd_toEndOf="@id/guideline_end"
             android:text="@string/submission_consent_main_headline_body"
-            style="@style/subtitle" />
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/submission_consent_call_test_result" />
 
         <ImageView
             android:id="@+id/submission_consent_icon_scan"
             android:layout_width="@dimen/circle_icon"
             android:layout_height="@dimen/circle_icon"
             android:layout_marginTop="@dimen/spacing_normal"
-            app:srcCompat="@drawable/ic_qr_code"
             android:background="@drawable/circle"
             android:backgroundTint="@color/card_dark"
-            android:padding="@dimen/circle_icon_padding"
             android:importantForAccessibility="no"
+            android:padding="@dimen/circle_icon_padding"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@+id/submission_consent_call_test_result_body"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"/>
+            app:srcCompat="@drawable/ic_qr_code" />
 
         <TextView
             android:id="@+id/submission_consent_call_test_result_scan_your_test_only"
+            style="@style/subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginStart="@dimen/spacing_tiny"
-            app:layout_constraintTop_toBottomOf="@+id/submission_consent_call_test_result_body"
-            app:layout_constraintStart_toEndOf="@id/submission_consent_icon_scan"
-            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            android:layout_marginTop="@dimen/spacing_normal"
             android:text="@string/submission_consent_call_test_result_scan_your_test_only"
-            style="@style/subtitle" />
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toEndOf="@id/submission_consent_icon_scan"
+            app:layout_constraintTop_toBottomOf="@+id/submission_consent_call_test_result_body" />
 
         <ImageView
             android:id="@+id/submission_consent_icon_single_test"
@@ -60,45 +60,70 @@
             android:layout_marginTop="@dimen/spacing_normal"
             android:background="@drawable/circle"
             android:backgroundTint="@color/card_dark"
-            app:srcCompat="@drawable/ic_qr_1x_test"
             android:importantForAccessibility="no"
             android:padding="8dp"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@+id/submission_consent_call_test_result_scan_your_test_only"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"/>
+            app:srcCompat="@drawable/ic_qr_1x_test" />
 
         <TextView
             android:id="@+id/submission_consent_call_test_result_scan_test_only_once"
+            style="@style/subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginStart="@dimen/spacing_tiny"
-            app:layout_constraintTop_toBottomOf="@+id/submission_consent_call_test_result_scan_your_test_only"
-            app:layout_constraintStart_toEndOf="@id/submission_consent_icon_single_test"
-            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            android:layout_marginTop="@dimen/spacing_normal"
             android:text="@string/submission_consent_call_test_result_scan_test_only_once"
-            style="@style/subtitle" />
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toEndOf="@id/submission_consent_icon_single_test"
+            app:layout_constraintTop_toBottomOf="@+id/submission_consent_call_test_result_scan_your_test_only" />
+
+        <ImageView
+            android:id="@+id/submission_star_checkmark"
+            android:layout_width="@dimen/circle_icon"
+            android:layout_height="@dimen/circle_icon"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:background="@drawable/circle"
+            android:backgroundTint="@color/card_dark"
+            android:importantForAccessibility="no"
+            android:padding="8dp"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/submission_consent_call_test_result_scan_test_only_once"
+            app:srcCompat="@drawable/ic_star_checkmark" />
+
+        <TextView
+            android:id="@+id/submission_star_checkmark_text"
+            style="@style/subtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_tiny"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:text="@string/submission_consent_call_test_result_checkmark_text"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toEndOf="@id/submission_star_checkmark"
+            app:layout_constraintTop_toBottomOf="@id/submission_consent_call_test_result_scan_test_only_once" />
 
         <TextView
             android:id="@+id/submission_consent_help_by_warning_others_headline"
+            style="@style/headline6"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
-            app:layout_constraintTop_toBottomOf="@+id/submission_consent_call_test_result_scan_test_only_once"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintEnd_toEndOf="@id/guideline_end"
             android:text="@string/submission_consent_help_by_warning_others_headline"
-            style="@style/headline6" />
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/submission_star_checkmark_text" />
 
         <TextView
             android:id="@+id/submission_consent_help_by_warning_others_body"
+            style="@style/subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
-            app:layout_constraintTop_toBottomOf="@+id/submission_consent_help_by_warning_others_headline"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintEnd_toEndOf="@id/guideline_end"
             android:text="@string/submission_consent_help_by_warning_others_body"
-            style="@style/subtitle" />
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/submission_consent_help_by_warning_others_headline" />
 
         <include layout="@layout/merge_guidelines_side" />
 

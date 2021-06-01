@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestGreenCertificateBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -22,6 +23,15 @@ class GreenCertificateTestFragment : Fragment(R.layout.fragment_test_green_certi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.apply {
+            detailsScreen.setOnClickListener {
+                doNavigate(
+                    GreenCertificateTestFragmentDirections
+                        .actionGreenCertificateTestFragmentToGreenCertificateDetailsFragment()
+                )
+            }
+        }
     }
 
     companion object {
