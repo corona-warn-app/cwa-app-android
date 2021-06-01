@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.service.submission
 
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResultResponse
+import de.rki.coronawarnapp.coronatest.server.RegistrationData
+import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
 import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.deniability.NoiseScheduler
@@ -20,7 +22,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class SubmissionServiceTest : BaseTest() {
+class CoronaTestServiceTest : BaseTest() {
 
     private val tan = "123456-12345678-1234-4DA7-B166-B86D85475064"
     private val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
@@ -30,8 +32,6 @@ class SubmissionServiceTest : BaseTest() {
     @MockK lateinit var appComponent: ApplicationComponent
     @MockK lateinit var noiseScheduler: NoiseScheduler
 
-    lateinit var submissionService: CoronaTestService
-
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
@@ -39,49 +39,45 @@ class SubmissionServiceTest : BaseTest() {
         every { AppInjector.component } returns appComponent
         every { appComponent.playbook } returns mockPlaybook
 
-        submissionService = CoronaTestService(
-            playbook = mockPlaybook,
-            noiseScheduler = noiseScheduler
+        coEvery {
+            mockPlaybook.initialRegistration(any())
+        } returns RegistrationData(
+            registrationToken = registrationToken,
+            testResultResponse = CoronaTestResultResponse(
+                coronaTestResult = CoronaTestResult.PCR_OR_RAT_PENDING,
+                sampleCollectedAt = null
+            )
         )
     }
 
-    @Test
-    fun registrationWithGUIDSucceeds() {
-        coEvery {
-            mockPlaybook.initialRegistration(guid, VerificationKeyType.GUID)
-        } returns (
-            registrationToken to CoronaTestResultResponse(
-                coronaTestResult = CoronaTestResult.PCR_OR_RAT_PENDING,
-                sampleCollectedAt = null
-            )
-            )
+    private fun createInstance() = CoronaTestService(
+        playbook = mockPlaybook,
+        noiseScheduler = noiseScheduler
+    )
 
-        runBlocking {
-            submissionService.asyncRegisterDeviceViaGUID(guid)
-        }
+    @Test
+    fun registrationWithGUIDSucceeds() = runBlocking {
+        val request = RegistrationRequest(
+            key = guid,
+            type = VerificationKeyType.GUID,
+        )
+        createInstance().registerTest(request)
 
         coVerify(exactly = 1) {
-            mockPlaybook.initialRegistration(guid, VerificationKeyType.GUID)
+            mockPlaybook.initialRegistration(request)
         }
     }
 
     @Test
-    fun registrationWithTeleTANSucceeds() {
-        coEvery {
-            mockPlaybook.initialRegistration(any(), VerificationKeyType.TELETAN)
-        } returns (
-            registrationToken to CoronaTestResultResponse(
-                coronaTestResult = CoronaTestResult.PCR_OR_RAT_PENDING,
-                sampleCollectedAt = null
-            )
-            )
-
-        runBlocking {
-            submissionService.asyncRegisterDeviceViaTAN(tan)
-        }
+    fun registrationWithTeleTANSucceeds() = runBlocking {
+        val request = RegistrationRequest(
+            key = tan,
+            type = VerificationKeyType.TELETAN,
+        )
+        createInstance().registerTest(request)
 
         coVerify(exactly = 1) {
-            mockPlaybook.initialRegistration(tan, VerificationKeyType.TELETAN)
+            mockPlaybook.initialRegistration(request)
         }
     }
 
@@ -93,7 +89,7 @@ class SubmissionServiceTest : BaseTest() {
         )
 
         runBlocking {
-            submissionService.asyncRequestTestResult(registrationToken) shouldBe CoronaTestResultResponse(
+            createInstance().checkTestResult(registrationToken) shouldBe CoronaTestResultResponse(
                 coronaTestResult = CoronaTestResult.PCR_NEGATIVE,
                 sampleCollectedAt = null,
             )
