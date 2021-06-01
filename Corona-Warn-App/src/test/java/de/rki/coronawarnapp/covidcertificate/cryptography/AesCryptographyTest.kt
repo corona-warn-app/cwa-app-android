@@ -20,6 +20,6 @@ class AesCryptographyTest : BaseTest() {
         AesCryptography().decrypt(
             des,
             encryptedData = encryptedString
-        ) shouldBe "Hello world"
+        ) shouldBe "Hello World".toByteArray()
     }
 }

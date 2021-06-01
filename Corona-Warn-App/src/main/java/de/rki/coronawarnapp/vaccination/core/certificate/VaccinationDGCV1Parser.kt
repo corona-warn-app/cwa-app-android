@@ -21,19 +21,19 @@ class VaccinationDGCV1Parser @Inject constructor(
         val certificate: VaccinationDGCV1 = map[keyHCert]?.run {
             this[keyEuDgcV1]?.run {
                 toCertificate()
-            } ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_DGC)
-        } ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_HCERT)
+            } ?: throw InvalidVaccinationCertificateException(VC_HC_CWT_NO_DGC)
+        } ?: throw InvalidVaccinationCertificateException(VC_HC_CWT_NO_HCERT)
 
         certificate.validate()
     } catch (e: InvalidHealthCertificateException) {
         throw e
     } catch (e: Throwable) {
-        throw InvalidHealthCertificateException(HC_CBOR_DECODING_FAILED)
+        throw InvalidVaccinationCertificateException(HC_CBOR_DECODING_FAILED)
     }
 
     private fun VaccinationDGCV1.validate(): VaccinationDGCV1 {
         if (vaccinationDatas.isEmpty()) {
-            throw InvalidHealthCertificateException(VC_NO_VACCINATION_ENTRY)
+            throw InvalidVaccinationCertificateException(VC_NO_VACCINATION_ENTRY)
         }
         // Force date parsing
         dateOfBirth
@@ -47,7 +47,7 @@ class VaccinationDGCV1Parser @Inject constructor(
         val json = ToJSONString()
         gson.fromJson<VaccinationDGCV1>(json)
     } catch (e: Throwable) {
-        throw InvalidHealthCertificateException(VC_JSON_SCHEMA_INVALID)
+        throw InvalidVaccinationCertificateException(VC_JSON_SCHEMA_INVALID)
     }
 
     companion object {

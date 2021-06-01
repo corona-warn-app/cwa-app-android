@@ -6,9 +6,9 @@ import de.rki.coronawarnapp.util.compression.deflate
 import de.rki.coronawarnapp.util.encoding.Base45Decoder
 import de.rki.coronawarnapp.vaccination.core.certificate.HealthCertificateCOSEDecoder
 import de.rki.coronawarnapp.vaccination.core.certificate.HealthCertificateHeaderParser
-import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.vaccination.core.certificate.RawCOSEObject
 import de.rki.coronawarnapp.vaccination.core.certificate.VaccinationDGCV1Parser
 import timber.log.Timber
@@ -41,14 +41,14 @@ class VaccinationQRCodeExtractor @Inject constructor(
         Base45Decoder.decode(this)
     } catch (e: Throwable) {
         Timber.e(e)
-        throw InvalidHealthCertificateException(HC_BASE45_DECODING_FAILED)
+        throw InvalidVaccinationCertificateException(HC_BASE45_DECODING_FAILED)
     }
 
     private fun ByteArray.decompress(): RawCOSEObject = try {
         this.deflate(sizeLimit = DEFAULT_SIZE_LIMIT)
     } catch (e: Throwable) {
         Timber.e(e)
-        throw InvalidHealthCertificateException(HC_ZLIB_DECOMPRESSION_FAILED)
+        throw InvalidVaccinationCertificateException(HC_ZLIB_DECOMPRESSION_FAILED)
     }
 
     fun RawCOSEObject.parse(): VaccinationCertificateData {

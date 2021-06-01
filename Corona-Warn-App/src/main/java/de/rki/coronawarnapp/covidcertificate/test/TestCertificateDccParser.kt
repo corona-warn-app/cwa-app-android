@@ -11,6 +11,8 @@ import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificat
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_HC_CWT_NO_DGC
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_HC_CWT_NO_HCERT
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_JSON_SCHEMA_INVALID
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_NO_VACCINATION_ENTRY
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidTestCertificateException
 import javax.inject.Inject
 
 @Reusable
@@ -23,19 +25,19 @@ class TestCertificateDccParser @Inject constructor(
         val certificate: TestCertificateDccV1 = map[keyHCert]?.run {
             this[keyEuDgcV1]?.run {
                 toCertificate()
-            } ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_DGC)
-        } ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_HCERT)
+            } ?: throw InvalidTestCertificateException(VC_HC_CWT_NO_DGC)
+        } ?: throw InvalidTestCertificateException(VC_HC_CWT_NO_HCERT)
 
         certificate.validate()
     } catch (e: InvalidHealthCertificateException) {
         throw e
     } catch (e: Throwable) {
-        throw InvalidHealthCertificateException(HC_CBOR_DECODING_FAILED)
+        throw InvalidTestCertificateException(HC_CBOR_DECODING_FAILED)
     }
 
     private fun TestCertificateDccV1.validate(): TestCertificateDccV1 {
         if (testCertificateData.isEmpty()) {
-            throw InvalidHealthCertificateException(InvalidHealthCertificateException.ErrorCode.VC_NO_VACCINATION_ENTRY)
+            throw InvalidTestCertificateException(VC_NO_VACCINATION_ENTRY)
         }
         // Force date parsing
         dateOfBirth
@@ -49,21 +51,21 @@ class TestCertificateDccParser @Inject constructor(
         val json = ToJSONString()
         gson.fromJson<TestCertificateDccV1>(json)
     } catch (e: Throwable) {
-        throw InvalidHealthCertificateException(VC_JSON_SCHEMA_INVALID)
+        throw InvalidTestCertificateException(VC_JSON_SCHEMA_INVALID)
     }
 
     fun decryptPayload(map: CBORObject, decryptionKey: ByteArray): CBORObject = try {
         val payload = map[keyHCert]?.run {
             this[keyEuDgcV1]?.run {
                 decrypt(decryptionKey)
-            } ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_DGC)
-        } ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_HCERT)
+            } ?: throw InvalidTestCertificateException(VC_HC_CWT_NO_DGC)
+        } ?: throw InvalidTestCertificateException(VC_HC_CWT_NO_HCERT)
         map.Set(keyEuDgcV1, payload)
         map
     } catch (e: InvalidHealthCertificateException) {
         throw e
     } catch (e: Throwable) {
-        throw InvalidHealthCertificateException(HC_CBOR_DECODING_FAILED)
+        throw InvalidTestCertificateException(HC_CBOR_DECODING_FAILED)
     }
 
     private fun CBORObject.decrypt(decryptionKey: ByteArray) = try {
@@ -73,7 +75,7 @@ class TestCertificateDccParser @Inject constructor(
         )
         CBORObject.DecodeFromBytes(decryptedData)
     } catch (e: Throwable) {
-        throw InvalidHealthCertificateException(VC_JSON_SCHEMA_INVALID)
+        throw InvalidTestCertificateException(VC_JSON_SCHEMA_INVALID)
     }
 
     companion object {

@@ -9,8 +9,8 @@ import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException
-import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidVaccinationCertificateException
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidVaccinationCertificateException.ErrorCode
 import de.rki.coronawarnapp.vaccination.core.personIdentifier
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationQRCodeExtractor
@@ -101,7 +101,7 @@ class VaccinationRepository @Inject constructor(
 
             if (originalPerson.data.vaccinations.any { it.certificateId == qrCode.uniqueCertificateIdentifier }) {
                 Timber.tag(TAG).e("Certificate is already registered: %s", qrCode.uniqueCertificateIdentifier)
-                throw InvalidHealthCertificateException(ErrorCode.VC_ALREADY_REGISTERED)
+                throw InvalidVaccinationCertificateException(ErrorCode.VC_ALREADY_REGISTERED)
             }
 
             val newCertificate = qrCode.toVaccinationContainer(
