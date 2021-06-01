@@ -4,6 +4,7 @@ package de.rki.coronawarnapp.server.protocols.internal.v2;
 
 import "internal/v2/app_features.proto";
 import "internal/v2/corona_test_parameters.proto";
+import "internal/v2/dgc_parameters.proto";
 import "internal/v2/exposure_detection_parameters.proto";
 import "internal/v2/key_download_parameters.proto";
 import "internal/v2/ppdd_edus_parameters.proto";
@@ -37,6 +38,8 @@ message ApplicationConfigurationIOS {
   PresenceTracingParameters presenceTracingParameters = 12;
 
   CoronaTestParameters coronaTestParameters = 13;
+
+  DGCParameters dgcParameters = 14;
 }
 
 message ExposureConfiguration {

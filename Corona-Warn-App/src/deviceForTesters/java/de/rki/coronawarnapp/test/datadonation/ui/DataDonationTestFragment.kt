@@ -55,20 +55,20 @@ class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation), 
         }
 
         vm.copyJWSEvent.observe2(this) { jws ->
-            val intent = ShareCompat.IntentBuilder.from(requireActivity()).apply {
-                setType("text/plain")
-                setSubject("JWS")
-                setText(jws)
-            }.createChooserIntent()
+            val intent = ShareCompat.IntentBuilder(requireActivity())
+                .setType("text/plain")
+                .setSubject("JWS")
+                .setText(jws)
+                .createChooserIntent()
             startActivity(intent)
         }
 
         vm.copyAnalyticsEvent.observe2(this) { analytics ->
-            val intent = ShareCompat.IntentBuilder.from(requireActivity()).apply {
-                setType("text/plain")
-                setSubject("Analytics")
-                setText(analytics)
-            }.createChooserIntent()
+            val intent = ShareCompat.IntentBuilder(requireActivity())
+                .setType("text/plain")
+                .setSubject("Analytics")
+                .setText(analytics)
+                .createChooserIntent()
             startActivity(intent)
         }
 
