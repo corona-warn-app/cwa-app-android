@@ -74,12 +74,8 @@ import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.VaccinationSettings
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
-import de.rki.coronawarnapp.vaccination.ui.homecard.ImmuneVaccinationHomeCard
-import de.rki.coronawarnapp.vaccination.ui.homecard.CreateVaccinationHomeCard
-import de.rki.coronawarnapp.vaccination.ui.homecard.VaccinationHomeCard
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -154,29 +150,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 else -> add(tracingItem)
             }
 
-            vaccinatedPersons.forEach { vaccinatedPerson ->
-                val card = when (vaccinatedPerson.getVaccinationStatus()) {
-                    VaccinatedPerson.Status.COMPLETE,
-                    VaccinatedPerson.Status.INCOMPLETE -> VaccinationHomeCard.Item(
-                        vaccinatedPerson = vaccinatedPerson,
-                        onClickAction = {
-                            events.postValue(
-                                HomeFragmentEvents.GoToVaccinationList(vaccinatedPerson.identifier.codeSHA256)
-                            )
-                        }
-                    )
-                    VaccinatedPerson.Status.IMMUNITY -> ImmuneVaccinationHomeCard.Item(
-                        vaccinatedPerson = vaccinatedPerson,
-                        onClickAction = {
-                            events.postValue(
-                                HomeFragmentEvents.GoToVaccinationList(vaccinatedPerson.identifier.codeSHA256)
-                            )
-                        }
-                    )
-                }
-                add(card)
-            }
-
             if (bluetoothSupport.isAdvertisingSupported == false) {
                 val scanningSupported = bluetoothSupport.isScanningSupported != false
                 add(
@@ -209,18 +182,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     } else add(testRAT.toTestCardItem(coronaTestParameters))
                 }
             }
-
-            add(
-                CreateVaccinationHomeCard.Item(
-                    onClickAction = {
-                        events.postValue(
-                            HomeFragmentEvents.OpenVaccinationRegistrationGraph(
-                                vaccinationSettings.registrationAcknowledged
-                            )
-                        )
-                    }
-                )
-            )
 
             if (statsData.isDataAvailable) {
                 add(
