@@ -43,7 +43,4 @@ fun FragmentManager.findNavController(@IdRes id: Int): NavController {
  * @param nestedGraphId
  * @throws IllegalArgumentException if graph not found
  */
-fun Fragment.findNestedGraph(@IdRes nestedGraphId: Int): NavGraph {
-    return findNavController().graph.findNode(nestedGraphId) as? NavGraph
-        ?: throw IllegalArgumentException("Nested graph with id=$nestedGraphId not found")
-}
+fun Fragment.findNestedGraph(@IdRes nestedGraphId: Int) = findNavController().findNestedGraph(nestedGraphId)

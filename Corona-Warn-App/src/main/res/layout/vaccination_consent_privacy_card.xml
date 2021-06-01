@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/vaccination_consent_legal_text_card_title"
-        style="@style/subtitleBoldSixteen"
+        style="@style/headline5"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_small"
