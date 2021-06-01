@@ -3,14 +3,17 @@ package de.rki.coronawarnapp.greencertificate.ui.certificates.details
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
+import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.AppBarLayout
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmentDirections
 import de.rki.coronawarnapp.databinding.FragmentGreencertificateDetailsBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.setUrl
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -55,6 +58,10 @@ class GreenCertificateDetailsFragment : Fragment(R.layout.fragment_greencertific
                 )
             }
 
+            binding.apply {
+                setupMenu(toolbar)
+            }
+
             setToolbarOverlay()
 
             viewModel.qrCode.observe(viewLifecycleOwner) {
@@ -80,5 +87,22 @@ class GreenCertificateDetailsFragment : Fragment(R.layout.fragment_greencertific
 
         val behavior: AppBarLayout.ScrollingViewBehavior = params.behavior as (AppBarLayout.ScrollingViewBehavior)
         behavior.overlayTop = (width / 3) + 170
+    }
+
+    private fun setupMenu(toolbar: Toolbar) = toolbar.apply {
+        inflateMenu(R.menu.menu_green_certificate_detail)
+        setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_green_certificate_delete -> {
+                    /*
+                    doNavigate(
+                        ContactDiaryOverviewFragmentDirections
+                            .actionContactDiaryOverviewFragmentToContactDiaryOnboardingFragment(showBottomNav = false)
+                    ) */
+                    true
+                }
+                else -> onOptionsItemSelected(it)
+            }
+        }
     }
 }
