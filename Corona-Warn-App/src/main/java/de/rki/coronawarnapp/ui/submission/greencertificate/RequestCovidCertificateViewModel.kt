@@ -19,8 +19,8 @@ import timber.log.Timber
 
 class RequestCovidCertificateViewModel @AssistedInject constructor(
     @Assisted private val coronaTestQrCode: CoronaTestQRCode,
-    @Assisted private val coronaTestConsent: Boolean,
-    @Assisted private val deleteOldTest: Boolean,
+    @Assisted("coronaTestConsent") private val coronaTestConsent: Boolean,
+    @Assisted("deleteOldTest") private val deleteOldTest: Boolean,
     private val qrCodeRegistrationStateProcessor: QrCodeRegistrationStateProcessor,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
     private val submissionRepository: SubmissionRepository,
@@ -90,8 +90,8 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
     interface Factory : CWAViewModelFactory<RequestCovidCertificateViewModel> {
         fun create(
             coronaTestQrCode: CoronaTestQRCode,
-            coronaTestConsent: Boolean,
-            deleteOldTest: Boolean
+            @Assisted("coronaTestConsent") coronaTestConsent: Boolean,
+            @Assisted("deleteOldTest") deleteOldTest: Boolean
         ): RequestCovidCertificateViewModel
     }
 }
