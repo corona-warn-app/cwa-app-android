@@ -99,19 +99,15 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
         }
         .asLiveData(context = dispatcherProvider.Default)
 
-    val testCertResultInfo: LiveData<LazyString> = submissionRepository.testForType(testType)
-        .map { coronaTest ->
-            // Default
-            var text = R.string.submission_test_result_pending_steps_test_certificate_not_supported_body
-
-            if (coronaTest != null && coronaTest.type == CoronaTest.Type.PCR) {
-                text = when (coronaTest.isAdvancedConsentGiven) {
+    val testCertResultInfo: LiveData<LazyString> = testResultFlow
+        .map {
+            when (it.coronaTest.type) {
+                CoronaTest.Type.RAPID_ANTIGEN -> R.string.submission_test_result_pending_steps_test_certificate_not_supported_body
+                CoronaTest.Type.PCR -> when (it.coronaTest.isAdvancedConsentGiven) {
                     true -> R.string.submission_test_result_pending_steps_test_certificate_not_available_yet_body
                     false -> R.string.submission_test_result_pending_steps_test_certificate_not_desired_by_user_body
                 }
-            }
-
-            text.toResolvingString()
+            }.toResolvingString()
         }
         .asLiveData(context = dispatcherProvider.Default)
 
