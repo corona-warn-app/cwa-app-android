@@ -78,7 +78,8 @@ class AnalyticsPCRTestResultDonorTest : BaseTest() {
     @Test
     fun `No donation when test result is PENDING and hours isn't greater or equal to config hours`() {
         runBlockingTest {
-            every { testResultSettings.testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.PCR_OR_RAT_PENDING)
+            every { testResultSettings.testResultAtRegistration } returns
+                mockFlowPreference(CoronaTestResult.PCR_OR_RAT_PENDING)
 
             testResultDonor.beginDonation(TestRequest) shouldBe
                 AnalyticsTestResultDonor.TestResultMetadataNoContribution

@@ -194,7 +194,8 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
         runBlockingTest {
             every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(true)
             every { pcrTestResultSettings.testResultAtRegistration } returns mockFlowPreference(PCR_OR_RAT_PENDING)
-            every { pcrTestResultSettings.finalTestResultReceivedAt } returns mockFlowPreference(Instant.parse("2021-03-02T09:57:11+01:00"))
+            every { pcrTestResultSettings.finalTestResultReceivedAt } returns
+                mockFlowPreference(Instant.parse("2021-03-02T09:57:11+01:00"))
             analyticsTestResultCollector.reportTestResultReceived(PCR_NEGATIVE, PCR)
 
             verify {
@@ -205,7 +206,8 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
             }
 
             every { raTestResultSettings.testResultAtRegistration } returns mockFlowPreference(PCR_OR_RAT_PENDING)
-            every { raTestResultSettings.finalTestResultReceivedAt } returns mockFlowPreference(Instant.parse("2021-03-02T09:57:11+01:00"))
+            every { raTestResultSettings.finalTestResultReceivedAt } returns
+                mockFlowPreference(Instant.parse("2021-03-02T09:57:11+01:00"))
             analyticsTestResultCollector.reportTestResultReceived(RAT_NEGATIVE, RAPID_ANTIGEN)
 
             verify {
