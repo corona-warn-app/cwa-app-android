@@ -17,6 +17,9 @@ class AesCryptographyTest : BaseTest() {
     fun `decrypt Hello World`() {
         val des = "d56t/juMw5r4qNx1n1igs1pobUjZBT5yq0Ct7MHUuKM=".toByteArray()
         val encryptedString = "WFOLewp8DWqY/8IWUHEDwg==".toByteArray()
-        AesCryptography().decrypt(des, encryptedData = encryptedString) shouldBe "Hello world"
+        AesCryptography().decrypt(
+            des,
+            encryptedData = encryptedString
+        ) shouldBe "Hello world"
     }
 }
