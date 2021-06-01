@@ -100,7 +100,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
             every { lastName } returns "Mustermann"
             every { dateOfBirth } returns LocalDate.parse("01.02.1976", formatter)
             every { vaccinatedAt } returns LocalDate.parse("18.02.2021", formatter)
-            every { vaccineName } returns "Comirnaty (mRNA)"
+            every { vaccineTypeName } returns "Comirnaty (mRNA)"
             every { vaccineManufacturer } returns "BioNTech"
             every { certificateIssuer } returns "Landratsamt Musterstadt"
             every { certificateCountry } returns "Deutschland"
