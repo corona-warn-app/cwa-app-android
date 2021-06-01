@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.presencetracing.common
 
 import android.content.Context
+import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.util.BuildVersionWrap
 import io.mockk.MockKAnnotations
@@ -33,7 +34,7 @@ class TraceLocationNotificationsTest : BaseTest() {
         every { BuildVersionWrap.SDK_INT } returns 42
 
         notificationManager.apply {
-            every { createNotificationChannel(any()) } just Runs
+            every { createNotificationChannel(any<NotificationChannelCompat>()) } just Runs
             every { notify(any(), any()) } just Runs
         }
     }
@@ -49,7 +50,7 @@ class TraceLocationNotificationsTest : BaseTest() {
         instance.sendNotification(1, mockk())
 
         verify {
-            notificationManager.createNotificationChannel(any())
+            notificationManager.createNotificationChannel(any<NotificationChannelCompat>())
             notificationManager.notify(1, any())
         }
     }
@@ -60,7 +61,7 @@ class TraceLocationNotificationsTest : BaseTest() {
         val instance = createInstance()
         instance.sendNotification(1, mockk())
 
-        verify(exactly = 0) { notificationManager.createNotificationChannel(any()) }
+        verify(exactly = 0) { notificationManager.createNotificationChannel(any<NotificationChannelCompat>()) }
         verify { notificationManager.notify(1, any()) }
     }
 }

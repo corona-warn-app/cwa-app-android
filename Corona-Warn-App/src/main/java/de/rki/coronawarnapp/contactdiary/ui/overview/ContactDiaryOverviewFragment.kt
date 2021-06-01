@@ -86,8 +86,7 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
     private fun exportLocationsAndPersons(exportString: String) {
         Timber.d("exportLocationsAndPersons(exportString=$exportString)")
         activity?.let { activity ->
-            val shareIntent = ShareCompat.IntentBuilder
-                .from(activity)
+            val shareIntent = ShareCompat.IntentBuilder(activity)
                 .setType("text/plain")
                 .setSubject(getString(R.string.contact_diary_export_subject))
                 .setText(exportString)
