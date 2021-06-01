@@ -12,6 +12,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
@@ -42,7 +43,7 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as RequestCovidCertificateViewModel.Factory
-            factory.create(args.coronaTestQrCode, args.coronaTestConsent)
+            factory.create(args.coronaTestQrCode, args.coronaTestConsent, args.deleteOldTest)
         }
     )
     private val binding by viewBinding<FragmentRequestCovidCertificateBinding>()
@@ -80,6 +81,7 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
             viewModel.registrationError.observe(viewLifecycleOwner) { DialogHelper.showDialog(buildErrorDialog(it)) }
             viewModel.registrationState.observe(viewLifecycleOwner) { state -> handleRegistrationState(state) }
             viewModel.showRedeemedTokenWarning.observe(viewLifecycleOwner) { DialogHelper.showDialog(redeemDialog()) }
+            viewModel.removalError.observe(viewLifecycleOwner) { it.toErrorDialogBuilder(requireContext()).show() }
         }
 
     private fun handleRegistrationState(state: QrCodeRegistrationStateProcessor.RegistrationState) {

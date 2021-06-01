@@ -5,25 +5,33 @@ import androidx.lifecycle.MutableLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import kotlinx.coroutines.flow.first
 import org.joda.time.LocalDate
+import timber.log.Timber
 
 class RequestCovidCertificateViewModel @AssistedInject constructor(
     @Assisted private val coronaTestQrCode: CoronaTestQRCode,
     @Assisted private val coronaTestConsent: Boolean,
+    @Assisted private val deleteOldTest: Boolean,
     private val qrCodeRegistrationStateProcessor: QrCodeRegistrationStateProcessor,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
+    private val submissionRepository: SubmissionRepository,
+    private val coronaTestRepository: CoronaTestRepository,
 ) : CWAViewModel() {
 
     // Test registration LiveData
     val showRedeemedTokenWarning = qrCodeRegistrationStateProcessor.showRedeemedTokenWarning
     val registrationState = qrCodeRegistrationStateProcessor.registrationState
     val registrationError = qrCodeRegistrationStateProcessor.registrationError
+    val removalError = SingleLiveEvent<Throwable>()
 
     private val birthDateData = MutableLiveData<LocalDate>(null)
     val birthDate: LiveData<LocalDate> = birthDateData
@@ -33,9 +41,9 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
         birthDateData.value = localDate
     }
 
-    fun onAgreeGC() = registerWithDccConsent(dccConsent = true)
+    fun onAgreeGC() = registerAndMaybeDelete(dccConsent = true)
 
-    fun onDisagreeGC() = registerWithDccConsent(dccConsent = false)
+    fun onDisagreeGC() = registerAndMaybeDelete(dccConsent = false)
 
     fun navigateBack() {
         events.postValue(Back)
@@ -49,7 +57,12 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
         events.postValue(ToDispatcherScreen)
     }
 
-    private fun registerWithDccConsent(dccConsent: Boolean) = launch {
+    private fun registerAndMaybeDelete(dccConsent: Boolean) = launch {
+        if (deleteOldTest) removeOldTest()
+        registerWithDccConsent(dccConsent)
+    }
+
+    private suspend fun registerWithDccConsent(dccConsent: Boolean) {
         val consentedQrCode = when (coronaTestQrCode) {
             is CoronaTestQRCode.PCR -> coronaTestQrCode.copy(
                 dateOfBirth = birthDateData.value,
@@ -62,11 +75,23 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
         if (coronaTestConsent) analyticsKeySubmissionCollector.reportAdvancedConsentGiven(consentedQrCode.type)
     }
 
+    private suspend fun removeOldTest() {
+        try {
+            submissionRepository.testForType(coronaTestQrCode.type).first()?.let {
+                coronaTestRepository.removeTest(it.identifier)
+            } ?: Timber.e("Test for type ${coronaTestQrCode.type} is not found")
+        } catch (e: Exception) {
+            Timber.d(e, "removeOldTest failed")
+            removalError.postValue(e)
+        }
+    }
+
     @AssistedFactory
     interface Factory : CWAViewModelFactory<RequestCovidCertificateViewModel> {
         fun create(
             coronaTestQrCode: CoronaTestQRCode,
-            coronaTestConsent: Boolean
+            coronaTestConsent: Boolean,
+            deleteOldTest: Boolean
         ): RequestCovidCertificateViewModel
     }
 }

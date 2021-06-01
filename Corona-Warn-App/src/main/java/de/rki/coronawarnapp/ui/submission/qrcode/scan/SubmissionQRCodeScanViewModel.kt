@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.submission.qrcode.scan
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
@@ -46,7 +45,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
                     )
                 )
 
-                else -> if (ctQrCode is CoronaTestQRCode.RapidAntigen && !ctQrCode.isDccSupportedByPoc) {
+                else -> if (!ctQrCode.isDccSupportedByPoc) {
                     qrCodeRegistrationStateProcessor.startQrCodeRegistration(ctQrCode, isConsentGiven)
                     if (isConsentGiven) analyticsKeySubmissionCollector.reportAdvancedConsentGiven(ctQrCode.type)
                 } else {

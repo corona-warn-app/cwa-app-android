@@ -753,6 +753,12 @@
             app:destination="@id/submissionConsentFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
+
+        <action
+            android:id="@+id/action_submissionDeletionWarningFragment_to_requestCovidCertificateFragment"
+            app:destination="@id/requestCovidCertificateFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
@@ -832,6 +838,11 @@
             app:argType="de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode" />
         <argument
             android:name="coronaTestConsent"
+            android:defaultValue="false"
+            app:argType="boolean" />
+
+        <argument
+            android:name="deleteOldTest"
             android:defaultValue="false"
             app:argType="boolean" />
 

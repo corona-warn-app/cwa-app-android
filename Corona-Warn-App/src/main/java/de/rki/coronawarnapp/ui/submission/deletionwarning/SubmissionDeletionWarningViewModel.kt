@@ -49,7 +49,25 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
 
     private suspend fun deleteExistingAndRegisterNewTestWithQrCode() = try {
         requireNotNull(coronaTestQrCode) { "QR Code was unavailable" }
+        if (coronaTestQrCode.isDccSupportedByPoc) {
+            SubmissionDeletionWarningFragmentDirections
+                .actionSubmissionDeletionWarningFragmentToRequestCovidCertificateFragment(
+                    coronaTestQrCode = coronaTestQrCode,
+                    coronaTestConsent = isConsentGiven,
+                    deleteOldTest = true
+                ).run { routeToScreen.postValue(this) }
+        } else {
+            removeAndRegisterNew(coronaTestQrCode)
+        }
+    } catch (e: Exception) {
+        Timber.e(e, "Error during test registration via QR code")
+        mutableRegistrationState.postValue(RegistrationState(isFetching = false))
+        registrationError.postValue(e)
+    }
 
+    private suspend fun removeAndRegisterNew(
+        coronaTestQrCode: CoronaTestQRCode
+    ) {
         // Remove existing test and wait until that is done
         submissionRepository.testForType(coronaTestQrCode.type).first()?.let {
             coronaTestRepository.removeTest(it.identifier)
@@ -70,10 +88,6 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
 
         continueWithNewTest(coronaTest)
         mutableRegistrationState.postValue(RegistrationState(coronaTest = coronaTest))
-    } catch (e: Exception) {
-        Timber.e(e, "Error during test registration via QR code")
-        mutableRegistrationState.postValue(RegistrationState(isFetching = false))
-        registrationError.postValue(e)
     }
 
     private suspend fun deleteExistingAndRegisterNewTestWitTAN() = try {
@@ -113,9 +127,9 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
                     .actionSubmissionDeletionWarningFragmentToSubmissionTestResultPendingFragment(testType)
             }
 
-            RegistrationType.TAN -> SubmissionDeletionWarningFragmentDirections
-                .actionSubmissionDeletionFragmentToSubmissionTestResultNoConsentFragment(getTestType())
-
+            RegistrationType.TAN ->
+                SubmissionDeletionWarningFragmentDirections
+                    .actionSubmissionDeletionFragmentToSubmissionTestResultNoConsentFragment(getTestType())
         }.run { routeToScreen.postValue(this) }
     }
 
