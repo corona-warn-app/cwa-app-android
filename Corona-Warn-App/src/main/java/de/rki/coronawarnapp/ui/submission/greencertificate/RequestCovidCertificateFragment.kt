@@ -60,7 +60,6 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
             dateInputEdit.setOnClickListener { openDatePicker() }
             privacyInformation.setOnClickListener { findNavController().navigate(R.id.informationPrivacyFragment) }
 
-
             viewModel.birthDate.observe(viewLifecycleOwner) { date -> agreeButton.isEnabled = !isPCR || date != null }
             viewModel.registrationError.observe(viewLifecycleOwner) { DialogHelper.showDialog(buildErrorDialog(it)) }
             viewModel.showRedeemedTokenWarning.observe(viewLifecycleOwner) { DialogHelper.showDialog(redeemDialog()) }
