@@ -20,8 +20,6 @@ import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.ui.statistics.Statistics
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
-import de.rki.coronawarnapp.vaccination.ui.homecard.CreateVaccinationHomeCard
-import de.rki.coronawarnapp.vaccination.ui.homecard.VaccinationStatusItem
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
@@ -251,42 +249,6 @@ class HomeFragmentTest : BaseUITest() {
         takeScreenshot<HomeFragment>("vaccination_none")
     }
 
-    @Screenshot
-    @Test
-    fun captureVaccinationIncomplete() {
-        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
-            vaccinationStatus = HomeData.Vaccination.INCOMPLETE
-        )
-        launchInMainActivity<HomeFragment>()
-        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2))
-
-        takeScreenshot<HomeFragment>("vaccination_incomplete")
-    }
-
-    @Screenshot
-    @Test
-    fun captureVaccinationComplete() {
-        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
-            vaccinationStatus = HomeData.Vaccination.COMPLETE
-        )
-        launchInMainActivity<HomeFragment>()
-        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2))
-
-        takeScreenshot<HomeFragment>("vaccination_complete")
-    }
-
-    @Screenshot
-    @Test
-    fun captureVaccinationImmunity() {
-        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
-            vaccinationStatus = HomeData.Vaccination.IMMUNITY
-        )
-        launchInMainActivity<HomeFragment>()
-        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2))
-
-        takeScreenshot<HomeFragment>("vaccination_immunity")
-    }
-
     @After
     fun teardown() {
         clearAllViewModels()
@@ -306,8 +268,7 @@ class HomeFragmentTest : BaseUITest() {
     // LiveData item for fragments
     private fun homeFragmentItemsLiveData(
         tracingStateItem: TracingStateItem = HomeData.Tracing.LOW_RISK_ITEM_WITH_ENCOUNTERS,
-        submissionTestResultItems: List<TestResultItem> = listOf(HomeData.Submission.TEST_UNREGISTERED_ITEM),
-        vaccinationStatus: VaccinationStatusItem? = null,
+        submissionTestResultItems: List<TestResultItem> = listOf(HomeData.Submission.TEST_UNREGISTERED_ITEM)
     ): LiveData<List<HomeItem>> =
         MutableLiveData(
             mutableListOf<HomeItem>().apply {
@@ -325,13 +286,7 @@ class HomeFragmentTest : BaseUITest() {
                     add(tracingStateItem)
                 }
 
-                vaccinationStatus?.let {
-                    add(it)
-                }
-
                 addAll(submissionTestResultItems)
-
-                add(CreateVaccinationHomeCard.Item {})
 
                 Statistics.statisticsData?.let {
                     add(StatisticsHomeCard.Item(data = it, onHelpAction = { }))

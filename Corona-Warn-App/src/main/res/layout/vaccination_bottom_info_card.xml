@@ -14,7 +14,7 @@
         android:layout_marginEnd="@dimen/spacing_small"
         android:accessibilityHeading="true"
         android:focusable="false"
-        android:text="@string/vaccination_card_registration_title_line_1"
+        android:text="@string/info_banner_title_1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,7 +28,7 @@
         android:layout_marginEnd="@dimen/spacing_small"
         android:accessibilityHeading="true"
         android:focusable="false"
-        android:text="@string/vaccination_card_registration_title_line_2"
+        android:text="@string/info_banner_title_2"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,24 +40,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/card_padding"
-        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_small"
         android:layout_marginEnd="@dimen/spacing_small"
         android:focusable="false"
         android:paddingBottom="@dimen/spacing_small"
-        android:text="@string/vaccination_card_registration_body"
+        android:text="@string/info_banner_body"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/icon" />
-
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_normal"
-        android:importantForAccessibility="no"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title2"
-        app:srcCompat="@drawable/ic_digitalen_impfnachweis_hinzufugen" />
+        app:layout_constraintTop_toBottomOf="@id/title2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
