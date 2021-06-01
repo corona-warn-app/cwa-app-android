@@ -1,14 +1,14 @@
-package de.rki.coronawarnapp.vaccination.ui.homecard
+package de.rki.coronawarnapp.vaccination.ui.cards
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.VaccinationHomeRegistrationCardBinding
-import de.rki.coronawarnapp.ui.main.home.HomeAdapter
-import de.rki.coronawarnapp.ui.main.home.items.HomeItem
+import de.rki.coronawarnapp.greencertificate.ui.certificates.CertificatesAdapter
+import de.rki.coronawarnapp.greencertificate.ui.certificates.items.CertificatesItem
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
-class CreateVaccinationHomeCard(parent: ViewGroup) :
-    HomeAdapter.HomeItemVH<CreateVaccinationHomeCard.Item, VaccinationHomeRegistrationCardBinding>(
+class CreateVaccinationCard(parent: ViewGroup) :
+    CertificatesAdapter.CertificatesItemVH<CreateVaccinationCard.Item, VaccinationHomeRegistrationCardBinding>(
         R.layout.home_card_container_layout,
         parent
     ) {
@@ -30,12 +30,9 @@ class CreateVaccinationHomeCard(parent: ViewGroup) :
         itemView.setOnClickListener {
             onClick()
         }
-        nextStepsAction.setOnClickListener {
-            onClick()
-        }
     }
 
-    data class Item(val onClickAction: (Item) -> Unit) : HomeItem, HasPayloadDiffer {
+    data class Item(val onClickAction: (Item) -> Unit) : CertificatesItem, HasPayloadDiffer {
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
 
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
