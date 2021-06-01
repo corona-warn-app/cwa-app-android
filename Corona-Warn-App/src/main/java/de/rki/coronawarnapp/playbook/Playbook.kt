@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.playbook
 
-import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResultResponse
-import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
+import de.rki.coronawarnapp.coronatest.server.RegistrationData
+import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
@@ -21,13 +21,7 @@ import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
  */
 interface Playbook {
 
-    /**
-     * @return pair of Registration token [String] & [CoronaTestResult]
-     */
-    suspend fun initialRegistration(
-        key: String,
-        keyType: VerificationKeyType
-    ): Pair<String, CoronaTestResultResponse>
+    suspend fun initialRegistration(tokenRequest: RegistrationRequest): RegistrationData
 
     suspend fun testResult(registrationToken: String): CoronaTestResultResponse
 
