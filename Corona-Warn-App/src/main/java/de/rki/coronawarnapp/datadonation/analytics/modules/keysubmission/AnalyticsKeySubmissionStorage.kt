@@ -8,11 +8,19 @@ import javax.inject.Inject
 
 class AnalyticsPCRKeySubmissionStorage @Inject constructor(
     @AppContext context: Context
-) : AnalyticsKeySubmissionStorage(context, "") // the original
+) : AnalyticsKeySubmissionStorage(context, sharedPrefKeySuffix) {
+    companion object {
+        const val sharedPrefKeySuffix = "" // the original
+    }
+}
 
 class AnalyticsRAKeySubmissionStorage @Inject constructor(
     @AppContext context: Context
-) : AnalyticsKeySubmissionStorage(context, "_RAT")
+) : AnalyticsKeySubmissionStorage(context, sharedPrefKeySuffix) {
+    companion object {
+        const val sharedPrefKeySuffix = "_RAT"
+    }
+}
 
 open class AnalyticsKeySubmissionStorage(
     val context: Context,

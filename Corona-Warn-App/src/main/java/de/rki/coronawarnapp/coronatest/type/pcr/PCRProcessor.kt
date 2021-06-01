@@ -55,6 +55,9 @@ class PCRProcessor @Inject constructor(
     private suspend fun createQR(request: CoronaTestQRCode.PCR): PCRCoronaTest {
         Timber.tag(TAG).d("createQR(data=%s)", request)
 
+        analyticsKeySubmissionCollector.reset(type)
+        analyticsTestResultCollector.clear(type)
+
         val dateOfBirthKey = if (request.isDccConsentGiven && request.dateOfBirth != null) {
             DateOfBirthKey(request.qrCodeGUID, request.dateOfBirth)
         } else null
@@ -69,14 +72,19 @@ class PCRProcessor @Inject constructor(
             Timber.tag(TAG).d("Request %s gave us %s", request, it)
         }
 
-        // This saves received at
-        analyticsTestResultCollector.saveTestResult(registrationData.testResultResponse.coronaTestResult, type)
+        analyticsTestResultCollector.reportTestResultAtRegistration(
+            registrationData.testResultResponse.coronaTestResult,
+            type
+        )
 
         return createCoronaTest(request, registrationData)
     }
 
     private suspend fun createTAN(request: CoronaTestTAN.PCR): CoronaTest {
         Timber.tag(TAG).d("createTAN(data=%s)", request)
+
+        analyticsKeySubmissionCollector.reset(type)
+        analyticsTestResultCollector.clear(type)
 
         val serverRequest = RegistrationRequest(
             key = request.tan,
@@ -98,12 +106,9 @@ class PCRProcessor @Inject constructor(
         response: RegistrationData
     ): PCRCoronaTest {
 
-        analyticsKeySubmissionCollector.reset(type)
-        analyticsTestResultCollector.clear(type)
-
         val testResult = response.testResultResponse.coronaTestResult.let {
             Timber.tag(TAG).v("Raw test result $it")
-            analyticsTestResultCollector.updatePendingTestResultReceivedTime(it, type)
+            analyticsTestResultCollector.reportTestResultReceived(it, type)
             it.toValidatedResult()
         }
 
@@ -148,7 +153,7 @@ class PCRProcessor @Inject constructor(
             val newTestResult = try {
                 submissionService.checkTestResult(test.registrationToken).coronaTestResult.let {
                     Timber.tag(TAG).d("Raw test result was %s", it)
-                    analyticsTestResultCollector.updatePendingTestResultReceivedTime(it, type)
+                    analyticsTestResultCollector.reportTestResultReceived(it, type)
 
                     it.toValidatedResult()
                 }
