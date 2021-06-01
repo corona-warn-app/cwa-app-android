@@ -52,10 +52,10 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
                     )
                 )
             } else {
+                qrCodeRegistrationStateProcessor.startQrCodeRegistration(coronaTestQRCode, isConsentGiven)
                 if (isConsentGiven) {
                     analyticsKeySubmissionCollector.reportAdvancedConsentGiven(coronaTestQRCode.type)
                 }
-                qrCodeRegistrationStateProcessor.startQrCodeRegistration(coronaTestQRCode, isConsentGiven)
             }
         } catch (err: InvalidQRCodeException) {
             qrCodeValidationState.postValue(QrCodeRegistrationStateProcessor.ValidationState.INVALID)
