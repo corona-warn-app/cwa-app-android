@@ -70,7 +70,6 @@
                 app:layout_collapseMode="pin"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:navigationIcon="@drawable/ic_back"
-                app:menu="@menu/menu_green_certificate_detail"
                 app:navigationIconTint="@android:color/white">
 
                 <LinearLayout
