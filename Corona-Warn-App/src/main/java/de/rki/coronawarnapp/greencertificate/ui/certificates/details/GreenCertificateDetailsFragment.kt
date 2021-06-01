@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmentDirections
 import de.rki.coronawarnapp.databinding.FragmentGreencertificateDetailsBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
+import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.setUrl
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -58,6 +59,12 @@ class GreenCertificateDetailsFragment : Fragment(R.layout.fragment_greencertific
                 )
             }
 
+            viewModel.events.observe(viewLifecycleOwner) {
+                when (it) {
+                    GreenCertificateDetailsNavigation.Back -> popBackStack()
+                }
+            }
+
             binding.apply {
                 setupMenu(toolbar)
             }
@@ -94,15 +101,24 @@ class GreenCertificateDetailsFragment : Fragment(R.layout.fragment_greencertific
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_green_certificate_delete -> {
-                    /*
-                    doNavigate(
-                        ContactDiaryOverviewFragmentDirections
-                            .actionContactDiaryOverviewFragmentToContactDiaryOnboardingFragment(showBottomNav = false)
-                    ) */
+                    DialogHelper.showDialog(deleteTestConfirmationDialog)
                     true
                 }
                 else -> onOptionsItemSelected(it)
             }
         }
+    }
+
+    private val deleteTestConfirmationDialog by lazy {
+        DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.green_certificate_details_dialog_remove_test_title,
+            R.string.green_certificate_details_dialog_remove_test_message,
+            R.string.green_certificate_details_dialog_remove_test_button_positive,
+            R.string.green_certificate_details_dialog_remove_test_button_negative,
+            positiveButtonFunction = {
+                viewModel.onDeleteTestConfirmed()
+            }
+        )
     }
 }

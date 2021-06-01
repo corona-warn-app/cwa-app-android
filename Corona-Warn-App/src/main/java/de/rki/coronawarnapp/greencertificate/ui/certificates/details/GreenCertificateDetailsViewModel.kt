@@ -4,6 +4,8 @@ import android.graphics.Bitmap
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -34,6 +36,17 @@ class GreenCertificateDetailsViewModel @AssistedInject constructor(
         } catch (e: Exception) {
             Timber.d(e, "generateQrCode failed for greenCertificate=%s", "Sample Certificate")
             mutableStateFlow.value = null
+        }
+    }
+
+    fun onDeleteTestConfirmed() {
+        try {
+            Timber.d("deleteTest")
+            // TODO: Delete test in repo
+            events.postValue(GreenCertificateDetailsNavigation.Back)
+        } catch (e: Exception) {
+            Timber.d(e, "Failed to delete test certificate")
+            e.report(ExceptionCategory.INTERNAL)
         }
     }
 

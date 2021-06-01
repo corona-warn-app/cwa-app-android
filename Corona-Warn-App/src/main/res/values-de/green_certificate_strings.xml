@@ -38,4 +38,13 @@
     <string name="green_certificate_travel_notice_link_de">"https://reopen.europa.eu/de"</string>
     <!-- XTXT: Detail green certificate menu item: delete -->
     <string name="green_certificate_details_menu_item_delete">"Entfernen"</string>
+    <!-- XTXT: Detail green certificate diaglog title -->
+    <string name="green_certificate_details_dialog_remove_test_title">"Wollen Sie das Testzertifikat wirklich entfernen?"</string>
+    <!-- XTXT: Detail green certificate diaglog message -->
+    <string name="green_certificate_details_dialog_remove_test_message">"Wenn Sie das Testzertifikat entfernen, können Sie es nicht mehr als Nachweis in der App verwenden."</string>
+    <!-- XTXT: Detail green certificate diaglog positive -->
+    <string name="green_certificate_details_dialog_remove_test_button_positive">"Entfernen"</string>
+    <!-- XTXT: Detail green certificate diaglog negative -->
+    <string name="green_certificate_details_dialog_remove_test_button_negative">"Abbrechen"</string>
+
 </resources>
