@@ -8,9 +8,10 @@ import retrofit2.http.POST
 interface VerificationApiV1 {
 
     data class RegistrationTokenRequest(
-        @SerializedName("keyType") val keyType: String? = null,
-        @SerializedName("key") val key: String? = null,
-        @SerializedName("requestPadding") val requestPadding: String? = null
+        @SerializedName("keyType") val keyType: VerificationKeyType,
+        @SerializedName("key") val key: String,
+        @SerializedName("keyDob") val dateOfBirthKey: String? = null,
+        @SerializedName("requestPadding") val requestPadding: String? = null,
     )
 
     data class RegistrationTokenResponse(
@@ -25,8 +26,8 @@ interface VerificationApiV1 {
     ): RegistrationTokenResponse
 
     data class RegistrationRequest(
-        @SerializedName("registrationToken") val registrationToken: String? = null,
-        @SerializedName("requestPadding") val requestPadding: String? = null
+        @SerializedName("registrationToken") val registrationToken: String,
+        @SerializedName("requestPadding") val requestPadding: String
     )
 
     data class TestResultResponse(
@@ -42,8 +43,8 @@ interface VerificationApiV1 {
     ): TestResultResponse
 
     data class TanRequestBody(
-        @SerializedName("registrationToken") val registrationToken: String? = null,
-        @SerializedName("requestPadding") val requestPadding: String? = null
+        @SerializedName("registrationToken") val registrationToken: String,
+        @SerializedName("requestPadding") val requestPadding: String
     )
 
     data class TanResponse(
