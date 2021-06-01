@@ -5,7 +5,7 @@
              Special string files for the strings that should always keep the german / englisch version independent from the selected system language
     ###################################### -->
     <!-- XTXT: Green Certificate Detail Screen Attribute: Name -->
-    <string name="green_certificate_attribute_name" translatable="false">"Name / Name"</string>
+    <string name="green_certificate_attribute_name" translatable="false">"Name, Vorname / Name, First Name"</string>
     <!-- XTXT: Green Certificate Detail Screen Attribute: Date of Birth -->
     <string name="green_certificate_attribute_dob" translatable="false">"Geburtsdatum / Date of Birth"</string>
     <!-- XTXT: Green Certificate Detail Screen Attribute: Disease -->
@@ -16,6 +16,8 @@
     <string name="green_certificate_attribute_test_name" translatable="false">"Produktname / Test Name"</string>
     <!-- XTXT: Green Certificate Detail Screen Attribute: Test Manufacturer -->
     <string name="green_certificate_attribute_test_manufacturer" translatable="false">"Testhersteller / Test Manufacturer"</string>
+    <!-- XTXT: Green Certificate Detail Screen Attribute: Test Date -->
+    <string name="green_certificate_attribute_test_date" translatable="false">"Datum und Uhrzeit der Probenahme / Date and Time of Sample Collection"</string>
     <!-- XTXT: Green Certificate Detail Screen Attribute: Result of the Test -->
     <string name="green_certificate_attribute_test_result" translatable="false">"Testergebnis / Result of the Test"</string>
     <!-- XTXT: Green Certificate Detail Screen Attribute: Testing Center or Facility -->
