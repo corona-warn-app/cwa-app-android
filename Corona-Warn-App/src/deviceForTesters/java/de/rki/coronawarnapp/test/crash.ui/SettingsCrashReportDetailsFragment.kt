@@ -37,8 +37,7 @@ class SettingsCrashReportDetailsFragment :
 
     private fun shareCrashReport() {
         activity?.let { activity ->
-            val shareIntent = ShareCompat.IntentBuilder
-                .from(activity)
+            val shareIntent = ShareCompat.IntentBuilder(activity)
                 .setType("text/plain")
                 .setText(fragmentSettingsCrashReportDetailsBinding.textViewCrashReportDetails.text)
                 .createChooserIntent()

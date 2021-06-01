@@ -9,5 +9,37 @@
         android:id="@+id/certificatesFragment"
         android:name="de.rki.coronawarnapp.greencertificate.ui.certificates.CertificatesFragment"
         android:label="fragment_certificates"
-        tools:layout="@layout/fragment_certificates" />
+        tools:layout="@layout/fragment_certificates" >
+
+        <action
+            android:id="@+id/action_certificatesFragment_to_vaccinationNavGraph"
+            app:destination="@id/vaccination_nav_graph" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/vaccinationConsentFragment"
+        android:name="de.rki.coronawarnapp.vaccination.ui.consent.VaccinationConsentFragment"
+        android:label="vaccination_consent_fragment"
+        tools:layout="@layout/vaccination_consent_fragment" >
+        <argument
+            android:name="showBottomNav"
+            android:defaultValue="true"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_vaccinationConsentFragment_to_certificatesFragment"
+            app:destination="@id/certificatesFragment"
+            app:popUpTo="@id/vaccinationConsentFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_vaccinationConsentFragment_to_privacyFragment"
+            app:destination="@id/privacyFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/privacyFragment"
+        android:name="de.rki.coronawarnapp.ui.information.InformationPrivacyFragment"
+        android:label="privacyFragment"
+        tools:layout="@layout/fragment_information_privacy" />
+
 </navigation>

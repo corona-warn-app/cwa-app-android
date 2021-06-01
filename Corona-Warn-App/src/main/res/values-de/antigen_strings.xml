@@ -7,8 +7,7 @@
     <!-- XHED: Register test homescreen card: title -->
     <string name="ag_homescreen_card_test_register_title">"Test registrieren"</string>
     <!-- XTXT: Register test homescreen card: body -->
-    <string name="ag_homescreen_card_test_register_body">"Nutzen Sie die App, um Ihre Tests zu registrieren und Testergebnisse abzurufen, um andere schneller warnen zu können."</string>
-
+    <string name="ag_homescreen_card_test_register_body">"Nutzen Sie die App, um Ihr Testergebnis abzurufen und andere schneller warnen zu können, oder um Ihr COVID-19-Testzertifikat anzufordern."</string>
     <!-- ####################################
         Homescreen cards - common buttons
     ###################################### -->
@@ -190,7 +189,7 @@
     <!-- XTXT: Create RAT Qr code profile delete item-->
     <string name="rat_qr_code_profile_delete_item">Entfernen</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog title-->
-    <string name="rat_qr_code_profile_dialog_title">Wollen Sie das Schnelltest-Profil wirklich entfernen?</string>
+    <string name="rat_qr_code_profile_dialog_title">Wollen Sie das Schnelltest-Profil entfernen?</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog message-->
     <string name="rat_qr_code_profile_dialog_message">Bitte denken Sie daran, dass der QR-Code danach nicht mehr zum Registrieren verwendet werden kann.</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog positive button-->

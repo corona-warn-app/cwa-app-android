@@ -73,8 +73,8 @@ class RAProcessor @Inject constructor(
         val testResult = registrationData.testResultResponse.coronaTestResult.let {
             Timber.tag(TAG).v("Raw test result was %s", it)
             // This saves received at
-            analyticsTestResultCollector.saveTestResult(it, type)
-            analyticsTestResultCollector.updatePendingTestResultReceivedTime(it, type)
+            analyticsTestResultCollector.reportTestResultAtRegistration(it, type)
+            analyticsTestResultCollector.reportTestResultReceived(it, type)
             it.toValidatedResult()
         }
 

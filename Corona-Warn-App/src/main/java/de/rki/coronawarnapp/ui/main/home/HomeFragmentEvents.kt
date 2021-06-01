@@ -35,8 +35,6 @@ sealed class HomeFragmentEvents {
             }
     }
 
-    data class OpenVaccinationRegistrationGraph(val registrationAcknowledged: Boolean) : HomeFragmentEvents()
-
     data class OpenTraceLocationOrganizerGraph(val qrInfoAcknowledged: Boolean) : HomeFragmentEvents()
 
     data class GoToTestResultPendingFragment(
@@ -49,6 +47,4 @@ sealed class HomeFragmentEvents {
     data class GoToTestResultAvailableFragment(val type: CoronaTest.Type) : HomeFragmentEvents()
 
     data class GoToTestResultPositiveFragment(val type: CoronaTest.Type) : HomeFragmentEvents()
-
-    data class GoToVaccinationList(val personIdentifierCodeSha256: String) : HomeFragmentEvents()
 }

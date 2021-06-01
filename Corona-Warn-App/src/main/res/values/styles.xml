@@ -239,6 +239,10 @@
         <item name="android:backgroundTint">@color/colorVaccinationCardBackground</item>
     </style>
 
+    <style name="Card.Greencertificate" parent="Card.NoElevation">
+        <item name="android:backgroundTint">@color/colorVaccinationCardBackground</item>
+    </style>
+
     <style name="Card.Vaccination.Ripple">
         <item name="android:background">@drawable/grey_card_ripple</item>
     </style>
@@ -356,6 +360,10 @@
 
     <style name="body1" parent="@style/TextAppearance.MaterialComponents.Body1">
         <item name="android:textColor">@color/colorTextPrimary1</item>
+    </style>
+
+    <style name="body1Medium" parent="@style/TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/colorTextPrimary2</item>
     </style>
 
     <style name="body2" parent="@style/TextAppearance.MaterialComponents.Body2">
