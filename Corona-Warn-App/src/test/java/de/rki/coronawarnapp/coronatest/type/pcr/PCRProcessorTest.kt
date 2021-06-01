@@ -277,9 +277,4 @@ class PCRProcessorTest : BaseTest() {
     fun `registering a test with immediate negative result does not create a dcc entry if consent is missing`() {
         TODO()
     }
-
-    @Test
-    fun `dcc retrieval is delayed according to config`() {
-        TODO()
-    }
 }

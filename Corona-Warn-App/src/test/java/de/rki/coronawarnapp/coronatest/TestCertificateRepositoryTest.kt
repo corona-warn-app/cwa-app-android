@@ -29,4 +29,9 @@ class TestCertificateRepositoryTest : BaseTest() {
     fun `refresh skips dcc retrieval if already available`() {
         TODO()
     }
+
+    @Test
+    fun `dcc retrieval is delayed according to config if test result is very new`() {
+        TODO()
+    }
 }

@@ -7,6 +7,7 @@ import dagger.Component
 import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.TestCertificateRepository
 import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
@@ -172,4 +173,7 @@ class MockProvider {
 
     @Provides
     fun vaccinationRepository(): VaccinationRepository = mockk()
+
+    @Provides
+    fun testCertificateRepository(): TestCertificateRepository = mockk()
 }

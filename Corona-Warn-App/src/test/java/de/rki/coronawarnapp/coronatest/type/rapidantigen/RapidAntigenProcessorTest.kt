@@ -291,8 +291,4 @@ class RapidAntigenProcessorTest : BaseTest() {
         TODO()
     }
 
-    @Test
-    fun `dcc retrieval is delayed according to config`() {
-        TODO()
-    }
 }
