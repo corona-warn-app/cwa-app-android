@@ -85,14 +85,14 @@ class InvalidHealthCertificateException(
 
     override fun toHumanReadableError(context: Context): HumanReadableError {
         var errorCodeString = errorCode.toString()
-        errorCodeString = if (errorCodeString.startsWith(PREFIX)) errorCodeString else PREFIX + errorCodeString
+        errorCodeString = if (errorCodeString.startsWith(PREFIX_VC)) errorCodeString else PREFIX_VC + errorCodeString
         return HumanReadableError(
             description = errorMessage.get(context) + "\n\n$errorCodeString"
         )
     }
 }
 
-private const val PREFIX = "VC_"
+private const val PREFIX_VC = "VC_"
 private const val ERROR_MESSAGE_VC_INVALID = R.string.error_vc_invalid
 private const val ERROR_MESSAGE_VC_NOT_YET_SUPPORTED = R.string.error_vc_not_yet_supported
 private const val ERROR_MESSAGE_VC_SCAN_AGAIN = R.string.error_vc_scan_again
