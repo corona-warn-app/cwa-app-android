@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.ui.main.MainActivityViewModel
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
+import de.rki.coronawarnapp.vaccination.core.VaccinationSettings
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -34,6 +35,7 @@ class MainActivityViewModelTest : BaseTest() {
     @MockK lateinit var onboardingSettings: OnboardingSettings
     @MockK lateinit var traceLocationSettings: TraceLocationSettings
     @MockK lateinit var checkInRepository: CheckInRepository
+    @MockK lateinit var vaccinationSettings: VaccinationSettings
 
     @BeforeEach
     fun setup() {
@@ -59,6 +61,7 @@ class MainActivityViewModelTest : BaseTest() {
         onboardingSettings = onboardingSettings,
         checkInRepository = checkInRepository,
         traceLocationSettings = traceLocationSettings,
+        vaccinationSettings = vaccinationSettings,
     )
 
     @Test
@@ -91,6 +94,7 @@ class MainActivityViewModelTest : BaseTest() {
     @Test
     fun `User is not onboarded when settings returns NOT_ONBOARDED `() {
         every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.NOT_ONBOARDED
+        every { vaccinationSettings.registrationAcknowledged } returns true
         val vm = createInstance()
         vm.onBottomNavSelected()
         vm.isContactDiaryOnboardingDone.value shouldBe false
@@ -99,8 +103,27 @@ class MainActivityViewModelTest : BaseTest() {
     @Test
     fun `User is onboarded when settings returns RISK_STATUS_1_12 `() {
         every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
+        every { vaccinationSettings.registrationAcknowledged } returns true
         val vm = createInstance()
         vm.onBottomNavSelected()
         vm.isContactDiaryOnboardingDone.value shouldBe true
+    }
+
+    @Test
+    fun `Vaccination is not acknowledged when settings returns false `() {
+        every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
+        every { vaccinationSettings.registrationAcknowledged } returns false
+        val vm = createInstance()
+        vm.onBottomNavSelected()
+        vm.isVaccinationConsentGiven.value shouldBe false
+    }
+
+    @Test
+    fun `Vaccination is acknowledged  when settings returns true `() {
+        every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
+        every { vaccinationSettings.registrationAcknowledged } returns true
+        val vm = createInstance()
+        vm.onBottomNavSelected()
+        vm.isVaccinationConsentGiven.value shouldBe true
     }
 }

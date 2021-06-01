@@ -98,17 +98,17 @@
     <!-- XTXT: Vaccination Consent title-->
     <string name="vaccination_consent_title">Ihr Einverständnis</string>
     <!-- XTXT: Vaccination Consent subtitle-->
-    <string name="vaccination_consent_headline">Impfzertifikat hinzufügen</string>
+    <string name="vaccination_consent_headline">"Nachweise hinzufügen"</string>
     <!-- XTXT: Vaccination Consent subtitle of qr info -->
-    <string name="vaccination_consent_info_subtitle_text">"Fügen Sie Ihren digitalen Impfnachweis in der App hinzu. Sobald Ihr Impfschutz vollständig ist, können Sie den QR-Code in der App vorzeigen, um Ihren Impfschutz nachzuweisen."</string>
+    <string name="vaccination_consent_info_subtitle_text">"Fügen Sie ihre digitalen COVID-Zertifikate in der App hinzu, um mit der App Ihren Impfschutz oder ein negatives Testergebnis nachweisen zu können."</string>
     <!-- XTXT: Vaccination Consent text of qr info -->
-    <string name="vaccination_consent_qr_info_text">"Um ein Impfzertifikat in die App hinzuzufügen, scannen Sie den QR-Code, den Sie bei der Impfung erhalten haben."</string>
+    <string name="vaccination_consent_qr_info_text">"Sie können digitale COVID-19-Impfzertifikate oder COVID-19-Testzertifikate in der App hinzufügen."</string>
     <!-- XTXT: Vaccination Consent qr code text -->
-    <string name="vaccination_consent_qr_info_qr_code_text">"Die App liest die Informationen aus dem QR-Code aus und speichert diese in einem sicheren Bereich Ihres Smartphones."</string>
+    <string name="vaccination_consent_qr_info_qr_code_text">"Die Zertifikate gelten innerhalb der EU als gültiger Nachweis (z.B. für Reisen)."</string>
     <!-- XTXT: Vaccination Consent time text  -->
-    <string name="vaccination_consent_qr_info_time_text">"Die Daten bleiben auf Ihrem Smartphone. Eine Übertragung an andere Personen findet nur statt, wenn Sie diesen Ihr Impfzertifikat zur Überprüfung vorzeigen."</string>
+    <string name="vaccination_consent_qr_info_time_text">"Nach dem Hinzufügen bleiben die Zertifikate auf Ihrem Smartphone. Andere Personen können Ihre Daten nur einsehen, wenn Sie diesen ein Zertifikat zur Überprüfung vorzeigen."</string>
     <!-- XTXT: Text for vaccination consent legal information button -->
-    <string name="vaccination_consent_onboarding_legal_information">"Weitere Hinweise finden Sie in der Datenschutzerklärung."</string>
+    <string name="vaccination_consent_onboarding_legal_information">"Ausführliche Informationen zur Datenverarbeitung finden Sie in der Datenschutzerklärung."</string>
     <!-- XBUT: Text for vaccination consent accept button -->
     <string name="vaccination_consent_accept_button">"Weiter"</string>
 
