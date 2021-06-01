@@ -2,6 +2,7 @@ package testhelpers
 
 import android.app.Activity
 import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.StyleRes
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.test.espresso.ViewAction
 import androidx.test.platform.app.InstrumentationRegistry
+import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.R
 import java.io.BufferedOutputStream
 import java.io.File
@@ -47,14 +49,15 @@ inline fun <reified F : Fragment> captureScreenshot(
  * Saves screenshots on the device's sdcard
  */
 object SDCard {
-    private const val ROOT_DIRECTORY = "/sdcard"
+    private const val SDCARD_DIRECTORY = "/sdcard"
+    private const val DATA_DIRECTORY = "/data/data/${BuildConfig.APPLICATION_ID}"
     private const val SCREENSHOTS_DIRECTORY = "screenshots"
     private const val SCREENSHOT_FORMAT = ".png"
     private const val IMAGE_QUALITY = 100
 
     fun screenshotCaptured(screenshotName: String, screenshot: Bitmap) {
         try {
-            val directory = File(ROOT_DIRECTORY, SCREENSHOTS_DIRECTORY)
+            val directory = File(rootDir, SCREENSHOTS_DIRECTORY)
             if (!directory.exists()) {
                 directory.mkdirs()
             }
@@ -71,5 +74,12 @@ object SDCard {
         } catch (e: Exception) {
             throw RuntimeException("Unable to capture screenshot.", e)
         }
+    }
+
+    private val rootDir: String by lazy {
+        // Screenshots are saved in local directory on API 30+ due to scoped storage changes.
+        // Developer can explore screenshots taken locally using "Device File Explorer" in Android studio.
+        // Firebase TL  runs screenshots on API 29 and pulls them from sdcard.
+        if (Build.VERSION.SDK_INT < 30) SDCARD_DIRECTORY else DATA_DIRECTORY
     }
 }
