@@ -83,13 +83,16 @@ class PCRProcessor @Inject constructor(
     private suspend fun createTAN(request: CoronaTestTAN.PCR): CoronaTest {
         Timber.tag(TAG).d("createTAN(data=%s)", request)
 
+        analyticsKeySubmissionCollector.reset(type)
+        analyticsTestResultCollector.clear(type)
+
         val serverRequest = RegistrationRequest(
             key = request.tan,
             dateOfBirthKey = null,
             type = VerificationKeyType.TELETAN,
         )
 
-        val registrationData = submissionService.asyncRegisterDeviceViaTAN(request.tan)
+        val registrationData = submissionService.registerTest(serverRequest)
 
         analyticsKeySubmissionCollector.reportRegisteredWithTeleTAN()
 
