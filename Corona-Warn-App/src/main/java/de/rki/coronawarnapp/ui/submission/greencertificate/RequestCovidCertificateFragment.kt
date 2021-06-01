@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -57,6 +58,8 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
             agreeButton.setOnClickListener { viewModel.onAgreeGC() }
             disagreeButton.setOnClickListener { viewModel.onDisagreeGC() }
             dateInputEdit.setOnClickListener { openDatePicker() }
+            privacyInformation.setOnClickListener { findNavController().navigate(R.id.informationPrivacyFragment) }
+
 
             viewModel.birthDate.observe(viewLifecycleOwner) { date -> agreeButton.isEnabled = !isPCR || date != null }
             viewModel.registrationError.observe(viewLifecycleOwner) { DialogHelper.showDialog(buildErrorDialog(it)) }
