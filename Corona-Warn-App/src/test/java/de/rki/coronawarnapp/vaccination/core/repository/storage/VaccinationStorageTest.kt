@@ -88,4 +88,9 @@ class VaccinationStorageTest : BaseTest() {
             )
         }
     }
+
+    @Test
+    fun `post processor injects data extractors`() {
+        TODO()
+    }
 }

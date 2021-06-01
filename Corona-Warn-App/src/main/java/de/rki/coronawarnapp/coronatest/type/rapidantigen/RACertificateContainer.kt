@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.util.encryption.rsa.RSAKey
 import okio.ByteString
 import org.joda.time.Instant
 
-data class RATestCertificateContainer(
+data class RACertificateContainer(
     @SerializedName("identifier")
     override val identifier: String,
 

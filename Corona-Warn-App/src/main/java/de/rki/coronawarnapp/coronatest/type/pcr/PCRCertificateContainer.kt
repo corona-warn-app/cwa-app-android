@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.util.encryption.rsa.RSAKey
 import okio.ByteString
 import org.joda.time.Instant
 
-data class PCRTestCertificateContainer internal constructor(
+data class PCRCertificateContainer internal constructor(
     @SerializedName("identifier")
     override val identifier: String,
 

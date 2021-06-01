@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
+import de.rki.coronawarnapp.coronatest.type.common.TestCertificateRetrievalScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
@@ -83,6 +84,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var pcrTestResultAvailableNotificationService: PCRTestResultAvailableNotificationService
     @Inject lateinit var raTestResultAvailableNotificationService: RATTestResultAvailableNotificationService
     @Inject lateinit var vaccinationUpdateScheduler: VaccinationUpdateScheduler
+    @Inject lateinit var testCertificateRetrievalScheduler: TestCertificateRetrievalScheduler
 
     @AppScope
     @Inject lateinit var appScope: CoroutineScope
@@ -138,6 +140,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         Timber.v("Setting up test result available notification services.")
         pcrTestResultAvailableNotificationService.setup()
         raTestResultAvailableNotificationService.setup()
+        testCertificateRetrievalScheduler.setup()
 
         Timber.v("Setting up vaccination data update scheduler.")
         vaccinationUpdateScheduler.setup()

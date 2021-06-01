@@ -48,4 +48,14 @@ class TestCertificateStorageTest : BaseTest() {
 
         mockPreferences.dataMapPeek.keys.single() shouldBe "dontdeleteme"
     }
+
+    @Test
+    fun `store two containers, one for each type`() {
+        TODO()
+    }
+
+    @Test
+    fun `post processor injects data extractors`() {
+        TODO()
+    }
 }
