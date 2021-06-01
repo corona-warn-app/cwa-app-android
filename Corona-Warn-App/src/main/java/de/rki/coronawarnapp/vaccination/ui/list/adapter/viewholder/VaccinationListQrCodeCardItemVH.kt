@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.vaccination.ui.list.adapter.viewholder
 import android.graphics.Bitmap
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.VaccinationListQrcodeCardBinding
+import de.rki.coronawarnapp.databinding.IncludeCertificateQrcodeCardBinding
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListAdapter
 import de.rki.coronawarnapp.vaccination.ui.list.adapter.VaccinationListItem
@@ -12,16 +12,16 @@ import org.joda.time.Instant
 import org.joda.time.LocalDate
 
 class VaccinationListQrCodeCardItemVH(parent: ViewGroup) :
-    VaccinationListAdapter.ItemVH<VaccinationListQrCodeCardItem, VaccinationListQrcodeCardBinding>(
-        layoutRes = R.layout.vaccination_list_qrcode_card,
+    VaccinationListAdapter.ItemVH<VaccinationListQrCodeCardItem, IncludeCertificateQrcodeCardBinding>(
+        layoutRes = R.layout.include_certificate_qrcode_card,
         parent = parent
     ) {
 
-    override val viewBinding: Lazy<VaccinationListQrcodeCardBinding> = lazy {
-        VaccinationListQrcodeCardBinding.bind(itemView)
+    override val viewBinding: Lazy<IncludeCertificateQrcodeCardBinding> = lazy {
+        IncludeCertificateQrcodeCardBinding.bind(itemView)
     }
 
-    override val onBindData: VaccinationListQrcodeCardBinding
+    override val onBindData: IncludeCertificateQrcodeCardBinding
     .(item: VaccinationListQrCodeCardItem, payloads: List<Any>) -> Unit =
         { item, _ ->
             image.setImageBitmap(item.qrCode)

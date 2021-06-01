@@ -29,5 +29,11 @@
             android:layout_height="wrap_content"
             android:text="RAT screen" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/details_screen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Details screen" />
+
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

@@ -26,6 +26,16 @@
     <string name="request_gc_dialog_positive_button">OK</string>
     <!-- XBUT: Request green certificate exit dialog negative button -->
     <string name="request_gc_dialog_negative_button">Abbrechen</string>
+    <!-- XTXT: Detail green certificate title -->
+    <string name="detail_green_certificate_title">EU Digitales COVID-Testzertifikat</string>
+    <!-- XTXT: Detail green certificate test type -->
+    <string name="detail_green_certificate_test_type">SARS-CoV-2-Test</string>
+    <!-- XTXT: Detail green certificate card title -->
+    <string name="detail_green_certificate_card_title">"Testzertifikat"</string>
+    <!-- XTXT: Detail green certificate travel notice link en -->
+    <string name="green_certificate_travel_notice_link_en">"https://reopen.europa.eu/en"</string>
+    <!-- XTXT: Detail green certificate travel notice link de -->
+    <string name="green_certificate_travel_notice_link_de">"https://reopen.europa.eu/de"</string>
     <!-- XTXT: Green certificate main screen title -->
     <string name="certification_screen_title">Nachweise</string>
     <!-- XTXT: Green certificate menu item -->
