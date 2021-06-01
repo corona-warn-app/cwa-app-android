@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.greencertificate.ui.certificates.details
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -63,10 +64,6 @@ class GreenCertificateDetailsFragment : Fragment(R.layout.fragment_greencertific
                 when (it) {
                     GreenCertificateDetailsNavigation.Back -> popBackStack()
                 }
-            }
-
-            binding.apply {
-                setupMenu(toolbar)
             }
 
             setToolbarOverlay()
