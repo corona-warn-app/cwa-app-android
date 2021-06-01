@@ -1,0 +1,18 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <corners android:radius="@dimen/radius_card" />
+            <solid android:color="@color/colorSurface2" />
+            <stroke
+                android:width="2dp"
+                android:color="@color/colorHairline"
+                android:dashWidth="5dp"
+                android:dashGap="5dp" />
+            <padding
+                android:bottom="5dp"
+                android:left="5dp"
+                android:right="5dp"
+                android:top="5dp" />
+        </shape>
+    </item>
+</layer-list>
