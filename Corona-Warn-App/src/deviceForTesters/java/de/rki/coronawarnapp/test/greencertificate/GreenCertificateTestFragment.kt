@@ -34,6 +34,13 @@ class GreenCertificateTestFragment : Fragment(R.layout.fragment_test_green_certi
             ratScreen.setOnClickListener {
                 doNavigate(NavGraphDirections.actionSubmissionTestResultGreenCertificateFragment(RAPID_ANTIGEN))
             }
+
+            detailsScreen.setOnClickListener {
+                doNavigate(
+                    GreenCertificateTestFragmentDirections
+                        .actionGreenCertificateTestFragmentToGreenCertificateDetailsFragment()
+                )
+            }
         }
     }
 
