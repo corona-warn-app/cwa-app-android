@@ -14,6 +14,8 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.values
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResultResponse
+import de.rki.coronawarnapp.coronatest.server.RegistrationData
+import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
@@ -43,6 +45,15 @@ class RapidAntigenProcessorTest : BaseTest() {
 
     private val nowUTC = Instant.parse("2021-03-15T05:45:00.000Z")
 
+    private val defaultTest = RACoronaTest(
+        identifier = "identifier",
+        lastUpdatedAt = Instant.EPOCH,
+        registeredAt = nowUTC,
+        registrationToken = "regtoken",
+        testResult = RAT_PENDING,
+        testedAt = Instant.EPOCH,
+    )
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
@@ -50,24 +61,22 @@ class RapidAntigenProcessorTest : BaseTest() {
         every { timeStamper.nowUTC } returns nowUTC
 
         submissionService.apply {
-            coEvery { asyncRequestTestResult(any()) } returns CoronaTestResultResponse(
+            coEvery { checkTestResult(any()) } returns CoronaTestResultResponse(
                 coronaTestResult = PCR_OR_RAT_PENDING,
                 sampleCollectedAt = null,
             )
-            coEvery { asyncRegisterDeviceViaGUID(any()) } returns CoronaTestService.RegistrationData(
-                registrationToken = "regtoken-qr",
-                testResultResponse = CoronaTestResultResponse(
-                    coronaTestResult = PCR_OR_RAT_PENDING,
-                    sampleCollectedAt = null,
+
+            coEvery { registerTest(any()) } answers {
+                val request = arg<RegistrationRequest>(0)
+
+                RegistrationData(
+                    registrationToken = "regtoken-${request.type}",
+                    testResultResponse = CoronaTestResultResponse(
+                        coronaTestResult = PCR_OR_RAT_PENDING,
+                        sampleCollectedAt = null,
+                    )
                 )
-            )
-            coEvery { asyncRegisterDeviceViaTAN(any()) } returns CoronaTestService.RegistrationData(
-                registrationToken = "regtoken-tan",
-                testResultResponse = CoronaTestResultResponse(
-                    coronaTestResult = PCR_OR_RAT_PENDING,
-                    sampleCollectedAt = null,
-                )
-            )
+            }
         }
 
         analyticsKeySubmissionCollector.apply {
@@ -85,7 +94,7 @@ class RapidAntigenProcessorTest : BaseTest() {
         }
     }
 
-    fun createInstance() = RapidAntigenProcessor(
+    fun createInstance() = RAProcessor(
         timeStamper = timeStamper,
         submissionService = submissionService,
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
@@ -106,7 +115,7 @@ class RapidAntigenProcessorTest : BaseTest() {
 
         (instance.pollServer(raTest) as RACoronaTest).sampleCollectedAt shouldBe null
 
-        coEvery { submissionService.asyncRequestTestResult(any()) } returns CoronaTestResultResponse(
+        coEvery { submissionService.checkTestResult(any()) } returns CoronaTestResultResponse(
             coronaTestResult = PCR_OR_RAT_PENDING,
             sampleCollectedAt = nowUTC,
         )
@@ -118,13 +127,8 @@ class RapidAntigenProcessorTest : BaseTest() {
     fun `if we receive a pending result 60 days after registration, we map to REDEEMED`() = runBlockingTest {
         val instance = createInstance()
 
-        val raTest = RACoronaTest(
-            identifier = "identifier",
-            lastUpdatedAt = Instant.EPOCH,
-            registeredAt = nowUTC,
-            registrationToken = "regtoken",
+        val raTest = defaultTest.copy(
             testResult = RAT_POSITIVE,
-            testedAt = Instant.EPOCH,
         )
 
         instance.pollServer(raTest).testResult shouldBe PCR_OR_RAT_PENDING
@@ -138,14 +142,14 @@ class RapidAntigenProcessorTest : BaseTest() {
 
     @Test
     fun `registering a new test maps invalid results to INVALID state`() = runBlockingTest {
-        var registrationData = CoronaTestService.RegistrationData(
+        var registrationData = RegistrationData(
             registrationToken = "regtoken",
             testResultResponse = CoronaTestResultResponse(
                 coronaTestResult = PCR_OR_RAT_PENDING,
                 sampleCollectedAt = null,
             ),
         )
-        coEvery { submissionService.asyncRegisterDeviceViaGUID(any()) } answers { registrationData }
+        coEvery { submissionService.registerTest(any()) } answers { registrationData }
 
         val instance = createInstance()
 
@@ -180,7 +184,7 @@ class RapidAntigenProcessorTest : BaseTest() {
     @Test
     fun `polling filters out invalid test result values`() = runBlockingTest {
         var pollResult: CoronaTestResult = PCR_OR_RAT_PENDING
-        coEvery { submissionService.asyncRequestTestResult(any()) } answers {
+        coEvery { submissionService.checkTestResult(any()) } answers {
             CoronaTestResultResponse(
                 coronaTestResult = pollResult,
                 sampleCollectedAt = null,
@@ -189,13 +193,8 @@ class RapidAntigenProcessorTest : BaseTest() {
 
         val instance = createInstance()
 
-        val raTest = RACoronaTest(
-            identifier = "identifier",
-            lastUpdatedAt = Instant.EPOCH,
-            registeredAt = nowUTC,
-            registrationToken = "regtoken",
+        val raTest = defaultTest.copy(
             testResult = RAT_POSITIVE,
-            testedAt = Instant.EPOCH,
         )
 
         values().forEach {
@@ -218,7 +217,7 @@ class RapidAntigenProcessorTest : BaseTest() {
 
     @Test
     fun `polling is skipped if test is older than 21 days and state was already REDEEMED`() = runBlockingTest {
-        coEvery { submissionService.asyncRequestTestResult(any()) } answers {
+        coEvery { submissionService.checkTestResult(any()) } answers {
             CoronaTestResultResponse(
                 coronaTestResult = RAT_POSITIVE,
                 sampleCollectedAt = null,
@@ -227,13 +226,9 @@ class RapidAntigenProcessorTest : BaseTest() {
 
         val instance = createInstance()
 
-        val raTest = RACoronaTest(
-            identifier = "identifier",
-            lastUpdatedAt = Instant.EPOCH,
+        val raTest = defaultTest.copy(
             registeredAt = nowUTC.minus(Duration.standardDays(22)),
-            registrationToken = "regtoken",
             testResult = RAT_REDEEMED,
-            testedAt = Instant.EPOCH,
         )
 
         // Older than 21 days and already redeemed
@@ -248,7 +243,7 @@ class RapidAntigenProcessorTest : BaseTest() {
     @Test
     fun `http 400 errors map to REDEEMED (EXPIRED) state after 21 days`() = runBlockingTest {
         val ourBadRequest = BadRequestException("Who?")
-        coEvery { submissionService.asyncRequestTestResult(any()) } throws ourBadRequest
+        coEvery { submissionService.checkTestResult(any()) } throws ourBadRequest
 
         val instance = createInstance()
 
@@ -272,5 +267,17 @@ class RapidAntigenProcessorTest : BaseTest() {
             testResult shouldBe RAT_REDEEMED
             lastError shouldBe null
         }
+    }
+
+    @Test
+    fun `giving submission consent`() = runBlockingTest {
+        val instance = createInstance()
+
+        instance.updateSubmissionConsent(defaultTest, true) shouldBe defaultTest.copy(
+            isAdvancedConsentGiven = true
+        )
+        instance.updateSubmissionConsent(defaultTest, false) shouldBe defaultTest.copy(
+            isAdvancedConsentGiven = false
+        )
     }
 }

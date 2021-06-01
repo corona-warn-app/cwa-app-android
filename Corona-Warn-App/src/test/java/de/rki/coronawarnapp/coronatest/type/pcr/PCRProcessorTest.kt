@@ -14,6 +14,8 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.values
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResultResponse
+import de.rki.coronawarnapp.coronatest.server.RegistrationData
+import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
@@ -43,6 +45,13 @@ class PCRProcessorTest : BaseTest() {
     @MockK lateinit var analyticsTestResultCollector: AnalyticsTestResultCollector
 
     private val nowUTC = Instant.parse("2021-03-15T05:45:00.000Z")
+    private val defaultTest = PCRCoronaTest(
+        identifier = "identifier",
+        lastUpdatedAt = Instant.EPOCH,
+        registeredAt = nowUTC,
+        registrationToken = "regtoken",
+        testResult = PCR_OR_RAT_PENDING
+    )
 
     @BeforeEach
     fun setup() {
@@ -51,24 +60,21 @@ class PCRProcessorTest : BaseTest() {
         every { timeStamper.nowUTC } returns nowUTC
 
         submissionService.apply {
-            coEvery { asyncRequestTestResult(any()) } returns CoronaTestResultResponse(
+            coEvery { checkTestResult(any()) } returns CoronaTestResultResponse(
                 coronaTestResult = PCR_OR_RAT_PENDING,
                 sampleCollectedAt = null,
             )
-            coEvery { asyncRegisterDeviceViaGUID(any()) } returns CoronaTestService.RegistrationData(
-                registrationToken = "regtoken-qr",
-                testResultResponse = CoronaTestResultResponse(
-                    coronaTestResult = PCR_OR_RAT_PENDING,
-                    sampleCollectedAt = null,
-                ),
-            )
-            coEvery { asyncRegisterDeviceViaTAN(any()) } returns CoronaTestService.RegistrationData(
-                registrationToken = "regtoken-tan",
-                testResultResponse = CoronaTestResultResponse(
-                    coronaTestResult = PCR_OR_RAT_PENDING,
-                    sampleCollectedAt = null,
-                ),
-            )
+            coEvery { registerTest(any()) } answers {
+                val request = arg<RegistrationRequest>(0)
+
+                RegistrationData(
+                    registrationToken = "regtoken-${request.type}",
+                    testResultResponse = CoronaTestResultResponse(
+                        coronaTestResult = PCR_OR_RAT_PENDING,
+                        sampleCollectedAt = null,
+                    ),
+                )
+            }
         }
 
         analyticsKeySubmissionCollector.apply {
@@ -96,12 +102,8 @@ class PCRProcessorTest : BaseTest() {
     fun `if we receive a pending result 60 days after registration, we map to REDEEMED`() = runBlockingTest {
         val instance = createInstance()
 
-        val pcrTest = PCRCoronaTest(
-            identifier = "identifier",
-            lastUpdatedAt = Instant.EPOCH,
-            registeredAt = nowUTC,
-            registrationToken = "regtoken",
-            testResult = PCR_POSITIVE
+        val pcrTest = defaultTest.copy(
+            testResult = PCR_POSITIVE,
         )
 
         instance.pollServer(pcrTest).testResult shouldBe PCR_OR_RAT_PENDING
@@ -115,14 +117,14 @@ class PCRProcessorTest : BaseTest() {
 
     @Test
     fun `registering a new test maps invalid results to INVALID state`() = runBlockingTest {
-        var registrationData = CoronaTestService.RegistrationData(
+        var registrationData = RegistrationData(
             registrationToken = "regtoken",
             testResultResponse = CoronaTestResultResponse(
                 coronaTestResult = PCR_OR_RAT_PENDING,
                 sampleCollectedAt = null,
             )
         )
-        coEvery { submissionService.asyncRegisterDeviceViaGUID(any()) } answers { registrationData }
+        coEvery { submissionService.registerTest(any()) } answers { registrationData }
 
         val instance = createInstance()
 
@@ -155,7 +157,7 @@ class PCRProcessorTest : BaseTest() {
     @Test
     fun `polling maps invalid results to INVALID state`() = runBlockingTest {
         var pollResult: CoronaTestResult = PCR_OR_RAT_PENDING
-        coEvery { submissionService.asyncRequestTestResult(any()) } answers {
+        coEvery { submissionService.checkTestResult(any()) } answers {
             CoronaTestResultResponse(
                 coronaTestResult = pollResult,
                 sampleCollectedAt = null,
@@ -164,12 +166,8 @@ class PCRProcessorTest : BaseTest() {
 
         val instance = createInstance()
 
-        val pcrTest = PCRCoronaTest(
-            identifier = "identifier",
-            lastUpdatedAt = Instant.EPOCH,
-            registeredAt = nowUTC,
-            registrationToken = "regtoken",
-            testResult = PCR_POSITIVE
+        val pcrTest = defaultTest.copy(
+            testResult = PCR_POSITIVE,
         )
 
         values().forEach {
@@ -211,7 +209,7 @@ class PCRProcessorTest : BaseTest() {
 
     @Test
     fun `polling is skipped if test is older than 21 days and state was already REDEEMED`() = runBlockingTest {
-        coEvery { submissionService.asyncRequestTestResult(any()) } answers {
+        coEvery { submissionService.checkTestResult(any()) } answers {
             CoronaTestResultResponse(
                 coronaTestResult = PCR_POSITIVE,
                 sampleCollectedAt = null,
@@ -220,12 +218,9 @@ class PCRProcessorTest : BaseTest() {
 
         val instance = createInstance()
 
-        val pcrTest = PCRCoronaTest(
-            identifier = "identifier",
-            lastUpdatedAt = Instant.EPOCH,
+        val pcrTest = defaultTest.copy(
             registeredAt = nowUTC.minus(Duration.standardDays(22)),
-            registrationToken = "regtoken",
-            testResult = PCR_REDEEMED
+            testResult = PCR_REDEEMED,
         )
 
         // Older than 21 days and already redeemed
@@ -240,16 +235,12 @@ class PCRProcessorTest : BaseTest() {
     @Test
     fun `http 400 errors map to REDEEMED (EXPIRED) state after 21 days`() = runBlockingTest {
         val ourBadRequest = BadRequestException("Who?")
-        coEvery { submissionService.asyncRequestTestResult(any()) } throws ourBadRequest
+        coEvery { submissionService.checkTestResult(any()) } throws ourBadRequest
 
         val instance = createInstance()
 
-        val pcrTest = PCRCoronaTest(
-            identifier = "identifier",
-            lastUpdatedAt = Instant.EPOCH,
-            registeredAt = nowUTC,
-            registrationToken = "regtoken",
-            testResult = PCR_POSITIVE
+        val pcrTest = defaultTest.copy(
+            testResult = PCR_POSITIVE,
         )
 
         // Test is not older than 21 days, we want the error!
@@ -263,5 +254,17 @@ class PCRProcessorTest : BaseTest() {
             testResult shouldBe PCR_REDEEMED
             lastError shouldBe null
         }
+    }
+
+    @Test
+    fun `giving submission consent`() = runBlockingTest {
+        val instance = createInstance()
+
+        instance.updateSubmissionConsent(defaultTest, true) shouldBe defaultTest.copy(
+            isAdvancedConsentGiven = true
+        )
+        instance.updateSubmissionConsent(defaultTest, false) shouldBe defaultTest.copy(
+            isAdvancedConsentGiven = false
+        )
     }
 }

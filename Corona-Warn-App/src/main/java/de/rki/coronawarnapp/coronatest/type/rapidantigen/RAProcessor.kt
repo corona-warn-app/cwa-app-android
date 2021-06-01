@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.coronatest.type.rapidantigen
 
 import dagger.Reusable
+import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_INVALID
@@ -14,11 +15,13 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_PENDING
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResultResponse
+import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
+import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.coronatest.server.VerificationServer
-import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
+import de.rki.coronawarnapp.coronatest.type.common.DateOfBirthKey
 import de.rki.coronawarnapp.coronatest.type.isOlderThan21Days
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultCollector
@@ -33,7 +36,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class RapidAntigenProcessor @Inject constructor(
+class RAProcessor @Inject constructor(
     private val timeStamper: TimeStamper,
     private val submissionService: CoronaTestService,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
@@ -42,14 +45,28 @@ class RapidAntigenProcessor @Inject constructor(
 
     override val type: CoronaTest.Type = CoronaTest.Type.RAPID_ANTIGEN
 
-    override suspend fun create(request: CoronaTestQRCode): RACoronaTest {
-        Timber.tag(TAG).d("create(data=%s)", request)
-        request as CoronaTestQRCode.RapidAntigen
+    override suspend fun create(request: TestRegistrationRequest): CoronaTest = when (request) {
+        is CoronaTestQRCode.RapidAntigen -> createQR(request)
+        else -> throw IllegalArgumentException("RAProcessor: Unknown test request: $request")
+    }
+
+    private suspend fun createQR(request: CoronaTestQRCode.RapidAntigen): RACoronaTest {
+        Timber.tag(TAG).d("createQR(data=%s)", request)
 
         analyticsKeySubmissionCollector.reset(type)
         analyticsTestResultCollector.clear(type)
 
-        val registrationData = submissionService.asyncRegisterDeviceViaGUID(request.registrationIdentifier).also {
+        val dateOfBirthKey = if (request.isDccConsentGiven && request.dateOfBirth != null) {
+            DateOfBirthKey(request.registrationIdentifier, request.dateOfBirth)
+        } else null
+
+        val serverRequest = RegistrationRequest(
+            key = request.registrationIdentifier,
+            dateOfBirthKey = dateOfBirthKey,
+            type = VerificationKeyType.GUID
+        )
+
+        val registrationData = submissionService.registerTest(serverRequest).also {
             Timber.tag(TAG).d("Request %s gave us %s", request, it)
         }
 
@@ -83,14 +100,9 @@ class RapidAntigenProcessor @Inject constructor(
             firstName = request.firstName,
             lastName = request.lastName,
             dateOfBirth = request.dateOfBirth,
-            sampleCollectedAt = sampleCollectedAt
+            sampleCollectedAt = sampleCollectedAt,
+            isDccSupportedByPoc = request.isDccSupportedbyPoc,
         )
-    }
-
-    override suspend fun create(request: CoronaTestTAN): CoronaTest {
-        Timber.tag(TAG).d("create(data=%s)", request)
-        request as CoronaTestTAN.RapidAntigen
-        throw UnsupportedOperationException("There are no TAN based RATs")
     }
 
     private fun determineReceivedDate(oldTest: RACoronaTest?, newTestResult: CoronaTestResult): Instant? = when {
@@ -118,7 +130,7 @@ class RapidAntigenProcessor @Inject constructor(
             }
 
             val newTestResult = try {
-                submissionService.asyncRequestTestResult(test.registrationToken).let {
+                submissionService.checkTestResult(test.registrationToken).let {
                     Timber.tag(TAG).v("Raw test result was %s", it)
                     it.copy(
                         coronaTestResult = it.coronaTestResult.toValidatedResult()
@@ -198,8 +210,8 @@ class RapidAntigenProcessor @Inject constructor(
         return test.copy(isViewed = true)
     }
 
-    override suspend fun updateConsent(test: CoronaTest, consented: Boolean): CoronaTest {
-        Timber.tag(TAG).v("updateConsent(test=%s, consented=%b)", test, consented)
+    override suspend fun updateSubmissionConsent(test: CoronaTest, consented: Boolean): CoronaTest {
+        Timber.tag(TAG).v("updateSubmissionConsent(test=%s, consented=%b)", test, consented)
         test as RACoronaTest
 
         return test.copy(isAdvancedConsentGiven = consented)
@@ -236,7 +248,7 @@ private fun CoronaTestResult.toValidatedResult(): CoronaTestResult {
     return if (isValid) {
         this
     } else {
-        Timber.tag(RapidAntigenProcessor.TAG).e("Server returned invalid RapidAntigen testresult $this")
+        Timber.tag(RAProcessor.TAG).e("Server returned invalid RapidAntigen testresult $this")
         RAT_INVALID
     }
 }

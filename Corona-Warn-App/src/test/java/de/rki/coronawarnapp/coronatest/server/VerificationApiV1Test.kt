@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.coronatest.server
 
 import android.content.Context
+import de.rki.coronawarnapp.coronatest.type.common.DateOfBirthKey
 import de.rki.coronawarnapp.http.HttpModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -9,6 +10,7 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
 import okhttp3.ConnectionSpec
 import okhttp3.mockwebserver.MockWebServer
+import org.joda.time.LocalDate
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -65,7 +67,7 @@ class VerificationApiV1Test : BaseIOTest() {
     }
 
     @Test
-    fun `test getRegistrationToken`(): Unit = runBlocking {
+    fun `test getRegistrationToken - GUID`(): Unit = runBlocking {
         val api = createAPI()
 
         """
@@ -75,8 +77,9 @@ class VerificationApiV1Test : BaseIOTest() {
         """.toJsonResponse().apply { webServer.enqueue(this) }
 
         val requestBody = VerificationApiV1.RegistrationTokenRequest(
-            keyType = "testKeyType",
+            keyType = VerificationKeyType.GUID,
             key = "testKey",
+            dateOfBirthKey = DateOfBirthKey("testKeyGuid", LocalDate.parse("2020-09-11")).key,
             requestPadding = "testRequestPadding"
         )
 
@@ -94,7 +97,48 @@ class VerificationApiV1Test : BaseIOTest() {
             path shouldBe "/version/v1/registrationToken"
             body.readUtf8() shouldBe """
                 {
-                    "keyType": "testKeyType",
+                    "keyType": "GUID",
+                    "key": "testKey",
+                    "keyDob": "x9acafb78b330522e32b4bf4c90a3ebb7a4d20d8af8cc32018c550ea86a38cc1",
+                    "requestPadding": "testRequestPadding"
+                }
+            """.toComparableJson()
+        }
+
+        httpCacheDir.exists() shouldBe true
+    }
+
+    @Test
+    fun `test getRegistrationToken - TAN`(): Unit = runBlocking {
+        val api = createAPI()
+
+        """
+            {
+                "registrationToken": "testRegistrationToken"
+            }
+        """.toJsonResponse().apply { webServer.enqueue(this) }
+
+        val requestBody = VerificationApiV1.RegistrationTokenRequest(
+            keyType = VerificationKeyType.TELETAN,
+            key = "testKey",
+            requestPadding = "testRequestPadding",
+        )
+
+        api.getRegistrationToken(
+            fake = "0",
+            headerPadding = "testPadding",
+            requestBody
+        ) shouldBe VerificationApiV1.RegistrationTokenResponse(
+            registrationToken = "testRegistrationToken"
+        )
+
+        webServer.takeRequest(5, TimeUnit.SECONDS)!!.apply {
+            headers["cwa-fake"] shouldBe "0"
+            headers["cwa-header-padding"] shouldBe "testPadding"
+            path shouldBe "/version/v1/registrationToken"
+            body.readUtf8() shouldBe """
+                {
+                    "keyType": "TELETAN",
                     "key": "testKey",
                     "requestPadding": "testRequestPadding"
                 }

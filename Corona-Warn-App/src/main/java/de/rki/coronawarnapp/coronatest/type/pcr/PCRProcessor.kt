@@ -14,11 +14,15 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_NEGATIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_PENDING
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
+import de.rki.coronawarnapp.coronatest.server.RegistrationData
+import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
+import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.coronatest.server.VerificationServer
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
+import de.rki.coronawarnapp.coronatest.type.common.DateOfBirthKey
 import de.rki.coronawarnapp.coronatest.type.isOlderThan21Days
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultCollector
@@ -42,11 +46,26 @@ class PCRProcessor @Inject constructor(
 
     override val type: CoronaTest.Type = CoronaTest.Type.PCR
 
-    override suspend fun create(request: CoronaTestQRCode): PCRCoronaTest {
-        Timber.tag(TAG).d("create(data=%s)", request)
-        request as CoronaTestQRCode.PCR
+    override suspend fun create(request: TestRegistrationRequest): CoronaTest = when (request) {
+        is CoronaTestQRCode.PCR -> createQR(request)
+        is CoronaTestTAN.PCR -> createTAN(request)
+        else -> throw IllegalArgumentException("PCRProcessor: Unknown test request: $request")
+    }
 
-        val registrationData = submissionService.asyncRegisterDeviceViaGUID(request.qrCodeGUID).also {
+    private suspend fun createQR(request: CoronaTestQRCode.PCR): PCRCoronaTest {
+        Timber.tag(TAG).d("createQR(data=%s)", request)
+
+        val dateOfBirthKey = if (request.isDccConsentGiven && request.dateOfBirth != null) {
+            DateOfBirthKey(request.qrCodeGUID, request.dateOfBirth)
+        } else null
+
+        val serverRequest = RegistrationRequest(
+            key = request.qrCodeGUID,
+            dateOfBirthKey = dateOfBirthKey,
+            type = VerificationKeyType.GUID,
+        )
+
+        val registrationData = submissionService.registerTest(serverRequest).also {
             Timber.tag(TAG).d("Request %s gave us %s", request, it)
         }
 
@@ -56,11 +75,16 @@ class PCRProcessor @Inject constructor(
         return createCoronaTest(request, registrationData)
     }
 
-    override suspend fun create(request: CoronaTestTAN): CoronaTest {
-        Timber.tag(TAG).d("create(data=%s)", request)
-        request as CoronaTestTAN.PCR
+    private suspend fun createTAN(request: CoronaTestTAN.PCR): CoronaTest {
+        Timber.tag(TAG).d("createTAN(data=%s)", request)
 
-        val registrationData = submissionService.asyncRegisterDeviceViaTAN(request.tan)
+        val serverRequest = RegistrationRequest(
+            key = request.tan,
+            dateOfBirthKey = null,
+            type = VerificationKeyType.TELETAN,
+        )
+
+        val registrationData = submissionService.registerTest(serverRequest)
 
         analyticsKeySubmissionCollector.reportRegisteredWithTeleTAN()
 
@@ -71,7 +95,7 @@ class PCRProcessor @Inject constructor(
 
     private suspend fun createCoronaTest(
         request: TestRegistrationRequest,
-        response: CoronaTestService.RegistrationData
+        response: RegistrationData
     ): PCRCoronaTest {
 
         analyticsKeySubmissionCollector.reset(type)
@@ -122,7 +146,7 @@ class PCRProcessor @Inject constructor(
             }
 
             val newTestResult = try {
-                submissionService.asyncRequestTestResult(test.registrationToken).coronaTestResult.let {
+                submissionService.checkTestResult(test.registrationToken).coronaTestResult.let {
                     Timber.tag(TAG).d("Raw test result was %s", it)
                     analyticsTestResultCollector.updatePendingTestResultReceivedTime(it, type)
 
@@ -202,8 +226,8 @@ class PCRProcessor @Inject constructor(
         return test.copy(isViewed = true)
     }
 
-    override suspend fun updateConsent(test: CoronaTest, consented: Boolean): CoronaTest {
-        Timber.tag(TAG).v("updateConsent(test=%s, consented=%b)", test, consented)
+    override suspend fun updateSubmissionConsent(test: CoronaTest, consented: Boolean): CoronaTest {
+        Timber.tag(TAG).v("updateSubmissionConsent(test=%s, consented=%b)", test, consented)
         test as PCRCoronaTest
 
         return test.copy(isAdvancedConsentGiven = consented)
