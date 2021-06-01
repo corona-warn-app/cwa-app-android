@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.vaccination.core
 
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidVaccinationCertificateException
-import de.rki.coronawarnapp.vaccination.core.certificate.InvalidVaccinationCertificateException.ErrorCode
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe

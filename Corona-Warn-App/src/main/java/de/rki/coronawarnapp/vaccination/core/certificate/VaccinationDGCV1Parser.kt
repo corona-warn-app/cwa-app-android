@@ -6,9 +6,9 @@ import dagger.Reusable
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_CBOR_DECODING_FAILED
-import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_HC_CWT_NO_DGC
-import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_HC_CWT_NO_HCERT
-import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_JSON_SCHEMA_INVALID
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_CWT_NO_DGC
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_CWT_NO_HCERT
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.JSON_SCHEMA_INVALID
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_NO_VACCINATION_ENTRY
 import javax.inject.Inject
 
@@ -21,8 +21,8 @@ class VaccinationDGCV1Parser @Inject constructor(
         val certificate: VaccinationDGCV1 = map[keyHCert]?.run {
             this[keyEuDgcV1]?.run {
                 toCertificate()
-            } ?: throw InvalidVaccinationCertificateException(VC_HC_CWT_NO_DGC)
-        } ?: throw InvalidVaccinationCertificateException(VC_HC_CWT_NO_HCERT)
+            } ?: throw InvalidVaccinationCertificateException(HC_CWT_NO_DGC)
+        } ?: throw InvalidVaccinationCertificateException(HC_CWT_NO_HCERT)
 
         certificate.validate()
     } catch (e: InvalidHealthCertificateException) {
@@ -47,7 +47,7 @@ class VaccinationDGCV1Parser @Inject constructor(
         val json = ToJSONString()
         gson.fromJson<VaccinationDGCV1>(json)
     } catch (e: Throwable) {
-        throw InvalidVaccinationCertificateException(VC_JSON_SCHEMA_INVALID)
+        throw InvalidVaccinationCertificateException(JSON_SCHEMA_INVALID)
     }
 
     companion object {

@@ -34,14 +34,14 @@ open class InvalidHealthCertificateException(
         VC_NO_VACCINATION_ENTRY("Vaccination certificate missing."),
         VC_PREFIX_INVALID("Prefix invalid."),
         VC_STORING_FAILED("Storing failed."),
-        VC_JSON_SCHEMA_INVALID("Json schema invalid."),
+        JSON_SCHEMA_INVALID("Json schema invalid."),
         VC_NAME_MISMATCH("Name does not match."),
         VC_ALREADY_REGISTERED("Certificate already registered."),
         VC_DOB_MISMATCH("Date of birth does not match."),
-        VC_HC_CWT_NO_DGC("Dgc missing."),
-        VC_HC_CWT_NO_EXP("Expiration date missing."),
-        VC_HC_CWT_NO_HCERT("Health certificate missing."),
-        VC_HC_CWT_NO_ISS("Issuer missing."),
+        HC_CWT_NO_DGC("Dgc missing."),
+        HC_CWT_NO_EXP("Expiration date missing."),
+        HC_CWT_NO_HCERT("Health certificate missing."),
+        HC_CWT_NO_ISS("Issuer missing."),
         RSA_DECRYPTION_FAILED("RSA decryption failed"),
     }
 
@@ -53,11 +53,11 @@ open class InvalidHealthCertificateException(
             ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED,
             ErrorCode.HC_COSE_TAG_INVALID,
             ErrorCode.VC_PREFIX_INVALID,
-            ErrorCode.VC_HC_CWT_NO_DGC,
-            ErrorCode.VC_HC_CWT_NO_EXP,
-            ErrorCode.VC_HC_CWT_NO_HCERT,
-            ErrorCode.VC_HC_CWT_NO_ISS,
-            ErrorCode.VC_JSON_SCHEMA_INVALID,
+            ErrorCode.HC_CWT_NO_DGC,
+            ErrorCode.HC_CWT_NO_EXP,
+            ErrorCode.HC_CWT_NO_HCERT,
+            ErrorCode.HC_CWT_NO_ISS,
+            ErrorCode.JSON_SCHEMA_INVALID,
             -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_VC_INVALID)
             }

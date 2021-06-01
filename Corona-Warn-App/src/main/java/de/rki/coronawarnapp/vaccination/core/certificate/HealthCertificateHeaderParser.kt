@@ -3,8 +3,8 @@ package de.rki.coronawarnapp.vaccination.core.certificate
 import com.upokecenter.cbor.CBORObject
 import dagger.Reusable
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_CBOR_DECODING_FAILED
-import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_HC_CWT_NO_EXP
-import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_HC_CWT_NO_ISS
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_CWT_NO_EXP
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_CWT_NO_ISS
 import org.joda.time.Instant
 import javax.inject.Inject
 
@@ -12,15 +12,15 @@ import javax.inject.Inject
 class HealthCertificateHeaderParser @Inject constructor() {
 
     fun parse(map: CBORObject): CoseCertificateHeader = try {
-        val issuer: String = map[keyIssuer]?.AsString() ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_ISS)
+        val issuer: String = map[keyIssuer]?.AsString() ?: throw InvalidHealthCertificateException(HC_CWT_NO_ISS)
 
         val issuedAt: Instant = map[keyIssuedAt]?.run {
             Instant.ofEpochSecond(AsNumber().ToInt64Checked())
-        } ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_ISS)
+        } ?: throw InvalidHealthCertificateException(HC_CWT_NO_ISS)
 
         val expiresAt: Instant = map[keyExpiresAt]?.run {
             Instant.ofEpochSecond(AsNumber().ToInt64Checked())
-        } ?: throw InvalidHealthCertificateException(VC_HC_CWT_NO_EXP)
+        } ?: throw InvalidHealthCertificateException(HC_CWT_NO_EXP)
 
         HealthCertificateHeader(
             issuer = issuer,

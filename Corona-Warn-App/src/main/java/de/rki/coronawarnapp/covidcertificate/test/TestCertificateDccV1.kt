@@ -25,15 +25,13 @@ data class TestCertificateDccV1(
         // Test Result (required) e. g. "tr": "260415000"
         @SerializedName("tr") val testResult: String,
         // NAA Test Name (only for PCR tests, but not required) "nm": "Roche LightCycler qPCR",
-        @SerializedName("nm") val testName: String,
-        // Vaccine medicinal product,e.g. "mp": "EU/1/20/1528",
-        @SerializedName("mp") val medicalProductId: String,
+        @SerializedName("nm") val testName: String? = null,
         // RAT Test name and manufacturer (only for RAT tests, but not required)
-        @SerializedName("ma") val marketAuthorizationHolderId: String,
+        @SerializedName("ma") val marketAuthorizationHolderId: String? = null,
         // Date/Time of Sample Collection (required) "sc": "2021-04-13T14:20:00+00:00"
-        @SerializedName("sc") val sampleCollectedAt: Instant,
+        @SerializedName("sc") val sc: String,
         // Date/Time of Test Result "dr": "2021-04-13T14:40:01+00:00",
-        @SerializedName("dr") val dr: String,
+        @SerializedName("dr") val dr: String? = null,
         // Testing Center (required) "tc": "GGD Fryslân, L-Heliconweg",
         @SerializedName("tc") val testCenter: String,
         // Country of Test, e.g. "co": "NL"
@@ -44,8 +42,11 @@ data class TestCertificateDccV1(
         @SerializedName("ci") val uniqueCertificateIdentifier: String
     ) {
 
-        val testResultAt: Instant
-            get() = Instant.parse(dr)
+        val testResultAt: Instant?
+            get() = dr?.let { Instant.parse(it) }
+
+        val sampleCollectedAt: Instant
+            get() = Instant.parse(sc)
     }
 
     val dateOfBirth: LocalDate

@@ -3,11 +3,11 @@ package de.rki.coronawarnapp.vaccination.core.qrcode
 import de.rki.coronawarnapp.vaccination.core.DaggerVaccinationTestComponent
 import de.rki.coronawarnapp.vaccination.core.VaccinationQrCodeTestData
 import de.rki.coronawarnapp.vaccination.core.VaccinationTestData
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_CWT_NO_ISS
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_NO_VACCINATION_ENTRY
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidVaccinationCertificateException
-import de.rki.coronawarnapp.vaccination.core.certificate.InvalidVaccinationCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
-import de.rki.coronawarnapp.vaccination.core.certificate.InvalidVaccinationCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
-import de.rki.coronawarnapp.vaccination.core.certificate.InvalidVaccinationCertificateException.ErrorCode.VC_HC_CWT_NO_ISS
-import de.rki.coronawarnapp.vaccination.core.certificate.InvalidVaccinationCertificateException.ErrorCode.VC_NO_VACCINATION_ENTRY
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import org.joda.time.Instant
@@ -83,7 +83,7 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
     fun `valid encoding but not a health certificate fails with VC_HC_CWT_NO_ISS`() {
         shouldThrow<InvalidVaccinationCertificateException> {
             extractor.extract(VaccinationQrCodeTestData.validEncoded)
-        }.errorCode shouldBe VC_HC_CWT_NO_ISS
+        }.errorCode shouldBe HC_CWT_NO_ISS
     }
 
     @Test
