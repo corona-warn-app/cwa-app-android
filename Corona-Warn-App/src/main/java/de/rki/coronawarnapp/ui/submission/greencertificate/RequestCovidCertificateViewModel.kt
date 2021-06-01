@@ -8,6 +8,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import org.joda.time.LocalDate
@@ -26,6 +27,7 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
 
     private val birthDateData = MutableLiveData<LocalDate>(null)
     val birthDate: LiveData<LocalDate> = birthDateData
+    val events = SingleLiveEvent<RequestDccNavEvent>()
 
     fun birthDateChanged(localDate: LocalDate?) {
         birthDateData.value = localDate
@@ -34,6 +36,18 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
     fun onAgreeGC() = registerWithDccConsent(dccConsent = true)
 
     fun onDisagreeGC() = registerWithDccConsent(dccConsent = false)
+
+    fun navigateBack() {
+        events.postValue(Back)
+    }
+
+    fun navigateToHomeScreen() {
+        events.postValue(ToHomeScreen)
+    }
+
+    fun navigateToDispatcherScreen() {
+        events.postValue(ToDispatcherScreen)
+    }
 
     private fun registerWithDccConsent(dccConsent: Boolean) = launch {
         val consentedQrCode = when (coronaTestQrCode) {

@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.submission.greencertificate
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.navigation.fragment.findNavController
@@ -16,9 +17,12 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.databinding.FragmentRequestCovidCertificateBinding
+import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
+import de.rki.coronawarnapp.ui.submission.ApiRequestState
+import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -60,42 +64,64 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
             dateInputEdit.setOnClickListener { openDatePicker() }
             privacyInformation.setOnClickListener { findNavController().navigate(R.id.informationPrivacyFragment) }
 
+            viewModel.events.observe(viewLifecycleOwner) { event ->
+                when (event) {
+                    Back -> popBackStack()
+                    ToDispatcherScreen -> doNavigate(
+                        RequestCovidCertificateFragmentDirections
+                            .actionRequestCovidCertificateFragmentToDispatcherFragment()
+                    )
+                    ToHomeScreen -> doNavigate(
+                        RequestCovidCertificateFragmentDirections.actionRequestCovidCertificateFragmentToHomeFragment()
+                    )
+                }
+            }
             viewModel.birthDate.observe(viewLifecycleOwner) { date -> agreeButton.isEnabled = !isPCR || date != null }
             viewModel.registrationError.observe(viewLifecycleOwner) { DialogHelper.showDialog(buildErrorDialog(it)) }
+            viewModel.registrationState.observe(viewLifecycleOwner) { state -> handleRegistrationState(state) }
             viewModel.showRedeemedTokenWarning.observe(viewLifecycleOwner) { DialogHelper.showDialog(redeemDialog()) }
+        }
 
-            viewModel.registrationState.observe(viewLifecycleOwner) { state ->
-//                when (state.apiRequestState) {
-//                    ApiRequestState.STARTED -> binding.submissionQrCodeScanSpinner.show()
-//                    else -> binding.submissionQrCodeScanSpinner.hide()
-//                }
-                when (state.test?.testResult) {
-                    CoronaTestResult.PCR_POSITIVE ->
-                        NavGraphDirections.actionToSubmissionTestResultAvailableFragment(testType = PCR)
-
-                    CoronaTestResult.PCR_OR_RAT_PENDING ->
-                        NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = state.test.type)
-
-                    CoronaTestResult.PCR_NEGATIVE,
-                    CoronaTestResult.PCR_INVALID,
-                    CoronaTestResult.PCR_REDEEMED ->
-                        NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = PCR)
-
-                    CoronaTestResult.RAT_POSITIVE ->
-                        NavGraphDirections.actionToSubmissionTestResultAvailableFragment(testType = RAPID_ANTIGEN)
-
-                    CoronaTestResult.RAT_NEGATIVE,
-                    CoronaTestResult.RAT_INVALID,
-                    CoronaTestResult.RAT_PENDING,
-                    CoronaTestResult.RAT_REDEEMED ->
-                        NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = RAPID_ANTIGEN)
-                    null -> {
-                        Timber.w("Successful API request, but test was null?")
-                        return@observe
-                    }
-                }.run { doNavigate(this) }
+    private fun handleRegistrationState(state: QrCodeRegistrationStateProcessor.RegistrationState) {
+        when (state.apiRequestState) {
+            ApiRequestState.STARTED -> binding.apply {
+                progressBar.show()
+                agreeButton.isInvisible = true
+                disagreeButton.isInvisible = true
+            }
+            else -> binding.apply {
+                progressBar.hide()
+                agreeButton.isInvisible = false
+                disagreeButton.isInvisible = false
             }
         }
+
+        when (state.test?.testResult) {
+            CoronaTestResult.PCR_POSITIVE ->
+                NavGraphDirections.actionToSubmissionTestResultAvailableFragment(testType = PCR)
+
+            CoronaTestResult.PCR_OR_RAT_PENDING ->
+                NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = state.test.type)
+
+            CoronaTestResult.PCR_NEGATIVE,
+            CoronaTestResult.PCR_INVALID,
+            CoronaTestResult.PCR_REDEEMED ->
+                NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = PCR)
+
+            CoronaTestResult.RAT_POSITIVE ->
+                NavGraphDirections.actionToSubmissionTestResultAvailableFragment(testType = RAPID_ANTIGEN)
+
+            CoronaTestResult.RAT_NEGATIVE,
+            CoronaTestResult.RAT_INVALID,
+            CoronaTestResult.RAT_PENDING,
+            CoronaTestResult.RAT_REDEEMED ->
+                NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = RAPID_ANTIGEN)
+            null -> {
+                Timber.w("Successful API request, but test was null?")
+                return
+            }
+        }.run { doNavigate(this) }
+    }
 
     private fun redeemDialog(): DialogHelper.DialogInstance = DialogHelper.DialogInstance(
         requireActivity(),
@@ -107,8 +133,8 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
     private fun showCloseDialog() = MaterialAlertDialogBuilder(requireContext())
         .setTitle(R.string.request_gc_dialog_title)
         .setMessage(R.string.request_gc_dialog_message)
-        .setNegativeButton(R.string.request_gc_dialog_negative_button) { _, _ -> popBackStack() }
-        .setPositiveButton(R.string.request_gc_dialog_positive_button) { _, _ -> /* TODO */ }
+        .setNegativeButton(R.string.request_gc_dialog_negative_button) { _, _ -> viewModel.navigateBack() }
+        .setPositiveButton(R.string.request_gc_dialog_positive_button) { _, _ -> viewModel.navigateToHomeScreen() }
         .create()
         .show()
 
@@ -126,6 +152,7 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
 
     private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance =
         when (exception) {
+            is BadRequestException -> createInvalidScanDialog()
             is CwaClientError, is CwaServerError -> DialogHelper.DialogInstance(
                 requireActivity(),
                 R.string.submission_error_dialog_web_generic_error_title,
@@ -133,7 +160,7 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
                 R.string.submission_error_dialog_web_generic_error_button_positive,
                 null,
                 true,
-                ::navigateToDispatchScreen
+                { viewModel.navigateToDispatcherScreen() }
             )
             else -> DialogHelper.DialogInstance(
                 requireActivity(),
@@ -142,11 +169,19 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
                 R.string.submission_error_dialog_web_generic_error_button_positive,
                 null,
                 true,
-                ::navigateToDispatchScreen
+                { viewModel.navigateToDispatcherScreen() }
             )
         }
 
-    private fun navigateToDispatchScreen() {
-        // TODO
-    }
+    private fun createInvalidScanDialog() = DialogHelper.DialogInstance(
+        requireActivity(),
+        R.string.submission_qr_code_scan_invalid_dialog_headline,
+        R.string.submission_qr_code_scan_invalid_dialog_body,
+        R.string.submission_qr_code_scan_invalid_dialog_button_positive,
+        R.string.submission_qr_code_scan_invalid_dialog_button_negative,
+        true,
+        { viewModel.navigateBack() },
+        { viewModel.navigateToDispatcherScreen() },
+        { viewModel.navigateToDispatcherScreen() }
+    )
 }

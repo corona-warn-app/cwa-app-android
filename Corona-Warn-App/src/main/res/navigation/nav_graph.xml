@@ -834,5 +834,15 @@
             android:name="coronaTestConsent"
             android:defaultValue="false"
             app:argType="boolean" />
+
+        <action
+            android:id="@+id/action_requestCovidCertificateFragment_to_dispatcherFragment"
+            app:popUpTo="@id/submissionDispatcherFragment"
+            app:popUpToInclusive="false" />
+
+        <action
+            android:id="@+id/action_requestCovidCertificateFragment_to_homeFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
     </fragment>
 </navigation>
