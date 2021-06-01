@@ -3,22 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/vaccination_nav_graph"
-    app:startDestination="@id/vaccinationConsentFragment">
-
-    <fragment
-        android:id="@+id/vaccinationConsentFragment"
-        android:name="de.rki.coronawarnapp.vaccination.ui.consent.VaccinationConsentFragment"
-        android:label="VaccinationConsentFragment"
-        tools:layout="@layout/vaccination_consent_fragment">
-        <action
-            android:id="@+id/vaccinationConsentFragment_to_privacyFragment"
-            app:destination="@id/privacyFragment" />
-        <action
-            android:id="@+id/vaccinationConsentFragment_to_QrCodeFragment"
-            app:destination="@id/vaccinationQrCodeScanFragment"
-            app:popUpTo="@id/vaccinationConsentFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
+    app:startDestination="@id/vaccinationListFragment">
 
     <fragment
         android:id="@+id/vaccinationQrCodeScanFragment"
@@ -60,9 +45,4 @@
             app:argType="string" />
     </fragment>
 
-    <fragment
-        android:id="@+id/privacyFragment"
-        android:name="de.rki.coronawarnapp.ui.information.InformationPrivacyFragment"
-        android:label="privacyFragment"
-        tools:layout="@layout/fragment_information_privacy" />
 </navigation>
