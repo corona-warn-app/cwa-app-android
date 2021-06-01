@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.coronatest
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.storage.TestCertificateStorage
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.TestCertificate
+import de.rki.coronawarnapp.coronatest.type.TestCertificateContainer
 import de.rki.coronawarnapp.coronatest.type.TestCertificateIdentifier
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRTestCertificateContainer
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RATestCertificateContainer
@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.plus
+import kotlinx.coroutines.withContext
 import okio.ByteString.Companion.decodeBase64
 import timber.log.Timber
 import java.util.UUID
@@ -43,33 +44,33 @@ class TestCertificateRepository @Inject constructor(
     private val qrCodeExtractor: TestCertificateQRCodeExtractor,
 ) {
 
-    private val internalData: HotDataFlow<Map<TestCertificateIdentifier, TestCertificate>> = HotDataFlow(
-        loggingTag = CoronaTestRepository.TAG,
-        scope = appScope + dispatcherProvider.IO,
+    private val internalData: HotDataFlow<Map<TestCertificateIdentifier, TestCertificateContainer>> = HotDataFlow(
+        loggingTag = TAG,
+        scope = appScope + dispatcherProvider.Default,
         sharingBehavior = SharingStarted.Eagerly,
     ) {
         storage.testCertificates.map { it.identifier to it }.toMap().also {
-            Timber.tag(CoronaTestRepository.TAG).v("Restored TestCertificate data: %s", it)
+            Timber.tag(TAG).v("Restored TestCertificate data: %s", it)
         }
     }
 
-    val coronaTests: Flow<Set<TestCertificate>> = internalData.data.map { it.values.toSet() }
+    val coronaTests: Flow<Set<TestCertificateContainer>> = internalData.data.map { it.values.toSet() }
 
     init {
         internalData.data
-            .onStart { Timber.tag(CoronaTestRepository.TAG).d("Observing test certificate data.") }
+            .onStart { Timber.tag(TAG).d("Observing TestCertificateContainer data.") }
             .onEach {
-                Timber.tag(CoronaTestRepository.TAG).v("TestCertificate data changed: %s", it)
+                Timber.tag(TAG).v("TestCertificateContainer data changed: %s", it)
                 storage.testCertificates = it.values.toSet()
             }
             .catch {
-                it.reportProblem(CoronaTestRepository.TAG, "Failed to snapshot TestCertificate data to storage.")
+                it.reportProblem(TAG, "Failed to snapshot TestCertificateContainer data to storage.")
                 throw it
             }
-            .launchIn(appScope + dispatcherProvider.IO)
+            .launchIn(appScope + dispatcherProvider.Default)
     }
 
-    suspend fun requestCertificate(test: CoronaTest): TestCertificate {
+    suspend fun requestCertificate(test: CoronaTest): TestCertificateContainer {
         Timber.tag(TAG).d("createDccForTest(test.identifier=%s)", test.identifier)
 
         val newData = internalData.updateBlocking {
@@ -78,7 +79,7 @@ class TestCertificateRepository @Inject constructor(
                 throw IllegalArgumentException("A certificate was already created for this ${test.identifier}")
             }
 
-            // TODO do we need additional validation here? last change to abort?
+            // TODO do we need additional validation here? last chance to abort?
 
             val identifier = UUID.randomUUID().toString()
 
@@ -101,7 +102,7 @@ class TestCertificateRepository @Inject constructor(
         return newData.values.single { it.registrationToken == test.registrationToken }
     }
 
-    suspend fun refresh(identifier: TestCertificateIdentifier): TestCertificate {
+    suspend fun refresh(identifier: TestCertificateIdentifier): TestCertificateContainer {
         Timber.tag(TAG).d("refresh(identifier=%s)", identifier)
 
         val updated = internalData.updateBlocking {
@@ -112,7 +113,7 @@ class TestCertificateRepository @Inject constructor(
             val withPublicKey = if (toUpdate.isPublicKeyRegistered) toUpdate
             else registerPublicKey(toUpdate)
 
-            val withCert = if (withPublicKey.isCertRetrieved) withPublicKey
+            val withCert = if (!withPublicKey.isPending) withPublicKey
             else requestCertificate(withPublicKey)
 
             mutate { this[withCert.identifier] = withCert }
@@ -122,18 +123,20 @@ class TestCertificateRepository @Inject constructor(
     }
 
     private suspend fun registerPublicKey(
-        cert: TestCertificate
-    ): TestCertificate = try {
+        cert: TestCertificateContainer
+    ): TestCertificateContainer = try {
         Timber.tag(TAG).d("registerPublicKey(cert=%s)", cert)
 
         if (cert.isPublicKeyRegistered) throw IllegalStateException("Public key is already registered.")
 
         val rsaKeyPair = rsaKeyPairGenerator.generate()
 
-        certificateServer.registerPublicKeyForTest(
-            testRegistrationToken = cert.registrationToken,
-            publicKey = rsaKeyPair.publicKey,
-        )
+        withContext(dispatcherProvider.IO) {
+            certificateServer.registerPublicKeyForTest(
+                testRegistrationToken = cert.registrationToken,
+                publicKey = rsaKeyPair.publicKey,
+            )
+        }
         Timber.tag(TAG).i("Public key successfully registered for %s", cert)
 
         when (cert.type) {
@@ -154,16 +157,18 @@ class TestCertificateRepository @Inject constructor(
     }
 
     private suspend fun requestCertificate(
-        cert: TestCertificate
-    ): TestCertificate = try {
+        cert: TestCertificateContainer
+    ): TestCertificateContainer = try {
         Timber.tag(TAG).d("requestCertificate(cert=%s)", cert)
 
         if (!cert.isPublicKeyRegistered) throw IllegalStateException("Public key is not registered yet.")
-        if (cert.isCertRetrieved) throw IllegalStateException("Certificate already retrieved.")
+        if (!cert.isPending) throw IllegalStateException("Certificate already retrieved.")
 
-        val components = certificateServer.requestCertificateForTest(
-            testRegistrationToken = cert.registrationToken
-        )
+        val components = withContext(dispatcherProvider.IO) {
+            certificateServer.requestCertificateForTest(
+                testRegistrationToken = cert.registrationToken
+            )
+        }
         Timber.tag(TAG).i("Test certificate components successfully request for %s: %s", cert, components)
 
         val encryptionkey = rsaCryptography.decrypt(
@@ -192,7 +197,7 @@ class TestCertificateRepository @Inject constructor(
             it.preParsedData = extractedData.testCertificateData
         }
     } catch (e: Exception) {
-        Timber.tag(TAG).e("Failed to register public key for %s", cert)
+        Timber.tag(TAG).e("Failed to retrieve certificate components for %s", cert)
         throw e
     }
 

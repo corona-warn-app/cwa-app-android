@@ -22,7 +22,7 @@ interface VaccinationCertificate {
     val certificateCountry: String
     val certificateId: String
 
-    val personIdentifier: VaccinatedPersonIdentifier
+    val personIdentifier: CertificatePersonIdentifier
 
     val issuer: String
     val issuedAt: Instant

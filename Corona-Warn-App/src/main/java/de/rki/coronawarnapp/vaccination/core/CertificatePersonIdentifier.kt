@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.vaccination.core
 
+import de.rki.coronawarnapp.covidcertificate.test.TestCertificateDccV1
+import de.rki.coronawarnapp.covidcertificate.test.TestCertificateQRCode
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode
@@ -8,7 +10,7 @@ import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
 import org.joda.time.LocalDate
 import timber.log.Timber
 
-data class VaccinatedPersonIdentifier(
+data class CertificatePersonIdentifier(
     val dateOfBirth: LocalDate,
     val lastNameStandardized: String,
     val firstNameStandardized: String?
@@ -32,7 +34,7 @@ data class VaccinatedPersonIdentifier(
         code.toSHA256()
     }
 
-    fun requireMatch(other: VaccinatedPersonIdentifier) {
+    fun requireMatch(other: CertificatePersonIdentifier) {
         if (lastNameStandardized != other.lastNameStandardized) {
             Timber.d("Family name does not match, got ${other.lastNameStandardized}, expected $lastNameStandardized")
             throw InvalidHealthCertificateException(ErrorCode.VC_NAME_MISMATCH)
@@ -48,12 +50,22 @@ data class VaccinatedPersonIdentifier(
     }
 }
 
-val VaccinationDGCV1.personIdentifier: VaccinatedPersonIdentifier
-    get() = VaccinatedPersonIdentifier(
+val VaccinationDGCV1.personIdentifier: CertificatePersonIdentifier
+    get() = CertificatePersonIdentifier(
         dateOfBirth = dateOfBirth,
         lastNameStandardized = nameData.familyNameStandardized,
         firstNameStandardized = nameData.givenNameStandardized
     )
 
-val VaccinationCertificateQRCode.personIdentifier: VaccinatedPersonIdentifier
+val VaccinationCertificateQRCode.personIdentifier: CertificatePersonIdentifier
     get() = parsedData.certificate.personIdentifier
+
+val TestCertificateDccV1.personIdentifier: CertificatePersonIdentifier
+    get() = CertificatePersonIdentifier(
+        dateOfBirth = dateOfBirth,
+        lastNameStandardized = nameData.familyNameStandardized,
+        firstNameStandardized = nameData.givenNameStandardized
+    )
+
+val TestCertificateQRCode.personIdentifier: CertificatePersonIdentifier
+    get() = testCertificateData.certificate.personIdentifier

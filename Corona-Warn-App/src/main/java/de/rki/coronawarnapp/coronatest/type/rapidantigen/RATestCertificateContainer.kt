@@ -3,9 +3,7 @@ package de.rki.coronawarnapp.coronatest.type.rapidantigen
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.RegistrationToken
-import de.rki.coronawarnapp.coronatest.type.TestCertificate
-import de.rki.coronawarnapp.covidcertificate.test.TestCertificateData
-import de.rki.coronawarnapp.covidcertificate.test.TestCertificateQRCodeExtractor
+import de.rki.coronawarnapp.coronatest.type.TestCertificateContainer
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKey
 import okio.ByteString
 import org.joda.time.Instant
@@ -40,7 +38,9 @@ data class RATestCertificateContainer(
 
     @SerializedName("testCertificateQrCode")
     override val testCertificateQrCode: String? = null,
-) : TestCertificate {
+
+    @Transient override val isUpdatingData: Boolean = false,
+) : TestCertificateContainer() {
 
     // Otherwise GSON unsafes reflection to create this class, and sets the LAZY to null
     @Suppress("unused")
@@ -49,15 +49,6 @@ data class RATestCertificateContainer(
         registrationToken = "",
         registeredAt = Instant.EPOCH
     )
-
-    // Either set by [ContainerPostProcessor] or during first update
-    @Transient override lateinit var qrCodeExtractor: TestCertificateQRCodeExtractor
-    @Transient override var preParsedData: TestCertificateData? = null
-
-    @delegate:Transient
-    override val certificateData: TestCertificateData? by lazy {
-        preParsedData ?: testCertificateQrCode?.let { qrCodeExtractor.extract(it).testCertificateData }
-    }
 
     override val type: CoronaTest.Type
         get() = CoronaTest.Type.RAPID_ANTIGEN

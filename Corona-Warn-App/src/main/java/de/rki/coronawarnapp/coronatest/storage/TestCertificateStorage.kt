@@ -6,7 +6,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.TestCertificate
+import de.rki.coronawarnapp.coronatest.type.TestCertificateContainer
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRTestCertificateContainer
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RATestCertificateContainer
 import de.rki.coronawarnapp.util.di.AppContext
@@ -39,7 +39,7 @@ class TestCertificateStorage @Inject constructor(
         object : TypeToken<Set<RATestCertificateContainer>>() {}.type
     }
 
-    var testCertificates: Collection<TestCertificate>
+    var testCertificates: Collection<TestCertificateContainer>
         get() {
             Timber.tag(TAG).d("load()")
 

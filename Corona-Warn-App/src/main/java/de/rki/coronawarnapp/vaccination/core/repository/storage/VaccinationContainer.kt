@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.vaccination.core.repository.storage
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
-import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
+import de.rki.coronawarnapp.vaccination.core.CertificatePersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.vaccination.core.certificate.CoseCertificateHeader
 import de.rki.coronawarnapp.vaccination.core.certificate.VaccinationDGCV1
@@ -48,14 +48,14 @@ data class VaccinationContainer internal constructor(
     val certificateId: String
         get() = vaccination.uniqueCertificateIdentifier
 
-    val personIdentifier: VaccinatedPersonIdentifier
+    val personIdentifier: CertificatePersonIdentifier
         get() = certificate.personIdentifier
 
     fun toVaccinationCertificate(
         valueSet: VaccinationValueSet?,
         userLocale: Locale = Locale.getDefault(),
     ) = object : VaccinationCertificate {
-        override val personIdentifier: VaccinatedPersonIdentifier
+        override val personIdentifier: CertificatePersonIdentifier
             get() = certificate.personIdentifier
 
         override val firstName: String?
