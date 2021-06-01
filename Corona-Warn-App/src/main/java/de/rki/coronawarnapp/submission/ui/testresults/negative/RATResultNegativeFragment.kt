@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionAntigenTestResultNegativeBinding
@@ -89,6 +90,8 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
             R.string.submission_test_result_antigen_negative_proof_body
         }
         negativeTestProofBody.text = getString(proofBodyString)
+
+        negativeTestProofAdditionalInformation.isGone = isAnonymousTest
     }
 
     companion object {
