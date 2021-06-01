@@ -19,7 +19,7 @@ abstract class TestCertificateContainer {
     abstract val registrationToken: RegistrationToken
     abstract val type: CoronaTest.Type
     abstract val registeredAt: Instant
-    abstract val isPublicKeyRegistered: Boolean
+    abstract val publicKeyRegisteredAt: Instant?
     abstract val rsaPublicKey: RSAKey.Public?
     abstract val rsaPrivateKey: RSAKey.Private?
     abstract val certificateReceivedAt: Instant?
@@ -38,6 +38,9 @@ abstract class TestCertificateContainer {
     internal val certificateData: TestCertificateData by lazy {
         preParsedData ?: testCertificateQrCode!!.let { qrCodeExtractor.extract(it).testCertificateData }
     }
+
+    val isPublicKeyRegistered: Boolean
+        get() = publicKeyRegisteredAt != null
 
     val isPending: Boolean
         get() = certificateReceivedAt == null

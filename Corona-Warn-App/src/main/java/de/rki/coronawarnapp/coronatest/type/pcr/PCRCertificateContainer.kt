@@ -18,8 +18,8 @@ data class PCRCertificateContainer internal constructor(
     @SerializedName("registeredAt")
     override val registeredAt: Instant,
 
-    @SerializedName("isPublicKeyRegistered")
-    override val isPublicKeyRegistered: Boolean = false,
+    @SerializedName("publicKeyRegisteredAt")
+    override val publicKeyRegisteredAt: Instant? = null,
 
     @SerializedName("rsaPublicKey")
     override val rsaPublicKey: RSAKey.Public? = null,

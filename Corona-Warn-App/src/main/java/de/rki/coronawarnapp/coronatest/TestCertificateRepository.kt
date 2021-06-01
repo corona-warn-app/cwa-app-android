@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.coronatest
 
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.storage.TestCertificateStorage
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
@@ -8,6 +9,7 @@ import de.rki.coronawarnapp.coronatest.type.TestCertificateIdentifier
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCertificateContainer
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACertificateContainer
 import de.rki.coronawarnapp.covidcertificate.server.CovidCertificateServer
+import de.rki.coronawarnapp.covidcertificate.server.TestCertificateComponents
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateQRCodeExtractor
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -17,9 +19,11 @@ import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
 import de.rki.coronawarnapp.util.flow.HotDataFlow
 import de.rki.coronawarnapp.util.mutate
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -27,6 +31,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.withContext
 import okio.ByteString.Companion.decodeBase64
+import org.joda.time.Duration
 import timber.log.Timber
 import java.util.UUID
 import javax.inject.Inject
@@ -42,6 +47,7 @@ class TestCertificateRepository @Inject constructor(
     private val rsaKeyPairGenerator: RSAKeyPairGenerator,
     private val rsaCryptography: RSACryptography,
     private val qrCodeExtractor: TestCertificateQRCodeExtractor,
+    private val appConfigProvider: AppConfigProvider,
 ) {
 
     private val internalData: HotDataFlow<Map<TestCertificateIdentifier, TestCertificateContainer>> = HotDataFlow(
@@ -161,7 +167,7 @@ class TestCertificateRepository @Inject constructor(
                 .filter { it.isPublicKeyRegistered && it.isPending }
                 .map { cert ->
                     try {
-                        RefreshResult(requestCertificate(cert))
+                        RefreshResult(obtainCertificate(cert))
                     } catch (e: Exception) {
                         Timber.tag(TAG).e(e, "Failed to retrieve test certificate for %s", cert)
                         RefreshResult(cert, e)
@@ -213,14 +219,16 @@ class TestCertificateRepository @Inject constructor(
             }
             Timber.tag(TAG).i("Public key successfully registered for %s", cert)
 
+            val nowUTC = timeStamper.nowUTC
+
             when (cert.type) {
                 CoronaTest.Type.PCR -> (cert as PCRCertificateContainer).copy(
-                    isPublicKeyRegistered = true,
+                    publicKeyRegisteredAt = nowUTC,
                     rsaPublicKey = rsaKeyPair.publicKey,
                     rsaPrivateKey = rsaKeyPair.privateKey,
                 )
                 CoronaTest.Type.RAPID_ANTIGEN -> (cert as RACertificateContainer).copy(
-                    isPublicKeyRegistered = true,
+                    publicKeyRegisteredAt = nowUTC,
                     rsaPublicKey = rsaKeyPair.publicKey,
                     rsaPrivateKey = rsaKeyPair.privateKey,
                 )
@@ -231,7 +239,7 @@ class TestCertificateRepository @Inject constructor(
         }
     }
 
-    private suspend fun requestCertificate(
+    private suspend fun obtainCertificate(
         cert: TestCertificateContainer
     ): TestCertificateContainer {
         return try {
@@ -244,10 +252,29 @@ class TestCertificateRepository @Inject constructor(
                 return cert
             }
 
+            val certConfig = appConfigProvider.currentConfig.first().covidCertificateParameters.testCertificate
+
+            val nowUTC = timeStamper.nowUTC
+            val certAvailableAt = cert.publicKeyRegisteredAt!!.plus(certConfig.waitAfterPublicKeyRegistration)
+            val certAvailableIn = Duration(nowUTC, certAvailableAt)
+
             val components = withContext(dispatcherProvider.IO) {
-                certificateServer.requestCertificateForTest(
-                    testRegistrationToken = cert.registrationToken
-                )
+                if (certAvailableIn > Duration.ZERO && certAvailableIn < certConfig.waitAfterPublicKeyRegistration) {
+                    Timber.tag(TAG).d("Delaying certificate retrieval by %d ms", certAvailableIn.millis)
+                    delay(certAvailableIn.millis)
+                }
+
+                val executeRequest: suspend CoroutineScope.() -> TestCertificateComponents = {
+                    certificateServer.requestCertificateForTest(testRegistrationToken = cert.registrationToken)
+                }
+
+                try {
+                    executeRequest()
+                } catch (e: Exception) {
+                    // TODO catch a specific error that reflects error code DGC_COMP_202
+                    delay(certConfig.waitForRetry.millis)
+                    executeRequest()
+                }
             }
             Timber.tag(TAG).i("Test certificate components successfully request for %s: %s", cert, components)
 
