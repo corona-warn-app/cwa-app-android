@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.VaccinationBottomInfoCardBinding
 import de.rki.coronawarnapp.greencertificate.ui.certificates.CertificatesAdapter
 import de.rki.coronawarnapp.greencertificate.ui.certificates.items.CertificatesItem
-import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class BottomInfoVaccinationCard(parent: ViewGroup) :
     CertificatesAdapter.CertificatesItemVH<BottomInfoVaccinationCard.Item, VaccinationBottomInfoCardBinding>(
@@ -22,9 +21,7 @@ class BottomInfoVaccinationCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { _, _ -> }
 
-    object Item : CertificatesItem, HasPayloadDiffer {
+    object Item : CertificatesItem {
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
-
-        override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }
 }
