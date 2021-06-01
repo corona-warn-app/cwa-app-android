@@ -47,8 +47,8 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
                 )
 
                 else -> if (ctQrCode is CoronaTestQRCode.RapidAntigen && !ctQrCode.isDccSupportedByPoc) {
-                    if (isConsentGiven) analyticsKeySubmissionCollector.reportAdvancedConsentGiven(ctQrCode.type)
                     qrCodeRegistrationStateProcessor.startQrCodeRegistration(ctQrCode, isConsentGiven)
+                    if (isConsentGiven) analyticsKeySubmissionCollector.reportAdvancedConsentGiven(ctQrCode.type)
                 } else {
                     events.postValue(
                         SubmissionNavigationEvents.NavigateToRequestDccFragment(ctQrCode, isConsentGiven)

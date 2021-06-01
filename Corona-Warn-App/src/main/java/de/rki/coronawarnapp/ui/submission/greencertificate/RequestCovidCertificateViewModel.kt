@@ -6,8 +6,8 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor
-import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import org.joda.time.LocalDate
@@ -16,6 +16,7 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
     @Assisted private val coronaTestQrCode: CoronaTestQRCode,
     @Assisted private val coronaTestConsent: Boolean,
     private val qrCodeRegistrationStateProcessor: QrCodeRegistrationStateProcessor,
+    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
 ) : CWAViewModel() {
 
     // Test registration LiveData
@@ -44,6 +45,7 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
         }
 
         qrCodeRegistrationStateProcessor.startQrCodeRegistration(consentedQrCode, coronaTestConsent)
+        if (coronaTestConsent) analyticsKeySubmissionCollector.reportAdvancedConsentGiven(consentedQrCode.type)
     }
 
     @AssistedFactory
