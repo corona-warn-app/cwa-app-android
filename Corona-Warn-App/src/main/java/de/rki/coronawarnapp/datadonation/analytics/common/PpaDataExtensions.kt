@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.datadonation.analytics.common
 import androidx.annotation.StringRes
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 
@@ -67,8 +66,6 @@ val PpaData.PPAFederalState.federalStateShortName: String
             "PpaData.PPAFederalState.UNRECOGNIZED has no short name"
         )
     }
-
-fun EwRiskLevelResult.toMetadataRiskLevel(): PpaData.PPARiskLevel = riskState.toMetadataRiskLevel()
 
 fun RiskState.toMetadataRiskLevel(): PpaData.PPARiskLevel =
     when (this) {

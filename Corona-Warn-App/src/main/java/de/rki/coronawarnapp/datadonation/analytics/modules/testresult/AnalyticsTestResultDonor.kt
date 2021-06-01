@@ -30,12 +30,6 @@ abstract class AnalyticsTestResultDonor(
 ) : DonorModule {
 
     override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
-        val scannedAfterConsent = testResultSettings.testScannedAfterConsent.value
-        if (!scannedAfterConsent) {
-            Timber.d("Skipping TestResultMetadata donation (scannedAfterConsent=%s)", scannedAfterConsent)
-            return TestResultMetadataNoContribution
-        }
-
         val timestampAtRegistration = testResultSettings.testRegisteredAt.value
         if (timestampAtRegistration == null) {
             Timber.d("Skipping TestResultMetadata donation (timestampAtRegistration is missing)")
