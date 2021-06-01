@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.http.playbook
 
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResultResponse
+import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
 import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.coronatest.server.VerificationServer
 import de.rki.coronawarnapp.exception.TanPairingException
@@ -29,11 +30,20 @@ class DefaultPlaybookTest : BaseTest() {
     @MockK lateinit var submissionServer: SubmissionServer
     @MockK lateinit var verificationServer: VerificationServer
 
+    private val requestGuid = RegistrationRequest(
+        key = "guid",
+        type = VerificationKeyType.GUID
+    )
+    private val requestTan = RegistrationRequest(
+        key = "9A3B578UMG",
+        type = VerificationKeyType.TELETAN
+    )
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
-        coEvery { verificationServer.retrieveRegistrationToken(any(), any()) } returns "token"
+        coEvery { verificationServer.retrieveRegistrationToken(any()) } returns "token"
         coEvery { verificationServer.pollTestResult(any()) } returns CoronaTestResultResponse(
             coronaTestResult = CoronaTestResult.PCR_OR_RAT_PENDING,
             sampleCollectedAt = null
@@ -52,13 +62,13 @@ class DefaultPlaybookTest : BaseTest() {
 
     @Test
     fun `initial registration pattern matches`(): Unit = runBlocking {
-        coEvery { verificationServer.retrieveRegistrationToken(any(), any()) } returns "response"
+        coEvery { verificationServer.retrieveRegistrationToken(any()) } returns "response"
 
-        createPlaybook().initialRegistration("9A3B578UMG", VerificationKeyType.TELETAN)
+        createPlaybook().initialRegistration(requestTan)
 
         coVerifySequence {
             // ensure request order is 2x verification and 1x submission
-            verificationServer.retrieveRegistrationToken(any(), any())
+            verificationServer.retrieveRegistrationToken(any())
             verificationServer.pollTestResult(any())
             submissionServer.submitFakePayload()
         }
@@ -67,16 +77,16 @@ class DefaultPlaybookTest : BaseTest() {
     @Test
     fun ` registration pattern matches despite token failure`(): Unit = runBlocking {
         coEvery {
-            verificationServer.retrieveRegistrationToken(any(), any())
+            verificationServer.retrieveRegistrationToken(any())
         } throws TestException()
 
         shouldThrow<TestException> {
-            createPlaybook().initialRegistration("9A3B578UMG", VerificationKeyType.TELETAN)
+            createPlaybook().initialRegistration(requestTan)
         }
 
         coVerifySequence {
             // ensure request order is 2x verification and 1x submission
-            verificationServer.retrieveRegistrationToken(any(), any())
+            verificationServer.retrieveRegistrationToken(any())
             verificationServer.retrieveTanFake()
             submissionServer.submitFakePayload()
         }
@@ -200,7 +210,7 @@ class DefaultPlaybookTest : BaseTest() {
     @Test
     fun `failures during dummy requests should be ignored`(): Unit = runBlocking {
         val expectedToken = "token"
-        coEvery { verificationServer.retrieveRegistrationToken(any(), any()) } returns expectedToken
+        coEvery { verificationServer.retrieveRegistrationToken(any()) } returns expectedToken
         val expectedResult = CoronaTestResult.PCR_OR_RAT_PENDING
         coEvery { verificationServer.pollTestResult(expectedToken) } returns CoronaTestResultResponse(
             coronaTestResult = expectedResult,
@@ -209,7 +219,7 @@ class DefaultPlaybookTest : BaseTest() {
         coEvery { submissionServer.submitFakePayload() } throws TestException()
 
         val (registrationToken, testResult) = createPlaybook()
-            .initialRegistration("key", VerificationKeyType.GUID)
+            .initialRegistration(requestGuid)
 
         registrationToken shouldBe expectedToken
         testResult shouldBe CoronaTestResultResponse(
@@ -221,15 +231,15 @@ class DefaultPlaybookTest : BaseTest() {
     @Test
     fun `registration pattern matches despire token failure`(): Unit = runBlocking {
         coEvery {
-            verificationServer.retrieveRegistrationToken(any(), any())
+            verificationServer.retrieveRegistrationToken(any())
         } throws TestException()
 
         shouldThrow<TestException> {
-            createPlaybook().initialRegistration("9A3B578UMG", VerificationKeyType.TELETAN)
+            createPlaybook().initialRegistration(requestTan)
         }
         coVerifySequence {
             // ensure request order is 2x verification and 1x submission
-            verificationServer.retrieveRegistrationToken(any(), any())
+            verificationServer.retrieveRegistrationToken(any())
             verificationServer.retrieveTanFake()
             submissionServer.submitFakePayload()
         }
@@ -240,12 +250,12 @@ class DefaultPlaybookTest : BaseTest() {
         coEvery { verificationServer.pollTestResult(any()) } throws TestException()
 
         shouldThrow<TestException> {
-            createPlaybook().initialRegistration("9A3B578UMG", VerificationKeyType.TELETAN)
+            createPlaybook().initialRegistration(requestTan)
         }
 
         coVerifySequence {
             // ensure request order is 2x verification and 1x submission
-            verificationServer.retrieveRegistrationToken(any(), any())
+            verificationServer.retrieveRegistrationToken(any())
             verificationServer.pollTestResult(any())
             submissionServer.submitFakePayload()
         }
