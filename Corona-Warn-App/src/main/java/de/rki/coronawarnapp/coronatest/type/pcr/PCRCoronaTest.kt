@@ -54,6 +54,9 @@ data class PCRCoronaTest(
     override val isFinal: Boolean
         get() = testResult == CoronaTestResult.PCR_REDEEMED
 
+    override val isRedeemed: Boolean
+        get() = testResult == CoronaTestResult.PCR_REDEEMED
+
     override val isPositive: Boolean
         get() = testResult == CoronaTestResult.PCR_POSITIVE
 

@@ -98,6 +98,9 @@ data class RACoronaTest(
     override val isFinal: Boolean
         get() = testResult == RAT_REDEEMED
 
+    override val isRedeemed: Boolean
+        get() = testResult == RAT_REDEEMED
+
     override val isPositive: Boolean
         get() = testResult == RAT_POSITIVE
 
