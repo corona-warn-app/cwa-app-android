@@ -137,8 +137,10 @@ class RiskLevelTaskTest : BaseTest() {
         every { configData.isDeviceTimeCorrect } returns false
         every { configData.localOffset } returns Duration.standardHours(5)
 
+        val serverTime = testTimeNow.minus(configData.localOffset)
+
         createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
-            calculatedAt = testTimeNow,
+            calculatedAt = serverTime,
             failureReason = EwRiskLevelResult.FailureReason.INCORRECT_DEVICE_TIME
         )
     }
