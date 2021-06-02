@@ -209,6 +209,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="true"
+        android:visibility="gone"
         app:indicatorColor="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="@+id/disagree_button"
         app:layout_constraintEnd_toEndOf="parent"
