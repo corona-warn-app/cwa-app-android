@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission.greencertificate
+package de.rki.coronawarnapp.ui.submission.covidcertificate
 
 import androidx.lifecycle.MutableLiveData
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
