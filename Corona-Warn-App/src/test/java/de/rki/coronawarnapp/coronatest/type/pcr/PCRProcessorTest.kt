@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.coronatest.type.pcr
 
+import de.rki.coronawarnapp.bugreporting.censors.submission.PcrTeleTanCensor
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_INVALID
@@ -30,9 +31,11 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Duration
 import org.joda.time.Instant
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -89,6 +92,11 @@ class PCRProcessorTest : BaseTest() {
             coEvery { reportTestRegistered(PCR) } just Runs
             coEvery { clear(PCR) } just Runs
         }
+    }
+
+    @AfterEach
+    fun teardown() {
+        runBlocking { PcrTeleTanCensor.clearTans() }
     }
 
     fun createInstance() = PCRProcessor(
