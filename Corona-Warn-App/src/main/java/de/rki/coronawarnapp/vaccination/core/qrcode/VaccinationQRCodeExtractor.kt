@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.vaccination.core.qrcode
 
 import de.rki.coronawarnapp.bugreporting.censors.vaccination.CertificateQrCodeCensor
 import de.rki.coronawarnapp.coronatest.qrcode.QrCodeExtractor
-import de.rki.coronawarnapp.util.compression.deflate
+import de.rki.coronawarnapp.util.compression.inflate
 import de.rki.coronawarnapp.util.encoding.Base45Decoder
 import de.rki.coronawarnapp.vaccination.core.certificate.HealthCertificateCOSEDecoder
 import de.rki.coronawarnapp.vaccination.core.certificate.HealthCertificateHeaderParser
@@ -45,7 +45,7 @@ class VaccinationQRCodeExtractor @Inject constructor(
     }
 
     private fun ByteArray.decompress(): RawCOSEObject = try {
-        this.deflate(sizeLimit = DEFAULT_SIZE_LIMIT)
+        this.inflate(sizeLimit = DEFAULT_SIZE_LIMIT)
     } catch (e: Throwable) {
         Timber.e(e)
         throw InvalidVaccinationCertificateException(HC_ZLIB_DECOMPRESSION_FAILED)

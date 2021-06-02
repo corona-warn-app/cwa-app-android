@@ -53,20 +53,3 @@ data class TestCertificateDccV1(
         get() = LocalDate.parse(dob)
 }
 
-//    // RAT Test name and manufacturer (only for RAT tests, but not required)
-//    "ma": "1232",
-//    // Date/Time of Sample Collection (required)
-//    "sc": "2021-04-13T14:20:00+00:00",
-//    // Date/Time of Test Result
-//    "dr": "2021-04-13T14:40:01+00:00",
-//    // Testing Center (required)
-//    "tc": "GGD Fryslân, L-Heliconweg",
-//    // Country of Test (required)
-//    "co": "NL",
-//    // Certificate Issuer (required)
-//    "is": "Ministry of Public Health, Welfare and Sport",
-//    // Unique Certificate Identifier (required)
-//    "ci": "urn:uvci:01:NL:GGD/81AAH16AZ"
-//}
-//]
-//}

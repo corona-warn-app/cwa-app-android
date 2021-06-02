@@ -26,28 +26,28 @@ class TestCertificateQRCodeExtractor @Inject constructor(
      */
     fun extract(
         decryptionKey: ByteArray,
-        encryptedCoseComponents: ByteArray,
+        rawCoseObjectEncrypted: ByteArray,
     ): TestCertificateQRCode {
-        val coseObject = encryptedCoseComponents.decrypt(decryptionKey)
+        val rawCoseObject = rawCoseObjectEncrypted.decrypt(decryptionKey)
         return TestCertificateQRCode(
-            testCertificateData = coseObject.parse(),
-            qrCode = coseObject.encode()
+            testCertificateData = rawCoseObject.decode(),
+            qrCode = rawCoseObject.encode()
         )
     }
 
     /**
      * May throw an **[InvalidTestCertificateException]**
      */
-    fun extract(qrCode: String): TestCertificateQRCode {
-        return TestCertificateQRCode(
-            testCertificateData = qrCode.extract(),
-            qrCode = qrCode
-        )
-    }
+    fun extract(qrCode: String) = TestCertificateQRCode(
+        testCertificateData = qrCode.extract(),
+        qrCode = qrCode
+    )
 
-    private fun ByteArray.decrypt(decryptionKey: ByteArray): CBORObject {
-        val cbor = coseDecoder.decode(this)
-        return bodyParser.decryptPayload(cbor, decryptionKey)
+    private fun RawCOSEObject.decrypt(decryptionKey: ByteArray): RawCOSEObject {
+        return coseDecoder.decryptMessage(
+            input = this,
+            decryptionKey = decryptionKey
+        )
     }
 
     private fun String.extract(): TestCertificateData =
@@ -56,8 +56,8 @@ class TestCertificateQRCodeExtractor @Inject constructor(
             .decompress()
             .decode()
 
-    private fun CBORObject.encode(): String {
-        return PREFIX + coseDecoder.encode(this).compress().encodeBase45()
+    private fun RawCOSEObject.encode(): String {
+        return PREFIX + compress().encodeBase45()
     }
 
     private fun ByteArray.encodeBase45(): String = try {
@@ -68,7 +68,7 @@ class TestCertificateQRCodeExtractor @Inject constructor(
     }
 
     private fun RawCOSEObject.compress(): ByteArray = try {
-        this.inflate()
+        this.deflate()
     } catch (e: Throwable) {
         Timber.e(e)
         throw InvalidTestCertificateException(HC_ZLIB_DECOMPRESSION_FAILED)
@@ -87,7 +87,7 @@ class TestCertificateQRCodeExtractor @Inject constructor(
         ).also {
             // todo CertificateQrCodeCensor.addCertificateToCensor(it)
         }.also {
-            Timber.v("Parsed test certificate for %s", it.certificate.nameData.familyNameStandardized)
+            Timber.v("Parsed test certificate for %s", it.certificate.nameData.givenNameStandardized)
         }
     }
 
@@ -99,7 +99,7 @@ class TestCertificateQRCodeExtractor @Inject constructor(
     }
 
     private fun ByteArray.decompress(): RawCOSEObject = try {
-        this.deflate(sizeLimit = DEFAULT_SIZE_LIMIT)
+        this.inflate(sizeLimit = DEFAULT_SIZE_LIMIT)
     } catch (e: Throwable) {
         Timber.e(e)
         throw InvalidTestCertificateException(HC_ZLIB_DECOMPRESSION_FAILED)
