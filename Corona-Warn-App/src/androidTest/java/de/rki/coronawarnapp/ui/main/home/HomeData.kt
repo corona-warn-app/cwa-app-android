@@ -32,8 +32,8 @@ import de.rki.coronawarnapp.tracing.ui.homecards.TracingFailedCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
-import de.rki.coronawarnapp.vaccination.ui.homecard.ImmuneVaccinationHomeCard
-import de.rki.coronawarnapp.vaccination.ui.homecard.VaccinationHomeCard
+import de.rki.coronawarnapp.vaccination.ui.cards.ImmuneVaccinationCard
+import de.rki.coronawarnapp.vaccination.ui.cards.VaccinationCard
 import io.mockk.every
 import io.mockk.mockk
 import org.joda.time.Duration
@@ -186,7 +186,7 @@ object HomeData {
     }
 
     object Vaccination {
-        val INCOMPLETE = VaccinationHomeCard.Item(
+        val INCOMPLETE = VaccinationCard.Item(
             vaccinatedPerson = mockk<VaccinatedPerson>().apply {
                 every { fullName } returns "Andrea Schneider"
                 every { identifier } returns mockk()
@@ -195,7 +195,7 @@ object HomeData {
             },
             onClickAction = {}
         )
-        val COMPLETE = VaccinationHomeCard.Item(
+        val COMPLETE = VaccinationCard.Item(
             vaccinatedPerson = mockk<VaccinatedPerson>().apply {
                 every { fullName } returns "Andrea Schneider"
                 every { identifier } returns mockk()
@@ -204,7 +204,7 @@ object HomeData {
             },
             onClickAction = {}
         )
-        val IMMUNITY = ImmuneVaccinationHomeCard.Item(
+        val IMMUNITY = ImmuneVaccinationCard.Item(
             vaccinatedPerson = mockk<VaccinatedPerson>().apply {
                 every { fullName } returns "Andrea Schneider"
                 every { identifier } returns mockk()

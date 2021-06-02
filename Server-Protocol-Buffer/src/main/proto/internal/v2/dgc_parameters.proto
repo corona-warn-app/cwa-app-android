@@ -1,0 +1,14 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.v2;
+
+
+message DGCParameters {
+
+  DGCTestCertificateParameters testCertificateParameters = 1;
+}
+
+message DGCTestCertificateParameters {
+  uint32 waitAfterPublicKeyRegistrationInSeconds = 1;
+  uint32 waitForRetryInSeconds = 2;
+}

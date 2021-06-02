@@ -29,7 +29,6 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import de.rki.coronawarnapp.vaccination.ui.list.VaccinationListFragment
 import javax.inject.Inject
 
 /**
@@ -159,7 +158,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             )
             is HomeFragmentEvents.ShowDeleteTestDialog -> showRemoveTestDialog(event.type)
             is HomeFragmentEvents.OpenIncompatibleUrl -> openUrl(getString(event.url))
-            is HomeFragmentEvents.OpenVaccinationRegistrationGraph -> openVaccinationGraph(event)
             is HomeFragmentEvents.OpenTraceLocationOrganizerGraph -> openPresenceTracingOrganizerGraph(event)
             is HomeFragmentEvents.GoToTestResultAvailableFragment -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToSubmissionTestResultAvailableFragment(event.type)
@@ -169,9 +167,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             )
             is HomeFragmentEvents.GoToTestResultKeysSharedFragment -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToSubmissionTestResultKeysSharedFragment(event.type)
-            )
-            is HomeFragmentEvents.GoToVaccinationList -> findNavController().navigate(
-                VaccinationListFragment.navigationUri(event.personIdentifierCodeSha256)
             )
             is HomeFragmentEvents.GoToTestResultPositiveFragment -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment(
@@ -192,12 +187,5 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             findNestedGraph(R.id.trace_location_organizer_nav_graph).startDestination = R.id.traceLocationsFragment
         }
         doNavigate(HomeFragmentDirections.actionMainFragmentToTraceLocationOrganizerNavGraph())
-    }
-
-    private fun openVaccinationGraph(event: HomeFragmentEvents.OpenVaccinationRegistrationGraph) {
-        if (event.registrationAcknowledged) {
-            findNestedGraph(R.id.vaccination_nav_graph).startDestination = R.id.vaccinationQrCodeScanFragment
-        }
-        doNavigate(HomeFragmentDirections.actionMainFragmentToVaccinationNavGraph())
     }
 }

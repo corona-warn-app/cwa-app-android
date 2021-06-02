@@ -17,7 +17,7 @@ class VaccinationConsentViewModel @AssistedInject constructor(
 
     fun onConsentClick() {
         vaccinationSettings.registrationAcknowledged = true
-        routeToScreen.postValue(VaccinationConsentNavigationEvent.NavigateToQrCodeScan)
+        routeToScreen.postValue(VaccinationConsentNavigationEvent.NavigateToCertificates)
     }
 
     fun onDataPrivacyClick() {

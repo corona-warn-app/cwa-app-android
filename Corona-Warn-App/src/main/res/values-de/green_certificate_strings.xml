@@ -47,4 +47,16 @@
     <!-- XTXT: Detail green certificate diaglog negative -->
     <string name="green_certificate_details_dialog_remove_test_button_negative">"Abbrechen"</string>
 
+    <!-- XTXT: Green certificate main screen title -->
+    <string name="certification_screen_title">Nachweise</string>
+    <!-- XTXT: Green certificate menu item -->
+    <string name="menu_certification_information">Information</string>
+    <!-- XTXT: Green certificate main screen header text -->
+    <string name="green_certification_header_info">Hier werden Ihre digitalen Impfzertifikate und Testzertifikate angezeigt.</string>
+    <!-- XTXT: Green certificate info card title 1st line -->
+    <string name="info_banner_title_1">Digitales</string>
+    <!-- XTXT: Green certificate info card title 2nd line  -->
+    <string name="info_banner_title_2">COVID-19-Testzertifikat</string>
+    <!-- XTXT: Green certificate info card body  -->
+    <string name="info_banner_body">Registrieren Sie einen Test auf der Startseite und stimmen Sie zu, ein digitales Testzertifikat zu erhalten. Sobald das Zertifikat vorliegt, wird es hier angezeigt.</string>
 </resources>
