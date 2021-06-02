@@ -56,19 +56,4 @@ class HealthCertificateCOSEDecoder @Inject constructor(
         }
         return this
     }
-
-    fun encode(input: CBORObject): RawCOSEObject {
-        // todo
-        return input.EncodeToBytes()
-    }
-
-//    override fun encode(input: ByteArray): ByteArray {
-//        return Sign1Message().also {
-//            it.SetContent(input)
-//            cryptoService.getCborHeaders().forEach { header ->
-//                it.addAttribute(header.first, header.second, Attribute.PROTECTED)
-//            }
-//            it.sign(cryptoService.getCborSigningKey())
-//        }.EncodeToBytes()
-//    }
 }

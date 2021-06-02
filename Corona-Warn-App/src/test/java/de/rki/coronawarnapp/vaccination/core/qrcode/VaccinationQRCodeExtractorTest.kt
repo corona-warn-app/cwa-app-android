@@ -80,7 +80,7 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `valid encoding but not a health certificate fails with VC_HC_CWT_NO_ISS`() {
+    fun `valid encoding but not a health certificate fails with HC_CWT_NO_ISS`() {
         shouldThrow<InvalidVaccinationCertificateException> {
             extractor.extract(VaccinationQrCodeTestData.validEncoded)
         }.errorCode shouldBe HC_CWT_NO_ISS

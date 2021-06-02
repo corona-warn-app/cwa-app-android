@@ -1,17 +1,10 @@
 package de.rki.coronawarnapp.covidcertificate.cryptography
 
 import io.kotest.matchers.shouldBe
-import io.mockk.MockKAnnotations
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
 class AesCryptographyTest : BaseTest() {
-
-    @BeforeEach
-    fun setup() {
-        MockKAnnotations.init(this)
-    }
 
     @Test
     fun `decrypt Hello World`() {

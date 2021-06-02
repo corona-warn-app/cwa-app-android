@@ -42,6 +42,7 @@ class TestCertificateDccParser @Inject constructor(
         dateOfBirth
         testCertificateData.forEach {
             it.testResultAt
+            it.sampleCollectedAt
         }
         return this
     }
