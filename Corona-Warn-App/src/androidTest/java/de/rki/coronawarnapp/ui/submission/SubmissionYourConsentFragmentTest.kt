@@ -20,14 +20,15 @@ import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.TestDispatcherProvider
-import testhelpers.captureScreenshot
+import testhelpers.launchFragmentInContainer2
+import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionYourConsentFragmentTest : BaseUITest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var interoperabilityRepository: InteroperabilityRepository
-    @MockK lateinit var testType: CoronaTest.Type
+    val testType = CoronaTest.Type.PCR
 
     private lateinit var viewModel: SubmissionYourConsentViewModel
 
@@ -57,9 +58,10 @@ class SubmissionYourConsentFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment_results() {
-        captureScreenshot<SubmissionYourConsentFragment>(
+        launchFragmentInContainer2<SubmissionYourConsentFragment>(
             fragmentArgs = SubmissionYourConsentFragmentArgs(true, testType).toBundle()
         )
+        takeScreenshot<SubmissionYourConsentFragment>()
     }
 }
 
