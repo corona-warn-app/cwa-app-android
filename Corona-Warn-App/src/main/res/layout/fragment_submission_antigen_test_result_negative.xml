@@ -150,7 +150,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/spacing_small"
                 android:accessibilityHeading="true"
-                android:text="@string/submission_test_result_antigen_negative_proof_title"
+                tools:text="@string/submission_test_result_antigen_negative_proof_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/rapid_test_card" />
@@ -161,10 +161,21 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:text="@string/submission_test_result_antigen_negative_proof_body"
+                tools:text="@string/submission_test_result_antigen_negative_proof_body"
                 app:layout_constraintEnd_toEndOf="@id/negative_test_proof_title"
                 app:layout_constraintStart_toStartOf="@id/negative_test_proof_title"
                 app:layout_constraintTop_toBottomOf="@id/negative_test_proof_title" />
+
+            <TextView
+                android:id="@+id/negative_test_proof_additional_information"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="@string/submission_test_result_antigen_negative_proof_additional_information"
+                app:layout_constraintEnd_toEndOf="@id/negative_test_proof_body"
+                app:layout_constraintStart_toStartOf="@id/negative_test_proof_body"
+                app:layout_constraintTop_toBottomOf="@id/negative_test_proof_body" />
 
             <TextView
                 android:id="@+id/submission_test_result_subtitle"
@@ -176,7 +187,7 @@
                 android:text="@string/submission_test_result_subtitle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/negative_test_proof_body" />
+                app:layout_constraintTop_toBottomOf="@id/negative_test_proof_additional_information" />
 
             <de.rki.coronawarnapp.ui.view.SimpleStepEntry
                 android:id="@+id/test_result_negative_steps_added"

@@ -47,7 +47,7 @@ class RATResultNegativeViewModel @AssistedInject constructor(
         }
 
         val nowUTC = timeStamper.nowUTC
-        val age = nowUTC.millis - testedAt.millis
+        val age = nowUTC.millis - testTakenAt.millis
         val ageText = formatter.print(Duration(age).toPeriod())
 
         return TestAge(test = this, ageText)

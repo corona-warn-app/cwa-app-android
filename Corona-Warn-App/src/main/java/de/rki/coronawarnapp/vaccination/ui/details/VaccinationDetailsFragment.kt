@@ -93,9 +93,9 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             certificate.dateOfBirth.toDayFormat()
         )
         vaccinatedAt.text = certificate.vaccinatedAt.toDayFormat()
-        vaccineName.text = certificate.vaccineName
+        vaccineName.text = certificate.medicalProductName
         vaccineManufacturer.text = certificate.vaccineManufacturer
-        medicalProductName.text = certificate.medicalProductName
+        vaccineTypeName.text = certificate.vaccineTypeName
         certificateIssuer.text = certificate.certificateIssuer
         certificateCountry.text = certificate.certificateCountry
         certificateId.text = certificate.certificateId
