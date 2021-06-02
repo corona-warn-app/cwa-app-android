@@ -26,6 +26,19 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
 
     private val shortTime = DateTimeFormat.shortTime()
 
+    private val deleteRatTestConfirmationDialog by lazy {
+        DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.submission_test_result_dialog_remove_test_title,
+            R.string.submission_test_result_dialog_remove_test_message,
+            R.string.submission_test_result_dialog_remove_test_button_positive,
+            R.string.submission_test_result_dialog_remove_test_button_negative,
+            positiveButtonFunction = {
+                viewModel.onDeleteTestConfirmed()
+            }
+        )
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
             coronatestNegativeAntigenResultButton.setOnClickListener { viewModel.onDeleteTestClicked() }
@@ -74,19 +87,6 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
             R.string.coronatest_negative_antigen_result_time_date_placeholder,
             localTime.toString(DATE_FORMAT),
             localTime.toString(shortTime)
-        )
-    }
-
-    private val deleteRatTestConfirmationDialog by lazy {
-        DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.submission_test_result_dialog_remove_test_title,
-            R.string.submission_test_result_dialog_remove_test_message,
-            R.string.submission_test_result_dialog_remove_test_button_positive,
-            R.string.submission_test_result_dialog_remove_test_button_negative,
-            positiveButtonFunction = {
-                viewModel.onDeleteTestConfirmed()
-            }
         )
 
         val isAnonymousTest = with(testAge.test) {
