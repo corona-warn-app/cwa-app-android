@@ -21,7 +21,7 @@ data class VaccinatedPerson(
     }
 
     val vaccineName: String
-        get() = vaccinationCertificates.first().vaccineName
+        get() = vaccinationCertificates.first().vaccineTypeName
 
     val firstName: String?
         get() = vaccinationCertificates.first().firstName

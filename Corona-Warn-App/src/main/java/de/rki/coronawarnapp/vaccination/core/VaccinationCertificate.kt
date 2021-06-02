@@ -11,7 +11,7 @@ interface VaccinationCertificate {
     val dateOfBirth: LocalDate
     val vaccinatedAt: LocalDate
 
-    val vaccineName: String
+    val vaccineTypeName: String
     val vaccineManufacturer: String
     val medicalProductName: String
 

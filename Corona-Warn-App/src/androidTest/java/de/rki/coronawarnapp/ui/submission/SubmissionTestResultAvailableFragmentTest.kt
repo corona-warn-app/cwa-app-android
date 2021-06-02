@@ -28,7 +28,8 @@ import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.TestDispatcherProvider
-import testhelpers.captureScreenshot
+import testhelpers.launchFragmentInContainer2
+import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
@@ -79,20 +80,20 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
     @Screenshot
     fun capture_fragment_with_consent() {
         every { viewModel.consent } returns MutableLiveData(true)
-        captureScreenshot<SubmissionTestResultAvailableFragment>(
-            suffix = "_consent",
+        launchFragmentInContainer2<SubmissionTestResultAvailableFragment>(
             fragmentArgs = resultAvailableFragmentArgs
         )
+        takeScreenshot<SubmissionTestResultAvailableFragment>(suffix = "_consent")
     }
 
     @Test
     @Screenshot
     fun capture_fragment_without_consent() {
         every { viewModel.consent } returns MutableLiveData(false)
-        captureScreenshot<SubmissionTestResultAvailableFragment>(
-            suffix = "_no_consent",
+        launchFragmentInContainer2<SubmissionTestResultAvailableFragment>(
             fragmentArgs = resultAvailableFragmentArgs
         )
+        takeScreenshot<SubmissionTestResultAvailableFragment>(suffix = "_no_consent")
     }
 }
 

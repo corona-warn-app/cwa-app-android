@@ -75,10 +75,8 @@ data class RACoronaTest(
     override val type: CoronaTest.Type
         get() = CoronaTest.Type.RAPID_ANTIGEN
 
-    private fun isOutdated(nowUTC: Instant, testConfig: CoronaTestConfig): Boolean {
-        val timeoutTime = sampleCollectedAt ?: testedAt
-        return timeoutTime.plus(testConfig.coronaRapidAntigenTestParameters.hoursToDeemTestOutdated).isBefore(nowUTC)
-    }
+    private fun isOutdated(nowUTC: Instant, testConfig: CoronaTestConfig): Boolean =
+        testTakenAt.plus(testConfig.coronaRapidAntigenTestParameters.hoursToDeemTestOutdated).isBefore(nowUTC)
 
     fun getState(nowUTC: Instant, testConfig: CoronaTestConfig) =
         if (testResult == RAT_NEGATIVE && isOutdated(nowUTC, testConfig)) {
@@ -94,6 +92,9 @@ data class RACoronaTest(
                 else -> throw IllegalArgumentException("Invalid RAT test state $testResult")
             }
         }
+
+    val testTakenAt: Instant
+        get() = sampleCollectedAt ?: testedAt
 
     override val isFinal: Boolean
         get() = testResult == RAT_REDEEMED

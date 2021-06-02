@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.submission
 
+import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.Navigation
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
@@ -20,9 +21,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.captureScreenshot
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
+import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionContactFragmentTest : BaseUITest() {
@@ -53,9 +54,10 @@ class SubmissionContactFragmentTest : BaseUITest() {
     fun testContactEnterTanClicked() {
         val navController = TestNavHostController(ApplicationProvider.getApplicationContext())
         runOnUiThread { navController.setGraph(R.navigation.nav_graph) }
-        launchFragmentInContainer2<SubmissionContactFragment>().onFragment { fragment ->
-            Navigation.setViewNavController(fragment.requireView(), navController)
-        }
+        launchFragmentInContainer<SubmissionContactFragment>(themeResId = R.style.AppTheme_Main)
+            .onFragment { fragment ->
+                Navigation.setViewNavController(fragment.requireView(), navController)
+            }
 
         onView(withId(R.id.submission_contact_button_enter))
             .perform(click())
@@ -64,7 +66,8 @@ class SubmissionContactFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment() {
-        captureScreenshot<SubmissionContactFragment>()
+        launchFragmentInContainer2<SubmissionContactFragment>()
+        takeScreenshot<SubmissionContactFragment>()
     }
 }
 

@@ -65,7 +65,7 @@ class VaccinationContainerTest : BaseTest() {
             lastName shouldBe "Astrá Eins"
             dateOfBirth shouldBe LocalDate.parse("1966-11-11")
             vaccinatedAt shouldBe LocalDate.parse("2021-03-01")
-            vaccineName shouldBe "1119305005"
+            vaccineTypeName shouldBe "1119305005"
             vaccineManufacturer shouldBe "ORG-100001699"
             medicalProductName shouldBe "EU/1/21/1529"
             doseNumber shouldBe 1
@@ -113,7 +113,7 @@ class VaccinationContainerTest : BaseTest() {
             lastName shouldBe "Astrá Eins"
             dateOfBirth shouldBe LocalDate.parse("1966-11-11")
             vaccinatedAt shouldBe LocalDate.parse("2021-03-01")
-            vaccineName shouldBe "Vaccine-Name"
+            vaccineTypeName shouldBe "Vaccine-Name"
             vaccineManufacturer shouldBe "Manufactorer-Name"
             medicalProductName shouldBe "MedicalProduct-Name"
             doseNumber shouldBe 1
