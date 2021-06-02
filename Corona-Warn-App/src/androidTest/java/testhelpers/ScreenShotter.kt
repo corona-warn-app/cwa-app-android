@@ -3,6 +3,10 @@ package testhelpers
 import android.graphics.Bitmap
 import android.os.Build
 import android.util.Log
+import tools.fastlane.screengrab.Screengrab
+import tools.fastlane.screengrab.ScreenshotCallback
+import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy
+import tools.fastlane.screengrab.file.Chmod
 import androidx.test.platform.app.InstrumentationRegistry
 import de.rki.coronawarnapp.BuildConfig
 import java.io.BufferedOutputStream
