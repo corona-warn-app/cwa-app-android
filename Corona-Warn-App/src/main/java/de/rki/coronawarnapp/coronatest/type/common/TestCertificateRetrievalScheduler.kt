@@ -49,7 +49,7 @@ class TestCertificateRetrievalScheduler @Inject constructor(
     ) { certificates, isForeground ->
 
         val hasNewCert = certificates.any {
-            val isNew = processedNewCerts.contains(it.identifier)
+            val isNew = !processedNewCerts.contains(it.identifier)
             if (isNew) processedNewCerts.add(it.identifier)
             isNew
         }
