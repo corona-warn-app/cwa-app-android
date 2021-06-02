@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 import timber.log.Timber
 import javax.inject.Inject
 
+@Suppress("LongParameterList")
 @Reusable
 class ConfigParser @Inject constructor(
     private val cwaConfigMapper: CWAConfig.Mapper,
