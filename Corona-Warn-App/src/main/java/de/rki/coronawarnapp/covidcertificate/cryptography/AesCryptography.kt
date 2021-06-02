@@ -16,23 +16,23 @@ class AesCryptography @Inject constructor() {
     private val ivParameterSpec
         get() = IvParameterSpec(Hex.stringToBytes("00000000000000000000000000000000"))
 
-//    fun encrypt(rawData: ByteArray, dek: ByteArray): ByteArray {
-//        require(dek.size == 32)
-//
-//        Security.addProvider(BouncyCastleProvider())
-//        val keySpec = SecretKeySpec(dek, ALGORITHM)
-//
-//        val cipher = Cipher.getInstance(TRANSFORMATION)
-//        cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivParameterSpec)
-//
-//        val cipherText = ByteArray(cipher.getOutputSize(rawData.size))
-//        var ctLength = cipher.update(
-//            rawData, 0, rawData.size,
-//            cipherText, 0
-//        )
-//        ctLength += cipher.doFinal(cipherText, ctLength)
-//        return cipherText
-//    }
+    fun encrypt(rawData: ByteArray, dek: ByteArray): ByteArray {
+        require(dek.size == 32)
+
+        Security.addProvider(BouncyCastleProvider())
+        val keySpec = SecretKeySpec(dek, ALGORITHM)
+
+        val cipher = Cipher.getInstance(TRANSFORMATION)
+        cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivParameterSpec)
+
+        val cipherText = ByteArray(cipher.getOutputSize(rawData.size))
+        var ctLength = cipher.update(
+            rawData, 0, rawData.size,
+            cipherText, 0
+        )
+        ctLength += cipher.doFinal(cipherText, ctLength)
+        return cipherText
+    }
 
     fun decrypt(
         decryptionKey: ByteArray,

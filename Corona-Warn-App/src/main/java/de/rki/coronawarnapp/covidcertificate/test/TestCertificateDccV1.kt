@@ -52,4 +52,3 @@ data class TestCertificateDccV1(
     val dateOfBirth: LocalDate
         get() = LocalDate.parse(dob)
 }
-
