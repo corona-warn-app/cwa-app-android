@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.test
 
 import dagger.Reusable
-import okio.ByteString
 import javax.inject.Inject
 
 @Reusable
@@ -12,7 +11,7 @@ class TestCertificateQRCodeExtractor @Inject constructor() {
      */
     fun extract(
         decryptionKey: ByteArray,
-        encryptedCoseComponents: ByteString,
+        encryptedCoseComponents: ByteArray,
     ): TestCertificateQRCode {
         throw NotImplementedError()
     }

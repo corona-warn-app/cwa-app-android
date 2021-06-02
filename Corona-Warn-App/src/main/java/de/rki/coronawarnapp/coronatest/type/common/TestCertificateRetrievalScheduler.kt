@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.worker.BackgroundConstants
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -54,7 +55,7 @@ class TestCertificateRetrievalScheduler @Inject constructor(
             isNew
         }
 
-        val hasWorkToDo = certificates.any { it.isPending }
+        val hasWorkToDo = certificates.any { it.isCertificateRetrievalPending }
         Timber.tag(TAG).v("shouldPollDcc? hasNewCert=$hasNewCert, hasWorkTodo=$hasWorkToDo, foreground=$isForeground")
         (isForeground || hasNewCert) && hasWorkToDo
     }
@@ -73,6 +74,7 @@ class TestCertificateRetrievalScheduler @Inject constructor(
                     testRepo.markDccAsCreated(test.identifier, created = true)
                 }
             }
+            .catch { Timber.tag(TAG).e(it, "Creation trigger failed.") }
             .launchIn(appScope)
 
         // For each change to the set of existing certificates, check if we need to refresh/load data
@@ -81,6 +83,7 @@ class TestCertificateRetrievalScheduler @Inject constructor(
                 Timber.tag(TAG).d("State change: checkCerts=$checkCerts")
                 if (checkCerts) scheduleWorker()
             }
+            .catch { Timber.tag(TAG).e(it, "Refresh trigger failed.") }
             .launchIn(appScope)
     }
 

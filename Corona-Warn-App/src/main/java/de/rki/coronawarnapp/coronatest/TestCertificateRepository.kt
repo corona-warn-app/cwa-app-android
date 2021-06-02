@@ -76,6 +76,13 @@ class TestCertificateRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.Default)
     }
 
+    /**
+     * Will create a new test certificate entry.
+     * Automation via [de.rki.coronawarnapp.coronatest.type.common.TestCertificateRetrievalScheduler] will kick in.
+     *
+     * Throws an exception if there already is a test certificate entry for this test
+     * or this is not a valid test (no consent, not supported by PoC).
+     */
     suspend fun requestCertificate(test: CoronaTest): TestCertificateContainer {
         Timber.tag(TAG).d("createDccForTest(test.identifier=%s)", test.identifier)
 
@@ -84,8 +91,12 @@ class TestCertificateRepository @Inject constructor(
                 Timber.tag(TAG).e("Certificate entry already exists for %s", test.identifier)
                 throw IllegalArgumentException("A certificate was already created for this ${test.identifier}")
             }
-
-            // TODO do we need additional validation here? last chance to abort?
+            if (!test.isDccSupportedByPoc) {
+                throw IllegalArgumentException("DCC is not supported by PoC for this test: ${test.identifier}")
+            }
+            if (!test.isDccConsentGiven) {
+                throw IllegalArgumentException("DCC was not given for this test: ${test.identifier}")
+            }
 
             val identifier = UUID.randomUUID().toString()
 
@@ -108,22 +119,37 @@ class TestCertificateRepository @Inject constructor(
         return newData.values.single { it.registrationToken == test.registrationToken }
     }
 
+    /**
+     * If [error] is NULL, then [certificate] will be the refreshed entry.
+     * If [error] is not NULL, then [certificate] is the latest version before the exception occured.
+     * Due to refresh being a multiple process, some steps can successed, while others fail.
+     */
     data class RefreshResult(
         val certificate: TestCertificateContainer,
         val error: Exception? = null,
     )
 
+    /**
+     * The refresh call checks each certificate entry for public keys and certificate state.
+     * It will be triggered via TestCertificateRetrievalScheduler.
+     * After requestCertificate, calling refresh often enough should yield a certificate eventually.
+     *
+     * This returns a set of [RefreshResult], one for each refreshed test certificate entry.
+     * If you specify  an identifier, then the set will only contain a single element.
+     *
+     * [refresh] itself will NOT throw an exception.
+     */
     suspend fun refresh(identifier: TestCertificateIdentifier? = null): Set<RefreshResult> {
         Timber.tag(TAG).d("refresh(identifier=%s)", identifier)
 
-        val refreshResults = mutableSetOf<RefreshResult>()
+        val refreshCallResults = mutableMapOf<TestCertificateIdentifier, RefreshResult>()
 
         val workedOnIds = mutableSetOf<TestCertificateIdentifier>()
 
         internalData.updateBlocking {
             val toRefresh = values
                 .filter { it.identifier == identifier || identifier == null }
-                .filter { it.isPending }
+                .filter { !it.isUpdatingData && it.isCertificateRetrievalPending }
 
             mutate {
                 toRefresh.forEach {
@@ -151,6 +177,10 @@ class TestCertificateRepository @Inject constructor(
                     }
                 }
 
+            refreshedCerts.forEach {
+                refreshCallResults[it.certificate.identifier] = it
+            }
+
             mutate {
                 refreshedCerts
                     .filter { it.error == null }
@@ -164,7 +194,7 @@ class TestCertificateRepository @Inject constructor(
 
             val refreshedCerts = values
                 .filter { workedOnIds.contains(it.identifier) }
-                .filter { it.isPublicKeyRegistered && it.isPending }
+                .filter { it.isPublicKeyRegistered && it.isCertificateRetrievalPending }
                 .map { cert ->
                     try {
                         RefreshResult(obtainCertificate(cert))
@@ -173,6 +203,10 @@ class TestCertificateRepository @Inject constructor(
                         RefreshResult(cert, e)
                     }
                 }
+
+            refreshedCerts.forEach {
+                refreshCallResults[it.certificate.identifier] = it
+            }
 
             mutate {
                 refreshedCerts
@@ -195,9 +229,13 @@ class TestCertificateRepository @Inject constructor(
             }
         }
 
-        return refreshResults
+        return refreshCallResults.values.toSet()
     }
 
+    /**
+     * Register the public key with the server, a shortwhile later,
+     * the test certificate components should be available, via [obtainCertificate].
+     */
     private suspend fun registerPublicKey(
         cert: TestCertificateContainer
     ): TestCertificateContainer {
@@ -239,6 +277,13 @@ class TestCertificateRepository @Inject constructor(
         }
     }
 
+    /**
+     * Try to obtain the actual certificate.
+     * PublicKey registration and certificate retrieval are two steps, because if we manage to register our public key,
+     * but fail to get the certificate, we are still one step further.
+     *
+     * The server does not immediately return the test certificate components after registering the public key.
+     */
     private suspend fun obtainCertificate(
         cert: TestCertificateContainer
     ): TestCertificateContainer {
@@ -247,7 +292,7 @@ class TestCertificateRepository @Inject constructor(
 
             if (!cert.isPublicKeyRegistered) throw IllegalStateException("Public key is not registered yet.")
 
-            if (!cert.isPending) {
+            if (!cert.isCertificateRetrievalPending) {
                 Timber.tag(TAG).d("Dcc has already been retrieved for %s", cert)
                 return cert
             }
@@ -285,7 +330,7 @@ class TestCertificateRepository @Inject constructor(
 
             val extractedData = qrCodeExtractor.extract(
                 decryptionKey = encryptionkey.toByteArray(),
-                encryptedCoseComponents = components.encryptedCoseTestCertificateBase64.decodeBase64()!!
+                encryptedCoseComponents = components.encryptedCoseTestCertificateBase64.decodeBase64()!!.toByteArray()
             )
 
             val nowUtc = timeStamper.nowUTC
@@ -309,6 +354,9 @@ class TestCertificateRepository @Inject constructor(
         }
     }
 
+    /**
+     * [deleteCertificate] does not throw an exception, if the deletion target already does not exist.
+     */
     suspend fun deleteCertificate(identifier: TestCertificateIdentifier) {
         Timber.tag(TAG).d("deleteTestCertificate(identifier=%s)", identifier)
         internalData.updateBlocking {
@@ -324,6 +372,6 @@ class TestCertificateRepository @Inject constructor(
     }
 
     companion object {
-        val TAG = TestCertificateRepository::class.simpleName!!
+        private val TAG = TestCertificateRepository::class.simpleName!!
     }
 }

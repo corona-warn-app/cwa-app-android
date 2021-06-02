@@ -24,7 +24,7 @@ class TestCertificateContainerTest : BaseTest() {
     fun `ui facing test certificate creation and fallbacks`() {
         testData.personATest2CertContainer.apply {
             isPublicKeyRegistered shouldBe true
-            isPending shouldBe false
+            isCertificateRetrievalPending shouldBe false
             certificateId shouldBe "01DE/00001/1119305005/TODO"
             testCertificateQrCode shouldBe "personATest2CertQRCodeString"
             certificateReceivedAt shouldBe Instant.parse("1970-01-02T10:17:36.789Z")
@@ -36,7 +36,7 @@ class TestCertificateContainerTest : BaseTest() {
     fun `pending check and nullability`() {
         testData.personATest3CertContainerNokey.apply {
             isPublicKeyRegistered shouldBe false
-            isPending shouldBe true
+            isCertificateRetrievalPending shouldBe true
             certificateId shouldBe null
             testCertificateQrCode shouldBe null
             certificateReceivedAt shouldBe null
@@ -45,7 +45,7 @@ class TestCertificateContainerTest : BaseTest() {
 
         testData.personATest4CertContainerPending.apply {
             isPublicKeyRegistered shouldBe true
-            isPending shouldBe true
+            isCertificateRetrievalPending shouldBe true
             certificateId shouldBe null
             testCertificateQrCode shouldBe null
             certificateReceivedAt shouldBe null
