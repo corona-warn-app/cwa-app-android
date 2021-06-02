@@ -129,6 +129,7 @@ class PCRProcessor @Inject constructor(
             registrationToken = response.registrationToken,
             testResult = testResult,
             testResultReceivedAt = determineReceivedDate(null, testResult),
+            isDccConsentGiven = request.isDccConsentGiven,
         )
     }
 

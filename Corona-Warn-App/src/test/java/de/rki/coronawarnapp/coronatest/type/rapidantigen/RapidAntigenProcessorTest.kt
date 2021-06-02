@@ -32,6 +32,7 @@ import io.mockk.just
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Duration
 import org.joda.time.Instant
+import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -282,13 +283,42 @@ class RapidAntigenProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `registering a test with immediate negative result creates a dcc entry`() {
-        TODO()
-    }
+    fun `request parameters for dcc are mapped`() = runBlockingTest {
+        val registrationData = RegistrationData(
+            registrationToken = "regtoken",
+            testResultResponse = CoronaTestResultResponse(
+                coronaTestResult = PCR_OR_RAT_PENDING,
+                sampleCollectedAt = null,
+            )
+        )
+        coEvery { submissionService.registerTest(any()) } answers { registrationData }
 
-    @Test
-    fun `registering a test with immediate negative result does not create a dcc entry if consent is missing`() {
-        TODO()
-    }
+        createInstance().create(
+            CoronaTestQRCode.RapidAntigen(
+                hash = "hash",
+                createdAt = Instant.EPOCH,
+                isDccConsentGiven = false,
+                dateOfBirth = LocalDate.parse("2021-06-02"),
+                isDccSupportedbyPoc = false
+            )
+        ).apply {
+            isDccConsentGiven shouldBe false
+            isDccDataSetCreated shouldBe false
+            isDccSupportedByPoc shouldBe false
+        }
 
+        createInstance().create(
+            CoronaTestQRCode.RapidAntigen(
+                hash = "hash",
+                createdAt = Instant.EPOCH,
+                isDccConsentGiven = true,
+                dateOfBirth = LocalDate.parse("2021-06-02"),
+                isDccSupportedbyPoc = true
+            )
+        ).apply {
+            isDccConsentGiven shouldBe true
+            isDccDataSetCreated shouldBe false
+            isDccSupportedByPoc shouldBe true
+        }
+    }
 }

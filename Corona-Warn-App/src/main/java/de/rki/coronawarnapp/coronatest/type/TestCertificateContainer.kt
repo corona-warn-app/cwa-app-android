@@ -35,7 +35,7 @@ abstract class TestCertificateContainer {
     @Transient internal var preParsedData: TestCertificateData? = null
 
     @delegate:Transient
-    internal val certificateData: TestCertificateData by lazy {
+    private val certificateData: TestCertificateData by lazy {
         preParsedData ?: testCertificateQrCode!!.let { qrCodeExtractor.extract(it).testCertificateData }
     }
 

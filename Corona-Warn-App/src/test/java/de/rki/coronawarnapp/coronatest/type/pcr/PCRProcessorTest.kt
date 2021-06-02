@@ -35,6 +35,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Duration
 import org.joda.time.Instant
+import org.joda.time.LocalDate
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -277,12 +278,38 @@ class PCRProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `registering a test with immediate negative result creates a dcc entry`() {
-        TODO()
-    }
+    fun `request parameters for dcc are mapped`() = runBlockingTest {
+        val registrationData = RegistrationData(
+            registrationToken = "regtoken",
+            testResultResponse = CoronaTestResultResponse(
+                coronaTestResult = PCR_OR_RAT_PENDING,
+                sampleCollectedAt = null,
+            )
+        )
+        coEvery { submissionService.registerTest(any()) } answers { registrationData }
 
-    @Test
-    fun `registering a test with immediate negative result does not create a dcc entry if consent is missing`() {
-        TODO()
+
+        createInstance().create(
+            CoronaTestQRCode.PCR(
+                qrCodeGUID = "guid",
+                isDccConsentGiven = true,
+                dateOfBirth = LocalDate.parse("2021-06-02"),
+            )
+        ).apply {
+            isDccConsentGiven shouldBe true
+            isDccDataSetCreated shouldBe false
+            isDccSupportedByPoc shouldBe true
+        }
+
+        createInstance().create(
+            CoronaTestQRCode.PCR(
+                qrCodeGUID = "guid",
+                dateOfBirth = LocalDate.parse("2021-06-02"),
+            )
+        ).apply {
+            isDccConsentGiven shouldBe false
+            isDccDataSetCreated shouldBe false
+            isDccSupportedByPoc shouldBe true
+        }
     }
 }
