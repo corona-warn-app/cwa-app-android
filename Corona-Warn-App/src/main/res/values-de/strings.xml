@@ -1853,7 +1853,7 @@
     <!-- XHED: Title for BottomNav check-in screen title -->
     <string name="bottom_nav_check_ins_title">Check-in</string>
     <!-- XHED: Title for BottomNav certificates screen title -->
-    <string name="bottom_nav_certificates_title">"Nachweise"</string>
+    <string name="bottom_nav_certificates_title">"Zertifikate"</string>
     <!-- ####################################
            Data Donation & Survey
     ###################################### -->
