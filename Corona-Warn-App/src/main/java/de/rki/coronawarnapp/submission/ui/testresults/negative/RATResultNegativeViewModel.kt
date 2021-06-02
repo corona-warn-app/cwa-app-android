@@ -47,13 +47,13 @@ class RATResultNegativeViewModel @AssistedInject constructor(
         }
 
         val nowUTC = timeStamper.nowUTC
-        val age = nowUTC.millis - testedAt.millis
+        val age = nowUTC.millis - testTakenAt.millis
         val ageText = formatter.print(Duration(age).toPeriod())
 
         return TestAge(test = this, ageText)
     }
 
-    fun deleteTest() {
+    fun onDeleteTestConfirmed() {
         try {
             Timber.d("deleteTest")
             submissionRepository.removeTestFromDevice(CoronaTest.Type.RAPID_ANTIGEN)
@@ -62,6 +62,10 @@ class RATResultNegativeViewModel @AssistedInject constructor(
             Timber.d(e, "Failed to delete rapid antigen test")
             e.report(ExceptionCategory.INTERNAL)
         }
+    }
+
+    fun onDeleteTestClicked() {
+        events.postValue(RATResultNegativeNavigation.ShowDeleteWarning)
     }
 
     fun onClose() {

@@ -107,7 +107,7 @@
 
             <include
                 android:id="@+id/qr_code_card"
-                layout="@layout/vaccination_list_qrcode_card"
+                layout="@layout/include_certificate_qrcode_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
@@ -189,7 +189,7 @@
                     android:text="@string/vaccination_details_vaccine_medical_product_name" />
 
                 <TextView
-                    android:id="@+id/medical_product_name"
+                    android:id="@+id/vaccine_type_name"
                     style="@style/body2Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

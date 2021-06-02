@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.bugreporting.censors.submission.PcrTeleTanCensor
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -53,6 +54,8 @@ class SubmissionTanViewModel @AssistedInject constructor(
         }
 
         launch {
+            PcrTeleTanCensor.addTan(teletan.value)
+
             val pcrTestAlreadyStored = submissionRepository.testForType(CoronaTest.Type.PCR).first()
             if (pcrTestAlreadyStored != null) {
                 val coronaTestTAN = CoronaTestTAN.PCR(tan = teletan.value)

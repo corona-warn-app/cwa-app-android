@@ -1,14 +1,14 @@
-package de.rki.coronawarnapp.vaccination.ui.homecard
+package de.rki.coronawarnapp.vaccination.ui.cards
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.VaccinationHomeCardBinding
-import de.rki.coronawarnapp.ui.main.home.HomeAdapter
+import de.rki.coronawarnapp.greencertificate.ui.certificates.CertificatesAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 
-class VaccinationHomeCard(parent: ViewGroup) :
-    HomeAdapter.HomeItemVH<VaccinationHomeCard.Item, VaccinationHomeCardBinding>(
+class VaccinationCard(parent: ViewGroup) :
+    CertificatesAdapter.CertificatesItemVH<VaccinationCard.Item, VaccinationHomeCardBinding>(
         R.layout.home_card_container_layout,
         parent
     ) {

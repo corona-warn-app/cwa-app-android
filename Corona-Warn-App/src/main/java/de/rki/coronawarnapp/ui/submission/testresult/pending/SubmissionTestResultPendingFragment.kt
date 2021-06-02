@@ -92,6 +92,12 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             DialogHelper.showDialog(dialog)
         }
 
+        viewModel.testCertResultInfo.observe2(this) {
+            binding.testResultPendingStepsCertificateInfo.apply {
+                setEntryText(it.get(context))
+            }
+        }
+
         viewModel.routeToScreen.observe2(this) { it?.let { doNavigate(it) } ?: navigateToMainScreen() }
         viewModel.errorEvent.observe2(this) { it.toErrorDialogBuilder(requireContext()).show() }
     }

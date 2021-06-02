@@ -64,6 +64,10 @@
     ###################################### -->
     <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
     <string name="vaccination_card_registration_title">"Add Vaccination Certificate"</string>
+    <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
+    <string name="vaccination_card_registration_title_line_1">"Digitalen"</string>
+    <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
+    <string name="vaccination_card_registration_title_line_2">"Impfnachweis hinzufügen"</string>
     <!-- YTXT: Body text for Vaccination Certificate Registration Home Card -->
     <string name="vaccination_card_registration_body">"Add vaccination certificates in the app so you always have them with you. To do so, scan the QR code on your document."</string>
     <!-- XBUT: button for Vaccination Certificate Registration Home Card -->
@@ -98,17 +102,17 @@
     <!-- XTXT: Vaccination Consent title-->
     <string name="vaccination_consent_title">"Your Consent"</string>
     <!-- XTXT: Vaccination Consent subtitle-->
-    <string name="vaccination_consent_headline">"Add Vaccination Certificate"</string>
+    <string name="vaccination_consent_headline">"Nachweise hinzufügen"</string>
     <!-- XTXT: Vaccination Consent subtitle of qr info -->
-    <string name="vaccination_consent_info_subtitle_text">"Add your digital vaccination certificate in the app. As soon as your vaccination protection is complete, you can present the QR code in your app as proof of your vaccination."</string>
+    <string name="vaccination_consent_info_subtitle_text">"Fügen Sie ihre digitalen COVID-Zertifikate in der App hinzu, um mit der App Ihren Impfschutz oder ein negatives Testergebnis nachweisen zu können."</string>
     <!-- XTXT: Vaccination Consent text of qr info -->
-    <string name="vaccination_consent_qr_info_text">"To add a vaccination certificate in the app, scan the QR code that you received during your vaccination."</string>
+    <string name="vaccination_consent_qr_info_text">"Sie können digitale COVID-19-Impfzertifikate oder COVID-19-Testzertifikate in der App hinzufügen."</string>
     <!-- XTXT: Vaccination Consent qr code text -->
-    <string name="vaccination_consent_qr_info_qr_code_text">"The app reads the information from the QR code and saves it in a secure area on your smartphone."</string>
+    <string name="vaccination_consent_qr_info_qr_code_text">"Die Zertifikate gelten innerhalb der EU als gültiger Nachweis (z.B. für Reisen)."</string>
     <!-- XTXT: Vaccination Consent time text  -->
-    <string name="vaccination_consent_qr_info_time_text">"The data will remain on the smartphone. It will only be transmitted to others if you present your vaccination certificate for verification."</string>
+    <string name="vaccination_consent_qr_info_time_text">"Nach dem Hinzufügen bleiben die Zertifikate auf Ihrem Smartphone. Andere Personen können Ihre Daten nur einsehen, wenn Sie diesen ein Zertifikat zur Überprüfung vorzeigen."</string>
     <!-- XTXT: Text for vaccination consent legal information button -->
-    <string name="vaccination_consent_onboarding_legal_information">"For more information, please refer to the privacy notice."</string>
+    <string name="vaccination_consent_onboarding_legal_information">"Ausführliche Informationen zur Datenverarbeitung finden Sie in der Datenschutzerklärung."</string>
     <!-- XBUT: Text for vaccination consent accept button -->
     <string name="vaccination_consent_accept_button">"Continue"</string>
 

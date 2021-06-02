@@ -30,11 +30,10 @@ class FileSharing @Inject constructor(
         createChooserIntent: Boolean = false
     ): FileIntentProvider = object : FileIntentProvider {
         override fun intent(activity: Activity): Intent {
-            val builder = ShareCompat.IntentBuilder.from(activity).apply {
-                setType(path.determineMimeType())
-                setStream(getFileUri(path))
-                setSubject(title)
-            }
+            val builder = ShareCompat.IntentBuilder(activity)
+                .setType(path.determineMimeType())
+                .setStream(getFileUri(path))
+                .setSubject(title)
 
             val intent = if (createChooserIntent) {
                 builder.createChooserIntent()

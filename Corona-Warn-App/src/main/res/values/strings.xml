@@ -1030,6 +1030,8 @@
     <string name="submission_consent_call_test_result_scan_your_test_only">"Now scan the QR code for your test and retrieve your test result."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_test_only_once">"Each test can only be scanned once. The app can manage a maximum of one rapid test and one PCR test at the same time."</string>
+    <!-- YTXT:  Body sub text 3 for Submission Consent call test result   -->
+    <string name="submission_consent_call_test_result_checkmark_text">"Wenn Ihr Testergebnis negativ ist, können Sie dies in Form eines offiziellen COVID-19-Testzertifikats bestätigen lassen. Fordern Sie hierfür in den folgenden Schritten das Testzertifikat an."</string>
     <!-- XHED: Page subheadline for consent help by warning others  -->
     <string name="submission_consent_help_by_warning_others_headline">"Please help others you have encountered by warning them!"</string>
     <!-- YTXT: Body for consent help by warning others -->
@@ -1089,6 +1091,15 @@
     <string name="submission_test_result_pending_steps_contact_diary_heading">"Your test result will be added to your contact journal."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_contact_diary_body">"As soon as your test result becomes available, it will be displayed in the app."</string>
+
+    <!-- XHED: Page headline for test result certifcate info title  -->
+    <string name="submission_test_result_pending_steps_test_certificate_heading">"Ihr Testzertifikat"</string>
+    <!-- YTXT: Body text for test result certifcate info, if certifcate is not supported, RAT Test -->
+    <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"Es liegt kein Testzertifikat vor, da diese Teststelle die Ausstellung von Testzertifikaten nicht unterstützt."</string>
+    <!-- YTXT: Body text for test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
+    <string name="submission_test_result_pending_steps_test_certificate_not_available_yet_body">"Ihr Testzertifikat liegt noch nicht vor. Sobald es vorliegt, wird es Ihnen in der App angezeigt."</string>
+    <!-- YTXT: Body text for test result certifcate info, if certifcate is not desired by the user, PCR Test no consent given -->
+    <string name="submission_test_result_pending_steps_test_certificate_not_desired_by_user_body">"Auf Ihren Wunsch hin wurde kein Testzertifikat ausgestellt."</string>
 
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Update"</string>

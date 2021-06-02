@@ -174,7 +174,7 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
         MaterialAlertDialogBuilder(requireContext()).apply {
             setTitle(R.string.errors_generic_headline_short)
             setMessage(R.string.debugging_debuglog_start_low_storage_error)
-            setPositiveButton(android.R.string.yes) { _, _ -> /* dismiss */ }
+            setPositiveButton(android.R.string.ok) { _, _ -> /* dismiss */ }
             setNeutralButton(R.string.menu_settings) { _, _ ->
                 try {
                     startActivity(Intent(Settings.ACTION_INTERNAL_STORAGE_SETTINGS))

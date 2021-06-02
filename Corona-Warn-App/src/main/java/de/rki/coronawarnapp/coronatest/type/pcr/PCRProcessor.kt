@@ -14,11 +14,15 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_NEGATIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_PENDING
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
+import de.rki.coronawarnapp.coronatest.server.RegistrationData
+import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
+import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.coronatest.server.VerificationServer
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
+import de.rki.coronawarnapp.coronatest.type.common.DateOfBirthKey
 import de.rki.coronawarnapp.coronatest.type.isOlderThan21Days
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultCollector
@@ -51,12 +55,27 @@ class PCRProcessor @Inject constructor(
     private suspend fun createQR(request: CoronaTestQRCode.PCR): PCRCoronaTest {
         Timber.tag(TAG).d("createQR(data=%s)", request)
 
-        val registrationData = submissionService.asyncRegisterDeviceViaGUID(request.qrCodeGUID).also {
+        analyticsKeySubmissionCollector.reset(type)
+        analyticsTestResultCollector.clear(type)
+
+        val dateOfBirthKey = if (request.isDccConsentGiven && request.dateOfBirth != null) {
+            DateOfBirthKey(request.qrCodeGUID, request.dateOfBirth)
+        } else null
+
+        val serverRequest = RegistrationRequest(
+            key = request.qrCodeGUID,
+            dateOfBirthKey = dateOfBirthKey,
+            type = VerificationKeyType.GUID,
+        )
+
+        val registrationData = submissionService.registerTest(serverRequest).also {
             Timber.tag(TAG).d("Request %s gave us %s", request, it)
         }
 
-        // This saves received at
-        analyticsTestResultCollector.saveTestResult(registrationData.testResultResponse.coronaTestResult, type)
+        analyticsTestResultCollector.reportTestResultAtRegistration(
+            registrationData.testResultResponse.coronaTestResult,
+            type
+        )
 
         return createCoronaTest(request, registrationData)
     }
@@ -64,7 +83,16 @@ class PCRProcessor @Inject constructor(
     private suspend fun createTAN(request: CoronaTestTAN.PCR): CoronaTest {
         Timber.tag(TAG).d("createTAN(data=%s)", request)
 
-        val registrationData = submissionService.asyncRegisterDeviceViaTAN(request.tan)
+        analyticsKeySubmissionCollector.reset(type)
+        analyticsTestResultCollector.clear(type)
+
+        val serverRequest = RegistrationRequest(
+            key = request.tan,
+            dateOfBirthKey = null,
+            type = VerificationKeyType.TELETAN,
+        )
+
+        val registrationData = submissionService.registerTest(serverRequest)
 
         analyticsKeySubmissionCollector.reportRegisteredWithTeleTAN()
 
@@ -75,15 +103,12 @@ class PCRProcessor @Inject constructor(
 
     private suspend fun createCoronaTest(
         request: TestRegistrationRequest,
-        response: CoronaTestService.RegistrationData
+        response: RegistrationData
     ): PCRCoronaTest {
-
-        analyticsKeySubmissionCollector.reset(type)
-        analyticsTestResultCollector.clear(type)
 
         val testResult = response.testResultResponse.coronaTestResult.let {
             Timber.tag(TAG).v("Raw test result $it")
-            analyticsTestResultCollector.updatePendingTestResultReceivedTime(it, type)
+            analyticsTestResultCollector.reportTestResultReceived(it, type)
             it.toValidatedResult()
         }
 
@@ -126,9 +151,9 @@ class PCRProcessor @Inject constructor(
             }
 
             val newTestResult = try {
-                submissionService.asyncRequestTestResult(test.registrationToken).coronaTestResult.let {
+                submissionService.checkTestResult(test.registrationToken).coronaTestResult.let {
                     Timber.tag(TAG).d("Raw test result was %s", it)
-                    analyticsTestResultCollector.updatePendingTestResultReceivedTime(it, type)
+                    analyticsTestResultCollector.reportTestResultReceived(it, type)
 
                     it.toValidatedResult()
                 }

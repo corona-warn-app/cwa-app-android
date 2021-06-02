@@ -15,10 +15,13 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_PENDING
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResultResponse
+import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
+import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.coronatest.server.VerificationServer
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
+import de.rki.coronawarnapp.coronatest.type.common.DateOfBirthKey
 import de.rki.coronawarnapp.coronatest.type.isOlderThan21Days
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultCollector
@@ -53,15 +56,25 @@ class RAProcessor @Inject constructor(
         analyticsKeySubmissionCollector.reset(type)
         analyticsTestResultCollector.clear(type)
 
-        val registrationData = submissionService.asyncRegisterDeviceViaGUID(request.registrationIdentifier).also {
+        val dateOfBirthKey = if (request.isDccConsentGiven && request.dateOfBirth != null) {
+            DateOfBirthKey(request.registrationIdentifier, request.dateOfBirth)
+        } else null
+
+        val serverRequest = RegistrationRequest(
+            key = request.registrationIdentifier,
+            dateOfBirthKey = dateOfBirthKey,
+            type = VerificationKeyType.GUID
+        )
+
+        val registrationData = submissionService.registerTest(serverRequest).also {
             Timber.tag(TAG).d("Request %s gave us %s", request, it)
         }
 
         val testResult = registrationData.testResultResponse.coronaTestResult.let {
             Timber.tag(TAG).v("Raw test result was %s", it)
             // This saves received at
-            analyticsTestResultCollector.saveTestResult(it, type)
-            analyticsTestResultCollector.updatePendingTestResultReceivedTime(it, type)
+            analyticsTestResultCollector.reportTestResultAtRegistration(it, type)
+            analyticsTestResultCollector.reportTestResultReceived(it, type)
             it.toValidatedResult()
         }
 
@@ -117,7 +130,7 @@ class RAProcessor @Inject constructor(
             }
 
             val newTestResult = try {
-                submissionService.asyncRequestTestResult(test.registrationToken).let {
+                submissionService.checkTestResult(test.registrationToken).let {
                     Timber.tag(TAG).v("Raw test result was %s", it)
                     it.copy(
                         coronaTestResult = it.coronaTestResult.toValidatedResult()
