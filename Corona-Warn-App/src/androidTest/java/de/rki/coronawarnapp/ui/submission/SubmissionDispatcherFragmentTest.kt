@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.submission
 
+import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.Navigation
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
@@ -25,7 +26,6 @@ import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.TestDispatcherProvider
-import testhelpers.captureScreenshot
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.preferences.mockFlowPreference
@@ -70,9 +70,10 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
 
     @Test
     fun testEventQRClicked() {
-        launchFragmentInContainer2<SubmissionDispatcherFragment>().onFragment {
-            Navigation.setViewNavController(it.requireView(), navController)
-        }
+        launchFragmentInContainer<SubmissionDispatcherFragment>(themeResId = R.style.AppTheme_Main)
+            .onFragment {
+                Navigation.setViewNavController(it.requireView(), navController)
+            }
         onView(withId(R.id.submission_dispatcher_qr))
             .perform(scrollTo())
             .perform(click())
@@ -80,9 +81,10 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
 
     @Test
     fun testEventTeleClicked() {
-        launchFragmentInContainer2<SubmissionDispatcherFragment>().onFragment {
-            Navigation.setViewNavController(it.requireView(), navController)
-        }
+        launchFragmentInContainer<SubmissionDispatcherFragment>(themeResId = R.style.AppTheme_Main)
+            .onFragment {
+                Navigation.setViewNavController(it.requireView(), navController)
+            }
         onView(withId(R.id.submission_dispatcher_tan_tele))
             .perform(scrollTo())
             .perform(click())
@@ -90,9 +92,10 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
 
     @Test
     fun testEventTanClicked() {
-        launchFragmentInContainer2<SubmissionDispatcherFragment>().onFragment {
-            Navigation.setViewNavController(it.requireView(), navController)
-        }
+        launchFragmentInContainer<SubmissionDispatcherFragment>(themeResId = R.style.AppTheme_Main)
+            .onFragment {
+                Navigation.setViewNavController(it.requireView(), navController)
+            }
         onView(withId(R.id.submission_dispatcher_tan_code))
             .perform(scrollTo())
             .perform(click())
@@ -101,7 +104,9 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment() {
-        captureScreenshot<SubmissionDispatcherFragment>()
+        launchFragmentInContainer2<SubmissionDispatcherFragment>()
+        takeScreenshot<SubmissionDispatcherFragment>()
+
         onView(withId(R.id.submission_dispatcher_tan_tele))
             .perform(scrollTo())
         takeScreenshot<SubmissionDispatcherFragment>("2")

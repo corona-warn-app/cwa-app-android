@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/spacing_normal">
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <ImageView
                     android:id="@+id/submission_dispatcher_illustration"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

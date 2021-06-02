@@ -26,7 +26,8 @@ import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.TestDispatcherProvider
-import testhelpers.captureScreenshot
+import testhelpers.launchFragmentInContainer2
+import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
@@ -77,7 +78,8 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
                 }
             )
         )
-        captureScreenshot<SubmissionTestResultNegativeFragment>(fragmentArgs = resultNegativeFragmentArgs)
+        launchFragmentInContainer2<SubmissionTestResultNegativeFragment>(fragmentArgs = resultNegativeFragmentArgs)
+        takeScreenshot<SubmissionTestResultNegativeFragment>()
     }
 }
 

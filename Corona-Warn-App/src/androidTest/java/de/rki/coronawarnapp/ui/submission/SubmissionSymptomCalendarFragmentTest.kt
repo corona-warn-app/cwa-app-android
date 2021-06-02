@@ -27,7 +27,7 @@ import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.TestDispatcherProvider
-import testhelpers.captureScreenshot
+import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
@@ -73,12 +73,14 @@ class SubmissionSymptomCalendarFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment() {
-        captureScreenshot<SubmissionSymptomCalendarFragment>(
+        launchFragmentInContainer2<SubmissionSymptomCalendarFragment>(
             fragmentArgs = SubmissionSymptomCalendarFragmentArgs(
                 Symptoms.Indication.POSITIVE,
                 CoronaTest.Type.PCR
             ).toBundle()
         )
+
+        takeScreenshot<SubmissionSymptomCalendarFragment>()
 
         onView(withId(R.id.target_button_verify))
             .perform(scrollTo())
