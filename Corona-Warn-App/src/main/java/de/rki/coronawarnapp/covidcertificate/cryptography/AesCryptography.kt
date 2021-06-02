@@ -13,26 +13,7 @@ import javax.inject.Inject
 @Reusable
 class AesCryptography @Inject constructor() {
 
-    private val ivParameterSpec
-        get() = IvParameterSpec(Hex.stringToBytes("00000000000000000000000000000000"))
-
-    fun encrypt(rawData: ByteArray, dek: ByteArray): ByteArray {
-        require(dek.size == 32)
-
-        Security.addProvider(BouncyCastleProvider())
-        val keySpec = SecretKeySpec(dek, ALGORITHM)
-
-        val cipher = Cipher.getInstance(TRANSFORMATION)
-        cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivParameterSpec)
-
-        val cipherText = ByteArray(cipher.getOutputSize(rawData.size))
-        var ctLength = cipher.update(
-            rawData, 0, rawData.size,
-            cipherText, 0
-        )
-        ctLength += cipher.doFinal(cipherText, ctLength)
-        return cipherText
-    }
+    private val ivParameterSpec = IvParameterSpec(Hex.stringToBytes("00000000000000000000000000000000"))
 
     fun decrypt(
         decryptionKey: ByteArray,
@@ -48,7 +29,7 @@ class AesCryptography @Inject constructor() {
         val output = ByteArray(cipher.getOutputSize(input.size))
         var ptLength = cipher.update(input, 0, input.size, output, 0)
         ptLength += cipher.doFinal(output, ptLength)
-        return output.takeWhile { it.toInt() != 0 }.toByteArray()
+        return output.copyOfRange(0, ptLength)
     }
 }
 
