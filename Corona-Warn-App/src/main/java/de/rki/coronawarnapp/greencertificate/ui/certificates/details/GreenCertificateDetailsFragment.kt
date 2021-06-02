@@ -7,9 +7,12 @@ import android.widget.LinearLayout
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.AppBarLayout
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentGreencertificateDetailsBinding
+import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -18,6 +21,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.vaccination.ui.details.VaccinationDetailsNavigation
 import javax.inject.Inject
 
 class GreenCertificateDetailsFragment : Fragment(R.layout.fragment_greencertificate_details), AutoInject {
@@ -60,28 +64,32 @@ class GreenCertificateDetailsFragment : Fragment(R.layout.fragment_greencertific
                 )
             }
 
-            viewModel.events.observe(viewLifecycleOwner) {
-                when (it) {
-                    GreenCertificateDetailsNavigation.Back -> popBackStack()
-                }
-            }
-
             binding.apply {
                 setupMenu(toolbar)
             }
+
+            // TODO: Will in the future be called when the data is loaded from the database
+            viewModel.generateQrCode()
 
             setToolbarOverlay()
 
             viewModel.qrCode.observe(viewLifecycleOwner) {
                 qrCodeCard.image.setImageBitmap(it)
-                it?.let {
-                    qrCodeCard.image.setOnClickListener { viewModel.openFullScreen() }
-                    qrCodeCard.progressBar.hide()
-                }
+                qrCodeCard.image.setOnClickListener { viewModel.openFullScreen() }
+                qrCodeCard.progressBar.hide()
             }
 
-            // TODO: Will in the future be called when the data is loaded from the database
-            viewModel.generateQrCode()
+            viewModel.events.observe(viewLifecycleOwner) {
+                when (it)  {
+                    GreenCertificateDetailsNavigation.Back -> popBackStack()
+                    is GreenCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
+                        R.id.action_global_qrCodeFullScreenFragment,
+                        QrCodeFullScreenFragmentArgs(it.qrCodeText).toBundle(),
+                        null,
+                        FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
+                    )
+                }
+            }
         }
 
     private fun setToolbarOverlay() {
