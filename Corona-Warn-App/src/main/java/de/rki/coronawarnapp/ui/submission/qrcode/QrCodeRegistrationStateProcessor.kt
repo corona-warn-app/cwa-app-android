@@ -34,12 +34,7 @@ class QrCodeRegistrationStateProcessor @Inject constructor(
                 submissionRepository.giveConsentToSubmission(type = coronaTestQRCode.type)
             }
             checkTestResult(coronaTestQRCode, coronaTest)
-            registrationState.postValue(
-                RegistrationState(
-                    ApiRequestState.SUCCESS,
-                    coronaTest
-                )
-            )
+            registrationState.postValue(RegistrationState(ApiRequestState.SUCCESS, coronaTest))
         } catch (err: CwaWebException) {
             registrationState.postValue(RegistrationState(ApiRequestState.FAILED))
             registrationError.postValue(err)
@@ -54,7 +49,7 @@ class QrCodeRegistrationStateProcessor @Inject constructor(
         }
 
     private fun checkTestResult(request: CoronaTestQRCode, test: CoronaTest) {
-        if (test.isFinal) {
+        if (test.isRedeemed) {
             throw InvalidQRCodeException("CoronaTestResult already redeemed ${request.registrationIdentifier}")
         }
     }

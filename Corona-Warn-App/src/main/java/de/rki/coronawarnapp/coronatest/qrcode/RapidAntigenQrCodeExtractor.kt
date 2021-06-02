@@ -39,9 +39,9 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
             firstName = payload.firstName,
             lastName = payload.lastName,
             dateOfBirth = payload.dateOfBirth,
-            testid = payload.testId,
+            testId = payload.testId,
             salt = payload.salt,
-            isDccSupportedbyPoc = false, // TODO
+            isDccSupportedByPoc = payload.isDccSupportedByPoc
         )
     }
 
@@ -83,7 +83,8 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
         @SerializedName("ln") val lastName: String?,
         @SerializedName("dob") val dateOfBirth: String?,
         @SerializedName("testid") val testid: String?,
-        @SerializedName("salt") val salt: String?
+        @SerializedName("salt") val salt: String?,
+        @SerializedName("dgc") val dgc: Boolean?
     )
 
     private data class CleanPayload(val raw: RawPayload) {
@@ -127,6 +128,8 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
             if (raw.salt.isNullOrEmpty()) null else raw.salt
         }
 
+        val isDccSupportedByPoc: Boolean by lazy { raw.dgc == true }
+
         fun requireValidData() {
             requireValidPersonalData()
             requireValidHash()
@@ -144,9 +147,15 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
 
         private fun requireValidHash() {
             val isQrCodeWithPersonalData = firstName != null && lastName != null && dateOfBirth != null
-            val generatedHash =
+            val rawBuilder = StringBuilder(
                 "${raw.dateOfBirth}#${raw.firstName}#${raw.lastName}#${raw.timestamp}#${raw.testid}#${raw.salt}"
-                    .toSHA256()
+            )
+            if (raw.dgc != null) {
+                val asInt = if (raw.dgc == true) 1 else 0
+                rawBuilder.append("#$asInt")
+            }
+
+            val generatedHash = rawBuilder.toString().toSHA256()
             if (isQrCodeWithPersonalData && !generatedHash.equals(hash, true)) {
                 throw InvalidQRCodeException("Generated hash doesn't match QRCode hash")
             }

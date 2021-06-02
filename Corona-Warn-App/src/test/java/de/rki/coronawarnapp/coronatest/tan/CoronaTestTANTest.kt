@@ -12,7 +12,7 @@ class CoronaTestTANTest : BaseTest() {
     fun `dcc is not supported by tans`() {
         instancePCR.apply {
             isDccConsentGiven shouldBe false
-            isDccSupportedbyPoc shouldBe false
+            isDccSupportedByPoc shouldBe false
             dateOfBirth shouldBe null
         }
     }
