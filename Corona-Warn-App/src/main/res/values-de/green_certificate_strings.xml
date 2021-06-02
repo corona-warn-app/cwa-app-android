@@ -37,7 +37,7 @@
     <!-- XTXT: Detail green certificate travel notice link de -->
     <string name="green_certificate_travel_notice_link_de">"https://reopen.europa.eu/de"</string>
     <!-- XTXT: Green certificate main screen title -->
-    <string name="certification_screen_title">Nachweise</string>
+    <string name="certification_screen_title">Zertifikate</string>
     <!-- XTXT: Green certificate menu item -->
     <string name="menu_certification_information">Information</string>
     <!-- XTXT: Green certificate main screen header text -->
