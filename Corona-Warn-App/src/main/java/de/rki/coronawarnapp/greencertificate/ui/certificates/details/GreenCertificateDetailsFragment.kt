@@ -21,7 +21,6 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import de.rki.coronawarnapp.vaccination.ui.details.VaccinationDetailsNavigation
 import javax.inject.Inject
 
 class GreenCertificateDetailsFragment : Fragment(R.layout.fragment_greencertificate_details), AutoInject {
@@ -80,7 +79,7 @@ class GreenCertificateDetailsFragment : Fragment(R.layout.fragment_greencertific
             }
 
             viewModel.events.observe(viewLifecycleOwner) {
-                when (it)  {
+                when (it) {
                     GreenCertificateDetailsNavigation.Back -> popBackStack()
                     is GreenCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
                         R.id.action_global_qrCodeFullScreenFragment,
