@@ -299,7 +299,7 @@ class RapidAntigenProcessorTest : BaseTest() {
                 createdAt = Instant.EPOCH,
                 isDccConsentGiven = false,
                 dateOfBirth = LocalDate.parse("2021-06-02"),
-                isDccSupportedbyPoc = false
+                isDccSupportedByPoc = false
             )
         ).apply {
             isDccConsentGiven shouldBe false
@@ -313,7 +313,7 @@ class RapidAntigenProcessorTest : BaseTest() {
                 createdAt = Instant.EPOCH,
                 isDccConsentGiven = true,
                 dateOfBirth = LocalDate.parse("2021-06-02"),
-                isDccSupportedbyPoc = true
+                isDccSupportedByPoc = true
             )
         ).apply {
             isDccConsentGiven shouldBe true

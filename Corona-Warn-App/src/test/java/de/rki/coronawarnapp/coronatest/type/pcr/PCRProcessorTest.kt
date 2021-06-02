@@ -288,7 +288,6 @@ class PCRProcessorTest : BaseTest() {
         )
         coEvery { submissionService.registerTest(any()) } answers { registrationData }
 
-
         createInstance().create(
             CoronaTestQRCode.PCR(
                 qrCodeGUID = "guid",
