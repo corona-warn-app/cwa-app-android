@@ -321,4 +321,16 @@ class RapidAntigenProcessorTest : BaseTest() {
             isDccSupportedByPoc shouldBe true
         }
     }
+
+    @Test
+    fun `marking dcc as created`() = runBlockingTest {
+        val instance = createInstance()
+
+        instance.markDccCreated(defaultTest, true) shouldBe defaultTest.copy(
+            isDccDataSetCreated = true
+        )
+        instance.markDccCreated(defaultTest, false) shouldBe defaultTest.copy(
+            isDccDataSetCreated = false
+        )
+    }
 }

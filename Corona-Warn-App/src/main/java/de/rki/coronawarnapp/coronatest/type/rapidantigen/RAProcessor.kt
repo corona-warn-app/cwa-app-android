@@ -225,6 +225,13 @@ class RAProcessor @Inject constructor(
         return test.copy(isResultAvailableNotificationSent = sent)
     }
 
+    override suspend fun markDccCreated(test: CoronaTest, created: Boolean): CoronaTest {
+        Timber.tag(TAG).v("markDccCreated(test=%s, created=%b)", test, created)
+        test as RACoronaTest
+
+        return test.copy(isDccDataSetCreated = created)
+    }
+
     companion object {
         private val FINAL_STATES = setOf(RAT_POSITIVE, RAT_NEGATIVE, RAT_REDEEMED)
         internal const val TAG = "RapidAntigenProcessor"

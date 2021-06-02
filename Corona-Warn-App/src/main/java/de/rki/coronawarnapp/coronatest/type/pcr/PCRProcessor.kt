@@ -246,6 +246,13 @@ class PCRProcessor @Inject constructor(
         return test.copy(isResultAvailableNotificationSent = sent)
     }
 
+    override suspend fun markDccCreated(test: CoronaTest, created: Boolean): CoronaTest {
+        Timber.tag(TAG).v("markDccCreated(test=%s, created=%b)", test, created)
+        test as PCRCoronaTest
+
+        return test.copy(isDccDataSetCreated = created)
+    }
+
     companion object {
         private val FINAL_STATES = setOf(PCR_POSITIVE, PCR_NEGATIVE, PCR_REDEEMED)
         internal const val TAG = "PCRProcessor"
