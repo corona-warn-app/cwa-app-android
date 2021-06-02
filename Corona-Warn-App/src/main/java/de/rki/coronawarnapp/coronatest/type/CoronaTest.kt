@@ -28,6 +28,8 @@ interface CoronaTest {
      */
     val isFinal: Boolean
 
+    val isRedeemed: Boolean
+
     val testResultReceivedAt: Instant?
     val testResult: CoronaTestResult
 
