@@ -25,7 +25,7 @@ sealed class CoronaTestTAN : Parcelable, TestRegistrationRequest {
         override val type: CoronaTest.Type = CoronaTest.Type.PCR
 
         @IgnoredOnParcel
-        override val isDccSupportedbyPoc: Boolean = false
+        override val isDccSupportedByPoc: Boolean = false
 
         @IgnoredOnParcel
         override val isDccConsentGiven: Boolean = false
