@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission.greencertificate
+package de.rki.coronawarnapp.ui.submission.covidcertificate
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
