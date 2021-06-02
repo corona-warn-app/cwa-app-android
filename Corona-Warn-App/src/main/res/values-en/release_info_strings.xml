@@ -16,22 +16,26 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Digital Proof of Vaccination"</item>
+        <item>COVID-Testzertifikat</item>
+        <item>Erweiterung Kontakt-Tagebuch</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"You can now add your vaccination certificates in the app and present them via QR code. The app displays full vaccination protection 14 days after the final vaccination."</item>
+        <item>Sie können nun über die App ein offizielles digitales Testzertifikat anfordern und anschließend in der App hinzufügen. Sie können das Testzertifikat (QR-Code) innerhalb der EU verwenden, um ein negatives Testergebnis nachzuweisen (z.B. für Auslandsreisen).</item>
+        <item>Sobald Ihr Testergebnis vorliegt, wird es nun auch Ihrem Kontakt-Tagebuch hinzugefügt.</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
-        <item/>
+        <item></item>
+        <item></item>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
+        <item></item>
+        <item></item>
     </string-array>
 
 </resources>
