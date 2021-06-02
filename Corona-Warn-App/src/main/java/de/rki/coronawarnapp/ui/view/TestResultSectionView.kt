@@ -81,7 +81,7 @@ constructor(
         return if (coronaTest is RACoronaTest) {
             context.getString(
                 R.string.ag_homescreen_card_rapid_body_result_date,
-                coronaTest.testedAt.toDate()?.toUIFormat(context)
+                coronaTest.testTakenAt.toDate()?.toUIFormat(context)
             )
         } else {
             context.getString(
