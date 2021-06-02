@@ -32,30 +32,18 @@ class ZLIBCompression @Inject constructor() {
         throw InvalidInputException("ZLIB decompression failed.", e)
     }
 
-//    fun compress(input: ByteArray): ByteArray {
-//        // Compress the bytes
-//        val output = ByteArray(input.size)
-//        val compressor = Deflater()
-//        compressor.setInput(input)
-//        compressor.finish()
-//        val compressedDataLength = compressor.deflate(output)
-//        compressor.end()
-//        return output
-//    }
-
-    fun compress(data: ByteArray): ByteArray {
+    fun compress(input: ByteArray): ByteArray {
         val deflater = Deflater()
-        deflater.setInput(data)
-        val outputStream = ByteArrayOutputStream(data.size)
+        deflater.setInput(input)
+        val outputStream = ByteArrayOutputStream(input.size)
         deflater.finish()
         val buffer = ByteArray(1024)
         while (!deflater.finished()) {
-            val count = deflater.deflate(buffer) // returns the generated code... index
+            val count = deflater.deflate(buffer)
             outputStream.write(buffer, 0, count)
         }
         outputStream.close()
-        val output: ByteArray = outputStream.toByteArray()
-        return output
+        return outputStream.toByteArray()
     }
 }
 
