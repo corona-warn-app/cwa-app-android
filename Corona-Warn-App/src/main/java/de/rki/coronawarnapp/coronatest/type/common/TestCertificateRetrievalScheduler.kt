@@ -104,7 +104,6 @@ class TestCertificateRetrievalScheduler @Inject constructor(
             .setConstraints(
                 Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
             )
-            .setInitialDelay(TEST_RESULT_PERIODIC_INITIAL_DELAY, TimeUnit.SECONDS)
             .setBackoffCriteria(BackoffPolicy.LINEAR, BackgroundConstants.KIND_DELAY, TimeUnit.MINUTES)
             .build()
 
