@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission.greencertificate
+package de.rki.coronawarnapp.ui.submission.covidcertificate
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

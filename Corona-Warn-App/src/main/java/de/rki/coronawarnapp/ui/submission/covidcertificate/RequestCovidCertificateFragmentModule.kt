@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.submission.greencertificate
+package de.rki.coronawarnapp.ui.submission.covidcertificate
 
 import dagger.Binds
 import dagger.Module
