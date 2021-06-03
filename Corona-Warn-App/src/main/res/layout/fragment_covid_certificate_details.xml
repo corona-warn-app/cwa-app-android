@@ -117,7 +117,7 @@
                 android:layout_marginBottom="6dp" />
 
             <LinearLayout
-                style="@style/Card.Greencertificate"
+                style="@style/Card.GreenCertificate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
@@ -136,7 +136,6 @@
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Andrea Schneider"
                     tools:text="Andrea Schneider" />
 
                 <TextView
@@ -152,7 +151,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="18.04.1943"
                     tools:text="18.04.1943" />
 
                 <TextView
@@ -168,7 +166,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="SARS-CoV-2"
                     tools:text="SARS-CoV-2" />
 
                 <TextView
@@ -184,7 +181,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Rapid Antigen Test"
                     tools:text="Rapid Antigen Test" />
 
                 <TextView
@@ -195,12 +191,11 @@
                     android:text="@string/green_certificate_attribute_test_name" />
 
                 <TextView
-                    android:id="@+id/medical_product_name"
+                    android:id="@+id/test_name"
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Xep"
                     tools:text="Xep" />
 
                 <TextView
@@ -216,7 +211,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Xup"
                     tools:text="Xup" />
 
                 <TextView
@@ -232,7 +226,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="12.05.21 19:00"
                     tools:text="12.05.21 19:00" />
 
                 <TextView
@@ -248,7 +241,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="negative"
                     tools:text="negative" />
 
                 <TextView
@@ -264,7 +256,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="AB123"
                     tools:text="AB123" />
 
                 <TextView
@@ -275,12 +266,11 @@
                     android:text="@string/green_certificate_attribute_state_of_testing" />
 
                 <TextView
-                    android:id="@+id/test_country"
+                    android:id="@+id/certificate_country"
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Germany"
                     tools:text="Germany" />
 
                 <TextView
@@ -296,7 +286,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="G05930482748454836478695764787840"
                     tools:text="G05930482748454836478695764787840" />
 
 
@@ -313,14 +302,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="05930482748454836478695764787840"
                     tools:text="05930482748454836478695764787840" />
 
 
             </LinearLayout>
 
             <LinearLayout
-                style="@style/Card.Greencertificate"
+                style="@style/Card.GreenCertificate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"

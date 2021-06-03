@@ -52,7 +52,7 @@ abstract class TestCertificateContainer {
         }
 
     fun toTestCertificate(
-        valueSet: VaccinationValueSet?,
+        valueSet: VaccinationValueSet? = null,
         userLocale: Locale = Locale.getDefault(),
     ): TestCertificate? {
         if (isCertificateRetrievalPending) return null

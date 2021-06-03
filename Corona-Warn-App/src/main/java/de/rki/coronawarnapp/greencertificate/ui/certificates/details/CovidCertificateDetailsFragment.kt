@@ -12,11 +12,14 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
-import de.rki.coronawarnapp.coronatest.type.TestCertificateContainer
+import de.rki.coronawarnapp.covidcertificate.test.TestCertificate
 import de.rki.coronawarnapp.databinding.FragmentCovidCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShotTimeFormat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.setUrl
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -58,9 +61,24 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
     }
 
     private fun FragmentCovidCertificateDetailsBinding.onCertificateReady(
-        certificateContainer: TestCertificateContainer
+        testCertificate: TestCertificate
     ) {
         qrCodeCard.subtitle.text = getString(R.string.green_certificate_attribute_test_date)
+        name.text = testCertificate.run { "$firstName $lastName" }
+        birthDate.text = testCertificate.dateOfBirth.toDayFormat()
+        diseaseType.text = testCertificate.targetName
+        testType.text = testCertificate.testType
+        testName.text = testCertificate.testName
+        testManufacturer.text = testCertificate.testNameAndManufactor
+        testDate.text = "%s %s".format(
+            testCertificate.sampleCollectedAt.toShortDayFormat(),
+            testCertificate.sampleCollectedAt.toShotTimeFormat()
+        )
+        testResult.text = testCertificate.testResult
+        testCenter.text = testCertificate.testCenter
+        certificateCountry.text = testCertificate.certificateCountry
+        certificateIssuer.text = testCertificate.certificateIssuer
+        certificateId.text = testCertificate.certificateId
     }
 
     private fun FragmentCovidCertificateDetailsBinding.onQrCodeReady(bitmap: Bitmap?) = bitmap?.let {
