@@ -22,6 +22,7 @@ import io.mockk.just
 import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runBlockingTest
+import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -39,15 +40,11 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
     @MockK lateinit var qrCodeRegistrationStateProcessor: QrCodeRegistrationStateProcessor
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 
-    private val coronaTestFlow = MutableStateFlow<CoronaTest?>(
-        null
-    )
-
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
 
-        every { submissionRepository.testForType(any()) } returns coronaTestFlow
+        every { submissionRepository.testForType(any()) } returns MutableStateFlow<CoronaTest?>(null)
         coEvery { qrCodeRegistrationStateProcessor.showRedeemedTokenWarning } returns SingleLiveEvent()
         coEvery { qrCodeRegistrationStateProcessor.registrationState } returns MutableLiveData(
             QrCodeRegistrationStateProcessor.RegistrationState(ApiRequestState.IDLE)
@@ -86,12 +83,12 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
 
         viewModel.qrCodeValidationState.value shouldBe ValidationState.STARTED
 
-        viewModel.onQrCodeAvailable(validQrCode)
+        viewModel.registerCoronaTest(validQrCode)
         viewModel.qrCodeValidationState.observeForever {}
         viewModel.qrCodeValidationState.value shouldBe ValidationState.SUCCESS
 
         // invalid guid
-        viewModel.onQrCodeAvailable(invalidQrCode)
+        viewModel.registerCoronaTest(invalidQrCode)
         viewModel.qrCodeValidationState.value shouldBe ValidationState.INVALID
     }
 
@@ -104,34 +101,79 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `startQrCodeRegistration() should call analyticsKeySubmissionCollector for PCR tests`() = runBlockingTest {
-        val coronaTestQRCode = CoronaTestQRCode.PCR(qrCodeGUID = "123456-12345678-1234-4DA7-B166-B86D85475064")
+    fun `registerCoronaTest() should call analyticsKeySubmissionCollector for PCR tests`() =
+        runBlockingTest {
+            val coronaTestQRCode = CoronaTestQRCode.PCR(qrCodeGUID = "123456-12345678-1234-4DA7-B166-B86D85475064")
 
-        every { qrCodeValidator.validate(any()) } returns coronaTestQRCode
-        every { analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any()) } just Runs
-        coEvery { qrCodeRegistrationStateProcessor.startQrCodeRegistration(any(), any()) } just Runs
+            every { qrCodeValidator.validate(any()) } returns coronaTestQRCode
+            every { analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any()) } just Runs
+            coEvery { qrCodeRegistrationStateProcessor.startQrCodeRegistration(any(), any()) } just Runs
 
-        createViewModel().startQrCodeRegistration(rawResult = "", isConsentGiven = true)
+            createViewModel().registerCoronaTest(rawResult = "")
 
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportAdvancedConsentGiven(CoronaTest.Type.PCR) }
-        verify(exactly = 0) {
-            analyticsKeySubmissionCollector.reportAdvancedConsentGiven(CoronaTest.Type.RAPID_ANTIGEN)
+            verify(exactly = 0) {
+                analyticsKeySubmissionCollector.reportAdvancedConsentGiven(CoronaTest.Type.PCR)
+                analyticsKeySubmissionCollector.reportAdvancedConsentGiven(CoronaTest.Type.RAPID_ANTIGEN)
+            }
         }
-    }
 
     @Test
-    fun `startQrCodeRegistration() should NOT call analyticsKeySubmissionCollector for RAT tests`() = runBlockingTest {
-        val coronaTestQRCode = CoronaTestQRCode.PCR(qrCodeGUID = "123456-12345678-1234-4DA7-B166-B86D85475064")
+    fun `registerCoronaTest() should NOT call analyticsKeySubmissionCollector for RAT tests`() =
+        runBlockingTest {
+            val coronaTestQRCode = CoronaTestQRCode.PCR(qrCodeGUID = "123456-12345678-1234-4DA7-B166-B86D85475064")
 
-        every { qrCodeValidator.validate(any()) } returns coronaTestQRCode
-        every { analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any()) } just Runs
-        coEvery { qrCodeRegistrationStateProcessor.startQrCodeRegistration(any(), any()) } just Runs
+            every { qrCodeValidator.validate(any()) } returns coronaTestQRCode
+            every { analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any()) } just Runs
+            coEvery { qrCodeRegistrationStateProcessor.startQrCodeRegistration(any(), any()) } just Runs
 
-        createViewModel().startQrCodeRegistration(rawResult = "", isConsentGiven = true)
+            createViewModel().registerCoronaTest(rawResult = "")
 
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportAdvancedConsentGiven(CoronaTest.Type.PCR) }
-        verify(exactly = 0) {
-            analyticsKeySubmissionCollector.reportAdvancedConsentGiven(CoronaTest.Type.RAPID_ANTIGEN)
+            verify(exactly = 0) {
+                analyticsKeySubmissionCollector.reportAdvancedConsentGiven(CoronaTest.Type.PCR)
+                analyticsKeySubmissionCollector.reportAdvancedConsentGiven(CoronaTest.Type.RAPID_ANTIGEN)
+            }
         }
-    }
+
+    @Test
+    fun `registerCoronaTest() should call analyticsKeySubmissionCollector for RAT tests - no-dcc support`() =
+        runBlockingTest {
+            val coronaTestQRCode = CoronaTestQRCode.RapidAntigen(
+                hash = "123456-12345678-1234-4DA7-B166-B86D85475064",
+                createdAt = Instant.EPOCH,
+                isDccSupportedByPoc = false
+            )
+
+            every { qrCodeValidator.validate(any()) } returns coronaTestQRCode
+            every { analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any()) } just Runs
+            coEvery { qrCodeRegistrationStateProcessor.startQrCodeRegistration(any(), any()) } just Runs
+
+            createViewModel().registerCoronaTest(rawResult = "")
+
+            verify(exactly = 1) {
+                analyticsKeySubmissionCollector.reportAdvancedConsentGiven(CoronaTest.Type.RAPID_ANTIGEN)
+            }
+            verify(exactly = 0) {
+                analyticsKeySubmissionCollector.reportAdvancedConsentGiven(CoronaTest.Type.PCR)
+            }
+        }
+
+    @Test
+    fun `registerCoronaTest() should Not call analyticsKeySubmissionCollector for RAT tests - dcc support`() =
+        runBlockingTest {
+            val coronaTestQRCode = CoronaTestQRCode.RapidAntigen(
+                hash = "123456-12345678-1234-4DA7-B166-B86D85475064",
+                createdAt = Instant.EPOCH,
+                isDccSupportedByPoc = true
+            )
+
+            every { qrCodeValidator.validate(any()) } returns coronaTestQRCode
+            every { analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any()) } just Runs
+            coEvery { qrCodeRegistrationStateProcessor.startQrCodeRegistration(any(), any()) } just Runs
+
+            createViewModel().registerCoronaTest(rawResult = "")
+            verify(exactly = 0) {
+                analyticsKeySubmissionCollector.reportAdvancedConsentGiven(CoronaTest.Type.RAPID_ANTIGEN)
+                analyticsKeySubmissionCollector.reportAdvancedConsentGiven(CoronaTest.Type.PCR)
+            }
+        }
 }

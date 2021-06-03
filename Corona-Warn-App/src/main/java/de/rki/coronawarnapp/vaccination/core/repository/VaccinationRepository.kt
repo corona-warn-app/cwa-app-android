@@ -6,8 +6,8 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
 import de.rki.coronawarnapp.util.flow.combine
+import de.rki.coronawarnapp.vaccination.core.CertificatePersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
-import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode
@@ -132,7 +132,7 @@ class VaccinationRepository @Inject constructor(
      * Passing null as identifier will refresh all available data, if within constraints.
      * Throws VaccinatedPersonNotFoundException is you try to refresh a person that is unknown.
      */
-    suspend fun refresh(personIdentifier: VaccinatedPersonIdentifier? = null) {
+    suspend fun refresh(personIdentifier: CertificatePersonIdentifier? = null) {
         Timber.tag(TAG).d("refresh(personIdentifier=%s)", personIdentifier)
 
         // NOOP

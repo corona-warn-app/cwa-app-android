@@ -43,7 +43,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/submission_dispatcher_card_qr" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <ImageView
             android:id="@+id/dispatcher_card_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -26,7 +26,8 @@ import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.TestDispatcherProvider
-import testhelpers.captureScreenshot
+import testhelpers.launchFragmentInContainer2
+import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
@@ -78,7 +79,8 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
             )
         )
 
-        captureScreenshot<SubmissionTestResultNoConsentFragment>(fragmentArgs = noConsentGivenFragmentArgs)
+        launchFragmentInContainer2<SubmissionTestResultNoConsentFragment>(fragmentArgs = noConsentGivenFragmentArgs)
+        takeScreenshot<SubmissionTestResultNoConsentFragment>()
     }
 }
 

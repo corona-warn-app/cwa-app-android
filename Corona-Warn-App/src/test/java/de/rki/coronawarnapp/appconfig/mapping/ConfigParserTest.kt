@@ -4,6 +4,7 @@ import com.google.protobuf.InvalidProtocolBufferException
 import de.rki.coronawarnapp.appconfig.AnalyticsConfig
 import de.rki.coronawarnapp.appconfig.CWAConfig
 import de.rki.coronawarnapp.appconfig.CoronaTestConfig
+import de.rki.coronawarnapp.appconfig.CovidCertificateConfig
 import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
 import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
@@ -34,6 +35,7 @@ class ConfigParserTest : BaseTest() {
     @MockK lateinit var logUploadConfigMapper: LogUploadConfig.Mapper
     @MockK lateinit var presenceTracingConfigMapper: PresenceTracingConfig.Mapper
     @MockK lateinit var coronaTestConfigMapper: CoronaTestConfig.Mapper
+    @MockK lateinit var covidCertificateConfigMapper: CovidCertificateConfig.Mapper
 
     private val appConfig171 = File("src/test/resources/appconfig_1_7_1.bin")
     private val appConfig180 = File("src/test/resources/appconfig_1_8_0.bin")
@@ -51,6 +53,7 @@ class ConfigParserTest : BaseTest() {
         every { logUploadConfigMapper.map(any()) } returns mockk()
         every { presenceTracingConfigMapper.map(any()) } returns mockk()
         every { coronaTestConfigMapper.map(any()) } returns mockk()
+        every { covidCertificateConfigMapper.map(any()) } returns mockk()
 
         appConfig171.exists() shouldBe true
         appConfig180.exists() shouldBe true
@@ -66,6 +69,7 @@ class ConfigParserTest : BaseTest() {
         logUploadConfigMapper = logUploadConfigMapper,
         presenceTracingConfigMapper = presenceTracingConfigMapper,
         coronaTestConfigMapper = coronaTestConfigMapper,
+        covidCertificateConfigMapper = covidCertificateConfigMapper,
     )
 
     @Test

@@ -5,6 +5,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryRetentionWorker
+import de.rki.coronawarnapp.coronatest.type.common.TestCertificateRetrievalWorker
 import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultRetrievalWorker
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultRetrievalWorker
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsPeriodicWorker
@@ -126,5 +127,12 @@ abstract class WorkerBinder {
     @WorkerKey(VaccinationUpdateWorker::class)
     abstract fun vaccinationUpdateWorker(
         factory: VaccinationUpdateWorker.Factory
+    ): InjectedWorkerFactory<out ListenableWorker>
+
+    @Binds
+    @IntoMap
+    @WorkerKey(TestCertificateRetrievalWorker::class)
+    abstract fun testCertificateRetrievalWorker(
+        factory: TestCertificateRetrievalWorker.Factory
     ): InjectedWorkerFactory<out ListenableWorker>
 }

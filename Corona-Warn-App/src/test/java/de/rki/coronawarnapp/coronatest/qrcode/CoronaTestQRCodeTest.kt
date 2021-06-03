@@ -8,12 +8,12 @@ import testhelpers.BaseTest
 class CoronaTestQRCodeTest : BaseTest() {
 
     private val instancePCR = CoronaTestQRCode.PCR("pcr")
-    private val instanceRA = CoronaTestQRCode.RapidAntigen("ra", createdAt = Instant.EPOCH)
+    private val instanceRA = CoronaTestQRCode.RapidAntigen(hash = "ra", createdAt = Instant.EPOCH)
 
     @Test
     fun `PCR defaults`() {
         instancePCR.apply {
-            isDccSupportedbyPoc shouldBe true
+            isDccSupportedByPoc shouldBe true
             isDccConsentGiven shouldBe false
             dateOfBirth shouldBe null
         }
@@ -22,7 +22,7 @@ class CoronaTestQRCodeTest : BaseTest() {
     @Test
     fun `RA defaults`() {
         instanceRA.apply {
-            isDccSupportedbyPoc shouldBe false
+            isDccSupportedByPoc shouldBe false
             isDccConsentGiven shouldBe false
             dateOfBirth shouldBe null
         }

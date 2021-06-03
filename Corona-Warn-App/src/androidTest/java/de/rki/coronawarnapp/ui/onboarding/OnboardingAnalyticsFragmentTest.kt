@@ -23,8 +23,9 @@ import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.TestDispatcherProvider
-import testhelpers.captureScreenshot
 import testhelpers.launchFragment2
+import testhelpers.launchFragmentInContainer2
+import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
 class OnboardingAnalyticsFragmentTest : BaseUITest() {
@@ -83,7 +84,8 @@ class OnboardingAnalyticsFragmentTest : BaseUITest() {
     @Screenshot
     @Test
     fun capture_screenshot() {
-        captureScreenshot<OnboardingAnalyticsFragment>()
+        launchFragmentInContainer2<OnboardingAnalyticsFragment>()
+        takeScreenshot<OnboardingAnalyticsFragment>()
     }
 }
 
