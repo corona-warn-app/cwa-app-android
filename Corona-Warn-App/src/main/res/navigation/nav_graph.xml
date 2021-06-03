@@ -830,7 +830,7 @@
         app:destination="@id/qrCodeFullScreenFragment" />
     <fragment
         android:id="@+id/requestCovidCertificateFragment"
-        android:name="de.rki.coronawarnapp.ui.submission.greencertificate.RequestCovidCertificateFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.covidcertificate.RequestCovidCertificateFragment"
         android:label="fragment_request_covid_certificate"
         tools:layout="@layout/fragment_request_covid_certificate">
         <argument
