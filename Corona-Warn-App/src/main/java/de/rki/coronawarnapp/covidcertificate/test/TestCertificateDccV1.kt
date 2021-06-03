@@ -20,12 +20,14 @@ data class TestCertificateDccV1(
     data class TestCertificateData(
         // Disease or agent targeted, e.g. "tg": "840539006"
         @SerializedName("tg") val targetId: String,
-        // Vaccine or prophylaxis, e.g. "vp": "1119349007"
-        @SerializedName("vp") val vaccineId: String,
-        // Vaccine medicinal product,e.g. "mp": "EU/1/20/1528",
-        @SerializedName("mp") val medicalProductId: String,
-        // Marketing Authorization Holder, e.g. "ma": "ORG-100030215",
-        @SerializedName("ma") val marketAuthorizationHolderId: String,
+        // Type of Test (required)
+        @SerializedName("tt") val testType: String,
+        // Test Result (required)
+        @SerializedName("tr") val testResult: String,
+        // NAA Test Name (only for PCR tests, but not required)
+        @SerializedName("nm") val testName: String?,
+        // RAT Test name and manufacturer (only for RAT tests, but not required)
+        @SerializedName("ma") val testNameAndManufactor: String?,
         // Date/Time of Sample Collection (required)
         // "sc": "2021-04-13T14:20:00+00:00",
         @SerializedName("sc") val sampleCollectedAt: Instant,
@@ -35,8 +37,8 @@ data class TestCertificateDccV1(
         // Testing Center (required)
         // "tc": "GGD Fryslân, L-Heliconweg",
         @SerializedName("tc") val testCenter: String,
-        // Country of Vaccination, e.g. "co": "NL"
-        @SerializedName("co") val countryOfVaccination: String,
+        // Country of Test (required)
+        @SerializedName("co") val countryOfTest: String,
         // Certificate Issuer, e.g. "is": "Ministry of Public Health, Welfare and Sport",
         @SerializedName("is") val certificateIssuer: String,
         // Unique Certificate Identifier, e.g.  "ci": "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"

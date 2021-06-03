@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.appconfig.devicetime.DeviceTimeHandler
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
+import de.rki.coronawarnapp.coronatest.type.common.TestCertificateRetrievalScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
@@ -70,6 +71,7 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var presenceTracingRiskWorkScheduler: PresenceTracingRiskWorkScheduler
     @MockK lateinit var pcrTestResultScheduler: PCRResultScheduler
     @MockK lateinit var raTestResultScheduler: RAResultScheduler
+    @MockK lateinit var testCertificateRetrievalScheduler: TestCertificateRetrievalScheduler
 
     @MockK lateinit var pcrTestResultAvailableNotificationService: PCRTestResultAvailableNotificationService
 
@@ -126,6 +128,7 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.pcrTestResultAvailableNotificationService = pcrTestResultAvailableNotificationService
                 app.raTestResultAvailableNotificationService = raTestResultAvailableNotificationService
                 app.vaccinationUpdateScheduler = vaccinationUpdateScheduler
+                app.testCertificateRetrievalScheduler = testCertificateRetrievalScheduler
                 app.appScope = TestCoroutineScope()
                 app.rollingLogHistory = object : Timber.Tree() {
                     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
@@ -157,6 +160,7 @@ class CoronaWarnApplicationTest : BaseTest() {
 
             pcrTestResultAvailableNotificationService.setup()
             raTestResultAvailableNotificationService.setup()
+            testCertificateRetrievalScheduler.setup()
 
             vaccinationUpdateScheduler.setup()
 
