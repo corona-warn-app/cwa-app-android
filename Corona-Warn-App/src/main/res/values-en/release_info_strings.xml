@@ -26,12 +26,12 @@
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
-        <item/>
+        <item />
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
+        <item />
     </string-array>
 
 </resources>

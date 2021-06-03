@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.vaccination.core.DaggerVaccinationTestComponent
 import de.rki.coronawarnapp.vaccination.core.VaccinationTestData
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -87,5 +88,12 @@ class VaccinationStorageTest : BaseTest() {
                 testData.personAVac2Container,
             )
         }
+    }
+
+    @Test
+    fun `post processor injects data extractors`() {
+        createInstance().personContainers = setOf(testData.personAData2Vac)
+
+        createInstance().personContainers.single().vaccinations.first().qrCodeExtractor shouldNotBe null
     }
 }

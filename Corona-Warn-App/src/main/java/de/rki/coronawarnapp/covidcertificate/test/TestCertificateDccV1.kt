@@ -27,14 +27,14 @@ data class TestCertificateDccV1(
         // NAA Test Name (only for PCR tests, but not required) "nm": "Roche LightCycler qPCR",
         @SerializedName("nm") val testName: String? = null,
         // RAT Test name and manufacturer (only for RAT tests, but not required)
-        @SerializedName("ma") val marketAuthorizationHolderId: String? = null,
+        @SerializedName("ma") val testNameAndManufactor: String? = null,
         // Date/Time of Sample Collection (required) "sc": "2021-04-13T14:20:00+00:00"
         @SerializedName("sc") val sc: String,
         // Date/Time of Test Result "dr": "2021-04-13T14:40:01+00:00",
         @SerializedName("dr") val dr: String? = null,
         // Testing Center (required) "tc": "GGD Fryslân, L-Heliconweg",
         @SerializedName("tc") val testCenter: String,
-        // Country of Test, e.g. "co": "NL"
+        // Country of Test (required)
         @SerializedName("co") val countryOfTest: String,
         // Certificate Issuer, e.g. "is": "Ministry of Public Health, Welfare and Sport",
         @SerializedName("is") val certificateIssuer: String,
