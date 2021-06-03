@@ -5,75 +5,74 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/vaccination_incomplete"
-    android:padding="@dimen/card_padding"
+    android:minHeight="200dp"
     tools:ignore="UnusedAttribute">
-
-
-    <ImageView
-        android:id="@+id/show_more_action"
-        android:layout_width="@dimen/icon_size_risk_card"
-        android:layout_height="@dimen/icon_size_risk_card"
-        android:importantForAccessibility="no"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_forward"
-        app:tint="@color/colorStableLight" />
 
     <ImageView
         android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:importantForAccessibility="no"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/show_more_action"
-        app:srcCompat="@drawable/vaccination_card_icon_incomplete" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_incomplete_vaccination_shield" />
 
     <TextView
-        android:id="@+id/card_title"
-        style="@style/body2"
+        android:id="@+id/title1"
+        style="@style/headline5"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginHorizontal="@dimen/card_padding"
+        android:layout_marginTop="@dimen/spacing_small"
         android:accessibilityHeading="true"
         android:focusable="false"
-        android:text="@string/vaccination_card_status_title"
+        android:text="@string/vaccination_card_registration_title_line_1"
         android:textColor="@color/colorTextPrimary1InvertedStable"
-        app:layout_constraintEnd_toStartOf="@id/show_more_action"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/vaccination_label"
-        style="@style/headline5Bold"
+        android:id="@+id/title2"
+        style="@style/headline5"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginHorizontal="@dimen/card_padding"
         android:accessibilityHeading="true"
         android:focusable="false"
-        android:text="@string/vaccination_card_status_vaccination_name"
+        android:text="@string/vaccination_card_registration_title_line_2"
         android:textColor="@color/colorTextPrimary1InvertedStable"
-        app:layout_constraintEnd_toStartOf="@+id/icon"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_title" />
+        app:layout_constraintTop_toBottomOf="@id/title1" />
+
+    <ImageView
+        android:id="@+id/shield_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="@dimen/card_padding"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_vaccination_incomplete"
+        app:layout_constraintBottom_toBottomOf="@id/vaccination_state"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/vaccination_state" />
 
     <TextView
         android:id="@+id/vaccination_state"
-        style="@style/body1"
+        style="@style/body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="@dimen/spacing_small"
         android:accessibilityHeading="true"
         android:focusable="false"
         android:text="@string/vaccination_card_status_vaccination_incomplete"
         android:textColor="@color/colorTextPrimary1InvertedStable"
-        app:layout_constraintBottom_toTopOf="@+id/person_name"
-        app:layout_constraintEnd_toStartOf="@+id/icon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vaccination_label"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/shield_icon"
+        app:layout_constraintTop_toBottomOf="@id/person_name"
+        app:layout_constraintVertical_bias="1"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
@@ -81,16 +80,14 @@
         style="@style/body1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginHorizontal="@dimen/card_padding"
+        android:layout_marginTop="@dimen/spacing_small"
         android:accessibilityHeading="true"
         android:focusable="false"
         android:textColor="@color/colorTextPrimary1InvertedStable"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/icon"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vaccination_state"
+        app:layout_constraintTop_toBottomOf="@id/title2"
         tools:text="Andrea Schneider" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
