@@ -14,7 +14,7 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import timber.log.Timber
 
-class GreenCertificateDetailsViewModel @AssistedInject constructor(
+class CovidCertificateDetailsViewModel @AssistedInject constructor(
     private val qrCodeGenerator: QrCodeGenerator,
     dispatcherProvider: DispatcherProvider,
 ) : CWAViewModel(dispatcherProvider) {
@@ -51,5 +51,5 @@ class GreenCertificateDetailsViewModel @AssistedInject constructor(
     }
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<GreenCertificateDetailsViewModel>
+    interface Factory : SimpleCWAViewModelFactory<CovidCertificateDetailsViewModel>
 }

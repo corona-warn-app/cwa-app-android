@@ -25,7 +25,7 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val binding by viewBinding<FragmentCovidCertificateDetailsBinding>()
-    private val viewModel: GreenCertificateDetailsViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: CovidCertificateDetailsViewModel by cwaViewModels { viewModelFactory }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
