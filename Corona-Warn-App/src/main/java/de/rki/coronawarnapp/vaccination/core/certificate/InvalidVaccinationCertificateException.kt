@@ -28,6 +28,7 @@ class InvalidTestCertificateException(errorCode: ErrorCode) : InvalidHealthCerti
     }
 }
 
+@Suppress("MaxLineLength")
 open class InvalidHealthCertificateException(
     val errorCode: ErrorCode
 ) : HasHumanReadableError, InvalidQRCodeException(errorCode.message) {
