@@ -35,7 +35,7 @@ class TestCertificateDccParser @Inject constructor(
     }
 
     private fun TestCertificateDccV1.validate(): TestCertificateDccV1 {
-        if (testCertificateData.isEmpty()) {
+        if (testCertificateData.isNullOrEmpty()) {
             throw InvalidTestCertificateException(NO_TEST_ENTRY)
         }
         // Force date parsing

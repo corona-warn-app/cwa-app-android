@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.vaccination.core.repository
 
-import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.*
+import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.VC_ALREADY_REGISTERED
+import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.VC_NAME_MISMATCH
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.vaccination.core.DaggerVaccinationTestComponent

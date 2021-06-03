@@ -25,7 +25,6 @@ class VaccinationDGCV1Parser @Inject constructor(
                 toCertificate()
             } ?: throw InvalidVaccinationCertificateException(HC_CWT_NO_DGC)
         } ?: throw InvalidVaccinationCertificateException(HC_CWT_NO_HCERT)
-
         certificate.validate()
     } catch (e: InvalidHealthCertificateException) {
         throw e
@@ -34,7 +33,7 @@ class VaccinationDGCV1Parser @Inject constructor(
     }
 
     private fun VaccinationDGCV1.validate(): VaccinationDGCV1 {
-        if (vaccinationDatas.isEmpty()) {
+        if (vaccinationDatas.isNullOrEmpty()) {
             throw InvalidVaccinationCertificateException(VC_NO_VACCINATION_ENTRY)
         }
         // Force date parsing

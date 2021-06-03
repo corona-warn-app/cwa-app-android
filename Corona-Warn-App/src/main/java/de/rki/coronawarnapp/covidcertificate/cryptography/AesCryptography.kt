@@ -21,11 +21,12 @@ class AesCryptography @Inject constructor() {
         encryptedData: ByteArray
     ): ByteArray {
         Security.addProvider(BouncyCastleProvider())
+
         val keySpec = SecretKeySpec(decode(decryptionKey), ALGORITHM)
         val input = decode(encryptedData)
-
-        val cipher = Cipher.getInstance(TRANSFORMATION)
-        cipher.init(Cipher.DECRYPT_MODE, keySpec, ivParameterSpec)
+        val cipher = Cipher.getInstance(TRANSFORMATION).apply {
+            init(Cipher.DECRYPT_MODE, keySpec, ivParameterSpec)
+        }
 
         val output = ByteArray(cipher.getOutputSize(input.size))
         var ptLength = cipher.update(input, 0, input.size, output, 0)
