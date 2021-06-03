@@ -5,14 +5,14 @@ import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.greencertificate.ui.certificates.CertificatesFragment
 import de.rki.coronawarnapp.greencertificate.ui.certificates.CertificatesFragmentModule
 import de.rki.coronawarnapp.greencertificate.ui.certificates.details.CovidCertificateDetailsFragment
-import de.rki.coronawarnapp.greencertificate.ui.certificates.details.GreenCertificateDetailsModule
+import de.rki.coronawarnapp.greencertificate.ui.certificates.details.CovidCertificateDetailsModule
 
 @Module
-abstract class GreenCertificateUIModule {
+abstract class CovidCertificateUIModule {
 
     @ContributesAndroidInjector(modules = [CertificatesFragmentModule::class])
     abstract fun certificatesFragment(): CertificatesFragment
 
-    @ContributesAndroidInjector(modules = [GreenCertificateDetailsModule::class])
+    @ContributesAndroidInjector(modules = [CovidCertificateDetailsModule::class])
     abstract fun certificateDetailsFragment(): CovidCertificateDetailsFragment
 }
