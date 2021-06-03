@@ -48,7 +48,4 @@
     <string name="info_banner_title_2">COVID-Testzertifikat</string>
     <!-- XTXT: Green certificate info card body  -->
     <string name="info_banner_body">Registrieren Sie einen Test auf der Startseite und stimmen Sie zu, ein digitales Testzertifikat zu erhalten. Sobald das Zertifikat vorliegt, wird es hier angezeigt.</string>
-    <string name="error_hc_try_again">Bitte versuchen Sie es später nochmal.</string>
-    <string name="error_hc_dcc_not_supported_by_lab">DCC nicht unterstützt durch Testzentrum.</string>
-    <string name="error_hc_no_network">Bitte uberprüfen Sie Ihre Netzwerkverbindung.</string>
 </resources>

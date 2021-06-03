@@ -159,6 +159,8 @@ open class InvalidHealthCertificateException(
     }
 }
 
+private const val ERROR_MESSAGE_GENERIC = R.string.errors_generic_text_unknown_error_cause
+
 private const val ERROR_MESSAGE_VC_INVALID = R.string.error_vc_invalid
 private const val ERROR_MESSAGE_VC_NOT_YET_SUPPORTED = R.string.error_vc_not_yet_supported
 private const val ERROR_MESSAGE_VC_SCAN_AGAIN = R.string.error_vc_scan_again
@@ -166,12 +168,10 @@ private const val ERROR_MESSAGE_VC_DIFFERENT_PERSON = R.string.error_vc_differen
 private const val ERROR_MESSAGE_VC_ALREADY_REGISTERED = R.string.error_vc_already_registered
 
 // TODO change to correct error message once provided
-private const val ERROR_MESSAGE_TRY_AGAIN = R.string.error_hc_try_again
-private const val ERROR_MESSAGE_DCC_NOT_SUPPORTED_BY_LAB = R.string.error_hc_dcc_not_supported_by_lab
-private const val ERROR_MESSAGE_NO_NETWORK = R.string.error_hc_no_network
-private const val ERROR_MESSAGE_E2E_ERROR_CALL_HOTLINE = R.string.errors_generic_text_unknown_error_cause
-private const val ERROR_MESSAGE_TRY_AGAIN_DCC_NOT_AVAILABLE_YET = R.string.errors_generic_text_unknown_error_cause
-private const val ERROR_MESSAGE_CLIENT_ERROR_CALL_HOTLINE = R.string.errors_generic_text_unknown_error_cause
-private const val ERROR_MESSAGE_DCC_EXPIRED = R.string.errors_generic_text_unknown_error_cause
-
-private const val ERROR_MESSAGE_GENERIC = R.string.errors_generic_text_unknown_error_cause
+private const val ERROR_MESSAGE_TRY_AGAIN = ERROR_MESSAGE_GENERIC
+private const val ERROR_MESSAGE_DCC_NOT_SUPPORTED_BY_LAB = ERROR_MESSAGE_GENERIC
+private const val ERROR_MESSAGE_NO_NETWORK = ERROR_MESSAGE_GENERIC
+private const val ERROR_MESSAGE_E2E_ERROR_CALL_HOTLINE = ERROR_MESSAGE_GENERIC
+private const val ERROR_MESSAGE_TRY_AGAIN_DCC_NOT_AVAILABLE_YET = ERROR_MESSAGE_GENERIC
+private const val ERROR_MESSAGE_CLIENT_ERROR_CALL_HOTLINE = ERROR_MESSAGE_GENERIC
+private const val ERROR_MESSAGE_DCC_EXPIRED = ERROR_MESSAGE_GENERIC
