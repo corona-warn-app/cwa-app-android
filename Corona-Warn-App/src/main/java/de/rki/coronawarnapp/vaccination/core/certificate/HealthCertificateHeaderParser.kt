@@ -2,9 +2,10 @@ package de.rki.coronawarnapp.vaccination.core.certificate
 
 import com.upokecenter.cbor.CBORObject
 import dagger.Reusable
-import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_CBOR_DECODING_FAILED
-import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_CWT_NO_EXP
-import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_CWT_NO_ISS
+import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException
+import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.HC_CBOR_DECODING_FAILED
+import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.HC_CWT_NO_EXP
+import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.HC_CWT_NO_ISS
 import org.joda.time.Instant
 import javax.inject.Inject
 

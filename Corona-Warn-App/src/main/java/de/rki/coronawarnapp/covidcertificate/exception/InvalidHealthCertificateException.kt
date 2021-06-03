@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.vaccination.core.certificate
+package de.rki.coronawarnapp.covidcertificate.exception
 
 import android.content.Context
 import de.rki.coronawarnapp.R
@@ -7,26 +7,6 @@ import de.rki.coronawarnapp.util.HasHumanReadableError
 import de.rki.coronawarnapp.util.HumanReadableError
 import de.rki.coronawarnapp.util.ui.CachedString
 import de.rki.coronawarnapp.util.ui.LazyString
-
-class InvalidVaccinationCertificateException(errorCode: ErrorCode) : InvalidHealthCertificateException(errorCode) {
-    override fun toHumanReadableError(context: Context): HumanReadableError {
-        var errorCodeString = errorCode.toString()
-        errorCodeString = if (errorCodeString.startsWith(PREFIX_VC)) errorCodeString else PREFIX_VC + errorCodeString
-        return HumanReadableError(
-            description = errorMessage.get(context) + "\n\n$errorCodeString"
-        )
-    }
-}
-
-class InvalidTestCertificateException(errorCode: ErrorCode) : InvalidHealthCertificateException(errorCode) {
-    override fun toHumanReadableError(context: Context): HumanReadableError {
-        var errorCodeString = errorCode.toString()
-        errorCodeString = if (errorCodeString.startsWith(PREFIX_TC)) errorCodeString else PREFIX_TC + errorCodeString
-        return HumanReadableError(
-            description = errorMessage.get(context) + "\n\n$errorCodeString"
-        )
-    }
-}
 
 @Suppress("MaxLineLength")
 open class InvalidHealthCertificateException(
@@ -137,13 +117,11 @@ open class InvalidHealthCertificateException(
     }
 }
 
-private const val PREFIX_VC = "VC_"
 private const val ERROR_MESSAGE_VC_INVALID = R.string.error_vc_invalid
 private const val ERROR_MESSAGE_VC_NOT_YET_SUPPORTED = R.string.error_vc_not_yet_supported
 private const val ERROR_MESSAGE_VC_SCAN_AGAIN = R.string.error_vc_scan_again
 private const val ERROR_MESSAGE_VC_DIFFERENT_PERSON = R.string.error_vc_different_person
 private const val ERROR_MESSAGE_VC_ALREADY_REGISTERED = R.string.error_vc_already_registered
-private const val PREFIX_TC = "TC_"
 
 // TODO change to correct error message once provided
 private const val ERROR_MESSAGE_HC_TRY_AGAIN = R.string.error_hc_try_again

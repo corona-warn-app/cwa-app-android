@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.vaccination.core
 
-import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode
-import de.rki.coronawarnapp.vaccination.core.certificate.InvalidVaccinationCertificateException
+import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.VC_DOB_MISMATCH
+import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.VC_NAME_MISMATCH
+import de.rki.coronawarnapp.covidcertificate.exception.InvalidVaccinationCertificateException
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -56,14 +57,14 @@ class VaccinatedPersonIdentifierTest : BaseTest() {
 
         shouldThrow<InvalidVaccinationCertificateException> {
             testPersonMaxData.requireMatch(testPersonMaxData.copy(firstNameStandardized = "nope"))
-        }.errorCode shouldBe ErrorCode.VC_NAME_MISMATCH
+        }.errorCode shouldBe VC_NAME_MISMATCH
 
         shouldThrow<InvalidVaccinationCertificateException> {
             testPersonMaxData.requireMatch(testPersonMaxData.copy(lastNameStandardized = "nope"))
-        }.errorCode shouldBe ErrorCode.VC_NAME_MISMATCH
+        }.errorCode shouldBe VC_NAME_MISMATCH
 
         shouldThrow<InvalidVaccinationCertificateException> {
             testPersonMaxData.requireMatch(testPersonMaxData.copy(dateOfBirth = LocalDate.parse("1900-12-31")))
-        }.errorCode shouldBe ErrorCode.VC_DOB_MISMATCH
+        }.errorCode shouldBe VC_DOB_MISMATCH
     }
 }
