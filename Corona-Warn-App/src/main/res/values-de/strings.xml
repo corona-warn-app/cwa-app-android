@@ -1600,6 +1600,14 @@
     <!-- XTXT: Statistics Card Navigation Announcement -->
     <string name="accessibility_statistics_card_navigation_information">"Wische horizontal zwischen den Karten für weitere Statistiken"</string>
 
+    <!-- Persons Vaccinated Once Statistics Card -->
+    <!-- XHED: Title for vaccinated once statistics card -->
+    <string name="statistics_vaccinated_once_card_title">"Mindestens einmal geimpfte Personen"</string>
+    <!-- XTXT: Nationwide text -->
+    <string name="statistics_vaccinated_once_nationwide_text">"Bundesweit"</string>
+    <!-- XTXT: Vaccination primary value footnote text -->
+    <string name="statistics_vaccination_primary_value_footnote">"der Gesamtbevölkerung"</string>
+
     <!-- ####################################
           Button Tooltips for Accessibility
     ###################################### -->
