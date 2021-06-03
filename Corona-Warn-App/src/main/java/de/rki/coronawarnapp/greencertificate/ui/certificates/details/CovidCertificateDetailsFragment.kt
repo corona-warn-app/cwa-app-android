@@ -40,6 +40,7 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
             bindToolbar()
             setToolbarOverlay()
 
+            viewModel.generateQrCode() // TODO remove 
             viewModel.qrCode.observe(viewLifecycleOwner) {
                 qrCodeCard.image.setImageBitmap(it)
                 qrCodeCard.image.setOnClickListener { viewModel.openFullScreen() }
