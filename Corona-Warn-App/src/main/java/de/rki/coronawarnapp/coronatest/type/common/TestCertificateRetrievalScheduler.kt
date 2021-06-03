@@ -55,11 +55,10 @@ class TestCertificateRetrievalScheduler @Inject constructor(
             isNew
         }
 
-        val hasWorkToDo = certificates.any { it.isCertificateRetrievalPending }
+        val hasWorkToDo = certificates.any { it.isCertificateRetrievalPending && !it.isUpdatingData }
         Timber.tag(TAG).v("shouldPollDcc? hasNewCert=$hasNewCert, hasWorkTodo=$hasWorkToDo, foreground=$isForeground")
         (isForeground || hasNewCert) && hasWorkToDo
     }
-        .distinctUntilChanged()
 
     fun setup() {
         Timber.tag(TAG).i("setup() - TestCertificateRetrievalScheduler")

@@ -148,8 +148,8 @@ class TestCertificateRepository @Inject constructor(
 
         internalData.updateBlocking {
             val toRefresh = values
-                .filter { it.identifier == identifier || identifier == null }
-                .filter { !it.isUpdatingData && it.isCertificateRetrievalPending }
+                .filter { it.identifier == identifier || identifier == null } // Targets of our refresh
+                .filter { !it.isUpdatingData && it.isCertificateRetrievalPending } // Those that need refreshing
 
             mutate {
                 toRefresh.forEach {
@@ -166,8 +166,8 @@ class TestCertificateRepository @Inject constructor(
             Timber.tag(TAG).d("Checking for unregistered public keys.")
 
             val refreshedCerts = values
-                .filter { workedOnIds.contains(it.identifier) }
-                .filter { !it.isPublicKeyRegistered }
+                .filter { workedOnIds.contains(it.identifier) } // Refresh targets
+                .filter { !it.isPublicKeyRegistered } // Targets of this step
                 .map { cert ->
                     try {
                         RefreshResult(registerPublicKey(cert))
@@ -193,8 +193,8 @@ class TestCertificateRepository @Inject constructor(
             Timber.tag(TAG).d("Checking for pending certificates.")
 
             val refreshedCerts = values
-                .filter { workedOnIds.contains(it.identifier) }
-                .filter { it.isPublicKeyRegistered && it.isCertificateRetrievalPending }
+                .filter { workedOnIds.contains(it.identifier) } // Refresh targets
+                .filter { it.isPublicKeyRegistered && it.isCertificateRetrievalPending } // Targets of this step
                 .map { cert ->
                     try {
                         RefreshResult(obtainCertificate(cert))
@@ -304,7 +304,7 @@ class TestCertificateRepository @Inject constructor(
             val certAvailableIn = Duration(nowUTC, certAvailableAt)
 
             val components = withContext(dispatcherProvider.IO) {
-                if (certAvailableIn > Duration.ZERO && certAvailableIn < certConfig.waitAfterPublicKeyRegistration) {
+                if (certAvailableIn > Duration.ZERO && certAvailableIn <= certConfig.waitAfterPublicKeyRegistration) {
                     Timber.tag(TAG).d("Delaying certificate retrieval by %d ms", certAvailableIn.millis)
                     delay(certAvailableIn.millis)
                 }
