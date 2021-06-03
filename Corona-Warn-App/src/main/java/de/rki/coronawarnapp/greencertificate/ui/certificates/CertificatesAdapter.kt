@@ -16,6 +16,8 @@ import de.rki.coronawarnapp.vaccination.ui.cards.CreateVaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.HeaderInfoVaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.ImmuneVaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.VaccinationCard
+import de.rki.coronawarnapp.vaccination.ui.cards.VaccinationTestErrorCard
+import de.rki.coronawarnapp.vaccination.ui.cards.VaccinationTestSuccessCard
 
 class CertificatesAdapter :
     ModularAdapter<CertificatesAdapter.CertificatesItemVH<CertificatesItem, ViewBinding>>(),
@@ -37,6 +39,8 @@ class CertificatesAdapter :
                 TypedVHCreatorMod({ data[it] is CreateVaccinationCard.Item }) { CreateVaccinationCard(it) },
                 TypedVHCreatorMod({ data[it] is HeaderInfoVaccinationCard.Item }) { HeaderInfoVaccinationCard(it) },
                 TypedVHCreatorMod({ data[it] is BottomInfoVaccinationCard.Item }) { BottomInfoVaccinationCard(it) },
+                TypedVHCreatorMod({ data[it] is VaccinationTestSuccessCard.Item }) { VaccinationTestSuccessCard(it) },
+                TypedVHCreatorMod({ data[it] is VaccinationTestErrorCard.Item }) { VaccinationTestErrorCard(it) },
             )
         )
     }

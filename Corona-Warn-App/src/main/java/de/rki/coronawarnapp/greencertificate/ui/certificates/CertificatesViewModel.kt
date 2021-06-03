@@ -16,7 +16,10 @@ import de.rki.coronawarnapp.vaccination.ui.cards.CreateVaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.HeaderInfoVaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.ImmuneVaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.VaccinationCard
+import de.rki.coronawarnapp.vaccination.ui.cards.VaccinationTestErrorCard
+import de.rki.coronawarnapp.vaccination.ui.cards.VaccinationTestSuccessCard
 import kotlinx.coroutines.flow.map
+import org.joda.time.Instant
 
 class CertificatesViewModel @AssistedInject constructor(
     vaccinationRepository: VaccinationRepository,
@@ -70,6 +73,22 @@ class CertificatesViewModel @AssistedInject constructor(
                     )
                 )
                 add(BottomInfoVaccinationCard.Item)
+
+                // TODO: replace item params with correct data
+                add(
+                    VaccinationTestSuccessCard.Item(
+                        testDate = Instant.now(),
+                        testPerson = "Andrea Schneider"
+                    )
+                )
+                add(
+                    VaccinationTestErrorCard.Item(
+                        testDate = Instant.now(),
+                        onClickAction = {
+                            // TODO: retry failed test certificate function here
+                        }
+                    )
+                )
             }
         }.asLiveData()
 

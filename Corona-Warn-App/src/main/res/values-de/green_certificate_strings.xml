@@ -45,7 +45,14 @@
     <!-- XTXT: Green certificate info card title 1st line -->
     <string name="info_banner_title_1">Digitales</string>
     <!-- XTXT: Green certificate info card title 2nd line  -->
-    <string name="info_banner_title_2">COVID-19-Testzertifikat</string>
+    <string name="info_banner_title_2">COVID-Testzertifikat</string>
     <!-- XTXT: Green certificate info card body  -->
     <string name="info_banner_body">Registrieren Sie einen Test auf der Startseite und stimmen Sie zu, ein digitales Testzertifikat zu erhalten. Sobald das Zertifikat vorliegt, wird es hier angezeigt.</string>
+
+    <!-- XTXT: Test certificate time -->
+    <string name="test_certificate_time">Test durchgeführt am %1$s, %2$s Uhr</string>
+    <!-- XTXT: Test error label -->
+    <string name="test_certificate_error_label">Fehler bei der Zertifikatsabfrage</string>
+    <!-- XBUT: Test error retry button -->
+    <string name="test_certificate_error_retry_button">Nochmal versuchen</string>
 </resources>

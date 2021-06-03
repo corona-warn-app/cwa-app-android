@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="200dp"
+    android:background="@drawable/vaccination_test_success_gradient"
+    tools:ignore="UnusedAttribute">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:srcCompat="@drawable/ic_eu_stars"
+        app:tint="@color/colorStableLight" />
+
+    <TextView
+        android:id="@+id/card_title"
+        style="@style/headline5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"
+        android:accessibilityHeading="true"
+        android:focusable="false"
+        android:text="@string/info_banner_title_1"
+        android:textColor="@color/colorTextPrimary1InvertedStable"
+        app:layout_constraintEnd_toStartOf="@id/icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/vaccination_label"
+        style="@style/headline5Bold"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:accessibilityHeading="true"
+        android:focusable="false"
+        android:text="@string/info_banner_title_2"
+        android:textColor="@color/colorTextPrimary1InvertedStable"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_title" />
+
+    <TextView
+        android:id="@+id/person_name"
+        style="@style/body1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="24dp"
+        android:accessibilityHeading="true"
+        android:focusable="false"
+        android:textColor="@color/colorTextPrimary1InvertedStable"
+        app:layout_constraintEnd_toStartOf="@+id/icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vaccination_label"
+        tools:text="Andrea Schneider" />
+
+    <ImageView
+        android:id="@+id/prc_icon"
+        style="@style/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginStart="23dp"
+        android:focusable="false"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_risk_details_pcr"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:tint="@color/colorStableLight" />
+
+    <TextView
+        android:id="@+id/test_time"
+        style="@style/body2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="27dp"
+        android:accessibilityHeading="true"
+        android:focusable="false"
+        android:textColor="@color/colorTextPrimary1InvertedStable"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/prc_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="Test durchgeführt am 12.04.21, 18:01 Uhr " />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
