@@ -102,6 +102,7 @@ class RAProcessor @Inject constructor(
             dateOfBirth = request.dateOfBirth,
             sampleCollectedAt = sampleCollectedAt,
             isDccSupportedByPoc = request.isDccSupportedByPoc,
+            isDccConsentGiven = request.isDccConsentGiven,
         )
     }
 
@@ -222,6 +223,13 @@ class RAProcessor @Inject constructor(
         test as RACoronaTest
 
         return test.copy(isResultAvailableNotificationSent = sent)
+    }
+
+    override suspend fun markDccCreated(test: CoronaTest, created: Boolean): CoronaTest {
+        Timber.tag(TAG).v("markDccCreated(test=%s, created=%b)", test, created)
+        test as RACoronaTest
+
+        return test.copy(isDccDataSetCreated = created)
     }
 
     companion object {
