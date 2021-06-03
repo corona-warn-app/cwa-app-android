@@ -1,17 +1,15 @@
 package de.rki.coronawarnapp.greencertificate.ui.certificates.details
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
-import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.AppBarLayout
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.FragmentGreencertificateDetailsBinding
+import de.rki.coronawarnapp.databinding.FragmentCovidCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.DialogHelper
@@ -23,53 +21,23 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
-class GreenCertificateDetailsFragment : Fragment(R.layout.fragment_greencertificate_details), AutoInject {
+class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certificate_details), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val binding: FragmentGreencertificateDetailsBinding by viewBinding()
+    private val binding by viewBinding<FragmentCovidCertificateDetailsBinding>()
     private val viewModel: GreenCertificateDetailsViewModel by cwaViewModels { viewModelFactory }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
-            toolbar.setNavigationOnClickListener { popBackStack() }
-
             qrCodeCard.title.text = getString(R.string.detail_green_certificate_card_title)
             qrCodeCard.subtitle.text = "Test durchgeführt am 12.05.21 18:01" // will be changed
-
-            binding.toolbar.overflowIcon?.setTint(Color.WHITE)
-
             appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
                 title.alpha = titleAlpha
                 subtitle.alpha = subtitleAlpha
             }
 
-            if (travelNoticeGerman.text ==
-                requireContext().getString(R.string.green_certificate_attribute_certificate_travel_notice_german)
-            ) {
-                travelNoticeGerman.setUrl(
-                    R.string.green_certificate_attribute_certificate_travel_notice_german,
-                    R.string.green_certificate_travel_notice_link_de,
-                    R.string.green_certificate_travel_notice_link_de
-                )
-            }
-
-            if (travelNoticeEnglish.text ==
-                requireContext().getString(R.string.green_certificate_attribute_certificate_travel_notice_english)
-            ) {
-                travelNoticeEnglish.setUrl(
-                    R.string.green_certificate_attribute_certificate_travel_notice_english,
-                    R.string.green_certificate_travel_notice_link_en,
-                    R.string.green_certificate_travel_notice_link_en
-                )
-            }
-
-            binding.apply {
-                setupMenu(toolbar)
-            }
-
-            // TODO: Will in the future be called when the data is loaded from the database
-            viewModel.generateQrCode()
-
+            bindTravelNoticeViews()
+            bindToolbar()
             setToolbarOverlay()
 
             viewModel.qrCode.observe(viewLifecycleOwner) {
@@ -80,8 +48,8 @@ class GreenCertificateDetailsFragment : Fragment(R.layout.fragment_greencertific
 
             viewModel.events.observe(viewLifecycleOwner) {
                 when (it) {
-                    GreenCertificateDetailsNavigation.Back -> popBackStack()
-                    is GreenCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
+                    CovidCertificateDetailsNavigation.Back -> popBackStack()
+                    is CovidCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
                         R.id.action_global_qrCodeFullScreenFragment,
                         QrCodeFullScreenFragmentArgs(it.qrCodeText).toBundle(),
                         null,
@@ -90,6 +58,41 @@ class GreenCertificateDetailsFragment : Fragment(R.layout.fragment_greencertific
                 }
             }
         }
+
+    private fun FragmentCovidCertificateDetailsBinding.bindTravelNoticeViews() {
+        if (travelNoticeGerman.text ==
+            getString(R.string.green_certificate_attribute_certificate_travel_notice_german)
+        ) {
+            travelNoticeGerman.setUrl(
+                R.string.green_certificate_attribute_certificate_travel_notice_german,
+                R.string.green_certificate_travel_notice_link_de,
+                R.string.green_certificate_travel_notice_link_de
+            )
+        }
+
+        if (travelNoticeEnglish.text ==
+            getString(R.string.green_certificate_attribute_certificate_travel_notice_english)
+        ) {
+            travelNoticeEnglish.setUrl(
+                R.string.green_certificate_attribute_certificate_travel_notice_english,
+                R.string.green_certificate_travel_notice_link_en,
+                R.string.green_certificate_travel_notice_link_en
+            )
+        }
+    }
+
+    private fun FragmentCovidCertificateDetailsBinding.bindToolbar() = toolbar.apply {
+        setNavigationOnClickListener { popBackStack() }
+        setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_covid_certificate_delete -> {
+                    DialogHelper.showDialog(deleteTestConfirmationDialog)
+                    true
+                }
+                else -> onOptionsItemSelected(it)
+            }
+        }
+    }
 
     private fun setToolbarOverlay() {
         val width = requireContext().resources.displayMetrics.widthPixels
@@ -102,19 +105,6 @@ class GreenCertificateDetailsFragment : Fragment(R.layout.fragment_greencertific
 
         val behavior: AppBarLayout.ScrollingViewBehavior = params.behavior as (AppBarLayout.ScrollingViewBehavior)
         behavior.overlayTop = (width / 3) + 170
-    }
-
-    private fun setupMenu(toolbar: Toolbar) = toolbar.apply {
-        inflateMenu(R.menu.menu_green_certificate_detail)
-        setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.menu_green_certificate_delete -> {
-                    DialogHelper.showDialog(deleteTestConfirmationDialog)
-                    true
-                }
-                else -> onOptionsItemSelected(it)
-            }
-        }
     }
 
     private val deleteTestConfirmationDialog by lazy {

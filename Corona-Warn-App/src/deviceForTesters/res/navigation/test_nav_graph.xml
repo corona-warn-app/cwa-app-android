@@ -200,8 +200,8 @@
     </fragment>
     <fragment
         android:id="@+id/greenCertificateDetailsFragment"
-        android:name="de.rki.coronawarnapp.greencertificate.ui.certificates.details.GreenCertificateDetailsFragment"
+        android:name="de.rki.coronawarnapp.greencertificate.ui.certificates.details.CovidCertificateDetailsFragment"
         android:label="GreenCertificateDetailsFragment"
-        tools:layout="@layout/fragment_greencertificate_details" />
+        tools:layout="@layout/fragment_covid_certificate_details" />
 
 </navigation>

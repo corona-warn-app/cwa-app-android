@@ -23,11 +23,11 @@ class GreenCertificateDetailsViewModel @AssistedInject constructor(
     private val mutableStateFlow = MutableStateFlow<Bitmap?>(null)
     val qrCode = mutableStateFlow.asLiveData(dispatcherProvider.Default)
 
-    val events = SingleLiveEvent<GreenCertificateDetailsNavigation>()
+    val events = SingleLiveEvent<CovidCertificateDetailsNavigation>()
 
-    fun onClose() = events.postValue(GreenCertificateDetailsNavigation.Back)
+    fun onClose() = events.postValue(CovidCertificateDetailsNavigation.Back)
 
-    fun openFullScreen() = qrCodeText?.let { events.postValue(GreenCertificateDetailsNavigation.FullQrCode(it)) }
+    fun openFullScreen() = qrCodeText?.let { events.postValue(CovidCertificateDetailsNavigation.FullQrCode(it)) }
 
     /* TODO: Adapt to Green Certificate */
     fun generateQrCode() = launch {
@@ -43,7 +43,7 @@ class GreenCertificateDetailsViewModel @AssistedInject constructor(
         try {
             Timber.d("deleteTest")
             // TODO: Delete test in repo
-            events.postValue(GreenCertificateDetailsNavigation.Back)
+            events.postValue(CovidCertificateDetailsNavigation.Back)
         } catch (e: Exception) {
             Timber.d(e, "Failed to delete test certificate")
             e.report(ExceptionCategory.INTERNAL)
