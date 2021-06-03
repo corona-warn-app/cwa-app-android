@@ -7,7 +7,12 @@ import de.rki.coronawarnapp.util.compression.inflate
 import de.rki.coronawarnapp.util.encoding.Base45Decoder
 import de.rki.coronawarnapp.vaccination.core.certificate.HealthCertificateCOSEDecoder
 import de.rki.coronawarnapp.vaccination.core.certificate.HealthCertificateHeaderParser
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_BASE45_ENCODING_FAILED
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_CBOR_DECODING_FAILED
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_COSE_MESSAGE_INVALID
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_COMPRESSION_FAILED
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidTestCertificateException
 import de.rki.coronawarnapp.vaccination.core.certificate.RawCOSEObject
@@ -43,11 +48,15 @@ class TestCertificateQRCodeExtractor @Inject constructor(
         qrCode = qrCode
     )
 
-    private fun RawCOSEObject.decrypt(decryptionKey: ByteArray): RawCOSEObject {
-        return coseDecoder.decryptMessage(
+    private fun RawCOSEObject.decrypt(decryptionKey: ByteArray): RawCOSEObject = try {
+        coseDecoder.decryptMessage(
             input = this,
             decryptionKey = decryptionKey
         )
+    } catch (e: InvalidHealthCertificateException) {
+        throw InvalidTestCertificateException(e.errorCode)
+    } catch (e: Throwable) {
+        throw InvalidTestCertificateException(HC_COSE_MESSAGE_INVALID)
     }
 
     private fun String.extract(): TestCertificateData =
@@ -60,35 +69,25 @@ class TestCertificateQRCodeExtractor @Inject constructor(
         return PREFIX + compress().encodeBase45()
     }
 
-    private fun ByteArray.encodeBase45(): String = try {
-        Base45Decoder.encode(this)
+    private fun RawCOSEObject.decode(): TestCertificateData = try {
+        coseDecoder.decode(this).parse()
+    } catch (e: InvalidHealthCertificateException) {
+        throw InvalidTestCertificateException(e.errorCode)
     } catch (e: Throwable) {
-        Timber.e(e)
-        throw InvalidTestCertificateException(HC_BASE45_DECODING_FAILED)
+        throw InvalidTestCertificateException(HC_COSE_MESSAGE_INVALID)
     }
 
-    private fun RawCOSEObject.compress(): ByteArray = try {
-        this.deflate()
-    } catch (e: Throwable) {
-        Timber.e(e)
-        throw InvalidTestCertificateException(HC_ZLIB_DECOMPRESSION_FAILED)
-    }
-
-    private fun RawCOSEObject.decode(): TestCertificateData {
-        val cbor = coseDecoder.decode(this)
-        return cbor.parse()
-    }
-
-    private fun CBORObject.parse(): TestCertificateData {
-        Timber.v("Parsing COSE for test certificate.")
-        return TestCertificateData(
+    private fun CBORObject.parse(): TestCertificateData = try {
+        TestCertificateData(
             header = headerParser.parse(this),
             certificate = bodyParser.parse(this)
         ).also {
-            // todo CertificateQrCodeCensor.addCertificateToCensor(it)
-        }.also {
             Timber.v("Parsed test certificate for %s", it.certificate.nameData.givenNameStandardized)
         }
+    } catch (e: InvalidHealthCertificateException) {
+        throw InvalidTestCertificateException(e.errorCode)
+    } catch (e: Throwable) {
+        throw InvalidTestCertificateException(HC_CBOR_DECODING_FAILED)
     }
 
     private fun String.decodeBase45(): ByteArray = try {
@@ -96,6 +95,20 @@ class TestCertificateQRCodeExtractor @Inject constructor(
     } catch (e: Throwable) {
         Timber.e(e)
         throw InvalidTestCertificateException(HC_BASE45_DECODING_FAILED)
+    }
+
+    private fun ByteArray.encodeBase45(): String = try {
+        Base45Decoder.encode(this)
+    } catch (e: Throwable) {
+        Timber.e(e)
+        throw InvalidTestCertificateException(HC_BASE45_ENCODING_FAILED)
+    }
+
+    private fun RawCOSEObject.compress(): ByteArray = try {
+        this.deflate()
+    } catch (e: Throwable) {
+        Timber.e(e)
+        throw InvalidTestCertificateException(HC_ZLIB_COMPRESSION_FAILED)
     }
 
     private fun ByteArray.decompress(): RawCOSEObject = try {

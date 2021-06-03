@@ -44,7 +44,7 @@ class HealthCertificateCOSEDecoder @Inject constructor(
         )
     } catch (e: Throwable) {
         Timber.e(e)
-        throw InvalidTestCertificateException(AES_DECRYPTION_FAILED)
+        throw InvalidHealthCertificateException(AES_DECRYPTION_FAILED)
     }
 
     private fun CBORObject.validate(): CBORObject {

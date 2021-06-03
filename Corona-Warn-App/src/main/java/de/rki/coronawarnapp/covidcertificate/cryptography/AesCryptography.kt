@@ -13,7 +13,8 @@ import javax.inject.Inject
 @Reusable
 class AesCryptography @Inject constructor() {
 
-    private val ivParameterSpec = IvParameterSpec(Hex.stringToBytes("00000000000000000000000000000000"))
+    private val ivParameterSpec
+        get() = IvParameterSpec(Hex.stringToBytes("00000000000000000000000000000000"))
 
     fun decrypt(
         decryptionKey: ByteArray,
