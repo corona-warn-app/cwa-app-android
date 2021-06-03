@@ -50,11 +50,11 @@
 
     <ImageView
         android:id="@+id/shield_icon"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_marginStart="@dimen/card_padding"
         android:importantForAccessibility="no"
-        android:src="@drawable/ic_vaccination_incomplete"
+        android:src="@drawable/ic_half_white_half_gray_shield"
         app:layout_constraintBottom_toBottomOf="@id/vaccination_state"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/vaccination_state" />
@@ -64,7 +64,8 @@
         style="@style/body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_small"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="@dimen/spacing_normal"
         android:accessibilityHeading="true"
         android:focusable="false"
         android:text="@string/vaccination_card_status_vaccination_incomplete"
