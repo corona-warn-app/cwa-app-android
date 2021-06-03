@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.greencertificate.ui.certificates.details
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -10,6 +11,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
+import de.rki.coronawarnapp.coronatest.type.TestCertificateContainer
 import de.rki.coronawarnapp.databinding.FragmentCovidCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
@@ -37,38 +40,53 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
         }
     )
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
-        with(binding) {
-            qrCodeCard.title.text = getString(R.string.detail_green_certificate_card_title)
-            qrCodeCard.subtitle.text = "Test durchgeführt am 12.05.21 18:01" // will be changed
-            appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
-                title.alpha = titleAlpha
-                subtitle.alpha = subtitleAlpha
-            }
-
-            bindTravelNoticeViews()
-            bindToolbar()
-            setToolbarOverlay()
-
-            viewModel.generateQrCode() // TODO remove
-            viewModel.qrCode.observe(viewLifecycleOwner) {
-                qrCodeCard.image.setImageBitmap(it)
-                qrCodeCard.image.setOnClickListener { viewModel.openFullScreen() }
-                qrCodeCard.progressBar.hide()
-            }
-
-            viewModel.events.observe(viewLifecycleOwner) {
-                when (it) {
-                    CovidCertificateDetailsNavigation.Back -> popBackStack()
-                    is CovidCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
-                        R.id.action_global_qrCodeFullScreenFragment,
-                        QrCodeFullScreenFragmentArgs(it.qrCodeText).toBundle(),
-                        null,
-                        FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
-                    )
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
+        qrCodeCard.title.setText(R.string.detail_green_certificate_card_title)
+        appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
+            title.alpha = titleAlpha
+            subtitle.alpha = subtitleAlpha
         }
+
+        bindTravelNoticeViews()
+        bindToolbar()
+        setToolbarOverlay()
+
+        viewModel.qrCode.observe(viewLifecycleOwner) { onQrCodeReady(it) }
+        viewModel.errors.observe(viewLifecycleOwner) { onError(it) }
+        viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
+        viewModel.covidCertificate.observe(viewLifecycleOwner) { it?.let { onCertificateReady(it) } }
+    }
+
+    private fun FragmentCovidCertificateDetailsBinding.onCertificateReady(
+        certificateContainer: TestCertificateContainer
+    ) {
+        qrCodeCard.subtitle.text = getString(R.string.green_certificate_attribute_test_date)
+    }
+
+    private fun FragmentCovidCertificateDetailsBinding.onQrCodeReady(bitmap: Bitmap?) = bitmap?.let {
+        qrCodeCard.apply {
+            image.setImageBitmap(it)
+            image.setOnClickListener { viewModel.openFullScreen() }
+            progressBar.hide()
+        }
+    }
+
+    private fun FragmentCovidCertificateDetailsBinding.onError(error: Throwable) {
+        qrCodeCard.progressBar.hide()
+        error.toErrorDialogBuilder(requireContext()).show()
+    }
+
+    private fun FragmentCovidCertificateDetailsBinding.onNavEvent(event: CovidCertificateDetailsNavigation) {
+        when (event) {
+            CovidCertificateDetailsNavigation.Back -> popBackStack()
+            is CovidCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
+                R.id.action_global_qrCodeFullScreenFragment,
+                QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
+                null,
+                FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
+            )
+        }
+    }
 
     private fun FragmentCovidCertificateDetailsBinding.bindTravelNoticeViews() {
         if (travelNoticeGerman.text ==
@@ -107,8 +125,7 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
 
     private fun setToolbarOverlay() {
         val width = requireContext().resources.displayMetrics.widthPixels
-        val params: CoordinatorLayout.LayoutParams = binding.scrollView.layoutParams
-            as (CoordinatorLayout.LayoutParams)
+        val params: CoordinatorLayout.LayoutParams = binding.scrollView.layoutParams as (CoordinatorLayout.LayoutParams)
 
         val textParams = binding.subtitle.layoutParams as (LinearLayout.LayoutParams)
         textParams.bottomMargin = (width / 3) + 170
