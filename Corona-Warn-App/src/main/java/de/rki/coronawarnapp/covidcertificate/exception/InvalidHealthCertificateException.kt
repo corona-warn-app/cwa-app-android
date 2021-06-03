@@ -45,6 +45,8 @@ open class InvalidHealthCertificateException(
         DCC_COMP_500_SIGNING_CLIENT_ERROR("DCC Test Certificate Components failed with error 500."),
         DCC_COMP_500_SIGNING_SERVER_ERROR("DCC Test Certificate Components failed with error 500."),
         DCC_COMP_NO_NETWORK("DCC Test Certificate Components failed due to no network connection."),
+        DCC_COSE_MESSAGE_INVALID("COSE message invalid."),
+        DCC_COSE_TAG_INVALID("COSE tag invalid."),
         PKR_400("Public Key Registration failed with error 400: Bad request (e.g. wrong format of registration token or public key)."),
         PKR_403("Public Key Registration failed with error 403: Registration token is not allowed to issue a DCC."),
         PKR_404("Public Key Registration failed with error 404: Registration token does not exist."),
@@ -84,23 +86,67 @@ open class InvalidHealthCertificateException(
             ErrorCode.VC_ALREADY_REGISTERED -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_VC_ALREADY_REGISTERED)
             }
-            ErrorCode.DCC_COMP_400,
-            ErrorCode.DCC_COMP_404,
-            ErrorCode.DCC_COMP_500_INTERNAL,
-            ErrorCode.DCC_COMP_500_LAB_INVALID_RESPONSE,
-            ErrorCode.DCC_COMP_500_SIGNING_CLIENT_ERROR,
-            ErrorCode.DCC_COMP_500_SIGNING_SERVER_ERROR,
-            ErrorCode.PKR_400,
-            ErrorCode.PKR_500,
-            ErrorCode.PKR_FAILED,
-            ErrorCode.PKR_NO_NETWORK,
-            ErrorCode.RSA_DECRYPTION_FAILED,
-            ErrorCode.RSA_KP_GENERATION_FAILED -> CachedString { context ->
-                context.getString(ERROR_MESSAGE_HC_TRY_AGAIN)
+
+            /*Test certificate error codes*/
+            ErrorCode.AES_DECRYPTION_FAILED -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_E2E_ERROR_CALL_HOTLINE)
+            }
+            ErrorCode.DCC_COMP_202 -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_TRY_AGAIN_DCC_NOT_AVAILABLE_YET)
+            }
+            ErrorCode.DCC_COMP_400 -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_CLIENT_ERROR_CALL_HOTLINE)
+            }
+            ErrorCode.DCC_COMP_404 -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_E2E_ERROR_CALL_HOTLINE)
+            }
+            ErrorCode.DCC_COMP_410 -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_DCC_EXPIRED)
+            }
+            ErrorCode.DCC_COMP_412 -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_E2E_ERROR_CALL_HOTLINE)
+            }
+            ErrorCode.DCC_COMP_500_INTERNAL -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_TRY_AGAIN)
             }
             ErrorCode.DCC_COMP_NO_NETWORK -> CachedString { context ->
-                context.getString(ERROR_MESSAGE_HC_NO_NETWORK)
+                context.getString(ERROR_MESSAGE_NO_NETWORK)
             }
+            ErrorCode.DCC_COSE_MESSAGE_INVALID -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_E2E_ERROR_CALL_HOTLINE)
+            }
+            ErrorCode.DCC_COSE_TAG_INVALID -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_E2E_ERROR_CALL_HOTLINE)
+            }
+            ErrorCode.PKR_400 -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_CLIENT_ERROR_CALL_HOTLINE)
+            }
+            ErrorCode.PKR_403, ErrorCode.PKR_404 -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_E2E_ERROR_CALL_HOTLINE)
+            }
+            ErrorCode.PKR_500,
+            ErrorCode.PKR_FAILED,
+            -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_TRY_AGAIN)
+            }
+            ErrorCode.PKR_NO_NETWORK -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_NO_NETWORK)
+            }
+            ErrorCode.RSA_DECRYPTION_FAILED -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_E2E_ERROR_CALL_HOTLINE)
+            }
+            ErrorCode.RSA_KP_GENERATION_FAILED -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_TRY_AGAIN)
+            }
+
+/*          Error codes handled in else branch
+            ErrorCode.HC_BASE45_ENCODING_FAILED -> TODO()
+            ErrorCode.HC_ZLIB_COMPRESSION_FAILED -> TODO()
+            ErrorCode.NO_TEST_ENTRY -> TODO()
+            ErrorCode.DCC_COMP_500_LAB_INVALID_RESPONSE -> TODO()
+            ErrorCode.DCC_COMP_500_SIGNING_CLIENT_ERROR -> TODO()
+            ErrorCode.DCC_COMP_500_SIGNING_SERVER_ERROR -> TODO()
+            ErrorCode.PKR_409 -> TODO()*/
             else -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_GENERIC)
             }
@@ -120,7 +166,12 @@ private const val ERROR_MESSAGE_VC_DIFFERENT_PERSON = R.string.error_vc_differen
 private const val ERROR_MESSAGE_VC_ALREADY_REGISTERED = R.string.error_vc_already_registered
 
 // TODO change to correct error message once provided
-private const val ERROR_MESSAGE_HC_TRY_AGAIN = R.string.error_hc_try_again
-private const val ERROR_MESSAGE_HC_DCC_NOT_SUPPORTED_BY_LAB = R.string.error_hc_dcc_not_supported_by_lab
-private const val ERROR_MESSAGE_HC_NO_NETWORK = R.string.error_hc_no_network
+private const val ERROR_MESSAGE_TRY_AGAIN = R.string.error_hc_try_again
+private const val ERROR_MESSAGE_DCC_NOT_SUPPORTED_BY_LAB = R.string.error_hc_dcc_not_supported_by_lab
+private const val ERROR_MESSAGE_NO_NETWORK = R.string.error_hc_no_network
+private const val ERROR_MESSAGE_E2E_ERROR_CALL_HOTLINE = R.string.errors_generic_text_unknown_error_cause
+private const val ERROR_MESSAGE_TRY_AGAIN_DCC_NOT_AVAILABLE_YET = R.string.errors_generic_text_unknown_error_cause
+private const val ERROR_MESSAGE_CLIENT_ERROR_CALL_HOTLINE = R.string.errors_generic_text_unknown_error_cause
+private const val ERROR_MESSAGE_DCC_EXPIRED = R.string.errors_generic_text_unknown_error_cause
+
 private const val ERROR_MESSAGE_GENERIC = R.string.errors_generic_text_unknown_error_cause
