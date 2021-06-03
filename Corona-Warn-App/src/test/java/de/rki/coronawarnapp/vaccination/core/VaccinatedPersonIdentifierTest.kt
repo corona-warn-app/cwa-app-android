@@ -10,13 +10,13 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
 class VaccinatedPersonIdentifierTest : BaseTest() {
-    private val testPersonMaxData = VaccinatedPersonIdentifier(
+    private val testPersonMaxData = CertificatePersonIdentifier(
         dateOfBirth = LocalDate.parse("1966-11-11"),
         firstNameStandardized = "ANDREAS",
         lastNameStandardized = "ASTRA<EINS"
     )
 
-    private val testPersonMin = VaccinatedPersonIdentifier(
+    private val testPersonMin = CertificatePersonIdentifier(
         dateOfBirth = LocalDate.parse("1900-01-01"),
         lastNameStandardized = "#",
         firstNameStandardized = null
@@ -37,7 +37,7 @@ class VaccinatedPersonIdentifierTest : BaseTest() {
     @Test
     fun `person equality`() {
         val person1 = testPersonMaxData
-        val person2 = VaccinatedPersonIdentifier(
+        val person2 = CertificatePersonIdentifier(
             dateOfBirth = LocalDate.parse("1966-11-11"),
             firstNameStandardized = "ANDREAS",
             lastNameStandardized = "ASTRA<EINS"

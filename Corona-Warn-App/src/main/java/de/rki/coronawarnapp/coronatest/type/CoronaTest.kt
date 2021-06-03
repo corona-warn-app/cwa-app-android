@@ -28,6 +28,8 @@ interface CoronaTest {
      */
     val isFinal: Boolean
 
+    val isRedeemed: Boolean
+
     val testResultReceivedAt: Instant?
     val testResult: CoronaTestResult
 
@@ -41,7 +43,7 @@ interface CoronaTest {
     // Is the digital green certificate supported by the point of care that issued the test
     val isDccSupportedByPoc: Boolean
 
-    // Has the user given consent to us obtaining the DGC
+    // Has the user given consent to us obtaining the DCC
     val isDccConsentGiven: Boolean
 
     // Has the corresponding entry been created in the test certificate storage

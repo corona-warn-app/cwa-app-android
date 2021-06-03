@@ -129,6 +129,7 @@ class PCRProcessor @Inject constructor(
             registrationToken = response.registrationToken,
             testResult = testResult,
             testResultReceivedAt = determineReceivedDate(null, testResult),
+            isDccConsentGiven = request.isDccConsentGiven,
         )
     }
 
@@ -243,6 +244,13 @@ class PCRProcessor @Inject constructor(
         test as PCRCoronaTest
 
         return test.copy(isResultAvailableNotificationSent = sent)
+    }
+
+    override suspend fun markDccCreated(test: CoronaTest, created: Boolean): CoronaTest {
+        Timber.tag(TAG).v("markDccCreated(test=%s, created=%b)", test, created)
+        test as PCRCoronaTest
+
+        return test.copy(isDccDataSetCreated = created)
     }
 
     companion object {

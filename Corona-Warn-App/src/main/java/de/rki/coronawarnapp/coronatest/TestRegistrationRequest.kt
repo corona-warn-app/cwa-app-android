@@ -6,7 +6,7 @@ import org.joda.time.LocalDate
 interface TestRegistrationRequest {
     val type: CoronaTest.Type
     val identifier: String
-    val isDccSupportedbyPoc: Boolean
+    val isDccSupportedByPoc: Boolean
     val isDccConsentGiven: Boolean
     val dateOfBirth: LocalDate?
 }

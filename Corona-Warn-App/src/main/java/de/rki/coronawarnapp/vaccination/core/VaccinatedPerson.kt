@@ -13,7 +13,7 @@ data class VaccinatedPerson(
     val isUpdatingData: Boolean = false,
     val lastError: Throwable? = null,
 ) {
-    val identifier: VaccinatedPersonIdentifier
+    val identifier: CertificatePersonIdentifier
         get() = data.identifier
 
     val vaccinationCertificates: Set<VaccinationCertificate> by lazy {

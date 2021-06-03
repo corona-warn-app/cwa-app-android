@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.vaccination.core.repository.storage
 
+import de.rki.coronawarnapp.vaccination.core.CertificatePersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.DaggerVaccinationTestComponent
-import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
 import io.kotest.matchers.shouldBe
@@ -26,7 +26,7 @@ class VaccinationContainerTest : BaseTest() {
 
     @Test
     fun `person identifier calculation`() {
-        testData.personAVac1Container.personIdentifier shouldBe VaccinatedPersonIdentifier(
+        testData.personAVac1Container.personIdentifier shouldBe CertificatePersonIdentifier(
             dateOfBirth = LocalDate.parse("1966-11-11"),
             firstNameStandardized = "ANDREAS",
             lastNameStandardized = "ASTRA<EINS"
@@ -73,7 +73,7 @@ class VaccinationContainerTest : BaseTest() {
             certificateIssuer shouldBe "Bundesministerium für Gesundheit - Test01"
             certificateCountry shouldBe "Deutschland"
             certificateId shouldBe "01DE/00001/1119305005/7T1UG87G61Y7NRXIBQJDTYQ9#S"
-            personIdentifier shouldBe VaccinatedPersonIdentifier(
+            personIdentifier shouldBe CertificatePersonIdentifier(
                 dateOfBirth = LocalDate.parse("1966-11-11"),
                 firstNameStandardized = "ANDREAS",
                 lastNameStandardized = "ASTRA<EINS"
@@ -121,7 +121,7 @@ class VaccinationContainerTest : BaseTest() {
             certificateIssuer shouldBe "Bundesministerium für Gesundheit - Test01"
             certificateCountry shouldBe "Deutschland"
             certificateId shouldBe "01DE/00001/1119305005/7T1UG87G61Y7NRXIBQJDTYQ9#S"
-            personIdentifier shouldBe VaccinatedPersonIdentifier(
+            personIdentifier shouldBe CertificatePersonIdentifier(
                 dateOfBirth = LocalDate.parse("1966-11-11"),
                 firstNameStandardized = "ANDREAS",
                 lastNameStandardized = "ASTRA<EINS"
