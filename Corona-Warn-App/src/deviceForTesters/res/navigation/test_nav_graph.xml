@@ -202,6 +202,11 @@
         android:id="@+id/greenCertificateDetailsFragment"
         android:name="de.rki.coronawarnapp.greencertificate.ui.certificates.details.CovidCertificateDetailsFragment"
         android:label="GreenCertificateDetailsFragment"
-        tools:layout="@layout/fragment_covid_certificate_details" />
+        tools:layout="@layout/fragment_covid_certificate_details" >
+
+        <argument
+            android:name="testCertificateIdentifier"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

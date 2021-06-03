@@ -28,7 +28,7 @@ class GreenCertificateTestFragment : Fragment(R.layout.fragment_test_green_certi
             detailsScreen.setOnClickListener {
                 doNavigate(
                     GreenCertificateTestFragmentDirections
-                        .actionGreenCertificateTestFragmentToGreenCertificateDetailsFragment()
+                        .actionGreenCertificateTestFragmentToGreenCertificateDetailsFragment("Identifier")
                 )
             }
         }

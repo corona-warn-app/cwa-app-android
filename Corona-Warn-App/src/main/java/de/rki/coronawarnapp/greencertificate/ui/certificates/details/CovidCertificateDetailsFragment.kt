@@ -7,6 +7,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentCovidCertificateDetailsBinding
@@ -18,14 +19,23 @@ import de.rki.coronawarnapp.util.setUrl
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
 class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certificate_details), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val binding by viewBinding<FragmentCovidCertificateDetailsBinding>()
-    private val viewModel: CovidCertificateDetailsViewModel by cwaViewModels { viewModelFactory }
+    private val args by navArgs<CovidCertificateDetailsFragmentArgs>()
+    private val viewModel: CovidCertificateDetailsViewModel by cwaViewModelsAssisted(
+        factoryProducer = { viewModelFactory },
+        constructorCall = { factory, _ ->
+            factory as CovidCertificateDetailsViewModel.Factory
+            factory.create(
+                testCertificateIdentifier = args.testCertificateIdentifier
+            )
+        }
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
@@ -40,7 +50,7 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
             bindToolbar()
             setToolbarOverlay()
 
-            viewModel.generateQrCode() // TODO remove 
+            viewModel.generateQrCode() // TODO remove
             viewModel.qrCode.observe(viewLifecycleOwner) {
                 qrCodeCard.image.setImageBitmap(it)
                 qrCodeCard.image.setOnClickListener { viewModel.openFullScreen() }
