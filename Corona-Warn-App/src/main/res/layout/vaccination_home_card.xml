@@ -54,10 +54,10 @@
         android:layout_height="24dp"
         android:layout_marginStart="@dimen/card_padding"
         android:importantForAccessibility="no"
-        android:src="@drawable/ic_half_white_half_gray_shield"
         app:layout_constraintBottom_toBottomOf="@id/vaccination_state"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/vaccination_state" />
+        app:layout_constraintTop_toTopOf="@id/vaccination_state"
+        app:srcCompat="@drawable/ic_half_white_half_gray_shield" />
 
     <TextView
         android:id="@+id/vaccination_state"
