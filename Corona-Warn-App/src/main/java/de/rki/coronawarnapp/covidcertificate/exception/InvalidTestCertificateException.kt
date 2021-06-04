@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.exception
 
 import android.content.Context
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.HumanReadableError
 import de.rki.coronawarnapp.util.ui.CachedString
 import de.rki.coronawarnapp.util.ui.LazyString
@@ -79,6 +80,7 @@ class InvalidTestCertificateException(errorCode: ErrorCode) : InvalidHealthCerti
 }
 
 private const val PREFIX_TC = "TC_"
+private const val ERROR_MESSAGE_GENERIC = R.string.errors_generic_text_unknown_error_cause
 
 // TODO change to correct error message once provided
 private const val ERROR_MESSAGE_TRY_AGAIN = ERROR_MESSAGE_GENERIC

@@ -70,4 +70,4 @@ open class InvalidHealthCertificateException(
     }
 }
 
-const val ERROR_MESSAGE_GENERIC = R.string.errors_generic_text_unknown_error_cause
+private const val ERROR_MESSAGE_GENERIC = R.string.errors_generic_text_unknown_error_cause
