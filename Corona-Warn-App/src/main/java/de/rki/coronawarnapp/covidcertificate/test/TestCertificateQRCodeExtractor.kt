@@ -56,6 +56,7 @@ class TestCertificateQRCodeExtractor @Inject constructor(
     } catch (e: InvalidHealthCertificateException) {
         throw InvalidTestCertificateException(e.errorCode)
     } catch (e: Throwable) {
+        Timber.e(e, HC_COSE_MESSAGE_INVALID.toString())
         throw InvalidTestCertificateException(HC_COSE_MESSAGE_INVALID)
     }
 
@@ -74,6 +75,7 @@ class TestCertificateQRCodeExtractor @Inject constructor(
     } catch (e: InvalidHealthCertificateException) {
         throw InvalidTestCertificateException(e.errorCode)
     } catch (e: Throwable) {
+        Timber.e(e, HC_COSE_MESSAGE_INVALID.toString())
         throw InvalidTestCertificateException(HC_COSE_MESSAGE_INVALID)
     }
 
@@ -87,34 +89,35 @@ class TestCertificateQRCodeExtractor @Inject constructor(
     } catch (e: InvalidHealthCertificateException) {
         throw InvalidTestCertificateException(e.errorCode)
     } catch (e: Throwable) {
+        Timber.e(e, HC_CBOR_DECODING_FAILED.toString())
         throw InvalidTestCertificateException(HC_CBOR_DECODING_FAILED)
     }
 
     private fun String.decodeBase45(): ByteArray = try {
         Base45Decoder.decode(this)
     } catch (e: Throwable) {
-        Timber.e(e)
+        Timber.e(e, HC_BASE45_DECODING_FAILED.toString())
         throw InvalidTestCertificateException(HC_BASE45_DECODING_FAILED)
     }
 
     private fun ByteArray.encodeBase45(): String = try {
         Base45Decoder.encode(this)
     } catch (e: Throwable) {
-        Timber.e(e)
+        Timber.e(e, HC_BASE45_ENCODING_FAILED.toString())
         throw InvalidTestCertificateException(HC_BASE45_ENCODING_FAILED)
     }
 
     private fun RawCOSEObject.compress(): ByteArray = try {
         this.deflate()
     } catch (e: Throwable) {
-        Timber.e(e)
+        Timber.e(e, HC_ZLIB_COMPRESSION_FAILED.toString())
         throw InvalidTestCertificateException(HC_ZLIB_COMPRESSION_FAILED)
     }
 
     private fun ByteArray.decompress(): RawCOSEObject = try {
         this.inflate(sizeLimit = DEFAULT_SIZE_LIMIT)
     } catch (e: Throwable) {
-        Timber.e(e)
+        Timber.e(e, HC_ZLIB_DECOMPRESSION_FAILED.toString())
         throw InvalidTestCertificateException(HC_ZLIB_DECOMPRESSION_FAILED)
     }
 
