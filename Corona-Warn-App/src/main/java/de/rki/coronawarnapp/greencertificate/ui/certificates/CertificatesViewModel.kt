@@ -41,15 +41,14 @@ class CertificatesViewModel @AssistedInject constructor(
     }
 
     val screenItems: LiveData<List<CertificatesItem>> =
-        vaccinationRepository.vaccinationInfos.combine(testCertificateRepository.certificates)
-        { vaccinatedPersons, certificates ->
-            mutableListOf<CertificatesItem>().apply {
-                add(HeaderInfoVaccinationCard.Item)
-                addVaccinationCards(vaccinatedPersons)
-                addTestCertificateCards(certificates)
-
-            }
-        }.asLiveData()
+        vaccinationRepository.vaccinationInfos
+            .combine(testCertificateRepository.certificates) { vaccinatedPersons, certificates ->
+                mutableListOf<CertificatesItem>().apply {
+                    add(HeaderInfoVaccinationCard.Item)
+                    addVaccinationCards(vaccinatedPersons)
+                    addTestCertificateCards(certificates)
+                }
+            }.asLiveData()
 
     private fun MutableList<CertificatesItem>.addVaccinationCards(vaccinatedPersons: Set<VaccinatedPerson>) {
         vaccinatedPersons.forEach { vaccinatedPerson ->
@@ -110,9 +109,8 @@ class CertificatesViewModel @AssistedInject constructor(
                     CovidTestCertificateCard.Item(
                         testDate = certificate.registeredAt,
                         testPerson =
-                        certificate.toTestCertificate(null)?.firstName
-                            + " "
-                            + certificate.toTestCertificate(null)?.lastName
+                        certificate.toTestCertificate(null)?.firstName + " " +
+                            certificate.toTestCertificate(null)?.lastName
                     )
                 )
             }
