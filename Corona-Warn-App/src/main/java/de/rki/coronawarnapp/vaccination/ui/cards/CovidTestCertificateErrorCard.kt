@@ -2,23 +2,23 @@ package de.rki.coronawarnapp.vaccination.ui.cards
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.VaccinationTestSuccessCardBinding
+import de.rki.coronawarnapp.databinding.CovidTestErrorCardBinding
 import de.rki.coronawarnapp.greencertificate.ui.certificates.CertificatesAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
 
-class VaccinationTestSuccessCard(parent: ViewGroup) :
-    CertificatesAdapter.CertificatesItemVH<VaccinationTestSuccessCard.Item, VaccinationTestSuccessCardBinding>(
+class CovidTestCertificateErrorCard(parent: ViewGroup) :
+    CertificatesAdapter.CertificatesItemVH<CovidTestCertificateErrorCard.Item, CovidTestErrorCardBinding>(
         R.layout.home_card_container_layout,
         parent
     ) {
 
     override val viewBinding = lazy {
-        VaccinationTestSuccessCardBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
+        CovidTestErrorCardBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
     }
 
-    override val onBindData: VaccinationTestSuccessCardBinding.(
+    override val onBindData: CovidTestErrorCardBinding.(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
@@ -33,13 +33,13 @@ class VaccinationTestSuccessCard(parent: ViewGroup) :
             dateTime.toString(timeFormat),
         )
 
-        personName.text = item.testPerson
+        retryButton.setOnClickListener { item.onClickAction(item) }
     }
 
     data class Item(
         // TODO: replace with correct data
         override val testDate: Instant,
-        val testPerson: String,
+        val onClickAction: (Item) -> Unit,
     ) : VaccinationTestItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }
