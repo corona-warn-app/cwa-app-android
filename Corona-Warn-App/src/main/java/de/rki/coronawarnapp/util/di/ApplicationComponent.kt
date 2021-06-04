@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.bugreporting.BugReportingSharedModule
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
 import de.rki.coronawarnapp.coronatest.CoronaTestModule
 import de.rki.coronawarnapp.coronatest.server.VerificationModule
+import de.rki.coronawarnapp.covidcertificate.server.CovidCertificateModule
 import de.rki.coronawarnapp.datadonation.DataDonationModule
 import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
 import de.rki.coronawarnapp.diagnosiskeys.DownloadDiagnosisKeysTaskModule
@@ -81,6 +82,7 @@ import javax.inject.Singleton
         PresenceTracingModule::class,
         CoronaTestModule::class,
         VaccinationModule::class,
+        CovidCertificateModule::class,
     ]
 )
 interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
