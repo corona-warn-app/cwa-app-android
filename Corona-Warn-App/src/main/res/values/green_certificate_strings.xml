@@ -48,4 +48,5 @@
     <string name="info_banner_title_2">COVID-Testzertifikat</string>
     <!-- XTXT: Green certificate info card body  -->
     <string name="info_banner_body">Registrieren Sie einen Test auf der Startseite und stimmen Sie zu, ein digitales Testzertifikat zu erhalten. Sobald das Zertifikat vorliegt, wird es hier angezeigt.</string>
+
 </resources>
