@@ -81,11 +81,11 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
         certificateId.text = testCertificate.certificateId
     }
 
-    private fun FragmentCovidCertificateDetailsBinding.onQrCodeReady(bitmap: Bitmap?) = bitmap?.let {
+    private fun FragmentCovidCertificateDetailsBinding.onQrCodeReady(bitmap: Bitmap?) {
         qrCodeCard.apply {
-            image.setImageBitmap(it)
-            image.setOnClickListener { viewModel.openFullScreen() }
+            image.setImageBitmap(bitmap)
             progressBar.hide()
+            bitmap?.let { image.setOnClickListener { viewModel.openFullScreen() } }
         }
     }
 

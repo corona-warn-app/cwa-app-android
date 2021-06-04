@@ -1,19 +1,20 @@
 package de.rki.coronawarnapp.greencertificate.ui.certificates.details
 
 import android.graphics.Bitmap
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.TestCertificateRepository
-import de.rki.coronawarnapp.coronatest.type.TestCertificateContainer
 import de.rki.coronawarnapp.coronatest.type.TestCertificateIdentifier
+import de.rki.coronawarnapp.covidcertificate.test.TestCertificate
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
@@ -25,42 +26,38 @@ class CovidCertificateDetailsViewModel @AssistedInject constructor(
 ) : CWAViewModel(dispatcherProvider) {
 
     private var qrCodeText: String? = null
-    private val mutableStateFlow = MutableStateFlow<Bitmap?>(null)
-    val qrCode = mutableStateFlow.asLiveData(dispatcherProvider.Default)
+    private val bitmapStateData = MutableLiveData<Bitmap>()
+    val qrCode: LiveData<Bitmap> = bitmapStateData
     val events = SingleLiveEvent<CovidCertificateDetailsNavigation>()
     val errors = SingleLiveEvent<Throwable>()
-    val covidCertificate = testCertificateRepository.certificates.map {
-        findCovidCertificate(it)?.toTestCertificate()
+    val covidCertificate = testCertificateRepository.certificates.map { certificates ->
+        certificates.find { it.identifier == testCertificateIdentifier }?.toTestCertificate()
+            .also { generateQrCode(it) }
     }.asLiveData(dispatcherProvider.Default)
 
     fun onClose() = events.postValue(CovidCertificateDetailsNavigation.Back)
 
     fun openFullScreen() = qrCodeText?.let { events.postValue(CovidCertificateDetailsNavigation.FullQrCode(it)) }
 
-    fun generateQrCode() = launch {
+    fun onDeleteTestConfirmed() = launch {
+        Timber.d("Removing Test Certificate=$testCertificateIdentifier")
+        testCertificateRepository.deleteCertificate(testCertificateIdentifier)
+        events.postValue(CovidCertificateDetailsNavigation.Back)
+    }
+
+    private fun generateQrCode(testCertificate: TestCertificate?) = launch {
         try {
-            mutableStateFlow.value = qrCodeGenerator.createQrCode("Sample String".also { qrCodeText = it })
+            bitmapStateData.postValue(
+                testCertificate?.let { certificate ->
+                    qrCodeGenerator.createQrCode(certificate.qrCode.also { qrCodeText = it })
+                }
+            )
         } catch (e: Exception) {
             Timber.d(e, "generateQrCode failed for covidCertificate=%s", testCertificateIdentifier)
-            mutableStateFlow.value = null
+            bitmapStateData.postValue(null)
             errors.postValue(e)
         }
     }
-
-    fun onDeleteTestConfirmed() = launch {
-        try {
-            Timber.d("deleteTest")
-            testCertificateRepository.deleteCertificate(testCertificateIdentifier)
-            events.postValue(CovidCertificateDetailsNavigation.Back)
-        } catch (e: Exception) {
-            Timber.d(e, "Failed to delete test certificate:$testCertificateIdentifier")
-            errors.postValue(e)
-        }
-    }
-
-    private fun findCovidCertificate(
-        certificates: Set<TestCertificateContainer>
-    ): TestCertificateContainer? = certificates.find { it.identifier == testCertificateIdentifier }
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<CovidCertificateDetailsViewModel> {
