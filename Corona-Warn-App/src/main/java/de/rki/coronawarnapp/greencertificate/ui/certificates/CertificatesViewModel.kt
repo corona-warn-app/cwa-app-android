@@ -2,8 +2,12 @@ package de.rki.coronawarnapp.greencertificate.ui.certificates
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.coronatest.TestCertificateRepository
+import de.rki.coronawarnapp.coronatest.type.TestCertificateContainer
+import de.rki.coronawarnapp.coronatest.type.TestCertificateIdentifier
 import de.rki.coronawarnapp.greencertificate.ui.certificates.items.CertificatesItem
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -18,79 +22,106 @@ import de.rki.coronawarnapp.vaccination.ui.cards.ImmuneVaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.VaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.CovidTestCertificateErrorCard
 import de.rki.coronawarnapp.vaccination.ui.cards.CovidTestCertificateCard
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.launch
 import org.joda.time.Instant
 
 class CertificatesViewModel @AssistedInject constructor(
     vaccinationRepository: VaccinationRepository,
-    private val vaccinationSettings: VaccinationSettings
+    private val vaccinationSettings: VaccinationSettings,
+    private val testCertificateRepository: TestCertificateRepository
 ) : CWAViewModel() {
 
     val events = SingleLiveEvent<CertificatesFragmentEvents>()
 
-    // TODO: cards should be adjusted in the following PR
+    private fun refreshTestCertificate(identifier: TestCertificateIdentifier) {
+        viewModelScope.launch {
+            testCertificateRepository.refresh(identifier)
+        }
+    }
+
     val screenItems: LiveData<List<CertificatesItem>> =
-        vaccinationRepository.vaccinationInfos.map { vaccinatedPersons ->
+        vaccinationRepository.vaccinationInfos.combine(testCertificateRepository.certificates)
+        { vaccinatedPersons, certificates ->
             mutableListOf<CertificatesItem>().apply {
                 add(HeaderInfoVaccinationCard.Item)
+                addVaccinationCards(vaccinatedPersons)
+                addTestCertificateCards(certificates)
 
-                vaccinatedPersons.forEach { vaccinatedPerson ->
-                    val card = when (vaccinatedPerson.getVaccinationStatus()) {
-                        VaccinatedPerson.Status.COMPLETE,
-                        VaccinatedPerson.Status.INCOMPLETE -> VaccinationCard.Item(
-                            vaccinatedPerson = vaccinatedPerson,
-                            onClickAction = {
-                                events.postValue(
-                                    CertificatesFragmentEvents.GoToVaccinationList(
-                                        vaccinatedPerson.identifier.codeSHA256
-                                    )
-                                )
-                            }
-                        )
-                        VaccinatedPerson.Status.IMMUNITY -> ImmuneVaccinationCard.Item(
-                            vaccinatedPerson = vaccinatedPerson,
-                            onClickAction = {
-                                events.postValue(
-                                    CertificatesFragmentEvents.GoToVaccinationList(
-                                        vaccinatedPerson.identifier.codeSHA256
-                                    )
-                                )
-                            }
+            }
+        }.asLiveData()
+
+    private fun MutableList<CertificatesItem>.addVaccinationCards(vaccinatedPersons: Set<VaccinatedPerson>) {
+        vaccinatedPersons.forEach { vaccinatedPerson ->
+            val card = when (vaccinatedPerson.getVaccinationStatus()) {
+                VaccinatedPerson.Status.COMPLETE,
+                VaccinatedPerson.Status.INCOMPLETE -> VaccinationCard.Item(
+                    vaccinatedPerson = vaccinatedPerson,
+                    onClickAction = {
+                        events.postValue(
+                            CertificatesFragmentEvents.GoToVaccinationList(
+                                vaccinatedPerson.identifier.codeSHA256
+                            )
                         )
                     }
-                    add(card)
-                }
-
-                add(
-                    CreateVaccinationCard.Item(
-                        onClickAction = {
-                            events.postValue(
-                                CertificatesFragmentEvents.OpenVaccinationRegistrationGraph(
-                                    vaccinationSettings.registrationAcknowledged
-                                )
+                )
+                VaccinatedPerson.Status.IMMUNITY -> ImmuneVaccinationCard.Item(
+                    vaccinatedPerson = vaccinatedPerson,
+                    onClickAction = {
+                        events.postValue(
+                            CertificatesFragmentEvents.GoToVaccinationList(
+                                vaccinatedPerson.identifier.codeSHA256
                             )
-                        }
-                    )
+                        )
+                    }
                 )
-                add(BottomInfoVaccinationCard.Item)
+            }
+            add(card)
+        }
+        if (vaccinatedPersons.isEmpty()) {
+            add(
+                CreateVaccinationCard.Item(
+                    onClickAction = {
+                        events.postValue(
+                            CertificatesFragmentEvents.OpenVaccinationRegistrationGraph(
+                                vaccinationSettings.registrationAcknowledged
+                            )
+                        )
+                    }
+                )
+            )
+        }
+    }
 
-                // TODO: replace item params with correct data
-                add(
-                    CovidTestCertificateCard.Item(
-                        testDate = Instant.now(),
-                        testPerson = "Andrea Schneider"
-                    )
-                )
+    private fun MutableList<CertificatesItem>.addTestCertificateCards(certificates: Set<TestCertificateContainer>) {
+
+        certificates.forEach { certificate ->
+            if (certificate.certificateId == null) {
                 add(
                     CovidTestCertificateErrorCard.Item(
                         testDate = Instant.now(),
                         onClickAction = {
-                            // TODO: retry failed test certificate function here
+                            refreshTestCertificate(certificate.identifier)
                         }
                     )
                 )
+            } else {
+                add(
+                    CovidTestCertificateCard.Item(
+                        testDate = certificate.registeredAt,
+                        testPerson =
+                        certificate.toTestCertificate(null)?.firstName
+                            + " "
+                            + certificate.toTestCertificate(null)?.lastName
+                    )
+                )
             }
-        }.asLiveData()
+        }
+
+        if (certificates.isEmpty()) {
+            add(BottomInfoVaccinationCard.Item)
+        }
+    }
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<CertificatesViewModel>
