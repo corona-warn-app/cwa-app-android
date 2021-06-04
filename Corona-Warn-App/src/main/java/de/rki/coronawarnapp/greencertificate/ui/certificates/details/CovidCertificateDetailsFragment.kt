@@ -63,7 +63,11 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
     private fun FragmentCovidCertificateDetailsBinding.onCertificateReady(
         testCertificate: TestCertificate
     ) {
-        qrCodeCard.subtitle.text = getString(R.string.green_certificate_attribute_test_date)
+        qrCodeCard.subtitle.text = getString(
+            R.string.detail_green_certificate_card_subtitle,
+            testCertificate.testResultAt.toShortDayFormat(),
+            testCertificate.testResultAt.toShotTimeFormat(),
+        )
         name.text = testCertificate.run { "$firstName $lastName" }
         birthDate.text = testCertificate.dateOfBirth.toDayFormat()
         diseaseType.text = testCertificate.targetName
