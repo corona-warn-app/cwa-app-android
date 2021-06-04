@@ -31,7 +31,7 @@ class CovidCertificateServer @Inject constructor(
         )
     }
 
-    @Throws(DccPendingException::class)
+    @Throws(DccException::class)
     suspend fun requestCertificateForTest(
         testRegistrationToken: RegistrationToken,
     ): TestCertificateComponents = withContext(dispatcherProvider.IO) {
@@ -40,8 +40,8 @@ class CovidCertificateServer @Inject constructor(
             requestBody = CovidCertificateApiV1.ComponentsRequest(testRegistrationToken)
         )
         // TODO replace with InvalidTestCertificateException + correct error codes
-        if (response.code() == 202) throw DccPendingException()
-        val result = response.body() ?: throw Exception()
+        if (response.code() == 202) throw DccException()
+        val result = response.body() ?: throw DccException()
         TestCertificateComponents(
             dataEncryptionKeyBase64 = result.dek,
             encryptedCoseTestCertificateBase64 = result.dcc
