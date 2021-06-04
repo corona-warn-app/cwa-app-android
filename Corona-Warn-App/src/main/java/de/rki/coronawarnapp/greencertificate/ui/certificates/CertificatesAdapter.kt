@@ -40,7 +40,9 @@ class CertificatesAdapter :
                 TypedVHCreatorMod({ data[it] is HeaderInfoVaccinationCard.Item }) { HeaderInfoVaccinationCard(it) },
                 TypedVHCreatorMod({ data[it] is BottomInfoVaccinationCard.Item }) { BottomInfoVaccinationCard(it) },
                 TypedVHCreatorMod({ data[it] is CovidTestCertificateCard.Item }) { CovidTestCertificateCard(it) },
-                TypedVHCreatorMod({ data[it] is CovidTestCertificateErrorCard.Item }) { CovidTestCertificateErrorCard(it) },
+                TypedVHCreatorMod({ data[it] is CovidTestCertificateErrorCard.Item }) {
+                    CovidTestCertificateErrorCard(it)
+                },
             )
         )
     }
