@@ -6,14 +6,17 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.TestCertificateRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.worker.BackgroundConstants
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -24,37 +27,62 @@ import javax.inject.Singleton
 class TestCertificateRetrievalScheduler @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val workManager: WorkManager,
-    certificateRepo: TestCertificateRepository,
-    foregroundState: ForegroundState,
+    private val certificateRepo: TestCertificateRepository,
+    private val testRepo: CoronaTestRepository,
+    private val foregroundState: ForegroundState,
 ) : ResultScheduler(
     workManager = workManager
 ) {
     private val processedNewCerts = mutableSetOf<String>()
 
-    private val shouldPollDcc = combine(
+    private val creationTrigger = testRepo.coronaTests
+        .map { tests ->
+            tests
+                .filter { it.isDccSupportedByPoc } // Only those that support it
+                .filter { it.isNegative } // Certs only to proof negative state
+                .filter { it.isDccConsentGiven && !it.isDccDataSetCreated } // Consent and doesn't exist already?
+        }
+        .distinctUntilChanged()
+
+    private val refreshTrigger = combine(
         certificateRepo.certificates,
         foregroundState.isInForeground,
     ) { certificates, isForeground ->
 
         val hasNewCert = certificates.any {
-            val isNew = processedNewCerts.contains(it.identifier)
+            val isNew = !processedNewCerts.contains(it.identifier)
             if (isNew) processedNewCerts.add(it.identifier)
             isNew
         }
 
-        val hasWorkToDo = certificates.any { it.isPending }
+        val hasWorkToDo = certificates.any { it.isCertificateRetrievalPending && !it.isUpdatingData }
         Timber.tag(TAG).v("shouldPollDcc? hasNewCert=$hasNewCert, hasWorkTodo=$hasWorkToDo, foreground=$isForeground")
         (isForeground || hasNewCert) && hasWorkToDo
     }
-        .distinctUntilChanged()
 
     fun setup() {
         Timber.tag(TAG).i("setup() - TestCertificateRetrievalScheduler")
-        shouldPollDcc
+
+        // Create a certificate entry for each viable test that has none
+        creationTrigger
+            .onEach { testsWithoutCert ->
+                Timber.tag(TAG).d("State change: testsWithoutCert=$testsWithoutCert")
+                testsWithoutCert.forEach { test ->
+                    val cert = certificateRepo.requestCertificate(test)
+                    Timber.tag(TAG).v("Certificate was created: %s", cert)
+                    testRepo.markDccAsCreated(test.identifier, created = true)
+                }
+            }
+            .catch { Timber.tag(TAG).e(it, "Creation trigger failed.") }
+            .launchIn(appScope)
+
+        // For each change to the set of existing certificates, check if we need to refresh/load data
+        refreshTrigger
             .onEach { checkCerts ->
                 Timber.tag(TAG).d("State change: checkCerts=$checkCerts")
                 if (checkCerts) scheduleWorker()
             }
+            .catch { Timber.tag(TAG).e(it, "Refresh trigger failed.") }
             .launchIn(appScope)
     }
 
@@ -78,7 +106,6 @@ class TestCertificateRetrievalScheduler @Inject constructor(
             .setConstraints(
                 Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
             )
-            .setInitialDelay(TEST_RESULT_PERIODIC_INITIAL_DELAY, TimeUnit.SECONDS)
             .setBackoffCriteria(BackoffPolicy.LINEAR, BackgroundConstants.KIND_DELAY, TimeUnit.MINUTES)
             .build()
 

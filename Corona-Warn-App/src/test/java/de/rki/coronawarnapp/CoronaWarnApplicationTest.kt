@@ -128,6 +128,7 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.pcrTestResultAvailableNotificationService = pcrTestResultAvailableNotificationService
                 app.raTestResultAvailableNotificationService = raTestResultAvailableNotificationService
                 app.vaccinationUpdateScheduler = vaccinationUpdateScheduler
+                app.testCertificateRetrievalScheduler = testCertificateRetrievalScheduler
                 app.appScope = TestCoroutineScope()
                 app.rollingLogHistory = object : Timber.Tree() {
                     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {

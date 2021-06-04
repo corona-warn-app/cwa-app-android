@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.testresult
 
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.common.isFinal
 import de.rki.coronawarnapp.datadonation.analytics.common.isPending
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
@@ -16,18 +17,24 @@ import javax.inject.Singleton
 class AnalyticsPCRTestResultDonor @Inject constructor(
     testResultSettings: AnalyticsPCRTestResultSettings,
     timeStamper: TimeStamper,
-) : AnalyticsTestResultDonor(testResultSettings, timeStamper)
+) : AnalyticsTestResultDonor(testResultSettings, timeStamper) {
+    override val type = CoronaTest.Type.PCR
+}
 
 @Singleton
 class AnalyticsRATestResultDonor @Inject constructor(
     testResultSettings: AnalyticsRATestResultSettings,
     timeStamper: TimeStamper,
-) : AnalyticsTestResultDonor(testResultSettings, timeStamper)
+) : AnalyticsTestResultDonor(testResultSettings, timeStamper) {
+    override val type = CoronaTest.Type.RAPID_ANTIGEN
+}
 
 abstract class AnalyticsTestResultDonor(
     private val testResultSettings: AnalyticsTestResultSettings,
     private val timeStamper: TimeStamper,
 ) : DonorModule {
+
+    abstract val type: CoronaTest.Type
 
     override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
         val timestampAtRegistration = testResultSettings.testRegisteredAt.value
@@ -145,9 +152,14 @@ abstract class AnalyticsTestResultDonor(
 
     private fun CoronaTestResult.toPPATestResult(): PpaData.PPATestResult {
         return when (this) {
-            CoronaTestResult.PCR_OR_RAT_PENDING -> PpaData.PPATestResult.TEST_RESULT_PENDING
+            CoronaTestResult.PCR_OR_RAT_PENDING -> when (type) {
+                CoronaTest.Type.PCR -> PpaData.PPATestResult.TEST_RESULT_PENDING
+                CoronaTest.Type.RAPID_ANTIGEN -> PpaData.PPATestResult.TEST_RESULT_RAT_PENDING
+            }
             CoronaTestResult.PCR_POSITIVE -> PpaData.PPATestResult.TEST_RESULT_POSITIVE
             CoronaTestResult.PCR_NEGATIVE -> PpaData.PPATestResult.TEST_RESULT_NEGATIVE
+            CoronaTestResult.RAT_NEGATIVE -> PpaData.PPATestResult.TEST_RESULT_RAT_NEGATIVE
+            CoronaTestResult.RAT_POSITIVE -> PpaData.PPATestResult.TEST_RESULT_RAT_POSITIVE
             else -> PpaData.PPATestResult.TEST_RESULT_UNKNOWN
         }
     }

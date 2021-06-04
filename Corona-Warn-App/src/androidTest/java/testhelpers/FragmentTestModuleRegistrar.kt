@@ -35,6 +35,7 @@ import de.rki.coronawarnapp.ui.submission.SubmissionTestResultTestAvailableModul
 import de.rki.coronawarnapp.ui.submission.SubmissionTestResultTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionTestResultTestNegativeModule
 import de.rki.coronawarnapp.ui.submission.SubmissionYourConsentFragmentTestModule
+import de.rki.coronawarnapp.ui.submission.covidcertificate.RequestCovidCertificateFragmentTestModule
 import de.rki.coronawarnapp.ui.tracing.TracingDetailsFragmentTestTestModule
 import de.rki.coronawarnapp.ui.vaccination.VaccinationConsentFragmentTestModule
 import de.rki.coronawarnapp.vaccination.ui.details.VaccinationDetailsFragmentTestModule
@@ -88,7 +89,8 @@ import de.rki.coronawarnapp.vaccination.ui.list.VaccinationListFragmentTestModul
         // Vaccination
         VaccinationDetailsFragmentTestModule::class,
         VaccinationConsentFragmentTestModule::class,
-        VaccinationListFragmentTestModule::class
+        VaccinationListFragmentTestModule::class,
+        RequestCovidCertificateFragmentTestModule::class,
     ]
 )
 class FragmentTestModuleRegistrar

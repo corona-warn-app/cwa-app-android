@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.coronatest.type.pcr.PCRCertificateContainer
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACertificateContainer
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
+import de.rki.coronawarnapp.vaccination.core.repository.storage.ContainerPostProcessor
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -18,7 +19,8 @@ import javax.inject.Singleton
 @Singleton
 class TestCertificateStorage @Inject constructor(
     @AppContext val context: Context,
-    @BaseGson val baseGson: Gson
+    @BaseGson val baseGson: Gson,
+    private val containerPostProcessor: ContainerPostProcessor,
 ) {
 
     private val prefs by lazy {
@@ -28,6 +30,7 @@ class TestCertificateStorage @Inject constructor(
     private val gson by lazy {
         baseGson.newBuilder().apply {
             registerTypeAdapter(CoronaTestResult::class.java, CoronaTestResult.GsonAdapter())
+            registerTypeAdapterFactory(containerPostProcessor)
         }.create()
     }
 

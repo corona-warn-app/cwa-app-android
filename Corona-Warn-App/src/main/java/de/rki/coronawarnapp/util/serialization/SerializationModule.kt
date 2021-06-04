@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
+import de.rki.coronawarnapp.util.encryption.rsa.RSAKey
 import de.rki.coronawarnapp.util.serialization.adapter.ByteArrayAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.ByteStringBase64Adapter
 import de.rki.coronawarnapp.util.serialization.adapter.DurationAdapter
@@ -27,5 +28,7 @@ class SerializationModule {
         .registerTypeAdapter(Duration::class.java, DurationAdapter())
         .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
         .registerTypeAdapter(ByteString::class.java, ByteStringBase64Adapter())
+        .registerTypeAdapter(RSAKey.Public::class.java, RSAKey.Public.GsonAdapter())
+        .registerTypeAdapter(RSAKey.Private::class.java, RSAKey.Private.GsonAdapter())
         .create()
 }

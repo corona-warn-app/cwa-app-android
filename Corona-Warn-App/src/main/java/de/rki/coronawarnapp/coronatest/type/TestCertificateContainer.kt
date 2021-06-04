@@ -35,19 +35,19 @@ abstract class TestCertificateContainer {
     @Transient internal var preParsedData: TestCertificateData? = null
 
     @delegate:Transient
-    internal val certificateData: TestCertificateData by lazy {
+    private val certificateData: TestCertificateData by lazy {
         preParsedData ?: testCertificateQrCode!!.let { qrCodeExtractor.extract(it).testCertificateData }
     }
 
     val isPublicKeyRegistered: Boolean
         get() = publicKeyRegisteredAt != null
 
-    val isPending: Boolean
+    val isCertificateRetrievalPending: Boolean
         get() = certificateReceivedAt == null
 
     val certificateId: String?
         get() {
-            if (isPending) return null
+            if (isCertificateRetrievalPending) return null
             return certificateData.certificate.testCertificateData.single().uniqueCertificateIdentifier
         }
 
@@ -55,7 +55,7 @@ abstract class TestCertificateContainer {
         valueSet: VaccinationValueSet?,
         userLocale: Locale = Locale.getDefault(),
     ): TestCertificate? {
-        if (isPending) return null
+        if (isCertificateRetrievalPending) return null
 
         val header = certificateData.header
         val certificate = certificateData.certificate

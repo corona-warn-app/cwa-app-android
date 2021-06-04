@@ -29,7 +29,7 @@ class CovidCertificateConfigMapper @Inject constructor() : CovidCertificateConfi
         return with(testCertificateParameters) {
             TestCertificateConfigContainer(
                 waitAfterPublicKeyRegistration = waitAfterPublicKeyRegistrationInSeconds.let {
-                    if (it > 60 || it < 0) {
+                    if (it !in 0..60) {
                         Timber.e("Invalid value for waitAfterPublicKeyRegistration: %s", it)
                         TestCertificateConfigContainer().waitAfterPublicKeyRegistration
                     } else {
@@ -37,7 +37,7 @@ class CovidCertificateConfigMapper @Inject constructor() : CovidCertificateConfi
                     }
                 },
                 waitForRetry = waitForRetryInSeconds.let {
-                    if (it > 60 || it < 0) {
+                    if (it !in 0..60) {
                         Timber.e("Invalid value for waitForRetryInSeconds: %s", it)
                         TestCertificateConfigContainer().waitForRetry
                     } else {

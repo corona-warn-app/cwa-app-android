@@ -32,6 +32,7 @@ import io.mockk.just
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Duration
 import org.joda.time.Instant
+import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -278,6 +279,58 @@ class RapidAntigenProcessorTest : BaseTest() {
         )
         instance.updateSubmissionConsent(defaultTest, false) shouldBe defaultTest.copy(
             isAdvancedConsentGiven = false
+        )
+    }
+
+    @Test
+    fun `request parameters for dcc are mapped`() = runBlockingTest {
+        val registrationData = RegistrationData(
+            registrationToken = "regtoken",
+            testResultResponse = CoronaTestResultResponse(
+                coronaTestResult = PCR_OR_RAT_PENDING,
+                sampleCollectedAt = null,
+            )
+        )
+        coEvery { submissionService.registerTest(any()) } answers { registrationData }
+
+        createInstance().create(
+            CoronaTestQRCode.RapidAntigen(
+                hash = "hash",
+                createdAt = Instant.EPOCH,
+                isDccConsentGiven = false,
+                dateOfBirth = LocalDate.parse("2021-06-02"),
+                isDccSupportedByPoc = false
+            )
+        ).apply {
+            isDccConsentGiven shouldBe false
+            isDccDataSetCreated shouldBe false
+            isDccSupportedByPoc shouldBe false
+        }
+
+        createInstance().create(
+            CoronaTestQRCode.RapidAntigen(
+                hash = "hash",
+                createdAt = Instant.EPOCH,
+                isDccConsentGiven = true,
+                dateOfBirth = LocalDate.parse("2021-06-02"),
+                isDccSupportedByPoc = true
+            )
+        ).apply {
+            isDccConsentGiven shouldBe true
+            isDccDataSetCreated shouldBe false
+            isDccSupportedByPoc shouldBe true
+        }
+    }
+
+    @Test
+    fun `marking dcc as created`() = runBlockingTest {
+        val instance = createInstance()
+
+        instance.markDccCreated(defaultTest, true) shouldBe defaultTest.copy(
+            isDccDataSetCreated = true
+        )
+        instance.markDccCreated(defaultTest, false) shouldBe defaultTest.copy(
+            isDccDataSetCreated = false
         )
     }
 
