@@ -68,6 +68,7 @@ class EnvironmentSetupTest : BaseTest() {
                 dataDonationCdnUrl shouldBe "https://datadonation-${env.rawKey}"
                 logUploadServerUrl shouldBe "https://logupload-${env.rawKey}"
                 crowdNotifierPublicKey shouldBe "123_abc-${env.rawKey}"
+                dccServerUrl shouldBe "https://dcc-${env.rawKey}"
             }
         }
     }
@@ -127,7 +128,8 @@ class EnvironmentSetupTest : BaseTest() {
         EnvironmentSetup.EnvKey.LOG_UPLOAD.rawKey shouldBe "LOG_UPLOAD_SERVER_URL"
         EnvironmentSetup.EnvKey.SAFETYNET_API_KEY.rawKey shouldBe "SAFETYNET_API_KEY"
         EnvironmentSetup.EnvKey.CROWD_NOTIFIER_PUBLIC_KEY.rawKey shouldBe "CROWD_NOTIFIER_PUBLIC_KEY"
-        EnvironmentSetup.EnvKey.values().size shouldBe 9
+        EnvironmentSetup.EnvKey.DCC.rawKey shouldBe "DCC_SERVER_URL"
+        EnvironmentSetup.EnvKey.values().size shouldBe 10
     }
 
     companion object {
@@ -152,7 +154,8 @@ class EnvironmentSetupTest : BaseTest() {
                     "VACCINATION_CDN_URL": "https://vaccination-PROD",
                     "SAFETYNET_API_KEY": "placeholder-PROD",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-PROD",
-                    "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-PROD"                    
+                    "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-PROD",
+                    "DCC_SERVER_URL": "https://dcc-PROD"
                 },
                 "DEV": {
                     "USE_EUR_KEY_PKGS" : false,
@@ -164,7 +167,8 @@ class EnvironmentSetupTest : BaseTest() {
                     "VACCINATION_CDN_URL": "https://vaccination-DEV",
                     "SAFETYNET_API_KEY": "placeholder-DEV",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-DEV",
-                    "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-DEV"
+                    "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-DEV",
+                    "DCC_SERVER_URL": "https://dcc-DEV"
                },
                 "INT": {
                     "USE_EUR_KEY_PKGS" : false,
@@ -176,7 +180,8 @@ class EnvironmentSetupTest : BaseTest() {
                     "VACCINATION_CDN_URL": "https://vaccination-INT",
                     "SAFETYNET_API_KEY": "placeholder-INT",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-INT",
-                    "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-INT"
+                    "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-INT",
+                    "DCC_SERVER_URL": "https://dcc-INT"
                 },
                 "WRU": {
                     "USE_EUR_KEY_PKGS" : false,
@@ -189,7 +194,8 @@ class EnvironmentSetupTest : BaseTest() {
                     "SAFETYNET_API_KEY": "placeholder-WRU",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-WRU",
                     "CREATE_TRACELOCATION_URL": "https://tracelocation-WRU",
-                    "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-WRU"
+                    "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-WRU",
+                    "DCC_SERVER_URL": "https://dcc-WRU"
                 },
                 "WRU-XD": {
                     "USE_EUR_KEY_PKGS" : true,
@@ -201,7 +207,8 @@ class EnvironmentSetupTest : BaseTest() {
                     "VACCINATION_CDN_URL": "https://vaccination-WRU-XD",
                     "SAFETYNET_API_KEY": "placeholder-WRU-XD",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-WRU-XD",
-                    "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-WRU-XD"
+                    "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-WRU-XD",
+                    "DCC_SERVER_URL": "https://dcc-WRU-XD"
                 },
                 "WRU-XA": {
                     "USE_EUR_KEY_PKGS" : true,
@@ -213,7 +220,8 @@ class EnvironmentSetupTest : BaseTest() {
                     "VACCINATION_CDN_URL": "https://vaccination-WRU-XA",
                     "SAFETYNET_API_KEY": "placeholder-WRU-XA",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-WRU-XA",
-                    "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-WRU-XA"
+                    "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-WRU-XA",
+                    "DCC_SERVER_URL": "https://dcc-WRU-XA"
                 },
                 "TESTER-MOCK": {
                     "USE_EUR_KEY_PKGS" : true,
@@ -225,7 +233,8 @@ class EnvironmentSetupTest : BaseTest() {
                     "VACCINATION_CDN_URL": "https://vaccination-TESTER-MOCK",
                     "SAFETYNET_API_KEY": "placeholder-TESTER-MOCK",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-TESTER-MOCK",
-                    "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-TESTER-MOCK"
+                    "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-TESTER-MOCK",
+                    "DCC_SERVER_URL": "https://dcc-TESTER-MOCK"
                 },
                 "LOCAL": {
                     "USE_EUR_KEY_PKGS" : true,
@@ -237,7 +246,8 @@ class EnvironmentSetupTest : BaseTest() {
                     "VACCINATION_CDN_URL": "https://vaccination-LOCAL",
                     "SAFETYNET_API_KEY": "placeholder-LOCAL",
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-LOCAL",
-                    "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-LOCAL"
+                    "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-LOCAL",
+                    "DCC_SERVER_URL": "https://dcc-LOCAL"
                 }
             }
         """
