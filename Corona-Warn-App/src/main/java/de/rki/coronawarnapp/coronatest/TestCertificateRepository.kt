@@ -310,7 +310,7 @@ class TestCertificateRepository @Inject constructor(
                 }
 
                 val executeRequest: suspend CoroutineScope.() -> TestCertificateComponents = {
-                    certificateServer.requestCertificateForTest(testRegistrationToken = cert.registrationToken)!!
+                    certificateServer.requestCertificateForTest(testRegistrationToken = cert.registrationToken)
                 }
 
                 try {

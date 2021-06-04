@@ -34,13 +34,14 @@ class CovidCertificateServer @Inject constructor(
     @Throws(DccPendingException::class)
     suspend fun requestCertificateForTest(
         testRegistrationToken: RegistrationToken,
-    ) = withContext(dispatcherProvider.IO) {
+    ): TestCertificateComponents = withContext(dispatcherProvider.IO) {
         Timber.tag(TAG).v("requestCertificateForTest(token=%s)", testRegistrationToken)
         val response = api.getComponents(
             requestBody = CovidCertificateApiV1.ComponentsRequest(testRegistrationToken)
         )
+        // TODO replace with InvalidTestCertificateException + correct error codes
         if (response.code() == 202) throw DccPendingException()
-        val result = response.body() ?: return@withContext null
+        val result = response.body() ?: throw Exception()
         TestCertificateComponents(
             dataEncryptionKeyBase64 = result.dek,
             encryptedCoseTestCertificateBase64 = result.dcc

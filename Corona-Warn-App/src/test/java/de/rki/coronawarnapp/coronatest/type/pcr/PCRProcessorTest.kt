@@ -323,14 +323,4 @@ class PCRProcessorTest : BaseTest() {
             isDccDataSetCreated = false
         )
     }
-
-    @Test
-    fun `registering a test with immediate negative result creates a dcc entry`() {
-        TODO()
-    }
-
-    @Test
-    fun `registering a test with immediate negative result does not create a dcc entry if consent is missing`() {
-        TODO()
-    }
 }

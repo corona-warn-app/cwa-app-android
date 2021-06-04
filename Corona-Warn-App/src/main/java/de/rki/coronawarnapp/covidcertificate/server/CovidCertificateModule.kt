@@ -11,6 +11,7 @@ import retrofit2.Retrofit
 @Module
 class CovidCertificateModule {
 
+    // TODO check environment for DCC server
     @Reusable
     @Provides
     fun apiV1(
