@@ -32,10 +32,10 @@
         <ScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_action"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/submission_consent_header"
-            app:layout_constraintBottom_toTopOf="@+id/guideline_action">
+            app:layout_constraintTop_toBottomOf="@id/submission_consent_header">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -46,53 +46,55 @@
                     android:id="@+id/submission_consent_illustration"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_submission_consent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:contentDescription="@string/submission_consent_main_illustration_description"
                     android:focusable="true"
-                    android:contentDescription="@string/submission_consent_main_illustration_description" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_submission_consent" />
 
-                <include layout="@layout/include_submission_consent_intro"
+                <include
                     android:id="@+id/include_submission_consent_intro"
+                    layout="@layout/include_submission_consent_intro"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/submission_consent_illustration"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/submission_consent_illustration" />
 
                 <de.rki.coronawarnapp.ui.view.CountryListView
                     android:id="@+id/countryList"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
                     android:layout_marginHorizontal="@dimen/spacing_normal"
-                    app:layout_constraintTop_toBottomOf="@+id/include_submission_consent_intro"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    app:countryList="@{countries}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:countryList="@{countries}"/>
+                    app:layout_constraintTop_toBottomOf="@+id/include_submission_consent_intro" />
 
                 <TextView
                     android:id="@+id/submission_consent_hint"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    app:layout_constraintTop_toBottomOf="@id/countryList"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     android:text="@string/submission_consent_help_by_warning_others_body_event"
-                    style="@style/subtitle" />
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/countryList" />
 
-                <include layout="@layout/include_submission_consent_body"
+                <include
                     android:id="@+id/include_submission_consent_body"
+                    layout="@layout/include_submission_consent_body"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
                     android:layout_marginHorizontal="@dimen/guideline_card"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="@dimen/spacing_normal"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/submission_consent_hint"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/submission_consent_hint" />
 
                 <FrameLayout
                     android:id="@+id/divider"
@@ -100,32 +102,32 @@
                     android:layout_height="@dimen/card_divider"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:background="@color/dividerColor"
-                    app:layout_constraintTop_toBottomOf="@id/include_submission_consent_body"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"/>
+                    app:layout_constraintTop_toBottomOf="@id/include_submission_consent_body" />
 
                 <TextView
                     android:id="@+id/submission_consent_main_bottom_body"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:background="?selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="@{ () -> viewModel.onDataPrivacyClick() }"
                     android:paddingVertical="@dimen/spacing_tiny"
                     android:text="@string/submission_consent_main_bottom_body"
-                    android:focusable="true"
-                    android:clickable="true"
-                    android:onClick="@{ () -> viewModel.onDataPrivacyClick() }"
-                    android:background="?selectableItemBackground"
-                    app:layout_constraintTop_toBottomOf="@id/divider"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    style="@style/subtitle"/>
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/divider" />
 
                 <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="@dimen/card_divider"
                     android:background="@color/dividerColor"
-                    app:layout_constraintTop_toBottomOf="@id/submission_consent_main_bottom_body"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"/>
+                    app:layout_constraintTop_toBottomOf="@id/submission_consent_main_bottom_body" />
 
                 <include layout="@layout/merge_guidelines_side" />
 
@@ -138,9 +140,9 @@
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:onClick="@{ () -> viewModel.onConsentButtonClick()}"
             android:text="@string/submission_accept_button"
             android:textAllCaps="true"
-            android:onClick="@{ () -> viewModel.onConsentButtonClick()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -155,11 +157,11 @@
 
         <include layout="@layout/merge_guidelines_side" />
 
-        <ProgressBar
+        <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/progress_spinner"
-            style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:indeterminate="true"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

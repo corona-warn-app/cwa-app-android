@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-             <ImageView
+            <ImageView
                 android:id="@+id/deletion_warning_illustration"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -101,14 +101,14 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:text="@string/submission_deletion_warning_continue_button" />
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/submission_qr_code_scan_spinner"
-        style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:indeterminate="true"
         android:indeterminateTint="@color/colorAccentTintIcon"
         android:indeterminateTintMode="src_in"
-        android:layout_marginBottom="@dimen/spacing_normal"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/continue_button"
         app:layout_constraintEnd_toEndOf="@id/continue_button"

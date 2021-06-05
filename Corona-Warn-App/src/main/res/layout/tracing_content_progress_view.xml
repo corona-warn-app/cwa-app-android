@@ -29,20 +29,19 @@
             app:layout_goneMarginEnd="0dp"
             tools:text="Daten werden herunter geladen" />
 
-         <ImageView
+        <ImageView
             android:id="@+id/details_icon"
             gone="@{state.isInDetailsMode}"
             android:layout_width="@dimen/icon_size_risk_card"
             android:layout_height="@dimen/icon_size_risk_card"
             android:importantForAccessibility="no"
-            app:srcCompat="@drawable/ic_forward"
-            app:tint="@{state.getStableIconColor(context)}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_forward"
+            app:tint="@{state.getStableIconColor(context)}" />
 
-        <ProgressBar
+        <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/progress_indicator"
-            style="@style/progressBar"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:indeterminate="true"
