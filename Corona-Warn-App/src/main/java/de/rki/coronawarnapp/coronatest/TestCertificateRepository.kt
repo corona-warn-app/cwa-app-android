@@ -8,6 +8,8 @@ import de.rki.coronawarnapp.coronatest.type.TestCertificateContainer
 import de.rki.coronawarnapp.coronatest.type.TestCertificateIdentifier
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCertificateContainer
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACertificateContainer
+import de.rki.coronawarnapp.covidcertificate.exception.TestCertificateServerException
+import de.rki.coronawarnapp.covidcertificate.exception.TestCertificateServerException.ErrorCode.DCC_COMP_202
 import de.rki.coronawarnapp.covidcertificate.server.CovidCertificateServer
 import de.rki.coronawarnapp.covidcertificate.server.TestCertificateComponents
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateQRCodeExtractor
@@ -315,10 +317,13 @@ class TestCertificateRepository @Inject constructor(
 
                 try {
                     executeRequest()
-                } catch (e: Exception) {
-                    // TODO catch a specific error that reflects error code DGC_COMP_202
-                    delay(certConfig.waitForRetry.millis)
-                    executeRequest()
+                } catch (e: TestCertificateServerException) {
+                    if (e.errorCode == DCC_COMP_202) {
+                        delay(certConfig.waitForRetry.millis)
+                        executeRequest()
+                    } else {
+                        throw e
+                    }
                 }
             }
             Timber.tag(TAG).i("Test certificate components successfully request for %s: %s", cert, components)
