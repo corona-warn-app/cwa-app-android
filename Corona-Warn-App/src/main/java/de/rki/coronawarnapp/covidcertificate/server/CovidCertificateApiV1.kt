@@ -15,7 +15,7 @@ interface CovidCertificateApiV1 {
     @POST("/version/v1/publicKey")
     suspend fun sendPublicKey(
         @Body requestBody: PublicKeyUploadRequest
-    ): Response<Any>
+    ): Response<Unit>
 
     data class ComponentsRequest(
         @SerializedName("registrationToken") val registrationToken: String,
