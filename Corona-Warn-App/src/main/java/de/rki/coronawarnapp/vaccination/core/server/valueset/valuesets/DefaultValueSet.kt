@@ -1,10 +1,15 @@
 package de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets
 
+import androidx.annotation.Keep
+import com.google.gson.annotations.SerializedName
+
+@Keep
 data class DefaultValueSet(
-    override val items: List<ValueSets.ValueSet.Item> = emptyList()
+    @SerializedName("items") override val items: List<DefaultItem> = emptyList()
 ) : ValueSets.ValueSet {
+    @Keep
     data class DefaultItem(
-        override val key: String,
-        override val displayText: String
+        @SerializedName("key") override val key: String,
+        @SerializedName("displayText") override val displayText: String
     ) : ValueSets.ValueSet.Item
 }

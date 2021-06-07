@@ -75,7 +75,7 @@ class VaccinationRepository @Inject constructor(
 
     val vaccinationInfos: Flow<Set<VaccinatedPerson>> = combine(
         internalData.data,
-        valueSetsRepository.latestValueSet
+        valueSetsRepository.latestVaccinationValueSets
     ) { personDatas, currentValueSet ->
         personDatas.map { it.copy(valueSet = currentValueSet) }.toSet()
     }

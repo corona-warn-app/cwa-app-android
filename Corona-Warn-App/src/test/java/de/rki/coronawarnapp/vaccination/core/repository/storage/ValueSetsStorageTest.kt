@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.storedValueSetDe
 import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.storedValueSetEn
 import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.valueSetDe
 import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.valueSetEn
-import de.rki.coronawarnapp.vaccination.core.validateValues
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
@@ -41,17 +40,17 @@ class ValueSetsStorageTest : BaseTest() {
 
     @Test
     fun `Default value is an empty value set`() {
-        createInstance().vaccinationValueSet.validateValues(emptyValueSetEn)
+        createInstance().valueSetsContainer.validateValues(emptyValueSetEn)
     }
 
     @Test
     fun `Updates values`() {
         createInstance().run {
-            vaccinationValueSet = storedValueSetDe
-            vaccinationValueSet shouldBe storedValueSetDe
+            valueSetsContainer = storedValueSetDe
+            valueSetsContainer shouldBe storedValueSetDe
 
-            vaccinationValueSet = storedValueSetEn
-            vaccinationValueSet shouldBe storedValueSetEn
+            valueSetsContainer = storedValueSetEn
+            valueSetsContainer shouldBe storedValueSetEn
         }
     }
 
@@ -81,13 +80,13 @@ class ValueSetsStorageTest : BaseTest() {
 
     @Test
     fun `storage inits empty without sideeffects`() {
-        createInstance().vaccinationValueSet shouldNotBe null
+        createInstance().valueSetsContainer shouldNotBe null
         prefs.dataMapPeek.isEmpty() shouldBe true
     }
 
     @Test
     fun `storage format`() {
-        createInstance().vaccinationValueSet = storedValueSetDe
+        createInstance().valueSetsContainer = storedValueSetDe
         (prefs.dataMapPeek["valueset"] as String).toComparableJsonPretty() shouldBe """
             {
               "languageCode": "de",
@@ -119,8 +118,8 @@ class ValueSetsStorageTest : BaseTest() {
         """.toComparableJsonPretty()
 
         createInstance().apply {
-            vaccinationValueSet shouldBe storedValueSetDe
-            vaccinationValueSet = emptyStoredValueSet
+            valueSetsContainer shouldBe storedValueSetDe
+            valueSetsContainer = emptyStoredValueSet
         }
         (prefs.dataMapPeek["valueset"] as String).toComparableJsonPretty() shouldBe """
             {
@@ -137,6 +136,6 @@ class ValueSetsStorageTest : BaseTest() {
             }
         """.toComparableJsonPretty()
 
-        createInstance().vaccinationValueSet shouldBe emptyStoredValueSet
+        createInstance().valueSetsContainer shouldBe emptyStoredValueSet
     }
 }

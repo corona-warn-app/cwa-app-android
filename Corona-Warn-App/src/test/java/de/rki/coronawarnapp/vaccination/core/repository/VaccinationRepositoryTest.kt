@@ -50,7 +50,7 @@ class VaccinationRepositoryTest : BaseTest() {
 
         every { timeStamper.nowUTC } returns nowUTC
 
-        every { valueSetsRepository.latestValueSet } returns flowOf(vaccinationValueSet)
+        every { valueSetsRepository.latestVaccinationValueSets } returns flowOf(vaccinationValueSet)
 
         storage.apply {
             every { personContainers } answers { testStorage }

@@ -9,6 +9,8 @@ interface ValueSets {
     // Disease or agent targeted
     val tg: ValueSet
 
+    val isEmpty: Boolean
+
     fun getDisplayText(key: String): String?
 
     interface ValueSet {

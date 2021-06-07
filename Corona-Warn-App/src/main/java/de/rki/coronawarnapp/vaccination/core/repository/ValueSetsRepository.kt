@@ -6,15 +6,17 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
 import de.rki.coronawarnapp.vaccination.core.repository.storage.ValueSetsStorage
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationServer
-import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
-import de.rki.coronawarnapp.vaccination.core.server.valueset.emptyVaccinationValueSet
-import de.rki.coronawarnapp.vaccination.core.server.valueset.isEmpty
+import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.TestCertificateValueSets
+import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.VaccinationValueSets
+import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.ValueSetsContainer
+import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.emptyValueSetsContainer
+import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.isEmpty
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.plus
@@ -30,59 +32,62 @@ class ValueSetsRepository @Inject constructor(
     dispatcherProvider: DispatcherProvider
 ) {
 
-    private fun Flow<VaccinationValueSet>.distinctUntilChangedByHash() = distinctUntilChangedBy { it.hashCode() }
-
-    private val internalData: HotDataFlow<VaccinationValueSet> = HotDataFlow(
+    private val internalData: HotDataFlow<ValueSetsContainer> = HotDataFlow(
         loggingTag = TAG,
         scope = scope,
         coroutineContext = dispatcherProvider.IO,
         sharingBehavior = SharingStarted.Lazily,
         startValueProvider = {
-            valueSetsStorage.vaccinationValueSet.also { Timber.v("Loaded initial value set %s", it) }
+            valueSetsStorage.valueSetsContainer.also { Timber.v("Loaded initial value sets %s", it) }
         }
     )
 
     init {
         internalData.data
-            .distinctUntilChangedByHash()
             .onStart { Timber.d("Observing value set") }
-            .onEach { valueSetsStorage.vaccinationValueSet = it }
-            .catch { Timber.e(it, "Storing new value set failed.") }
+            .onEach { valueSetsStorage.valueSetsContainer = it }
+            .catch { Timber.e(it, "Storing new value sets failed.") }
             .launchIn(scope + dispatcherProvider.IO)
+
+        triggerUpdateValueSet(Locale.GERMAN)
     }
 
-    val latestValueSet: Flow<VaccinationValueSet> = internalData.data.distinctUntilChangedByHash()
+    val latestVaccinationValueSets: Flow<VaccinationValueSets> = internalData.data
+        .map { it.vaccinationValueSets }
+
+    val latestTestCertificateValueSets: Flow<TestCertificateValueSets> = internalData.data
+        .map { it.testCertificateValueSets }
 
     fun triggerUpdateValueSet(languageCode: Locale) {
         Timber.d("triggerUpdateValueSet(languageCode=%s)", languageCode)
         internalData.updateAsync(
             onUpdate = { getValueSetFromServer(languageCode = languageCode) ?: this },
-            onError = { Timber.e(it, "Updating value set failed") }
+            onError = { Timber.e(it, "Updating value sets failed") }
         )
     }
 
-    private suspend fun getValueSetFromServer(languageCode: Locale): VaccinationValueSet? {
+    private suspend fun getValueSetFromServer(languageCode: Locale): ValueSetsContainer? {
         Timber.v("getValueSetFromServer(languageCode=%s)", languageCode)
-        var valueSet = vaccinationServer.getVaccinationValueSets(languageCode = languageCode)
+        var container = vaccinationServer.getVaccinationValueSets(languageCode = languageCode)
 
-        if (valueSet.isEmpty()) {
+        if (container.isEmpty()) {
             Timber.d(
-                "Got no value set from server for %s and local value set is empty... Try fallback to value set for en",
+                "Got no value sets from server for %s... Try fallback to value sets for en",
                 languageCode.language
             )
-            valueSet = vaccinationServer.getVaccinationValueSets(languageCode = Locale.ENGLISH)
+            container = vaccinationServer.getVaccinationValueSets(languageCode = Locale.ENGLISH)
         }
 
-        return valueSet
-            .also { Timber.v("New value set %s", it) }
+        return container
+            .also { Timber.v("New value sets %s", it) }
     }
 
     suspend fun clear() {
         Timber.d("Clearing value sets")
         vaccinationServer.clear()
         internalData.updateBlocking {
-            Timber.v("Resetting value set to an empty value set")
-            emptyVaccinationValueSet
+            Timber.v("Resetting value sets")
+            emptyValueSetsContainer
         }
     }
 }
