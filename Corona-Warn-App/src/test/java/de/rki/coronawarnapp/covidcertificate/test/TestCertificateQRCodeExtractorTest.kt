@@ -59,7 +59,7 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
     fun `happy path cose decryption with Ellen Cheng`() {
         with(TestData.EllenCheng()) {
             val coseObject = coseWithEncryptedPayload.decodeBase64()!!.toByteArray()
-            val dek = dek.toByteArray()
+            val dek = dek.decodeBase64()!!.toByteArray()
             val result = extractor.extract(dek, coseObject)
             with(result.testCertificateData.certificate.nameData) {
                 familyName shouldBe "Cheng"
@@ -77,7 +77,7 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
     fun `happy path cose decryption with Brian Calamandrei`() {
         with(TestData.BrianCalamandrei()) {
             val coseObject = coseWithEncryptedPayload.decodeBase64()!!.toByteArray()
-            val dek = dek.toByteArray()
+            val dek = dek.decodeBase64()!!.toByteArray()
             val result = extractor.extract(dek, coseObject)
             with(result.testCertificateData.certificate.nameData) {
                 familyName shouldBe "Calamandrei"

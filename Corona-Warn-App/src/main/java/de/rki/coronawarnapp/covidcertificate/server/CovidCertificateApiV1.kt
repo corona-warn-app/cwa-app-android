@@ -15,16 +15,24 @@ interface CovidCertificateApiV1 {
     @POST("/version/v1/publicKey")
     suspend fun sendPublicKey(
         @Body requestBody: PublicKeyUploadRequest
-    )
+    ): Response<Unit>
 
     data class ComponentsRequest(
         @SerializedName("registrationToken") val registrationToken: String,
     )
 
     data class ComponentsResponse(
-        @SerializedName("dek") val dek: String,
-        @SerializedName("dcc") val dcc: String
-    )
+        @SerializedName("dek") val dek: String? = null,
+        @SerializedName("dcc") val dcc: String? = null,
+        @SerializedName("reason") val errorReason: String? = null
+    ) {
+        enum class Reason(val errorString: String) {
+            SIGNING_CLIENT_ERROR("SIGNING_CLIENT_ERROR"),
+            SIGNING_SERVER_ERROR("SIGNING_SERVER_ERROR"),
+            LAB_INVALID_RESPONSE("LAB_INVALID_RESPONSE"),
+            INTERNAL("INTERNAL")
+        }
+    }
 
     @POST("/version/v1/publicKey")
     suspend fun getComponents(
