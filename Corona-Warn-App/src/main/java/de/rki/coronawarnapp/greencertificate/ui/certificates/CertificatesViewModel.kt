@@ -19,8 +19,8 @@ import de.rki.coronawarnapp.vaccination.ui.cards.CreateVaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.HeaderInfoVaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.ImmuneVaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.VaccinationCard
-import de.rki.coronawarnapp.vaccination.ui.cards.CovidTestCertificateErrorCard
-import de.rki.coronawarnapp.vaccination.ui.cards.CovidTestCertificateCard
+import de.rki.coronawarnapp.greencertificate.ui.certificates.cards.CovidTestCertificateErrorCard
+import de.rki.coronawarnapp.greencertificate.ui.certificates.cards.CovidTestCertificateCard
 import kotlinx.coroutines.flow.combine
 
 class CertificatesViewModel @AssistedInject constructor(

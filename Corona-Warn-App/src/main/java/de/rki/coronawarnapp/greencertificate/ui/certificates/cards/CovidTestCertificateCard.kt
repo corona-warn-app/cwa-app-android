@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.vaccination.ui.cards
+package de.rki.coronawarnapp.greencertificate.ui.certificates.cards
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
@@ -39,7 +39,7 @@ class CovidTestCertificateCard(parent: ViewGroup) :
     data class Item(
         override val testDate: Instant,
         val testPerson: String,
-    ) : VaccinationTestItem, HasPayloadDiffer {
+    ) : CovidCertificateTestItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }
 }

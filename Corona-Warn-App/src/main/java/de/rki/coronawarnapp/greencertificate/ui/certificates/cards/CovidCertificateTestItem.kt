@@ -1,9 +1,9 @@
-package de.rki.coronawarnapp.vaccination.ui.cards
+package de.rki.coronawarnapp.greencertificate.ui.certificates.cards
 
 import de.rki.coronawarnapp.greencertificate.ui.certificates.items.CertificatesItem
 import org.joda.time.Instant
 
-interface VaccinationTestItem : CertificatesItem {
+interface CovidCertificateTestItem : CertificatesItem {
     val testDate: Instant
 
     override val stableId: Long
