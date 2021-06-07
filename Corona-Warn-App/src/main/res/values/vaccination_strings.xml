@@ -9,7 +9,7 @@
     <!-- XTXT: Vaccination Details vaccine manufacturer -->
     <string name="vaccination_details_vaccine_manufacturer">"Manufacturer"</string>
     <!-- XTXT: Vaccination Details vaccine type -->
-    <string name="vaccination_details_vaccine_medical_product_name">"Vaccine type"</string>
+    <string name="vaccination_details_vaccine_medical_product_name">"Vaccine Type"</string>
     <!-- XTXT: Vaccination Details certificate issuer -->
     <string name="vaccination_details_certificate_issuer">"Issuer"</string>
     <!-- XTXT: Vaccination Details certificate country -->
@@ -21,9 +21,9 @@
     <!-- XTXT: Vaccination Details title-->
     <string name="vaccination_details_title">"Vaccination %1$d of %2$d"</string>
     <!-- XTXT: Vaccination Qr Code card title-->
-    <string name="vaccination_qrcode_card_title">"Vaccination certificate %1$d of %2$d"</string>
+    <string name="vaccination_qrcode_card_title">"Vaccination Certificate %1$d of %2$d"</string>
     <!-- XTXT: Vaccination Qr Code card subtitle-->
-    <string name="vaccination_qrcode_card_subtitle">"Vaccinated %1$s - valid to %2$s"</string>
+    <string name="vaccination_qrcode_card_subtitle">"Vaccinated %1$s - Valid to %2$s"</string>
 
     <!-- XTXT: Vaccination List title-->
     <string name="vaccination_list_title">"Digital Proof of Vaccination"</string>
@@ -37,12 +37,12 @@
     <string name="vaccination_list_vaccination_card_subtitle">"Performed on %1$s"</string>
     <!-- XTXT: Vaccination List immunity information card body-->
     <plurals name="vaccination_list_immunity_card_body">
-        <item quantity="one">"You have now received all the vaccinations, however, your vaccination protection will not be complete for another %1$d day."</item>
-        <item quantity="other">"You have now received all the vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
-        <item quantity="zero">"You have now received all the vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
-        <item quantity="two">"You have now received all the vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
-        <item quantity="few">"You have now received all the vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
-        <item quantity="many">"You have now received all the vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
+        <item quantity="one">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete for another %1$d day."</item>
+        <item quantity="other">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
+        <item quantity="zero">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
+        <item quantity="two">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
+        <item quantity="few">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
+        <item quantity="many">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
     </plurals>
     <!-- XBUT: Vaccination List register additional vaccination button -->
     <string name="vaccination_list_register_new_vaccination_button">"Register Another Vaccination"</string>
@@ -63,13 +63,11 @@
         Homescreen cards
     ###################################### -->
     <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_registration_title">"Add Vaccination Certificate"</string>
+    <string name="vaccination_card_registration_title_line_1">"Add Digital Proof"</string>
     <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_registration_title_line_1">"Digitalen"</string>
-    <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_registration_title_line_2">"Impfnachweis hinzufügen"</string>
+    <string name="vaccination_card_registration_title_line_2">"of Vaccination"</string>
     <!-- YTXT: Body text for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_registration_body">"Add vaccination certificates in the app so you always have them with you. To do so, scan the QR code on your document."</string>
+    <string name="vaccination_card_registration_body">"Add your vaccination certificates in the app so you always have them with you. To do so, scan the QR code on your document."</string>
     <!-- XBUT: button for Vaccination Certificate Registration Home Card -->
     <string name="vaccination_card_register">"Add"</string>
     <!-- XHED: Homescreen vaccination status card title -->
@@ -93,7 +91,6 @@
     </plurals>
     <!-- XTXT: Homescreen card complete vaccination status label -->
     <string name="vaccination_card_status_vaccination_complete">"Gültig bis einschließlich %s"</string>
-
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_invalid">"This QR code is not a valid vaccination certificate."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
@@ -108,17 +105,17 @@
     <!-- XTXT: Vaccination Consent title-->
     <string name="vaccination_consent_title">"Your Consent"</string>
     <!-- XTXT: Vaccination Consent subtitle-->
-    <string name="vaccination_consent_headline">"Nachweise hinzufügen"</string>
+    <string name="vaccination_consent_headline">"Add Certificates"</string>
     <!-- XTXT: Vaccination Consent subtitle of qr info -->
-    <string name="vaccination_consent_info_subtitle_text">"Fügen Sie ihre digitalen COVID-Zertifikate in der App hinzu, um mit der App Ihren Impfschutz oder ein negatives Testergebnis nachweisen zu können."</string>
+    <string name="vaccination_consent_info_subtitle_text">"Add your digital COVID certificates in the app. This will enable you to prove your vaccination protection or a negative test result with the app."</string>
     <!-- XTXT: Vaccination Consent text of qr info -->
-    <string name="vaccination_consent_qr_info_text">"Sie können digitale COVID-Impfzertifikate oder COVID-19-Testzertifikate in der App hinzufügen."</string>
+    <string name="vaccination_consent_qr_info_text">"You can add digital COVID vaccination certificates or COVID test certificates in the app."</string>
     <!-- XTXT: Vaccination Consent qr code text -->
-    <string name="vaccination_consent_qr_info_qr_code_text">"Die Zertifikate gelten innerhalb der EU als gültiger Nachweis (z.B. für Reisen)."</string>
+    <string name="vaccination_consent_qr_info_qr_code_text">"These certificates are considered to be valid proof within the EU (e.g. for travel)."</string>
     <!-- XTXT: Vaccination Consent time text  -->
-    <string name="vaccination_consent_qr_info_time_text">"Nach dem Hinzufügen bleiben die Zertifikate auf Ihrem Smartphone. Andere Personen können Ihre Daten nur einsehen, wenn Sie diesen ein Zertifikat zur Überprüfung vorzeigen."</string>
+    <string name="vaccination_consent_qr_info_time_text">"After you add a certificate, it will remain on your smartphone. It will only be shared with others if you present a certificate for verification."</string>
     <!-- XTXT: Text for vaccination consent legal information button -->
-    <string name="vaccination_consent_onboarding_legal_information">"Ausführliche Informationen zur Datenverarbeitung finden Sie in der Datenschutzerklärung."</string>
+    <string name="vaccination_consent_onboarding_legal_information">"For more detailed information about data processing, please refer to the privacy notice."</string>
     <!-- XBUT: Text for vaccination consent accept button -->
     <string name="vaccination_consent_accept_button">"Continue"</string>
 
