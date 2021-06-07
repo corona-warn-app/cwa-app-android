@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_certificatesFragment_to_vaccinationNavGraph"
             app:destination="@id/vaccination_nav_graph" />
+        <action
+            android:id="@+id/action_certificatesFragment_to_covidCertificateDetailsFragment"
+            app:destination="@id/covidCertificateDetailsFragment" />
 
         <action
             android:id="@+id/action_certificatesFragment_to_consentFragment"
@@ -46,4 +49,14 @@
         android:label="privacyFragment"
         tools:layout="@layout/fragment_information_privacy" />
 
+    <fragment
+        android:id="@+id/covidCertificateDetailsFragment"
+        android:name="de.rki.coronawarnapp.greencertificate.ui.certificates.details.CovidCertificateDetailsFragment"
+        android:label="CovidCertificateDetailsFragment"
+        tools:layout="@layout/fragment_covid_certificate_details">
+
+        <argument
+            android:name="testCertificateIdentifier"
+            app:argType="string" />
+    </fragment>
 </navigation>
