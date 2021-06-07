@@ -21,7 +21,7 @@ class ValueSetsStorage @Inject constructor(
 
     private val prefs: SharedPreferences by lazy {
         context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-            .also { removeLeftOver() }
+            .also { removeLeftOver(it) }
     }
 
     var valueSetsContainer: ValueSetsContainer
@@ -46,7 +46,7 @@ class ValueSetsStorage @Inject constructor(
         }
     }
 
-    private fun removeLeftOver() {
+    private fun removeLeftOver(prefs: SharedPreferences) {
         Timber.v("Checking for leftover and removing it")
         if (prefs.contains(PKEY_VALUE_SETS_PREFIX)) {
             prefs.edit(commit = true) {
