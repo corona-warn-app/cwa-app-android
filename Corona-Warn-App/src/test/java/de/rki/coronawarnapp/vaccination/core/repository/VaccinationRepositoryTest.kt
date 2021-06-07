@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationQRCodeExtractor
 import de.rki.coronawarnapp.vaccination.core.repository.errors.VaccinationCertificateNotFoundException
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinationStorage
-import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
+import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.VaccinationValueSets
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -34,7 +34,7 @@ class VaccinationRepositoryTest : BaseTest() {
 
     @MockK lateinit var storage: VaccinationStorage
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
-    @MockK lateinit var vaccinationValueSet: VaccinationValueSet
+    @MockK lateinit var vaccinationValueSet: VaccinationValueSets
     @MockK lateinit var qrCodeExtractor: VaccinationQRCodeExtractor
 
     private var testStorage: Set<VaccinatedPersonData> = emptySet()
@@ -52,7 +52,7 @@ class VaccinationRepositoryTest : BaseTest() {
 
         every { timeStamper.nowUTC } returns nowUTC
 
-        every { valueSetsRepository.latestValueSet } returns flowOf(vaccinationValueSet)
+        every { valueSetsRepository.latestVaccinationValueSets } returns flowOf(vaccinationValueSet)
 
         storage.apply {
             every { personContainers } answers { testStorage }

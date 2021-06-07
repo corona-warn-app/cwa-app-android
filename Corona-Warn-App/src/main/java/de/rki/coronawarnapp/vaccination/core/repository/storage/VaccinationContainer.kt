@@ -11,8 +11,7 @@ import de.rki.coronawarnapp.vaccination.core.qrcode.QrCodeString
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateData
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationQRCodeExtractor
-import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
-import de.rki.coronawarnapp.vaccination.core.server.valueset.getDisplayText
+import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.VaccinationValueSets
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import java.util.Locale
@@ -52,7 +51,7 @@ data class VaccinationContainer internal constructor(
         get() = certificate.personIdentifier
 
     fun toVaccinationCertificate(
-        valueSet: VaccinationValueSet?,
+        valueSet: VaccinationValueSets?,
         userLocale: Locale = Locale.getDefault(),
     ) = object : VaccinationCertificate {
         override val personIdentifier: CertificatePersonIdentifier

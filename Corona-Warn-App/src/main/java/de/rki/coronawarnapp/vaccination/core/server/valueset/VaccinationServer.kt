@@ -9,7 +9,8 @@ import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.security.SignatureValidation
 import de.rki.coronawarnapp.vaccination.core.server.valueset.internal.ValueSetInvalidSignatureException
-import de.rki.coronawarnapp.vaccination.core.server.valueset.internal.toVaccinationValueSet
+import de.rki.coronawarnapp.vaccination.core.server.valueset.internal.toValueSetsContainer
+import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.ValueSetsContainer
 import kotlinx.coroutines.withContext
 import okhttp3.Cache
 import okhttp3.ResponseBody
@@ -31,7 +32,7 @@ class VaccinationServer @Inject constructor(
     private val signatureValidation: SignatureValidation
 ) {
 
-    suspend fun getVaccinationValueSets(languageCode: Locale): VaccinationValueSet? =
+    suspend fun getVaccinationValueSets(languageCode: Locale): ValueSetsContainer? =
         withContext(dispatcherProvider.Default) {
             return@withContext try {
                 val response = requestValueSets(languageCode.language)
@@ -39,7 +40,7 @@ class VaccinationServer @Inject constructor(
 
                 val body = requireNotNull(response.body()) { "Body of response was null" }
                 val valueSetsProtobuf = body.parseBody()
-                valueSetsProtobuf.toVaccinationValueSet(languageCode = languageCode)
+                valueSetsProtobuf.toValueSetsContainer(languageCode = languageCode)
             } catch (e: Exception) {
                 Timber.e(e, "Getting vaccination value sets from server failed cause: ${e.message}")
                 null

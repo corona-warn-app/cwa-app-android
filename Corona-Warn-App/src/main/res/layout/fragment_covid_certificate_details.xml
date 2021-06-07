@@ -44,10 +44,10 @@
                     android:layout_marginTop="90dp"
                     android:layout_marginBottom="12dp"
                     android:gravity="center"
+                    android:text="@string/detail_green_certificate_title"
                     android:textColor="@android:color/white"
                     android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:text="@string/detail_green_certificate_title"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/subtitle"
@@ -59,7 +59,7 @@
                     android:gravity="center"
                     android:text="@string/detail_green_certificate_test_type"
                     android:textColor="@android:color/white"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
@@ -67,8 +67,10 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:theme="@style/CWAToolbar.Theme"
                 app:layout_collapseMode="pin"
                 app:layout_scrollFlags="scroll|enterAlways"
+                app:menu="@menu/menu_covid_certificate_detail"
                 app:navigationIcon="@drawable/ic_back"
                 app:navigationIconTint="@android:color/white">
 
@@ -82,7 +84,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="72dp"
+                        android:layout_marginEnd="32dp"
                         android:importantForAccessibility="no"
                         app:srcCompat="@drawable/ic_cwa_logo_white" />
 
@@ -115,7 +117,7 @@
                 android:layout_marginBottom="6dp" />
 
             <LinearLayout
-                style="@style/Card.Greencertificate"
+                style="@style/Card.GreenCertificate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
@@ -134,7 +136,6 @@
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Andrea Schneider"
                     tools:text="Andrea Schneider" />
 
                 <TextView
@@ -150,7 +151,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="18.04.1943"
                     tools:text="18.04.1943" />
 
                 <TextView
@@ -166,7 +166,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="SARS-CoV-2"
                     tools:text="SARS-CoV-2" />
 
                 <TextView
@@ -182,7 +181,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Rapid Antigen Test"
                     tools:text="Rapid Antigen Test" />
 
                 <TextView
@@ -193,12 +191,11 @@
                     android:text="@string/green_certificate_attribute_test_name" />
 
                 <TextView
-                    android:id="@+id/medical_product_name"
+                    android:id="@+id/test_name"
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Xep"
                     tools:text="Xep" />
 
                 <TextView
@@ -214,7 +211,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Xup"
                     tools:text="Xup" />
 
                 <TextView
@@ -230,7 +226,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="12.05.21 19:00"
                     tools:text="12.05.21 19:00" />
 
                 <TextView
@@ -246,7 +241,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="negative"
                     tools:text="negative" />
 
                 <TextView
@@ -262,7 +256,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="AB123"
                     tools:text="AB123" />
 
                 <TextView
@@ -273,12 +266,11 @@
                     android:text="@string/green_certificate_attribute_state_of_testing" />
 
                 <TextView
-                    android:id="@+id/test_country"
+                    android:id="@+id/certificate_country"
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Germany"
                     tools:text="Germany" />
 
                 <TextView
@@ -294,7 +286,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="G05930482748454836478695764787840"
                     tools:text="G05930482748454836478695764787840" />
 
 
@@ -311,14 +302,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="05930482748454836478695764787840"
                     tools:text="05930482748454836478695764787840" />
 
 
             </LinearLayout>
 
             <LinearLayout
-                style="@style/Card.Greencertificate"
+                style="@style/Card.GreenCertificate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
@@ -332,7 +322,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="@string/green_certificate_attribute_certificate_travel_notice_german"/>
+                    android:text="@string/green_certificate_attribute_certificate_travel_notice_german" />
 
                 <TextView
                     android:id="@+id/travel_notice_english"
@@ -340,7 +330,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/green_certificate_attribute_certificate_travel_notice_english"/>
+                    android:text="@string/green_certificate_attribute_certificate_travel_notice_english" />
             </LinearLayout>
         </LinearLayout>
 
