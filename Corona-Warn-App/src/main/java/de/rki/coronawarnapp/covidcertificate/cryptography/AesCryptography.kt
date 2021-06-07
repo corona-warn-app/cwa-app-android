@@ -8,20 +8,17 @@ import javax.inject.Inject
 
 class AesCryptography @Inject constructor() {
 
-    private val ivParameterSpec
-        get() = IvParameterSpec(Hex.stringToBytes("00000000000000000000000000000000"))
-
     fun decrypt(
         decryptionKey: ByteArray,
         encryptedData: ByteArray
-    ): ByteArray {
-        val keySpec = SecretKeySpec((decryptionKey), ALGORITHM)
-        val input = encryptedData
-        return with(Cipher.getInstance(TRANSFORMATION)) {
-            init(Cipher.DECRYPT_MODE, keySpec, ivParameterSpec)
-            doFinal(input)
-        }
+    ): ByteArray = with(Cipher.getInstance(TRANSFORMATION)) {
+        val keySpec = SecretKeySpec(decryptionKey, ALGORITHM)
+        init(Cipher.DECRYPT_MODE, keySpec, ivParameterSpec)
+        doFinal(encryptedData)
     }
+
+    private val ivParameterSpec
+        get() = IvParameterSpec(Hex.stringToBytes("00000000000000000000000000000000"))
 }
 
 private const val ALGORITHM = "AES"
