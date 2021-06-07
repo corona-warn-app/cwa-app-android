@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.exception
 
 import android.content.Context
-import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.util.HasHumanReadableError
 import de.rki.coronawarnapp.util.HumanReadableError

@@ -336,7 +336,7 @@ class TestCertificateRepository @Inject constructor(
             Timber.tag(TAG).i("Test certificate components successfully request for %s: %s", cert, components)
 
             val encryptionKey = try {
-                 rsaCryptography.decrypt(
+                rsaCryptography.decrypt(
                     toDecrypt = components.dataEncryptionKeyBase64.decodeBase64()!!,
                     privateKey = cert.rsaPrivateKey!!
                 )

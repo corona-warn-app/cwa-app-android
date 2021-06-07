@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.util.ui.LazyString
 
 class TestCertificateServerException(
     val errorCode: ErrorCode
-    ) : HasHumanReadableError, Throwable(errorCode.message) {
+) : HasHumanReadableError, Throwable(errorCode.message) {
 
     override fun toHumanReadableError(context: Context): HumanReadableError {
         return HumanReadableError(
@@ -50,17 +50,17 @@ class TestCertificateServerException(
             "DCC Test Certificate Components failed with error 500: Internal server error.",
             ERROR_MESSAGE_TRY_AGAIN
         ),
-        //TODO error message not defined
+        // TODO error message not defined
         DCC_COMP_500_LAB_INVALID_RESPONSE(
             "DCC Components failed with error 500: Lab Invalid response",
             ERROR_MESSAGE_GENERIC
         ),
-        //TODO error message not defined
+        // TODO error message not defined
         DCC_COMP_500_SIGNING_CLIENT_ERROR(
             "DCC Components failed with error 500: Signing client error",
             ERROR_MESSAGE_GENERIC
         ),
-        //TODO error message not defined
+        // TODO error message not defined
         DCC_COMP_500_SIGNING_SERVER_ERROR(
             "DCC Components failed with error 500: Signing server error",
             ERROR_MESSAGE_GENERIC
@@ -70,7 +70,8 @@ class TestCertificateServerException(
             ERROR_MESSAGE_NO_NETWORK
         ),
         PKR_400(
-            "Public Key Registration failed with 400: Bad request (e.g. wrong format of registration token or public key).",
+            "Public Key Registration failed with 400: " +
+                "Bad request (e.g. wrong format of registration token or public key).",
             ERROR_MESSAGE_CLIENT_ERROR_CALL_HOTLINE
         ),
         PKR_403(
