@@ -6,8 +6,8 @@ import de.rki.coronawarnapp.databinding.VaccinationBottomInfoCardBinding
 import de.rki.coronawarnapp.greencertificate.ui.certificates.CertificatesAdapter
 import de.rki.coronawarnapp.greencertificate.ui.certificates.items.CertificatesItem
 
-class BottomInfoVaccinationCard(parent: ViewGroup) :
-    CertificatesAdapter.CertificatesItemVH<BottomInfoVaccinationCard.Item, VaccinationBottomInfoCardBinding>(
+class NoCovidTestCertificatesCard(parent: ViewGroup) :
+    CertificatesAdapter.CertificatesItemVH<NoCovidTestCertificatesCard.Item, VaccinationBottomInfoCardBinding>(
         R.layout.dashed_line_container_layout,
         parent
     ) {
