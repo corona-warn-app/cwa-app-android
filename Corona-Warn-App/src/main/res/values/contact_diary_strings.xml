@@ -125,34 +125,6 @@
     <!-- XTXT: Message for the contact diary dialog to delete a single person -->
     <string name="contact_diary_delete_person_message">"If you remove a person, all the entries for that person will be removed from your journal."</string>
 
-    <!-- EXPORT -->
-    <!-- XHED: Title for the contact journal export email subject -->
-    <string name="contact_diary_export_subject" translatable="false">"Mein Kontakt-Tagebuch"</string>
-    <!-- XTXT: Intro text for the contact journal email export part one-->
-    <string name="contact_diary_export_intro_one" translatable="false">"Kontakte der letzten 15 Tage (%1$s - %2$s)"</string>
-    <!-- XTXT: Intro text for the contact journal email export part two-->
-    <string name="contact_diary_export_intro_two" translatable="false">"Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG."</string>
-    <!-- XTXT: Phone number prefix in the contact journal export-->
-    <string name="contact_diary_export_prefix_phone" translatable="false">"Tel."</string>
-    <!-- XTXT: EMail prefix in the contact journal export-->
-    <string name="contact_diary_export_prefix_email" translatable="false">"E-Mail"</string>
-    <!-- XTXT: Additional information about duration that was longer than 15 minutes in the contact journal export-->
-    <string name="contact_diary_export_durations_longer_than_15min" translatable="false">"Kontaktdauer &gt; 15 Minuten"</string>
-    <!-- XTXT: Additional information about duration that was less than 15 minutes in the contact journal export-->
-    <string name="contact_diary_export_durations_less_than_15min" translatable="false">"Kontaktdauer &lt; 15 Minuten"</string>
-    <!-- XTXT: Additional information about wearing a mask in the contact journal export-->
-    <string name="contact_diary_export_wearing_mask" translatable="false">"mit Maske"</string>
-    <!-- XTXT: Additional information about wearing no mask in the contact journal export-->
-    <string name="contact_diary_export_wearing_no_mask" translatable="false">"ohne Maske"</string>
-    <!-- XTXT: Additional information about being indoors in the contact journal export-->
-    <string name="contact_diary_export_indoor" translatable="false">"im Gebäude"</string>
-    <!-- XTXT: Additional information about being outdoor in the contact journal export-->
-    <string name="contact_diary_export_outdoor" translatable="false">"im Freien"</string>
-    <!-- XTXT: Location duration prefix in the contact journal export-->
-    <string name="contact_diary_export_location_duration_prefix" translatable="false">"Dauer"</string>
-    <!-- XTXT: Location duration postfix in the contact journal export-->
-    <string name="contact_diary_export_location_duration_suffix" translatable="false">"h"</string>
-
     <!-- XHED: Title for the contact diary comment info screen -->
     <string name="contact_diary_comment_info_screen_title">"Note"</string>
     <!-- XTXT: Description for contact diary comment info screen -->
