@@ -25,53 +25,56 @@ class CertificatesViewModel @AssistedInject constructor(
 
     val events = SingleLiveEvent<CertificatesFragmentEvents>()
 
-    // TODO: cards should be adjusted in the following PR
     val screenItems: LiveData<List<CertificatesItem>> =
         vaccinationRepository.vaccinationInfos.map { vaccinatedPersons ->
             mutableListOf<CertificatesItem>().apply {
                 add(HeaderInfoVaccinationCard.Item)
-
-                vaccinatedPersons.forEach { vaccinatedPerson ->
-                    val card = when (vaccinatedPerson.getVaccinationStatus()) {
-                        VaccinatedPerson.Status.COMPLETE,
-                        VaccinatedPerson.Status.INCOMPLETE -> VaccinationCard.Item(
-                            vaccinatedPerson = vaccinatedPerson,
-                            onClickAction = {
-                                events.postValue(
-                                    CertificatesFragmentEvents.GoToVaccinationList(
-                                        vaccinatedPerson.identifier.codeSHA256
-                                    )
-                                )
-                            }
-                        )
-                        VaccinatedPerson.Status.IMMUNITY -> ImmuneVaccinationCard.Item(
-                            vaccinatedPerson = vaccinatedPerson,
-                            onClickAction = {
-                                events.postValue(
-                                    CertificatesFragmentEvents.GoToVaccinationList(
-                                        vaccinatedPerson.identifier.codeSHA256
-                                    )
-                                )
-                            }
-                        )
-                    }
-                    add(card)
-                }
-
-                add(
-                    CreateVaccinationCard.Item(
-                        onClickAction = {
-                            events.postValue(
-                                CertificatesFragmentEvents.OpenVaccinationRegistrationGraph(
-                                    vaccinationSettings.registrationAcknowledged
-                                )
-                            )
-                        }
-                    )
-                )
+                addVaccinationCards(vaccinatedPersons)
                 add(BottomInfoVaccinationCard.Item)
             }
         }.asLiveData()
+
+    private fun MutableList<CertificatesItem>.addVaccinationCards(vaccinatedPersons: Set<VaccinatedPerson>) {
+        vaccinatedPersons.forEach { vaccinatedPerson ->
+            val card = when (vaccinatedPerson.getVaccinationStatus()) {
+                VaccinatedPerson.Status.COMPLETE,
+                VaccinatedPerson.Status.INCOMPLETE -> VaccinationCard.Item(
+                    vaccinatedPerson = vaccinatedPerson,
+                    onClickAction = {
+                        events.postValue(
+                            CertificatesFragmentEvents.GoToVaccinationList(
+                                vaccinatedPerson.identifier.codeSHA256
+                            )
+                        )
+                    }
+                )
+                VaccinatedPerson.Status.IMMUNITY -> ImmuneVaccinationCard.Item(
+                    vaccinatedPerson = vaccinatedPerson,
+                    onClickAction = {
+                        events.postValue(
+                            CertificatesFragmentEvents.GoToVaccinationList(
+                                vaccinatedPerson.identifier.codeSHA256
+                            )
+                        )
+                    }
+                )
+            }
+            add(card)
+        }
+        if (vaccinatedPersons.isEmpty()) {
+            add(
+                CreateVaccinationCard.Item(
+                    onClickAction = {
+                        events.postValue(
+                            CertificatesFragmentEvents.OpenVaccinationRegistrationGraph(
+                                vaccinationSettings.registrationAcknowledged
+                            )
+                        )
+                    }
+                )
+            )
+        }
+    }
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<CertificatesViewModel>
