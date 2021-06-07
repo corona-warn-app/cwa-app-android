@@ -48,8 +48,9 @@ class CertificatesFragment : Fragment(R.layout.fragment_certificates), AutoInjec
                     doNavigate(CertificatesFragmentDirections.actionCertificatesFragmentToVaccinationNavGraph())
                 }
                 is CertificatesFragmentEvents.GoToCovidCertificateDetailScreen -> {
-                    doNavigate(CertificatesFragmentDirections
-                        .actionCertificatesFragmentToCovidCertificateDetailsFragment(event.identifier)
+                    doNavigate(
+                        CertificatesFragmentDirections
+                            .actionCertificatesFragmentToCovidCertificateDetailsFragment(event.identifier)
                     )
                 }
             }
