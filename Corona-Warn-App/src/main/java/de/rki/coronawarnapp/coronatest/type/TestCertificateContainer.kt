@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.util.encryption.rsa.RSAKey
 import de.rki.coronawarnapp.vaccination.core.CertificatePersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.personIdentifier
 import de.rki.coronawarnapp.vaccination.core.qrcode.QrCodeString
-import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.VaccinationValueSets
+import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.TestCertificateValueSets
 import okio.ByteString
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -51,7 +51,7 @@ abstract class TestCertificateContainer {
         }
 
     fun toTestCertificate(
-        valueSet: VaccinationValueSets?,
+        valueSet: TestCertificateValueSets?,
         userLocale: Locale = Locale.getDefault(),
     ): TestCertificate? {
         if (isCertificateRetrievalPending) return null
