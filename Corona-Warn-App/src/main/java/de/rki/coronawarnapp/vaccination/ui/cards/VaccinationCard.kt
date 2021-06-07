@@ -32,11 +32,9 @@ class VaccinationCard(parent: ViewGroup) :
                     days,
                     days
                 )
-                icon.setImageResource(R.drawable.vaccination_card_icon_complete)
             }
             else -> {
                 vaccinationState.setText(R.string.vaccination_card_status_vaccination_incomplete)
-                icon.setImageResource(R.drawable.vaccination_card_icon_incomplete)
             }
         }
         itemView.setOnClickListener { curItem.onClickAction(item) }
