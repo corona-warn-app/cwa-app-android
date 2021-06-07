@@ -194,19 +194,6 @@
         android:name="de.rki.coronawarnapp.test.greencertificate.GreenCertificateTestFragment"
         android:label="GreenCertificateTestFragment"
         tools:layout="@layout/fragment_test_green_certificate" >
-        <action
-            android:id="@+id/action_greenCertificateTestFragment_to_greenCertificateDetailsFragment"
-            app:destination="@id/greenCertificateDetailsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/greenCertificateDetailsFragment"
-        android:name="de.rki.coronawarnapp.greencertificate.ui.certificates.details.CovidCertificateDetailsFragment"
-        android:label="GreenCertificateDetailsFragment"
-        tools:layout="@layout/fragment_covid_certificate_details" >
-
-        <argument
-            android:name="testCertificateIdentifier"
-            app:argType="string" />
     </fragment>
 
 </navigation>

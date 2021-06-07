@@ -23,15 +23,6 @@ class GreenCertificateTestFragment : Fragment(R.layout.fragment_test_green_certi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.apply {
-            detailsScreen.setOnClickListener {
-                doNavigate(
-                    GreenCertificateTestFragmentDirections
-                        .actionGreenCertificateTestFragmentToGreenCertificateDetailsFragment("Identifier")
-                )
-            }
-        }
     }
 
     companion object {
