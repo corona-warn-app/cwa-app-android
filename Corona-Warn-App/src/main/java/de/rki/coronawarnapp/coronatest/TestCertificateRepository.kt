@@ -330,7 +330,7 @@ class TestCertificateRepository @Inject constructor(
 
             val extractedData = qrCodeExtractor.extract(
                 decryptionKey = encryptionkey.toByteArray(),
-                encryptedCoseComponents = components.encryptedCoseTestCertificateBase64.decodeBase64()!!.toByteArray()
+                rawCoseObjectEncrypted = components.encryptedCoseTestCertificateBase64.decodeBase64()!!.toByteArray()
             )
 
             val nowUtc = timeStamper.nowUTC

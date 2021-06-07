@@ -23,7 +23,6 @@ import java.math.BigInteger
  * Based on
  * https://github.com/ehn-digital-green-development/hcert-kotlin/blob/23203fbb71f53524ee643a9df116264f87b5b32a/src/main/kotlin/ehn/techiop/hcert/kotlin/chain/common/Base45Encoder.kt
  */
-@OptIn(ExperimentalUnsignedTypes::class)
 object Base45Decoder {
     private const val alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:"
     private val int45 = BigInteger.valueOf(45)

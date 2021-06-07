@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.vaccination.core.certificate
+package de.rki.coronawarnapp.covidcertificate.test
 
 import com.google.gson.Gson
 import com.upokecenter.cbor.CBORObject
@@ -8,47 +8,51 @@ import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateE
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.HC_CWT_NO_DGC
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.HC_CWT_NO_HCERT
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.JSON_SCHEMA_INVALID
-import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.VC_NO_VACCINATION_ENTRY
-import de.rki.coronawarnapp.covidcertificate.exception.InvalidVaccinationCertificateException
+import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.NO_TEST_ENTRY
+import de.rki.coronawarnapp.covidcertificate.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
+import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class VaccinationDGCV1Parser @Inject constructor(
-    @BaseGson private val gson: Gson
+class TestCertificateDccParser @Inject constructor(
+    @BaseGson private val gson: Gson,
 ) {
 
-    fun parse(map: CBORObject): VaccinationDGCV1 = try {
-        val certificate: VaccinationDGCV1 = map[keyHCert]?.run {
+    fun parse(map: CBORObject): TestCertificateDccV1 = try {
+        val certificate: TestCertificateDccV1 = map[keyHCert]?.run {
             this[keyEuDgcV1]?.run {
                 toCertificate()
-            } ?: throw InvalidVaccinationCertificateException(HC_CWT_NO_DGC)
-        } ?: throw InvalidVaccinationCertificateException(HC_CWT_NO_HCERT)
+            } ?: throw InvalidTestCertificateException(HC_CWT_NO_DGC)
+        } ?: throw InvalidTestCertificateException(HC_CWT_NO_HCERT)
+
         certificate.validate()
     } catch (e: InvalidHealthCertificateException) {
         throw e
     } catch (e: Throwable) {
-        throw InvalidVaccinationCertificateException(HC_CBOR_DECODING_FAILED)
+        throw InvalidTestCertificateException(HC_CBOR_DECODING_FAILED)
     }
 
-    private fun VaccinationDGCV1.validate(): VaccinationDGCV1 {
-        if (vaccinationDatas.isNullOrEmpty()) {
-            throw InvalidVaccinationCertificateException(VC_NO_VACCINATION_ENTRY)
+    private fun TestCertificateDccV1.validate(): TestCertificateDccV1 {
+        if (testCertificateData.isNullOrEmpty()) {
+            throw InvalidTestCertificateException(NO_TEST_ENTRY)
         }
         // Force date parsing
         dateOfBirth
-        vaccinationDatas.forEach {
-            it.vaccinatedAt
+        testCertificateData.forEach {
+            it.testResultAt
+            it.sampleCollectedAt
         }
         return this
     }
 
     private fun CBORObject.toCertificate() = try {
         val json = ToJSONString()
-        gson.fromJson<VaccinationDGCV1>(json)
+        gson.fromJson<TestCertificateDccV1>(json)
     } catch (e: Throwable) {
-        throw InvalidVaccinationCertificateException(JSON_SCHEMA_INVALID)
+        Timber.e(e)
+        throw InvalidTestCertificateException(JSON_SCHEMA_INVALID)
     }
 
     companion object {
