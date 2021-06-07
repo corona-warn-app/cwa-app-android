@@ -9,6 +9,8 @@ interface ValueSets {
     // Disease or agent targeted
     val tg: ValueSet
 
+    fun getDisplayText(key: String): String?
+
     interface ValueSet {
         val items: List<Item>
 
@@ -19,3 +21,5 @@ interface ValueSets {
         }
     }
 }
+
+fun ValueSets.ValueSet.getDisplayText(key: String): String? = items.find { key == it.key }?.displayText
