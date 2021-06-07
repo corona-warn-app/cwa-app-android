@@ -22,7 +22,8 @@ sealed class StatsItem(val cardType: Type) {
         INFECTION(1),
         INCIDENCE(2),
         KEYSUBMISSION(3),
-        SEVEN_DAY_RVALUE(4)
+        SEVEN_DAY_RVALUE(4),
+        PERSONS_VACCINATED_ONCE(5)
     }
 
     abstract fun requireValidity()
@@ -51,7 +52,7 @@ data class InfectionStats(
             Timber.w("InfectionStats is missing secondary value")
         }
         requireNotNull(keyFigures.singleOrNull { it.rank == KeyFigure.Rank.TERTIARY }) {
-            Timber.w("InfectionStats is missing secondary value")
+            Timber.w("InfectionStats is missing tertiary value")
         }
     }
 }
@@ -95,7 +96,7 @@ data class KeySubmissionsStats(
             Timber.w("KeySubmissionsStats is missing secondary value")
         }
         requireNotNull(keyFigures.singleOrNull { it.rank == KeyFigure.Rank.TERTIARY }) {
-            Timber.w("KeySubmissionsStats is missing secondary value")
+            Timber.w("KeySubmissionsStats is missing tertiary value")
         }
     }
 }
@@ -112,6 +113,28 @@ data class SevenDayRValue(
         require(keyFigures.size == 1)
         requireNotNull(keyFigures.singleOrNull { it.rank == KeyFigure.Rank.PRIMARY }) {
             Timber.w("SevenDayRValue is missing primary value")
+        }
+    }
+}
+
+data class PersonsVaccinatedOnceStats(
+    override val updatedAt: Instant,
+    override val keyFigures: List<KeyFigure>
+) : StatsItem(cardType = Type.PERSONS_VACCINATED_ONCE) {
+
+    val firstDose: KeyFigure
+        get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }
+
+    val total: KeyFigure
+        get() = keyFigures.single { it.rank == KeyFigure.Rank.TERTIARY }
+
+    override fun requireValidity() {
+        require(keyFigures.size == 2)
+        requireNotNull(keyFigures.singleOrNull { it.rank == KeyFigure.Rank.PRIMARY }) {
+            Timber.w("PersonsVaccinatedOnceStats is missing primary value")
+        }
+        requireNotNull(keyFigures.singleOrNull { it.rank == KeyFigure.Rank.TERTIARY }) {
+            Timber.w("PersonsVaccinatedOnceStats is missing secondary value")
         }
     }
 }

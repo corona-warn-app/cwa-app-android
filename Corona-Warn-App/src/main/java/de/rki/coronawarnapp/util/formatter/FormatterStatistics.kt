@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.statistics.IncidenceStats
 import de.rki.coronawarnapp.statistics.InfectionStats
 import de.rki.coronawarnapp.statistics.KeySubmissionsStats
+import de.rki.coronawarnapp.statistics.PersonsVaccinatedOnceStats
 import de.rki.coronawarnapp.statistics.SevenDayRValue
 import de.rki.coronawarnapp.statistics.StatsItem
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
@@ -34,6 +35,11 @@ fun StatsItem.getPrimaryLabel(context: Context): String {
             today -> context.getString(R.string.statistics_primary_value_current)
             yesterday -> context.getString(R.string.statistics_primary_value_yesterday)
             else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.print(updatedAtDate))
+        }
+        is PersonsVaccinatedOnceStats -> when (updatedAtDate) {
+            today -> context.getString(R.string.statistics_primary_value_until_yesterday)
+            yesterday -> context.getString(R.string.statistics_primary_value_until_yesterday)
+            else -> context.getString(R.string.statistics_primary_value_until_yesterday)
         }
     }
 }
