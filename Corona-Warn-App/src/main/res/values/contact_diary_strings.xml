@@ -84,6 +84,7 @@
     <!-- XTXT: Indicates this trace location caused a lows risk -->
     <string name="contact_diary_trace_location_risk_low">"low risk"</string>
 
+
     <!-- XTXT: content description of contact journal image on home screen -->
     <string name="contact_diary_homescreen_card_image_content_description">"A closed book with a bookmark"</string>
     <!-- XTXT: content description of contact journal header image on onboarding screen -->
@@ -211,11 +212,11 @@
     <string name="contact_diary_location_visit_circumstances_hint">"Note (e.g. very full)"</string>
 
     <!-- XTXT: PCR test title in the day overview -->
-    <string name="contact_diary_corona_test_pcr_title">PCR-Test registriert</string>
+    <string name="contact_diary_corona_test_pcr_title">"PCR Test Registered"</string>
     <!-- XTXT: RAT test title in the day overview -->
-    <string name="contact_diary_corona_test_rat_title">Schnelltest durchgeführt</string>
+    <string name="contact_diary_corona_test_rat_title">"Rapid Test Performed"</string>
     <!-- XTXT: positive test result in the day overview -->
-    <string name="contact_diary_corona_test_positive">Befund positiv</string>
+    <string name="contact_diary_corona_test_positive">"Positive Diagnosis"</string>
     <!-- XTXT: negative test result in the day overview -->
-    <string name="contact_diary_corona_test_negative">Befund negativ</string>
+    <string name="contact_diary_corona_test_negative">"Negative Diagnosis"</string>
 </resources>
