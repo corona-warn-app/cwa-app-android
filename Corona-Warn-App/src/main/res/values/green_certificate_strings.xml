@@ -67,4 +67,18 @@
     <string name="test_certificate_error_label">Fehler bei der Zertifikatsabfrage</string>
     <!-- XBUT: Test error retry button -->
     <string name="test_certificate_error_retry_button">Nochmal versuchen</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_try_again">Es konnte keine Verbindung hergestellt werden. Bitte versuchen Sie es erneut.</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_dcc_not_supported_by_lab">Ein Testzertifikat kann nicht angefordert werden, da diese Teststelle die Ausstellung von Testzertifikaten nicht unterstützt. Bitte entfernen Sie das Zertifikat oder kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline.</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_no_network">Ihre Internetverbindung wurde unterbrochen. Bitte prüfen Sie die Verbindung und versuchen Sie es erneut.</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_e2e_error_call_hotline">Ein Fehler ist aufgetreten. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline.</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_try_again_dcc_not_available_yet">Ihr Zertifikat liegt noch nicht vor. Bitte versuchen Sie es noch einmal. Sollte der Fehler weiterhin bestehen, kontaktieren Sie bitte die technische Hotline über App-Informationen -> Technische Hotline.</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_client_error_call_hotline">Ein Fehler ist aufgetreten. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline.></string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_dcc_expired">Das Zertifikat ist nicht mehr aktuell, Sie können es aus der Corona-App entfernen.</string>
 </resources>
