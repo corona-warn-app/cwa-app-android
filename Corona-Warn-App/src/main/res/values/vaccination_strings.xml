@@ -74,6 +74,10 @@
     <string name="vaccination_card_register">"Add"</string>
     <!-- XHED: Homescreen vaccination status card title -->
     <string name="vaccination_card_status_title">"Digital Proof of Vaccination"</string>
+    <!-- XHED: Homescreen vaccination status card title -->
+    <string name="vaccination_card_status_title_line_1">"Digitaler"</string>
+    <!-- XHED: Homescreen vaccination status card title -->
+    <string name="vaccination_card_status_title_line_2">"Impfnachweis"</string>
     <!-- XHED: Homescreen vaccination status card vaccination name -->
     <string name="vaccination_card_status_vaccination_name">"SARS-CoV-2 Vaccination"</string>
     <!-- XTXT: Homescreen card incomplete vaccination status label -->
@@ -87,6 +91,8 @@
         <item quantity="few">"Full vaccination protection in %1$d days"</item>
         <item quantity="many">"Full vaccination protection in %1$d days"</item>
     </plurals>
+    <!-- XTXT: Homescreen card complete vaccination status label -->
+    <string name="vaccination_card_status_vaccination_complete">"Gültig bis einschließlich %s"</string>
 
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_invalid">"This QR code is not a valid vaccination certificate."</string>
