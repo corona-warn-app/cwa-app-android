@@ -55,4 +55,18 @@
     <string name="test_certificate_error_label">Fehler bei der Zertifikatsabfrage</string>
     <!-- XBUT: Test error retry button -->
     <string name="test_certificate_error_retry_button">Nochmal versuchen</string>
+    <!-- XBUT: Test error delete button -->
+    <string name="test_certificate_error_delete_button">Testzertifikat entfernen</string>
+    <!-- XTXT: Test error refresh dialog title -->
+    <string name="test_certificate_refresh_dialog_title">"Es gibt weiterhin Probleme bei der Abfrage"</string>
+    <!-- XBUT: Test error refresh dialog confirm button -->
+    <string name="test_certificate_refresh_dialog_confirm_button">"OK"</string>
+    <!-- XTXT: Test error delete dialog title -->
+    <string name="test_certificate_delete_dialog_title">"Wollen Sie das Zertifikat wirklich entfernen?"</string>
+    <!-- XTXT: Test error delete dialog body -->
+    <string name="test_certificate_delete_dialog_body">"Wenn das Zertifikat enfernt wird, kann es nicht noch einmal angefordert werden."</string>
+    <!-- XTXT: Test error delete dialog confirm button -->
+    <string name="test_certificate_delete_dialog_confirm_button">"Entfernen"</string>
+    <!-- XTXT: Test error delete dialog cancel button -->
+    <string name="test_certificate_delete_dialog_cancel_button">"Abbrechen"</string>
 </resources>

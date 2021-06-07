@@ -74,9 +74,23 @@
         android:layout_marginBottom="@dimen/spacing_small"
         android:text="@string/test_certificate_error_retry_button"
         android:textColor="@color/colorAccent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/test_time"
+        app:strokeColor="@color/colorAccent" />
+
+    <Button
+        android:id="@+id/delete_button"
+        style="@style/buttonLight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/card_padding"
+        android:layout_marginEnd="@dimen/card_padding"
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:text="@string/test_certificate_error_delete_button"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/retry_button"
         app:strokeColor="@color/colorAccent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
