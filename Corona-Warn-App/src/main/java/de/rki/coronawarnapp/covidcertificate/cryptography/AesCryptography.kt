@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.cryptography
 
 import com.google.android.gms.common.util.Hex
-import org.bouncycastle.util.encoders.Base64.decode
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
@@ -16,8 +15,8 @@ class AesCryptography @Inject constructor() {
         decryptionKey: ByteArray,
         encryptedData: ByteArray
     ): ByteArray {
-        val keySpec = SecretKeySpec(decode(decryptionKey), ALGORITHM)
-        val input = decode(encryptedData)
+        val keySpec = SecretKeySpec((decryptionKey), ALGORITHM)
+        val input = encryptedData
         return with(Cipher.getInstance(TRANSFORMATION)) {
             init(Cipher.DECRYPT_MODE, keySpec, ivParameterSpec)
             doFinal(input)

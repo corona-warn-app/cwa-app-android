@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateE
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.HC_COSE_MESSAGE_INVALID
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.HC_COSE_TAG_INVALID
 import de.rki.coronawarnapp.util.encoding.base64
+import okio.ByteString.Companion.decodeBase64
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -41,7 +42,7 @@ class HealthCertificateCOSEDecoder @Inject constructor(
     private fun ByteArray.decrypt(decryptionKey: ByteArray) = try {
         aesEncryptor.decrypt(
             decryptionKey = decryptionKey,
-            encryptedData = this.base64().toByteArray()
+            encryptedData = this
         )
     } catch (e: Throwable) {
         Timber.e(e)
