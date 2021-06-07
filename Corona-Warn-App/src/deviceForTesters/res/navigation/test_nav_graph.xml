@@ -55,12 +55,6 @@
         <action
             android:id="@+id/action_test_menu_fragment_to_coronaTestTestFragment"
             app:destination="@id/coronaTestTestFragment" />
-        <action
-            android:id="@+id/action_test_menu_fragment_to_vaccinationTestFragment"
-            app:destination="@id/vaccinationTestFragment" />
-        <action
-            android:id="@+id/action_test_menu_fragment_to_greenCertificateTestFragment"
-            app:destination="@id/greenCertificateTestFragment" />
     </fragment>
 
     <fragment
