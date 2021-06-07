@@ -1,9 +1,11 @@
 package de.rki.coronawarnapp.vaccination.core.repository
 
+import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.VC_ALREADY_REGISTERED
+import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.VC_NAME_MISMATCH
+import de.rki.coronawarnapp.covidcertificate.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.vaccination.core.DaggerVaccinationTestComponent
 import de.rki.coronawarnapp.vaccination.core.VaccinationTestData
-import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationQRCodeExtractor
 import de.rki.coronawarnapp.vaccination.core.repository.errors.VaccinationCertificateNotFoundException
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinatedPersonData
@@ -109,9 +111,9 @@ class VaccinationRepositoryTest : BaseTest() {
         val instance = createInstance(this)
         advanceUntilIdle()
 
-        shouldThrow<InvalidHealthCertificateException> {
+        shouldThrow<InvalidVaccinationCertificateException> {
             instance.registerVaccination(vaccinationTestData.personBVac1QRCode)
-        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.VC_NAME_MISMATCH
+        }.errorCode shouldBe VC_NAME_MISMATCH
 
         testStorage shouldBe setOf(vaccinationTestData.personAData2Vac)
     }
@@ -127,9 +129,9 @@ class VaccinationRepositoryTest : BaseTest() {
         val instance = createInstance(this)
         advanceUntilIdle()
 
-        shouldThrow<InvalidHealthCertificateException> {
+        shouldThrow<InvalidVaccinationCertificateException> {
             instance.registerVaccination(vaccinationTestData.personAVac1QRCode)
-        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.VC_ALREADY_REGISTERED
+        }.errorCode shouldBe VC_ALREADY_REGISTERED
 
         testStorage.first() shouldBe dataBefore
     }

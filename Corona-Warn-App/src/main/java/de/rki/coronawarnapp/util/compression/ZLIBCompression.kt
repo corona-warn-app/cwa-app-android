@@ -2,6 +2,9 @@ package de.rki.coronawarnapp.util.compression
 
 import okio.Buffer
 import okio.inflate
+import timber.log.Timber
+import java.io.ByteArrayOutputStream
+import java.util.zip.Deflater
 import java.util.zip.Inflater
 import javax.inject.Inject
 
@@ -25,8 +28,25 @@ class ZLIBCompression @Inject constructor() {
 
         sink.readByteArray()
     } catch (e: Throwable) {
+        Timber.e(e)
         throw InvalidInputException("ZLIB decompression failed.", e)
+    }
+
+    fun compress(input: ByteArray): ByteArray {
+        val deflater = Deflater()
+        deflater.setInput(input)
+        val outputStream = ByteArrayOutputStream(input.size)
+        deflater.finish()
+        val buffer = ByteArray(1024)
+        while (!deflater.finished()) {
+            val count = deflater.deflate(buffer)
+            outputStream.write(buffer, 0, count)
+        }
+        outputStream.close()
+        return outputStream.toByteArray()
     }
 }
 
 fun ByteArray.inflate(sizeLimit: Long = -1L) = ZLIBCompression().decompress(this, sizeLimit)
+
+fun ByteArray.deflate() = ZLIBCompression().compress(this)

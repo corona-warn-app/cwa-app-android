@@ -28,7 +28,7 @@ interface TestCertificate {
      */
     val testNameAndManufactor: String?
     val sampleCollectedAt: Instant
-    val testResultAt: Instant
+    val testResultAt: Instant?
     val testCenter: String
 
     val certificateIssuer: String

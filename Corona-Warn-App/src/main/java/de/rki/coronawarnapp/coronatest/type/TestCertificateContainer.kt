@@ -84,7 +84,7 @@ abstract class TestCertificateContainer {
                 get() = testCertificate.testNameAndManufactor?.let { valueSet?.getDisplayText(it) ?: it }
             override val sampleCollectedAt: Instant
                 get() = testCertificate.sampleCollectedAt
-            override val testResultAt: Instant
+            override val testResultAt: Instant?
                 get() = testCertificate.testResultAt
             override val testCenter: String
                 get() = testCertificate.testCenter

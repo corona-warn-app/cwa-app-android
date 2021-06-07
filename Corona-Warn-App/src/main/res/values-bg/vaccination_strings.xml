@@ -36,7 +36,7 @@
     <string name="vaccination_list_vaccination_card_subtitle">"Извършено на %1$s"</string>
     <!-- XTXT: Vaccination List immunity information card body-->
     <plurals name="vaccination_list_immunity_card_body">
-        <item quantity="one">"Получихте всички планирани за момента ваксинации, но защитата ви от ваксиниране ще е пълна едва след %1$d ден."</item>
+        <item quantity="one">"Получихте всички планирани за момента ваксинации, но защитата ви от ваксиниране ще е пълна след %1$d ден."</item>
         <item quantity="other">"Получихте всички планирани за момента ваксинации, но защитата ви от ваксиниране ще е пълна едва след %1$d дни."</item>
         <item quantity="zero">"Получихте всички планирани за момента ваксинации, но защитата ви от ваксиниране ще е пълна едва след %1$d дни."</item>
         <item quantity="two">"Получихте всички планирани за момента ваксинации, но защитата ви от ваксиниране ще е пълна едва след %1$d дни."</item>
@@ -62,9 +62,11 @@
         Homescreen cards
     ###################################### -->
     <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_registration_title">"Добавете сертификат за ваксиниране"</string>
+    <string name="vaccination_card_registration_title_line_1">"Добавете електронно доказателство"</string>
+    <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
+    <string name="vaccination_card_registration_title_line_2">"за ваксиниране"</string>
     <!-- YTXT: Body text for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_registration_body">"Добавете ваксинационни сертификати в приложението, за да са винаги с вас. За да направите това, сканирайте QR кода от вашия документ."</string>
+    <string name="vaccination_card_registration_body">"Добавете ваксинационните си сертификати в приложението, за да са винаги с вас. За да направите това, сканирайте QR кода от вашия документ."</string>
     <!-- XBUT: button for Vaccination Certificate Registration Home Card -->
     <string name="vaccination_card_register">"Добавяне"</string>
     <!-- XHED: Homescreen vaccination status card title -->
@@ -97,17 +99,17 @@
     <!-- XTXT: Vaccination Consent title-->
     <string name="vaccination_consent_title">"Вашето съгласие"</string>
     <!-- XTXT: Vaccination Consent subtitle-->
-    <string name="vaccination_consent_headline">"Добавете сертификат за ваксиниране"</string>
+    <string name="vaccination_consent_headline">"Добавете сертификати"</string>
     <!-- XTXT: Vaccination Consent subtitle of qr info -->
-    <string name="vaccination_consent_info_subtitle_text">"Добавете електронния си сертификат за ваксиниране. Когато ваксинационната ви защита бъде завършена, можете да представяте QR кода в приложението си като доказателство за ваксиниране."</string>
+    <string name="vaccination_consent_info_subtitle_text">"Добавете електронните си сертификати за COVID в приложението. Така ще можете да доказвате ваксинационната си защита или резултата от отрицателен тест чрез приложението."</string>
     <!-- XTXT: Vaccination Consent text of qr info -->
-    <string name="vaccination_consent_qr_info_text">"За да добавите сертификат за ваксиниране в приложението, сканирайте QR кода, който сте получили по време на ваксинирането."</string>
+    <string name="vaccination_consent_qr_info_text">"Можете да добавите в приложението сертификатите си за ваксиниране срещу COVID или сертификатите за тествания за COVID."</string>
     <!-- XTXT: Vaccination Consent qr code text -->
-    <string name="vaccination_consent_qr_info_qr_code_text">"Приложението чете информацията от QR кода и го запазва в защитена област в смартфона ви."</string>
+    <string name="vaccination_consent_qr_info_qr_code_text">"Тези сертификати се считат за валидно доказателство в рамките на ЕС (например при пътуване)."</string>
     <!-- XTXT: Vaccination Consent time text  -->
-    <string name="vaccination_consent_qr_info_time_text">"Данните ще останат в смартфона. Те ще бъдат предадени на другите само ако представите ваксинационния си сертификат за проверка."</string>
+    <string name="vaccination_consent_qr_info_time_text">"След като добавите сертификат, той ще се запази в смартфона Ви. Ще се споделя с останалите само ако представите сертификат за ваксиниране."</string>
     <!-- XTXT: Text for vaccination consent legal information button -->
-    <string name="vaccination_consent_onboarding_legal_information">"За повече информация прочетете декларацията за поверителност."</string>
+    <string name="vaccination_consent_onboarding_legal_information">"За повече информация относно обработката на данни, прочетете декларацията за поверителност."</string>
     <!-- XBUT: Text for vaccination consent accept button -->
     <string name="vaccination_consent_accept_button">"Напред"</string>
 
