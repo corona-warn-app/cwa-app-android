@@ -123,12 +123,12 @@ object TimeAndDateExtensions {
     /**
      * Returns a readable time String with the format "hh:mm" like 12:00 of a LocalDate
      */
-    fun LocalDate.toShotTimeFormat(): String = toString(shortTime)
+    fun LocalDate.toShortTimeFormat(): String = toString(shortTime)
 
     /**
      * Returns a readable time String with the format "hh:mm" like 12:00 of a LocalDate
      */
-    fun Instant.toShotTimeFormat(): String = toString(shortTime)
+    fun Instant.toShortTimeFormat(): String = toString(shortTime)
 
     /**
      * Returns a readable date String with the format "dd.MM.yy" like 23.05.89 of an Instant
