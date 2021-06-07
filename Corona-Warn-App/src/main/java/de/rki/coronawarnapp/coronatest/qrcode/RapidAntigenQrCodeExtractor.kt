@@ -147,15 +147,9 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
 
         private fun requireValidHash() {
             val isQrCodeWithPersonalData = firstName != null && lastName != null && dateOfBirth != null
-            val rawBuilder = StringBuilder(
+            val generatedHash =
                 "${raw.dateOfBirth}#${raw.firstName}#${raw.lastName}#${raw.timestamp}#${raw.testid}#${raw.salt}"
-            )
-            if (raw.dgc != null) {
-                val asInt = if (raw.dgc == true) 1 else 0
-                rawBuilder.append("#$asInt")
-            }
-
-            val generatedHash = rawBuilder.toString().toSHA256()
+                    .toSHA256()
             if (isQrCodeWithPersonalData && !generatedHash.equals(hash, true)) {
                 throw InvalidQRCodeException("Generated hash doesn't match QRCode hash")
             }
