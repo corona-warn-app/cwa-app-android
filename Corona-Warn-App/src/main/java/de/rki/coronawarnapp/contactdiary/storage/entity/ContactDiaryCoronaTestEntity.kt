@@ -48,7 +48,7 @@ fun Map.Entry<CoronaTestGUID, CoronaTest>.asTestResultEntity(): ContactDiaryCoro
             testType = if (type == CoronaTest.Type.PCR) PCR else ANTIGEN,
             result = if (isPositive) POSITIVE else NEGATIVE,
             time = when (this) {
-                is RACoronaTest -> testedAt
+                is RACoronaTest -> testTakenAt
                 else -> registeredAt
             }
         )
