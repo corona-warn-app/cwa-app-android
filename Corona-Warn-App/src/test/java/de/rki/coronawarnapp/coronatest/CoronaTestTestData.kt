@@ -39,8 +39,8 @@ class CoronaTestTestData @Inject constructor(
             TestCertificateDccV1.TestCertificateData(
                 targetId = "840539006",
                 countryOfTest = "DE",
-                sampleCollectedAt = Instant.EPOCH,
-                testResultAt = Instant.EPOCH,
+                sc = Instant.EPOCH.toDateTime().toString(),
+                dr = Instant.EPOCH.toDateTime().toString(),
                 testCenter = "TODO",
                 testName = "TODO",
                 testNameAndManufactor = "TODO",
@@ -100,8 +100,8 @@ class CoronaTestTestData @Inject constructor(
             TestCertificateDccV1.TestCertificateData(
                 targetId = "840539006",
                 countryOfTest = "DE",
-                sampleCollectedAt = Instant.EPOCH,
-                testResultAt = Instant.EPOCH,
+                sc = Instant.EPOCH.toDateTime().toString(),
+                dr = Instant.EPOCH.toDateTime().toString(),
                 testCenter = "TODO",
                 testName = "TODO",
                 testNameAndManufactor = "TODO",

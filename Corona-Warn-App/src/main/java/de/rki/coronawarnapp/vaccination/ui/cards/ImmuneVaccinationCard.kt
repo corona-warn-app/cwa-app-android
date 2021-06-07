@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.VaccinationHomeImmuneCardBinding
 import de.rki.coronawarnapp.greencertificate.ui.certificates.CertificatesAdapter
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 
@@ -24,6 +25,10 @@ class ImmuneVaccinationCard(parent: ViewGroup) :
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
 
         personName.text = curItem.vaccinatedPerson.fullName
+        vaccinationState.text = context.getString(
+            R.string.vaccination_card_status_vaccination_complete,
+            curItem.vaccinatedPerson.getMostRecentVaccinationCertificate.expiresAt.toDayFormat()
+        )
 
         itemView.setOnClickListener { curItem.onClickAction(item) }
     }

@@ -1,13 +1,13 @@
 package de.rki.coronawarnapp.vaccination.core.qrcode
 
+import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
+import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.HC_CWT_NO_ISS
+import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
+import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.VC_NO_VACCINATION_ENTRY
+import de.rki.coronawarnapp.covidcertificate.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.vaccination.core.DaggerVaccinationTestComponent
 import de.rki.coronawarnapp.vaccination.core.VaccinationQrCodeTestData
 import de.rki.coronawarnapp.vaccination.core.VaccinationTestData
-import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException
-import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
-import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
-import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_HC_CWT_NO_ISS
-import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_NO_VACCINATION_ENTRY
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import org.joda.time.Instant
@@ -80,29 +80,29 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `valid encoding but not a health certificate fails with VC_HC_CWT_NO_ISS`() {
-        shouldThrow<InvalidHealthCertificateException> {
+    fun `valid encoding but not a health certificate fails with HC_CWT_NO_ISS`() {
+        shouldThrow<InvalidVaccinationCertificateException> {
             extractor.extract(VaccinationQrCodeTestData.validEncoded)
-        }.errorCode shouldBe VC_HC_CWT_NO_ISS
+        }.errorCode shouldBe HC_CWT_NO_ISS
     }
 
     @Test
     fun `random string fails with HC_BASE45_DECODING_FAILED`() {
-        shouldThrow<InvalidHealthCertificateException> {
+        shouldThrow<InvalidVaccinationCertificateException> {
             extractor.extract("nothing here to see")
         }.errorCode shouldBe HC_BASE45_DECODING_FAILED
     }
 
     @Test
     fun `uncompressed base45 string fails with HC_ZLIB_DECOMPRESSION_FAILED`() {
-        shouldThrow<InvalidHealthCertificateException> {
+        shouldThrow<InvalidVaccinationCertificateException> {
             extractor.extract("6BFOABCDEFGHIJKLMNOPQRSTUVWXYZ %*+-./:")
         }.errorCode shouldBe HC_ZLIB_DECOMPRESSION_FAILED
     }
 
     @Test
     fun `vaccination certificate missing fails with VC_NO_VACCINATION_ENTRY`() {
-        shouldThrow<InvalidHealthCertificateException> {
+        shouldThrow<InvalidVaccinationCertificateException> {
             extractor.extract(VaccinationQrCodeTestData.certificateMissing)
         }.errorCode shouldBe VC_NO_VACCINATION_ENTRY
     }
