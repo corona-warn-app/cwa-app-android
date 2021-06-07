@@ -50,17 +50,17 @@ class TestCertificateServerException(
             "DCC Test Certificate Components failed with error 500: Internal server error.",
             ERROR_MESSAGE_TRY_AGAIN
         ),
-        //TODO error message
+        //TODO error message not defined
         DCC_COMP_500_LAB_INVALID_RESPONSE(
             "DCC Components failed with error 500: Lab Invalid response",
             ERROR_MESSAGE_GENERIC
         ),
-        //TODO error message
+        //TODO error message not defined
         DCC_COMP_500_SIGNING_CLIENT_ERROR(
             "DCC Components failed with error 500: Signing client error",
             ERROR_MESSAGE_GENERIC
         ),
-        //TODO error message
+        //TODO error message not defined
         DCC_COMP_500_SIGNING_SERVER_ERROR(
             "DCC Components failed with error 500: Signing server error",
             ERROR_MESSAGE_GENERIC

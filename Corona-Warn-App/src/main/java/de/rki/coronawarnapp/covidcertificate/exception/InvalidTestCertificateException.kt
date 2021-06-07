@@ -18,8 +18,8 @@ class InvalidTestCertificateException(errorCode: ErrorCode) : InvalidHealthCerti
 
             ErrorCode.AES_DECRYPTION_FAILED,
             ErrorCode.RSA_DECRYPTION_FAILED,
-            ErrorCode.DCC_COSE_MESSAGE_INVALID,
-            ErrorCode.DCC_COSE_TAG_INVALID -> CachedString { context ->
+            ErrorCode.HC_COSE_MESSAGE_INVALID,
+            ErrorCode.HC_COSE_TAG_INVALID -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_E2E_ERROR_CALL_HOTLINE)
             }
 

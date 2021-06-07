@@ -38,10 +38,6 @@ open class InvalidHealthCertificateException(
         AES_DECRYPTION_FAILED("AES decryption failed"),
         RSA_DECRYPTION_FAILED("RSA decryption failed."),
         RSA_KP_GENERATION_FAILED("RSA key pair generation failed."),
-
-        // -> decryption method
-        DCC_COSE_MESSAGE_INVALID("COSE message invalid."),
-        DCC_COSE_TAG_INVALID("COSE tag invalid."),
     }
 
     open val errorMessage: LazyString

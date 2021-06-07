@@ -8,6 +8,9 @@ import de.rki.coronawarnapp.coronatest.type.TestCertificateContainer
 import de.rki.coronawarnapp.coronatest.type.TestCertificateIdentifier
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCertificateContainer
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACertificateContainer
+import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.RSA_DECRYPTION_FAILED
+import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.RSA_KP_GENERATION_FAILED
+import de.rki.coronawarnapp.covidcertificate.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.exception.TestCertificateServerException
 import de.rki.coronawarnapp.covidcertificate.exception.TestCertificateServerException.ErrorCode.DCC_COMP_202
 import de.rki.coronawarnapp.covidcertificate.server.CovidCertificateServer
@@ -249,7 +252,11 @@ class TestCertificateRepository @Inject constructor(
                 return cert
             }
 
-            val rsaKeyPair = rsaKeyPairGenerator.generate()
+            val rsaKeyPair = try {
+                rsaKeyPairGenerator.generate()
+            } catch (e: Throwable) {
+                throw InvalidTestCertificateException(RSA_KP_GENERATION_FAILED)
+            }
 
             withContext(dispatcherProvider.IO) {
                 certificateServer.registerPublicKeyForTest(
@@ -328,13 +335,18 @@ class TestCertificateRepository @Inject constructor(
             }
             Timber.tag(TAG).i("Test certificate components successfully request for %s: %s", cert, components)
 
-            val encryptionkey = rsaCryptography.decrypt(
-                toDecrypt = components.dataEncryptionKeyBase64.decodeBase64()!!,
-                privateKey = cert.rsaPrivateKey!!
-            )
+            val encryptionKey = try {
+                 rsaCryptography.decrypt(
+                    toDecrypt = components.dataEncryptionKeyBase64.decodeBase64()!!,
+                    privateKey = cert.rsaPrivateKey!!
+                )
+            } catch (e: Throwable) {
+                Timber.tag(TAG).e(e, "RSA_DECRYPTION_FAILED")
+                throw InvalidTestCertificateException(RSA_DECRYPTION_FAILED)
+            }
 
             val extractedData = qrCodeExtractor.extract(
-                decryptionKey = encryptionkey.toByteArray(),
+                decryptionKey = encryptionKey.toByteArray(),
                 rawCoseObjectEncrypted = components.encryptedCoseTestCertificateBase64.decodeBase64()!!.toByteArray()
             )
 
