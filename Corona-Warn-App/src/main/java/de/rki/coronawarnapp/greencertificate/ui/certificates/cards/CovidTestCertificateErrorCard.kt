@@ -4,9 +4,10 @@ import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.CovidTestErrorCardBinding
 import de.rki.coronawarnapp.greencertificate.ui.certificates.CertificatesAdapter
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import org.joda.time.Instant
-import org.joda.time.format.DateTimeFormat
 
 class CovidTestCertificateErrorCard(parent: ViewGroup) :
     CertificatesAdapter.CertificatesItemVH<CovidTestCertificateErrorCard.Item, CovidTestErrorCardBinding>(
@@ -23,14 +24,10 @@ class CovidTestCertificateErrorCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, _ ->
 
-        val dateTime = item.testDate.toDateTime()
-        val dateFormat = DateTimeFormat.shortDate()
-        val timeFormat = DateTimeFormat.shortTime()
-
         testTime.text = context.getString(
             R.string.test_certificate_time,
-            dateTime.toString(dateFormat),
-            dateTime.toString(timeFormat),
+            item.testDate.toShortDayFormat(),
+            item.testDate.toShortTimeFormat(),
         )
 
         retryButton.setOnClickListener { item.onClickAction(item) }
