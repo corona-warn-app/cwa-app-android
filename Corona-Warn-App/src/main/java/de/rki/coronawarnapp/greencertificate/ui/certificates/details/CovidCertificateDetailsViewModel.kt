@@ -31,7 +31,7 @@ class CovidCertificateDetailsViewModel @AssistedInject constructor(
     val events = SingleLiveEvent<CovidCertificateDetailsNavigation>()
     val errors = SingleLiveEvent<Throwable>()
     val covidCertificate = testCertificateRepository.certificates.map { certificates ->
-        certificates.find { it.identifier == testCertificateIdentifier }?.toTestCertificate()
+        certificates.find { it.identifier == testCertificateIdentifier }?.toTestCertificate(null)
             .also { generateQrCode(it) }
     }.asLiveData(dispatcherProvider.Default)
 
