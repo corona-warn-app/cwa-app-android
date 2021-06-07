@@ -9,5 +9,4 @@ object ValueSetTestData {
     val vpItemEn = vpItemDe.copy(second = "Vaccine-Name")
     val mpItemEn = mpItemDe.copy(second = "MedicalProduct-Name")
     val maItemEn = maItemDe.copy(second = "Manufactorer-Name")
-
 }
