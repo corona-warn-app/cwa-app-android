@@ -47,6 +47,12 @@ class CertificatesFragment : Fragment(R.layout.fragment_certificates), AutoInjec
                     findNestedGraph(R.id.vaccination_nav_graph).startDestination = R.id.vaccinationQrCodeScanFragment
                     doNavigate(CertificatesFragmentDirections.actionCertificatesFragmentToVaccinationNavGraph())
                 }
+                is CertificatesFragmentEvents.GoToCovidCertificateDetailScreen -> {
+                    doNavigate(
+                        CertificatesFragmentDirections
+                            .actionCertificatesFragmentToCovidCertificateDetailsFragment(event.identifier)
+                    )
+                }
             }
         }
     }

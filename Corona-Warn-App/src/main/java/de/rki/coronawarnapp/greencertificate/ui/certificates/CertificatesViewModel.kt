@@ -106,7 +106,14 @@ class CertificatesViewModel @AssistedInject constructor(
                         testDate = certificate.registeredAt,
                         testPerson =
                         certificate.toTestCertificate(null)?.firstName + " " +
-                            certificate.toTestCertificate(null)?.lastName
+                            certificate.toTestCertificate(null)?.lastName,
+                        onClickAction = {
+                            events.postValue(
+                                CertificatesFragmentEvents.GoToCovidCertificateDetailScreen(
+                                    certificate.identifier
+                                )
+                            )
+                        }
                     )
                 )
             }
