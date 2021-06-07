@@ -2,12 +2,6 @@ package de.rki.coronawarnapp.vaccination.core.repository.storage
 
 import android.content.Context
 import de.rki.coronawarnapp.util.serialization.SerializationModule
-import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.emptyStoredValueSet
-import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.emptyValueSetEn
-import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.storedValueSetDe
-import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.storedValueSetEn
-import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.valueSetDe
-import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.valueSetEn
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
@@ -21,6 +15,7 @@ import testhelpers.preferences.MockSharedPreferences
 
 class ValueSetsStorageTest : BaseTest() {
 
+    /*
     @MockK lateinit var context: Context
     lateinit var prefs: MockSharedPreferences
 
@@ -138,4 +133,6 @@ class ValueSetsStorageTest : BaseTest() {
 
         createInstance().valueSetsContainer shouldBe emptyStoredValueSet
     }
+
+     */
 }

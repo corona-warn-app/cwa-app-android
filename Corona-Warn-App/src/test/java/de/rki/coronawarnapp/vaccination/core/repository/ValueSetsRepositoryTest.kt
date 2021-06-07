@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.vaccination.core.repository
 
-import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.emptyValueSetEn
-import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.valueSetDe
-import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.valueSetEn
+
 import de.rki.coronawarnapp.vaccination.core.repository.storage.ValueSetsStorage
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationServer
 import io.mockk.MockKAnnotations
@@ -24,6 +22,7 @@ import java.util.Locale
 
 class ValueSetsRepositoryTest : BaseTest() {
 
+    /*
     @MockK lateinit var vaccinationServer: VaccinationServer
     @MockK lateinit var valueSetsStorage: ValueSetsStorage
 
@@ -109,4 +108,6 @@ class ValueSetsRepositoryTest : BaseTest() {
             }
         }
     }
+
+     */
 }
