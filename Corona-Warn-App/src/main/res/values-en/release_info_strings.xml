@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
     <!-- ####################################
-                 Release Info Screen 1.14
+                 Release Info Screen
      ###################################### -->
 
     <!-- XHED: Title for the release info screen -->
@@ -16,22 +16,26 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Digital Proof of Vaccination"</item>
+        <item>"COVID Test Certificate"</item>
+        <item>"Contact Journal Enhancement"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"You can now add your vaccination certificates in the app and present them via QR code. The app displays full vaccination protection 14 days after the final vaccination."</item>
+        <item>"You can now request an official digital test certificate through the app and then add it in the app. You can use this test certificate (QR code) within the EU to prove a negative test result (for international travel, for example)."</item>
+        <item>"As soon as your test result is available, it is now also added to your contact journal."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
-        <item />
+        <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item />
+        <item/>
+        <item/>
     </string-array>
 
 </resources>
