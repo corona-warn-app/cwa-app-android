@@ -37,7 +37,6 @@ class CovidTestCertificateErrorCard(parent: ViewGroup) :
     }
 
     data class Item(
-        // TODO: replace with correct data
         override val testDate: Instant,
         val onClickAction: (Item) -> Unit,
     ) : VaccinationTestItem, HasPayloadDiffer {

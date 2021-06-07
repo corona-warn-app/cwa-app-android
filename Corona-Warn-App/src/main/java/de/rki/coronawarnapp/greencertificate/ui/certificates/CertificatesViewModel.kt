@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.greencertificate.ui.certificates
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.TestCertificateRepository
@@ -15,7 +14,7 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.VaccinationSettings
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
-import de.rki.coronawarnapp.vaccination.ui.cards.BottomInfoVaccinationCard
+import de.rki.coronawarnapp.vaccination.ui.cards.NoCovidTestCertificatesCard
 import de.rki.coronawarnapp.vaccination.ui.cards.CreateVaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.HeaderInfoVaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.ImmuneVaccinationCard
@@ -23,8 +22,6 @@ import de.rki.coronawarnapp.vaccination.ui.cards.VaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.CovidTestCertificateErrorCard
 import de.rki.coronawarnapp.vaccination.ui.cards.CovidTestCertificateCard
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.launch
-import org.joda.time.Instant
 
 class CertificatesViewModel @AssistedInject constructor(
     vaccinationRepository: VaccinationRepository,
@@ -35,7 +32,7 @@ class CertificatesViewModel @AssistedInject constructor(
     val events = SingleLiveEvent<CertificatesFragmentEvents>()
 
     private fun refreshTestCertificate(identifier: TestCertificateIdentifier) {
-        viewModelScope.launch {
+        launch {
             testCertificateRepository.refresh(identifier)
         }
     }
@@ -95,10 +92,10 @@ class CertificatesViewModel @AssistedInject constructor(
     private fun MutableList<CertificatesItem>.addTestCertificateCards(certificates: Set<TestCertificateContainer>) {
 
         certificates.forEach { certificate ->
-            if (certificate.certificateId == null) {
+            if (certificate.isCertificateRetrievalPending) {
                 add(
                     CovidTestCertificateErrorCard.Item(
-                        testDate = Instant.now(),
+                        testDate = certificate.registeredAt,
                         onClickAction = {
                             refreshTestCertificate(certificate.identifier)
                         }
@@ -117,7 +114,7 @@ class CertificatesViewModel @AssistedInject constructor(
         }
 
         if (certificates.isEmpty()) {
-            add(BottomInfoVaccinationCard.Item)
+            add(NoCovidTestCertificatesCard.Item)
         }
     }
 

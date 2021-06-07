@@ -37,7 +37,6 @@ class CovidTestCertificateCard(parent: ViewGroup) :
     }
 
     data class Item(
-        // TODO: replace with correct data
         override val testDate: Instant,
         val testPerson: String,
     ) : VaccinationTestItem, HasPayloadDiffer {
