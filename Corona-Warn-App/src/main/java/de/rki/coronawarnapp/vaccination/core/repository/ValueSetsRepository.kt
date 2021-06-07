@@ -48,8 +48,6 @@ class ValueSetsRepository @Inject constructor(
             .onEach { valueSetsStorage.valueSetsContainer = it }
             .catch { Timber.e(it, "Storing new value sets failed.") }
             .launchIn(scope + dispatcherProvider.IO)
-
-        triggerUpdateValueSet(Locale.GERMAN)
     }
 
     val latestVaccinationValueSets: Flow<VaccinationValueSets> = internalData.data
