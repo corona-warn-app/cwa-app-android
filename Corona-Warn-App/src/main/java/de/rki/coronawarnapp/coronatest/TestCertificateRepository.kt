@@ -174,11 +174,13 @@ class TestCertificateRepository @Inject constructor(
                 .filter { workedOnIds.contains(it.identifier) } // Refresh targets
                 .filter { !it.isPublicKeyRegistered } // Targets of this step
                 .map { cert ->
-                    try {
-                        RefreshResult(registerPublicKey(cert))
-                    } catch (e: Exception) {
-                        Timber.tag(TAG).e(e, "Failed to register public key for %s", cert)
-                        RefreshResult(cert, e)
+                    withContext(dispatcherProvider.IO) {
+                        try {
+                            RefreshResult(registerPublicKey(cert))
+                        } catch (e: Exception) {
+                            Timber.tag(TAG).e(e, "Failed to register public key for %s", cert)
+                            RefreshResult(cert, e)
+                        }
                     }
                 }
 
@@ -201,11 +203,13 @@ class TestCertificateRepository @Inject constructor(
                 .filter { workedOnIds.contains(it.identifier) } // Refresh targets
                 .filter { it.isPublicKeyRegistered && it.isCertificateRetrievalPending } // Targets of this step
                 .map { cert ->
-                    try {
-                        RefreshResult(obtainCertificate(cert))
-                    } catch (e: Exception) {
-                        Timber.tag(TAG).e(e, "Failed to retrieve test certificate for %s", cert)
-                        RefreshResult(cert, e)
+                    withContext(dispatcherProvider.IO) {
+                        try {
+                            RefreshResult(obtainCertificate(cert))
+                        } catch (e: Exception) {
+                            Timber.tag(TAG).e(e, "Failed to retrieve certificate components for %s", cert)
+                            RefreshResult(cert, e)
+                        }
                     }
                 }
 
@@ -244,45 +248,38 @@ class TestCertificateRepository @Inject constructor(
     private suspend fun registerPublicKey(
         cert: TestCertificateContainer
     ): TestCertificateContainer {
-        return try {
-            Timber.tag(TAG).d("registerPublicKey(cert=%s)", cert)
+        Timber.tag(TAG).d("registerPublicKey(cert=%s)", cert)
 
-            if (cert.isPublicKeyRegistered) {
-                Timber.tag(TAG).d("Public key is already registered for %s", cert)
-                return cert
-            }
+        if (cert.isPublicKeyRegistered) {
+            Timber.tag(TAG).d("Public key is already registered for %s", cert)
+            return cert
+        }
 
-            val rsaKeyPair = try {
-                rsaKeyPairGenerator.generate()
-            } catch (e: Throwable) {
-                throw InvalidTestCertificateException(RSA_KP_GENERATION_FAILED)
-            }
+        val rsaKeyPair = try {
+            rsaKeyPairGenerator.generate()
+        } catch (e: Throwable) {
+            throw InvalidTestCertificateException(RSA_KP_GENERATION_FAILED)
+        }
 
-            withContext(dispatcherProvider.IO) {
-                certificateServer.registerPublicKeyForTest(
-                    testRegistrationToken = cert.registrationToken,
-                    publicKey = rsaKeyPair.publicKey,
-                )
-            }
-            Timber.tag(TAG).i("Public key successfully registered for %s", cert)
+        certificateServer.registerPublicKeyForTest(
+            testRegistrationToken = cert.registrationToken,
+            publicKey = rsaKeyPair.publicKey,
+        )
+        Timber.tag(TAG).i("Public key successfully registered for %s", cert)
 
-            val nowUTC = timeStamper.nowUTC
+        val nowUTC = timeStamper.nowUTC
 
-            when (cert.type) {
-                CoronaTest.Type.PCR -> (cert as PCRCertificateContainer).copy(
-                    publicKeyRegisteredAt = nowUTC,
-                    rsaPublicKey = rsaKeyPair.publicKey,
-                    rsaPrivateKey = rsaKeyPair.privateKey,
-                )
-                CoronaTest.Type.RAPID_ANTIGEN -> (cert as RACertificateContainer).copy(
-                    publicKeyRegisteredAt = nowUTC,
-                    rsaPublicKey = rsaKeyPair.publicKey,
-                    rsaPrivateKey = rsaKeyPair.privateKey,
-                )
-            }
-        } catch (e: Exception) {
-            Timber.tag(TAG).e("Failed to register public key for %s", cert)
-            throw e
+        return when (cert.type) {
+            CoronaTest.Type.PCR -> (cert as PCRCertificateContainer).copy(
+                publicKeyRegisteredAt = nowUTC,
+                rsaPublicKey = rsaKeyPair.publicKey,
+                rsaPrivateKey = rsaKeyPair.privateKey,
+            )
+            CoronaTest.Type.RAPID_ANTIGEN -> (cert as RACertificateContainer).copy(
+                publicKeyRegisteredAt = nowUTC,
+                rsaPublicKey = rsaKeyPair.publicKey,
+                rsaPrivateKey = rsaKeyPair.privateKey,
+            )
         }
     }
 
@@ -296,78 +293,71 @@ class TestCertificateRepository @Inject constructor(
     private suspend fun obtainCertificate(
         cert: TestCertificateContainer
     ): TestCertificateContainer {
-        return try {
-            Timber.tag(TAG).d("requestCertificate(cert=%s)", cert)
+        Timber.tag(TAG).d("requestCertificate(cert=%s)", cert)
 
-            if (!cert.isPublicKeyRegistered) throw IllegalStateException("Public key is not registered yet.")
+        if (!cert.isPublicKeyRegistered) throw IllegalStateException("Public key is not registered yet.")
 
-            if (!cert.isCertificateRetrievalPending) {
-                Timber.tag(TAG).d("Dcc has already been retrieved for %s", cert)
-                return cert
+        if (!cert.isCertificateRetrievalPending) {
+            Timber.tag(TAG).d("Dcc has already been retrieved for %s", cert)
+            return cert
+        }
+
+        val certConfig = appConfigProvider.currentConfig.first().covidCertificateParameters.testCertificate
+
+        val nowUTC = timeStamper.nowUTC
+        val certAvailableAt = cert.publicKeyRegisteredAt!!.plus(certConfig.waitAfterPublicKeyRegistration)
+        val certAvailableIn = Duration(nowUTC, certAvailableAt)
+
+        if (certAvailableIn > Duration.ZERO && certAvailableIn <= certConfig.waitAfterPublicKeyRegistration) {
+            Timber.tag(TAG).d("Delaying certificate retrieval by %d ms", certAvailableIn.millis)
+            delay(certAvailableIn.millis)
+        }
+
+        val executeRequest: suspend () -> TestCertificateComponents = {
+            certificateServer.requestCertificateForTest(testRegistrationToken = cert.registrationToken)
+        }
+
+        val components = try {
+            executeRequest()
+        } catch (e: TestCertificateServerException) {
+            if (e.errorCode == DCC_COMP_202) {
+                delay(certConfig.waitForRetry.millis)
+                executeRequest()
+            } else {
+                throw e
             }
+        }
+        Timber.tag(TAG).i("Test certificate components successfully request for %s: %s", cert, components)
 
-            val certConfig = appConfigProvider.currentConfig.first().covidCertificateParameters.testCertificate
-
-            val nowUTC = timeStamper.nowUTC
-            val certAvailableAt = cert.publicKeyRegisteredAt!!.plus(certConfig.waitAfterPublicKeyRegistration)
-            val certAvailableIn = Duration(nowUTC, certAvailableAt)
-
-            val components = withContext(dispatcherProvider.IO) {
-                if (certAvailableIn > Duration.ZERO && certAvailableIn <= certConfig.waitAfterPublicKeyRegistration) {
-                    Timber.tag(TAG).d("Delaying certificate retrieval by %d ms", certAvailableIn.millis)
-                    delay(certAvailableIn.millis)
-                }
-
-                val executeRequest: suspend CoroutineScope.() -> TestCertificateComponents = {
-                    certificateServer.requestCertificateForTest(testRegistrationToken = cert.registrationToken)
-                }
-
-                try {
-                    executeRequest()
-                } catch (e: TestCertificateServerException) {
-                    if (e.errorCode == DCC_COMP_202) {
-                        delay(certConfig.waitForRetry.millis)
-                        executeRequest()
-                    } else {
-                        throw e
-                    }
-                }
-            }
-            Timber.tag(TAG).i("Test certificate components successfully request for %s: %s", cert, components)
-
-            val encryptionKey = try {
-                rsaCryptography.decrypt(
-                    toDecrypt = components.dataEncryptionKeyBase64.decodeBase64()!!,
-                    privateKey = cert.rsaPrivateKey!!
-                )
-            } catch (e: Throwable) {
-                Timber.tag(TAG).e(e, "RSA_DECRYPTION_FAILED")
-                throw InvalidTestCertificateException(RSA_DECRYPTION_FAILED)
-            }
-
-            val extractedData = qrCodeExtractor.extract(
-                decryptionKey = encryptionKey.toByteArray(),
-                rawCoseObjectEncrypted = components.encryptedCoseTestCertificateBase64.decodeBase64()!!.toByteArray()
+        val encryptionKey = try {
+            rsaCryptography.decrypt(
+                toDecrypt = components.dataEncryptionKeyBase64.decodeBase64()!!,
+                privateKey = cert.rsaPrivateKey!!
             )
+        } catch (e: Throwable) {
+            Timber.tag(TAG).e(e, "RSA_DECRYPTION_FAILED")
+            throw InvalidTestCertificateException(RSA_DECRYPTION_FAILED)
+        }
 
-            val nowUtc = timeStamper.nowUTC
+        val extractedData = qrCodeExtractor.extract(
+            decryptionKey = encryptionKey.toByteArray(),
+            rawCoseObjectEncrypted = components.encryptedCoseTestCertificateBase64.decodeBase64()!!.toByteArray()
+        )
 
-            when (cert.type) {
-                CoronaTest.Type.PCR -> (cert as PCRCertificateContainer).copy(
-                    testCertificateQrCode = extractedData.qrCode,
-                    certificateReceivedAt = nowUtc,
-                )
-                CoronaTest.Type.RAPID_ANTIGEN -> (cert as RACertificateContainer).copy(
-                    testCertificateQrCode = extractedData.qrCode,
-                    certificateReceivedAt = nowUtc,
-                )
-            }.also {
-                it.qrCodeExtractor = qrCodeExtractor
-                it.preParsedData = extractedData.testCertificateData
-            }
-        } catch (e: Exception) {
-            Timber.tag(TAG).e("Failed to retrieve certificate components for %s", cert)
-            throw e
+        val nowUtc = timeStamper.nowUTC
+
+        return when (cert.type) {
+            CoronaTest.Type.PCR -> (cert as PCRCertificateContainer).copy(
+                testCertificateQrCode = extractedData.qrCode,
+                certificateReceivedAt = nowUtc,
+            )
+            CoronaTest.Type.RAPID_ANTIGEN -> (cert as RACertificateContainer).copy(
+                testCertificateQrCode = extractedData.qrCode,
+                certificateReceivedAt = nowUtc,
+            )
+        }.also {
+            it.qrCodeExtractor = qrCodeExtractor
+            it.preParsedData = extractedData.testCertificateData
         }
     }
 
