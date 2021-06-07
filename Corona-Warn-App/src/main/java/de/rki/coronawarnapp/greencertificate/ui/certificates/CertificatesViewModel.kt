@@ -4,6 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.coronatest.TestCertificateRepository
+import de.rki.coronawarnapp.coronatest.type.TestCertificateContainer
+import de.rki.coronawarnapp.coronatest.type.TestCertificateIdentifier
 import de.rki.coronawarnapp.greencertificate.ui.certificates.items.CertificatesItem
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -11,28 +14,38 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.VaccinationSettings
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
-import de.rki.coronawarnapp.vaccination.ui.cards.BottomInfoVaccinationCard
+import de.rki.coronawarnapp.vaccination.ui.cards.NoCovidTestCertificatesCard
 import de.rki.coronawarnapp.vaccination.ui.cards.CreateVaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.HeaderInfoVaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.ImmuneVaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.VaccinationCard
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
+import de.rki.coronawarnapp.greencertificate.ui.certificates.cards.CovidTestCertificateErrorCard
+import de.rki.coronawarnapp.greencertificate.ui.certificates.cards.CovidTestCertificateCard
 
 class CertificatesViewModel @AssistedInject constructor(
     vaccinationRepository: VaccinationRepository,
-    private val vaccinationSettings: VaccinationSettings
+    private val vaccinationSettings: VaccinationSettings,
+    private val testCertificateRepository: TestCertificateRepository
 ) : CWAViewModel() {
 
     val events = SingleLiveEvent<CertificatesFragmentEvents>()
 
+    private fun refreshTestCertificate(identifier: TestCertificateIdentifier) {
+        launch {
+            testCertificateRepository.refresh(identifier)
+        }
+    }
+
     val screenItems: LiveData<List<CertificatesItem>> =
-        vaccinationRepository.vaccinationInfos.map { vaccinatedPersons ->
-            mutableListOf<CertificatesItem>().apply {
-                add(HeaderInfoVaccinationCard.Item)
-                addVaccinationCards(vaccinatedPersons)
-                add(BottomInfoVaccinationCard.Item)
-            }
-        }.asLiveData()
+        vaccinationRepository.vaccinationInfos
+            .combine(testCertificateRepository.certificates) { vaccinatedPersons, certificates ->
+                mutableListOf<CertificatesItem>().apply {
+                    add(HeaderInfoVaccinationCard.Item)
+                    addVaccinationCards(vaccinatedPersons)
+                    addTestCertificateCards(certificates)
+                }
+            }.asLiveData()
 
     private fun MutableList<CertificatesItem>.addVaccinationCards(vaccinatedPersons: Set<VaccinatedPerson>) {
         vaccinatedPersons.forEach { vaccinatedPerson ->
@@ -73,6 +86,34 @@ class CertificatesViewModel @AssistedInject constructor(
                     }
                 )
             )
+        }
+    }
+
+    private fun MutableList<CertificatesItem>.addTestCertificateCards(certificates: Set<TestCertificateContainer>) {
+        certificates.forEach { certificate ->
+            if (certificate.isCertificateRetrievalPending) {
+                add(
+                    CovidTestCertificateErrorCard.Item(
+                        testDate = certificate.registeredAt,
+                        onClickAction = {
+                            refreshTestCertificate(certificate.identifier)
+                        }
+                    )
+                )
+            } else {
+                add(
+                    CovidTestCertificateCard.Item(
+                        testDate = certificate.registeredAt,
+                        testPerson =
+                        certificate.toTestCertificate(null)?.firstName + " " +
+                            certificate.toTestCertificate(null)?.lastName
+                    )
+                )
+            }
+        }
+
+        if (certificates.isEmpty()) {
+            add(NoCovidTestCertificatesCard.Item)
         }
     }
 

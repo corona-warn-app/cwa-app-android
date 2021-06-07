@@ -182,4 +182,13 @@
     <string name="contact_diary_location_visit_duration_hour">"sa"</string>
     <!-- XTXT: Option - person encounter - circumstances hint-->
     <string name="contact_diary_location_visit_circumstances_hint">"Not (ör. çok dolu)"</string>
+
+    <!-- XTXT: PCR test title in the day overview -->
+    <string name="contact_diary_corona_test_pcr_title">"PCR Testi Kaydedildi"</string>
+    <!-- XTXT: RAT test title in the day overview -->
+    <string name="contact_diary_corona_test_rat_title">"Hızlı Test Gerçekleştirildi"</string>
+    <!-- XTXT: positive test result in the day overview -->
+    <string name="contact_diary_corona_test_positive">"Pozitif Tanı"</string>
+    <!-- XTXT: negative test result in the day overview -->
+    <string name="contact_diary_corona_test_negative">"Negatif Tanı"</string>
 </resources>

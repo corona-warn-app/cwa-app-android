@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
     <!-- ####################################
-             Special string files for the strings that should always keep the german / englisch version independent from the selected system language
+        Special string files for the strings
+        that should always keep the german / english
+        version independent from the selected system language
     ###################################### -->
     <!-- XTXT: Green Certificate Detail Screen Attribute: Name -->
     <string name="green_certificate_attribute_name" translatable="false">"Name, Vorname / Name, First Name"</string>
