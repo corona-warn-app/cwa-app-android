@@ -7,5 +7,4 @@ sealed class CertificatesFragmentEvents {
     data class GoToVaccinationList(val personIdentifierCodeSha256: String) : CertificatesFragmentEvents()
 
     data class GoToCovidCertificateDetailScreen(val identifier: String) : CertificatesFragmentEvents()
-
 }
