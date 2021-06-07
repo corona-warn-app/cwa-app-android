@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
     <!-- ####################################
-                 Release Info Screen 1.14
+                 Release Info Screen
      ###################################### -->
 
     <!-- XHED: Title for the release info screen -->
@@ -16,21 +16,25 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Електронно доказателство за ваксиниране"</item>
+        <item>"Сертификат за тест за COVID"</item>
+        <item>"Разширение на дневника с контакти"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Вече можете да добавите в приложението сертификатите си за ваксиниране и да ги представите чрез QR код. Приложението ще покаже пълна защита от ваксиниране 14 дни след крайната ваксинация."</item>
+        <item>"Вече можете да заявите чрез приложението официален електронен сертификат за тестване и след това да го добавите в него. Този сертификат може да се използва (чрез QR код) в рамките на ЕС като доказателство за отрицателен резултат от тест (например при международни пътувания)."</item>
+        <item>"В момента, в който резултатът от теста Ви е наличен, той ще бъде добавен към дневника Ви с контакти."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item/>
         <item/>
     </string-array>
 
