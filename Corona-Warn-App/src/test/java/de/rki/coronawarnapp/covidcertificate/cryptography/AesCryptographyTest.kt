@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.cryptography
 
-import de.rki.coronawarnapp.util.encoding.base64
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.decodeBase64
 import org.junit.jupiter.api.Test

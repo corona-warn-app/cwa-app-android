@@ -6,8 +6,6 @@ import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateE
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.AES_DECRYPTION_FAILED
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.HC_COSE_MESSAGE_INVALID
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.HC_COSE_TAG_INVALID
-import de.rki.coronawarnapp.util.encoding.base64
-import okio.ByteString.Companion.decodeBase64
 import timber.log.Timber
 import javax.inject.Inject
 
