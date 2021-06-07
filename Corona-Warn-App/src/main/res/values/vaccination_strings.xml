@@ -85,7 +85,8 @@
         <item quantity="few">"Full vaccination protection in %1$d days"</item>
         <item quantity="many">"Full vaccination protection in %1$d days"</item>
     </plurals>
-
+    <!-- XTXT: Homescreen card complete vaccination status label -->
+    <string name="vaccination_card_status_vaccination_complete">"Gültig bis einschließlich %s"</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_invalid">"This QR code is not a valid vaccination certificate."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
