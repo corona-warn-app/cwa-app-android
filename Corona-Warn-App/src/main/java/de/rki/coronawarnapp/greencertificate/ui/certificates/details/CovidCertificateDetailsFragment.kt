@@ -65,8 +65,8 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
     ) {
         qrCodeCard.subtitle.text = getString(
             R.string.detail_green_certificate_card_subtitle,
-            testCertificate.testResultAt.toShortDayFormat(),
-            testCertificate.testResultAt.toShotTimeFormat(),
+            testCertificate.sampleCollectedAt.toShortDayFormat(),
+            testCertificate.sampleCollectedAt.toShotTimeFormat(),
         )
         name.text = testCertificate.run { "$firstName $lastName" }
         birthDate.text = testCertificate.dateOfBirth.toDayFormat()
