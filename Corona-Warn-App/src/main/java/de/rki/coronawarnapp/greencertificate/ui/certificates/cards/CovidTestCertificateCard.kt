@@ -39,7 +39,8 @@ class CovidTestCertificateCard(parent: ViewGroup) :
     data class Item(
         override val testDate: Instant,
         val testPerson: String,
-    ) : CovidCertificateTestItem, HasPayloadDiffer {
+        val onClickAction: (Item) -> Unit,
+        ) : CovidCertificateTestItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }
 }
