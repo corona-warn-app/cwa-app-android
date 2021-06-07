@@ -2,14 +2,14 @@ package de.rki.coronawarnapp.vaccination.core
 
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinatedPersonData
-import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
+import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.VaccinationValueSets
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
 data class VaccinatedPerson(
     internal val data: VaccinatedPersonData,
-    private val valueSet: VaccinationValueSet?,
+    private val valueSet: VaccinationValueSets?,
     val isUpdatingData: Boolean = false,
     val lastError: Throwable? = null,
 ) {

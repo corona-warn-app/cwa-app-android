@@ -3,10 +3,9 @@ package de.rki.coronawarnapp.vaccination.core.repository.storage
 import de.rki.coronawarnapp.vaccination.core.CertificatePersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.DaggerVaccinationTestComponent
 import de.rki.coronawarnapp.vaccination.core.VaccinationTestData
-import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
+import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.DefaultValueSet
+import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.VaccinationValueSets
 import io.kotest.matchers.shouldBe
-import io.mockk.every
-import io.mockk.mockk
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
@@ -83,32 +82,30 @@ class VaccinationContainerTest : BaseTest() {
 
     @Test
     fun `mapping to user facing data - with valueset`() {
-        val vpItem = mockk<VaccinationValueSet.ValueSet.Item> {
-            every { key } returns "1119305005"
-            every { displayText } returns "Vaccine-Name"
-        }
+        val vpItem = DefaultValueSet.DefaultItem(
+            key = "1119305005",
+            displayText = "Vaccine-Name"
+        )
 
-        val mpItem = mockk<VaccinationValueSet.ValueSet.Item> {
-            every { key } returns "EU/1/21/1529"
-            every { displayText } returns "MedicalProduct-Name"
-        }
+        val mpItem = DefaultValueSet.DefaultItem(
+            key = "EU/1/21/1529",
+            displayText = "MedicalProduct-Name"
+        )
 
-        val maItem = mockk<VaccinationValueSet.ValueSet.Item> {
-            every { key } returns "ORG-100001699"
-            every { displayText } returns "Manufactorer-Name"
-        }
+        val maItem = DefaultValueSet.DefaultItem(
+            key = "ORG-100001699",
+            displayText = "Manufactorer-Name"
+        )
 
-        val vpMockk = mockk<VaccinationValueSet.ValueSet> {
-            every { items } returns listOf(vpItem, mpItem, maItem)
-        }
+        val vaccinationValueSets = VaccinationValueSets(
+            languageCode = Locale.GERMAN,
+            tg = DefaultValueSet(),
+            vp = DefaultValueSet(items = listOf(vpItem)),
+            mp = DefaultValueSet(items = listOf(mpItem)),
+            ma = DefaultValueSet(items = listOf(maItem))
+        )
 
-        val valueSet = mockk<VaccinationValueSet> {
-            every { vp } returns vpMockk
-            every { mp } returns vpMockk
-            every { ma } returns vpMockk
-        }
-
-        testData.personAVac1Container.toVaccinationCertificate(valueSet, userLocale = Locale.GERMAN).apply {
+        testData.personAVac1Container.toVaccinationCertificate(vaccinationValueSets, userLocale = Locale.GERMAN).apply {
             firstName shouldBe "Andreas"
             lastName shouldBe "Astrá Eins"
             dateOfBirth shouldBe LocalDate.parse("1966-11-11")
