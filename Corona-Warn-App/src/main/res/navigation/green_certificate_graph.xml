@@ -18,6 +18,10 @@
             android:id="@+id/action_certificatesFragment_to_covidCertificateDetailsFragment"
             app:destination="@id/covidCertificateDetailsFragment" />
 
+        <action
+            android:id="@+id/action_certificatesFragment_to_consentFragment"
+            app:destination="@id/vaccinationConsentFragment" />
+
     </fragment>
 
     <fragment

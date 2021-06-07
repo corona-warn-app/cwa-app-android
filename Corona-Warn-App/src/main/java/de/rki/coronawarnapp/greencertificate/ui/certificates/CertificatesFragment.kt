@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.greencertificate.ui.certificates
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -30,10 +31,13 @@ class CertificatesFragment : Fragment(R.layout.fragment_certificates), AutoInjec
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.recyclerView.apply {
-            itemAnimator = DefaultItemAnimator()
-            addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
-            adapter = certificatesAdapter
+        binding.apply {
+            setupMenu(mainTracing)
+            recyclerView.apply {
+                itemAnimator = DefaultItemAnimator()
+                addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
+                adapter = certificatesAdapter
+            }
         }
 
         viewModel.screenItems.observe2(this) { items -> certificatesAdapter.update(items) }
@@ -43,7 +47,6 @@ class CertificatesFragment : Fragment(R.layout.fragment_certificates), AutoInjec
                     VaccinationListFragment.navigationUri(event.personIdentifierCodeSha256)
                 )
                 is CertificatesFragmentEvents.OpenVaccinationRegistrationGraph -> {
-                    // TODO: update when certifications info screen is done
                     findNestedGraph(R.id.vaccination_nav_graph).startDestination = R.id.vaccinationQrCodeScanFragment
                     doNavigate(CertificatesFragmentDirections.actionCertificatesFragmentToVaccinationNavGraph())
                 }
@@ -53,6 +56,18 @@ class CertificatesFragment : Fragment(R.layout.fragment_certificates), AutoInjec
                             .actionCertificatesFragmentToCovidCertificateDetailsFragment(event.identifier)
                     )
                 }
+            }
+        }
+    }
+
+    private fun setupMenu(toolbar: Toolbar) = toolbar.apply {
+        setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_information -> {
+                    doNavigate(CertificatesFragmentDirections.actionCertificatesFragmentToConsentFragment())
+                    true
+                }
+                else -> onOptionsItemSelected(it)
             }
         }
     }
