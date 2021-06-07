@@ -64,8 +64,12 @@
     <string name="test_certificate_delete_dialog_title">"Wollen Sie das Zertifikat wirklich entfernen?"</string>
     <!-- XTXT: Test error delete dialog body -->
     <string name="test_certificate_delete_dialog_body">"Wenn das Zertifikat enfernt wird, kann es nicht noch einmal angefordert werden."</string>
-    <!-- XTXT: Test error delete dialog confirm button -->
+    <!-- XBUT: Test error delete dialog confirm button -->
     <string name="test_certificate_delete_dialog_confirm_button">"Entfernen"</string>
-    <!-- XTXT: Test error delete dialog cancel button -->
+    <!-- XBUT: Test error delete dialog cancel button -->
     <string name="test_certificate_delete_dialog_cancel_button">"Abbrechen"</string>
+    <!-- XTXT: Test error card body refreshing -->
+    <string name="test_certificate_error_label_refreshing">"Ihr Zertifikat wird gerade erstellt…"</string>
+    <!-- XTXT: Test error card body refreshing -->
+    <string name="test_certificate_error_refreshing_status">"Ihr Zertifikat wird gerade angefragt, dies kann einige Minuten dauern…"</string>
 </resources>
