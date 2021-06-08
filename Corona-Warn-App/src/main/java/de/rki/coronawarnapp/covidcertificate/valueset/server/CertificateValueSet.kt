@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.valueset
+package de.rki.coronawarnapp.covidcertificate.valueset.server
 
 import javax.inject.Qualifier
 

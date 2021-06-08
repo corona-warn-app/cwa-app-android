@@ -2,11 +2,11 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storag
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.personIdentifier
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.certificate.CoseCertificateHeader
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.certificate.VaccinationDGCV1
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.personIdentifier
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode

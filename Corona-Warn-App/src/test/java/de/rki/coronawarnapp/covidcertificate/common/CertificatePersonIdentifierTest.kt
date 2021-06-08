@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.vaccination.core
+package de.rki.coronawarnapp.covidcertificate.common
 
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.VC_DOB_MISMATCH
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.VC_NAME_MISMATCH
@@ -10,7 +10,7 @@ import org.joda.time.LocalDate
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class VaccinatedPersonIdentifierTest : BaseTest() {
+class CertificatePersonIdentifierTest : BaseTest() {
     private val testPersonMaxData = CertificatePersonIdentifier(
         dateOfBirth = LocalDate.parse("1966-11-11"),
         firstNameStandardized = "ANDREAS",

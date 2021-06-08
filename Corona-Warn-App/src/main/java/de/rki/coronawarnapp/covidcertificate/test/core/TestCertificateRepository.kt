@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateCo
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateIdentifier
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateProcessor
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.ValueSetsRepository
+import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow

@@ -1,8 +1,8 @@
-package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository
+package de.rki.coronawarnapp.covidcertificate.valueset
 
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.ValueSetsStorage
-import de.rki.coronawarnapp.covidcertificate.valueset.CertificateValueSetServer
+import de.rki.coronawarnapp.covidcertificate.valueset.server.CertificateValueSetServer
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.ValueSetsContainer

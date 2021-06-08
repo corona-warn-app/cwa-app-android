@@ -1,10 +1,10 @@
 package de.rki.coronawarnapp.covidcertificate.test.core.storage
 
+import de.rki.coronawarnapp.covidcertificate.common.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.personIdentifier
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.certificate.TestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCodeExtractor
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.CertificatePersonIdentifier
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.personIdentifier
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
 import org.joda.time.Instant

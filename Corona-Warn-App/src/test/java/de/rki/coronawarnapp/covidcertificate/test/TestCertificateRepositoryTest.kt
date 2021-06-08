@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.storage.PCRCertificateDat
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.StoredTestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateProcessor
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.ValueSetsRepository
+import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every

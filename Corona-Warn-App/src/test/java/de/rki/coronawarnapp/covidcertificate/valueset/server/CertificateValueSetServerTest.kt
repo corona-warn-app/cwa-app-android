@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.valueset
+package de.rki.coronawarnapp.covidcertificate.valueset.server
 
 import dagger.Lazy
 import de.rki.coronawarnapp.covidcertificate.valueset.internal.ValueSetInvalidSignatureException
@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.io.File
 
-class VaccinationServerTest : BaseTest() {
+class CertificateValueSetServerTest : BaseTest() {
 
     /**
      * contains both binary and signature

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.valueset
+package de.rki.coronawarnapp.covidcertificate.valueset.server
 
 import okhttp3.ResponseBody
 import retrofit2.Response
