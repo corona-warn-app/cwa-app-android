@@ -129,6 +129,8 @@ class TestCertificateRepository @Inject constructor(
                     registeredAt = test.registeredAt,
                     registrationToken = test.registrationToken,
                 )
+            }.also {
+                it.qrCodeExtractor = qrCodeExtractor
             }
             Timber.tag(TAG).d("Adding test certificate entry: %s", certificate)
             mutate { this[certificate.identifier] = certificate }
@@ -369,7 +371,6 @@ class TestCertificateRepository @Inject constructor(
                 certificateReceivedAt = nowUtc,
             )
         }.also {
-            it.qrCodeExtractor = qrCodeExtractor
             it.preParsedData = extractedData.testCertificateData
         }
     }
