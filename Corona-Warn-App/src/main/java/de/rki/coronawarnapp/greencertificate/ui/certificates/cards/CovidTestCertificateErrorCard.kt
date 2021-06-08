@@ -36,33 +36,29 @@ class CovidTestCertificateErrorCard(parent: ViewGroup) :
 
         retryButton.setOnClickListener {
             item.onRetryAction(item)
-            setProgressVisibility(this, true)
+        }
+
+        if(item.isUpdatingData) {
+            refreshStatus.visibility = View.VISIBLE
+            progressBar.show()
+            retryButton.visibility = View.INVISIBLE
+            deleteButton.visibility = View.INVISIBLE
+            body.text = context.getString(R.string.test_certificate_error_label_refreshing)
+        } else {
+            refreshStatus.visibility = View.GONE
+            progressBar.hide()
+            retryButton.visibility = View.VISIBLE
+            deleteButton.visibility = View.VISIBLE
+            body.text = context.getString(R.string.test_certificate_error_label)
         }
         deleteButton.setOnClickListener { item.onDeleteAction(item) }
-    }
-
-    private fun setProgressVisibility(binding: CovidTestErrorCardBinding, isShown:Boolean) {
-        with (binding) {
-            if (isShown) {
-                refreshStatus.visibility = View.VISIBLE
-                progressBar.show()
-                retryButton.visibility = View.INVISIBLE
-                deleteButton.visibility = View.INVISIBLE
-                body.text = context.getString(R.string.test_certificate_error_label_refreshing)
-            } else {
-                refreshStatus.visibility = View.GONE
-                progressBar.hide()
-                retryButton.visibility = View.VISIBLE
-                deleteButton.visibility = View.VISIBLE
-                body.text = context.getString(R.string.test_certificate_error_label)
-            }
-        }
     }
 
     data class Item(
         override val testDate: Instant,
         val onRetryAction: (Item) -> Unit,
         val onDeleteAction: (Item) -> Unit,
+        val isUpdatingData: Boolean,
     ) : CovidCertificateTestItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }

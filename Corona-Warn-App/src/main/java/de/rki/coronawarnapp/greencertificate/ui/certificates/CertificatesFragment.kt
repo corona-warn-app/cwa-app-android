@@ -50,12 +50,10 @@ class CertificatesFragment : Fragment(R.layout.fragment_certificates), AutoInjec
                     doNavigate(CertificatesFragmentDirections.actionCertificatesFragmentToVaccinationNavGraph())
                 }
                 is CertificatesFragmentEvents.ShowRefreshErrorCertificateDialog -> {
-                    // TODO: error text?
-                    val errorText = "Grund"
                     val dialog = DialogHelper.DialogInstance(
                         context = requireContext(),
                         title = R.string.test_certificate_refresh_dialog_title,
-                        message = errorText,
+                        message = event.error.localizedMessage,
                         positiveButton = R.string.test_certificate_refresh_dialog_confirm_button,
                         cancelable = false
                     )

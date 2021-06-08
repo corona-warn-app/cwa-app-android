@@ -104,6 +104,7 @@ class CertificatesViewModel @AssistedInject constructor(
                 add(
                     CovidTestCertificateErrorCard.Item(
                         testDate = certificate.registeredAt,
+                        isUpdatingData = certificate.isUpdatingData,
                         onRetryAction = {
                             refreshTestCertificate(certificate.identifier)
                         },
