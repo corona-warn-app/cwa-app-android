@@ -34,7 +34,7 @@ interface CovidCertificateApiV1 {
         }
     }
 
-    @POST("/version/v1/publicKey")
+    @POST("/version/v1/dcc")
     suspend fun getComponents(
         @Body requestBody: ComponentsRequest
     ): Response<ComponentsResponse>
