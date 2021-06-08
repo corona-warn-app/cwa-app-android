@@ -35,7 +35,7 @@ class ValueSetsRepositoryTest : BaseTest() {
     private val testDispatcherProvider = TestDispatcherProvider()
 
     private fun createInstance(scope: CoroutineScope) = ValueSetsRepository(
-        vaccinationServer = certificateValueSetServer,
+        certificateValueSetServer = certificateValueSetServer,
         valueSetsStorage = valueSetsStorage,
         scope = scope,
         dispatcherProvider = testDispatcherProvider

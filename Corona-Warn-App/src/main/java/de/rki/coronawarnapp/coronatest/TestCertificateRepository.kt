@@ -1,15 +1,15 @@
 package de.rki.coronawarnapp.coronatest
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
-import de.rki.coronawarnapp.coronatest.storage.TestCertificateStorage
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.TestCertificateWrapper
-import de.rki.coronawarnapp.coronatest.type.common.TestCertificateContainer
-import de.rki.coronawarnapp.coronatest.type.common.TestCertificateIdentifier
-import de.rki.coronawarnapp.coronatest.type.common.TestCertificateProcessor
-import de.rki.coronawarnapp.coronatest.type.pcr.PCRCertificateData
-import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACertificateData
-import de.rki.coronawarnapp.covidcertificate.test.TestCertificateQRCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.test.TestCertificateWrapper
+import de.rki.coronawarnapp.covidcertificate.test.qrcode.TestCertificateQRCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.test.storage.PCRCertificateData
+import de.rki.coronawarnapp.covidcertificate.test.storage.RACertificateData
+import de.rki.coronawarnapp.covidcertificate.test.storage.TestCertificateContainer
+import de.rki.coronawarnapp.covidcertificate.test.storage.TestCertificateIdentifier
+import de.rki.coronawarnapp.covidcertificate.test.storage.TestCertificateProcessor
+import de.rki.coronawarnapp.covidcertificate.test.storage.TestCertificateStorage
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow

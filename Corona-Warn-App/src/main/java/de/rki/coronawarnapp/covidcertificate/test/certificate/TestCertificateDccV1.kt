@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.test
+package de.rki.coronawarnapp.covidcertificate.test.certificate
 
 import com.google.gson.annotations.SerializedName
 import org.joda.time.Instant

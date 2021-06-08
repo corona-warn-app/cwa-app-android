@@ -3,8 +3,8 @@ package de.rki.coronawarnapp.vaccination.core
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.VC_DOB_MISMATCH
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.VC_NAME_MISMATCH
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidVaccinationCertificateException
-import de.rki.coronawarnapp.covidcertificate.test.TestCertificateDccV1
-import de.rki.coronawarnapp.covidcertificate.test.TestCertificateQRCode
+import de.rki.coronawarnapp.covidcertificate.test.certificate.TestCertificateDccV1
+import de.rki.coronawarnapp.covidcertificate.test.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.vaccination.core.certificate.VaccinationDGCV1
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode

@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.test
 
 import com.google.gson.Gson
 import com.upokecenter.cbor.CBORObject
+import de.rki.coronawarnapp.covidcertificate.test.certificate.TestCertificateDccParser
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.decodeHex
 import org.joda.time.LocalDate

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.test
+package de.rki.coronawarnapp.covidcertificate.test.certificate
 
 import com.google.gson.Gson
 import com.upokecenter.cbor.CBORObject

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.test
+package de.rki.coronawarnapp.covidcertificate.test.certificate
 
 import de.rki.coronawarnapp.vaccination.core.certificate.CoseCertificateHeader
 

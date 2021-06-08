@@ -1,8 +1,7 @@
-package de.rki.coronawarnapp.coronatest.type
+package de.rki.coronawarnapp.covidcertificate.test
 
-import de.rki.coronawarnapp.coronatest.type.common.TestCertificateContainer
-import de.rki.coronawarnapp.coronatest.type.common.TestCertificateIdentifier
-import de.rki.coronawarnapp.covidcertificate.test.TestCertificate
+import de.rki.coronawarnapp.covidcertificate.test.storage.TestCertificateContainer
+import de.rki.coronawarnapp.covidcertificate.test.storage.TestCertificateIdentifier
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
 
 data class TestCertificateWrapper(

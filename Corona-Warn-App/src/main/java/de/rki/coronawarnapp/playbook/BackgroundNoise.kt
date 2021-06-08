@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.playbook
 
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.covidcertificate.test.CoronaTestRepository
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton

@@ -1,14 +1,13 @@
-package de.rki.coronawarnapp.coronatest.type.rapidantigen
+package de.rki.coronawarnapp.covidcertificate.test.storage
 
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.RegistrationToken
-import de.rki.coronawarnapp.coronatest.type.common.StoredTestCertificateData
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKey
 import okio.ByteString
 import org.joda.time.Instant
 
-data class RACertificateData(
+data class PCRCertificateData internal constructor(
     @SerializedName("identifier")
     override val identifier: String,
 
@@ -49,5 +48,5 @@ data class RACertificateData(
     )
 
     override val type: CoronaTest.Type
-        get() = CoronaTest.Type.RAPID_ANTIGEN
+        get() = CoronaTest.Type.PCR
 }

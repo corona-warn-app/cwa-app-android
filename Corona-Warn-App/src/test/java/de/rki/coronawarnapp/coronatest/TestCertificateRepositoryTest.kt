@@ -1,12 +1,12 @@
 package de.rki.coronawarnapp.coronatest
 
 import de.rki.coronawarnapp.appconfig.CovidCertificateConfig
-import de.rki.coronawarnapp.coronatest.storage.TestCertificateStorage
-import de.rki.coronawarnapp.coronatest.type.common.StoredTestCertificateData
-import de.rki.coronawarnapp.coronatest.type.common.TestCertificateProcessor
-import de.rki.coronawarnapp.coronatest.type.pcr.PCRCertificateData
-import de.rki.coronawarnapp.covidcertificate.test.TestCertificateQRCode
-import de.rki.coronawarnapp.covidcertificate.test.TestCertificateQRCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.test.qrcode.TestCertificateQRCode
+import de.rki.coronawarnapp.covidcertificate.test.qrcode.TestCertificateQRCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.test.storage.PCRCertificateData
+import de.rki.coronawarnapp.covidcertificate.test.storage.StoredTestCertificateData
+import de.rki.coronawarnapp.covidcertificate.test.storage.TestCertificateProcessor
+import de.rki.coronawarnapp.covidcertificate.test.storage.TestCertificateStorage
 import de.rki.coronawarnapp.vaccination.core.repository.ValueSetsRepository
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery

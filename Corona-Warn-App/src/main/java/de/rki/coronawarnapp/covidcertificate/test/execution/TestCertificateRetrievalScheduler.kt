@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.coronatest.type.common
+package de.rki.coronawarnapp.covidcertificate.test.execution
 
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
@@ -6,8 +6,9 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.TestCertificateRepository
+import de.rki.coronawarnapp.coronatest.type.common.ResultScheduler
+import de.rki.coronawarnapp.covidcertificate.test.CoronaTestRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.flow.combine

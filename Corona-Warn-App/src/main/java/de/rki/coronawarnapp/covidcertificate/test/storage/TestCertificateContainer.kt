@@ -1,8 +1,8 @@
-package de.rki.coronawarnapp.coronatest.type.common
+package de.rki.coronawarnapp.covidcertificate.test.storage
 
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificate
-import de.rki.coronawarnapp.covidcertificate.test.TestCertificateData
-import de.rki.coronawarnapp.covidcertificate.test.TestCertificateQRCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.test.certificate.TestCertificateData
+import de.rki.coronawarnapp.covidcertificate.test.qrcode.TestCertificateQRCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
 import de.rki.coronawarnapp.vaccination.core.CertificatePersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.personIdentifier

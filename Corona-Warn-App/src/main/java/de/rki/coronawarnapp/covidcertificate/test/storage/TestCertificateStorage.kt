@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.coronatest.storage
+package de.rki.coronawarnapp.covidcertificate.test.storage
 
 import android.content.Context
 import androidx.core.content.edit
@@ -6,9 +6,6 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.common.StoredTestCertificateData
-import de.rki.coronawarnapp.coronatest.type.pcr.PCRCertificateData
-import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACertificateData
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.vaccination.core.repository.storage.ContainerPostProcessor

@@ -5,6 +5,7 @@ import androidx.work.ListenableWorker
 import androidx.work.WorkRequest
 import androidx.work.WorkerParameters
 import de.rki.coronawarnapp.coronatest.TestCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.test.execution.TestCertificateRetrievalWorker
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery

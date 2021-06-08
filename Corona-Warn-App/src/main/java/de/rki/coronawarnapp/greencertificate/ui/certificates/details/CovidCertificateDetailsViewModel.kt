@@ -8,8 +8,8 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.TestCertificateRepository
-import de.rki.coronawarnapp.coronatest.type.common.TestCertificateIdentifier
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificate
+import de.rki.coronawarnapp.covidcertificate.test.storage.TestCertificateIdentifier
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent

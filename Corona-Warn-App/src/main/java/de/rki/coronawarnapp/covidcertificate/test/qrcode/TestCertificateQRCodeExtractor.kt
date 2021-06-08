@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.test
+package de.rki.coronawarnapp.covidcertificate.test.qrcode
 
 import com.upokecenter.cbor.CBORObject
 import dagger.Reusable
@@ -10,6 +10,8 @@ import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateE
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_COMPRESSION_FAILED
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidTestCertificateException
+import de.rki.coronawarnapp.covidcertificate.test.certificate.TestCertificateData
+import de.rki.coronawarnapp.covidcertificate.test.certificate.TestCertificateDccParser
 import de.rki.coronawarnapp.util.compression.deflate
 import de.rki.coronawarnapp.util.compression.inflate
 import de.rki.coronawarnapp.util.encoding.Base45Decoder
