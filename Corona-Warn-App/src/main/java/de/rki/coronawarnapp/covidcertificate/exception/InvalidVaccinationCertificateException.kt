@@ -11,7 +11,7 @@ class InvalidVaccinationCertificateException(errorCode: ErrorCode) : InvalidHeal
         var errorCodeString = errorCode.toString()
         errorCodeString = if (errorCodeString.startsWith(PREFIX_VC)) errorCodeString else PREFIX_VC + errorCodeString
         return HumanReadableError(
-            description = errorMessage.get(context) + "\n\n$errorCodeString"
+            description = errorMessage.get(context) + " ($errorCodeString)"
         )
     }
 
