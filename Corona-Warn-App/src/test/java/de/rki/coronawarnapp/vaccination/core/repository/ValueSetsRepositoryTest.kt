@@ -44,9 +44,12 @@ class ValueSetsRepositoryTest : BaseTest() {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        coEvery { vaccinationServer.getVaccinationValueSets(any()) } returns null
-        coEvery { vaccinationServer.getVaccinationValueSets(languageCode = Locale.ENGLISH) } returns valueSetsContainerEn
-        coEvery { vaccinationServer.getVaccinationValueSets(languageCode = Locale.GERMAN) } returns valueSetsContainerDe
+        coEvery { vaccinationServer.getVaccinationValueSets(any()) } returns
+            null
+        coEvery { vaccinationServer.getVaccinationValueSets(languageCode = Locale.ENGLISH) } returns
+            valueSetsContainerEn
+        coEvery { vaccinationServer.getVaccinationValueSets(languageCode = Locale.GERMAN) } returns
+            valueSetsContainerDe
         every { vaccinationServer.clear() } just runs
 
         every { valueSetsStorage.valueSetsContainer = any() } just runs
