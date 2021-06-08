@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.greencertificate.ui.certificates
+package de.rki.coronawarnapp.covidcertificate.test.ui.certificates
 
 import android.os.Bundle
 import android.view.View

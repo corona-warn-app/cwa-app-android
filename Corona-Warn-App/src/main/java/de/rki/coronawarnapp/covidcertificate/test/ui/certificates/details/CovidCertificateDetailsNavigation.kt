@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.greencertificate.ui.certificates.details
+package de.rki.coronawarnapp.covidcertificate.test.ui.certificates.details
 
 sealed class CovidCertificateDetailsNavigation {
     object Back : CovidCertificateDetailsNavigation()

@@ -1,6 +1,6 @@
-package de.rki.coronawarnapp.greencertificate.ui.certificates.cards
+package de.rki.coronawarnapp.covidcertificate.test.ui.certificates.cards
 
-import de.rki.coronawarnapp.greencertificate.ui.certificates.items.CertificatesItem
+import de.rki.coronawarnapp.covidcertificate.test.ui.certificates.items.CertificatesItem
 import org.joda.time.Instant
 
 interface CovidCertificateTestItem : CertificatesItem {

@@ -4,8 +4,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
+import de.rki.coronawarnapp.covidcertificate.test.ui.CovidCertificateUIModule
 import de.rki.coronawarnapp.datadonation.analytics.ui.AnalyticsUIModule
-import de.rki.coronawarnapp.greencertificate.ui.CovidCertificateUIModule
 import de.rki.coronawarnapp.release.NewReleaseInfoFragment
 import de.rki.coronawarnapp.release.NewReleaseInfoFragmentModule
 import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsFragmentModule

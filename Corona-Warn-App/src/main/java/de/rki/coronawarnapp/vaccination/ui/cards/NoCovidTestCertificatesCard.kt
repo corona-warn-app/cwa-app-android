@@ -2,9 +2,9 @@ package de.rki.coronawarnapp.vaccination.ui.cards
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.test.ui.certificates.CertificatesAdapter
+import de.rki.coronawarnapp.covidcertificate.test.ui.certificates.items.CertificatesItem
 import de.rki.coronawarnapp.databinding.VaccinationBottomInfoCardBinding
-import de.rki.coronawarnapp.greencertificate.ui.certificates.CertificatesAdapter
-import de.rki.coronawarnapp.greencertificate.ui.certificates.items.CertificatesItem
 
 class NoCovidTestCertificatesCard(parent: ViewGroup) :
     CertificatesAdapter.CertificatesItemVH<NoCovidTestCertificatesCard.Item, VaccinationBottomInfoCardBinding>(

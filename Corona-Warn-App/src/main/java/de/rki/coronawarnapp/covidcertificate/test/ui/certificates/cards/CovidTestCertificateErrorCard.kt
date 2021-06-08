@@ -1,9 +1,9 @@
-package de.rki.coronawarnapp.greencertificate.ui.certificates.cards
+package de.rki.coronawarnapp.covidcertificate.test.ui.certificates.cards
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.test.ui.certificates.CertificatesAdapter
 import de.rki.coronawarnapp.databinding.CovidTestErrorCardBinding
-import de.rki.coronawarnapp.greencertificate.ui.certificates.CertificatesAdapter
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer

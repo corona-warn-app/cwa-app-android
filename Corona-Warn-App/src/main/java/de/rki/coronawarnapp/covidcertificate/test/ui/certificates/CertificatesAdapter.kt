@@ -1,9 +1,11 @@
-package de.rki.coronawarnapp.greencertificate.ui.certificates
+package de.rki.coronawarnapp.covidcertificate.test.ui.certificates
 
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
-import de.rki.coronawarnapp.greencertificate.ui.certificates.items.CertificatesItem
+import de.rki.coronawarnapp.covidcertificate.test.ui.certificates.cards.CovidTestCertificateCard
+import de.rki.coronawarnapp.covidcertificate.test.ui.certificates.cards.CovidTestCertificateErrorCard
+import de.rki.coronawarnapp.covidcertificate.test.ui.certificates.items.CertificatesItem
 import de.rki.coronawarnapp.util.lists.BindableVH
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffer
@@ -11,13 +13,11 @@ import de.rki.coronawarnapp.util.lists.modular.ModularAdapter
 import de.rki.coronawarnapp.util.lists.modular.mods.DataBinderMod
 import de.rki.coronawarnapp.util.lists.modular.mods.StableIdMod
 import de.rki.coronawarnapp.util.lists.modular.mods.TypedVHCreatorMod
-import de.rki.coronawarnapp.vaccination.ui.cards.NoCovidTestCertificatesCard
 import de.rki.coronawarnapp.vaccination.ui.cards.CreateVaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.HeaderInfoVaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.ImmuneVaccinationCard
+import de.rki.coronawarnapp.vaccination.ui.cards.NoCovidTestCertificatesCard
 import de.rki.coronawarnapp.vaccination.ui.cards.VaccinationCard
-import de.rki.coronawarnapp.greencertificate.ui.certificates.cards.CovidTestCertificateErrorCard
-import de.rki.coronawarnapp.greencertificate.ui.certificates.cards.CovidTestCertificateCard
 
 class CertificatesAdapter :
     ModularAdapter<CertificatesAdapter.CertificatesItemVH<CertificatesItem, ViewBinding>>(),

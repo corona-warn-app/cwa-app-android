@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/certificatesFragment"
-        android:name="de.rki.coronawarnapp.greencertificate.ui.certificates.CertificatesFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.test.ui.certificates.CertificatesFragment"
         android:label="fragment_certificates"
         tools:layout="@layout/fragment_certificates">
 
@@ -51,7 +51,7 @@
 
     <fragment
         android:id="@+id/covidCertificateDetailsFragment"
-        android:name="de.rki.coronawarnapp.greencertificate.ui.certificates.details.CovidCertificateDetailsFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.test.ui.certificates.details.CovidCertificateDetailsFragment"
         android:label="CovidCertificateDetailsFragment"
         tools:layout="@layout/fragment_covid_certificate_details">
 

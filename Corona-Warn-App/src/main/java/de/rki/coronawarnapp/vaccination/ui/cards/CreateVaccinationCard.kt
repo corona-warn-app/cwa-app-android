@@ -2,9 +2,9 @@ package de.rki.coronawarnapp.vaccination.ui.cards
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.test.ui.certificates.CertificatesAdapter
+import de.rki.coronawarnapp.covidcertificate.test.ui.certificates.items.CertificatesItem
 import de.rki.coronawarnapp.databinding.VaccinationHomeRegistrationCardBinding
-import de.rki.coronawarnapp.greencertificate.ui.certificates.CertificatesAdapter
-import de.rki.coronawarnapp.greencertificate.ui.certificates.items.CertificatesItem
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class CreateVaccinationCard(parent: ViewGroup) :
