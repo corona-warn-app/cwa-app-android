@@ -66,7 +66,8 @@ class CovidCertificateServer @Inject constructor(
                 409 -> throw TestCertificateServerException(PKR_409)
                 500 -> throw TestCertificateServerException(PKR_500)
             }
-        } catch (e: Throwable) {
+        } catch (e: Exception) {
+            Timber.tag(TAG).w(e, "registerPublicKeyForTest failed")
             throw TestCertificateServerException(PKR_FAILED)
         }
     }

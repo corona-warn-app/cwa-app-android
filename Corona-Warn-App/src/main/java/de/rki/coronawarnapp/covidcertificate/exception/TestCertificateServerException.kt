@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.util.ui.LazyString
 
 class TestCertificateServerException(
     val errorCode: ErrorCode
-) : HasHumanReadableError, Throwable(errorCode.message) {
+) : HasHumanReadableError, Exception(errorCode.message) {
 
     override fun toHumanReadableError(context: Context): HumanReadableError {
         return HumanReadableError(

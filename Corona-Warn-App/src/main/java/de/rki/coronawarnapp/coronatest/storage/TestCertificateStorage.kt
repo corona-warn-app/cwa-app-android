@@ -6,7 +6,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.TestCertificateContainer
+import de.rki.coronawarnapp.coronatest.type.common.TestCertificateContainer
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCertificateContainer
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACertificateContainer
 import de.rki.coronawarnapp.util.di.AppContext
@@ -46,7 +46,7 @@ class TestCertificateStorage @Inject constructor(
         get() {
             Timber.tag(TAG).d("load()")
 
-            val pcrCerts: Set<PCRCertificateContainer> = run {
+            val pcrCertContainers: Set<PCRCertificateContainer> = run {
                 val raw = prefs.getString(PKEY_DATA_PCR, null) ?: return@run emptySet()
                 gson.fromJson<Set<PCRCertificateContainer>>(raw, typeTokenPCR).onEach {
                     Timber.tag(TAG).v("PCR loaded: %s", it)
@@ -64,7 +64,7 @@ class TestCertificateStorage @Inject constructor(
                 }
             }
 
-            return (pcrCerts + raCerts).also {
+            return (pcrCertContainers + raCerts).also {
                 Timber.tag(TAG).v("Loaded %d certificates.", it.size)
             }
         }
