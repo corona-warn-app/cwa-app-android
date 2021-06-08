@@ -7,9 +7,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentCertificatesBinding
+import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.tryHumanReadableError
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.findNestedGraph
 import de.rki.coronawarnapp.util.ui.observe2
@@ -46,6 +48,32 @@ class CertificatesFragment : Fragment(R.layout.fragment_certificates), AutoInjec
                     // TODO: update when certifications info screen is done
                     findNestedGraph(R.id.vaccination_nav_graph).startDestination = R.id.vaccinationQrCodeScanFragment
                     doNavigate(CertificatesFragmentDirections.actionCertificatesFragmentToVaccinationNavGraph())
+                }
+                is CertificatesFragmentEvents.ShowRefreshErrorCertificateDialog -> {
+                    // TODO: error text?
+                    val errorText = "Grund"
+                    val dialog = DialogHelper.DialogInstance(
+                        context = requireContext(),
+                        title = R.string.test_certificate_refresh_dialog_title,
+                        message = errorText,
+                        positiveButton = R.string.test_certificate_refresh_dialog_confirm_button,
+                        cancelable = false
+                    )
+                    DialogHelper.showDialog(dialog)
+                }
+                is CertificatesFragmentEvents.ShowDeleteErrorCertificateDialog -> {
+                    val dialog = DialogHelper.DialogInstance(
+                        context = requireContext(),
+                        title = R.string.test_certificate_delete_dialog_title,
+                        message = R.string.test_certificate_delete_dialog_body,
+                        positiveButton = R.string.test_certificate_delete_dialog_confirm_button,
+                        negativeButton = R.string.test_certificate_delete_dialog_cancel_button,
+                        cancelable = false,
+                        positiveButtonFunction = {
+                            viewModel.deleteTestCertificate(event.identifier)
+                        }
+                    )
+                    DialogHelper.showDialog(dialog)
                 }
             }
         }
