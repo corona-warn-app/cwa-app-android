@@ -36,10 +36,8 @@ class TestCertificateDccParser @Inject constructor(
         if (testCertificateData.isNullOrEmpty()) {
             throw InvalidTestCertificateException(NO_TEST_ENTRY)
         }
-        // check for non null
+        // check for non null & force date parsing
         nameData.familyNameStandardized!!
-
-        // Force date parsing
         dateOfBirth
         testCertificateData.forEach {
             it.testResultAt

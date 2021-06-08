@@ -25,7 +25,7 @@ class VaccinationDGCV1Parser @Inject constructor(
                 toCertificate()
             } ?: throw InvalidVaccinationCertificateException(HC_CWT_NO_DGC)
         } ?: throw InvalidVaccinationCertificateException(HC_CWT_NO_HCERT)
-        certificate
+        certificate.validate()
     } catch (e: InvalidHealthCertificateException) {
         throw e
     } catch (e: Throwable) {
@@ -36,7 +36,6 @@ class VaccinationDGCV1Parser @Inject constructor(
         if (vaccinationDatas.isNullOrEmpty()) {
             throw InvalidVaccinationCertificateException(VC_NO_VACCINATION_ENTRY)
         }
-        nameData.familyNameStandardized
         // Force date parsing
         dateOfBirth
         vaccinationDatas.forEach {
@@ -47,7 +46,7 @@ class VaccinationDGCV1Parser @Inject constructor(
 
     private fun CBORObject.toCertificate() = try {
         val json = ToJSONString()
-        gson.fromJson<VaccinationDGCV1>(json).validate()
+        gson.fromJson<VaccinationDGCV1>(json)
     } catch (e: Throwable) {
         throw InvalidVaccinationCertificateException(JSON_SCHEMA_INVALID)
     }
