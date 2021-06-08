@@ -113,9 +113,16 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `certificate missing fails with VC_NO_VACCINATION_ENTRY`() {
+    fun `vaccination certificate fails with NO_TEST_ENTRY`() {
         shouldThrow<InvalidTestCertificateException> {
             extractor.extract(VaccinationQrCodeTestData.certificateMissing)
         }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.NO_TEST_ENTRY
+    }
+
+    @Test
+    fun `null values fail with JSON_SCHEMA_INVALID`() {
+        shouldThrow<InvalidTestCertificateException> {
+            extractor.extract(TestData.qrCodeMssingValues)
+        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.JSON_SCHEMA_INVALID
     }
 }

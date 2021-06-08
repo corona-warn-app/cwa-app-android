@@ -46,7 +46,7 @@ open class InvalidHealthCertificateException(
 
     override fun toHumanReadableError(context: Context): HumanReadableError {
         return HumanReadableError(
-            description = errorMessage.get(context) + "/n/n$errorCode"
+            description = errorMessage.get(context) + " ($errorCode)"
         )
     }
 }
