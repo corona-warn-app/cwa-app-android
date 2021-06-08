@@ -4,12 +4,12 @@ import android.content.Context
 import androidx.work.ListenableWorker
 import androidx.work.WorkRequest
 import androidx.work.WorkerParameters
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultRetrievalWorker
 import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
-import de.rki.coronawarnapp.covidcertificate.test.CoronaTestRepository
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppInjector

@@ -1,8 +1,7 @@
-package de.rki.coronawarnapp.coronatest
+package de.rki.coronawarnapp.covidcertificate.test
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.covidcertificate.test.TestCertificateWrapper
 import de.rki.coronawarnapp.covidcertificate.test.qrcode.TestCertificateQRCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.test.storage.PCRCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.storage.RACertificateData

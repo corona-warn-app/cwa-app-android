@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.coronatest
 
 import de.rki.coronawarnapp.appconfig.CovidCertificateConfig
+import de.rki.coronawarnapp.covidcertificate.test.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.qrcode.TestCertificateQRCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.test.storage.PCRCertificateData

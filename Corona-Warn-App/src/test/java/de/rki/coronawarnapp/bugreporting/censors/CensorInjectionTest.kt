@@ -5,8 +5,8 @@ import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.bugreporting.BugReportingSharedModule
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
-import de.rki.coronawarnapp.covidcertificate.test.CoronaTestRepository
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.submission.SubmissionSettings

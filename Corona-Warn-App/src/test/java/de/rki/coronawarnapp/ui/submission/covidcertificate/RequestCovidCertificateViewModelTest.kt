@@ -1,9 +1,9 @@
 package de.rki.coronawarnapp.ui.submission.covidcertificate
 
 import androidx.lifecycle.MutableLiveData
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.covidcertificate.test.CoronaTestRepository
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor

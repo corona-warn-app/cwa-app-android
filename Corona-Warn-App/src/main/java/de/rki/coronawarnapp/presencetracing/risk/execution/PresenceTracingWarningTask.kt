@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.presencetracing.risk.execution
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.reportProblem
-import de.rki.coronawarnapp.covidcertificate.test.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository

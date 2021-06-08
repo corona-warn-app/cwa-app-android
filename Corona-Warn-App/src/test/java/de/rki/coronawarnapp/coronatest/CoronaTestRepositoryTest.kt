@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRTestProcessor
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RATestProcessor
-import de.rki.coronawarnapp.covidcertificate.test.CoronaTestRepository
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery

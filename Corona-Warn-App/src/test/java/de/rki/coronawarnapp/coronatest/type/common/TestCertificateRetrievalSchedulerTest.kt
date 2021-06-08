@@ -3,9 +3,9 @@ package de.rki.coronawarnapp.coronatest.type.common
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
-import de.rki.coronawarnapp.coronatest.TestCertificateRepository
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.covidcertificate.test.CoronaTestRepository
+import de.rki.coronawarnapp.covidcertificate.test.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateWrapper
 import de.rki.coronawarnapp.covidcertificate.test.execution.TestCertificateRetrievalScheduler
 import de.rki.coronawarnapp.util.device.ForegroundState

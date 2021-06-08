@@ -1,9 +1,9 @@
 package de.rki.coronawarnapp.coronatest.type.pcr.execution
 
 import androidx.work.WorkManager
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
-import de.rki.coronawarnapp.covidcertificate.test.CoronaTestRepository
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every

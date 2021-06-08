@@ -3,8 +3,8 @@ package de.rki.coronawarnapp.risk.execution
 import android.annotation.SuppressLint
 import androidx.work.WorkManager
 import dagger.Reusable
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.isRiskCalculationNecessary
-import de.rki.coronawarnapp.covidcertificate.test.CoronaTestRepository
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
 import de.rki.coronawarnapp.diagnosiskeys.execution.DiagnosisKeyRetrievalWorkBuilder
 import de.rki.coronawarnapp.nearby.ENFClient

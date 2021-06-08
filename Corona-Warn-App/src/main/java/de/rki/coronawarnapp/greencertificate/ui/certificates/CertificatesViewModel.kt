@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.coronatest.TestCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.test.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateWrapper
 import de.rki.coronawarnapp.covidcertificate.test.storage.TestCertificateIdentifier
 import de.rki.coronawarnapp.greencertificate.ui.certificates.cards.CovidTestCertificateCard

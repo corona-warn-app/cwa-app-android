@@ -1,9 +1,9 @@
 package de.rki.coronawarnapp.coronatest.notification
 
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
-import de.rki.coronawarnapp.covidcertificate.test.CoronaTestRepository
 import de.rki.coronawarnapp.main.CWASettings
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations

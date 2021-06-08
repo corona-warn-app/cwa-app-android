@@ -6,9 +6,9 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import de.rki.coronawarnapp.coronatest.TestCertificateRepository
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.common.ResultScheduler
-import de.rki.coronawarnapp.covidcertificate.test.CoronaTestRepository
+import de.rki.coronawarnapp.covidcertificate.test.TestCertificateRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.flow.combine

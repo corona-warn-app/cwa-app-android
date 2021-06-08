@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.storage
 
-import de.rki.coronawarnapp.covidcertificate.test.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
