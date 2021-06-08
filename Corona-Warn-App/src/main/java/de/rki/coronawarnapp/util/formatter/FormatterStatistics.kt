@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.statistics.IncidenceStats
 import de.rki.coronawarnapp.statistics.InfectionStats
 import de.rki.coronawarnapp.statistics.KeySubmissionsStats
+import de.rki.coronawarnapp.statistics.PersonsVaccinatedCompletelyStats
 import de.rki.coronawarnapp.statistics.PersonsVaccinatedOnceStats
 import de.rki.coronawarnapp.statistics.SevenDayRValue
 import de.rki.coronawarnapp.statistics.StatsItem
@@ -37,6 +38,11 @@ fun StatsItem.getPrimaryLabel(context: Context): String {
             else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.print(updatedAtDate))
         }
         is PersonsVaccinatedOnceStats -> when (updatedAtDate) {
+            today -> context.getString(R.string.statistics_primary_value_until_yesterday)
+            yesterday -> context.getString(R.string.statistics_primary_value_until_yesterday)
+            else -> context.getString(R.string.statistics_primary_value_until_yesterday)
+        }
+        is PersonsVaccinatedCompletelyStats -> when (updatedAtDate) {
             today -> context.getString(R.string.statistics_primary_value_until_yesterday)
             yesterday -> context.getString(R.string.statistics_primary_value_until_yesterday)
             else -> context.getString(R.string.statistics_primary_value_until_yesterday)

@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.server.protocols.internal.stats.StatisticsOuterClass
 import de.rki.coronawarnapp.statistics.IncidenceStats
 import de.rki.coronawarnapp.statistics.InfectionStats
 import de.rki.coronawarnapp.statistics.KeySubmissionsStats
+import de.rki.coronawarnapp.statistics.PersonsVaccinatedCompletelyStats
 import de.rki.coronawarnapp.statistics.PersonsVaccinatedOnceStats
 import de.rki.coronawarnapp.statistics.SevenDayRValue
 import de.rki.coronawarnapp.statistics.StatisticsData
@@ -37,6 +38,10 @@ class StatisticsParser @Inject constructor() {
                     StatsItem.Type.KEYSUBMISSION -> KeySubmissionsStats(updatedAt = updatedAt, keyFigures = keyFigures)
                     StatsItem.Type.SEVEN_DAY_RVALUE -> SevenDayRValue(updatedAt = updatedAt, keyFigures = keyFigures)
                     StatsItem.Type.PERSONS_VACCINATED_ONCE -> PersonsVaccinatedOnceStats(
+                        updatedAt = updatedAt,
+                        keyFigures = keyFigures
+                    )
+                    StatsItem.Type.PERSONS_VACCINATED_COMPLETELY -> PersonsVaccinatedCompletelyStats(
                         updatedAt = updatedAt,
                         keyFigures = keyFigures
                     )

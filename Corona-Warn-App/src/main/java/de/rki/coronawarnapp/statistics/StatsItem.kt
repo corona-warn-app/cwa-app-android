@@ -23,7 +23,8 @@ sealed class StatsItem(val cardType: Type) {
         INCIDENCE(2),
         KEYSUBMISSION(3),
         SEVEN_DAY_RVALUE(4),
-        PERSONS_VACCINATED_ONCE(5)
+        PERSONS_VACCINATED_ONCE(5),
+        PERSONS_VACCINATED_COMPLETELY(6)
     }
 
     abstract fun requireValidity()
@@ -134,7 +135,29 @@ data class PersonsVaccinatedOnceStats(
             Timber.w("PersonsVaccinatedOnceStats is missing primary value")
         }
         requireNotNull(keyFigures.singleOrNull { it.rank == KeyFigure.Rank.TERTIARY }) {
-            Timber.w("PersonsVaccinatedOnceStats is missing secondary value")
+            Timber.w("PersonsVaccinatedOnceStats is missing tertiary value")
+        }
+    }
+}
+
+data class PersonsVaccinatedCompletelyStats(
+    override val updatedAt: Instant,
+    override val keyFigures: List<KeyFigure>
+) : StatsItem(cardType = Type.PERSONS_VACCINATED_COMPLETELY) {
+
+    val allDoses: KeyFigure
+        get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }
+
+    val total: KeyFigure
+        get() = keyFigures.single { it.rank == KeyFigure.Rank.TERTIARY }
+
+    override fun requireValidity() {
+        require(keyFigures.size == 2)
+        requireNotNull(keyFigures.singleOrNull { it.rank == KeyFigure.Rank.PRIMARY }) {
+            Timber.w("PersonsVaccinatedCompletelyStats is missing primary value")
+        }
+        requireNotNull(keyFigures.singleOrNull { it.rank == KeyFigure.Rank.TERTIARY }) {
+            Timber.w("PersonsVaccinatedCompletelyStats is missing tertiary value")
         }
     }
 }
