@@ -32,10 +32,23 @@
     <string name="detail_green_certificate_test_type">"SARS-CoV-2 Test"</string>
     <!-- XTXT: Detail green certificate card title -->
     <string name="detail_green_certificate_card_title">"Test Certificate"</string>
+    <!-- XTXT: Detail green certificate card subtitle -->
+    <string name="detail_green_certificate_card_subtitle">"Test durchgeführt am %1$s %2$s"</string>
     <!-- XTXT: Detail green certificate travel notice link en -->
     <string name="green_certificate_travel_notice_link_en">"https://reopen.europa.eu/en"</string>
     <!-- XTXT: Detail green certificate travel notice link de -->
     <string name="green_certificate_travel_notice_link_de">"https://reopen.europa.eu/de"</string>
+    <!-- XTXT: Detail green certificate menu item: delete -->
+    <string name="green_certificate_details_menu_item_delete">"Entfernen"</string>
+    <!-- XTXT: Detail green certificate diaglog title -->
+    <string name="green_certificate_details_dialog_remove_test_title">"Wollen Sie das Testzertifikat wirklich entfernen?"</string>
+    <!-- XTXT: Detail green certificate diaglog message -->
+    <string name="green_certificate_details_dialog_remove_test_message">"Wenn Sie das Testzertifikat entfernen, können Sie es nicht mehr als Nachweis in der App verwenden."</string>
+    <!-- XTXT: Detail green certificate diaglog positive -->
+    <string name="green_certificate_details_dialog_remove_test_button_positive">"Abbrechen"</string>
+    <!-- XTXT: Detail green certificate diaglog negative -->
+    <string name="green_certificate_details_dialog_remove_test_button_negative">"Entfernen"</string>
+
     <!-- XTXT: Green certificate main screen title -->
     <string name="certification_screen_title">"Certificates"</string>
     <!-- XTXT: Green certificate menu item -->
@@ -54,6 +67,20 @@
     <string name="test_certificate_error_label">Fehler bei der Zertifikatsabfrage</string>
     <!-- XBUT: Test error retry button -->
     <string name="test_certificate_error_retry_button">Nochmal versuchen</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_try_again">Es konnte keine Verbindung hergestellt werden. Bitte versuchen Sie es erneut.</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_dcc_not_supported_by_lab">Ein Testzertifikat kann nicht angefordert werden, da diese Teststelle die Ausstellung von Testzertifikaten nicht unterstützt. Bitte entfernen Sie das Zertifikat oder kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline.</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_no_network">Ihre Internetverbindung wurde unterbrochen. Bitte prüfen Sie die Verbindung und versuchen Sie es erneut.</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_e2e_error_call_hotline">Ein Fehler ist aufgetreten. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline.</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_try_again_dcc_not_available_yet">Ihr Zertifikat liegt noch nicht vor. Bitte versuchen Sie es noch einmal. Sollte der Fehler weiterhin bestehen, kontaktieren Sie bitte die technische Hotline über App-Informationen -> Technische Hotline.</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_client_error_call_hotline">Ein Fehler ist aufgetreten. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline.></string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_dcc_expired">Das Zertifikat ist nicht mehr aktuell, Sie können es aus der Corona-App entfernen.</string>
     <!-- XBUT: Test error delete button -->
     <string name="test_certificate_error_delete_button">Testzertifikat entfernen</string>
     <!-- XTXT: Test error refresh dialog title -->

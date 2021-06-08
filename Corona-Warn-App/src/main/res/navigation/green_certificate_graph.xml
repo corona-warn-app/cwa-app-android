@@ -9,11 +9,18 @@
         android:id="@+id/certificatesFragment"
         android:name="de.rki.coronawarnapp.greencertificate.ui.certificates.CertificatesFragment"
         android:label="fragment_certificates"
-        tools:layout="@layout/fragment_certificates" >
+        tools:layout="@layout/fragment_certificates">
 
         <action
             android:id="@+id/action_certificatesFragment_to_vaccinationNavGraph"
             app:destination="@id/vaccination_nav_graph" />
+        <action
+            android:id="@+id/action_certificatesFragment_to_covidCertificateDetailsFragment"
+            app:destination="@id/covidCertificateDetailsFragment" />
+
+        <action
+            android:id="@+id/action_certificatesFragment_to_consentFragment"
+            app:destination="@id/vaccinationConsentFragment" />
 
     </fragment>
 
@@ -21,7 +28,7 @@
         android:id="@+id/vaccinationConsentFragment"
         android:name="de.rki.coronawarnapp.vaccination.ui.consent.VaccinationConsentFragment"
         android:label="vaccination_consent_fragment"
-        tools:layout="@layout/vaccination_consent_fragment" >
+        tools:layout="@layout/vaccination_consent_fragment">
         <argument
             android:name="showBottomNav"
             android:defaultValue="true"
@@ -42,4 +49,14 @@
         android:label="privacyFragment"
         tools:layout="@layout/fragment_information_privacy" />
 
+    <fragment
+        android:id="@+id/covidCertificateDetailsFragment"
+        android:name="de.rki.coronawarnapp.greencertificate.ui.certificates.details.CovidCertificateDetailsFragment"
+        android:label="CovidCertificateDetailsFragment"
+        tools:layout="@layout/fragment_covid_certificate_details">
+
+        <argument
+            android:name="testCertificateIdentifier"
+            app:argType="string" />
+    </fragment>
 </navigation>

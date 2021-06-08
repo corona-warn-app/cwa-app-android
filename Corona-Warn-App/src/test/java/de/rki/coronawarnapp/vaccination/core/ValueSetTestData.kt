@@ -1,13 +1,18 @@
 package de.rki.coronawarnapp.vaccination.core
 
-import de.rki.coronawarnapp.vaccination.core.repository.storage.ValueSetsStorage
-import de.rki.coronawarnapp.vaccination.core.server.valueset.DefaultVaccinationValueSet
-import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
-import io.kotest.matchers.shouldBe
+import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.DefaultValueSet
+import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.TestCertificateValueSets
+import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.VaccinationValueSets
+import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.ValueSetsContainer
 import java.util.Locale
 
 object ValueSetTestData {
 
+    // Shared
+    val tgItemDe = "tg" to "Ziel-Name"
+    val tgItemEn = tgItemDe.copy(second = "Target-Name")
+
+    // Vaccination
     val vpItemDe = "1119305005" to "Impfstoff-Name"
     val mpItemDe = "EU/1/21/1529" to "Arzneimittel-Name"
     val maItemDe = "ORG-100001699" to "Hersteller-Name"
@@ -16,72 +21,58 @@ object ValueSetTestData {
     val mpItemEn = mpItemDe.copy(second = "MedicalProduct-Name")
     val maItemEn = maItemDe.copy(second = "Manufactorer-Name")
 
-    val storedValueSetDe = ValueSetsStorage.StoredVaccinationValueSet(
+    // Test certificate
+    val ttItemDe = "tt" to "Test-Typ"
+    val tcMaItemDe = "tcMa" to "RAT-Test-Name-und-Hersteller"
+    val trItemDe = "tr" to "Test-Ergebnis"
+
+    val ttItemEn = vpItemDe.copy(second = "Test-Type")
+    val tcMaItemEn = mpItemDe.copy(second = "RAT-Test-Name-and-Manufacturer")
+    val trItemEn = maItemDe.copy(second = "Test-Result")
+
+    private fun Pair<String, String>.toValueSet() = DefaultValueSet(
+        items = listOf(DefaultValueSet.DefaultItem(key = first, displayText = second))
+    )
+
+    val vaccinationValueSetsDe = VaccinationValueSets(
         languageCode = Locale.GERMAN,
-        vp = createStoredValueSet(vpItemDe),
-        mp = createStoredValueSet(mpItemDe),
-        ma = createStoredValueSet(maItemDe)
+        tg = tgItemDe.toValueSet(),
+        vp = vpItemDe.toValueSet(),
+        mp = mpItemDe.toValueSet(),
+        ma = maItemDe.toValueSet()
     )
 
-    val storedValueSetEn = ValueSetsStorage.StoredVaccinationValueSet(
-        languageCode = Locale.ENGLISH,
-        vp = createStoredValueSet(vpItemEn),
-        mp = createStoredValueSet(mpItemEn),
-        ma = createStoredValueSet(maItemEn)
-    )
-
-    val emptyStoredValueSet = ValueSetsStorage.StoredVaccinationValueSet(
-        languageCode = Locale.ENGLISH,
-        vp = ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet(items = emptyList()),
-        mp = ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet(items = emptyList()),
-        ma = ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet(items = emptyList())
-    )
-
-    val valueSetDe = DefaultVaccinationValueSet(
+    val vaccinationValueSetsEn = VaccinationValueSets(
         languageCode = Locale.GERMAN,
-        vp = createValueSet(vpItemDe),
-        mp = createValueSet(mpItemDe),
-        ma = createValueSet(maItemDe)
+        tg = tgItemEn.toValueSet(),
+        vp = vpItemEn.toValueSet(),
+        mp = mpItemEn.toValueSet(),
+        ma = maItemEn.toValueSet()
     )
 
-    val valueSetEn = DefaultVaccinationValueSet(
-        languageCode = Locale.ENGLISH,
-        vp = createValueSet(vpItemEn),
-        mp = createValueSet(mpItemEn),
-        ma = createValueSet(maItemEn)
+    val testCertificateValueSetsDe = TestCertificateValueSets(
+        languageCode = Locale.GERMAN,
+        tg = tgItemDe.toValueSet(),
+        tt = ttItemDe.toValueSet(),
+        ma = tcMaItemDe.toValueSet(),
+        tr = trItemDe.toValueSet()
     )
 
-    val emptyValueSetEn = emptyStoredValueSet
+    val testCertificateValueSetsEn = TestCertificateValueSets(
+        languageCode = Locale.GERMAN,
+        tg = tgItemEn.toValueSet(),
+        tt = ttItemEn.toValueSet(),
+        ma = tcMaItemEn.toValueSet(),
+        tr = trItemEn.toValueSet()
+    )
 
-    fun createStoredValueSet(keyText: Pair<String, String>): ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet {
-        val item = ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet.StoredItem(
-            key = keyText.first,
-            displayText = keyText.second
-        )
-        return ValueSetsStorage.StoredVaccinationValueSet.StoredValueSet(items = listOf(item))
-    }
+    val valueSetsContainerDe = ValueSetsContainer(
+        vaccinationValueSets = vaccinationValueSetsDe,
+        testCertificateValueSets = testCertificateValueSetsDe
+    )
 
-    fun createValueSet(keyText: Pair<String, String>): DefaultVaccinationValueSet.DefaultValueSet {
-        val item = DefaultVaccinationValueSet.DefaultValueSet.DefaultItem(
-            key = keyText.first,
-            displayText = keyText.second
-        )
-        return DefaultVaccinationValueSet.DefaultValueSet(items = listOf(item))
-    }
-}
-
-fun VaccinationValueSet.validateValues(v2: VaccinationValueSet) {
-    languageCode shouldBe v2.languageCode
-    vp.validateValues(v2.vp)
-    mp.validateValues(v2.mp)
-    ma.validateValues(v2.ma)
-}
-
-fun VaccinationValueSet.ValueSet.validateValues(v2: VaccinationValueSet.ValueSet) {
-    items.forEachIndexed { index, item1 ->
-        val item2 = v2.items[index]
-
-        item1.key shouldBe item2.key
-        item1.displayText shouldBe item2.displayText
-    }
+    val valueSetsContainerEn = ValueSetsContainer(
+        vaccinationValueSets = vaccinationValueSetsEn,
+        testCertificateValueSets = testCertificateValueSetsEn
+    )
 }

@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
 import de.rki.coronawarnapp.datadonation.analytics.ui.AnalyticsUIModule
-import de.rki.coronawarnapp.greencertificate.ui.GreenCertificateUIModule
+import de.rki.coronawarnapp.greencertificate.ui.CovidCertificateUIModule
 import de.rki.coronawarnapp.release.NewReleaseInfoFragment
 import de.rki.coronawarnapp.release.NewReleaseInfoFragmentModule
 import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsFragmentModule
@@ -42,7 +42,7 @@ import de.rki.coronawarnapp.vaccination.ui.VaccinationUIModule
         PresenceTracingUIModule::class,
         RATProfileUIModule::class,
         VaccinationUIModule::class,
-        GreenCertificateUIModule::class,
+        CovidCertificateUIModule::class,
     ]
 )
 abstract class MainActivityModule {

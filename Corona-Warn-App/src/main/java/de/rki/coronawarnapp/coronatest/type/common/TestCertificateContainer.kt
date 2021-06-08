@@ -1,5 +1,7 @@
-package de.rki.coronawarnapp.coronatest.type
+package de.rki.coronawarnapp.coronatest.type.common
 
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.RegistrationToken
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateQRCodeExtractor
@@ -7,8 +9,7 @@ import de.rki.coronawarnapp.util.encryption.rsa.RSAKey
 import de.rki.coronawarnapp.vaccination.core.CertificatePersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.personIdentifier
 import de.rki.coronawarnapp.vaccination.core.qrcode.QrCodeString
-import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
-import de.rki.coronawarnapp.vaccination.core.server.valueset.getDisplayText
+import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.TestCertificateValueSets
 import okio.ByteString
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -29,9 +30,10 @@ abstract class TestCertificateContainer {
 
     abstract val isUpdatingData: Boolean
 
-    // Either set by [ContainerPostProcessor] or during first update
+    // Either set by [ContainerPostProcessor] (if from storage) or during first creation (when new)
     @Transient internal lateinit var qrCodeExtractor: TestCertificateQRCodeExtractor
 
+    // When we create this container initially, we don't need to pare the data again, we already have it.
     @Transient internal var preParsedData: TestCertificateData? = null
 
     @delegate:Transient
@@ -52,7 +54,7 @@ abstract class TestCertificateContainer {
         }
 
     fun toTestCertificate(
-        valueSet: VaccinationValueSet?,
+        valueSet: TestCertificateValueSets?,
         userLocale: Locale = Locale.getDefault(),
     ): TestCertificate? {
         if (isCertificateRetrievalPending) return null

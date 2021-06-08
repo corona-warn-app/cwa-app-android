@@ -239,7 +239,7 @@
         <item name="android:backgroundTint">@color/colorVaccinationCardBackground</item>
     </style>
 
-    <style name="Card.Greencertificate" parent="Card.NoElevation">
+    <style name="Card.GreenCertificate" parent="Card.NoElevation">
         <item name="android:backgroundTint">@color/colorVaccinationCardBackground</item>
     </style>
 

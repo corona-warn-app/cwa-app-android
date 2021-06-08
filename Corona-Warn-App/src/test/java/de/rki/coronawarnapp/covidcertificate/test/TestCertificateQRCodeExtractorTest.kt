@@ -59,7 +59,7 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
     fun `happy path cose decryption with Ellen Cheng`() {
         with(TestData.EllenCheng()) {
             val coseObject = coseWithEncryptedPayload.decodeBase64()!!.toByteArray()
-            val dek = dek.toByteArray()
+            val dek = dek.decodeBase64()!!.toByteArray()
             val result = extractor.extract(dek, coseObject)
             with(result.testCertificateData.certificate.nameData) {
                 familyName shouldBe "Cheng"
@@ -77,7 +77,7 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
     fun `happy path cose decryption with Brian Calamandrei`() {
         with(TestData.BrianCalamandrei()) {
             val coseObject = coseWithEncryptedPayload.decodeBase64()!!.toByteArray()
-            val dek = dek.toByteArray()
+            val dek = dek.decodeBase64()!!.toByteArray()
             val result = extractor.extract(dek, coseObject)
             with(result.testCertificateData.certificate.nameData) {
                 familyName shouldBe "Calamandrei"
@@ -113,9 +113,16 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `certificate missing fails with VC_NO_VACCINATION_ENTRY`() {
+    fun `vaccination certificate fails with NO_TEST_ENTRY`() {
         shouldThrow<InvalidTestCertificateException> {
             extractor.extract(VaccinationQrCodeTestData.certificateMissing)
         }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.NO_TEST_ENTRY
+    }
+
+    @Test
+    fun `null values fail with JSON_SCHEMA_INVALID`() {
+        shouldThrow<InvalidTestCertificateException> {
+            extractor.extract(TestData.qrCodeMssingValues)
+        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.JSON_SCHEMA_INVALID
     }
 }
