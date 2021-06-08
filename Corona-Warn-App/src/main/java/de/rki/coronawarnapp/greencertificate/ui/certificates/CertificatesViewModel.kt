@@ -5,8 +5,10 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.TestCertificateRepository
-import de.rki.coronawarnapp.coronatest.type.TestCertificateContainer
-import de.rki.coronawarnapp.coronatest.type.TestCertificateIdentifier
+import de.rki.coronawarnapp.coronatest.type.TestCertificateWrapper
+import de.rki.coronawarnapp.coronatest.type.common.TestCertificateIdentifier
+import de.rki.coronawarnapp.greencertificate.ui.certificates.cards.CovidTestCertificateCard
+import de.rki.coronawarnapp.greencertificate.ui.certificates.cards.CovidTestCertificateErrorCard
 import de.rki.coronawarnapp.greencertificate.ui.certificates.items.CertificatesItem
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -14,14 +16,12 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.vaccination.core.VaccinationSettings
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
-import de.rki.coronawarnapp.vaccination.ui.cards.NoCovidTestCertificatesCard
 import de.rki.coronawarnapp.vaccination.ui.cards.CreateVaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.HeaderInfoVaccinationCard
 import de.rki.coronawarnapp.vaccination.ui.cards.ImmuneVaccinationCard
+import de.rki.coronawarnapp.vaccination.ui.cards.NoCovidTestCertificatesCard
 import de.rki.coronawarnapp.vaccination.ui.cards.VaccinationCard
 import kotlinx.coroutines.flow.combine
-import de.rki.coronawarnapp.greencertificate.ui.certificates.cards.CovidTestCertificateErrorCard
-import de.rki.coronawarnapp.greencertificate.ui.certificates.cards.CovidTestCertificateCard
 
 class CertificatesViewModel @AssistedInject constructor(
     vaccinationRepository: VaccinationRepository,
@@ -89,7 +89,7 @@ class CertificatesViewModel @AssistedInject constructor(
         }
     }
 
-    private fun MutableList<CertificatesItem>.addTestCertificateCards(certificates: Set<TestCertificateContainer>) {
+    private fun MutableList<CertificatesItem>.addTestCertificateCards(certificates: Set<TestCertificateWrapper>) {
         certificates.forEach { certificate ->
             if (certificate.isCertificateRetrievalPending) {
                 add(
@@ -105,8 +105,8 @@ class CertificatesViewModel @AssistedInject constructor(
                     CovidTestCertificateCard.Item(
                         testDate = certificate.registeredAt,
                         testPerson =
-                        certificate.toTestCertificate(null)?.firstName + " " +
-                            certificate.toTestCertificate(null)?.lastName,
+                        certificate.testCertificate?.firstName + " " +
+                            certificate.testCertificate?.lastName,
                         onClickAction = {
                             events.postValue(
                                 CertificatesFragmentEvents.GoToCovidCertificateDetailScreen(

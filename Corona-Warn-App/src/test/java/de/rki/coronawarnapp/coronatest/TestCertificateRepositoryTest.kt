@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.CovidCertificateConfig
 import de.rki.coronawarnapp.coronatest.storage.TestCertificateStorage
-import de.rki.coronawarnapp.coronatest.type.TestCertificateContainer
+import de.rki.coronawarnapp.coronatest.type.BaseTestCertificate
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.server.CovidCertificateServer
 import de.rki.coronawarnapp.covidcertificate.server.TestCertificateComponents
@@ -60,7 +60,7 @@ class TestCertificateRepositoryTest : BaseTest() {
         every { encryptedCoseTestCertificateBase64 } returns ""
     }
 
-    private var storageSet = mutableSetOf<TestCertificateContainer>()
+    private var storageSet = mutableSetOf<BaseTestCertificate>()
 
     @BeforeEach
     fun setup() {

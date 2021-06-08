@@ -8,7 +8,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.TestCertificateRepository
-import de.rki.coronawarnapp.coronatest.type.TestCertificateIdentifier
+import de.rki.coronawarnapp.coronatest.type.common.TestCertificateIdentifier
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificate
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -31,7 +31,7 @@ class CovidCertificateDetailsViewModel @AssistedInject constructor(
     val events = SingleLiveEvent<CovidCertificateDetailsNavigation>()
     val errors = SingleLiveEvent<Throwable>()
     val covidCertificate = testCertificateRepository.certificates.map { certificates ->
-        certificates.find { it.identifier == testCertificateIdentifier }?.toTestCertificate(null)
+        certificates.find { it.identifier == testCertificateIdentifier }?.testCertificate
             .also { generateQrCode(it) }
     }.asLiveData(dispatcherProvider.Default)
 

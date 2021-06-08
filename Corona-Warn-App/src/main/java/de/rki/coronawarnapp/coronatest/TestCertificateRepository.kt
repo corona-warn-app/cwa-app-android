@@ -4,8 +4,9 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.storage.TestCertificateStorage
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.TestCertificateContainer
-import de.rki.coronawarnapp.coronatest.type.TestCertificateIdentifier
+import de.rki.coronawarnapp.coronatest.type.TestCertificateWrapper
+import de.rki.coronawarnapp.coronatest.type.common.TestCertificateContainer
+import de.rki.coronawarnapp.coronatest.type.common.TestCertificateIdentifier
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCertificateContainer
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACertificateContainer
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.RSA_DECRYPTION_FAILED
@@ -22,7 +23,9 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.encryption.rsa.RSACryptography
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
 import de.rki.coronawarnapp.util.flow.HotDataFlow
+import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.mutate
+import de.rki.coronawarnapp.vaccination.core.repository.ValueSetsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -30,7 +33,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.plus
@@ -53,6 +55,7 @@ class TestCertificateRepository @Inject constructor(
     private val rsaCryptography: RSACryptography,
     private val qrCodeExtractor: TestCertificateQRCodeExtractor,
     private val appConfigProvider: AppConfigProvider,
+    private val valueSetsRepository: ValueSetsRepository,
 ) {
 
     private val internalData: HotDataFlow<Map<TestCertificateIdentifier, TestCertificateContainer>> = HotDataFlow(
@@ -65,7 +68,17 @@ class TestCertificateRepository @Inject constructor(
         }
     }
 
-    val certificates: Flow<Set<TestCertificateContainer>> = internalData.data.map { it.values.toSet() }
+    val certificates: Flow<Set<TestCertificateWrapper>> = combine(
+        internalData.data,
+        valueSetsRepository.latestTestCertificateValueSets
+    ) { certMap, valueSets ->
+        certMap.values.map { container ->
+            TestCertificateWrapper(
+                valueSets = valueSets,
+                container = container,
+            )
+        }.toSet()
+    }
 
     init {
         internalData.data
@@ -89,7 +102,7 @@ class TestCertificateRepository @Inject constructor(
      * or this is not a valid test (no consent, not supported by PoC).
      */
     suspend fun requestCertificate(test: CoronaTest): TestCertificateContainer {
-        Timber.tag(TAG).d("createDccForTest(test.identifier=%s)", test.identifier)
+        Timber.tag(TAG).d("requestCertificate(test.identifier=%s)", test.identifier)
 
         val newData = internalData.updateBlocking {
             if (values.any { it.registrationToken == test.registrationToken }) {
@@ -125,12 +138,12 @@ class TestCertificateRepository @Inject constructor(
     }
 
     /**
-     * If [error] is NULL, then [certificate] will be the refreshed entry.
-     * If [error] is not NULL, then [certificate] is the latest version before the exception occured.
+     * If [error] is NULL, then [certificateContainer] will be the refreshed entry.
+     * If [error] is not NULL, then [certificateContainer] is the latest version before the exception occured.
      * Due to refresh being a multiple process, some steps can successed, while others fail.
      */
     data class RefreshResult(
-        val certificate: TestCertificateContainer,
+        val certificateContainer: TestCertificateContainer,
         val error: Exception? = null,
     )
 
@@ -185,13 +198,13 @@ class TestCertificateRepository @Inject constructor(
                 }
 
             refreshedCerts.forEach {
-                refreshCallResults[it.certificate.identifier] = it
+                refreshCallResults[it.certificateContainer.identifier] = it
             }
 
             mutate {
                 refreshedCerts
                     .filter { it.error == null }
-                    .map { it.certificate }
+                    .map { it.certificateContainer }
                     .forEach { this[it.identifier] = it }
             }
         }
@@ -214,13 +227,13 @@ class TestCertificateRepository @Inject constructor(
                 }
 
             refreshedCerts.forEach {
-                refreshCallResults[it.certificate.identifier] = it
+                refreshCallResults[it.certificateContainer.identifier] = it
             }
 
             mutate {
                 refreshedCerts
                     .filter { it.error == null }
-                    .map { it.certificate }
+                    .map { it.certificateContainer }
                     .forEach { this[it.identifier] = it }
             }
         }

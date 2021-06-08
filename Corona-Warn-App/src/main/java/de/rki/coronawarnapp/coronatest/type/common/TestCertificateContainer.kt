@@ -1,5 +1,7 @@
-package de.rki.coronawarnapp.coronatest.type
+package de.rki.coronawarnapp.coronatest.type.common
 
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.RegistrationToken
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateQRCodeExtractor

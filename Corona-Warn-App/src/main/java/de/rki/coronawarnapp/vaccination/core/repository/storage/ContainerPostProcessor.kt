@@ -7,7 +7,7 @@ import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
 import dagger.Reusable
-import de.rki.coronawarnapp.coronatest.type.TestCertificateContainer
+import de.rki.coronawarnapp.coronatest.type.common.TestCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateQRCodeExtractor
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationQRCodeExtractor
 import timber.log.Timber
