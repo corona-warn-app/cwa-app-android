@@ -1,21 +1,23 @@
 package de.rki.coronawarnapp.vaccination.core.repository.storage
 
-import testhelpers.BaseTest
-/*import android.content.Context
+import android.content.Context
+import androidx.core.content.edit
 import de.rki.coronawarnapp.util.serialization.SerializationModule
+import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.valueSetsContainerDe
+import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.valueSetsContainerEn
+import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.emptyValueSetsContainer
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import testhelpers.BaseTest
 import testhelpers.extensions.toComparableJsonPretty
-import testhelpers.preferences.MockSharedPreferences*/
+import testhelpers.preferences.MockSharedPreferences
 
 class ValueSetsStorageTest : BaseTest() {
 
-    /*
     @MockK lateinit var context: Context
     lateinit var prefs: MockSharedPreferences
 
@@ -34,105 +36,152 @@ class ValueSetsStorageTest : BaseTest() {
     )
 
     @Test
-    fun `Default value is an empty value set`() {
-        createInstance().valueSetsContainer.validateValues(emptyValueSetEn)
-    }
-
-    @Test
     fun `Updates values`() {
         createInstance().run {
-            valueSetsContainer = storedValueSetDe
-            valueSetsContainer shouldBe storedValueSetDe
+            valueSetsContainer = valueSetsContainerDe
+            valueSetsContainer shouldBe valueSetsContainerDe
 
-            valueSetsContainer = storedValueSetEn
-            valueSetsContainer shouldBe storedValueSetEn
-        }
-    }
-
-    @Test
-    fun `Check mapping is correct`() {
-        createInstance().run {
-            storedValueSetDe.also { it.toStoredVaccinationValueSet() shouldBe it }
-
-            storedValueSetEn.also { it.toStoredVaccinationValueSet() shouldBe it }
-
-            valueSetDe.also {
-                it.toStoredVaccinationValueSet() shouldBe storedValueSetDe
-                it.toStoredVaccinationValueSet().validateValues(it)
-            }
-
-            valueSetEn.also {
-                it.toStoredVaccinationValueSet() shouldBe storedValueSetEn
-                it.toStoredVaccinationValueSet().validateValues(it)
-            }
-
-            emptyValueSetEn.also {
-                it.toStoredVaccinationValueSet() shouldBe emptyStoredValueSet
-                it.toStoredVaccinationValueSet().validateValues(it)
-            }
+            valueSetsContainer = valueSetsContainerEn
+            valueSetsContainer shouldBe valueSetsContainerEn
         }
     }
 
     @Test
     fun `storage inits empty without sideeffects`() {
-        createInstance().valueSetsContainer shouldNotBe null
+        createInstance()
         prefs.dataMapPeek.isEmpty() shouldBe true
     }
 
     @Test
     fun `storage format`() {
-        createInstance().valueSetsContainer = storedValueSetDe
-        (prefs.dataMapPeek["valueset"] as String).toComparableJsonPretty() shouldBe """
+        createInstance().valueSetsContainer = valueSetsContainerDe
+        (prefs.dataMapPeek["valuesets_container"] as String).toComparableJsonPretty() shouldBe """
             {
-              "languageCode": "de",
-              "vp": {
-                "items": [
-                  {
-                    "key": "1119305005",
-                    "displayText": "Impfstoff-Name"
-                  }
-                ]
+              "vaccinationValueSets": {
+                "languageCode": "de",
+                "tg": {
+                  "items": [
+                    {
+                      "key": "tg",
+                      "displayText": "Ziel-Name"
+                    }
+                  ]
+                },
+                "vp": {
+                  "items": [
+                    {
+                      "key": "1119305005",
+                      "displayText": "Impfstoff-Name"
+                    }
+                  ]
+                },
+                "mp": {
+                  "items": [
+                    {
+                      "key": "EU/1/21/1529",
+                      "displayText": "Arzneimittel-Name"
+                    }
+                  ]
+                },
+                "ma": {
+                  "items": [
+                    {
+                      "key": "ORG-100001699",
+                      "displayText": "Hersteller-Name"
+                    }
+                  ]
+                }
               },
-              "mp": {
-                "items": [
-                  {
-                    "key": "EU/1/21/1529",
-                    "displayText": "Arzneimittel-Name"
-                  }
-                ]
-              },
-              "ma": {
-                "items": [
-                  {
-                    "key": "ORG-100001699",
-                    "displayText": "Hersteller-Name"
-                  }
-                ]
+              "testCertificateValueSets": {
+                "languageCode": "de",
+                "tg": {
+                  "items": [
+                    {
+                      "key": "tg",
+                      "displayText": "Ziel-Name"
+                    }
+                  ]
+                },
+                "tt": {
+                  "items": [
+                    {
+                      "key": "tt",
+                      "displayText": "Test-Typ"
+                    }
+                  ]
+                },
+                "ma": {
+                  "items": [
+                    {
+                      "key": "tcMa",
+                      "displayText": "RAT-Test-Name-und-Hersteller"
+                    }
+                  ]
+                },
+                "tr": {
+                  "items": [
+                    {
+                      "key": "tr",
+                      "displayText": "Test-Ergebnis"
+                    }
+                  ]
+                }
               }
             }
         """.toComparableJsonPretty()
 
         createInstance().apply {
-            valueSetsContainer shouldBe storedValueSetDe
-            valueSetsContainer = emptyStoredValueSet
+            valueSetsContainer shouldBe valueSetsContainerDe
+            valueSetsContainer = emptyValueSetsContainer
         }
-        (prefs.dataMapPeek["valueset"] as String).toComparableJsonPretty() shouldBe """
+        (prefs.dataMapPeek["valuesets_container"] as String).toComparableJsonPretty() shouldBe """
             {
-              "languageCode": "en",
-              "vp": {
-                "items": []
+              "vaccinationValueSets": {
+                "languageCode": "en",
+                "tg": {
+                  "items": []
+                },
+                "vp": {
+                  "items": []
+                },
+                "mp": {
+                  "items": []
+                },
+                "ma": {
+                  "items": []
+                }
               },
-              "mp": {
-                "items": []
-              },
-              "ma": {
-                "items": []
+              "testCertificateValueSets": {
+                "languageCode": "en",
+                "tg": {
+                  "items": []
+                },
+                "tt": {
+                  "items": []
+                },
+                "ma": {
+                  "items": []
+                },
+                "tr": {
+                  "items": []
+                }
               }
             }
         """.toComparableJsonPretty()
 
-        createInstance().valueSetsContainer shouldBe emptyStoredValueSet
+        createInstance().valueSetsContainer shouldBe emptyValueSetsContainer
     }
 
-     */
+    @Test
+    fun `removes leftover`() {
+        val leftover = "I'm a malicious leftover"
+        val valueSet = "valueset"
+        prefs.edit(commit = true) {
+            putString(valueSet, leftover)
+        }
+
+        prefs.dataMapPeek[valueSet] shouldBe leftover
+        createInstance().valueSetsContainer shouldBe emptyValueSetsContainer
+        prefs.dataMapPeek.isEmpty() shouldBe true
+    }
 }

@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.vaccination.core.qrcode
 
+import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.HC_CWT_NO_ISS
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
@@ -117,5 +118,19 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
     fun `test data person B check`() {
         val extracted = extractor.extract(vaccinationTestData.personBVac1QRCodeString)
         extracted shouldBe vaccinationTestData.personBVac1QRCode
+    }
+
+    @Test
+    fun `null values fail with JSON_SCHEMA_INVALID`() {
+        shouldThrow<InvalidVaccinationCertificateException> {
+            extractor.extract(VaccinationQrCodeTestData.qrCodeWithNullValues)
+        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.JSON_SCHEMA_INVALID
+    }
+
+    @Test
+    fun `blank name fail with JSON_SCHEMA_INVALID`() {
+        shouldThrow<InvalidVaccinationCertificateException> {
+            extractor.extract(VaccinationQrCodeTestData.qrCodeBlankLastNameStandardized)
+        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.JSON_SCHEMA_INVALID
     }
 }
