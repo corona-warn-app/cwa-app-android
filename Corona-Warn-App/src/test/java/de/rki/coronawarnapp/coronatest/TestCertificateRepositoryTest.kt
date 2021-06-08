@@ -1,52 +1,35 @@
 package de.rki.coronawarnapp.coronatest
 
-import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.CovidCertificateConfig
 import de.rki.coronawarnapp.coronatest.storage.TestCertificateStorage
-import de.rki.coronawarnapp.coronatest.type.common.TestCertificateContainer
-import de.rki.coronawarnapp.coronatest.type.pcr.PCRCertificateContainer
-import de.rki.coronawarnapp.covidcertificate.server.CovidCertificateServer
-import de.rki.coronawarnapp.covidcertificate.server.TestCertificateComponents
+import de.rki.coronawarnapp.coronatest.type.common.StoredTestCertificateData
+import de.rki.coronawarnapp.coronatest.type.common.TestCertificateProcessor
+import de.rki.coronawarnapp.coronatest.type.pcr.PCRCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateQRCodeExtractor
-import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.encryption.rsa.RSACryptography
-import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
 import de.rki.coronawarnapp.vaccination.core.repository.ValueSetsRepository
 import io.mockk.MockKAnnotations
-import io.mockk.Runs
 import io.mockk.coEvery
-import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.flowOf
-import okio.ByteString
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
-import testhelpers.coroutines.runBlockingTest2
 
 class TestCertificateRepositoryTest : BaseTest() {
 
-    @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var storage: TestCertificateStorage
-    @MockK lateinit var certificateServer: CovidCertificateServer
-    @MockK lateinit var rsaCryptography: RSACryptography
     @MockK lateinit var qrCodeExtractor: TestCertificateQRCodeExtractor
-    @MockK lateinit var appConfigProvider: AppConfigProvider
-    @MockK lateinit var appConfigData: ConfigData
     @MockK lateinit var covidTestCertificateConfig: CovidCertificateConfig.TestCertificate
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
+    @MockK lateinit var testCertificateProcessor: TestCertificateProcessor
 
-    private val testCertificateNew = PCRCertificateContainer(
+    private val testCertificateNew = PCRCertificateData(
         identifier = "identifier1",
         registrationToken = "regtoken1",
         registeredAt = Instant.EPOCH,
@@ -58,23 +41,11 @@ class TestCertificateRepositoryTest : BaseTest() {
         rsaPrivateKey = mockk(),
     )
 
-    private val testCerticateComponents = mockk<TestCertificateComponents>().apply {
-        every { dataEncryptionKeyBase64 } returns "dek"
-        every { encryptedCoseTestCertificateBase64 } returns ""
-    }
-
-    private var storageSet = mutableSetOf<TestCertificateContainer>()
+    private var storageSet = mutableSetOf<StoredTestCertificateData>()
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-
-        every { timeStamper.nowUTC } returns Instant.EPOCH
-
-        every { appConfigProvider.currentConfig } returns flowOf(appConfigData)
-        every { appConfigData.covidCertificateParameters } returns mockk<CovidCertificateConfig>().apply {
-            every { testCertificate } returns covidTestCertificateConfig
-        }
 
         covidTestCertificateConfig.apply {
             every { waitForRetry } returns Duration.standardSeconds(10)
@@ -89,13 +60,6 @@ class TestCertificateRepositoryTest : BaseTest() {
             every { storage.testCertificates } answers { storageSet }
         }
 
-        certificateServer.apply {
-            coEvery { registerPublicKeyForTest(any(), any()) } just Runs
-            coEvery { requestCertificateForTest(any()) } returns testCerticateComponents
-        }
-
-        every { rsaCryptography.decrypt(any(), any()) } returns ByteString.Companion.EMPTY
-
         coEvery { qrCodeExtractor.extract(any(), any()) } returns mockk<TestCertificateQRCode>().apply {
             every { qrCode } returns "qrCode"
             every { testCertificateData } returns mockk()
@@ -106,38 +70,9 @@ class TestCertificateRepositoryTest : BaseTest() {
     private fun createInstance(scope: CoroutineScope) = TestCertificateRepository(
         appScope = scope,
         dispatcherProvider = TestDispatcherProvider(),
-        timeStamper = timeStamper,
         storage = storage,
-        certificateServer = certificateServer,
-        rsaKeyPairGenerator = RSAKeyPairGenerator(),
-        rsaCryptography = rsaCryptography,
         qrCodeExtractor = qrCodeExtractor,
-        appConfigProvider = appConfigProvider,
         valueSetsRepository = valueSetsRepository,
+        processor = testCertificateProcessor,
     )
-
-    @Test
-    fun `refresh tries public key registration`() = runBlockingTest2(ignoreActive = true) {
-        storage.testCertificates = setOf(testCertificateNew)
-
-        val instance = createInstance(scope = this)
-        instance.refresh()
-
-        coVerify {
-            certificateServer.registerPublicKeyForTest(testCertificateNew.registrationToken, any())
-        }
-    }
-
-    @Test
-    fun `refresh skips public key registration already registered`() = runBlockingTest2(ignoreActive = true) {
-        storage.testCertificates = setOf(testCertificateWithPubKey)
-
-        val instance = createInstance(scope = this)
-        instance.refresh()
-
-        coVerify {
-            covidTestCertificateConfig.waitAfterPublicKeyRegistration
-            certificateServer.requestCertificateForTest(testCertificateNew.registrationToken)
-        }
-    }
 }

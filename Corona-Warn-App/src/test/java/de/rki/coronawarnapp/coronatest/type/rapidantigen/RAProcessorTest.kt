@@ -97,7 +97,7 @@ class RAProcessorTest : BaseTest() {
         }
     }
 
-    fun createInstance() = RAProcessor(
+    fun createInstance() = RATestProcessor(
         timeStamper = timeStamper,
         submissionService = submissionService,
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,

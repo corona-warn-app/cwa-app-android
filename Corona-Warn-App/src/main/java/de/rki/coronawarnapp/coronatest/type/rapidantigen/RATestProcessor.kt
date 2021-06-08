@@ -35,7 +35,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class RAProcessor @Inject constructor(
+class RATestProcessor @Inject constructor(
     private val timeStamper: TimeStamper,
     private val submissionService: CoronaTestService,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
@@ -251,7 +251,7 @@ private fun CoronaTestResult.toValidatedResult(): CoronaTestResult {
     return if (isValid) {
         this
     } else {
-        Timber.tag(RAProcessor.TAG).e("Server returned invalid RapidAntigen testresult $this")
+        Timber.tag(RATestProcessor.TAG).e("Server returned invalid RapidAntigen testresult $this")
         RAT_INVALID
     }
 }
