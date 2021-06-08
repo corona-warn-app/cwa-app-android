@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.vaccination.core.server.valueset.internal
+package de.rki.coronawarnapp.covidcertificate.valueset.internal
 
 import de.rki.coronawarnapp.exception.reporting.ErrorCodes
 import de.rki.coronawarnapp.util.security.InvalidSignatureException

@@ -1,10 +1,10 @@
 package de.rki.coronawarnapp.vaccination.core.repository.storage
 
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.DefaultValueSet
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import de.rki.coronawarnapp.vaccination.core.CertificatePersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.DaggerVaccinationTestComponent
 import de.rki.coronawarnapp.vaccination.core.VaccinationTestData
-import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.DefaultValueSet
-import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.VaccinationValueSets
 import io.kotest.matchers.shouldBe
 import org.joda.time.Instant
 import org.joda.time.LocalDate

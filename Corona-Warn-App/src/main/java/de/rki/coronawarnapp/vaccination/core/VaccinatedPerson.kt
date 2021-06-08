@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.vaccination.core
 
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.vaccination.core.repository.storage.VaccinatedPersonData
-import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.VaccinationValueSets
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.joda.time.LocalDate

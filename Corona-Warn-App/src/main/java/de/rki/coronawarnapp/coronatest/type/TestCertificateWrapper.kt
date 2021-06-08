@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.coronatest.type
 import de.rki.coronawarnapp.coronatest.type.common.TestCertificateContainer
 import de.rki.coronawarnapp.coronatest.type.common.TestCertificateIdentifier
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificate
-import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.TestCertificateValueSets
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
 
 data class TestCertificateWrapper(
     private val valueSets: TestCertificateValueSets,

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets
+package de.rki.coronawarnapp.covidcertificate.valueset.valuesets
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName

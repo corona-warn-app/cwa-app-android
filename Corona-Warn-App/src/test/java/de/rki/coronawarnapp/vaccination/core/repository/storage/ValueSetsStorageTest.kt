@@ -2,10 +2,10 @@ package de.rki.coronawarnapp.vaccination.core.repository.storage
 
 import android.content.Context
 import androidx.core.content.edit
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyValueSetsContainer
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.valueSetsContainerDe
 import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.valueSetsContainerEn
-import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.emptyValueSetsContainer
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every

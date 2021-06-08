@@ -1,9 +1,9 @@
 package de.rki.coronawarnapp.vaccination.core
 
-import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.DefaultValueSet
-import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.TestCertificateValueSets
-import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.VaccinationValueSets
-import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.ValueSetsContainer
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.DefaultValueSet
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.ValueSetsContainer
 import java.util.Locale
 
 object ValueSetTestData {

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.server
+package de.rki.coronawarnapp.covidcertificate.test.server
 
 import de.rki.coronawarnapp.http.HttpModule
 import io.kotest.matchers.shouldBe
@@ -31,10 +31,10 @@ class CovidCertificateApiV1Test : BaseTest() {
         webServer.shutdown()
     }
 
-    private fun createAPI(): CovidCertificateApiV1 {
+    private fun createAPI(): TestCertificateApiV1 {
         val httpModule = HttpModule()
 
-        return CovidCertificateModule().let {
+        return TestCertificateServerModule().let {
             val downloadHttpClient = httpModule.defaultHttpClient()
             it.apiV1(
                 httpClient = downloadHttpClient,
@@ -54,7 +54,7 @@ class CovidCertificateApiV1Test : BaseTest() {
         """.toJsonResponse().apply { webServer.enqueue(this) }
 
         api.sendPublicKey(
-            CovidCertificateApiV1.PublicKeyUploadRequest(
+            TestCertificateApiV1.PublicKeyUploadRequest(
                 registrationToken = "token1",
                 publicKey = "key1"
             )

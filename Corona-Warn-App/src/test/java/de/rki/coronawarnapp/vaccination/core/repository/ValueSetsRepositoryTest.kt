@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.vaccination.core.repository
 
+import de.rki.coronawarnapp.covidcertificate.valueset.CertificateValueSetServer
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyValueSetsContainer
 import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.testCertificateValueSetsDe
 import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.testCertificateValueSetsEn
 import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.vaccinationValueSetsDe
@@ -7,8 +9,6 @@ import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.vaccinationValueSe
 import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.valueSetsContainerDe
 import de.rki.coronawarnapp.vaccination.core.ValueSetTestData.valueSetsContainerEn
 import de.rki.coronawarnapp.vaccination.core.repository.storage.ValueSetsStorage
-import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationServer
-import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.emptyValueSetsContainer
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Ordering
@@ -29,13 +29,13 @@ import java.util.Locale
 
 class ValueSetsRepositoryTest : BaseTest() {
 
-    @MockK lateinit var vaccinationServer: VaccinationServer
+    @MockK lateinit var certificateValueSetServer: CertificateValueSetServer
     @MockK lateinit var valueSetsStorage: ValueSetsStorage
 
     private val testDispatcherProvider = TestDispatcherProvider()
 
     private fun createInstance(scope: CoroutineScope) = ValueSetsRepository(
-        vaccinationServer = vaccinationServer,
+        vaccinationServer = certificateValueSetServer,
         valueSetsStorage = valueSetsStorage,
         scope = scope,
         dispatcherProvider = testDispatcherProvider
@@ -44,13 +44,13 @@ class ValueSetsRepositoryTest : BaseTest() {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        coEvery { vaccinationServer.getVaccinationValueSets(any()) } returns
+        coEvery { certificateValueSetServer.getVaccinationValueSets(any()) } returns
             null
-        coEvery { vaccinationServer.getVaccinationValueSets(languageCode = Locale.ENGLISH) } returns
+        coEvery { certificateValueSetServer.getVaccinationValueSets(languageCode = Locale.ENGLISH) } returns
             valueSetsContainerEn
-        coEvery { vaccinationServer.getVaccinationValueSets(languageCode = Locale.GERMAN) } returns
+        coEvery { certificateValueSetServer.getVaccinationValueSets(languageCode = Locale.GERMAN) } returns
             valueSetsContainerDe
-        every { vaccinationServer.clear() } just runs
+        every { certificateValueSetServer.clear() } just runs
 
         every { valueSetsStorage.valueSetsContainer = any() } just runs
         every { valueSetsStorage.valueSetsContainer } returns emptyValueSetsContainer
@@ -65,12 +65,12 @@ class ValueSetsRepositoryTest : BaseTest() {
         }
 
         coVerify {
-            vaccinationServer.getVaccinationValueSets(languageCode = Locale.GERMAN)
+            certificateValueSetServer.getVaccinationValueSets(languageCode = Locale.GERMAN)
             valueSetsStorage.valueSetsContainer = valueSetsContainerDe
         }
 
         coVerify(exactly = 0) {
-            vaccinationServer.getVaccinationValueSets(languageCode = Locale.ENGLISH)
+            certificateValueSetServer.getVaccinationValueSets(languageCode = Locale.ENGLISH)
             valueSetsStorage.valueSetsContainer = valueSetsContainerEn
         }
     }
@@ -84,16 +84,16 @@ class ValueSetsRepositoryTest : BaseTest() {
         }
 
         coVerify(ordering = Ordering.ORDERED) {
-            vaccinationServer.getVaccinationValueSets(languageCode = Locale.FRENCH)
-            vaccinationServer.getVaccinationValueSets(languageCode = Locale.ENGLISH)
+            certificateValueSetServer.getVaccinationValueSets(languageCode = Locale.FRENCH)
+            certificateValueSetServer.getVaccinationValueSets(languageCode = Locale.ENGLISH)
             valueSetsStorage.valueSetsContainer = valueSetsContainerEn
         }
     }
 
     @Test
     fun `server returns nothing`() = runBlockingTest2(ignoreActive = true) {
-        coEvery { vaccinationServer.getVaccinationValueSets(languageCode = Locale.GERMAN) } returns null
-        coEvery { vaccinationServer.getVaccinationValueSets(languageCode = Locale.ENGLISH) } returns null
+        coEvery { certificateValueSetServer.getVaccinationValueSets(languageCode = Locale.GERMAN) } returns null
+        coEvery { certificateValueSetServer.getVaccinationValueSets(languageCode = Locale.ENGLISH) } returns null
 
         createInstance(this).run {
             triggerUpdateValueSet(languageCode = Locale.GERMAN)
@@ -104,8 +104,8 @@ class ValueSetsRepositoryTest : BaseTest() {
         }
 
         coVerify(ordering = Ordering.ORDERED) {
-            vaccinationServer.getVaccinationValueSets(languageCode = Locale.GERMAN)
-            vaccinationServer.getVaccinationValueSets(languageCode = Locale.ENGLISH)
+            certificateValueSetServer.getVaccinationValueSets(languageCode = Locale.GERMAN)
+            certificateValueSetServer.getVaccinationValueSets(languageCode = Locale.ENGLISH)
         }
     }
 
@@ -120,7 +120,7 @@ class ValueSetsRepositoryTest : BaseTest() {
             }
 
             coVerify {
-                vaccinationServer.clear()
+                certificateValueSetServer.clear()
                 valueSetsStorage.valueSetsContainer = emptyValueSetsContainer
             }
         }

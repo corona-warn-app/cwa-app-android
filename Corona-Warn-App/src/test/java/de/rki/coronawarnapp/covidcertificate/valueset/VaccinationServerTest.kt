@@ -1,9 +1,9 @@
-package de.rki.coronawarnapp.vaccination.core.server.valueset
+package de.rki.coronawarnapp.covidcertificate.valueset
 
 import dagger.Lazy
+import de.rki.coronawarnapp.covidcertificate.valueset.internal.ValueSetInvalidSignatureException
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.security.SignatureValidation
-import de.rki.coronawarnapp.vaccination.core.server.valueset.internal.ValueSetInvalidSignatureException
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -32,7 +32,7 @@ class VaccinationServerTest : BaseTest() {
     private val invalidExportZip = File("src/test/resources/vaccination/valueset_invalid.zip")
 
     @MockK lateinit var cache: Cache
-    @MockK lateinit var apiV1: Lazy<VaccinationValueSetApiV1>
+    @MockK lateinit var apiV1: Lazy<CertificateValueSetApiV1>
     @MockK lateinit var dispatcherProvider: DispatcherProvider
     @MockK lateinit var signatureValidation: SignatureValidation
 
@@ -43,7 +43,7 @@ class VaccinationServerTest : BaseTest() {
         invalidExportZip.exists() shouldBe true
     }
 
-    private fun createInstance() = VaccinationServer(
+    private fun createInstance() = CertificateValueSetServer(
         cache,
         apiV1,
         dispatcherProvider,

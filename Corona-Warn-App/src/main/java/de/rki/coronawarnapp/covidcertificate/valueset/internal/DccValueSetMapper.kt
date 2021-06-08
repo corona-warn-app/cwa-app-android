@@ -1,11 +1,10 @@
-package de.rki.coronawarnapp.vaccination.core.server.valueset.internal
+package de.rki.coronawarnapp.covidcertificate.valueset.internal
 
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.DefaultValueSet
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.ValueSetsContainer
 import de.rki.coronawarnapp.server.protocols.internal.dgc.ValueSetsOuterClass
-import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.DefaultValueSet
-import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.TestCertificateValueSets
-import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.VaccinationValueSets
-import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.ValueSets
-import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.ValueSetsContainer
 import timber.log.Timber
 import java.util.Locale
 

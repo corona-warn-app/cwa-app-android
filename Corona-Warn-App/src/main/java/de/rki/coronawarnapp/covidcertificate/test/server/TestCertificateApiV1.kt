@@ -1,11 +1,11 @@
-package de.rki.coronawarnapp.covidcertificate.server
+package de.rki.coronawarnapp.covidcertificate.test.server
 
 import com.google.gson.annotations.SerializedName
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-interface CovidCertificateApiV1 {
+interface TestCertificateApiV1 {
 
     data class PublicKeyUploadRequest(
         @SerializedName("registrationToken") val registrationToken: String,

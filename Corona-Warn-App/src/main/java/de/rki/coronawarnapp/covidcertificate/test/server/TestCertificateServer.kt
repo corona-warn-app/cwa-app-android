@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.server
+package de.rki.coronawarnapp.covidcertificate.test.server
 
 import dagger.Lazy
 import dagger.Reusable
@@ -21,10 +21,10 @@ import de.rki.coronawarnapp.covidcertificate.exception.TestCertificateServerExce
 import de.rki.coronawarnapp.covidcertificate.exception.TestCertificateServerException.ErrorCode.PKR_500
 import de.rki.coronawarnapp.covidcertificate.exception.TestCertificateServerException.ErrorCode.PKR_FAILED
 import de.rki.coronawarnapp.covidcertificate.exception.TestCertificateServerException.ErrorCode.PKR_NO_NETWORK
-import de.rki.coronawarnapp.covidcertificate.server.CovidCertificateApiV1.ComponentsResponse.Reason.INTERNAL
-import de.rki.coronawarnapp.covidcertificate.server.CovidCertificateApiV1.ComponentsResponse.Reason.LAB_INVALID_RESPONSE
-import de.rki.coronawarnapp.covidcertificate.server.CovidCertificateApiV1.ComponentsResponse.Reason.SIGNING_CLIENT_ERROR
-import de.rki.coronawarnapp.covidcertificate.server.CovidCertificateApiV1.ComponentsResponse.Reason.SIGNING_SERVER_ERROR
+import de.rki.coronawarnapp.covidcertificate.test.server.TestCertificateApiV1.ComponentsResponse.Reason.INTERNAL
+import de.rki.coronawarnapp.covidcertificate.test.server.TestCertificateApiV1.ComponentsResponse.Reason.LAB_INVALID_RESPONSE
+import de.rki.coronawarnapp.covidcertificate.test.server.TestCertificateApiV1.ComponentsResponse.Reason.SIGNING_CLIENT_ERROR
+import de.rki.coronawarnapp.covidcertificate.test.server.TestCertificateApiV1.ComponentsResponse.Reason.SIGNING_SERVER_ERROR
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKey
 import de.rki.coronawarnapp.util.network.NetworkStateProvider
@@ -34,13 +34,13 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class CovidCertificateServer @Inject constructor(
-    private val dccApi: Lazy<CovidCertificateApiV1>,
+class TestCertificateServer @Inject constructor(
+    private val dccApi: Lazy<TestCertificateApiV1>,
     private val dispatcherProvider: DispatcherProvider,
     private val networkStateProvider: NetworkStateProvider
 ) {
 
-    private val api: CovidCertificateApiV1
+    private val api: TestCertificateApiV1
         get() = dccApi.get()
 
     @Throws(TestCertificateServerException::class)
@@ -54,7 +54,7 @@ class CovidCertificateServer @Inject constructor(
         }
         try {
             val response = api.sendPublicKey(
-                requestBody = CovidCertificateApiV1.PublicKeyUploadRequest(
+                requestBody = TestCertificateApiV1.PublicKeyUploadRequest(
                     registrationToken = testRegistrationToken,
                     publicKey = publicKey.base64
                 )
@@ -81,7 +81,7 @@ class CovidCertificateServer @Inject constructor(
             throw TestCertificateServerException(DCC_COMP_NO_NETWORK)
         }
         val response = api.getComponents(
-            requestBody = CovidCertificateApiV1.ComponentsRequest(testRegistrationToken)
+            requestBody = TestCertificateApiV1.ComponentsRequest(testRegistrationToken)
         )
         when (response.code()) {
             202 -> throw TestCertificateServerException(DCC_COMP_202)

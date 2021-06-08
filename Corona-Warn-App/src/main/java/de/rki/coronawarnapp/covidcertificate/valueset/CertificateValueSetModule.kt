@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.vaccination.core.server.valueset
+package de.rki.coronawarnapp.covidcertificate.valueset
 
 import android.content.Context
 import dagger.Module
@@ -17,10 +17,10 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 
 @Module
-class VaccinationValueSetModule {
+class CertificateValueSetModule {
 
     @Reusable
-    @ValueSet
+    @CertificateValueSet
     @Provides
     fun cache(
         @AppContext context: Context
@@ -35,8 +35,8 @@ class VaccinationValueSetModule {
     fun api(
         @DownloadCDNHttpClient httpClient: OkHttpClient,
         @DownloadCDNServerUrl url: String,
-        @ValueSet cache: Cache
-    ): VaccinationValueSetApiV1 {
+        @CertificateValueSet cache: Cache
+    ): CertificateValueSetApiV1 {
         val client = httpClient.newBuilder()
             .addNetworkInterceptor(CacheInterceptor())
             .cache(cache)
@@ -46,7 +46,7 @@ class VaccinationValueSetModule {
             .client(client)
             .baseUrl(url)
             .build()
-            .create(VaccinationValueSetApiV1::class.java)
+            .create(CertificateValueSetApiV1::class.java)
     }
 
     private class CacheInterceptor : Interceptor {

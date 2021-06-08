@@ -4,10 +4,10 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.CovidCertificateConfig
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCertificateData
-import de.rki.coronawarnapp.covidcertificate.server.CovidCertificateServer
-import de.rki.coronawarnapp.covidcertificate.server.TestCertificateComponents
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateQRCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.test.server.TestCertificateComponents
+import de.rki.coronawarnapp.covidcertificate.test.server.TestCertificateServer
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.encryption.rsa.RSACryptography
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
@@ -31,7 +31,7 @@ import testhelpers.coroutines.runBlockingTest2
 class TestCertificateProcessorTest : BaseTest() {
 
     @MockK lateinit var timeStamper: TimeStamper
-    @MockK lateinit var certificateServer: CovidCertificateServer
+    @MockK lateinit var certificateServer: TestCertificateServer
     @MockK lateinit var rsaCryptography: RSACryptography
     @MockK lateinit var qrCodeExtractor: TestCertificateQRCodeExtractor
     @MockK lateinit var appConfigProvider: AppConfigProvider

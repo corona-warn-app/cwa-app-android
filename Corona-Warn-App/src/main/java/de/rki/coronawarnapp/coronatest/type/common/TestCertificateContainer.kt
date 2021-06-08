@@ -3,10 +3,10 @@ package de.rki.coronawarnapp.coronatest.type.common
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateQRCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
 import de.rki.coronawarnapp.vaccination.core.CertificatePersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.personIdentifier
 import de.rki.coronawarnapp.vaccination.core.qrcode.QrCodeString
-import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.TestCertificateValueSets
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import java.util.Locale

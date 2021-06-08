@@ -5,11 +5,11 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.google.gson.Gson
 import dagger.Reusable
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.ValueSetsContainer
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyValueSetsContainer
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
-import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.ValueSetsContainer
-import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.emptyValueSetsContainer
 import timber.log.Timber
 import javax.inject.Inject
 

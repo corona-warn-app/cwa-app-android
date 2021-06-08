@@ -8,9 +8,9 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACertificateData
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.exception.TestCertificateServerException
-import de.rki.coronawarnapp.covidcertificate.server.CovidCertificateServer
-import de.rki.coronawarnapp.covidcertificate.server.TestCertificateComponents
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateQRCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.test.server.TestCertificateComponents
+import de.rki.coronawarnapp.covidcertificate.test.server.TestCertificateServer
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.encryption.rsa.RSACryptography
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
@@ -24,7 +24,7 @@ import javax.inject.Inject
 @Reusable
 class TestCertificateProcessor @Inject constructor(
     private val timeStamper: TimeStamper,
-    private val certificateServer: CovidCertificateServer,
+    private val certificateServer: TestCertificateServer,
     private val rsaKeyPairGenerator: RSAKeyPairGenerator,
     private val rsaCryptography: RSACryptography,
     private val appConfigProvider: AppConfigProvider,

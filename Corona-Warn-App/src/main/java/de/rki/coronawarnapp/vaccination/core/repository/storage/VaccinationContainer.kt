@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.vaccination.core.repository.storage
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import de.rki.coronawarnapp.vaccination.core.CertificatePersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.vaccination.core.certificate.CoseCertificateHeader
@@ -11,7 +12,6 @@ import de.rki.coronawarnapp.vaccination.core.qrcode.QrCodeString
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateData
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationQRCodeExtractor
-import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.VaccinationValueSets
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import java.util.Locale

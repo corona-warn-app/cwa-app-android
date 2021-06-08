@@ -1,16 +1,16 @@
-package de.rki.coronawarnapp.vaccination.core.server.valueset
+package de.rki.coronawarnapp.covidcertificate.valueset
 
 import androidx.annotation.VisibleForTesting
 import dagger.Lazy
 import dagger.Reusable
+import de.rki.coronawarnapp.covidcertificate.valueset.internal.ValueSetInvalidSignatureException
+import de.rki.coronawarnapp.covidcertificate.valueset.internal.toValueSetsContainer
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.ValueSetsContainer
 import de.rki.coronawarnapp.server.protocols.internal.dgc.ValueSetsOuterClass
 import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
 import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.security.SignatureValidation
-import de.rki.coronawarnapp.vaccination.core.server.valueset.internal.ValueSetInvalidSignatureException
-import de.rki.coronawarnapp.vaccination.core.server.valueset.internal.toValueSetsContainer
-import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.ValueSetsContainer
 import kotlinx.coroutines.withContext
 import okhttp3.Cache
 import okhttp3.ResponseBody
@@ -25,9 +25,9 @@ import javax.inject.Inject
  * Talks with CWA servers
  */
 @Reusable
-class VaccinationServer @Inject constructor(
-    @ValueSet private val cache: Cache,
-    private val apiV1: Lazy<VaccinationValueSetApiV1>,
+class CertificateValueSetServer @Inject constructor(
+    @CertificateValueSet private val cache: Cache,
+    private val apiV1: Lazy<CertificateValueSetApiV1>,
     private val dispatcherProvider: DispatcherProvider,
     private val signatureValidation: SignatureValidation
 ) {

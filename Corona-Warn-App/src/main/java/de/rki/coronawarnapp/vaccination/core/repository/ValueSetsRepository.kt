@@ -1,16 +1,16 @@
 package de.rki.coronawarnapp.vaccination.core.repository
 
 import dagger.Reusable
+import de.rki.coronawarnapp.covidcertificate.valueset.CertificateValueSetServer
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.ValueSetsContainer
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyValueSetsContainer
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.isEmpty
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
 import de.rki.coronawarnapp.vaccination.core.repository.storage.ValueSetsStorage
-import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationServer
-import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.TestCertificateValueSets
-import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.VaccinationValueSets
-import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.ValueSetsContainer
-import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.emptyValueSetsContainer
-import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.isEmpty
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -26,7 +26,7 @@ import javax.inject.Inject
 
 @Reusable
 class ValueSetsRepository @Inject constructor(
-    private val vaccinationServer: VaccinationServer,
+    private val certificateValueSetServer: CertificateValueSetServer,
     private val valueSetsStorage: ValueSetsStorage,
     @AppScope private val scope: CoroutineScope,
     dispatcherProvider: DispatcherProvider
@@ -66,14 +66,14 @@ class ValueSetsRepository @Inject constructor(
 
     private suspend fun getValueSetFromServer(languageCode: Locale): ValueSetsContainer? {
         Timber.v("getValueSetFromServer(languageCode=%s)", languageCode)
-        var container = vaccinationServer.getVaccinationValueSets(languageCode = languageCode)
+        var container = certificateValueSetServer.getVaccinationValueSets(languageCode = languageCode)
 
         if (container.isEmpty()) {
             Timber.d(
                 "Got no value sets from server for %s... Try fallback to value sets for en",
                 languageCode.language
             )
-            container = vaccinationServer.getVaccinationValueSets(languageCode = Locale.ENGLISH)
+            container = certificateValueSetServer.getVaccinationValueSets(languageCode = Locale.ENGLISH)
         }
 
         return container
@@ -82,7 +82,7 @@ class ValueSetsRepository @Inject constructor(
 
     suspend fun clear() {
         Timber.d("Clearing value sets")
-        vaccinationServer.clear()
+        certificateValueSetServer.clear()
         internalData.updateBlocking {
             Timber.v("Resetting value sets")
             emptyValueSetsContainer

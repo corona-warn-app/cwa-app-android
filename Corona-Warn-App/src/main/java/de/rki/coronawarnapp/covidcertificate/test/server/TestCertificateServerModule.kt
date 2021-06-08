@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.server
+package de.rki.coronawarnapp.covidcertificate.test.server
 
 import dagger.Module
 import dagger.Provides
@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.reflect.Type
 
 @Module
-class CovidCertificateModule {
+class TestCertificateServerModule {
 
     /**
      * Handles DCC server 202 "retry later" response with 0-byte bodies.
@@ -39,11 +39,11 @@ class CovidCertificateModule {
         @DCCHttpClient httpClient: OkHttpClient,
         @DCCServerUrl url: String,
         gsonConverterFactory: GsonConverterFactory
-    ): CovidCertificateApiV1 = Retrofit.Builder()
+    ): TestCertificateApiV1 = Retrofit.Builder()
         .client(httpClient)
         .baseUrl(url)
         .addConverterFactory(nullConverter)
         .addConverterFactory(gsonConverterFactory)
         .build()
-        .create(CovidCertificateApiV1::class.java)
+        .create(TestCertificateApiV1::class.java)
 }
