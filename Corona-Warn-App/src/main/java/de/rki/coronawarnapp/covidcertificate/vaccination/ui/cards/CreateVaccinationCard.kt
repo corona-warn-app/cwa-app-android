@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.ui.cards
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.covidcertificate.test.ui.certificates.CertificatesAdapter
-import de.rki.coronawarnapp.covidcertificate.test.ui.certificates.items.CertificatesItem
+import de.rki.coronawarnapp.covidcertificate.test.ui.CertificatesAdapter
+import de.rki.coronawarnapp.covidcertificate.test.ui.items.CertificatesItem
 import de.rki.coronawarnapp.databinding.VaccinationHomeRegistrationCardBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 

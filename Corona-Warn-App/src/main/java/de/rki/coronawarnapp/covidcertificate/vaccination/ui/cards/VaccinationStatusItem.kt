@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.ui.cards
 
-import de.rki.coronawarnapp.covidcertificate.test.ui.certificates.items.CertificatesItem
+import de.rki.coronawarnapp.covidcertificate.test.ui.items.CertificatesItem
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 
 interface VaccinationStatusItem : CertificatesItem {

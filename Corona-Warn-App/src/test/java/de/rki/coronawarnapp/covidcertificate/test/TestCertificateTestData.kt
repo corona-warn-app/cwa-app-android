@@ -1,9 +1,9 @@
 package de.rki.coronawarnapp.covidcertificate.test
 
-import de.rki.coronawarnapp.covidcertificate.test.qrcode.TestCertificateQRCodeExtractor
-import de.rki.coronawarnapp.covidcertificate.test.storage.PCRCertificateData
-import de.rki.coronawarnapp.covidcertificate.test.storage.RACertificateData
-import de.rki.coronawarnapp.covidcertificate.test.storage.TestCertificateContainer
+import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.PCRCertificateData
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.RACertificateData
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainer
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKey
 import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant

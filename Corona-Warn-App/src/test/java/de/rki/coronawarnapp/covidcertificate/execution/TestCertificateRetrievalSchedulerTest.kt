@@ -5,9 +5,9 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.covidcertificate.test.TestCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.test.TestCertificateWrapper
-import de.rki.coronawarnapp.covidcertificate.test.execution.TestCertificateRetrievalScheduler
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
+import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalScheduler
 import de.rki.coronawarnapp.util.device.ForegroundState
 import io.mockk.MockKAnnotations
 import io.mockk.Runs

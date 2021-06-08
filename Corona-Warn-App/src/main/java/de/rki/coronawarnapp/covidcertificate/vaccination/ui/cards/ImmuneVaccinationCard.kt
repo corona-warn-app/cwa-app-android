@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.ui.cards
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.covidcertificate.test.ui.certificates.CertificatesAdapter
+import de.rki.coronawarnapp.covidcertificate.test.ui.CertificatesAdapter
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.databinding.VaccinationHomeImmuneCardBinding
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
