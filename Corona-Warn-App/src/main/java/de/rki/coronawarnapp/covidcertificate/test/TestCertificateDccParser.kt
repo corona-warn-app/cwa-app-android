@@ -19,12 +19,11 @@ class TestCertificateDccParser @Inject constructor(
     @BaseGson private val gson: Gson,
 ) {
     fun parse(map: CBORObject): TestCertificateDccV1 = try {
-        val certificate: TestCertificateDccV1 = map[keyHCert]?.run {
+        map[keyHCert]?.run {
             this[keyEuDgcV1]?.run {
                 toCertificate()
             } ?: throw InvalidTestCertificateException(HC_CWT_NO_DGC)
         } ?: throw InvalidTestCertificateException(HC_CWT_NO_HCERT)
-        certificate
     } catch (e: InvalidTestCertificateException) {
         throw e
     } catch (e: Throwable) {
@@ -36,7 +35,8 @@ class TestCertificateDccParser @Inject constructor(
         if (testCertificateData.isNullOrEmpty()) {
             throw InvalidTestCertificateException(NO_TEST_ENTRY)
         }
-        // check for non null & force date parsing
+        // check for non null (Gson does not enforce it) & force date parsing
+        version!!
         nameData.familyNameStandardized!!
         dateOfBirth
         testCertificateData.forEach {
