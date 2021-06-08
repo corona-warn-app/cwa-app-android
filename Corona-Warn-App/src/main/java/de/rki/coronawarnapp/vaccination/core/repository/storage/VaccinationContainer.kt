@@ -58,9 +58,20 @@ data class VaccinationContainer internal constructor(
             get() = certificate.personIdentifier
 
         override val firstName: String?
-            get() = certificate.nameData.givenName
+            get() = if (certificate.nameData.givenName.isNullOrBlank())
+                certificate.nameData.givenNameStandardized
+            else certificate.nameData.givenName
+
         override val lastName: String
-            get() = certificate.nameData.familyName ?: certificate.nameData.familyNameStandardized
+            get() = if (certificate.nameData.familyName.isNullOrBlank())
+                certificate.nameData.familyNameStandardized
+            else certificate.nameData.familyName!!
+
+        override val fullName: String
+            get() = when {
+                firstName.isNullOrBlank() -> lastName
+                else -> "$firstName $lastName"
+            }
 
         override val dateOfBirth: LocalDate
             get() = certificate.dateOfBirth

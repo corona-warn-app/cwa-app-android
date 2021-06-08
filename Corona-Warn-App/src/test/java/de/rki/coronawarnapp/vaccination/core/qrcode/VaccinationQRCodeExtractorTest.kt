@@ -133,18 +133,4 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
             extractor.extract(VaccinationQrCodeTestData.qrCodeBlankLastNameStandardized)
         }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.JSON_SCHEMA_INVALID
     }
-
-    @Test
-    fun `null values fail with JSON_SCHEMA_INVALID`() {
-        shouldThrow<InvalidVaccinationCertificateException> {
-            extractor.extract(VaccinationQrCodeTestData.qrCodeWithNullValues)
-        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.JSON_SCHEMA_INVALID
-    }
-
-    @Test
-    fun `null values fail with JSON_SCHEMA_INVALID`() {
-        shouldThrow<InvalidVaccinationCertificateException> {
-            extractor.extract(VaccinationQrCodeTestData.qrCodeWithNullValues)
-        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.JSON_SCHEMA_INVALID
-    }
 }
