@@ -22,15 +22,17 @@ class CovidTestCertificateCard(parent: ViewGroup) :
     override val onBindData: CovidTestSuccessCardBinding.(
         item: Item,
         payloads: List<Any>
-    ) -> Unit = { item, _ ->
-
+    ) -> Unit = { item, payloads ->
+        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
         testTime.text = context.getString(
             R.string.test_certificate_time,
-            item.testDate.toShortDayFormat(),
-            item.testDate.toShortTimeFormat(),
+            curItem.testDate.toShortDayFormat(),
+            curItem.testDate.toShortTimeFormat(),
         )
 
-        personName.text = item.testPerson
+        personName.text = curItem.testPerson
+
+        itemView.setOnClickListener { curItem.onClickAction(curItem) }
     }
 
     data class Item(

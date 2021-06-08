@@ -6,7 +6,7 @@ import androidx.work.WorkManager
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.TestCertificateRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.TestCertificateContainer
+import de.rki.coronawarnapp.coronatest.type.TestCertificateWrapper
 import de.rki.coronawarnapp.util.device.ForegroundState
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -40,7 +40,7 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
         every { isNegative } returns true
     }
 
-    private val mockCertificate = mockk<TestCertificateContainer>().apply {
+    private val mockCertificate = mockk<TestCertificateWrapper>().apply {
         every { identifier } returns "UUID"
         every { isCertificateRetrievalPending } returns true
         every { isUpdatingData } returns false
@@ -124,7 +124,7 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
         advanceUntilIdle()
         coVerify(exactly = 1) { workManager.enqueueUniqueWork(any(), any(), any<OneTimeWorkRequest>()) }
 
-        val mockCertificate2 = mockk<TestCertificateContainer>().apply {
+        val mockCertificate2 = mockk<TestCertificateWrapper>().apply {
             every { identifier } returns "UUID2"
             every { isCertificateRetrievalPending } returns true
             every { isUpdatingData } returns false
