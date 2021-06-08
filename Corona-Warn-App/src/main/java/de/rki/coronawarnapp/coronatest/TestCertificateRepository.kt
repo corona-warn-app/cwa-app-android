@@ -45,6 +45,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
+@Suppress("LongParameterList")
 class TestCertificateRepository @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val dispatcherProvider: DispatcherProvider,
