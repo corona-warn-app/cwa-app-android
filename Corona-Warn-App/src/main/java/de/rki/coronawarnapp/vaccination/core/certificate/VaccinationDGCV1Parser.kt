@@ -47,8 +47,8 @@ class VaccinationDGCV1Parser @Inject constructor(
             it.marketAuthorizationHolderId.isNotBlank()
             it.medicalProductId.isNotBlank()
             it.targetId.isNotBlank()
-            it.doseNumber!!
-            it.totalSeriesOfDoses!!
+            it.doseNumber > 0
+            it.totalSeriesOfDoses > 0
         }
         return this
     }
