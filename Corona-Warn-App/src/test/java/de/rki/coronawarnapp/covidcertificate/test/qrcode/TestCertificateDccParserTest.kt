@@ -1,7 +1,8 @@
-package de.rki.coronawarnapp.covidcertificate.test
+package de.rki.coronawarnapp.covidcertificate.test.qrcode
 
 import com.google.gson.Gson
 import com.upokecenter.cbor.CBORObject
+import de.rki.coronawarnapp.covidcertificate.test.TestData
 import de.rki.coronawarnapp.covidcertificate.test.certificate.TestCertificateDccParser
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.decodeHex

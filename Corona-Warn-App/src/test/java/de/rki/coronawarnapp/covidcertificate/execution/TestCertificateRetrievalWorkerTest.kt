@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.coronatest.type.common
+package de.rki.coronawarnapp.covidcertificate.execution
 
 import android.content.Context
 import androidx.work.ListenableWorker

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.coronatest.type.rapidantigen
+package de.rki.coronawarnapp.covidcertificate.storage
 
 import testhelpers.BaseTest
 

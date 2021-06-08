@@ -1,9 +1,9 @@
-package de.rki.coronawarnapp.coronatest.storage
+package de.rki.coronawarnapp.covidcertificate.storage
 
 import android.content.Context
 import androidx.core.content.edit
 import de.rki.coronawarnapp.coronatest.DaggerCoronaTestTestComponent
-import de.rki.coronawarnapp.coronatest.TestCertificateTestData
+import de.rki.coronawarnapp.covidcertificate.test.TestCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.test.storage.TestCertificateStorage
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.ContainerPostProcessor
 import de.rki.coronawarnapp.util.serialization.SerializationModule

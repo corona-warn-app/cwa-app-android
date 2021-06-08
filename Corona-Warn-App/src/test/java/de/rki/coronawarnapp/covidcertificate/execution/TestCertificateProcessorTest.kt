@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.coronatest.type.common
+package de.rki.coronawarnapp.covidcertificate.execution
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData

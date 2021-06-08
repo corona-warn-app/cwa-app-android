@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.coronatest
+package de.rki.coronawarnapp.covidcertificate.test
 
 import de.rki.coronawarnapp.covidcertificate.test.qrcode.TestCertificateQRCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.test.storage.PCRCertificateData
