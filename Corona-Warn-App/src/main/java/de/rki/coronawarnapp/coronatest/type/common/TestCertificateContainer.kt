@@ -30,9 +30,10 @@ abstract class TestCertificateContainer {
 
     abstract val isUpdatingData: Boolean
 
-    // Either set by [ContainerPostProcessor] or during first update
+    // Either set by [ContainerPostProcessor] (if from storage) or during first creation (when new)
     @Transient internal lateinit var qrCodeExtractor: TestCertificateQRCodeExtractor
 
+    // When we create this container initially, we don't need to pare the data again, we already have it.
     @Transient internal var preParsedData: TestCertificateData? = null
 
     @delegate:Transient
