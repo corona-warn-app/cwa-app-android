@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.CovidCertificateConfig
 import de.rki.coronawarnapp.coronatest.storage.TestCertificateStorage
-import de.rki.coronawarnapp.coronatest.type.BaseTestCertificate
+import de.rki.coronawarnapp.coronatest.type.common.TestCertificateContainer
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.server.CovidCertificateServer
 import de.rki.coronawarnapp.covidcertificate.server.TestCertificateComponents
@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.covidcertificate.test.TestCertificateQRCodeExtractor
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.encryption.rsa.RSACryptography
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
+import de.rki.coronawarnapp.vaccination.core.repository.ValueSetsRepository
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -22,6 +23,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import okio.ByteString
 import org.joda.time.Duration
@@ -42,6 +44,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var appConfigData: ConfigData
     @MockK lateinit var covidTestCertificateConfig: CovidCertificateConfig.TestCertificate
+    @MockK lateinit var valueSetsRepository: ValueSetsRepository
 
     private val testCertificateNew = PCRCertificateContainer(
         identifier = "identifier1",
@@ -60,7 +63,7 @@ class TestCertificateRepositoryTest : BaseTest() {
         every { encryptedCoseTestCertificateBase64 } returns ""
     }
 
-    private var storageSet = mutableSetOf<BaseTestCertificate>()
+    private var storageSet = mutableSetOf<TestCertificateContainer>()
 
     @BeforeEach
     fun setup() {
@@ -97,6 +100,7 @@ class TestCertificateRepositoryTest : BaseTest() {
             every { qrCode } returns "qrCode"
             every { testCertificateData } returns mockk()
         }
+        every { valueSetsRepository.latestTestCertificateValueSets } returns emptyFlow()
     }
 
     private fun createInstance(scope: CoroutineScope) = TestCertificateRepository(
@@ -109,6 +113,7 @@ class TestCertificateRepositoryTest : BaseTest() {
         rsaCryptography = rsaCryptography,
         qrCodeExtractor = qrCodeExtractor,
         appConfigProvider = appConfigProvider,
+        valueSetsRepository = valueSetsRepository,
     )
 
     @Test
