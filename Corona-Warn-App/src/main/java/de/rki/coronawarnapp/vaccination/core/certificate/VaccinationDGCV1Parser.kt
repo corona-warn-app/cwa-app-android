@@ -20,33 +20,44 @@ class VaccinationDGCV1Parser @Inject constructor(
 ) {
 
     fun parse(map: CBORObject): VaccinationDGCV1 = try {
-        val certificate: VaccinationDGCV1 = map[keyHCert]?.run {
+        map[keyHCert]?.run {
             this[keyEuDgcV1]?.run {
                 toCertificate()
             } ?: throw InvalidVaccinationCertificateException(HC_CWT_NO_DGC)
         } ?: throw InvalidVaccinationCertificateException(HC_CWT_NO_HCERT)
-        certificate.validate()
     } catch (e: InvalidHealthCertificateException) {
         throw e
     } catch (e: Throwable) {
         throw InvalidVaccinationCertificateException(HC_CBOR_DECODING_FAILED)
     }
 
+    @Suppress("UNNECESSARY_NOT_NULL_ASSERTION")
     private fun VaccinationDGCV1.validate(): VaccinationDGCV1 {
         if (vaccinationDatas.isNullOrEmpty()) {
             throw InvalidVaccinationCertificateException(VC_NO_VACCINATION_ENTRY)
         }
-        // Force date parsing
+        // check for non null (Gson does not enforce it) & force date parsing
+        version!!
+        nameData.familyNameStandardized.isNotBlank()
         dateOfBirth
         vaccinationDatas.forEach {
             it.vaccinatedAt
+            it.certificateIssuer.isNotBlank()
+            it.countryOfVaccination.isNotBlank()
+            it.marketAuthorizationHolderId.isNotBlank()
+            it.medicalProductId.isNotBlank()
+            it.targetId.isNotBlank()
+            it.doseNumber > 0
+            it.totalSeriesOfDoses > 0
         }
         return this
     }
 
     private fun CBORObject.toCertificate() = try {
         val json = ToJSONString()
-        gson.fromJson<VaccinationDGCV1>(json)
+        gson.fromJson<VaccinationDGCV1>(json).validate()
+    } catch (e: InvalidVaccinationCertificateException) {
+        throw e
     } catch (e: Throwable) {
         throw InvalidVaccinationCertificateException(JSON_SCHEMA_INVALID)
     }

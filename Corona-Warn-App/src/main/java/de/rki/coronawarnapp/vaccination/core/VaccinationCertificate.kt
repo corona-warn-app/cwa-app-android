@@ -8,6 +8,8 @@ interface VaccinationCertificate {
     val firstName: String?
     val lastName: String
 
+    val fullName: String
+
     val dateOfBirth: LocalDate
     val vaccinatedAt: LocalDate
 

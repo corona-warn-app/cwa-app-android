@@ -62,6 +62,7 @@ class VaccinationContainerTest : BaseTest() {
         testData.personAVac1Container.toVaccinationCertificate(null, userLocale = Locale.GERMAN).apply {
             firstName shouldBe "Andreas"
             lastName shouldBe "Astrá Eins"
+            fullName shouldBe "Andreas Astrá Eins"
             dateOfBirth shouldBe LocalDate.parse("1966-11-11")
             vaccinatedAt shouldBe LocalDate.parse("2021-03-01")
             vaccineTypeName shouldBe "1119305005"
@@ -108,6 +109,7 @@ class VaccinationContainerTest : BaseTest() {
         testData.personAVac1Container.toVaccinationCertificate(vaccinationValueSets, userLocale = Locale.GERMAN).apply {
             firstName shouldBe "Andreas"
             lastName shouldBe "Astrá Eins"
+            fullName shouldBe "Andreas Astrá Eins"
             dateOfBirth shouldBe LocalDate.parse("1966-11-11")
             vaccinatedAt shouldBe LocalDate.parse("2021-03-01")
             vaccineTypeName shouldBe "Vaccine-Name"

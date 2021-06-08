@@ -36,14 +36,12 @@ class VaccinatedPersonTest : BaseTest() {
         )
 
         certificate.apply {
-            every { firstName } returns "Straw"
-            every { lastName } returns "Berry"
+            every { fullName } returns "Straw Berry"
         }
         vaccinatedPerson.fullName shouldBe "Straw Berry"
 
         certificate.apply {
-            every { firstName } returns null // Thermo
-            every { lastName } returns "Siphon"
+            every { fullName } returns "Siphon"
         }
         vaccinatedPerson.fullName shouldBe "Siphon"
     }
