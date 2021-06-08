@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.values
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResultResponse
 import de.rki.coronawarnapp.coronatest.server.RegistrationData
 import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
+import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
@@ -26,6 +27,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
@@ -37,7 +39,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class RapidAntigenProcessorTest : BaseTest() {
+class RAProcessorTest : BaseTest() {
 
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var submissionService: CoronaTestService
@@ -139,6 +141,27 @@ class RapidAntigenProcessorTest : BaseTest() {
         )
 
         instance.pollServer(past60DaysTest).testResult shouldBe RAT_REDEEMED
+    }
+
+    @Test
+    fun `registering a new test`() = runBlockingTest {
+        val request = CoronaTestQRCode.RapidAntigen(
+            hash = "hash",
+            createdAt = Instant.EPOCH,
+        )
+
+        val instance = createInstance()
+        instance.create(request)
+
+        val expectedServerRequest = RegistrationRequest(
+            key = request.registrationIdentifier,
+            type = VerificationKeyType.GUID,
+            dateOfBirthKey = null,
+        )
+
+        coVerify {
+            submissionService.registerTest(expectedServerRequest)
+        }
     }
 
     @Test
