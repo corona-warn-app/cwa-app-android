@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.bugreporting.censors.vaccination
 
-import de.rki.coronawarnapp.vaccination.core.certificate.VaccinationDGCV1
-import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateData
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.certificate.VaccinationDGCV1
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateData
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.mockk

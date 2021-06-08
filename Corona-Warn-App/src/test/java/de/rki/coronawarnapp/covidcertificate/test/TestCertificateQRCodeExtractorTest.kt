@@ -6,9 +6,9 @@ import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateE
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.test.certificate.TestCertificateDccParser
 import de.rki.coronawarnapp.covidcertificate.test.qrcode.TestCertificateQRCodeExtractor
-import de.rki.coronawarnapp.vaccination.core.VaccinationQrCodeTestData
-import de.rki.coronawarnapp.vaccination.core.certificate.HealthCertificateCOSEDecoder
-import de.rki.coronawarnapp.vaccination.core.certificate.HealthCertificateHeaderParser
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeTestData
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.certificate.HealthCertificateCOSEDecoder
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.certificate.HealthCertificateHeaderParser
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.decodeBase64

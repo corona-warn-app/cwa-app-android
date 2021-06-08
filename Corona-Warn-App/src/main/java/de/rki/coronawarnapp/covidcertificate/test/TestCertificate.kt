@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.test
 
-import de.rki.coronawarnapp.vaccination.core.CertificatePersonIdentifier
-import de.rki.coronawarnapp.vaccination.core.qrcode.QrCodeString
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.QrCodeString
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 

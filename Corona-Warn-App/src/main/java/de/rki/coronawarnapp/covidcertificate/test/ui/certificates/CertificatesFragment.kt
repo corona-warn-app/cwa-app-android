@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.VaccinationListFragment
 import de.rki.coronawarnapp.databinding.FragmentCertificatesBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
@@ -17,7 +18,6 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import de.rki.coronawarnapp.vaccination.ui.list.VaccinationListFragment
 import javax.inject.Inject
 
 class CertificatesFragment : Fragment(R.layout.fragment_certificates), AutoInject {

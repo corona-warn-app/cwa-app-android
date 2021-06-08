@@ -26,7 +26,7 @@
 
     <fragment
         android:id="@+id/vaccinationConsentFragment"
-        android:name="de.rki.coronawarnapp.vaccination.ui.consent.VaccinationConsentFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.vaccination.ui.consent.VaccinationConsentFragment"
         android:label="vaccination_consent_fragment"
         tools:layout="@layout/vaccination_consent_fragment">
         <argument

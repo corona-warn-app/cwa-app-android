@@ -10,17 +10,17 @@ import de.rki.coronawarnapp.covidcertificate.test.storage.TestCertificateIdentif
 import de.rki.coronawarnapp.covidcertificate.test.ui.certificates.cards.CovidTestCertificateCard
 import de.rki.coronawarnapp.covidcertificate.test.ui.certificates.cards.CovidTestCertificateErrorCard
 import de.rki.coronawarnapp.covidcertificate.test.ui.certificates.items.CertificatesItem
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationSettings
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.covidcertificate.vaccination.ui.cards.CreateVaccinationCard
+import de.rki.coronawarnapp.covidcertificate.vaccination.ui.cards.HeaderInfoVaccinationCard
+import de.rki.coronawarnapp.covidcertificate.vaccination.ui.cards.ImmuneVaccinationCard
+import de.rki.coronawarnapp.covidcertificate.vaccination.ui.cards.NoCovidTestCertificatesCard
+import de.rki.coronawarnapp.covidcertificate.vaccination.ui.cards.VaccinationCard
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
-import de.rki.coronawarnapp.vaccination.core.VaccinationSettings
-import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
-import de.rki.coronawarnapp.vaccination.ui.cards.CreateVaccinationCard
-import de.rki.coronawarnapp.vaccination.ui.cards.HeaderInfoVaccinationCard
-import de.rki.coronawarnapp.vaccination.ui.cards.ImmuneVaccinationCard
-import de.rki.coronawarnapp.vaccination.ui.cards.NoCovidTestCertificatesCard
-import de.rki.coronawarnapp.vaccination.ui.cards.VaccinationCard
 import kotlinx.coroutines.flow.combine
 
 class CertificatesViewModel @AssistedInject constructor(

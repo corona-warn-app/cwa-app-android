@@ -3,9 +3,9 @@ package de.rki.coronawarnapp.ui.vaccination
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.vaccination.ui.consent.VaccinationConsentFragment
-import de.rki.coronawarnapp.vaccination.ui.consent.VaccinationConsentFragmentArgs
-import de.rki.coronawarnapp.vaccination.ui.consent.VaccinationConsentViewModel
+import de.rki.coronawarnapp.covidcertificate.vaccination.ui.consent.VaccinationConsentFragment
+import de.rki.coronawarnapp.covidcertificate.vaccination.ui.consent.VaccinationConsentFragmentArgs
+import de.rki.coronawarnapp.covidcertificate.vaccination.ui.consent.VaccinationConsentViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import org.junit.After
