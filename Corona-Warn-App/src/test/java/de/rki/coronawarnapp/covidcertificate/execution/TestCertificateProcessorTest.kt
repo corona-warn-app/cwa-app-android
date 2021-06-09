@@ -84,7 +84,7 @@ class TestCertificateProcessorTest : BaseTest() {
 
         coEvery { qrCodeExtractor.extract(any(), any()) } returns mockk<TestCertificateQRCode>().apply {
             every { qrCode } returns "qrCode"
-            every { testCertificateData } returns mockk()
+            every { data } returns mockk()
         }
     }
 

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.vaccination.core.certificate
+package de.rki.coronawarnapp.covidcertificate.common.decoder
 
 import com.upokecenter.cbor.CBORObject
 import de.rki.coronawarnapp.covidcertificate.cryptography.AesCryptography
@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateE
 import timber.log.Timber
 import javax.inject.Inject
 
-class HealthCertificateCOSEDecoder @Inject constructor(
+class DccCoseDecoder @Inject constructor(
     private val aesEncryptor: AesCryptography
 ) {
 

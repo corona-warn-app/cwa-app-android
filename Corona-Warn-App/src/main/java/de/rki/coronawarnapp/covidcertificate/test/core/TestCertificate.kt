@@ -1,15 +1,9 @@
 package de.rki.coronawarnapp.covidcertificate.test.core
 
-import de.rki.coronawarnapp.covidcertificate.common.CertificatePersonIdentifier
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.QrCodeString
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import org.joda.time.Instant
-import org.joda.time.LocalDate
 
-interface TestCertificate {
-    val firstName: String?
-    val lastName: String
-
-    val dateOfBirth: LocalDate
+interface TestCertificate : CwaCovidCertificate {
 
     /**
      * Disease or agent targeted (required)
@@ -30,16 +24,4 @@ interface TestCertificate {
     val sampleCollectedAt: Instant
     val testResultAt: Instant?
     val testCenter: String
-
-    val certificateIssuer: String
-    val certificateCountry: String
-    val certificateId: String
-
-    val personIdentifier: CertificatePersonIdentifier
-
-    val issuer: String
-    val issuedAt: Instant
-    val expiresAt: Instant
-
-    val qrCode: QrCodeString
 }

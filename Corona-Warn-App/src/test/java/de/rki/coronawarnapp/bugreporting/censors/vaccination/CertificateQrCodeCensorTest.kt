@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.bugreporting.censors.vaccination
 
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.certificate.VaccinationDGCV1
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateData
+import de.rki.coronawarnapp.covidcertificate.common.certificate.Dcc
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.certificate.VaccinationDccV1
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.mockk
@@ -15,19 +16,19 @@ internal class CertificateQrCodeCensorTest {
 
     private val testRawString =
         "HC1:6BFOXN*TS0BI\$ZD.P9UOL97O4-2HH77HRM3DSPTLRR+%3.ZH9M9ESIGUBA KWML/O6HXK 0D+4O5VC9:BPCNYKMXEE1JAA/CZIK0JK1WL260X638J3-E3GG396B-43FZT-43:S0X37*ZV+FNI6HXY0ZSVILVQJF//05MVZJ5V.499TXY9KK9+OC+G9QJPNF67J6QW67KQY466PPM4MLJE+.PDB9L6Q2+PFQ5DB96PP5/P-59A%N+892 7J235II3NJ7PK7SLQMIJSBHVA7UJQWT.+S+ND%%M%331BH.IA.C8KRDL4O54O4IGUJKJGI0JAXD15IAXMFU*GSHGHD63DAOC9JU0H11+*4.\$S6ZC0JBZAB-C3QHISKE MCAOI8%M3V96-PY\$N6XOWLIBPIAYU:*JIRHUF2XZQ4H9 XJ72WG1K36VF/9BL56%E8T1OEEG%5TW5A 6YO67N6UCE:WT6BT-UMM:ABJK2TMDN1:FW-%T+\$D78NDSC3%5F61NYS-P9LOE0%J/ZAY:N5L4H-H/LH:AO3FU JHG7K46IOIMT.RE%PHLA21JRI3HTC\$AH"
-    private val testCertificateData = VaccinationCertificateData(
+    private val testCertificateData = DccData(
         header = mockk(),
-        certificate = VaccinationDGCV1(
+        certificate = VaccinationDccV1(
             version = "1",
-            nameData = VaccinationDGCV1.NameData(
+            nameData = Dcc.NameData(
                 familyName = "Kevin",
                 familyNameStandardized = "KEVIN",
                 givenName = "Bob",
                 givenNameStandardized = "BOB"
             ),
             dob = "1969-11-16",
-            vaccinationDatas = listOf(
-                VaccinationDGCV1.VaccinationData(
+            payloads = listOf(
+                VaccinationDccV1.VaccinationData(
                     targetId = "12345",
                     vaccineId = "1214765",
                     medicalProductId = "aaEd/easd",
@@ -35,7 +36,7 @@ internal class CertificateQrCodeCensorTest {
                     doseNumber = 2,
                     totalSeriesOfDoses = 5,
                     dt = "1969-04-20",
-                    countryOfVaccination = "DE",
+                    certificateCountry = "DE",
                     certificateIssuer = "Herbert",
                     uniqueCertificateIdentifier = "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"
                 )
@@ -77,7 +78,7 @@ internal class CertificateQrCodeCensorTest {
             "vaccinationCertificate/dateOfBirth, i have been vaccinated with: vaccinationData/targetId " +
             "vaccinationData/vaccineId vaccinationData/medicalProductId" +
             " vaccinationData/marketAuthorizationHolderId vaccinationData/vaccinatedAt" +
-            " vaccinationData/countryOfVaccination vaccinationData/certificateIssuer" +
+            " vaccinationData/certificateCountry vaccinationData/certificateIssuer" +
             " vaccinationData/uniqueCertificateIdentifier"
     }
 

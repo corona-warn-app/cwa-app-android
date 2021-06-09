@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.test.core.storage
 
-import de.rki.coronawarnapp.covidcertificate.common.CertificatePersonIdentifier
-import de.rki.coronawarnapp.covidcertificate.common.personIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
+import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
-import de.rki.coronawarnapp.covidcertificate.test.core.certificate.TestCertificateData
+import de.rki.coronawarnapp.covidcertificate.test.core.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCodeExtractor
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -18,8 +18,8 @@ data class TestCertificateContainer(
 ) : StoredTestCertificateData by data {
 
     @delegate:Transient
-    private val certificateData: TestCertificateData by lazy {
-        data.testCertificateQrCode!!.let { qrCodeExtractor.extract(it).testCertificateData }
+    private val certificateData: DccData<TestDccV1> by lazy {
+        data.testCertificateQrCode!!.let { qrCodeExtractor.extract(it).data }
     }
 
     val isPublicKeyRegistered: Boolean
@@ -31,7 +31,7 @@ data class TestCertificateContainer(
     val certificateId: String?
         get() {
             if (isCertificateRetrievalPending) return null
-            return certificateData.certificate.testCertificateData.single().uniqueCertificateIdentifier
+            return certificateData.certificate.payload.uniqueCertificateIdentifier
         }
 
     fun toTestCertificate(
@@ -42,16 +42,20 @@ data class TestCertificateContainer(
 
         val header = certificateData.header
         val certificate = certificateData.certificate
-        val testCertificate = certificate.testCertificateData.single()
+        val testCertificate = certificate.payload
 
         return object : TestCertificate {
             override val personIdentifier: CertificatePersonIdentifier
                 get() = certificate.personIdentifier
 
             override val firstName: String?
-                get() = certificate.nameData.givenName
+                get() = certificate.nameData.firstName
+
             override val lastName: String
-                get() = certificate.nameData.familyName ?: certificate.nameData.familyNameStandardized
+                get() = certificate.nameData.lastName
+
+            override val fullName: String
+                get() = certificate.nameData.fullName
 
             override val dateOfBirth: LocalDate
                 get() = certificate.dateOfBirth
@@ -76,7 +80,7 @@ data class TestCertificateContainer(
             override val certificateIssuer: String
                 get() = header.issuer
             override val certificateCountry: String
-                get() = Locale(userLocale.language, testCertificate.countryOfTest.uppercase())
+                get() = Locale(userLocale.language, testCertificate.certificateCountry.uppercase())
                     .getDisplayCountry(userLocale)
             override val certificateId: String
                 get() = testCertificate.uniqueCertificateIdentifier
