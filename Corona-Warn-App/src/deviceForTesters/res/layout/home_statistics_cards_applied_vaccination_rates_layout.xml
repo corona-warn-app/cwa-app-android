@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingConstraints">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/applied_vaccination_rates_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout_height="wrap_content"
+        tools:layout_width="@dimen/statistics_card_width"
+        tools:showIn="@layout/home_statistics_cards_basecard_layout">
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/headline5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:text="@string/statistics_applied_vaccination_dose_rates_card_title"
+            app:layout_constraintEnd_toStartOf="@id/info_statistics"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/nationwide_text"
+            style="@style/StatisticsCardValueLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:text="@string/statistics_vaccinated_nationwide_text"
+            android:textSize="@dimen/font_small"
+            app:layout_constraintStart_toStartOf="@id/title"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <ImageButton
+            android:id="@+id/info_statistics"
+            style="@style/StatisticsCardInfoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:importantForAccessibility="no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/background_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:importantForAccessibility="no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nationwide_text"
+            app:srcCompat="@drawable/ic_vaccine_dose" />
+
+        <TextView
+            android:id="@+id/primary_label"
+            style="@style/StatisticsCardValueLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/statistics_primary_value_yesterday"
+            app:layout_constraintStart_toStartOf="@id/nationwide_text"
+            app:layout_constraintTop_toTopOf="@id/background_image" />
+
+        <TextView
+            android:id="@+id/primary_value"
+            style="@style/StatisticsCardPrimaryValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:includeFontPadding="false"
+            app:layout_constraintStart_toStartOf="@id/primary_label"
+            app:layout_constraintTop_toBottomOf="@id/primary_label"
+            tools:text="1.092.765" />
+
+        <TextView
+            android:id="@+id/secondary_label"
+            style="@style/StatisticsCardValueLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:text="@string/statistics_card_infections_secondary_label"
+            app:layout_constraintStart_toStartOf="@id/primary_value"
+            app:layout_constraintTop_toBottomOf="@id/primary_value"/>
+
+        <TextView
+            android:id="@+id/secondary_value"
+            style="@style/StatisticsCardSecondaryValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:includeFontPadding="false"
+            app:layout_constraintStart_toStartOf="@id/secondary_label"
+            app:layout_constraintTop_toBottomOf="@id/secondary_label"
+            tools:text="1.092.765" />
+
+        <de.rki.coronawarnapp.statistics.ui.TrendArrowView
+            android:id="@+id/trend_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_tiny"
+            app:layout_constraintBottom_toBottomOf="@id/secondary_value"
+            app:layout_constraintStart_toEndOf="@id/secondary_value"
+            app:layout_constraintTop_toTopOf="@id/secondary_value" />
+
+
+        <TextView
+            android:id="@+id/tertiary_label"
+            style="@style/StatisticsCardValueLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/statistics_card_infections_tertiary_label"
+            app:layout_constraintStart_toStartOf="@id/secondary_value"
+            app:layout_constraintTop_toBottomOf="@id/background_image" />
+
+        <TextView
+            android:id="@+id/tertiary_value"
+            style="@style/StatisticsCardSecondaryValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            app:layout_constraintStart_toStartOf="@id/tertiary_label"
+            app:layout_constraintTop_toBottomOf="@id/tertiary_label"
+            tools:text="7.145.486" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.statistics.source
 
 import dagger.Reusable
 import de.rki.coronawarnapp.server.protocols.internal.stats.StatisticsOuterClass
+import de.rki.coronawarnapp.statistics.AppliedVaccinationRatesStats
 import de.rki.coronawarnapp.statistics.IncidenceStats
 import de.rki.coronawarnapp.statistics.InfectionStats
 import de.rki.coronawarnapp.statistics.KeySubmissionsStats
@@ -42,6 +43,10 @@ class StatisticsParser @Inject constructor() {
                         keyFigures = keyFigures
                     )
                     StatsItem.Type.PERSONS_VACCINATED_COMPLETELY -> PersonsVaccinatedCompletelyStats(
+                        updatedAt = updatedAt,
+                        keyFigures = keyFigures
+                    )
+                    StatsItem.Type.APPLIED_VACCINATION_RATES -> AppliedVaccinationRatesStats(
                         updatedAt = updatedAt,
                         keyFigures = keyFigures
                     )

@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.util.formatter
 import android.content.Context
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.getLocale
+import de.rki.coronawarnapp.statistics.AppliedVaccinationRatesStats
 import de.rki.coronawarnapp.statistics.IncidenceStats
 import de.rki.coronawarnapp.statistics.InfectionStats
 import de.rki.coronawarnapp.statistics.KeySubmissionsStats
@@ -43,6 +44,11 @@ fun StatsItem.getPrimaryLabel(context: Context): String {
             else -> context.getString(R.string.statistics_primary_value_until_yesterday)
         }
         is PersonsVaccinatedCompletelyStats -> when (updatedAtDate) {
+            today -> context.getString(R.string.statistics_primary_value_until_yesterday)
+            yesterday -> context.getString(R.string.statistics_primary_value_until_yesterday)
+            else -> context.getString(R.string.statistics_primary_value_until_yesterday)
+        }
+        is AppliedVaccinationRatesStats -> when (updatedAtDate) {
             today -> context.getString(R.string.statistics_primary_value_until_yesterday)
             yesterday -> context.getString(R.string.statistics_primary_value_until_yesterday)
             else -> context.getString(R.string.statistics_primary_value_until_yesterday)
