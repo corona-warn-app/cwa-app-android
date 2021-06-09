@@ -33,8 +33,8 @@ class CertificatesViewModel @AssistedInject constructor(
 
     private fun refreshTestCertificate(identifier: TestCertificateIdentifier) {
         launch {
-            val error = testCertificateRepository.refresh(identifier).mapNotNull { it.error  }.singleOrNull()
-            if(error != null) {
+            val error = testCertificateRepository.refresh(identifier).mapNotNull { it.error }.singleOrNull()
+            if (error != null) {
                 events.postValue(CertificatesFragmentEvents.ShowRefreshErrorCertificateDialog(error))
             }
         }

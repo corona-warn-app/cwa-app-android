@@ -12,5 +12,6 @@ sealed class CertificatesFragmentEvents {
 
     data class ShowRefreshErrorCertificateDialog(val error: Exception) : CertificatesFragmentEvents()
 
-    data class ShowDeleteErrorCertificateDialog(val identifier: TestCertificateIdentifier) : CertificatesFragmentEvents()
+    data class ShowDeleteErrorCertificateDialog(val identifier: TestCertificateIdentifier) :
+        CertificatesFragmentEvents()
 }

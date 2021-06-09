@@ -35,7 +35,7 @@ class CovidTestCertificateErrorCard(parent: ViewGroup) :
             item.onRetryAction(item)
         }
 
-        if(item.isUpdatingData) {
+        if (item.isUpdatingData) {
             refreshStatus.visibility = View.VISIBLE
             progressBar.show()
             retryButton.visibility = View.INVISIBLE
