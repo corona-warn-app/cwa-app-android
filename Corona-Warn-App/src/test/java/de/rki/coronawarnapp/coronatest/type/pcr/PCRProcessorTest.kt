@@ -100,7 +100,7 @@ class PCRProcessorTest : BaseTest() {
         runBlocking { PcrTeleTanCensor.clearTans() }
     }
 
-    fun createInstance() = PCRProcessor(
+    fun createInstance() = PCRTestProcessor(
         timeStamper = timeStamper,
         submissionService = submissionService,
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,

@@ -6,9 +6,9 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.common.TestCertificateContainer
-import de.rki.coronawarnapp.coronatest.type.pcr.PCRCertificateContainer
-import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACertificateContainer
+import de.rki.coronawarnapp.coronatest.type.common.StoredTestCertificateData
+import de.rki.coronawarnapp.coronatest.type.pcr.PCRCertificateData
+import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACertificateData
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.vaccination.core.repository.storage.ContainerPostProcessor
@@ -35,29 +35,29 @@ class TestCertificateStorage @Inject constructor(
     }
 
     private val typeTokenPCR by lazy {
-        object : TypeToken<Set<PCRCertificateContainer>>() {}.type
+        object : TypeToken<Set<PCRCertificateData>>() {}.type
     }
 
     private val typeTokenRA by lazy {
-        object : TypeToken<Set<RACertificateContainer>>() {}.type
+        object : TypeToken<Set<RACertificateData>>() {}.type
     }
 
-    var testCertificates: Collection<TestCertificateContainer>
+    var testCertificates: Collection<StoredTestCertificateData>
         get() {
             Timber.tag(TAG).d("load()")
 
-            val pcrCertContainers: Set<PCRCertificateContainer> = run {
+            val pcrCertContainers: Set<PCRCertificateData> = run {
                 val raw = prefs.getString(PKEY_DATA_PCR, null) ?: return@run emptySet()
-                gson.fromJson<Set<PCRCertificateContainer>>(raw, typeTokenPCR).onEach {
+                gson.fromJson<Set<PCRCertificateData>>(raw, typeTokenPCR).onEach {
                     Timber.tag(TAG).v("PCR loaded: %s", it)
                     requireNotNull(it.identifier)
                     requireNotNull(it.type) { "PCR type should not be null, GSON footgun." }
                 }
             }
 
-            val raCerts: Set<RACertificateContainer> = run {
+            val raCerts: Set<RACertificateData> = run {
                 val raw = prefs.getString(PKEY_DATA_RA, null) ?: return@run emptySet()
-                gson.fromJson<Set<RACertificateContainer>>(raw, typeTokenRA).onEach {
+                gson.fromJson<Set<RACertificateData>>(raw, typeTokenRA).onEach {
                     Timber.tag(TAG).v("RA loaded: %s", it)
                     requireNotNull(it.identifier)
                     requireNotNull(it.type) { "RA type should not be null, GSON footgun." }

@@ -3,12 +3,12 @@ package de.rki.coronawarnapp.coronatest.type.pcr
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.RegistrationToken
-import de.rki.coronawarnapp.coronatest.type.common.TestCertificateContainer
+import de.rki.coronawarnapp.coronatest.type.common.StoredTestCertificateData
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKey
 import okio.ByteString
 import org.joda.time.Instant
 
-data class PCRCertificateContainer internal constructor(
+data class PCRCertificateData internal constructor(
     @SerializedName("identifier")
     override val identifier: String,
 
@@ -38,9 +38,7 @@ data class PCRCertificateContainer internal constructor(
 
     @SerializedName("testCertificateQrCode")
     override val testCertificateQrCode: String? = null,
-
-    @Transient override val isUpdatingData: Boolean = false,
-) : TestCertificateContainer() {
+) : StoredTestCertificateData {
 
     // Otherwise GSON unsafes reflection to create this class, and sets the LAZY to null
     @Suppress("unused")
