@@ -82,7 +82,8 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
     }
 
     private fun vaccinationDetailsData(): MutableLiveData<TestCertificate> {
-        val formatter = DateTimeFormat.forPattern("dd.MM.yyyy")
+        val formatter = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm")
+        val testDate = DateTime.parse("12.05.2021 19:00", formatter).toInstant()
         return MutableLiveData(
             object : TestCertificate {
                 override val targetName: String
@@ -96,17 +97,17 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
                 override val testNameAndManufactor: String
                     get() = "Xup"
                 override val sampleCollectedAt: Instant
-                    get() = DateTime.now().toInstant()
+                    get() = testDate
                 override val testResultAt: Instant
-                    get() = DateTime.now().toInstant()
+                    get() = testDate
                 override val testCenter: String
                     get() = "AB123"
                 override val issuer: String
                     get() = "G0593048274845483647869576478784"
                 override val issuedAt: Instant
-                    get() = DateTime.now().toInstant()
+                    get() = testDate
                 override val expiresAt: Instant
-                    get() = DateTime.now().plusDays(365).toInstant()
+                    get() = testDate
                 override val qrCode: QrCodeString
                     get() = ""
                 override val firstName: String
@@ -116,7 +117,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
                 override val fullName: String
                     get() = "Mustermann, Max"
                 override val dateOfBirth: LocalDate
-                    get() = LocalDate.parse("18.04.1943", formatter)
+                    get() = LocalDate.parse("18.04.1943 00:00", formatter)
                 override val personIdentifier: CertificatePersonIdentifier
                     get() = certificatePersonIdentifier
                 override val certificateIssuer: String

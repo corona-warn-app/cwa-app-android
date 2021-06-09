@@ -21,6 +21,8 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.joda.time.DateTime
+import org.joda.time.Duration
+import org.joda.time.format.DateTimeFormat
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -38,12 +40,15 @@ class CertificatesFragmentTest : BaseUITest() {
     @MockK lateinit var viewModel: CertificatesViewModel
     @MockK lateinit var vaccinatedPerson: VaccinatedPerson
 
+    private val formatter = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm")
+    private val testDate = DateTime.parse("12.05.2021 19:00", formatter).toInstant()
+
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
         every { vaccinatedPerson.fullName } returns "Max Mustermann"
         every { vaccinatedPerson.getMostRecentVaccinationCertificate.expiresAt } returns
-            DateTime.now().plusDays(365).toInstant()
+            testDate.plus(Duration.standardDays(365)).toInstant()
 
         setupMockViewModel(
             object : CertificatesViewModel.Factory {
@@ -142,7 +147,7 @@ class CertificatesFragmentTest : BaseUITest() {
                     onClickAction = {}
                 ),
                 CovidTestCertificateCard.Item(
-                    testDate = DateTime.now().toInstant(),
+                    testDate = testDate,
                     testPerson = "Max Mustermann"
                 ) { }
             )
@@ -167,7 +172,7 @@ class CertificatesFragmentTest : BaseUITest() {
                     onClickAction = {}
                 ),
                 CovidTestCertificateErrorCard.Item(
-                    testDate = DateTime.now().toInstant(),
+                    testDate = testDate,
                 ) { }
             )
         )
