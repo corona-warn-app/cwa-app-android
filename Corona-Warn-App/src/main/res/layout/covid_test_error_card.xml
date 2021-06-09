@@ -70,13 +70,15 @@
         android:layout_marginStart="@dimen/card_padding"
         android:layout_marginTop="@dimen/spacing_small"
         android:layout_marginEnd="@dimen/card_padding"
+        android:layout_marginBottom="@dimen/spacing_small"
         android:indeterminate="true"
         android:visibility="gone"
         app:indicatorColor="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/test_time"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:showAnimationBehavior="inward"
-        app:trackColor="@android:color/black" />
+        app:trackColor="@android:color/transparent" />
 
     <TextView
         android:id="@+id/refresh_status"
@@ -87,8 +89,10 @@
         android:layout_marginEnd="@dimen/card_padding"
         android:focusable="false"
         android:visibility="gone"
+        android:text="@string/test_certificate_error_refreshing_status"
         app:layout_constraintStart_toEndOf="@id/progress_bar"
         app:layout_constraintTop_toTopOf="@id/progress_bar"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:text="@string/test_certificate_error_refreshing_status" />
 
     <com.google.android.material.button.MaterialButton

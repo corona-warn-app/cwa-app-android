@@ -168,7 +168,7 @@ class TestCertificateRepository @Inject constructor(
             mutate {
                 toRefresh.forEach {
                     workedOnIds.add(it.identifier)
-                    this[it.identifier] = it.copy(isUpdatingData = false)
+                    this[it.identifier] = it.copy(isUpdatingData = true)
                 }
             }
         }
