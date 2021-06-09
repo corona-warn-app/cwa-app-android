@@ -185,7 +185,7 @@
     <!-- XTXT: Request GC title for privacy card -->
     <string name="request_green_certificate_privacy_title">Datenschutz und Datensicherheit</string>
     <!-- XTXT: Request GC bullet point 1 for privacy card -->
-    <string name="request_green_certificate_privacy_section_1" translatable="false">Die Anforderung und Verwendung des digitalen COVID-19-Testzertifikats ist freiwillig. Der Nachweis eines negativen Testzertifikats kann auch auf andere Weise erbracht werden.</string>
+    <string name="request_green_certificate_privacy_section_1" translatable="false">Die Anforderung und Verwendung des digitalen COVID-19-Testzertifikats ist freiwillig. Der Nachweis eines negativen Testergebnisses kann auch auf andere Weise erbracht werden.</string>
     <!-- XTXT: Request GC bullet point 3 for privacy card -->
     <string name="request_green_certificate_privacy_section_2" translatable="false">Zur Erstellung Ihres Testzertifikats werden Daten einmalig verschlüsselt an das RKI übermittelt. Das RKI signiert die Daten elektronisch, um die Gültigkeit zu bestätigen. Die Daten werden beim RKI nicht gespeichert.</string>
     <!-- XTXT: Request GC extra bullet point PCR test  for privacy card -->
