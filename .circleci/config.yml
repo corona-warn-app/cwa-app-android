@@ -480,6 +480,7 @@ workflows:
       - run_sonar:
           requires:
             - unit_tests_device_release
+      - firebase_screenshots:
       - instrumentation_tests_device:
           requires:
             - ktlint_check
