@@ -3,8 +3,9 @@ package de.rki.coronawarnapp.bugreporting.censors.vaccination
 import dagger.Reusable
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensorContainer
-import de.rki.coronawarnapp.vaccination.core.certificate.VaccinationDGCV1
-import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateData
+import de.rki.coronawarnapp.covidcertificate.common.certificate.Dcc
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.certificate.VaccinationDccV1
 import java.util.LinkedList
 import javax.inject.Inject
 
@@ -35,7 +36,7 @@ class CertificateQrCodeCensor @Inject constructor() : BugCensor {
 
                 newMessage = censorNameData(nameData, newMessage)
 
-                vaccinationDatas.forEach { data ->
+                payload.let { data ->
                     newMessage = censorVaccinationData(data, newMessage)
                 }
             }
@@ -45,7 +46,7 @@ class CertificateQrCodeCensor @Inject constructor() : BugCensor {
     }
 
     private fun censorVaccinationData(
-        vaccinationData: VaccinationDGCV1.VaccinationData,
+        vaccinationData: VaccinationDccV1.VaccinationData,
         message: CensorContainer
     ): CensorContainer {
         var newMessage = message
@@ -76,8 +77,8 @@ class CertificateQrCodeCensor @Inject constructor() : BugCensor {
         )
 
         newMessage = newMessage.censor(
-            vaccinationData.countryOfVaccination,
-            "vaccinationData/countryOfVaccination"
+            vaccinationData.certificateCountry,
+            "vaccinationData/certificateCountry"
         )
 
         newMessage = newMessage.censor(
@@ -100,7 +101,7 @@ class CertificateQrCodeCensor @Inject constructor() : BugCensor {
         return newMessage
     }
 
-    private fun censorNameData(nameData: VaccinationDGCV1.NameData, message: CensorContainer): CensorContainer {
+    private fun censorNameData(nameData: Dcc.NameData, message: CensorContainer): CensorContainer {
         var newMessage = message
 
         nameData.familyName?.let { fName ->
@@ -146,8 +147,8 @@ class CertificateQrCodeCensor @Inject constructor() : BugCensor {
 
         fun clearQRCodeStringToCensor() = synchronized(qrCodeStringsToCensor) { qrCodeStringsToCensor.clear() }
 
-        private val certsToCensor = LinkedList<VaccinationCertificateData>()
-        fun addCertificateToCensor(cert: VaccinationCertificateData) = synchronized(certsToCensor) {
+        private val certsToCensor = LinkedList<DccData<VaccinationDccV1>>()
+        fun addCertificateToCensor(cert: DccData<VaccinationDccV1>) = synchronized(certsToCensor) {
             certsToCensor.apply {
                 if (contains(cert)) return@apply
                 addFirst(cert)

@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.main
 
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationSettings
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
@@ -9,7 +10,6 @@ import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.ui.main.MainActivityViewModel
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
-import de.rki.coronawarnapp.vaccination.core.VaccinationSettings
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every

@@ -6,8 +6,11 @@ import de.rki.coronawarnapp.bugreporting.BugReportingSettings
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.TestCertificateRepository
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationPreferences
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.survey.SurveySettings
@@ -26,9 +29,6 @@ import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.ui.presencetracing.TraceLocationPreferences
-import de.rki.coronawarnapp.vaccination.core.VaccinationPreferences
-import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
-import de.rki.coronawarnapp.vaccination.core.repository.ValueSetsRepository
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber

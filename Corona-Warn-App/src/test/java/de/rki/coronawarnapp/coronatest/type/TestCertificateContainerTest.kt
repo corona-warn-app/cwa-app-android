@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.coronatest.type
 
 import de.rki.coronawarnapp.coronatest.DaggerCoronaTestTestComponent
-import de.rki.coronawarnapp.coronatest.TestCertificateTestData
+import de.rki.coronawarnapp.covidcertificate.test.TestCertificateTestData
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.mockk

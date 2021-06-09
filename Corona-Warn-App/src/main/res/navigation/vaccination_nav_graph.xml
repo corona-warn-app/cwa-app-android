@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/vaccinationQrCodeScanFragment"
-        android:name="de.rki.coronawarnapp.vaccination.ui.scan.VaccinationQrCodeScanFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.vaccination.ui.scan.VaccinationQrCodeScanFragment"
         android:label="VaccinationQrCodeScanFragment"
         tools:layout="@layout/fragment_scan_qr_code">
         <action
@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/vaccinationListFragment"
-        android:name="de.rki.coronawarnapp.vaccination.ui.list.VaccinationListFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.VaccinationListFragment"
         android:label="fragment_vaccination_list"
         tools:layout="@layout/fragment_vaccination_list">
         <argument
@@ -37,7 +37,7 @@
 
     <fragment
         android:id="@+id/vaccinationDetailsFragment"
-        android:name="de.rki.coronawarnapp.vaccination.ui.details.VaccinationDetailsFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragment"
         android:label="fragment_vaccination_details"
         tools:layout="@layout/fragment_vaccination_details">
         <argument

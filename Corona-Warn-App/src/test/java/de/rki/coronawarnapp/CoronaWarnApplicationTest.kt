@@ -7,11 +7,12 @@ import de.rki.coronawarnapp.appconfig.devicetime.DeviceTimeHandler
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
-import de.rki.coronawarnapp.coronatest.type.common.TestCertificateRetrievalScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.notification.RATTestResultAvailableNotificationService
+import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalScheduler
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.execution.VaccinationUpdateScheduler
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.notification.GeneralNotifications
@@ -28,7 +29,6 @@ import de.rki.coronawarnapp.util.WatchdogService
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
-import de.rki.coronawarnapp.vaccination.core.execution.VaccinationUpdateScheduler
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
