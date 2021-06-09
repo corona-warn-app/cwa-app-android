@@ -86,8 +86,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
     private fun vaccinationDetailsData(complete: Boolean): MutableLiveData<VaccinationDetails> {
         val formatter = DateTimeFormat.forPattern("dd.MM.yyyy")
         val mockCertificate = mockk<VaccinationCertificate>().apply {
-            every { firstName } returns "Max"
-            every { lastName } returns "Mustermann"
+            every { fullName } returns "Max Mustermann"
             every { dateOfBirth } returns LocalDate.parse("01.02.1976", formatter)
             every { vaccinatedAt } returns LocalDate.parse("18.02.2021", formatter)
             every { vaccineTypeName } returns "Comirnaty (mRNA)"
