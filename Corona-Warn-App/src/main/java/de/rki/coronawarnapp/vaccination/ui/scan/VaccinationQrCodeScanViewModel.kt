@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.util.permission.CameraSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException
 import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationQRCodeValidator
 import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
 import timber.log.Timber
@@ -21,6 +22,8 @@ class VaccinationQrCodeScanViewModel @AssistedInject constructor(
 
     val errorEvent = SingleLiveEvent<Throwable>()
 
+    val errorEventWithFaq = SingleLiveEvent<Throwable>()
+
     fun onScanResult(barcodeResult: BarcodeResult) = launch {
         try {
             event.postValue(Event.QrCodeScanInProgress)
@@ -28,7 +31,10 @@ class VaccinationQrCodeScanViewModel @AssistedInject constructor(
             val vaccinationCertificate = vaccinationRepository.registerVaccination(qrCode)
             event.postValue(Event.QrCodeScanSucceeded(vaccinationCertificate.personIdentifier.codeSHA256))
         } catch (e: Throwable) {
-            errorEvent.postValue(e)
+            if (e is InvalidHealthCertificateException && e.showFaqButton) {
+                errorEventWithFaq.postValue(e)
+            } else
+                errorEvent.postValue(e)
         }
     }
 
