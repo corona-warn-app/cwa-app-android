@@ -27,8 +27,6 @@
             android:id="@+id/main_bottom_navigation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:itemIconTint="@color/nav_item_color"
-            app:itemTextColor="@color/nav_item_color"
             app:labelVisibilityMode="labeled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
