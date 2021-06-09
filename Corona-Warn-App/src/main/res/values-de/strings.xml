@@ -1410,7 +1410,7 @@
     <!-- YTXT: Button text for submission status fetch ready -->
     <string name="submission_status_card_retrieve_test_result">"Testergebnis abrufen"</string>
     <!-- XBUT: submission status card unregistered button -->
-    <string name="submission_status_card_button_unregistered">"Nächste Schritte"</string>
+    <string name="submission_status_card_button_unregistered">"Test registrieren"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Test anzeigen"</string>
     <!-- XBUT: submission status card fetch failed button -->
