@@ -173,7 +173,10 @@ class CertificatesFragmentTest : BaseUITest() {
                 ),
                 CovidTestCertificateErrorCard.Item(
                     testDate = testDate,
-                ) { }
+                    isUpdatingData = false,
+                    onRetryAction = {},
+                    onDeleteAction = {}
+                )
             )
         )
     }
