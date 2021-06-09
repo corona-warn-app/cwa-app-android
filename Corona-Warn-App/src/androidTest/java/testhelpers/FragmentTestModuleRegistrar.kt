@@ -3,6 +3,7 @@ package testhelpers
 import dagger.Module
 import de.rki.coronawarnapp.bugreporting.DebugLogTestModule
 import de.rki.coronawarnapp.bugreporting.DebugLogUploadTestModule
+import de.rki.coronawarnapp.covidcertificate.CertificatesFragmentTestModule
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragmentTestModule
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.VaccinationListFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryDayFragmentTestModule
@@ -91,6 +92,7 @@ import de.rki.coronawarnapp.ui.vaccination.VaccinationConsentFragmentTestModule
         VaccinationConsentFragmentTestModule::class,
         VaccinationListFragmentTestModule::class,
         RequestCovidCertificateFragmentTestModule::class,
+        CertificatesFragmentTestModule::class,
     ]
 )
 class FragmentTestModuleRegistrar
