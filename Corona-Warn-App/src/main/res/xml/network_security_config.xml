@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<network-security-config>
+<network-security-config xmlns:tools="http://schemas.android.com/tools">
 
     <domain-config cleartextTrafficPermitted="false">
         <domain includeSubdomains="true">coronawarn.app</domain>
         <domain includeSubdomains="true">main.px.t-online.de</domain>
-        <!--        FIXME-->
-        <!--        <pin-set-->
-        <!--            expiration="2024-02-12"-->
-        <!--            tools:ignore="MissingBackupPin">-->
-        <!--            <pin digest="SHA-256">c3jf+L8VIAFQnJJDM6Mfb4MtI1JnhVS8JwZHMwJj28M=</pin>-->
-        <!--        </pin-set>-->
+        <pin-set
+            expiration="2024-02-12"
+            tools:ignore="MissingBackupPin">
+            <pin digest="SHA-256">c3jf+L8VIAFQnJJDM6Mfb4MtI1JnhVS8JwZHMwJj28M=</pin>
+        </pin-set>
         <trust-anchors>
             <certificates
                 overridePins="false"
