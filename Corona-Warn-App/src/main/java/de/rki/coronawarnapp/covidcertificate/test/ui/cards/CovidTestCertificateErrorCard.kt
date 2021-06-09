@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.covidcertificate.test.ui.cards
 
-import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
+import androidx.core.view.isInvisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.test.ui.CertificatesAdapter
 import de.rki.coronawarnapp.databinding.CovidTestErrorCardBinding
@@ -36,16 +37,16 @@ class CovidTestCertificateErrorCard(parent: ViewGroup) :
         }
 
         if (item.isUpdatingData) {
-            refreshStatus.visibility = View.VISIBLE
+            refreshStatus.isGone = false
             progressBar.show()
-            retryButton.visibility = View.INVISIBLE
-            deleteButton.visibility = View.INVISIBLE
+            retryButton.isInvisible = true
+            deleteButton.isInvisible = true
             body.text = context.getString(R.string.test_certificate_error_label_refreshing)
         } else {
-            refreshStatus.visibility = View.GONE
+            refreshStatus.isGone = true
             progressBar.hide()
-            retryButton.visibility = View.VISIBLE
-            deleteButton.visibility = View.VISIBLE
+            retryButton.isInvisible = false
+            deleteButton.isInvisible = false
             body.text = context.getString(R.string.test_certificate_error_label)
         }
         deleteButton.setOnClickListener { item.onDeleteAction(item) }
