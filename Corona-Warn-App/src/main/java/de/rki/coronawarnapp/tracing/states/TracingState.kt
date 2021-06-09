@@ -15,9 +15,9 @@ sealed class TracingState {
     abstract val riskState: RiskState
     abstract val isInDetailsMode: Boolean
 
-    internal fun formatRelativeDateTimeString(c: Context, date: Instant): CharSequence? =
+    internal fun formatRelativeDateTimeString(context: Context, date: Instant): CharSequence? =
         DateUtils.getRelativeDateTimeString(
-            c,
+            context,
             date.millis,
             DateUtils.DAY_IN_MILLIS,
             DateUtils.DAY_IN_MILLIS * 2,
