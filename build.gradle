@@ -3,7 +3,7 @@
 buildscript {
     ext.kotlin_version = '1.5.0'
     ext.protobufVersion = '0.8.12'
-    ext.navVersion = "2.2.2"
+    ext.nav_version = "2.3.5"
 
     repositories {
         google()
@@ -16,7 +16,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:4.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.protobuf:protobuf-gradle-plugin:$protobufVersion"
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navVersion"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
         classpath "org.jlleitschuh.gradle:ktlint-gradle:10.0.0"
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.17.0"
 
