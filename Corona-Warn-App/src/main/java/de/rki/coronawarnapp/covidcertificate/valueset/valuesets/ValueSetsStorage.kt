@@ -52,8 +52,10 @@ class ValueSetsStorage @Inject constructor(
             }
         }
     }
-}
 
-private const val PREF_NAME = "valuesets_localdata"
-private const val PKEY_VALUE_SETS_PREFIX = "valueset"
-private const val PKEY_VALUE_SETS_CONTAINER_PREFIX = "valuesets_container"
+    companion object {
+        private const val PREF_NAME = "valuesets_localdata"
+        private const val PKEY_VALUE_SETS_PREFIX = "valueset"
+        private const val PKEY_VALUE_SETS_CONTAINER_PREFIX = "valuesets_container"
+    }
+}

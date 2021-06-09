@@ -6,8 +6,8 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.ValueSetTestData.v
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.ValueSetTestData.vaccinationValueSetsEn
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.ValueSetTestData.valueSetsContainerDe
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.ValueSetTestData.valueSetsContainerEn
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.ValueSetsStorage
 import de.rki.coronawarnapp.covidcertificate.valueset.server.CertificateValueSetServer
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.ValueSetsStorage
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyValueSetsContainer
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
