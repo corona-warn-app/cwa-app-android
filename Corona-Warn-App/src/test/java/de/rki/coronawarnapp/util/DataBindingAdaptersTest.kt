@@ -3,9 +3,9 @@ package de.rki.coronawarnapp.util
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
-import android.widget.Switch
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
+import com.google.android.material.switchmaterial.SwitchMaterial
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import io.mockk.MockKAnnotations
@@ -35,7 +35,7 @@ class DataBindingAdaptersTest : BaseTest() {
     }
 
     private fun setChecked(status: Boolean?) {
-        val switch = spyk(Switch(context))
+        val switch = spyk(SwitchMaterial(context))
 
         setChecked(switch, status)
 
