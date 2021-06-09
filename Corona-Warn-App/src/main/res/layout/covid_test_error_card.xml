@@ -63,6 +63,38 @@
         app:layout_constraintTop_toBottomOf="@id/body"
         tools:text="Test durchgeführt am 12.04.21, 18:01 Uhr " />
 
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/card_padding"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/card_padding"
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:indicatorColor="@color/colorAccent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/test_time"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:showAnimationBehavior="inward"
+        app:trackColor="@android:color/transparent" />
+
+    <TextView
+        android:id="@+id/refresh_status"
+        style="@style/body2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/card_padding"
+        android:focusable="false"
+        android:visibility="gone"
+        android:text="@string/test_certificate_error_refreshing_status"
+        app:layout_constraintStart_toEndOf="@id/progress_bar"
+        app:layout_constraintTop_toTopOf="@id/progress_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="@string/test_certificate_error_refreshing_status" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/retry_button"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -74,9 +106,24 @@
         android:layout_marginBottom="@dimen/spacing_small"
         android:text="@string/test_certificate_error_retry_button"
         android:textColor="@color/colorAccent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/test_time"
+        app:strokeColor="@color/colorAccent" />
+
+    <Button
+        android:id="@+id/delete_button"
+        style="@style/buttonLight"
+        android:backgroundTint="@color/button_main_tracing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/card_padding"
+        android:layout_marginEnd="@dimen/card_padding"
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:text="@string/test_certificate_error_delete_button"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/retry_button"
         app:strokeColor="@color/colorAccent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

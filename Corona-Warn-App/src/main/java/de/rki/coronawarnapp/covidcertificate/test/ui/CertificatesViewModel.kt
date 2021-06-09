@@ -33,7 +33,16 @@ class CertificatesViewModel @AssistedInject constructor(
 
     private fun refreshTestCertificate(identifier: TestCertificateIdentifier) {
         launch {
-            testCertificateRepository.refresh(identifier)
+            val error = testCertificateRepository.refresh(identifier).mapNotNull { it.error }.singleOrNull()
+            if (error != null) {
+                events.postValue(CertificatesFragmentEvents.ShowRefreshErrorCertificateDialog(error))
+            }
+        }
+    }
+
+    fun deleteTestCertificate(identifier: TestCertificateIdentifier) {
+        launch {
+            testCertificateRepository.deleteCertificate(identifier)
         }
     }
 
@@ -90,8 +99,16 @@ class CertificatesViewModel @AssistedInject constructor(
         if (certificate.isCertificateRetrievalPending) {
             CovidTestCertificateErrorCard.Item(
                 testDate = certificate.registeredAt,
-                onClickAction = {
+                isUpdatingData = certificate.isUpdatingData,
+                onRetryAction = {
                     refreshTestCertificate(certificate.identifier)
+                },
+                onDeleteAction = {
+                    events.postValue(
+                        CertificatesFragmentEvents.ShowDeleteErrorCertificateDialog(
+                            certificate.identifier
+                        )
+                    )
                 }
             )
         } else {
