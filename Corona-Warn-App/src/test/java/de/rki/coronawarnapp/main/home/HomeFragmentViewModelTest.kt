@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.main.home
 import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationSettings
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
@@ -21,8 +23,6 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
-import de.rki.coronawarnapp.vaccination.core.VaccinationSettings
-import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery

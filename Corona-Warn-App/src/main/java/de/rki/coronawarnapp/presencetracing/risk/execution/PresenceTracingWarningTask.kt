@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningReposito
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
-import de.rki.coronawarnapp.task.common.Finished
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first

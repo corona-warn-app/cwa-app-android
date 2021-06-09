@@ -3,6 +3,8 @@ package testhelpers
 import dagger.Module
 import de.rki.coronawarnapp.bugreporting.DebugLogTestModule
 import de.rki.coronawarnapp.bugreporting.DebugLogUploadTestModule
+import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragmentTestModule
+import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.VaccinationListFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryDayFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryEditLocationsFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryEditPersonsFragmentTestModule
@@ -38,8 +40,6 @@ import de.rki.coronawarnapp.ui.submission.SubmissionYourConsentFragmentTestModul
 import de.rki.coronawarnapp.ui.submission.covidcertificate.RequestCovidCertificateFragmentTestModule
 import de.rki.coronawarnapp.ui.tracing.TracingDetailsFragmentTestTestModule
 import de.rki.coronawarnapp.ui.vaccination.VaccinationConsentFragmentTestModule
-import de.rki.coronawarnapp.vaccination.ui.details.VaccinationDetailsFragmentTestModule
-import de.rki.coronawarnapp.vaccination.ui.list.VaccinationListFragmentTestModule
 
 @Module(
     includes = [

@@ -20,6 +20,8 @@ import de.rki.coronawarnapp.coronatest.type.pcr.toSubmissionState
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.toSubmissionState
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationSettings
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
@@ -74,8 +76,6 @@ import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import de.rki.coronawarnapp.vaccination.core.VaccinationSettings
-import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach

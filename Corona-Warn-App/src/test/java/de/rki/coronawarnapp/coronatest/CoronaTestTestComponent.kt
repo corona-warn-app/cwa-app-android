@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.coronatest
 
 import dagger.Component
 import dagger.Module
-import de.rki.coronawarnapp.coronatest.storage.TestCertificateStorageTest
 import de.rki.coronawarnapp.coronatest.type.TestCertificateContainerTest
+import de.rki.coronawarnapp.covidcertificate.storage.TestCertificateStorageTest
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import javax.inject.Singleton
 
