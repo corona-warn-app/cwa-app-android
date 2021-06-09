@@ -56,7 +56,7 @@ class VaccinationListViewModel @AssistedInject constructor(
         // immediately ...
         emit(null)
         // ... and after the QR code was generated, it is emitted
-        emit(qrCodeGenerator.createQrCode(it.getMostRecentVaccinationCertificate.vaccinationQrCodeString))
+        emit(qrCodeGenerator.createQrCode(it.getMostRecentVaccinationCertificate.qrCode))
     }
 
     val uiState: LiveData<UiState> = combine(vaccinatedPersonFlow, vaccinationQrCodeFlow) { vaccinatedPerson, qrCode ->
@@ -92,7 +92,7 @@ class VaccinationListViewModel @AssistedInject constructor(
                     onQrCodeClick = {
                         events.postValue(
                             Event.NavigateToQrCodeFullScreen(
-                                qrCode = vaccinatedPerson.getMostRecentVaccinationCertificate.vaccinationQrCodeString,
+                                qrCode = vaccinatedPerson.getMostRecentVaccinationCertificate.qrCode,
                                 positionInList = 0
                             )
                         )

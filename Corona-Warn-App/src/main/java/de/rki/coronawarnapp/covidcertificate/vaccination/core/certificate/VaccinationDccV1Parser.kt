@@ -15,11 +15,11 @@ import de.rki.coronawarnapp.util.serialization.fromJson
 import javax.inject.Inject
 
 @Reusable
-class VaccinationDGCV1Parser @Inject constructor(
+class VaccinationDccV1Parser @Inject constructor(
     @BaseGson private val gson: Gson
 ) {
 
-    fun parse(map: CBORObject): VaccinationDGCV1 = try {
+    fun parse(map: CBORObject): VaccinationDccV1 = try {
         map[keyHCert]?.run {
             this[keyEuDgcV1]?.run {
                 toCertificate()
@@ -32,18 +32,18 @@ class VaccinationDGCV1Parser @Inject constructor(
     }
 
     @Suppress("UNNECESSARY_NOT_NULL_ASSERTION")
-    private fun VaccinationDGCV1.validate(): VaccinationDGCV1 {
-        if (vaccinationDatas.isNullOrEmpty()) {
+    private fun VaccinationDccV1.validate(): VaccinationDccV1 {
+        if (payloads.isNullOrEmpty()) {
             throw InvalidVaccinationCertificateException(VC_NO_VACCINATION_ENTRY)
         }
         // check for non null (Gson does not enforce it) & force date parsing
         version!!
         nameData.familyNameStandardized.isNotBlank()
         dateOfBirth
-        vaccinationDatas.forEach {
+        payload.let {
             it.vaccinatedAt
             it.certificateIssuer.isNotBlank()
-            it.countryOfVaccination.isNotBlank()
+            it.certificateCountry.isNotBlank()
             it.marketAuthorizationHolderId.isNotBlank()
             it.medicalProductId.isNotBlank()
             it.targetId.isNotBlank()
@@ -55,7 +55,7 @@ class VaccinationDGCV1Parser @Inject constructor(
 
     private fun CBORObject.toCertificate() = try {
         val json = ToJSONString()
-        gson.fromJson<VaccinationDGCV1>(json).validate()
+        gson.fromJson<VaccinationDccV1>(json).validate()
     } catch (e: InvalidVaccinationCertificateException) {
         throw e
     } catch (e: Throwable) {

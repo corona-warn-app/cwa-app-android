@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode
 
-data class VaccinationCertificateQRCode(
-    val qrCodeString: QrCodeString,
-    val parsedData: VaccinationCertificateData,
-) {
-    val uniqueCertificateIdentifier: String
-        get() = parsedData.certificate.vaccinationDatas.single().uniqueCertificateIdentifier
-}
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
+import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
+import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.certificate.VaccinationDccV1
 
-typealias QrCodeString = String
+data class VaccinationCertificateQRCode(
+    override val qrCode: QrCodeString,
+    override val data: DccData<VaccinationDccV1>
+) : DccQrCode<VaccinationDccV1>

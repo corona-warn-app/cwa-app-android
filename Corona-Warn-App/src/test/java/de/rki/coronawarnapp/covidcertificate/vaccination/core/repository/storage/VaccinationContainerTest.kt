@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 
-import de.rki.coronawarnapp.covidcertificate.common.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.DaggerVaccinationTestComponent
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.DefaultValueSet

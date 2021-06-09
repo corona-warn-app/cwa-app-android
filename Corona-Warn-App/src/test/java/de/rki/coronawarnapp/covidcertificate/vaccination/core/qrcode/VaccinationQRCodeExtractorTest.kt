@@ -42,13 +42,13 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
     fun `happy path extraction with data`() {
         val qrCode = extractor.extract(VaccinationQrCodeTestData.validVaccinationQrCode3)
 
-        with(qrCode.parsedData.header) {
+        with(qrCode.data.header) {
             issuer shouldBe "AT"
             issuedAt shouldBe Instant.ofEpochSecond(1620392021)
             expiresAt shouldBe Instant.ofEpochSecond(1620564821)
         }
 
-        with(qrCode.parsedData.certificate) {
+        with(qrCode.data.certificate) {
             with(nameData) {
                 familyName shouldBe "Musterfrau-Gößinger"
                 familyNameStandardized shouldBe "MUSTERFRAU<GOESSINGER"
@@ -59,9 +59,9 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
             dateOfBirth shouldBe LocalDate.parse("1998-02-26")
             version shouldBe "1.0.0"
 
-            with(vaccinationDatas[0]) {
+            with(payloads[0]) {
                 uniqueCertificateIdentifier shouldBe "urn:uvci:01:AT:10807843F94AEE0EE5093FBC254BD813P"
-                countryOfVaccination shouldBe "AT"
+                certificateCountry shouldBe "AT"
                 doseNumber shouldBe 1
                 dt shouldBe "2021-02-18"
                 certificateIssuer shouldBe "BMSGPK Austria"

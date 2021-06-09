@@ -2,6 +2,10 @@ package de.rki.coronawarnapp.covidcertificate.test.core.qrcode
 
 import com.upokecenter.cbor.CBORObject
 import dagger.Reusable
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
+import de.rki.coronawarnapp.covidcertificate.common.decoder.DccCoseDecoder
+import de.rki.coronawarnapp.covidcertificate.common.decoder.DccHeaderParser
+import de.rki.coronawarnapp.covidcertificate.common.decoder.RawCOSEObject
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.HC_BASE45_ENCODING_FAILED
@@ -10,11 +14,8 @@ import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateE
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_COMPRESSION_FAILED
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidTestCertificateException
-import de.rki.coronawarnapp.covidcertificate.test.core.certificate.TestCertificateData
-import de.rki.coronawarnapp.covidcertificate.test.core.certificate.TestCertificateDccParser
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.certificate.HealthCertificateCOSEDecoder
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.certificate.HealthCertificateHeaderParser
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.certificate.RawCOSEObject
+import de.rki.coronawarnapp.covidcertificate.test.core.certificate.TestDccParser
+import de.rki.coronawarnapp.covidcertificate.test.core.certificate.TestDccV1
 import de.rki.coronawarnapp.util.compression.deflate
 import de.rki.coronawarnapp.util.compression.inflate
 import de.rki.coronawarnapp.util.encoding.Base45Decoder
@@ -23,9 +24,9 @@ import javax.inject.Inject
 
 @Reusable
 class TestCertificateQRCodeExtractor @Inject constructor(
-    private val coseDecoder: HealthCertificateCOSEDecoder,
-    private val headerParser: HealthCertificateHeaderParser,
-    private val bodyParser: TestCertificateDccParser,
+    private val coseDecoder: DccCoseDecoder,
+    private val headerParser: DccHeaderParser,
+    private val bodyParser: TestDccParser,
 ) {
 
     /**
@@ -37,7 +38,7 @@ class TestCertificateQRCodeExtractor @Inject constructor(
     ): TestCertificateQRCode {
         val rawCoseObject = rawCoseObjectEncrypted.decrypt(decryptionKey)
         return TestCertificateQRCode(
-            testCertificateData = rawCoseObject.decode(),
+            data = rawCoseObject.decode(),
             qrCode = rawCoseObject.encode()
         )
     }
@@ -46,7 +47,7 @@ class TestCertificateQRCodeExtractor @Inject constructor(
      * May throw an **[InvalidTestCertificateException]**
      */
     fun extract(qrCode: String) = TestCertificateQRCode(
-        testCertificateData = qrCode.extract(),
+        data = qrCode.extract(),
         qrCode = qrCode
     )
 
@@ -62,7 +63,7 @@ class TestCertificateQRCodeExtractor @Inject constructor(
         throw InvalidTestCertificateException(HC_COSE_MESSAGE_INVALID)
     }
 
-    private fun String.extract(): TestCertificateData =
+    private fun String.extract(): DccData<TestDccV1> =
         removePrefix(PREFIX)
             .decodeBase45()
             .decompress()
@@ -72,7 +73,7 @@ class TestCertificateQRCodeExtractor @Inject constructor(
         return PREFIX + compress().encodeBase45()
     }
 
-    private fun RawCOSEObject.decode(): TestCertificateData = try {
+    private fun RawCOSEObject.decode(): DccData<TestDccV1> = try {
         coseDecoder.decode(this).parse()
     } catch (e: InvalidHealthCertificateException) {
         throw InvalidTestCertificateException(e.errorCode)
@@ -81,8 +82,8 @@ class TestCertificateQRCodeExtractor @Inject constructor(
         throw InvalidTestCertificateException(HC_COSE_MESSAGE_INVALID)
     }
 
-    private fun CBORObject.parse(): TestCertificateData = try {
-        TestCertificateData(
+    private fun CBORObject.parse(): DccData<TestDccV1> = try {
+        DccData(
             header = headerParser.parse(this),
             certificate = bodyParser.parse(this)
         ).also {

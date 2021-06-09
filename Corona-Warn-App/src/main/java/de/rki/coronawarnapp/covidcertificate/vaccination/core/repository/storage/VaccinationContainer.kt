@@ -2,13 +2,12 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storag
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
-import de.rki.coronawarnapp.covidcertificate.common.CertificatePersonIdentifier
-import de.rki.coronawarnapp.covidcertificate.common.personIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccHeader
+import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.certificate.CoseCertificateHeader
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.certificate.VaccinationDGCV1
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.QrCodeString
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateData
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationQRCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
@@ -24,25 +23,25 @@ data class VaccinationContainer internal constructor(
 
     // Either set by [ContainerPostProcessor] or via [toVaccinationContainer]
     @Transient lateinit var qrCodeExtractor: VaccinationQRCodeExtractor
-    @Transient internal var preParsedData: VaccinationCertificateData? = null
+    @Transient internal var preParsedData: DccData<VaccinationDccV1>? = null
 
     // Otherwise GSON unsafes reflection to create this class, and sets the LAZY to null
     @Suppress("unused")
     constructor() : this("", Instant.EPOCH)
 
     @delegate:Transient
-    internal val certificateData: VaccinationCertificateData by lazy {
-        preParsedData ?: qrCodeExtractor.extract(vaccinationQrCode).parsedData
+    internal val certificateData: DccData<VaccinationDccV1> by lazy {
+        preParsedData ?: qrCodeExtractor.extract(vaccinationQrCode).data
     }
 
-    val header: CoseCertificateHeader
+    val header: DccHeader
         get() = certificateData.header
 
-    val certificate: VaccinationDGCV1
+    val certificate: VaccinationDccV1
         get() = certificateData.certificate
 
-    val vaccination: VaccinationDGCV1.VaccinationData
-        get() = certificate.vaccinationDatas.single()
+    val vaccination: VaccinationDccV1.VaccinationData
+        get() = certificate.payload
 
     val certificateId: String
         get() = vaccination.uniqueCertificateIdentifier
@@ -58,20 +57,13 @@ data class VaccinationContainer internal constructor(
             get() = certificate.personIdentifier
 
         override val firstName: String?
-            get() = if (certificate.nameData.givenName.isNullOrBlank())
-                certificate.nameData.givenNameStandardized
-            else certificate.nameData.givenName
+            get() = certificate.nameData.firstName
 
         override val lastName: String
-            get() = if (certificate.nameData.familyName.isNullOrBlank())
-                certificate.nameData.familyNameStandardized
-            else certificate.nameData.familyName!!
+            get() = certificate.nameData.lastName
 
         override val fullName: String
-            get() = when {
-                firstName.isNullOrBlank() -> lastName
-                else -> "$firstName $lastName"
-            }
+            get() = certificate.nameData.fullName
 
         override val dateOfBirth: LocalDate
             get() = certificate.dateOfBirth
@@ -97,7 +89,7 @@ data class VaccinationContainer internal constructor(
         override val certificateCountry: String
             get() = Locale(
                 userLocale.language,
-                vaccination.countryOfVaccination.uppercase()
+                vaccination.certificateCountry.uppercase()
             ).getDisplayCountry(userLocale)
 
         override val certificateId: String
@@ -110,7 +102,7 @@ data class VaccinationContainer internal constructor(
         override val expiresAt: Instant
             get() = header.expiresAt
 
-        override val vaccinationQrCodeString: QrCodeString
+        override val qrCode: QrCodeString
             get() = vaccinationQrCode
     }
 }
@@ -119,9 +111,9 @@ fun VaccinationCertificateQRCode.toVaccinationContainer(
     scannedAt: Instant,
     qrCodeExtractor: VaccinationQRCodeExtractor,
 ) = VaccinationContainer(
-    vaccinationQrCode = this.qrCodeString,
+    vaccinationQrCode = this.qrCode,
     scannedAt = scannedAt,
 ).apply {
     this.qrCodeExtractor = qrCodeExtractor
-    preParsedData = parsedData
+    preParsedData = data
 }
