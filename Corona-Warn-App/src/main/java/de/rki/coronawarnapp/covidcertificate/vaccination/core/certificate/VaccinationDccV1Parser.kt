@@ -37,18 +37,18 @@ class VaccinationDccV1Parser @Inject constructor(
             throw InvalidVaccinationCertificateException(VC_NO_VACCINATION_ENTRY)
         }
         // check for non null (Gson does not enforce it) & force date parsing
-        version!!
-        nameData.familyNameStandardized.isNotBlank()
+        require(version.isNotBlank())
+        require(nameData.familyNameStandardized.isNotBlank())
         dateOfBirth
         payload.let {
             it.vaccinatedAt
-            it.certificateIssuer.isNotBlank()
-            it.certificateCountry.isNotBlank()
-            it.marketAuthorizationHolderId.isNotBlank()
-            it.medicalProductId.isNotBlank()
-            it.targetId.isNotBlank()
-            it.doseNumber > 0
-            it.totalSeriesOfDoses > 0
+            require(it.certificateIssuer.isNotBlank())
+            require(it.certificateCountry.isNotBlank())
+            require(it.marketAuthorizationHolderId.isNotBlank())
+            require(it.medicalProductId.isNotBlank())
+            require(it.targetId.isNotBlank())
+            require(it.doseNumber > 0)
+            require(it.totalSeriesOfDoses > 0)
         }
         return this
     }

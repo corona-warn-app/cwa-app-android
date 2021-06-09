@@ -36,18 +36,18 @@ class TestDccParser @Inject constructor(
             throw InvalidTestCertificateException(NO_TEST_ENTRY)
         }
         // check for non null (Gson does not enforce it) & force date parsing
-        version!!
-        nameData.familyNameStandardized!!
+        require(version.isNotBlank())
+        require(nameData.familyNameStandardized.isNotBlank())
         dateOfBirth
         payload.let {
             it.testResultAt
             it.sampleCollectedAt
-            it.certificateIssuer!!
-            it.certificateCountry!!
-            it.targetId!!
-            it.testCenter!!
-            it.testResult!!
-            it.testType!!
+            require(it.certificateIssuer.isNotBlank())
+            require(it.certificateCountry.isNotBlank())
+            require(it.targetId.isNotBlank())
+            require(it.testCenter.isNotBlank())
+            require(it.testResult.isNotBlank())
+            require(it.testType.isNotBlank())
         }
         return this
     }
