@@ -29,7 +29,6 @@ class TracingProgressBox(
     ) -> Unit = { item, _ ->
         itemView.setBackgroundColor(item.state.getContainerColor(context))
         state = item.state
-        progressIndicator.setIndicatorColor(item.state.getStableIconColor(context))
     }
 
     data class Item(

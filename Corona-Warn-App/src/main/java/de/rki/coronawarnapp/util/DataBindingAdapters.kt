@@ -4,20 +4,21 @@ import android.content.res.ColorStateList
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.widget.ImageView
-import android.widget.Switch
 import androidx.core.widget.ImageViewCompat
 import androidx.databinding.BindingAdapter
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.airbnb.lottie.LottieProperty
 import com.airbnb.lottie.model.KeyPath
+import com.google.android.material.progressindicator.CircularProgressIndicator
+import com.google.android.material.switchmaterial.SwitchMaterial
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 
 const val IGNORE_CHANGE_TAG = "ignore"
 const val DRAWABLE_TYPE = "drawable"
 
 @BindingAdapter("checked")
-fun setChecked(switch: Switch, status: Boolean?) {
+fun setChecked(switch: SwitchMaterial, status: Boolean?) {
     if (status != null) {
         switch.tag = IGNORE_CHANGE_TAG
         switch.isChecked = status
@@ -56,4 +57,9 @@ fun setAnimationColor(view: LottieAnimationView, color: Int?) {
 @BindingAdapter("app:tint")
 fun setTint(view: ImageView, color: Int) {
     ImageViewCompat.setImageTintList(view, ColorStateList.valueOf(color))
+}
+
+@BindingAdapter("app:indicatorColor")
+fun setIndicatorColor(view: CircularProgressIndicator, color: Int) {
+    view.setIndicatorColor(color)
 }
