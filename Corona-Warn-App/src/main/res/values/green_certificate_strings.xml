@@ -81,4 +81,22 @@
     <string name="error_tc_client_error_call_hotline">Ein Fehler ist aufgetreten. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline.></string>
     <!-- XTXT: Error text -->
     <string name="error_tc_dcc_expired">Das Zertifikat ist nicht mehr aktuell, Sie können es aus der Corona-App entfernen.</string>
+    <!-- XBUT: Test error delete button -->
+    <string name="test_certificate_error_delete_button">Testzertifikat entfernen</string>
+    <!-- XTXT: Test error refresh dialog title -->
+    <string name="test_certificate_refresh_dialog_title">"Es gibt weiterhin Probleme bei der Abfrage"</string>
+    <!-- XBUT: Test error refresh dialog confirm button -->
+    <string name="test_certificate_refresh_dialog_confirm_button">"OK"</string>
+    <!-- XTXT: Test error delete dialog title -->
+    <string name="test_certificate_delete_dialog_title">"Wollen Sie das Zertifikat wirklich entfernen?"</string>
+    <!-- XTXT: Test error delete dialog body -->
+    <string name="test_certificate_delete_dialog_body">"Wenn das Zertifikat enfernt wird, kann es nicht noch einmal angefordert werden."</string>
+    <!-- XBUT: Test error delete dialog confirm button -->
+    <string name="test_certificate_delete_dialog_confirm_button">"Entfernen"</string>
+    <!-- XBUT: Test error delete dialog cancel button -->
+    <string name="test_certificate_delete_dialog_cancel_button">"Abbrechen"</string>
+    <!-- XTXT: Test error card body refreshing -->
+    <string name="test_certificate_error_label_refreshing">"Ihr Zertifikat wird gerade erstellt…"</string>
+    <!-- XTXT: Test error card body refreshing -->
+    <string name="test_certificate_error_refreshing_status">"Ihr Zertifikat wird gerade angefragt, dies kann einige Minuten dauern…"</string>
 </resources>

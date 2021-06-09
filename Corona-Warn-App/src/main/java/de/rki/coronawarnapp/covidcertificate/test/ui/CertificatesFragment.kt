@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.VaccinationListFragment
 import de.rki.coronawarnapp.databinding.FragmentCertificatesBinding
+import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
@@ -55,6 +56,30 @@ class CertificatesFragment : Fragment(R.layout.fragment_certificates), AutoInjec
                         CertificatesFragmentDirections
                             .actionCertificatesFragmentToCovidCertificateDetailsFragment(event.identifier)
                     )
+                }
+                is CertificatesFragmentEvents.ShowRefreshErrorCertificateDialog -> {
+                    val dialog = DialogHelper.DialogInstance(
+                        context = requireContext(),
+                        title = R.string.test_certificate_refresh_dialog_title,
+                        message = event.error.localizedMessage,
+                        positiveButton = R.string.test_certificate_refresh_dialog_confirm_button,
+                        cancelable = false
+                    )
+                    DialogHelper.showDialog(dialog)
+                }
+                is CertificatesFragmentEvents.ShowDeleteErrorCertificateDialog -> {
+                    val dialog = DialogHelper.DialogInstance(
+                        context = requireContext(),
+                        title = R.string.test_certificate_delete_dialog_title,
+                        message = R.string.test_certificate_delete_dialog_body,
+                        positiveButton = R.string.test_certificate_delete_dialog_confirm_button,
+                        negativeButton = R.string.test_certificate_delete_dialog_cancel_button,
+                        cancelable = false,
+                        positiveButtonFunction = {
+                            viewModel.deleteTestCertificate(event.identifier)
+                        }
+                    )
+                    DialogHelper.showDialog(dialog)
                 }
             }
         }
