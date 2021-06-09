@@ -34,10 +34,6 @@
         <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
-    <style name="CWAToolbar.Menu" parent="@style/Widget.MaterialComponents.PopupMenu">
-        <item name="android:textColor">@color/colorOnPrimary</item>
-    </style>
-
     <style name="CWAToolbar.Overflow" parent="Widget.AppCompat.ActionButton.Overflow">
         <item name="android:tint">@color/colorOnPrimary</item>
     </style>
