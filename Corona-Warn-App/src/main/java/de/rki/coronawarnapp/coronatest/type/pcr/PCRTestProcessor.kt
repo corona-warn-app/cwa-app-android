@@ -37,7 +37,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class PCRProcessor @Inject constructor(
+class PCRTestProcessor @Inject constructor(
     private val timeStamper: TimeStamper,
     private val submissionService: CoronaTestService,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
@@ -277,7 +277,7 @@ private fun CoronaTestResult.toValidatedResult(): CoronaTestResult {
     return if (isValid) {
         this
     } else {
-        Timber.tag(PCRProcessor.TAG).e("Server returned invalid PCR testresult $this")
+        Timber.tag(PCRTestProcessor.TAG).e("Server returned invalid PCR testresult $this")
         PCR_INVALID
     }
 }

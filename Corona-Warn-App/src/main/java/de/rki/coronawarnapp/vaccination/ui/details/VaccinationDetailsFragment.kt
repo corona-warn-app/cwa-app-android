@@ -87,7 +87,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     private fun FragmentVaccinationDetailsBinding.bindCertificateViews(
         certificate: VaccinationCertificate
     ) {
-        name.text = certificate.run { "$firstName $lastName" }
+        name.text = certificate.fullName
         birthDate.text = getString(
             R.string.vaccination_details_birth_date,
             certificate.dateOfBirth.toDayFormat()

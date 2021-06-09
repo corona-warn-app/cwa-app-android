@@ -1,51 +1,32 @@
 package de.rki.coronawarnapp.coronatest.type.common
 
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.RegistrationToken
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateQRCodeExtractor
-import de.rki.coronawarnapp.util.encryption.rsa.RSAKey
 import de.rki.coronawarnapp.vaccination.core.CertificatePersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.personIdentifier
 import de.rki.coronawarnapp.vaccination.core.qrcode.QrCodeString
 import de.rki.coronawarnapp.vaccination.core.server.valueset.valuesets.TestCertificateValueSets
-import okio.ByteString
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import java.util.Locale
 
-abstract class TestCertificateContainer {
-    abstract val identifier: TestCertificateIdentifier
-    abstract val registrationToken: RegistrationToken
-    abstract val type: CoronaTest.Type
-    abstract val registeredAt: Instant
-    abstract val publicKeyRegisteredAt: Instant?
-    abstract val rsaPublicKey: RSAKey.Public?
-    abstract val rsaPrivateKey: RSAKey.Private?
-    abstract val certificateReceivedAt: Instant?
-    abstract val encryptedDataEncryptionkey: ByteString?
-    abstract val encryptedDccCose: ByteString?
-    abstract val testCertificateQrCode: String?
-
-    abstract val isUpdatingData: Boolean
-
-    // Either set by [ContainerPostProcessor] (if from storage) or during first creation (when new)
-    @Transient internal lateinit var qrCodeExtractor: TestCertificateQRCodeExtractor
-
-    // When we create this container initially, we don't need to pare the data again, we already have it.
-    @Transient internal var preParsedData: TestCertificateData? = null
+data class TestCertificateContainer(
+    internal val data: StoredTestCertificateData,
+    private val qrCodeExtractor: TestCertificateQRCodeExtractor,
+    val isUpdatingData: Boolean = false,
+) : StoredTestCertificateData by data {
 
     @delegate:Transient
     private val certificateData: TestCertificateData by lazy {
-        preParsedData ?: testCertificateQrCode!!.let { qrCodeExtractor.extract(it).testCertificateData }
+        data.testCertificateQrCode!!.let { qrCodeExtractor.extract(it).testCertificateData }
     }
 
     val isPublicKeyRegistered: Boolean
-        get() = publicKeyRegisteredAt != null
+        get() = data.publicKeyRegisteredAt != null
 
     val isCertificateRetrievalPending: Boolean
-        get() = certificateReceivedAt == null
+        get() = data.certificateReceivedAt == null
 
     val certificateId: String?
         get() {
@@ -108,9 +89,7 @@ abstract class TestCertificateContainer {
                 get() = header.expiresAt
 
             override val qrCode: QrCodeString
-                get() = testCertificateQrCode!!
+                get() = data.testCertificateQrCode!!
         }
     }
 }
-
-typealias TestCertificateIdentifier = String

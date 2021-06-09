@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.coronatest.type
 
-import de.rki.coronawarnapp.coronatest.CoronaTestTestData
 import de.rki.coronawarnapp.coronatest.DaggerCoronaTestTestComponent
+import de.rki.coronawarnapp.coronatest.TestCertificateTestData
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.mockk
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 class TestCertificateContainerTest : BaseTest() {
 
-    @Inject lateinit var testData: CoronaTestTestData
+    @Inject lateinit var certificateTestData: TestCertificateTestData
 
     @BeforeEach
     fun setup() {
@@ -22,33 +22,33 @@ class TestCertificateContainerTest : BaseTest() {
 
     @Test
     fun `ui facing test certificate creation and fallbacks`() {
-        testData.personATest2CertContainer.apply {
+        certificateTestData.personATest2CertContainer.apply {
             isPublicKeyRegistered shouldBe true
             isCertificateRetrievalPending shouldBe false
-            certificateId shouldBe "01DE/00001/1119305005/TODO"
-            testCertificateQrCode shouldBe "personATest2CertQRCodeString"
-            certificateReceivedAt shouldBe Instant.parse("1970-01-02T10:17:36.789Z")
+            certificateId shouldBe "URN:UVCI:V1:DE:7WR8CE12Y8O2AN4NK320TPNKB1"
+            data.testCertificateQrCode shouldBe certificateTestData.personATest2CertQRCodeString
+            data.certificateReceivedAt shouldBe Instant.parse("1970-01-02T10:17:36.789Z")
             toTestCertificate(null) shouldNotBe null
         }
     }
 
     @Test
     fun `pending check and nullability`() {
-        testData.personATest3CertContainerNokey.apply {
+        certificateTestData.personATest3CertNokeyContainer.apply {
             isPublicKeyRegistered shouldBe false
             isCertificateRetrievalPending shouldBe true
             certificateId shouldBe null
-            testCertificateQrCode shouldBe null
-            certificateReceivedAt shouldBe null
+            data.testCertificateQrCode shouldBe null
+            data.certificateReceivedAt shouldBe null
             toTestCertificate(mockk()) shouldBe null
         }
 
-        testData.personATest4CertContainerPending.apply {
+        certificateTestData.personATest4CertPendingContainer.apply {
             isPublicKeyRegistered shouldBe true
             isCertificateRetrievalPending shouldBe true
             certificateId shouldBe null
-            testCertificateQrCode shouldBe null
-            certificateReceivedAt shouldBe null
+            data.testCertificateQrCode shouldBe null
+            data.certificateReceivedAt shouldBe null
             toTestCertificate(mockk()) shouldBe null
         }
     }
