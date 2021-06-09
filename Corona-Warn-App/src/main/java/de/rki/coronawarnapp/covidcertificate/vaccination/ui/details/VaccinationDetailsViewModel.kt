@@ -60,8 +60,8 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
     private fun generateQrCode(certificate: VaccinationCertificate?) = launch {
         try {
             mutableStateFlow.value = certificate?.let {
-                qrCodeText = it.vaccinationQrCodeString
-                qrCodeGenerator.createQrCode(it.vaccinationQrCodeString)
+                qrCodeText = it.qrCode
+                qrCodeGenerator.createQrCode(it.qrCode)
             }
         } catch (e: Exception) {
             Timber.d(e, "generateQrCode failed for vaccinationCertificate=%s", certificate)

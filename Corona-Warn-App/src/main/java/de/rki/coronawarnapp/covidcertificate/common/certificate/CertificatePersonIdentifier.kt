@@ -1,12 +1,8 @@
-package de.rki.coronawarnapp.covidcertificate.common
+package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.VC_DOB_MISMATCH
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.VC_NAME_MISMATCH
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidVaccinationCertificateException
-import de.rki.coronawarnapp.covidcertificate.test.core.certificate.TestCertificateDccV1
-import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.certificate.VaccinationDGCV1
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import org.joda.time.LocalDate
 import timber.log.Timber
@@ -50,23 +46,3 @@ data class CertificatePersonIdentifier(
         }
     }
 }
-
-val VaccinationDGCV1.personIdentifier: CertificatePersonIdentifier
-    get() = CertificatePersonIdentifier(
-        dateOfBirth = dateOfBirth,
-        lastNameStandardized = nameData.familyNameStandardized,
-        firstNameStandardized = nameData.givenNameStandardized
-    )
-
-val VaccinationCertificateQRCode.personIdentifier: CertificatePersonIdentifier
-    get() = parsedData.certificate.personIdentifier
-
-val TestCertificateDccV1.personIdentifier: CertificatePersonIdentifier
-    get() = CertificatePersonIdentifier(
-        dateOfBirth = dateOfBirth,
-        lastNameStandardized = nameData.familyNameStandardized,
-        firstNameStandardized = nameData.givenNameStandardized
-    )
-
-val TestCertificateQRCode.personIdentifier: CertificatePersonIdentifier
-    get() = testCertificateData.certificate.personIdentifier

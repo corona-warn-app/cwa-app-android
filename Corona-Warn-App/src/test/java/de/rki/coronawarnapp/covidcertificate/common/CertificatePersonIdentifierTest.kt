@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.common
 
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.VC_DOB_MISMATCH
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.VC_NAME_MISMATCH
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidVaccinationCertificateException

@@ -15,10 +15,10 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class TestCertificateDccParser @Inject constructor(
+class TestDccParser @Inject constructor(
     @BaseGson private val gson: Gson,
 ) {
-    fun parse(map: CBORObject): TestCertificateDccV1 = try {
+    fun parse(map: CBORObject): TestDccV1 = try {
         map[keyHCert]?.run {
             this[keyEuDgcV1]?.run {
                 toCertificate()
@@ -31,19 +31,19 @@ class TestCertificateDccParser @Inject constructor(
     }
 
     @Suppress("UNNECESSARY_NOT_NULL_ASSERTION")
-    private fun TestCertificateDccV1.validate(): TestCertificateDccV1 {
-        if (testCertificateData.isNullOrEmpty()) {
+    private fun TestDccV1.validate(): TestDccV1 {
+        if (payloads.isNullOrEmpty()) {
             throw InvalidTestCertificateException(NO_TEST_ENTRY)
         }
         // check for non null (Gson does not enforce it) & force date parsing
         version!!
         nameData.familyNameStandardized!!
         dateOfBirth
-        testCertificateData.forEach {
+        payload.let {
             it.testResultAt
             it.sampleCollectedAt
             it.certificateIssuer!!
-            it.countryOfTest!!
+            it.certificateCountry!!
             it.targetId!!
             it.testCenter!!
             it.testResult!!
@@ -54,7 +54,7 @@ class TestCertificateDccParser @Inject constructor(
 
     private fun CBORObject.toCertificate() = try {
         val json = ToJSONString()
-        gson.fromJson<TestCertificateDccV1>(json).validate()
+        gson.fromJson<TestDccV1>(json).validate()
     } catch (e: InvalidTestCertificateException) {
         throw e
     } catch (e: Throwable) {

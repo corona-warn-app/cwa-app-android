@@ -1,14 +1,14 @@
 package de.rki.coronawarnapp.covidcertificate.test.core.qrcode
 
 import com.google.gson.Gson
+import de.rki.coronawarnapp.covidcertificate.common.decoder.DccCoseDecoder
+import de.rki.coronawarnapp.covidcertificate.common.decoder.DccHeaderParser
 import de.rki.coronawarnapp.covidcertificate.cryptography.AesCryptography
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.test.TestData
-import de.rki.coronawarnapp.covidcertificate.test.core.certificate.TestCertificateDccParser
+import de.rki.coronawarnapp.covidcertificate.test.core.certificate.TestDccParser
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeTestData
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.certificate.HealthCertificateCOSEDecoder
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.certificate.HealthCertificateHeaderParser
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.decodeBase64
@@ -18,21 +18,21 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
 class TestCertificateQRCodeExtractorTest : BaseTest() {
-    private val coseDecoder = HealthCertificateCOSEDecoder(AesCryptography())
-    private val headerParser = HealthCertificateHeaderParser()
-    private val bodyParser = TestCertificateDccParser(Gson())
+    private val coseDecoder = DccCoseDecoder(AesCryptography())
+    private val headerParser = DccHeaderParser()
+    private val bodyParser = TestDccParser(Gson())
     private val extractor = TestCertificateQRCodeExtractor(coseDecoder, headerParser, bodyParser)
 
     @Test
     fun `happy path qr code`() {
         val qrCode = extractor.extract(TestData.qrCodeTestCertificate)
-        with(qrCode.testCertificateData.header) {
+        with(qrCode.data.header) {
             issuer shouldBe "AT"
             issuedAt shouldBe Instant.parse("2021-06-01T10:12:48.000Z")
             expiresAt shouldBe Instant.parse("2021-06-03T10:12:48.000Z")
         }
 
-        with(qrCode.testCertificateData.certificate) {
+        with(qrCode.data.certificate) {
             with(nameData) {
                 familyName shouldBe "Musterfrau-Gößinger"
                 familyNameStandardized shouldBe "MUSTERFRAU<GOESSINGER"
@@ -43,9 +43,9 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
             dateOfBirth shouldBe LocalDate.parse("1998-02-26")
             version shouldBe "1.2.1"
 
-            with(testCertificateData[0]) {
+            with(payloads[0]) {
                 uniqueCertificateIdentifier shouldBe "URN:UVCI:01:AT:71EE2559DE38C6BF7304FB65A1A451EC#3"
-                countryOfTest shouldBe "AT"
+                certificateCountry shouldBe "AT"
                 certificateIssuer shouldBe "Ministry of Health, Austria"
                 targetId shouldBe "840539006"
                 sampleCollectedAt shouldBe Instant.parse("2021-02-20T12:34:56+00:00")
@@ -63,12 +63,12 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
             val coseObject = coseWithEncryptedPayload.decodeBase64()!!.toByteArray()
             val dek = dek.decodeBase64()!!.toByteArray()
             val result = extractor.extract(dek, coseObject)
-            with(result.testCertificateData.certificate.nameData) {
+            with(result.data.certificate.nameData) {
                 familyName shouldBe "Cheng"
                 givenName shouldBe "Ellen"
             }
             val result2 = extractor.extract(result.qrCode)
-            with(result2.testCertificateData.certificate.nameData) {
+            with(result2.data.certificate.nameData) {
                 familyName shouldBe "Cheng"
                 givenName shouldBe "Ellen"
             }
@@ -81,12 +81,12 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
             val coseObject = coseWithEncryptedPayload.decodeBase64()!!.toByteArray()
             val dek = dek.decodeBase64()!!.toByteArray()
             val result = extractor.extract(dek, coseObject)
-            with(result.testCertificateData.certificate.nameData) {
+            with(result.data.certificate.nameData) {
                 familyName shouldBe "Calamandrei"
                 givenName shouldBe "Brian"
             }
             val result2 = extractor.extract(result.qrCode)
-            with(result2.testCertificateData.certificate.nameData) {
+            with(result2.data.certificate.nameData) {
                 familyName shouldBe "Calamandrei"
                 givenName shouldBe "Brian"
             }

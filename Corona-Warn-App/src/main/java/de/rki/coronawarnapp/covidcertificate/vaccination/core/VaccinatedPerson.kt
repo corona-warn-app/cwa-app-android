@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core
 
-import de.rki.coronawarnapp.covidcertificate.common.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc

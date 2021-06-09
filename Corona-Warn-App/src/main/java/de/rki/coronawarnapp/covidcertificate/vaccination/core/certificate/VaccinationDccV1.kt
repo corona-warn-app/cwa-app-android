@@ -1,24 +1,19 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.certificate
 
 import com.google.gson.annotations.SerializedName
+import de.rki.coronawarnapp.covidcertificate.common.certificate.Dcc
 import org.joda.time.LocalDate
 
-data class VaccinationDGCV1(
-    @SerializedName("ver") val version: String,
-    @SerializedName("nam") val nameData: NameData,
-    @SerializedName("dob") val dob: String,
-    @SerializedName("v") val vaccinationDatas: List<VaccinationData>,
-) {
-    data class NameData(
-        @SerializedName("fn") val familyName: String?,
-        @SerializedName("fnt") val familyNameStandardized: String,
-        @SerializedName("gn") val givenName: String?,
-        @SerializedName("gnt") val givenNameStandardized: String?,
-    )
+data class VaccinationDccV1(
+    @SerializedName("ver") override val version: String,
+    @SerializedName("nam") override val nameData: Dcc.NameData,
+    @SerializedName("dob") override val dob: String,
+    @SerializedName("v") override val payloads: List<VaccinationData>,
+) : Dcc<VaccinationDccV1.VaccinationData> {
 
     data class VaccinationData(
         // Disease or agent targeted, e.g. "tg": "840539006"
-        @SerializedName("tg") val targetId: String,
+        @SerializedName("tg") override val targetId: String,
         // Vaccine or prophylaxis, e.g. "vp": "1119349007"
         @SerializedName("vp") val vaccineId: String,
         // Vaccine medicinal product,e.g. "mp": "EU/1/20/1528",
@@ -32,16 +27,13 @@ data class VaccinationDGCV1(
         // Date of Vaccination, e.g. "dt" : "2021-04-21"
         @SerializedName("dt") val dt: String,
         // Country of Vaccination, e.g. "co": "NL"
-        @SerializedName("co") val countryOfVaccination: String,
+        @SerializedName("co") override val certificateCountry: String,
         // Certificate Issuer, e.g. "is": "Ministry of Public Health, Welfare and Sport",
-        @SerializedName("is") val certificateIssuer: String,
+        @SerializedName("is") override val certificateIssuer: String,
         // Unique Certificate Identifier, e.g.  "ci": "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"
-        @SerializedName("ci") val uniqueCertificateIdentifier: String
-    ) {
+        @SerializedName("ci") override val uniqueCertificateIdentifier: String
+    ) : Dcc.Payload {
         val vaccinatedAt: LocalDate
             get() = LocalDate.parse(dt)
     }
-
-    val dateOfBirth: LocalDate
-        get() = LocalDate.parse(dob)
 }

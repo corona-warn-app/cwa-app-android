@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.test.core.qrcode
 import com.google.gson.Gson
 import com.upokecenter.cbor.CBORObject
 import de.rki.coronawarnapp.covidcertificate.test.TestData
-import de.rki.coronawarnapp.covidcertificate.test.core.certificate.TestCertificateDccParser
+import de.rki.coronawarnapp.covidcertificate.test.core.certificate.TestDccParser
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.decodeHex
 import org.joda.time.LocalDate
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 
 class TestCertificateDccParserTest {
 
-    private val bodyParser = TestCertificateDccParser(Gson())
+    private val bodyParser = TestDccParser(Gson())
 
     @Test
     fun `happy path cose decryption with Ellen Cheng`() {
@@ -28,9 +28,9 @@ class TestCertificateDccParserTest {
             dateOfBirth shouldBe LocalDate.parse("1998-02-26")
             version shouldBe "1.2.1"
 
-            with(testCertificateData[0]) {
+            with(payloads[0]) {
                 uniqueCertificateIdentifier shouldBe "URN:UVCI:01:AT:71EE2559DE38C6BF7304FB65A1A451EC#3"
-                countryOfTest shouldBe "AT"
+                certificateCountry shouldBe "AT"
                 certificateIssuer shouldBe "Ministry of Health, Austria"
                 targetId shouldBe "840539006"
                 sampleCollectedAt shouldBe org.joda.time.Instant.parse("2021-02-20T12:34:56+00:00")

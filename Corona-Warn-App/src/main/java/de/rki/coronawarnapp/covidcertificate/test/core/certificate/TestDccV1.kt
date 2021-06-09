@@ -1,25 +1,19 @@
 package de.rki.coronawarnapp.covidcertificate.test.core.certificate
 
 import com.google.gson.annotations.SerializedName
+import de.rki.coronawarnapp.covidcertificate.common.certificate.Dcc
 import org.joda.time.Instant
-import org.joda.time.LocalDate
 
-data class TestCertificateDccV1(
-    @SerializedName("ver") val version: String,
-    @SerializedName("nam") val nameData: NameData,
-    @SerializedName("dob") val dob: String,
-    @SerializedName("t") val testCertificateData: List<TestCertificateData>,
-) {
-    data class NameData(
-        @SerializedName("fn") val familyName: String?,
-        @SerializedName("fnt") val familyNameStandardized: String,
-        @SerializedName("gn") val givenName: String?,
-        @SerializedName("gnt") val givenNameStandardized: String?,
-    )
+data class TestDccV1(
+    @SerializedName("ver") override val version: String,
+    @SerializedName("nam") override val nameData: Dcc.NameData,
+    @SerializedName("dob") override val dob: String,
+    @SerializedName("t") override val payloads: List<TestCertificateData>,
+) : Dcc<TestDccV1.TestCertificateData> {
 
     data class TestCertificateData(
         // Disease or agent targeted, e.g. "tg": "840539006"
-        @SerializedName("tg") val targetId: String,
+        @SerializedName("tg") override val targetId: String,
         // Type of Test (required) eg "LP217198-3"
         @SerializedName("tt") val testType: String,
         // Test Result (required) e. g. "tr": "260415000"
@@ -35,12 +29,12 @@ data class TestCertificateDccV1(
         // Testing Center (required) "tc": "GGD Fryslân, L-Heliconweg",
         @SerializedName("tc") val testCenter: String,
         // Country of Test (required)
-        @SerializedName("co") val countryOfTest: String,
+        @SerializedName("co") override val certificateCountry: String,
         // Certificate Issuer, e.g. "is": "Ministry of Public Health, Welfare and Sport",
-        @SerializedName("is") val certificateIssuer: String,
+        @SerializedName("is") override val certificateIssuer: String,
         // Unique Certificate Identifier, e.g.  "ci": "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"
-        @SerializedName("ci") val uniqueCertificateIdentifier: String
-    ) {
+        @SerializedName("ci") override val uniqueCertificateIdentifier: String
+    ) : Dcc.Payload {
 
         val testResultAt: Instant?
             get() = dr?.let { Instant.parse(it) }
@@ -48,7 +42,4 @@ data class TestCertificateDccV1(
         val sampleCollectedAt: Instant
             get() = Instant.parse(sc)
     }
-
-    val dateOfBirth: LocalDate
-        get() = LocalDate.parse(dob)
 }
