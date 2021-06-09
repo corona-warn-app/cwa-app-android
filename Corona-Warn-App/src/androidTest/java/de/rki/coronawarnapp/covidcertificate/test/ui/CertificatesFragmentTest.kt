@@ -143,7 +143,7 @@ class CertificatesFragmentTest : BaseUITest() {
                 ),
                 CovidTestCertificateCard.Item(
                     testDate = DateTime.now().toInstant(),
-                    testPerson = "Andrea Schneider"
+                    testPerson = "Max Mustermann"
                 ) { }
             )
         )
