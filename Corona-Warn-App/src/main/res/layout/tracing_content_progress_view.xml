@@ -45,7 +45,6 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:indeterminate="true"
-            android:indeterminateTint="@{state.getStableIconColor(context)}"
             app:layout_constraintBottom_toBottomOf="@+id/body_text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/body_text" />

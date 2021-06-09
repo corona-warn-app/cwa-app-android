@@ -225,37 +225,37 @@ data class TracingInProgress(
     val tracingProgress: TracingProgress
 ) : TracingState() {
 
-    fun getProgressCardHeadline(c: Context): String = when (tracingProgress) {
+    fun getProgressCardHeadline(context: Context): String = when (tracingProgress) {
         TracingProgress.Downloading -> R.string.risk_card_progress_download_headline
         TracingProgress.IsCalculating -> R.string.risk_card_progress_calculation_headline
         TracingProgress.Idle -> null
-    }?.let { c.getString(it) } ?: ""
+    }?.let { context.getString(it) } ?: ""
 
-    fun getProgressCardBody(c: Context): String = when (tracingProgress) {
+    fun getProgressCardBody(context: Context): String = when (tracingProgress) {
         TracingProgress.Downloading -> R.string.risk_card_progress_download_body
         TracingProgress.IsCalculating -> R.string.risk_card_progress_calculation_body
         TracingProgress.Idle -> null
-    }?.let { c.getString(it) } ?: ""
+    }?.let { context.getString(it) } ?: ""
 
     /**
      * Formats the risk card icon color depending on risk level
      * This special handling is required due to light / dark mode differences and switches
      * between colored / light / dark background
      */
-    fun getStableIconColor(c: Context): Int = when (riskState) {
+    fun getStableIconColor(context: Context): Int = when (riskState) {
         RiskState.INCREASED_RISK, RiskState.LOW_RISK -> R.color.colorStableLight
         else -> R.color.colorTextSemanticNeutral
-    }.let { c.getColorCompat(it) }
+    }.let { context.getColorCompat(it) }
 
-    fun getStableTextColor(c: Context): Int = when (riskState) {
+    fun getStableTextColor(context: Context): Int = when (riskState) {
         RiskState.INCREASED_RISK, RiskState.LOW_RISK -> R.color.colorTextPrimary1InvertedStable
         else -> R.color.colorOnPrimary
-    }.let { c.getColorCompat(it) }
+    }.let { context.getColorCompat(it) }
 
     @ColorInt
-    fun getContainerColor(c: Context): Int = when (riskState) {
+    fun getContainerColor(context: Context): Int = when (riskState) {
         RiskState.INCREASED_RISK -> R.color.colorSemanticHighRisk
         RiskState.LOW_RISK -> R.color.colorSemanticLowRisk
         RiskState.CALCULATION_FAILED -> R.color.colorSemanticUnknownRisk
-    }.let { c.getColorCompat(it) }
+    }.let { context.getColorCompat(it) }
 }

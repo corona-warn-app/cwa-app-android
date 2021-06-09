@@ -43,7 +43,6 @@
         android:layout_height="wrap_content"
         android:clickable="false"
         android:importantForAccessibility="no"
-        android:theme="@style/switchBase"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -11,6 +11,7 @@
         <item name="shapeAppearanceSmallComponent">@style/SmallComponent</item>
         <item name="shapeAppearanceMediumComponent">@style/MediumComponent</item>
         <item name="shapeAppearanceLargeComponent">@style/LargeComponent</item>
+        <item name="extendedFloatingActionButtonStyle">@style/ExtendedFloatingActionButton</item>
     </style>
 
     <style name="AppTheme" parent="BaseTheme" />
@@ -129,9 +130,16 @@
         <item name="android:paddingBottom">@dimen/spacing_tiny</item>
     </style>
 
-    <style name="switchBase" parent="Widget.AppCompat.CompoundButton.Switch">
-        <item name="android:colorControlActivated">@color/colorAccentTintIcon</item>
-        <item name="colorControlActivated">@color/colorAccentTintIcon</item>
+    <style name="ThemeOverlay.App.ExtendedFloatingActionButton" parent="">
+        <item name="colorSecondary">@color/colorPrimary</item>
+        <item name="colorOnSecondary">@color/colorTextEmphasizedButton</item>
+        <item name="colorOnSurface">@color/colorAccentTintButtonPressed</item>
+    </style>
+
+    <style name="ExtendedFloatingActionButton" parent="Widget.MaterialComponents.ExtendedFloatingActionButton.Icon">
+        <item name="materialThemeOverlay">
+            @style/ThemeOverlay.App.ExtendedFloatingActionButton
+        </item>
     </style>
 
     <!-- ####################################
@@ -344,14 +352,6 @@
 
     <style name="iconStable">
         <item name="android:tint">@color/colorStableLight</item>
-    </style>
-
-    <!-- ####################################
-          Progress Bar
-    ###################################### -->
-
-    <style name="progressBar" parent="Widget.MaterialComponents.CircularProgressIndicator">
-        <item name="android:indeterminateTint">@color/colorStableLight</item>
     </style>
 
     <!-- ####################################
