@@ -21,6 +21,8 @@ import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.notification.RATTestResultAvailableNotificationService
+import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalScheduler
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.execution.VaccinationUpdateScheduler
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
@@ -42,7 +44,6 @@ import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import de.rki.coronawarnapp.util.hasAPILevel
-import de.rki.coronawarnapp.vaccination.core.execution.VaccinationUpdateScheduler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -83,6 +84,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var pcrTestResultAvailableNotificationService: PCRTestResultAvailableNotificationService
     @Inject lateinit var raTestResultAvailableNotificationService: RATTestResultAvailableNotificationService
     @Inject lateinit var vaccinationUpdateScheduler: VaccinationUpdateScheduler
+    @Inject lateinit var testCertificateRetrievalScheduler: TestCertificateRetrievalScheduler
 
     @AppScope
     @Inject lateinit var appScope: CoroutineScope
@@ -138,6 +140,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         Timber.v("Setting up test result available notification services.")
         pcrTestResultAvailableNotificationService.setup()
         raTestResultAvailableNotificationService.setup()
+        testCertificateRetrievalScheduler.setup()
 
         Timber.v("Setting up vaccination data update scheduler.")
         vaccinationUpdateScheduler.setup()

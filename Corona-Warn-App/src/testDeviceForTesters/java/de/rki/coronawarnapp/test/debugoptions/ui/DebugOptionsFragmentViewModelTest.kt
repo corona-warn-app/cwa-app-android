@@ -33,13 +33,10 @@ class DebugOptionsFragmentViewModelTest : BaseTestInstrumentation() {
         every { environmentSetup.logUploadServerUrl } returns "logUploadServerUrl"
         every { environmentSetup.crowdNotifierPublicKey } returns "crowdNotifierPublicKey"
         every { environmentSetup.appConfigPublicKey } returns "appConfigPublicKey"
+        every { environmentSetup.dccServerUrl } returns "dccServerUrl"
 
-        every { environmentSetup.currentEnvironment = any() } answers {
-            currentEnvironment = arg(0)
-        }
-        every { environmentSetup.currentEnvironment } answers {
-            currentEnvironment
-        }
+        every { environmentSetup.currentEnvironment = any() } answers { currentEnvironment = arg(0) }
+        every { environmentSetup.currentEnvironment } answers { currentEnvironment }
     }
 
     private fun createViewModel(): DebugOptionsFragmentViewModel = DebugOptionsFragmentViewModel(
@@ -48,7 +45,7 @@ class DebugOptionsFragmentViewModelTest : BaseTestInstrumentation() {
     )
 
     @Test
-    fun `toggeling the env works`() {
+    fun `toggling the env works`() {
         currentEnvironment = EnvironmentSetup.Type.DEV
         val vm = createViewModel()
         vm.environmentState.getOrAwaitValue().current shouldBe EnvironmentSetup.Type.DEV
