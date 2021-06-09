@@ -113,6 +113,7 @@
     <Button
         android:id="@+id/delete_button"
         style="@style/buttonLight"
+        android:backgroundTint="@color/button_main_tracing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/card_padding"
