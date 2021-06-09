@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.test.ui
 
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateIdentifier
+
 sealed class CertificatesFragmentEvents {
 
     data class OpenVaccinationRegistrationGraph(val registrationAcknowledged: Boolean) : CertificatesFragmentEvents()
@@ -7,4 +9,9 @@ sealed class CertificatesFragmentEvents {
     data class GoToVaccinationList(val personIdentifierCodeSha256: String) : CertificatesFragmentEvents()
 
     data class GoToCovidCertificateDetailScreen(val identifier: String) : CertificatesFragmentEvents()
+
+    data class ShowRefreshErrorCertificateDialog(val error: Exception) : CertificatesFragmentEvents()
+
+    data class ShowDeleteErrorCertificateDialog(val identifier: TestCertificateIdentifier) :
+        CertificatesFragmentEvents()
 }
