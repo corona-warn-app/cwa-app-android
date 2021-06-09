@@ -12,6 +12,7 @@ data class EnvironmentState(
     val urlLogUpload: String,
     val pubKeyCrowdNotifier: String,
     val pubKeyAppConfig: String,
+    val dccServerUrl: String,
 ) {
     companion object {
         internal fun EnvironmentSetup.toEnvironmentState() = EnvironmentState(
@@ -24,6 +25,7 @@ data class EnvironmentState(
             urlLogUpload = logUploadServerUrl,
             pubKeyCrowdNotifier = crowdNotifierPublicKey,
             pubKeyAppConfig = appConfigPublicKey,
+            dccServerUrl = dccServerUrl,
         )
     }
 }

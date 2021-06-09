@@ -4,8 +4,9 @@ import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
+import de.rki.coronawarnapp.covidcertificate.test.ui.CovidCertificateUIModule
+import de.rki.coronawarnapp.covidcertificate.vaccination.ui.VaccinationUIModule
 import de.rki.coronawarnapp.datadonation.analytics.ui.AnalyticsUIModule
-import de.rki.coronawarnapp.greencertificate.ui.GreenCertificateUIModule
 import de.rki.coronawarnapp.release.NewReleaseInfoFragment
 import de.rki.coronawarnapp.release.NewReleaseInfoFragmentModule
 import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsFragmentModule
@@ -26,7 +27,6 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionFragmentModule
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
-import de.rki.coronawarnapp.vaccination.ui.VaccinationUIModule
 
 @Module(
     includes = [
@@ -42,7 +42,7 @@ import de.rki.coronawarnapp.vaccination.ui.VaccinationUIModule
         PresenceTracingUIModule::class,
         RATProfileUIModule::class,
         VaccinationUIModule::class,
-        GreenCertificateUIModule::class,
+        CovidCertificateUIModule::class,
     ]
 )
 abstract class MainActivityModule {

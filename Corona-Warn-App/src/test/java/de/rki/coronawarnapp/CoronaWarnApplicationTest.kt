@@ -11,6 +11,8 @@ import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.notification.RATTestResultAvailableNotificationService
+import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalScheduler
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.execution.VaccinationUpdateScheduler
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.notification.GeneralNotifications
@@ -27,7 +29,6 @@ import de.rki.coronawarnapp.util.WatchdogService
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
-import de.rki.coronawarnapp.vaccination.core.execution.VaccinationUpdateScheduler
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
@@ -70,6 +71,7 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var presenceTracingRiskWorkScheduler: PresenceTracingRiskWorkScheduler
     @MockK lateinit var pcrTestResultScheduler: PCRResultScheduler
     @MockK lateinit var raTestResultScheduler: RAResultScheduler
+    @MockK lateinit var testCertificateRetrievalScheduler: TestCertificateRetrievalScheduler
 
     @MockK lateinit var pcrTestResultAvailableNotificationService: PCRTestResultAvailableNotificationService
 
@@ -126,6 +128,7 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.pcrTestResultAvailableNotificationService = pcrTestResultAvailableNotificationService
                 app.raTestResultAvailableNotificationService = raTestResultAvailableNotificationService
                 app.vaccinationUpdateScheduler = vaccinationUpdateScheduler
+                app.testCertificateRetrievalScheduler = testCertificateRetrievalScheduler
                 app.appScope = TestCoroutineScope()
                 app.rollingLogHistory = object : Timber.Tree() {
                     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
@@ -157,6 +160,7 @@ class CoronaWarnApplicationTest : BaseTest() {
 
             pcrTestResultAvailableNotificationService.setup()
             raTestResultAvailableNotificationService.setup()
+            testCertificateRetrievalScheduler.setup()
 
             vaccinationUpdateScheduler.setup()
 

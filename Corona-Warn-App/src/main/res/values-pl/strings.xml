@@ -281,6 +281,8 @@
     <string name="risk_details_behavior_body_wear_mask">"Załóż maseczkę na twarz, mając kontakt z innymi osobami."</string>
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_away">"Zachowuj odległość co najmniej 1,5 metra od innych osób."</string>
+    <!-- XTXT: find details about exposures in the contact journal -->
+    <string name="risk_details_find_details_in_journal">"Więcej informacji na temat narażeń znajdziesz w swoim dzienniku kontaktów."</string>
 
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
     <string name="risk_details_increased_risk_faq_link_text">"Jeśli poddasz się testowi, dodatkowe informacje na temat procedury testowania znajdziesz w „Często zadawanych pytaniach”."</string>
@@ -1027,6 +1029,8 @@
     <string name="submission_consent_call_test_result_scan_your_test_only">"Zeskanuj teraz kod QR dla swojego testu i pobierz wynik testu."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_test_only_once">"Test można zeskanować tylko raz. Aplikacja może zarządzać maksymalnie jednym szybkim testem i jednym testem PCR jednocześnie."</string>
+    <!-- YTXT:  Body sub text 3 for Submission Consent call test result   -->
+    <string name="submission_consent_call_test_result_checkmark_text">"Jeśli wynik Twojego testu jest negatywny, możesz to potwierdzić oficjalnym certyfikatem testu na COVID. W tym celu poproś o certyfikat testu, wykonując następujące kroki."</string>
     <!-- XHED: Page subheadline for consent help by warning others  -->
     <string name="submission_consent_help_by_warning_others_headline">"Pomóż osobom, z którymi miałeś(-aś) kontakt, ostrzegając ich!"</string>
     <!-- YTXT: Body for consent help by warning others -->
@@ -1086,6 +1090,15 @@
     <string name="submission_test_result_pending_steps_contact_diary_heading">"Wynik Twojego testu zostanie dodany do dziennika kontaktów."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_contact_diary_body">"Wynik testu zostanie wyświetlony w aplikacji, jak tylko będzie dostępny."</string>
+
+    <!-- XHED: Page headline for test result certifcate info title  -->
+    <string name="submission_test_result_pending_steps_test_certificate_heading">"Twój certyfikat testu "</string>
+    <!-- YTXT: Body text for test result certifcate info, if certifcate is not supported, RAT Test -->
+    <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"Certyfikat testu jest niedostępny, ponieważ ten punkt testowania nie wydaje certyfikatów testów."</string>
+    <!-- YTXT: Body text for test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
+    <string name="submission_test_result_pending_steps_test_certificate_not_available_yet_body">"Twój certyfikat testu nie jest jeszcze dostępny. Gdy tylko stanie się dostępny, pojawi się w Twojej aplikacji."</string>
+    <!-- YTXT: Body text for test result certifcate info, if certifcate is not desired by the user, PCR Test no consent given -->
+    <string name="submission_test_result_pending_steps_test_certificate_not_desired_by_user_body">"Zgodnie z Twoją prośbą nie wydano certyfikatu testu."</string>
 
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Aktualizuj"</string>
@@ -1179,7 +1192,7 @@
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"Skanuj kod QR"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Odbierz wynik testu w aplikacji i ostrzegaj innych."</string>
+    <string name="submission_dispatcher_qr_card_text">"Odbierz wynik testu w aplikacji i ostrzegaj innych lub poproś o certyfikat testu na COVID."</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"Wpisz TAN do testu PCR"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
@@ -1838,7 +1851,8 @@
     <string name="bottom_nav_diary_title">"Dziennik"</string>
     <!-- XHED: Title for BottomNav check-in screen title -->
     <string name="bottom_nav_check_ins_title">"Zamelduj się"</string>
-
+    <!-- XHED: Title for BottomNav certificates screen title -->
+    <string name="bottom_nav_certificates_title">"Certyfikaty"</string>
     <!-- ####################################
            Data Donation & Survey
     ###################################### -->

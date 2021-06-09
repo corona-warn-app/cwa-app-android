@@ -224,6 +224,14 @@ class CoronaTestRepository @Inject constructor(
         }
     }
 
+    suspend fun markDccAsCreated(identifier: TestIdentifier, created: Boolean) {
+        Timber.tag(TAG).i("markDccAsCreated(identifier=%s, created=%b)", identifier, created)
+
+        modifyTest(identifier) { processor, before ->
+            processor.markDccCreated(before, created)
+        }
+    }
+
     companion object {
         const val TAG = "CoronaTestRepository"
     }

@@ -65,13 +65,13 @@ class AnalyticsRATestResultDonorTest : BaseTest() {
 
     @Test
     fun `No donation when test result is INVALID`() = runBlockingTest {
-        every { testResultSettings.testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.PCR_INVALID)
+        every { testResultSettings.testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.RAT_INVALID)
         testResultDonor.beginDonation(TestRequest) shouldBe AnalyticsTestResultDonor.TestResultMetadataNoContribution
     }
 
     @Test
     fun `No donation when test result is REDEEMED`() = runBlockingTest {
-        every { testResultSettings.testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.PCR_REDEEMED)
+        every { testResultSettings.testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.RAT_REDEEMED)
         testResultDonor.beginDonation(TestRequest) shouldBe AnalyticsTestResultDonor.TestResultMetadataNoContribution
     }
 
@@ -98,7 +98,7 @@ class AnalyticsRATestResultDonorTest : BaseTest() {
                 testResultDonor.beginDonation(TestRequest) as AnalyticsTestResultDonor.TestResultMetadataContribution
             with(donation.testResultMetadata) {
                 riskLevelAtTestRegistration shouldBe PpaData.PPARiskLevel.RISK_LEVEL_LOW
-                testResult shouldBe PpaData.PPATestResult.TEST_RESULT_PENDING
+                testResult shouldBe PpaData.PPATestResult.TEST_RESULT_RAT_PENDING
                 hoursSinceTestRegistration shouldBe 24
                 hoursSinceHighRiskWarningAtTestRegistration shouldBe 1
                 daysSinceMostRecentDateAtRiskLevelAtTestRegistration shouldBe 1
@@ -110,14 +110,14 @@ class AnalyticsRATestResultDonorTest : BaseTest() {
     fun `Donation is collected when test result is POSITIVE`() {
         runBlockingTest {
             every { testResultSettings.testResultAtRegistration } returns
-                mockFlowPreference(CoronaTestResult.PCR_POSITIVE)
+                mockFlowPreference(CoronaTestResult.RAT_POSITIVE)
             every { testResultSettings.finalTestResultReceivedAt } returns mockFlowPreference(baseTime)
 
             val donation =
                 testResultDonor.beginDonation(TestRequest) as AnalyticsTestResultDonor.TestResultMetadataContribution
             with(donation.testResultMetadata) {
                 riskLevelAtTestRegistration shouldBe PpaData.PPARiskLevel.RISK_LEVEL_LOW
-                testResult shouldBe PpaData.PPATestResult.TEST_RESULT_POSITIVE
+                testResult shouldBe PpaData.PPATestResult.TEST_RESULT_RAT_POSITIVE
                 hoursSinceTestRegistration shouldBe 0
                 hoursSinceHighRiskWarningAtTestRegistration shouldBe 1
                 daysSinceMostRecentDateAtRiskLevelAtTestRegistration shouldBe 1
@@ -129,14 +129,14 @@ class AnalyticsRATestResultDonorTest : BaseTest() {
     fun `Donation is collected when test result is NEGATIVE`() {
         runBlockingTest {
             every { testResultSettings.testResultAtRegistration } returns
-                mockFlowPreference(CoronaTestResult.PCR_NEGATIVE)
+                mockFlowPreference(CoronaTestResult.RAT_NEGATIVE)
             every { testResultSettings.finalTestResultReceivedAt } returns mockFlowPreference(baseTime)
 
             val donation =
                 testResultDonor.beginDonation(TestRequest) as AnalyticsTestResultDonor.TestResultMetadataContribution
             with(donation.testResultMetadata) {
                 riskLevelAtTestRegistration shouldBe PpaData.PPARiskLevel.RISK_LEVEL_LOW
-                testResult shouldBe PpaData.PPATestResult.TEST_RESULT_NEGATIVE
+                testResult shouldBe PpaData.PPATestResult.TEST_RESULT_RAT_NEGATIVE
                 hoursSinceTestRegistration shouldBe 0
                 hoursSinceHighRiskWarningAtTestRegistration shouldBe 1
                 daysSinceMostRecentDateAtRiskLevelAtTestRegistration shouldBe 1
@@ -147,7 +147,7 @@ class AnalyticsRATestResultDonorTest : BaseTest() {
     @Test
     fun `Scenario 1 LowRisk`() = runBlockingTest {
         with(testResultSettings) {
-            every { testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.PCR_NEGATIVE)
+            every { testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.RAT_NEGATIVE)
             every { finalTestResultReceivedAt } returns mockFlowPreference(
                 Instant.parse("2021-03-20T20:00:00Z")
             )
@@ -161,7 +161,7 @@ class AnalyticsRATestResultDonorTest : BaseTest() {
         val donation =
             testResultDonor.beginDonation(TestRequest) as AnalyticsTestResultDonor.TestResultMetadataContribution
         with(donation.testResultMetadata) {
-            testResult shouldBe PpaData.PPATestResult.TEST_RESULT_NEGATIVE
+            testResult shouldBe PpaData.PPATestResult.TEST_RESULT_RAT_NEGATIVE
             hoursSinceTestRegistration shouldBe 20
             riskLevelAtTestRegistration shouldBe PpaData.PPARiskLevel.RISK_LEVEL_LOW
             hoursSinceHighRiskWarningAtTestRegistration shouldBe 1
@@ -172,7 +172,7 @@ class AnalyticsRATestResultDonorTest : BaseTest() {
     @Test
     fun `Scenario 2 HighRisk`() = runBlockingTest {
         with(testResultSettings) {
-            every { testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.PCR_POSITIVE)
+            every { testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.RAT_POSITIVE)
             every { finalTestResultReceivedAt } returns mockFlowPreference(
                 Instant.parse("2021-03-20T20:00:00Z")
             )
@@ -187,7 +187,7 @@ class AnalyticsRATestResultDonorTest : BaseTest() {
         val donation =
             testResultDonor.beginDonation(TestRequest) as AnalyticsTestResultDonor.TestResultMetadataContribution
         with(donation.testResultMetadata) {
-            testResult shouldBe PpaData.PPATestResult.TEST_RESULT_POSITIVE
+            testResult shouldBe PpaData.PPATestResult.TEST_RESULT_RAT_POSITIVE
             hoursSinceTestRegistration shouldBe 20 // hours
             riskLevelAtTestRegistration shouldBe PpaData.PPARiskLevel.RISK_LEVEL_HIGH
             hoursSinceHighRiskWarningAtTestRegistration shouldBe 1
