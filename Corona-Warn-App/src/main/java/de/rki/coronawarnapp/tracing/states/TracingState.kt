@@ -177,15 +177,15 @@ data class TracingFailed(
         context.getString(R.string.risk_card_body_not_yet_fetched)
     }
 
-    fun getLastRiskState(c: Context): String {
-        val argumentValue = c.getString(
+    fun getLastRiskState(context: Context): String {
+        val argumentValue = context.getString(
             when (riskState) {
                 RiskState.INCREASED_RISK -> R.string.risk_card_increased_risk_headline
                 RiskState.LOW_RISK -> R.string.risk_card_low_risk_headline
                 RiskState.CALCULATION_FAILED -> R.string.risk_card_check_failed_no_internet_headline
             }
         )
-        return c.getString(R.string.risk_card_no_calculation_possible_body_saved_risk).format(argumentValue)
+        return context.getString(R.string.risk_card_no_calculation_possible_body_saved_risk).format(argumentValue)
     }
 }
 
@@ -198,24 +198,24 @@ data class TracingDisabled(
 
     val showEnableTracingButton: Boolean = !isInDetailsMode
 
-    fun getTimeFetched(c: Context): String = if (lastExposureDetectionTime != null) {
-        c.getString(
+    fun getTimeFetched(context: Context): String = if (lastExposureDetectionTime != null) {
+        context.getString(
             R.string.risk_card_body_time_fetched,
-            formatRelativeDateTimeString(c, lastExposureDetectionTime)
+            formatRelativeDateTimeString(context, lastExposureDetectionTime)
         )
     } else {
-        c.getString(R.string.risk_card_body_not_yet_fetched)
+        context.getString(R.string.risk_card_body_not_yet_fetched)
     }
 
-    fun getLastRiskState(c: Context): String {
-        val argumentValue = c.getString(
+    fun getLastRiskState(context: Context): String {
+        val argumentValue = context.getString(
             when (riskState) {
                 RiskState.INCREASED_RISK -> R.string.risk_card_increased_risk_headline
                 RiskState.LOW_RISK -> R.string.risk_card_low_risk_headline
                 RiskState.CALCULATION_FAILED -> R.string.risk_card_check_failed_no_internet_headline
             }
         )
-        return c.getString(R.string.risk_card_no_calculation_possible_body_saved_risk).format(argumentValue)
+        return context.getString(R.string.risk_card_no_calculation_possible_body_saved_risk).format(argumentValue)
     }
 }
 
