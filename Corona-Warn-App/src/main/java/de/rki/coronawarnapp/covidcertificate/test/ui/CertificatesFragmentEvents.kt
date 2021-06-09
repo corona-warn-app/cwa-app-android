@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.test.ui
 
-import de.rki.coronawarnapp.coronatest.type.common.TestCertificateIdentifier
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateIdentifier
 
 sealed class CertificatesFragmentEvents {
 
