@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate
+package de.rki.coronawarnapp.covidcertificate.test.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,8 +8,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.covidcertificate.test.ui.CertificatesFragment
-import de.rki.coronawarnapp.covidcertificate.test.ui.CertificatesViewModel
 import de.rki.coronawarnapp.covidcertificate.test.ui.cards.CovidTestCertificateCard
 import de.rki.coronawarnapp.covidcertificate.test.ui.cards.CovidTestCertificateErrorCard
 import de.rki.coronawarnapp.covidcertificate.test.ui.items.CertificatesItem
@@ -43,7 +41,7 @@ class CertificatesFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        every { vaccinatedPerson.fullName } returns "Andrea Schneider"
+        every { vaccinatedPerson.fullName } returns "Max Mustermann"
         every { vaccinatedPerson.getMostRecentVaccinationCertificate.expiresAt } returns
             DateTime.now().plusDays(365).toInstant()
 

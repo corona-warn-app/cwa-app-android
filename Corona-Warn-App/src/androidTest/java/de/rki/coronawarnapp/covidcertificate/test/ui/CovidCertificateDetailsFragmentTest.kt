@@ -86,7 +86,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
         return MutableLiveData(
             object : TestCertificate {
                 override val targetName: String
-                    get() = "Schneider, Andrea"
+                    get() = "Mustermann, Max"
                 override val testType: String
                     get() = "SARS-CoV-2-Test"
                 override val testResult: String
@@ -110,11 +110,11 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
                 override val qrCode: QrCodeString
                     get() = ""
                 override val firstName: String
-                    get() = "Andrea"
+                    get() = "Max"
                 override val lastName: String
-                    get() = "Schneider"
+                    get() = "Mustermann"
                 override val fullName: String
-                    get() = "Schneider, Andrea"
+                    get() = "Mustermann, Max"
                 override val dateOfBirth: LocalDate
                     get() = LocalDate.parse("18.04.1943", formatter)
                 override val personIdentifier: CertificatePersonIdentifier
