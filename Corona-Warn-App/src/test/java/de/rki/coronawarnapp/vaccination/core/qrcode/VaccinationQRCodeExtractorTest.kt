@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.vaccination.core.qrcode
 
+import de.rki.coronawarnapp.coronatest.qrcode.QrCodeExtractor.Mode
 import de.rki.coronawarnapp.vaccination.core.DaggerVaccinationTestComponent
 import de.rki.coronawarnapp.vaccination.core.VaccinationQrCodeTestData
 import de.rki.coronawarnapp.vaccination.core.VaccinationTestData
@@ -29,17 +30,17 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
 
     @Test
     fun `happy path extraction`() {
-        extractor.extract(VaccinationQrCodeTestData.validVaccinationQrCode)
+        extractor.extract(VaccinationQrCodeTestData.validVaccinationQrCode, mode = Mode.CERT_VAC_STRICT)
     }
 
     @Test
     fun `happy path extraction 2`() {
-        extractor.extract(VaccinationQrCodeTestData.validVaccinationQrCode2)
+        extractor.extract(VaccinationQrCodeTestData.validVaccinationQrCode2, mode = Mode.CERT_VAC_STRICT)
     }
 
     @Test
     fun `happy path extraction with data`() {
-        val qrCode = extractor.extract(VaccinationQrCodeTestData.validVaccinationQrCode3)
+        val qrCode = extractor.extract(VaccinationQrCodeTestData.validVaccinationQrCode3, mode = Mode.CERT_VAC_STRICT)
 
         with(qrCode.parsedData.header) {
             issuer shouldBe "AT"
@@ -76,52 +77,76 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
 
     @Test
     fun `happy path extraction 4`() {
-        extractor.extract(VaccinationQrCodeTestData.validVaccinationQrCode4)
+        extractor.extract(
+            VaccinationQrCodeTestData.validVaccinationQrCode4,
+            mode = Mode.CERT_VAC_STRICT
+        )
     }
 
     @Test
     fun `valid encoding but not a health certificate fails with VC_HC_CWT_NO_ISS`() {
         shouldThrow<InvalidHealthCertificateException> {
-            extractor.extract(VaccinationQrCodeTestData.validEncoded)
+            extractor.extract(
+                VaccinationQrCodeTestData.validEncoded,
+                mode = Mode.CERT_VAC_STRICT
+            )
         }.errorCode shouldBe VC_HC_CWT_NO_ISS
     }
 
     @Test
     fun `random string fails with HC_BASE45_DECODING_FAILED`() {
         shouldThrow<InvalidHealthCertificateException> {
-            extractor.extract("nothing here to see")
+            extractor.extract(
+                "nothing here to see",
+                mode = Mode.CERT_VAC_STRICT
+            )
         }.errorCode shouldBe HC_BASE45_DECODING_FAILED
     }
 
     @Test
     fun `uncompressed base45 string fails with HC_ZLIB_DECOMPRESSION_FAILED`() {
         shouldThrow<InvalidHealthCertificateException> {
-            extractor.extract("6BFOABCDEFGHIJKLMNOPQRSTUVWXYZ %*+-./:")
+            extractor.extract(
+                "6BFOABCDEFGHIJKLMNOPQRSTUVWXYZ %*+-./:",
+                mode = Mode.CERT_VAC_STRICT
+            )
         }.errorCode shouldBe HC_ZLIB_DECOMPRESSION_FAILED
     }
 
     @Test
     fun `vaccination certificate missing fails with VC_NO_VACCINATION_ENTRY`() {
         shouldThrow<InvalidHealthCertificateException> {
-            extractor.extract(VaccinationQrCodeTestData.certificateMissing)
+            extractor.extract(
+                VaccinationQrCodeTestData.certificateMissing,
+                mode = Mode.CERT_VAC_STRICT
+            )
         }.errorCode shouldBe VC_NO_VACCINATION_ENTRY
     }
 
     @Test
     fun `test data person A check`() {
-        val extracted = extractor.extract(vaccinationTestData.personAVac1QRCodeString)
+        val extracted = extractor.extract(
+            vaccinationTestData.personAVac1QRCodeString,
+            mode = Mode.CERT_VAC_STRICT
+        )
         extracted shouldBe vaccinationTestData.personAVac1QRCode
     }
 
     @Test
     fun `test data person B check`() {
-        val extracted = extractor.extract(vaccinationTestData.personBVac1QRCodeString)
+        val extracted = extractor.extract(
+            vaccinationTestData.personBVac1QRCodeString,
+            mode = Mode.CERT_VAC_STRICT
+        )
         extracted shouldBe vaccinationTestData.personBVac1QRCode
     }
 
     @Test
     fun `Bulgarian qr code passes`() {
-        val qrCode = extractor.extract(VaccinationQrCodeTestData.qrCodeBulgaria)
+        val qrCode = extractor.extract(
+            VaccinationQrCodeTestData.qrCodeBulgaria,
+            mode = Mode.CERT_VAC_STRICT
+        )
         with(qrCode.parsedData.header) {
             issuer shouldBe "BG"
             issuedAt shouldBe Instant.parse("2021-06-02T14:07:56.000Z")
@@ -157,6 +182,9 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
 
     @Test
     fun `Swedish qr code passes`() {
-        extractor.extract(VaccinationQrCodeTestData.qrCodeSweden)
+        extractor.extract(
+            VaccinationQrCodeTestData.qrCodeSweden,
+            mode = Mode.CERT_VAC_STRICT
+        )
     }
 }

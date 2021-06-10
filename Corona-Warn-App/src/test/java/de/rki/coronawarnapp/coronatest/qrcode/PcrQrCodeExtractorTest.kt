@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.coronatest.qrcode
 
+import de.rki.coronawarnapp.coronatest.qrcode.QrCodeExtractor.Mode.TEST_STRICT
 import io.kotest.matchers.shouldBe
 import org.junit.Test
 import testhelpers.BaseTest
@@ -16,7 +17,7 @@ class PcrQrCodeExtractorTest : BaseTest() {
         val extractor = PcrQrCodeExtractor()
         try {
             if (extractor.canHandle("$prefixString$guid")) {
-                extractor.extract("$prefixString$guid")
+                extractor.extract("$prefixString$guid", mode = TEST_STRICT)
                 conditionToMatch shouldBe true
             } else {
                 conditionToMatch shouldBe false
@@ -77,16 +78,44 @@ class PcrQrCodeExtractorTest : BaseTest() {
 
     @Test
     fun extractGUID() {
-        PcrQrCodeExtractor().extract("$localhostUpperCase$guidUpperCase").qrCodeGUID shouldBe guidUpperCase
-        PcrQrCodeExtractor().extract("$localhostUpperCase$guidLowerCase").qrCodeGUID shouldBe guidLowerCase
-        PcrQrCodeExtractor().extract("$localhostUpperCase$guidMixedCase").qrCodeGUID shouldBe guidMixedCase
+        PcrQrCodeExtractor().extract(
+            "$localhostUpperCase$guidUpperCase",
+            mode = TEST_STRICT
+        ).qrCodeGUID shouldBe guidUpperCase
+        PcrQrCodeExtractor().extract(
+            "$localhostUpperCase$guidLowerCase",
+            mode = TEST_STRICT
+        ).qrCodeGUID shouldBe guidLowerCase
+        PcrQrCodeExtractor().extract(
+            "$localhostUpperCase$guidMixedCase",
+            mode = TEST_STRICT
+        ).qrCodeGUID shouldBe guidMixedCase
 
-        PcrQrCodeExtractor().extract("$localhostLowerCase$guidUpperCase").qrCodeGUID shouldBe guidUpperCase
-        PcrQrCodeExtractor().extract("$localhostLowerCase$guidLowerCase").qrCodeGUID shouldBe guidLowerCase
-        PcrQrCodeExtractor().extract("$localhostLowerCase$guidMixedCase").qrCodeGUID shouldBe guidMixedCase
+        PcrQrCodeExtractor().extract(
+            "$localhostLowerCase$guidUpperCase",
+            mode = TEST_STRICT
+        ).qrCodeGUID shouldBe guidUpperCase
+        PcrQrCodeExtractor().extract(
+            "$localhostLowerCase$guidLowerCase",
+            mode = TEST_STRICT
+        ).qrCodeGUID shouldBe guidLowerCase
+        PcrQrCodeExtractor().extract(
+            "$localhostLowerCase$guidMixedCase",
+            mode = TEST_STRICT
+        ).qrCodeGUID shouldBe guidMixedCase
 
-        PcrQrCodeExtractor().extract("$localhostMixedCase$guidUpperCase").qrCodeGUID shouldBe guidUpperCase
-        PcrQrCodeExtractor().extract("$localhostMixedCase$guidLowerCase").qrCodeGUID shouldBe guidLowerCase
-        PcrQrCodeExtractor().extract("$localhostMixedCase$guidMixedCase").qrCodeGUID shouldBe guidMixedCase
+
+        PcrQrCodeExtractor().extract(
+            "$localhostMixedCase$guidUpperCase",
+            mode = TEST_STRICT
+        ).qrCodeGUID shouldBe guidUpperCase
+        PcrQrCodeExtractor().extract(
+            "$localhostMixedCase$guidLowerCase",
+            mode = TEST_STRICT
+        ).qrCodeGUID shouldBe guidLowerCase
+        PcrQrCodeExtractor().extract(
+            "$localhostMixedCase$guidMixedCase",
+            mode = TEST_STRICT
+        ).qrCodeGUID shouldBe guidMixedCase
     }
 }

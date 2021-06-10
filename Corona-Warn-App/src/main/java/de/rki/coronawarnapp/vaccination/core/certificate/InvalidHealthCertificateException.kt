@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificat
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_HC_CWT_NO_HCERT
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_HC_CWT_NO_ISS
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_JSON_SCHEMA_INVALID
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_MULTIPLE_VACCINATION_ENTRY
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_NAME_MISMATCH
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_NO_VACCINATION_ENTRY
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_PREFIX_INVALID
@@ -36,6 +37,7 @@ class InvalidHealthCertificateException(
         HC_COSE_MESSAGE_INVALID("COSE message invalid."),
         HC_CBOR_DECODING_FAILED("CBOR decoding failed."),
         VC_NO_VACCINATION_ENTRY("Vaccination certificate missing."),
+        VC_MULTIPLE_VACCINATION_ENTRY("Multiple vaccination certificates."),
         VC_PREFIX_INVALID("Prefix invalid."),
         VC_STORING_FAILED("Storing failed."),
         VC_JSON_SCHEMA_INVALID("Json schema invalid."),
@@ -71,6 +73,9 @@ class InvalidHealthCertificateException(
                 context.getString(ERROR_MESSAGE_VC_INVALID)
             }
             VC_NO_VACCINATION_ENTRY -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_VC_NOT_YET_SUPPORTED)
+            }
+            VC_MULTIPLE_VACCINATION_ENTRY -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_VC_NOT_YET_SUPPORTED)
             }
             VC_STORING_FAILED -> CachedString { context ->

@@ -17,7 +17,7 @@ class VaccinationQRCodeValidator @Inject constructor(
         // If there is more than one "extractor" in the future, check censoring again.
         // CertificateQrCodeCensor.addQRCodeStringToCensor(rawString)
         return findExtractor(rawString)
-            ?.extract(rawString)
+            ?.extract(rawString, mode = QrCodeExtractor.Mode.CERT_VAC_STRICT)
             ?.also { Timber.i("Extracted data from QR code is %s", it) }
             ?: throw InvalidHealthCertificateException(VC_PREFIX_INVALID)
     }
