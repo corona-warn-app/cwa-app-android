@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.exception
+package de.rki.coronawarnapp.covidcertificate.common.exception
 
 import android.content.Context
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException

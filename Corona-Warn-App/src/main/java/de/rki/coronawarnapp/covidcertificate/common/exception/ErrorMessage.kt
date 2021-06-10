@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.exception
+package de.rki.coronawarnapp.covidcertificate.common.exception
 
 import de.rki.coronawarnapp.R
 

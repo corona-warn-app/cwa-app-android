@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.cryptography
+package de.rki.coronawarnapp.covidcertificate.common.cryptography
 
 import com.google.android.gms.common.util.Hex
 import javax.crypto.Cipher

@@ -4,7 +4,7 @@ import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.decoder.DccCoseDecoder
 import de.rki.coronawarnapp.covidcertificate.common.decoder.DccHeaderParser
-import de.rki.coronawarnapp.covidcertificate.exception.InvalidTestCertificateException
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.recovery.core.certificate.RecoveryDccParser
 import de.rki.coronawarnapp.covidcertificate.recovery.core.certificate.RecoveryDccV1
 import javax.inject.Inject

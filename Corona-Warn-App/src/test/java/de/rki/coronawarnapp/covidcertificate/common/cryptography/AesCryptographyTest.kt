@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.cryptography
+package de.rki.coronawarnapp.covidcertificate.common.cryptography
 
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.decodeBase64
