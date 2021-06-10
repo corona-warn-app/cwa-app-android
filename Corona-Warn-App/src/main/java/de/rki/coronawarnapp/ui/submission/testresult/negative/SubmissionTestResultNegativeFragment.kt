@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.ui.submission.testresult.negative
 
-import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
@@ -14,7 +14,7 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
@@ -32,7 +32,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
         }
     )
 
-    private val binding: FragmentSubmissionTestResultNegativeBinding by viewBindingLazy()
+    private val binding: FragmentSubmissionTestResultNegativeBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -70,7 +70,8 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
             }
         )
         DialogHelper.showDialog(removeTestDialog).apply {
-            getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
+            getButton(DialogInterface.BUTTON_POSITIVE)
+                .setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
         }
     }
 }

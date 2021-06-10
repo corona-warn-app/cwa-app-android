@@ -141,7 +141,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/zip_code_input_layout"
                 style="@style/TextInputLayoutTheme"
-                android:layout_width="100dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_normal"
                 android:layout_marginTop="@dimen/spacing_small"

@@ -23,7 +23,7 @@ import de.rki.coronawarnapp.ui.print.PrintingAdapter
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.files.FileSharing
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
@@ -43,7 +43,7 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
         }
     )
 
-    private val binding: QrCodePosterFragmentBinding by viewBindingLazy()
+    private val binding: QrCodePosterFragmentBinding by viewBinding()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -151,7 +151,7 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
                 getString(R.string.app_name),
                 PrintingAdapter(file),
                 PrintAttributes.Builder()
-                    .setMediaSize(PrintAttributes.MediaSize.ISO_A3)
+                    .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
                     .build()
             )
 

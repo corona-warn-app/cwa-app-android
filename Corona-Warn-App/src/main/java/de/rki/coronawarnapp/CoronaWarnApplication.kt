@@ -31,7 +31,6 @@ import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingRiskWo
 import de.rki.coronawarnapp.presencetracing.storage.retention.TraceLocationDbCleanUpScheduler
 import de.rki.coronawarnapp.risk.RiskLevelChangeDetector
 import de.rki.coronawarnapp.risk.execution.ExposureWindowRiskWorkScheduler
-import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.BuildVersionWrap
@@ -41,6 +40,7 @@ import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import de.rki.coronawarnapp.util.hasAPILevel
+import de.rki.coronawarnapp.vaccination.core.execution.VaccinationUpdateScheduler
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -70,7 +70,6 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var deviceTimeHandler: DeviceTimeHandler
     @Inject lateinit var autoSubmission: AutoSubmission
     @Inject lateinit var coronaTestRepository: CoronaTestRepository
-    @Inject lateinit var onboardingSettings: OnboardingSettings
     @Inject lateinit var autoCheckOut: AutoCheckOut
     @Inject lateinit var traceLocationDbCleanupScheduler: TraceLocationDbCleanUpScheduler
     @Inject lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
@@ -80,6 +79,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var raTestResultScheduler: RAResultScheduler
     @Inject lateinit var pcrTestResultAvailableNotificationService: PCRTestResultAvailableNotificationService
     @Inject lateinit var raTestResultAvailableNotificationService: RATTestResultAvailableNotificationService
+    @Inject lateinit var vaccinationUpdateScheduler: VaccinationUpdateScheduler
 
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
@@ -115,9 +115,8 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
             .onEach { isAppInForeground = it }
             .launchIn(GlobalScope)
 
-        if (onboardingSettings.isOnboarded) {
-            contactDiaryWorkScheduler.schedulePeriodic()
-        }
+        Timber.v("Setting up contact diary work scheduler")
+        contactDiaryWorkScheduler.setup()
 
         Timber.v("Setting up deadman notification scheduler")
         deadmanNotificationScheduler.setup()
@@ -133,6 +132,9 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         Timber.v("Setting up test result available notification services.")
         pcrTestResultAvailableNotificationService.setup()
         raTestResultAvailableNotificationService.setup()
+
+        Timber.v("Setting up vaccination data update scheduler.")
+        vaccinationUpdateScheduler.setup()
 
         deviceTimeHandler.launch()
         configChangeDetector.launch()

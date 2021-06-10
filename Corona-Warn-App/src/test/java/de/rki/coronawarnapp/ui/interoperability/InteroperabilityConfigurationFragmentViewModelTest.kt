@@ -4,12 +4,8 @@ import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.ui.Country
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.Runs
-import io.mockk.coEvery
-import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.just
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.BeforeEach
@@ -28,7 +24,6 @@ class InteroperabilityConfigurationFragmentViewModelTest {
     fun setupFreshViewModel() {
         MockKAnnotations.init(this)
 
-        coEvery { interoperabilityRepository.refreshCountries() } just Runs
         every { interoperabilityRepository.countryList } returns flowOf(Country.values().toList())
     }
 
@@ -42,14 +37,6 @@ class InteroperabilityConfigurationFragmentViewModelTest {
         vm.countryList.getOrAwaitValue() shouldBe Country.values().toList()
 
         verify { interoperabilityRepository.countryList }
-    }
-
-    @Test
-    fun `forced countrylist refresh via app config`() {
-        val vm = createViewModel()
-        coVerify(exactly = 0) { interoperabilityRepository.refreshCountries() }
-        vm.refreshCountries()
-        coVerify(exactly = 1) { interoperabilityRepository.refreshCountries() }
     }
 
     @Test

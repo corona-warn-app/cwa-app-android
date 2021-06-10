@@ -16,6 +16,9 @@
     <!--    Rapid antigen test profile graph-->
     <include app:graph="@navigation/rapid_antigen_test_profile_nav_graph" />
 
+    <!--    Vaccination graph-->
+    <include app:graph="@navigation/vaccination_nav_graph" />
+
     <!-- Main -->
     <fragment
         android:id="@+id/mainFragment"
@@ -73,6 +76,9 @@
         <action
             android:id="@+id/action_mainFragment_to_submissionTestResultKeysSharedFragment"
             app:destination="@id/submissionTestResultKeysSharedFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_vaccinationNavGraph"
+            app:destination="@id/vaccination_nav_graph" />
     </fragment>
 
     <fragment
@@ -304,7 +310,7 @@
         android:label="SubmissionTestResultPendingFragment"
         tools:layout="@layout/fragment_submission_test_result_pending">
         <argument
-            android:name="skipInitialTestResultRefresh"
+            android:name="forceTestResultUpdate"
             android:defaultValue="false"
             app:argType="boolean" />
         <action
@@ -344,12 +350,7 @@
             android:id="@+id/action_submissionTanFragment_to_submissionTestResultPendingFragment"
             app:destination="@id/submissionTestResultPendingFragment"
             app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="false">
-            <argument
-                android:name="skipInitialTestResultRefresh"
-                android:defaultValue="true"
-                app:argType="boolean" />
-        </action>
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_submissionTanFragment_to_submissionDeletionWarningFragment"
             app:destination="@id/submissionDeletionWarningFragment" />
@@ -388,12 +389,7 @@
         android:id="@+id/action_submissionTestResultPendingFragment"
         app:destination="@id/submissionTestResultPendingFragment"
         app:popUpTo="@id/mainFragment"
-        app:popUpToInclusive="false">
-        <argument
-            android:name="skipInitialTestResultRefresh"
-            android:defaultValue="true"
-            app:argType="boolean" />
-    </action>
+        app:popUpToInclusive="false" />
 
     <action
         android:id="@+id/action_to_submissionTestResultAvailableFragment"
@@ -449,7 +445,7 @@
             android:id="@+id/action_submissionSymptomIntroductionFragment_to_submissionDoneFragment"
             app:destination="@id/submissionDoneFragment"
             app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="false"/>
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/submissionSymptomCalendarFragment"
@@ -476,7 +472,7 @@
             android:id="@+id/action_submissionSymptomCalendarFragment_to_submissionDoneFragment"
             app:destination="@id/submissionDoneFragment"
             app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="false"/>
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/submissionConsentFragment"
@@ -739,12 +735,7 @@
             android:id="@+id/action_submissionDeletionWarningFragment_to_submissionTestResultPendingFragment"
             app:destination="@id/submissionTestResultPendingFragment"
             app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="false">
-            <argument
-                android:name="skipInitialTestResultRefresh"
-                android:defaultValue="true"
-                app:argType="boolean" />
-        </action>
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_submissionDeletionWarningFragment_to_submissionTestResultAvailableFragment"
             app:destination="@id/submissionTestResultAvailableFragment"
@@ -792,10 +783,10 @@
             android:id="@+id/action_submissionDoneFragment_to_mainFragment"
             app:destination="@id/mainFragment"
             app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
         <argument
             android:name="testType"
-            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type"/>
+            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
     </fragment>
     <fragment
         android:id="@+id/submissionTestResultKeysSharedFragment"
@@ -806,4 +797,22 @@
             android:name="testType"
             app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
     </fragment>
+
+
+    <fragment
+        android:id="@+id/qrCodeFullScreenFragment"
+        android:name="de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragment"
+        android:label="fragment_qr_code_full_screen"
+        tools:layout="@layout/fragment_qr_code_full_screen">
+        <argument
+            android:name="qrCodeText"
+            app:argType="string" />
+        <argument
+            android:name="correctionLevel"
+            app:argType="com.google.zxing.qrcode.decoder.ErrorCorrectionLevel"
+            android:defaultValue="Q" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_qrCodeFullScreenFragment"
+        app:destination="@id/qrCodeFullScreenFragment" />
 </navigation>

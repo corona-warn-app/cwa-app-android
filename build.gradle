@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.4.21'
+    ext.kotlin_version = '1.5.0'
     ext.protobufVersion = '0.8.12'
     ext.navVersion = "2.2.2"
 
@@ -13,12 +13,7 @@ buildscript {
         }
     }
     dependencies {
-        // https://issuetracker.google.com/issues/176381203
-        // Fixed in bleeding-edge
-        // Can be upgraded once new Android version is released or
-        // the specific version is available via maven
-        classpath 'com.android.tools:r8:2.0.88'
-        classpath 'com.android.tools.build:gradle:4.1.3'
+        classpath 'com.android.tools.build:gradle:4.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.protobuf:protobuf-gradle-plugin:$protobufVersion"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navVersion"

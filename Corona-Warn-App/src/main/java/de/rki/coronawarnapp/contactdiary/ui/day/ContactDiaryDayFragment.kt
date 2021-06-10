@@ -20,13 +20,13 @@ import de.rki.coronawarnapp.databinding.ContactDiaryDayFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
 class ContactDiaryDayFragment : Fragment(R.layout.contact_diary_day_fragment), AutoInject {
-    private val binding: ContactDiaryDayFragmentBinding by viewBindingLazy()
+    private val binding: ContactDiaryDayFragmentBinding by viewBinding()
 
     private val navArgs by navArgs<ContactDiaryDayFragmentArgs>()
 

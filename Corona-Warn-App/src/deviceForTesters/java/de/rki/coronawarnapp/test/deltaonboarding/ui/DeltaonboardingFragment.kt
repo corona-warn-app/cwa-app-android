@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestDeltaonboardingBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
@@ -19,7 +19,7 @@ class DeltaonboardingFragment : Fragment(R.layout.fragment_test_deltaonboarding)
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: DeltaOnboardingFragmentViewModel by cwaViewModels { viewModelFactory }
 
-    private val binding: FragmentTestDeltaonboardingBinding by viewBindingLazy()
+    private val binding: FragmentTestDeltaonboardingBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -27,6 +27,7 @@ class DeltaonboardingFragment : Fragment(R.layout.fragment_test_deltaonboarding)
         binding.switchContactJournalOnboarding.isChecked = viewModel.isContactJournalOnboardingDone()
         binding.switchDeltaOnboarding.isChecked = viewModel.isDeltaOnboardingDone()
         binding.switchAttendeeOnboarding.isChecked = viewModel.isAttendeeOnboardingDone()
+        binding.switchVaccinationOnboarding.isChecked = viewModel.isVaccinationRegistrationOnboardingDone()
         viewModel.changelogVersion.observe(viewLifecycleOwner) {
             binding.lastChangelogEdittext.setText(it.toString())
         }
@@ -54,6 +55,10 @@ class DeltaonboardingFragment : Fragment(R.layout.fragment_test_deltaonboarding)
 
         binding.switchAttendeeOnboarding.setOnCheckedChangeListener { _, value ->
             viewModel.setAttendeeOnboardingDone(value)
+        }
+
+        binding.switchVaccinationOnboarding.setOnCheckedChangeListener { _, value ->
+            viewModel.setVaccinationRegistrationOnboardingDone(value)
         }
     }
 

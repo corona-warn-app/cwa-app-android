@@ -8,14 +8,14 @@ import de.rki.coronawarnapp.databinding.RatProfileOnboardingFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
 class RATProfileOnboardingFragment : Fragment(R.layout.rat_profile_onboarding_fragment), AutoInject {
 
-    private val binding: RatProfileOnboardingFragmentBinding by viewBindingLazy()
+    private val binding: RatProfileOnboardingFragmentBinding by viewBinding()
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 

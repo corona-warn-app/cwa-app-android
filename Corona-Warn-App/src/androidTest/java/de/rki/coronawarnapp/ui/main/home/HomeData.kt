@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR.TestInvalid
 import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR.TestNegative
 import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR.TestPending
 import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR.TestPositive
+import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestErrorCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestInvalidCard
@@ -15,6 +16,7 @@ import de.rki.coronawarnapp.submission.ui.homecards.PcrTestNegativeCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestPendingCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestPositiveCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestSubmissionDoneCard
+import de.rki.coronawarnapp.submission.ui.homecards.RapidTestNegativeCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestFetchingCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestUnregisteredCard
 import de.rki.coronawarnapp.tracing.TracingProgress
@@ -29,6 +31,12 @@ import de.rki.coronawarnapp.tracing.ui.homecards.TracingDisabledCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingFailedCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import de.rki.coronawarnapp.vaccination.core.VaccinatedPerson
+import de.rki.coronawarnapp.vaccination.ui.homecard.ImmuneVaccinationHomeCard
+import de.rki.coronawarnapp.vaccination.ui.homecard.VaccinationHomeCard
+import io.mockk.every
+import io.mockk.mockk
+import org.joda.time.Duration
 import org.joda.time.Instant
 
 object HomeData {
@@ -147,6 +155,13 @@ object HomeData {
             onClickAction = {}
         )
 
+        val TEST_NEGATIVE_ITEM_RAT = RapidTestNegativeCard.Item(
+            state = SubmissionStateRAT.TestNegative(
+                testRegisteredAt = Instant.now()
+            ),
+            onClickAction = {}
+        )
+
         val TEST_INVALID_ITEM = PcrTestInvalidCard.Item(
             state = TestInvalid,
             onDeleteTest = {}
@@ -166,6 +181,36 @@ object HomeData {
             state = SubmissionDone(
                 testRegisteredAt = Instant.now()
             ),
+            onClickAction = {}
+        )
+    }
+
+    object Vaccination {
+        val INCOMPLETE = VaccinationHomeCard.Item(
+            vaccinatedPerson = mockk<VaccinatedPerson>().apply {
+                every { fullName } returns "Andrea Schneider"
+                every { identifier } returns mockk()
+                every { getVaccinationStatus(any()) } returns VaccinatedPerson.Status.INCOMPLETE
+                every { getTimeUntilImmunity(any()) } returns Duration.standardDays(14)
+            },
+            onClickAction = {}
+        )
+        val COMPLETE = VaccinationHomeCard.Item(
+            vaccinatedPerson = mockk<VaccinatedPerson>().apply {
+                every { fullName } returns "Andrea Schneider"
+                every { identifier } returns mockk()
+                every { getVaccinationStatus(any()) } returns VaccinatedPerson.Status.COMPLETE
+                every { getTimeUntilImmunity(any()) } returns Duration.standardDays(14)
+            },
+            onClickAction = {}
+        )
+        val IMMUNITY = ImmuneVaccinationHomeCard.Item(
+            vaccinatedPerson = mockk<VaccinatedPerson>().apply {
+                every { fullName } returns "Andrea Schneider"
+                every { identifier } returns mockk()
+                every { getVaccinationStatus(any()) } returns VaccinatedPerson.Status.IMMUNITY
+                every { getTimeUntilImmunity(any()) } returns Duration.standardDays(14)
+            },
             onClickAction = {}
         )
     }

@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.databinding.FragmentEditCheckInBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBindingLazy
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import org.joda.time.DateTimeZone
@@ -44,7 +44,7 @@ class EditCheckInFragment : Fragment(R.layout.fragment_edit_check_in), AutoInjec
         sharedElementReturnTransition = MaterialContainerTransform()
     }
 
-    private val binding: FragmentEditCheckInBinding by viewBindingLazy()
+    private val binding: FragmentEditCheckInBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

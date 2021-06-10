@@ -96,7 +96,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
     private fun createInstance(
         scope: CoroutineScope = TestCoroutineScope(),
         storedResultLimit: Int = 10,
-        onStoreExposureWindows: (String, EwRiskLevelResult) -> Unit = { id, result -> },
+        onStoreExposureWindows: (String, EwRiskLevelResult) -> Unit = { _, _ -> },
         onDeletedOrphanedExposureWindows: () -> Unit = {}
     ) = object : BaseRiskLevelStorage(
         scope = scope,

@@ -3,19 +3,27 @@ package de.rki.coronawarnapp.ui.presencetracing.organizer.list.items
 import android.view.ViewGroup
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsItemBinding
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.BaseCheckInVH.Companion.setupMenu
 import de.rki.coronawarnapp.ui.presencetracing.organizer.list.TraceLocationsAdapter
-import de.rki.coronawarnapp.util.list.SwipeConsumer
+import de.rki.coronawarnapp.util.list.Swipeable
 import org.joda.time.format.DateTimeFormat
 
 class TraceLocationVH(parent: ViewGroup) :
     TraceLocationsAdapter.ItemVH<TraceLocationVH.Item, TraceLocationOrganizerTraceLocationsItemBinding>(
         layoutRes = R.layout.trace_location_organizer_trace_locations_item,
         parent = parent
-    ) {
+    ),
+    Swipeable {
+
+    private var latestItem: Item? = null
+
+    override fun onSwipe(holder: RecyclerView.ViewHolder, direction: Int) {
+        latestItem?.let { it.onSwipeItem(it.traceLocation, holder.adapterPosition) }
+    }
 
     override val viewBinding: Lazy<TraceLocationOrganizerTraceLocationsItemBinding> = lazy {
         TraceLocationOrganizerTraceLocationsItemBinding.bind(itemView)
@@ -25,6 +33,7 @@ class TraceLocationVH(parent: ViewGroup) :
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
+        latestItem = item
 
         description.text = item.traceLocation.description
         address.text = item.traceLocation.address
@@ -84,8 +93,7 @@ class TraceLocationVH(parent: ViewGroup) :
         val onDeleteItem: (TraceLocation) -> Unit,
         val onSwipeItem: (TraceLocation, Int) -> Unit,
         val onCardClicked: (TraceLocation, Int) -> Unit
-    ) : TraceLocationItem, SwipeConsumer {
+    ) : TraceLocationItem {
         override val stableId: Long = traceLocation.id.hashCode().toLong()
-        override fun onSwipe(position: Int, direction: Int) = onSwipeItem(traceLocation, position)
     }
 }

@@ -11,8 +11,9 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.installTime.InstallTimeProvider
-import de.rki.coronawarnapp.nearby.InternalExposureNotificationClient
+import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.TracingPermissionHelper
+import de.rki.coronawarnapp.nearby.modules.tracing.disableTracingIfEnabled
 import de.rki.coronawarnapp.risk.execution.ExposureWindowRiskWorkScheduler
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.ui.details.items.periodlogged.PeriodLoggedBox
@@ -35,7 +36,8 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
     installTimeProvider: InstallTimeProvider,
     private val backgroundStatus: BackgroundModeStatus,
     tracingPermissionHelperFactory: TracingPermissionHelper.Factory,
-    private val exposureWindowRiskWorkScheduler: ExposureWindowRiskWorkScheduler
+    private val exposureWindowRiskWorkScheduler: ExposureWindowRiskWorkScheduler,
+    private val enfClient: ENFClient,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val loggingPeriod: LiveData<PeriodLoggedBox.Item> =
@@ -120,8 +122,7 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
         isTracingSwitchChecked.postValue(false)
         launch {
             try {
-                if (InternalExposureNotificationClient.asyncIsEnabled()) {
-                    InternalExposureNotificationClient.asyncStop()
+                if (enfClient.disableTracingIfEnabled()) {
                     exposureWindowRiskWorkScheduler.setPeriodicRiskCalculation(enabled = false)
                 }
             } catch (exception: Exception) {

@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
 import de.rki.coronawarnapp.bugreporting.censors.contactdiary.DiaryEncounterCensor
-import de.rki.coronawarnapp.bugreporting.debuglog.LogLine
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import io.kotest.matchers.shouldBe
@@ -51,51 +50,57 @@ class DiaryEncounterCensorTest : BaseTest() {
         )
 
         val instance = createInstance(this)
-        val censorMe = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message =
-                """
-                On A rainy day,
-                two persons Spilled coffee on each others laptops,
-                everyone disliked that.
-                """.trimIndent(),
-            tag = "I'm a tag",
-            throwable = null
+        val censorMe =
+            """
+            On A rainy day,
+            two persons Spilled coffee on each others laptops,
+            everyone disliked that.
+            """.trimIndent()
+
+        instance.checkLog(censorMe)!!.compile()!!.censored shouldBe
+            """
+            On Encounter#2/Circumstances,
+            two persons Encounter#3/Circumstances,
+            everyone disliked that.
+            """.trimIndent()
+    }
+
+    @Test
+    fun `censoring should still work after encounters are deleted`() = runBlockingTest {
+        every { diaryRepo.personEncounters } returns flowOf(
+            listOf(
+                mockEncounter(1, _circumstances = ""),
+                mockEncounter(2, _circumstances = "A rainy day"),
+                mockEncounter(3, "Spilled coffee on each others laptops")
+            ),
+            listOf(
+                mockEncounter(1, _circumstances = ""),
+                // "a rainy day" was deleted
+                mockEncounter(3, "Spilled coffee on each others laptops")
+            )
         )
 
-        instance.checkLog(censorMe) shouldBe censorMe.copy(
-            message =
-                """
-                    On Encounter#2/Circumstances,
-                    two persons Encounter#3/Circumstances,
-                    everyone disliked that.
-                """.trimIndent()
-        )
+        val instance = createInstance(this)
+        val censorMe =
+            """
+            On A rainy day,
+            two persons Spilled coffee on each others laptops,
+            everyone disliked that.
+            """.trimIndent()
 
-        // censoring should still work after encounters are deleted
-        every { diaryRepo.personEncounters } returns flowOf(emptyList())
-        instance.checkLog(censorMe) shouldBe censorMe.copy(
-            message =
-                """
-                    On Encounter#2/Circumstances,
-                    two persons Encounter#3/Circumstances,
-                    everyone disliked that.
-                """.trimIndent()
-        )
+        instance.checkLog(censorMe)!!.compile()!!.censored shouldBe
+            """
+            On Encounter#2/Circumstances,
+            two persons Encounter#3/Circumstances,
+            everyone disliked that.
+            """.trimIndent()
     }
 
     @Test
     fun `censoring returns null if all circumstances are blank`() = runBlockingTest {
         every { diaryRepo.personEncounters } returns flowOf(listOf(mockEncounter(1, _circumstances = "")))
         val instance = createInstance(this)
-        val notCensored = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "That was strange.",
-            tag = "I'm a tag",
-            throwable = null
-        )
+        val notCensored = "That was strange."
         instance.checkLog(notCensored) shouldBe null
     }
 
@@ -105,13 +110,7 @@ class DiaryEncounterCensorTest : BaseTest() {
 
         val instance = createInstance(this)
 
-        val notCensored = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "Nothing ever happens.",
-            tag = "I'm a tag",
-            throwable = null
-        )
+        val notCensored = "Nothing ever happens."
         instance.checkLog(notCensored) shouldBe null
     }
 
@@ -125,13 +124,7 @@ class DiaryEncounterCensorTest : BaseTest() {
         )
 
         val instance = createInstance(this)
-        val notCensored = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "I like turtles",
-            tag = "I'm a tag",
-            throwable = null
-        )
+        val notCensored = "I like turtles"
         instance.checkLog(notCensored) shouldBe null
     }
 
@@ -145,13 +138,7 @@ class DiaryEncounterCensorTest : BaseTest() {
             )
         )
 
-        val logLine = LogLine(
-            timestamp = 1,
-            priority = 3,
-            message = "Lorem ipsum",
-            tag = "I'm a tag",
-            throwable = null
-        )
+        val logLine = "Lorem ipsum"
 
         var isFinished = false
 

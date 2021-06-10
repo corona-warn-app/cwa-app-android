@@ -43,21 +43,12 @@ class DefaultTracingStatus @Inject constructor(
     ) {
         scope.launch {
             try {
-                if (enable) {
-                    if (isEnabled()) {
-                        onSuccess(true)
-                    } else {
-                        asyncStart()
-                        onSuccess(true)
-                    }
-                } else {
-                    if (!isEnabled()) {
-                        onSuccess(false)
-                    } else {
-                        asyncStop()
-                        onSuccess(false)
-                    }
+                if (enable && !isEnabled()) {
+                    asyncStart()
+                } else if (!enable && isEnabled()) {
+                    asyncStop()
                 }
+                onSuccess(enable)
             } catch (e: Exception) {
                 if (e is ApiException && e.statusCode == ExposureNotificationStatusCodes.RESOLUTION_REQUIRED) {
                     Timber.tag(TAG).i(e, "Permission needs to be granted by user.")

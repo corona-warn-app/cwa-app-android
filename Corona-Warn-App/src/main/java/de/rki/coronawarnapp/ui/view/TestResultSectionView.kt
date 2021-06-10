@@ -10,13 +10,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.withStyledAttributes
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.databinding.ViewTestResultSectionBinding
 import de.rki.coronawarnapp.submission.toDeviceUIState
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUIFormat
 import de.rki.coronawarnapp.util.formatter.formatTestResult
-import org.joda.time.Instant
 
 /**
  * The [TestResultSectionView] Displays the appropriate test result.
@@ -58,7 +58,7 @@ constructor(
                         .format(context.getString(R.string.submission_test_result_antigen_title))
             }
 
-            testResultSectionRegisteredAtText.text = formatTestResultRegisteredAtText(coronaTest?.registeredAt)
+            testResultSectionRegisteredAtText.text = formatTestResultTimestampText(coronaTest)
             val testResultIcon = formatTestStatusIcon(coronaTest)
             testResultSectionStatusIcon.setImageDrawable(testResultIcon)
             testResultSectionContent.text = formatTestResultSectionContent(coronaTest)
@@ -77,9 +77,18 @@ constructor(
         return context.getDrawableCompat(drawable)
     }
 
-    private fun formatTestResultRegisteredAtText(registeredAt: Instant?): String {
-        return context.getString(R.string.test_result_card_registered_at_text)
-            .format(registeredAt?.toDate()?.toUIFormat(context))
+    private fun formatTestResultTimestampText(coronaTest: CoronaTest?): String {
+        return if (coronaTest is RACoronaTest) {
+            context.getString(
+                R.string.ag_homescreen_card_rapid_body_result_date,
+                coronaTest.testTakenAt.toDate()?.toUIFormat(context)
+            )
+        } else {
+            context.getString(
+                R.string.test_result_card_registered_at_text,
+                coronaTest?.registeredAt?.toDate()?.toUIFormat(context)
+            )
+        }
     }
 
     private fun formatTestResultSectionContent(coronaTest: CoronaTest?): Spannable {

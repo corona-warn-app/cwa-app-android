@@ -27,21 +27,6 @@ commands:
             - ~/.gradle
           key: gradle-v1-{{ arch }}-{{ checksum "build.gradle" }}-{{ checksum  "Corona-Warn-App/build.gradle" }}-{{ checksum  "Server-Protocol-Buffer/build.gradle" }}
 
-  restore-android-build-cache-macos:
-    description: "Restore Android build caches on macOS"
-    steps:
-      - restore_cache:
-          key: android-buildcache-v1-{{ arch }}
-
-  save-android-build-cache-macos:
-    description: "Save Android build caches on macOS"
-    steps:
-      - save_cache:
-          paths:
-            - ~/.android/build-cache
-            - ~/.android/cache
-          key: android-buildcache-v1-{{ arch }}-{{ epoch }}
-
   run-gradle-cmd:
     description: "Running gradle command with environment options"
     parameters:
@@ -103,90 +88,6 @@ commands:
               echo "Nothing to do for forked PRs, so marking this step successful"
               circleci step halt
             fi
-
-  setup-android-macos:
-    description: "Setup Android environment on macOS executor"
-    steps:
-      - restore_cache:
-          key: android-sdk-v1-{{ arch }}-{{ checksum ".circleci/install-android-sdk.sh" }}
-      - run:
-          name: Set ANDROID_SDK_ROOT environment variable
-          command: echo 'export ANDROID_SDK_ROOT=$HOME/android-sdk'  >> $BASH_ENV
-      - run:
-          name: Install Android SDK
-          command: |
-            sh .circleci/install-android-sdk.sh
-            echo 'export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH' >> $BASH_ENV
-            echo 'export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest:$PATH' >> $BASH_ENV
-            echo 'export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH' >> $BASH_ENV
-            echo 'export PATH=$ANDROID_SDK_ROOT/emulator:$PATH' >> $BASH_ENV
-            echo 'export PATH=$ANDROID_SDK_ROOT/build-tools/29.0.3:$PATH' >> $BASH_ENV
-            source $BASH_ENV
-            sdkmanager --list
-      - save_cache:
-          key: android-sdk-v1-{{ arch }}-{{ checksum ".circleci/install-android-sdk.sh" }}
-          paths:
-            - /Users/distiller/android-sdk
-
-  run-emulator-for-api:
-    parameters:
-      apilevel:
-        type: integer
-    description: "Setup and start emulator for API<< parameters.apilevel >>"
-    steps:
-      - run:
-          name: Create emulator AVD
-          command: >
-            echo "no" | avdmanager --verbose create avd --force
-            --name "emulator_API<< parameters.apilevel >>"
-            --package "system-images;android-<< parameters.apilevel >>;google_apis;x86_64"
-      - run:
-          name: Configure emulator settings
-          command: |
-            cd $HOME/.android/avd/emulator_API<< parameters.apilevel >>.avd
-            sed -i '' -e 's/hw.lcd.density=[0-9]*/hw.lcd.density=560/g' config.ini
-            sed -i '' -e 's/hw.lcd.height=[0-9]*/hw.lcd.height=2880/g' config.ini
-            sed -i '' -e 's/hw.lcd.width=[0-9]*/hw.lcd.width=1440/g' config.ini
-            sed -i '' -e 's/hw.ramSize=[0-9]*/hw.ramSize=1536/g' config.ini
-      - run:
-          name: Check host state
-          command: |
-            emulator -accel-check
-            emulator -version
-      - run:
-          name: Start emulator AVD
-          command: >
-            emulator @emulator_API<< parameters.apilevel >>
-            -no-window
-            -no-audio
-            -no-boot-anim
-            -memory 2048
-            -nojni
-          background: true
-          no_output_timeout: 60m
-      - run:
-          name: Wait for emulator
-          command: |
-            adb wait-for-device shell 'while [[ -z $(getprop dev.bootcomplete) ]]; do sleep 1; done;'
-            adb devices
-            sleep 5
-      - run:
-          name: Disable animations
-          command: |
-            adb shell settings put global window_animation_scale 0
-            adb shell settings put global transition_animation_scale 0
-            adb shell settings put global animator_duration_scale 0
-
-  kill-all-emulators:
-    description: "Kill all emulators"
-    steps:
-      - run:
-          name: Kill all emulators
-          command: |
-            adb devices | grep emulator | cut -f1 | while read line; do adb -s $line emu kill; done
-            sleep 2
-            adb kill-server
-            sleep 2
 
   compress-path:
     parameters:

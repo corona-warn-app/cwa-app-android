@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ui.presencetracing.attendee.checkins
 
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocation
-import de.rki.coronawarnapp.util.ui.LazyString
 
 sealed class CheckInEvent {
 
@@ -11,8 +10,6 @@ sealed class CheckInEvent {
     object ConfirmRemoveAll : CheckInEvent()
 
     data class ConfirmCheckIn(val verifiedTraceLocation: VerifiedTraceLocation) : CheckInEvent()
-
-    data class InvalidQrCode(val errorText: LazyString) : CheckInEvent()
 
     data class ConfirmCheckInWithoutHistory(val verifiedTraceLocation: VerifiedTraceLocation) : CheckInEvent()
 

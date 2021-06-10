@@ -11,11 +11,13 @@ import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import de.rki.coronawarnapp.vaccination.core.VaccinationSettings
 
 class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
     private val settings: CWASettings,
     private val traceLocationSettings: TraceLocationSettings,
     private val contactDiarySettings: ContactDiarySettings,
+    private val vaccinationSettings: VaccinationSettings,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -57,6 +59,12 @@ class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
             if (value) TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0
             else TraceLocationSettings.OnboardingStatus.NOT_ONBOARDED
         }
+    }
+
+    fun isVaccinationRegistrationOnboardingDone() = vaccinationSettings.registrationAcknowledged
+
+    fun setVaccinationRegistrationOnboardingDone(value: Boolean) {
+        vaccinationSettings.registrationAcknowledged = value
     }
 
     @AssistedFactory

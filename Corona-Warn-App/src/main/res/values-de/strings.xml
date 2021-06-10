@@ -412,7 +412,9 @@
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_4">"Auf Wunsch können Sie mit der App Ihren persönlichen Infektionsstatus nachweisen (z.B. negativer Schnelltest). Bitte beachten Sie, dass Sie grundsätzlich nicht zum Nachweis Ihres Infektionsstatus per App verpflichtet sind. Sie können Ihren Infektionsstatus im Rahmen der rechtlichen Bestimmungen an Ihrem Aufenthaltsort auch auf andere Weise nachweisen."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
-    <string name="onboarding_body_5">"Die App merkt sich Begegnungen zwischen Menschen, indem ihre Smartphones verschlüsselte Zufalls-IDs austauschen. Persönliche Daten werden dabei nicht ausgetauscht."</string>
+    <string name="onboarding_body_5">"Ebenso können Sie Ihren persönlichen Impfstatus nachweisen."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_6">"Die App merkt sich Begegnungen zwischen Menschen, indem ihre Smartphones verschlüsselte Zufalls-IDs austauschen. Persönliche Daten werden dabei nicht ausgetauscht."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
     <string name="onboarding_illustration_description">"Eine vielfältige Gruppe in einer Stadt benutzt Smartphones."</string>
     <!-- XACT: Onboarding (privacy) page title -->
@@ -748,7 +750,7 @@
     <string name="settings_privacy_preserving_analytics_title">"Datenspende"</string>
 
     <!-- XTXT: privacy preserving analytics settings switch subtitle  -->
-    <string name="settings_analytics_switch_subtitle">"Nutzerdaten spenden"</string>
+    <string name="settings_analytics_switch_subtitle">"Datenspende"</string>
 
     <!-- ####################################
                App Information
@@ -918,7 +920,7 @@
     <!-- XBUT: Button for bugreporting share log screen -->
     <string name="debugging_debuglog_share_log_button">"Einverstanden und senden"</string>
     <!-- XHED: Title for log upload history -->
-    <string name="debugging_debuglog_uploadhistory_title">"ID Historie"</string>
+    <string name="debugging_debuglog_uploadhistory_title">"ID-Historie"</string>
     <!-- YTXT: Description for log upload history -->
     <string name="debugging_debuglog_uploadhistory_description">"Hier sehen Sie die IDs Ihrer Fehleranalyse-Protokolle."</string>
 
@@ -974,7 +976,7 @@
     <string name="submission_error_dialog_web_tan_redeemed_button_positive">"OK"</string>
 
     <!-- XHED: Dialog title for keys submission process cancellation -->
-    <string name="submission_error_dialog_confirm_cancellation_title">"Wollen Sie die Symptom-Erfassung abbrechen?"</string>
+    <string name="submission_error_dialog_confirm_cancellation_title">"Wollen Sie die Erfassung von Symptomen abbrechen?"</string>
     <!-- XMSG: Dialog body for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_body">"Wenn Sie Angaben zu Ihren Symptomen machen, können Sie andere noch genauer warnen."</string>
     <!-- XBUT: Positive button for keys submission process cancellation -->
@@ -1064,13 +1066,28 @@
     <!-- XHED: Page subheadline for test result  -->
     <string name="submission_test_result_subtitle">"Info zum Ablauf:"</string>
     <!-- XHED: Page headline for results next steps  -->
-    <string name="submission_test_result_steps_added_heading">"Test erfolgreich hinzugefügt"</string>
+    <string name="submission_test_result_steps_added_heading">"Ihr PCR-Test wurde hinzugefügt."</string>
     <!-- YTXT: Body text for for results next steps  -->
     <string name="submission_test_result_steps_added_body">"Ihr Test wurde in der Corona-Warn-App registriert."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_heading">"Ihr Testergebnis liegt noch nicht vor."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_body">"Sobald Ihr Testergebnis vorliegt, wird es Ihnen in der App angezeigt.\n\nSie bekommen Ihr Testergebnis auch außerhalb der App mitgeteilt. Falls Ihr Test positiv ist, bekommen Sie vom Gesundheitsamt eine Mitteilung.\n\nWenn Ihnen außerhalb der App ein positives Testergebnis mitgeteilt wurde, entfernen Sie den aktuell in der App registrierten Test. Rufen Sie die unter "TAN anfragen" angegebene Nummer an, um eine TAN zu erhalten. Registrieren Sie dann Ihr Testergebnis mithilfe der TAN in der App."</string>
+    <!-- XHED: Page headline for pending test result next steps  -->
+    <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Ihr Testergebnis liegt noch nicht vor."</string>
+    <!-- YTXT: Body text for next steps section of waiting test result page -->
+    <string name="submission_test_result_pending_steps_waiting_pcr_body">"Sobald Ihr Testergebnis vorliegt, wird es Ihnen in der App angezeigt.\n\nSie bekommen Ihr Testergebnis auch außerhalb der App mitgeteilt. Falls Ihr Test positiv ist, bekommen Sie vom Gesundheitsamt eine Mitteilung.\n\nWenn Ihnen außerhalb der App ein positives Testergebnis mitgeteilt wurde, entfernen Sie den aktuell in der App registrierten Test. Rufen Sie die unter "TAN anfragen" angegebene Nummer an, um eine TAN zu erhalten. Registrieren Sie dann Ihr Testergebnis mithilfe der TAN in der App."</string>
+    <!-- XHED: Page headline for results next steps  -->
+    <string name="submission_test_result_steps_added_rat_heading">"Ihr Schnelltest wurde hinzugefügt."</string>
+    <!-- XHED: Page headline for pending test result next steps  -->
+    <string name="submission_test_result_pending_steps_waiting_rat_heading">"Ihr Testergebnis liegt noch nicht vor."</string>
+    <!-- YTXT: Body text for next steps section of waiting test result page -->
+    <string name="submission_test_result_pending_steps_waiting_rat_body">"Sobald Ihr Testergebnis vorliegt, wird es Ihnen in der App angezeigt."</string>
+    <!-- XHED: Page headline for pending test result next steps  -->
+    <string name="submission_test_result_pending_steps_contact_diary_heading">"Ihr Testergebnis wird dem Kontakt-Tagebuch hinzugefügt."</string>
+    <!-- YTXT: Body text for next steps section of waiting test result page -->
+    <string name="submission_test_result_pending_steps_contact_diary_body">"Sobald Ihr Testergebnis vorliegt, wird es Ihnen in der App angezeigt."</string>
+
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Aktualisieren"</string>
     <!-- XBUT: test result pending : remove the test button -->
@@ -1091,10 +1108,19 @@
     <string name="submission_test_result_positive_continue_button_with_symptoms">"Weiter mit Symptom-Erfassung"</string>
     <!-- XBUT: positive test result : continue button without symptoms -->
     <string name="submission_test_result_positive_continue_button_wo_symptoms">"Weiter ohne Symptom-Erfassung"</string>
+
+
     <!-- XHED: Page headline for invalid test result screen  -->
-    <string name="submission_test_result_invalid_steps_invalid_heading">"Ihr Testergebnis"</string>
+    <string name="submission_test_result_invalid_steps_invalid_heading">"Test kann nicht ausgewertet werden"</string>
+
+    <!-- XHED: Page headline for invalid test result screen  -->
+    <string name="submission_test_result_delete_steps_invalid_heading">"Test entfernen"</string>
+
     <!-- YTXT: Body text for next steps section of invalid test result-->
-    <string name="submission_test_result_invalid_steps_invalid_body">"Es gab ein Problem bei der Auswertung Ihres Tests. Bitte kontaktieren Sie das Testcenter oder das zuständige Labor, um Information zum weiteren Vorgehen zu erhalten.\n\nBitte entfernen Sie den Test wieder aus der Corona-Warn-App, damit Sie bei Bedarf einen neuen Test hinterlegen können."</string>
+    <string name="submission_test_result_invalid_steps_invalid_body">"Es gab ein Problem bei der Auswertung Ihres Tests. Bitte kontaktieren Sie das Testcenter oder das zuständige Labor, um Informationen zum weiteren Vorgehen zu erhalten."</string>
+    <!-- YTXT: Body text for next steps section of invalid test result-->
+    <string name="submission_test_result_delete_steps_invalid_body">"Bitte entfernen Sie den Test wieder aus der Corona-Warn-App, damit Sie bei Bedarf einen neuen Test hinterlegen können."</string>
+
     <!-- XBUT: invalid test result : remove the test button -->
     <string name="submission_test_result_invalid_remove_test_button">"Test entfernen"</string>
     <!-- XHED: Dialog title for tracing required dailog  -->
@@ -1148,17 +1174,13 @@
 
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
-    <string name="submission_dispatcher_headline">"Testergebnis abrufen"</string>
-    <!-- XHED: Page subheadline for dispatcher menu  -->
-    <string name="submission_dispatcher_subheadline">"Rufen Sie über die App Ihr Testergebnis ab und warnen Sie anschließend Ihre Mitmenschen. So schützen Sie sich und andere und helfen mit, die Ausbreitung von Corona zu verhindern."</string>
-    <!-- XHED: Page subheadline for dispatcher options asking if they have already been tested: QR and TAN  -->
-    <string name="submission_dispatcher_needs_testing_subheadline">"Sie haben sich bereits testen lassen?"</string>
+    <string name="submission_dispatcher_headline">"Test registrieren"</string>
     <!-- XHED: Page subheadline for dispatcher options asking if they already have a positive test: tele-TAN  -->
     <string name="submission_dispatcher_already_positive_subheadline">"Ihr PCR-Test ist positiv?"</string>
     <!-- YTXT: Dispatcher text for QR code option -->
-    <string name="submission_dispatcher_card_qr">"Test mit QR-Code"</string>
+    <string name="submission_dispatcher_card_qr">"QR-Code scannen"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Registrieren Sie Ihren Test, indem Sie den QR-Code Ihres Testdokuments scannen."</string>
+    <string name="submission_dispatcher_qr_card_text">"Erhalten Sie Ihr Testergebnis in der App und warnen Sie andere."</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"TAN für PCR-Test eingeben"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
@@ -1226,18 +1248,18 @@
     <!-- YTXT: text after submission: pcr validation -->
     <string name="submission_done_share_keys">"Teilen Sie Ihre Zufalls-IDs, damit andere gewarnt werden können."</string>
     <!-- YTXT: text after submission: contagious -->
-    <string name="submission_done_contagious">"Das Gesundheitsamt wird sich in den nächsten Tagen bei Ihnen melden."</string>
+    <string name="submission_done_contagious">"Das Gesundheitsamt wird sich möglicherweise in den nächsten Tagen bei Ihnen melden."</string>
     <!-- YTXT: text after submission: isolate -->
-    <string name="submission_done_isolate">"Sie sind ansteckend. Isolieren Sie sich von anderen Personen."</string>
+    <string name="submission_done_isolate">"Sie sind sehr wahrscheinlich ansteckend. Isolieren Sie sich von anderen Personen."</string>
 
     <!-- XHED: Title for further info -->
     <string name="submission_done_further_info_title">"Weitere Infos:"</string>
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
-        <item>"Die Quarantänezeit beträgt in der Regel 14 Tage. Bitte beobachten Sie genau, wie sich Ihre Symptome entwickeln."</item>
+        <item>"Die Isolationszeit beträgt in der Regel 14 Tage. Bitte beobachten Sie genau, wie sich Ihre Symptome entwickeln."</item>
         <item>"Sie werden von Ihrem Gesundheitsamt gebeten, eine Liste Ihrer Kontaktpersonen zu erstellen. Erfassen Sie dabei alle Personen, zu denen Sie in den zwei Tagen vor Erkrankungsbeginn engen Kontakt (unter 2 Meter, direktes Gespräch) über insgesamt 15 Minuten hatten. Nutzen Sie hierfür Ihr Kontakt-Tagebuch. Sie können die Einträge einfach exportieren und ausdrucken oder als E-Mail verschicken."</item>
         <item>"Bitte denken Sie hier auch besonders an Personen, die nicht automatisch durch die App informiert werden, da sie kein Smartphone besitzen oder die App nicht installiert haben."</item>
-        <item>"Auch wenn Sie keine Symptome (mehr) haben, können Sie ansteckend sein. Bitte halten Sie die angeordnete Quarantänezeit in jedem Fall ein."</item>
+        <item>"Auch wenn Sie keine Symptome (mehr) haben, können Sie ansteckend sein. Bitte halten Sie die angeordnete Isolationszeit in jedem Fall ein."</item>
     </string-array>
     <!-- XBUT: submission finished button -->
     <string name="submission_done_button_done">"Fertig"</string>
@@ -1385,9 +1407,9 @@
     <!-- XHED: submission status card positive result subtitle -->
     <string name="submission_status_card_positive_result_subtitle">"Bitte beachten Sie:"</string>
     <!-- YTXT: text for contagious card -->
-    <string name="submission_status_card_positive_result_contagious">"Sie sind ansteckend. Isolieren Sie sich von anderen Personen."</string>
+    <string name="submission_status_card_positive_result_contagious">"Sie sind sehr wahrscheinlich ansteckend. Isolieren Sie sich von anderen Personen."</string>
     <!-- YTXT: text for contact card -->
-    <string name="submission_status_card_positive_result_contact">"Das Gesundheitsamt wird sich in den nächsten Tagen bei Ihnen melden."</string>
+    <string name="submission_status_card_positive_result_contact">"Das Gesundheitsamt wird sich möglicherweise in den nächsten Tagen bei Ihnen melden."</string>
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Teilen Sie Ihre Zufalls-IDs, damit andere gewarnt werden können."</string>
 
@@ -1613,7 +1635,7 @@
     <!-- XTXT: error dialog - short text for error reason -->
     <string name="errors_generic_details_headline">"Ursache"</string>
     <!-- XBUT: error dialog - button close -->
-    <string name="errors_generic_button_positive">"Okay"</string>
+    <string name="errors_generic_button_positive">"Ok"</string>
     <!-- XBUT: error dialog - button show details -->
     <string name="errors_generic_button_negative">"Details"</string>
     <!-- XTXT: error dialog - text when no error description is available  -->
@@ -1931,7 +1953,7 @@
     <!-- XBUT: Duration dialog cancel button -->
     <string name="duration_dialog_cancel_button">Abbrechen</string>
     <!-- XBUT: Duration dialog ok button -->
-    <string name="duration_dialog_ok_button">OK</string>
+    <string name="duration_dialog_ok_button">Ok</string>
     <!-- NOTR -->
     <string name="duration_dialog_default_value">00:00</string>
     <!-- XTXT: Duration hours text -->
@@ -1981,9 +2003,9 @@
     <!-- XHED: Trace location poster title -->
     <string name="trace_location_organiser_poster_title">"Druckversion"</string>
     <!-- XHED: Trace location check-ins consent screen title -->
-    <string name="trace_location_attendee_consent_title">Check-ins für diese Orte teilen?</string>
+    <string name="trace_location_attendee_consent_title">Check-ins teilen?</string>
     <!-- XTXT: Trace location check-ins consent screen header description -->
-    <string name="trace_location_attendee_consent_header_description">Teilen Sie Ihre Check-ins, um andere zu warnen, die in Ihrer Nähe waren. Ihre Identität bleibt geheim.</string>
+    <string name="trace_location_attendee_consent_header_description">Teilen Sie Ihre Check-ins, um andere zu warnen, die mit Ihnen eingecheckt waren. Ihre Identität bleibt geheim.</string>
     <!-- XBUT: Trace location check-ins consent screen header button -->
     <string name="trace_location_attendee_consent_header_button">Alle auswählen</string>
     <!-- XBUT: Trace location check-ins consent screen continue button -->
@@ -1991,9 +2013,9 @@
     <!-- XBUT: Trace location check-ins consent screen skip button -->
     <string name="trace_location_attendee_consent_skip">Überspringen</string>
     <!-- XHED: Trace location check-ins consent screen dialog title -->
-    <string name="trace_location_attendee_consent_dialog_title">Sind Sie sicher, dass Sie Ihre Check-Ins nicht teilen wollen?</string>
+    <string name="trace_location_attendee_consent_dialog_title">Sind Sie sicher, dass Sie Ihre Check-ins nicht teilen wollen?</string>
     <!-- XTXT: Trace location check-ins consent screen dialog message -->
-    <string name="trace_location_attendee_consent_dialog_message">Dadurch werden andere, die in Ihrer Nähe waren, nicht gewarnt.</string>
+    <string name="trace_location_attendee_consent_dialog_message">Dadurch werden andere nicht gewarnt, die mit Ihnen eingecheckt waren.</string>
     <!-- XBUT: Trace location check-ins consent screen dialog positive button -->
     <string name="trace_location_attendee_consent_dialog_positive_button">Teilen</string>
     <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
@@ -2027,6 +2049,8 @@
         Warnungen, die im Rahmen von Check-ins erfolgen, können Sie sowohl empfangen als auch selbst
         versenden.
     </string>
-    <!-- XTXT: Incompitability faq link -->
-    <string name="incompatible_link">"https://www.coronawarn.app/de/faq/#incompatibility_warning"</string>
+    <!-- XTXT: Incompitability faq link for partial incompatibility -->
+    <string name="incompatible_link_advertising_not_supported">"https://www.coronawarn.app/de/faq/#part_incompat"</string>
+    <!-- XTXT: Incompitability faq link for full incompatibility -->
+    <string name="incompatible_link_scanning_not_supported">"https://www.coronawarn.app/de/faq/#full_incompat"</string>
 </resources>

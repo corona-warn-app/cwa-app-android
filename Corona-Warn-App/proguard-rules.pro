@@ -87,3 +87,10 @@
 ##---------------End: proguard configuration for Gson  ----------
 
 -keep class de.rki.coronawarnapp.server.protocols.internal.** { *; }
+
+# Fixes R8 bug https://issuetracker.google.com/issues/170709331
+# May be removed after newer R8 version is in use and the fix is confirmed
+# Prevents the app from crashing on navigation due to animation resources not being found.
+-keepclassmembers class **.R$* {
+       public static <fields>;
+}

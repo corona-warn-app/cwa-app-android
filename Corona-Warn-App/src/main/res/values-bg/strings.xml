@@ -411,7 +411,9 @@
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_4">"Ако желаете, може да използвате приложението за доказване на личния ви статус на заразяване (например отрицателен бърз тест). Но имайте предвид, че по никакъв начин не сте задължени да използвате приложението за тази цел. Може да докажете статуса си и по друг начин, съобразен с правните разпоредби на вашето място на пребиваване."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
-    <string name="onboarding_body_5">"Приложението регистрира контакти на лица посредством обмяна на криптирани случайни ИД кодове между устройствата им, без да осъществява достъп до каквито и да било лични данни."</string>
+    <string name="onboarding_body_5">"Можете също да потвърдите личния си ваксинационен статус."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_6">"Приложението регистрира контакти на лица посредством обмяна на криптирани случайни ИД кодове между устройствата им, без да осъществява достъп до каквито и да било лични данни."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
     <string name="onboarding_illustration_description">"Група лица използват смартфоните си, придвижвайки се из града."</string>
     <!-- XACT: Onboarding (privacy) page title -->
@@ -747,7 +749,7 @@
     <string name="settings_privacy_preserving_analytics_title">"Споделяне на данни"</string>
 
     <!-- XTXT: privacy preserving analytics settings switch subtitle  -->
-    <string name="settings_analytics_switch_subtitle">"Споделяне на потребителски данни"</string>
+    <string name="settings_analytics_switch_subtitle">"Споделяне на данни"</string>
 
     <!-- ####################################
                App Information
@@ -1063,13 +1065,28 @@
     <!-- XHED: Page subheadline for test result  -->
     <string name="submission_test_result_subtitle">"Как работи:"</string>
     <!-- XHED: Page headline for results next steps  -->
-    <string name="submission_test_result_steps_added_heading">"Тестът е добавен успешно"</string>
+    <string name="submission_test_result_steps_added_heading">"PCR тестът Ви е добавен успешно."</string>
     <!-- YTXT: Body text for for results next steps  -->
     <string name="submission_test_result_steps_added_body">"Вашият тест е запазен в приложението Corona-Warn-App."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_heading">"Все още няма резултат от теста Ви."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_body">"Резултатът от Вашия тест ще се покаже в приложението веднага щом бъде готов.\n\nТой ще Ви бъде изпратен също и извън приложението. Службата за обществено здравеопазване ще Ви уведоми, ако е положителен.\n\nАко получите такова уведомление, моля изтрийте теста, който в момента е регистриран в приложението. Позвънете на номера, показан под „Заявка за ТАН код“, за да получите ТАН. Използвайте кода, за да регистрирате своя резултат в приложението и да предупредите останалите потребители."</string>
+    <!-- XHED: Page headline for pending test result next steps  -->
+    <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Все още няма резултат от теста Ви."</string>
+    <!-- YTXT: Body text for next steps section of waiting test result page -->
+    <string name="submission_test_result_pending_steps_waiting_pcr_body">"Резултатът от Вашия тест ще се покаже в приложението веднага щом бъде готов.\n\nТой ще Ви бъде изпратен също и извън приложението. Службата за обществено здравеопазване ще Ви уведоми, ако е положителен.\n\nАко получите такова уведомление, моля изтрийте теста, който в момента е регистриран в приложението. Позвънете на номера, показан под „Заявка за ТАН код“, за да получите ТАН. Използвайте кода, за да регистрирате своя резултат в приложението и да предупредите останалите потребители."</string>
+    <!-- XHED: Page headline for results next steps  -->
+    <string name="submission_test_result_steps_added_rat_heading">"Бързият Ви тест е добавен."</string>
+    <!-- XHED: Page headline for pending test result next steps  -->
+    <string name="submission_test_result_pending_steps_waiting_rat_heading">"Все още няма резултат от теста Ви."</string>
+    <!-- YTXT: Body text for next steps section of waiting test result page -->
+    <string name="submission_test_result_pending_steps_waiting_rat_body">"Резултатът от Вашия тест ще се покаже в приложението веднага щом бъде готов."</string>
+    <!-- XHED: Page headline for pending test result next steps  -->
+    <string name="submission_test_result_pending_steps_contact_diary_heading">"Резултатът от теста Ви ще бъде добавен и във Вашия дневник на контактите."</string>
+    <!-- YTXT: Body text for next steps section of waiting test result page -->
+    <string name="submission_test_result_pending_steps_contact_diary_body">"Резултатът от Вашия тест ще се покаже в приложението веднага щом бъде готов."</string>
+
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Актуализиране"</string>
     <!-- XBUT: test result pending : remove the test button -->
@@ -1090,12 +1107,21 @@
     <string name="submission_test_result_positive_continue_button_with_symptoms">"Въведете симптоми"</string>
     <!-- XBUT: positive test result : continue button without symptoms -->
     <string name="submission_test_result_positive_continue_button_wo_symptoms">"Не въвеждайте симптоми"</string>
+
+
     <!-- XHED: Page headline for invalid test result screen  -->
-    <string name="submission_test_result_invalid_steps_invalid_heading">"Резултатът от Вашия тест"</string>
+    <string name="submission_test_result_invalid_steps_invalid_heading">"Не може да бъде определен резултат от теста Ви"</string>
+
+    <!-- XHED: Page headline for invalid test result screen  -->
+    <string name="submission_test_result_delete_steps_invalid_heading">"Изтриване на тест"</string>
+
     <!-- YTXT: Body text for next steps section of invalid test result-->
-    <string name="submission_test_result_invalid_steps_invalid_body">"Възникна проблем при определянето на резултата от Вашия тест. Моля, свържете се със съответния център за тестване или лаборатория, за да получите информация какво трябва да направите.\n\nМоля, изтрийте теста от Вашето Corona-Warn-App приложение, за да можете да запазите нов код на тест, ако е необходимо."</string>
+    <string name="submission_test_result_invalid_steps_invalid_body">"Възникна проблем при определянето на резултата от Вашия тест. Моля, свържете се със съответния център за тестване или лаборатория, за да получите информация какво можете да направите."</string>
+    <!-- YTXT: Body text for next steps section of invalid test result-->
+    <string name="submission_test_result_delete_steps_invalid_body">"Моля, изтрийте теста от приложението Corona-Warn-App, за да можете да запазите нов код на тест, ако е необходимо."</string>
+
     <!-- XBUT: invalid test result : remove the test button -->
-    <string name="submission_test_result_invalid_remove_test_button">"Изтриване на теста"</string>
+    <string name="submission_test_result_invalid_remove_test_button">"Изтриване на тест"</string>
     <!-- XHED: Dialog title for tracing required dailog  -->
     <string name="submission_test_result_dialog_tracing_required_title">"Изисква се регистриране на излаганията на риск"</string>
     <!-- YTXT: Dialog text for tracing required dialog-->
@@ -1147,17 +1173,13 @@
 
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
-    <string name="submission_dispatcher_headline">"Извличане на резултат от тест"</string>
-    <!-- XHED: Page subheadline for dispatcher menu  -->
-    <string name="submission_dispatcher_subheadline">"Получете резултата от Вашия тест чрез приложението и предупредете останалите. По този начин предпазвате себе си и помагате да се спре разпространението на коронавируса."</string>
-    <!-- XHED: Page subheadline for dispatcher options asking if they have already been tested: QR and TAN  -->
-    <string name="submission_dispatcher_needs_testing_subheadline">"Правили ли сте си тест?"</string>
+    <string name="submission_dispatcher_headline">"Регистрирайте своя тест"</string>
     <!-- XHED: Page subheadline for dispatcher options asking if they already have a positive test: tele-TAN  -->
     <string name="submission_dispatcher_already_positive_subheadline">"Положителен ли е Вашият резултат от PCR теста?"</string>
     <!-- YTXT: Dispatcher text for QR code option -->
-    <string name="submission_dispatcher_card_qr">"Тест с QR код"</string>
+    <string name="submission_dispatcher_card_qr">"Сканиране на QR код"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Регистрирайте теста си, като сканирате QR кода на документа."</string>
+    <string name="submission_dispatcher_qr_card_text">"Получете резултата си в приложението и предупредете останалите."</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"Въведете ТАН код за PCR тест"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
@@ -1225,9 +1247,9 @@
     <!-- YTXT: text after submission: pcr validation -->
     <string name="submission_done_share_keys">"Споделете своите случайни ИД кодове, за да предупредите останалите потребители."</string>
     <!-- YTXT: text after submission: contagious -->
-    <string name="submission_done_contagious">"От службата за обществено здравеопазване (Gesundheitsamt) ще се свържат с Вас в следващите няколко дни."</string>
+    <string name="submission_done_contagious">"От службата за обществено здравеопазване (Gesundheitsamt) може да се свържат с Вас през следващите няколко дни."</string>
     <!-- YTXT: text after submission: isolate -->
-    <string name="submission_done_isolate">"Вие сте носител на заразата. Необходимо е да се самоизолирате."</string>
+    <string name="submission_done_isolate">"Има голяма вероятност да сте носител на заразата. Изолирайте се от другите хора."</string>
 
     <!-- XHED: Title for further info -->
     <string name="submission_done_further_info_title">"Още информация:"</string>
@@ -1236,7 +1258,7 @@
         <item>"Периодът, в който трябва да сте под карантина, обикновено е 14 дни. Наблюдавайте внимателно развитието на Вашите симптоми."</item>
         <item>"Службата за обществено здравеопазване ще изиска от Вас да съставите списък на хората, с които сте били в близък контакт (на разстояние под 2 метра или при разговор лице в лице) в продължение на повече от 15 минути през последните два дни, преди да се разболеете. Може да използвате Вашия дневник на контактите – просто експортирайте записите и след това ги разпечатайте или ги изпратете по имейл."</item>
         <item>"Моля, обърнете особено внимание на хората, които няма да бъдат уведомени директно чрез приложението, тъй като нямат смартфон или не са инсталирали приложението."</item>
-        <item>"Може все още да сте носител на заразата дори ако вече не проявявате симптоми и отново се чувствате добре. По тази причина, моля, не нарушавайте указания период на карантина."</item>
+        <item>"Може все още да сте носител на заразата дори ако вече не проявявате симптоми и отново се чувствате добре. По тази причина, моля, не нарушавайте указания период на изолация."</item>
     </string-array>
     <!-- XBUT: submission finished button -->
     <string name="submission_done_button_done">"Готово"</string>
@@ -1384,9 +1406,9 @@
     <!-- XHED: submission status card positive result subtitle -->
     <string name="submission_status_card_positive_result_subtitle">"Моля, не забравяйте:"</string>
     <!-- YTXT: text for contagious card -->
-    <string name="submission_status_card_positive_result_contagious">"Вие сте носител на заразата. Необходимо е да се самоизолирате."</string>
+    <string name="submission_status_card_positive_result_contagious">"Има голяма вероятност да сте носител на заразата. Изолирайте се от другите хора."</string>
     <!-- YTXT: text for contact card -->
-    <string name="submission_status_card_positive_result_contact">"От службата за обществено здравеопазване (Gesundheitsamt) ще се свържат с Вас в следващите няколко дни."</string>
+    <string name="submission_status_card_positive_result_contact">"От службата за обществено здравеопазване (Gesundheitsamt) може да се свържат с Вас през следващите няколко дни."</string>
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Споделете своите случайни ИД кодове, за да предупредите останалите потребители."</string>
 
@@ -1980,9 +2002,9 @@
     <!-- XHED: Trace location poster title -->
     <string name="trace_location_organiser_poster_title">"Версия за печат"</string>
     <!-- XHED: Trace location check-ins consent screen title -->
-    <string name="trace_location_attendee_consent_title">"Ще споделите ли своите регистрации от локациите, които сте посетили?"</string>
+    <string name="trace_location_attendee_consent_title">"Ще споделите ли своите регистрации?"</string>
     <!-- XTXT: Trace location check-ins consent screen header description -->
-    <string name="trace_location_attendee_consent_header_description">"Предупредете останалите, които също са се регистрирали в близост до вас. Вашите лични данни няма да бъдат споделени."</string>
+    <string name="trace_location_attendee_consent_header_description">"Предупредете останалите, които също са се регистрирали с вас. Вашите лични данни няма да бъдат споделени."</string>
     <!-- XBUT: Trace location check-ins consent screen header button -->
     <string name="trace_location_attendee_consent_header_button">"Избери всички"</string>
     <!-- XBUT: Trace location check-ins consent screen continue button -->
@@ -1992,7 +2014,7 @@
     <!-- XHED: Trace location check-ins consent screen dialog title -->
     <string name="trace_location_attendee_consent_dialog_title">"Наистина ли не желаете да споделите своите регистрации?"</string>
     <!-- XTXT: Trace location check-ins consent screen dialog message -->
-    <string name="trace_location_attendee_consent_dialog_message">"Като пропускате споделянето, вие не изпращате предупреждение на други контактни лица, регистрирани в близост до вас."</string>
+    <string name="trace_location_attendee_consent_dialog_message">"Като пропускате споделянето, вие не изпращате предупреждение на други контактни лица, регистрирани с вас."</string>
     <!-- XBUT: Trace location check-ins consent screen dialog positive button -->
     <string name="trace_location_attendee_consent_dialog_positive_button">"Споделяне"</string>
     <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
@@ -2014,9 +2036,11 @@
     <!-- XHED: Incompitability card title -->
     <string name="incompatible_headline">"Предупреждение за несъвместимост"</string>
     <!-- XTXT: Incompitability card content -->
-    <string name="incompatible_advertising_not_supported">"Вашето мобилно устройство може да поучава известия за COVID-19 чрез Bluetooth, но не може да изпраща такива. Това означава, че Вие ще получавате предупреждения, но без да известявате околните, че са били в контакт с вас. Можете както да получавате, така и да изпращате предупреждения в следствие на регистрации в дадена локация."</string>
+    <string name="incompatible_advertising_not_supported">"Вашето мобилно устройство може да поучава известия за излагане на COVID-19 чрез Bluetooth, но не може да изпраща такива. Това означава, че може да получавате предупреждения за такова излагане през този интерфейс, но няма да можете да известявате околните, че са били в контакт с вас. Можете както да получавате, така и да изпращате предупреждения вследствие на регистрации на дадена локация."</string>
     <!-- XTXT: Incompitability card content -->
-    <string name="incompatible_scanning_not_supported">"Вашето мобилно устройство не може нито да изпраща, нито да получава известия за COVID-19 чрез Bluetooth. Можете както да получавате, така и да изпращате предупреждения в следствие на регистрации в дадена локация."</string>
-    <!-- XTXT: Incompitability faq link -->
-    <string name="incompatible_link">"https://www.coronawarn.app/en/faq/#incompatibility_warning"</string>
+    <string name="incompatible_scanning_not_supported">"Вашият смартфон не може нито да изпраща, нито да получава известия за излагане на COVID-19 чрез Bluetooth. Можете както да получавате, така и да изпращате предупреждения вследствие на регистрации на дадена локация."</string>
+    <!-- XTXT: Incompitability faq link for partial incompatibility -->
+    <string name="incompatible_link_advertising_not_supported">"https://www.coronawarn.app/en/faq/#part_incompat"</string>
+    <!-- XTXT: Incompitability faq link for full incompatibility -->
+    <string name="incompatible_link_scanning_not_supported">"https://www.coronawarn.app/en/faq/#full_incompat"</string>
 </resources>

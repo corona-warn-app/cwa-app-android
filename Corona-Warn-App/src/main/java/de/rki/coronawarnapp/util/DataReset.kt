@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.util
 
 import android.annotation.SuppressLint
-import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.BugReportingSettings
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
@@ -26,7 +25,9 @@ import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.ui.presencetracing.TraceLocationPreferences
-import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.vaccination.core.repository.ValueSetsRepository
+import de.rki.coronawarnapp.vaccination.core.VaccinationPreferences
+import de.rki.coronawarnapp.vaccination.core.repository.VaccinationRepository
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
@@ -39,7 +40,6 @@ import javax.inject.Singleton
 @Suppress("LongParameterList")
 @Singleton
 class DataReset @Inject constructor(
-    @AppContext private val context: Context,
     private val keyCacheRepository: KeyCacheRepository,
     private val appConfigProvider: AppConfigProvider,
     private val submissionRepository: SubmissionRepository,
@@ -63,7 +63,10 @@ class DataReset @Inject constructor(
     private val traceLocationSettings: TraceLocationSettings,
     private val traceWarningRepository: TraceWarningRepository,
     private val coronaTestRepository: CoronaTestRepository,
-    private val ratProfileSettings: RATProfileSettings
+    private val ratProfileSettings: RATProfileSettings,
+    private val valueSetsRepository: ValueSetsRepository,
+    private val vaccinationPreferences: VaccinationPreferences,
+    private val vaccinationRepository: VaccinationRepository,
 ) {
 
     private val mutex = Mutex()
@@ -107,6 +110,10 @@ class DataReset @Inject constructor(
         checkInRepository.clear()
         coronaTestRepository.clear()
         ratProfileSettings.deleteProfile()
+
+        valueSetsRepository.clear()
+        vaccinationRepository.clear()
+        vaccinationPreferences.clear()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }

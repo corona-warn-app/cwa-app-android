@@ -411,7 +411,9 @@
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_4">"Dacă doriți, puteți utiliza aplicația pentru a dovedi starea de infectare personală (de exemplu, un test rapid negativ). Rețineți, totuși, că nu aveți nicio obligație de a utiliza aplicația pentru a dovedi starea dvs. de infectare. De asemenea, puteți dovedi starea dvs. de infectare într-un alt mod care respectă reglementările legale din localitatea dvs. de domiciliu."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
-    <string name="onboarding_body_5">"Aplicația înregistrează în jurnal întâlnirile dintre persoane prin smartphone-urile acestora, care schimbă ID-uri aleatorii criptate, fără a accesa niciun fel de date personale."</string>
+    <string name="onboarding_body_5">"De asemenea, puteți verifica starea vaccinării personale."</string>
+    <!-- YTXT: onboarding(together) - paragraph -->
+    <string name="onboarding_body_6">"Aplicația înregistrează în jurnal întâlnirile dintre persoane prin smartphone-urile acestora, care schimbă ID-uri aleatorii criptate, fără a accesa niciun fel de date personale."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
     <string name="onboarding_illustration_description">"Un grup de persoane își utilizează smartphone-urile prin oraș."</string>
     <!-- XACT: Onboarding (privacy) page title -->
@@ -747,7 +749,7 @@
     <string name="settings_privacy_preserving_analytics_title">"Partajare date"</string>
 
     <!-- XTXT: privacy preserving analytics settings switch subtitle  -->
-    <string name="settings_analytics_switch_subtitle">"Partajare date de utilizator"</string>
+    <string name="settings_analytics_switch_subtitle">"Partajare date"</string>
 
     <!-- ####################################
                App Information
@@ -1038,7 +1040,7 @@
     <!-- YTXT: Body for consent main section second point  -->
     <string name="submission_consent_main_second_point">"Identitatea dvs. va rămâne secretă. Alți utilizatori nu vor afla cine a partajat rezultatul testului."</string>
     <!-- YTXT: Body for consent main section third point  -->
-    <string name="submission_consent_main_third_point">"La „Check-inurile mele”, puteți vedea evenimentele și locurile ale căror invitați cu check-inul făcut vor fi avertizați. Puteți elimina check-inuri individuale din listă pentru a le exclude din procesul de avertizare."</string>
+    <string name="submission_consent_main_third_point">"La „Check-inurile mele”, puteți vedea evenimentele și locurile ale căror invitați cu check-inul făcut vor fi avertizați. Puteți șterge check-inuri individuale din listă pentru a le exclude din procesul de avertizare."</string>
     <!-- YTXT: Body for consent main section fourth point  -->
     <string name="submission_consent_main_fourth_point">"Trebuie să aveți cel puțin 16 ani pentru a vă acorda consimțământul."</string>
     <!-- YTXT: Body for consent main section final id consent  -->
@@ -1053,7 +1055,7 @@
     <!-- YTXT: Body for no consent section third point  -->
     <string name="submission_no_consent_third_point">"Identitatea dvs. va rămâne secretă. Alți utilizatori nu vor afla cine a partajat rezultatul testului."</string>
     <!-- YTXT: Body for no consent section fourth point  -->
-    <string name="submission_no_consent_fourth_point">"La „Check-inurile mele”, puteți vedea evenimentele și locurile ale căror invitați cu check-inul făcut vor fi avertizați. Puteți elimina check-inuri individuale din listă pentru a le exclude din procesul de avertizare."</string>
+    <string name="submission_no_consent_fourth_point">"La „Check-inurile mele”, puteți vedea evenimentele și locurile ale căror invitați cu check-inul făcut vor fi avertizați. Puteți șterge check-inuri individuale din listă pentru a le exclude din procesul de avertizare."</string>
     <!-- YTXT: Body for no consent section fifth point  -->
     <string name="submission_no_consent_fifth_point">"Trebuie să aveți cel puțin 16 ani pentru a vă acorda consimțământul."</string>
 
@@ -1063,13 +1065,28 @@
     <!-- XHED: Page subheadline for test result  -->
     <string name="submission_test_result_subtitle">"Cum funcționează:"</string>
     <!-- XHED: Page headline for results next steps  -->
-    <string name="submission_test_result_steps_added_heading">"Test adăugat cu succes"</string>
+    <string name="submission_test_result_steps_added_heading">"Testul dvs. PCR a fost adăugat cu succes."</string>
     <!-- YTXT: Body text for for results next steps  -->
     <string name="submission_test_result_steps_added_body">"Testul dvs. a fost stocat în Corona-Warn-App."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_heading">"Rezultatul testului dvs. nu este încă disponibil."</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_body">"Imediat ce devine disponibil, rezultatul testului dvs. va fi afișat în aplicație.\n\nDe asemenea, veți primi rezultatul testului în afara aplicației. Autoritățile de sănătate publică vă vor anunța dacă testul dvs. este pozitiv.\n\nDacă sunteți notificat privind un rezultat pozitiv al testului în afara aplicației, eliminați testul curent înregistrat în aplicație. Apelați numărul indicat la „Solicitare TAN” pentru a obține un număr TAN. Apoi, puteți utiliza acest TAN pentru a vă înregistra rezultatul în aplicație și pentru a-i avertiza pe ceilalți."</string>
+    <string name="submission_test_result_pending_steps_waiting_body">"Imediat ce devine disponibil, rezultatul testului dvs. va fi afișat în aplicație.\n\nDe asemenea, veți primi rezultatul testului în afara aplicației. Autoritățile de sănătate publică vă vor anunța dacă testul dvs. este pozitiv.\n\nDacă sunteți notificat privind un rezultat pozitiv al testului în afara aplicației, ștergeți testul curent înregistrat în aplicație. Apelați numărul indicat la „Solicitare TAN” pentru a obține un număr TAN. Apoi, puteți utiliza acest TAN pentru a vă înregistra rezultatul în aplicație și pentru a-i avertiza pe ceilalți."</string>
+    <!-- XHED: Page headline for pending test result next steps  -->
+    <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Rezultatul testului dvs. nu este încă disponibil."</string>
+    <!-- YTXT: Body text for next steps section of waiting test result page -->
+    <string name="submission_test_result_pending_steps_waiting_pcr_body">"Imediat ce devine disponibil, rezultatul testului dvs. va fi afișat în aplicație.\n\nDe asemenea, veți primi rezultatul testului în afara aplicației. Autoritățile de sănătate publică vă vor anunța dacă testul dvs. este pozitiv.\n\nDacă sunteți notificat privind un rezultat pozitiv al testului în afara aplicației, ștergeți testul curent înregistrat în aplicație. Apelați numărul indicat la „Solicitare TAN” pentru a obține un număr TAN. Apoi, puteți utiliza acest TAN pentru a vă înregistra rezultatul în aplicație și pentru a-i avertiza pe ceilalți."</string>
+    <!-- XHED: Page headline for results next steps  -->
+    <string name="submission_test_result_steps_added_rat_heading">"Testul dvs. rapid a fost adăugat."</string>
+    <!-- XHED: Page headline for pending test result next steps  -->
+    <string name="submission_test_result_pending_steps_waiting_rat_heading">"Rezultatul testului dvs. nu este încă disponibil."</string>
+    <!-- YTXT: Body text for next steps section of waiting test result page -->
+    <string name="submission_test_result_pending_steps_waiting_rat_body">"Imediat ce devine disponibil, rezultatul testului dvs. va fi afișat în aplicație."</string>
+    <!-- XHED: Page headline for pending test result next steps  -->
+    <string name="submission_test_result_pending_steps_contact_diary_heading">"Rezultatul testului dvs. va fi adăugat la jurnalul dvs. de contacte."</string>
+    <!-- YTXT: Body text for next steps section of waiting test result page -->
+    <string name="submission_test_result_pending_steps_contact_diary_body">"Imediat ce devine disponibil, rezultatul testului dvs. va fi afișat în aplicație."</string>
+
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Actualizare"</string>
     <!-- XBUT: test result pending : remove the test button -->
@@ -1090,12 +1107,21 @@
     <string name="submission_test_result_positive_continue_button_with_symptoms">"Introducere simptome"</string>
     <!-- XBUT: positive test result : continue button without symptoms -->
     <string name="submission_test_result_positive_continue_button_wo_symptoms">"Nu se introduc simptome"</string>
+
+
     <!-- XHED: Page headline for invalid test result screen  -->
-    <string name="submission_test_result_invalid_steps_invalid_heading">"Rezultatul testului dvs."</string>
+    <string name="submission_test_result_invalid_steps_invalid_heading">"Testul dvs. nu poate fi evaluat"</string>
+
+    <!-- XHED: Page headline for invalid test result screen  -->
+    <string name="submission_test_result_delete_steps_invalid_heading">"Ștergere test"</string>
+
     <!-- YTXT: Body text for next steps section of invalid test result-->
-    <string name="submission_test_result_invalid_steps_invalid_body">"A apărut o problemă la evaluarea testului dvs. Contactați centrul sau laboratorul de testare implicat pentru a afla pașii următori.\n\nȘtergeți testul din Corona-Warn-App pentru a salva un nou cod de test aici, dacă este necesar."</string>
+    <string name="submission_test_result_invalid_steps_invalid_body">"A apărut o problemă la evaluarea testului dvs. Contactați centrul sau laboratorul de testare implicat pentru a afla pașii următori."</string>
+    <!-- YTXT: Body text for next steps section of invalid test result-->
+    <string name="submission_test_result_delete_steps_invalid_body">"Ștergeți testul din Corona-Warn-App pentru a salva un nou cod de test aici dacă este necesar."</string>
+
     <!-- XBUT: invalid test result : remove the test button -->
-    <string name="submission_test_result_invalid_remove_test_button">"Eliminare test"</string>
+    <string name="submission_test_result_invalid_remove_test_button">"Ștergere test"</string>
     <!-- XHED: Dialog title for tracing required dailog  -->
     <string name="submission_test_result_dialog_tracing_required_title">"Este necesară înregistrarea în jurnal a expunerilor"</string>
     <!-- YTXT: Dialog text for tracing required dialog-->
@@ -1105,9 +1131,9 @@
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"Testul poate fi scanat o singură dată."</string>
     <!-- YTXT: Dialog text for test removal -->
-    <string name="submission_test_result_dialog_remove_test_message">"Dacă eliminați testul, nu veți mai putea afla rezultatul testului. Veți primi rezultatul testului dvs. de la centrul sau laboratorul de testare, indiferent de valabilitatea codului QR. Dacă sunteți diagnosticat cu coronavirus, autoritatea de sănătate publică va fi notificată prin canalul de comunicare prevăzut în mod legal și vă va contacta."</string>
+    <string name="submission_test_result_dialog_remove_test_message">"Dacă ștergeți testul, nu veți mai putea afla rezultatul testului. Veți primi rezultatul testului dvs. de la centrul sau laboratorul de testare, indiferent de valabilitatea codului QR. Dacă sunteți diagnosticat cu coronavirus, autoritatea de sănătate publică va fi notificată prin canalul de comunicare prevăzut în mod legal și vă va contacta."</string>
     <!-- XBUT: Positive button for test removal -->
-    <string name="submission_test_result_dialog_remove_test_button_positive">"Eliminare"</string>
+    <string name="submission_test_result_dialog_remove_test_button_positive">"Ștergere"</string>
     <!-- XBUT: Negative button for test removal -->
     <string name="submission_test_result_dialog_remove_test_button_negative">"Anulare"</string>
     <!-- XHED: Title for test result card positive -->
@@ -1147,17 +1173,13 @@
 
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
-    <string name="submission_dispatcher_headline">"Aflarea rezultatului testului"</string>
-    <!-- XHED: Page subheadline for dispatcher menu  -->
-    <string name="submission_dispatcher_subheadline">"Aflați rezultatul testului dvs. prin intermediul aplicației și avertizați-i pe ceilalți. Vă veți proteja și veți opri răspândirea coronavirusului."</string>
-    <!-- XHED: Page subheadline for dispatcher options asking if they have already been tested: QR and TAN  -->
-    <string name="submission_dispatcher_needs_testing_subheadline">"Ați fost testat?"</string>
+    <string name="submission_dispatcher_headline">"Înregistrarea testului dvs."</string>
     <!-- XHED: Page subheadline for dispatcher options asking if they already have a positive test: tele-TAN  -->
     <string name="submission_dispatcher_already_positive_subheadline">"Testul dvs. PCR a fost pozitiv?"</string>
     <!-- YTXT: Dispatcher text for QR code option -->
-    <string name="submission_dispatcher_card_qr">"Testarea cu cod QR"</string>
+    <string name="submission_dispatcher_card_qr">"Scanare cod QR"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Înregistrați-vă testul scanând codul QR al documentului de testare."</string>
+    <string name="submission_dispatcher_qr_card_text">"Primiți rezultatul testului dvs. în aplicație și avertizați-i pe ceilalți."</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"Introduceți codul TAN pentru testul PCR"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
@@ -1225,18 +1247,18 @@
     <!-- YTXT: text after submission: pcr validation -->
     <string name="submission_done_share_keys">"Trimiteți ID-ul dvs. aleatoriu pentru a-i avertiza și pe alții."</string>
     <!-- YTXT: text after submission: contagious -->
-    <string name="submission_done_contagious">"Autoritatea de sănătate publică vă va contacta în următoarele zile."</string>
+    <string name="submission_done_contagious">"Autoritatea de sănătate publică vă poate contacta în următoarele zile."</string>
     <!-- YTXT: text after submission: isolate -->
-    <string name="submission_done_isolate">"Sunteți infectat. Izolați-vă de alte persoane."</string>
+    <string name="submission_done_isolate">"Există o probabilitate mare să fiți contagios. Izolați-vă de alte persoane."</string>
 
     <!-- XHED: Title for further info -->
     <string name="submission_done_further_info_title">"Alte informații:"</string>
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
-        <item>"Perioada de carantină este de obicei de 14 zile. Monitorizați cu atenție modul în care evoluează simptomele dvs."</item>
+        <item>"Perioada de izolare este de obicei de 14 zile. Monitorizați cu atenție modul în care evoluează simptomele dvs."</item>
         <item>"Autoritatea dvs. de sănătate publică vă va solicita să întocmiți o listă a persoanelor cu care ați intrat în contact. Aceasta trebuie să cuprindă toate persoanele cu care ați avut contact strâns (mai puțin de 2 metri, conversații față în față) timp de peste 15 minute începând cu două zile înainte de a vă îmbolnăvi. Puteți utiliza jurnalul de contacte în acest scop: trebuie doar să exportați intrările și apoi să le tipăriți sau să le expediați pe e-mail."</item>
         <item>"Luați în considerare în special persoanele care nu vor fi notificate direct de aplicație dacă nu au un smartphone sau dacă nu și-au instalat aplicația."</item>
-        <item>"Chiar și când nu mai aveți simptome și vă simțiți din nou bine, tot puteți să fiți contagios. Vă rugăm să respectați perioada de carantină indicată."</item>
+        <item>"Chiar și când nu mai aveți simptome și vă simțiți din nou bine, tot puteți să fiți contagios. Vă rugăm să respectați perioada de izolare indicată."</item>
     </string-array>
     <!-- XBUT: submission finished button -->
     <string name="submission_done_button_done">"Gata"</string>
@@ -1384,9 +1406,9 @@
     <!-- XHED: submission status card positive result subtitle -->
     <string name="submission_status_card_positive_result_subtitle">"Rețineți:"</string>
     <!-- YTXT: text for contagious card -->
-    <string name="submission_status_card_positive_result_contagious">"Sunteți infectat. Izolați-vă de alte persoane."</string>
+    <string name="submission_status_card_positive_result_contagious">"Există o probabilitate mare să fiți contagios. Izolați-vă de alte persoane."</string>
     <!-- YTXT: text for contact card -->
-    <string name="submission_status_card_positive_result_contact">"Autoritatea de sănătate publică vă va contacta în următoarele zile."</string>
+    <string name="submission_status_card_positive_result_contact">"Autoritatea de sănătate publică vă poate contacta în următoarele zile."</string>
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Trimiteți ID-ul dvs. aleatoriu pentru a-i avertiza și pe alții."</string>
 
@@ -1948,7 +1970,7 @@
     <!-- XACT: Button/Dialog label to cancel something-->
     <string name="generic_action_abort">"Anulare"</string>
     <!-- XACT: Button/Dialog label to remove something-->
-    <string name="generic_action_remove">"Eliminare"</string>
+    <string name="generic_action_remove">"Ștergere"</string>
 
     <!-- ####################################
        Trace Location
@@ -1980,9 +2002,9 @@
     <!-- XHED: Trace location poster title -->
     <string name="trace_location_organiser_poster_title">"Versiune de tipărire"</string>
     <!-- XHED: Trace location check-ins consent screen title -->
-    <string name="trace_location_attendee_consent_title">"Partajați check-inurile locației?"</string>
+    <string name="trace_location_attendee_consent_title">"Partajați check-inurile?"</string>
     <!-- XTXT: Trace location check-ins consent screen header description -->
-    <string name="trace_location_attendee_consent_header_description">"Avertizați-i pe ceilalți care au făcut check-in în aproprierea dvs. Datele dvs. personale nu vor fi partajate."</string>
+    <string name="trace_location_attendee_consent_header_description">"Avertizați-i pe ceilalți care au făcut check-in cu dvs. Datele dvs. personale nu vor fi partajate."</string>
     <!-- XBUT: Trace location check-ins consent screen header button -->
     <string name="trace_location_attendee_consent_header_button">"Selectare tot"</string>
     <!-- XBUT: Trace location check-ins consent screen continue button -->
@@ -1992,7 +2014,7 @@
     <!-- XHED: Trace location check-ins consent screen dialog title -->
     <string name="trace_location_attendee_consent_dialog_title">"Sigur nu doriți să partajați check-inurile dvs.?"</string>
     <!-- XTXT: Trace location check-ins consent screen dialog message -->
-    <string name="trace_location_attendee_consent_dialog_message">"Omiterea nu va avertiza contactele care au făcut check-in în apropierea dvs."</string>
+    <string name="trace_location_attendee_consent_dialog_message">"Omiterea nu va avertiza contactele care au făcut check-in cu dvs."</string>
     <!-- XBUT: Trace location check-ins consent screen dialog positive button -->
     <string name="trace_location_attendee_consent_dialog_positive_button">"Partajare"</string>
     <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
@@ -2014,9 +2036,11 @@
     <!-- XHED: Incompitability card title -->
     <string name="incompatible_headline">"Avertizare de incompatibilitate"</string>
     <!-- XTXT: Incompitability card content -->
-    <string name="incompatible_advertising_not_supported">"Smartphone-ul dvs. poate doar primi notificări despre COVID-19 prin Bluetooth, dar nu le poate expedia. Aceasta înseamnă că puteți fi avertizat privind expunerile prin această interfață, dar dvs. nu îi puteți avertiza pe ceilalți de expuneri. Puteți trimite și primi avertizări care rezultă din check-inuri."</string>
+    <string name="incompatible_advertising_not_supported">"Smartphone-ul dvs. poate doar primi notificări despre expunerea la COVID-19 prin Bluetooth, dar nu le poate expedia. Aceasta înseamnă că puteți fi avertizat privind expunerile prin această interfață, dar dvs. nu îi puteți avertiza pe ceilalți de expuneri. Puteți trimite și primi avertizări care rezultă din check-inuri."</string>
     <!-- XTXT: Incompitability card content -->
-    <string name="incompatible_scanning_not_supported">"Smartphone-ul dvs. nu poate trimite sau primi notificări despre COVID-19 prin Bluetooth. Puteți trimite și primi avertizări care rezultă din check-inuri."</string>
-    <!-- XTXT: Incompitability faq link -->
-    <string name="incompatible_link">"https://www.coronawarn.app/en/faq/#incompatibility_warning"</string>
+    <string name="incompatible_scanning_not_supported">"Smartphone-ul dvs. nu poate trimite sau primi notificări despre expunerea la COVID-19 prin Bluetooth. Puteți trimite și primi avertizări care rezultă din check-inuri."</string>
+    <!-- XTXT: Incompitability faq link for partial incompatibility -->
+    <string name="incompatible_link_advertising_not_supported">"https://www.coronawarn.app/en/faq/#part_incompat"</string>
+    <!-- XTXT: Incompitability faq link for full incompatibility -->
+    <string name="incompatible_link_scanning_not_supported">"https://www.coronawarn.app/en/faq/#full_incompat"</string>
 </resources>
