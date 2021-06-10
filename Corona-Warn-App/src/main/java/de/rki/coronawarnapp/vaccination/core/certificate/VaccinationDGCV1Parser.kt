@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificat
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_HC_CWT_NO_DGC
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_HC_CWT_NO_HCERT
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_JSON_SCHEMA_INVALID
-import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_MULTIPLE_VACCINATION_ENTRY
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_MULTIPLE_VACCINATION_ENTRIES
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_NO_VACCINATION_ENTRY
 import timber.log.Timber
 import javax.inject.Inject
@@ -43,7 +43,7 @@ class VaccinationDGCV1Parser @Inject constructor(
                 Timber.w("Lenient: Vaccination data contained multiple entries.")
                 copy(vaccinationDatas = listOf(vaccinationDatas.maxByOrNull { it.vaccinatedAt }!!))
             } else {
-                throw InvalidHealthCertificateException(VC_MULTIPLE_VACCINATION_ENTRY)
+                throw InvalidHealthCertificateException(VC_MULTIPLE_VACCINATION_ENTRIES)
             }
         }
         .also {
