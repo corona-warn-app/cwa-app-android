@@ -2,6 +2,7 @@
 <resources>
 
     <!-- Brand Colors -->
+    <color name="colorSecondary">#80CDEC</color>
     <color name="colorSurface">#000000</color>
     <color name="colorSurface1">#232324</color>
     <color name="colorSurface1Pressed">#39393A</color>

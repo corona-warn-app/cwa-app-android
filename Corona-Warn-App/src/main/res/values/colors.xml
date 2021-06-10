@@ -2,7 +2,7 @@
 <resources>
 
     <!-- Brand Colors -->
-    <color name="colorSecondary">#80CDEC</color>
+    <color name="colorSecondary">#007FAD</color>
     <color name="colorPrimary">#007FAD</color>
     <color name="colorSurface">#FFFFFF</color>
     <color name="colorSurface1">#FFFFFF</color>
