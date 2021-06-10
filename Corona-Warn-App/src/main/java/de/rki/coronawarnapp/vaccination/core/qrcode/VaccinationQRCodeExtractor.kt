@@ -22,14 +22,14 @@ class VaccinationQRCodeExtractor @Inject constructor(
 
     override fun canHandle(rawString: String): Boolean = rawString.startsWith(PREFIX)
 
-    override fun extract(rawString: String): VaccinationCertificateQRCode {
+    override fun extract(rawString: String, mode: QrCodeExtractor.Mode): VaccinationCertificateQRCode {
         CertificateQrCodeCensor.addQRCodeStringToCensor(rawString)
 
         val parsedData = rawString
             .removePrefix(PREFIX)
             .decodeBase45()
             .decompress()
-            .parse()
+            .parse(lenient = mode == QrCodeExtractor.Mode.CERT_VAC_LENIENT)
 
         return VaccinationCertificateQRCode(
             parsedData = parsedData,
@@ -51,13 +51,13 @@ class VaccinationQRCodeExtractor @Inject constructor(
         throw InvalidHealthCertificateException(HC_ZLIB_DECOMPRESSION_FAILED)
     }
 
-    fun RawCOSEObject.parse(): VaccinationCertificateData {
+    fun RawCOSEObject.parse(lenient: Boolean): VaccinationCertificateData {
         Timber.v("Parsing COSE for vaccination certificate.")
         val cbor = coseDecoder.decode(this)
 
         return VaccinationCertificateData(
             header = headerParser.parse(cbor),
-            certificate = bodyParser.parse(cbor)
+            certificate = bodyParser.parse(cbor, lenient = lenient)
         ).also {
             CertificateQrCodeCensor.addCertificateToCensor(it)
         }.also {

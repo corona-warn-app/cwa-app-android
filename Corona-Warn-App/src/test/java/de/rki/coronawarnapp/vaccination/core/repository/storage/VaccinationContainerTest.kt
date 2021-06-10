@@ -1,12 +1,17 @@
 package de.rki.coronawarnapp.vaccination.core.repository.storage
 
+import de.rki.coronawarnapp.coronatest.qrcode.QrCodeExtractor
 import de.rki.coronawarnapp.vaccination.core.DaggerVaccinationTestComponent
 import de.rki.coronawarnapp.vaccination.core.VaccinatedPersonIdentifier
 import de.rki.coronawarnapp.vaccination.core.VaccinationTestData
+import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationCertificateQRCode
+import de.rki.coronawarnapp.vaccination.core.qrcode.VaccinationQRCodeExtractor
 import de.rki.coronawarnapp.vaccination.core.server.valueset.VaccinationValueSet
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
@@ -137,5 +142,28 @@ class VaccinationContainerTest : BaseTest() {
         testData.personXVac1ContainerBadCountryData.toVaccinationCertificate(null).apply {
             certificateCountry shouldBe "YY"
         }
+    }
+
+    @Test
+    fun `default parsing mode for containers is lenient`() {
+        val container = VaccinationContainer(
+            vaccinationQrCode = testData.personYVacTwoEntriesQrCode,
+            scannedAt = Instant.EPOCH
+        )
+        val extractor = mockk<VaccinationQRCodeExtractor>().apply {
+            every { extract(any(), any()) } returns mockk<VaccinationCertificateQRCode>().apply {
+                every { parsedData } returns mockk()
+            }
+        }
+        container.qrCodeExtractor = extractor
+
+        container.certificateData shouldNotBe null
+
+        verify { extractor.extract(testData.personYVacTwoEntriesQrCode, QrCodeExtractor.Mode.CERT_VAC_LENIENT) }
+    }
+
+    @Test
+    fun `gracefully handle semi invalid data - multiple entries`() {
+        testData.personYVacTwoEntriesContainer.certificate.vaccinationDatas.size shouldBe 1
     }
 }
