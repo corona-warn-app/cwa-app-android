@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.TaskTypeKey
 
 @Module
-abstract class VaccinationModule {
+abstract class VaccinationCertificateModule {
     @Binds
     @IntoMap
     @TaskTypeKey(VaccinationUpdateTask::class)

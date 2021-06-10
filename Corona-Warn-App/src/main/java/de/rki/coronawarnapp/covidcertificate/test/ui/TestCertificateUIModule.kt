@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.covidcertificate.test.ui.details.CovidCertificateDet
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.CovidCertificateDetailsModule
 
 @Module
-abstract class CovidCertificateUIModule {
+abstract class TestCertificateUIModule {
 
     @ContributesAndroidInjector(modules = [CertificatesFragmentModule::class])
     abstract fun certificatesFragment(): CertificatesFragment

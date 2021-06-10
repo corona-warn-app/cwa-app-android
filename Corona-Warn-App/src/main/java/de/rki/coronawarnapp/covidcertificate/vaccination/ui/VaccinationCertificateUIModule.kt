@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.ui.scan.VaccinationQrCo
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.scan.VaccinationQrCodeScanModule
 
 @Module
-abstract class VaccinationUIModule {
+abstract class VaccinationCertificateUIModule {
 
     @ContributesAndroidInjector(modules = [VaccinationListFragmentModule::class])
     abstract fun vaccinationListFragment(): VaccinationListFragment
