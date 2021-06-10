@@ -154,4 +154,9 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
             }
         }
     }
+
+    @Test
+    fun `Swedish qr code passes`() {
+        extractor.extract(VaccinationQrCodeTestData.qrCodeSweden)
+    }
 }
