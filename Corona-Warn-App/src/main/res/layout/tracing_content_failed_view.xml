@@ -34,7 +34,7 @@
             android:layout_height="@dimen/icon_size_risk_card"
             android:importantForAccessibility="no"
             app:srcCompat="@drawable/ic_forward"
-            app:tint="@color/colorTextPrimary1"
+            app:tint="@color/colorOnPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,7 +56,7 @@
             android:layout_marginTop="@dimen/spacing_small"
             android:icon="@drawable/ic_risk_card_saved_risk"
             android:text="@{state.getLastRiskState(context)}"
-            android:textColor="@color/colorTextPrimary1"
+            android:textColor="@color/colorOnPrimary"
             app:compatIconTint="@color/colorSemanticNeutralRisk"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:icon="@drawable/ic_risk_card_time_fetched"
             android:text="@{state.getTimeFetched(context)}"
-            android:textColor="@color/colorTextPrimary1"
+            android:textColor="@color/colorOnPrimary"
             app:compatIconTint="@color/colorSemanticNeutralRisk"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

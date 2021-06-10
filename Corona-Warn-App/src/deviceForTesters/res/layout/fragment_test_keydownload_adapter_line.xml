@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="?selectableItemBackground"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="?selectableItemBackground">
     <TextView
         android:id="@+id/location_info"
         style="@style/body1"
@@ -42,9 +42,9 @@
 
     <TextView
         android:id="@+id/creation_label"
+        style="@style/TextAppearance.AppCompat.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/TextAppearance.AppCompat.Caption"
         android:layout_marginEnd="16dp"
         android:text="Downloaded at"
         app:layout_constraintBottom_toBottomOf="@+id/location_info"
@@ -65,11 +65,12 @@
         app:layout_constraintTop_toTopOf="@+id/time_info"
         tools:text="1111-11-11 11:11" />
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress_indicator"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginEnd="16dp"
+        android:indeterminate="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

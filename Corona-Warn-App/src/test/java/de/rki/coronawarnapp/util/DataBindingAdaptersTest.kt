@@ -3,17 +3,18 @@ package de.rki.coronawarnapp.util
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
-import android.widget.Switch
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
+import com.google.android.material.switchmaterial.SwitchMaterial
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
-import io.mockk.spyk
 import io.mockk.verify
 import io.mockk.verifySequence
 import org.junit.Before
@@ -21,10 +22,6 @@ import org.junit.Test
 import testhelpers.BaseTest
 
 class DataBindingAdaptersTest : BaseTest() {
-
-    @MockK
-    private lateinit var context: Context
-
     @MockK
     private lateinit var drawable: Drawable
 
@@ -35,7 +32,10 @@ class DataBindingAdaptersTest : BaseTest() {
     }
 
     private fun setChecked(status: Boolean?) {
-        val switch = spyk(Switch(context))
+        val switch = mockk<SwitchMaterial>().apply {
+            every { tag = any() } just Runs
+            every { isChecked = any() } just Runs
+        }
 
         setChecked(switch, status)
 

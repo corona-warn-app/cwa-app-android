@@ -77,8 +77,7 @@
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
                     app:layout_scrollFlags="scroll|enterAlways"
-                    app:navigationIcon="@drawable/ic_close_white"
-                    app:titleTextColor="@color/colorAccentTintButton">
+                    app:navigationIcon="@drawable/ic_close_white">
 
                     <LinearLayout
                         android:id="@+id/header_text_layout"

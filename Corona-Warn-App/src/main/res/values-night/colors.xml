@@ -2,21 +2,16 @@
 <resources>
 
     <!-- Brand Colors -->
-    <color name="colorBrandPrimary">#D13F3F</color>
-    <color name="colorBrandSecondary">#80CDEC</color>
-    <color name="colorBrandTertiary">#994866</color>
-
-    <!-- Backgrounds and Separators -->
-    <color name="colorBackground">#000000</color>
+    <color name="colorSecondary">#80CDEC</color>
+    <color name="colorSurface">#000000</color>
     <color name="colorSurface1">#232324</color>
     <color name="colorSurface1Pressed">#39393A</color>
     <color name="colorSurface2">#434445</color>
     <color name="colorSurface2Pressed">#565757</color>
-    <color name="colorHairline">#4DFFFFFF</color>
     <color name="colorSystemUI">#000000</color>
 
     <!-- Text -->
-    <color name="colorTextPrimary1">#FFFFFF</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
     <color name="colorTextPrimary1Inverted">#17191A</color>
     <color name="colorTextPrimary2">#99FFFFFF</color>
     <color name="colorTextPrimary3">#4DFFFFFF</color>
@@ -38,7 +33,6 @@
     <color name="colorSemanticUnknownRiskPressed">#39393A</color>
 
     <!-- Accent -->
-    <color name="colorAccentTintButton">#007FAD</color>
     <color name="colorAccentTintButtonPressed">#1B4865</color>
     <color name="colorAccentTintIcon">#83D2F2</color>
 
@@ -79,7 +73,7 @@
     <color name="colorQrCodeScanMask">#BF000000</color>
 
     <!-- Vaccination -->
-    <color name="colorVaccinationCardBackground">#434445</color>
+    <color name="colorVaccinationCardBackground">@color/colorSurface2</color>
 
     <color name="dividerColor">#4DFFFFFF</color>
 </resources>
