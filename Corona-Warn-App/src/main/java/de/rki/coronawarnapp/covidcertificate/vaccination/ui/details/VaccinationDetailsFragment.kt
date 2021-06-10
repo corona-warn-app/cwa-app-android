@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.databinding.FragmentCovidCertificateDetailsBinding
 import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
+import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.setUrl
@@ -47,6 +48,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             toolbar.setNavigationOnClickListener { popBackStack() }
 
             bindTravelNoticeViews()
+            bindToolbar()
 
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
                 it.certificate?.let { certificate -> bindCertificateViews(certificate) }
@@ -88,6 +90,19 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 }
             }
         }
+
+    private fun FragmentVaccinationDetailsBinding.bindToolbar() = toolbar.apply {
+        setNavigationOnClickListener { popBackStack() }
+        setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_covid_certificate_delete -> {
+                    //DialogHelper.showDialog(deleteTestConfirmationDialog)
+                    true
+                }
+                else -> onOptionsItemSelected(it)
+            }
+        }
+    }
 
     private fun FragmentVaccinationDetailsBinding.bindCertificateViews(
         certificate: VaccinationCertificate

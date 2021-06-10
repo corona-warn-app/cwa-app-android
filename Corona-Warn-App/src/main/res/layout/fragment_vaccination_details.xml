@@ -78,8 +78,9 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:layout_scrollFlags="scroll|enterAlways"
-                app:navigationIcon="@drawable/ic_back"
                 app:navigationIconTint="@android:color/white"
+                app:menu="@menu/menu_covid_certificate_detail"
+                app:navigationIcon="@drawable/ic_back"
                 app:titleTextColor="@color/colorAccentTintButton">
 
                 <LinearLayout
@@ -91,7 +92,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="72dp"
+                        android:layout_marginEnd="32dp"
                         android:importantForAccessibility="no"
                         app:srcCompat="@drawable/ic_cwa_logo_white" />
                 </LinearLayout>
