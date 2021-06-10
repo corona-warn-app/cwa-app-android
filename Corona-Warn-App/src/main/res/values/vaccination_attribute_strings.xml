@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Travel Notice German -->
+    <string name="vaccination_certificate_attribute_certificate_travel_notice_german" translatable="false">"Diese Bescheinigung ist kein Reisedokument. Die wissenschaftlichen Erkenntnisse zu COVID-19 in den Bereichen Impfung, Testung und Genesung entwickeln sich fortlaufend weiter, auch im Hinblick auf neue besorgniserregende Virusvarianten. Bitte informieren Sie sich vor Reiseantritt über die am Zielort geltenden Gesundheitsmaßnahmen und entsprechenden Beschränkungen. Informationen über die in den jeweiligen EU-Ländern geltenden Einreisebestimmungen finden Sie unter https://reopen.europa.eu/de."</string>
+    <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Travel Notice English -->
+    <string name="vaccination_certificate_attribute_certificate_travel_notice_english" translatable="false">"This certificate is not a travel document. The scientific evidence on COVID-19 vaccination, testing, and recovery continues to evolve, also in view of new variants of concern of the virus. Before traveling, please check the applicable public health measures and related restrictions applied at the point of destination. Information on the current travel restrictions that apply to EU countries is available at https://reopen.europa.eu/en."</string>
+</resources>

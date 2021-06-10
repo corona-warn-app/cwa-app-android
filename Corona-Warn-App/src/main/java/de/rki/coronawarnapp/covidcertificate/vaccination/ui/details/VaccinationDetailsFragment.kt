@@ -12,11 +12,13 @@ import com.google.android.material.appbar.AppBarLayout
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.databinding.FragmentCovidCertificateDetailsBinding
 import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.setUrl
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -43,6 +45,8 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
             toolbar.setNavigationOnClickListener { popBackStack() }
+
+            bindTravelNoticeViews()
 
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
                 it.certificate?.let { certificate -> bindCertificateViews(certificate) }
@@ -115,6 +119,28 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             certificate.vaccinatedAt.toString(format),
             certificate.expiresAt.toString(format)
         )
+    }
+
+    private fun FragmentVaccinationDetailsBinding.bindTravelNoticeViews() {
+        if (travelNoticeGerman.text ==
+            getString(R.string.vaccination_certificate_attribute_certificate_travel_notice_german)
+        ) {
+            travelNoticeGerman.setUrl(
+                R.string.vaccination_certificate_attribute_certificate_travel_notice_german,
+                R.string.vaccination_certificate_travel_notice_link_de,
+                R.string.vaccination_certificate_travel_notice_link_de
+            )
+        }
+
+        if (travelNoticeEnglish.text ==
+            getString(R.string.green_certificate_attribute_certificate_travel_notice_english)
+        ) {
+            travelNoticeEnglish.setUrl(
+                R.string.green_certificate_attribute_certificate_travel_notice_english,
+                R.string.green_certificate_travel_notice_link_en,
+                R.string.green_certificate_travel_notice_link_en
+            )
+        }
     }
 
     private fun setToolbarOverlay() {

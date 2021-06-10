@@ -257,7 +257,7 @@
                     style="@style/body2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/green_certificate_attribute_certificate_travel_notice_german" />
+                    android:text="@string/vaccination_certificate_attribute_certificate_travel_notice_german" />
 
                 <TextView
                     android:id="@+id/travel_notice_english"
@@ -265,7 +265,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/green_certificate_attribute_certificate_travel_notice_english" />
+                    android:text="@string/vaccination_certificate_attribute_certificate_travel_notice_english" />
             </LinearLayout>
 
         </LinearLayout>

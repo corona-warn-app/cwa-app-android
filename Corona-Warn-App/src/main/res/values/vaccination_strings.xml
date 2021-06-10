@@ -119,4 +119,9 @@
     <!-- XBUT: Text for vaccination consent accept button -->
     <string name="vaccination_consent_accept_button">"Continue"</string>
 
+    <!-- XTXT: Detail green certificate travel notice link en -->
+    <string name="vaccination_certificate_travel_notice_link_en">"https://reopen.europa.eu/en"</string>
+    <!-- XTXT: Detail green certificate travel notice link de -->
+    <string name="vaccination_certificate_travel_notice_link_de">"https://reopen.europa.eu/de"</string>
+
 </resources>
