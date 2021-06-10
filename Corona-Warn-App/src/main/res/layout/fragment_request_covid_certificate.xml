@@ -191,7 +191,7 @@
 
     <Button
         android:id="@+id/disagree_button"
-        style="@style/button"
+        style="@style/buttonLight"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_normal"
