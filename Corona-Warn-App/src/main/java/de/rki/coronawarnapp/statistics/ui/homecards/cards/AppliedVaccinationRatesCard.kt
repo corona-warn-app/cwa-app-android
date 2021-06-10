@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterCl
 import de.rki.coronawarnapp.statistics.AppliedVaccinationRatesStats
 import de.rki.coronawarnapp.statistics.StatsItem
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter
-import de.rki.coronawarnapp.statistics.util.formatPercentageValue
 import de.rki.coronawarnapp.statistics.util.formatStatisticalValue
 import de.rki.coronawarnapp.statistics.util.getContentDescriptionForTrends
 import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithLineBreak
