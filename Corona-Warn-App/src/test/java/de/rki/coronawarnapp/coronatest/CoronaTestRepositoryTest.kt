@@ -6,9 +6,9 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.storage.CoronaTestStorage
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
-import de.rki.coronawarnapp.coronatest.type.pcr.PCRProcessor
+import de.rki.coronawarnapp.coronatest.type.pcr.PCRTestProcessor
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
-import de.rki.coronawarnapp.coronatest.type.rapidantigen.RAProcessor
+import de.rki.coronawarnapp.coronatest.type.rapidantigen.RATestProcessor
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -38,9 +38,9 @@ class CoronaTestRepositoryTest : BaseTest() {
         registrationToken = "token",
         testResult = CoronaTestResult.PCR_REDEEMED,
     )
-    @MockK lateinit var pcrProcessor: PCRProcessor
+    @MockK lateinit var pcrProcessor: PCRTestProcessor
 
-    @MockK lateinit var raProcessor: RAProcessor
+    @MockK lateinit var raProcessor: RATestProcessor
     private val raTest = RACoronaTest(
         identifier = "ra-identifier",
         lastUpdatedAt = Instant.EPOCH,

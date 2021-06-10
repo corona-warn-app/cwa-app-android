@@ -16,8 +16,6 @@ import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragment
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragmentModule
 import de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaOnboardingFragmentModule
 import de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaonboardingFragment
-import de.rki.coronawarnapp.test.greencertificate.GreenCertificateTestFragment
-import de.rki.coronawarnapp.test.greencertificate.GreenCertificateTestFragmentModule
 import de.rki.coronawarnapp.test.hometestcards.ui.HomeTestCardsFragment
 import de.rki.coronawarnapp.test.hometestcards.ui.HomeTestCardsFragmentModule
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragment
@@ -36,8 +34,6 @@ import de.rki.coronawarnapp.test.submission.ui.SubmissionTestFragment
 import de.rki.coronawarnapp.test.submission.ui.SubmissionTestFragmentModule
 import de.rki.coronawarnapp.test.tasks.ui.TestTaskControllerFragment
 import de.rki.coronawarnapp.test.tasks.ui.TestTaskControllerFragmentModule
-import de.rki.coronawarnapp.vaccination.ui.VaccinationTestFragment
-import de.rki.coronawarnapp.vaccination.ui.VaccinationTestFragmentModule
 
 @Module
 abstract class MainActivityTestModule {
@@ -89,10 +85,4 @@ abstract class MainActivityTestModule {
 
     @ContributesAndroidInjector(modules = [CoronaTestTestFragmentModule::class])
     abstract fun coronaTest(): CoronaTestTestFragment
-
-    @ContributesAndroidInjector(modules = [VaccinationTestFragmentModule::class])
-    abstract fun vaccinationTest(): VaccinationTestFragment
-
-    @ContributesAndroidInjector(modules = [GreenCertificateTestFragmentModule::class])
-    abstract fun greenCertificateTestFragment(): GreenCertificateTestFragment
 }

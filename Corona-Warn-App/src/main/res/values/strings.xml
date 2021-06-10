@@ -283,7 +283,7 @@
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_away">"Keep at least 1.5 meters distance from other people."</string>
     <!-- XTXT: find details about exposures in the contact journal -->
-    <string name="risk_details_find_details_in_journal"></string>
+    <string name="risk_details_find_details_in_journal">"You will find more information about your exposures in your contact journal."</string>
 
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
     <string name="risk_details_increased_risk_faq_link_text">"If you get tested, you will find additional information about the testing procedure in the FAQ."</string>
@@ -1031,7 +1031,7 @@
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_test_only_once">"Each test can only be scanned once. The app can manage a maximum of one rapid test and one PCR test at the same time."</string>
     <!-- YTXT:  Body sub text 3 for Submission Consent call test result   -->
-    <string name="submission_consent_call_test_result_checkmark_text">"Wenn Ihr Testergebnis negativ ist, können Sie dies in Form eines offiziellen COVID-19-Testzertifikats bestätigen lassen. Fordern Sie hierfür in den folgenden Schritten das Testzertifikat an."</string>
+    <string name="submission_consent_call_test_result_checkmark_text">"If your test result is negative, you can confirm this with an official COVID test certificate. To do so, request the test certificate in the following steps."</string>
     <!-- XHED: Page subheadline for consent help by warning others  -->
     <string name="submission_consent_help_by_warning_others_headline">"Please help others you have encountered by warning them!"</string>
     <!-- YTXT: Body for consent help by warning others -->
@@ -1093,13 +1093,13 @@
     <string name="submission_test_result_pending_steps_contact_diary_body">"As soon as your test result becomes available, it will be displayed in the app."</string>
 
     <!-- XHED: Page headline for test result certifcate info title  -->
-    <string name="submission_test_result_pending_steps_test_certificate_heading">"Ihr Testzertifikat"</string>
+    <string name="submission_test_result_pending_steps_test_certificate_heading">"Your Test Certificate"</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not supported, RAT Test -->
-    <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"Es liegt kein Testzertifikat vor, da diese Teststelle die Ausstellung von Testzertifikaten nicht unterstützt."</string>
+    <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"No test certificate is available because this testing point does not support the issuing of test certificates."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
-    <string name="submission_test_result_pending_steps_test_certificate_not_available_yet_body">"Ihr Testzertifikat liegt noch nicht vor. Sobald es vorliegt, wird es Ihnen in der App angezeigt."</string>
+    <string name="submission_test_result_pending_steps_test_certificate_not_available_yet_body">"Your test certificate is not available yet. As soon as it becomes available, it will be displayed in your app."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not desired by the user, PCR Test no consent given -->
-    <string name="submission_test_result_pending_steps_test_certificate_not_desired_by_user_body">"Auf Ihren Wunsch hin wurde kein Testzertifikat ausgestellt."</string>
+    <string name="submission_test_result_pending_steps_test_certificate_not_desired_by_user_body">"No test certificate was issued, as per your request."</string>
 
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Update"</string>
@@ -1193,7 +1193,7 @@
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"Scan QR Code"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Receive your test result in the app and warn others."</string>
+    <string name="submission_dispatcher_qr_card_text">"Receive your test result in the app and warn others or request your COVID test certificate."</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"Enter TAN for PCR Test"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
@@ -1869,8 +1869,7 @@
     <!-- XHED: Title for BottomNav check-in screen title -->
     <string name="bottom_nav_check_ins_title">"Check In"</string>
     <!-- XHED: Title for BottomNav certificates screen title -->
-    <string name="bottom_nav_certificates_title">"Nachweise"</string>
-
+    <string name="bottom_nav_certificates_title">"Certificates"</string>
     <!-- ####################################
            Data Donation & Survey
     ###################################### -->
