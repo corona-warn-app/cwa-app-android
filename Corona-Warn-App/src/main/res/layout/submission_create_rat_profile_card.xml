@@ -28,7 +28,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_forward"
-        app:tint="@color/colorTextPrimary1" />
+        app:tint="@color/colorOnPrimary" />
 
     <ImageView
         android:id="@+id/illustration"

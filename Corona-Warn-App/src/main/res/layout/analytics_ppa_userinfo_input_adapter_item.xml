@@ -13,8 +13,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:buttonTint="@color/radiobutton_accented"
-        android:buttonTintMode="src_atop"
         android:clickable="false"
         android:focusable="false" />
 

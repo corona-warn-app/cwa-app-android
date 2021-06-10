@@ -85,7 +85,7 @@ class DebugOptionsFragment : Fragment(R.layout.fragment_test_debugoptions), Auto
     }
 
     private infix fun String.styleTo(value: String) = buildSpannedString {
-        val color = requireContext().getColorCompat(R.color.colorAccent)
+        val color = requireContext().getColorCompat(R.color.colorPrimary)
         append("${this@styleTo}:")
         appendLine()
         color(color) { append(value) }

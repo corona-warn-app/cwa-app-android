@@ -63,12 +63,12 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:theme="@style/CWAToolbar.Theme"
+                    android:theme="@style/Theme.MaterialComponents"
                     app:layout_collapseMode="pin"
                     app:layout_scrollFlags="scroll|enterAlways"
                     app:menu="@menu/menu_rat_qr_code_profile"
-                    app:navigationIcon="@drawable/ic_close"
-                    app:navigationIconTint="@android:color/white">
+                    app:navigationIcon="@drawable/ic_close_white"
+                    app:popupTheme="@style/Theme.MaterialComponents.Light">
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -125,7 +125,6 @@
                     android:layout_height="wrap_content"
                     android:indeterminate="true"
                     app:hideAnimationBehavior="inward"
-                    app:indicatorColor="@color/colorAccent"
                     app:layout_constraintBottom_toBottomOf="@id/qrCodeImage"
                     app:layout_constraintEnd_toEndOf="@id/qrCodeImage"
                     app:layout_constraintStart_toStartOf="@id/qrCodeImage"
