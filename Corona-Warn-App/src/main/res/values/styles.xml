@@ -12,6 +12,7 @@
         <item name="shapeAppearanceMediumComponent">@style/MediumComponent</item>
         <item name="shapeAppearanceLargeComponent">@style/LargeComponent</item>
         <item name="extendedFloatingActionButtonStyle">@style/ExtendedFloatingActionButton</item>
+        <item name="bottomNavigationStyle">@style/BottomNavigationViewStyle</item>
     </style>
 
     <style name="AppTheme" parent="BaseTheme" />
@@ -54,6 +55,12 @@
 
     <style name="CWAToolbar.Close.Transparent">
         <item name="android:background">@color/colorTransparent</item>
+    </style>
+
+    <style name="BottomNavigationViewStyle" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="labelVisibilityMode">labeled</item>
+        <item name="itemTextColor">@color/nav_item_color</item>
+        <item name="itemIconTint">@color/nav_item_color</item>
     </style>
 
     <!-- ####################################
