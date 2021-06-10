@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode
 
 import dagger.Reusable
 import de.rki.coronawarnapp.coronatest.qrcode.QrCodeExtractor
-import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.VC_PREFIX_INVALID
-import de.rki.coronawarnapp.covidcertificate.exception.InvalidVaccinationCertificateException
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.VC_PREFIX_INVALID
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import timber.log.Timber
 import javax.inject.Inject
 

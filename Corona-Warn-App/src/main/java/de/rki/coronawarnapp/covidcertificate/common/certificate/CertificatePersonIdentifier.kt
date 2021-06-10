@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
-import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.VC_DOB_MISMATCH
-import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.VC_NAME_MISMATCH
-import de.rki.coronawarnapp.covidcertificate.exception.InvalidVaccinationCertificateException
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.VC_DOB_MISMATCH
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.VC_NAME_MISMATCH
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import org.joda.time.LocalDate
 import timber.log.Timber
