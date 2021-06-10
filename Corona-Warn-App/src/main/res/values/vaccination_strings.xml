@@ -111,5 +111,9 @@
     <string name="vaccination_consent_onboarding_legal_information">"For more information, please refer to the privacy notice."</string>
     <!-- XBUT: Text for vaccination consent accept button -->
     <string name="vaccination_consent_accept_button">"Continue"</string>
+    <!-- XBUT: Text for invalid vaccination certificate error button, linking to FAQ-->
+    <string name="error_button_vc_faq">FAQ zu Impfzertifikaten</string>
+    <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
+    <string name="error_button_vc_faq_link">https://www.coronawarn.app/en/faq/#vac_cert_invalid</string>
 
 </resources>

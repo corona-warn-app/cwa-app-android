@@ -48,20 +48,26 @@ class InvalidHealthCertificateException(
         VC_HC_CWT_NO_ISS("Issuer missing."),
     }
 
+    val showFaqButton: Boolean
+        get() = errorCode in codesVcInvalid
+
+    private val codesVcInvalid = listOf(
+        HC_BASE45_DECODING_FAILED,
+        HC_CBOR_DECODING_FAILED,
+        HC_COSE_MESSAGE_INVALID,
+        HC_ZLIB_DECOMPRESSION_FAILED,
+        HC_COSE_TAG_INVALID,
+        VC_PREFIX_INVALID,
+        VC_HC_CWT_NO_DGC,
+        VC_HC_CWT_NO_EXP,
+        VC_HC_CWT_NO_HCERT,
+        VC_HC_CWT_NO_ISS,
+        VC_JSON_SCHEMA_INVALID
+    )
+
     val errorMessage: LazyString
         get() = when (errorCode) {
-            HC_BASE45_DECODING_FAILED,
-            HC_CBOR_DECODING_FAILED,
-            HC_COSE_MESSAGE_INVALID,
-            HC_ZLIB_DECOMPRESSION_FAILED,
-            HC_COSE_TAG_INVALID,
-            VC_PREFIX_INVALID,
-            VC_HC_CWT_NO_DGC,
-            VC_HC_CWT_NO_EXP,
-            VC_HC_CWT_NO_HCERT,
-            VC_HC_CWT_NO_ISS,
-            VC_JSON_SCHEMA_INVALID,
-            -> CachedString { context ->
+            in codesVcInvalid -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_VC_INVALID)
             }
             VC_NO_VACCINATION_ENTRY -> CachedString { context ->
@@ -75,6 +81,10 @@ class InvalidHealthCertificateException(
             }
             VC_ALREADY_REGISTERED -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_ALREADY_REGISTERED)
+            }
+            // should never get here
+            else -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_VC_INVALID)
             }
         }
 

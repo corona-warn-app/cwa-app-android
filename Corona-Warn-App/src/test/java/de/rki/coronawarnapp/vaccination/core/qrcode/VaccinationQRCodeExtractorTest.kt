@@ -118,4 +118,45 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
         val extracted = extractor.extract(vaccinationTestData.personBVac1QRCodeString)
         extracted shouldBe vaccinationTestData.personBVac1QRCode
     }
+
+    @Test
+    fun `Bulgarian qr code passes`() {
+        val qrCode = extractor.extract(VaccinationQrCodeTestData.qrCodeBulgaria)
+        with(qrCode.parsedData.header) {
+            issuer shouldBe "BG"
+            issuedAt shouldBe Instant.parse("2021-06-02T14:07:56.000Z")
+            expiresAt shouldBe Instant.parse("2022-06-02T14:07:56.000Z")
+        }
+
+        with(qrCode.parsedData.certificate) {
+            with(nameData) {
+                familyName shouldBe "ПЕТКОВ"
+                familyNameStandardized shouldBe "PETKOV"
+                givenName shouldBe "СТАМО ГЕОРГИЕВ"
+                givenNameStandardized shouldBe "STAMO<GEORGIEV"
+            }
+            dob shouldBe "1978-01-26T00:00:00"
+            dateOfBirth shouldBe LocalDate.parse("1978-01-26")
+            version shouldBe "1.0.0"
+
+            with(vaccinationDatas[0]) {
+                uniqueCertificateIdentifier shouldBe "urn:uvci:01:BG:UFR5PLGKU8WDSZK7#0"
+                countryOfVaccination shouldBe "BG"
+                doseNumber shouldBe 2
+                dt shouldBe "2021-03-09T00:00:00"
+                certificateIssuer shouldBe "Ministry of Health"
+                marketAuthorizationHolderId shouldBe "ORG-100030215"
+                medicalProductId shouldBe "EU/1/20/1528"
+                totalSeriesOfDoses shouldBe 2
+                targetId shouldBe "840539006"
+                vaccineId shouldBe "J07BX03"
+                vaccinatedAt shouldBe LocalDate.parse("2021-03-09")
+            }
+        }
+    }
+
+    @Test
+    fun `Swedish qr code passes`() {
+        extractor.extract(VaccinationQrCodeTestData.qrCodeSweden)
+    }
 }
