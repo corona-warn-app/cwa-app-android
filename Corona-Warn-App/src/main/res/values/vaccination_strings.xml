@@ -85,7 +85,7 @@
     </plurals>
 
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_invalid">"This QR code is not a valid vaccination certificate."</string>
+    <string name="error_vc_invalid">"This QR code is not a valid vaccination certificate.\n\nFor more information about how to receive your vaccination certificate, please see our FAQ page."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_not_yet_supported">"This vaccination certificate is not supported in your app version yet. Please update your app or contact the technical hotline under “App Information”."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
@@ -112,8 +112,8 @@
     <!-- XBUT: Text for vaccination consent accept button -->
     <string name="vaccination_consent_accept_button">"Continue"</string>
     <!-- XBUT: Text for invalid vaccination certificate error button, linking to FAQ-->
-    <string name="error_button_vc_faq">FAQ zu Impfzertifikaten</string>
+    <string name="error_button_vc_faq">"FAQ for Vaccination Certificates"</string>
     <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
-    <string name="error_button_vc_faq_link">https://www.coronawarn.app/en/faq/#vac_cert_invalid</string>
+    <string name="error_button_vc_faq_link">"https://www.coronawarn.app/en/faq/#vac_cert_invalid"</string>
 
 </resources>
