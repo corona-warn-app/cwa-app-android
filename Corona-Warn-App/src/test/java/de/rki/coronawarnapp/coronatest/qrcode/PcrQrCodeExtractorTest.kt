@@ -104,7 +104,6 @@ class PcrQrCodeExtractorTest : BaseTest() {
             mode = TEST_STRICT
         ).qrCodeGUID shouldBe guidMixedCase
 
-
         PcrQrCodeExtractor().extract(
             "$localhostMixedCase$guidUpperCase",
             mode = TEST_STRICT
