@@ -30,6 +30,14 @@
                 app:layout_collapseMode="parallax"
                 app:srcCompat="@drawable/vaccination_compelete_gradient" />
 
+            <ImageView
+                android:id="@+id/europa_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:importantForAccessibility="no"
+                app:layout_collapseMode="parallax"
+                app:srcCompat="@drawable/ic_eu_stars_blue" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

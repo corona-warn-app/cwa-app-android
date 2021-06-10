@@ -60,6 +60,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
                 title.alpha = titleAlpha
                 subtitle.alpha = subtitleAlpha
+                europaImage.alpha = subtitleAlpha
             }
             setToolbarOverlay()
 
