@@ -60,14 +60,3 @@ fun Throwable.toErrorDialogBuilder(context: Context) =
             }.show()
         }
     }
-
-fun Throwable.toErrorDialogBuilderNoDetails(context: Context) =
-    MaterialAlertDialogBuilder(context).apply {
-        val error = this@toErrorDialogBuilderNoDetails
-        val humanReadable = error.tryHumanReadableError(context)
-
-        setTitle(humanReadable.title ?: context.getString(R.string.errors_generic_headline_short))
-        setMessageView(humanReadable.description, textHasLinks = true)
-
-        setPositiveButton(R.string.errors_generic_button_positive) { _, _ -> }
-    }
