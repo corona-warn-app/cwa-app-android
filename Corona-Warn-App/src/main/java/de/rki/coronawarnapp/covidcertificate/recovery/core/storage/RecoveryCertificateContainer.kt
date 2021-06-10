@@ -4,8 +4,8 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePerso
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
-import de.rki.coronawarnapp.covidcertificate.test.core.certificate.TestDccV1
-import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.RecoveryCertificateQRCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.recovery.core.certificate.RecoveryDccV1
+import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -18,7 +18,7 @@ data class RecoveryCertificateContainer(
 ) : StoredRecoveryCertificate by data {
 
     @delegate:Transient
-    private val certificateData: DccData<TestDccV1> by lazy {
+    private val certificateData: DccData<RecoveryDccV1> by lazy {
         data.recoveryCertificateQrCode!!.let { qrCodeExtractor.extract(it).data }
     }
 

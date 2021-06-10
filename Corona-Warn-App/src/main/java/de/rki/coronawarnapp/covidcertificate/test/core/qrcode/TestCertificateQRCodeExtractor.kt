@@ -35,9 +35,9 @@ class TestCertificateQRCodeExtractor @Inject constructor(
     fun extract(
         decryptionKey: ByteArray,
         rawCoseObjectEncrypted: ByteArray,
-    ): RecoveryCertificateQRCode {
+    ): TestCertificateQRCode {
         val rawCoseObject = rawCoseObjectEncrypted.decrypt(decryptionKey)
-        return RecoveryCertificateQRCode(
+        return TestCertificateQRCode(
             data = rawCoseObject.decode(),
             qrCode = rawCoseObject.encode()
         )
@@ -46,7 +46,7 @@ class TestCertificateQRCodeExtractor @Inject constructor(
     /**
      * May throw an **[InvalidTestCertificateException]**
      */
-    fun extract(qrCode: String) = RecoveryCertificateQRCode(
+    fun extract(qrCode: String) = TestCertificateQRCode(
         data = qrCode.extract(),
         qrCode = qrCode
     )

@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.certificate.TestDccV1
-import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.RecoveryCertificateQRCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -13,7 +13,7 @@ import java.util.Locale
 
 data class TestCertificateContainer(
     internal val data: StoredTestCertificateData,
-    private val qrCodeExtractor: RecoveryCertificateQRCodeExtractor,
+    private val qrCodeExtractor: TestCertificateQRCodeExtractor,
     val isUpdatingData: Boolean = false,
 ) : StoredTestCertificateData by data {
 

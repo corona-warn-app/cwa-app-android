@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.test.core
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.RecoveryCertificateQRCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.PCRCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.RACertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainer
@@ -35,7 +35,7 @@ class TestCertificateRepository @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val dispatcherProvider: DispatcherProvider,
     private val storage: TestCertificateStorage,
-    private val qrCodeExtractor: RecoveryCertificateQRCodeExtractor,
+    private val qrCodeExtractor: TestCertificateQRCodeExtractor,
     private val processor: TestCertificateProcessor,
     valueSetsRepository: ValueSetsRepository,
 ) {

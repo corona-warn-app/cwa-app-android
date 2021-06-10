@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.exception.TestCertificateServerException
-import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.RecoveryCertificateQRCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateComponents
 import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateServer
 import de.rki.coronawarnapp.util.TimeStamper
@@ -26,7 +26,7 @@ class TestCertificateProcessor @Inject constructor(
     private val rsaKeyPairGenerator: RSAKeyPairGenerator,
     private val rsaCryptography: RSACryptography,
     private val appConfigProvider: AppConfigProvider,
-    private val qrCodeExtractor: RecoveryCertificateQRCodeExtractor,
+    private val qrCodeExtractor: TestCertificateQRCodeExtractor,
 ) {
 
     /**
