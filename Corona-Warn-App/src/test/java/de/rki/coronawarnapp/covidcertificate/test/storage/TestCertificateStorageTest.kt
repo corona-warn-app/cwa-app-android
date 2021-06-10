@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.storage
+package de.rki.coronawarnapp.covidcertificate.test.storage
 
 import android.content.Context
 import androidx.core.content.edit

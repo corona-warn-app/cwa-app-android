@@ -21,7 +21,7 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
     private val coseDecoder = DccCoseDecoder(AesCryptography())
     private val headerParser = DccHeaderParser()
     private val bodyParser = TestDccParser(Gson())
-    private val extractor = RecoveryCertificateQRCodeExtractor(coseDecoder, headerParser, bodyParser)
+    private val extractor = TestCertificateQRCodeExtractor(coseDecoder, headerParser, bodyParser)
 
     @Test
     fun `happy path qr code`() {
