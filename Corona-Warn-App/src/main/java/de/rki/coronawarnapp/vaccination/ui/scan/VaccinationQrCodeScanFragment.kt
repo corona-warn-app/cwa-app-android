@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentScanQrCodeBinding
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -19,6 +20,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException
 import javax.inject.Inject
 
 class VaccinationQrCodeScanFragment :
@@ -67,6 +69,11 @@ class VaccinationQrCodeScanFragment :
             binding.qrCodeScanSpinner.hide()
             it.toErrorDialogBuilder(requireContext()).apply {
                 setOnDismissListener { popBackStack() }
+                if (it is InvalidHealthCertificateException && it.showFaqButton) {
+                    setNeutralButton(R.string.error_button_vc_faq) { _, _ ->
+                        openUrl(getString(R.string.error_button_vc_faq_link))
+                    }
+                }
             }.show()
         }
     }
