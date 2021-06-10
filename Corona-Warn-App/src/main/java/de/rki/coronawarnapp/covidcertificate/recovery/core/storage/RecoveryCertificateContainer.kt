@@ -1,9 +1,9 @@
-package de.rki.coronawarnapp.covidcertificate.test.core.storage
+package de.rki.coronawarnapp.covidcertificate.recovery.core.storage
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
+import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.RecoveryCertificateQRCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
@@ -11,40 +11,29 @@ import org.joda.time.Instant
 import org.joda.time.LocalDate
 import java.util.Locale
 
-data class TestCertificateContainer(
-    internal val data: StoredTestCertificateData,
+data class RecoveryCertificateContainer(
+    internal val data: StoredRecoveryCertificateData,
     private val qrCodeExtractor: RecoveryCertificateQRCodeExtractor,
     val isUpdatingData: Boolean = false,
-) : StoredTestCertificateData by data {
+) : StoredRecoveryCertificate by data {
 
     @delegate:Transient
     private val certificateData: DccData<TestDccV1> by lazy {
-        data.testCertificateQrCode!!.let { qrCodeExtractor.extract(it).data }
+        data.recoveryCertificateQrCode!!.let { qrCodeExtractor.extract(it).data }
     }
 
-    val isPublicKeyRegistered: Boolean
-        get() = data.publicKeyRegisteredAt != null
+    val certificateId: String
+        get() = certificateData.certificate.payload.uniqueCertificateIdentifier
 
-    val isCertificateRetrievalPending: Boolean
-        get() = data.certificateReceivedAt == null
-
-    val certificateId: String?
-        get() {
-            if (isCertificateRetrievalPending) return null
-            return certificateData.certificate.payload.uniqueCertificateIdentifier
-        }
-
-    fun toTestCertificate(
+    fun toRecoveryCertificate(
         valueSet: TestCertificateValueSets?,
         userLocale: Locale = Locale.getDefault(),
-    ): TestCertificate? {
-        if (isCertificateRetrievalPending) return null
-
+    ): RecoveryCertificate {
         val header = certificateData.header
         val certificate = certificateData.certificate
         val testCertificate = certificate.payload
 
-        return object : TestCertificate {
+        return object : RecoveryCertificate {
             override val personIdentifier: CertificatePersonIdentifier
                 get() = certificate.personIdentifier
 
@@ -60,22 +49,7 @@ data class TestCertificateContainer(
             override val dateOfBirth: LocalDate
                 get() = certificate.dateOfBirth
 
-            override val targetName: String
-                get() = valueSet?.getDisplayText(testCertificate.targetId) ?: testCertificate.targetId
-            override val testType: String
-                get() = valueSet?.getDisplayText(testCertificate.testType) ?: testCertificate.testType
-            override val testResult: String
-                get() = valueSet?.getDisplayText(testCertificate.testResult) ?: testCertificate.testResult
-            override val testName: String?
-                get() = testCertificate.testName?.let { valueSet?.getDisplayText(it) ?: it }
-            override val testNameAndManufactor: String?
-                get() = testCertificate.testNameAndManufactor?.let { valueSet?.getDisplayText(it) ?: it }
-            override val sampleCollectedAt: Instant
-                get() = testCertificate.sampleCollectedAt
-            override val testResultAt: Instant?
-                get() = testCertificate.testResultAt
-            override val testCenter: String
-                get() = testCertificate.testCenter
+            // TODO
 
             override val certificateIssuer: String
                 get() = header.issuer
@@ -93,7 +67,7 @@ data class TestCertificateContainer(
                 get() = header.expiresAt
 
             override val qrCode: QrCodeString
-                get() = data.testCertificateQrCode!!
+                get() = data.recoveryCertificateQrCode!!
         }
     }
 }

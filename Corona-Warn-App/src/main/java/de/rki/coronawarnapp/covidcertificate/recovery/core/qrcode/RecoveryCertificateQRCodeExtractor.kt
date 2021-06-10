@@ -23,7 +23,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class TestCertificateQRCodeExtractor @Inject constructor(
+class RecoveryCertificateQRCodeExtractor @Inject constructor(
     private val coseDecoder: DccCoseDecoder,
     private val headerParser: DccHeaderParser,
     private val bodyParser: TestDccParser,

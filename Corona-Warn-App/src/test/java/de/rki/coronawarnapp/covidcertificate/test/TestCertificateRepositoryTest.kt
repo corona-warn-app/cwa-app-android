@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.covidcertificate.test
 
 import de.rki.coronawarnapp.appconfig.CovidCertificateConfig
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
-import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.RecoveryCertificateQRCode
+import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.RecoveryCertificateQRCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.PCRCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.StoredTestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateProcessor
@@ -25,7 +25,7 @@ import testhelpers.TestDispatcherProvider
 class TestCertificateRepositoryTest : BaseTest() {
 
     @MockK lateinit var storage: TestCertificateStorage
-    @MockK lateinit var qrCodeExtractor: TestCertificateQRCodeExtractor
+    @MockK lateinit var qrCodeExtractor: RecoveryCertificateQRCodeExtractor
     @MockK lateinit var covidTestCertificateConfig: CovidCertificateConfig.TestCertificate
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var testCertificateProcessor: TestCertificateProcessor
@@ -61,7 +61,7 @@ class TestCertificateRepositoryTest : BaseTest() {
             every { storage.testCertificates } answers { storageSet }
         }
 
-        coEvery { qrCodeExtractor.extract(any(), any()) } returns mockk<TestCertificateQRCode>().apply {
+        coEvery { qrCodeExtractor.extract(any(), any()) } returns mockk<RecoveryCertificateQRCode>().apply {
             every { qrCode } returns "qrCode"
             every { data } returns mockk()
         }
