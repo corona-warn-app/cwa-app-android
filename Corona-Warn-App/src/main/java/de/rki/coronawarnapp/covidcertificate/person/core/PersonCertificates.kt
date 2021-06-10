@@ -9,4 +9,7 @@ data class PersonCertificates(
 
     val personIdentifier: CertificatePersonIdentifier
         get() = certificates.first().personIdentifier
+
+    val highestPriorityCertificate: CwaCovidCertificate
+        get() = certificates.first()
 }

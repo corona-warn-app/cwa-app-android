@@ -5,5 +5,4 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 interface RecoveryCertificate : CwaCovidCertificate {
 
     // TODO
-
 }
