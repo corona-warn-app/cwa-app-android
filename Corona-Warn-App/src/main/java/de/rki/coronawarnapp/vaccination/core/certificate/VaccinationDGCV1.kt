@@ -39,9 +39,11 @@ data class VaccinationDGCV1(
         @SerializedName("ci") val uniqueCertificateIdentifier: String
     ) {
         val vaccinatedAt: LocalDate
-            get() = LocalDate.parse(dt)
+            get() = LocalDate.parse(dt.removeSuffix(DATE_SUFFIX))
     }
 
     val dateOfBirth: LocalDate
-        get() = LocalDate.parse(dob)
+        get() = LocalDate.parse(dob.removeSuffix(DATE_SUFFIX))
 }
+
+private const val DATE_SUFFIX = "T00:00:00"
