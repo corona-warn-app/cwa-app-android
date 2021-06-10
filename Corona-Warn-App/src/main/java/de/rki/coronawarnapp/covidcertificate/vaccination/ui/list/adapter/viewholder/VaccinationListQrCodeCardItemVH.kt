@@ -29,17 +29,6 @@ class VaccinationListQrCodeCardItemVH(parent: ViewGroup) :
                 image.setOnClickListener { item.onQrCodeClick.invoke() }
                 progressBar.hide()
             }
-            title.text = context.getString(
-                R.string.vaccination_qrcode_card_title,
-                item.doseNumber,
-                item.totalSeriesOfDoses
-            )
-            subtitle.text =
-                context.getString(
-                    R.string.vaccination_qrcode_card_subtitle,
-                    item.vaccinatedAt.toShortDayFormat(),
-                    item.expiresAt.toShortDayFormat()
-                )
         }
 
     data class VaccinationListQrCodeCardItem(

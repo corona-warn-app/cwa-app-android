@@ -108,17 +108,6 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             certificate.doseNumber,
             certificate.totalSeriesOfDoses
         )
-        // QrCode details
-        qrCodeCard.title.text = getString(
-            R.string.vaccination_qrcode_card_title,
-            certificate.doseNumber,
-            certificate.totalSeriesOfDoses
-        )
-        qrCodeCard.subtitle.text = getString(
-            R.string.vaccination_qrcode_card_subtitle,
-            certificate.vaccinatedAt.toString(format),
-            certificate.expiresAt.toString(format)
-        )
     }
 
     private fun FragmentVaccinationDetailsBinding.bindTravelNoticeViews() {

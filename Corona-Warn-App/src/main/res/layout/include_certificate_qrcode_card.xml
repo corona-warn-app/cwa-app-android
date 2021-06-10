@@ -34,28 +34,4 @@
         tools:src="@drawable/ic_qrcode"
         tools:tint="@android:color/black" />
 
-    <TextView
-        android:id="@+id/title"
-        style="@style/body2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/image"
-        tools:text="Impfzertifikat 2 von 2" />
-
-    <TextView
-        android:id="@id/subtitle"
-        style="@style/body2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title"
-        tools:text="Geimpft 24.04.21 - gültig bis 24.04.22" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

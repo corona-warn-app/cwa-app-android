@@ -44,7 +44,6 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
     )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
-        qrCodeCard.title.setText(R.string.detail_green_certificate_card_title)
         appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
             title.alpha = titleAlpha
             subtitle.alpha = subtitleAlpha
@@ -63,11 +62,6 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
     private fun FragmentCovidCertificateDetailsBinding.onCertificateReady(
         testCertificate: TestCertificate
     ) {
-        qrCodeCard.subtitle.text = getString(
-            R.string.detail_green_certificate_card_subtitle,
-            testCertificate.sampleCollectedAt.toShortDayFormat(),
-            testCertificate.sampleCollectedAt.toShortTimeFormat(),
-        )
         name.text = testCertificate.run { "$firstName $lastName" }
         birthDate.text = testCertificate.dateOfBirth.toDayFormat()
         diseaseType.text = testCertificate.targetName
