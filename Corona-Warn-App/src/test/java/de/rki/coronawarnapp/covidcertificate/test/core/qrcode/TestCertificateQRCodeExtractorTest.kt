@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.test.core.qrcode
 
 import com.google.gson.Gson
+import de.rki.coronawarnapp.covidcertificate.common.cryptography.AesCryptography
 import de.rki.coronawarnapp.covidcertificate.common.decoder.DccCoseDecoder
 import de.rki.coronawarnapp.covidcertificate.common.decoder.DccHeaderParser
-import de.rki.coronawarnapp.covidcertificate.cryptography.AesCryptography
-import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException
-import de.rki.coronawarnapp.covidcertificate.exception.InvalidTestCertificateException
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.test.TestData
 import de.rki.coronawarnapp.covidcertificate.test.core.certificate.TestDccParser
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeTestData

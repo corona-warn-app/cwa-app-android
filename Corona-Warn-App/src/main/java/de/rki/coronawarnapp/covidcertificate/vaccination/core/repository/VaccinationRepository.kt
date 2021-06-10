@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
-import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.VC_ALREADY_REGISTERED
-import de.rki.coronawarnapp.covidcertificate.exception.InvalidVaccinationCertificateException
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.VC_ALREADY_REGISTERED
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode

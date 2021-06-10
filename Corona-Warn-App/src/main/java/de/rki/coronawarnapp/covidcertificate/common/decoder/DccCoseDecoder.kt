@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.common.decoder
 
 import com.upokecenter.cbor.CBORObject
-import de.rki.coronawarnapp.covidcertificate.cryptography.AesCryptography
-import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException
-import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.AES_DECRYPTION_FAILED
-import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.HC_COSE_MESSAGE_INVALID
-import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.HC_COSE_TAG_INVALID
+import de.rki.coronawarnapp.covidcertificate.common.cryptography.AesCryptography
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.AES_DECRYPTION_FAILED
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_COSE_MESSAGE_INVALID
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_COSE_TAG_INVALID
 import timber.log.Timber
 import javax.inject.Inject
 
