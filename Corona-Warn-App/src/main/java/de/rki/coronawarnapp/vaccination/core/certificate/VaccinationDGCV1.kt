@@ -40,12 +40,20 @@ data class VaccinationDGCV1(
         // Unique Certificate Identifier, e.g.  "ci": "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"
         @SerializedName("ci") val uniqueCertificateIdentifier: String
     ) {
+        // Can't use lazy because GSON will NULL it, as we have no no-args constructor
+        private var vaccinatedAtCache: LocalDate? = null
         val vaccinatedAt: LocalDate
-            get() = dt.toLocalDateLeniently()
+            get() = vaccinatedAtCache ?: dt.toLocalDateLeniently().also {
+                vaccinatedAtCache = it
+            }
     }
 
+    // Can't use lazy because GSON will NULL it, as we have no no-args constructor
+    private var dateOfBirthCache: LocalDate? = null
     val dateOfBirth: LocalDate
-        get() = dob.toLocalDateLeniently()
+        get() = dateOfBirthCache ?: dob.toLocalDateLeniently().also {
+            dateOfBirthCache = it
+        }
 }
 
 private fun String.toLocalDateLeniently(): LocalDate = try {
