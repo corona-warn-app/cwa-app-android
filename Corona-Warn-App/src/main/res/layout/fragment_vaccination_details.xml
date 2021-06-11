@@ -33,9 +33,9 @@
             <ImageView
                 android:id="@+id/europa_image"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="250dp"
                 android:importantForAccessibility="no"
-                android:layout_marginStart="60dp"
+                android:layout_marginStart="50dp"
                 app:layout_collapseMode="parallax"
                 app:srcCompat="@drawable/ic_eu_stars_blue" />
 

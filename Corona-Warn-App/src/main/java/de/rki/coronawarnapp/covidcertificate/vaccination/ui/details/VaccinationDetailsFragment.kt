@@ -149,11 +149,11 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             as (CoordinatorLayout.LayoutParams)
 
         val textParams = binding.subtitle.layoutParams as (LinearLayout.LayoutParams)
-        textParams.bottomMargin = (width / 3) - 24 /* 24 is space between screen border and QrCode */
+        textParams.bottomMargin = (width / 2) - 24 /* 24 is space between screen border and QrCode */
         binding.subtitle.requestLayout() /* 24 is space between screen border and QrCode */
 
         val behavior: AppBarLayout.ScrollingViewBehavior = params.behavior as (AppBarLayout.ScrollingViewBehavior)
-        behavior.overlayTop = (width / 3) - 24
+        behavior.overlayTop = (width / 2) - 24
     }
 
     private val deleteTestConfirmationDialog by lazy {
