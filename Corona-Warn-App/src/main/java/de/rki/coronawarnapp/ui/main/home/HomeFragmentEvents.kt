@@ -42,7 +42,7 @@ sealed class HomeFragmentEvents {
         val forceUpdate: Boolean = false
     ) : HomeFragmentEvents()
 
-    data class ShowDeleteTestDialog(val type: CoronaTest.Type) : HomeFragmentEvents()
+    data class ShowDeleteTestDialog(val type: CoronaTest.Type, val submission: Boolean = true) : HomeFragmentEvents()
 
     data class GoToTestResultAvailableFragment(val type: CoronaTest.Type) : HomeFragmentEvents()
 

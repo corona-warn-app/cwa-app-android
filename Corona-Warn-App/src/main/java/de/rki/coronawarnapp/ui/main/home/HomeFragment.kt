@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
+import de.rki.coronawarnapp.util.ExternalActionHelper.shareText
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.errors.RecoveryByResetDialogFactory
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
@@ -96,11 +97,16 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         binding.container.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
-    private fun showRemoveTestDialog(type: CoronaTest.Type) {
+    private fun showRemoveTestDialog(type: CoronaTest.Type, submission: Boolean) {
+        val title =
+            if (submission) R.string.submission_test_result_dialog_remove_test_title else R.string.submission_test_result_dialog_remove_test_title_no_submission
+        val msg =
+            if (submission) R.string.submission_test_result_dialog_remove_test_message else R.string.submission_test_result_dialog_remove_test_message_no_submission
+
         val removeTestDialog = DialogHelper.DialogInstance(
             requireActivity(),
-            R.string.submission_test_result_dialog_remove_test_title,
-            R.string.submission_test_result_dialog_remove_test_message,
+            title,
+            msg,
             R.string.submission_test_result_dialog_remove_test_button_positive,
             R.string.submission_test_result_dialog_remove_test_button_negative,
             positiveButtonFunction = {
@@ -108,8 +114,10 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             }
         )
         DialogHelper.showDialog(removeTestDialog).apply {
-            getButton(DialogInterface.BUTTON_POSITIVE)
-                .setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
+            if (submission) {
+                getButton(DialogInterface.BUTTON_POSITIVE)
+                    .setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
+            }
         }
     }
 
@@ -156,7 +164,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             HomeFragmentEvents.GoToRapidTestResultNegativeFragment -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToSubmissionNegativeAntigenTestResultFragment()
             )
-            is HomeFragmentEvents.ShowDeleteTestDialog -> showRemoveTestDialog(event.type)
+            is HomeFragmentEvents.ShowDeleteTestDialog -> showRemoveTestDialog(event.type, event.submission)
             is HomeFragmentEvents.OpenIncompatibleUrl -> openUrl(getString(event.url))
             is HomeFragmentEvents.OpenTraceLocationOrganizerGraph -> openPresenceTracingOrganizerGraph(event)
             is HomeFragmentEvents.GoToTestResultAvailableFragment -> doNavigate(
