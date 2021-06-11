@@ -13,25 +13,28 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:importantForAccessibility="no"
+        android:scaleType="centerCrop"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <ImageView
+        tools:srcCompat="@drawable/ic_person_overview_3" />
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/qrcode_image"
+        style="@style/ShapeAppearanceOverlay"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_white_background"
         android:contentDescription="@string/trace_location_event_detail_qr_code_accessibility"
         app:layout_constraintBottom_toBottomOf="@+id/background_image"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/background_image"
-        app:srcCompat="@drawable/ic_qr_code" />
+        tools:srcCompat="@drawable/ic_qr_code"
+        tools:tint="@android:color/black" />
     <TextView
         android:id="@+id/certificate_title"
         style="@style/headline5"
@@ -40,7 +43,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
-        android:text="TextView"
+        android:text="EU Digitales"
         android:textColor="@color/colorTextPrimary1InvertedStable"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +53,7 @@
         style="@style/headline5"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="COVID-Zertifikat"
         android:textColor="@color/colorTextPrimary1InvertedStable"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/certificate_title"
