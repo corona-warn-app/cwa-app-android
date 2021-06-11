@@ -12,7 +12,6 @@ import com.google.android.material.appbar.AppBarLayout
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.databinding.FragmentCovidCertificateDetailsBinding
 import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
@@ -25,7 +24,6 @@ import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import org.joda.time.format.DateTimeFormat
-import timber.log.Timber
 import javax.inject.Inject
 
 class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_details), AutoInject {
@@ -113,10 +111,10 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             R.string.vaccination_details_birth_date,
             certificate.dateOfBirth.toDayFormat()
         )
-        //vaccinatedAt.text = certificate.vaccinatedAt.toDayFormat()
+        // vaccinatedAt.text = certificate.vaccinatedAt.toDayFormat()
         vaccineName.text = certificate.medicalProductName
         vaccineManufacturer.text = certificate.vaccineManufacturer
-        //vaccineTypeName.text = certificate.vaccineTypeName
+        // vaccineTypeName.text = certificate.vaccineTypeName
         certificateIssuer.text = certificate.certificateIssuer
         certificateCountry.text = certificate.certificateCountry
         certificateId.text = certificate.certificateId

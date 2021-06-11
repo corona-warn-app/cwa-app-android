@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.adapter.Vaccina
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.adapter.VaccinationListItem
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.adapter.viewholder.VaccinationListQrCodeCardItemVH.VaccinationListQrCodeCardItem
 import de.rki.coronawarnapp.databinding.IncludeCertificateQrcodeCardBinding
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
