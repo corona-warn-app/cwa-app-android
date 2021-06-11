@@ -1,73 +1,42 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="BaseTheme" parent="Theme.MaterialComponents.DayNight.Bridge">
-        <item name="colorPrimary">@color/colorBrandSecondary</item>
-        <item name="colorPrimaryDark">@color/colorStableDark</item>
-        <item name="android:windowBackground">@color/colorBackground</item>
-        <item name="alertDialogTheme">@style/DialogAlertTheme</item>
+    <style name="BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="android:actionOverflowButtonStyle">@style/CWAToolbar.Overflow</item>
-
-        <item name="materialCalendarTheme">@style/ThemeOverlay.App.DatePicker</item>
-        <item name="materialTimePickerTheme">@style/ThemeOverlay.App.TimePicker</item>
-
-        <item name="buttonStyle">@style/Widget.AppCompat.Button.Borderless.Colored</item>
-
         <item name="android:windowLightStatusBar">@bool/lightSystemUI</item>
         <item name="android:statusBarColor">@color/colorSystemUI</item>
+        <item name="colorSurface">@color/colorSurface</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="shapeAppearanceSmallComponent">@style/SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/MediumComponent</item>
+        <item name="shapeAppearanceLargeComponent">@style/LargeComponent</item>
+        <item name="extendedFloatingActionButtonStyle">@style/ExtendedFloatingActionButton</item>
+        <item name="bottomNavigationStyle">@style/BottomNavigationViewStyle</item>
     </style>
 
     <style name="AppTheme" parent="BaseTheme" />
 
-    <style name="ThemeOverlay.App.DatePicker" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
-        <item name="colorPrimary">@color/colorAccent</item>
-    </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
 
-    <style name="ThemeOverlay.App.TimePicker" parent="ThemeOverlay.MaterialComponents.TimePicker">
-        <item name="colorPrimary">@color/colorAccent</item>
-    </style>
-
-    <style name="AppTheme.NoActionBar" parent="AppTheme">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="dialogTheme">@style/DialogTheme</item>
-    </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-    <style name="ThemeOverlay.App.ExtendedFloatingActionButton" parent="">
-        <item name="colorSecondary">@color/colorAccentTintButton</item>
-        <item name="colorOnSecondary">@color/colorTextEmphasizedButton</item>
-        <item name="colorOnSurface">@color/colorAccentTintButtonPressed</item>
-    </style>
-
-    <style name="Widget.App.ExtendedFloatingActionButton" parent="Widget.MaterialComponents.ExtendedFloatingActionButton.Icon">
-        <item name="materialThemeOverlay">
-            @style/ThemeOverlay.App.ExtendedFloatingActionButton
-        </item>
-    </style>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
 
     <!-- Launcher theme with background -->
-    <style name="AppTheme.Launcher" parent="AppTheme.NoActionBar">
+    <style name="AppTheme.Launcher" parent="AppTheme">
         <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
 
     <!-- Main Application -->
-    <style name="AppTheme.Main" parent="AppTheme.NoActionBar" />
+    <style name="AppTheme.Main" parent="AppTheme" />
 
-    <style name="CWAToolbar" parent="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
+    <style name="CWAToolbar" parent="@style/Widget.MaterialComponents.Toolbar">
         <item name="colorPrimary">@color/colorSurface1</item>
         <item name="android:background">@color/colorSurface1</item>
-        <item name="android:textColor">@color/colorTextPrimary1</item>
-    </style>
-
-    <style name="CWAToolbar.Menu" parent="@style/Widget.AppCompat.PopupMenu">
-        <item name="android:textColor">@color/colorTextPrimary1</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
     <style name="CWAToolbar.Overflow" parent="Widget.AppCompat.ActionButton.Overflow">
-        <item name="android:tint">@color/colorTextPrimary1</item>
+        <item name="android:tint">@color/colorOnPrimary</item>
     </style>
 
     <style name="CWAToolbar.BackArrow">
@@ -88,36 +57,10 @@
         <item name="android:background">@color/colorTransparent</item>
     </style>
 
-    <style name="CWAToolbar.Theme" parent="Widget.AppCompat.ActionBar">
-        <item name="actionOverflowButtonStyle">@style/OverflowButtonStyle</item>
-    </style>
-
-    <style name="OverflowButtonStyle" parent="Widget.AppCompat.Light.ActionButton.Overflow">
-        <item name="android:tint">@android:color/white</item>
-    </style>
-
-    <!-- Dialog Theme-->
-    <style name="DialogTheme" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
-        <item name="buttonBarPositiveButtonStyle">@style/DialogButtonTheme</item>
-        <item name="buttonBarNegativeButtonStyle">@style/DialogButtonTheme</item>
-    </style>
-
-    <style name="DialogButtonTheme" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:textColor">@color/colorAccentTintButton</item>
-    </style>
-
-    <!-- Alert Dialog Theme-->
-    <style name="DialogAlertTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
-        <item name="buttonBarPositiveButtonStyle">@style/dialogPositiveButtonStyle</item>
-        <item name="buttonBarNegativeButtonStyle">@style/dialogNegativeButtonStyle</item>
-    </style>
-
-    <style name="dialogPositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
-        <item name="android:textColor">@color/colorTextTint</item>
-    </style>
-
-    <style name="dialogNegativeButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
-        <item name="android:textColor">@color/colorTextPrimary1</item>
+    <style name="BottomNavigationViewStyle" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="labelVisibilityMode">labeled</item>
+        <item name="itemTextColor">@color/nav_item_color</item>
+        <item name="itemIconTint">@color/nav_item_color</item>
     </style>
 
     <!-- ####################################
@@ -126,11 +69,13 @@
     <style name="button">
         <item name="android:paddingStart">@dimen/button_padding_start_end</item>
         <item name="android:paddingEnd">@dimen/button_padding_start_end</item>
-        <item name="android:background">@drawable/button</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingTop">12dp</item>
         <item name="android:textColor">@color/button_text_color</item>
         <item name="android:textSize">@dimen/font_button</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:letterSpacing">0.08</item>
+        <item name="android:stateListAnimator">@null</item>
     </style>
 
     <style name="buttonPrimary" parent="button">
@@ -150,7 +95,7 @@
         <item name="textAllCaps">false</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:textColor">@color/colorTextPrimary1</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
 
     </style>
 
@@ -167,11 +112,11 @@
     <style name="buttonTraceLocation" parent="button">
         <item name="android:backgroundTint">@color/button_trace_location</item>
         <item name="android:stateListAnimator">@null</item>
-        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
-    <style name="materialTextButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog.Flush">
-        <item name="android:textColor">@color/colorAccent</item>
+    <style name="materialTextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
     <style name="buttonIcon">
@@ -180,7 +125,7 @@
     </style>
 
     <style name="buttonTracing">
-        <item name="android:textColor">@color/colorTextPrimary1</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
         <item name="android:background">@drawable/rectangle</item>
         <item name="android:backgroundTint">@color/button_main_tracing</item>
         <item name="android:paddingStart">@dimen/spacing_small</item>
@@ -189,9 +134,16 @@
         <item name="android:paddingBottom">@dimen/spacing_tiny</item>
     </style>
 
-    <style name="switchBase" parent="Widget.AppCompat.CompoundButton.Switch">
-        <item name="android:colorControlActivated">@color/colorAccentTintIcon</item>
-        <item name="colorControlActivated">@color/colorAccentTintIcon</item>
+    <style name="ThemeOverlay.App.ExtendedFloatingActionButton" parent="">
+        <item name="colorSecondary">@color/colorPrimary</item>
+        <item name="colorOnSecondary">@color/colorTextEmphasizedButton</item>
+        <item name="colorOnSurface">@color/colorAccentTintButtonPressed</item>
+    </style>
+
+    <style name="ExtendedFloatingActionButton" parent="Widget.MaterialComponents.ExtendedFloatingActionButton.Icon">
+        <item name="materialThemeOverlay">
+            @style/ThemeOverlay.App.ExtendedFloatingActionButton
+        </item>
     </style>
 
     <!-- ####################################
@@ -204,7 +156,7 @@
         <item name="android:paddingBottom">@dimen/button_padding_top_bottom</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:background">?selectableItemBackground</item>
-        <item name="android:textColor">@color/colorTextPrimary1</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
     <style name="phoneNumber">
@@ -279,7 +231,7 @@
         <item name="android:background">@drawable/card_dark</item>
     </style>
 
-    <style name="selectionButton" parent="@style/Widget.AppCompat.Button.Borderless">
+    <style name="selectionButton">
         <item name="android:padding">@dimen/card_padding</item>
         <item name="android:gravity">left</item>
         <item name="android:background">@drawable/card</item>
@@ -313,7 +265,7 @@
     ###################################### -->
 
     <style name="headline4" parent="@style/TextAppearance.MaterialComponents.Headline4">
-        <item name="android:textColor">@color/colorTextPrimary1</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
     <style name="headline4Bold" parent="@style/headline4">
@@ -321,7 +273,7 @@
     </style>
 
     <style name="headline5" parent="@style/TextAppearance.MaterialComponents.Headline5">
-        <item name="android:textColor">@color/colorTextPrimary1</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
     <style name="headline5Tint" parent="@style/headline5">
@@ -333,16 +285,16 @@
     </style>
 
     <style name="headline6" parent="@style/TextAppearance.MaterialComponents.Headline6">
-        <item name="android:textColor">@color/colorTextPrimary1</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
     <style name="subtitle" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
-        <item name="android:textColor">@color/colorTextPrimary1</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
 
     <style name="materialSubtitleSixteen" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
-        <item name="android:textColor">@color/colorTextPrimary1</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
         <item name="android:textSize">16sp</item>
     </style>
 
@@ -359,7 +311,7 @@
     </style>
 
     <style name="body1" parent="@style/TextAppearance.MaterialComponents.Body1">
-        <item name="android:textColor">@color/colorTextPrimary1</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
     <style name="body1Medium" parent="@style/TextAppearance.MaterialComponents.Body1">
@@ -367,7 +319,7 @@
     </style>
 
     <style name="body2" parent="@style/TextAppearance.MaterialComponents.Body2">
-        <item name="android:textColor">@color/colorTextPrimary1</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
     <style name="body2Medium" parent="@style/TextAppearance.MaterialComponents.Body2">
@@ -380,7 +332,7 @@
     </style>
 
     <style name="bodyButton" parent="@style/TextAppearance.MaterialComponents.Button">
-        <item name="android:textColor">@color/colorTextPrimary1</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
     <style name="headline6Sixteen" parent="@style/TextAppearance.MaterialComponents.Headline6">
@@ -399,7 +351,7 @@
               Icons
     ###################################### -->
     <style name="icon">
-        <item name="android:tint">@color/colorTextPrimary1</item>
+        <item name="android:tint">@color/colorOnPrimary</item>
     </style>
 
     <style name="iconStable">
@@ -407,17 +359,9 @@
     </style>
 
     <!-- ####################################
-          Progress Bar
-    ###################################### -->
-
-    <style name="progressBar" parent="Widget.AppCompat.ProgressBar">
-        <item name="android:indeterminateTint">@color/colorStableLight</item>
-    </style>
-
-    <!-- ####################################
               Onboarding (ob)
     ###################################### -->
-    <style name="AppTheme.Onboarding" parent="AppTheme.NoActionBar">
+    <style name="AppTheme.Onboarding" parent="AppTheme">
         <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
         <item name="android:windowExitAnimation">@android:anim/fade_out</item>
     </style>
@@ -496,7 +440,7 @@
         Contact Diary
     ###################################### -->
     <style name="contactDiaryListItem" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
-        <item name="android:textColor">@color/colorTextPrimary1</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -513,7 +457,7 @@
     </style>
 
     <style name="ContactDiaryCircumstancesTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-        <item name="boxBackgroundColor">@color/colorBackground</item>
+        <item name="boxBackgroundColor">@color/colorSurface</item>
         <item name="android:textColorHint">@color/colorTextPrimary2</item>
         <item name="android:textSize">@dimen/font_small</item>
         <item name="hintTextColor">@color/colorTextPrimary2</item>
@@ -534,7 +478,7 @@
         <item name="android:paddingTop">7dp</item>
         <item name="android:paddingBottom">7dp</item>
         <item name="android:contentDescription">@string/statistics_info_button</item>
-        <item name="android:tint">@color/colorAccent</item>
+        <item name="android:tint">@color/colorPrimary</item>
     </style>
 
     <style name="StatisticsCardInfoButton" parent="buttonIcon">
@@ -561,9 +505,9 @@
         <item name="android:textSize">@dimen/font_huge</item>
     </style>
 
-    <style name="StatisticsCardSecondaryValue" parent="TextAppearance.AppCompat.Body2">
+    <style name="StatisticsCardSecondaryValue" parent="TextAppearance.MaterialComponents.Body2">
         <item name="android:textSize">@dimen/font_title</item>
-        <item name="android:textColor">@color/colorTextPrimary1</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
     <style name="TextInputLayoutTheme" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
@@ -579,7 +523,7 @@
     </style>
 
     <style name="DefaultNumberPickerTheme" parent="AppTheme">
-        <item name="colorControlNormal">@color/colorAccent</item>
+        <item name="colorControlNormal">@color/colorPrimary</item>
     </style>
 
     <style name="CardOverFlowButton">
@@ -596,5 +540,20 @@
 
     <style name="ShapeAppearanceOverlay">
         <item name="cornerSize">3dp</item>
+    </style>
+
+    <style name="SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">4dp</item>
     </style>
 </resources>

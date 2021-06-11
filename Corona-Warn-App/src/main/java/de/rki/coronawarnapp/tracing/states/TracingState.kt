@@ -15,9 +15,9 @@ sealed class TracingState {
     abstract val riskState: RiskState
     abstract val isInDetailsMode: Boolean
 
-    internal fun formatRelativeDateTimeString(c: Context, date: Instant): CharSequence? =
+    internal fun formatRelativeDateTimeString(context: Context, date: Instant): CharSequence? =
         DateUtils.getRelativeDateTimeString(
-            c,
+            context,
             date.millis,
             DateUtils.DAY_IN_MILLIS,
             DateUtils.DAY_IN_MILLIS * 2,
@@ -177,15 +177,15 @@ data class TracingFailed(
         context.getString(R.string.risk_card_body_not_yet_fetched)
     }
 
-    fun getLastRiskState(c: Context): String {
-        val argumentValue = c.getString(
+    fun getLastRiskState(context: Context): String {
+        val argumentValue = context.getString(
             when (riskState) {
                 RiskState.INCREASED_RISK -> R.string.risk_card_increased_risk_headline
                 RiskState.LOW_RISK -> R.string.risk_card_low_risk_headline
                 RiskState.CALCULATION_FAILED -> R.string.risk_card_check_failed_no_internet_headline
             }
         )
-        return c.getString(R.string.risk_card_no_calculation_possible_body_saved_risk).format(argumentValue)
+        return context.getString(R.string.risk_card_no_calculation_possible_body_saved_risk).format(argumentValue)
     }
 }
 
@@ -198,24 +198,24 @@ data class TracingDisabled(
 
     val showEnableTracingButton: Boolean = !isInDetailsMode
 
-    fun getTimeFetched(c: Context): String = if (lastExposureDetectionTime != null) {
-        c.getString(
+    fun getTimeFetched(context: Context): String = if (lastExposureDetectionTime != null) {
+        context.getString(
             R.string.risk_card_body_time_fetched,
-            formatRelativeDateTimeString(c, lastExposureDetectionTime)
+            formatRelativeDateTimeString(context, lastExposureDetectionTime)
         )
     } else {
-        c.getString(R.string.risk_card_body_not_yet_fetched)
+        context.getString(R.string.risk_card_body_not_yet_fetched)
     }
 
-    fun getLastRiskState(c: Context): String {
-        val argumentValue = c.getString(
+    fun getLastRiskState(context: Context): String {
+        val argumentValue = context.getString(
             when (riskState) {
                 RiskState.INCREASED_RISK -> R.string.risk_card_increased_risk_headline
                 RiskState.LOW_RISK -> R.string.risk_card_low_risk_headline
                 RiskState.CALCULATION_FAILED -> R.string.risk_card_check_failed_no_internet_headline
             }
         )
-        return c.getString(R.string.risk_card_no_calculation_possible_body_saved_risk).format(argumentValue)
+        return context.getString(R.string.risk_card_no_calculation_possible_body_saved_risk).format(argumentValue)
     }
 }
 
@@ -225,37 +225,37 @@ data class TracingInProgress(
     val tracingProgress: TracingProgress
 ) : TracingState() {
 
-    fun getProgressCardHeadline(c: Context): String = when (tracingProgress) {
+    fun getProgressCardHeadline(context: Context): String = when (tracingProgress) {
         TracingProgress.Downloading -> R.string.risk_card_progress_download_headline
         TracingProgress.IsCalculating -> R.string.risk_card_progress_calculation_headline
         TracingProgress.Idle -> null
-    }?.let { c.getString(it) } ?: ""
+    }?.let { context.getString(it) } ?: ""
 
-    fun getProgressCardBody(c: Context): String = when (tracingProgress) {
+    fun getProgressCardBody(context: Context): String = when (tracingProgress) {
         TracingProgress.Downloading -> R.string.risk_card_progress_download_body
         TracingProgress.IsCalculating -> R.string.risk_card_progress_calculation_body
         TracingProgress.Idle -> null
-    }?.let { c.getString(it) } ?: ""
+    }?.let { context.getString(it) } ?: ""
 
     /**
      * Formats the risk card icon color depending on risk level
      * This special handling is required due to light / dark mode differences and switches
      * between colored / light / dark background
      */
-    fun getStableIconColor(c: Context): Int = when (riskState) {
+    fun getStableIconColor(context: Context): Int = when (riskState) {
         RiskState.INCREASED_RISK, RiskState.LOW_RISK -> R.color.colorStableLight
         else -> R.color.colorTextSemanticNeutral
-    }.let { c.getColorCompat(it) }
+    }.let { context.getColorCompat(it) }
 
-    fun getStableTextColor(c: Context): Int = when (riskState) {
+    fun getStableTextColor(context: Context): Int = when (riskState) {
         RiskState.INCREASED_RISK, RiskState.LOW_RISK -> R.color.colorTextPrimary1InvertedStable
-        else -> R.color.colorTextPrimary1
-    }.let { c.getColorCompat(it) }
+        else -> R.color.colorOnPrimary
+    }.let { context.getColorCompat(it) }
 
     @ColorInt
-    fun getContainerColor(c: Context): Int = when (riskState) {
+    fun getContainerColor(context: Context): Int = when (riskState) {
         RiskState.INCREASED_RISK -> R.color.colorSemanticHighRisk
         RiskState.LOW_RISK -> R.color.colorSemanticLowRisk
         RiskState.CALCULATION_FAILED -> R.color.colorSemanticUnknownRisk
-    }.let { c.getColorCompat(it) }
+    }.let { context.getColorCompat(it) }
 }

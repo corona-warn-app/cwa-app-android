@@ -210,7 +210,6 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
         }.show()
 
     private fun setupMenu(toolbar: Toolbar) = toolbar.apply {
-        inflateMenu(R.menu.menu_trace_location_attendee_checkins)
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_information -> {

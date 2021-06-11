@@ -28,8 +28,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:zxing_viewfinder_mask="@color/colorQrCodeScanMask"
-        app:zxing_viewfinder_laser_visibility="false" />
+        app:zxing_viewfinder_laser_visibility="false"
+        app:zxing_viewfinder_mask="@color/colorQrCodeScanMask" />
 
     <TextView
         android:id="@+id/qr_code_scan_body"
@@ -49,12 +49,13 @@
         android:layout_marginTop="@dimen/spacing_normal"
         android:indeterminate="true"
         android:visibility="invisible"
+        app:hideAnimationBehavior="inward"
         app:indicatorColor="@android:color/white"
         app:indicatorSize="64dp"
-        app:trackColor="@android:color/transparent"
         app:layout_constraintEnd_toEndOf="@id/qr_code_scan_body"
         app:layout_constraintStart_toStartOf="@id/qr_code_scan_body"
-        app:layout_constraintTop_toBottomOf="@id/qr_code_scan_body" />
+        app:layout_constraintTop_toBottomOf="@id/qr_code_scan_body"
+        app:trackColor="@android:color/transparent" />
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/qr_code_scan_toolbar"

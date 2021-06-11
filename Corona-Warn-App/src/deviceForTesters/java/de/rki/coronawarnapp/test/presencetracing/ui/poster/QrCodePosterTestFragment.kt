@@ -143,7 +143,7 @@ class QrCodePosterTestFragment : Fragment(R.layout.fragment_test_qr_code_poster)
             bold {
                 append("Tips:")
             }
-            color(requireContext().getColorCompat(R.color.colorAccent)) {
+            color(requireContext().getColorCompat(R.color.colorPrimary)) {
                 appendLine()
                 appendLine()
                 append(

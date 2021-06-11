@@ -5,7 +5,7 @@
     android:id="@+id/content_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="@color/colorSurface"
     android:focusable="true">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -18,7 +18,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:popupTheme="@style/CWAToolbar.Menu"
         app:title="@string/trace_location_organiser_list_title"
         tools:title="Meine QR-Codes" />
 
@@ -42,7 +41,7 @@
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="qr_codes__list_no_items_image,qr_codes_list_no_items_title,qr_codes_list_no_items_subtitle" />
 
-     <ImageView
+    <ImageView
         android:id="@+id/qr_codes__list_no_items_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -84,7 +83,6 @@
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/qr_code_fab"
-        style="@style/Widget.App.ExtendedFloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_normal"

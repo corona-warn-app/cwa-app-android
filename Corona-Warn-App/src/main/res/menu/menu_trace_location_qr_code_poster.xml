@@ -6,12 +6,12 @@
         android:id="@+id/action_print"
         android:icon="@drawable/ic_print"
         android:title="@string/trace_location_organiser_poster_print"
-        app:iconTint="@color/colorTextPrimary1"
+        app:iconTint="@color/colorOnPrimary"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_share"
         android:icon="@drawable/ic_share"
         android:title="@string/trace_location_organiser_poster_share"
-        app:iconTint="@color/colorTextPrimary1"
+        app:iconTint="@color/colorOnPrimary"
         app:showAsAction="ifRoom" />
 </menu>

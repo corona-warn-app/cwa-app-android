@@ -70,8 +70,7 @@
                 app:layout_collapseMode="pin"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:navigationIcon="@drawable/ic_back"
-                app:navigationIconTint="@android:color/white"
-                app:titleTextColor="@color/colorAccentTintButton">
+                app:navigationIconTint="@android:color/white">
 
                 <LinearLayout
                     android:id="@+id/header_text_layout"

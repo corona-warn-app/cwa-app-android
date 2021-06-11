@@ -151,4 +151,4 @@ fun formatCountrySelectCardColor(context: Context, isActive: Boolean?): Int =
     formatColor(context, isActive == true, R.color.colorTextSemanticNeutral, R.color.card_dark)
 
 fun formatCountrySelectCardTextColor(context: Context, isActive: Boolean?): Int =
-    formatColor(context, isActive == true, R.color.colorTextEmphasizedButton, R.color.colorTextPrimary1)
+    formatColor(context, isActive == true, R.color.colorTextEmphasizedButton, R.color.colorOnPrimary)
