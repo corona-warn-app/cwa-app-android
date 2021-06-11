@@ -26,8 +26,9 @@ import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificat
 import de.rki.coronawarnapp.vaccination.core.certificate.InvalidHealthCertificateException.ErrorCode.VC_STORING_FAILED
 
 class InvalidHealthCertificateException(
-    val errorCode: ErrorCode
-) : HasHumanReadableError, InvalidQRCodeException(errorCode.message) {
+    val errorCode: ErrorCode,
+    cause: Throwable? = null,
+) : HasHumanReadableError, InvalidQRCodeException(errorCode.message, cause) {
     enum class ErrorCode(
         val message: String
     ) {

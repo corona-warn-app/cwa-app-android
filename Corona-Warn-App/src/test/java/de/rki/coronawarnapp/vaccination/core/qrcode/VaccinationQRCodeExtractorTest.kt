@@ -187,4 +187,12 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
             mode = Mode.CERT_VAC_STRICT
         )
     }
+
+    @Test
+    fun `Polish qr code passes`() {
+        extractor.extract(
+            VaccinationQrCodeTestData.qrCodePoland,
+            mode = Mode.CERT_VAC_STRICT
+        )
+    }
 }

@@ -30,7 +30,7 @@ class VaccinationDGCV1Parser @Inject constructor(
     } catch (e: InvalidHealthCertificateException) {
         throw e
     } catch (e: Throwable) {
-        throw InvalidHealthCertificateException(HC_CBOR_DECODING_FAILED)
+        throw InvalidHealthCertificateException(HC_CBOR_DECODING_FAILED, cause = e)
     }
 
     private fun VaccinationDGCV1.toValidated(lenient: Boolean): VaccinationDGCV1 = this
@@ -46,11 +46,12 @@ class VaccinationDGCV1Parser @Inject constructor(
                 throw InvalidHealthCertificateException(VC_MULTIPLE_VACCINATION_ENTRIES)
             }
         }
-        .also {
+        .apply {
+            // Apply otherwise we risk accidentally accessing the original obj in the outer scope
             // Force date parsing
             dateOfBirth
-            vaccinationDatas.forEach {
-                it.vaccinatedAt
+            vaccinationDatas.single().apply {
+                vaccinatedAt
             }
         }
 
