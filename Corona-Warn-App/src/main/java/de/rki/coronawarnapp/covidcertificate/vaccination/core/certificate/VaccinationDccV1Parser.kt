@@ -4,7 +4,7 @@ import com.google.gson.Gson
 import com.upokecenter.cbor.CBORObject
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException
-import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.*
+import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode
 import de.rki.coronawarnapp.covidcertificate.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
@@ -20,18 +20,18 @@ class VaccinationDccV1Parser @Inject constructor(
         map[keyHCert]?.run {
             this[keyEuDgcV1]?.run {
                 this.toCertificate(lenient = lenient)
-            } ?: throw InvalidVaccinationCertificateException(HC_CWT_NO_DGC)
-        } ?: throw InvalidVaccinationCertificateException(HC_CWT_NO_HCERT)
+            } ?: throw InvalidVaccinationCertificateException(ErrorCode.HC_CWT_NO_DGC)
+        } ?: throw InvalidVaccinationCertificateException(ErrorCode.HC_CWT_NO_HCERT)
     } catch (e: InvalidHealthCertificateException) {
         throw e
     } catch (e: Throwable) {
-        throw InvalidVaccinationCertificateException(HC_CBOR_DECODING_FAILED, cause = e)
+        throw InvalidVaccinationCertificateException(ErrorCode.HC_CBOR_DECODING_FAILED, cause = e)
     }
 
     @Suppress("UNNECESSARY_NOT_NULL_ASSERTION")
     private fun VaccinationDccV1.toValidated(lenient: Boolean): VaccinationDccV1 = this
         .run {
-            if (payloads.isEmpty()) throw InvalidVaccinationCertificateException(VC_NO_VACCINATION_ENTRY)
+            if (payloads.isEmpty()) throw InvalidVaccinationCertificateException(ErrorCode.VC_NO_VACCINATION_ENTRY)
 
             if (payloads.size == 1) return@run this
 
@@ -39,7 +39,7 @@ class VaccinationDccV1Parser @Inject constructor(
                 Timber.w("Lenient: Vaccination data contained multiple entries.")
                 copy(payloads = listOf(payloads.maxByOrNull { it.vaccinatedAt }!!))
             } else {
-                throw InvalidVaccinationCertificateException(VC_MULTIPLE_VACCINATION_ENTRIES)
+                throw InvalidVaccinationCertificateException(ErrorCode.VC_MULTIPLE_VACCINATION_ENTRIES)
             }
         }
         .apply {
@@ -67,7 +67,7 @@ class VaccinationDccV1Parser @Inject constructor(
     } catch (e: InvalidVaccinationCertificateException) {
         throw e
     } catch (e: Throwable) {
-        throw InvalidVaccinationCertificateException(JSON_SCHEMA_INVALID)
+        throw InvalidVaccinationCertificateException(ErrorCode.JSON_SCHEMA_INVALID)
     }
 
     companion object {
