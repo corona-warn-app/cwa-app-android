@@ -59,7 +59,9 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
                         testResultNegativeStepsNegativeResult.setIsFinal(false)
                         testResultNegativeStepsCertificate.isGone = false
                         testResultNegativeStepsCertificate.setEntryText(
-                            getText(R.string.submission_test_result_pending_steps_test_certificate_not_available_yet_body)
+                            getText(
+                                R.string.submission_test_result_pending_steps_test_certificate_not_available_yet_body
+                            )
                         )
                         testResultNegativeStepsCertificate.setIcon(
                             getDrawable(requireContext(), R.drawable.ic_result_pending_certificate_info)
