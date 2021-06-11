@@ -68,7 +68,7 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
             testCertificate.sampleCollectedAt.toShortDayFormat(),
             testCertificate.sampleCollectedAt.toShortTimeFormat(),
         )
-        name.text = testCertificate.run { "$firstName $lastName" }
+        name.text = testCertificate.run { "$lastName, $firstName" }
         birthDate.text = testCertificate.dateOfBirth.toDayFormat()
         diseaseType.text = testCertificate.targetName
         testType.text = testCertificate.testType
