@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.coronatest.qrcode
 
+import de.rki.coronawarnapp.coronatest.qrcode.QrCodeExtractor.Mode.TEST_STRICT
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -29,13 +30,13 @@ class RapidAntigenQrCodeExtractorTest : BaseTest() {
     @Test
     fun `extracting valid codes does not throw exception`() {
         listOf(raQrCode1, raQrCode2, raQrCode3, raQrCode4, raQrCode5, raQrCode6, raQrCode7, raQrCode8).forEach {
-            instance.extract(it)
+            instance.extract(it, mode = TEST_STRICT)
         }
     }
 
     @Test
     fun `personal data is extracted`() {
-        val data = instance.extract(raQrCode3)
+        val data = instance.extract(raQrCode3, mode = TEST_STRICT)
         data.type shouldBe CoronaTest.Type.RAPID_ANTIGEN
         data.hash shouldBe "7dce08db0d4abd5ac1d2498b571afb221ca947c75c847d05466b4cfe9d95dc66"
         data.createdAt shouldBe Instant.ofEpochMilli(1619618352000)
@@ -46,7 +47,7 @@ class RapidAntigenQrCodeExtractorTest : BaseTest() {
 
     @Test
     fun `empty strings are treated as null or notset`() {
-        val data = instance.extract(raQrCodeEmptyStrings)
+        val data = instance.extract(raQrCodeEmptyStrings, mode = TEST_STRICT)
         data.type shouldBe CoronaTest.Type.RAPID_ANTIGEN
         data.hash shouldBe "d6e4d0181d8109bf05b346a0d2e0ef0cc472eed70d9df8c4b9ae5c7a009f3e34"
         data.createdAt shouldBe Instant.ofEpochMilli(1619012952000)
@@ -57,14 +58,14 @@ class RapidAntigenQrCodeExtractorTest : BaseTest() {
 
     @Test
     fun `personal data is only valid if complete or completely missing`() {
-        shouldThrow<InvalidQRCodeException> { instance.extract(raQrIncompletePersonalData) }
+        shouldThrow<InvalidQRCodeException> { instance.extract(raQrIncompletePersonalData, mode = TEST_STRICT) }
     }
 
     @Test
     fun `invalid json throws exception`() {
         val invalidCode = "https://s.coronawarn.app/?v=1#eyJ0aW1lc3RhbXAiOjE2"
         shouldThrow<InvalidQRCodeException> {
-            RapidAntigenQrCodeExtractor().extract(invalidCode)
+            RapidAntigenQrCodeExtractor().extract(invalidCode, mode = TEST_STRICT)
         }
     }
 }

@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storag
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
+import de.rki.coronawarnapp.coronatest.qrcode.QrCodeExtractor.Mode
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccHeader
@@ -31,7 +32,7 @@ data class VaccinationContainer internal constructor(
 
     @delegate:Transient
     internal val certificateData: DccData<VaccinationDccV1> by lazy {
-        preParsedData ?: qrCodeExtractor.extract(vaccinationQrCode).data
+        preParsedData ?: qrCodeExtractor.extract(vaccinationQrCode, mode = Mode.CERT_VAC_LENIENT).data
     }
 
     val header: DccHeader
