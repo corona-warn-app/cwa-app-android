@@ -80,7 +80,7 @@ data class PCRCoronaTest(
         }
 
     override val isDccSupportedByPoc: Boolean
-        get() = false
+        get() = true
 
     enum class State {
         PENDING,
