@@ -4,6 +4,8 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
@@ -45,7 +47,36 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
         }
 
         viewModel.testResult.observe2(this) {
-            binding.submissionTestResultSection.setTestResultSection(it.coronaTest)
+            binding.apply {
+                submissionTestResultSection.setTestResultSection(it.coronaTest)
+
+                when (it.certificateState) {
+                    SubmissionTestResultNegativeViewModel.CertificateState.NOT_REQUESTED -> {
+                        testResultNegativeStepsNegativeResult.setIsFinal(true)
+                        testResultNegativeStepsCertificate.isGone = true
+                    }
+                    SubmissionTestResultNegativeViewModel.CertificateState.PENDING -> {
+                        testResultNegativeStepsNegativeResult.setIsFinal(false)
+                        testResultNegativeStepsCertificate.isGone = false
+                        testResultNegativeStepsCertificate.setEntryText(
+                            getText(R.string.submission_test_result_pending_steps_test_certificate_not_available_yet_body)
+                        )
+                        testResultNegativeStepsCertificate.setIcon(
+                            getDrawable(requireContext(), R.drawable.ic_result_pending_certificate_info)
+                        )
+                    }
+                    SubmissionTestResultNegativeViewModel.CertificateState.AVAILABLE -> {
+                        testResultNegativeStepsNegativeResult.setIsFinal(false)
+                        testResultNegativeStepsCertificate.isGone = false
+                        testResultNegativeStepsCertificate.setEntryText(
+                            getText(R.string.coronatest_negative_result_certificate_info_body)
+                        )
+                        testResultNegativeStepsCertificate.setIcon(
+                            getDrawable(requireContext(), R.drawable.ic_qr_code_illustration)
+                        )
+                    }
+                }
+            }
         }
 
         viewModel.routeToScreen.observe2(this) { navDirections ->

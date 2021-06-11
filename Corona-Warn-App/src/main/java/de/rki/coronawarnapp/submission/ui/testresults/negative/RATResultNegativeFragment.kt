@@ -129,7 +129,7 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
                 coronatestNegativeAntigenResultThirdInfo.setIsFinal(false)
                 coronatestNegativeAntigenResultFourthInfo.isGone = false
                 coronatestNegativeAntigenResultFourthInfo.setEntryText(
-                    getText(R.string.coronatest_negative_antigen_result_fourth_info_body)
+                    getText(R.string.coronatest_negative_result_certificate_info_body)
                 )
                 coronatestNegativeAntigenResultFourthInfo.setIcon(
                     getDrawable(requireContext(), R.drawable.ic_qr_code_illustration)

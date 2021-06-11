@@ -237,8 +237,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/coronatest_negative_antigen_result_third_info"
                 app:layout_constraintTop_toBottomOf="@+id/coronatest_negative_antigen_result_third_info"
-                app:simple_step_entry_text="@string/coronatest_negative_antigen_result_fourth_info_body"
-                app:simple_step_entry_title="@string/coronatest_negative_antigen_result_fourth_info_title"
+                app:simple_step_entry_text="@string/coronatest_negative_result_certificate_info_body"
+                app:simple_step_entry_title="@string/coronatest_negative_result_certificate_info_title"
                 app:step_entry_final="true"
                 app:step_entry_icon="@drawable/ic_qr_code_illustration" />
 
