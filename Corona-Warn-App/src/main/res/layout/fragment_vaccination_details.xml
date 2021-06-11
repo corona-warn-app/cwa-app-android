@@ -79,6 +79,7 @@
                 app:layout_collapseMode="pin"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:navigationIconTint="@android:color/white"
+                android:theme="@style/CWAToolbar.Theme"
                 app:menu="@menu/menu_covid_certificate_detail"
                 app:navigationIcon="@drawable/ic_back"
                 app:titleTextColor="@color/colorAccentTintButton">
