@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.view
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,9 @@ open class StepEntry @JvmOverloads constructor(
 
     val body: FrameLayout?
 
+    private lateinit var entryLine: View
+    private lateinit var entryIcon: ImageView
+
     init {
         inflate(context, R.layout.view_step_entry, this)
 
@@ -27,14 +31,24 @@ open class StepEntry @JvmOverloads constructor(
 
         context.withStyledAttributes(attrs, R.styleable.StepEntry) {
             val icon = getDrawable(R.styleable.StepEntry_step_entry_icon)
-            findViewById<ImageView>(R.id.step_entry_icon).setImageDrawable(icon)
+            entryIcon = findViewById(R.id.step_entry_icon)
+            setIcon(icon)
 
             val isFinal = getBoolean(R.styleable.StepEntry_step_entry_final, false)
-            findViewById<View>(R.id.step_entry_line).visibility = if (isFinal) {
-                View.INVISIBLE
-            } else {
-                View.VISIBLE
-            }
+            entryLine = findViewById(R.id.step_entry_line)
+            setIsFinal(isFinal)
+        }
+    }
+
+    fun setIcon(icon: Drawable?) {
+        entryIcon.setImageDrawable(icon)
+    }
+
+    fun setIsFinal(isFinal: Boolean) {
+        entryLine.visibility = if (isFinal) {
+            View.INVISIBLE
+        } else {
+            View.VISIBLE
         }
     }
 
