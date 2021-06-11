@@ -6,7 +6,10 @@ import de.rki.coronawarnapp.util.HumanReadableError
 import de.rki.coronawarnapp.util.ui.CachedString
 import de.rki.coronawarnapp.util.ui.LazyString
 
-class InvalidVaccinationCertificateException(errorCode: ErrorCode) : InvalidHealthCertificateException(errorCode) {
+class InvalidVaccinationCertificateException(
+    errorCode: ErrorCode,
+    cause: Throwable? = null,
+) : InvalidHealthCertificateException(errorCode, cause) {
     override fun toHumanReadableError(context: Context): HumanReadableError {
         var errorCodeString = errorCode.toString()
         errorCodeString = if (errorCodeString.startsWith(PREFIX_VC)) errorCodeString else PREFIX_VC + errorCodeString
@@ -15,24 +18,34 @@ class InvalidVaccinationCertificateException(errorCode: ErrorCode) : InvalidHeal
         )
     }
 
+    val showFaqButton: Boolean
+        get() = errorCode in codesVcInvalid
+
+    private val codesVcInvalid = listOf(
+        ErrorCode.HC_BASE45_DECODING_FAILED,
+        ErrorCode.HC_CBOR_DECODING_FAILED,
+        ErrorCode.HC_COSE_MESSAGE_INVALID,
+        ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED,
+        ErrorCode.HC_COSE_TAG_INVALID,
+        ErrorCode.VC_PREFIX_INVALID,
+        ErrorCode.HC_CWT_NO_DGC,
+        ErrorCode.HC_CWT_NO_EXP,
+        ErrorCode.HC_CWT_NO_HCERT,
+        ErrorCode.HC_CWT_NO_ISS,
+        ErrorCode.JSON_SCHEMA_INVALID
+    )
+
     override val errorMessage: LazyString
         get() = when (errorCode) {
-            ErrorCode.VC_PREFIX_INVALID,
-            ErrorCode.HC_BASE45_DECODING_FAILED,
-            ErrorCode.HC_CBOR_DECODING_FAILED,
-            ErrorCode.HC_COSE_MESSAGE_INVALID,
-            ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED,
-            ErrorCode.HC_COSE_TAG_INVALID,
-            ErrorCode.HC_CWT_NO_DGC,
-            ErrorCode.HC_CWT_NO_EXP,
-            ErrorCode.HC_CWT_NO_HCERT,
-            ErrorCode.HC_CWT_NO_ISS,
-            ErrorCode.JSON_SCHEMA_INVALID,
-            -> CachedString { context ->
+            in codesVcInvalid -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_VC_INVALID)
             }
 
             ErrorCode.VC_NO_VACCINATION_ENTRY -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_VC_NOT_YET_SUPPORTED)
+            }
+
+            ErrorCode.VC_MULTIPLE_VACCINATION_ENTRIES -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_VC_NOT_YET_SUPPORTED)
             }
 
