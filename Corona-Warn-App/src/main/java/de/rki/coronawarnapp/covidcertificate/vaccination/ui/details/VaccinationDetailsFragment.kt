@@ -62,7 +62,6 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
                 expandedImage.setImageResource(background)
                 europaImage.setImageResource(europaIcon)
-
             }
 
             appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
