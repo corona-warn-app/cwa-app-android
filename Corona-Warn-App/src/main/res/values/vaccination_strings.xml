@@ -124,4 +124,10 @@
     <!-- XTXT: Detail green certificate travel notice link de -->
     <string name="vaccination_certificate_travel_notice_link_de">"https://reopen.europa.eu/de"</string>
 
+    <!-- XTXT: Vaccination certificate Detail title -->
+    <string name="vaccination_certificate_title">"Impfzertifikat"</string>
+    <!-- XTXT: Vaccination certificate Detail subtitle -->
+    <string name="vaccination_certificate_subtitle">"EU Digitales COVID-Zertifikat"</string>
+
+
 </resources>

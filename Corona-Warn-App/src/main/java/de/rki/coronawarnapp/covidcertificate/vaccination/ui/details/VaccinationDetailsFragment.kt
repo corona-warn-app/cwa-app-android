@@ -118,11 +118,6 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         certificateIssuer.text = certificate.certificateIssuer
         certificateCountry.text = certificate.certificateCountry
         certificateId.text = certificate.certificateId
-        title.text = getString(
-            R.string.vaccination_details_title,
-            certificate.doseNumber,
-            certificate.totalSeriesOfDoses
-        )
     }
 
     private fun FragmentVaccinationDetailsBinding.bindTravelNoticeViews() {
@@ -172,9 +167,5 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 viewModel.deleteVaccination()
             }
         )
-    }
-
-    companion object {
-        private val format = DateTimeFormat.forPattern("dd.MM.yy")
     }
 }
