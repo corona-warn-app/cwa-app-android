@@ -48,9 +48,9 @@
     <!-- XBUT: Vaccination List delete button -->
     <string name="vaccination_list_delete_button">"Изтриване"</string>
     <!-- XTXT: Vaccination List deletion dialog title-->
-    <string name="vaccination_list_deletion_dialog_title">"Желаете ли да изтриете сертификата за ваксиниране?"</string>
+    <string name="vaccination_list_deletion_dialog_title">"Желаете ли да изтриете ваксинационния сертификат?"</string>
     <!-- XTXT: Vaccination List deletion dialog message-->
-    <string name="vaccination_list_deletion_dialog_message">"Ако изтриете сертификата за ваксиниране, приложението вече няма да може да използва ваксинацията за удостоверяване на вашия ваксинационен статус."</string>
+    <string name="vaccination_list_deletion_dialog_message">"Ако изтриете сертификата, приложението вече няма да може да използва тази ваксинация за удостоверяване на вашия ваксинационен статус."</string>
     <!-- XBUT: Vaccination List deletion dialog positive button-->
     <string name="vaccination_list_deletion_dialog_positive_button">"Изтриване"</string>
     <!-- XBUT: Vaccination List deletion dialog negative button-->
@@ -86,15 +86,15 @@
     </plurals>
 
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_invalid">"Този QR код не е валиден сертификат за ваксиниране."</string>
+    <string name="error_vc_invalid">"Този QR не е валиден ваксинационен сертификат.\n\nЗа да разберете как можете да се сдобиете със сертификат за извършена ваксинация, вижте страницата ни с често задавани въпроси (ЧЗВ)."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_not_yet_supported">"Този сертификат за ваксиниране все още не се поддържа във версията на вашето приложение. Моля, актуализирайте приложението си или се свържете с горещата линия за технически проблеми от “Информация за приложението”."</string>
+    <string name="error_vc_not_yet_supported">"Този ваксинационен сертификат все още не се поддържа във версията на Вашето приложение. Моля, актуализирайте приложението си или се свържете с горещата линия за технически проблеми, посочена в „Информация за приложението“."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_scan_again">"Сертификатът за ваксиниране не може да бъде запазен на смартфона ви. Моля, опитайте отново по-късно или се свържете с горещата линия за технически проблеми от “Информация за приложението”."</string>
+    <string name="error_vc_scan_again">"Ваксинационният сертификат не може да бъде запазен на смартфона Ви. Моля, опитайте отново по-късно или се свържете с горещата линия за технически проблеми, посочена в „Информация за приложението“."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_already_registered">"Сертификатът за ваксиниране вече е регистриран в приложението ви."</string>
+    <string name="error_vc_already_registered">"Ваксинационният сертификат вече е регистриран в приложението Ви."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_different_person">"Личната информация в този сертификат за ваксиниране не съответства на тази във вече регистрираните сертификати. В приложението можете да регистрирате сертификати само за едно лице."</string>
+    <string name="error_vc_different_person">"Личната информация в този ваксинационен сертификат не съответства на тази във вече регистрираните сертификати. В приложението можете да регистрирате сертификати само за едно лице."</string>
 
     <!-- XTXT: Vaccination Consent title-->
     <string name="vaccination_consent_title">"Вашето съгласие"</string>
@@ -112,5 +112,9 @@
     <string name="vaccination_consent_onboarding_legal_information">"За повече информация относно обработката на данни, прочетете декларацията за поверителност."</string>
     <!-- XBUT: Text for vaccination consent accept button -->
     <string name="vaccination_consent_accept_button">"Напред"</string>
+    <!-- XBUT: Text for invalid vaccination certificate error button, linking to FAQ-->
+    <string name="error_button_vc_faq">"ЧЗВ за ваксинационни сертификати"</string>
+    <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
+    <string name="error_button_vc_faq_link">"https://www.coronawarn.app/en/faq/#vac_cert_invalid"</string>
 
 </resources>
