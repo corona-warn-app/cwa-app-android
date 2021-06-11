@@ -25,6 +25,7 @@ import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import org.joda.time.format.DateTimeFormat
+import timber.log.Timber
 import javax.inject.Inject
 
 class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_details), AutoInject {
@@ -96,7 +97,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_covid_certificate_delete -> {
-                    //DialogHelper.showDialog(deleteTestConfirmationDialog)
+                    DialogHelper.showDialog(deleteTestConfirmationDialog)
                     true
                 }
                 else -> onOptionsItemSelected(it)
@@ -160,6 +161,19 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
         val behavior: AppBarLayout.ScrollingViewBehavior = params.behavior as (AppBarLayout.ScrollingViewBehavior)
         behavior.overlayTop = (width / 3) - 24
+    }
+
+    private val deleteTestConfirmationDialog by lazy {
+        DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.vaccination_list_deletion_dialog_title,
+            R.string.vaccination_list_deletion_dialog_message,
+            R.string.green_certificate_details_dialog_remove_test_button_positive,
+            R.string.green_certificate_details_dialog_remove_test_button_negative,
+            positiveButtonFunction = {
+                viewModel.deleteVaccination()
+            }
+        )
     }
 
     companion object {
