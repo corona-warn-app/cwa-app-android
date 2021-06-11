@@ -1,7 +1,9 @@
 package de.rki.coronawarnapp.vaccination.core.certificate
 
 import com.google.gson.annotations.SerializedName
+import org.joda.time.DateTime
 import org.joda.time.LocalDate
+import timber.log.Timber
 
 data class VaccinationDGCV1(
     @SerializedName("ver") val version: String,
@@ -38,12 +40,29 @@ data class VaccinationDGCV1(
         // Unique Certificate Identifier, e.g.  "ci": "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"
         @SerializedName("ci") val uniqueCertificateIdentifier: String
     ) {
+        // Can't use lazy because GSON will NULL it, as we have no no-args constructor
+        private var vaccinatedAtCache: LocalDate? = null
         val vaccinatedAt: LocalDate
-            get() = LocalDate.parse(dt.removeSuffix(DATE_SUFFIX))
+            get() = vaccinatedAtCache ?: dt.toLocalDateLeniently().also {
+                vaccinatedAtCache = it
+            }
     }
 
+    // Can't use lazy because GSON will NULL it, as we have no no-args constructor
+    private var dateOfBirthCache: LocalDate? = null
     val dateOfBirth: LocalDate
-        get() = LocalDate.parse(dob.removeSuffix(DATE_SUFFIX))
+        get() = dateOfBirthCache ?: dob.toLocalDateLeniently().also {
+            dateOfBirthCache = it
+        }
 }
 
-private const val DATE_SUFFIX = "T00:00:00"
+private fun String.toLocalDateLeniently(): LocalDate = try {
+    LocalDate.parse(this)
+} catch (e: Exception) {
+    Timber.w("Irregular date string: %s", this)
+    try {
+        DateTime.parse(this).toLocalDate()
+    } catch (giveUp: Exception) {
+        throw giveUp
+    }
+}
