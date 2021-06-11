@@ -67,12 +67,13 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:theme="@style/CWAToolbar.Theme"
+                android:theme="@style/Theme.MaterialComponents"
                 app:layout_collapseMode="pin"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:menu="@menu/menu_covid_certificate_detail"
                 app:navigationIcon="@drawable/ic_back"
-                app:navigationIconTint="@android:color/white">
+                app:navigationIconTint="@android:color/white"
+                app:popupTheme="@style/Theme.MaterialComponents.Light">
 
                 <LinearLayout
                     android:id="@+id/header_text_layout"

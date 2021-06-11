@@ -67,8 +67,7 @@
                     app:layout_collapseMode="pin"
                     app:layout_scrollFlags="scroll|enterAlways"
                     app:navigationIcon="@drawable/ic_close"
-                    app:navigationIconTint="@color/colorStableLight"
-                    app:titleTextColor="@color/colorAccentTintButton">
+                    app:navigationIconTint="@color/colorStableLight">
 
                     <LinearLayout
                         android:id="@+id/header_text_layout"
@@ -195,8 +194,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/confirm_checkin_settings_card_checkout_toggle_label"
-                        android:textSize="14sp"
-                        android:theme="@style/switchBase" />
+                        android:textSize="14sp" />
 
                     <View
                         android:layout_width="match_parent"

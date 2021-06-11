@@ -2,7 +2,7 @@
 <resources>
 
     <style name="subtitle" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
-        <item name="android:textColor">@color/colorTextPrimary1</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
         <item name="android:lineHeight">@dimen/line_height_normal</item>
     </style>
 
@@ -17,12 +17,12 @@
     </style>
 
     <style name="body1" parent="@style/TextAppearance.MaterialComponents.Body1">
-        <item name="android:textColor">@color/colorTextPrimary1</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
         <item name="android:lineHeight">@dimen/line_height_large</item>
     </style>
 
     <style name="body2" parent="@style/TextAppearance.MaterialComponents.Body2">
-        <item name="android:textColor">@color/colorTextPrimary1</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
         <item name="android:lineHeight">@dimen/line_height_small</item>
     </style>
 

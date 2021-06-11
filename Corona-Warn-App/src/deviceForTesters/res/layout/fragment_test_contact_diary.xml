@@ -244,7 +244,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/card_divider"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:background="@color/colorHairline"
+                android:background="@color/dividerColor"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/location_visits_fancy" />
 
@@ -286,7 +286,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/card_divider"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:background="@color/colorHairline"
+                android:background="@color/dividerColor"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/person_encounters_fancy" />
 

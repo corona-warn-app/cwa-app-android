@@ -75,7 +75,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/card_divider"
                     android:layout_marginHorizontal="@dimen/spacing_normal"
-                    android:background="@color/colorHairline"
+                    android:background="@color/dividerColor"
                     app:layout_constraintTop_toBottomOf="@id/settings_switch_row_notifications_risk" />
 
                 <de.rki.coronawarnapp.ui.view.SwitchRowView
@@ -97,7 +97,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/card_divider"
                     android:layout_marginHorizontal="@dimen/spacing_normal"
-                    android:background="@color/colorHairline"
+                    android:background="@color/dividerColor"
                     app:layout_constraintTop_toBottomOf="@id/settings_switch_row_notifications_test" />
 
                 <include

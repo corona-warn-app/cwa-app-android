@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="@color/colorSurface"
     tools:context="de.rki.coronawarnapp.covidcertificate.vaccination.ui.consent.VaccinationConsentFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -51,12 +51,11 @@
                 android:layout_marginTop="48dp"
                 android:layout_marginEnd="@dimen/spacing_normal"
                 android:text="@string/vaccination_consent_info_subtitle_text"
-                android:textColorLink="@color/colorAccent"
+                android:textColorLink="@color/colorPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/vaccination_consent_info_graphic"
-                tools:text="@string/vaccination_consent_info_subtitle_text"
-                />
+                tools:text="@string/vaccination_consent_info_subtitle_text" />
 
             <ImageView
                 android:id="@+id/vaccination_consent_info_icon"

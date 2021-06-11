@@ -107,7 +107,7 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
 
         tanDigit.setTextColor(
             if (Tan.isTanCharacterValid(text))
-                context.getColorCompat(R.color.colorTextPrimary1)
+                context.getColorCompat(R.color.colorOnPrimary)
             else
                 context.getColorCompat(R.color.colorTextSemanticRed)
         )
