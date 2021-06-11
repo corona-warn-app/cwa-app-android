@@ -28,7 +28,7 @@
                 android:layout_height="match_parent"
                 android:importantForAccessibility="no"
                 app:layout_collapseMode="parallax"
-                app:srcCompat="@drawable/vaccination_compelete_gradient" />
+                app:srcCompat="@drawable/vaccination_complete_gradient" />
 
             <ImageView
                 android:id="@+id/europa_image"

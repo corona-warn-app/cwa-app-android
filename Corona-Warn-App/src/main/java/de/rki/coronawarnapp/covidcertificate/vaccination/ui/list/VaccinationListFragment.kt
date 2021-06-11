@@ -116,7 +116,7 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
         vaccinationListAdapter.update(listItems)
 
         val background = if (hasImmunity) {
-            R.drawable.vaccination_compelete_gradient
+            R.drawable.vaccination_complete_gradient
         } else {
             R.drawable.vaccination_incomplete
         }

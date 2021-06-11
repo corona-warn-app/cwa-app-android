@@ -51,10 +51,18 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
                 it.certificate?.let { certificate -> bindCertificateViews(certificate) }
                 val background = when {
-                    it.isImmune -> R.drawable.vaccination_compelete_gradient
+                    it.isImmune -> R.drawable.vaccination_complete_gradient
                     else -> R.drawable.vaccination_incomplete
                 }
+
+                val europaIcon = when {
+                    it.isImmune -> R.drawable.ic_eu_stars_blue
+                    else -> R.drawable.ic_eu_stars_grey
+                }
+
                 expandedImage.setImageResource(background)
+                europaImage.setImageResource(europaIcon)
+
             }
 
             appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
