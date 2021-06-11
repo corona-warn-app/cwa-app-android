@@ -79,10 +79,10 @@
                 app:layout_collapseMode="pin"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:navigationIconTint="@android:color/white"
-                android:theme="@style/CWAToolbar.Theme"
                 app:menu="@menu/menu_covid_certificate_detail"
+                android:theme="@style/Theme.MaterialComponents"
                 app:navigationIcon="@drawable/ic_back"
-                app:titleTextColor="@color/colorAccentTintButton">
+                app:popupTheme="@style/Theme.MaterialComponents.Light">
 
                 <LinearLayout
                     android:id="@+id/header_text_layout"
