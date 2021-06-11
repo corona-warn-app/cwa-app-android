@@ -98,9 +98,11 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
     private fun showRemoveTestDialog(type: CoronaTest.Type, submission: Boolean) {
         val title =
-            if (submission) R.string.submission_test_result_dialog_remove_test_title else R.string.submission_test_result_dialog_remove_test_title_no_submission
+            if (submission) R.string.submission_test_result_dialog_remove_test_title
+            else R.string.submission_test_result_dialog_remove_test_title_no_submission
         val msg =
-            if (submission) R.string.submission_test_result_dialog_remove_test_message else R.string.submission_test_result_dialog_remove_test_message_no_submission
+            if (submission) R.string.submission_test_result_dialog_remove_test_message
+            else R.string.submission_test_result_dialog_remove_test_message_no_submission
 
         val removeTestDialog = DialogHelper.DialogInstance(
             requireActivity(),
