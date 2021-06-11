@@ -1,9 +1,14 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import com.google.gson.annotations.SerializedName
+import org.joda.time.DateTime
 import org.joda.time.LocalDate
+import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.DateTimeFormatterBuilder
+import org.joda.time.format.ISODateTimeFormat
+import timber.log.Timber
 
-interface Dcc<PayloadType : Dcc.Payload> {
+abstract class Dcc<PayloadType : Dcc.Payload> {
     data class NameData(
         @SerializedName("fn") internal val familyName: String?,
         @SerializedName("fnt") internal val familyNameStandardized: String,
@@ -23,14 +28,16 @@ interface Dcc<PayloadType : Dcc.Payload> {
             }
     }
 
-    val version: String
-    val nameData: NameData
-    val dob: String
+    abstract val version: String
+    abstract val nameData: NameData
+    abstract val dob: String
 
+    // Can't use lazy because GSON will NULL it, as we have no no-args constructor
+    private var dateOfBirthCache: LocalDate? = null
     val dateOfBirth: LocalDate
-        get() = LocalDate.parse(dob)
+        get() = dateOfBirthCache ?: dob.toLocalDateLeniently().also { dateOfBirthCache = it }
 
-    val payloads: List<PayloadType>
+    abstract val payloads: List<PayloadType>
     val payload: PayloadType
         get() = payloads.single()
 
@@ -46,5 +53,23 @@ interface Dcc<PayloadType : Dcc.Payload> {
         val certificateCountry: String
         val certificateIssuer: String
         val uniqueCertificateIdentifier: String
+    }
+}
+
+internal fun String.toLocalDateLeniently(): LocalDate = try {
+    LocalDate.parse(this, DateTimeFormat.forPattern("yyyy-MM-dd"))
+} catch (e: Exception) {
+    Timber.w("Irregular date string: %s", this)
+    try {
+        DateTime.parse(
+            this,
+            DateTimeFormatterBuilder()
+                .append(ISODateTimeFormat.date())
+                .append(ISODateTimeFormat.timeParser().withOffsetParsed())
+                .toFormatter()
+        ).toLocalDate()
+    } catch (giveUp: Exception) {
+        Timber.e("Invalid date string: %s", this)
+        throw giveUp
     }
 }
