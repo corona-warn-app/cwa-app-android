@@ -19,7 +19,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_normal"
+            android:maxLines="2"
             android:text="@string/statistics_vaccinated_completely_card_title"
+            app:autoSizeTextType="uniform"
             app:layout_constraintEnd_toStartOf="@id/info_statistics"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
