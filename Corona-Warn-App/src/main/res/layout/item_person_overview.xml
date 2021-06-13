@@ -13,12 +13,26 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:importantForAccessibility="no"
-        android:scaleType="centerCrop"
-        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintDimensionRatio="1:0.95"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/ic_person_overview_3" />
+        tools:srcCompat="@drawable/bg_person_overview_2" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="55dp"
+        android:importantForAccessibility="no"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@id/background_image"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_stars_group"
+        tools:tint="#116A9F" />
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/qrcode_image"
         style="@style/ShapeAppearanceOverlay"
@@ -63,13 +77,12 @@
         android:id="@+id/name"
         style="@style/headline4"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:textColor="@color/colorTextPrimary1InvertedStable"
         app:layout_constraintBottom_toTopOf="@+id/qrcode_image"
         app:layout_constraintEnd_toEndOf="@+id/certificate_subtitle"
         app:layout_constraintStart_toStartOf="@+id/certificate_subtitle"
         app:layout_constraintTop_toBottomOf="@+id/certificate_subtitle"
-        app:layout_constraintVertical_bias="0.0"
         tools:text="Andrea Schneider" />
 </androidx.constraintlayout.widget.ConstraintLayout>

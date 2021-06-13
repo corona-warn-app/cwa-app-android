@@ -102,4 +102,9 @@
 
     <color name="whiteAlpha60">#99FFFFFF</color>
     <color name="dividerColor">#DEDEDE</color>
+
+    <color name="starsColor1">#0191C6</color>
+    <color name="starsColor2">#0191C6</color>
+    <color name="starsColor3">#0191C6</color>
+
 </resources>
