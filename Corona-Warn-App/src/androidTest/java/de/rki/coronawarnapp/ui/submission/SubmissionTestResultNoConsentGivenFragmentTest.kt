@@ -21,15 +21,13 @@ import io.mockk.spyk
 import org.joda.time.Instant
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
-import testhelpers.captureScreenshot
-import tools.fastlane.screengrab.locale.LocaleTestRule
+import testhelpers.launchFragmentInContainer2
+import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
@@ -40,13 +38,6 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
     @MockK lateinit var testType: CoronaTest.Type
     private val noConsentGivenFragmentArgs =
         SubmissionTestResultConsentGivenFragmentArgs(testType = CoronaTest.Type.PCR).toBundle()
-
-    @Rule
-    @JvmField
-    val localeTestRule = LocaleTestRule()
-
-    @get:Rule
-    val systemUIDemoModeRule = SystemUIDemoModeRule()
 
     private lateinit var viewModel: SubmissionTestResultNoConsentViewModel
 
@@ -88,7 +79,8 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
             )
         )
 
-        captureScreenshot<SubmissionTestResultNoConsentFragment>(fragmentArgs = noConsentGivenFragmentArgs)
+        launchFragmentInContainer2<SubmissionTestResultNoConsentFragment>(fragmentArgs = noConsentGivenFragmentArgs)
+        takeScreenshot<SubmissionTestResultNoConsentFragment>()
     }
 }
 

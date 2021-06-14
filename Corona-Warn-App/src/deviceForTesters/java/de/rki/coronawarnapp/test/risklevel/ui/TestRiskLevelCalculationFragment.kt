@@ -106,8 +106,7 @@ class TestRiskLevelCalculationFragment :
         Timber.d("Opening Share-Intent for Exposure Windows")
         val shareFileUri =
             FileProvider.getUriForFile(requireContext(), requireContext().packageName + ".fileProvider", file)
-        val shareIntent = ShareCompat.IntentBuilder
-            .from(requireActivity())
+        val shareIntent = ShareCompat.IntentBuilder(requireActivity())
             .setStream(shareFileUri)
             .setType("text/plain")
             .intent

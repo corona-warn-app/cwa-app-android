@@ -79,8 +79,7 @@
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
                     app:layout_scrollFlags="scroll|enterAlways"
-                    app:navigationIcon="@drawable/ic_close_white"
-                    app:titleTextColor="@color/colorAccentTintButton">
+                    app:navigationIcon="@drawable/ic_close_white">
 
                     <LinearLayout
                         android:id="@+id/header_text_layout"
@@ -139,7 +138,6 @@
                     android:layout_height="wrap_content"
                     android:indeterminate="true"
                     app:hideAnimationBehavior="inward"
-                    app:indicatorColor="@color/colorAccent"
                     app:layout_constraintBottom_toBottomOf="@id/qrCodeImage"
                     app:layout_constraintEnd_toEndOf="@id/qrCodeImage"
                     app:layout_constraintStart_toStartOf="@id/qrCodeImage"

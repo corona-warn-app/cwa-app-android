@@ -21,10 +21,11 @@ import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.common.DefaultProgress
+import de.rki.coronawarnapp.task.common.Finished
+import de.rki.coronawarnapp.task.common.Started
 import de.rki.coronawarnapp.util.TimeStamper
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import org.joda.time.Duration
 import timber.log.Timber
@@ -47,8 +48,8 @@ class SubmissionTask @Inject constructor(
     private val coronaTestRepository: CoronaTestRepository,
 ) : Task<DefaultProgress, SubmissionTask.Result> {
 
-    private val internalProgress = ConflatedBroadcastChannel<DefaultProgress>()
-    override val progress: Flow<DefaultProgress> = internalProgress.asFlow()
+    private val internalProgress = MutableStateFlow<DefaultProgress>(Started)
+    override val progress: Flow<DefaultProgress> = internalProgress
 
     private var isCanceled = false
 
@@ -85,7 +86,7 @@ class SubmissionTask @Inject constructor(
             throw error
         } finally {
             Timber.i("Finished (isCanceled=$isCanceled).")
-            internalProgress.close()
+            internalProgress.value = Finished
         }
     }
 
@@ -169,11 +170,11 @@ class SubmissionTask @Inject constructor(
         Timber.tag(TAG).d("Submitting %s", submissionData)
         playbook.submit(submissionData)
 
-        // PPA will only be used for PCR tests for now
-        if (coronaTest.type == PCR) {
-            analyticsKeySubmissionCollector.reportSubmitted()
-            if (inBackground) analyticsKeySubmissionCollector.reportSubmittedInBackground()
-        }
+        analyticsKeySubmissionCollector.reportSubmitted(coronaTest.type)
+        if (transformedCheckIns.isNotEmpty())
+            analyticsKeySubmissionCollector.reportSubmittedWithCheckIns(coronaTest.type)
+        if (inBackground)
+            analyticsKeySubmissionCollector.reportSubmittedInBackground(coronaTest.type)
 
         Timber.tag(TAG).d("Submission successful, deleting submission data.")
         tekHistoryStorage.clear()

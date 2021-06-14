@@ -17,7 +17,10 @@
     <include app:graph="@navigation/rapid_antigen_test_profile_nav_graph" />
 
     <!--    Vaccination graph-->
-    <include app:graph="@navigation/vaccination_nav_graph" />
+    <include app:graph="@navigation/certificate_vaccination_graph" />
+
+    <!--    Certificates graph-->
+    <include app:graph="@navigation/certificate_test_graph" />
 
     <!-- Main -->
     <fragment
@@ -310,6 +313,9 @@
         android:label="SubmissionTestResultPendingFragment"
         tools:layout="@layout/fragment_submission_test_result_pending">
         <argument
+            android:name="testType"
+            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
+        <argument
             android:name="forceTestResultUpdate"
             android:defaultValue="false"
             app:argType="boolean" />
@@ -331,9 +337,6 @@
             app:destination="@id/submissionTestResultAvailableFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
-        <argument
-            android:name="testType"
-            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
         <action
             android:id="@+id/action_submissionTestResultPendingFragment_to_submissionNegativeAntigenTestResultFragment"
             app:destination="@id/submissionNegativeAntigenTestResultFragment"
@@ -390,6 +393,10 @@
         app:destination="@id/submissionTestResultPendingFragment"
         app:popUpTo="@id/mainFragment"
         app:popUpToInclusive="false" />
+
+    <action
+        android:id="@+id/action_requestCovidCertificateFragment"
+        app:destination="@id/requestCovidCertificateFragment" />
 
     <action
         android:id="@+id/action_to_submissionTestResultAvailableFragment"
@@ -746,6 +753,12 @@
             app:destination="@id/submissionConsentFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
+
+        <action
+            android:id="@+id/action_submissionDeletionWarningFragment_to_requestCovidCertificateFragment"
+            app:destination="@id/requestCovidCertificateFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
@@ -809,10 +822,38 @@
             app:argType="string" />
         <argument
             android:name="correctionLevel"
-            app:argType="com.google.zxing.qrcode.decoder.ErrorCorrectionLevel"
-            android:defaultValue="Q" />
+            android:defaultValue="Q"
+            app:argType="com.google.zxing.qrcode.decoder.ErrorCorrectionLevel" />
     </fragment>
     <action
         android:id="@+id/action_global_qrCodeFullScreenFragment"
         app:destination="@id/qrCodeFullScreenFragment" />
+    <fragment
+        android:id="@+id/requestCovidCertificateFragment"
+        android:name="de.rki.coronawarnapp.ui.submission.covidcertificate.RequestCovidCertificateFragment"
+        android:label="fragment_request_covid_certificate"
+        tools:layout="@layout/fragment_request_covid_certificate">
+        <argument
+            android:name="coronaTestQrCode"
+            app:argType="de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode" />
+        <argument
+            android:name="coronaTestConsent"
+            android:defaultValue="false"
+            app:argType="boolean" />
+
+        <argument
+            android:name="deleteOldTest"
+            android:defaultValue="false"
+            app:argType="boolean" />
+
+        <action
+            android:id="@+id/action_requestCovidCertificateFragment_to_dispatcherFragment"
+            app:popUpTo="@id/submissionDispatcherFragment"
+            app:popUpToInclusive="false" />
+
+        <action
+            android:id="@+id/action_requestCovidCertificateFragment_to_homeFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
 </navigation>

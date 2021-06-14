@@ -22,12 +22,12 @@ android {
     println("Current VERSION_PATCH: ${VERSION_PATCH}")
     println("Current VERSION_BUILD: ${VERSION_BUILD}")
 
-    compileSdkVersion 29
+    compileSdkVersion 30
     buildToolsVersion "30.0.3"
     defaultConfig {
         applicationId 'de.rki.coronawarnapp'
         minSdkVersion 23
-        targetSdkVersion 29
+        targetSdkVersion 30
 
         ndkVersion "21.2.6472646"
 
@@ -303,7 +303,7 @@ configurations.all {
 
 dependencies {
     // KOTLIN
-    def coroutineVersion = "1.4.2"
+    def coroutineVersion = "1.5.0"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutineVersion"
@@ -312,9 +312,8 @@ dependencies {
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
 
     // ANDROID STANDARD
-    def nav_version = "2.3.3"
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.core:core-ktx:1.5.0'
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
@@ -358,7 +357,7 @@ dependencies {
     testImplementation('org.robolectric:robolectric:4.5.1') {
         exclude group: 'com.google.protobuf'
     }
-    testImplementation "io.mockk:mockk:1.10.4"
+    testImplementation "io.mockk:mockk:1.11.0"
     testImplementation "com.squareup.okhttp3:mockwebserver:4.9.0"
     testImplementation 'org.hamcrest:hamcrest-library:2.2'
 
@@ -391,11 +390,10 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.3.0'
     androidTestImplementation 'androidx.test.ext:truth:1.3.0'
     androidTestImplementation 'androidx.work:work-testing:2.5.0'
-    androidTestImplementation "io.mockk:mockk-android:1.10.4"
+    androidTestImplementation "io.mockk:mockk-android:1.11.0"
     debugImplementation 'androidx.fragment:fragment-testing:1.2.5'
     debugImplementation 'androidx.test:core-ktx:1.3.0'
 
-    androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
 
     // Play Services

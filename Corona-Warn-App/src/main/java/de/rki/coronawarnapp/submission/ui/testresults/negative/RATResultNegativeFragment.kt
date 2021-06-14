@@ -8,6 +8,7 @@ import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionAntigenTestResultNegativeBinding
+import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -25,9 +26,22 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
 
     private val shortTime = DateTimeFormat.shortTime()
 
+    private val deleteRatTestConfirmationDialog by lazy {
+        DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.submission_test_result_dialog_remove_test_title,
+            R.string.submission_test_result_dialog_remove_test_message,
+            R.string.submission_test_result_dialog_remove_test_button_positive,
+            R.string.submission_test_result_dialog_remove_test_button_negative,
+            positiveButtonFunction = {
+                viewModel.onDeleteTestConfirmed()
+            }
+        )
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
-            coronatestNegativeAntigenResultButton.setOnClickListener { viewModel.deleteTest() }
+            coronatestNegativeAntigenResultButton.setOnClickListener { viewModel.onDeleteTestClicked() }
             toolbar.setNavigationOnClickListener { viewModel.onClose() }
 
             viewModel.testAge.observe(viewLifecycleOwner) {
@@ -36,6 +50,8 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
 
             viewModel.events.observe(viewLifecycleOwner) {
                 when (it) {
+                    RATResultNegativeNavigation.ShowDeleteWarning ->
+                        DialogHelper.showDialog(deleteRatTestConfirmationDialog)
                     RATResultNegativeNavigation.Back -> popBackStack()
                 }
             }
@@ -69,8 +85,8 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
         val localTime = testAge.test.testTakenAt.toUserTimeZone()
         resultReceivedTimeAndDate.text = getString(
             R.string.coronatest_negative_antigen_result_time_date_placeholder,
-            localTime?.toString(DATE_FORMAT),
-            localTime?.toString(shortTime)
+            localTime.toString(DATE_FORMAT),
+            localTime.toString(shortTime)
         )
 
         val isAnonymousTest = with(testAge.test) {

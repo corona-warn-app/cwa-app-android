@@ -6,6 +6,7 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationSettings
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
@@ -29,6 +30,7 @@ class MainActivityViewModel @AssistedInject constructor(
     private val backgroundNoise: BackgroundNoise,
     private val onboardingSettings: OnboardingSettings,
     private val traceLocationSettings: TraceLocationSettings,
+    private val vaccinationSettings: VaccinationSettings,
     checkInRepository: CheckInRepository
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
@@ -42,6 +44,8 @@ class MainActivityViewModel @AssistedInject constructor(
     val isContactDiaryOnboardingDone: LiveData<Boolean> = mutableIsContactDiaryOnboardingDone
     private val mutableIsTraceLocationOnboardingDone = MutableLiveData<Boolean>()
     val isTraceLocationOnboardingDone: LiveData<Boolean> = mutableIsTraceLocationOnboardingDone
+    private val mutableIsVaccinationConsentGiven = MutableLiveData<Boolean>()
+    val isVaccinationConsentGiven: LiveData<Boolean> = mutableIsVaccinationConsentGiven
 
     val activeCheckIns = checkInRepository.checkInsWithinRetention
         .map { checkins -> checkins.filter { !it.completed }.size }
@@ -84,6 +88,7 @@ class MainActivityViewModel @AssistedInject constructor(
     fun onBottomNavSelected() {
         mutableIsContactDiaryOnboardingDone.value = contactDiarySettings.isOnboardingDone
         mutableIsTraceLocationOnboardingDone.value = traceLocationSettings.isOnboardingDone
+        mutableIsVaccinationConsentGiven.value = vaccinationSettings.registrationAcknowledged
     }
 
     private suspend fun checkForEnergyOptimizedEnabled() {

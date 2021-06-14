@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
     <!-- ####################################
-                 Release Info Screen 1.14
+                 Release Info Screen
      ###################################### -->
 
     <!-- XHED: Title for the release info screen -->
@@ -16,21 +16,25 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Dovada digitală a vaccinării"</item>
+        <item>"Certificat de test COVID"</item>
+        <item>"Extinderea jurnalului de contacte"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Acum puteți adăuga certificatele dvs. de vaccinare în aplicație și le puteți prezenta prin codul QR. Aplicația arată protecția prin vaccinarea completă la 14 zile de la vaccinarea finală."</item>
+        <item>"Acum puteți solicita un certificat de test digital oficial prin aplicație și apoi îl puteți adăuga în aplicație. Puteți utiliza acest certificat de test (cod QR) în UE pentru a face dovada unui rezultat de test negativ (de exemplu, pentru călătoria internațională)."</item>
+        <item>"De îndată ce rezultatul testului dvs. este disponibil, acum acesta este adăugat și la jurnalul dvs. de contacte."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item/>
         <item/>
     </string-array>
 

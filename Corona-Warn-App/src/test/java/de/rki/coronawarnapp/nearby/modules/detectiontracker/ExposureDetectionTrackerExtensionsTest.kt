@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -24,10 +23,6 @@ class ExposureDetectionTrackerExtensionsTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         every { tracker.calculations } returns fakeCalculations
-    }
-
-    @AfterEach
-    fun teardown() {
     }
 
     private fun createFakeCalculation(

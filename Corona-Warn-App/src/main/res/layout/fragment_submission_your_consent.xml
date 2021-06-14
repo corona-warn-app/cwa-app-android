@@ -53,7 +53,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/card_divider"
                     android:layout_marginHorizontal="@dimen/spacing_normal"
-                    android:background="@color/colorHairline"
+                    android:background="@color/dividerColor"
                     app:layout_constraintTop_toBottomOf="@id/submission_your_consent_switch" />
 
                 <TextView
@@ -118,7 +118,7 @@
                     android:layout_width="0dp"
                     android:layout_height="@dimen/card_divider"
                     android:layout_marginTop="@dimen/spacing_medium"
-                    android:background="@color/colorHairline"
+                    android:background="@color/dividerColor"
                     app:layout_constraintEnd_toEndOf="@+id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/submission_your_consent_agreement_card" />
@@ -140,7 +140,7 @@
                     android:id="@+id/submission_your_consent_agreement_details_divider_bottom"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/card_divider"
-                    android:background="@color/colorHairline"
+                    android:background="@color/dividerColor"
                     app:layout_constraintEnd_toEndOf="@+id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/submission_your_consent_agreement_details_text" />

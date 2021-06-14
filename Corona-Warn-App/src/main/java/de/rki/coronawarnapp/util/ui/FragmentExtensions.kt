@@ -7,10 +7,12 @@ import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
+import androidx.navigation.NavGraph
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.ui.doNavigate
 import timber.log.Timber
+import java.lang.IllegalArgumentException
 
 fun Fragment.doNavigate(direction: NavDirections) = findNavController().doNavigate(direction)
 
@@ -35,3 +37,10 @@ fun FragmentManager.findNavController(@IdRes id: Int): NavController {
     val fragment = findFragmentById(id) ?: throw IllegalStateException("Fragment is not found for id:$id")
     return NavHostFragment.findNavController(fragment)
 }
+
+/**
+ * Finds nested graph [NavGraph] by Id.
+ * @param nestedGraphId
+ * @throws IllegalArgumentException if graph not found
+ */
+fun Fragment.findNestedGraph(@IdRes nestedGraphId: Int) = findNavController().findNestedGraph(nestedGraphId)

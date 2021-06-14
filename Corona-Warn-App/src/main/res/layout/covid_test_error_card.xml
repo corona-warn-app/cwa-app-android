@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="200dp">
+
+    <TextView
+        android:id="@+id/card_title"
+        style="@style/headline5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/card_padding"
+        android:layout_marginTop="@dimen/card_padding"
+        android:layout_marginEnd="@dimen/card_padding"
+        android:focusable="false"
+        android:text="@string/info_banner_title_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/vaccination_label"
+        style="@style/headline5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/card_padding"
+        android:layout_marginEnd="@dimen/card_padding"
+        android:focusable="false"
+        android:text="@string/info_banner_title_2"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_title" />
+
+    <TextView
+        android:id="@+id/body"
+        style="@style/subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/card_padding"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/card_padding"
+        android:focusable="false"
+        android:text="@string/test_certificate_error_label"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vaccination_label" />
+
+    <TextView
+        android:id="@+id/test_time"
+        style="@style/body2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/card_padding"
+        android:layout_marginTop="@dimen/spacing_mega_tiny"
+        android:layout_marginEnd="@dimen/card_padding"
+        android:focusable="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/body"
+        tools:text="Test durchgeführt am 12.04.21, 18:01 Uhr " />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/card_padding"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/card_padding"
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:indicatorColor="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/test_time"
+        app:showAnimationBehavior="inward"
+        app:trackColor="@android:color/transparent" />
+
+    <TextView
+        android:id="@+id/refresh_status"
+        style="@style/body2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/card_padding"
+        android:focusable="false"
+        android:text="@string/test_certificate_error_refreshing_status"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/progress_bar"
+        app:layout_constraintTop_toTopOf="@id/progress_bar"
+        tools:text="@string/test_certificate_error_refreshing_status" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/retry_button"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/card_padding"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/card_padding"
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:text="@string/test_certificate_error_retry_button"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/test_time"
+        app:strokeColor="@color/colorPrimary" />
+
+    <Button
+        android:id="@+id/delete_button"
+        style="@style/buttonLight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/card_padding"
+        android:layout_marginEnd="@dimen/card_padding"
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:backgroundTint="@color/button_main_tracing"
+        android:text="@string/test_certificate_error_delete_button"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/retry_button"
+        app:strokeColor="@color/colorPrimary" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

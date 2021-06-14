@@ -6,8 +6,7 @@
     <!-- XHED: Register test homescreen card: title -->
     <string name="ag_homescreen_card_test_register_title">"Înregistrarea testului dvs."</string>
     <!-- XTXT: Register test homescreen card: body -->
-    <string name="ag_homescreen_card_test_register_body">"Utilizați aplicația pentru a înregistra testele dvs. și a afla rezultatele testelor dvs. pentru a-i putea avertiza pe ceilalți mai rapid."</string>
-
+    <string name="ag_homescreen_card_test_register_body">"Utilizați aplicația pentru a înregistra testele dvs. și a afla rezultatele testelor dvs. pentru a-i putea avertiza pe ceilalți mai rapid sau pentru a solicita certificatul dvs. de test COVID."</string>
     <!-- ####################################
         Homescreen cards - common buttons
     ###################################### -->

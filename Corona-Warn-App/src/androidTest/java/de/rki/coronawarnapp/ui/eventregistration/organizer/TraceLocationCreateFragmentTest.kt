@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.eventregistration.organizer
 
+import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.Navigation
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
@@ -30,7 +31,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.TestDispatcherProvider
-import testhelpers.launchFragmentInContainer2
 import java.util.TimeZone
 
 @RunWith(AndroidJUnit4::class)
@@ -71,7 +71,8 @@ class TraceLocationCreateFragmentTest : BaseUITest() {
 
     @Test
     fun duplicateEventWithSameDatesTest() {
-        launchFragmentInContainer2<TraceLocationCreateFragment>(
+        launchFragmentInContainer<TraceLocationCreateFragment>(
+            themeResId = R.style.AppTheme_Main,
             fragmentArgs = TraceLocationCreateFragmentArgs(
                 category = TraceLocationData.categoryEvent,
                 originalItem = TraceLocationData.traceLocationSameDate
@@ -90,7 +91,8 @@ class TraceLocationCreateFragmentTest : BaseUITest() {
 
     @Test
     fun duplicateEventWithDifferentDatesTest() {
-        launchFragmentInContainer2<TraceLocationCreateFragment>(
+        launchFragmentInContainer<TraceLocationCreateFragment>(
+            themeResId = R.style.AppTheme_Main,
             fragmentArgs = TraceLocationCreateFragmentArgs(
                 category = TraceLocationData.categoryEvent,
                 originalItem = TraceLocationData.traceLocationDifferentDate

@@ -1,0 +1,46 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.stats;
+
+import "internal/stats/key_figure_card.proto";
+
+message LocalStatistics {
+  repeated FederalStateData federalStateData = 1;
+  repeated AdministrativeUnitData administrativeUnitData = 2;
+}
+
+message FederalStateData {
+  FederalState federalState = 1;
+  int64 updatedAt = 2;
+  SevenDayIncidenceData sevenDayIncidence = 3;
+
+  enum FederalState {
+    FEDERAL_STATE_SH = 0;
+    FEDERAL_STATE_HH = 1;
+    FEDERAL_STATE_NI = 2;
+    FEDERAL_STATE_HB = 3;
+    FEDERAL_STATE_NRW = 4;
+    FEDERAL_STATE_HE = 5;
+    FEDERAL_STATE_RP = 6;
+    FEDERAL_STATE_BW = 7;
+    FEDERAL_STATE_BY = 8;
+    FEDERAL_STATE_SL = 9;
+    FEDERAL_STATE_BE = 10;
+    FEDERAL_STATE_BB = 11;
+    FEDERAL_STATE_MV = 12;
+    FEDERAL_STATE_SN = 13;
+    FEDERAL_STATE_ST = 14;
+    FEDERAL_STATE_TH = 15;
+  }
+}
+
+message AdministrativeUnitData {
+  uint32 administrativeUnitShortId = 1;
+  int64 updatedAt = 2;
+  SevenDayIncidenceData sevenDayIncidence = 3;
+}
+
+message SevenDayIncidenceData {
+  double value = 1;
+  KeyFigure.Trend trend = 2;
+}

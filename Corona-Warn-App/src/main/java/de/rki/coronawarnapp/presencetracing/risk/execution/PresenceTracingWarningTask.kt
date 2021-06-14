@@ -15,10 +15,8 @@ import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningReposito
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
-import de.rki.coronawarnapp.util.TimeStamper
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import org.joda.time.Duration
@@ -27,7 +25,6 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 class PresenceTracingWarningTask @Inject constructor(
-    private val timeStamper: TimeStamper,
     private val syncTool: TraceWarningPackageSyncTool,
     private val checkInWarningMatcher: CheckInWarningMatcher,
     private val presenceTracingRiskRepository: PresenceTracingRiskRepository,
@@ -38,8 +35,9 @@ class PresenceTracingWarningTask @Inject constructor(
     private val autoCheckOut: AutoCheckOut,
 ) : Task<PresenceTracingWarningTaskProgress, PresenceTracingWarningTask.Result> {
 
-    private val internalProgress = ConflatedBroadcastChannel<PresenceTracingWarningTaskProgress>()
-    override val progress: Flow<PresenceTracingWarningTaskProgress> = internalProgress.asFlow()
+    private val internalProgress =
+        MutableStateFlow<PresenceTracingWarningTaskProgress>(PresenceTracingWarningTaskProgress.Started)
+    override val progress: Flow<PresenceTracingWarningTaskProgress> = internalProgress
 
     private var isCanceled = false
 
@@ -65,7 +63,7 @@ class PresenceTracingWarningTask @Inject constructor(
         throw error
     } finally {
         Timber.i("Finished (isCanceled=$isCanceled).")
-        internalProgress.close()
+        internalProgress.value = PresenceTracingWarningTaskProgress.Finished
     }
 
     private suspend fun doWork(): Result {
@@ -75,7 +73,7 @@ class PresenceTracingWarningTask @Inject constructor(
         presenceTracingRiskMapper.clearConfig()
 
         Timber.tag(TAG).d("Syncing packages.")
-        internalProgress.send(PresenceTracingWarningTaskProgress.Downloading())
+        internalProgress.value = PresenceTracingWarningTaskProgress.Downloading()
 
         val syncResult = syncTool.syncPackages()
 
@@ -119,7 +117,7 @@ class PresenceTracingWarningTask @Inject constructor(
         }
 
         Timber.tag(TAG).d("Running check-in matcher.")
-        internalProgress.send(PresenceTracingWarningTaskProgress.Calculating())
+        internalProgress.value = PresenceTracingWarningTaskProgress.Calculating()
 
         val matcherResult = checkInWarningMatcher.process(
             checkIns = checkIns,

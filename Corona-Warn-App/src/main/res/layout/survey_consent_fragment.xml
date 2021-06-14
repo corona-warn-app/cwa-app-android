@@ -188,7 +188,7 @@
                     android:layout_width="0dp"
                     android:layout_height="@dimen/card_divider"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    android:background="@color/colorHairline"
+                    android:background="@color/dividerColor"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/consent_layout" />
@@ -210,7 +210,7 @@
                 <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="@dimen/card_divider"
-                    android:background="@color/colorHairline"
+                    android:background="@color/dividerColor"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/survey_consent_more_information" />

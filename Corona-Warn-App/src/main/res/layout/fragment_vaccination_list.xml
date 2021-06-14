@@ -77,8 +77,7 @@
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
                     app:layout_scrollFlags="scroll|enterAlways"
-                    app:navigationIcon="@drawable/ic_close_white"
-                    app:titleTextColor="@color/colorAccentTintButton">
+                    app:navigationIcon="@drawable/ic_close_white">
 
                     <LinearLayout
                         android:id="@+id/header_text_layout"
@@ -86,7 +85,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
-                        <androidx.appcompat.widget.AppCompatImageView
+                        <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="72dp"
@@ -108,7 +107,7 @@
             android:paddingTop="24dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:listitem="@layout/vaccination_list_qrcode_card" />
+            tools:listitem="@layout/include_certificate_qrcode_card" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

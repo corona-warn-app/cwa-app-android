@@ -21,15 +21,13 @@ import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
-import testhelpers.captureScreenshot
-import tools.fastlane.screengrab.locale.LocaleTestRule
+import testhelpers.launchFragmentInContainer2
+import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
@@ -40,13 +38,6 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
     @MockK lateinit var testType: CoronaTest.Type
     private val resultNegativeFragmentArgs =
         SubmissionTestResultConsentGivenFragmentArgs(testType = CoronaTest.Type.PCR).toBundle()
-
-    @Rule
-    @JvmField
-    val localeTestRule = LocaleTestRule()
-
-    @get:Rule
-    val systemUIDemoModeRule = SystemUIDemoModeRule()
 
     @Before
     fun setup() {
@@ -87,7 +78,8 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
                 }
             )
         )
-        captureScreenshot<SubmissionTestResultNegativeFragment>(fragmentArgs = resultNegativeFragmentArgs)
+        launchFragmentInContainer2<SubmissionTestResultNegativeFragment>(fragmentArgs = resultNegativeFragmentArgs)
+        takeScreenshot<SubmissionTestResultNegativeFragment>()
     }
 }
 

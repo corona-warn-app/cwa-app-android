@@ -20,9 +20,9 @@
     <!-- XTXT: Vaccination Details title-->
     <string name="vaccination_details_title">"Szczepienie %1$d / %2$d"</string>
     <!-- XTXT: Vaccination Qr Code card title-->
-    <string name="vaccination_qrcode_card_title">"Świadectwo szczepienia %1$d / %2$d"</string>
+    <string name="vaccination_qrcode_card_title">"Świadectwo szczepienia %1$d %2$d"</string>
     <!-- XTXT: Vaccination Qr Code card subtitle-->
-    <string name="vaccination_qrcode_card_subtitle">"Zaszczepiony(-a) %1$s - ważne do %2$s"</string>
+    <string name="vaccination_qrcode_card_subtitle">"Zaszczepiono %1$s - ważne do %2$s"</string>
 
     <!-- XTXT: Vaccination List title-->
     <string name="vaccination_list_title">"Cyfrowy dowód szczepienia"</string>
@@ -36,12 +36,12 @@
     <string name="vaccination_list_vaccination_card_subtitle">"Wykonano dnia %1$s"</string>
     <!-- XTXT: Vaccination List immunity information card body-->
     <plurals name="vaccination_list_immunity_card_body">
-        <item quantity="one">"Otrzymałeś(-aś) już wszystkie szczepienia, jednak pełną ochronę poszczepienną uzyskasz dopiero za %1$d dzień."</item>
-        <item quantity="other">"Otrzymałeś(-aś) już wszystkie szczepienia, jednak pełną ochronę poszczepienną uzyskasz dopiero za %1$d dni."</item>
-        <item quantity="zero">"Otrzymałeś(-aś) już wszystkie szczepienia, jednak pełną ochronę poszczepienną uzyskasz dopiero za %1$d dni."</item>
-        <item quantity="two">"Otrzymałeś(-aś) już wszystkie szczepienia, jednak pełną ochronę poszczepienną uzyskasz dopiero za %1$d dni."</item>
-        <item quantity="few">"Otrzymałeś(-aś) już wszystkie szczepienia, jednak pełną ochronę poszczepienną uzyskasz dopiero za %1$d dni."</item>
-        <item quantity="many">"Otrzymałeś(-aś) już wszystkie szczepienia, jednak pełną ochronę poszczepienną uzyskasz dopiero za %1$d dni."</item>
+        <item quantity="one">"Otrzymałeś(-aś) już wszystkie zaplanowane dotychczas szczepienia, jednak pełną ochronę poszczepienną uzyskasz dopiero za %1$d dzień."</item>
+        <item quantity="other">"Otrzymałeś(-aś) już wszystkie zaplanowane dotychczas szczepienia, jednak pełną ochronę poszczepienną uzyskasz dopiero za %1$d dnia."</item>
+        <item quantity="zero">"Otrzymałeś(-aś) już wszystkie zaplanowane dotychczas szczepienia, jednak pełną ochronę poszczepienną uzyskasz dopiero za %1$d dni."</item>
+        <item quantity="two">"Otrzymałeś(-aś) już wszystkie zaplanowane dotychczas szczepienia, jednak pełną ochronę poszczepienną uzyskasz dopiero za %1$d dni."</item>
+        <item quantity="few">"Otrzymałeś(-aś) już wszystkie zaplanowane dotychczas szczepienia, jednak pełną ochronę poszczepienną uzyskasz dopiero za %1$d dni."</item>
+        <item quantity="many">"Otrzymałeś(-aś) już wszystkie zaplanowane dotychczas szczepienia, jednak pełną ochronę poszczepienną uzyskasz dopiero za %1$d dni."</item>
     </plurals>
     <!-- XBUT: Vaccination List register additional vaccination button -->
     <string name="vaccination_list_register_new_vaccination_button">"Zarejestruj kolejne szczepienie"</string>
@@ -62,9 +62,11 @@
         Homescreen cards
     ###################################### -->
     <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_registration_title">"Dodaj świadectwo szczepienia"</string>
+    <string name="vaccination_card_registration_title_line_1">"Dodaj cyfrowy dowód"</string>
+    <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
+    <string name="vaccination_card_registration_title_line_2">"szczepienia"</string>
     <!-- YTXT: Body text for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_registration_body">"Dodaj świadectwa szczepienia w aplikacji, aby mieć je zawsze przy sobie. W tym celu zeskanuj kod QR znajdujący się na dokumencie."</string>
+    <string name="vaccination_card_registration_body">"Dodaj swoje świadectwa szczepienia w aplikacji, aby mieć je zawsze przy sobie. W tym celu zeskanuj kod QR znajdujący się na dokumencie."</string>
     <!-- XBUT: button for Vaccination Certificate Registration Home Card -->
     <string name="vaccination_card_register">"Dodaj"</string>
     <!-- XHED: Homescreen vaccination status card title -->
@@ -97,17 +99,17 @@
     <!-- XTXT: Vaccination Consent title-->
     <string name="vaccination_consent_title">"Twoja zgoda"</string>
     <!-- XTXT: Vaccination Consent subtitle-->
-    <string name="vaccination_consent_headline">"Dodaj świadectwo szczepienia"</string>
+    <string name="vaccination_consent_headline">"Dodaj świadectwa"</string>
     <!-- XTXT: Vaccination Consent subtitle of qr info -->
-    <string name="vaccination_consent_info_subtitle_text">"Dodaj cyfrowe świadectwo szczepienia w aplikacji. Gdy uzyskasz pełną ochronę poszczepienną, będziesz mógł (mogła) okazywać kod QR z aplikacji jako dowód szczepienia."</string>
+    <string name="vaccination_consent_info_subtitle_text">"Dodaj cyfrowe świadectwa szczepienia przeciw COVID w aplikacji. Umożliwi Ci to udowodnienie za pomocą aplikacji posiadanie ochrony poszczepiennej lub negatywnego wyniku testu."</string>
     <!-- XTXT: Vaccination Consent text of qr info -->
-    <string name="vaccination_consent_qr_info_text">"Aby dodać świadectwo szczepienia w aplikacji, zeskanuj kod QR, który otrzymałeś(-aś) podczas szczepienia."</string>
+    <string name="vaccination_consent_qr_info_text">"W aplikacji możesz dodać cyfrowe świadectwa szczepień przeciw COVID lub certyfikaty testów na COVID."</string>
     <!-- XTXT: Vaccination Consent qr code text -->
-    <string name="vaccination_consent_qr_info_qr_code_text">"Aplikacja odczytuje informacje z kodu QR i zapisuje je w bezpiecznym miejscu na Twoim smartfonie."</string>
+    <string name="vaccination_consent_qr_info_qr_code_text">"Takie świadectwa i certyfikaty są uznawane za ważny dowód w UE (np. w przypadku podróży)."</string>
     <!-- XTXT: Vaccination Consent time text  -->
-    <string name="vaccination_consent_qr_info_time_text">"Dane pozostaną na smartfonie. Będą one przekazywane innym osobom tylko wtedy, gdy będziesz przedstawiać świadectwo szczepienia do weryfikacji."</string>
+    <string name="vaccination_consent_qr_info_time_text">"Po dodaniu certyfikatu pozostanie on na Twoim smartfonie. Zostanie on udostępniony innym tylko podczas jego okazywania w celu weryfikacji."</string>
     <!-- XTXT: Text for vaccination consent legal information button -->
-    <string name="vaccination_consent_onboarding_legal_information">"Więcej informacji znajduje się w oświadczeniu o ochronie prywatności."</string>
+    <string name="vaccination_consent_onboarding_legal_information">"Więcej informacji na temat przetwarzania danych znajduje się w oświadczeniu o ochronie prywatności."</string>
     <!-- XBUT: Text for vaccination consent accept button -->
     <string name="vaccination_consent_accept_button">"Kontynuuj"</string>
     <!-- XBUT: Text for invalid vaccination certificate error button, linking to FAQ-->

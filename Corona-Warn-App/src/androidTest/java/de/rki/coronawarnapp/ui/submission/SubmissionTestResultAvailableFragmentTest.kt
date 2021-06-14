@@ -23,15 +23,13 @@ import io.mockk.spyk
 import kotlinx.coroutines.flow.flowOf
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
-import testhelpers.captureScreenshot
-import tools.fastlane.screengrab.locale.LocaleTestRule
+import testhelpers.launchFragmentInContainer2
+import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
@@ -46,13 +44,6 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
     @MockK lateinit var testType: CoronaTest.Type
     private val resultAvailableFragmentArgs =
         SubmissionTestResultConsentGivenFragmentArgs(testType = CoronaTest.Type.PCR).toBundle()
-
-    @Rule
-    @JvmField
-    val localeTestRule = LocaleTestRule()
-
-    @get:Rule
-    val systemUIDemoModeRule = SystemUIDemoModeRule()
 
     @Before
     fun setup() {
@@ -89,20 +80,20 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
     @Screenshot
     fun capture_fragment_with_consent() {
         every { viewModel.consent } returns MutableLiveData(true)
-        captureScreenshot<SubmissionTestResultAvailableFragment>(
-            suffix = "_consent",
+        launchFragmentInContainer2<SubmissionTestResultAvailableFragment>(
             fragmentArgs = resultAvailableFragmentArgs
         )
+        takeScreenshot<SubmissionTestResultAvailableFragment>(suffix = "_consent")
     }
 
     @Test
     @Screenshot
     fun capture_fragment_without_consent() {
         every { viewModel.consent } returns MutableLiveData(false)
-        captureScreenshot<SubmissionTestResultAvailableFragment>(
-            suffix = "_no_consent",
+        launchFragmentInContainer2<SubmissionTestResultAvailableFragment>(
             fragmentArgs = resultAvailableFragmentArgs
         )
+        takeScreenshot<SubmissionTestResultAvailableFragment>(suffix = "_no_consent")
     }
 }
 

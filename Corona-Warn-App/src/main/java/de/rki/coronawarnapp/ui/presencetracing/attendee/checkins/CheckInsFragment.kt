@@ -31,6 +31,7 @@ import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.onScroll
 import de.rki.coronawarnapp.util.tryHumanReadableError
+import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -66,14 +67,8 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
         bindRecycler()
         bindFAB()
 
-        viewModel.checkins.observe2(this) { items ->
-            updateViews(items)
-        }
-
-        viewModel.events.observe2(this) {
-            onNavigationEvent(it)
-        }
-
+        viewModel.checkins.observe2(this) { items -> updateViews(items) }
+        viewModel.events.observe2(this) { it?.let { onNavigationEvent(it) } }
         viewModel.errorEvent.observe2(this) {
             val errorForHumans = it.tryHumanReadableError(requireContext())
             Toast.makeText(requireContext(), errorForHumans.description, Toast.LENGTH_LONG).show()
@@ -85,7 +80,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
         viewModel.checkCameraSettings()
     }
 
-    private fun onNavigationEvent(event: CheckInEvent?) {
+    private fun onNavigationEvent(event: CheckInEvent) {
         when (event) {
             is CheckInEvent.ConfirmCheckIn -> {
                 setupAxisTransition()
@@ -127,7 +122,19 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                 doNavigate(CheckInsFragmentDirections.actionCheckInsFragmentToCheckInOnboardingFragment(false))
             }
             is CheckInEvent.OpenDeviceSettings -> openDeviceSettings()
+            is CheckInEvent.InvalidQrCode -> showInvalidQrCodeInformation(event.errorText)
         }
+    }
+
+    private fun showInvalidQrCodeInformation(lazyErrorText: LazyString) {
+        val errorText = lazyErrorText.get(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.trace_location_attendee_invalid_qr_code_dialog_title)
+            .setMessage(getString(R.string.trace_location_attendee_invalid_qr_code_dialog_message, errorText))
+            .setPositiveButton(R.string.trace_location_attendee_invalid_qr_code_dialog_positive_button) { _, _ ->
+                // NO-OP
+            }
+            .show()
     }
 
     private fun updateViews(items: List<CheckInsItem>) {
@@ -210,7 +217,6 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
         }.show()
 
     private fun setupMenu(toolbar: Toolbar) = toolbar.apply {
-        inflateMenu(R.menu.menu_trace_location_attendee_checkins)
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_information -> {

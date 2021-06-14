@@ -2,10 +2,12 @@ package de.rki.coronawarnapp.contactdiary.retention
 
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
 import de.rki.coronawarnapp.contactdiary.storage.repo.DefaultContactDiaryRepository
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -31,7 +33,7 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
     @MockK lateinit var contactDiaryRepository: DefaultContactDiaryRepository
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
 
-    private val testDates = arrayListOf<String>(
+    private val testDates = arrayListOf(
         "2020-08-20T14:00:00.000Z",
         "2020-08-20T13:00:00.000Z",
         "2020-08-19T14:00:00.000Z",
@@ -104,7 +106,8 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
 
     @Test
     fun `test person encounters`() = runBlockingTest {
-        val list: List<ContactDiaryPersonEncounter> = testDates.map { createContactDiaryPersonEncounter(Instant.parse(it)) }
+        val list: List<ContactDiaryPersonEncounter> =
+            testDates.map { createContactDiaryPersonEncounter(Instant.parse(it)) }
 
         every { contactDiaryRepository.personEncounters } returns flowOf(list)
         coEvery { contactDiaryRepository.deletePersonEncounters(any()) } just runs
@@ -140,5 +143,28 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
         riskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
         minimumDistinctEncountersWithLowRisk = 0,
         minimumDistinctEncountersWithHighRisk = 0
+    )
+
+    @Test
+    fun `test corona tests`() = runBlockingTest {
+        createInstance().run {
+            val list: List<ContactDiaryCoronaTestEntity> =
+                testDates.map { createContactDiaryCoronaTestEntity(Instant.parse(it)) }
+            val filteredList = list.filter { isOutOfRetention(it.time.toLocalDateUtc()) }
+
+            every { contactDiaryRepository.testResults } returns flowOf(list)
+            coEvery { contactDiaryRepository.deleteTests(any()) } just runs
+
+            filteredList.size shouldBe 1
+            clearObsoleteCoronaTests()
+            coVerify { contactDiaryRepository.deleteTests(filteredList) }
+        }
+    }
+
+    private fun createContactDiaryCoronaTestEntity(date: Instant) = ContactDiaryCoronaTestEntity(
+        id = "Test for testing...",
+        testType = ContactDiaryCoronaTestEntity.TestType.ANTIGEN,
+        result = ContactDiaryCoronaTestEntity.TestResult.POSITIVE,
+        time = date
     )
 }

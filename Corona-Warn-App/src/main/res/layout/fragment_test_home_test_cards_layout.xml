@@ -22,8 +22,7 @@
             android:id="@+id/toolbar"
             style="@style/CWAToolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:popupTheme="@style/CWAToolbar.Menu">
+            android:layout_height="wrap_content">
             <ImageView
                 android:id="@+id/main_header_logo"
                 android:layout_width="wrap_content"

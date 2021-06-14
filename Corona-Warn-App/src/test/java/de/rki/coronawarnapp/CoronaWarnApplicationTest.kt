@@ -11,13 +11,16 @@ import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.notification.RATTestResultAvailableNotificationService
+import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalScheduler
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.execution.VaccinationUpdateScheduler
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingRiskWorkScheduler
 import de.rki.coronawarnapp.presencetracing.storage.retention.TraceLocationDbCleanUpScheduler
-import de.rki.coronawarnapp.risk.RiskLevelChangeDetector
+import de.rki.coronawarnapp.risk.changedetection.CombinedRiskLevelChangeDetector
+import de.rki.coronawarnapp.risk.changedetection.EwRiskLevelChangeDetector
 import de.rki.coronawarnapp.risk.execution.ExposureWindowRiskWorkScheduler
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.task.TaskController
@@ -26,7 +29,6 @@ import de.rki.coronawarnapp.util.WatchdogService
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
-import de.rki.coronawarnapp.vaccination.core.execution.VaccinationUpdateScheduler
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
@@ -36,6 +38,7 @@ import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.verifySequence
+import kotlinx.coroutines.test.TestCoroutineScope
 import org.conscrypt.Conscrypt
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -52,7 +55,8 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var foregroundState: ForegroundState
     @MockK lateinit var workManager: WorkManager
     @MockK lateinit var configChangeDetector: ConfigChangeDetector
-    @MockK lateinit var riskLevelChangeDetector: RiskLevelChangeDetector
+    @MockK lateinit var ewRiskLevelChangeDetector: EwRiskLevelChangeDetector
+    @MockK lateinit var combinedRiskLevelChangeDetector: CombinedRiskLevelChangeDetector
     @MockK lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
     @MockK lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
     @MockK lateinit var dataDonationAnalyticsScheduler: DataDonationAnalyticsScheduler
@@ -67,6 +71,7 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var presenceTracingRiskWorkScheduler: PresenceTracingRiskWorkScheduler
     @MockK lateinit var pcrTestResultScheduler: PCRResultScheduler
     @MockK lateinit var raTestResultScheduler: RAResultScheduler
+    @MockK lateinit var testCertificateRetrievalScheduler: TestCertificateRetrievalScheduler
 
     @MockK lateinit var pcrTestResultAvailableNotificationService: PCRTestResultAvailableNotificationService
 
@@ -104,7 +109,8 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.foregroundState = foregroundState
                 app.workManager = workManager
                 app.configChangeDetector = configChangeDetector
-                app.riskLevelChangeDetector = riskLevelChangeDetector
+                app.ewRiskLevelChangeDetector = ewRiskLevelChangeDetector
+                app.combinedRiskLevelChangeDetector = combinedRiskLevelChangeDetector
                 app.deadmanNotificationScheduler = deadmanNotificationScheduler
                 app.contactDiaryWorkScheduler = contactDiaryWorkScheduler
                 app.dataDonationAnalyticsScheduler = dataDonationAnalyticsScheduler
@@ -122,6 +128,8 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.pcrTestResultAvailableNotificationService = pcrTestResultAvailableNotificationService
                 app.raTestResultAvailableNotificationService = raTestResultAvailableNotificationService
                 app.vaccinationUpdateScheduler = vaccinationUpdateScheduler
+                app.testCertificateRetrievalScheduler = testCertificateRetrievalScheduler
+                app.appScope = TestCoroutineScope()
                 app.rollingLogHistory = object : Timber.Tree() {
                     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
                         // NOOP
@@ -152,12 +160,14 @@ class CoronaWarnApplicationTest : BaseTest() {
 
             pcrTestResultAvailableNotificationService.setup()
             raTestResultAvailableNotificationService.setup()
+            testCertificateRetrievalScheduler.setup()
 
             vaccinationUpdateScheduler.setup()
 
             deviceTimeHandler.launch()
             configChangeDetector.launch()
-            riskLevelChangeDetector.launch()
+            ewRiskLevelChangeDetector.launch()
+            combinedRiskLevelChangeDetector.launch()
             autoSubmission.setup()
             autoCheckOut.setupMonitor()
             traceLocationDbCleanupScheduler.scheduleDaily()

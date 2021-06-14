@@ -8,7 +8,7 @@ class PcrQrCodeExtractor @Inject constructor() : QrCodeExtractor<CoronaTestQRCod
 
     override fun canHandle(rawString: String): Boolean = rawString.startsWith(prefix, ignoreCase = true)
 
-    override fun extract(rawString: String): CoronaTestQRCode.PCR {
+    override fun extract(rawString: String, mode: QrCodeExtractor.Mode): CoronaTestQRCode.PCR {
         val guid = extractGUID(rawString)
         PcrQrCodeCensor.lastGUID = guid
         return CoronaTestQRCode.PCR(guid)

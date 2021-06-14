@@ -63,7 +63,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/card_divider"
                 android:layout_marginTop="13dp"
-                android:background="@color/colorHairline"
+                android:background="@color/dividerColor"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/statistics_explanation_header_subtitle" />
 
@@ -215,7 +215,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/card_divider"
                     android:layout_marginTop="43dp"
-                    android:background="@color/colorHairline" />
+                    android:background="@color/dividerColor" />
 
                 <TextView
                     style="@style/headline5"

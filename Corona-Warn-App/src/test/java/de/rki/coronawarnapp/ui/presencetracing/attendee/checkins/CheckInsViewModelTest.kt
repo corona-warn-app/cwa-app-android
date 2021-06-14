@@ -3,14 +3,17 @@ package de.rki.coronawarnapp.ui.presencetracing.attendee.checkins
 import androidx.lifecycle.SavedStateHandle
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
+import de.rki.coronawarnapp.presencetracing.checkins.checkout.CheckOutHandler
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.InvalidQrCodeDataException
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.InvalidQrCodeUriException
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QRCodeUriParser
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationVerifier
-import de.rki.coronawarnapp.presencetracing.checkins.checkout.CheckOutHandler
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.ActiveCheckInVH
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CameraPermissionVH
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.PastCheckInVH
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.permission.CameraPermissionProvider
+import io.kotest.assertions.throwables.shouldNotThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import io.mockk.MockKAnnotations
@@ -177,6 +180,32 @@ class CheckInsViewModelTest : BaseTest() {
         createInstance(deepLink = null, scope = this).apply {
             checkCameraSettings()
             verify { cameraPermissionProvider.checkSettings() }
+        }
+    }
+
+    @Test
+    fun `Handle uri InvalidQrCodeUriException`() = runBlockingTest {
+        every { savedState.get<String>("deeplink.last") } returns null
+        coEvery { qrCodeUriParser.getQrCodePayload(any()) } throws InvalidQrCodeUriException("Invalid")
+        val url = "https://e.coronawarn.app?v=1#place_holder"
+
+        shouldNotThrow<InvalidQrCodeUriException> {
+            createInstance(deepLink = url, scope = this).apply {
+                events.getOrAwaitValue().shouldBeInstanceOf<CheckInEvent.InvalidQrCode>()
+            }
+        }
+    }
+
+    @Test
+    fun `Handle uri InvalidQrCodeDataException`() = runBlockingTest {
+        every { savedState.get<String>("deeplink.last") } returns null
+        coEvery { qrCodeUriParser.getQrCodePayload(any()) } throws InvalidQrCodeDataException("Invalid")
+        val url = "https://e.coronawarn.app?v=1#place_holder"
+
+        shouldNotThrow<InvalidQrCodeDataException> {
+            createInstance(deepLink = url, scope = this).apply {
+                events.getOrAwaitValue().shouldBeInstanceOf<CheckInEvent.InvalidQrCode>()
+            }
         }
     }
 

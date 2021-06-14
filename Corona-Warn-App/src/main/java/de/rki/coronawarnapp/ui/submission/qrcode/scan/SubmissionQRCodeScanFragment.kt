@@ -68,7 +68,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             submissionQrCodeScanViewfinderView.setCameraPreview(submissionQrCodeScanPreview)
         }
 
-        viewModel.routeToScreen.observe2(this) {
+        viewModel.events.observe2(this) {
             when (it) {
                 is SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode -> {
                     NavGraphDirections
@@ -77,6 +77,9 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
                 }
                 is SubmissionNavigationEvents.NavigateToDispatcher -> navigateToDispatchScreen()
                 is SubmissionNavigationEvents.NavigateToConsent -> goBack()
+                is SubmissionNavigationEvents.NavigateToRequestDccFragment -> doNavigate(
+                    NavGraphDirections.actionRequestCovidCertificateFragment(it.coronaTestQRCode, it.consentGiven)
+                )
             }
         }
 
@@ -102,9 +105,9 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
         }
 
         viewModel.registrationState.observe2(this) { state ->
-            binding.submissionQrCodeScanSpinner.visibility = when (state.apiRequestState) {
-                ApiRequestState.STARTED -> View.VISIBLE
-                else -> View.GONE
+            when (state.apiRequestState) {
+                ApiRequestState.STARTED -> binding.submissionQrCodeScanSpinner.show()
+                else -> binding.submissionQrCodeScanSpinner.hide()
             }
             when (state.test?.testResult) {
                 CoronaTestResult.PCR_POSITIVE ->
@@ -136,7 +139,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 
     private fun startDecode() {
         binding.submissionQrCodeScanPreview.decodeSingle {
-            viewModel.onQrCodeAvailable(it.text)
+            viewModel.registerCoronaTest(it.text)
         }
     }
 

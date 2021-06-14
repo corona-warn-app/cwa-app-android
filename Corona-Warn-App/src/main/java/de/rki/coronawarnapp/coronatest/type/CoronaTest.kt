@@ -19,6 +19,7 @@ interface CoronaTest {
     val isViewed: Boolean
 
     val isPositive: Boolean
+    val isNegative: Boolean
 
     val isPending: Boolean
 
@@ -26,6 +27,8 @@ interface CoronaTest {
      * Has this test reached it's final state, i.e. can polling be stopped?
      */
     val isFinal: Boolean
+
+    val isRedeemed: Boolean
 
     val testResultReceivedAt: Instant?
     val testResult: CoronaTestResult
@@ -35,10 +38,16 @@ interface CoronaTest {
     // TODO why do we need this PER test
     val isAdvancedConsentGiven: Boolean
 
-    // TODO Why do we need to store this?
-    val isJournalEntryCreated: Boolean
-
     val isResultAvailableNotificationSent: Boolean
+
+    // Is the digital green certificate supported by the point of care that issued the test
+    val isDccSupportedByPoc: Boolean
+
+    // Has the user given consent to us obtaining the DCC
+    val isDccConsentGiven: Boolean
+
+    // Has the corresponding entry been created in the test certificate storage
+    val isDccDataSetCreated: Boolean
 
     enum class Type(val raw: String) {
         @SerializedName("PCR")

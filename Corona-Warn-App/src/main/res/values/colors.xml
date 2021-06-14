@@ -2,26 +2,24 @@
 <resources>
 
     <!-- Brand Colors -->
-    <color name="colorBrandPrimary">#BD1200</color>
-    <color name="colorBrandSecondary">#80CDEC</color>
-    <color name="colorBrandTertiary">#59112B</color>
-
-    <!-- Backgrounds and Separators -->
-    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorSecondary">#007FAD</color>
+    <color name="colorPrimary">#007FAD</color>
+    <color name="colorSurface">#FFFFFF</color>
     <color name="colorSurface1">#FFFFFF</color>
     <color name="colorSurface1Pressed">#E7E8E8</color>
     <color name="colorSurface2">#F5F5F5</color>
     <color name="colorSurface2Pressed">#D7D7D7</color>
-    <color name="colorHairline">#3317191A</color>
-
     <color name="cwaGrayHighlight">#5D6F80</color>
     <color name="colorSystemUI">#F5F5F5</color>
+
+    <color name="colorAccentTintButtonPressed">#02759E</color>
+    <color name="colorAccentTintIcon">@color/colorPrimary</color>
 
     <!--Cards-->
     <color name="colorCardBackgroundHighlightGray">@color/cwaGrayHighlight</color>
 
     <!-- Text -->
-    <color name="colorTextPrimary1">#17191A</color>
+    <color name="colorOnPrimary">#17191A</color>
     <color name="colorTextPrimary1Inverted">#FFFFFF</color>
     <color name="colorTextPrimary1Stable">#17191A</color>
     <color name="colorTextPrimary1InvertedStable">#FFFFFF</color>
@@ -33,7 +31,7 @@
     <color name="colorTextSemanticRed">#C00F2D</color>
     <color name="colorTextSemanticGreen">#2E854B</color>
     <color name="colorTextSemanticNeutral">@color/cwaGrayHighlight</color>
-    <color name="colorTextTint">@color/colorAccent</color>
+    <color name="colorTextTint">@color/colorPrimary</color>
 
     <!-- Semantic -->
     <color name="colorSemanticHighRisk">#C00F2D</color>
@@ -44,12 +42,6 @@
     <color name="colorSemanticNeutralRiskPressed">#556675</color>
     <color name="colorSemanticUnknownRisk">#FFFFFF</color>
     <color name="colorSemanticUnknownRiskPressed">#E7E8E8</color>
-
-    <!-- Accent -->
-    <color name="colorAccent">#007FAD</color>
-    <color name="colorAccentTintButton">@color/colorAccent</color>
-    <color name="colorAccentTintButtonPressed">#02759E</color>
-    <color name="colorAccentTintIcon">@color/colorAccent</color>
 
     <!-- Misc -->
     <color name="colorTransparent">#00FFFFFF</color>
@@ -69,10 +61,10 @@
     <color name="colorCalendarBackgroundSelected">@color/colorTextSemanticNeutral</color>
     <color name="colorCalendarBackgroundUnselected">@color/colorSurface2</color>
     <color name="colorCalendarTextSelected">@color/colorTextPrimary1Inverted</color>
-    <color name="colorCalendarTextUnselected">@color/colorTextPrimary1</color>
+    <color name="colorCalendarTextUnselected">@color/colorOnPrimary</color>
     <color name="colorCalendarSelectedDayBackground">@color/colorCalendarBackgroundSelected</color>
-    <color name="colorCalendarTodayBorder">@color/colorAccent</color>
-    <color name="colorCalendarTodayText">@color/colorAccent</color>
+    <color name="colorCalendarTodayBorder">@color/colorPrimary</color>
+    <color name="colorCalendarTodayText">@color/colorPrimary</color>
     <color name="colorCalendarMonthText">#DE000000</color>
 
     <!-- Contact Diary -->
@@ -90,7 +82,7 @@
     <color name="colorStatisticsTrendNeutral">#5D6F80</color>
 
     <!-- Bottom Nav bar-->
-    <color name="navItemColorSelected">@color/colorAccent</color>
+    <color name="navItemColorSelected">@color/colorPrimary</color>
     <color name="navItemColorNormal">#999999</color>
 
     <!-- Trace location -->
@@ -106,9 +98,8 @@
     <color name="swipeDeleteBackgroundColor">#EB4D3D</color>
 
     <!-- Vaccination -->
-    <color name="colorVaccinationCardBackground">#FFFFFF</color>
+    <color name="colorVaccinationCardBackground">@color/colorSurface</color>
 
     <color name="whiteAlpha60">#99FFFFFF</color>
-    <color name="greyAlpha60">#8ACCCCCC</color>
     <color name="dividerColor">#DEDEDE</color>
 </resources>

@@ -43,7 +43,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/submission_dispatcher_card_qr" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <ImageView
             android:id="@+id/dispatcher_card_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
             app:srcCompat="@drawable/ic_forward"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/colorTextPrimary1" />
+            app:tint="@color/colorOnPrimary" />
 
         <TextView
             android:id="@+id/submission_dispatcher_card_text"

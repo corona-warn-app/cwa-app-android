@@ -5,7 +5,6 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor
@@ -20,56 +19,50 @@ import timber.log.Timber
 
 class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
+    @Assisted private val isConsentGiven: Boolean,
     private val cameraSettings: CameraSettings,
     private val qrCodeRegistrationStateProcessor: QrCodeRegistrationStateProcessor,
-    @Assisted private val isConsentGiven: Boolean,
     private val submissionRepository: SubmissionRepository,
     private val qrCodeValidator: CoronaTestQrCodeValidator,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
-    val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
-    val showRedeemedTokenWarning = qrCodeRegistrationStateProcessor.showRedeemedTokenWarning
+    val events = SingleLiveEvent<SubmissionNavigationEvents>()
     val qrCodeValidationState = SingleLiveEvent<QrCodeRegistrationStateProcessor.ValidationState>()
+    val showRedeemedTokenWarning = qrCodeRegistrationStateProcessor.showRedeemedTokenWarning
     val registrationState = qrCodeRegistrationStateProcessor.registrationState
     val registrationError = qrCodeRegistrationStateProcessor.registrationError
 
-    fun onQrCodeAvailable(rawResult: String) {
-        launch {
-            startQrCodeRegistration(rawResult, isConsentGiven)
-        }
-    }
-
-    suspend fun startQrCodeRegistration(rawResult: String, isConsentGiven: Boolean) {
+    fun registerCoronaTest(rawResult: String) = launch {
         try {
-            val coronaTestQRCode = qrCodeValidator.validate(rawResult)
+            val ctQrCode = qrCodeValidator.validate(rawResult)
             qrCodeValidationState.postValue(QrCodeRegistrationStateProcessor.ValidationState.SUCCESS)
-            val coronaTest = submissionRepository.testForType(coronaTestQRCode.type).first()
-
-            if (coronaTest != null) {
-                routeToScreen.postValue(
+            val coronaTest = submissionRepository.testForType(ctQrCode.type).first()
+            when {
+                coronaTest != null -> events.postValue(
                     SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode(
-                        coronaTestQRCode = coronaTestQRCode,
+                        coronaTestQRCode = ctQrCode,
                         consentGiven = isConsentGiven
                     )
                 )
-            } else {
-                if (isConsentGiven && coronaTestQRCode.type == CoronaTest.Type.PCR) {
-                    analyticsKeySubmissionCollector.reportAdvancedConsentGiven()
+
+                else -> if (!ctQrCode.isDccSupportedByPoc) {
+                    qrCodeRegistrationStateProcessor.startQrCodeRegistration(ctQrCode, isConsentGiven)
+                    if (isConsentGiven) analyticsKeySubmissionCollector.reportAdvancedConsentGiven(ctQrCode.type)
+                } else {
+                    events.postValue(
+                        SubmissionNavigationEvents.NavigateToRequestDccFragment(ctQrCode, isConsentGiven)
+                    )
                 }
-                qrCodeRegistrationStateProcessor.startQrCodeRegistration(coronaTestQRCode, isConsentGiven)
             }
         } catch (err: InvalidQRCodeException) {
+            Timber.d(err, "Invalid QrCode")
             qrCodeValidationState.postValue(QrCodeRegistrationStateProcessor.ValidationState.INVALID)
         }
     }
 
-    fun onBackPressed() {
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToConsent)
-    }
+    fun onBackPressed() = events.postValue(SubmissionNavigationEvents.NavigateToConsent)
 
-    fun onClosePressed() {
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToDispatcher)
-    }
+    fun onClosePressed() = events.postValue(SubmissionNavigationEvents.NavigateToDispatcher)
 
     fun setCameraDeniedPermanently(denied: Boolean) {
         Timber.d("setCameraDeniedPermanently(denied=$denied)")

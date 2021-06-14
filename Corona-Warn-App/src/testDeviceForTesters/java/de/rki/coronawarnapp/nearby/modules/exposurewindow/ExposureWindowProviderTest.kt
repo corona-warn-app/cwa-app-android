@@ -35,7 +35,7 @@ class ExposureWindowProviderTest : BaseTestInstrumentation() {
 
     @Test
     fun `fake exposure windows only in tester builds`() {
-        val instance = createProvider()
+        createProvider()
         CWADebug.isDeviceForTestersBuild shouldBe true
     }
 }

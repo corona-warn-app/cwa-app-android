@@ -315,7 +315,8 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
         val mockTEK = mockk<TemporaryExposureKey>()
         every { client.temporaryExposureKeyHistory } returns MockGMSTask.forValue(listOf(mockTEK))
         every { client.requestPreAuthorizedTemporaryExposureKeyHistory() } returns MockGMSTask.forValue(null)
-        every { client.requestPreAuthorizedTemporaryExposureKeyRelease() } returns MockGMSTask.forError(RuntimeException())
+        every { client.requestPreAuthorizedTemporaryExposureKeyRelease() } returns
+            MockGMSTask.forError(RuntimeException())
 
         val onTEKHistoryAvailable = mockk<(List<TemporaryExposureKey>) -> Unit>(relaxed = true)
         val onPermissionRequired = mockk<(Status) -> Unit>(relaxed = true)
@@ -342,7 +343,8 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
         coEvery { enfVersion.isAtLeast(ENFVersion.V1_8) } returns true
         every { client.temporaryExposureKeyHistory } returns MockGMSTask.forError(IllegalStateException())
         every { client.requestPreAuthorizedTemporaryExposureKeyHistory() } returns MockGMSTask.forValue(null)
-        every { client.requestPreAuthorizedTemporaryExposureKeyRelease() } returns MockGMSTask.forError(RuntimeException())
+        every { client.requestPreAuthorizedTemporaryExposureKeyRelease() } returns
+            MockGMSTask.forError(RuntimeException())
 
         runBlockingTest {
             shouldThrow<IllegalStateException> {

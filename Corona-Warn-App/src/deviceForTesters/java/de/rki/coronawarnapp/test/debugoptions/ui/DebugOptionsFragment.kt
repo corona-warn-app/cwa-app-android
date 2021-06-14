@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import androidx.core.text.buildSpannedString
+import androidx.core.text.color
 import androidx.core.view.ViewCompat
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
@@ -13,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestDebugoptionsBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -66,18 +69,26 @@ class DebugOptionsFragment : Fragment(R.layout.fragment_test_debugoptions), Auto
                     it.isChecked = it.text == state.current.rawKey
                 }
 
-                environmentCdnurlDownload.text = "Download CDN:\n${state.urlDownload}"
-                environmentCdnurlSubmission.text = "Submission CDN:\n${state.urlSubmission}"
-                environmentCdnurlVerification.text = "Verification CDN:\n${state.urlVerification}"
-                environmentUrlDatadonation.text = "DataDonation:\n${state.urlDataDonation}"
-                environmentUrlLogUpload.text = "LogUpload:\n${state.urlLogUpload}"
-                environmentPubkeyCrowdnotifier.text = "CrowdNotifierPubKey:\n${state.pubKeyCrowdNotifier}"
-                environmentPubkeyAppconfig.text = "AppConfigPubKey:\n${state.pubKeyAppConfig}"
+                environmentCdnurlDownload.text = "Download CDN" styleTo state.urlDownload
+                environmentCdnurlSubmission.text = "Submission CDN" styleTo state.urlSubmission
+                environmentCdnurlVerification.text = "Verification CDN" styleTo state.urlVerification
+                environmentUrlDatadonation.text = "DataDonation" styleTo state.urlDataDonation
+                environmentUrlLogUpload.text = "LogUpload" styleTo state.urlLogUpload
+                environmentPubkeyCrowdnotifier.text = "CrowdNotifierPubKey" styleTo state.pubKeyCrowdNotifier
+                environmentPubkeyAppconfig.text = "AppConfigPubKey" styleTo state.pubKeyAppConfig
+                environmentDccServerUrl.text = "DccServerUrl" styleTo state.dccServerUrl
             }
         }
         vm.environmentStateChange.observe2(this) {
             showSnackBar("Environment changed to: $it\nForce stop & restart the app!")
         }
+    }
+
+    private infix fun String.styleTo(value: String) = buildSpannedString {
+        val color = requireContext().getColorCompat(R.color.colorPrimary)
+        append("${this@styleTo}:")
+        appendLine()
+        color(color) { append(value) }
     }
 
     private fun showSnackBar(message: String) {
