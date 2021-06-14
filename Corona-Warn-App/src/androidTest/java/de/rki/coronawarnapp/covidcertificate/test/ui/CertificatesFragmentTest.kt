@@ -2,15 +2,15 @@ package de.rki.coronawarnapp.covidcertificate.test.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CertificatesItem
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.test.ui.cards.CovidTestCertificateCard
-import de.rki.coronawarnapp.covidcertificate.test.ui.cards.CovidTestCertificateErrorCard
-import de.rki.coronawarnapp.covidcertificate.test.ui.items.CertificatesItem
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.cards.CreateVaccinationCard
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.cards.HeaderInfoVaccinationCard
@@ -171,7 +171,7 @@ class CertificatesFragmentTest : BaseUITest() {
                     vaccinatedPerson = vaccinatedPerson,
                     onClickAction = {}
                 ),
-                CovidTestCertificateErrorCard.Item(
+                CovidTestCertificatePendingCard.Item(
                     testDate = testDate,
                     isUpdatingData = false,
                     onRetryAction = {},
@@ -183,8 +183,7 @@ class CertificatesFragmentTest : BaseUITest() {
 
     private fun takeScreenshotInMainActivity(suffix: String = "") {
         launchInMainActivity<CertificatesFragment>()
-        Espresso.onView(ViewMatchers.withId(R.id.fake_bottom_navigation))
-            .perform(selectBottomNavTab(R.id.green_certificate_graph))
+        onView(withId(R.id.fake_bottom_navigation)).perform(selectBottomNavTab(R.id.certificate_graph))
         takeScreenshot<CertificatesFragment>(suffix)
     }
 }
