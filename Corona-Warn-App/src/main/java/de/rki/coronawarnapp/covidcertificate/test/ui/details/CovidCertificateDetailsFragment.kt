@@ -62,7 +62,7 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
     private fun FragmentCovidCertificateDetailsBinding.onCertificateReady(
         testCertificate: TestCertificate
     ) {
-        name.text = testCertificate.run { "$firstName $lastName" }
+        name.text = testCertificate.run { "$lastName, $firstName" }
         birthDate.text = testCertificate.dateOfBirth.toDayFormat()
         diseaseType.text = testCertificate.targetName
         testType.text = testCertificate.testType

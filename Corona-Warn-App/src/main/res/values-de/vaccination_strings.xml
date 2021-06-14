@@ -91,7 +91,7 @@
     <string name="vaccination_card_status_vaccination_complete">"Gültig bis einschließlich %s"</string>
 
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_invalid">Dieser QR-Code ist kein gültiges Impfzertifikat.</string>
+    <string name="error_vc_invalid">Dieser QR-Code ist kein gültiges Impfzertifikat.\n\nWeitere Informationen zum Erhalt Ihres Impfzertifikats finden Sie in den FAQ.</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_not_yet_supported">Dieses Impfzertifikat wird in Ihrer App-Version noch nicht unterstützt. Bitte aktualisieren Sie Ihre App oder wenden Sie sich an die technische Hotline unter „App-Informationen“.</string>
     <!-- XTXT: Vaccination QR code scan error message-->
@@ -117,6 +117,10 @@
     <string name="vaccination_consent_onboarding_legal_information">"Ausführliche Informationen zur Datenverarbeitung finden Sie in der Datenschutzerklärung."</string>
     <!-- XBUT: Text for vaccination consent accept button -->
     <string name="vaccination_consent_accept_button">"Weiter"</string>
+    <!-- XBUT: Text for invalid vaccination certificate error button, linking to FAQ-->
+    <string name="error_button_vc_faq">FAQ zu Impfzertifikaten</string>
+    <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
+    <string name="error_button_vc_faq_link">https://www.coronawarn.app/de/faq/#vac_cert_invalid</string>
 
     <!-- XTXT: Vaccination certificate Detail title -->
     <string name="vaccination_certificate_title">"Impfzertifikat"</string>
