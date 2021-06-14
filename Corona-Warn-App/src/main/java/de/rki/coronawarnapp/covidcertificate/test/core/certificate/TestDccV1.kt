@@ -6,10 +6,10 @@ import org.joda.time.Instant
 
 data class TestDccV1(
     @SerializedName("ver") override val version: String,
-    @SerializedName("nam") override val nameData: Dcc.NameData,
+    @SerializedName("nam") override val nameData: NameData,
     @SerializedName("dob") override val dob: String,
     @SerializedName("t") override val payloads: List<TestCertificateData>,
-) : Dcc<TestDccV1.TestCertificateData> {
+) : Dcc<TestDccV1.TestCertificateData>() {
 
     data class TestCertificateData(
         // Disease or agent targeted, e.g. "tg": "840539006"
@@ -34,7 +34,7 @@ data class TestDccV1(
         @SerializedName("is") override val certificateIssuer: String,
         // Unique Certificate Identifier, e.g.  "ci": "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"
         @SerializedName("ci") override val uniqueCertificateIdentifier: String
-    ) : Dcc.Payload {
+    ) : Payload {
 
         val testResultAt: Instant?
             get() = dr?.let { Instant.parse(it) }
