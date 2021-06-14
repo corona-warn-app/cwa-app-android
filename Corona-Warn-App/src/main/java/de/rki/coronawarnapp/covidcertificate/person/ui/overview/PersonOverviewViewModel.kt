@@ -95,6 +95,10 @@ class PersonOverviewViewModel @AssistedInject constructor(
         testCertificateRepository.deleteCertificate(identifier)
     }
 
+    fun onScanQrCode() {
+        events.postValue(ScanQrCode)
+    }
+
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<PersonOverviewViewModel>
 }

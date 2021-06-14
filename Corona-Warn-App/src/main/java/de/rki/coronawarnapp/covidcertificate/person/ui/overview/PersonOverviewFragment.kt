@@ -31,6 +31,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
         binding.apply {
             bindToolbar()
             bindRecycler()
+            scanQrcodeFab.setOnClickListener { viewModel.onScanQrCode() }
         }
         viewModel.personCertificates.observe(viewLifecycleOwner) { binding.bindViews(it) }
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
