@@ -279,9 +279,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
         is SubmissionStatePCR.TestResultReady -> PcrTestReadyCard.Item(state) {
             events.postValue(HomeFragmentEvents.GoToTestResultAvailableFragment(PCR))
         }
-        is SubmissionStatePCR.TestPositive -> PcrTestPositiveCard.Item(state) {
-            events.postValue(HomeFragmentEvents.GoToTestResultPositiveFragment(PCR))
-        }
+        is SubmissionStatePCR.TestPositive -> PcrTestPositiveCard.Item(
+            state = state,
+            onClickAction = { events.postValue(HomeFragmentEvents.GoToTestResultPositiveFragment(PCR)) },
+            onRemoveAction = { events.postValue(HomeFragmentEvents.ShowDeleteTestDialog(PCR, false)) }
+        )
         is SubmissionStatePCR.TestNegative -> PcrTestNegativeCard.Item(state) {
             events.postValue(HomeFragmentEvents.GoToPcrTestResultNegativeFragment(PCR))
         }
@@ -308,9 +310,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
             is SubmissionStateRAT.TestResultReady -> RapidTestReadyCard.Item(state) {
                 events.postValue(HomeFragmentEvents.GoToTestResultAvailableFragment(RAPID_ANTIGEN))
             }
-            is SubmissionStateRAT.TestPositive -> RapidTestPositiveCard.Item(state) {
-                events.postValue(HomeFragmentEvents.GoToTestResultPositiveFragment(RAPID_ANTIGEN))
-            }
+            is SubmissionStateRAT.TestPositive -> RapidTestPositiveCard.Item(
+                state = state,
+                onClickAction = { events.postValue(HomeFragmentEvents.GoToTestResultPositiveFragment(RAPID_ANTIGEN)) },
+                onRemoveAction = { events.postValue(HomeFragmentEvents.ShowDeleteTestDialog(RAPID_ANTIGEN, false)) }
+            )
             is SubmissionStateRAT.TestNegative -> RapidTestNegativeCard.Item(state) {
                 events.postValue(HomeFragmentEvents.GoToRapidTestResultNegativeFragment)
             }
