@@ -48,7 +48,6 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
             coEvery { state } returns flowOf(TestRegistrationStateProcessor.State.Idle)
         }
 
-
         every { coronaTest.identifier } returns "identifier"
         every { analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any()) } just Runs
     }

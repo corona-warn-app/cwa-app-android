@@ -59,8 +59,9 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
         }
 
         when (request) {
-            is CoronaTestTAN -> SubmissionDeletionWarningFragmentDirections
-                .actionSubmissionDeletionFragmentToSubmissionTestResultNoConsentFragment(newTest.type)
+            is CoronaTestTAN ->
+                SubmissionDeletionWarningFragmentDirections
+                    .actionSubmissionDeletionFragmentToSubmissionTestResultNoConsentFragment(newTest.type)
 
             else -> if (newTest.isPositive) {
                 SubmissionDeletionWarningFragmentDirections
