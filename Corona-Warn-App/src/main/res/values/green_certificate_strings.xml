@@ -9,7 +9,7 @@
     <!-- XTXT: Request green certificate body section 2 -->
     <string name="request_green_certificate_body_2">"The test certificate is valid proof of a negative test result within the EU (e.g. for travel)."</string>
     <!-- XTXT: Request green certificate body section 3 -->
-    <string name="request_green_certificate_body_3">"The test certificate contains valid that enables the verification app to validate your certificate."</string>
+    <string name="request_green_certificate_body_3">"The test certificate contains data that enables the verification app to validate your certificate."</string>
     <!-- XBUT: Request green certificate agree button -->
     <string name="request_green_certificate_agree_button">"Request Test Certificate"</string>
     <!-- XBUT: Request green certificate disagree button -->
@@ -33,21 +33,21 @@
     <!-- XTXT: Detail green certificate card title -->
     <string name="detail_green_certificate_card_title">"Test Certificate"</string>
     <!-- XTXT: Detail green certificate card subtitle -->
-    <string name="detail_green_certificate_card_subtitle">"Test durchgeführt am %1$s %2$s"</string>
+    <string name="detail_green_certificate_card_subtitle">"Test performed on %1$s %2$s"</string>
     <!-- XTXT: Detail green certificate travel notice link en -->
     <string name="green_certificate_travel_notice_link_en">"https://reopen.europa.eu/en"</string>
     <!-- XTXT: Detail green certificate travel notice link de -->
     <string name="green_certificate_travel_notice_link_de">"https://reopen.europa.eu/de"</string>
     <!-- XTXT: Detail green certificate menu item: delete -->
-    <string name="green_certificate_details_menu_item_delete">"Entfernen"</string>
+    <string name="green_certificate_details_menu_item_delete">"Remove"</string>
     <!-- XTXT: Detail green certificate diaglog title -->
-    <string name="green_certificate_details_dialog_remove_test_title">"Wollen Sie das Testzertifikat wirklich entfernen?"</string>
+    <string name="green_certificate_details_dialog_remove_test_title">"Do you want to remove the test certificate?"</string>
     <!-- XTXT: Detail green certificate diaglog message -->
-    <string name="green_certificate_details_dialog_remove_test_message">"Wenn Sie das Testzertifikat entfernen, können Sie es nicht mehr als Nachweis in der App verwenden."</string>
+    <string name="green_certificate_details_dialog_remove_test_message">"If you remove the test certificate, you can no longer use it as proof in the app."</string>
     <!-- XTXT: Detail green certificate diaglog positive -->
-    <string name="green_certificate_details_dialog_remove_test_button_positive">"Abbrechen"</string>
+    <string name="green_certificate_details_dialog_remove_test_button_positive">"Remove"</string>
     <!-- XTXT: Detail green certificate diaglog negative -->
-    <string name="green_certificate_details_dialog_remove_test_button_negative">"Entfernen"</string>
+    <string name="green_certificate_details_dialog_remove_test_button_negative">"Cancel"</string>
 
     <!-- XTXT: Green certificate main screen title -->
     <string name="certification_screen_title">"Certificates"</string>
@@ -61,42 +61,43 @@
     <string name="info_banner_title_2">"COVID Test Certificate"</string>
     <!-- XTXT: Green certificate info card body  -->
     <string name="info_banner_body">"Register a test on the home screen and agree to receive a digital test certificate. As soon as the certificate is available, it is displayed here."</string>
+
     <!-- XTXT: Test certificate time -->
-    <string name="test_certificate_time">Test durchgeführt am %1$s, %2$s</string>
+    <string name="test_certificate_time">"Test performed on %1$s, %2$s"</string>
     <!-- XTXT: Test error label -->
-    <string name="test_certificate_error_label">Fehler bei der Zertifikatsabfrage</string>
+    <string name="test_certificate_error_label">"Error during certificate retrieval"</string>
     <!-- XBUT: Test error retry button -->
-    <string name="test_certificate_error_retry_button">Nochmal versuchen</string>
+    <string name="test_certificate_error_retry_button">"Try Again"</string>
     <!-- XTXT: Error text -->
-    <string name="error_tc_try_again">Es konnte keine Verbindung hergestellt werden. Bitte versuchen Sie es erneut.</string>
+    <string name="error_tc_try_again">"Could not establish a connection. Please try again."</string>
     <!-- XTXT: Error text -->
-    <string name="error_tc_dcc_not_supported_by_lab">Ein Testzertifikat kann nicht angefordert werden, da diese Teststelle die Ausstellung von Testzertifikaten nicht unterstützt. Bitte entfernen Sie das Zertifikat oder kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline.</string>
+    <string name="error_tc_dcc_not_supported_by_lab">"You cannot request a test certificate because this testing point does not support the issuing of test certificates. Please remove the certificate or contact the technical hotline via App Information -&gt; Technical Hotline."</string>
     <!-- XTXT: Error text -->
-    <string name="error_tc_no_network">Ihre Internetverbindung wurde unterbrochen. Bitte prüfen Sie die Verbindung und versuchen Sie es erneut.</string>
+    <string name="error_tc_no_network">"Your Internet connection was lost. Please check the connection and try again."</string>
     <!-- XTXT: Error text -->
-    <string name="error_tc_e2e_error_call_hotline">Ein Fehler ist aufgetreten. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline.</string>
+    <string name="error_tc_e2e_error_call_hotline">"An error occurred. Please try again later or contact the technical hotline via App Information -&gt; Technical Hotline."</string>
     <!-- XTXT: Error text -->
-    <string name="error_tc_try_again_dcc_not_available_yet">Ihr Zertifikat liegt noch nicht vor. Bitte versuchen Sie es noch einmal. Sollte der Fehler weiterhin bestehen, kontaktieren Sie bitte die technische Hotline über App-Informationen -> Technische Hotline.</string>
+    <string name="error_tc_try_again_dcc_not_available_yet">"Your certificate it not available yet. Please try again. If the error persists, please contact the technical hotline via App Information -&gt; Technical Hotline."</string>
     <!-- XTXT: Error text -->
-    <string name="error_tc_client_error_call_hotline">Ein Fehler ist aufgetreten. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline.></string>
+    <string name="error_tc_client_error_call_hotline">"An error occurred. Please try again later or contact the technical hotline via App Information -&gt; Technical Hotline."</string>
     <!-- XTXT: Error text -->
-    <string name="error_tc_dcc_expired">Das Zertifikat ist nicht mehr aktuell, Sie können es aus der Corona-App entfernen.</string>
+    <string name="error_tc_dcc_expired">"This certificate is no longer current. You can remove it from the Corona-Warn-App."</string>
     <!-- XBUT: Test error delete button -->
-    <string name="test_certificate_error_delete_button">Testzertifikat entfernen</string>
+    <string name="test_certificate_error_delete_button">"Remove Test Certificate"</string>
     <!-- XTXT: Test error refresh dialog title -->
-    <string name="test_certificate_refresh_dialog_title">"Es gibt weiterhin Probleme bei der Abfrage"</string>
+    <string name="test_certificate_refresh_dialog_title">"There are still problems with the request."</string>
     <!-- XBUT: Test error refresh dialog confirm button -->
     <string name="test_certificate_refresh_dialog_confirm_button">"OK"</string>
     <!-- XTXT: Test error delete dialog title -->
-    <string name="test_certificate_delete_dialog_title">"Wollen Sie das Zertifikat wirklich entfernen?"</string>
+    <string name="test_certificate_delete_dialog_title">"Do you want to remove the certificate?"</string>
     <!-- XTXT: Test error delete dialog body -->
-    <string name="test_certificate_delete_dialog_body">"Wenn das Zertifikat enfernt wird, kann es nicht noch einmal angefordert werden."</string>
+    <string name="test_certificate_delete_dialog_body">"If you remove the certificate, you cannot request it again."</string>
     <!-- XBUT: Test error delete dialog confirm button -->
-    <string name="test_certificate_delete_dialog_confirm_button">"Entfernen"</string>
+    <string name="test_certificate_delete_dialog_confirm_button">"Remove"</string>
     <!-- XBUT: Test error delete dialog cancel button -->
-    <string name="test_certificate_delete_dialog_cancel_button">"Abbrechen"</string>
+    <string name="test_certificate_delete_dialog_cancel_button">"Cancel"</string>
     <!-- XTXT: Test error card body refreshing -->
-    <string name="test_certificate_error_label_refreshing">"Ihr Zertifikat wird gerade erstellt…"</string>
+    <string name="test_certificate_error_label_refreshing">"Your certificate is being created..."</string>
     <!-- XTXT: Test error card body refreshing -->
-    <string name="test_certificate_error_refreshing_status">"Ihr Zertifikat wird gerade angefragt, dies kann einige Minuten dauern…"</string>
+    <string name="test_certificate_error_refreshing_status">"Your certificate is being requested. This may take a few minutes..."</string>
 </resources>
