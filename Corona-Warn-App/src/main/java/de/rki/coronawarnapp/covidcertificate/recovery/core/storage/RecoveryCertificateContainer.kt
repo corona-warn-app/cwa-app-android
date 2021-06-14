@@ -31,7 +31,7 @@ data class RecoveryCertificateContainer(
     ): RecoveryCertificate {
         val header = certificateData.header
         val certificate = certificateData.certificate
-        val testCertificate = certificate.payload
+        val recoveryCertificate = certificate.payload
 
         return object : RecoveryCertificate {
             override val personIdentifier: CertificatePersonIdentifier
@@ -39,25 +39,28 @@ data class RecoveryCertificateContainer(
 
             override val firstName: String?
                 get() = certificate.nameData.firstName
-
             override val lastName: String
                 get() = certificate.nameData.lastName
-
             override val fullName: String
                 get() = certificate.nameData.fullName
 
             override val dateOfBirth: LocalDate
                 get() = certificate.dateOfBirth
 
-            // TODO
+            override val testedPositiveOn: LocalDate
+                get() = recoveryCertificate.testedPositiveOn
+            override val validFrom: LocalDate
+                get() = recoveryCertificate.validFrom
+            override val validUntil: LocalDate
+                get() = recoveryCertificate.validUntil
 
             override val certificateIssuer: String
                 get() = header.issuer
             override val certificateCountry: String
-                get() = Locale(userLocale.language, testCertificate.certificateCountry.uppercase())
+                get() = Locale(userLocale.language, recoveryCertificate.certificateCountry.uppercase())
                     .getDisplayCountry(userLocale)
             override val certificateId: String
-                get() = testCertificate.uniqueCertificateIdentifier
+                get() = recoveryCertificate.uniqueCertificateIdentifier
 
             override val issuer: String
                 get() = header.issuer
