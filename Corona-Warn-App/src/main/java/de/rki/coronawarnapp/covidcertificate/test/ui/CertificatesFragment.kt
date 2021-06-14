@@ -67,7 +67,7 @@ class CertificatesFragment : Fragment(R.layout.fragment_certificates), AutoInjec
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_information -> {
-                    // doNavigate(CertificatesFragmentDirections.actionCertificatesFragmentToConsentFragment())
+                    // doNavigate(CertificatesFragmentDirections.actionCertificatesFragmentToConsentFragment(false))
                     true
                 }
                 else -> onOptionsItemSelected(it)

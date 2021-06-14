@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/vaccination_compelete_gradient"
+    android:background="@drawable/certificate_complete_gradient"
     android:minHeight="200dp"
     tools:ignore="UnusedAttribute">
 
@@ -27,7 +27,7 @@
         android:layout_marginTop="@dimen/spacing_small"
         android:accessibilityHeading="true"
         android:focusable="false"
-        android:text="@string/vaccination_card_registration_title_line_1"
+        android:text="@string/vaccination_card_status_title_line_1"
         android:textColor="@color/colorTextPrimary1InvertedStable"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +41,7 @@
         android:layout_marginHorizontal="@dimen/card_padding"
         android:accessibilityHeading="true"
         android:focusable="false"
-        android:text="@string/vaccination_card_registration_title_line_2"
+        android:text="@string/vaccination_card_status_title_line_2"
         android:textColor="@color/colorTextPrimary1InvertedStable"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

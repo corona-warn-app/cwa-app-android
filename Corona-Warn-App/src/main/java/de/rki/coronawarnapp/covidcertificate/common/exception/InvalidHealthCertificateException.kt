@@ -9,8 +9,9 @@ import de.rki.coronawarnapp.util.ui.LazyString
 
 @Suppress("MaxLineLength")
 open class InvalidHealthCertificateException(
-    val errorCode: ErrorCode
-) : HasHumanReadableError, InvalidQRCodeException(errorCode.message) {
+    val errorCode: ErrorCode,
+    cause: Throwable? = null,
+) : HasHumanReadableError, InvalidQRCodeException(errorCode.message, cause) {
     enum class ErrorCode(
         val message: String
     ) {
@@ -22,6 +23,7 @@ open class InvalidHealthCertificateException(
         HC_COSE_MESSAGE_INVALID("COSE message invalid."),
         HC_CBOR_DECODING_FAILED("CBOR decoding failed."),
         VC_NO_VACCINATION_ENTRY("Vaccination certificate missing."),
+        VC_MULTIPLE_VACCINATION_ENTRIES("Multiple vaccination certificates."),
         NO_TEST_ENTRY("Test certificate missing."),
         VC_PREFIX_INVALID("Prefix invalid."),
         VC_STORING_FAILED("Storing failed."),

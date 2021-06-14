@@ -15,13 +15,14 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertifi
 import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
+import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateOfBirthFormat
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.setUrl
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import org.joda.time.format.DateTimeFormat
 import javax.inject.Inject
 
 class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_details), AutoInject {
@@ -44,18 +45,29 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         with(binding) {
             toolbar.setNavigationOnClickListener { popBackStack() }
 
+            bindTravelNoticeViews()
+            bindToolbar()
+
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
                 it.certificate?.let { certificate -> bindCertificateViews(certificate) }
                 val background = when {
-                    it.isImmune -> R.drawable.vaccination_compelete_gradient
+                    it.isImmune -> R.drawable.certificate_complete_gradient
                     else -> R.drawable.vaccination_incomplete
                 }
+
+                val europaIcon = when {
+                    it.isImmune -> R.drawable.ic_eu_stars_blue
+                    else -> R.drawable.ic_eu_stars_grey
+                }
+
                 expandedImage.setImageResource(background)
+                europaImage.setImageResource(europaIcon)
             }
 
             appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
                 title.alpha = titleAlpha
                 subtitle.alpha = subtitleAlpha
+                europaImage.alpha = subtitleAlpha
             }
             setToolbarOverlay()
 
@@ -84,37 +96,51 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             }
         }
 
+    private fun FragmentVaccinationDetailsBinding.bindToolbar() = toolbar.apply {
+        setNavigationOnClickListener { popBackStack() }
+        setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_covid_certificate_delete -> {
+                    DialogHelper.showDialog(deleteTestConfirmationDialog)
+                    true
+                }
+                else -> onOptionsItemSelected(it)
+            }
+        }
+    }
+
     private fun FragmentVaccinationDetailsBinding.bindCertificateViews(
         certificate: VaccinationCertificate
     ) {
         name.text = certificate.fullName
-        birthDate.text = getString(
-            R.string.vaccination_details_birth_date,
-            certificate.dateOfBirth.toDayFormat()
-        )
-        vaccinatedAt.text = certificate.vaccinatedAt.toDayFormat()
+        dateOfBirth.text = certificate.dateOfBirth.toDateOfBirthFormat()
         vaccineName.text = certificate.medicalProductName
         vaccineManufacturer.text = certificate.vaccineManufacturer
-        vaccineTypeName.text = certificate.vaccineTypeName
         certificateIssuer.text = certificate.certificateIssuer
         certificateCountry.text = certificate.certificateCountry
         certificateId.text = certificate.certificateId
-        title.text = getString(
-            R.string.vaccination_details_title,
-            certificate.doseNumber,
-            certificate.totalSeriesOfDoses
-        )
-        // QrCode details
-        qrCodeCard.title.text = getString(
-            R.string.vaccination_qrcode_card_title,
-            certificate.doseNumber,
-            certificate.totalSeriesOfDoses
-        )
-        qrCodeCard.subtitle.text = getString(
-            R.string.vaccination_qrcode_card_subtitle,
-            certificate.vaccinatedAt.toString(format),
-            certificate.expiresAt.toString(format)
-        )
+    }
+
+    private fun FragmentVaccinationDetailsBinding.bindTravelNoticeViews() {
+        if (travelNoticeGerman.text ==
+            getString(R.string.vaccination_certificate_attribute_certificate_travel_notice_german)
+        ) {
+            travelNoticeGerman.setUrl(
+                R.string.vaccination_certificate_attribute_certificate_travel_notice_german,
+                R.string.vaccination_certificate_travel_notice_link_de,
+                R.string.vaccination_certificate_travel_notice_link_de
+            )
+        }
+
+        if (travelNoticeEnglish.text ==
+            getString(R.string.green_certificate_attribute_certificate_travel_notice_english)
+        ) {
+            travelNoticeEnglish.setUrl(
+                R.string.green_certificate_attribute_certificate_travel_notice_english,
+                R.string.green_certificate_travel_notice_link_en,
+                R.string.green_certificate_travel_notice_link_en
+            )
+        }
     }
 
     private fun setToolbarOverlay() {
@@ -124,14 +150,23 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             as (CoordinatorLayout.LayoutParams)
 
         val textParams = binding.subtitle.layoutParams as (LinearLayout.LayoutParams)
-        textParams.bottomMargin = (width / 3) - 24 /* 24 is space between screen border and QrCode */
+        textParams.bottomMargin = (width / 2) - 24 /* 24 is space between screen border and QrCode */
         binding.subtitle.requestLayout() /* 24 is space between screen border and QrCode */
 
         val behavior: AppBarLayout.ScrollingViewBehavior = params.behavior as (AppBarLayout.ScrollingViewBehavior)
-        behavior.overlayTop = (width / 3) - 24
+        behavior.overlayTop = (width / 2) - 24
     }
 
-    companion object {
-        private val format = DateTimeFormat.forPattern("dd.MM.yy")
+    private val deleteTestConfirmationDialog by lazy {
+        DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.vaccination_list_deletion_dialog_title,
+            R.string.vaccination_list_deletion_dialog_message,
+            R.string.green_certificate_details_dialog_remove_test_button_positive,
+            R.string.green_certificate_details_dialog_remove_test_button_negative,
+            positiveButtonFunction = {
+                viewModel.deleteVaccination()
+            }
+        )
     }
 }

@@ -10,8 +10,10 @@ import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.databinding.FragmentScanQrCodeBinding
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -67,6 +69,11 @@ class VaccinationQrCodeScanFragment :
             binding.qrCodeScanSpinner.hide()
             it.toErrorDialogBuilder(requireContext()).apply {
                 setOnDismissListener { popBackStack() }
+                if (it is InvalidVaccinationCertificateException && it.showFaqButton) {
+                    setNeutralButton(R.string.error_button_vc_faq) { _, _ ->
+                        openUrl(getString(R.string.error_button_vc_faq_link))
+                    }
+                }
             }.show()
         }
     }
