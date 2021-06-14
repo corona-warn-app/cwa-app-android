@@ -303,34 +303,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     tools:text="05930482748454836478695764787840" />
-
-
             </LinearLayout>
 
-            <LinearLayout
-                style="@style/Card.GreenCertificate"
+            <de.rki.coronawarnapp.covidcertificate.common.certificate.TravelNoticeView
+                android:id="@+id/travel_notice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="8dp"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/travel_notice_german"
-                    style="@style/body2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/green_certificate_attribute_certificate_travel_notice_german" />
-
-                <TextView
-                    android:id="@+id/travel_notice_english"
-                    style="@style/body2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="@string/green_certificate_attribute_certificate_travel_notice_english" />
-            </LinearLayout>
+                android:focusable="true" />
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

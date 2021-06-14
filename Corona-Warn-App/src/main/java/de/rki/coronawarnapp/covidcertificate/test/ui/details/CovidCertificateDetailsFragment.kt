@@ -50,7 +50,6 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
             subtitle.alpha = subtitleAlpha
         }
 
-        bindTravelNoticeViews()
         bindToolbar()
         setToolbarOverlay()
 
@@ -106,28 +105,6 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
                 QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
                 null,
                 FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
-            )
-        }
-    }
-
-    private fun FragmentCovidCertificateDetailsBinding.bindTravelNoticeViews() {
-        if (travelNoticeGerman.text ==
-            getString(R.string.green_certificate_attribute_certificate_travel_notice_german)
-        ) {
-            travelNoticeGerman.setUrl(
-                R.string.green_certificate_attribute_certificate_travel_notice_german,
-                R.string.green_certificate_travel_notice_link_de,
-                R.string.green_certificate_travel_notice_link_de
-            )
-        }
-
-        if (travelNoticeEnglish.text ==
-            getString(R.string.green_certificate_attribute_certificate_travel_notice_english)
-        ) {
-            travelNoticeEnglish.setUrl(
-                R.string.green_certificate_attribute_certificate_travel_notice_english,
-                R.string.green_certificate_travel_notice_link_en,
-                R.string.green_certificate_travel_notice_link_en
             )
         }
     }
