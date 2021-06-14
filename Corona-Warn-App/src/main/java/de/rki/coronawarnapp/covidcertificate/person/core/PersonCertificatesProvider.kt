@@ -22,7 +22,7 @@ class PersonCertificatesProvider @Inject constructor(
 ) {
 
     // TODO remove
-    fun testCertificate(index:Int) = object : TestCertificate {
+    fun testCertificate(index: Int) = object : TestCertificate {
         override val targetName: String
             get() = "targetName"
         override val testType: String
@@ -107,8 +107,7 @@ class PersonCertificatesProvider @Inject constructor(
                 listOf(
                     testCertificate(5),
                 )
-            )
-            ,
+            ),
             PersonCertificates(
                 listOf(
                     testCertificate(6),
