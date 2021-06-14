@@ -8,7 +8,7 @@
         android:id="@+id/personOverviewFragment"
         android:name="de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewFragment"
         android:label="PersonOverviewFragment"
-        tools:layout="@layout/person_overview_fragment" >
+        tools:layout="@layout/person_overview_fragment">
         <action
             android:id="@+id/action_personOverviewFragment_to_vaccinationConsentFragment"
             app:destination="@id/vaccinationConsentFragment" />
@@ -24,12 +24,29 @@
             android:defaultValue="true"
             app:argType="boolean" />
         <action
-            android:id="@+id/action_vaccinationConsentFragment_to_certificatesFragment"
-            app:destination="@id/certificatesFragment"
+            android:id="@+id/action_vaccinationConsentFragment_to_personOverviewFragment"
+            app:destination="@id/personOverviewFragment"
             app:popUpTo="@id/vaccinationConsentFragment"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_vaccinationConsentFragment_to_privacyFragment"
             app:destination="@id/privacyFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/privacyFragment"
+        android:name="de.rki.coronawarnapp.ui.information.InformationPrivacyFragment"
+        android:label="privacyFragment"
+        tools:layout="@layout/fragment_information_privacy" />
+
+    <fragment
+        android:id="@+id/covidCertificateDetailsFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.test.ui.details.CovidCertificateDetailsFragment"
+        android:label="CovidCertificateDetailsFragment"
+        tools:layout="@layout/fragment_covid_certificate_details">
+
+        <argument
+            android:name="testCertificateIdentifier"
+            app:argType="string" />
     </fragment>
 </navigation>

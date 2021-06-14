@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.onScroll
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -26,6 +27,15 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.bindRecycler()
+        binding.toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_information -> doNavigate(
+                    PersonOverviewFragmentDirections.actionPersonOverviewFragmentToVaccinationConsentFragment(false)
+                ).run { true }
+
+                else -> onOptionsItemSelected(it)
+            }
+        }
         viewModel.personCertificates.observe(viewLifecycleOwner) { binding.bindViews(it) }
     }
 

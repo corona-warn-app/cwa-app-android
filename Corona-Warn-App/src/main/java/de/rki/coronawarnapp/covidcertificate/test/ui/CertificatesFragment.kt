@@ -49,13 +49,13 @@ class CertificatesFragment : Fragment(R.layout.fragment_certificates), AutoInjec
                 )
                 is CertificatesFragmentEvents.OpenVaccinationRegistrationGraph -> {
                     findNestedGraph(R.id.vaccination_nav_graph).startDestination = R.id.vaccinationQrCodeScanFragment
-                    doNavigate(CertificatesFragmentDirections.actionCertificatesFragmentToVaccinationNavGraph())
+                    //doNavigate(CertificatesFragmentDirections.actionCertificatesFragmentToVaccinationNavGraph())
                 }
                 is CertificatesFragmentEvents.GoToCovidCertificateDetailScreen -> {
-                    doNavigate(
-                        CertificatesFragmentDirections
-                            .actionCertificatesFragmentToCovidCertificateDetailsFragment(event.identifier)
-                    )
+                    //      doNavigate(
+                    //         CertificatesFragmentDirections
+                    //         .actionCertificatesFragmentToCovidCertificateDetailsFragment(event.identifier)
+                    //      )
                 }
                 is CertificatesFragmentEvents.ShowRefreshErrorCertificateDialog -> {
                     val dialog = DialogHelper.DialogInstance(
@@ -89,7 +89,7 @@ class CertificatesFragment : Fragment(R.layout.fragment_certificates), AutoInjec
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_information -> {
-                    doNavigate(CertificatesFragmentDirections.actionCertificatesFragmentToConsentFragment())
+                    //doNavigate(CertificatesFragmentDirections.actionCertificatesFragmentToConsentFragment())
                     true
                 }
                 else -> onOptionsItemSelected(it)
