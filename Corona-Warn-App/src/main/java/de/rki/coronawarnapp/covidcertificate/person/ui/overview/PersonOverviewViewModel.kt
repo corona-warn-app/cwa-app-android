@@ -90,6 +90,10 @@ class PersonOverviewViewModel @AssistedInject constructor(
             error?.let { events.postValue(ShowRefreshErrorDialog(error)) }
         }
 
+    fun deleteTestCertificate(identifier: TestCertificateIdentifier) = launch {
+        testCertificateRepository.deleteCertificate(identifier)
+    }
+
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<PersonOverviewViewModel>
 }
