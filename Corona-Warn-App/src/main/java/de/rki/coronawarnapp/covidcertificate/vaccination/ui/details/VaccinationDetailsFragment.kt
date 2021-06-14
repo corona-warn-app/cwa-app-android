@@ -45,7 +45,6 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         with(binding) {
             toolbar.setNavigationOnClickListener { popBackStack() }
 
-            bindTravelNoticeViews()
             bindToolbar()
 
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
@@ -119,28 +118,6 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         certificateIssuer.text = certificate.certificateIssuer
         certificateCountry.text = certificate.certificateCountry
         certificateId.text = certificate.certificateId
-    }
-
-    private fun FragmentVaccinationDetailsBinding.bindTravelNoticeViews() {
-        if (travelNoticeGerman.text ==
-            getString(R.string.vaccination_certificate_attribute_certificate_travel_notice_german)
-        ) {
-            travelNoticeGerman.setUrl(
-                R.string.vaccination_certificate_attribute_certificate_travel_notice_german,
-                R.string.vaccination_certificate_travel_notice_link_de,
-                R.string.vaccination_certificate_travel_notice_link_de
-            )
-        }
-
-        if (travelNoticeEnglish.text ==
-            getString(R.string.green_certificate_attribute_certificate_travel_notice_english)
-        ) {
-            travelNoticeEnglish.setUrl(
-                R.string.green_certificate_attribute_certificate_travel_notice_english,
-                R.string.green_certificate_travel_notice_link_en,
-                R.string.green_certificate_travel_notice_link_en
-            )
-        }
     }
 
     private fun setToolbarOverlay() {

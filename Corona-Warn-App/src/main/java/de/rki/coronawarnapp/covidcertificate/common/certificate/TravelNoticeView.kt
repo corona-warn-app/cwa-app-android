@@ -2,15 +2,20 @@ package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import android.widget.LinearLayout
 import android.content.Context
+import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.LayoutInflater
+import android.widget.Checkable
+import androidx.constraintlayout.widget.ConstraintLayout
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.IncludeTravelNoticeCardBinding
 import de.rki.coronawarnapp.util.setUrl
 
 class TravelNoticeView @JvmOverloads constructor(
     context: Context,
-) : LinearLayout(context) {
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : LinearLayout(context, attrs, defStyleAttr) {
 
     private val binding: IncludeTravelNoticeCardBinding
 
