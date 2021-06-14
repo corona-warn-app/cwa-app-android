@@ -5,10 +5,6 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
-import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateIdentifier
-import de.rki.coronawarnapp.covidcertificate.test.ui.cards.CovidTestCertificateCard
-import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CertificatesItem
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationSettings
@@ -31,21 +27,6 @@ class CertificatesViewModel @AssistedInject constructor(
 
     val events = SingleLiveEvent<CertificatesFragmentEvents>()
 
-    private fun refreshTestCertificate(identifier: TestCertificateIdentifier) {
-        launch {
-            val error = testCertificateRepository.refresh(identifier).mapNotNull { it.error }.singleOrNull()
-            if (error != null) {
-                events.postValue(CertificatesFragmentEvents.ShowRefreshErrorCertificateDialog(error))
-            }
-        }
-    }
-
-    fun deleteTestCertificate(identifier: TestCertificateIdentifier) {
-        launch {
-            testCertificateRepository.deleteCertificate(identifier)
-        }
-    }
-
     val screenItems: LiveData<List<CertificatesItem>> =
         vaccinationRepository.vaccinationInfos
             .combine(testCertificateRepository.certificates) { vaccinatedPersons, certificates ->
@@ -67,8 +48,6 @@ class CertificatesViewModel @AssistedInject constructor(
 
                     if (certificates.isEmpty()) {
                         add(NoCovidTestCertificatesCard.Item)
-                    } else {
-                        addAll(certificates.toCertificateItems())
                     }
                 }
             }.asLiveData()
@@ -89,37 +68,6 @@ class CertificatesViewModel @AssistedInject constructor(
                 onClickAction = {
                     CertificatesFragmentEvents.GoToVaccinationList(
                         vaccinatedPerson.identifier.codeSHA256
-                    ).run { events.postValue(this) }
-                }
-            )
-        }
-    }
-
-    private fun Collection<TestCertificateWrapper>.toCertificateItems(): List<CertificatesItem> = map { certificate ->
-        if (certificate.isCertificateRetrievalPending) {
-            CovidTestCertificatePendingCard.Item(
-                testDate = certificate.registeredAt,
-                isUpdatingData = certificate.isUpdatingData,
-                onRetryAction = {
-                    refreshTestCertificate(certificate.identifier)
-                },
-                onDeleteAction = {
-                    events.postValue(
-                        CertificatesFragmentEvents.ShowDeleteErrorCertificateDialog(
-                            certificate.identifier
-                        )
-                    )
-                }
-            )
-        } else {
-            CovidTestCertificateCard.Item(
-                testDate = certificate.registeredAt,
-                testPerson =
-                certificate.testCertificate?.firstName + " " +
-                    certificate.testCertificate?.lastName,
-                onClickAction = {
-                    CertificatesFragmentEvents.GoToCovidCertificateDetailScreen(
-                        certificate.identifier
                     ).run { events.postValue(this) }
                 }
             )

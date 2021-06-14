@@ -4,13 +4,12 @@ import android.view.ViewGroup
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.ui.CertificatesAdapter
-import de.rki.coronawarnapp.covidcertificate.test.ui.cards.CovidCertificateTestItem
 import de.rki.coronawarnapp.databinding.CovidTestErrorCardBinding
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
-import org.joda.time.Instant
 
 class CovidTestCertificatePendingCard(parent: ViewGroup) :
     CertificatesAdapter.CertificatesItemVH<CovidTestCertificatePendingCard.Item, CovidTestErrorCardBinding>(
@@ -25,19 +24,22 @@ class CovidTestCertificatePendingCard(parent: ViewGroup) :
     override val onBindData: CovidTestErrorCardBinding.(
         item: Item,
         payloads: List<Any>
-    ) -> Unit = { item, _ ->
+    ) -> Unit = { item, payloads ->
 
+        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+
+        val registeredAt = curItem.certificate.registeredAt
         testTime.text = context.getString(
             R.string.test_certificate_time,
-            item.testDate.toShortDayFormat(),
-            item.testDate.toShortTimeFormat(),
+            registeredAt.toShortDayFormat(),
+            registeredAt.toShortTimeFormat(),
         )
 
         retryButton.setOnClickListener {
             item.onRetryAction(item)
         }
 
-        if (item.isUpdatingData) {
+        if (curItem.certificate.isUpdatingData) {
             refreshStatus.isGone = false
             progressBar.show()
             retryButton.isInvisible = true
@@ -54,11 +56,11 @@ class CovidTestCertificatePendingCard(parent: ViewGroup) :
     }
 
     data class Item(
-        override val testDate: Instant,
+        val certificate: TestCertificate,
         val onRetryAction: (Item) -> Unit,
-        val onDeleteAction: (Item) -> Unit,
-        val isUpdatingData: Boolean,
-    ) : CovidCertificateTestItem, HasPayloadDiffer {
+        val onDeleteAction: (Item) -> Unit
+    ) : CertificatesItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
+        override val stableId: Long = certificate.personIdentifier.codeSHA256.hashCode().toLong()
     }
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
@@ -18,7 +19,9 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.transform
+import timber.log.Timber
 
 class PersonOverviewViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
@@ -27,22 +30,24 @@ class PersonOverviewViewModel @AssistedInject constructor(
     private val qrCodeGenerator: QrCodeGenerator,
 ) : CWAViewModel(dispatcherProvider) {
 
+    private val qrCodes = mutableMapOf<String, Bitmap?>()
     val events = SingleLiveEvent<PersonOverviewFragmentEvents>()
-    val personCertificates: LiveData<List<CertificatesItem>> = certificatesProvider
-        .personCertificates.map {
-            mapPersons(it)
-        }
-        .asLiveData(dispatcherProvider.Default)
+    val personCertificates: LiveData<List<CertificatesItem>> = combine(
+        certificatesProvider.personCertificates,
+        certificatesProvider.qrCodesFlow
+    ) { persons, qrCodesMap ->
+        mapPersons(persons, qrCodesMap)
+    }.asLiveData(dispatcherProvider.Default)
 
-    private fun mapPersons(persons: Set<PersonCertificates>): List<CertificatesItem> =
+    private fun mapPersons(persons: Set<PersonCertificates>, qrCodesMap: Map<String, Bitmap?>): List<CertificatesItem> =
         mutableListOf<CertificatesItem>().apply {
             addPendingCards(persons)
-            addCertificateCards(persons, mapOf()) // TODO generate qr codes
+            addCertificateCards(persons, qrCodesMap)
         }
 
     private fun MutableList<CertificatesItem>.addCertificateCards(
         persons: Set<PersonCertificates>,
-        qrCodes: Map<String, Bitmap>
+        qrCodes: Map<String, Bitmap?>
     ) {
         persons
             .filter { !it.hasPendingTestCertificate() }
@@ -75,14 +80,31 @@ class PersonOverviewViewModel @AssistedInject constructor(
             if (certificate is TestCertificate && certificate.isCertificateRetrievalPending) {
                 add(
                     CovidTestCertificatePendingCard.Item(
-                        testDate = certificate.registeredAt,
-                        isUpdatingData = certificate.isUpdatingData,
+                        certificate = certificate,
                         onRetryAction = { refreshCertificate(certificate.certificateId) },
                         onDeleteAction = { events.postValue(ShowDeleteDialog(certificate.certificateId)) }
                     )
                 )
             }
         }
+    }
+
+    private val PersonCertificatesProvider.qrCodesFlow
+        get() = personCertificates
+            .transform { persons ->
+                emit(emptyMap()) // Initial state
+                persons.forEach {
+                    val qrCode = it.highestPriorityCertificate.qrCode
+                    qrCodes[qrCode] = generateQrCode(qrCode)
+                    emit(qrCodes)
+                }
+            }
+
+    private suspend fun generateQrCode(qrCode: QrCodeString): Bitmap? = try {
+        qrCodeGenerator.createQrCode(qrCode, margin = 0)
+    } catch (e: Exception) {
+        Timber.d(e, "generateQrCode failed for $qrCode")
+        null
     }
 
     private fun refreshCertificate(identifier: TestCertificateIdentifier) =
