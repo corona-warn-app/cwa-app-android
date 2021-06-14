@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -44,7 +45,8 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
     )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
-        qrCodeCard.title.setText(R.string.detail_green_certificate_card_title)
+        qrCodeCard.title.isGone = true
+        qrCodeCard.subtitle.isGone = true
         appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
             title.alpha = titleAlpha
             subtitle.alpha = subtitleAlpha
@@ -63,11 +65,6 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
     private fun FragmentCovidCertificateDetailsBinding.onCertificateReady(
         testCertificate: TestCertificate
     ) {
-        qrCodeCard.subtitle.text = getString(
-            R.string.detail_green_certificate_card_subtitle,
-            testCertificate.sampleCollectedAt.toShortDayFormat(),
-            testCertificate.sampleCollectedAt.toShortTimeFormat(),
-        )
         name.text = testCertificate.run { "$lastName, $firstName" }
         birthDate.text = testCertificate.dateOfBirth.toDayFormat()
         diseaseType.text = testCertificate.targetName
