@@ -26,6 +26,7 @@ object TimeAndDateExtensions {
     private val dayFormatter = DateTimeFormat.forPattern("dd.MM.yyyy")
     private val dayFormatter2DigitYear = DateTimeFormat.forPattern("dd.MM.yy")
     private val shortTime = DateTimeFormat.shortTime()
+    private val dayOfBirthFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
 
     fun getCurrentHourUTC(): Int = DateTime(Instant.now(), DateTimeZone.UTC).hourOfDay().get()
 
@@ -139,6 +140,11 @@ object TimeAndDateExtensions {
      * Returns a readable date String with the format "dd.MM.yy" like 23.05.89 of an LocalDate
      */
     fun LocalDate.toShortDayFormat(): String = toString(dayFormatter2DigitYear)
+
+    /**
+     * Returns a readable date String with the format "yyy.MM.dd" like 1983-05-23 of an LocalDate
+     */
+    fun LocalDate.toDateOfBirthFormat(): String = toString(dayOfBirthFormatter)
 }
 
 typealias HourInterval = Long
