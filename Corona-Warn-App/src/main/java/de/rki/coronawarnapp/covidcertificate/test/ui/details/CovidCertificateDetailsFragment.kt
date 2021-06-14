@@ -26,6 +26,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import org.joda.time.format.DateTimeFormat
 import javax.inject.Inject
 
 class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certificate_details), AutoInject {
@@ -42,6 +43,8 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
             )
         }
     )
+
+    private val dayOfBirthFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
@@ -63,7 +66,7 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
         testCertificate: TestCertificate
     ) {
         name.text = testCertificate.run { "$lastName, $firstName" }
-        birthDate.text = testCertificate.dateOfBirth.toDayFormat()
+        birthDate.text = testCertificate.dateOfBirth.toString(dayOfBirthFormatter)
         diseaseType.text = testCertificate.targetName
         testType.text = testCertificate.testType
         testName.text = testCertificate.testName

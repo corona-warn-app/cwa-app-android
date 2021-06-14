@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
+import de.rki.coronawarnapp.contactdiary.util.toFormattedDay
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
@@ -23,6 +24,8 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import org.joda.time.format.DateTimeFormat
+import java.util.Locale
 import javax.inject.Inject
 
 class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_details), AutoInject {
@@ -40,6 +43,8 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             )
         }
     )
+
+    private val dayOfBirthFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
@@ -113,14 +118,9 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         certificate: VaccinationCertificate
     ) {
         name.text = certificate.fullName
-        dateOfBirth.text = getString(
-            R.string.vaccination_details_birth_date,
-            certificate.dateOfBirth.toDayFormat()
-        )
-        // vaccinatedAt.text = certificate.vaccinatedAt.toDayFormat()
+        dateOfBirth.text = certificate.dateOfBirth.toString(dayOfBirthFormatter)
         vaccineName.text = certificate.medicalProductName
         vaccineManufacturer.text = certificate.vaccineManufacturer
-        // vaccineTypeName.text = certificate.vaccineTypeName
         certificateIssuer.text = certificate.certificateIssuer
         certificateCountry.text = certificate.certificateCountry
         certificateId.text = certificate.certificateId
