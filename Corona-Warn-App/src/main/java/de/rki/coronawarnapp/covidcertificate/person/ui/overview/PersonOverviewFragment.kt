@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -37,7 +38,11 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
 
     private fun onNavEvent(event: PersonOverviewFragmentEvents) {
         when (event) {
-            is OpenPersonDetailsFragment -> TODO()
+            is OpenPersonDetailsFragment -> doNavigate(
+                PersonOverviewFragmentDirections.actionPersonOverviewFragmentToVaccinationListFragment(
+                    event.personIdentifier
+                )
+            )
             is ShowDeleteDialog -> {
                 val dialog = DialogHelper.DialogInstance(
                     context = requireContext(),
@@ -62,7 +67,11 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 )
                 DialogHelper.showDialog(dialog)
             }
-            ScanQrCode -> TODO()
+            ScanQrCode -> Toast.makeText(
+                requireContext(),
+                "TODO \uD83D\uDEA7 Tomorrow maybe?!",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
