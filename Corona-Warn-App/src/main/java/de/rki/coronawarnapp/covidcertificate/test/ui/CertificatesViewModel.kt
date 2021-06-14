@@ -8,8 +8,8 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateIdentifier
 import de.rki.coronawarnapp.covidcertificate.test.ui.cards.CovidTestCertificateCard
-import de.rki.coronawarnapp.covidcertificate.test.ui.cards.CovidTestCertificateErrorCard
-import de.rki.coronawarnapp.covidcertificate.test.ui.items.CertificatesItem
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CertificatesItem
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationSettings
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
@@ -97,7 +97,7 @@ class CertificatesViewModel @AssistedInject constructor(
 
     private fun Collection<TestCertificateWrapper>.toCertificateItems(): List<CertificatesItem> = map { certificate ->
         if (certificate.isCertificateRetrievalPending) {
-            CovidTestCertificateErrorCard.Item(
+            CovidTestCertificatePendingCard.Item(
                 testDate = certificate.registeredAt,
                 isUpdatingData = certificate.isUpdatingData,
                 onRetryAction = {

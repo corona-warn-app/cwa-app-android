@@ -1,18 +1,19 @@
-package de.rki.coronawarnapp.covidcertificate.test.ui.cards
+package de.rki.coronawarnapp.covidcertificate.person.ui.overview.items
 
 import android.view.ViewGroup
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.test.ui.CertificatesAdapter
+import de.rki.coronawarnapp.covidcertificate.test.ui.cards.CovidCertificateTestItem
 import de.rki.coronawarnapp.databinding.CovidTestErrorCardBinding
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import org.joda.time.Instant
 
-class CovidTestCertificateErrorCard(parent: ViewGroup) :
-    CertificatesAdapter.CertificatesItemVH<CovidTestCertificateErrorCard.Item, CovidTestErrorCardBinding>(
+class CovidTestCertificatePendingCard(parent: ViewGroup) :
+    CertificatesAdapter.CertificatesItemVH<CovidTestCertificatePendingCard.Item, CovidTestErrorCardBinding>(
         R.layout.home_card_container_layout,
         parent
     ) {

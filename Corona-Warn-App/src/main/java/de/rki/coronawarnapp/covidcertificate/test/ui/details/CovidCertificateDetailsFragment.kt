@@ -73,7 +73,7 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
         diseaseType.text = testCertificate.targetName
         testType.text = testCertificate.testType
         testName.text = testCertificate.testName
-        testManufacturer.text = testCertificate.testNameAndManufactor
+        testManufacturer.text = testCertificate.testNameAndManufacturer
         testDate.text = "%s %s".format(
             testCertificate.sampleCollectedAt.toShortDayFormat(),
             testCertificate.sampleCollectedAt.toShortTimeFormat()

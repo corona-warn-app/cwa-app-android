@@ -6,10 +6,11 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CertificatesItem
 import de.rki.coronawarnapp.databinding.PersonOverviewFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
+import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.onScroll
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -28,9 +29,9 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
         viewModel.personCertificates.observe(viewLifecycleOwner) { binding.bindViews(it) }
     }
 
-    private fun PersonOverviewFragmentBinding.bindViews(certificates: Set<PersonCertificates>) {
-        emptyLayout.isVisible = certificates.isEmpty()
-        // personOverviewAdapter.update(certificates)
+    private fun PersonOverviewFragmentBinding.bindViews(persons: List<CertificatesItem>) {
+        emptyLayout.isVisible = persons.isEmpty()
+        personOverviewAdapter.update(persons)
     }
 
     private fun PersonOverviewFragmentBinding.bindRecycler() = recyclerView.apply {
