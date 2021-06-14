@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.coronatest
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
+import de.rki.coronawarnapp.coronatest.errors.AlreadyRedeemedException
 import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.errors.DuplicateCoronaTestException
 import de.rki.coronawarnapp.coronatest.migration.PCRTestMigration
@@ -10,6 +11,8 @@ import de.rki.coronawarnapp.coronatest.storage.CoronaTestStorage
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
@@ -72,22 +75,65 @@ class CoronaTestRepository @Inject constructor(
 
     private fun getProcessor(type: CoronaTest.Type) = processors.single { it.type == type }
 
-    suspend fun registerTest(request: TestRegistrationRequest): CoronaTest {
-        Timber.tag(TAG).i("registerTest(request=%s)", request)
+    /**
+     * Default preconditions prevent duplicate test registration,
+     * and registration of an already redeemed test.
+     * If pre and post-condition are not met an [IllegalStateException] is thrown.
+     *
+     * @return the new test that was registered (or an exception is thrown
+     */
+    suspend fun registerTest(
+        request: TestRegistrationRequest,
+        preCondition: ((Collection<CoronaTest>) -> Boolean) = { currentTests ->
+            if (currentTests.any { it.type == request.type }) {
+                throw DuplicateCoronaTestException("There is already a test of this type: ${request.type}.")
+            }
+            true
+        },
+        postCondition: ((CoronaTest) -> Boolean) = { newTest ->
+            if (newTest.isRedeemed) {
+                Timber.w("Replacement test was already redeemed, removing it, will not use.")
+                throw AlreadyRedeemedException(newTest)
+            }
+            true
+        }
+    ): CoronaTest {
+        Timber.tag(TAG).i(
+            "registerTest(request=%s, preCondition=%s, postCondition=%s)",
+            request, preCondition, postCondition
+        )
 
         // We check early, if there is no processor, crash early, "should" never happen though...
         val processor = getProcessor(request.type)
 
         val currentTests = internalData.updateBlocking {
-            if (values.any { it.type == request.type }) {
-                throw DuplicateCoronaTestException("There is already a test of this type: ${request.type}.")
+            if (!preCondition(values)) {
+                throw IllegalStateException("PreCondition for current tests not fullfilled.")
             }
 
-            val test = processor.create(request).also {
+            val existing = values.singleOrNull { it.type == request.type }
+
+            val newTest = processor.create(request).also {
                 Timber.tag(TAG).i("New test created: %s", it)
             }
 
-            toMutableMap().apply { this[test.identifier] = test }
+            if (!postCondition(newTest)) {
+                throw IllegalStateException("PostCondition for new tests not fullfilled.")
+            }
+
+            if (existing != null) {
+                Timber.tag(TAG).w("We already have a test of this type, removing old test: %s", request)
+                try {
+                    getProcessor(existing.type).onRemove(existing)
+                } catch (e: Exception) {
+                    e.report(ExceptionCategory.INTERNAL)
+                }
+            }
+
+            toMutableMap().apply {
+                existing?.let { remove(it.identifier) }
+                this[newTest.identifier] = newTest
+            }
         }
 
         return currentTests[request.identifier]!!

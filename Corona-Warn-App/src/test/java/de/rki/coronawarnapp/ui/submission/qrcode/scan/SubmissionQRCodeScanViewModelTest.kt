@@ -1,17 +1,13 @@
 package de.rki.coronawarnapp.ui.submission.qrcode.scan
 
-import androidx.lifecycle.MutableLiveData
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.submission.SubmissionRepository
-import de.rki.coronawarnapp.ui.submission.ApiRequestState
-import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor
-import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor.ValidationState
+import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import de.rki.coronawarnapp.util.permission.CameraSettings
-import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -19,8 +15,10 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -37,7 +35,7 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var cameraSettings: CameraSettings
     @MockK lateinit var qrCodeValidator: CoronaTestQrCodeValidator
-    @MockK lateinit var qrCodeRegistrationStateProcessor: QrCodeRegistrationStateProcessor
+    @MockK lateinit var testRegistrationStateProcessor: TestRegistrationStateProcessor
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 
     @BeforeEach
@@ -45,18 +43,18 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { submissionRepository.testForType(any()) } returns MutableStateFlow<CoronaTest?>(null)
-        coEvery { qrCodeRegistrationStateProcessor.showRedeemedTokenWarning } returns SingleLiveEvent()
-        coEvery { qrCodeRegistrationStateProcessor.registrationState } returns MutableLiveData(
-            QrCodeRegistrationStateProcessor.RegistrationState(ApiRequestState.IDLE)
-        )
-        coEvery { qrCodeRegistrationStateProcessor.registrationError } returns SingleLiveEvent()
+
+        testRegistrationStateProcessor.apply {
+            every { state } returns flowOf(TestRegistrationStateProcessor.State.Idle)
+            coEvery { startRegistration(any(), any(), any()) } returns mockk()
+        }
     }
 
     private fun createViewModel() = SubmissionQRCodeScanViewModel(
         isConsentGiven = true,
         dispatcherProvider = TestDispatcherProvider(),
         cameraSettings = cameraSettings,
-        qrCodeRegistrationStateProcessor = qrCodeRegistrationStateProcessor,
+        registrationStateProcessor = testRegistrationStateProcessor,
         submissionRepository = submissionRepository,
         qrCodeValidator = qrCodeValidator,
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector
@@ -74,22 +72,22 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
         val invalidQrCode = "https://no-guid-here"
 
         every { qrCodeValidator.validate(validQrCode) } returns coronaTestQRCode
-        every { qrCodeValidator.validate(invalidQrCode) } throws InvalidQRCodeException()
+
+        val expectedError = InvalidQRCodeException()
+        every { qrCodeValidator.validate(invalidQrCode) } throws expectedError
 
         val viewModel = createViewModel()
 
+        viewModel.qrCodeErrorEvent.observeForever {}
         // start
-        viewModel.qrCodeValidationState.value = ValidationState.STARTED
-
-        viewModel.qrCodeValidationState.value shouldBe ValidationState.STARTED
+        viewModel.qrCodeErrorEvent.value shouldBe null
 
         viewModel.registerCoronaTest(validQrCode)
-        viewModel.qrCodeValidationState.observeForever {}
-        viewModel.qrCodeValidationState.value shouldBe ValidationState.SUCCESS
+        viewModel.qrCodeErrorEvent.value shouldBe null
 
         // invalid guid
         viewModel.registerCoronaTest(invalidQrCode)
-        viewModel.qrCodeValidationState.value shouldBe ValidationState.INVALID
+        viewModel.qrCodeErrorEvent.value shouldBe expectedError
     }
 
     @Test
@@ -107,7 +105,6 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
 
             every { qrCodeValidator.validate(any()) } returns coronaTestQRCode
             every { analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any()) } just Runs
-            coEvery { qrCodeRegistrationStateProcessor.startQrCodeRegistration(any(), any()) } just Runs
 
             createViewModel().registerCoronaTest(rawResult = "")
 
@@ -124,7 +121,6 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
 
             every { qrCodeValidator.validate(any()) } returns coronaTestQRCode
             every { analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any()) } just Runs
-            coEvery { qrCodeRegistrationStateProcessor.startQrCodeRegistration(any(), any()) } just Runs
 
             createViewModel().registerCoronaTest(rawResult = "")
 
@@ -145,7 +141,6 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
 
             every { qrCodeValidator.validate(any()) } returns coronaTestQRCode
             every { analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any()) } just Runs
-            coEvery { qrCodeRegistrationStateProcessor.startQrCodeRegistration(any(), any()) } just Runs
 
             createViewModel().registerCoronaTest(rawResult = "")
 
@@ -168,7 +163,6 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
 
             every { qrCodeValidator.validate(any()) } returns coronaTestQRCode
             every { analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any()) } just Runs
-            coEvery { qrCodeRegistrationStateProcessor.startQrCodeRegistration(any(), any()) } just Runs
 
             createViewModel().registerCoronaTest(rawResult = "")
             verify(exactly = 0) {

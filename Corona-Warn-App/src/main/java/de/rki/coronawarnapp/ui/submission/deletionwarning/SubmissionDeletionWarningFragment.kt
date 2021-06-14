@@ -6,17 +6,12 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
-import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDeletionWarningBinding
-import de.rki.coronawarnapp.exception.http.BadRequestException
-import de.rki.coronawarnapp.exception.http.CwaClientError
-import de.rki.coronawarnapp.exception.http.CwaServerError
-import de.rki.coronawarnapp.exception.http.CwaWebException
+import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
-import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -65,57 +60,39 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
         }
 
         viewModel.registrationState.observe2(this) { state ->
-            binding.submissionQrCodeScanSpinner.isVisible = state.isFetching
-            binding.continueButton.isVisible = !state.isFetching && state.coronaTest == null
-        }
-        viewModel.registrationError.observe2(this) {
-            showErrorDialog(it)
-            doNavigate(
-                SubmissionDeletionWarningFragmentDirections
-                    .actionSubmissionDeletionWarningFragmentToSubmissionDispatcherFragment()
-            )
-        }
+            val isWorking = state is State.Working
+            binding.apply {
+                submissionQrCodeScanSpinner.isVisible = isWorking
+                continueButton.isVisible = !isWorking
+            }
+            when (state) {
+                State.Idle,
+                State.Working -> {
+                    // Handled above
+                }
+                is State.Error -> {
+                    state.getDialogBuilder(requireContext()).show()
+                    SubmissionDeletionWarningFragmentDirections
+                        .actionSubmissionDeletionWarningFragmentToSubmissionDispatcherFragment()
+                        .run { doNavigate(this) }
+                }
+                is State.TestRegistered -> when {
+                    state.test.isPositive ->
+                        NavGraphDirections.actionToSubmissionTestResultAvailableFragment(testType = state.test.type)
+                            .run { doNavigate(this) }
 
-        viewModel.routeToScreen.observe2(this) {
-            Timber.d("Navigating to %s", it)
-            doNavigate(it)
-        }
-    }
+                    else ->
+                        NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = state.test.type)
+                            .run { doNavigate(this) }
+                }
+            }
 
-    private fun showErrorDialog(exception: Throwable) = when (exception) {
-        is InvalidQRCodeException -> DialogHelper.DialogInstance(
-            context = requireActivity(),
-            title = R.string.submission_error_dialog_web_tan_redeemed_title,
-            message = R.string.submission_error_dialog_web_tan_redeemed_body,
-            cancelable = true,
-            positiveButton = R.string.submission_error_dialog_web_tan_redeemed_button_positive,
-            positiveButtonFunction = { /* dismiss */ },
-        ).run { DialogHelper.showDialog(this) }
-        is BadRequestException -> DialogHelper.DialogInstance(
-            context = requireActivity(),
-            title = R.string.submission_qr_code_scan_invalid_dialog_headline,
-            message = R.string.submission_qr_code_scan_invalid_dialog_body,
-            cancelable = true,
-            positiveButton = R.string.submission_qr_code_scan_invalid_dialog_button_positive,
-            positiveButtonFunction = { /* dismiss */ },
-        ).run { DialogHelper.showDialog(this) }
-        is CwaClientError, is CwaServerError -> DialogHelper.DialogInstance(
-            context = requireActivity(),
-            title = R.string.submission_error_dialog_web_generic_error_title,
-            message = R.string.submission_error_dialog_web_generic_network_error_body,
-            cancelable = true,
-            positiveButton = R.string.submission_error_dialog_web_generic_error_button_positive,
-            positiveButtonFunction = { /* dismiss */ },
-        ).run { DialogHelper.showDialog(this) }
-        is CwaWebException -> DialogHelper.DialogInstance(
-            context = requireActivity(),
-            title = R.string.submission_error_dialog_web_generic_error_title,
-            message = R.string.submission_error_dialog_web_generic_error_body,
-            cancelable = true,
-            positiveButton = R.string.submission_error_dialog_web_generic_error_button_positive,
-            positiveButtonFunction = { /* dismiss */ },
-        ).run { DialogHelper.showDialog(this) }
-        else -> exception.toErrorDialogBuilder(requireContext()).show()
+            // HMMMMM
+            viewModel.routeToScreen.observe2(this) {
+                Timber.d("Navigating to %s", it)
+                doNavigate(it)
+            }
+        }
     }
 
     override fun onResume() {

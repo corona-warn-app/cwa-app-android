@@ -10,14 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionConsentBinding
-import de.rki.coronawarnapp.exception.http.BadRequestException
-import de.rki.coronawarnapp.exception.http.CwaClientError
-import de.rki.coronawarnapp.exception.http.CwaServerError
-import de.rki.coronawarnapp.exception.http.CwaWebException
-import de.rki.coronawarnapp.ui.submission.ApiRequestState
-import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor.ValidationState
+import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -76,55 +70,35 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
             binding.countries = it
         }
 
-        viewModel.showRedeemedTokenWarning.observe2(this) {
-            val dialog = DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_tan_redeemed_title,
-                R.string.submission_error_dialog_web_tan_redeemed_body,
-                R.string.submission_error_dialog_web_tan_redeemed_button_positive
-            )
-
-            DialogHelper.showDialog(dialog)
-            popBackStack()
-        }
-
-        viewModel.qrCodeValidationState.observe2(this) {
-            if (ValidationState.INVALID == it) {
-                showInvalidQrCodeDialog()
-            }
+        viewModel.qrCodeError.observe2(this) {
+            showInvalidQrCodeDialog()
         }
 
         viewModel.registrationState.observe2(this) { state ->
-            binding.progressSpinner.isVisible = state.apiRequestState == ApiRequestState.STARTED
-            binding.submissionConsentButton.isEnabled = when (state.apiRequestState) {
-                ApiRequestState.STARTED -> false
-                else -> true
+            val isWorking = state is State.Working
+            binding.apply {
+                progressSpinner.isVisible = isWorking
+                submissionConsentButton.isEnabled = !isWorking
             }
+            when (state) {
+                State.Idle,
+                State.Working -> {
+                    // Handled above
+                }
+                is State.Error -> {
+                    state.getDialogBuilder(requireContext()).show()
+                    popBackStack()
+                }
+                is State.TestRegistered -> when {
+                    state.test.isPositive ->
+                        NavGraphDirections.actionToSubmissionTestResultAvailableFragment(testType = state.test.type)
+                            .run { doNavigate(this) }
 
-            if (ApiRequestState.SUCCESS == state.apiRequestState) {
-                when (state.test?.type) {
-                    CoronaTest.Type.PCR -> throw UnsupportedOperationException()
-                    CoronaTest.Type.RAPID_ANTIGEN -> {
-                        when {
-                            state.test.isPositive ->
-                                doNavigate(
-                                    NavGraphDirections.actionToSubmissionTestResultAvailableFragment(
-                                        CoronaTest.Type.RAPID_ANTIGEN
-                                    )
-                                )
-                            else -> doNavigate(
-                                NavGraphDirections.actionSubmissionTestResultPendingFragment(
-                                    testType = CoronaTest.Type.RAPID_ANTIGEN
-                                )
-                            )
-                        }
-                    }
+                    else ->
+                        NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = state.test.type)
+                            .run { doNavigate(this) }
                 }
             }
-        }
-
-        viewModel.registrationError.observe2(this) {
-            DialogHelper.showDialog(buildErrorDialog(it))
         }
     }
 
@@ -149,47 +123,13 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
             R.string.submission_qr_code_scan_invalid_dialog_button_negative,
             true,
             positiveButtonFunction = {},
-            negativeButtonFunction = ::navigateHome
+            negativeButtonFunction = {
+                popBackStack()
+                Unit
+            }
         )
 
         DialogHelper.showDialog(invalidScanDialogInstance)
-    }
-
-    private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
-        return when (exception) {
-            is BadRequestException -> DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_qr_code_scan_invalid_dialog_headline,
-                R.string.submission_qr_code_scan_invalid_dialog_body,
-                R.string.submission_qr_code_scan_invalid_dialog_button_positive,
-                R.string.submission_qr_code_scan_invalid_dialog_button_negative,
-                true,
-                { },
-                ::navigateHome
-            )
-            is CwaClientError, is CwaServerError -> DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_generic_error_title,
-                R.string.submission_error_dialog_web_generic_network_error_body,
-                R.string.submission_error_dialog_web_generic_error_button_positive,
-                null,
-                true,
-                ::navigateHome
-            )
-            else -> DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_generic_error_title,
-                R.string.submission_error_dialog_web_generic_error_body,
-                R.string.submission_error_dialog_web_generic_error_button_positive,
-                null,
-                true,
-                ::navigateHome
-            )
-        }
-    }
-
-    private fun navigateHome() {
-        popBackStack()
     }
 
     companion object {
