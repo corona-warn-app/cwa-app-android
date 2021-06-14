@@ -2,16 +2,15 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core.certificate
 
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.covidcertificate.common.certificate.Dcc
-import org.joda.time.DateTime
+import de.rki.coronawarnapp.covidcertificate.common.certificate.toLocalDateLeniently
 import org.joda.time.LocalDate
-import timber.log.Timber
 
 data class VaccinationDccV1(
     @SerializedName("ver") override val version: String,
     @SerializedName("nam") override val nameData: Dcc.NameData,
     @SerializedName("dob") override val dob: String,
     @SerializedName("v") override val payloads: List<VaccinationData>,
-) : Dcc<VaccinationDccV1.VaccinationData> {
+) : Dcc<VaccinationDccV1.VaccinationData>() {
 
     data class VaccinationData(
         // Disease or agent targeted, e.g. "tg": "840539006"
@@ -34,30 +33,10 @@ data class VaccinationDccV1(
         @SerializedName("is") override val certificateIssuer: String,
         // Unique Certificate Identifier, e.g.  "ci": "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"
         @SerializedName("ci") override val uniqueCertificateIdentifier: String
-    ) : Dcc.Payload {
+    ) : Payload {
         // Can't use lazy because GSON will NULL it, as we have no no-args constructor
         private var vaccinatedAtCache: LocalDate? = null
         val vaccinatedAt: LocalDate
-            get() = vaccinatedAtCache ?: dt.toLocalDateLeniently().also {
-                vaccinatedAtCache = it
-            }
-    }
-
-    // Can't use lazy because GSON will NULL it, as we have no no-args constructor
-    private var dateOfBirthCache: LocalDate? = null
-    override val dateOfBirth: LocalDate
-        get() = dateOfBirthCache ?: dob.toLocalDateLeniently().also {
-            dateOfBirthCache = it
-        }
-}
-
-private fun String.toLocalDateLeniently(): LocalDate = try {
-    LocalDate.parse(this)
-} catch (e: Exception) {
-    Timber.w("Irregular date string: %s", this)
-    try {
-        DateTime.parse(this).toLocalDate()
-    } catch (giveUp: Exception) {
-        throw giveUp
+            get() = vaccinatedAtCache ?: dt.toLocalDateLeniently().also { vaccinatedAtCache = it }
     }
 }

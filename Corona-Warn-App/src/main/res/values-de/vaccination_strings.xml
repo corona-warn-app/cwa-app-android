@@ -104,9 +104,9 @@
     <!-- XTXT: Vaccination Consent title-->
     <string name="vaccination_consent_title">Ihr Einverständnis</string>
     <!-- XTXT: Vaccination Consent subtitle-->
-    <string name="vaccination_consent_headline">"Nachweise hinzufügen"</string>
+    <string name="vaccination_consent_headline">"Zertifikate hinzufügen"</string>
     <!-- XTXT: Vaccination Consent subtitle of qr info -->
-    <string name="vaccination_consent_info_subtitle_text">"Fügen Sie ihre digitalen COVID-Zertifikate in der App hinzu, um mit der App Ihren Impfschutz oder ein negatives Testergebnis nachweisen zu können."</string>
+    <string name="vaccination_consent_info_subtitle_text">"Fügen Sie Ihre digitalen COVID-Zertifikate in der App hinzu, um mit der App Ihren Impfschutz oder ein negatives Testergebnis nachweisen zu können."</string>
     <!-- XTXT: Vaccination Consent text of qr info -->
     <string name="vaccination_consent_qr_info_text">"Sie können digitale COVID-Impfzertifikate oder COVID-Testzertifikate in der App hinzufügen."</string>
     <!-- XTXT: Vaccination Consent qr code text -->
