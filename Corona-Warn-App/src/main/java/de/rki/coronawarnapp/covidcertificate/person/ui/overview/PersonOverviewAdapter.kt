@@ -5,6 +5,7 @@ import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CertificatesItem
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
 import de.rki.coronawarnapp.util.lists.BindableVH
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffer
@@ -27,6 +28,7 @@ class PersonOverviewAdapter :
                 TypedVHCreatorMod({ data[it] is CovidTestCertificatePendingCard.Item }) {
                     CovidTestCertificatePendingCard(it)
                 },
+                TypedVHCreatorMod({ data[it] is PersonCertificateCard.Item }) { PersonCertificateCard(it) },
             )
         )
     }

@@ -47,12 +47,13 @@ class PersonOverviewViewModel @AssistedInject constructor(
         persons
             .filter { !it.hasPendingTestCertificate() }
             .sortedBy { it.isCwaUser }
-            .forEach { person ->
+            .forEachIndexed { index, person ->
                 val certificate = person.highestPriorityCertificate
                 add(
                     PersonCertificateCard.Item(
                         certificate = certificate,
                         qrcodeBitmap = qrCodes[certificate.qrCode],
+                        color = PersonOverviewItemColor.colorFor(index),
                         onClickAction = {
                             events.postValue(
                                 OpenPersonDetailsFragment(person.personIdentifier.codeSHA256)

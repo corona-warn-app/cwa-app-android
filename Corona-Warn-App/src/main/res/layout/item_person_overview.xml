@@ -2,11 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Card.Vaccination.Ripple.NoPadding"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp"
-    android:elevation="2dp">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/background_image"
@@ -20,6 +17,7 @@
         tools:srcCompat="@drawable/bg_person_overview_2" />
 
     <ImageView
+        android:id="@+id/stars_image"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginEnd="30dp"
@@ -30,7 +28,7 @@
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_stars_group"
+        app:srcCompat="@drawable/ic_eu_stars_blue"
         tools:tint="#116A9F" />
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -57,7 +55,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
-        android:text="EU Digitales"
+        android:text="@string/person_card_title"
         android:textColor="@color/colorTextPrimary1InvertedStable"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +65,7 @@
         style="@style/headline5"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="COVID-Zertifikat"
+        android:text="@string/person_card_subtitle"
         android:textColor="@color/colorTextPrimary1InvertedStable"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/certificate_title"
@@ -77,12 +75,13 @@
         android:id="@+id/name"
         style="@style/headline4"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:textColor="@color/colorTextPrimary1InvertedStable"
         app:layout_constraintBottom_toTopOf="@+id/qrcode_image"
         app:layout_constraintEnd_toEndOf="@+id/certificate_subtitle"
         app:layout_constraintStart_toStartOf="@+id/certificate_subtitle"
         app:layout_constraintTop_toBottomOf="@+id/certificate_subtitle"
+        app:layout_constraintVertical_bias="0.0"
         tools:text="Andrea Schneider" />
 </androidx.constraintlayout.widget.ConstraintLayout>
