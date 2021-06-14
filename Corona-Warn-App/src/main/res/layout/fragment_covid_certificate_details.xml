@@ -28,7 +28,16 @@
                 android:layout_height="match_parent"
                 android:importantForAccessibility="no"
                 app:layout_collapseMode="parallax"
-                app:srcCompat="@drawable/greencertificate_gradient" />
+                app:srcCompat="@drawable/certificate_complete_gradient" />
+
+            <ImageView
+                android:id="@+id/europa_image"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:importantForAccessibility="no"
+                android:layout_marginStart="50dp"
+                app:layout_collapseMode="parallax"
+                app:srcCompat="@drawable/ic_eu_stars_blue" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -304,11 +313,10 @@
                     android:layout_marginTop="4dp"
                     tools:text="05930482748454836478695764787840" />
 
-
             </LinearLayout>
 
             <LinearLayout
-                style="@style/Card.GreenCertificate"
+                style="@style/Card.Vaccination"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
@@ -321,7 +329,7 @@
                     style="@style/body2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/green_certificate_attribute_certificate_travel_notice_german" />
+                    android:text="@string/vaccination_certificate_attribute_certificate_travel_notice_german" />
 
                 <TextView
                     android:id="@+id/travel_notice_english"
@@ -329,8 +337,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/green_certificate_attribute_certificate_travel_notice_english" />
+                    android:text="@string/vaccination_certificate_attribute_certificate_travel_notice_english" />
             </LinearLayout>
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

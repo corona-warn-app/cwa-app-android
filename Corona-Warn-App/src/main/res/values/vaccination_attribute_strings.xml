@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Name -->
+    <string name="vaccination_certificate_attribute_name" translatable="false">"Name, Vorname / Name, First Name"</string>
+    <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Date of Birth -->
+    <string name="vaccination_certificate_attribute_date_of_birth" translatable="false">"Geburtsdatum / Date of Birth (YYYY-MM-DD)"</string>
+    <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Target Disease -->
+    <string name="vaccination_certificate_attribute_disease_type" translatable="false">"Zielkrankheit oder -erreger / Disease or Agent Targeted"</string>
+    <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Vaccine -->
+    <string name="vaccination_certificate_attribute_vaccine_name" translatable="false">"Impfstoff / Vaccine"</string>
+    <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Vaccination Type -->
+    <string name="vaccination_certificate_attribute_vaccine_type" translatable="false">"Art des Impfstoffs / Vaccine Type"</string>
+    <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Manufacturer -->
+    <string name="vaccination_certificate_attribute_manufacturer" translatable="false">"Hersteller / Manufacturer"</string>
+    <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Vaccination Number -->
+    <string name="vaccination_certificate_attribute_vaccination_number" translatable="false">"Nummer der Impfung / Number in a series of vaccinations"</string>
+    <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Vaccination Date -->
+    <string name="vaccination_certificate_attribute_vaccination_date" translatable="false">"Datum der Impfung / Date of vaccination (YYYY-MM-DD)"</string>
+    <!-- XTXT: Vaccination Certificate Detail Screen Attribute: State of Vaccination -->
+    <string name="vaccination_certificate_attribute_certificate_country" translatable="false">"Land der Impfung / Member State of Vaccination"</string>
+    <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Certification Issuer -->
+    <string name="vaccination_certificate_attribute_certificate_issuer" translatable="false">"Zertifikataussteller / Certificate Issuer"</string>
+    <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Certification Id -->
+    <string name="vaccination_certificate_attribute_certificate_id" translatable="false">"Zertifikatkennung / Unique Certificate Identifier"</string>
+
+    <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Travel Notice German -->
+    <string name="vaccination_certificate_attribute_certificate_travel_notice_german" translatable="false">"Diese Bescheinigung ist kein Reisedokument. Die wissenschaftlichen Erkenntnisse zu COVID-19 in den Bereichen Impfung, Testung und Genesung entwickeln sich fortlaufend weiter, auch im Hinblick auf neue besorgniserregende Virusvarianten. Bitte informieren Sie sich vor Reiseantritt über die am Zielort geltenden Gesundheitsmaßnahmen und entsprechenden Beschränkungen. Informationen über die in den jeweiligen EU-Ländern geltenden Einreisebestimmungen finden Sie unter https://reopen.europa.eu/de."</string>
+    <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Travel Notice English -->
+    <string name="vaccination_certificate_attribute_certificate_travel_notice_english" translatable="false">"This certificate is not a travel document. The scientific evidence on COVID-19 vaccination, testing, and recovery continues to evolve, also in view of new variants of concern of the virus. Before traveling, please check the applicable public health measures and related restrictions applied at the point of destination. Information on the current travel restrictions that apply to EU countries is available at https://reopen.europa.eu/en."</string>
+</resources>
