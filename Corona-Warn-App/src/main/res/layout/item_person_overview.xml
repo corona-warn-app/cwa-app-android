@@ -10,7 +10,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:importantForAccessibility="no"
-        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintDimensionRatio="1:0.95"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -58,7 +58,7 @@
 
     <TextView
         android:id="@+id/certificate_title"
-        style="@style/headline5"
+        style="@style/headline6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -73,7 +73,7 @@
         app:layout_constraintTop_toTopOf="parent" />
     <TextView
         android:id="@+id/certificate_subtitle"
-        style="@style/headline5"
+        style="@style/headline6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:maxLines="1"
@@ -86,7 +86,7 @@
         app:layout_constraintTop_toBottomOf="@+id/certificate_title" />
     <TextView
         android:id="@+id/name"
-        style="@style/headline4"
+        style="@style/headline5"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
