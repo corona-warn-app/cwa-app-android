@@ -145,7 +145,8 @@ object HomeData {
             state = TestPositive(
                 testRegisteredAt = Instant.now()
             ),
-            onClickAction = {}
+            onClickAction = {},
+            onRemoveAction = {}
         )
 
         val TEST_NEGATIVE_ITEM = PcrTestNegativeCard.Item(
