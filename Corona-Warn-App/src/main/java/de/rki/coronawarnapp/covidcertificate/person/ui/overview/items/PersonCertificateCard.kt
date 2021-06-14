@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.databinding.ItemPersonOverviewBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
-import timber.log.Timber
 
 class PersonCertificateCard(parent: ViewGroup) :
     PersonOverviewAdapter.PersonOverviewItemVH<PersonCertificateCard.Item, ItemPersonOverviewBinding>(
@@ -27,7 +26,6 @@ class PersonCertificateCard(parent: ViewGroup) :
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
-        Timber.d(item.toString())
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
         name.text = curItem.certificate.fullName
         qrcodeImage.setImageBitmap(curItem.qrcodeBitmap)
