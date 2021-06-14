@@ -60,18 +60,16 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
 
             viewModel.events.observe(viewLifecycleOwner) { event ->
                 when (event) {
-                    Back -> {
-                        popBackStack()
-                    }
-                    ToDispatcherScreen -> {
+                    Back -> popBackStack()
+
+                    ToDispatcherScreen ->
                         RequestCovidCertificateFragmentDirections
                             .actionRequestCovidCertificateFragmentToDispatcherFragment()
                             .run { doNavigate(this) }
-                    }
-                    ToHomeScreen -> {
+
+                    ToHomeScreen ->
                         RequestCovidCertificateFragmentDirections.actionRequestCovidCertificateFragmentToHomeFragment()
                             .run { doNavigate(this) }
-                    }
                 }
             }
             viewModel.birthDate.observe(viewLifecycleOwner) { date -> agreeButton.isEnabled = !isPCR || date != null }
