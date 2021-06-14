@@ -22,7 +22,6 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
 ) : CWAViewModel() {
 
     val registrationState = registrationStateProcessor.state.asLiveData2()
-    val removalError = SingleLiveEvent<Throwable>()
 
     private val birthDateData = MutableLiveData<LocalDate>(null)
     val birthDate: LiveData<LocalDate> = birthDateData

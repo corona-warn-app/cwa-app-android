@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.submission.covidcertificate
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.addCallback
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
@@ -12,7 +13,6 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.databinding.FragmentRequestCovidCertificateBinding
 import de.rki.coronawarnapp.exception.http.BadRequestException
@@ -50,7 +50,9 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
                 if (text.toString().isEmpty()) viewModel.birthDateChanged(null)
             }
 
+            requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { showCloseDialog() }
             toolbar.setNavigationOnClickListener { showCloseDialog() }
+
             agreeButton.setOnClickListener { viewModel.onAgreeGC() }
             disagreeButton.setOnClickListener { viewModel.onDisagreeGC() }
             dateInputEdit.setOnClickListener { openDatePicker() }
@@ -58,19 +60,22 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
 
             viewModel.events.observe(viewLifecycleOwner) { event ->
                 when (event) {
-                    Back -> popBackStack()
-                    ToDispatcherScreen -> doNavigate(
+                    Back -> {
+                        popBackStack()
+                    }
+                    ToDispatcherScreen -> {
                         RequestCovidCertificateFragmentDirections
                             .actionRequestCovidCertificateFragmentToDispatcherFragment()
-                    )
-                    ToHomeScreen -> doNavigate(
+                            .run { doNavigate(this) }
+                    }
+                    ToHomeScreen -> {
                         RequestCovidCertificateFragmentDirections.actionRequestCovidCertificateFragmentToHomeFragment()
-                    )
+                            .run { doNavigate(this) }
+                    }
                 }
             }
             viewModel.birthDate.observe(viewLifecycleOwner) { date -> agreeButton.isEnabled = !isPCR || date != null }
             viewModel.registrationState.observe(viewLifecycleOwner) { state -> handleRegistrationState(state) }
-            viewModel.removalError.observe(viewLifecycleOwner) { it.toErrorDialogBuilder(requireContext()).show() }
         }
 
     private fun handleRegistrationState(state: State) {

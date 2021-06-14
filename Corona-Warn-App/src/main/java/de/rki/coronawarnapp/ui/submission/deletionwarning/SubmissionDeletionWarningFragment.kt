@@ -87,7 +87,6 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                 }
             }
 
-            // HMMMMM
             viewModel.routeToScreen.observe2(this) {
                 Timber.d("Navigating to %s", it)
                 doNavigate(it)

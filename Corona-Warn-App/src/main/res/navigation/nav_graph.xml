@@ -848,7 +848,8 @@
 
         <action
             android:id="@+id/action_requestCovidCertificateFragment_to_dispatcherFragment"
-            app:popUpTo="@id/submissionDispatcherFragment"
+            app:destination="@id/submissionDispatcherFragment"
+            app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
 
         <action
