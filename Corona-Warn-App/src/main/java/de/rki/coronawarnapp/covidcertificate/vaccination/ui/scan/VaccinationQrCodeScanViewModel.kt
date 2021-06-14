@@ -3,7 +3,10 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.ui.scan
 import com.journeyapps.barcodescanner.BarcodeResult
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationQRCodeValidator
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.VC_NO_VACCINATION_ENTRY
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.DccQrCodeValidator
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.util.permission.CameraSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -13,7 +16,7 @@ import timber.log.Timber
 
 class VaccinationQrCodeScanViewModel @AssistedInject constructor(
     private val cameraSettings: CameraSettings,
-    private val vaccinationQRCodeValidator: VaccinationQRCodeValidator,
+    private val vaccinationQRCodeValidator: DccQrCodeValidator,
     private val vaccinationRepository: VaccinationRepository
 ) : CWAViewModel() {
 
@@ -25,6 +28,9 @@ class VaccinationQrCodeScanViewModel @AssistedInject constructor(
         try {
             event.postValue(Event.QrCodeScanInProgress)
             val qrCode = vaccinationQRCodeValidator.validate(barcodeResult.text)
+            if (qrCode !is VaccinationCertificateQRCode) {
+                throw InvalidVaccinationCertificateException(VC_NO_VACCINATION_ENTRY)
+            }
             val vaccinationCertificate = vaccinationRepository.registerVaccination(qrCode)
             event.postValue(Event.QrCodeScanSucceeded(vaccinationCertificate.personIdentifier.codeSHA256))
         } catch (e: Throwable) {

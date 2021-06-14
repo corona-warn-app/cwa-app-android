@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
-data class DccData<CertT : Dcc<*>>(
+data class DccData(
     val header: DccHeader,
-    val certificate: CertT,
+    val certificate: DccV1,
 )

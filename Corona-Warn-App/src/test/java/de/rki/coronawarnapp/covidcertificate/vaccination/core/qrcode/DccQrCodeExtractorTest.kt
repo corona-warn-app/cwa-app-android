@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode
 
 import de.rki.coronawarnapp.coronatest.qrcode.QrCodeExtractor.Mode
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_CWT_NO_ISS
@@ -12,16 +13,15 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeT
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
-import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import javax.inject.Inject
 
-class VaccinationQRCodeExtractorTest : BaseTest() {
+class DccQrCodeExtractorTest : BaseTest() {
 
-    @Inject lateinit var extractor: VaccinationQRCodeExtractor
+    @Inject lateinit var extractor: DccQrCodeExtractor
     @Inject lateinit var vaccinationTestData: VaccinationTestData
 
     @BeforeEach

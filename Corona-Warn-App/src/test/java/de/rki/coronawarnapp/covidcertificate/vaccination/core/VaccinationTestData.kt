@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core
 
-import de.rki.coronawarnapp.covidcertificate.common.certificate.Dcc
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccHeader
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationQRCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
 import org.joda.time.Instant
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @Suppress("MaxLineLength")
 class VaccinationTestData @Inject constructor(
-    private var qrCodeExtractor: VaccinationQRCodeExtractor,
+    private var qrCodeExtractor: DccQrCodeExtractor,
 ) {
 
     // AndreasAstra1.pdf
@@ -22,7 +22,7 @@ class VaccinationTestData @Inject constructor(
 
     val personAVac1Certificate = VaccinationDccV1(
         version = "1.0.0",
-        nameData = Dcc.NameData(
+        nameData = DccV1.NameData(
             givenName = "Andreas",
             givenNameStandardized = "ANDREAS",
             familyName = "Astrá Eins",
@@ -74,7 +74,7 @@ class VaccinationTestData @Inject constructor(
 
     val personAVac2Certificate = VaccinationDccV1(
         version = "1.0.0",
-        nameData = Dcc.NameData(
+        nameData = DccV1.NameData(
             givenName = "Andreas",
             givenNameStandardized = "ANDREAS",
             familyName = "Astrá Eins",
@@ -130,7 +130,7 @@ class VaccinationTestData @Inject constructor(
 
     val personBVac1Certificate = VaccinationDccV1(
         version = "1.0.0",
-        nameData = Dcc.NameData(
+        nameData = DccV1.NameData(
             givenName = "Boris",
             givenNameStandardized = "BORIS",
             familyName = "Johnson Gültig",

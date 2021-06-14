@@ -2,12 +2,12 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.VC_ALREADY_REGISTERED
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationQRCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.errors.VaccinationCertificateNotFoundException
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
@@ -38,7 +38,7 @@ class VaccinationRepository @Inject constructor(
     private val timeStamper: TimeStamper,
     private val storage: VaccinationStorage,
     valueSetsRepository: ValueSetsRepository,
-    private val vaccinationQRCodeExtractor: VaccinationQRCodeExtractor,
+    private val qrCodeExtractor: DccQrCodeExtractor,
 ) {
 
     private val internalData: HotDataFlow<Set<VaccinatedPerson>> = HotDataFlow(
@@ -106,7 +106,7 @@ class VaccinationRepository @Inject constructor(
 
             val newCertificate = qrCode.toVaccinationContainer(
                 scannedAt = timeStamper.nowUTC,
-                qrCodeExtractor = vaccinationQRCodeExtractor,
+                qrCodeExtractor = qrCodeExtractor,
             )
 
             val modifiedPerson = originalPerson.copy(
