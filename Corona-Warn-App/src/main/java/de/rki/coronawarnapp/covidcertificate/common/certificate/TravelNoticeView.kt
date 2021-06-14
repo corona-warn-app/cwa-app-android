@@ -5,8 +5,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.LayoutInflater
-import android.widget.Checkable
-import androidx.constraintlayout.widget.ConstraintLayout
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.IncludeTravelNoticeCardBinding
 import de.rki.coronawarnapp.util.setUrl
