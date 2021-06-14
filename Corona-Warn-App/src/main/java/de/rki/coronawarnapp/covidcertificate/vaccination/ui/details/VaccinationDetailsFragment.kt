@@ -41,7 +41,6 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         }
     )
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
             toolbar.setNavigationOnClickListener { popBackStack() }
