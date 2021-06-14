@@ -80,7 +80,7 @@ class CoronaTestRepository @Inject constructor(
      * and registration of an already redeemed test.
      * If pre and post-condition are not met an [IllegalStateException] is thrown.
      *
-     * @return the new test that was registered (or an exception is thrown
+     * @return the new test that was registered (or an exception is thrown)
      */
     suspend fun registerTest(
         request: TestRegistrationRequest,

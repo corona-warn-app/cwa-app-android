@@ -92,6 +92,9 @@ class SubmissionRepository @Inject constructor(
         return coronaTest
     }
 
+    /**
+     * Attempt to register a new test, but if it is already redeemed, keep the previous test.
+     */
     suspend fun tryReplaceTest(request: TestRegistrationRequest): CoronaTest {
         Timber.tag(TAG).v("tryReplaceTest(request=%s)", request)
 
