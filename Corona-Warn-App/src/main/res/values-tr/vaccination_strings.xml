@@ -70,7 +70,9 @@
     <!-- XBUT: button for Vaccination Certificate Registration Home Card -->
     <string name="vaccination_card_register">"Ekle"</string>
     <!-- XHED: Homescreen vaccination status card title -->
-    <string name="vaccination_card_status_title">"Dijital Aşı Kanıtı"</string>
+    <string name="vaccination_card_status_title_line_1">"Dijital"</string>
+    <!-- XHED: Homescreen vaccination status card title -->
+    <string name="vaccination_card_status_title_line_2">"Aşı Kanıtı"</string>
     <!-- XHED: Homescreen vaccination status card vaccination name -->
     <string name="vaccination_card_status_vaccination_name">"SARS-CoV-2 Aşısı"</string>
     <!-- XTXT: Homescreen card incomplete vaccination status label -->
@@ -84,9 +86,11 @@
         <item quantity="few">"%1$d gün içinde tam aşı koruması"</item>
         <item quantity="many">"%1$d gün içinde tam aşı koruması"</item>
     </plurals>
+    <!-- XTXT: Homescreen card complete vaccination status label -->
+    <string name="vaccination_card_status_vaccination_complete">"Son geçerlilik tarihi: %s"</string>
 
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_invalid">"Bu QR kod geçerli bir aşı sertifikası değildir."</string>
+    <string name="error_vc_invalid">"Bu QR kodu geçerli bir aşı sertifikası değildir.\n\nAşı sertifikanızı nasıl alacağınız hakkında daha fazla bilgi için lütfen SSS sayfamıza bakın."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_not_yet_supported">"Bu aşı sertifikası henüz uygulamanızın sürümünde desteklenmiyor. Lütfen uygulamanızı güncelleyin veya “Uygulama Bilgileri” bölümünde belirtilen teknik yardım hattı ile iletişime geçin."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
@@ -112,5 +116,9 @@
     <string name="vaccination_consent_onboarding_legal_information">"Veri işleme hakkında daha ayrıntılı bilgi için lütfen gizlilik bildirimine başvurun."</string>
     <!-- XBUT: Text for vaccination consent accept button -->
     <string name="vaccination_consent_accept_button">"Devam Et"</string>
+    <!-- XBUT: Text for invalid vaccination certificate error button, linking to FAQ-->
+    <string name="error_button_vc_faq">"Aşı Sertifikaları için SSS"</string>
+    <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
+    <string name="error_button_vc_faq_link">"https://www.coronawarn.app/en/faq/#vac_cert_invalid"</string>
 
 </resources>

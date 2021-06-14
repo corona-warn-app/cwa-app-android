@@ -45,7 +45,7 @@ class HomeTestCardsFragmentViewModel @AssistedInject constructor(
             PcrTestInvalidCard.Item(SubmissionStatePCR.TestInvalid) {},
             PcrTestErrorCard.Item(SubmissionStatePCR.TestError) {},
             PcrTestNegativeCard.Item(SubmissionStatePCR.TestNegative(Instant.now())) {},
-            PcrTestPositiveCard.Item(SubmissionStatePCR.TestPositive(Instant.now())) {},
+            PcrTestPositiveCard.Item(SubmissionStatePCR.TestPositive(Instant.now()), {}) {},
             PcrTestSubmissionDoneCard.Item(SubmissionStatePCR.SubmissionDone(Instant.now())) {},
             RapidTestPendingCard.Item(SubmissionStateRAT.TestPending) {},
             RapidTestReadyCard.Item(SubmissionStateRAT.TestResultReady) {},
@@ -53,7 +53,7 @@ class HomeTestCardsFragmentViewModel @AssistedInject constructor(
             RapidTestOutdatedCard.Item(SubmissionStateRAT.TestOutdated) {},
             RapidTestErrorCard.Item(SubmissionStateRAT.TestError) {},
             RapidTestNegativeCard.Item(SubmissionStateRAT.TestNegative(Instant.now())) {},
-            RapidTestPositiveCard.Item(SubmissionStateRAT.TestPositive(Instant.now())) {},
+            RapidTestPositiveCard.Item(SubmissionStateRAT.TestPositive(Instant.now()), {}) {},
             RapidTestSubmissionDoneCard.Item(SubmissionStateRAT.SubmissionDone(Instant.now())) {}
         )
     )

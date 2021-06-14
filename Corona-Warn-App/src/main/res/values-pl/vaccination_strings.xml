@@ -70,7 +70,9 @@
     <!-- XBUT: button for Vaccination Certificate Registration Home Card -->
     <string name="vaccination_card_register">"Dodaj"</string>
     <!-- XHED: Homescreen vaccination status card title -->
-    <string name="vaccination_card_status_title">"Cyfrowy dowód szczepienia"</string>
+    <string name="vaccination_card_status_title_line_1">"Cyfrowy"</string>
+    <!-- XHED: Homescreen vaccination status card title -->
+    <string name="vaccination_card_status_title_line_2">"Dowód szczepienia"</string>
     <!-- XHED: Homescreen vaccination status card vaccination name -->
     <string name="vaccination_card_status_vaccination_name">"Szczepienie przeciwko SARS-CoV-2"</string>
     <!-- XTXT: Homescreen card incomplete vaccination status label -->
@@ -84,9 +86,11 @@
         <item quantity="few">"Pełna ochrona poszczepienna za %1$d dni"</item>
         <item quantity="many">"Pełna ochrona poszczepienna za %1$d dni"</item>
     </plurals>
+    <!-- XTXT: Homescreen card complete vaccination status label -->
+    <string name="vaccination_card_status_vaccination_complete">"Ważne do %s"</string>
 
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_invalid">"Ten kod QR nie jest ważnym świadectwem szczepienia."</string>
+    <string name="error_vc_invalid">"Ten kod QR nie jest ważnym świadectwem szczepienia.\n\nWięcej informacji na temat tego, jak otrzymać swoje świadectwo szczepienia, znajduje się na naszej stronie „Często zadawane pytania”."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_not_yet_supported">"To świadectwo szczepienia nie jest jeszcze obsługiwane w Twojej wersji aplikacji. Zaktualizuj aplikację lub skontaktuj się z infolinią techniczną dostępną w sekcji „Informacje o aplikacji”."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
@@ -112,5 +116,9 @@
     <string name="vaccination_consent_onboarding_legal_information">"Więcej informacji na temat przetwarzania danych znajduje się w oświadczeniu o ochronie prywatności."</string>
     <!-- XBUT: Text for vaccination consent accept button -->
     <string name="vaccination_consent_accept_button">"Kontynuuj"</string>
+    <!-- XBUT: Text for invalid vaccination certificate error button, linking to FAQ-->
+    <string name="error_button_vc_faq">"Często zadawane pytania na temat świadectw szczepień"</string>
+    <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
+    <string name="error_button_vc_faq_link">"https://www.coronawarn.app/en/faq/#vac_cert_invalid"</string>
 
 </resources>

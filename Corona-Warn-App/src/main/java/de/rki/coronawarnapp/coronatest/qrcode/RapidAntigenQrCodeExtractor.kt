@@ -19,7 +19,7 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
         return rawString.startsWith(PREFIX1, ignoreCase = true) || rawString.startsWith(PREFIX2, ignoreCase = true)
     }
 
-    override fun extract(rawString: String): CoronaTestQRCode.RapidAntigen {
+    override fun extract(rawString: String, mode: QrCodeExtractor.Mode): CoronaTestQRCode.RapidAntigen {
         Timber.v("extract(rawString=%s)", rawString)
         val payload = CleanPayload(extractData(rawString))
 

@@ -84,7 +84,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/body" />
 
-     <ImageView
+    <ImageView
         android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
-     <ImageView
+    <ImageView
         android:id="@+id/contact_icon"
         style="@style/icon"
         android:layout_width="wrap_content"
@@ -143,7 +143,7 @@
         app:layout_constraintStart_toEndOf="@+id/contact_icon"
         app:layout_constraintTop_toTopOf="@+id/contact_icon" />
 
-     <ImageView
+    <ImageView
         android:id="@+id/contagious_icon"
         style="@style/icon"
         android:layout_width="wrap_content"
@@ -171,7 +171,7 @@
         app:layout_constraintStart_toEndOf="@+id/contagious_icon"
         app:layout_constraintTop_toTopOf="@+id/contagious_icon" />
 
-     <ImageView
+    <ImageView
         android:id="@+id/share_icon"
         style="@style/icon"
         android:layout_width="wrap_content"
@@ -209,5 +209,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/share_subtitle" />
+
+    <Button
+        android:id="@+id/submission_status_card_positive_button_delete"
+        style="@style/button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/submission_test_result_positive_no_consent_button_remove_test"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/submission_status_card_positive_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

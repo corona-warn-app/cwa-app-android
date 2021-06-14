@@ -34,11 +34,13 @@ class RapidTestPositiveCard(
 
         itemView.setOnClickListener { curItem.onClickAction(item) }
         submissionStatusCardPositiveButton.setOnClickListener { itemView.performClick() }
+        submissionStatusCardPositiveButtonDelete.setOnClickListener { curItem.onRemoveAction() }
     }
 
     data class Item(
         val state: SubmissionStateRAT.TestPositive,
-        val onClickAction: (Item) -> Unit
+        val onClickAction: (Item) -> Unit,
+        val onRemoveAction: () -> Unit
     ) : TestResultItem.RA, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }

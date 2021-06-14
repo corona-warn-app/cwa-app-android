@@ -46,7 +46,7 @@ class CertificatesFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        every { vaccinatedPerson.fullName } returns "Max Mustermann"
+        every { vaccinatedPerson.fullName } returns "Andrea Schneider"
         every { vaccinatedPerson.getMostRecentVaccinationCertificate.expiresAt } returns
             testDate.plus(Duration.standardDays(365)).toInstant()
 
@@ -148,7 +148,7 @@ class CertificatesFragmentTest : BaseUITest() {
                 ),
                 CovidTestCertificateCard.Item(
                     testDate = testDate,
-                    testPerson = "Max Mustermann"
+                    testPerson = "Andrea Schneider"
                 ) { }
             )
         )

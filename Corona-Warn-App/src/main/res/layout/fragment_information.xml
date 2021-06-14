@@ -122,7 +122,14 @@
                     android:paddingBottom="@dimen/spacing_tiny"
                     tools:text="16000000"
                     tools:visibility="visible" />
+
+                <!-- Workaround for scrolling issue where view is
+                approximately as high as available space-->
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/spacing_huge" />
             </LinearLayout>
+
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

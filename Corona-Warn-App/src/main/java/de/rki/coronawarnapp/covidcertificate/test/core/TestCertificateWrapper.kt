@@ -20,4 +20,6 @@ data class TestCertificateWrapper(
     val testCertificate: TestCertificate? by lazy {
         container.toTestCertificate(valueSets)
     }
+
+    val registrationToken = container.registrationToken
 }
