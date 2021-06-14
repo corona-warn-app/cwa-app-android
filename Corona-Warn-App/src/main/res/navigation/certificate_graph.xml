@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/certificate_recovery_graph">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/certificate_graph"
+    app:startDestination="@id/personOverviewFragment">
+    <fragment
+        android:id="@+id/personOverviewFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewFragment"
+        android:label="PersonOverviewFragment"
+        tools:layout="@layout/person_overview_fragment" />
 </navigation>

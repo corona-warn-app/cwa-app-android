@@ -19,8 +19,11 @@
     <!--    Vaccination graph-->
     <include app:graph="@navigation/certificate_vaccination_graph" />
 
-    <!--    Certificates graph-->
+    <!--    Test certificates graph-->
     <include app:graph="@navigation/certificate_test_graph" />
+
+    <!--    Certificates graph-->
+    <include app:graph="@navigation/certificate_graph" />
 
     <!-- Main -->
     <fragment

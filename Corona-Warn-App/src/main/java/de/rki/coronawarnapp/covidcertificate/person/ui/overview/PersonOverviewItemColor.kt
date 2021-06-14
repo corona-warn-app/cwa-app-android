@@ -12,4 +12,3 @@ enum class PersonOverviewItemColor(
     COLOR_2(R.color.starsColor2, R.drawable.bg_person_overview_2),
     COLOR_3(R.color.starsColor3, R.drawable.bg_person_overview_3),
 }
-
