@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
@@ -14,7 +15,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import org.joda.time.LocalDate
 
 class RequestCovidCertificateViewModel @AssistedInject constructor(
-    @Assisted private val coronaTestQrCode: CoronaTestQRCode,
+    @Assisted private val testRegistrationRequest: TestRegistrationRequest,
     @Assisted("coronaTestConsent") private val coronaTestConsent: Boolean,
     @Assisted("deleteOldTest") private val deleteOldTest: Boolean,
     private val registrationStateProcessor: TestRegistrationStateProcessor,
@@ -48,12 +49,13 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
     }
 
     private fun registerAndMaybeDelete(dccConsent: Boolean) = launch {
-        val consentedQrCode = when (coronaTestQrCode) {
-            is CoronaTestQRCode.PCR -> coronaTestQrCode.copy(
+        val consentedQrCode = when (testRegistrationRequest) {
+            is CoronaTestQRCode.PCR -> testRegistrationRequest.copy(
                 dateOfBirth = birthDateData.value,
                 isDccConsentGiven = dccConsent
             )
-            is CoronaTestQRCode.RapidAntigen -> coronaTestQrCode.copy(isDccConsentGiven = dccConsent)
+            is CoronaTestQRCode.RapidAntigen -> testRegistrationRequest.copy(isDccConsentGiven = dccConsent)
+            else -> testRegistrationRequest
         }
 
         registrationStateProcessor.startRegistration(
@@ -68,7 +70,7 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : CWAViewModelFactory<RequestCovidCertificateViewModel> {
         fun create(
-            coronaTestQrCode: CoronaTestQRCode,
+            testRegistrationRequest: TestRegistrationRequest,
             @Assisted("coronaTestConsent") coronaTestConsent: Boolean,
             @Assisted("deleteOldTest") deleteOldTest: Boolean
         ): RequestCovidCertificateViewModel

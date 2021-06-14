@@ -59,8 +59,8 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                     doNavigate(
                         NavGraphDirections
                             .actionToSubmissionDeletionWarningFragment(
-                                it.consentGiven,
-                                it.coronaTestQRCode
+                                testRegistrationRequest = it.coronaTestQRCode,
+                                isConsentGiven = it.consentGiven,
                             )
                     )
                 }

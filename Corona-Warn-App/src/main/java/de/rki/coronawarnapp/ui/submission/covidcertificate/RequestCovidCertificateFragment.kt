@@ -13,7 +13,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentRequestCovidCertificateBinding
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
@@ -34,7 +34,7 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as RequestCovidCertificateViewModel.Factory
-            factory.create(args.coronaTestQrCode, args.coronaTestConsent, args.deleteOldTest)
+            factory.create(args.testRegistrationRequest, args.coronaTestConsent, args.deleteOldTest)
         }
     )
     private val binding by viewBinding<FragmentRequestCovidCertificateBinding>()
@@ -42,7 +42,7 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
-            val isPCR = args.coronaTestQrCode is CoronaTestQRCode.PCR
+            val isPCR = args.testRegistrationRequest.type == CoronaTest.Type.PCR
             birthDateGroup.isVisible = isPCR
             privacyCard.pcrExtraBullet.isVisible = isPCR
 

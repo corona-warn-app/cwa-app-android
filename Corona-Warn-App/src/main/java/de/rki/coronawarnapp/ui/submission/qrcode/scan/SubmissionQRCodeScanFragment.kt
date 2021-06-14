@@ -67,7 +67,10 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             when (it) {
                 is SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode -> {
                     NavGraphDirections
-                        .actionToSubmissionDeletionWarningFragment(it.consentGiven, it.coronaTestQRCode)
+                        .actionToSubmissionDeletionWarningFragment(
+                            testRegistrationRequest = it.coronaTestQRCode,
+                            isConsentGiven = it.consentGiven,
+                        )
                         .run { doNavigate(this) }
                 }
                 is SubmissionNavigationEvents.NavigateToDispatcher -> navigateToDispatchScreen()
