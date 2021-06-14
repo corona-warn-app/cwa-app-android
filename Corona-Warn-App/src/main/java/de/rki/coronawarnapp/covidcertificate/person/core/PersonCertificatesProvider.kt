@@ -22,58 +22,59 @@ class PersonCertificatesProvider @Inject constructor(
 ) {
 
     // TODO remove
-    fun testCertificate(index: Int) = object : TestCertificate {
-        override val targetName: String
-            get() = "targetName"
-        override val testType: String
-            get() = "testType"
-        override val testResult: String
-            get() = "testResult"
-        override val testName: String?
-            get() = "testName"
-        override val testNameAndManufacturer: String?
-            get() = "testNameAndManufacturer"
-        override val sampleCollectedAt: Instant
-            get() = Instant.now()
-        override val testResultAt: Instant?
-            get() = Instant.now()
-        override val testCenter: String
-            get() = "testCenter"
-        override val registeredAt: Instant
-            get() = Instant.now()
-        override val isUpdatingData: Boolean
-            get() = false
-        override val isCertificateRetrievalPending: Boolean
-            get() = false
-        override val issuer: String
-            get() = "issuer"
-        override val issuedAt: Instant
-            get() = Instant.now()
-        override val expiresAt: Instant
-            get() = Instant.now()
-        override val qrCode: QrCodeString
-            get() = "qrCode"
-        override val firstName: String?
-            get() = "Max"
-        override val lastName: String
-            get() = "Mustermann"
-        override val fullName: String
-            get() = "Max Mustermann"
-        override val dateOfBirth: LocalDate
-            get() = LocalDate.now()
-        override val personIdentifier: CertificatePersonIdentifier
-            get() = CertificatePersonIdentifier(
-                LocalDate.now(),
-                "last$index",
-                "firs$index"
-            )
-        override val certificateIssuer: String
-            get() = "certificateIssuer"
-        override val certificateCountry: String
-            get() = "certificateCountry"
-        override val certificateId: String
-            get() = "certificateId"
-    }
+    fun testCertificate(index: Int, isCertificateRetrievalPending: Boolean = false, isUpdating: Boolean = false) =
+        object : TestCertificate {
+            override val targetName: String
+                get() = "targetName"
+            override val testType: String
+                get() = "testType"
+            override val testResult: String
+                get() = "testResult"
+            override val testName: String?
+                get() = "testName"
+            override val testNameAndManufacturer: String?
+                get() = "testNameAndManufacturer"
+            override val sampleCollectedAt: Instant
+                get() = Instant.now()
+            override val testResultAt: Instant?
+                get() = Instant.now()
+            override val testCenter: String
+                get() = "testCenter"
+            override val registeredAt: Instant
+                get() = Instant.now()
+            override val isUpdatingData: Boolean
+                get() = isUpdating
+            override val isCertificateRetrievalPending: Boolean
+                get() = isCertificateRetrievalPending
+            override val issuer: String
+                get() = "issuer"
+            override val issuedAt: Instant
+                get() = Instant.now()
+            override val expiresAt: Instant
+                get() = Instant.now()
+            override val qrCode: QrCodeString
+                get() = "qrCode"
+            override val firstName: String?
+                get() = "Max"
+            override val lastName: String
+                get() = "Mustermann"
+            override val fullName: String
+                get() = "Max Mustermann"
+            override val dateOfBirth: LocalDate
+                get() = LocalDate.now()
+            override val personIdentifier: CertificatePersonIdentifier
+                get() = CertificatePersonIdentifier(
+                    LocalDate.now(),
+                    "last$index",
+                    "firs$index"
+                )
+            override val certificateIssuer: String
+                get() = "certificateIssuer"
+            override val certificateCountry: String
+                get() = "certificateCountry"
+            override val certificateId: String
+                get() = "certificateId"
+        }
 
     // TODO
     val personCertificates: Flow<Set<PersonCertificates>> = flowOf(
@@ -115,7 +116,7 @@ class PersonCertificatesProvider @Inject constructor(
             ),
             PersonCertificates(
                 listOf(
-                    testCertificate(7),
+                    testCertificate(7, true, true),
                 )
             ),
             PersonCertificates(
@@ -135,7 +136,7 @@ class PersonCertificatesProvider @Inject constructor(
             ),
             PersonCertificates(
                 listOf(
-                    testCertificate(11),
+                    testCertificate(11, true, false),
                 )
             ),
             PersonCertificates(
