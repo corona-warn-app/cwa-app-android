@@ -9,7 +9,7 @@ data class RecoveryDccV1(
     @SerializedName("nam") override val nameData: Dcc.NameData,
     @SerializedName("dob") override val dob: String,
     @SerializedName("t") override val payloads: List<RecoveryCertificateData>,
-) : Dcc<RecoveryDccV1.RecoveryCertificateData> {
+) : Dcc<RecoveryDccV1.RecoveryCertificateData>() {
 
     data class RecoveryCertificateData(
         // Disease or agent targeted, e.g. "tg": "840539006"

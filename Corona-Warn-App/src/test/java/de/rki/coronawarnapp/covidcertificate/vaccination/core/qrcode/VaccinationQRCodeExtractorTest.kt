@@ -216,4 +216,57 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
             mode = Mode.CERT_VAC_STRICT
         )
     }
+
+    @Test
+    fun `fail vaccinated at date without day`() {
+        shouldThrow<InvalidVaccinationCertificateException> {
+            extractor.extract(
+                VaccinationQrCodeTestData.failVaccinatedAtWithoutDay1,
+                mode = Mode.CERT_VAC_STRICT
+            )
+        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.JSON_SCHEMA_INVALID
+    }
+
+    @Test
+    fun `fail vaccinated at date without day and month`() {
+        shouldThrow<InvalidVaccinationCertificateException> {
+            extractor.extract(
+                VaccinationQrCodeTestData.failVaccinatedAtWithoutDayAndMonth,
+                mode = Mode.CERT_VAC_STRICT
+            )
+        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.JSON_SCHEMA_INVALID
+    }
+
+    @Test
+    fun `pass german reference case`() {
+        extractor.extract(
+            VaccinationQrCodeTestData.passGermanReferenceCase,
+            mode = Mode.CERT_VAC_STRICT
+        ).apply {
+            data.certificate.dateOfBirth shouldBe LocalDate.parse("1964-08-12")
+            data.certificate.payload.vaccinatedAt shouldBe LocalDate.parse("2021-05-29")
+        }
+    }
+
+    @Test
+    fun `pass vaccination and dob with time at midnight`() {
+        extractor.extract(
+            VaccinationQrCodeTestData.passDatesWithTimeAtMidnight,
+            mode = Mode.CERT_VAC_STRICT
+        ).apply {
+            data.certificate.dateOfBirth shouldBe LocalDate.parse("1978-01-26")
+            data.certificate.payload.vaccinatedAt shouldBe LocalDate.parse("2021-03-09")
+        }
+    }
+
+    @Test
+    fun `pass vaccination date with full timestamp`() {
+        extractor.extract(
+            VaccinationQrCodeTestData.passDatesWithRealTimeInfo,
+            mode = Mode.CERT_VAC_STRICT
+        ).apply {
+            data.certificate.dateOfBirth shouldBe LocalDate.parse("1958-11-11")
+            data.certificate.payload.vaccinatedAt shouldBe LocalDate.parse("2021-03-18")
+        }
+    }
 }

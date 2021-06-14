@@ -61,6 +61,10 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             }
         }
 
+        viewModel.testCertResultInfo.observe2(this) { result ->
+            binding.testResultPendingStepsCertificateInfo.setEntryText(result.get(requireContext()))
+        }
+
         binding.apply {
             val isPcr = navArgs.testType == CoronaTest.Type.PCR
             testResultPendingStepsWaitingAntigenResult.isVisible = !isPcr
