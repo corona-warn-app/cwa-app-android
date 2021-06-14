@@ -10,8 +10,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
-import de.rki.coronawarnapp.ui.submission.ApiRequestState
-import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor
+import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -36,7 +35,7 @@ class RequestCovidCertificateFragmentTest : BaseUITest() {
 
         every { viewModel.birthDate } returns MutableLiveData(null)
         every { viewModel.registrationState } returns MutableLiveData(
-            QrCodeRegistrationStateProcessor.RegistrationState(ApiRequestState.IDLE)
+            TestRegistrationStateProcessor.State.Idle
         )
 
         setupMockViewModel(
