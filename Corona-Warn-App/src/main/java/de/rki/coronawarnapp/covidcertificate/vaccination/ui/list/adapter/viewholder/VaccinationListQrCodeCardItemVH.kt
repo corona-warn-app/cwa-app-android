@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.adapter.Vaccina
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.adapter.VaccinationListItem
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.adapter.viewholder.VaccinationListQrCodeCardItemVH.VaccinationListQrCodeCardItem
 import de.rki.coronawarnapp.databinding.IncludeCertificateQrcodeCardBinding
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
@@ -29,17 +28,6 @@ class VaccinationListQrCodeCardItemVH(parent: ViewGroup) :
                 image.setOnClickListener { item.onQrCodeClick.invoke() }
                 progressBar.hide()
             }
-            title.text = context.getString(
-                R.string.vaccination_qrcode_card_title,
-                item.doseNumber,
-                item.totalSeriesOfDoses
-            )
-            subtitle.text =
-                context.getString(
-                    R.string.vaccination_qrcode_card_subtitle,
-                    item.vaccinatedAt.toShortDayFormat(),
-                    item.expiresAt.toShortDayFormat()
-                )
         }
 
     data class VaccinationListQrCodeCardItem(
