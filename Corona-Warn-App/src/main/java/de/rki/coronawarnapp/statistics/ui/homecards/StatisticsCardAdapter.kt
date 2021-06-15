@@ -3,14 +3,20 @@ package de.rki.coronawarnapp.statistics.ui.homecards
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
+import de.rki.coronawarnapp.statistics.AppliedVaccinationRatesStats
 import de.rki.coronawarnapp.statistics.IncidenceStats
 import de.rki.coronawarnapp.statistics.InfectionStats
 import de.rki.coronawarnapp.statistics.KeySubmissionsStats
+import de.rki.coronawarnapp.statistics.PersonsVaccinatedCompletelyStats
+import de.rki.coronawarnapp.statistics.PersonsVaccinatedOnceStats
 import de.rki.coronawarnapp.statistics.SevenDayRValue
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter.ItemVH
+import de.rki.coronawarnapp.statistics.ui.homecards.cards.AppliedVaccinationRatesCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.IncidenceCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.InfectionsCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.KeySubmissionsCard
+import de.rki.coronawarnapp.statistics.ui.homecards.cards.PersonsVaccinatedCompletelyCard
+import de.rki.coronawarnapp.statistics.ui.homecards.cards.PersonsVaccinatedOnceCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.SevenDayRValueCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.StatisticsCardItem
 import de.rki.coronawarnapp.util.lists.BindableVH
@@ -34,7 +40,14 @@ class StatisticsCardAdapter :
             TypedVHCreatorMod({ data[it].stats is InfectionStats }) { InfectionsCard(it) },
             TypedVHCreatorMod({ data[it].stats is IncidenceStats }) { IncidenceCard(it) },
             TypedVHCreatorMod({ data[it].stats is KeySubmissionsStats }) { KeySubmissionsCard(it) },
-            TypedVHCreatorMod({ data[it].stats is SevenDayRValue }) { SevenDayRValueCard(it) }
+            TypedVHCreatorMod({ data[it].stats is SevenDayRValue }) { SevenDayRValueCard(it) },
+            TypedVHCreatorMod({ data[it].stats is PersonsVaccinatedOnceStats }) { PersonsVaccinatedOnceCard(it) },
+            TypedVHCreatorMod({ data[it].stats is PersonsVaccinatedCompletelyStats }) {
+                PersonsVaccinatedCompletelyCard(
+                    it
+                )
+            },
+            TypedVHCreatorMod({ data[it].stats is AppliedVaccinationRatesStats }) { AppliedVaccinationRatesCard(it) }
         ).let { modules.addAll(it) }
     }
 

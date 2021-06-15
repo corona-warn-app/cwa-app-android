@@ -4,9 +4,9 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePerso
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 
 data class PersonCertificates(
-    val certificates: List<CwaCovidCertificate>
+    val certificates: List<CwaCovidCertificate>,
+    val isCwaUser: Boolean = false // TODO distinguish between CWA user and other family members
 ) {
-
     val personIdentifier: CertificatePersonIdentifier
         get() = certificates.first().personIdentifier
 
