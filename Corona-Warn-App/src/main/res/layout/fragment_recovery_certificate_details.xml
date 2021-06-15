@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/trace_location_gradient_background"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="true"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <ImageView
+                android:id="@+id/expandedImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:importantForAccessibility="no"
+                app:layout_collapseMode="parallax"
+                app:srcCompat="@drawable/certificate_complete_gradient" />
+
+            <ImageView
+                android:id="@+id/europa_image"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:importantForAccessibility="no"
+                android:layout_marginStart="50dp"
+                app:layout_collapseMode="parallax"
+                app:srcCompat="@drawable/ic_eu_stars_blue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_collapseMode="parallax">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="90dp"
+                    android:layout_marginBottom="12dp"
+                    android:gravity="center"
+                    android:text="@string/detail_green_certificate_title"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:text="@string/detail_green_certificate_test_type"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/Theme.MaterialComponents"
+                app:layout_collapseMode="pin"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:menu="@menu/menu_covid_certificate_detail"
+                app:navigationIcon="@drawable/ic_back"
+                app:navigationIconTint="@android:color/white"
+                app:popupTheme="@style/Theme.MaterialComponents.Light">
+
+                <LinearLayout
+                    android:id="@+id/header_text_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="32dp"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/ic_cwa_logo_white" />
+
+                </LinearLayout>
+
+            </com.google.android.material.appbar.MaterialToolbar>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/qr_code_card"
+                layout="@layout/include_certificate_qrcode_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginBottom="6dp" />
+
+            <LinearLayout
+                style="@style/Card.GreenCertificate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    style="@style/body1Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/green_certificate_attribute_name" />
+
+                <TextView
+                    android:id="@+id/name"
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="Andrea Schneider" />
+
+                <TextView
+                    style="@style/body1Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/green_certificate_attribute_dob" />
+
+                <TextView
+                    android:id="@+id/birth_date"
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    tools:text="1943-02-23" />
+
+                <TextView
+                    style="@style/body1Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Genesen von / Recovered from" />
+
+                <TextView
+                    android:id="@+id/recovered_from"
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    tools:text="COVID-19" />
+
+                <TextView
+                    style="@style/body1Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Datum des ersten positiven Testergebnisses / Date of first positive test result (YYYY-MM-DD)" />
+
+                <TextView
+                    android:id="@+id/date_of_first_positive_pcr_test"
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    tools:text="2021-05-23" />
+
+                <TextView
+                    style="@style/body1Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/green_certificate_attribute_state_of_testing" />
+
+                <TextView
+                    android:id="@+id/certificate_country"
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    tools:text="Germany" />
+
+                <TextView
+                    style="@style/body1Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/green_certificate_attribute_certificate_issuer" />
+
+                <TextView
+                    android:id="@+id/certificate_issuer"
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    tools:text="G05930482748454836478695764787840" />
+
+
+                <TextView
+                    style="@style/body1Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Zertifikat gültig ab / Certificate valid from (YYYY-MM-DD) " />
+
+                <TextView
+                    android:id="@+id/certification_period_start"
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    tools:text="2021-05-23" />
+
+                <TextView
+                    style="@style/body1Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Zertifikat gültig bis / Certificate valid until (YYYY-MM-DD) " />
+
+                <TextView
+                    android:id="@+id/certification_period_end"
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    tools:text="2021-11-23" />
+
+                <TextView
+                    style="@style/body1Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/green_certificate_attribute_certificate_id" />
+
+                <TextView
+                    android:id="@+id/certificate_id"
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    tools:text="05930482748454836478695764787840" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/Card.Vaccination"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/travel_notice_german"
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/vaccination_certificate_attribute_certificate_travel_notice_german" />
+
+                <TextView
+                    android:id="@+id/travel_notice_english"
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/vaccination_certificate_attribute_certificate_travel_notice_english" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
