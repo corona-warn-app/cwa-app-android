@@ -37,6 +37,9 @@ data class RACertificateData(
 
     @SerializedName("testCertificateQrCode")
     override val testCertificateQrCode: String? = null,
+
+    @SerializedName("labId")
+    override val labId: String? = null,
 ) : StoredTestCertificateData {
 
     // Otherwise GSON unsafes reflection to create this class, and sets the LAZY to null
