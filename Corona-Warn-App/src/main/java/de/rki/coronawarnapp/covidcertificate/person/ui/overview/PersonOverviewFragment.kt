@@ -91,10 +91,6 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
         addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
         itemAnimator = DefaultItemAnimator()
 
-        with(scanQrcodeFab) {
-            onScroll { extend ->
-                if (extend) extend() else shrink()
-            }
-        }
+        with(scanQrcodeFab) { onScroll { extend -> if (extend) extend() else shrink() } }
     }
 }
