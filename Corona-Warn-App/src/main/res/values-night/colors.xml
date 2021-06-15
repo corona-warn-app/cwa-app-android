@@ -76,4 +76,5 @@
     <color name="colorVaccinationCardBackground">@color/colorSurface2</color>
 
     <color name="dividerColor">#4DFFFFFF</color>
+    <color name="qrcodeCardColor">@color/colorSurface2</color>
 </resources>
