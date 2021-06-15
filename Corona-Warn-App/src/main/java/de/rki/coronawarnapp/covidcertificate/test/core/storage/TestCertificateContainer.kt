@@ -23,7 +23,7 @@ data class TestCertificateContainer(
             qrCodeExtractor.extract(
                 it,
                 DccV1Parser.Mode.CERT_TEST_STRICT
-            ) as TestCertificateQRCode // todo error handling
+            ) as TestCertificateQRCode
         }
     }
 

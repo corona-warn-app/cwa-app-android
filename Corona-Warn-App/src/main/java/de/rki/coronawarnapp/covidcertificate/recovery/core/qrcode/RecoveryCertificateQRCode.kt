@@ -9,5 +9,5 @@ data class RecoveryCertificateQRCode(
     override val data: DccData,
 ) : DccQrCode {
     override val uniqueCertificateIdentifier: String
-        get() = data.certificate.recoveries!!.single().uniqueCertificateIdentifier // todo
+        get() = data.certificate.recoveries!!.single().uniqueCertificateIdentifier
 }

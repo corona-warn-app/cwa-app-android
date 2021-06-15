@@ -9,5 +9,5 @@ data class VaccinationCertificateQRCode(
     override val data: DccData
 ) : DccQrCode {
     override val uniqueCertificateIdentifier: String
-        get() = data.certificate.vaccinations!!.single().uniqueCertificateIdentifier // todo
+        get() = data.certificate.vaccinations!!.single().uniqueCertificateIdentifier
 }

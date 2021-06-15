@@ -138,7 +138,7 @@ class DccQrCodeExtractor @Inject constructor(
                 throw InvalidRecoveryCertificateException(NO_RECOVERY_ENTRY)
             CERT_TEST_STRICT -> if (qrCode !is TestCertificateQRCode)
                 throw InvalidTestCertificateException(NO_TEST_ENTRY)
-            CERT_SINGLE_STRICT -> {
+            else -> {  /*anything goes*/
             }
         }
         return qrCode

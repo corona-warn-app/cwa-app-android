@@ -28,8 +28,8 @@ data class RecoveryCertificateContainer(
         }
     }
 
-    val recovery: DccV1.VaccinationData
-        get() = certificateData.certificate.vaccinations!!.single() // todo
+    val recovery: DccV1.RecoveryCertificateData
+        get() = certificateData.certificate.recoveries!!.single()
 
     val certificateId: String
         get() = recovery.uniqueCertificateIdentifier
