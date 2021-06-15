@@ -49,9 +49,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
         persons: Set<PersonCertificates>,
         qrCodes: Map<String, Bitmap?>
     ) {
-        persons
-            .filter { !it.hasPendingTestCertificate() }
-            .sortedBy { it.isCwaUser }
+        persons.filterNotPending()
             .forEachIndexed { index, person ->
                 val certificate = person.highestPriorityCertificate
                 add(
@@ -93,12 +91,20 @@ class PersonOverviewViewModel @AssistedInject constructor(
         get() = personCertificates
             .transform { persons ->
                 emit(emptyMap()) // Initial state
-                persons.forEach {
-                    val qrCode = it.highestPriorityCertificate.qrCode
-                    qrCodes[qrCode] = generateQrCode(qrCode)
-                    emit(qrCodes)
-                }
+                persons.filterNotPending()
+                    .forEach {
+                        val qrCode = it.highestPriorityCertificate.qrCode
+                        qrCodes[qrCode] = generateQrCode(qrCode)
+                        emit(qrCodes)
+                    }
             }
+
+    private fun Set<PersonCertificates>.filterNotPending() =
+        filter {
+            !it.hasPendingTestCertificate()
+        }.sortedByDescending {
+            it.isCwaUser
+        }
 
     private suspend fun generateQrCode(qrCode: QrCodeString): Bitmap? = try {
         qrCodeGenerator.createQrCode(qrCode, margin = 0)
