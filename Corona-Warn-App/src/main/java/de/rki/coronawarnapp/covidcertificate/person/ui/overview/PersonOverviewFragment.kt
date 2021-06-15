@@ -6,10 +6,10 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CertificatesItem
 import de.rki.coronawarnapp.databinding.PersonOverviewFragmentBinding
-import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
@@ -44,30 +44,23 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                     event.personIdentifier
                 )
             )
-            is ShowDeleteDialog -> {
-                val dialog = DialogHelper.DialogInstance(
-                    context = requireContext(),
-                    title = R.string.test_certificate_delete_dialog_title,
-                    message = R.string.test_certificate_delete_dialog_body,
-                    positiveButton = R.string.test_certificate_delete_dialog_confirm_button,
-                    negativeButton = R.string.test_certificate_delete_dialog_cancel_button,
-                    cancelable = false,
-                    positiveButtonFunction = {
-                        viewModel.deleteTestCertificate(event.certificateId)
-                    }
-                )
-                DialogHelper.showDialog(dialog)
-            }
-            is ShowRefreshErrorDialog -> {
-                val dialog = DialogHelper.DialogInstance(
-                    context = requireContext(),
-                    title = R.string.test_certificate_refresh_dialog_title,
-                    message = event.error.localizedMessage ?: getString(R.string.errors_generic_headline),
-                    positiveButton = R.string.test_certificate_refresh_dialog_confirm_button,
-                    cancelable = false
-                )
-                DialogHelper.showDialog(dialog)
-            }
+            is ShowDeleteDialog -> MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.test_certificate_delete_dialog_title)
+                .setMessage(R.string.test_certificate_delete_dialog_body)
+                .setNegativeButton(R.string.test_certificate_delete_dialog_cancel_button) { _, _ -> }
+                .setCancelable(false)
+                .setPositiveButton(R.string.test_certificate_delete_dialog_confirm_button) { _, _ ->
+                    viewModel.deleteTestCertificate(event.certificateId)
+                }
+                .show()
+
+            is ShowRefreshErrorDialog -> MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.test_certificate_refresh_dialog_title)
+                .setMessage(event.error.localizedMessage ?: getString(R.string.errors_generic_headline))
+                .setCancelable(false)
+                .setPositiveButton(R.string.test_certificate_refresh_dialog_confirm_button) { _, _ -> }
+                .show()
+
             ScanQrCode -> Toast.makeText(
                 requireContext(),
                 "TODO \uD83D\uDEA7 Tomorrow maybe?!",
