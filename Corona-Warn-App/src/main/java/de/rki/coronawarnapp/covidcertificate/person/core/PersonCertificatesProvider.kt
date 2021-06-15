@@ -1,21 +1,56 @@
 package de.rki.coronawarnapp.covidcertificate.person.core
 
 import dagger.Reusable
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
+import timber.log.Timber
 import javax.inject.Inject
 
 // Aggregate the certificates and sort them
 @Reusable
 class PersonCertificatesProvider @Inject constructor(
-    private val recoveryCertificateRepository: RecoveryCertificateRepository,
-    private val testCertificateRepository: TestCertificateRepository,
     private val vaccinationRepository: VaccinationRepository,
+    private val testCertificateRepository: TestCertificateRepository,
+    private val recoveryCertificateRepository: RecoveryCertificateRepository,
 ) {
 
-    // TODO
-    val personCertificates: Flow<Set<PersonCertificates>> = emptyFlow()
+    val personCertificates: Flow<Set<PersonCertificates>> = combine(
+        vaccinationRepository.vaccinationInfos.map { vaccPersons ->
+            vaccPersons.flatMap { it.vaccinationCertificates }.toSet()
+        },
+        testCertificateRepository.certificates.map { testWrappers ->
+            testWrappers.mapNotNull { it.testCertificate }
+        },
+        recoveryCertificateRepository.certificates.map { recoveryWrappers ->
+            recoveryWrappers.mapNotNull { it.testCertificate }
+        }
+    ) { vaccs, tests, recos ->
+        val mapping = mutableMapOf<CertificatePersonIdentifier, MutableSet<CwaCovidCertificate>>()
+
+        val allCerts: Set<CwaCovidCertificate> = (vaccs + tests + recos)
+        allCerts.forEach {
+            mapping[it.personIdentifier] = (mapping[it.personIdentifier] ?: mutableSetOf()).apply {
+                add(it)
+            }
+        }
+
+        mapping.entries.map { (personIdentifier, certs) ->
+            Timber.tag(TAG).v("PersonCertificates for %s with %d certs.", personIdentifier, certs.size)
+            PersonCertificates(certificates = certs.toPrioritySortOrder())
+        }.toSet()
+    }
+
+    fun Collection<CwaCovidCertificate>.toPrioritySortOrder(): List<CwaCovidCertificate> {
+        return this.toList()
+    }
+
+    companion object {
+        private val TAG = PersonCertificatesProvider::class.simpleName!!
+    }
 }
