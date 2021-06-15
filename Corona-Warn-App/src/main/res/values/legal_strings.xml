@@ -169,15 +169,15 @@
 
     <!-- Vaccination Consent Privacy Strings  -->
     <!-- XHED: Title for privacy card -->
-    <string name="vaccination_privacy_card_title_text" translatable="false">"Data protection and data security"</string>
+    <string name="vaccination_privacy_card_title_text" translatable="false">"Datenschutz und Datensicherheit"</string>
     <!-- XTXT: First bulletpoint title for privacy card -->
-    <string name="vaccination_privacy_card_first_bulletpoint_title_text" translatable="false">"Die Verwendung der digitalen COVID-Zertifikate ist freiwillig. Die Nachweise des vollständigen Impfschutzes oder eines negativen Testergebnisses können auch auf andere Weise erbracht werden."</string>
+    <string name="vaccination_privacy_card_first_bulletpoint_title_text" translatable="false">"Die Verwendung der digitalen COVID-Zertifikate ist freiwillig. Die Nachweise des vollständigen Impfschutzes, eines negativen Testergebnisses, oder einer überstandenen Corona-Infektion können auch auf andere Weise erbracht werden."</string>
     <!-- XTXT: First bulletpoint title for privacy card -->
-    <string name="vaccination_privacy_card_second_bulletpoint_title_text" translatable="false">"Die COVID-Zertifikate enthalten Ihre personenbezogenen Daten (zu Impfungen oder Ihrem Testergebnis). Zum Nachweis in den gesetzlich vorgesehenen Fällen genügt das Vorzeigen des QR-Codes des Zertifikats in der App. Stellen Sie Ihre Zertifikate und die QR-Codes niemandem zur Verfügung, wenn Sie nicht wollen, dass die Daten ausgelesen werden."</string>
+    <string name="vaccination_privacy_card_second_bulletpoint_title_text" translatable="false">"Die COVID-Zertifikate enthalten personenbezogene Daten (zu Impfungen, Testergebnissen, oder einer überstandenen Infektion). Zum Nachweis in den gesetzlich vorgesehenen Fällen genügt das Vorzeigen des QR-Codes des Zertifikats in der App. Bei der Prüfung ist gegebenenfalls ein Ausweisdokument vorzulegen."</string>
     <!-- XTXT: First bulletpoint title for privacy card -->
-    <string name="vaccination_privacy_card_third_bulletpoint_title_text" translatable="false">"Wenn Sie den QR-Code eines Zertifikats in der App zur Prüfung vorzeigen, können andere Personen Ihr Testergebnis nachvollziehen oder ob Ihr Impfschutz vollständig ist. Bei der Prüfung werden in der offiziellen Prüf-App auch Ihr Name und Ihr Geburtsdatum angezeigt."</string>
+    <string name="vaccination_privacy_card_third_bulletpoint_title_text" translatable="false">"Stellen Sie die Zertifikate und die QR-Codes niemandem zur Verfügung, wenn Sie nicht wollen, dass die Daten ausgelesen werden."</string>
     <!-- XTXT: First bulletpoint title for privacy card -->
-    <string name="vaccination_privacy_card_fourth_bulletpoint_title_text" translatable="false">"Sie haben jederzeit die Möglichkeit, COVID-Zertifikate in der App wieder zu entfernen. Bis dahin bleiben die Zertifikate auf Ihrem Smartphone gespeichert."</string>
+    <string name="vaccination_privacy_card_fourth_bulletpoint_title_text" translatable="false">"Wenn Sie den QR-Code eines Zertifikats in der App zur Prüfung vorzeigen, können andere Personen nachvollziehen, dass ein negatives Testergebnis, ein vollständiger Impfschutz, oder ein Nachweis über eine überstandene Infektion vorliegt. Bei der Prüfung werden in der offiziellen Prüf-App auch der Name und das Geburtsdatum angezeigt. Sie haben jederzeit die Möglichkeit, COVID-Zertifikate in der App wieder zu entfernen. Bis dahin bleiben die Zertifikate auf Ihrem Smartphone gespeichert."</string>
 
     <!--    Green Certificate -->
     <!-- XTXT: Request GC title for privacy card -->

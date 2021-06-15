@@ -107,15 +107,17 @@
     <!-- XTXT: Vaccination Consent subtitle-->
     <string name="vaccination_consent_headline">"Add Certificates"</string>
     <!-- XTXT: Vaccination Consent subtitle of qr info -->
-    <string name="vaccination_consent_info_subtitle_text">"Add your digital COVID certificates in the app. This will enable you to prove your vaccination protection or a negative test result with the app."</string>
+    <string name="vaccination_consent_info_subtitle_text">"Fügen Sie EU digitale COVID-Zertifikate in der App hinzu, um mit der App den Impfschutz, ein negatives Testergebnis, oder eine überstandene Infektion nachweisen zu können."</string>
     <!-- XTXT: Vaccination Consent text of qr info -->
-    <string name="vaccination_consent_qr_info_text">"You can add digital COVID vaccination certificates or COVID test certificates in the app."</string>
+    <string name="vaccination_consent_qr_info_text">"Sie können EU digitale COVID-Impfzertifikate, COVID-Testzertifikate und COVID-Genesenenzertifikate in der App hinzufügen."</string>
     <!-- XTXT: Vaccination Consent qr code text -->
     <string name="vaccination_consent_qr_info_qr_code_text">"These certificates are considered to be valid proof within the EU (e.g. for travel)."</string>
     <!-- XTXT: Vaccination Consent time text  -->
     <string name="vaccination_consent_qr_info_time_text">"After you add a certificate, it will remain on your smartphone. It will only be shared with others if you present a certificate for verification."</string>
+    <!-- XTXT: Vaccination Consent family certificates text  -->
+    <string name="vaccination_consent_family_certificates_text">"Fügen Sie existierende Zertifikate für sich und Ihre Familienmitglieder hinzu."</string>
     <!-- XTXT: Text for vaccination consent legal information button -->
-    <string name="vaccination_consent_onboarding_legal_information">"For more detailed information about data processing, please refer to the privacy notice."</string>
+    <string name="vaccination_consent_onboarding_legal_information">"Ausführliche Hinweise zur Datenverarbeitung finden Sie in der Datenschutzerklärung"</string>
     <!-- XBUT: Text for vaccination consent accept button -->
     <string name="vaccination_consent_accept_button">"Continue"</string>
     <!-- XBUT: Text for invalid vaccination certificate error button, linking to FAQ-->
