@@ -36,7 +36,6 @@ data class TestCertificateContainer(
 
     fun toTestCertificate(
         valueSet: TestCertificateValueSets?,
-        container: TestCertificateContainer,
         userLocale: Locale = Locale.getDefault(),
     ): TestCertificate? {
         if (isCertificateRetrievalPending) return null
@@ -79,13 +78,13 @@ data class TestCertificateContainer(
                 get() = testCertificate.testCenter
 
             override val isUpdatingData: Boolean
-                get() = container.isUpdatingData
+                get() = this@TestCertificateContainer.isUpdatingData
 
             override val registeredAt: Instant
-                get() = container.registeredAt
+                get() = this@TestCertificateContainer.registeredAt
 
             override val isCertificateRetrievalPending: Boolean
-                get() = container.isCertificateRetrievalPending
+                get() = this@TestCertificateContainer.isCertificateRetrievalPending
 
             override val certificateIssuer: String
                 get() = header.issuer
