@@ -4,7 +4,7 @@ import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
-import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.VC_PREFIX_INVALID
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.PREFIX_INVALID
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import timber.log.Timber
 import javax.inject.Inject
@@ -21,7 +21,7 @@ class DccQrCodeValidator @Inject constructor(
         return findExtractor(rawString)
             ?.extract(rawString, mode = DccV1Parser.Mode.CERT_SINGLE_STRICT)
             ?.also { Timber.i("Extracted data from QR code is %s", it) }
-            ?: throw InvalidHealthCertificateException(VC_PREFIX_INVALID)
+            ?: throw InvalidHealthCertificateException(PREFIX_INVALID)
     }
 
     private fun findExtractor(rawString: String): DccQrCodeExtractor? {

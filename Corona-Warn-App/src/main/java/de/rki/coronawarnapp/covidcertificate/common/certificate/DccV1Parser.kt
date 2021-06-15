@@ -40,13 +40,20 @@ class DccV1Parser @Inject constructor(
     @Suppress("UNNECESSARY_NOT_NULL_ASSERTION")
     private fun DccV1.toValidated(mode: Mode): DccV1 = this
         .run {
-            if (vaccinations?.size == 1) return@run this
-
-            if (mode == Mode.CERT_VAC_LENIENT) {
-                Timber.w("Lenient: Vaccination data contained multiple entries.")
-                copy(vaccinations = listOf(vaccinations?.maxByOrNull { it.vaccinatedAt }!!))
-            } else {
-                throw InvalidVaccinationCertificateException(ErrorCode.VC_MULTIPLE_VACCINATION_ENTRIES)
+            when (mode) {
+                Mode.CERT_VAC_STRICT -> if (vaccinations?.size == 1) return@run this
+                else throw InvalidVaccinationCertificateException(
+                    if (vaccinations.isNullOrEmpty()) ErrorCode.NO_VACCINATION_ENTRY
+                    else ErrorCode.MULTIPLE_VACCINATION_ENTRIES
+                )
+                Mode.CERT_VAC_LENIENT -> {
+                    Timber.w("Lenient: Vaccination data contained multiple entries.")
+                    copy(vaccinations = listOf(vaccinations?.maxByOrNull { it.vaccinatedAt }!!))
+                }
+                Mode.CERT_SINGLE_STRICT -> if (vaccinations.isNullOrEmpty() || vaccinations.size == 1) return@run this
+                else throw InvalidVaccinationCertificateException(ErrorCode.MULTIPLE_VACCINATION_ENTRIES)
+                else -> if (vaccinations.isNullOrEmpty()) return@run this
+                else throw InvalidVaccinationCertificateException(ErrorCode.MULTIPLE_VACCINATION_ENTRIES)
             }
         }
         .apply {

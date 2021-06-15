@@ -13,9 +13,9 @@ data class DccV1(
     @SerializedName("ver") val version: String,
     @SerializedName("nam") val nameData: NameData,
     @SerializedName("dob") val dob: String,
-    @SerializedName("v") val vaccinations: List<VaccinationData>?,
-    @SerializedName("t") val tests: List<TestCertificateData>?,
-    @SerializedName("r") val recoveries: List<RecoveryCertificateData>?,
+    @SerializedName("v") val vaccinations: List<VaccinationData>? = null,
+    @SerializedName("t") val tests: List<TestCertificateData>? = null,
+    @SerializedName("r") val recoveries: List<RecoveryCertificateData>? = null,
 ) {
     data class NameData(
         @SerializedName("fn") internal val familyName: String?,

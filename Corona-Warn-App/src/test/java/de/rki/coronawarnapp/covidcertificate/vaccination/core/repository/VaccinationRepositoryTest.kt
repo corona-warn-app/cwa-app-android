@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
-import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.VC_ALREADY_REGISTERED
-import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.VC_NAME_MISMATCH
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.NAME_MISMATCH
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.DaggerVaccinationTestComponent
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
@@ -67,7 +67,7 @@ class VaccinationRepositoryTest : BaseTest() {
         timeStamper = timeStamper,
         storage = storage,
         valueSetsRepository = valueSetsRepository,
-        vaccinationQRCodeExtractor = qrCodeExtractor,
+        qrCodeExtractor = qrCodeExtractor,
     )
 
     @Test
@@ -114,7 +114,7 @@ class VaccinationRepositoryTest : BaseTest() {
 
         shouldThrow<InvalidVaccinationCertificateException> {
             instance.registerVaccination(vaccinationTestData.personBVac1QRCode)
-        }.errorCode shouldBe VC_NAME_MISMATCH
+        }.errorCode shouldBe NAME_MISMATCH
 
         testStorage shouldBe setOf(vaccinationTestData.personAData2Vac)
     }
@@ -132,7 +132,7 @@ class VaccinationRepositoryTest : BaseTest() {
 
         shouldThrow<InvalidVaccinationCertificateException> {
             instance.registerVaccination(vaccinationTestData.personAVac1QRCode)
-        }.errorCode shouldBe VC_ALREADY_REGISTERED
+        }.errorCode shouldBe ALREADY_REGISTERED
 
         testStorage.first() shouldBe dataBefore
     }

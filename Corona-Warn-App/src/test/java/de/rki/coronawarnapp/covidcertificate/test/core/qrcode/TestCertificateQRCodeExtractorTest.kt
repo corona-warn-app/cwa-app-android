@@ -1,13 +1,13 @@
 package de.rki.coronawarnapp.covidcertificate.test.core.qrcode
 
 import com.google.gson.Gson
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.common.cryptography.AesCryptography
 import de.rki.coronawarnapp.covidcertificate.common.decoder.DccCoseDecoder
 import de.rki.coronawarnapp.covidcertificate.common.decoder.DccHeaderParser
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
-import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.test.TestData
-import de.rki.coronawarnapp.covidcertificate.test.core.certificate.TestDccParser
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeTestData
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -20,8 +20,8 @@ import testhelpers.BaseTest
 class TestCertificateQRCodeExtractorTest : BaseTest() {
     private val coseDecoder = DccCoseDecoder(AesCryptography())
     private val headerParser = DccHeaderParser()
-    private val bodyParser = TestDccParser(Gson())
-    private val extractor = TestCertificateQRCodeExtractor(coseDecoder, headerParser, bodyParser)
+    private val bodyParser = DccV1Parser(Gson())
+    private val extractor = DccQrCodeExtractor(coseDecoder, headerParser, bodyParser)
 
     @Test
     fun `happy path qr code`() {
@@ -43,7 +43,7 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
             dateOfBirth shouldBe LocalDate.parse("1998-02-26")
             version shouldBe "1.2.1"
 
-            with(payloads[0]) {
+            with(tests!!.single()) {
                 uniqueCertificateIdentifier shouldBe "URN:UVCI:01:AT:71EE2559DE38C6BF7304FB65A1A451EC#3"
                 certificateCountry shouldBe "AT"
                 certificateIssuer shouldBe "Ministry of Health, Austria"
@@ -95,35 +95,36 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
 
     @Test
     fun `valid encoding but not a health certificate fails with HC_CWT_NO_ISS`() {
-        shouldThrow<InvalidTestCertificateException> {
+        shouldThrow<InvalidHealthCertificateException> {
             extractor.extract(VaccinationQrCodeTestData.validEncoded)
         }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.HC_CWT_NO_ISS
     }
 
     @Test
     fun `random string fails with HC_BASE45_DECODING_FAILED`() {
-        shouldThrow<InvalidTestCertificateException> {
+        shouldThrow<InvalidHealthCertificateException> {
             extractor.extract("nothing here to see")
         }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
     }
 
     @Test
     fun `uncompressed base45 string fails with HC_ZLIB_DECOMPRESSION_FAILED`() {
-        shouldThrow<InvalidTestCertificateException> {
+        shouldThrow<InvalidHealthCertificateException> {
             extractor.extract("6BFOABCDEFGHIJKLMNOPQRSTUVWXYZ %*+-./:")
         }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
     }
 
-    @Test
-    fun `vaccination certificate fails with NO_TEST_ENTRY`() {
-        shouldThrow<InvalidTestCertificateException> {
-            extractor.extract(VaccinationQrCodeTestData.certificateMissing)
-        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.NO_TEST_ENTRY
-    }
+// move to validator?
+//    @Test
+//    fun `vaccination certificate fails with NO_TEST_ENTRY`() {
+//        shouldThrow<InvalidTestCertificateException> {
+//            extractor.extract(VaccinationQrCodeTestData.certificateMissing)
+//        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.NO_TEST_ENTRY
+//    }
 
     @Test
     fun `null values fail with JSON_SCHEMA_INVALID`() {
-        shouldThrow<InvalidTestCertificateException> {
+        shouldThrow<InvalidHealthCertificateException> {
             extractor.extract(TestData.qrCodeMssingValues)
         }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.JSON_SCHEMA_INVALID
     }

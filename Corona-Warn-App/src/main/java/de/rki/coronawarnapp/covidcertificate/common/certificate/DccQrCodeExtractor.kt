@@ -2,16 +2,30 @@ package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import de.rki.coronawarnapp.bugreporting.censors.vaccination.DccQrCodeCensor
 import de.rki.coronawarnapp.coronatest.qrcode.QrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode.CERT_REC_STRICT
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode.CERT_SINGLE_STRICT
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode.CERT_TEST_STRICT
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode.CERT_VAC_LENIENT
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode.CERT_VAC_STRICT
 import de.rki.coronawarnapp.covidcertificate.common.decoder.DccCoseDecoder
 import de.rki.coronawarnapp.covidcertificate.common.decoder.DccHeaderParser
 import de.rki.coronawarnapp.covidcertificate.common.decoder.RawCOSEObject
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_BASE45_ENCODING_FAILED
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_CBOR_DECODING_FAILED
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_COSE_MESSAGE_INVALID
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_COMPRESSION_FAILED
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.JSON_SCHEMA_INVALID
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.NO_RECOVERY_ENTRY
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.NO_TEST_ENTRY
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.NO_VACCINATION_ENTRY
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidRecoveryCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
+import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.util.compression.deflate
@@ -37,7 +51,7 @@ class DccQrCodeExtractor @Inject constructor(
     ): DccQrCode {
         val rawCoseObject = rawCoseObjectEncrypted.decrypt(decryptionKey)
         return TestCertificateQRCode(
-            data = rawCoseObject.parse(DccV1Parser.Mode.CERT_SINGLE_STRICT),
+            data = rawCoseObject.parse(CERT_SINGLE_STRICT),
             qrCode = rawCoseObject.encode()
         )
     }
@@ -48,10 +62,10 @@ class DccQrCodeExtractor @Inject constructor(
             decryptionKey = decryptionKey
         )
     } catch (e: InvalidHealthCertificateException) {
-        throw InvalidTestCertificateException(e.errorCode)
+        throw e
     } catch (e: Throwable) {
-        Timber.e(e, InvalidHealthCertificateException.ErrorCode.HC_COSE_MESSAGE_INVALID.toString())
-        throw InvalidTestCertificateException(InvalidHealthCertificateException.ErrorCode.HC_COSE_MESSAGE_INVALID)
+        Timber.e(e, HC_COSE_MESSAGE_INVALID.toString())
+        throw InvalidHealthCertificateException(HC_COSE_MESSAGE_INVALID)
     }
 
     private fun RawCOSEObject.encode(): String {
@@ -61,59 +75,87 @@ class DccQrCodeExtractor @Inject constructor(
     private fun ByteArray.encodeBase45(): String = try {
         Base45Decoder.encode(this)
     } catch (e: Throwable) {
-        Timber.e(e, InvalidHealthCertificateException.ErrorCode.HC_BASE45_ENCODING_FAILED.toString())
-        throw InvalidTestCertificateException(InvalidHealthCertificateException.ErrorCode.HC_BASE45_ENCODING_FAILED)
+        Timber.e(e, HC_BASE45_ENCODING_FAILED.toString())
+        throw InvalidHealthCertificateException(HC_BASE45_ENCODING_FAILED)
     }
 
     private fun RawCOSEObject.compress(): ByteArray = try {
         this.deflate()
     } catch (e: Throwable) {
-        Timber.e(e, InvalidHealthCertificateException.ErrorCode.HC_ZLIB_COMPRESSION_FAILED.toString())
-        throw InvalidTestCertificateException(InvalidHealthCertificateException.ErrorCode.HC_ZLIB_COMPRESSION_FAILED)
+        Timber.e(e, HC_ZLIB_COMPRESSION_FAILED.toString())
+        throw InvalidTestCertificateException(HC_ZLIB_COMPRESSION_FAILED)
     }
 
     override fun extract(rawString: String): DccQrCode {
-        DccQrCodeCensor.addQRCodeStringToCensor(rawString)
-
-        val parsedData = rawString
-            .removePrefix(PREFIX)
-            .decodeBase45()
-            .decompress()
-            .parse(DccV1Parser.Mode.CERT_SINGLE_STRICT) // TODO use mode
-
-        return VaccinationCertificateQRCode(
-            qrCode = rawString,
-            data = parsedData,
-        )
+        val mode = CERT_SINGLE_STRICT
+        return extract(rawString, mode)
     }
 
     fun extract(rawString: String, mode: DccV1Parser.Mode): DccQrCode {
         DccQrCodeCensor.addQRCodeStringToCensor(rawString)
 
-        val parsedData = rawString
-            .removePrefix(PREFIX)
-            .decodeBase45()
-            .decompress()
-            .parse(mode)
+        try {
+            val parsedData = rawString
+                .removePrefix(PREFIX)
+                .decodeBase45()
+                .decompress()
+                .parse(mode)
 
-        return VaccinationCertificateQRCode(
-            qrCode = rawString,
-            data = parsedData,
-        )
+            return toDccQrCode(rawString, parsedData, mode)
+        } catch (e: InvalidHealthCertificateException) {
+            when (mode) {
+                CERT_VAC_STRICT, CERT_VAC_LENIENT ->
+                    throw InvalidVaccinationCertificateException(e.errorCode)
+                CERT_REC_STRICT ->
+                    throw InvalidRecoveryCertificateException(e.errorCode)
+                CERT_TEST_STRICT ->
+                    throw InvalidTestCertificateException(e.errorCode)
+                CERT_SINGLE_STRICT -> throw e
+            }
+        }
+    }
+
+    private fun toDccQrCode(rawString: String, parsedData: DccData, mode: DccV1Parser.Mode): DccQrCode {
+        val qrCode = when {
+            parsedData.certificate.isVaccinationCertificate -> VaccinationCertificateQRCode(
+                qrCode = rawString,
+                data = parsedData,
+            )
+            parsedData.certificate.isTestCertificate -> TestCertificateQRCode(
+                qrCode = rawString,
+                data = parsedData,
+            )
+            parsedData.certificate.isRecoveryCertificate -> RecoveryCertificateQRCode(
+                qrCode = rawString,
+                data = parsedData,
+            )
+            else -> throw InvalidHealthCertificateException(JSON_SCHEMA_INVALID)
+        }
+        when (mode) {
+            CERT_VAC_STRICT, CERT_VAC_LENIENT -> if (qrCode !is VaccinationCertificateQRCode)
+                throw InvalidVaccinationCertificateException(NO_VACCINATION_ENTRY)
+            CERT_REC_STRICT -> if (qrCode !is RecoveryCertificateQRCode)
+                throw InvalidRecoveryCertificateException(NO_RECOVERY_ENTRY)
+            CERT_TEST_STRICT -> if (qrCode !is TestCertificateQRCode)
+                throw InvalidTestCertificateException(NO_TEST_ENTRY)
+            CERT_SINGLE_STRICT -> {
+            }
+        }
+        return qrCode
     }
 
     private fun String.decodeBase45(): ByteArray = try {
         Base45Decoder.decode(this)
     } catch (e: Throwable) {
         Timber.e(e)
-        throw InvalidVaccinationCertificateException(HC_BASE45_DECODING_FAILED)
+        throw InvalidHealthCertificateException(HC_BASE45_DECODING_FAILED)
     }
 
     private fun ByteArray.decompress(): RawCOSEObject = try {
         this.inflate(sizeLimit = DEFAULT_SIZE_LIMIT)
     } catch (e: Throwable) {
         Timber.e(e)
-        throw InvalidVaccinationCertificateException(HC_ZLIB_DECOMPRESSION_FAILED)
+        throw InvalidHealthCertificateException(HC_ZLIB_DECOMPRESSION_FAILED)
     }
 
     fun RawCOSEObject.parse(mode: DccV1Parser.Mode): DccData = try {
@@ -129,10 +171,10 @@ class DccQrCodeExtractor @Inject constructor(
             Timber.v("Parsed vaccination certificate for %s", it.certificate.nameData.familyNameStandardized)
         }
     } catch (e: InvalidHealthCertificateException) {
-        throw InvalidVaccinationCertificateException(e.errorCode)
+        throw e
     } catch (e: Throwable) {
         Timber.e(e)
-        throw InvalidVaccinationCertificateException(HC_CBOR_DECODING_FAILED)
+        throw InvalidHealthCertificateException(HC_CBOR_DECODING_FAILED)
     }
 
     companion object {
@@ -142,3 +184,12 @@ class DccQrCodeExtractor @Inject constructor(
         private const val DEFAULT_SIZE_LIMIT = 1024L * 1024 * 10L // 10 MB
     }
 }
+
+private val DccV1.isVaccinationCertificate: Boolean
+    get() = this.vaccinations?.isNotEmpty() == true
+
+private val DccV1.isTestCertificate: Boolean
+    get() = this.tests?.isNotEmpty() == true
+
+private val DccV1.isRecoveryCertificate: Boolean
+    get() = this.recoveries?.isNotEmpty() == true

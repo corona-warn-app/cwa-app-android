@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core
 import dagger.Component
 import dagger.Module
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.DccQrCodeExtractorTest
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationQrCodeValidatorTest
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.DccQrCodeValidatorTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepositoryTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainerTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorageTest
@@ -24,7 +24,7 @@ interface VaccinationTestComponent {
     fun inject(testClass: DccQrCodeExtractorTest)
     fun inject(testClass: VaccinatedPersonTest)
     fun inject(testClass: VaccinationRepositoryTest)
-    fun inject(testClass: VaccinationQrCodeValidatorTest)
+    fun inject(testClass: DccQrCodeValidatorTest)
 
     @Component.Factory
     interface Factory {

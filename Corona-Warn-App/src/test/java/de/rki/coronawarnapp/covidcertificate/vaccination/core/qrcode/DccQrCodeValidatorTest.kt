@@ -1,9 +1,10 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode
 
-import de.rki.coronawarnapp.coronatest.qrcode.QrCodeExtractor.Mode
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.DaggerVaccinationTestComponent
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
+import io.kotest.matchers.shouldBe
 import io.mockk.spyk
 import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
@@ -11,7 +12,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import javax.inject.Inject
 
-class VaccinationQrCodeValidatorTest : BaseTest() {
+class DccQrCodeValidatorTest : BaseTest() {
     @Inject lateinit var testData: VaccinationTestData
     @Inject lateinit var vacExtractor: DccQrCodeExtractor
     private lateinit var vacExtractorSpy: DccQrCodeExtractor
@@ -29,6 +30,6 @@ class VaccinationQrCodeValidatorTest : BaseTest() {
         instance.validate(testData.personAVac1QRCodeString).apply {
             uniqueCertificateIdentifier shouldBe testData.personAVac1Container.certificateId
         }
-        verify { vacExtractorSpy.extract(testData.personAVac1QRCodeString, Mode.CERT_VAC_STRICT) }
+        verify { vacExtractorSpy.extract(testData.personAVac1QRCodeString, DccV1Parser.Mode.CERT_SINGLE_STRICT) }
     }
 }

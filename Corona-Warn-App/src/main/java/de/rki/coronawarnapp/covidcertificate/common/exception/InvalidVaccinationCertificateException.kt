@@ -27,7 +27,7 @@ class InvalidVaccinationCertificateException(
         ErrorCode.HC_COSE_MESSAGE_INVALID,
         ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED,
         ErrorCode.HC_COSE_TAG_INVALID,
-        ErrorCode.VC_PREFIX_INVALID,
+        ErrorCode.PREFIX_INVALID,
         ErrorCode.HC_CWT_NO_DGC,
         ErrorCode.HC_CWT_NO_EXP,
         ErrorCode.HC_CWT_NO_HCERT,
@@ -41,24 +41,24 @@ class InvalidVaccinationCertificateException(
                 context.getString(ERROR_MESSAGE_VC_INVALID)
             }
 
-            ErrorCode.VC_NO_VACCINATION_ENTRY -> CachedString { context ->
+            ErrorCode.NO_VACCINATION_ENTRY -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_VC_NOT_YET_SUPPORTED)
             }
 
-            ErrorCode.VC_MULTIPLE_VACCINATION_ENTRIES -> CachedString { context ->
+            ErrorCode.MULTIPLE_VACCINATION_ENTRIES -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_VC_NOT_YET_SUPPORTED)
             }
 
-            ErrorCode.VC_STORING_FAILED -> CachedString { context ->
+            ErrorCode.STORING_FAILED -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_VC_SCAN_AGAIN)
             }
 
-            ErrorCode.VC_NAME_MISMATCH,
-            ErrorCode.VC_DOB_MISMATCH -> CachedString { context ->
+            ErrorCode.NAME_MISMATCH,
+            ErrorCode.DOB_MISMATCH -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_VC_DIFFERENT_PERSON)
             }
 
-            ErrorCode.VC_ALREADY_REGISTERED -> CachedString { context ->
+            ErrorCode.ALREADY_REGISTERED -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_VC_ALREADY_REGISTERED)
             }
             else -> super.errorMessage
