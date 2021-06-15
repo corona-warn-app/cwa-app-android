@@ -2,16 +2,13 @@ package de.rki.coronawarnapp.ui.submission.covidcertificate
 
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
@@ -28,7 +25,6 @@ import testhelpers.extensions.getOrAwaitValue
 internal class RequestCovidCertificateViewModelTest : BaseTest() {
 
     @MockK lateinit var testRegistrationStateProcessor: TestRegistrationStateProcessor
-    @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     @MockK lateinit var coronaTest: CoronaTest
 
     private val date = LocalDate.parse(
@@ -49,7 +45,6 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
         }
 
         every { coronaTest.identifier } returns "identifier"
-        every { analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any()) } just Runs
     }
 
     private fun createInstance(
@@ -61,7 +56,6 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
         coronaTestConsent = coronTestConsent,
         deleteOldTest = deleteOldTest,
         registrationStateProcessor = testRegistrationStateProcessor,
-        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector
     )
 
     @Test
@@ -84,7 +78,6 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
                     isSubmissionConsentGiven = any(),
                     allowReplacement = true
                 )
-                analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any())
             }
         }
     }
@@ -101,7 +94,6 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
                     isSubmissionConsentGiven = any(),
                     allowReplacement = false
                 )
-                analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any())
             }
         }
     }
@@ -117,7 +109,6 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
                     isSubmissionConsentGiven = any(),
                     allowReplacement = true
                 )
-                analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any())
             }
         }
     }
@@ -133,7 +124,6 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
                     isSubmissionConsentGiven = any(),
                     allowReplacement = false
                 )
-                analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any())
             }
         }
     }
@@ -149,7 +139,6 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
                     isSubmissionConsentGiven = any(),
                     allowReplacement = true
                 )
-                analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any())
             }
         }
     }
@@ -165,7 +154,6 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
                     isSubmissionConsentGiven = any(),
                     allowReplacement = false
                 )
-                analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any())
             }
         }
     }
@@ -181,7 +169,6 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
                     isSubmissionConsentGiven = any(),
                     allowReplacement = true
                 )
-                analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any())
             }
         }
     }
@@ -197,7 +184,6 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
                     isSubmissionConsentGiven = any(),
                     allowReplacement = false
                 )
-                analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any())
             }
         }
     }
@@ -223,46 +209,6 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
         createInstance().apply {
             navigateToDispatcherScreen()
             events.getOrAwaitValue() shouldBe ToDispatcherScreen
-        }
-    }
-
-    @Test
-    fun `onAgreeGC reports analytics`() {
-        createInstance(coronTestConsent = true).apply {
-            onAgreeGC()
-            coVerify {
-                analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any())
-            }
-        }
-    }
-
-    @Test
-    fun `onDisagreeGC reports analytics`() {
-        createInstance(coronTestConsent = true).apply {
-            onDisagreeGC()
-            coVerify {
-                analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any())
-            }
-        }
-    }
-
-    @Test
-    fun `onAgreeGC does not report analytics`() {
-        createInstance(coronTestConsent = false).apply {
-            onAgreeGC()
-            coVerify(exactly = 0) {
-                analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any())
-            }
-        }
-    }
-
-    @Test
-    fun `onDisagreeGC does not report analytics`() {
-        createInstance(coronTestConsent = false).apply {
-            onDisagreeGC()
-            coVerify(exactly = 0) {
-                analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any())
-            }
         }
     }
 }
