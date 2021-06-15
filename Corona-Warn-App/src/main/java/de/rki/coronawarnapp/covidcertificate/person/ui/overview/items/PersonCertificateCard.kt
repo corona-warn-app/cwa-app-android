@@ -7,22 +7,22 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewAdapter
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewItemColor
-import de.rki.coronawarnapp.databinding.ItemPersonOverviewBinding
+import de.rki.coronawarnapp.databinding.PersonOverviewItemBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class PersonCertificateCard(parent: ViewGroup) :
-    PersonOverviewAdapter.PersonOverviewItemVH<PersonCertificateCard.Item, ItemPersonOverviewBinding>(
+    PersonOverviewAdapter.PersonOverviewItemVH<PersonCertificateCard.Item, PersonOverviewItemBinding>(
         R.layout.home_card_container_layout,
         parent
     ) {
 
     override val viewBinding = lazy {
-        ItemPersonOverviewBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
+        PersonOverviewItemBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
     }
 
-    override val onBindData: ItemPersonOverviewBinding.(
+    override val onBindData: PersonOverviewItemBinding.(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
