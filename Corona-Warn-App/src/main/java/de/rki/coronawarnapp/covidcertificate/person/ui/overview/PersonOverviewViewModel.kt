@@ -99,12 +99,9 @@ class PersonOverviewViewModel @AssistedInject constructor(
                     }
             }
 
-    private fun Set<PersonCertificates>.filterNotPending() =
-        filter {
-            !it.hasPendingTestCertificate()
-        }.sortedByDescending {
-            it.isCwaUser
-        }
+    private fun Set<PersonCertificates>.filterNotPending() = this
+        .filter { !it.hasPendingTestCertificate() }
+        .sortedByDescending { it.isCwaUser }
 
     private suspend fun generateQrCode(qrCode: QrCodeString): Bitmap? = try {
         qrCodeGenerator.createQrCode(qrCode, margin = 0)
