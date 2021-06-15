@@ -2,15 +2,14 @@ package de.rki.coronawarnapp.covidcertificate.test.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CertificatesItem
 import de.rki.coronawarnapp.covidcertificate.test.ui.cards.CovidTestCertificateCard
-import de.rki.coronawarnapp.covidcertificate.test.ui.cards.CovidTestCertificateErrorCard
-import de.rki.coronawarnapp.covidcertificate.test.ui.items.CertificatesItem
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.cards.CreateVaccinationCard
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.cards.HeaderInfoVaccinationCard
@@ -25,6 +24,7 @@ import org.joda.time.Duration
 import org.joda.time.format.DateTimeFormat
 import org.junit.After
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
@@ -35,6 +35,7 @@ import testhelpers.selectBottomNavTab
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
+@Ignore("To be removed")
 class CertificatesFragmentTest : BaseUITest() {
 
     @MockK lateinit var viewModel: CertificatesViewModel
@@ -109,28 +110,6 @@ class CertificatesFragmentTest : BaseUITest() {
 
     @Screenshot
     @Test
-    fun capture_screenshot_vaccination_complete() {
-        every { vaccinatedPerson.getVaccinationStatus() } returns VaccinatedPerson.Status.IMMUNITY
-        every { viewModel.screenItems } returns getVaccinationImmuneScreenItems()
-
-        takeScreenshotInMainActivity("immune")
-    }
-
-    private fun getVaccinationImmuneScreenItems(): LiveData<List<CertificatesItem>> {
-        return MutableLiveData(
-            listOf(
-                HeaderInfoVaccinationCard.Item,
-                ImmuneVaccinationCard.Item(
-                    vaccinatedPerson = vaccinatedPerson,
-                    onClickAction = {}
-                ),
-                NoCovidTestCertificatesCard.Item
-            )
-        )
-    }
-
-    @Screenshot
-    @Test
     fun capture_screenshot_green_certificate() {
         every { vaccinatedPerson.getVaccinationStatus() } returns VaccinatedPerson.Status.IMMUNITY
         every { viewModel.screenItems } returns getVaccinationGreenCertScreenItems()
@@ -158,33 +137,12 @@ class CertificatesFragmentTest : BaseUITest() {
     @Test
     fun capture_screenshot_pending_certificate() {
         every { vaccinatedPerson.getVaccinationStatus() } returns VaccinatedPerson.Status.IMMUNITY
-        every { viewModel.screenItems } returns getVaccinationPendingCertScreenItems()
-
         takeScreenshotInMainActivity("pending")
-    }
-
-    private fun getVaccinationPendingCertScreenItems(): LiveData<List<CertificatesItem>> {
-        return MutableLiveData(
-            listOf(
-                HeaderInfoVaccinationCard.Item,
-                ImmuneVaccinationCard.Item(
-                    vaccinatedPerson = vaccinatedPerson,
-                    onClickAction = {}
-                ),
-                CovidTestCertificateErrorCard.Item(
-                    testDate = testDate,
-                    isUpdatingData = false,
-                    onRetryAction = {},
-                    onDeleteAction = {}
-                )
-            )
-        )
     }
 
     private fun takeScreenshotInMainActivity(suffix: String = "") {
         launchInMainActivity<CertificatesFragment>()
-        Espresso.onView(ViewMatchers.withId(R.id.fake_bottom_navigation))
-            .perform(selectBottomNavTab(R.id.green_certificate_graph))
+        onView(withId(R.id.fake_bottom_navigation)).perform(selectBottomNavTab(R.id.certificate_graph))
         takeScreenshot<CertificatesFragment>(suffix)
     }
 }

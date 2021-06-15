@@ -8,27 +8,27 @@
 
     <TextView
         android:id="@+id/card_title"
-        style="@style/headline5"
+        style="@style/headline6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/card_padding"
         android:layout_marginTop="@dimen/card_padding"
         android:layout_marginEnd="@dimen/card_padding"
         android:focusable="false"
-        android:text="@string/info_banner_title_1"
+        android:text="@string/person_card_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/vaccination_label"
-        style="@style/headline5"
+        style="@style/headline6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/card_padding"
         android:layout_marginEnd="@dimen/card_padding"
         android:focusable="false"
-        android:text="@string/info_banner_title_2"
+        android:text="@string/person_card_subtitle"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

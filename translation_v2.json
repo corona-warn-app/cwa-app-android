@@ -14,7 +14,7 @@
             "vaccination_strings.xml",
             "green_certificate_strings.xml",
             "green_certificate_attribute_strings.xml",
-            "recovery_certificate_strings.xml"
+            "covid_certificate_strings.xml"
           ],
           "targetFolderPath": "../values-[langCode]"
         }
