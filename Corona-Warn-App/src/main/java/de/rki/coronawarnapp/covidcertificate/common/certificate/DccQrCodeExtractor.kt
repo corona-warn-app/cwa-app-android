@@ -176,14 +176,12 @@ class DccQrCodeExtractor @Inject constructor(
         Timber.e(e)
         throw InvalidHealthCertificateException(HC_CBOR_DECODING_FAILED)
     }
-
-    companion object {
-        private const val PREFIX = "HC1:"
-
-        // Zip bomb
-        private const val DEFAULT_SIZE_LIMIT = 1024L * 1024 * 10L // 10 MB
-    }
 }
+
+private const val PREFIX = "HC1:"
+
+// Zip bomb
+private const val DEFAULT_SIZE_LIMIT = 1024L * 1024 * 10L // 10 MB
 
 private val DccV1.isVaccinationCertificate: Boolean
     get() = this.vaccinations?.isNotEmpty() == true

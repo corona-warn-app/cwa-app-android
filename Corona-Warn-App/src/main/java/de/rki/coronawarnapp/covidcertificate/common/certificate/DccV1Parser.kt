@@ -95,7 +95,7 @@ class DccV1Parser @Inject constructor(
 
     enum class Mode {
         CERT_VAC_STRICT, // exactly one vaccination certificate allowed
-        CERT_VAC_LENIENT,  // multiple vaccination certificates allowed
+        CERT_VAC_LENIENT, // multiple vaccination certificates allowed
         CERT_REC_STRICT, // exactly one recovery certificate allowed
         CERT_TEST_STRICT, // exactly one test certificate allowed
         CERT_SINGLE_STRICT // exactly one certificate allowed
