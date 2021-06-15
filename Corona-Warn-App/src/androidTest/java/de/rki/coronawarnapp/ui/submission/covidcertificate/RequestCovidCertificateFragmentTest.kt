@@ -9,6 +9,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import io.mockk.MockKAnnotations
@@ -41,7 +42,7 @@ class RequestCovidCertificateFragmentTest : BaseUITest() {
         setupMockViewModel(
             object : RequestCovidCertificateViewModel.Factory {
                 override fun create(
-                    coronaTestQrCode: CoronaTestQRCode,
+                    testRegistrationRequest: TestRegistrationRequest,
                     coronaTestConsent: Boolean,
                     deleteOldTest: Boolean
                 ): RequestCovidCertificateViewModel = viewModel
