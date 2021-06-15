@@ -11,15 +11,15 @@ class InvalidVaccinationCertificateException(
     cause: Throwable? = null,
 ) : InvalidHealthCertificateException(errorCode, cause) {
     override fun toHumanReadableError(context: Context): HumanReadableError {
-        var errorCodeString = errorCode.toString()
-        errorCodeString = if (errorCodeString.startsWith(PREFIX_VC)) errorCodeString else PREFIX_VC + errorCodeString
         return HumanReadableError(
-            description = errorMessage.get(context) + " ($errorCodeString)"
+            description = errorMessage.get(context) + " ($PREFIX$errorCode)"
         )
     }
 
-    val showFaqButton: Boolean
+    override val showFaqButton: Boolean
         get() = errorCode in codesVcInvalid
+    override val faqButtonText: Int = R.string.error_button_vc_faq
+    override val faqLink: Int = R.string.error_button_vc_faq_link
 
     private val codesVcInvalid = listOf(
         ErrorCode.HC_BASE45_DECODING_FAILED,
@@ -49,26 +49,16 @@ class InvalidVaccinationCertificateException(
                 context.getString(ERROR_MESSAGE_VC_NOT_YET_SUPPORTED)
             }
 
-            ErrorCode.STORING_FAILED -> CachedString { context ->
-                context.getString(ERROR_MESSAGE_VC_SCAN_AGAIN)
-            }
-
             ErrorCode.NAME_MISMATCH,
             ErrorCode.DOB_MISMATCH -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_VC_DIFFERENT_PERSON)
-            }
-
-            ErrorCode.ALREADY_REGISTERED -> CachedString { context ->
-                context.getString(ERROR_MESSAGE_VC_ALREADY_REGISTERED)
             }
             else -> super.errorMessage
         }
 }
 
-private const val PREFIX_VC = "VC_"
+private const val PREFIX = "VC_"
 
 private const val ERROR_MESSAGE_VC_INVALID = R.string.error_vc_invalid
 private const val ERROR_MESSAGE_VC_NOT_YET_SUPPORTED = R.string.error_vc_not_yet_supported
-private const val ERROR_MESSAGE_VC_SCAN_AGAIN = R.string.error_vc_scan_again
 private const val ERROR_MESSAGE_VC_DIFFERENT_PERSON = R.string.error_vc_different_person
-private const val ERROR_MESSAGE_VC_ALREADY_REGISTERED = R.string.error_vc_already_registered

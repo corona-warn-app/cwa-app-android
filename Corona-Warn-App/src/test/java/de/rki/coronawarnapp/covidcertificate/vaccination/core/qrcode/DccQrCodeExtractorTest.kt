@@ -6,7 +6,11 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCerti
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_CWT_NO_ISS
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.NO_RECOVERY_ENTRY
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.NO_TEST_ENTRY
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.NO_VACCINATION_ENTRY
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidRecoveryCertificateException
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.DaggerVaccinationTestComponent
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeTestData
@@ -37,7 +41,7 @@ class DccQrCodeExtractorTest : BaseTest() {
 
     @Test
     fun `happy path extraction 2`() {
-        extractor.extract(VaccinationQrCodeTestData.validVaccinationQrCode2, mode = Mode.CERT_VAC_STRICT)
+        extractor.extract(VaccinationQrCodeTestData.validVaccinationQrCode2)
     }
 
     @Test
@@ -269,5 +273,50 @@ class DccQrCodeExtractorTest : BaseTest() {
             data.certificate.dateOfBirth shouldBe LocalDate.parse("1958-11-11")
             data.certificate.vaccinations!!.single().vaccinatedAt shouldBe LocalDate.parse("2021-03-18")
         }
+    }
+
+    @Test
+    fun `happy path extraction recovery`() {
+        extractor.extract(
+            RecoveryQrCodeTestData.validRecovery,
+        )
+    }
+
+    @Test
+    fun `happy path extraction recovery with strict mode`() {
+        extractor.extract(
+            RecoveryQrCodeTestData.validRecovery,
+            mode = Mode.CERT_REC_STRICT
+        )
+    }
+
+    @Test
+    fun `recovery cert fails in mode CERT_VAC_STRICT`() {
+        shouldThrow<InvalidVaccinationCertificateException> {
+            extractor.extract(
+                RecoveryQrCodeTestData.validRecovery,
+                mode = Mode.CERT_VAC_STRICT
+            )
+        }.errorCode shouldBe NO_VACCINATION_ENTRY
+    }
+
+    @Test
+    fun `recovery cert fails in mode CERT_TEST_STRICT`() {
+        shouldThrow<InvalidTestCertificateException> {
+            extractor.extract(
+                RecoveryQrCodeTestData.validRecovery,
+                mode = Mode.CERT_TEST_STRICT
+            )
+        }.errorCode shouldBe NO_TEST_ENTRY
+    }
+
+    @Test
+    fun `vaccination cert fails in mode CERT_REC_STRICT`() {
+        shouldThrow<InvalidRecoveryCertificateException> {
+            extractor.extract(
+                VaccinationQrCodeTestData.validVaccinationQrCode,
+                mode = Mode.CERT_REC_STRICT
+            )
+        }.errorCode shouldBe NO_RECOVERY_ENTRY
     }
 }

@@ -90,9 +90,9 @@
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_not_yet_supported">"This vaccination certificate is not supported in your app version yet. Please update your app or contact the technical hotline under “App Information”."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_scan_again">"The vaccination certificate could not be saved on your smartphone. Please try again later or contact the technical hotline under “App Information”."</string>
+    <string name="error_dcc_scan_again">"The vaccination certificate could not be saved on your smartphone. Please try again later or contact the technical hotline under “App Information”."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_already_registered">"The vaccination certificate is already registered in your app."</string>
+    <string name="error_dcc_already_registered">"The vaccination certificate is already registered in your app."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_different_person">"The personal information of this vaccination certificate does not match that of the certificates already registered. You can only register certificates for one person in the app."</string>
 

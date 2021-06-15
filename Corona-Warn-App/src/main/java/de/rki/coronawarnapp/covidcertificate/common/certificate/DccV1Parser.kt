@@ -15,7 +15,6 @@ import javax.inject.Inject
 class DccV1Parser @Inject constructor(
     @BaseGson private val gson: Gson
 ) {
-
     fun parse(map: CBORObject, mode: Mode): DccV1 = try {
         map[keyHCert]?.run {
             this[keyEuDgcV1]?.run {
@@ -25,35 +24,53 @@ class DccV1Parser @Inject constructor(
     } catch (e: InvalidHealthCertificateException) {
         throw e
     } catch (e: Throwable) {
-        throw InvalidVaccinationCertificateException(ErrorCode.HC_CBOR_DECODING_FAILED, cause = e)
+        throw InvalidHealthCertificateException(ErrorCode.HC_CBOR_DECODING_FAILED, cause = e)
     }
 
     private fun CBORObject.toCertificate(mode: Mode): DccV1 = try {
         val json = ToJSONString()
         gson.fromJson<DccV1>(json).toValidated(mode)
-    } catch (e: InvalidVaccinationCertificateException) {
+    } catch (e: InvalidHealthCertificateException) {
         throw e
     } catch (e: Throwable) {
-        throw InvalidVaccinationCertificateException(ErrorCode.JSON_SCHEMA_INVALID)
+        throw InvalidHealthCertificateException(ErrorCode.JSON_SCHEMA_INVALID)
     }
 
-    @Suppress("UNNECESSARY_NOT_NULL_ASSERTION")
     private fun DccV1.toValidated(mode: Mode): DccV1 = this
         .run {
             when (mode) {
-                Mode.CERT_VAC_STRICT -> if (vaccinations?.size == 1) return@run this
-                else throw InvalidVaccinationCertificateException(
-                    if (vaccinations.isNullOrEmpty()) ErrorCode.NO_VACCINATION_ENTRY
-                    else ErrorCode.MULTIPLE_VACCINATION_ENTRIES
-                )
+                Mode.CERT_VAC_STRICT ->
+                    if (vaccinations?.size != 1)
+                        throw InvalidVaccinationCertificateException(
+                            if (vaccinations.isNullOrEmpty()) ErrorCode.NO_VACCINATION_ENTRY
+                            else ErrorCode.MULTIPLE_VACCINATION_ENTRIES
+                        )
+                    else this
                 Mode.CERT_VAC_LENIENT -> {
+                    if (vaccinations.isNullOrEmpty())
+                        throw InvalidVaccinationCertificateException(ErrorCode.NO_VACCINATION_ENTRY)
                     Timber.w("Lenient: Vaccination data contained multiple entries.")
-                    copy(vaccinations = listOf(vaccinations?.maxByOrNull { it.vaccinatedAt }!!))
+                    copy(vaccinations = listOf(vaccinations.maxByOrNull { it.vaccinatedAt }!!))
                 }
-                Mode.CERT_SINGLE_STRICT -> if (vaccinations.isNullOrEmpty() || vaccinations.size == 1) return@run this
-                else throw InvalidVaccinationCertificateException(ErrorCode.MULTIPLE_VACCINATION_ENTRIES)
-                else -> if (vaccinations.isNullOrEmpty()) return@run this
-                else throw InvalidVaccinationCertificateException(ErrorCode.MULTIPLE_VACCINATION_ENTRIES)
+                Mode.CERT_REC_STRICT ->
+                    if (recoveries?.size != 1)
+                        throw InvalidVaccinationCertificateException(
+                            if (recoveries.isNullOrEmpty()) ErrorCode.NO_RECOVERY_ENTRY
+                            else ErrorCode.MULTIPLE_RECOVERY_ENTRIES
+                        )
+                    else this
+                Mode.CERT_TEST_STRICT ->
+                    if (tests?.size != 1)
+                        throw InvalidVaccinationCertificateException(
+                            if (tests.isNullOrEmpty()) ErrorCode.NO_TEST_ENTRY
+                            else ErrorCode.MULTIPLE_TEST_ENTRIES
+                        )
+                    else this
+                else -> this
+            }.also {
+                if (mode in strictModes) {
+                    require(this.isStrict())
+                }
             }
         }
         .apply {
@@ -84,9 +101,20 @@ class DccV1Parser @Inject constructor(
                 require(it.testType.isNotBlank())
             }
             recoveries?.forEach {
-                // TODO
+                it.testedPositiveOn
+                it.validFrom
+                it.validUntil
+                require(it.certificateIssuer.isNotBlank())
+                require(it.certificateCountry.isNotBlank())
+                require(it.targetId.isNotBlank())
             }
         }
+
+    private fun DccV1.isStrict(): Boolean {
+        return (vaccinations.isNullOrEmpty() && tests.isNullOrEmpty() && recoveries!!.size == 1) ||
+            (vaccinations.isNullOrEmpty() && recoveries.isNullOrEmpty() && tests!!.size == 1) ||
+            (recoveries.isNullOrEmpty() && tests.isNullOrEmpty() && vaccinations!!.size == 1)
+    }
 
     companion object {
         private val keyEuDgcV1 = CBORObject.FromObject(1)
@@ -98,6 +126,9 @@ class DccV1Parser @Inject constructor(
         CERT_VAC_LENIENT, // multiple vaccination certificates allowed
         CERT_REC_STRICT, // exactly one recovery certificate allowed
         CERT_TEST_STRICT, // exactly one test certificate allowed
-        CERT_SINGLE_STRICT // exactly one certificate allowed
+        CERT_SINGLE_STRICT; // exactly one certificate allowed
     }
+
+    val strictModes
+        get() = listOf(Mode.CERT_VAC_STRICT, Mode.CERT_REC_STRICT, Mode.CERT_TEST_STRICT, Mode.CERT_SINGLE_STRICT)
 }

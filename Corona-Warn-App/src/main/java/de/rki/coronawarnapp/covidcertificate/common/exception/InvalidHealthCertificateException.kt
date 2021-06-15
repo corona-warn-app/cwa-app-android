@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.common.exception
 
 import android.content.Context
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.util.HasHumanReadableError
 import de.rki.coronawarnapp.util.HumanReadableError
@@ -24,6 +25,8 @@ open class InvalidHealthCertificateException(
         HC_CBOR_DECODING_FAILED("CBOR decoding failed."),
         NO_VACCINATION_ENTRY("Vaccination certificate missing."),
         MULTIPLE_VACCINATION_ENTRIES("Multiple vaccination certificates."),
+        MULTIPLE_TEST_ENTRIES("Multiple test certificates."),
+        MULTIPLE_RECOVERY_ENTRIES("Multiple recovery certificates."),
         NO_TEST_ENTRY("Test certificate missing."),
         NO_RECOVERY_ENTRY("Recovery certificate missing."),
         PREFIX_INVALID("Prefix invalid."),
@@ -42,9 +45,22 @@ open class InvalidHealthCertificateException(
         RSA_KP_GENERATION_FAILED("RSA key pair generation failed."),
     }
 
+    open val showFaqButton: Boolean = false
+    open val faqButtonText: Int = 0
+    open val faqLink: Int = 0
+
     open val errorMessage: LazyString
-        get() = CachedString { context ->
-            context.getString(ERROR_MESSAGE_GENERIC)
+        get() = when (errorCode) {
+            ErrorCode.STORING_FAILED -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_SCAN_AGAIN)
+            }
+
+            ErrorCode.ALREADY_REGISTERED -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_ALREADY_REGISTERED)
+            }
+            else -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_GENERIC)
+            }
         }
 
     override fun toHumanReadableError(context: Context): HumanReadableError {
@@ -53,3 +69,6 @@ open class InvalidHealthCertificateException(
         )
     }
 }
+
+private const val ERROR_MESSAGE_SCAN_AGAIN = R.string.error_dcc_scan_again
+private const val ERROR_MESSAGE_ALREADY_REGISTERED = R.string.error_dcc_already_registered
