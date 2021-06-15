@@ -18,7 +18,6 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
-
 class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     @Assisted private val recoveryCertificateIdentifier: RecoveryCertificateIdentifier,

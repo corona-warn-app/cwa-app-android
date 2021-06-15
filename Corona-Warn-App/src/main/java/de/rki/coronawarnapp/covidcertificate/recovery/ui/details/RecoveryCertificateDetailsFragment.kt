@@ -30,7 +30,6 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
     private val binding by viewBinding<FragmentRecoveryCertificateDetailsBinding>()
     private val viewModel: RecoveryCertificateDetailsViewModel by cwaViewModels { viewModelFactory }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
             title.alpha = titleAlpha
