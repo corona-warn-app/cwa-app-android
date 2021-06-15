@@ -45,7 +45,7 @@ data class VaccinationContainer internal constructor(
         get() = certificateData.certificate
 
     val vaccination: DccV1.VaccinationData
-        get() = certificate.vaccinations!!.single() // todo
+        get() = certificate.vaccinations!!.single()
 
     val certificateId: String
         get() = vaccination.uniqueCertificateIdentifier

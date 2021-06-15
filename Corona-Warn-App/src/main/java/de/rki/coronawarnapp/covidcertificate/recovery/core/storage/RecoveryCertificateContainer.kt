@@ -40,7 +40,7 @@ data class RecoveryCertificateContainer(
     ): RecoveryCertificate {
         val header = certificateData.header
         val certificate = certificateData.certificate
-        val recoveryCertificate = certificate.recoveries!!.single() // todo
+        val recoveryCertificate = certificate.recoveries!!.single()
 
         return object : RecoveryCertificate {
             override val personIdentifier: CertificatePersonIdentifier

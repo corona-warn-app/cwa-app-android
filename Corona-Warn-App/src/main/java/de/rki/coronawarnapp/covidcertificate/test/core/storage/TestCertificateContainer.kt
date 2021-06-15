@@ -47,7 +47,7 @@ data class TestCertificateContainer(
 
         val header = testCertificateQRCode.data.header
         val certificate = testCertificateQRCode.data.certificate
-        val testCertificate = certificate.tests!!.single() // todo
+        val testCertificate = certificate.tests!!.single()
 
         return object : TestCertificate {
             override val personIdentifier: CertificatePersonIdentifier
