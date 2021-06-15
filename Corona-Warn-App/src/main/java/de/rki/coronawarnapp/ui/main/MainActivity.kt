@@ -169,8 +169,8 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     }
 
     private fun startCertificatesNestedGraphDestination(navController: NavController, isConsentGiven: Boolean) {
-        navController.findNestedGraph(R.id.green_certificate_graph).startDestination = if (isConsentGiven) {
-            R.id.certificatesFragment
+        navController.findNestedGraph(R.id.certificate_graph).startDestination = if (isConsentGiven) {
+            R.id.personOverviewFragment
         } else {
             R.id.vaccinationConsentFragment
         }

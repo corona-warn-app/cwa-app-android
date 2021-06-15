@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.test.ui.items
+package de.rki.coronawarnapp.covidcertificate.person.ui.overview.items
 
 import de.rki.coronawarnapp.util.lists.HasStableId
 
