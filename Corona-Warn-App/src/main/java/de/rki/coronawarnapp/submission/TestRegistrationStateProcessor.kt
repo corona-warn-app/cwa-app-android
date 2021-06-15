@@ -6,7 +6,9 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.errors.AlreadyRedeemedException
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaClientError
@@ -20,7 +22,8 @@ import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 
 class TestRegistrationStateProcessor @Inject constructor(
-    private val submissionRepository: SubmissionRepository
+    private val submissionRepository: SubmissionRepository,
+    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
 ) {
 
     private val mutex = Mutex()
@@ -90,7 +93,11 @@ class TestRegistrationStateProcessor @Inject constructor(
 
             if (isSubmissionConsentGiven) {
                 submissionRepository.giveConsentToSubmission(type = coronaTest.type)
+                if (request is CoronaTestQRCode) {
+                    analyticsKeySubmissionCollector.reportAdvancedConsentGiven(request.type)
+                }
             }
+
             stateInternal.value = State.TestRegistered(test = coronaTest)
             coronaTest
         } catch (err: Exception) {

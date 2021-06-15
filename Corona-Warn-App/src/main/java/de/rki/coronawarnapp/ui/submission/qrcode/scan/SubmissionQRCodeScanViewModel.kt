@@ -5,7 +5,6 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
-import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
@@ -24,7 +23,6 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     private val registrationStateProcessor: TestRegistrationStateProcessor,
     private val submissionRepository: SubmissionRepository,
     private val qrCodeValidator: CoronaTestQrCodeValidator,
-    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val events = SingleLiveEvent<SubmissionNavigationEvents>()
@@ -50,8 +48,6 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
                         isSubmissionConsentGiven = isConsentGiven,
                         allowReplacement = false
                     )
-
-                    if (isConsentGiven) analyticsKeySubmissionCollector.reportAdvancedConsentGiven(ctQrCode.type)
                 } else {
                     events.postValue(
                         SubmissionNavigationEvents.NavigateToRequestDccFragment(ctQrCode, isConsentGiven)
