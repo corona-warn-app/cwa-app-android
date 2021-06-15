@@ -1,10 +1,7 @@
 package de.rki.coronawarnapp.ui.presencetracing.attendee.checkins
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
@@ -18,7 +15,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialSharedAxis
-import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsFragmentBinding
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
@@ -26,7 +22,6 @@ import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CameraPer
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CheckInsItem
 import de.rki.coronawarnapp.ui.presencetracing.attendee.edit.EditCheckInFragmentArgs
 import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
-import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.setupSwipe
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
