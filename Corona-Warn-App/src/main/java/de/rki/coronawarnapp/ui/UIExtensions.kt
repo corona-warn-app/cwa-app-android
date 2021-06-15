@@ -56,7 +56,7 @@ fun BottomNavigationView.setupWithNavController2(
                     R.id.mainFragment,
                     R.id.checkInsFragment,
                     R.id.contactDiaryOverviewFragment,
-                    R.id.certificatesFragment,
+                    R.id.personOverviewFragment,
                 )
                 // For destinations that can show or hide the bottom bar in different cases
                 // for example [ContactDiaryOnboardingFragment]

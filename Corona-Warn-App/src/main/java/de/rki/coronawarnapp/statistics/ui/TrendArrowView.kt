@@ -29,7 +29,8 @@ class TrendArrowView @JvmOverloads constructor(
 
     fun setTrend(
         trend: KeyFigureCardOuterClass.KeyFigure.Trend,
-        trendSemantic: KeyFigureCardOuterClass.KeyFigure.TrendSemantic
+        trendSemantic: KeyFigureCardOuterClass.KeyFigure.TrendSemantic,
+        appliedVaccinationRates: Boolean = false
     ) {
         with(imageView) {
             rotation = when (trend) {
@@ -41,8 +42,14 @@ class TrendArrowView @JvmOverloads constructor(
             background = ContextCompat.getDrawable(
                 context,
                 when (trendSemantic) {
-                    POSITIVE -> R.drawable.bg_statistics_trend_positive
-                    NEGATIVE -> R.drawable.bg_statistics_trend_negative
+                    POSITIVE -> {
+                        if (appliedVaccinationRates) R.drawable.bg_statistics_trend_negative
+                        else R.drawable.bg_statistics_trend_positive
+                    }
+                    NEGATIVE -> {
+                        if (appliedVaccinationRates) R.drawable.bg_statistics_trend_positive
+                        else R.drawable.bg_statistics_trend_negative
+                    }
                     else -> R.drawable.bg_statistics_trend_neutral
                 }
             )

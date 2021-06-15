@@ -2,9 +2,12 @@ package de.rki.coronawarnapp.statistics.source
 
 import dagger.Reusable
 import de.rki.coronawarnapp.server.protocols.internal.stats.StatisticsOuterClass
+import de.rki.coronawarnapp.statistics.AppliedVaccinationRatesStats
 import de.rki.coronawarnapp.statistics.IncidenceStats
 import de.rki.coronawarnapp.statistics.InfectionStats
 import de.rki.coronawarnapp.statistics.KeySubmissionsStats
+import de.rki.coronawarnapp.statistics.PersonsVaccinatedCompletelyStats
+import de.rki.coronawarnapp.statistics.PersonsVaccinatedOnceStats
 import de.rki.coronawarnapp.statistics.SevenDayRValue
 import de.rki.coronawarnapp.statistics.StatisticsData
 import de.rki.coronawarnapp.statistics.StatsItem
@@ -35,6 +38,18 @@ class StatisticsParser @Inject constructor() {
                     StatsItem.Type.INCIDENCE -> IncidenceStats(updatedAt = updatedAt, keyFigures = keyFigures)
                     StatsItem.Type.KEYSUBMISSION -> KeySubmissionsStats(updatedAt = updatedAt, keyFigures = keyFigures)
                     StatsItem.Type.SEVEN_DAY_RVALUE -> SevenDayRValue(updatedAt = updatedAt, keyFigures = keyFigures)
+                    StatsItem.Type.PERSONS_VACCINATED_ONCE -> PersonsVaccinatedOnceStats(
+                        updatedAt = updatedAt,
+                        keyFigures = keyFigures
+                    )
+                    StatsItem.Type.PERSONS_VACCINATED_COMPLETELY -> PersonsVaccinatedCompletelyStats(
+                        updatedAt = updatedAt,
+                        keyFigures = keyFigures
+                    )
+                    StatsItem.Type.APPLIED_VACCINATION_RATES -> AppliedVaccinationRatesStats(
+                        updatedAt = updatedAt,
+                        keyFigures = keyFigures
+                    )
                     null -> null.also { Timber.tag(TAG).e("Unknown statistics type: %s", rawCard) }
                 }.also {
                     Timber.tag(TAG).v("Parsed %s", it.toString().replace("\n", ", "))

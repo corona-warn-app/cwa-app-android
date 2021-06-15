@@ -4,8 +4,8 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
 import de.rki.coronawarnapp.covidcertificate.test.ui.cards.CovidTestCertificateCard
-import de.rki.coronawarnapp.covidcertificate.test.ui.cards.CovidTestCertificateErrorCard
-import de.rki.coronawarnapp.covidcertificate.test.ui.items.CertificatesItem
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CertificatesItem
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.cards.CreateVaccinationCard
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.cards.HeaderInfoVaccinationCard
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.cards.ImmuneVaccinationCard
@@ -40,8 +40,8 @@ class CertificatesAdapter :
                 TypedVHCreatorMod({ data[it] is HeaderInfoVaccinationCard.Item }) { HeaderInfoVaccinationCard(it) },
                 TypedVHCreatorMod({ data[it] is NoCovidTestCertificatesCard.Item }) { NoCovidTestCertificatesCard(it) },
                 TypedVHCreatorMod({ data[it] is CovidTestCertificateCard.Item }) { CovidTestCertificateCard(it) },
-                TypedVHCreatorMod({ data[it] is CovidTestCertificateErrorCard.Item }) {
-                    CovidTestCertificateErrorCard(it)
+                TypedVHCreatorMod({ data[it] is CovidTestCertificatePendingCard.Item }) {
+                    CovidTestCertificatePendingCard(it)
                 },
             )
         )

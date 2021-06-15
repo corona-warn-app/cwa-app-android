@@ -27,3 +27,5 @@ fun formatStatisticalValue(
         else -> DecimalFormat("#,##0.000", DecimalFormatSymbols(locale))
     }.format(value)
 }
+
+fun formatPercentageValue(value: Double) = "$value%"
