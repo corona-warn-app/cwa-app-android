@@ -38,82 +38,88 @@ class DccV1Parser @Inject constructor(
 
     private fun DccV1.toValidated(mode: Mode): DccV1 = this
         .run {
-            when (mode) {
-                Mode.CERT_VAC_STRICT ->
-                    if (vaccinations?.size != 1)
-                        throw InvalidVaccinationCertificateException(
-                            if (vaccinations.isNullOrEmpty()) ErrorCode.NO_VACCINATION_ENTRY
-                            else ErrorCode.MULTIPLE_VACCINATION_ENTRIES
-                        )
-                    else this
-                Mode.CERT_VAC_LENIENT -> {
-                    if (vaccinations.isNullOrEmpty())
-                        throw InvalidVaccinationCertificateException(ErrorCode.NO_VACCINATION_ENTRY)
-                    Timber.w("Lenient: Vaccination data contained multiple entries.")
-                    copy(vaccinations = listOf(vaccinations.maxByOrNull { it.vaccinatedAt }!!))
-                }
-                Mode.CERT_REC_STRICT ->
-                    if (recoveries?.size != 1)
-                        throw InvalidVaccinationCertificateException(
-                            if (recoveries.isNullOrEmpty()) ErrorCode.NO_RECOVERY_ENTRY
-                            else ErrorCode.MULTIPLE_RECOVERY_ENTRIES
-                        )
-                    else this
-                Mode.CERT_TEST_STRICT ->
-                    if (tests?.size != 1)
-                        throw InvalidVaccinationCertificateException(
-                            if (tests.isNullOrEmpty()) ErrorCode.NO_TEST_ENTRY
-                            else ErrorCode.MULTIPLE_TEST_ENTRIES
-                        )
-                    else this
-                else -> this
-            }.also {
-                if (mode in strictModes) {
-                    require(this.isStrict())
-                }
-            }
+            checkModeRestrictions(mode)
         }
         .apply {
             // Apply otherwise we risk accidentally accessing the original obj in the outer scope
-            // Force date parsing
-            // check for non null (Gson does not enforce it) & force date parsing
-            require(version.isNotBlank())
-            require(nameData.familyNameStandardized.isNotBlank())
-            dateOfBirth
-            vaccinations?.forEach {
-                it.vaccinatedAt
-                require(it.certificateIssuer.isNotBlank())
-                require(it.certificateCountry.isNotBlank())
-                require(it.marketAuthorizationHolderId.isNotBlank())
-                require(it.medicalProductId.isNotBlank())
-                require(it.targetId.isNotBlank())
-                require(it.doseNumber > 0)
-                require(it.totalSeriesOfDoses > 0)
-            }
-            tests?.forEach {
-                it.testResultAt
-                it.sampleCollectedAt
-                require(it.certificateIssuer.isNotBlank())
-                require(it.certificateCountry.isNotBlank())
-                require(it.targetId.isNotBlank())
-                require(it.testCenter.isNotBlank())
-                require(it.testResult.isNotBlank())
-                require(it.testType.isNotBlank())
-            }
-            recoveries?.forEach {
-                it.testedPositiveOn
-                it.validFrom
-                it.validUntil
-                require(it.certificateIssuer.isNotBlank())
-                require(it.certificateCountry.isNotBlank())
-                require(it.targetId.isNotBlank())
-            }
+            checkFields()
         }
 
     private fun DccV1.isStrict(): Boolean {
         return (vaccinations.isNullOrEmpty() && tests.isNullOrEmpty() && recoveries!!.size == 1) ||
             (vaccinations.isNullOrEmpty() && recoveries.isNullOrEmpty() && tests!!.size == 1) ||
             (recoveries.isNullOrEmpty() && tests.isNullOrEmpty() && vaccinations!!.size == 1)
+    }
+
+    private fun DccV1.checkModeRestrictions(mode: Mode) = when (mode) {
+        Mode.CERT_VAC_STRICT ->
+            if (vaccinations?.size != 1)
+                throw InvalidVaccinationCertificateException(
+                    if (vaccinations.isNullOrEmpty()) ErrorCode.NO_VACCINATION_ENTRY
+                    else ErrorCode.MULTIPLE_VACCINATION_ENTRIES
+                )
+            else this
+        Mode.CERT_VAC_LENIENT -> {
+            if (vaccinations.isNullOrEmpty())
+                throw InvalidVaccinationCertificateException(ErrorCode.NO_VACCINATION_ENTRY)
+            Timber.w("Lenient: Vaccination data contained multiple entries.")
+            copy(vaccinations = listOf(vaccinations.maxByOrNull { it.vaccinatedAt }!!))
+        }
+        Mode.CERT_REC_STRICT ->
+            if (recoveries?.size != 1)
+                throw InvalidVaccinationCertificateException(
+                    if (recoveries.isNullOrEmpty()) ErrorCode.NO_RECOVERY_ENTRY
+                    else ErrorCode.MULTIPLE_RECOVERY_ENTRIES
+                )
+            else this
+        Mode.CERT_TEST_STRICT ->
+            if (tests?.size != 1)
+                throw InvalidVaccinationCertificateException(
+                    if (tests.isNullOrEmpty()) ErrorCode.NO_TEST_ENTRY
+                    else ErrorCode.MULTIPLE_TEST_ENTRIES
+                )
+            else this
+        else -> this
+    }.also {
+        if (mode in strictModes) {
+            require(this.isStrict())
+        }
+    }
+
+    private fun DccV1.checkFields() {
+        // Force date parsing
+        // check for non null (Gson does not enforce it) & force date parsing
+        require(version.isNotBlank())
+        require(nameData.familyNameStandardized.isNotBlank())
+        dateOfBirth
+        vaccinations?.forEach {
+            it.vaccinatedAt
+            require(it.certificateIssuer.isNotBlank())
+            require(it.certificateCountry.isNotBlank())
+            require(it.marketAuthorizationHolderId.isNotBlank())
+            require(it.medicalProductId.isNotBlank())
+            require(it.targetId.isNotBlank())
+            require(it.doseNumber > 0)
+            require(it.totalSeriesOfDoses > 0)
+        }
+        tests?.forEach {
+            it.testResultAt
+            it.sampleCollectedAt
+            require(it.certificateIssuer.isNotBlank())
+            require(it.certificateCountry.isNotBlank())
+            require(it.targetId.isNotBlank())
+            require(it.testCenter.isNotBlank())
+            require(it.testResult.isNotBlank())
+            require(it.testType.isNotBlank())
+        }
+        recoveries?.forEach {
+            it.testedPositiveOn
+            it.validFrom
+            it.validUntil
+            require(it.certificateIssuer.isNotBlank())
+            require(it.certificateCountry.isNotBlank())
+            require(it.targetId.isNotBlank())
+        }
     }
 
     companion object {

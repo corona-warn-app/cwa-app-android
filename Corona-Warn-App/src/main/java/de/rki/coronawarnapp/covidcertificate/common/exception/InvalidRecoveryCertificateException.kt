@@ -11,4 +11,4 @@ class InvalidRecoveryCertificateException(errorCode: ErrorCode) : InvalidHealthC
     }
 }
 
-private val PREFIX = "RC_"
+private const val PREFIX = "RC_"
