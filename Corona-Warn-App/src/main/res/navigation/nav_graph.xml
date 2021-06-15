@@ -716,19 +716,12 @@
         android:label="SubmissionDeletionWarningFragment"
         tools:layout="@layout/fragment_submission_deletion_warning">
         <argument
+            android:name="testRegistrationRequest"
+            app:argType="de.rki.coronawarnapp.coronatest.TestRegistrationRequest" />
+        <argument
             android:name="isConsentGiven"
             android:defaultValue="false"
             app:argType="boolean" />
-        <argument
-            android:name="coronaTestQrCode"
-            android:defaultValue="@null"
-            app:argType="de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode"
-            app:nullable="true" />
-        <argument
-            android:name="coronaTestTan"
-            android:defaultValue="@null"
-            app:argType="de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN"
-            app:nullable="true" />
         <action
             android:id="@+id/action_submissionDeletionWarningFragment_to_submissionDispatcherFragment"
             app:popUpTo="@id/submissionDispatcherFragment"
@@ -834,8 +827,8 @@
         android:label="fragment_request_covid_certificate"
         tools:layout="@layout/fragment_request_covid_certificate">
         <argument
-            android:name="coronaTestQrCode"
-            app:argType="de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode" />
+            android:name="testRegistrationRequest"
+            app:argType="de.rki.coronawarnapp.coronatest.TestRegistrationRequest" />
         <argument
             android:name="coronaTestConsent"
             android:defaultValue="false"
@@ -848,7 +841,8 @@
 
         <action
             android:id="@+id/action_requestCovidCertificateFragment_to_dispatcherFragment"
-            app:popUpTo="@id/submissionDispatcherFragment"
+            app:destination="@id/submissionDispatcherFragment"
+            app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
 
         <action

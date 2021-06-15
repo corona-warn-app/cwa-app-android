@@ -1,13 +1,9 @@
 package de.rki.coronawarnapp.ui.submission.covidcertificate
 
-import androidx.lifecycle.MutableLiveData
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
-import de.rki.coronawarnapp.submission.SubmissionRepository
-import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor
-import de.rki.coronawarnapp.util.ui.SingleLiveEvent
+import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -16,6 +12,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -30,10 +27,8 @@ import testhelpers.extensions.getOrAwaitValue
 @ExtendWith(InstantExecutorExtension::class)
 internal class RequestCovidCertificateViewModelTest : BaseTest() {
 
-    @MockK lateinit var qrCodeRegistrationStateProcessor: QrCodeRegistrationStateProcessor
+    @MockK lateinit var testRegistrationStateProcessor: TestRegistrationStateProcessor
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
-    @MockK lateinit var submissionRepository: SubmissionRepository
-    @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var coronaTest: CoronaTest
 
     private val date = LocalDate.parse(
@@ -48,23 +43,26 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        qrCodeRegistrationStateProcessor.apply {
-            coEvery { startQrCodeRegistration(any(), any()) } just Runs
-            coEvery { registrationError } returns SingleLiveEvent()
-            coEvery { showRedeemedTokenWarning } returns SingleLiveEvent()
-            coEvery { registrationState } returns MutableLiveData()
+        testRegistrationStateProcessor.apply {
+            coEvery { startRegistration(any(), any(), any()) } returns mockk()
+            coEvery { state } returns flowOf(TestRegistrationStateProcessor.State.Idle)
         }
-
-        submissionRepository.apply {
-            coEvery { registerTest(any()) } returns coronaTest
-            coEvery { testForType(any()) } returns flowOf(coronaTest)
-        }
-
-        coEvery { coronaTestRepository.removeTest(any()) } returns coronaTest
 
         every { coronaTest.identifier } returns "identifier"
         every { analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any()) } just Runs
     }
+
+    private fun createInstance(
+        coronaTestQRCode: CoronaTestQRCode = pcrQRCode,
+        coronTestConsent: Boolean = true,
+        deleteOldTest: Boolean = false
+    ) = RequestCovidCertificateViewModel(
+        testRegistrationRequest = coronaTestQRCode,
+        coronaTestConsent = coronTestConsent,
+        deleteOldTest = deleteOldTest,
+        registrationStateProcessor = testRegistrationStateProcessor,
+        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector
+    )
 
     @Test
     fun birthDateChanged() {
@@ -81,11 +79,10 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
             onAgreeGC()
 
             coVerify {
-                submissionRepository.testForType(any())
-                coronaTestRepository.removeTest(any())
-                qrCodeRegistrationStateProcessor.startQrCodeRegistration(
-                    pcrQRCode.copy(isDccConsentGiven = true, dateOfBirth = date),
-                    any()
+                testRegistrationStateProcessor.startRegistration(
+                    request = pcrQRCode.copy(isDccConsentGiven = true, dateOfBirth = date),
+                    isSubmissionConsentGiven = any(),
+                    allowReplacement = true
                 )
                 analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any())
             }
@@ -99,16 +96,12 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
             onAgreeGC()
 
             coVerify {
-                qrCodeRegistrationStateProcessor.startQrCodeRegistration(
-                    pcrQRCode.copy(isDccConsentGiven = true, dateOfBirth = date),
-                    any()
+                testRegistrationStateProcessor.startRegistration(
+                    request = pcrQRCode.copy(isDccConsentGiven = true, dateOfBirth = date),
+                    isSubmissionConsentGiven = any(),
+                    allowReplacement = false
                 )
                 analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any())
-            }
-
-            coVerify(exactly = 0) {
-                submissionRepository.testForType(any())
-                coronaTestRepository.removeTest(any())
             }
         }
     }
@@ -119,11 +112,10 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
             onDisagreeGC()
 
             coVerify {
-                submissionRepository.testForType(any())
-                coronaTestRepository.removeTest(any())
-                qrCodeRegistrationStateProcessor.startQrCodeRegistration(
-                    pcrQRCode.copy(isDccConsentGiven = false),
-                    any()
+                testRegistrationStateProcessor.startRegistration(
+                    request = pcrQRCode.copy(isDccConsentGiven = false),
+                    isSubmissionConsentGiven = any(),
+                    allowReplacement = true
                 )
                 analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any())
             }
@@ -136,16 +128,12 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
             onDisagreeGC()
 
             coVerify {
-                qrCodeRegistrationStateProcessor.startQrCodeRegistration(
-                    pcrQRCode.copy(isDccConsentGiven = false),
-                    any()
+                testRegistrationStateProcessor.startRegistration(
+                    request = pcrQRCode.copy(isDccConsentGiven = false),
+                    isSubmissionConsentGiven = any(),
+                    allowReplacement = false
                 )
                 analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any())
-            }
-
-            coVerify(exactly = 0) {
-                submissionRepository.testForType(any())
-                coronaTestRepository.removeTest(any())
             }
         }
     }
@@ -156,11 +144,10 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
             onAgreeGC()
 
             coVerify {
-                submissionRepository.testForType(any())
-                coronaTestRepository.removeTest(any())
-                qrCodeRegistrationStateProcessor.startQrCodeRegistration(
-                    ratQRCode.copy(isDccConsentGiven = true, dateOfBirth = date),
-                    any()
+                testRegistrationStateProcessor.startRegistration(
+                    request = ratQRCode.copy(isDccConsentGiven = true, dateOfBirth = date),
+                    isSubmissionConsentGiven = any(),
+                    allowReplacement = true
                 )
                 analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any())
             }
@@ -173,16 +160,12 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
             onAgreeGC()
 
             coVerify {
-                qrCodeRegistrationStateProcessor.startQrCodeRegistration(
-                    ratQRCode.copy(isDccConsentGiven = true),
-                    any()
+                testRegistrationStateProcessor.startRegistration(
+                    request = ratQRCode.copy(isDccConsentGiven = true),
+                    isSubmissionConsentGiven = any(),
+                    allowReplacement = false
                 )
                 analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any())
-            }
-
-            coVerify(exactly = 0) {
-                submissionRepository.testForType(any())
-                coronaTestRepository.removeTest(any())
             }
         }
     }
@@ -193,11 +176,10 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
             onDisagreeGC()
 
             coVerify {
-                submissionRepository.testForType(any())
-                coronaTestRepository.removeTest(any())
-                qrCodeRegistrationStateProcessor.startQrCodeRegistration(
-                    ratQRCode.copy(isDccConsentGiven = false),
-                    any()
+                testRegistrationStateProcessor.startRegistration(
+                    request = ratQRCode.copy(isDccConsentGiven = false),
+                    isSubmissionConsentGiven = any(),
+                    allowReplacement = true
                 )
                 analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any())
             }
@@ -210,16 +192,12 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
             onDisagreeGC()
 
             coVerify {
-                qrCodeRegistrationStateProcessor.startQrCodeRegistration(
-                    ratQRCode.copy(isDccConsentGiven = false),
-                    any()
+                testRegistrationStateProcessor.startRegistration(
+                    request = ratQRCode.copy(isDccConsentGiven = false),
+                    isSubmissionConsentGiven = any(),
+                    allowReplacement = false
                 )
                 analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any())
-            }
-
-            coVerify(exactly = 0) {
-                submissionRepository.testForType(any())
-                coronaTestRepository.removeTest(any())
             }
         }
     }
@@ -287,18 +265,4 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
             }
         }
     }
-
-    private fun createInstance(
-        coronaTestQRCode: CoronaTestQRCode = pcrQRCode,
-        coronTestConsent: Boolean = true,
-        deleteOldTest: Boolean = false
-    ) = RequestCovidCertificateViewModel(
-        coronaTestQrCode = coronaTestQRCode,
-        coronaTestConsent = coronTestConsent,
-        deleteOldTest = deleteOldTest,
-        coronaTestRepository = coronaTestRepository,
-        submissionRepository = submissionRepository,
-        qrCodeRegistrationStateProcessor = qrCodeRegistrationStateProcessor,
-        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector
-    )
 }

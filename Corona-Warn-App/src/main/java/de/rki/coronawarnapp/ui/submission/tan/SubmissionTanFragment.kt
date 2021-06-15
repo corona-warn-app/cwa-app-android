@@ -55,8 +55,8 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
                 is SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromTan ->
                     doNavigate(
                         SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionDeletionWarningFragment(
+                            testRegistrationRequest = it.coronaTestTan,
                             isConsentGiven = it.consentGiven,
-                            coronaTestTan = it.coronaTestTan
                         )
                     )
             }
