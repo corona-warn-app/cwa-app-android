@@ -45,12 +45,6 @@ class DccV1Parser @Inject constructor(
             checkFields()
         }
 
-    private fun DccV1.isStrict(): Boolean {
-        return (vaccinations.isNullOrEmpty() && tests.isNullOrEmpty() && recoveries!!.size == 1) ||
-            (vaccinations.isNullOrEmpty() && recoveries.isNullOrEmpty() && tests!!.size == 1) ||
-            (recoveries.isNullOrEmpty() && tests.isNullOrEmpty() && vaccinations!!.size == 1)
-    }
-
     private fun DccV1.checkModeRestrictions(mode: Mode) = when (mode) {
         Mode.CERT_VAC_STRICT ->
             if (vaccinations?.size != 1)
@@ -86,9 +80,14 @@ class DccV1Parser @Inject constructor(
         }
     }
 
+    private fun DccV1.isStrict(): Boolean {
+        return (vaccinations.isNullOrEmpty() && tests.isNullOrEmpty() && recoveries!!.size == 1) ||
+            (vaccinations.isNullOrEmpty() && recoveries.isNullOrEmpty() && tests!!.size == 1) ||
+            (recoveries.isNullOrEmpty() && tests.isNullOrEmpty() && vaccinations!!.size == 1)
+    }
+
     private fun DccV1.checkFields() {
-        // Force date parsing
-        // check for non null (Gson does not enforce it) & force date parsing
+        // check for non null (Gson does not enforce it) + not blank & force date parsing
         require(version.isNotBlank())
         require(nameData.familyNameStandardized.isNotBlank())
         dateOfBirth
@@ -122,11 +121,6 @@ class DccV1Parser @Inject constructor(
         }
     }
 
-    companion object {
-        private val keyEuDgcV1 = CBORObject.FromObject(1)
-        private val keyHCert = CBORObject.FromObject(-260)
-    }
-
     enum class Mode {
         CERT_VAC_STRICT, // exactly one vaccination certificate allowed
         CERT_VAC_LENIENT, // multiple vaccination certificates allowed
@@ -137,4 +131,9 @@ class DccV1Parser @Inject constructor(
 
     val strictModes
         get() = listOf(Mode.CERT_VAC_STRICT, Mode.CERT_REC_STRICT, Mode.CERT_TEST_STRICT, Mode.CERT_SINGLE_STRICT)
+
+    companion object {
+        private val keyEuDgcV1 = CBORObject.FromObject(1)
+        private val keyHCert = CBORObject.FromObject(-260)
+    }
 }
