@@ -1070,15 +1070,15 @@
     <!-- XHED: Page subheadline for test result  -->
     <string name="submission_test_result_subtitle">"Info zum Ablauf:"</string>
     <!-- XHED: Page headline for results next steps  -->
-    <string name="submission_test_result_steps_added_heading">"Ihr PCR-Test wurde hinzugefügt."</string>
+    <string name="submission_test_result_steps_added_heading">"Ihr PCR-Test wurde hinzugefügt"</string>
     <!-- YTXT: Body text for for results next steps  -->
     <string name="submission_test_result_steps_added_body">"Ihr Test wurde in der Corona-Warn-App registriert."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_heading">"Ihr Testergebnis liegt noch nicht vor."</string>
+    <string name="submission_test_result_pending_steps_waiting_heading">"Ihr Testergebnis liegt noch nicht vor"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_body">"Sobald Ihr Testergebnis vorliegt, wird es Ihnen in der App angezeigt.\n\nSie bekommen Ihr Testergebnis auch außerhalb der App mitgeteilt. Falls Ihr Test positiv ist, bekommen Sie vom Gesundheitsamt eine Mitteilung.\n\nWenn Ihnen außerhalb der App ein positives Testergebnis mitgeteilt wurde, entfernen Sie den aktuell in der App registrierten Test. Rufen Sie die unter "TAN anfragen" angegebene Nummer an, um eine TAN zu erhalten. Registrieren Sie dann Ihr Testergebnis mithilfe der TAN in der App."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Ihr Testergebnis liegt noch nicht vor."</string>
+    <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Ihr Testergebnis liegt noch nicht vor"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_pcr_body">"Sobald Ihr Testergebnis vorliegt, wird es Ihnen in der App angezeigt.\n\nSie bekommen Ihr Testergebnis auch außerhalb der App mitgeteilt. Falls Ihr Test positiv ist, bekommen Sie vom Gesundheitsamt eine Mitteilung.\n\nWenn Ihnen außerhalb der App ein positives Testergebnis mitgeteilt wurde, entfernen Sie den aktuell in der App registrierten Test. Rufen Sie die unter "TAN anfragen" angegebene Nummer an, um eine TAN zu erhalten. Registrieren Sie dann Ihr Testergebnis mithilfe der TAN in der App."</string>
     <!-- XHED: Page headline for results next steps  -->
