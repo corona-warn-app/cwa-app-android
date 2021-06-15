@@ -9,7 +9,6 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CertificatesItem
-import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.test.ui.cards.CovidTestCertificateCard
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.cards.CreateVaccinationCard
@@ -158,27 +157,7 @@ class CertificatesFragmentTest : BaseUITest() {
     @Test
     fun capture_screenshot_pending_certificate() {
         every { vaccinatedPerson.getVaccinationStatus() } returns VaccinatedPerson.Status.IMMUNITY
-        every { viewModel.screenItems } returns getVaccinationPendingCertScreenItems()
-
         takeScreenshotInMainActivity("pending")
-    }
-
-    private fun getVaccinationPendingCertScreenItems(): LiveData<List<CertificatesItem>> {
-        return MutableLiveData(
-            listOf(
-                HeaderInfoVaccinationCard.Item,
-                ImmuneVaccinationCard.Item(
-                    vaccinatedPerson = vaccinatedPerson,
-                    onClickAction = {}
-                ),
-                CovidTestCertificatePendingCard.Item(
-                    testDate = testDate,
-                    isUpdatingData = false,
-                    onRetryAction = {},
-                    onDeleteAction = {}
-                )
-            )
-        )
     }
 
     private fun takeScreenshotInMainActivity(suffix: String = "") {
