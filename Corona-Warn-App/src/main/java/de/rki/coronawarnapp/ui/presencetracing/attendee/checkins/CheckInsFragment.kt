@@ -25,6 +25,8 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CameraPermissionVH
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CheckInsItem
 import de.rki.coronawarnapp.ui.presencetracing.attendee.edit.EditCheckInFragmentArgs
+import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
+import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.setupSwipe
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
@@ -121,7 +123,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                 setupAxisTransition()
                 doNavigate(CheckInsFragmentDirections.actionCheckInsFragmentToCheckInOnboardingFragment(false))
             }
-            is CheckInEvent.OpenDeviceSettings -> openDeviceSettings()
+            is CheckInEvent.OpenDeviceSettings -> openAppDetailsSettings()
             is CheckInEvent.InvalidQrCode -> showInvalidQrCodeInformation(event.errorText)
         }
     }
@@ -143,20 +145,6 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             scanCheckinQrcodeFab.isGone = items.any { it is CameraPermissionVH.Item }
             emptyListInfoContainer.isGone = items.isNotEmpty()
             checkInsList.isGone = items.isEmpty()
-        }
-    }
-
-    private fun openDeviceSettings() {
-        try {
-            startActivity(
-                Intent(
-                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                    Uri.parse("package:" + BuildConfig.APPLICATION_ID)
-                )
-            )
-        } catch (e: ActivityNotFoundException) {
-            Timber.e(e, "Could not open device settings")
-            Toast.makeText(requireContext(), R.string.errors_generic_headline, Toast.LENGTH_LONG).show()
         }
     }
 
