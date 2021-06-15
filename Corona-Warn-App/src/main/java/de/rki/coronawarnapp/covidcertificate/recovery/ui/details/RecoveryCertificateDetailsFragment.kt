@@ -11,6 +11,8 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.AppBarLayout
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
+import de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingFragmentViewModel
+import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.databinding.FragmentRecoveryCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
@@ -21,6 +23,7 @@ import de.rki.coronawarnapp.util.setUrl
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
@@ -28,16 +31,8 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val binding by viewBinding<FragmentRecoveryCertificateDetailsBinding>()
-    //private val args by navArgs<RecoveryCertificateDetailsFragmentArgs>()
-    private val viewModel: RecoveryCertificationDetailsViewModel by cwaViewModelsAssisted(
-        factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
-            factory as RecoveryCertificationDetailsViewModel.Factory
-            factory.create(
-                testCertificateIdentifier = args.testCertificateIdentifier
-            )
-        }
-    )
+    private val viewModel: RecoveryCertificateDetailsViewModel by cwaViewModels { viewModelFactory }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
@@ -56,7 +51,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
     }
 
     private fun FragmentRecoveryCertificateDetailsBinding.onCertificateReady(
-        testCertificate: TestCertificate
+        recoveryCertificate: RecoveryCertificate
     ) {
         /* TODO */
     }

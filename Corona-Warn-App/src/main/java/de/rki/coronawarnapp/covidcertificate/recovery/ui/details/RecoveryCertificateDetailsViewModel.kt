@@ -10,7 +10,6 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateIdentifier
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -20,7 +19,7 @@ import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 
-class RecoveryCertificationDetailsViewModel @AssistedInject constructor(
+class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     @Assisted private val recoveryCertificateIdentifier: RecoveryCertificateIdentifier,
     private val qrCodeGenerator: QrCodeGenerator,
@@ -62,7 +61,7 @@ class RecoveryCertificationDetailsViewModel @AssistedInject constructor(
     }
 
     @AssistedFactory
-    interface Factory : CWAViewModelFactory<RecoveryCertificationDetailsViewModel> {
-        fun create(testCertificateIdentifier: RecoveryCertificateIdentifier): RecoveryCertificationDetailsViewModel
+    interface Factory : CWAViewModelFactory<RecoveryCertificateDetailsViewModel> {
+        fun create(testCertificateIdentifier: RecoveryCertificateIdentifier): RecoveryCertificateDetailsViewModel
     }
 }

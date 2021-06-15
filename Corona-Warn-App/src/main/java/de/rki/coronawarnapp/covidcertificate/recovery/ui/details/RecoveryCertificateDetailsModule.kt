@@ -12,8 +12,8 @@ abstract class RecoveryCertificateDetailsModule {
 
     @Binds
     @IntoMap
-    @CWAViewModelKey(RecoveryCertificationDetailsViewModel::class)
+    @CWAViewModelKey(RecoveryCertificateDetailsViewModel::class)
     abstract fun recoveryCertificateDetailsFragment(
-        factory: RecoveryCertificationDetailsViewModel.Factory
+        factory: RecoveryCertificateDetailsViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }
