@@ -28,7 +28,7 @@ class TestCertificateContainerTest : BaseTest() {
             certificateId shouldBe "URN:UVCI:V1:DE:7WR8CE12Y8O2AN4NK320TPNKB1"
             data.testCertificateQrCode shouldBe certificateTestData.personATest2CertQRCodeString
             data.certificateReceivedAt shouldBe Instant.parse("1970-01-02T10:17:36.789Z")
-            toTestCertificate(null) shouldNotBe null
+            toTestCertificate(null, mockk()) shouldNotBe null
         }
     }
 
@@ -40,7 +40,7 @@ class TestCertificateContainerTest : BaseTest() {
             certificateId shouldBe null
             data.testCertificateQrCode shouldBe null
             data.certificateReceivedAt shouldBe null
-            toTestCertificate(mockk()) shouldBe null
+            toTestCertificate(mockk(), mockk()) shouldBe null
         }
 
         certificateTestData.personATest4CertPendingContainer.apply {
@@ -49,7 +49,7 @@ class TestCertificateContainerTest : BaseTest() {
             certificateId shouldBe null
             data.testCertificateQrCode shouldBe null
             data.certificateReceivedAt shouldBe null
-            toTestCertificate(mockk()) shouldBe null
+            toTestCertificate(mockk(), mockk()) shouldBe null
         }
     }
 }

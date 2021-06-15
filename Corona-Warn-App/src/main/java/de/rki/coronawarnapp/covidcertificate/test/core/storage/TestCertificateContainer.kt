@@ -73,7 +73,7 @@ data class TestCertificateContainer(
                 get() = valueSet?.getDisplayText(testCertificate.testResult) ?: testCertificate.testResult
             override val testName: String?
                 get() = testCertificate.testName?.let { valueSet?.getDisplayText(it) ?: it }
-            override val testNameAndManufactor: String?
+            override val testNameAndManufacturer: String?
                 get() = testCertificate.testNameAndManufactor?.let { valueSet?.getDisplayText(it) ?: it }
             override val sampleCollectedAt: Instant
                 get() = testCertificate.sampleCollectedAt
@@ -81,6 +81,15 @@ data class TestCertificateContainer(
                 get() = testCertificate.testResultAt
             override val testCenter: String
                 get() = testCertificate.testCenter
+
+            override val isUpdatingData: Boolean
+                get() = this@TestCertificateContainer.isUpdatingData
+
+            override val registeredAt: Instant
+                get() = this@TestCertificateContainer.registeredAt
+
+            override val isCertificateRetrievalPending: Boolean
+                get() = this@TestCertificateContainer.isCertificateRetrievalPending
 
             override val certificateIssuer: String
                 get() = header.issuer

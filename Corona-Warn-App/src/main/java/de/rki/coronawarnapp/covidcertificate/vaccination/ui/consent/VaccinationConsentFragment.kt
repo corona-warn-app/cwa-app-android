@@ -51,7 +51,7 @@ class VaccinationConsentFragment : Fragment(R.layout.vaccination_consent_fragmen
                 VaccinationConsentNavigationEvent.NavigateToCertificates -> {
                     doNavigate(
                         VaccinationConsentFragmentDirections
-                            .actionVaccinationConsentFragmentToCertificatesFragment()
+                            .actionVaccinationConsentFragmentToPersonOverviewFragment()
                     )
                 }
             }

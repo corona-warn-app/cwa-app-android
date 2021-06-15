@@ -94,7 +94,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
                     get() = "negative"
                 override val testName: String
                     get() = "Xep"
-                override val testNameAndManufactor: String
+                override val testNameAndManufacturer: String
                     get() = "Xup"
                 override val sampleCollectedAt: Instant
                     get() = testDate
@@ -102,6 +102,12 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
                     get() = testDate
                 override val testCenter: String
                     get() = "AB123"
+                override val registeredAt: Instant
+                    get() = testDate
+                override val isUpdatingData: Boolean
+                    get() = false
+                override val isCertificateRetrievalPending: Boolean
+                    get() = false
                 override val issuer: String
                     get() = "G0593048274845483647869576478784"
                 override val issuedAt: Instant

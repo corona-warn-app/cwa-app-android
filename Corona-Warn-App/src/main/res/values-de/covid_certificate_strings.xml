@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- XTXT: Person overview no certificates title-->
+    <string name="person_overview_no_certificates_title">Noch keine Zertifikate vorhanden</string>
+    <!-- XTXT: Person overview no certificates subtitle-->
+    <string name="person_overview_no_certificates_subtitle">Hier werden die gespeicherten digitalen Impfzertifikate, Genesenenzertifikate und Testzertifikate angezeigt.</string>
+    <!-- XBUT: Person overview certificates scan button-->
+    <string name="person_overview_scan_button">Zertifikat hinzufügen</string>
+    <!-- XTXT: Person overview no certificates image content description-->
+    <string name="person_overview_no_certificates_image_description">A certificate with a QR code symbol on it.</string>
+    <!-- XTXT: Person card title-->
+    <string name="person_card_title">EU Digitales</string>
+    <!-- XTXT: Person card subtitle-->
+    <string name="person_card_subtitle">COVID-Zertifikat</string>
+</resources>

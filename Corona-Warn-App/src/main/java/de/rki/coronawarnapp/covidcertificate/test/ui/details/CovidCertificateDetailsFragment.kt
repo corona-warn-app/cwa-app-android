@@ -21,7 +21,6 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateOfBirthFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.setUrl
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -49,7 +48,6 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
             subtitle.alpha = subtitleAlpha
         }
 
-        bindTravelNoticeViews()
         bindToolbar()
         setToolbarOverlay()
 
@@ -67,7 +65,7 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
         diseaseType.text = testCertificate.targetName
         testType.text = testCertificate.testType
         testName.text = testCertificate.testName
-        testManufacturer.text = testCertificate.testNameAndManufactor
+        testManufacturer.text = testCertificate.testNameAndManufacturer
         testDate.text = "%s %s".format(
             testCertificate.sampleCollectedAt.toShortDayFormat(),
             testCertificate.sampleCollectedAt.toShortTimeFormat()
@@ -100,28 +98,6 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
                 QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
                 null,
                 FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
-            )
-        }
-    }
-
-    private fun FragmentCovidCertificateDetailsBinding.bindTravelNoticeViews() {
-        if (travelNoticeGerman.text ==
-            getString(R.string.green_certificate_attribute_certificate_travel_notice_german)
-        ) {
-            travelNoticeGerman.setUrl(
-                R.string.green_certificate_attribute_certificate_travel_notice_german,
-                R.string.green_certificate_travel_notice_link_de,
-                R.string.green_certificate_travel_notice_link_de
-            )
-        }
-
-        if (travelNoticeEnglish.text ==
-            getString(R.string.green_certificate_attribute_certificate_travel_notice_english)
-        ) {
-            travelNoticeEnglish.setUrl(
-                R.string.green_certificate_attribute_certificate_travel_notice_english,
-                R.string.green_certificate_travel_notice_link_en,
-                R.string.green_certificate_travel_notice_link_en
             )
         }
     }

@@ -20,8 +20,11 @@ interface TestCertificate : CwaCovidCertificate {
     /**
      * RAT Test name and manufacturer (only for RAT tests, but not required)
      */
-    val testNameAndManufactor: String?
+    val testNameAndManufacturer: String?
     val sampleCollectedAt: Instant
     val testResultAt: Instant?
     val testCenter: String
+    val registeredAt: Instant
+    val isUpdatingData: Boolean
+    val isCertificateRetrievalPending: Boolean
 }
