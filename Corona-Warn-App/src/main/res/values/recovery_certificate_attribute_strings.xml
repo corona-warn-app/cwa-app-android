@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+    <!-- ####################################
+        Special string files for the strings
+        that should always keep the german / english
+        version independent from the selected system language
+    ###################################### -->
+
+    <!-- XTXT: Recovery Certificate Detail Screen Attribute: Name -->
+    <string name="recovery_certificate_attribute_name" translatable="false">"Name, Vorname / Name, First Name"</string>
+
+    <!-- XTXT: Recovery Certificate Detail Screen Attribute: Date of Birth -->
+    <string name="recovery_certificate_attribute_date_of_birth" translatable="false">"Geburtsdatum / Date of Birth  (YYYY-MM-DD)"</string>
+
+    <!-- XTXT: Recovery Certificate Detail Screen Attribute: Recovered From Desease -->
+    <string name="recovery_certificate_attribute_recovered_from" translatable="false">"Genesen von / Recovered from"</string>
+
+    <!-- XTXT: Recovery Certificate Detail Screen Attribute: First Positive Test Result -->
+    <string name="recovery_certificate_attribute_first_positive_test_result" translatable="false">"Datum des ersten positiven Testergebnisses / Date of first positive test result (YYYY-MM-DD)"</string>
+
+    <!-- XTXT: Recovery Certificate Detail Screen Attribute: Member State of Test -->
+    <string name="recovery_certificate_attribute_state_of_testing" translatable="false">"Land der Testung / Member State of Test"</string>
+
+    <!-- XTXT: Recovery Certificate Detail Screen Attribute: Certificate Issuer -->
+    <string name="recovery_certificate_attribute_certificate_issuer" translatable="false">"Zertifikataussteller / Certificate Issuer"</string>
+
+    <!-- XTXT: Recovery Certificate Detail Screen Attribute: Start of Certification Period -->
+    <string name="recovery_certificate_attribute_certificate_certification_period_start" translatable="false">"Zertifikat gültig ab / Certificate valid from (YYYY-MM-DD)"</string>
+
+    <!-- XTXT: Recovery Certificate Detail Screen Attribute: End of Certification Period -->
+    <string name="recovery_certificate_attribute_certificate_certification_period_end" translatable="false">"Zertifikat gültig bis / Certificate valid until (YYYY-MM-DD)"</string>
+
+    <!-- XTXT: Recovery Certificate Detail Screen Attribute: Unique Certificate Identifier -->
+    <string name="recovery_certificate_attribute_certificate_id" translatable="false">"Zertifikatkennung / Unique Certificate Identifier"</string>
+</resources>

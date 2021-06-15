@@ -11,9 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.AppBarLayout
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
-import de.rki.coronawarnapp.contactdiary.ui.onboarding.ContactDiaryOnboardingFragmentViewModel
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.databinding.FragmentRecoveryCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
@@ -24,7 +22,6 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
 class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_certificate_details), AutoInject {
