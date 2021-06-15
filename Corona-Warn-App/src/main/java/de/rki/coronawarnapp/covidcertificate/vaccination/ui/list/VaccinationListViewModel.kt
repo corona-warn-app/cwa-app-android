@@ -1,13 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.ui.list
 
-import android.content.Context
 import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.adapter.VaccinationListItem
@@ -15,11 +13,9 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.adapter.viewhol
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.adapter.viewholder.VaccinationListNameCardItemVH.VaccinationListNameCardItem
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.adapter.viewholder.VaccinationListQrCodeCardItemVH.VaccinationListQrCodeCardItem
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.adapter.viewholder.VaccinationListVaccinationCardItemVH.VaccinationListVaccinationCardItem
-import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.coroutine.AppScope
-import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -33,16 +29,10 @@ import timber.log.Timber
 
 class VaccinationListViewModel @AssistedInject constructor(
     private val vaccinationRepository: VaccinationRepository,
-    valueSetsRepository: ValueSetsRepository,
-    @AppContext context: Context,
     @AppScope private val appScope: CoroutineScope,
     private val qrCodeGenerator: QrCodeGenerator,
     @Assisted private val personIdentifierCodeSha256: String
 ) : CWAViewModel() {
-
-    init {
-        valueSetsRepository.triggerUpdateValueSet(languageCode = context.getLocale())
-    }
 
     val events = SingleLiveEvent<Event>()
     val errors = SingleLiveEvent<Throwable>()
