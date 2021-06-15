@@ -82,7 +82,12 @@ class TestCertificateProcessorTest : BaseTest() {
 
         every { rsaCryptography.decrypt(any(), any()) } returns ByteString.Companion.EMPTY
 
-        coEvery { qrCodeExtractor.extract(any<ByteArray>(), any()) } returns mockk<TestCertificateQRCode>().apply {
+        coEvery {
+            qrCodeExtractor.extractEncrypted(
+                any<ByteArray>(),
+                any()
+            )
+        } returns mockk<TestCertificateQRCode>().apply {
             every { qrCode } returns "qrCode"
             every { data } returns mockk()
         }

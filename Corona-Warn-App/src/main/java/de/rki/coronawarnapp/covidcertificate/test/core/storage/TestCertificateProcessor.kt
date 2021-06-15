@@ -131,7 +131,7 @@ class TestCertificateProcessor @Inject constructor(
             throw InvalidTestCertificateException(InvalidHealthCertificateException.ErrorCode.RSA_DECRYPTION_FAILED)
         }
 
-        val extractedData = qrCodeExtractor.extract(
+        val extractedData = qrCodeExtractor.extractEncrypted(
             decryptionKey = encryptionKey.toByteArray(),
             rawCoseObjectEncrypted = components.encryptedCoseTestCertificateBase64.decodeBase64()!!.toByteArray()
         )

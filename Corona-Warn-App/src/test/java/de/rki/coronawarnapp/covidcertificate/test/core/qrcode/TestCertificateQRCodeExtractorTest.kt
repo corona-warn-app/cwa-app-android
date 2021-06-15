@@ -62,7 +62,7 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
         with(TestData.EllenCheng()) {
             val coseObject = coseWithEncryptedPayload.decodeBase64()!!.toByteArray()
             val dek = dek.decodeBase64()!!.toByteArray()
-            val result = extractor.extract(dek, coseObject)
+            val result = extractor.extractEncrypted(dek, coseObject)
             with(result.data.certificate.nameData) {
                 familyName shouldBe "Cheng"
                 givenName shouldBe "Ellen"
@@ -80,7 +80,7 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
         with(TestData.BrianCalamandrei()) {
             val coseObject = coseWithEncryptedPayload.decodeBase64()!!.toByteArray()
             val dek = dek.decodeBase64()!!.toByteArray()
-            val result = extractor.extract(dek, coseObject)
+            val result = extractor.extractEncrypted(dek, coseObject)
             with(result.data.certificate.nameData) {
                 familyName shouldBe "Calamandrei"
                 givenName shouldBe "Brian"
