@@ -79,7 +79,7 @@
                 android:theme="@style/Theme.MaterialComponents"
                 app:layout_collapseMode="pin"
                 app:layout_scrollFlags="scroll|enterAlways"
-                app:menu="@menu/menu_covid_certificate_detail"
+                app:menu="@menu/menu_recovery_certificate_details"
                 app:navigationIcon="@drawable/ic_back"
                 app:navigationIconTint="@android:color/white"
                 app:popupTheme="@style/Theme.MaterialComponents.Light">
