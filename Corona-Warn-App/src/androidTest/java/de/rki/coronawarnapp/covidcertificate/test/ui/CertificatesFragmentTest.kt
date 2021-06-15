@@ -24,6 +24,7 @@ import org.joda.time.Duration
 import org.joda.time.format.DateTimeFormat
 import org.junit.After
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
@@ -34,6 +35,7 @@ import testhelpers.selectBottomNavTab
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
+@Ignore("To be removed")
 class CertificatesFragmentTest : BaseUITest() {
 
     @MockK lateinit var viewModel: CertificatesViewModel
@@ -98,28 +100,6 @@ class CertificatesFragmentTest : BaseUITest() {
             listOf(
                 HeaderInfoVaccinationCard.Item,
                 VaccinationCard.Item(
-                    vaccinatedPerson = vaccinatedPerson,
-                    onClickAction = {}
-                ),
-                NoCovidTestCertificatesCard.Item
-            )
-        )
-    }
-
-    @Screenshot
-    @Test
-    fun capture_screenshot_vaccination_complete() {
-        every { vaccinatedPerson.getVaccinationStatus() } returns VaccinatedPerson.Status.IMMUNITY
-        every { viewModel.screenItems } returns getVaccinationImmuneScreenItems()
-
-        takeScreenshotInMainActivity("immune")
-    }
-
-    private fun getVaccinationImmuneScreenItems(): LiveData<List<CertificatesItem>> {
-        return MutableLiveData(
-            listOf(
-                HeaderInfoVaccinationCard.Item,
-                ImmuneVaccinationCard.Item(
                     vaccinatedPerson = vaccinatedPerson,
                     onClickAction = {}
                 ),
