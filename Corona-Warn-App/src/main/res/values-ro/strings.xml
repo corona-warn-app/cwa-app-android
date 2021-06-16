@@ -308,7 +308,7 @@
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
     <string name="risk_details_subtitle_period_logged">"Această perioadă este inclusă în calcul."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
-<!--    Dialog part 1-->
+    <!--    Dialog part 1-->
     <string name="risk_details_information_body_period_logged">"Riscul dvs. de infectare poate fi calculat doar pentru perioadele în care a fost activă înregistrarea în jurnal a expunerilor. Prin urmare, caracteristica de înregistrare în jurnal trebuie să rămână permanent activă. Înregistrarea în jurnal a expunerilor acoperă ultimele 14 zile."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Aplicația Corona-Warn a fost instalată acum %s zi(le). Riscul dvs. de infectare este calculat pentru perioadele în care înregistrarea în jurnal a expunerilor a fost activă. Dacă v-ați întâlnit cu alte persoane și înregistrarea în jurnal a expunerilor a fost activă, este calculat riscul dvs. de infectare."</string>
@@ -1143,8 +1143,12 @@
     <string name="submission_test_result_dialog_tracing_required_button">"OK"</string>
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"Testul poate fi scanat o singură dată."</string>
+    <!-- XHED: Dialog title for test removal no submission -->
+    <string name="submission_test_result_dialog_remove_test_title_no_submission">"Sigur doriți să eliminați testul dvs.?"</string>
     <!-- YTXT: Dialog text for test removal -->
     <string name="submission_test_result_dialog_remove_test_message">"Dacă ștergeți testul, nu veți mai putea afla rezultatul testului. Veți primi rezultatul testului dvs. de la centrul sau laboratorul de testare, indiferent de valabilitatea codului QR. Dacă sunteți diagnosticat cu coronavirus, autoritatea de sănătate publică va fi notificată prin canalul de comunicare prevăzut în mod legal și vă va contacta."</string>
+    <!-- YTXT: Dialog text for test removal no submission -->
+    <string name="submission_test_result_dialog_remove_test_message_no_submission">"În caz afirmativ, alte persoane nu vor fi avertizate."</string>
     <!-- XBUT: Positive button for test removal -->
     <string name="submission_test_result_dialog_remove_test_button_positive">"Ștergere"</string>
     <!-- XBUT: Negative button for test removal -->
@@ -1233,6 +1237,8 @@
     <string name="submission_test_result_positive_no_consent_text_3">"Asigurați-vă că urmați instrucțiunile autorității dvs. de sănătate publică și că stați acasă, pentru a nu-i infecta pe ceilalți."</string>
     <!-- XBUT: Button for giving consent for key sharing -->
     <string name="submission_test_result_positive_no_consent_button_warn_others">"Avertizați-i pe ceilalți"</string>
+    <!-- XBUT: Button for test removal -->
+    <string name="submission_test_result_positive_no_consent_button_remove_test">"Eliminare test"</string>
 
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
