@@ -32,7 +32,8 @@ interface VerificationApiV1 {
 
     data class TestResultResponse(
         @SerializedName("testResult") val testResult: Int,
-        @SerializedName("sc") val sampleCollectedAt: Int?
+        @SerializedName("sc") val sampleCollectedAt: Int?,
+        @SerializedName("labId") val labId: String?
     )
 
     @POST("version/v1/testresult")

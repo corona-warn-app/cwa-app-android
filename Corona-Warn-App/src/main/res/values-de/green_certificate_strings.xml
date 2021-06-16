@@ -100,4 +100,8 @@
     <string name="test_certificate_error_label_refreshing">"Ihr Zertifikat wird gerade erstellt…"</string>
     <!-- XTXT: Test error card body refreshing -->
     <string name="test_certificate_error_refreshing_status">"Ihr Zertifikat wird gerade angefragt, dies kann einige Minuten dauern…"</string>
+    <!-- XBUT: Text for invalid test certificate error button, linking to FAQ-->
+    <string name="test_certificate_error_invalid_labid_faq">"FAQ zu Testzertifikaten"</string>
+    <!-- XTXT: Explains user about test certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
+    <string name="test_certificate_error_invalid_labid_faq_link">"https://www.coronawarn.app/de/faq/#test_cert"</string>
 </resources>

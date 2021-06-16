@@ -38,6 +38,9 @@ data class RACertificateData(
     @SerializedName("testCertificateQrCode")
     override val testCertificateQrCode: String? = null,
 
+    @SerializedName("labId")
+    override val labId: String? = null,
+
     @SerializedName("certificateSeenByUser")
     override val certificateSeenByUser: Boolean = false,
 ) : StoredTestCertificateData {

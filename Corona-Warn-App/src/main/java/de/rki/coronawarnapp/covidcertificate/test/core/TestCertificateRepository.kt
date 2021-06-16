@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.test.core
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.covidcertificate.exception.TestCertificateServerException
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.PCRCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.RACertificateData
@@ -114,11 +115,13 @@ class TestCertificateRepository @Inject constructor(
                     identifier = identifier,
                     registeredAt = test.registeredAt,
                     registrationToken = test.registrationToken,
+                    labId = test.labId
                 )
                 CoronaTest.Type.RAPID_ANTIGEN -> RACertificateData(
                     identifier = identifier,
                     registeredAt = test.registeredAt,
                     registrationToken = test.registrationToken,
+                    labId = test.labId
                 )
             }
             val container = TestCertificateContainer(
@@ -172,12 +175,42 @@ class TestCertificateRepository @Inject constructor(
             }
         }
 
+        // Not sure i really like this
+        internalData.updateBlocking {
+            Timber.tag(TAG).d("Checking for invalid lab id.")
+
+            val refreshedCerts = values
+                .filter { workedOnIds.contains(it.identifier) } // Refresh targets
+                .filter { it.labId == null } // Targets of this step
+                .map { cert ->
+                    Timber.tag(TAG).d("%s is missing a lab id returning exception", cert)
+                    RefreshResult(
+                        cert,
+                        TestCertificateServerException(
+                            TestCertificateServerException.ErrorCode.DCC_NOT_SUPPORTED_BY_LAB
+                        )
+                    )
+                }
+
+            refreshedCerts.forEach {
+                refreshCallResults[it.certificateContainer.identifier] = it
+            }
+
+            mutate {
+                refreshedCerts
+                    .filter { it.error == null }
+                    .map { it.certificateContainer }
+                    .forEach { this[it.identifier] = it }
+            }
+        }
+
         internalData.updateBlocking {
             Timber.tag(TAG).d("Checking for unregistered public keys.")
 
             val refreshedCerts = values
                 .filter { workedOnIds.contains(it.identifier) } // Refresh targets
                 .filter { !it.isPublicKeyRegistered } // Targets of this step
+                .filter { it.labId != null }
                 .map { cert ->
                     withContext(dispatcherProvider.IO) {
                         try {
@@ -208,6 +241,7 @@ class TestCertificateRepository @Inject constructor(
             val refreshedCerts = values
                 .filter { workedOnIds.contains(it.identifier) } // Refresh targets
                 .filter { it.isPublicKeyRegistered && it.isCertificateRetrievalPending } // Targets of this step
+                .filter { it.labId != null }
                 .map { cert ->
                     withContext(dispatcherProvider.IO) {
                         try {

@@ -7,9 +7,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
+import de.rki.coronawarnapp.covidcertificate.exception.TestCertificateServerException
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.VaccinationListFragment
 import de.rki.coronawarnapp.databinding.FragmentCertificatesBinding
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
@@ -63,14 +66,18 @@ class CertificatesFragment : Fragment(R.layout.fragment_certificates), AutoInjec
                     )
                 }
                 is CertificatesFragmentEvents.ShowRefreshErrorCertificateDialog -> {
-                    val dialog = DialogHelper.DialogInstance(
-                        context = requireContext(),
-                        title = R.string.test_certificate_refresh_dialog_title,
-                        message = event.error.localizedMessage,
-                        positiveButton = R.string.test_certificate_refresh_dialog_confirm_button,
-                        cancelable = false
-                    )
-                    DialogHelper.showDialog(dialog)
+                    event.error.toErrorDialogBuilder(requireContext()).apply {
+                        setTitle(R.string.test_certificate_refresh_dialog_title)
+                        setCancelable(false)
+                        if (
+                            event.error is TestCertificateServerException &&
+                            event.error.errorCode == TestCertificateServerException.ErrorCode.DCC_NOT_SUPPORTED_BY_LAB
+                        ) {
+                            setNeutralButton(R.string.test_certificate_error_invalid_labid_faq) { _, _ ->
+                                openUrl(getString(R.string.test_certificate_error_invalid_labid_faq_link))
+                            }
+                        }
+                    }.show()
                 }
                 is CertificatesFragmentEvents.ShowDeleteErrorCertificateDialog -> {
                     val dialog = DialogHelper.DialogInstance(
