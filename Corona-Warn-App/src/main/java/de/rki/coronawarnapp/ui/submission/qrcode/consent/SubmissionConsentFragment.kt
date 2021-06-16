@@ -55,15 +55,18 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                         requireActivity(),
                         REQUEST_USER_RESOLUTION
                     )
-                is SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode -> {
-                    doNavigate(
-                        NavGraphDirections
-                            .actionToSubmissionDeletionWarningFragment(
-                                testRegistrationRequest = it.coronaTestQRCode,
-                                isConsentGiven = it.consentGiven,
-                            )
+                is SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode -> doNavigate(
+                    NavGraphDirections.actionToSubmissionDeletionWarningFragment(
+                        testRegistrationRequest = it.coronaTestQRCode,
+                        isConsentGiven = it.consentGiven,
                     )
-                }
+                )
+                is SubmissionNavigationEvents.NavigateToRequestDccFragment -> doNavigate(
+                    NavGraphDirections.actionRequestCovidCertificateFragment(
+                        testRegistrationRequest = it.coronaTestQRCode,
+                        coronaTestConsent = it.consentGiven
+                    )
+                )
             }
         }
         viewModel.countries.observe2(this) {
