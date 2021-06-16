@@ -7,7 +7,7 @@
         android:title="@string/bottom_nav_home_title" />
 
     <item
-        android:id="@+id/green_certificate_graph"
+        android:id="@+id/certificate_graph"
         android:icon="@drawable/ic_certificates"
         android:title="@string/bottom_nav_certificates_title" />
 
