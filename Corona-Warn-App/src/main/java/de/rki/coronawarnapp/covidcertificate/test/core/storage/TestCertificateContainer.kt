@@ -77,9 +77,7 @@ data class TestCertificateContainer(
                 get() = testCertificate.testNameAndManufactor?.let { valueSet?.getDisplayText(it) ?: it }
             override val sampleCollectedAt: Instant
                 get() = testCertificate.sampleCollectedAt
-            override val testResultAt: Instant?
-                get() = testCertificate.testResultAt
-            override val testCenter: String
+            override val testCenter: String?
                 get() = testCertificate.testCenter
 
             override val isUpdatingData: Boolean
