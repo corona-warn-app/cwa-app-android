@@ -85,14 +85,22 @@ class VaccinatedPersonTest : BaseTest() {
         )
 
         vaccinatedPerson.apply {
+            // Less than 14 days
             getVaccinationStatus(
                 Instant.parse("2021-04-27T12:00:00.000Z")
             ) shouldBe VaccinatedPerson.Status.COMPLETE
             getVaccinationStatus(
                 Instant.parse("2021-05-10T12:00:00.000Z")
             ) shouldBe VaccinatedPerson.Status.COMPLETE
+
+            // 14 days exactly
             getVaccinationStatus(
                 Instant.parse("2021-05-11T12:00:00.000Z")
+            ) shouldBe VaccinatedPerson.Status.COMPLETE
+
+            // More than 14 days
+            getVaccinationStatus(
+                Instant.parse("2021-05-12T12:00:00.000Z")
             ) shouldBe VaccinatedPerson.Status.IMMUNITY
         }
     }
