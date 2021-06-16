@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    // ----------------------------------------------------
+    // COMMON STRINGS FOR ALL TYPES OF CERTIFICATES BELOW
+    // ----------------------------------------------------
+
     <!-- XTXT: Person overview no certificates title-->
     <string name="person_overview_no_certificates_title">Noch keine Zertifikate vorhanden</string>
     <!-- XTXT: Person overview no certificates subtitle-->
@@ -31,4 +36,21 @@
     <string name="vaccination_consent_onboarding_legal_information">"Ausführliche Informationen zur Datenverarbeitung finden Sie in der Datenschutzerklärung."</string>
     <!-- XBUT: Text for vaccination consent accept button -->
     <string name="vaccination_consent_accept_button">"Weiter"</string>
+
+    // ------------------------------------------
+    // VACCINATION CERTIFICATE STRINGS BELOW
+    // ------------------------------------------
+
+    <string name="vaccination_dose_number">%1$d von %2$d</string>
+
+
+    // ------------------------------------------
+    // RECOVERY CERTIFICATE STRINGS BELOW
+    // ------------------------------------------
+
+
+    // ------------------------------------------
+    // TEST CERTIFICATE STRINGS BELOW
+    // ------------------------------------------
+
 </resources>
