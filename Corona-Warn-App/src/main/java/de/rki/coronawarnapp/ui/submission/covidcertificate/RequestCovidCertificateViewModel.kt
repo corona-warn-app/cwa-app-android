@@ -7,7 +7,6 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
-import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -19,7 +18,6 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
     @Assisted("coronaTestConsent") private val coronaTestConsent: Boolean,
     @Assisted("deleteOldTest") private val deleteOldTest: Boolean,
     private val registrationStateProcessor: TestRegistrationStateProcessor,
-    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
 ) : CWAViewModel() {
 
     val registrationState = registrationStateProcessor.state.asLiveData2()
@@ -63,8 +61,6 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
             isSubmissionConsentGiven = coronaTestConsent,
             allowReplacement = deleteOldTest
         )
-
-        if (coronaTestConsent) analyticsKeySubmissionCollector.reportAdvancedConsentGiven(consentedQrCode.type)
     }
 
     @AssistedFactory
