@@ -1,9 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.test.ui
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateIdentifier
@@ -19,6 +21,8 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.ui.cards.ImmuneVaccinat
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.cards.NoCovidTestCertificatesCard
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.cards.VaccinationCard
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
+import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
+import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -26,9 +30,15 @@ import kotlinx.coroutines.flow.combine
 
 class CertificatesViewModel @AssistedInject constructor(
     vaccinationRepository: VaccinationRepository,
+    valueSetsRepository: ValueSetsRepository,
+    @AppContext context: Context,
     private val vaccinationSettings: VaccinationSettings,
     private val testCertificateRepository: TestCertificateRepository
 ) : CWAViewModel() {
+
+    init {
+        valueSetsRepository.triggerUpdateValueSet(languageCode = context.getLocale())
+    }
 
     val events = SingleLiveEvent<CertificatesFragmentEvents>()
 
