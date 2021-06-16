@@ -170,6 +170,6 @@ class VaccinationContainerTest : BaseTest() {
 
     @Test
     fun `gracefully handle semi invalid data - multiple entries`() {
-        testData.personYVacTwoEntriesContainer.certificate.vaccinations!!.size shouldBe 1
+        testData.personYVacTwoEntriesContainer.certificate.vaccination
     }
 }

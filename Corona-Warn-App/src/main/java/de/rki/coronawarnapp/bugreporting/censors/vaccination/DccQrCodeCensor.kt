@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensorContainer
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Vaccination
 import java.util.LinkedList
 import javax.inject.Inject
 
@@ -26,18 +27,14 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
                     dobFormatted,
                     "covidCertificate/dateOfBirth"
                 )
-                if (dobFormatted != dob) {
-                    newMessage = newMessage.censor(
-                        dob,
-                        "covidCertificate/dob"
-                    )
-                }
 
                 newMessage = censorNameData(nameData, newMessage)
 
-                vaccinations?.forEach { data ->
-                    newMessage = censorVaccinationData(data, newMessage)
+                (it.certificate as? DccV1Vaccination)?.let {
+                    newMessage = censorVaccinationData(it.vaccination, newMessage)
                 }
+                // TODO test and recovery
+
             }
         }
 
@@ -146,8 +143,8 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
 
         fun clearQRCodeStringToCensor() = synchronized(qrCodeStringsToCensor) { qrCodeStringsToCensor.clear() }
 
-        private val certsToCensor = LinkedList<DccData>()
-        fun addCertificateToCensor(cert: DccData) = synchronized(certsToCensor) {
+        private val certsToCensor = LinkedList<DccData<out DccV1.MetaData>>()
+        fun addCertificateToCensor(cert: DccData<out DccV1.MetaData>) = synchronized(certsToCensor) {
             certsToCensor.apply {
                 if (contains(cert)) return@apply
                 addFirst(cert)

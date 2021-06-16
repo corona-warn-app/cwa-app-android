@@ -18,7 +18,7 @@ class DccV1Parser @Inject constructor(
     fun parse(map: CBORObject, mode: Mode): DccV1 = try {
         map[keyHCert]?.run {
             this[keyEuDgcV1]?.run {
-                this.toCertificate(mode)
+                this.toCertificate().toValidated(mode)
             } ?: throw InvalidVaccinationCertificateException(ErrorCode.HC_CWT_NO_DGC)
         } ?: throw InvalidVaccinationCertificateException(ErrorCode.HC_CWT_NO_HCERT)
     } catch (e: InvalidHealthCertificateException) {
@@ -27,23 +27,29 @@ class DccV1Parser @Inject constructor(
         throw InvalidHealthCertificateException(ErrorCode.HC_CBOR_DECODING_FAILED, cause = e)
     }
 
-    private fun CBORObject.toCertificate(mode: Mode): DccV1 = try {
+    private fun CBORObject.toCertificate(): DccV1 = try {
         val json = ToJSONString()
-        gson.fromJson<DccV1>(json).toValidated(mode)
+        gson.fromJson(json)
     } catch (e: InvalidHealthCertificateException) {
         throw e
     } catch (e: Throwable) {
         throw InvalidHealthCertificateException(ErrorCode.JSON_SCHEMA_INVALID)
     }
 
-    private fun DccV1.toValidated(mode: Mode): DccV1 = this
-        .run {
+    private fun DccV1.toValidated(mode: Mode): DccV1 = try {
+        this.run {
             checkModeRestrictions(mode)
         }
-        .apply {
-            // Apply otherwise we risk accidentally accessing the original obj in the outer scope
-            checkFields()
-        }
+            .apply {
+                // Apply otherwise we risk accidentally accessing the original obj in the outer scope
+                require(isSingleCertificate())
+                checkFields()
+            }
+    } catch (e: InvalidHealthCertificateException) {
+        throw e
+    } catch (e: Throwable) {
+        throw InvalidHealthCertificateException(ErrorCode.JSON_SCHEMA_INVALID)
+    }
 
     private fun DccV1.checkModeRestrictions(mode: Mode) = when (mode) {
         Mode.CERT_VAC_STRICT ->
@@ -74,13 +80,9 @@ class DccV1Parser @Inject constructor(
                 )
             else this
         else -> this
-    }.also {
-        if (mode in strictModes) {
-            require(this.isStrict())
-        }
     }
 
-    private fun DccV1.isStrict(): Boolean {
+    private fun DccV1.isSingleCertificate(): Boolean {
         return (vaccinations.isNullOrEmpty() && tests.isNullOrEmpty() && recoveries!!.size == 1) ||
             (vaccinations.isNullOrEmpty() && recoveries.isNullOrEmpty() && tests!!.size == 1) ||
             (recoveries.isNullOrEmpty() && tests.isNullOrEmpty() && vaccinations!!.size == 1)
@@ -102,12 +104,10 @@ class DccV1Parser @Inject constructor(
             require(it.totalSeriesOfDoses > 0)
         }
         tests?.forEach {
-            it.testResultAt
             it.sampleCollectedAt
             require(it.certificateIssuer.isNotBlank())
             require(it.certificateCountry.isNotBlank())
             require(it.targetId.isNotBlank())
-            require(it.testCenter.isNotBlank())
             require(it.testResult.isNotBlank())
             require(it.testType.isNotBlank())
         }
@@ -128,9 +128,6 @@ class DccV1Parser @Inject constructor(
         CERT_TEST_STRICT, // exactly one test certificate allowed
         CERT_SINGLE_STRICT; // exactly one certificate allowed
     }
-
-    val strictModes
-        get() = listOf(Mode.CERT_VAC_STRICT, Mode.CERT_REC_STRICT, Mode.CERT_TEST_STRICT, Mode.CERT_SINGLE_STRICT)
 
     companion object {
         private val keyEuDgcV1 = CBORObject.FromObject(1)

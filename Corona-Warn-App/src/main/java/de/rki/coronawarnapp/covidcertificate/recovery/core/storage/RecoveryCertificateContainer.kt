@@ -3,10 +3,11 @@ package de.rki.coronawarnapp.covidcertificate.recovery.core.storage
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
-import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Recovery
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
+import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -19,20 +20,17 @@ data class RecoveryCertificateContainer(
 ) : StoredRecoveryCertificate by data {
 
     @delegate:Transient
-    private val certificateData: DccData by lazy {
+    private val certificateData: DccData<DccV1Recovery> by lazy {
         data.recoveryCertificateQrCode!!.let {
-            qrCodeExtractor.extract(
+            (qrCodeExtractor.extract(
                 it,
                 mode = Mode.CERT_REC_STRICT
-            ).data
+            ) as RecoveryCertificateQRCode).data
         }
     }
 
-    val recovery: DccV1.RecoveryCertificateData
-        get() = certificateData.certificate.recoveries!!.single()
-
     val certificateId: String
-        get() = recovery.uniqueCertificateIdentifier
+        get() = certificateData.certificate.recovery.uniqueCertificateIdentifier
 
     fun toRecoveryCertificate(
         valueSet: TestCertificateValueSets?,
@@ -40,7 +38,7 @@ data class RecoveryCertificateContainer(
     ): RecoveryCertificate {
         val header = certificateData.header
         val certificate = certificateData.certificate
-        val recoveryCertificate = certificate.recoveries!!.single()
+        val recoveryCertificate = certificate.recovery
 
         return object : RecoveryCertificate {
             override val personIdentifier: CertificatePersonIdentifier

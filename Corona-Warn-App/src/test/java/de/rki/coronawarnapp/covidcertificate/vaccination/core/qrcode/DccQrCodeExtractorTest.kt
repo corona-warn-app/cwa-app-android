@@ -46,7 +46,10 @@ class DccQrCodeExtractorTest : BaseTest() {
 
     @Test
     fun `happy path extraction with data`() {
-        val qrCode = extractor.extract(VaccinationQrCodeTestData.validVaccinationQrCode3, mode = Mode.CERT_VAC_STRICT)
+        val qrCode = extractor.extract(
+            VaccinationQrCodeTestData.validVaccinationQrCode3,
+            mode = Mode.CERT_VAC_STRICT
+        ) as VaccinationCertificateQRCode
 
         with(qrCode.data.header) {
             issuer shouldBe "AT"
@@ -61,11 +64,10 @@ class DccQrCodeExtractorTest : BaseTest() {
                 givenName shouldBe "Gabriele"
                 givenNameStandardized shouldBe "GABRIELE"
             }
-            dob shouldBe "1998-02-26"
             dateOfBirth shouldBe LocalDate.parse("1998-02-26")
             version shouldBe "1.0.0"
 
-            with(vaccinations!!.single()) {
+            with(vaccination) {
                 uniqueCertificateIdentifier shouldBe "urn:uvci:01:AT:10807843F94AEE0EE5093FBC254BD813P"
                 certificateCountry shouldBe "AT"
                 doseNumber shouldBe 1
@@ -172,7 +174,7 @@ class DccQrCodeExtractorTest : BaseTest() {
         val qrCode = extractor.extract(
             VaccinationQrCodeTestData.qrCodeBulgaria,
             mode = Mode.CERT_VAC_STRICT
-        )
+        ) as VaccinationCertificateQRCode
         with(qrCode.data.header) {
             issuer shouldBe "BG"
             issuedAt shouldBe Instant.parse("2021-06-02T14:07:56.000Z")
@@ -186,11 +188,10 @@ class DccQrCodeExtractorTest : BaseTest() {
                 givenName shouldBe "СТАМО ГЕОРГИЕВ"
                 givenNameStandardized shouldBe "STAMO<GEORGIEV"
             }
-            dob shouldBe "1978-01-26T00:00:00"
             dateOfBirth shouldBe LocalDate.parse("1978-01-26")
             version shouldBe "1.0.0"
 
-            vaccinations!!.single().apply {
+            vaccination.apply {
                 uniqueCertificateIdentifier shouldBe "urn:uvci:01:BG:UFR5PLGKU8WDSZK7#0"
                 certificateCountry shouldBe "BG"
                 doseNumber shouldBe 2
@@ -248,8 +249,9 @@ class DccQrCodeExtractorTest : BaseTest() {
             VaccinationQrCodeTestData.passGermanReferenceCase,
             mode = Mode.CERT_VAC_STRICT
         ).apply {
+            this as VaccinationCertificateQRCode
             data.certificate.dateOfBirth shouldBe LocalDate.parse("1964-08-12")
-            data.certificate.vaccinations!!.single().vaccinatedAt shouldBe LocalDate.parse("2021-05-29")
+            data.certificate.vaccination.vaccinatedAt shouldBe LocalDate.parse("2021-05-29")
         }
     }
 
@@ -259,8 +261,9 @@ class DccQrCodeExtractorTest : BaseTest() {
             VaccinationQrCodeTestData.passDatesWithTimeAtMidnight,
             mode = Mode.CERT_VAC_STRICT
         ).apply {
+            this as VaccinationCertificateQRCode
             data.certificate.dateOfBirth shouldBe LocalDate.parse("1978-01-26")
-            data.certificate.vaccinations!!.single().vaccinatedAt shouldBe LocalDate.parse("2021-03-09")
+            data.certificate.vaccination.vaccinatedAt shouldBe LocalDate.parse("2021-03-09")
         }
     }
 
@@ -270,8 +273,9 @@ class DccQrCodeExtractorTest : BaseTest() {
             VaccinationQrCodeTestData.passDatesWithRealTimeInfo,
             mode = Mode.CERT_VAC_STRICT
         ).apply {
+            this as VaccinationCertificateQRCode
             data.certificate.dateOfBirth shouldBe LocalDate.parse("1958-11-11")
-            data.certificate.vaccinations!!.single().vaccinatedAt shouldBe LocalDate.parse("2021-03-18")
+            data.certificate.vaccination.vaccinatedAt shouldBe LocalDate.parse("2021-03-18")
         }
     }
 

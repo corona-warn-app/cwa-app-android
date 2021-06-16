@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.covidcertificate.common.cryptography.AesCryptography
 import de.rki.coronawarnapp.covidcertificate.common.decoder.DccCoseDecoder
 import de.rki.coronawarnapp.covidcertificate.common.decoder.DccHeaderParser
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.test.TestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeTestData
 import io.kotest.assertions.throwables.shouldThrow
@@ -25,7 +26,7 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
 
     @Test
     fun `happy path qr code`() {
-        val qrCode = extractor.extract(TestData.qrCodeTestCertificate)
+        val qrCode = extractor.extract(TestData.qrCodeTestCertificate) as TestCertificateQRCode
         with(qrCode.data.header) {
             issuer shouldBe "AT"
             issuedAt shouldBe Instant.parse("2021-06-01T10:12:48.000Z")
@@ -39,11 +40,10 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
                 givenName shouldBe "Gabriele"
                 givenNameStandardized shouldBe "GABRIELE"
             }
-            dob shouldBe "1998-02-26"
             dateOfBirth shouldBe LocalDate.parse("1998-02-26")
             version shouldBe "1.2.1"
 
-            with(tests!!.single()) {
+            with(test) {
                 uniqueCertificateIdentifier shouldBe "URN:UVCI:01:AT:71EE2559DE38C6BF7304FB65A1A451EC#3"
                 certificateCountry shouldBe "AT"
                 certificateIssuer shouldBe "Ministry of Health, Austria"
@@ -114,13 +114,12 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
         }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
     }
 
-// move to validator?
-//    @Test
-//    fun `vaccination certificate fails with NO_TEST_ENTRY`() {
-//        shouldThrow<InvalidTestCertificateException> {
-//            extractor.extract(VaccinationQrCodeTestData.certificateMissing)
-//        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.NO_TEST_ENTRY
-//    }
+    @Test
+    fun `vaccination certificate fails with NO_TEST_ENTRY`() {
+        shouldThrow<InvalidTestCertificateException> {
+            extractor.extract(VaccinationQrCodeTestData.certificateMissing, mode = DccV1Parser.Mode.CERT_TEST_STRICT)
+        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.NO_TEST_ENTRY
+    }
 
     @Test
     fun `null values fail with JSON_SCHEMA_INVALID`() {

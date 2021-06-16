@@ -48,6 +48,14 @@ data class DccV1(
             firstNameStandardized = nameData.givenNameStandardized
         )
 
+    interface MetaData {
+        val version: String
+        val nameData: NameData
+        val dateOfBirth: LocalDate
+        val payload: Payload
+        val personIdentifier: CertificatePersonIdentifier
+    }
+
     interface Payload {
         val targetId: String
         val certificateCountry: String
@@ -120,10 +128,8 @@ data class DccV1(
         @SerializedName("ma") val testNameAndManufactor: String? = null,
         // Date/Time of Sample Collection (required) "sc": "2021-04-13T14:20:00+00:00"
         @SerializedName("sc") val sc: String,
-        // Date/Time of Test Result "dr": "2021-04-13T14:40:01+00:00",
-        @SerializedName("dr") val dr: String? = null,
         // Testing Center (required) "tc": "GGD Fryslân, L-Heliconweg",
-        @SerializedName("tc") val testCenter: String,
+        @SerializedName("tc") val testCenter: String?,
         // Country of Test (required)
         @SerializedName("co") override val certificateCountry: String,
         // Certificate Issuer, e.g. "is": "Ministry of Public Health, Welfare and Sport",
@@ -131,9 +137,6 @@ data class DccV1(
         // Unique Certificate Identifier, e.g.  "ci": "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"
         @SerializedName("ci") override val uniqueCertificateIdentifier: String
     ) : Payload {
-
-        val testResultAt: Instant?
-            get() = dr?.let { Instant.parse(it) }
 
         val sampleCollectedAt: Instant
             get() = Instant.parse(sc)
@@ -156,4 +159,37 @@ internal fun String.toLocalDateLeniently(): LocalDate = try {
         Timber.e("Invalid date string: %s", this)
         throw giveUp
     }
+}
+
+data class DccV1Vaccination(
+    override val version: String,
+    override val nameData: DccV1.NameData,
+    override val dateOfBirth: LocalDate,
+    override val personIdentifier: CertificatePersonIdentifier,
+    val vaccination: DccV1.VaccinationData
+) : DccV1.MetaData {
+    override val payload: DccV1.Payload
+        get() = vaccination
+}
+
+data class DccV1Test(
+    override val version: String,
+    override val nameData: DccV1.NameData,
+    override val dateOfBirth: LocalDate,
+    override val personIdentifier: CertificatePersonIdentifier,
+    val test: DccV1.TestCertificateData
+) : DccV1.MetaData {
+    override val payload: DccV1.Payload
+        get() = test
+}
+
+data class DccV1Recovery(
+    override val version: String,
+    override val nameData: DccV1.NameData,
+    override val dateOfBirth: LocalDate,
+    override val personIdentifier: CertificatePersonIdentifier,
+    val recovery: DccV1.RecoveryCertificateData
+) : DccV1.MetaData {
+    override val payload: DccV1.Payload
+        get() = recovery
 }

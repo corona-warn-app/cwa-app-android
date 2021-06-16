@@ -57,11 +57,8 @@ class DccQrCodeExtractor @Inject constructor(
         decryptionKey: ByteArray,
         rawCoseObjectEncrypted: ByteArray,
     ): DccQrCode {
-        val rawCoseObject = rawCoseObjectEncrypted.decrypt(decryptionKey)
-        return TestCertificateQRCode(
-            data = rawCoseObject.parse(CERT_SINGLE_STRICT),
-            qrCode = rawCoseObject.encode()
-        )
+        val qrCodeString = rawCoseObjectEncrypted.decrypt(decryptionKey).encode()
+        return extract(qrCodeString)
     }
 
     /**
@@ -132,20 +129,30 @@ class DccQrCodeExtractor @Inject constructor(
         throw InvalidTestCertificateException(HC_ZLIB_COMPRESSION_FAILED)
     }
 
-    private fun toDccQrCode(rawString: String, parsedData: DccData): DccQrCode = when {
-        parsedData.certificate.isVaccinationCertificate -> VaccinationCertificateQRCode(
-            qrCode = rawString,
-            data = parsedData,
-        )
-        parsedData.certificate.isTestCertificate -> TestCertificateQRCode(
-            qrCode = rawString,
-            data = parsedData,
-        )
-        parsedData.certificate.isRecoveryCertificate -> RecoveryCertificateQRCode(
-            qrCode = rawString,
-            data = parsedData,
-        )
-        else -> throw InvalidHealthCertificateException(JSON_SCHEMA_INVALID)
+    private fun toDccQrCode(rawString: String, parsedData: DccData<DccV1.MetaData>): DccQrCode =
+        when (parsedData.certificate) {
+            is DccV1Vaccination -> VaccinationCertificateQRCode(
+                qrCode = rawString,
+                data = DccData(
+                    parsedData.header,
+                    parsedData.certificate
+                ),
+            )
+            is DccV1Test -> TestCertificateQRCode(
+                qrCode = rawString,
+                data = DccData(
+                    parsedData.header,
+                    parsedData.certificate
+                ),
+            )
+            is DccV1Recovery -> RecoveryCertificateQRCode(
+                qrCode = rawString,
+                data = DccData(
+                    parsedData.header,
+                    parsedData.certificate
+                ),
+            )
+            else -> throw InvalidHealthCertificateException(JSON_SCHEMA_INVALID)
     }
 
     private fun String.decodeBase45(): ByteArray = try {
@@ -162,13 +169,13 @@ class DccQrCodeExtractor @Inject constructor(
         throw InvalidHealthCertificateException(HC_ZLIB_DECOMPRESSION_FAILED)
     }
 
-    fun RawCOSEObject.parse(mode: DccV1Parser.Mode): DccData = try {
+    fun RawCOSEObject.parse(mode: DccV1Parser.Mode): DccData<DccV1.MetaData> = try {
         Timber.v("Parsing COSE for covid certificate.")
         val cbor = coseDecoder.decode(this)
 
         DccData(
             header = headerParser.parse(cbor),
-            certificate = bodyParser.parse(cbor, mode)
+            certificate = bodyParser.parse(cbor, mode).toCertificate
         ).also {
             DccQrCodeCensor.addCertificateToCensor(it)
         }.also {
@@ -195,3 +202,29 @@ private val DccV1.isTestCertificate: Boolean
 
 private val DccV1.isRecoveryCertificate: Boolean
     get() = this.recoveries?.isNotEmpty() == true
+
+private val DccV1.toCertificate: DccV1.MetaData
+    get() = when {
+        isVaccinationCertificate -> DccV1Vaccination(
+            version = version,
+            nameData = nameData,
+            dateOfBirth = dateOfBirth,
+            personIdentifier = personIdentifier,
+            vaccination = vaccinations!!.first()
+        )
+        isTestCertificate -> DccV1Test(
+            version = version,
+            nameData = nameData,
+            dateOfBirth = dateOfBirth,
+            personIdentifier = personIdentifier,
+            test = tests!!.first()
+        )
+        isRecoveryCertificate -> DccV1Recovery(
+            version = version,
+            nameData = nameData,
+            dateOfBirth = dateOfBirth,
+            personIdentifier = personIdentifier,
+            recovery = recoveries!!.first()
+        )
+        else -> throw InvalidHealthCertificateException(JSON_SCHEMA_INVALID)
+    }
