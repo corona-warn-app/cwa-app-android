@@ -33,8 +33,7 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
                 (it.certificate as? DccV1Vaccination)?.let {
                     newMessage = censorVaccinationData(it.vaccination, newMessage)
                 }
-                // TODO test and recovery
-
+                // TODO test and recovery ?
             }
         }
 

@@ -22,10 +22,12 @@ data class RecoveryCertificateContainer(
     @delegate:Transient
     private val certificateData: DccData<DccV1Recovery> by lazy {
         data.recoveryCertificateQrCode!!.let {
-            (qrCodeExtractor.extract(
-                it,
-                mode = Mode.CERT_REC_STRICT
-            ) as RecoveryCertificateQRCode).data
+            (
+                qrCodeExtractor.extract(
+                    it,
+                    mode = Mode.CERT_REC_STRICT
+                ) as RecoveryCertificateQRCode
+                ).data
         }
     }
 

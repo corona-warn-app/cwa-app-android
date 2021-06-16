@@ -33,10 +33,13 @@ data class VaccinationContainer internal constructor(
 
     @delegate:Transient
     internal val certificateData: DccData<DccV1Vaccination> by lazy {
-        preParsedData ?: (qrCodeExtractor.extract(
-            vaccinationQrCode,
-            mode = DccV1Parser.Mode.CERT_VAC_LENIENT
-        ) as VaccinationCertificateQRCode).data
+        preParsedData ?: (
+            qrCodeExtractor.extract(
+                vaccinationQrCode,
+                mode = DccV1Parser.Mode.CERT_VAC_LENIENT
+            ) as VaccinationCertificateQRCode
+            )
+            .data
     }
 
     val header: DccHeader

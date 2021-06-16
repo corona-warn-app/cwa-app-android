@@ -153,7 +153,7 @@ class DccQrCodeExtractor @Inject constructor(
                 ),
             )
             else -> throw InvalidHealthCertificateException(JSON_SCHEMA_INVALID)
-    }
+        }
 
     private fun String.decodeBase45(): ByteArray = try {
         Base45Decoder.decode(this)
