@@ -86,20 +86,14 @@ class VaccinationRepository @Inject constructor(
         Timber.tag(TAG).v("registerVaccination(qrCode=%s)", qrCode)
 
         val updatedData = internalData.updateBlocking {
-            val originalPerson = if (this.isNotEmpty()) {
-                Timber.tag(TAG).d("There is an existing person we must match.")
-                this.single().also {
-                    it.identifier.requireMatch(qrCode.personIdentifier)
-                    Timber.tag(TAG).i("New certificate matches existing person!")
-                }
-            } else {
-                VaccinatedPerson(
-                    data = VaccinatedPersonData(),
-                    valueSet = null,
-                )
-            }
+            val matchingPerson = this.singleOrNull {
+                it.identifier == qrCode.personIdentifier
+            } ?: VaccinatedPerson(
+                data = VaccinatedPersonData(),
+                valueSet = null,
+            ).also { Timber.tag(TAG).i("Creating new person for %s", qrCode) }
 
-            if (originalPerson.data.vaccinations.any { it.certificateId == qrCode.uniqueCertificateIdentifier }) {
+            if (matchingPerson.data.vaccinations.any { it.certificateId == qrCode.uniqueCertificateIdentifier }) {
                 Timber.tag(TAG).e("Certificate is already registered: %s", qrCode.uniqueCertificateIdentifier)
                 throw InvalidVaccinationCertificateException(VC_ALREADY_REGISTERED)
             }
@@ -109,14 +103,14 @@ class VaccinationRepository @Inject constructor(
                 qrCodeExtractor = vaccinationQRCodeExtractor,
             )
 
-            val modifiedPerson = originalPerson.copy(
-                data = originalPerson.data.copy(
-                    vaccinations = originalPerson.data.vaccinations.plus(newCertificate)
+            val modifiedPerson = matchingPerson.copy(
+                data = matchingPerson.data.copy(
+                    vaccinations = matchingPerson.data.vaccinations.plus(newCertificate)
                 )
             )
 
             this.toMutableSet().apply {
-                remove(originalPerson)
+                remove(matchingPerson)
                 add(modifiedPerson)
             }
         }

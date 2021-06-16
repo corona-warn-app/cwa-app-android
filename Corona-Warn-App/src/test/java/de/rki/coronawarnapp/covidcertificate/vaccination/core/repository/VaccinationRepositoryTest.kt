@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository
 
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.VC_ALREADY_REGISTERED
-import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.VC_NAME_MISMATCH
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.DaggerVaccinationTestComponent
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
@@ -112,11 +111,14 @@ class VaccinationRepositoryTest : BaseTest() {
         val instance = createInstance(this)
         advanceUntilIdle()
 
-        shouldThrow<InvalidVaccinationCertificateException> {
-            instance.registerVaccination(vaccinationTestData.personBVac1QRCode)
-        }.errorCode shouldBe VC_NAME_MISMATCH
+        every { timeStamper.nowUTC } returns vaccinationTestData.personBData1Vac.vaccinations.single().scannedAt
 
-        testStorage shouldBe setOf(vaccinationTestData.personAData2Vac)
+        instance.registerVaccination(vaccinationTestData.personBVac1QRCode)
+
+        testStorage shouldBe setOf(
+            vaccinationTestData.personAData2Vac,
+            vaccinationTestData.personBData1Vac
+        )
     }
 
     @Test
