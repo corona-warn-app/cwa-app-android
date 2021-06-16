@@ -43,7 +43,12 @@ class CertificatesFragment : Fragment(R.layout.fragment_certificates), AutoInjec
                 adapter = certificatesAdapter
             }
         }
-
+        viewModel.markNewCertsAsSeen.observe2(this) {
+            /**
+             * This just needs to stay subscribed while the UI is open.
+             * It causes new certificates to be marked seen automatically.
+             */
+        }
         viewModel.screenItems.observe2(this) { items -> certificatesAdapter.update(items) }
         viewModel.events.observe2(this) { event ->
             when (event) {

@@ -19,4 +19,5 @@ interface StoredTestCertificateData {
     val encryptedDccCose: ByteString?
     val testCertificateQrCode: String?
     val labId: String?
+    val certificateSeenByUser: Boolean
 }

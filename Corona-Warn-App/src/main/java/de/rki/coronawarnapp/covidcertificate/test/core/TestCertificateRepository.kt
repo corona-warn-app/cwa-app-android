@@ -296,6 +296,29 @@ class TestCertificateRepository @Inject constructor(
         internalData.updateBlocking { emptyMap() }
     }
 
+    suspend fun markCertificateAsSeenByUser(identifier: TestCertificateIdentifier) {
+        Timber.tag(TAG).d("markCertificateSeenByUser(identifier=%s)", identifier)
+
+        internalData.updateBlocking {
+            val current = this[identifier]
+            if (current == null) {
+                Timber.tag(TAG).w("Can't mark %s as seen, it doesn't exist, racecondition?", identifier)
+                return@updateBlocking this
+            }
+
+            if (current.isCertificateRetrievalPending) {
+                Timber.tag(TAG).w("Can't mark %s as seen, certificate has not been retrieved yet.", identifier)
+                return@updateBlocking this
+            }
+
+            val updated = current.copy(
+                data = processor.updateSeenByUser(current.data, true)
+            )
+
+            mutate { this[identifier] = updated }
+        }
+    }
+
     companion object {
         private val TAG = TestCertificateRepository::class.simpleName!!
     }
