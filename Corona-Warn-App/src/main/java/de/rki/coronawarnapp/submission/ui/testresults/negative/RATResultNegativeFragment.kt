@@ -10,13 +10,14 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionAntigenTestResultNegativeBinding
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import org.joda.time.format.DateTimeFormat
 import javax.inject.Inject
 
 class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_test_result_negative), AutoInject {
@@ -24,8 +25,6 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
     private val viewModel: RATResultNegativeViewModel by cwaViewModels { viewModelFactory }
 
     private val binding: FragmentSubmissionAntigenTestResultNegativeBinding by viewBinding()
-
-    private val shortTime = DateTimeFormat.shortTime()
 
     private val deleteRatTestConfirmationDialog by lazy {
         DialogHelper.DialogInstance(
@@ -76,7 +75,7 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
             uiState.test.dateOfBirth?.let {
                 val birthDate = getString(
                     R.string.submission_test_result_antigen_patient_birth_date_placeholder,
-                    it.toString(DATE_FORMAT)
+                    it.toDayFormat()
                 )
                 if (this.isNotBlank()) append(", ")
                 append(birthDate)
@@ -86,8 +85,8 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
         val localTime = uiState.test.testTakenAt.toUserTimeZone()
         resultReceivedTimeAndDate.text = getString(
             R.string.coronatest_negative_antigen_result_time_date_placeholder,
-            localTime.toString(DATE_FORMAT),
-            localTime.toString(shortTime)
+            localTime.toDayFormat(),
+            localTime.toShortTimeFormat()
         )
 
         val isAnonymousTest = with(uiState.test) {
@@ -136,9 +135,5 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
                 )
             }
         }
-    }
-
-    companion object {
-        private const val DATE_FORMAT = "dd.MM.yyyy"
     }
 }
