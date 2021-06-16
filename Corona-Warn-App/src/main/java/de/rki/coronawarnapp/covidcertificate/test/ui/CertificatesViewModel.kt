@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.ui.cards.HeaderInfoVacc
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.cards.ImmuneVaccinationCard
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.cards.NoCovidTestCertificatesCard
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.cards.VaccinationCard
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -112,9 +113,11 @@ class CertificatesViewModel @AssistedInject constructor(
     }
 
     private fun Collection<TestCertificateWrapper>.toCertificateItems(): List<CertificatesItem> = map { certificate ->
+        val localRegistrationTime = certificate.registeredAt.toUserTimeZone()
+
         if (certificate.isCertificateRetrievalPending) {
             CovidTestCertificateErrorCard.Item(
-                testDate = certificate.registeredAt,
+                testDate = localRegistrationTime,
                 isUpdatingData = certificate.isUpdatingData,
                 onRetryAction = {
                     refreshTestCertificate(certificate.identifier)
@@ -129,7 +132,7 @@ class CertificatesViewModel @AssistedInject constructor(
             )
         } else {
             CovidTestCertificateCard.Item(
-                testDate = certificate.registeredAt,
+                testDate = localRegistrationTime,
                 testPerson =
                 certificate.testCertificate?.firstName + " " +
                     certificate.testCertificate?.lastName,
