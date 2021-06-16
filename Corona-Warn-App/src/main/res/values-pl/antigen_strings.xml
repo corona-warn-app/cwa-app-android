@@ -4,142 +4,142 @@
         Homescreen cards - register test card
     ###################################### -->
     <!-- XHED: Register test homescreen card: title -->
-    <string name="ag_homescreen_card_test_register_title">"Zatrzymać analizę błędu?"</string>
+    <string name="ag_homescreen_card_test_register_title">"Zarejestruj test"</string>
     <!-- XTXT: Register test homescreen card: body -->
-    <string name="ag_homescreen_card_test_register_body">"Jeśli to zrobisz, wszystkie zapisane dane zostaną usunięte. Jeśli zapisano lokalną kopię raportu o błędzie, nie zostanie ona usunięta."</string>
+    <string name="ag_homescreen_card_test_register_body">"Aplikacji możesz używać do rejestrowania testów i pobierania ich wyników, aby szybciej ostrzegać innych. Za jej pośrednictwem możesz także poprosić o wydanie certyfikatu testu na COVID."</string>
     <!-- ####################################
         Homescreen cards - common buttons
     ###################################### -->
     <!-- XBUT: Homescreen card: show test button -->
-    <string name="ag_homescreen_card_show_button">"Zatrzymaj analizę"</string>
+    <string name="ag_homescreen_card_show_button">"Wyświetl test"</string>
     <!-- XBUT: Homescreen card: warn others button -->
-    <string name="ag_homescreen_card_warn_others_button">"Kontynuuj analizę"</string>
+    <string name="ag_homescreen_card_warn_others_button">"Ostrzegaj innych"</string>
 
     <!-- ####################################
         Homescreen cards - common status
     ###################################### -->
     <!-- XTXT: Homescreen card: status subtitle - no result -->
-    <string name="ag_homescreen_card_status_no_result">"Aby rozpocząć analizę błędu, potrzebujesz co najmniej 200 MB pamięci. Zwolnij pamięć."</string>
+    <string name="ag_homescreen_card_status_no_result">"Wynik Twojego testu nie jest jeszcze dostępny"</string>
     <!-- XTXT: Homescreen card: status subtitle - result available -->
-    <string name="ag_homescreen_card_status_result_available">"Szczegółowe informacje na temat wysyłania raportów o błędach"</string>
+    <string name="ag_homescreen_card_status_result_available">"Pobierz wynik testu"</string>
     <!-- XTXT: Homescreen card: status subtitle - error -->
-    <string name="ag_homescreen_card_status_error">"Jak RKI analizuje raporty o błędach"</string>
+    <string name="ag_homescreen_card_status_error">"Nieprawidłowy test"</string>
     <!-- XTXT: Homescreen card: status subtitle - invalid -->
-    <string name="ag_homescreen_card_status_invalid">"Po zweryfikowaniu autentyczności aplikacji raport o błędzie jest wysyłany do RKI za pośrednictwem bezpiecznego połączenia. Raporty o błędach będą wykorzystywane wyłącznie do rozwiązywania problemów i korygowania błędów w ramach przyszłych aktualizacji aplikacji. Dostęp do raportów o błędach ma tylko personel pomocy technicznej. Raporty o błędach zawierają różne komunikaty o statusie i dane o zdarzeniach wyzwalanych w aplikacji, ale nie zawierają żadnych informacji, które umożliwiłyby RKI ustalenie Twojej tożsamości. Tylko jeśli podasz identyfikator raportu o błędzie w związku z kolejnymi komunikatami, możliwe będzie powiązanie komunikatu (i na przykład zawartego w nim Twojego nazwiska) z informacjami zawartymi w raporcie o błędzie (takimi jak komunikaty techniczne dotyczące obliczeń w ramach rejestrowania narażenia, wyświetlane informacje i czynności wykonane w aplikacji oraz, w stosownych przypadkach, pobrany wynik testu i losowe identyfikatory udostępniane w ramach powiadamiania innych)."</string>
+    <string name="ag_homescreen_card_status_invalid">"Utrata ważności"</string>
     <!-- XTXT: Homescreen card: status subtitle - findings -->
-    <string name="ag_homescreen_card_status_findings">"Wyślij raport o błędzie"</string>
+    <string name="ag_homescreen_card_status_findings">"Wyniki"</string>
     <!-- XTXT: Homescreen card: subtitle - corona official name -->
-    <string name="ag_homescreen_card_status_name_of_the_cause_of_this_app">"Wysłanie zarejestrowanego raportu o błędzie do pomocy technicznej RKI wymaga Twojej zgody."</string>
+    <string name="ag_homescreen_card_status_name_of_the_cause_of_this_app">"SARS-CoV-2"</string>
     <!-- XTXT: Homescreen card: status - negative -->
-    <string name="ag_homescreen_card_status_negative">"Po wysłaniu raportu otrzymasz identyfikator raportu o błędzie. Możesz podać ten identyfikator, aby na przykład zapewnić personelowi pomocy technicznej więcej informacji i umożliwić przypisanie go do raportu o błędzie. Jeśli nie podasz identyfikatora raportu o błędzie, RKI nie będzie mieć możliwości przypisania raportu do Ciebie."</string>
+    <string name="ag_homescreen_card_status_negative">"Brak zakażenia"</string>
     <!-- XTXT: Homescreen card: status - positiv -->
-    <string name="ag_homescreen_card_status_positiv">"Szczegółowe informacje o ryzyku związanym z przetwarzaniem i ochroną danych w USA i innych krajach trzecich"</string>
+    <string name="ag_homescreen_card_status_positiv">"Zakażenie"</string>
 
     <!-- ####################################
        Homescreen cards - common body
    ###################################### -->
     <!-- XTXT: homescreen card: body - result available -->
-    <string name="ag_homescreen_card_body_result_available">"Akceptuj i wyślij"</string>
+    <string name="ag_homescreen_card_body_result_available">"Jeśli masz pozytywny wynik testu na obecność koronawirusa, możesz ostrzec innych."</string>
     <!-- XTXT: homescreen card: body - error -->
-    <string name="ag_homescreen_card_body_error">"Historia identyfikatorów"</string>
+    <string name="ag_homescreen_card_body_error">"Ustalenie wyniku Twojego testu było niemożliwe."</string>
     <!-- XTXT: homescreen card: body - not valid test -->
-    <string name="ag_homescreen_card_body_not_valid_test">"W tym miejscu wyświetlane są identyfikatory dzienników analizy błędów."</string>
+    <string name="ag_homescreen_card_body_not_valid_test">"Twój test ma więcej niż 21 dni i stracił ważność. Usuń test. Będziesz mieć wówczas możliwość dodania kolejnego."</string>
     <!-- XTXT: homescreen card: body - negative -->
-    <string name="ag_homescreen_card_body_result_negative">"Zgoda"</string>
+    <string name="ag_homescreen_card_body_result_negative">"Nie zdiagnozowano u Ciebie wirusa SARS-CoV-2."</string>
     <!-- XTXT: homescreen card: body - positive -->
-    <string name="ag_homescreen_card_body_result_positive">"Błąd"</string>
+    <string name="ag_homescreen_card_body_result_positive">"Zdiagnozowano u Ciebie wirusa SARS-CoV-2."</string>
 
     <!-- ####################################
         Homescreen cards - rapid test
     ###################################### -->
     <!-- XHED: rapid test homescreen card: title -->
-    <string name="ag_homescreen_card_rapidtest_title">"Twoje połączenie z Internetem mogło zostać utracone. Zadbaj o jego przywrócenie."</string>
+    <string name="ag_homescreen_card_rapidtest_title">"Szybki test"</string>
     <!-- XBUT: rapid test homescreen card: dont show anymore button -->
-    <string name="ag_homescreen_card_rapidtest_dont_show_anymore_button">"Nie udało się nawiązać połączenia. Spróbuj ponownie."</string>
+    <string name="ag_homescreen_card_rapidtest_dont_show_anymore_button">"Nie wyświetlaj ponownie"</string>
     <!-- XTXT: rapid test homescreen card: status subtitle - outdated test -->
-    <string name="ag_homescreen_card_rapidtest_status_outdated_test">"Wstecz"</string>
+    <string name="ag_homescreen_card_rapidtest_status_outdated_test">"Test nie jest już aktualny"</string>
     <!-- XTXT: rapid test homescreen card: result positive - check results with PCR test -->
-    <string name="ag_homescreen_card_rapidtest_body_result_positive_pcr_check">"Niepoprawny kod QR"</string>
+    <string name="ag_homescreen_card_rapidtest_body_result_positive_pcr_check">"Wykonaj test PCR, aby zweryfikować wynik tego testu."</string>
 
     <!-- Body -->
     <!-- XTXT: rapid test homescreen card: body - no result -->
-    <string name="ag_homescreen_card_rapidtest_body_no_result">"Kod QR jest niepoprawny lub został już zarejestrowany na innym smartfonie. Otrzymasz swój wynik testu z ośrodka wykonującego testy lub laboratorium niezależnie od ważności kodu QR. W przypadku zdiagnozowania u koronawirusa otrzymasz powiadomienie z organu ds. zdrowia publicznego."</string>
+    <string name="ag_homescreen_card_rapidtest_body_no_result">"Ustalanie wyniku Twojego szybkiego testu jeszcze się nie zakończyło."</string>
     <!-- XTXT: rapid test homescreen card: body - outdated test -->
-    <string name="ag_homescreen_card_rapidtest_body_outdated_test">"TAN jest nieprawidłowy."</string>
+    <string name="ag_homescreen_card_rapidtest_body_outdated_test">"Twój szybki test ma więcej niż 48 godzin i nie będzie już tutaj wyświetlany."</string>
     <!-- XTXT: homescreen card: body - negative -->
-    <string name="ag_homescreen_card_rapid_body_result_date">"TAN jest nieprawidłowy lub został już użyty. Więcej informacji można uzyskać dzwoniąc na numer wymieniony w sekcji „Poproś o TAN”."</string>
+    <string name="ag_homescreen_card_rapid_body_result_date">"Wykonany dnia %1$s"</string>
 
     <!-- ####################################
         Homescreen cards - PCR
     ###################################### -->
     <!-- XHED: PCR homescreen card: title -->
-    <string name="ag_homescreen_card_pcr_title">"Wstecz"</string>
+    <string name="ag_homescreen_card_pcr_title">"Test PCR"</string>
     <!-- XBUT: PCR homescreen card: clear test button -->
-    <string name="ag_homescreen_card_pcr_clear_test_button">"Błąd"</string>
+    <string name="ag_homescreen_card_pcr_clear_test_button">"USUŃ TEST"</string>
 
     <!-- Body -->
     <!-- XTXT: PCR homescreen card: body - no result -->
-    <string name="ag_homescreen_card_pcr_body_no_result">"Nie można było wygenerować numeru TAN do przesłania. Skontaktuj się z techniczną infolinią, wybierając opcje: Informacje o aplikacji -&gt; Infolinia techniczna."</string>
+    <string name="ag_homescreen_card_pcr_body_no_result">"Ustalanie wyniku Twojego testu PCR jeszcze się nie zakończyło."</string>
     <!-- XTXT: homescreen card: body - negative -->
-    <string name="ag_homescreen_card_pcr_body_result_date">"Wstecz"</string>
+    <string name="ag_homescreen_card_pcr_body_result_date">"Test zarejestrowany dnia %1$s"</string>
 
     <!-- XBUT: submission deletion warning button continue -->
-    <string name="submission_deletion_warning_continue_button">"Błąd"</string>
+    <string name="submission_deletion_warning_continue_button">"Kontynuuj"</string>
     <!-- XBUT: submission deletion warning button cancel -->
-    <string name="submission_deletion_warning_cancel_button">"Wygenerowany numer TAN jest nieprawidłowy i nie można go przesłać. Skontaktuj się z techniczną infolinią, wybierając opcje: Informacje o aplikacji -&gt; Infolinia techniczna."</string>
+    <string name="submission_deletion_warning_cancel_button">"Anuluj"</string>
     <!-- XHED: submission deletion warning title -->
-    <string name="submission_deletion_warning_title">"Wstecz"</string>
+    <string name="submission_deletion_warning_title">"Uwaga"</string>
     <!-- YTXT: Headline for rapid test submission deletion warning -->
-    <string name="submission_deletion_warning_headline_antigen_test">"Kod QR stracił ważność"</string>
+    <string name="submission_deletion_warning_headline_antigen_test">"Zarejestrowano już szybki test."</string>
     <!-- YTXT: Body for rapid test submission deletion warning -->
-    <string name="submission_deletion_warning_body_antigen_test">"Twój test ma więcej niż 21 dni i nie można go już zarejestrować w aplikacji. Jeśli w przyszłości będziesz ponownie poddawać się testowi, zeskanuj kod QR, gdy tylko go otrzymasz."</string>
+    <string name="submission_deletion_warning_body_antigen_test">"Zarejestrowano już szybki test. Aplikacja może zarządzać maksymalnie jednym szybkim testem i jednym testem PCR jednocześnie. Jeśli zarejestrujesz kolejny szybki test, pierwszy szybki test zostanie usunięty z aplikacji."</string>
     <!-- YTXT: Headline for PCR test submission deletion warning -->
-    <string name="submission_deletion_warning_headline_pcr_test">"OK"</string>
+    <string name="submission_deletion_warning_headline_pcr_test">"Zarejestrowano już test PCR."</string>
     <!-- YTXT: Body for PCR test submission deletion warning -->
-    <string name="submission_deletion_warning_body_pcr_test">"Czy chcesz anulować wprowadzanie objawów?"</string>
+    <string name="submission_deletion_warning_body_pcr_test">"Zarejestrowano już test PCR. Aplikacja może zarządzać maksymalnie jednym szybkim testem i jednym testem PCR jednocześnie. Jeśli zarejestrujesz kolejny test PCR, pierwszy test PCR zostanie usunięty z aplikacji."</string>
 
     <!-- XHED: submission result antigen fragment toolbar text -->
-    <string name="submission_test_result_toolbar_text">"Przekazanie informacji o objawach pozwoli Ci na wysyłanie innym bardziej szczegółowych ostrzeżeń."</string>
+    <string name="submission_test_result_toolbar_text">"Twój wynik testu"</string>
     <!-- XHED: submission result antigen fragment card title -->
-    <string name="submission_test_result_antigen_title">"Tak"</string>
+    <string name="submission_test_result_antigen_title">"Szybki test"</string>
     <!-- XTXT: submission result antigen fragment card "found" text -->
-    <string name="submission_result_subtitle">"Nie"</string>
+    <string name="submission_result_subtitle">"Wyniki"</string>
     <!-- XTXT: submission test result fragment negative diagnosis -->
-    <string name="submission_test_result_negative">"Wymagana autoryzacja aparatu"</string>
+    <string name="submission_test_result_negative">"Brak zakażenia"</string>
     <!-- XTXT: submission test result fragment positive diagnosis -->
-    <string name="submission_test_result_positive">"Zezwól aplikacji na użycie aparatu do skanowania kodu QR."</string>
+    <string name="submission_test_result_positive">"Zakażenie"</string>
     <!-- XTXT: submission result antigen fragment card patient name placeholder -->
-    <string name="submission_test_result_antigen_patient_name_placeholder">"Zezwól"</string>
+    <string name="submission_test_result_antigen_patient_name_placeholder">"%1$s %2$s"</string>
     <!-- XTXT: submission result antigen fragment card patient birth date placeholder -->
-    <string name="submission_test_result_antigen_patient_birth_date_placeholder">"Nie zezwalaj"</string>
+    <string name="submission_test_result_antigen_patient_birth_date_placeholder">"Data urodzenia %1$s"</string>
     <!-- XTXT: coronatest negative antigen result time and date placeholder -->
-    <string name="coronatest_negative_antigen_result_time_date_placeholder">"Potrzebny dostęp do aparatu"</string>
+    <string name="coronatest_negative_antigen_result_time_date_placeholder">"Wydano: %1$s, %2$s"</string>
     <!-- XTXT: submission result antigen fragment card negative result message -->
-    <string name="submission_test_result_negative_message">"Wywołaj ustawienia systemowe i zezwól aplikacji na użycie aparatu do skanowania kodu QR."</string>
+    <string name="submission_test_result_negative_message">"Nie zdiagnozowano u Ciebie wirusa SARS-CoV-2."</string>
     <!-- XHED: submission result antigen fragment negative result proof title -->
-    <string name="submission_test_result_antigen_negative_proof_title">"OK"</string>
+    <string name="submission_test_result_antigen_negative_proof_title">"Funkcja weryfikacji"</string>
     <!-- XHED: submission result antigen fragment negative result proof title for anonymous tests-->
-    <string name="submission_test_result_antigen_negative_proof_title_anonymous">"Niepoprawny kod QR"</string>
+    <string name="submission_test_result_antigen_negative_proof_title_anonymous">"Brak funkcji weryfikacji"</string>
     <!-- XHED: submission result antigen fragment negative result proof body -->
-    <string name="submission_test_result_antigen_negative_proof_body">"Kod QR jest niepoprawny lub został już zarejestrowany na innym smartfonie. Otrzymasz swój wynik testu z ośrodka wykonującego testy lub laboratorium niezależnie od ważności kodu QR. W przypadku zdiagnozowania u Ciebie koronawirusa organ ds. zdrowia publicznego zostanie powiadomiony przez ustanowiony prawnie kanał komunikacyjny i skontaktuje się z Tobą."</string>
+    <string name="submission_test_result_antigen_negative_proof_body">"Wyświetlony tutaj wynik testu może służyć jako dowód negatywnego wyniku szybkiego testu."</string>
     <!-- XHED: submission result antigen fragment negative result proof body anonymous -->
-    <string name="submission_test_result_antigen_negative_proof_body_anonymous">"Spróbuj ponownie."</string>
+    <string name="submission_test_result_antigen_negative_proof_body_anonymous">"Ponieważ ten wynik testu jest anonimizowany, nie może służyć jako dowód negatywnego wyniku szybkiego testu."</string>
     <!-- XHED: submission result antigen fragment negative result proof additional information -->
-    <string name="submission_test_result_antigen_negative_proof_additional_information">"Anuluj"</string>
+    <string name="submission_test_result_antigen_negative_proof_additional_information">"Pamiętaj, że wynik szybkiego testu musisz przedstawić tylko wtedy, gdy jest to wymagane przez prawo. Jeśli to wymagane, możesz go udostępnić za pomocą aplikacji lub na jeden z podanych sposobów. Aby uzyskać więcej informacji, zapoznaj się z kryteriami akceptacji dowodu przeprowadzenia testów w swoim kraju związkowym."</string>
     <!-- XHED: submission result antigen negative result counter title -->
-    <string name="submission_test_result_antigen_negative_counter_title">"Skan kodu QR"</string>
+    <string name="submission_test_result_antigen_negative_counter_title">"Wynik dostępny od"</string>
     <!-- XHED: coronatest negative antigen result first info title -->
-    <string name="coronatest_negative_antigen_result_first_info_title">"Zarejestruj test"</string>
+    <string name="coronatest_negative_antigen_result_first_info_title">"Twój szybki test został dodany."</string>
     <!-- XTXT: coronatest negative antigen result first info body -->
-    <string name="coronatest_negative_antigen_result_first_info_body">"Aplikacji możesz używać do rejestrowania testów i pobierania ich wyników, aby szybciej ostrzegać innych. Za jej pośrednictwem możesz także poprosić o wydanie certyfikatu testu na COVID."</string>
+    <string name="coronatest_negative_antigen_result_first_info_body">"Wynik testu jest wyświetlany tutaj przez 48 godzin."</string>
     <!-- XHED: coronatest negative antigen result second info title -->
-    <string name="coronatest_negative_antigen_result_second_info_title">"Wyświetl test"</string>
+    <string name="coronatest_negative_antigen_result_second_info_title">"Diagnoza: brak zakażenia"</string>
     <!-- XTXT: coronatest negative antigen result second info body -->
-    <string name="coronatest_negative_antigen_result_second_info_body">"Ostrzegaj innych"</string>
+    <string name="coronatest_negative_antigen_result_second_info_body">"Szybki test nie dostarczył dowodów na to, że masz koronawirusa SARS-CoV-2."</string>
     <!-- XTXT: coronatest negative antigen result third info title -->
-    <string name="coronatest_negative_antigen_result_third_info_title">"Wynik Twojego testu nie jest jeszcze dostępny"</string>
+    <string name="coronatest_negative_antigen_result_third_info_title">"Usuń test"</string>
     <!-- XTXT: coronatest negative antigen result third info body -->
-    <string name="coronatest_negative_antigen_restul_third_info_body">"Pobierz wynik testu"</string>
+    <string name="coronatest_negative_antigen_restul_third_info_body">"Usuń test z aplikacji Corona-Warn-App, aby w razie potrzeby można było zapisać w niej kod nowego testu."</string>
     <!-- XTXT: coronatest negative result certificate info title -->
     <string name="coronatest_negative_result_certificate_info_title">"Certyfikat testu"</string>
     <!-- XTXT: coronatest negative result certificate info body -->
@@ -149,60 +149,60 @@
      Rapid Antigen Test Profile
      ###################################### -->
     <!-- XHED: Create RAT profile card title -->
-    <string name="rat_profile_create_card_title">"Wyniki"</string>
+    <string name="rat_profile_create_card_title">"Utwórz profil szybkiego testu"</string>
     <!-- XTXT: Create RAT profile card subtitle -->
-    <string name="rat_profile_create_card_subtitle">"SARS-CoV-2"</string>
+    <string name="rat_profile_create_card_subtitle">"Możesz utworzyć profil ze swoimi danymi osobowymi, który będziesz przesyłać za pomocą kodu QR do każdego uczestniczącego punktu testowania."</string>
     <!-- XHED: Open RAT profile card title -->
-    <string name="rat_profile_open_card_title">"Brak zakażenia"</string>
+    <string name="rat_profile_open_card_title">"Profil szybkiego testu"</string>
     <!-- XTXT: Open RAT profile card subtitle -->
-    <string name="rat_profile_open_card_subtitle">"Zakażenie"</string>
+    <string name="rat_profile_open_card_subtitle">"Zaoszczędź czas i przedstaw swój profil szybkiego testu w punkcie testowania."</string>
     <!-- XHED: Create RAT profile title -->
-    <string name="rat_profile_create_title">"Jeśli masz pozytywny wynik testu na obecność koronawirusa, możesz ostrzec innych."</string>
+    <string name="rat_profile_create_title">"Profil szybkiego testu"</string>
     <!-- XTXT: Create RAT profile first name hint -->
-    <string name="rat_profile_create_first_name_hint">"Ustalenie wyniku Twojego testu było niemożliwe."</string>
+    <string name="rat_profile_create_first_name_hint">"Imię"</string>
     <!-- XTXT: Create RAT profile last name hint -->
-    <string name="rat_profile_create_last_name_hint">"Twój test ma więcej niż 21 dni i stracił ważność. Usuń test. Będziesz mieć wówczas możliwość dodania kolejnego. "</string>
+    <string name="rat_profile_create_last_name_hint">"Nazwisko"</string>
     <!-- XTXT: Create RAT profile birth date hint -->
-    <string name="rat_profile_create_birth_date_hint">"Nie zdiagnozowano u Ciebie wirusa SARS-CoV-2."</string>
+    <string name="rat_profile_create_birth_date_hint">"Data urodzenia"</string>
     <!-- XBUT: Create RAT profile save button -->
-    <string name="rat_profile_create_button">"Zdiagnozowano u Ciebie wirusa SARS-CoV-2."</string>
+    <string name="rat_profile_create_button">"Zapisz"</string>
     <!-- XTXT: Create RAT profile description -->
-    <string name="rat_profile_create_description">"Szybki test"</string>
+    <string name="rat_profile_create_description">"Możesz utworzyć profil ze swoimi danymi osobowymi, który będziesz przesyłać za pomocą kodu QR do każdego uczestniczącego punktu testowania."</string>
     <!-- XTXT: Create RAT profile street hint -->
-    <string name="rat_profile_create_street_hint">"Nie wyświetlaj ponownie"</string>
+    <string name="rat_profile_create_street_hint">"Ulica i numer domu"</string>
     <!-- XTXT: Create RAT profile post code hint -->
-    <string name="rat_profile_create_zip_code_hint">"Test nie jest już aktualny"</string>
+    <string name="rat_profile_create_zip_code_hint">"Kod pocztowy"</string>
     <!-- XTXT: Create RAT profile city hint -->
-    <string name="rat_profile_create_city_hint">"Wykonaj test PCR, aby zweryfikować wynik tego testu."</string>
+    <string name="rat_profile_create_city_hint">"Miasto"</string>
     <!-- XTXT: Create RAT profile phone hint -->
-    <string name="rat_profile_create_phone_hint">"Ustalanie wyniku Twojego szybkiego testu jeszcze się nie zakończyło."</string>
+    <string name="rat_profile_create_phone_hint">"Numer telefonu"</string>
     <!-- XTXT: Create RAT profile email hint -->
-    <string name="rat_profile_create_email_hint">"Twój szybki test ma więcej niż 48 godzin i nie będzie już tutaj wyświetlany."</string>
+    <string name="rat_profile_create_email_hint">"Adres e-mail"</string>
 
     <!--RAT profile onboarding-->
-    <string name="rat_profile_onboarding_image_content_description">"Wykonany dnia %1$s"</string>
+    <string name="rat_profile_onboarding_image_content_description">"Przed budynkiem stoi kobieta ze smartfonem w dłoni. Kod QR symbolizuje profil szybkiego testu do zeskanowania."</string>
     <!-- XTXT: Create RAT profile onboarding title -->
-    <string name="rat_profile_onboarding_title">"Test PCR"</string>
+    <string name="rat_profile_onboarding_title">"Możesz utworzyć profil ze swoimi danymi osobowymi, który będziesz przesyłać za pomocą kodu QR do każdego uczestniczącego punktu testowania."</string>
     <!-- XTXT: Create RAT profile onboarding subtitle -->
-    <string name="rat_profile_onboarding_subtitle">"USUŃ TEST"</string>
+    <string name="rat_profile_onboarding_subtitle">"Dzięki utworzeniu profilu szybkiego testu, nie będziesz musiał(a) ponownie wypełniać swoich danych osobowych przed wykonaniem szybkiego testu."</string>
     <!-- XTXT: Create RAT profile onboarding next button -->
-    <string name="rat_profile_onboarding_next">"Ustalanie wyniku Twojego testu PCR jeszcze się nie zakończyło."</string>
+    <string name="rat_profile_onboarding_next">"Kontynuuj"</string>
     <!-- XTXT: Create RAT profile onboarding privacy -->
-    <string name="rat_profile_onboarding_privacy">"Test zarejestrowany dnia %1$s"</string>
+    <string name="rat_profile_onboarding_privacy">"Szczegółowe informacje na temat przetwarzania danych i Twojej zgodzie"</string>
     <!-- XTXT: Create RAT Qr code profile description-->
-    <string name="rat_qr_code_profile_description">"Kontynuuj"</string>
+    <string name="rat_qr_code_profile_description">"Pokaż ten kodu QR w punkcie testowania, aby przyśpieszyć rejestrację danych osobowych. Miej też pod ręką swój dowód osobisty."</string>
     <!-- XTXT: Create RAT Qr code profile birth date-->
-    <string name="rat_qr_code_profile_birth_date">"Anuluj"</string>
+    <string name="rat_qr_code_profile_birth_date">"Data urodzenia %1$s"</string>
     <!-- XBUT: Create RAT Qr code profile next button-->
-    <string name="rat_qr_code_profile_next_button">"Uwaga"</string>
+    <string name="rat_qr_code_profile_next_button">"Kontynuuj"</string>
     <!-- XTXT: Create RAT Qr code profile delete item-->
-    <string name="rat_qr_code_profile_delete_item">"Zarejestrowano już szybki test."</string>
+    <string name="rat_qr_code_profile_delete_item">"Usuń"</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog title-->
-    <string name="rat_qr_code_profile_dialog_title">"Zarejestrowano już szybki test. Aplikacja może zarządzać maksymalnie jednym szybkim testem i jednym testem PCR jednocześnie. Jeśli zarejestrujesz kolejny szybki test, pierwszy szybki test zostanie usunięty z aplikacji."</string>
+    <string name="rat_qr_code_profile_dialog_title">"Czy chcesz usunąć profil szybkiego testu?"</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog message-->
-    <string name="rat_qr_code_profile_dialog_message">"Zarejestrowano już test PCR."</string>
+    <string name="rat_qr_code_profile_dialog_message">"Pamiętaj, że jeśli to zrobisz, ten kod QR nie będzie mógł być już używany do rejestracji."</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog positive button-->
-    <string name="rat_qr_code_profile_dialog_positive_button">"Zarejestrowano już test PCR. Aplikacja może zarządzać maksymalnie jednym szybkim testem i jednym testem PCR jednocześnie. Jeśli zarejestrujesz kolejny test PCR, pierwszy test PCR zostanie usunięty z aplikacji."</string>
+    <string name="rat_qr_code_profile_dialog_positive_button">"Usuń"</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog negative button-->
-    <string name="rat_qr_code_profile_dialog_negative_button">"Twój wynik testu"</string>
+    <string name="rat_qr_code_profile_dialog_negative_button">"Anuluj"</string>
 </resources>
