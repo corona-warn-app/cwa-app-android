@@ -118,7 +118,7 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
     private fun showCloseDialog() = MaterialAlertDialogBuilder(requireContext())
         .setTitle(R.string.request_gc_dialog_title)
         .setMessage(R.string.request_gc_dialog_message)
-        .setNegativeButton(R.string.request_gc_dialog_negative_button) { _, _ -> viewModel.navigateBack() }
+        .setNegativeButton(R.string.request_gc_dialog_negative_button) { _, _ -> }
         .setPositiveButton(R.string.request_gc_dialog_positive_button) { _, _ -> viewModel.navigateToHomeScreen() }
         .create()
         .show()
