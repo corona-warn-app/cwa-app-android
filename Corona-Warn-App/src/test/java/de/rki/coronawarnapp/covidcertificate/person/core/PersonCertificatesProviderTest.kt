@@ -90,9 +90,13 @@ class PersonCertificatesProviderTest : BaseTest() {
         val instance = createInstance()
 
         instance.personCertificates.first() shouldBe listOf(
-            vaccinatedPersonACertificate1,
-            testWrapperACertificate,
-            recoveryWrapperACertificate
+            PersonCertificates(
+                certificates = listOf(
+                    vaccinatedPersonACertificate1,
+                    testWrapperACertificate,
+                    recoveryWrapperACertificate
+                )
+            )
         )
 
         verify {
