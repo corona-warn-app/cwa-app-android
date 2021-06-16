@@ -67,6 +67,7 @@ class RAProcessorTest : BaseTest() {
             coEvery { checkTestResult(any()) } returns CoronaTestResultResponse(
                 coronaTestResult = PCR_OR_RAT_PENDING,
                 sampleCollectedAt = null,
+                labId = null,
             )
 
             coEvery { registerTest(any()) } answers {
@@ -77,6 +78,7 @@ class RAProcessorTest : BaseTest() {
                     testResultResponse = CoronaTestResultResponse(
                         coronaTestResult = PCR_OR_RAT_PENDING,
                         sampleCollectedAt = null,
+                        labId = null,
                     )
                 )
             }
@@ -121,6 +123,7 @@ class RAProcessorTest : BaseTest() {
         coEvery { submissionService.checkTestResult(any()) } returns CoronaTestResultResponse(
             coronaTestResult = PCR_OR_RAT_PENDING,
             sampleCollectedAt = nowUTC,
+            labId = null,
         )
 
         (instance.pollServer(raTest) as RACoronaTest).sampleCollectedAt shouldBe nowUTC
@@ -171,6 +174,7 @@ class RAProcessorTest : BaseTest() {
             testResultResponse = CoronaTestResultResponse(
                 coronaTestResult = PCR_OR_RAT_PENDING,
                 sampleCollectedAt = null,
+                labId = null,
             ),
         )
         coEvery { submissionService.registerTest(any()) } answers { registrationData }
@@ -187,6 +191,7 @@ class RAProcessorTest : BaseTest() {
                 testResultResponse = CoronaTestResultResponse(
                     coronaTestResult = it,
                     sampleCollectedAt = null,
+                    labId = null,
                 )
             )
             when (it) {
@@ -212,6 +217,7 @@ class RAProcessorTest : BaseTest() {
             CoronaTestResultResponse(
                 coronaTestResult = pollResult,
                 sampleCollectedAt = null,
+                labId = null,
             )
         }
 
@@ -245,6 +251,7 @@ class RAProcessorTest : BaseTest() {
             CoronaTestResultResponse(
                 coronaTestResult = RAT_POSITIVE,
                 sampleCollectedAt = null,
+                labId = null,
             )
         }
 
@@ -312,6 +319,7 @@ class RAProcessorTest : BaseTest() {
             testResultResponse = CoronaTestResultResponse(
                 coronaTestResult = PCR_OR_RAT_PENDING,
                 sampleCollectedAt = null,
+                labId = null,
             )
         )
         coEvery { submissionService.registerTest(any()) } answers { registrationData }
