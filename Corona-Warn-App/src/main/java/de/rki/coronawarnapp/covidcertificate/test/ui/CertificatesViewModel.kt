@@ -96,38 +96,40 @@ class CertificatesViewModel @AssistedInject constructor(
         }
     }
 
-    private fun Collection<TestCertificateWrapper>.toCertificateItems(): List<CertificatesItem> = map { certificate ->
-        val localRegistrationTime = certificate.registeredAt.toUserTimeZone()
+    private fun Collection<TestCertificateWrapper>.toCertificateItems(): List<CertificatesItem> = this
+        .map { certificate ->
+            val localRegistrationTime = certificate.registeredAt.toUserTimeZone()
 
-        if (certificate.isCertificateRetrievalPending) {
-            CovidTestCertificateErrorCard.Item(
-                testDate = localRegistrationTime,
-                isUpdatingData = certificate.isUpdatingData,
-                onRetryAction = {
-                    refreshTestCertificate(certificate.identifier)
-                },
-                onDeleteAction = {
-                    events.postValue(
-                        CertificatesFragmentEvents.ShowDeleteErrorCertificateDialog(
-                            certificate.identifier
+            if (certificate.isCertificateRetrievalPending) {
+                CovidTestCertificateErrorCard.Item(
+                    testDate = localRegistrationTime,
+                    isUpdatingData = certificate.isUpdatingData,
+                    onRetryAction = {
+                        refreshTestCertificate(certificate.identifier)
+                    },
+                    onDeleteAction = {
+                        events.postValue(
+                            CertificatesFragmentEvents.ShowDeleteErrorCertificateDialog(
+                                certificate.identifier
+                            )
                         )
-                    )
-                }
-            )
-        } else {
-            CovidTestCertificateCard.Item(
-                testDate = localRegistrationTime,
-                testPerson =
-                certificate.testCertificate?.firstName + " " +
-                    certificate.testCertificate?.lastName,
-                onClickAction = {
-                    CertificatesFragmentEvents.GoToCovidCertificateDetailScreen(
-                        certificate.identifier
-                    ).run { events.postValue(this) }
-                }
-            )
+                    }
+                )
+            } else {
+                CovidTestCertificateCard.Item(
+                    testDate = localRegistrationTime,
+                    testPerson =
+                    certificate.testCertificate?.firstName + " " +
+                        certificate.testCertificate?.lastName,
+                    onClickAction = {
+                        CertificatesFragmentEvents.GoToCovidCertificateDetailScreen(
+                            certificate.identifier
+                        ).run { events.postValue(this) }
+                    }
+                )
+            }
         }
-    }
+        .sortedByDescending { it.testDate }
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<CertificatesViewModel>
