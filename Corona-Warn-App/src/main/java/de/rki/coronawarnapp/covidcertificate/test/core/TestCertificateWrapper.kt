@@ -17,6 +17,8 @@ data class TestCertificateWrapper(
 
     val registeredAt = container.registeredAt
 
+    val seenByUser = container.certificateSeenByUser
+
     val testCertificate: TestCertificate? by lazy {
         container.toTestCertificate(valueSets)
     }

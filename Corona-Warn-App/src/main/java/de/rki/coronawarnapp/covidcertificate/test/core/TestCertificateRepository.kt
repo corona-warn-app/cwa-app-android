@@ -87,7 +87,7 @@ class TestCertificateRepository @Inject constructor(
 
     /**
      * Will create a new test certificate entry.
-     * Automation via [de.rki.coronawarnapp.coronatest.type.common.TestCertificateRetrievalScheduler] will kick in.
+     * Automation via [de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalScheduler] will kick in.
      *
      * Throws an exception if there already is a test certificate entry for this test
      * or this is not a valid test (no consent, not supported by PoC).
@@ -260,6 +260,29 @@ class TestCertificateRepository @Inject constructor(
     suspend fun clear() {
         Timber.tag(TAG).i("clear()")
         internalData.updateBlocking { emptyMap() }
+    }
+
+    suspend fun markCertificateAsSeenByUser(identifier: TestCertificateIdentifier) {
+        Timber.tag(TAG).d("markCertificateSeenByUser(identifier=%s)", identifier)
+
+        internalData.updateBlocking {
+            val current = this[identifier]
+            if (current == null) {
+                Timber.tag(TAG).w("Can't mark %s as seen, it doesn't exist, racecondition?", identifier)
+                return@updateBlocking this
+            }
+
+            if (current.isCertificateRetrievalPending) {
+                Timber.tag(TAG).w("Can't mark %s as seen, certificate has not been retrieved yet.", identifier)
+                return@updateBlocking this
+            }
+
+            val updated = current.copy(
+                data = processor.updateSeenByUser(current.data, true)
+            )
+
+            mutate { this[identifier] = updated }
+        }
     }
 
     companion object {
