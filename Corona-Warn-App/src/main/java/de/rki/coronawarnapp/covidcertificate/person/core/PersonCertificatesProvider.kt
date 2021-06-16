@@ -47,7 +47,8 @@ class PersonCertificatesProvider @Inject constructor(
         mapping.entries.map { (personIdentifier, certs) ->
             Timber.tag(TAG).v("PersonCertificates for %s with %d certs.", personIdentifier, certs.size)
             PersonCertificates(certificates = certs.toPrioritySortOrder())
-        }.toSet() + testData // TODO remove
+        }.toSet()
+//        + testData // TODO remove
     }
 
     fun Collection<CwaCovidCertificate>.toPrioritySortOrder(): List<CwaCovidCertificate> {
@@ -55,14 +56,27 @@ class PersonCertificatesProvider @Inject constructor(
         return this.toList()
     }
 
+    /**
+     * Set the current cwa user with regards to listed persons in the certificates tab.
+     * After calling this [personCertificates] will emit new values.
+     * Setting it to null deletes it.
+     */
+    suspend fun setCurrentCwaUser(personIdentifier: CertificatePersonIdentifier?) {
+        // TODO
+    }
+
     // TODO remove
-    val testData = (0..30).map { PersonCertificates(listOf(testCertificate(it))) }.toSet() +
+    private val testData = (0..30).map { PersonCertificates(listOf(testCertificate(it))) }.toSet() +
         PersonCertificates(listOf(testCertificate(31, true, false))) +
         PersonCertificates(listOf(testCertificate(32, true, true))) +
         PersonCertificates(listOf(testCertificate(33)), true)
 
     // TODO remove
-    fun testCertificate(index: Int, isCertificateRetrievalPending: Boolean = false, isUpdating: Boolean = false) =
+    private fun testCertificate(
+        index: Int,
+        isCertificateRetrievalPending: Boolean = false,
+        isUpdating: Boolean = false
+    ) =
         object : TestCertificate {
             override val targetName: String
                 get() = "targetName"
