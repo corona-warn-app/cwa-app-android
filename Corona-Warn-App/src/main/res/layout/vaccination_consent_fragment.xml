@@ -65,7 +65,7 @@
                 android:importantForAccessibility="no"
                 app:layout_constraintStart_toStartOf="@id/vaccination_consent_info_subtitle"
                 app:layout_constraintTop_toBottomOf="@id/vaccination_consent_info_subtitle"
-                app:srcCompat="@drawable/ic_qr_tracing_static" />
+                app:srcCompat="@drawable/ic_qr_code_illustration" />
 
             <TextView
                 android:id="@+id/vaccination_consent_info_text"
@@ -81,13 +81,13 @@
 
             <ImageView
                 android:id="@+id/vaccination_consent_qr_code_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:importantForAccessibility="no"
                 app:layout_constraintStart_toStartOf="@id/vaccination_consent_info_icon"
                 app:layout_constraintTop_toBottomOf="@id/vaccination_consent_info_text"
-                app:srcCompat="@drawable/ic_qr_code_illustration" />
+                app:srcCompat="@drawable/ic_certificates_filled" />
 
             <TextView
                 android:id="@+id/vaccination_consent_qr_code_text"
@@ -123,6 +123,28 @@
                 app:layout_constraintStart_toEndOf="@id/vaccination_consent_time_sheet_icon"
                 app:layout_constraintTop_toTopOf="@id/vaccination_consent_time_sheet_icon" />
 
+            <ImageView
+                android:id="@+id/vaccination_consent_family_certificates_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:importantForAccessibility="no"
+                app:layout_constraintStart_toStartOf="@id/vaccination_consent_time_sheet_icon"
+                app:layout_constraintTop_toBottomOf="@id/vaccination_consent_time_sheet_text"
+                app:srcCompat="@drawable/ic_document_family_certificates" />
+
+            <TextView
+                android:id="@+id/vaccination_consent_family_certificates_text"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:text="@string/vaccination_consent_family_certificates_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/vaccination_consent_family_certificates_icon"
+                app:layout_constraintTop_toTopOf="@id/vaccination_consent_family_certificates_icon" />
+
             <include
                 android:id="@+id/privacy_card"
                 layout="@layout/vaccination_consent_privacy_card"
@@ -133,7 +155,7 @@
                 android:layout_marginEnd="@dimen/spacing_small"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/vaccination_consent_time_sheet_text" />
+                app:layout_constraintTop_toBottomOf="@id/vaccination_consent_family_certificates_text" />
 
             <de.rki.coronawarnapp.ui.view.MoreInformationView
                 android:id="@+id/vaccination_consent_privacy_information"
