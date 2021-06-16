@@ -59,7 +59,8 @@ class DccQrCodeScanFragment :
                             )
                     )
                 }
-                is DccQrCodeScanViewModel.Event.RecoveryQrCodeScanSucceeded -> TODO()
+                is DccQrCodeScanViewModel.Event.RecoveryQrCodeScanSucceeded -> { // TODO
+                }
                 is DccQrCodeScanViewModel.Event.TestQrCodeScanSucceeded -> {
                     binding.qrCodeScanSpinner.hide()
                     doNavigate(

@@ -18,5 +18,5 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.ui.VaccinationCertifica
 abstract class DigitalCovidCertificateUIModule {
 
     @ContributesAndroidInjector(modules = [DccQrCodeScanModule::class])
-    abstract fun vaccinationQrCodeScanFragment(): DccQrCodeScanFragment
+    abstract fun dccQrCodeScanFragment(): DccQrCodeScanFragment
 }
