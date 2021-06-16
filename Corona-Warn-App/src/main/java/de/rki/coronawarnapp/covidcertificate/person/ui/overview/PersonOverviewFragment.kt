@@ -40,7 +40,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
     private fun onNavEvent(event: PersonOverviewFragmentEvents) {
         when (event) {
             is OpenPersonDetailsFragment -> doNavigate(
-                PersonOverviewFragmentDirections.actionPersonOverviewFragmentToVaccinationListFragment(
+                PersonOverviewFragmentDirections.actionPersonOverviewFragmentToPersonDetailsFragment(
                     event.personIdentifier
                 )
             )

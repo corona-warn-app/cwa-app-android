@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.adapter.viewholder
 
 import android.graphics.Bitmap
+import android.view.View
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.adapter.VaccinationListAdapter
@@ -20,15 +21,24 @@ class VaccinationListQrCodeCardItemVH(parent: ViewGroup) :
         IncludeCertificateQrcodeCardBinding.bind(itemView)
     }
 
-    override val onBindData: IncludeCertificateQrcodeCardBinding
-    .(item: VaccinationListQrCodeCardItem, payloads: List<Any>) -> Unit =
-        { item, _ ->
-            image.setImageBitmap(item.qrCode)
-            item.qrCode?.let {
-                image.setOnClickListener { item.onQrCodeClick.invoke() }
+    override val onBindData: IncludeCertificateQrcodeCardBinding.(
+        item: VaccinationListQrCodeCardItem,
+        payloads: List<Any>
+    ) -> Unit = { item, _ ->
+
+        image.setImageBitmap(item.qrCode)
+        item.apply {
+            qrCode?.let {
+                image.setOnClickListener { item. onQrCodeClick.invoke() }
                 progressBar.hide()
             }
+            qrTitle.visibility = View.VISIBLE
+            qrTitle.text = context.getString(R.string.vaccination_certificate_title)
+            qrSubtitle.visibility = View.VISIBLE
+            qrSubtitle.text = vaccinatedAt.toString()
+
         }
+    }
 
     data class VaccinationListQrCodeCardItem(
         val qrCode: Bitmap?,

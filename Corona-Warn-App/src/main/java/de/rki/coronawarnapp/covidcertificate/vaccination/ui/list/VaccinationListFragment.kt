@@ -100,10 +100,6 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
             viewModel.errors.observe(viewLifecycleOwner) { error ->
                 error.toErrorDialogBuilder(requireContext()).show()
             }
-
-            registerNewVaccinationButton.setOnClickListener {
-                viewModel.onRegisterNewVaccinationClick()
-            }
         }
     }
 

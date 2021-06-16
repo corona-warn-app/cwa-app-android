@@ -7,7 +7,7 @@ import org.joda.time.LocalDate
 /**
  * For use with the UI
  */
-interface CwaCovidCertificate {
+interface   CwaCovidCertificate {
     // Header
     val issuer: String
     val issuedAt: Instant

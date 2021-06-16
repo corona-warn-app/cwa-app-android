@@ -54,7 +54,7 @@ class VaccinationQrCodeScanFragment :
                     binding.qrCodeScanSpinner.hide()
                     doNavigate(
                         VaccinationQrCodeScanFragmentDirections
-                            .actionVaccinationQrCodeScanFragmentToVaccinationListFragment(
+                            .actionVaccinationQrCodeScanFragmentToPersonDetailsFragment(
                                 event.personIdentifierCodeSha256
                             )
                     )

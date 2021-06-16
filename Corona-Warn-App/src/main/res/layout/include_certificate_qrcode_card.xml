@@ -33,4 +33,25 @@
         tools:src="@drawable/ic_qrcode"
         tools:tint="@android:color/black" />
 
+    <TextView
+        android:id="@+id/qr_title"
+        style="@style/body2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_tiny"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/image"
+        app:layout_constraintTop_toBottomOf="@id/image"
+        tools:text="@string/detail_green_certificate_card_title" />
+
+    <TextView
+        android:id="@+id/qr_subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/qr_title"
+        app:layout_constraintTop_toBottomOf="@id/qr_title"
+        tools:text="Perobenahme am 31.05.21, 18:01 Uhr" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

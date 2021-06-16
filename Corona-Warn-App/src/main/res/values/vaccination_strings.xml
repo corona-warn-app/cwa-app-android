@@ -26,7 +26,7 @@
     <string name="vaccination_qrcode_card_subtitle">"Vaccinated %1$s - Valid to %2$s"</string>
 
     <!-- XTXT: Vaccination List title-->
-    <string name="vaccination_list_title">"Digital Proof of Vaccination"</string>
+    <string name="vaccination_list_title">"EU Digitales COVID-Zertifikat"</string>
     <!-- XTXT: Vaccination List complete vaccination subtitle-->
     <string name="vaccination_list_complete_vaccination_subtitle">"SARS-CoV-2 Vaccination Protection"</string>
     <!-- XTXT: Vaccination List top card subtitle-->

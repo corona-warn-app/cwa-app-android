@@ -26,7 +26,7 @@
     <string name="vaccination_qrcode_card_subtitle">Geimpft %1$s - gültig bis %2$s</string>
 
     <!-- XTXT: Vaccination List title-->
-    <string name="vaccination_list_title">Digitaler Impfnachweis</string>
+    <string name="vaccination_list_title">EU Digitales COVID-Zertifikat</string>
     <!-- XTXT: Vaccination List complete vaccination subtitle-->
     <string name="vaccination_list_complete_vaccination_subtitle">SARS-CoV-2-Impfschutz</string>
     <!-- XTXT: Vaccination List top card subtitle-->
