@@ -83,17 +83,26 @@ class SubmissionConsentViewModel @AssistedInject constructor(
 
         val coronaTest = submissionRepository.testForType(coronaTestQRCode.type).first()
 
-        if (coronaTest != null) {
-            SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode(
-                coronaTestQRCode,
-                consentGiven = true
-            ).run { routeToScreen.postValue(this) }
-        } else {
-            registrationStateProcessor.startRegistration(
-                request = coronaTestQRCode,
-                isSubmissionConsentGiven = true,
-                allowReplacement = false
-            )
+        when {
+            coronaTest != null -> {
+                SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode(
+                    coronaTestQRCode,
+                    consentGiven = true
+                ).run { routeToScreen.postValue(this) }
+            }
+            coronaTestQRCode.isDccSupportedByPoc && !coronaTestQRCode.isDccConsentGiven -> {
+                SubmissionNavigationEvents.NavigateToRequestDccFragment(
+                    coronaTestQRCode = coronaTestQRCode,
+                    consentGiven = true,
+                ).run { routeToScreen.postValue(this) }
+            }
+            else -> {
+                registrationStateProcessor.startRegistration(
+                    request = coronaTestQRCode,
+                    isSubmissionConsentGiven = true,
+                    allowReplacement = false
+                )
+            }
         }
     }
 
