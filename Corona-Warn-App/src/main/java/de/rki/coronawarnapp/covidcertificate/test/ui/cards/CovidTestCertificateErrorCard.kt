@@ -6,17 +6,16 @@ import androidx.core.view.isInvisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.test.ui.CertificatesAdapter
 import de.rki.coronawarnapp.databinding.CovidTestErrorCardBinding
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
-import org.joda.time.Instant
+import org.joda.time.DateTime
 
 class CovidTestCertificateErrorCard(parent: ViewGroup) :
     CertificatesAdapter.CertificatesItemVH<CovidTestCertificateErrorCard.Item, CovidTestErrorCardBinding>(
         R.layout.home_card_container_layout,
         parent
     ) {
-
     override val viewBinding = lazy {
         CovidTestErrorCardBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
     }
@@ -28,8 +27,8 @@ class CovidTestCertificateErrorCard(parent: ViewGroup) :
 
         testTime.text = context.getString(
             R.string.test_certificate_time,
-            item.testDate.toShortDayFormat(),
-            item.testDate.toShortTimeFormat(),
+            item.testDate.toDayFormat(),
+            item.testDate.toShortTimeFormat()
         )
 
         retryButton.setOnClickListener {
@@ -53,7 +52,7 @@ class CovidTestCertificateErrorCard(parent: ViewGroup) :
     }
 
     data class Item(
-        override val testDate: Instant,
+        override val testDate: DateTime,
         val onRetryAction: (Item) -> Unit,
         val onDeleteAction: (Item) -> Unit,
         val isUpdatingData: Boolean,
