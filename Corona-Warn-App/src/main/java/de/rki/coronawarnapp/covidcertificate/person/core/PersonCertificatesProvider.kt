@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -45,24 +44,23 @@ class PersonCertificatesProvider @Inject constructor(
             }
         }
 
-        (0..30).map { PersonCertificates(listOf(testCertificate(it))) }.toSet() +
-            PersonCertificates(listOf(testCertificate(31, true, false))) +
-            PersonCertificates(listOf(testCertificate(32, true, true))) +
-            PersonCertificates(listOf(testCertificate(33)), true))
-
         mapping.entries.map { (personIdentifier, certs) ->
             Timber.tag(TAG).v("PersonCertificates for %s with %d certs.", personIdentifier, certs.size)
             PersonCertificates(certificates = certs.toPrioritySortOrder())
-        }.toSet()
+        }.toSet() + testData // TODO remove
     }
 
     fun Collection<CwaCovidCertificate>.toPrioritySortOrder(): List<CwaCovidCertificate> {
         return this.toList()
     }
 
-
-
     // TODO remove
+
+    val testData = (0..30).map { PersonCertificates(listOf(testCertificate(it))) }.toSet() +
+        PersonCertificates(listOf(testCertificate(31, true, false))) +
+        PersonCertificates(listOf(testCertificate(32, true, true))) +
+        PersonCertificates(listOf(testCertificate(33)), true)
+
     fun testCertificate(index: Int, isCertificateRetrievalPending: Boolean = false, isUpdating: Boolean = false) =
         object : TestCertificate {
             override val targetName: String
@@ -117,8 +115,6 @@ class PersonCertificatesProvider @Inject constructor(
             override val certificateId: String
                 get() = "certificateId"
         }
-
-    // TODO
 
     companion object {
         private val TAG = PersonCertificatesProvider::class.simpleName!!
