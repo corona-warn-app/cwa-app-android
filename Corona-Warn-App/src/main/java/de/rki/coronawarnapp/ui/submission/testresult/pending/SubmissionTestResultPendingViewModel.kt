@@ -106,7 +106,7 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
                     R.string.submission_test_result_pending_steps_test_certificate_not_supported_body
                 }
                 else -> {
-                    if (it.coronaTest.isAdvancedConsentGiven) {
+                    if (it.coronaTest.isDccConsentGiven) {
                         R.string.submission_test_result_pending_steps_test_certificate_not_available_yet_body
                     } else {
                         R.string.submission_test_result_pending_steps_test_certificate_not_desired_by_user_body
