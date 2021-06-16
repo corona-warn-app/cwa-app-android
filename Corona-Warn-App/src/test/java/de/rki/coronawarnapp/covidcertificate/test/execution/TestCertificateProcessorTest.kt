@@ -7,9 +7,8 @@ import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRC
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateComponents
 import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateServer
-import de.rki.coronawarnapp.covidcertificate.test.core.storage.PCRCertificateData
-import de.rki.coronawarnapp.covidcertificate.test.core.storage.StoredTestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateProcessor
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertificateData
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.encryption.rsa.RSACryptography
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
@@ -56,8 +55,6 @@ class TestCertificateProcessorTest : BaseTest() {
         every { dataEncryptionKeyBase64 } returns "dek"
         every { encryptedCoseTestCertificateBase64 } returns ""
     }
-
-    private var storageSet = mutableSetOf<StoredTestCertificateData>()
 
     @BeforeEach
     fun setup() {

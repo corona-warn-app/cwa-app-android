@@ -2,14 +2,18 @@ package de.rki.coronawarnapp.covidcertificate.test.core
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCodeExtractor
-import de.rki.coronawarnapp.covidcertificate.test.core.storage.PCRCertificateData
-import de.rki.coronawarnapp.covidcertificate.test.core.storage.RACertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateIdentifier
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateProcessor
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.GenericTestCertificateData
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertificateData
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RACertificateData
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RetrievedTestCertificate
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
@@ -37,6 +41,7 @@ class TestCertificateRepository @Inject constructor(
     private val storage: TestCertificateStorage,
     private val qrCodeExtractor: TestCertificateQRCodeExtractor,
     private val processor: TestCertificateProcessor,
+    private val timeStamper: TimeStamper,
     valueSetsRepository: ValueSetsRepository,
 ) {
 
@@ -49,7 +54,7 @@ class TestCertificateRepository @Inject constructor(
             .map {
                 TestCertificateContainer(
                     data = it,
-                    qrCodeExtractor = qrCodeExtractor
+                    dataExtractor = qrCodeExtractor
                 )
             }
             .map { it.identifier to it }
@@ -96,7 +101,13 @@ class TestCertificateRepository @Inject constructor(
         Timber.tag(TAG).d("requestCertificate(test.identifier=%s)", test.identifier)
 
         val newData = internalData.updateBlocking {
-            if (values.any { it.registrationToken == test.registrationToken }) {
+
+            val matchesExisting = values
+                .map { it.data }
+                .filterIsInstance<RetrievedTestCertificate>()
+                .any { it.registrationToken == test.registrationToken }
+
+            if (matchesExisting) {
                 Timber.tag(TAG).e("Certificate entry already exists for %s", test.identifier)
                 throw IllegalArgumentException("A certificate was already created for this ${test.identifier}")
             }
@@ -123,13 +134,44 @@ class TestCertificateRepository @Inject constructor(
             }
             val container = TestCertificateContainer(
                 data = data,
-                qrCodeExtractor = qrCodeExtractor,
+                dataExtractor = qrCodeExtractor,
             )
             Timber.tag(TAG).d("Adding test certificate entry: %s", container)
             mutate { this[container.identifier] = container }
         }
 
-        return newData.values.single { it.registrationToken == test.registrationToken }
+        return newData.values.single {
+            it.data is RetrievedTestCertificate && it.data.registrationToken == test.registrationToken
+        }
+    }
+
+    suspend fun registerTestCertificate(
+        qrCode: TestCertificateQRCode
+    ): TestCertificateContainer {
+        Timber.tag(TAG).v("registerTestCertificate(qrCode=%s)", qrCode)
+
+        val updatedData = internalData.updateBlocking {
+            val identifier = UUID.randomUUID().toString()
+
+            val nowUtc = timeStamper.nowUTC
+
+            val data = GenericTestCertificateData(
+                identifier = identifier,
+                registeredAt = nowUtc,
+                certificateReceivedAt = nowUtc,
+                testCertificateQrCode = qrCode.qrCode
+            )
+            val container = TestCertificateContainer(
+                data = data,
+                dataExtractor = qrCodeExtractor,
+            )
+            Timber.tag(TAG).d("Adding test certificate entry: %s", container)
+            mutate { this[container.identifier] = container }
+        }
+
+        // We just registered it, it MUST be available.
+        return updatedData.values
+            .single { it.certificateId == qrCode.uniqueCertificateIdentifier }
     }
 
     /**
@@ -161,6 +203,7 @@ class TestCertificateRepository @Inject constructor(
 
         internalData.updateBlocking {
             val toRefresh = values
+                .filter { it.data is RetrievedTestCertificate && it.isCertificateRetrievalPending } // Can only update retrieved certificates
                 .filter { it.identifier == identifier || identifier == null } // Targets of our refresh
                 .filter { !it.isUpdatingData && it.isCertificateRetrievalPending } // Those that need refreshing
 
@@ -177,8 +220,10 @@ class TestCertificateRepository @Inject constructor(
 
             val refreshedCerts = values
                 .filter { workedOnIds.contains(it.identifier) } // Refresh targets
-                .filter { !it.isPublicKeyRegistered } // Targets of this step
-                .map { cert ->
+                .mapNotNull { cert ->
+                    if (cert.data !is RetrievedTestCertificate) return@mapNotNull null
+                    if (cert.data.isPublicKeyRegistered) return@mapNotNull null
+
                     withContext(dispatcherProvider.IO) {
                         try {
                             val updatedData = processor.registerPublicKey(cert.data)
@@ -207,8 +252,11 @@ class TestCertificateRepository @Inject constructor(
 
             val refreshedCerts = values
                 .filter { workedOnIds.contains(it.identifier) } // Refresh targets
-                .filter { it.isPublicKeyRegistered && it.isCertificateRetrievalPending } // Targets of this step
-                .map { cert ->
+                .mapNotNull { cert ->
+                    if (cert.data !is RetrievedTestCertificate) return@mapNotNull null
+                    if (!cert.data.isPublicKeyRegistered) return@mapNotNull null
+                    if (!cert.isCertificateRetrievalPending) return@mapNotNull null
+
                     withContext(dispatcherProvider.IO) {
                         try {
                             val updatedData = processor.obtainCertificate(cert.data)

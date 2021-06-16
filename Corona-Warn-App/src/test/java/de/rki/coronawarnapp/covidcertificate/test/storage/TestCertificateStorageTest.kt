@@ -40,8 +40,7 @@ class TestCertificateStorageTest : BaseTest() {
 
     private fun createInstance() = TestCertificateStorage(
         context = context,
-        baseGson = SerializationModule().baseGson(),
-        containerPostProcessor = postProcessor,
+        baseGson = SerializationModule().baseGson()
     )
 
     @Test
@@ -55,6 +54,7 @@ class TestCertificateStorageTest : BaseTest() {
             putString("dontdeleteme", "test")
             putString("testcertificate.data.ra", "test")
             putString("testcertificate.data.pcr", "test")
+            putString("testcertificate.data.scanned", "test")
         }
         createInstance().testCertificates = emptySet()
 
@@ -65,7 +65,8 @@ class TestCertificateStorageTest : BaseTest() {
     fun `store two containers, one for each type`() {
         createInstance().testCertificates = setOf(
             certificateTestData.personATest1StoredData,
-            certificateTestData.personATest2CertStoredData
+            certificateTestData.personATest2CertStoredData,
+            certificateTestData.personATest2CertScannedStoredData,
         )
 
         (mockPreferences.dataMapPeek["testcertificate.data.pcr"] as String).toComparableJsonPretty() shouldBe """
@@ -100,9 +101,20 @@ class TestCertificateStorageTest : BaseTest() {
             ]
         """.toComparableJsonPretty()
 
+        (mockPreferences.dataMapPeek["testcertificate.data.scanned"] as String).toComparableJsonPretty() shouldBe """
+            [
+              {
+                "identifier": "identifier2",
+                "registeredAt": 12345,
+                "testCertificateQrCode": "${certificateTestData.personATest2CertQRCodeString}"
+              }
+            ]
+        """.toComparableJsonPretty()
+
         createInstance().testCertificates shouldBe setOf(
             certificateTestData.personATest1StoredData,
-            certificateTestData.personATest2CertStoredData
+            certificateTestData.personATest2CertStoredData,
+            certificateTestData.personATest2CertScannedStoredData,
         )
     }
 }

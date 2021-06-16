@@ -1,7 +1,6 @@
-package de.rki.coronawarnapp.covidcertificate.test.core.storage
+package de.rki.coronawarnapp.covidcertificate.test.core.storage.types
 
 import com.google.gson.annotations.SerializedName
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.RegistrationToken
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKey
 import okio.ByteString
@@ -37,7 +36,7 @@ data class PCRCertificateData internal constructor(
 
     @SerializedName("testCertificateQrCode")
     override val testCertificateQrCode: String? = null,
-) : StoredTestCertificateData {
+) : RetrievedTestCertificate() {
 
     // Otherwise GSON unsafes reflection to create this class, and sets the LAZY to null
     @Suppress("unused")
@@ -46,7 +45,4 @@ data class PCRCertificateData internal constructor(
         registrationToken = "",
         registeredAt = Instant.EPOCH
     )
-
-    override val type: CoronaTest.Type
-        get() = CoronaTest.Type.PCR
 }

@@ -9,13 +9,13 @@ data class TestCertificateWrapper(
     private val container: TestCertificateContainer
 ) {
 
-    val identifier: TestCertificateIdentifier = container.identifier
+    val identifier: TestCertificateIdentifier get() = container.identifier
 
-    val isCertificateRetrievalPending = container.isCertificateRetrievalPending
+    val isCertificateRetrievalPending get() = container.isCertificateRetrievalPending
 
-    val isUpdatingData = container.isUpdatingData
+    val isUpdatingData get() = container.isUpdatingData
 
-    val registeredAt = container.registeredAt
+    val registeredAt get() = container.registeredAt
 
     val testCertificate: TestCertificate? by lazy {
         container.toTestCertificate(valueSets)
