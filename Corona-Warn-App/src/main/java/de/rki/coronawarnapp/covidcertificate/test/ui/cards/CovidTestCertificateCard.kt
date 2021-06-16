@@ -4,17 +4,16 @@ import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.test.ui.CertificatesAdapter
 import de.rki.coronawarnapp.databinding.CovidTestSuccessCardBinding
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import org.joda.time.DateTime
-import org.joda.time.format.DateTimeFormat
 
 class CovidTestCertificateCard(parent: ViewGroup) :
     CertificatesAdapter.CertificatesItemVH<CovidTestCertificateCard.Item, CovidTestSuccessCardBinding>(
         R.layout.home_card_container_layout,
         parent
     ) {
-
-    private val shortTime = DateTimeFormat.shortTime()
 
     override val viewBinding = lazy {
         CovidTestSuccessCardBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
@@ -27,8 +26,8 @@ class CovidTestCertificateCard(parent: ViewGroup) :
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
         testTime.text = context.getString(
             R.string.test_certificate_time,
-            item.testDate.toString(DATE_FORMAT),
-            item.testDate.toString(shortTime)
+            item.testDate.toDayFormat(),
+            item.testDate.toShortTimeFormat()
         )
 
         personName.text = curItem.testPerson
@@ -42,9 +41,5 @@ class CovidTestCertificateCard(parent: ViewGroup) :
         val onClickAction: (Item) -> Unit,
     ) : CovidCertificateTestItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
-    }
-
-    companion object {
-        private const val DATE_FORMAT = "dd.MM.yyyy"
     }
 }
