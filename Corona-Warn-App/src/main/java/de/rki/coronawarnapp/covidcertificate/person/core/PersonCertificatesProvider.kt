@@ -19,9 +19,9 @@ import javax.inject.Inject
 // Aggregate the certificates and sort them
 @Reusable
 class PersonCertificatesProvider @Inject constructor(
-    private val vaccinationRepository: VaccinationRepository,
-    private val testCertificateRepository: TestCertificateRepository,
-    private val recoveryCertificateRepository: RecoveryCertificateRepository,
+    vaccinationRepository: VaccinationRepository,
+    testCertificateRepository: TestCertificateRepository,
+    recoveryCertificateRepository: RecoveryCertificateRepository,
 ) {
 
     val personCertificates: Flow<Set<PersonCertificates>> = combine(
@@ -51,16 +51,17 @@ class PersonCertificatesProvider @Inject constructor(
     }
 
     fun Collection<CwaCovidCertificate>.toPrioritySortOrder(): List<CwaCovidCertificate> {
+        // TODO
         return this.toList()
     }
 
     // TODO remove
-
     val testData = (0..30).map { PersonCertificates(listOf(testCertificate(it))) }.toSet() +
         PersonCertificates(listOf(testCertificate(31, true, false))) +
         PersonCertificates(listOf(testCertificate(32, true, true))) +
         PersonCertificates(listOf(testCertificate(33)), true)
 
+    // TODO remove
     fun testCertificate(index: Int, isCertificateRetrievalPending: Boolean = false, isUpdating: Boolean = false) =
         object : TestCertificate {
             override val targetName: String
