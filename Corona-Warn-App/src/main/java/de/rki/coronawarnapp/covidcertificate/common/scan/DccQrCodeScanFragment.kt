@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.vaccination.ui.scan
+package de.rki.coronawarnapp.covidcertificate.common.scan
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -23,12 +23,12 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
-class VaccinationQrCodeScanFragment :
+class DccQrCodeScanFragment :
     Fragment(R.layout.fragment_scan_qr_code),
     AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: VaccinationQrCodeScanViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: DccQrCodeScanViewModel by cwaViewModels { viewModelFactory }
 
     private val binding: FragmentScanQrCodeBinding by viewBinding()
     private var showsPermissionDialog = false
@@ -50,16 +50,26 @@ class VaccinationQrCodeScanFragment :
 
         viewModel.event.observe(viewLifecycleOwner) { event ->
             when (event) {
-                is VaccinationQrCodeScanViewModel.Event.QrCodeScanSucceeded -> {
+                is DccQrCodeScanViewModel.Event.VaccinationQrCodeScanSucceeded -> {
                     binding.qrCodeScanSpinner.hide()
                     doNavigate(
-                        VaccinationQrCodeScanFragmentDirections
-                            .actionVaccinationQrCodeScanFragmentToVaccinationListFragment(
-                                event.personIdentifierCodeSha256
+                        DccQrCodeScanFragmentDirections
+                            .actionDccQrCodeScanFragmentToVaccinationDetailsFragment(
+                                event.certificateId
                             )
                     )
                 }
-                VaccinationQrCodeScanViewModel.Event.QrCodeScanInProgress -> {
+                is DccQrCodeScanViewModel.Event.RecoveryQrCodeScanSucceeded -> TODO()
+                is DccQrCodeScanViewModel.Event.TestQrCodeScanSucceeded -> {
+                    binding.qrCodeScanSpinner.hide()
+                    doNavigate(
+                        DccQrCodeScanFragmentDirections
+                            .actionDccQrCodeScanFragmentToTestCertificateDetailsFragment(
+                                event.certificateId
+                            )
+                    )
+                }
+                DccQrCodeScanViewModel.Event.QrCodeScanInProgress -> {
                     binding.qrCodeScanSpinner.show()
                 }
             }

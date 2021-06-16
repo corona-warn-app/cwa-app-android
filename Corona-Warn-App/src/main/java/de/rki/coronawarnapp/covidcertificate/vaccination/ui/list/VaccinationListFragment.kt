@@ -75,7 +75,7 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
                             .actionVaccinationListFragmentToVaccinationDetailsFragment(event.vaccinationCertificateId)
                     )
                     is NavigateToVaccinationQrCodeScanScreen -> doNavigate(
-                        VaccinationListFragmentDirections.actionVaccinationListFragmentToVaccinationQrCodeScanFragment()
+                        VaccinationListFragmentDirections.actionVaccinationListFragmentToDccQrCodeScanFragment()
                     )
                     is VaccinationListViewModel.Event.NavigateToQrCodeFullScreen -> {
                         val navigatorExtras =

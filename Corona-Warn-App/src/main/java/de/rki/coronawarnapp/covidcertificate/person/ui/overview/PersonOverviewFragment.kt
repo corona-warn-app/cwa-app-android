@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -61,11 +60,9 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 .setPositiveButton(R.string.test_certificate_refresh_dialog_confirm_button) { _, _ -> }
                 .show()
 
-            ScanQrCode -> Toast.makeText(
-                requireContext(),
-                "TODO \uD83D\uDEA7 Tomorrow maybe?!",
-                Toast.LENGTH_LONG
-            ).show()
+            ScanQrCode -> doNavigate(
+                PersonOverviewFragmentDirections.actionPersonOverviewFragmentToDccQrCodeScanFragment()
+            )
         }
     }
 
