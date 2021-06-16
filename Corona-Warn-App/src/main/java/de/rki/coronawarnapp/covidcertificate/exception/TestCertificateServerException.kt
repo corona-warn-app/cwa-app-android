@@ -62,6 +62,10 @@ class TestCertificateServerException(
             "DCC Components failed with error 500: Signing server error",
             ERROR_MESSAGE_E2E_ERROR_CALL_HOTLINE
         ),
+        DCC_NOT_SUPPORTED_BY_LAB(
+            "DCC is not supported by the lab",
+            ERROR_MESSAGE_DCC_NOT_SUPPORTED_BY_LAB
+        ),
         DCC_COMP_NO_NETWORK(
             "DCC Test Certificate Components failed due to no network connection.",
             ERROR_MESSAGE_NO_NETWORK

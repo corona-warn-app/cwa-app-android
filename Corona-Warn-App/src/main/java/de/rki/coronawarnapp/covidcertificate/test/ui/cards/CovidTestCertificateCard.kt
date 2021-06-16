@@ -4,10 +4,10 @@ import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.test.ui.CertificatesAdapter
 import de.rki.coronawarnapp.databinding.CovidTestSuccessCardBinding
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
-import org.joda.time.Instant
+import org.joda.time.DateTime
 
 class CovidTestCertificateCard(parent: ViewGroup) :
     CertificatesAdapter.CertificatesItemVH<CovidTestCertificateCard.Item, CovidTestSuccessCardBinding>(
@@ -26,8 +26,8 @@ class CovidTestCertificateCard(parent: ViewGroup) :
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
         testTime.text = context.getString(
             R.string.test_certificate_time,
-            curItem.testDate.toShortDayFormat(),
-            curItem.testDate.toShortTimeFormat(),
+            item.testDate.toDayFormat(),
+            item.testDate.toShortTimeFormat()
         )
 
         personName.text = curItem.testPerson
@@ -36,7 +36,7 @@ class CovidTestCertificateCard(parent: ViewGroup) :
     }
 
     data class Item(
-        override val testDate: Instant,
+        override val testDate: DateTime,
         val testPerson: String,
         val onClickAction: (Item) -> Unit,
     ) : CovidCertificateTestItem, HasPayloadDiffer {
