@@ -118,7 +118,6 @@ class DccQrCodeScanFragment :
         requestCameraPermission()
     }
 
-
     private fun startDecode() = binding.qrCodeScanPreview
         .decodeSingle { barcodeResult ->
             viewModel.onScanResult(barcodeResult)
