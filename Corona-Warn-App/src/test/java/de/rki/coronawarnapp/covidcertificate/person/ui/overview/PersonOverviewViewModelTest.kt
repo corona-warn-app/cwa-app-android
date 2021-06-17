@@ -94,7 +94,7 @@ class PersonOverviewViewModelTest : BaseTest() {
     fun `Sorting - List has pending certificate`() {
         every { personCertificatesProvider.personCertificates } returns
             flowOf(PersonCertificatesData.certificatesWithPending)
-        instance.personPersonCertificates.getOrAwaitValue().apply {
+        instance.personCertificates.getOrAwaitValue().apply {
             (get(0) as CovidTestCertificatePendingCard.Item).apply { certificate.fullName shouldBe "Max Mustermann" }
             (get(1) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Zeebee" }
             (get(2) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Andrea Schneider" }
@@ -105,7 +105,7 @@ class PersonOverviewViewModelTest : BaseTest() {
     fun `Sorting - List has pending & updating certificate`() {
         every { personCertificatesProvider.personCertificates } returns
             flowOf(PersonCertificatesData.certificatesWithUpdating)
-        instance.personPersonCertificates.getOrAwaitValue().apply {
+        instance.personCertificates.getOrAwaitValue().apply {
             (get(0) as CovidTestCertificatePendingCard.Item).apply { certificate.fullName shouldBe "Max Mustermann" }
             (get(1) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Zeebee" }
             (get(2) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Andrea Schneider" }
@@ -116,7 +116,7 @@ class PersonOverviewViewModelTest : BaseTest() {
     fun `Sorting - List has no CWA user`() {
         every { personCertificatesProvider.personCertificates } returns
             flowOf(PersonCertificatesData.certificatesWithoutCwaUser)
-        instance.personPersonCertificates.getOrAwaitValue().apply {
+        instance.personCertificates.getOrAwaitValue().apply {
             (get(0) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Andrea Schneider" }
             (get(1) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Erika Musterfrau" }
             (get(2) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Max Mustermann" }
@@ -127,7 +127,7 @@ class PersonOverviewViewModelTest : BaseTest() {
     fun `Sorting - List has CWA user`() {
         every { personCertificatesProvider.personCertificates } returns
             flowOf(PersonCertificatesData.certificatesWithCwaUser)
-        instance.personPersonCertificates.getOrAwaitValue().apply {
+        instance.personCertificates.getOrAwaitValue().apply {
             (get(0) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Zeebee" } // CWA user
             (get(1) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Andrea Schneider" }
             (get(2) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Erika Musterfrau" }
