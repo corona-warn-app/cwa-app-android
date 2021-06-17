@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.vaccination.ui.scan
+package de.rki.coronawarnapp.covidcertificate.common.scan
 
 import dagger.Binds
 import dagger.Module
@@ -8,11 +8,11 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class VaccinationQrCodeScanModule {
+abstract class DccQrCodeScanModule {
     @Binds
     @IntoMap
-    @CWAViewModelKey(VaccinationQrCodeScanViewModel::class)
-    abstract fun vaccinationQrCodeScanFragment(
-        factory: VaccinationQrCodeScanViewModel.Factory
+    @CWAViewModelKey(DccQrCodeScanViewModel::class)
+    abstract fun dccQrCodeScanFragment(
+        factory: DccQrCodeScanViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }
