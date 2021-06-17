@@ -1,10 +1,10 @@
-package de.rki.coronawarnapp.covidcertificate.vaccination.ui.scan
+package de.rki.coronawarnapp.covidcertificate.common.scan
 
 import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent.TYPE_ANNOUNCEMENT
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
@@ -23,15 +23,31 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
-class VaccinationQrCodeScanFragment :
+class DccQrCodeScanFragment :
     Fragment(R.layout.fragment_scan_qr_code),
     AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: VaccinationQrCodeScanViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: DccQrCodeScanViewModel by cwaViewModels { viewModelFactory }
 
     private val binding: FragmentScanQrCodeBinding by viewBinding()
     private var showsPermissionDialog = false
+
+    val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (!isGranted) {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                    showCameraPermissionRationaleDialog()
+                    viewModel.setCameraDeniedPermanently(false)
+                } else {
+                    // User permanently denied access to the camera
+                    showCameraPermissionDeniedDialog()
+                    viewModel.setCameraDeniedPermanently(true)
+                }
+            }
+        }
 
     override fun onViewCreated(
         view: View,
@@ -50,16 +66,27 @@ class VaccinationQrCodeScanFragment :
 
         viewModel.event.observe(viewLifecycleOwner) { event ->
             when (event) {
-                is VaccinationQrCodeScanViewModel.Event.QrCodeScanSucceeded -> {
+                is DccQrCodeScanViewModel.Event.VaccinationQrCodeScanSucceeded -> {
                     binding.qrCodeScanSpinner.hide()
                     doNavigate(
-                        VaccinationQrCodeScanFragmentDirections
-                            .actionVaccinationQrCodeScanFragmentToVaccinationListFragment(
-                                event.personIdentifierCodeSha256
+                        DccQrCodeScanFragmentDirections
+                            .actionDccQrCodeScanFragmentToVaccinationDetailsFragment(
+                                event.certificateId
                             )
                     )
                 }
-                VaccinationQrCodeScanViewModel.Event.QrCodeScanInProgress -> {
+                is DccQrCodeScanViewModel.Event.RecoveryQrCodeScanSucceeded -> { // TODO
+                }
+                is DccQrCodeScanViewModel.Event.TestQrCodeScanSucceeded -> {
+                    binding.qrCodeScanSpinner.hide()
+                    doNavigate(
+                        DccQrCodeScanFragmentDirections
+                            .actionDccQrCodeScanFragmentToTestCertificateDetailsFragment(
+                                event.certificateId
+                            )
+                    )
+                }
+                DccQrCodeScanViewModel.Event.QrCodeScanInProgress -> {
                     binding.qrCodeScanSpinner.show()
                 }
             }
@@ -89,25 +116,6 @@ class VaccinationQrCodeScanFragment :
         if (showsPermissionDialog) return
 
         requestCameraPermission()
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == REQUEST_CAMERA_PERMISSION_CODE &&
-            grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED
-        ) {
-            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                showCameraPermissionRationaleDialog()
-                viewModel.setCameraDeniedPermanently(false)
-            } else {
-                // User permanently denied access to the camera
-                showCameraPermissionDeniedDialog()
-                viewModel.setCameraDeniedPermanently(true)
-            }
-        }
     }
 
     private fun startDecode() = binding.qrCodeScanPreview
@@ -151,10 +159,7 @@ class VaccinationQrCodeScanFragment :
         DialogHelper.showDialog(cameraPermissionRationaleDialogInstance)
     }
 
-    private fun requestCameraPermission() = requestPermissions(
-        arrayOf(Manifest.permission.CAMERA),
-        REQUEST_CAMERA_PERMISSION_CODE
-    )
+    private fun requestCameraPermission() = requestPermissionLauncher.launch(Manifest.permission.CAMERA)
 
     private fun leave() {
         showsPermissionDialog = false
@@ -164,9 +169,5 @@ class VaccinationQrCodeScanFragment :
     override fun onPause() {
         super.onPause()
         binding.qrCodeScanPreview.pause()
-    }
-
-    companion object {
-        private const val REQUEST_CAMERA_PERMISSION_CODE = 4000
     }
 }
