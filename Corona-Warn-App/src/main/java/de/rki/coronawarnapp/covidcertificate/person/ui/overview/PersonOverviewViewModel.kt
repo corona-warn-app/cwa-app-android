@@ -42,6 +42,10 @@ class PersonOverviewViewModel @AssistedInject constructor(
     private val cameraPermissionProvider: CameraPermissionProvider,
 ) : CWAViewModel(dispatcherProvider) {
 
+    init {
+        valueSetsRepository.triggerUpdateValueSet(languageCode = context.getLocale())
+    }
+
     private val qrCodes = mutableMapOf<String, Bitmap?>()
     val events = SingleLiveEvent<PersonOverviewFragmentEvents>()
     val personCertificates: LiveData<List<CertificatesItem>> = combine(
@@ -54,6 +58,18 @@ class PersonOverviewViewModel @AssistedInject constructor(
             addPersonItems(persons, qrCodesMap)
         }
     }.asLiveData(dispatcherProvider.Default)
+
+    val markNewCertsAsSeen = testCertificateRepository.certificates
+        .onEach { wrappers ->
+            wrappers
+                .filter { !it.seenByUser && !it.isCertificateRetrievalPending }
+                .forEach {
+                    testCertificateRepository.markCertificateAsSeenByUser(it.identifier)
+                }
+        }
+        .map { }
+        .catch { Timber.w("Failed to mark certificates as seen.") }
+        .asLiveData2()
 
     fun deleteTestCertificate(identifier: TestCertificateIdentifier) = launch {
         testCertificateRepository.deleteCertificate(identifier)
@@ -69,22 +85,6 @@ class PersonOverviewViewModel @AssistedInject constructor(
     ) {
         addPendingCards(persons)
         addCertificateCards(persons, qrCodesMap)
-    }
-
-    val markNewCertsAsSeen = testCertificateRepository.certificates
-        .onEach { wrappers ->
-            wrappers
-                .filter { !it.seenByUser && !it.isCertificateRetrievalPending }
-                .forEach {
-                    testCertificateRepository.markCertificateAsSeenByUser(it.identifier)
-                }
-        }
-        .map { }
-        .catch { Timber.w("Failed to mark certificates as seen.") }
-        .asLiveData2()
-
-    init {
-        valueSetsRepository.triggerUpdateValueSet(languageCode = context.getLocale())
     }
 
     private fun MutableList<CertificatesItem>.addCertificateCards(
