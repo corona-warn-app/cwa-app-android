@@ -72,27 +72,7 @@
             app:popUpTo="@id/dccQrCodeScanFragment"
             app:popUpToInclusive="true" />
     </fragment>
-
-    <fragment
-        android:id="@+id/vaccinationListFragment"
-        android:name="de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.VaccinationListFragment"
-        android:label="fragment_vaccination_list"
-        tools:layout="@layout/fragment_vaccination_list">
-        <argument
-            android:name="personIdentifierCodeSha256"
-            app:argType="string" />
-        <action
-            android:id="@+id/action_vaccinationListFragment_to_vaccinationDetailsFragment"
-            app:destination="@id/vaccinationDetailsFragment" />
-        <deepLink app:uri="coronawarnapp://vaccination-list/{personIdentifierCodeSha256}" />
-        <action
-            android:id="@+id/action_vaccinationListFragment_to_dccQrCodeScanFragment"
-            app:destination="@id/dccQrCodeScanFragment" />
-        <action
-            android:id="@+id/action_vaccinationListFragment_to_covidCertificateDetailsFragment"
-            app:destination="@id/testCertificateDetailsFragment" />
-    </fragment>
-
+    
     <fragment
         android:id="@+id/personDetailsFragment"
         android:name="de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFragment"
