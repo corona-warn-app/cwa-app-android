@@ -139,6 +139,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
 
     private fun Set<PersonCertificates>.filterNotPending() = this
         .filter { !it.hasPendingTestCertificate() }
+        .sortedBy { it.highestPriorityCertificate.fullName }
         .sortedByDescending { it.isCwaUser }
 
     private suspend fun generateQrCode(qrCode: QrCodeString): Bitmap? = try {
@@ -148,7 +149,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
         null
     }
 
-    private fun refreshCertificate(identifier: TestCertificateIdentifier) =
+    fun refreshCertificate(identifier: TestCertificateIdentifier) =
         launch {
             val error = testCertificateRepository.refresh(identifier).mapNotNull { it.error }.singleOrNull()
             error?.let { events.postValue(ShowRefreshErrorDialog(error)) }
