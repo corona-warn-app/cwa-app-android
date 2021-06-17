@@ -224,8 +224,5 @@ class DccQrCodeExtractor @Inject constructor(
 }
 
 private const val PREFIX = "HC1:"
-
 // Zip bomb
 private const val DEFAULT_SIZE_LIMIT = 1024L * 1024 * 10L // 10 MB
-
-
