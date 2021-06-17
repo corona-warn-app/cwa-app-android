@@ -18,8 +18,9 @@ import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateOfBirthFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -60,6 +61,8 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
     private fun FragmentCovidCertificateDetailsBinding.onCertificateReady(
         testCertificate: TestCertificate
     ) {
+        val testDateTime = testCertificate.sampleCollectedAt.toUserTimeZone()
+
         name.text = testCertificate.run { "$lastName, $firstName" }
         birthDate.text = testCertificate.dateOfBirth.toDateOfBirthFormat()
         diseaseType.text = testCertificate.targetName
@@ -67,8 +70,8 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
         testName.text = testCertificate.testName
         testManufacturer.text = testCertificate.testNameAndManufacturer
         testDate.text = "%s %s".format(
-            testCertificate.sampleCollectedAt.toShortDayFormat(),
-            testCertificate.sampleCollectedAt.toShortTimeFormat()
+            testDateTime.toDayFormat(),
+            testDateTime.toShortTimeFormat()
         )
         testResult.text = testCertificate.testResult
         testCenter.text = testCertificate.testCenter
