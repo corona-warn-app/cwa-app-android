@@ -161,7 +161,7 @@ internal fun String.toLocalDateLeniently(): LocalDate = try {
     }
 }
 
-data class DccV1Vaccination(
+data class VaccinationDccV1(
     override val version: String,
     override val nameData: DccV1.NameData,
     override val dateOfBirth: LocalDate,
@@ -172,7 +172,7 @@ data class DccV1Vaccination(
         get() = vaccination
 }
 
-data class DccV1Test(
+data class TestDccV1(
     override val version: String,
     override val nameData: DccV1.NameData,
     override val dateOfBirth: LocalDate,
@@ -183,7 +183,7 @@ data class DccV1Test(
         get() = test
 }
 
-data class DccV1Recovery(
+data class RecoveryDccV1(
     override val version: String,
     override val nameData: DccV1.NameData,
     override val dateOfBirth: LocalDate,

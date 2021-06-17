@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccHeader
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
-import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Vaccination
+import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
@@ -25,14 +25,14 @@ data class VaccinationContainer internal constructor(
 
     // Either set by [ContainerPostProcessor] or via [toVaccinationContainer]
     @Transient lateinit var qrCodeExtractor: DccQrCodeExtractor
-    @Transient internal var preParsedData: DccData<DccV1Vaccination>? = null
+    @Transient internal var preParsedData: DccData<VaccinationDccV1>? = null
 
     // Otherwise GSON unsafes reflection to create this class, and sets the LAZY to null
     @Suppress("unused")
     constructor() : this("", Instant.EPOCH)
 
     @delegate:Transient
-    internal val certificateData: DccData<DccV1Vaccination> by lazy {
+    internal val certificateData: DccData<VaccinationDccV1> by lazy {
         preParsedData ?: (
             qrCodeExtractor.extract(
                 vaccinationQrCode,
@@ -45,7 +45,7 @@ data class VaccinationContainer internal constructor(
     val header: DccHeader
         get() = certificateData.header
 
-    val certificate: DccV1Vaccination
+    val certificate: VaccinationDccV1
         get() = certificateData.certificate
 
     val vaccination: DccV1.VaccinationData
