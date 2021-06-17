@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/certificate_graph"
+    android:id="@+id/covid_certificates_graph"
     app:startDestination="@id/personOverviewFragment">
     <fragment
         android:id="@+id/personOverviewFragment"
@@ -11,7 +11,7 @@
         tools:layout="@layout/person_overview_fragment">
         <action
             android:id="@+id/action_personOverviewFragment_to_vaccinationConsentFragment"
-            app:destination="@id/vaccinationConsentFragment" />
+            app:destination="@id/covidCertificateInfoFragment" />
         <action
             android:id="@+id/action_personOverviewFragment_to_personDetailsFragment"
             app:destination="@id/personDetailsFragment" />
@@ -21,21 +21,20 @@
     </fragment>
 
     <fragment
-        android:id="@+id/vaccinationConsentFragment"
-        android:name="de.rki.coronawarnapp.covidcertificate.vaccination.ui.consent.VaccinationConsentFragment"
-        android:label="vaccination_consent_fragment"
-        tools:layout="@layout/vaccination_consent_fragment">
+        android:id="@+id/covidCertificateInfoFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.ui.info.CovidCertificateInfoFragment"
+        tools:layout="@layout/covid_certificate_info_fragment">
         <argument
             android:name="showBottomNav"
             android:defaultValue="true"
             app:argType="boolean" />
         <action
-            android:id="@+id/action_vaccinationConsentFragment_to_personOverviewFragment"
+            android:id="@+id/action_covidCertificateInfoFragment_to_personOverviewFragment"
             app:destination="@id/personOverviewFragment"
-            app:popUpTo="@id/vaccinationConsentFragment"
+            app:popUpTo="@id/covidCertificateInfoFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_vaccinationConsentFragment_to_privacyFragment"
+            android:id="@+id/action_covidCertificateInfoFragment_to_privacyFragment"
             app:destination="@id/privacyFragment" />
     </fragment>
 
@@ -72,7 +71,7 @@
             app:popUpTo="@id/dccQrCodeScanFragment"
             app:popUpToInclusive="true" />
     </fragment>
-    
+
     <fragment
         android:id="@+id/personDetailsFragment"
         android:name="de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFragment"
@@ -85,9 +84,6 @@
             android:id="@+id/action_vaccinationListFragment_to_vaccinationDetailsFragment"
             app:destination="@id/vaccinationDetailsFragment" />
         <deepLink app:uri="coronawarnapp://vaccination-list/{personIdentifierCodeSha256}" />
-        <action
-            android:id="@+id/action_vaccinationListFragment_to_vaccinationQrCodeScanFragment"
-            app:destination="@id/dccQrCodeScanFragment" />
         <action
             android:id="@+id/action_vaccinationListFragment_to_covidCertificateDetailsFragment"
             app:destination="@id/testCertificateDetailsFragment" />

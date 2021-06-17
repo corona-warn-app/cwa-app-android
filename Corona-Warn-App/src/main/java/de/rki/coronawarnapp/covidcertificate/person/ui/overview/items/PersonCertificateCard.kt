@@ -48,7 +48,7 @@ class PersonCertificateCard(parent: ViewGroup) :
         val qrcodeBitmap: Bitmap?,
         val color: PersonOverviewItemColor,
         val onClickAction: (Item) -> Unit,
-    ) : CertificatesItem, HasPayloadDiffer {
+    ) : PersonCertificatesItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
         override val stableId: Long = certificate.personIdentifier.codeSHA256.hashCode().toLong()
     }

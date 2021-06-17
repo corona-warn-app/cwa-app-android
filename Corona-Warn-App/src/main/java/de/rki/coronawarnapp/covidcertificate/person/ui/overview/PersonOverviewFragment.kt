@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.common.exception.TestCertificateServerException
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CameraPermissionCard
-import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CertificatesItem
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificatesItem
 import de.rki.coronawarnapp.databinding.PersonOverviewFragmentBinding
 import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
@@ -65,20 +65,13 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 }
                 .show()
 
-            is ShowRefreshErrorDialog -> {
-                event.error.toErrorDialogBuilder(requireContext()).apply {
-                    setTitle(R.string.test_certificate_refresh_dialog_title)
-                    setCancelable(false)
-                    if (
-                        event.error is TestCertificateServerException &&
-                        event.error.errorCode == TestCertificateServerException.ErrorCode.DCC_NOT_SUPPORTED_BY_LAB
-                    ) {
-                        setNeutralButton(R.string.test_certificate_error_invalid_labid_faq) { _, _ ->
-                            openUrl(getString(R.string.test_certificate_error_invalid_labid_faq_link))
-                        }
-                    }
-                }.show()
-            }
+            is ShowRefreshErrorDialog -> event.error.toErrorDialogBuilder(requireContext()).apply {
+                setTitle(R.string.test_certificate_refresh_dialog_title)
+                setCancelable(false)
+                if (event.isLabError) setNeutralButton(R.string.test_certificate_error_invalid_labid_faq) { _, _ ->
+                    openUrl(getString(R.string.test_certificate_error_invalid_labid_faq_link))
+                }
+            }.show()
 
             ScanQrCode -> doNavigate(
                 PersonOverviewFragmentDirections.actionPersonOverviewFragmentToDccQrCodeScanFragment()
@@ -99,7 +92,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
         }
     }
 
-    private fun PersonOverviewFragmentBinding.bindViews(items: List<CertificatesItem>) {
+    private fun PersonOverviewFragmentBinding.bindViews(items: List<PersonCertificatesItem>) {
         scanQrcodeFab.isGone = items.any { it is CameraPermissionCard.Item }
         emptyLayout.isVisible = items.isEmpty()
         personOverviewAdapter.update(items)

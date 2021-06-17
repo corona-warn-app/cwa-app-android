@@ -17,7 +17,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePerso
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateIdentifier
-import de.rki.coronawarnapp.covidcertificate.test.ui.details.CovidCertificateDetailsViewModel
+import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsViewModel
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragmentArgs
 import io.mockk.MockKAnnotations
@@ -38,9 +38,9 @@ import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
-class VaccinationDetailsFragmentTest : BaseUITest() {
+class TestCertificateDetailsFragmentTest : BaseUITest() {
 
-    @MockK lateinit var vaccinationDetailsViewModel: CovidCertificateDetailsViewModel
+    @MockK lateinit var vaccinationDetailsViewModel: TestCertificateDetailsViewModel
     @MockK lateinit var certificatePersonIdentifier: CertificatePersonIdentifier
 
     private val args = TestCertificateDetailsFragmentArgs("testCertificateIdentifier").toBundle()
@@ -52,9 +52,9 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
         every { vaccinationDetailsViewModel.qrCode } returns bitmapLiveDate()
 
         setupMockViewModel(
-            object : CovidCertificateDetailsViewModel.Factory {
+            object : TestCertificateDetailsViewModel.Factory {
                 override fun create(testCertificateIdentifier: TestCertificateIdentifier):
-                    CovidCertificateDetailsViewModel = vaccinationDetailsViewModel
+                    TestCertificateDetailsViewModel = vaccinationDetailsViewModel
             }
         )
     }

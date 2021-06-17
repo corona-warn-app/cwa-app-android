@@ -18,7 +18,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
-class CovidCertificateDetailsViewModel @AssistedInject constructor(
+class TestCertificateDetailsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     @Assisted private val testCertificateIdentifier: TestCertificateIdentifier,
     private val qrCodeGenerator: QrCodeGenerator,
@@ -28,21 +28,21 @@ class CovidCertificateDetailsViewModel @AssistedInject constructor(
     private var qrCodeText: String? = null
     private val bitmapStateData = MutableLiveData<Bitmap>()
     val qrCode: LiveData<Bitmap> = bitmapStateData
-    val events = SingleLiveEvent<CovidCertificateDetailsNavigation>()
+    val events = SingleLiveEvent<TestCertificateDetailsNavigation>()
     val errors = SingleLiveEvent<Throwable>()
     val covidCertificate = testCertificateRepository.certificates.map { certificates ->
         certificates.find { it.identifier == testCertificateIdentifier }?.testCertificate
             .also { generateQrCode(it) }
     }.asLiveData(dispatcherProvider.Default)
 
-    fun onClose() = events.postValue(CovidCertificateDetailsNavigation.Back)
+    fun onClose() = events.postValue(TestCertificateDetailsNavigation.Back)
 
-    fun openFullScreen() = qrCodeText?.let { events.postValue(CovidCertificateDetailsNavigation.FullQrCode(it)) }
+    fun openFullScreen() = qrCodeText?.let { events.postValue(TestCertificateDetailsNavigation.FullQrCode(it)) }
 
     fun onDeleteTestConfirmed() = launch {
         Timber.d("Removing Test Certificate=$testCertificateIdentifier")
         testCertificateRepository.deleteCertificate(testCertificateIdentifier)
-        events.postValue(CovidCertificateDetailsNavigation.Back)
+        events.postValue(TestCertificateDetailsNavigation.Back)
     }
 
     private fun generateQrCode(testCertificate: TestCertificate?) = launch {
@@ -60,7 +60,7 @@ class CovidCertificateDetailsViewModel @AssistedInject constructor(
     }
 
     @AssistedFactory
-    interface Factory : CWAViewModelFactory<CovidCertificateDetailsViewModel> {
-        fun create(testCertificateIdentifier: TestCertificateIdentifier): CovidCertificateDetailsViewModel
+    interface Factory : CWAViewModelFactory<TestCertificateDetailsViewModel> {
+        fun create(testCertificateIdentifier: TestCertificateIdentifier): TestCertificateDetailsViewModel
     }
 }

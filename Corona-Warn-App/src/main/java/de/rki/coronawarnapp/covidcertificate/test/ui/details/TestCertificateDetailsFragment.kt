@@ -33,10 +33,10 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val binding by viewBinding<FragmentTestCertificateDetailsBinding>()
     private val args by navArgs<TestCertificateDetailsFragmentArgs>()
-    private val viewModel: CovidCertificateDetailsViewModel by cwaViewModelsAssisted(
+    private val viewModel: TestCertificateDetailsViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
-            factory as CovidCertificateDetailsViewModel.Factory
+            factory as TestCertificateDetailsViewModel.Factory
             factory.create(
                 testCertificateIdentifier = args.testCertificateIdentifier
             )
@@ -93,10 +93,10 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         error.toErrorDialogBuilder(requireContext()).show()
     }
 
-    private fun FragmentTestCertificateDetailsBinding.onNavEvent(event: CovidCertificateDetailsNavigation) {
+    private fun FragmentTestCertificateDetailsBinding.onNavEvent(event: TestCertificateDetailsNavigation) {
         when (event) {
-            CovidCertificateDetailsNavigation.Back -> popBackStack()
-            is CovidCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
+            TestCertificateDetailsNavigation.Back -> popBackStack()
+            is TestCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
                 R.id.action_global_qrCodeFullScreenFragment,
                 QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
                 null,

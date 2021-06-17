@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.test.ui.details
+package de.rki.coronawarnapp.covidcertificate.ui.info
 
 import dagger.Binds
 import dagger.Module
@@ -8,12 +8,12 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class CovidCertificateDetailsModule {
+abstract class CovidCertificateInfoFragmentModule {
 
     @Binds
     @IntoMap
-    @CWAViewModelKey(CovidCertificateDetailsViewModel::class)
-    abstract fun greenCertificateDetailsFragment(
-        factory: CovidCertificateDetailsViewModel.Factory
+    @CWAViewModelKey(CovidCertificateInfoViewModel::class)
+    abstract fun vaccinationDetailsFragment(
+        factory: CovidCertificateInfoViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }

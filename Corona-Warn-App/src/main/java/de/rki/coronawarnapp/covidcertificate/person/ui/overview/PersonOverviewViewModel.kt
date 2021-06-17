@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
-import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CertificatesItem
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificatesItem
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CameraPermissionCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
@@ -48,12 +48,12 @@ class PersonOverviewViewModel @AssistedInject constructor(
 
     private val qrCodes = mutableMapOf<String, Bitmap?>()
     val events = SingleLiveEvent<PersonOverviewFragmentEvents>()
-    val personCertificates: LiveData<List<CertificatesItem>> = combine(
+    val personCertificates: LiveData<List<PersonCertificatesItem>> = combine(
         cameraPermissionProvider.deniedPermanently,
         certificatesProvider.personCertificates,
         certificatesProvider.qrCodesFlow
     ) { denied, persons, qrCodesMap ->
-        mutableListOf<CertificatesItem>().apply {
+        mutableListOf<PersonCertificatesItem>().apply {
             if (denied) add(CameraPermissionCard.Item { events.postValue(OpenAppDeviceSettings) })
             addPersonItems(persons, qrCodesMap)
         }
@@ -79,7 +79,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
 
     fun checkCameraSettings() = cameraPermissionProvider.checkSettings()
 
-    private fun MutableList<CertificatesItem>.addPersonItems(
+    private fun MutableList<PersonCertificatesItem>.addPersonItems(
         persons: Set<PersonCertificates>,
         qrCodesMap: Map<String, Bitmap?>
     ) {
@@ -87,7 +87,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
         addCertificateCards(persons, qrCodesMap)
     }
 
-    private fun MutableList<CertificatesItem>.addCertificateCards(
+    private fun MutableList<PersonCertificatesItem>.addCertificateCards(
         persons: Set<PersonCertificates>,
         qrCodes: Map<String, Bitmap?>
     ) {
@@ -106,7 +106,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
             }
     }
 
-    private fun MutableList<CertificatesItem>.addPendingCards(persons: Set<PersonCertificates>) {
+    private fun MutableList<PersonCertificatesItem>.addPendingCards(persons: Set<PersonCertificates>) {
         persons.forEach {
             val certificate = it.highestPriorityCertificate
             if (certificate is TestCertificate && certificate.isCertificateRetrievalPending) {

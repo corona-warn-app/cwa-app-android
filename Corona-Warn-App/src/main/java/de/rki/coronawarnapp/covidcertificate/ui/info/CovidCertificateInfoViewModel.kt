@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.vaccination.ui.consent
+package de.rki.coronawarnapp.covidcertificate.ui.info
 
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -8,22 +8,27 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
-class VaccinationConsentViewModel @AssistedInject constructor(
+class CovidCertificateInfoViewModel @AssistedInject constructor(
     private val vaccinationSettings: VaccinationSettings,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider) {
 
-    val routeToScreen = SingleLiveEvent<VaccinationConsentNavigationEvent>()
+    val events = SingleLiveEvent<Event>()
 
-    fun onConsentClick() {
+    fun onContinueClick() {
         vaccinationSettings.registrationAcknowledged = true
-        routeToScreen.postValue(VaccinationConsentNavigationEvent.NavigateToCertificates)
+        events.postValue(Event.NavigateToPersonOverview)
     }
 
     fun onDataPrivacyClick() {
-        routeToScreen.postValue(VaccinationConsentNavigationEvent.NavigateToDataPrivacy)
+        events.postValue(Event.NavigateToDataPrivacy)
     }
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<VaccinationConsentViewModel>
+    interface Factory : SimpleCWAViewModelFactory<CovidCertificateInfoViewModel>
+
+    sealed class Event {
+        object NavigateToDataPrivacy : Event()
+        object NavigateToPersonOverview : Event()
+    }
 }

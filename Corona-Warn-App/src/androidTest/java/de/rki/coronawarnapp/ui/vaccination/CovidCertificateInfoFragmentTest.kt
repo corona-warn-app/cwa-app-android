@@ -3,9 +3,9 @@ package de.rki.coronawarnapp.ui.vaccination
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.covidcertificate.vaccination.ui.consent.VaccinationConsentFragment
-import de.rki.coronawarnapp.covidcertificate.vaccination.ui.consent.VaccinationConsentFragmentArgs
-import de.rki.coronawarnapp.covidcertificate.vaccination.ui.consent.VaccinationConsentViewModel
+import de.rki.coronawarnapp.covidcertificate.ui.info.CovidCertificateInfoFragment
+import de.rki.coronawarnapp.covidcertificate.ui.info.CovidCertificateInfoFragmentArgs
+import de.rki.coronawarnapp.covidcertificate.ui.info.CovidCertificateInfoViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import org.junit.After
@@ -19,11 +19,11 @@ import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
-class VaccinationConsentFragmentTest : BaseUITest() {
+class CovidCertificateInfoFragmentTest : BaseUITest() {
 
-    @MockK lateinit var viewModel: VaccinationConsentViewModel
+    @MockK lateinit var viewModel: CovidCertificateInfoViewModel
 
-    private val fragmentArgs = VaccinationConsentFragmentArgs(
+    private val fragmentArgs = CovidCertificateInfoFragmentArgs(
         showBottomNav = false
     ).toBundle()
 
@@ -32,8 +32,8 @@ class VaccinationConsentFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
 
         setupMockViewModel(
-            object : VaccinationConsentViewModel.Factory {
-                override fun create(): VaccinationConsentViewModel = viewModel
+            object : CovidCertificateInfoViewModel.Factory {
+                override fun create(): CovidCertificateInfoViewModel = viewModel
             }
         )
     }
@@ -45,19 +45,19 @@ class VaccinationConsentFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment2<VaccinationConsentFragment>(fragmentArgs)
+        launchFragment2<CovidCertificateInfoFragment>(fragmentArgs)
     }
 
     @Screenshot
     @Test
     fun capture_screenshot() {
-        launchFragmentInContainer2<VaccinationConsentFragment>(fragmentArgs)
-        takeScreenshot<VaccinationConsentFragment>()
+        launchFragmentInContainer2<CovidCertificateInfoFragment>(fragmentArgs)
+        takeScreenshot<CovidCertificateInfoFragment>()
     }
 }
 
 @Module
-abstract class VaccinationConsentFragmentTestModule {
+abstract class CovidCertificateInfoFragmentTestModule {
     @ContributesAndroidInjector
-    abstract fun vaccinationConsentFragment(): VaccinationConsentFragment
+    abstract fun covidCertificateInfoFragment(): CovidCertificateInfoFragment
 }
