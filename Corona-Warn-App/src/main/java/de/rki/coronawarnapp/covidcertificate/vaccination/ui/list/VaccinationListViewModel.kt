@@ -68,11 +68,11 @@ class VaccinationListViewModel @AssistedInject constructor(
         when (exception) {
             is NoSuchElementException -> {
                 Timber.d(exception, "Seems like all vaccination certificates got deleted. Navigate back ...")
-                //events.postValue(Event.NavigateBack)
+                // events.postValue(Event.NavigateBack)
             }
             else -> {
                 Timber.e(exception, "Something unexpected went wrong... Let's navigate back...")
-               // events.postValue(Event.NavigateBack)
+                // events.postValue(Event.NavigateBack)
             }
         }
     }.asLiveData()

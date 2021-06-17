@@ -2,15 +2,18 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.details
 
 import android.os.Bundle
 import android.view.View
+import android.widget.LinearLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.DefaultItemAnimator
+import com.google.android.material.appbar.AppBarLayout
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.SpecificCertificatesItem
 import de.rki.coronawarnapp.databinding.PersonDetailsFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -35,20 +38,43 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
     private val personDetailsAdapter = PersonDetailsAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            bindRecycler()
+            toolbar.setNavigationOnClickListener {
+                popBackStack()
+            }
+            recyclerViewCertificatesList.apply {
+                adapter = personDetailsAdapter
+                addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
+            }
+
+            viewModel.uiState.observe(viewLifecycleOwner) { item ->
+                bindViews(item)
+            }
         }
-        viewModel.personSpecificCertificates.observe(viewLifecycleOwner) { binding.bindViews(it.certificates)}
     }
 
-    private fun PersonDetailsFragmentBinding.bindViews(certificates: List<CwaCovidCertificate>) {
+    private fun setToolbarOverlay() {
+
+        val deviceWidth = requireContext().resources.displayMetrics.widthPixels
+
+        val layoutParamsRecyclerView: CoordinatorLayout.LayoutParams = binding.recyclerViewCertificatesList.layoutParams
+            as (CoordinatorLayout.LayoutParams)
+
+        val textParams = binding.title.layoutParams as (LinearLayout.LayoutParams)
+
+        val divider = 2
+        textParams.bottomMargin = (deviceWidth / divider) - 24 /* 24 is space between screen border and Card */
+        binding.title.requestLayout()
+
+        val behavior: AppBarLayout.ScrollingViewBehavior =
+            layoutParamsRecyclerView.behavior as (AppBarLayout.ScrollingViewBehavior)
+        behavior.overlayTop = (deviceWidth / divider) - 24
+    }
+
+    private fun PersonDetailsFragmentBinding.bindViews(certificates: List<SpecificCertificatesItem>) {
         personDetailsAdapter.update(certificates)
-    }
-
-    private fun PersonDetailsFragmentBinding.bindRecycler() = recyclerViewCertificatesList.apply {
-        adapter = personDetailsAdapter
-        addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
-        itemAnimator = DefaultItemAnimator()
-
+        setToolbarOverlay()
+        // TODO
     }
 }

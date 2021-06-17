@@ -40,7 +40,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_tiny"
         android:textStyle="bold"
-        android:textSize="16sp"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/image"
         app:layout_constraintTop_toBottomOf="@id/image"

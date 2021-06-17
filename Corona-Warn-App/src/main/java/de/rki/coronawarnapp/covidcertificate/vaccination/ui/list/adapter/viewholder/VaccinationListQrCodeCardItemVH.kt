@@ -29,14 +29,13 @@ class VaccinationListQrCodeCardItemVH(parent: ViewGroup) :
         image.setImageBitmap(item.qrCode)
         item.apply {
             qrCode?.let {
-                image.setOnClickListener { item. onQrCodeClick.invoke() }
+                image.setOnClickListener { item.onQrCodeClick.invoke() }
                 progressBar.hide()
             }
             qrTitle.visibility = View.VISIBLE
             qrTitle.text = context.getString(R.string.vaccination_certificate_title)
             qrSubtitle.visibility = View.VISIBLE
             qrSubtitle.text = vaccinatedAt.toString()
-
         }
     }
 
