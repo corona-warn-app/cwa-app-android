@@ -43,7 +43,7 @@
     <!-- XTXT: homescreen card: body - error -->
     <string name="ag_homescreen_card_body_error">"Ustalenie wyniku Twojego testu było niemożliwe."</string>
     <!-- XTXT: homescreen card: body - not valid test -->
-    <string name="ag_homescreen_card_body_not_valid_test">"Twój test ma więcej niż 21 dni i stracił ważność. Usuń test. Będziesz mieć wówczas możliwość dodania kolejnego. "</string>
+    <string name="ag_homescreen_card_body_not_valid_test">"Twój test ma więcej niż 21 dni i stracił ważność. Usuń test. Będziesz mieć wówczas możliwość dodania kolejnego."</string>
     <!-- XTXT: homescreen card: body - negative -->
     <string name="ag_homescreen_card_body_result_negative">"Nie zdiagnozowano u Ciebie wirusa SARS-CoV-2."</string>
     <!-- XTXT: homescreen card: body - positive -->
@@ -140,6 +140,10 @@
     <string name="coronatest_negative_antigen_result_third_info_title">"Usuń test"</string>
     <!-- XTXT: coronatest negative antigen result third info body -->
     <string name="coronatest_negative_antigen_restul_third_info_body">"Usuń test z aplikacji Corona-Warn-App, aby w razie potrzeby można było zapisać w niej kod nowego testu."</string>
+    <!-- XTXT: coronatest negative result certificate info title -->
+    <string name="coronatest_negative_result_certificate_info_title">"Certyfikat testu"</string>
+    <!-- XTXT: coronatest negative result certificate info body -->
+    <string name="coronatest_negative_result_certificate_info_body">"Certyfikat testu dostępny jest w karcie „Certyfikaty”."</string>
 
     <!-- ####################################
      Rapid Antigen Test Profile

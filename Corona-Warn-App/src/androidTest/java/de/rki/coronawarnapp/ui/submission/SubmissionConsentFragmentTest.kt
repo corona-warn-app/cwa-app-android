@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.nearby.modules.tekhistory.TEKHistoryProvider
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
-import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor
+import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentFragment
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentFragmentArgs
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentViewModel
@@ -31,7 +31,7 @@ class SubmissionConsentFragmentTest : BaseUITest() {
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var interoperabilityRepository: InteroperabilityRepository
     @MockK lateinit var tekHistoryProvider: TEKHistoryProvider
-    @MockK lateinit var qrCodeRegistrationStateProcessor: QrCodeRegistrationStateProcessor
+    @MockK lateinit var testRegistrationStateProcessor: TestRegistrationStateProcessor
     @MockK lateinit var qrCodeValidator: CoronaTestQrCodeValidator
 
     private lateinit var viewModel: SubmissionConsentViewModel
@@ -48,7 +48,7 @@ class SubmissionConsentFragmentTest : BaseUITest() {
             interoperabilityRepository,
             TestDispatcherProvider(),
             tekHistoryProvider,
-            qrCodeRegistrationStateProcessor,
+            testRegistrationStateProcessor,
             submissionRepository,
             qrCodeValidator
         )

@@ -46,7 +46,8 @@ class DefaultPlaybookTest : BaseTest() {
         coEvery { verificationServer.retrieveRegistrationToken(any()) } returns "token"
         coEvery { verificationServer.pollTestResult(any()) } returns CoronaTestResultResponse(
             coronaTestResult = CoronaTestResult.PCR_OR_RAT_PENDING,
-            sampleCollectedAt = null
+            sampleCollectedAt = null,
+            labId = null,
         )
         coEvery { verificationServer.retrieveTanFake() } returns mockk()
         coEvery { verificationServer.retrieveTan(any()) } returns "tan"
@@ -214,7 +215,8 @@ class DefaultPlaybookTest : BaseTest() {
         val expectedResult = CoronaTestResult.PCR_OR_RAT_PENDING
         coEvery { verificationServer.pollTestResult(expectedToken) } returns CoronaTestResultResponse(
             coronaTestResult = expectedResult,
-            sampleCollectedAt = null
+            sampleCollectedAt = null,
+            labId = null,
         )
         coEvery { submissionServer.submitFakePayload() } throws TestException()
 
@@ -224,7 +226,8 @@ class DefaultPlaybookTest : BaseTest() {
         registrationToken shouldBe expectedToken
         testResult shouldBe CoronaTestResultResponse(
             coronaTestResult = expectedResult,
-            sampleCollectedAt = null
+            sampleCollectedAt = null,
+            labId = null,
         )
     }
 

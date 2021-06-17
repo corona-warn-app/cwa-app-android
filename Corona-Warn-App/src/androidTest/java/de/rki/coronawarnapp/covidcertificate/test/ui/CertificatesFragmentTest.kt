@@ -42,7 +42,7 @@ class CertificatesFragmentTest : BaseUITest() {
     @MockK lateinit var vaccinatedPerson: VaccinatedPerson
 
     private val formatter = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm")
-    private val testDate = DateTime.parse("12.05.2021 19:00", formatter).toInstant()
+    private val testDate = DateTime.parse("12.05.2021 19:00", formatter)
 
     @Before
     fun setup() {

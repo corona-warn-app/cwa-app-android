@@ -2,10 +2,10 @@ package de.rki.coronawarnapp.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationSettings
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.playbook.BackgroundNoise
@@ -31,7 +31,8 @@ class MainActivityViewModel @AssistedInject constructor(
     private val onboardingSettings: OnboardingSettings,
     private val traceLocationSettings: TraceLocationSettings,
     private val vaccinationSettings: VaccinationSettings,
-    checkInRepository: CheckInRepository
+    checkInRepository: CheckInRepository,
+    testCertificateRepository: TestCertificateRepository,
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
@@ -49,7 +50,13 @@ class MainActivityViewModel @AssistedInject constructor(
 
     val activeCheckIns = checkInRepository.checkInsWithinRetention
         .map { checkins -> checkins.filter { !it.completed }.size }
-        .asLiveData(context = dispatcherProvider.Default)
+        .asLiveData2()
+
+    val newCertificates = testCertificateRepository.certificates
+        .map { certs ->
+            certs.filter { !it.seenByUser && !it.isCertificateRetrievalPending }.size
+        }
+        .asLiveData2()
 
     init {
         if (CWADebug.isDeviceForTestersBuild) {

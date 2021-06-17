@@ -49,6 +49,9 @@ interface CoronaTest {
     // Has the corresponding entry been created in the test certificate storage
     val isDccDataSetCreated: Boolean
 
+    //  The ID of the lab that uploaded the test result
+    val labId: String?
+
     enum class Type(val raw: String) {
         @SerializedName("PCR")
         PCR("PCR"),
