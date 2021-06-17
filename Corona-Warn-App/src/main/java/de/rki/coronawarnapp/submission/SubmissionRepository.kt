@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.submission
 
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
+import de.rki.coronawarnapp.coronatest.errors.AlreadyRedeemedException
 import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
@@ -20,7 +21,6 @@ import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Suppress("LongParameterList")
 @Singleton
 class SubmissionRepository @Inject constructor(
     @AppScope private val scope: CoroutineScope,
@@ -88,6 +88,32 @@ class SubmissionRepository @Inject constructor(
     suspend fun registerTest(request: TestRegistrationRequest): CoronaTest {
         Timber.tag(TAG).v("registerTest(request=%s)", request)
         val coronaTest = coronaTestRepository.registerTest(request)
+        Timber.d("Registered test %s -> %s", request, coronaTest)
+        return coronaTest
+    }
+
+    /**
+     * Attempt to register a new test, but if it is already redeemed, keep the previous test.
+     */
+    suspend fun tryReplaceTest(request: TestRegistrationRequest): CoronaTest {
+        Timber.tag(TAG).v("tryReplaceTest(request=%s)", request)
+
+        val coronaTest = coronaTestRepository.registerTest(
+            request = request,
+            preCondition = { currentTests ->
+                if (currentTests.any { it.type == request.type }) {
+                    Timber.tag(TAG).i("Test type already exists, will try to replace.")
+                }
+                true
+            },
+            postCondition = { newTest ->
+                if (newTest.isRedeemed) {
+                    Timber.w("Replacement test was already redeemed, removing it, will not use.")
+                    throw AlreadyRedeemedException(newTest)
+                }
+                true
+            }
+        )
         Timber.d("Registered test %s -> %s", request, coronaTest)
         return coronaTest
     }
