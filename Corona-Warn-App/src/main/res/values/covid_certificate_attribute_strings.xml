@@ -31,9 +31,6 @@
          VACCINATION CERTIFICATE STRINGS BELOW
          ##################################################### -->
 
-
-
-
     <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Vaccine -->
     <string name="vaccination_certificate_attribute_vaccine_name" translatable="false">"Impfstoff / Vaccine"</string>
     <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Vaccination Type -->
@@ -46,6 +43,8 @@
     <string name="vaccination_certificate_attribute_vaccination_date" translatable="false">"Datum der Impfung / Date of vaccination (YYYY-MM-DD)"</string>
     <!-- XTXT: Vaccination Certificate Detail Screen Attribute: State of Vaccination -->
     <string name="vaccination_certificate_attribute_certificate_country" translatable="false">"Land der Impfung / Member State of Vaccination"</string>
+    <!-- XTXT: Vaccination Details Vaccination Dose Number-->
+    <string name="vaccination_certificate_attribute_dose_number" translatable="false">"%1$d of %2$d"</string>
 
 
     <!-- #####################################################

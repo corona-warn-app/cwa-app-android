@@ -53,7 +53,7 @@
                     android:layout_marginTop="90dp"
                     android:layout_marginBottom="12dp"
                     android:gravity="center"
-                    android:text="Genesenenzertifikat"
+                    android:text="@string/recovery_certificate_details_title"
                     android:textColor="@android:color/white"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -66,7 +66,7 @@
                     android:layout_marginHorizontal="24dp"
                     android:layout_marginBottom="8dp"
                     android:gravity="center"
-                    android:text="EU Digitales COVID-Zertifikat"
+                    android:text="@string/recovery_certificate_details_subtitle"
                     android:textColor="@android:color/white"
                     android:textSize="18sp" />
 
