@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCert
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
+import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.permission.CameraPermissionProvider
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -38,6 +39,7 @@ class PersonOverviewViewModelTest : BaseTest() {
     @MockK lateinit var refreshResult: TestCertificateRepository.RefreshResult
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var context: Context
+    @MockK lateinit var cameraPermissionProvider: CameraPermissionProvider
 
     @BeforeEach
     fun setup() {
@@ -50,6 +52,7 @@ class PersonOverviewViewModelTest : BaseTest() {
         every { testCertificateRepository.certificates } returns emptyFlow()
         every { context.getLocale() } returns Locale.GERMAN
         every { valueSetsRepository.triggerUpdateValueSet(any()) } just Runs
+        every { cameraPermissionProvider.deniedPermanently } returns flowOf(false)
     }
 
     @Test
@@ -140,6 +143,7 @@ class PersonOverviewViewModelTest : BaseTest() {
             certificatesProvider = personCertificatesProvider,
             qrCodeGenerator = qrCodeGenerator,
             valueSetsRepository = valueSetsRepository,
-            context = context
+            context = context,
+            cameraPermissionProvider = cameraPermissionProvider
         )
 }
