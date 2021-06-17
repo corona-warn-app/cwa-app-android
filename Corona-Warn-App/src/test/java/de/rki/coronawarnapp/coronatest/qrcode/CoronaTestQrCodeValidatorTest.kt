@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.coronatest.qrcode
 
-import de.rki.coronawarnapp.coronatest.qrcode.QrCodeExtractor.Mode
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -46,8 +45,8 @@ class CoronaTestQrCodeValidatorTest : BaseTest() {
     fun `validator uses strict extraction mode`() {
         val instance = CoronaTestQrCodeValidator(raExtractor, pcrExtractor)
         instance.validate(pcrQrCode1).type shouldBe CoronaTest.Type.PCR
-        verify { pcrExtractor.extract(pcrQrCode1, Mode.TEST_STRICT) }
+        verify { pcrExtractor.extract(pcrQrCode1) }
         instance.validate(raQrCode1).type shouldBe CoronaTest.Type.RAPID_ANTIGEN
-        verify { raExtractor.extract(raQrCode1, Mode.TEST_STRICT) }
+        verify { raExtractor.extract(raQrCode1) }
     }
 }

@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.recovery.core
 
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
-import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateIdentifier
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
@@ -18,7 +18,7 @@ import javax.inject.Singleton
 class RecoveryCertificateRepository @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val dispatcherProvider: DispatcherProvider,
-    private val qrCodeExtractor: RecoveryCertificateQRCodeExtractor,
+    private val qrCodeExtractor: DccQrCodeExtractor,
     valueSetsRepository: ValueSetsRepository,
 ) {
 
