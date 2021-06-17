@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
-import de.rki.coronawarnapp.covidcertificate.common.exception.TestCertificateServerException
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CameraPermissionCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificatesItem
 import de.rki.coronawarnapp.databinding.PersonOverviewFragmentBinding
