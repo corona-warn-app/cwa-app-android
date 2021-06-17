@@ -67,6 +67,7 @@ class PCRProcessorTest : BaseTest() {
             coEvery { checkTestResult(any()) } returns CoronaTestResultResponse(
                 coronaTestResult = PCR_OR_RAT_PENDING,
                 sampleCollectedAt = null,
+                labId = null,
             )
             coEvery { registerTest(any()) } answers {
                 val request = arg<RegistrationRequest>(0)
@@ -76,6 +77,7 @@ class PCRProcessorTest : BaseTest() {
                     testResultResponse = CoronaTestResultResponse(
                         coronaTestResult = PCR_OR_RAT_PENDING,
                         sampleCollectedAt = null,
+                        labId = null,
                     ),
                 )
             }
@@ -131,6 +133,7 @@ class PCRProcessorTest : BaseTest() {
             testResultResponse = CoronaTestResultResponse(
                 coronaTestResult = PCR_OR_RAT_PENDING,
                 sampleCollectedAt = null,
+                labId = null,
             )
         )
         coEvery { submissionService.registerTest(any()) } answers { registrationData }
@@ -144,6 +147,7 @@ class PCRProcessorTest : BaseTest() {
                 testResultResponse = CoronaTestResultResponse(
                     coronaTestResult = it,
                     sampleCollectedAt = null,
+                    labId = null,
                 )
             )
             when (it) {
@@ -170,6 +174,7 @@ class PCRProcessorTest : BaseTest() {
             CoronaTestResultResponse(
                 coronaTestResult = pollResult,
                 sampleCollectedAt = null,
+                labId = null,
             )
         }
 
@@ -222,6 +227,7 @@ class PCRProcessorTest : BaseTest() {
             CoronaTestResultResponse(
                 coronaTestResult = PCR_POSITIVE,
                 sampleCollectedAt = null,
+                labId = null,
             )
         }
 
@@ -284,6 +290,7 @@ class PCRProcessorTest : BaseTest() {
             testResultResponse = CoronaTestResultResponse(
                 coronaTestResult = PCR_OR_RAT_PENDING,
                 sampleCollectedAt = null,
+                labId = null,
             )
         )
         coEvery { submissionService.registerTest(any()) } answers { registrationData }

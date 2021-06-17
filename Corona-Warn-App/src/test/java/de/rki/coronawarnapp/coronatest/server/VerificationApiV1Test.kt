@@ -169,7 +169,8 @@ class VerificationApiV1Test : BaseIOTest() {
             requestBody
         ) shouldBe VerificationApiV1.TestResultResponse(
             testResult = 1,
-            sampleCollectedAt = null
+            sampleCollectedAt = null,
+            labId = null,
         )
 
         webServer.takeRequest(5, TimeUnit.SECONDS)!!.apply {

@@ -37,9 +37,7 @@ class DccV1Parser @Inject constructor(
     }
 
     private fun DccV1.toValidated(mode: Mode): DccV1 = try {
-        this.run {
-            checkModeRestrictions(mode)
-        }
+        checkModeRestrictions(mode)
             .apply {
                 // Apply otherwise we risk accidentally accessing the original obj in the outer scope
                 require(isSingleCertificate())
@@ -83,9 +81,7 @@ class DccV1Parser @Inject constructor(
     }
 
     private fun DccV1.isSingleCertificate(): Boolean {
-        return (vaccinations.isNullOrEmpty() && tests.isNullOrEmpty() && recoveries!!.size == 1) ||
-            (vaccinations.isNullOrEmpty() && recoveries.isNullOrEmpty() && tests!!.size == 1) ||
-            (recoveries.isNullOrEmpty() && tests.isNullOrEmpty() && vaccinations!!.size == 1)
+        return (vaccinations?.size ?: 0) + (tests?.size ?: 0) + (recoveries?.size ?: 0) == 1
     }
 
     private fun DccV1.checkFields() {

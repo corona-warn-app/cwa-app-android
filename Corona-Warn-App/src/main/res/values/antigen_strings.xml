@@ -141,6 +141,10 @@
     <string name="coronatest_negative_antigen_result_third_info_title">"Remove Test"</string>
     <!-- XTXT: coronatest negative antigen result third info body -->
     <string name="coronatest_negative_antigen_restul_third_info_body">"Please delete the test from the Corona-Warn-App, so that you can save a new test code here if necessary."</string>
+    <!-- XTXT: coronatest negative result certificate info title -->
+    <string name="coronatest_negative_result_certificate_info_title">"Test Certificate"</string>
+    <!-- XTXT: coronatest negative result certificate info body -->
+    <string name="coronatest_negative_result_certificate_info_body">"The test certificate is available on the “Certificates” tab."</string>
 
     <!-- ####################################
      Rapid Antigen Test Profile
