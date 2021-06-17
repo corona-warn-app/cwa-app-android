@@ -111,7 +111,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
         null
     }
 
-    private fun refreshCertificate(identifier: TestCertificateIdentifier) =
+    fun refreshCertificate(identifier: TestCertificateIdentifier) =
         launch {
             val error = testCertificateRepository.refresh(identifier).mapNotNull { it.error }.singleOrNull()
             error?.let { events.postValue(ShowRefreshErrorDialog(error)) }
