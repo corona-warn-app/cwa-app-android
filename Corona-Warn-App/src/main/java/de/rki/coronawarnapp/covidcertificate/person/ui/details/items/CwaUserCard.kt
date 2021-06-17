@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
 import de.rki.coronawarnapp.databinding.CwaUserCardItemBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
-import org.joda.time.LocalDate
 
 class CwaUserCard(parent: ViewGroup) :
     PersonDetailsAdapter.PersonDetailsItemVH<CwaUserCard.Item, CwaUserCardItemBinding>(
@@ -21,9 +20,10 @@ class CwaUserCard(parent: ViewGroup) :
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
-        item.apply {
-            userName.text = fullName
-            birthDate.text = dateOfBirth.toString(DATE_FORMAT)
+        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        curItem.apply {
+            userName.text = certificate.fullName
+            birthDate.text = certificate.dateOfBirth.toString(DATE_FORMAT)
         }
     }
 
@@ -32,9 +32,7 @@ class CwaUserCard(parent: ViewGroup) :
     }
 
     data class Item(
-        val certificate: CwaCovidCertificate,
-        val fullName: String,
-        val dateOfBirth: LocalDate
+        val certificate: CwaCovidCertificate
     ) : SpecificCertificatesItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
         override val stableId = this.hashCode().toLong()

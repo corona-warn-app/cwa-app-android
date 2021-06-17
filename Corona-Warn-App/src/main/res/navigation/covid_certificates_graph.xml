@@ -81,11 +81,10 @@
             android:name="personIdentifierCode"
             app:argType="string" />
         <action
-            android:id="@+id/action_vaccinationListFragment_to_vaccinationDetailsFragment"
+            android:id="@+id/action_personDetailsFragment_to_vaccinationDetailsFragment"
             app:destination="@id/vaccinationDetailsFragment" />
-        <deepLink app:uri="coronawarnapp://vaccination-list/{personIdentifierCodeSha256}" />
         <action
-            android:id="@+id/action_vaccinationListFragment_to_covidCertificateDetailsFragment"
+            android:id="@+id/action_personDetailsFragment_to_testCertificateDetailsFragment"
             app:destination="@id/testCertificateDetailsFragment" />
     </fragment>
 

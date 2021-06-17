@@ -6,6 +6,7 @@ import androidx.viewbinding.ViewBinding
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CwaUserCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.PersonDetailsQrCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.SpecificCertificatesItem
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationCertificateCard
 import de.rki.coronawarnapp.util.lists.BindableVH
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffer
@@ -28,7 +29,8 @@ class PersonDetailsAdapter :
                     data
                 ),
                 TypedVHCreatorMod({ data[it] is PersonDetailsQrCard.Item }) { PersonDetailsQrCard(it) },
-                TypedVHCreatorMod({ data[it] is CwaUserCard.Item }) { CwaUserCard(it) }
+                TypedVHCreatorMod({ data[it] is CwaUserCard.Item }) { CwaUserCard(it) },
+                TypedVHCreatorMod({ data[it] is VaccinationCertificateCard.Item }) { VaccinationCertificateCard(it) }
             )
         )
     }

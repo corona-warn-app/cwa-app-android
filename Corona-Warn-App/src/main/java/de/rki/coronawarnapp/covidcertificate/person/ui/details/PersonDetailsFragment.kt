@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -46,13 +47,29 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                 adapter = personDetailsAdapter
                 addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
             }
-
-            viewModel.uiState.observe(viewLifecycleOwner) { item -> bindViews(item) }
-
             appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
                 title.alpha = titleAlpha
                 europaImage.alpha = subtitleAlpha
             }
+
+            viewModel.uiState.observe(viewLifecycleOwner) { item -> bindViews(item) }
+            viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
+        }
+    }
+
+    private fun onNavEvent(event: PersonDetailsEvents) {
+        when (event) {
+            is OpenRecoveryCertificateDetails -> {
+                // TODO
+            }
+            is OpenTestCertificateDetails -> doNavigate(
+                PersonDetailsFragmentDirections
+                    .actionPersonDetailsFragmentToTestCertificateDetailsFragment(event.certificateId)
+            )
+            is OpenVaccinationCertificateDetails -> doNavigate(
+                PersonDetailsFragmentDirections
+                    .actionPersonDetailsFragmentToVaccinationDetailsFragment(event.certificateId)
+            )
         }
     }
 

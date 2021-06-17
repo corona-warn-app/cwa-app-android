@@ -1,13 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.details.items
 
 import android.graphics.Bitmap
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
-import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
