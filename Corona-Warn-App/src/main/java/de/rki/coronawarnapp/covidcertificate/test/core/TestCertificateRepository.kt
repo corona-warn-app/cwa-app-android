@@ -56,7 +56,7 @@ class TestCertificateRepository @Inject constructor(
             .map {
                 TestCertificateContainer(
                     data = it,
-                    dataExtractor = qrCodeExtractor
+                    qrCodeExtractor = qrCodeExtractor
                 )
             }
             .map { it.identifier to it }
@@ -138,7 +138,7 @@ class TestCertificateRepository @Inject constructor(
             }
             val container = TestCertificateContainer(
                 data = data,
-                dataExtractor = qrCodeExtractor,
+                qrCodeExtractor = qrCodeExtractor,
             )
             Timber.tag(TAG).d("Adding test certificate entry: %s", container)
             mutate { this[container.identifier] = container }
@@ -167,7 +167,7 @@ class TestCertificateRepository @Inject constructor(
             )
             val container = TestCertificateContainer(
                 data = data,
-                dataExtractor = qrCodeExtractor,
+                qrCodeExtractor = qrCodeExtractor,
             )
             Timber.tag(TAG).d("Adding test certificate entry: %s", container)
             mutate { this[container.identifier] = container }
@@ -207,7 +207,10 @@ class TestCertificateRepository @Inject constructor(
 
         internalData.updateBlocking {
             val toRefresh = values
-                .filter { it.data is RetrievedTestCertificate && it.isCertificateRetrievalPending } // Can only update retrieved certificates
+                .filter {
+                    // Can only update retrieved certificates
+                    it.data is RetrievedTestCertificate && it.isCertificateRetrievalPending
+                }
                 .filter { it.identifier == identifier || identifier == null } // Targets of our refresh
                 .filter { !it.isUpdatingData && it.isCertificateRetrievalPending } // Those that need refreshing
 
@@ -230,9 +233,7 @@ class TestCertificateRepository @Inject constructor(
                     Timber.tag(TAG).d("%s is missing a lab id returning exception", cert)
                     RefreshResult(
                         cert,
-                        TestCertificateServerException(
-                            DCC_NOT_SUPPORTED_BY_LAB
-                        )
+                        TestCertificateServerException(DCC_NOT_SUPPORTED_BY_LAB)
                     )
                 }
 

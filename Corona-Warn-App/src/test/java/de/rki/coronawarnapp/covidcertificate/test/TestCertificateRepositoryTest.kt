@@ -108,7 +108,7 @@ class TestCertificateRepositoryTest : BaseTest() {
                 every { labId } returns "best-lab"
             }
         ).apply {
-            this.dataExtractor shouldBe dataExtractor
+            this.qrCodeExtractor shouldBe qrCodeExtractor
 
             certificateId shouldBe null
             data.testCertificateQrCode shouldBe null
@@ -137,7 +137,7 @@ class TestCertificateRepositoryTest : BaseTest() {
         instance.registerTestCertificate(
             qrCode = testData.personATest1CertQRCode
         ).apply {
-            this.dataExtractor shouldBe dataExtractor
+            this.qrCodeExtractor shouldBe qrCodeExtractor
 
             data.testCertificateQrCode shouldBe testData.personATest1CertQRCodeString
             certificateId shouldBe testData.personATest1CertQRCode.uniqueCertificateIdentifier
