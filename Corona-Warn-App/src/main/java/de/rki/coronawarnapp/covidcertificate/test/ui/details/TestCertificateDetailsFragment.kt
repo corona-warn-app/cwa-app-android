@@ -13,7 +13,7 @@ import com.google.android.material.appbar.AppBarLayout
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
-import de.rki.coronawarnapp.databinding.FragmentCovidCertificateDetailsBinding
+import de.rki.coronawarnapp.databinding.FragmentTestCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.DialogHelper
@@ -27,11 +27,11 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
-class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certificate_details), AutoInject {
+class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certificate_details), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val binding by viewBinding<FragmentCovidCertificateDetailsBinding>()
-    private val args by navArgs<CovidCertificateDetailsFragmentArgs>()
+    private val binding by viewBinding<FragmentTestCertificateDetailsBinding>()
+    private val args by navArgs<TestCertificateDetailsFragmentArgs>()
     private val viewModel: CovidCertificateDetailsViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
@@ -57,7 +57,7 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
         viewModel.covidCertificate.observe(viewLifecycleOwner) { it?.let { onCertificateReady(it) } }
     }
 
-    private fun FragmentCovidCertificateDetailsBinding.onCertificateReady(
+    private fun FragmentTestCertificateDetailsBinding.onCertificateReady(
         testCertificate: TestCertificate
     ) {
         name.text = testCertificate.run { "$lastName, $firstName" }
@@ -77,7 +77,7 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
         certificateId.text = testCertificate.certificateId
     }
 
-    private fun FragmentCovidCertificateDetailsBinding.onQrCodeReady(bitmap: Bitmap?) {
+    private fun FragmentTestCertificateDetailsBinding.onQrCodeReady(bitmap: Bitmap?) {
         qrCodeCard.apply {
             image.setImageBitmap(bitmap)
             progressBar.hide()
@@ -85,12 +85,12 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
         }
     }
 
-    private fun FragmentCovidCertificateDetailsBinding.onError(error: Throwable) {
+    private fun FragmentTestCertificateDetailsBinding.onError(error: Throwable) {
         qrCodeCard.progressBar.hide()
         error.toErrorDialogBuilder(requireContext()).show()
     }
 
-    private fun FragmentCovidCertificateDetailsBinding.onNavEvent(event: CovidCertificateDetailsNavigation) {
+    private fun FragmentTestCertificateDetailsBinding.onNavEvent(event: CovidCertificateDetailsNavigation) {
         when (event) {
             CovidCertificateDetailsNavigation.Back -> popBackStack()
             is CovidCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
@@ -102,7 +102,7 @@ class CovidCertificateDetailsFragment : Fragment(R.layout.fragment_covid_certifi
         }
     }
 
-    private fun FragmentCovidCertificateDetailsBinding.bindToolbar() = toolbar.apply {
+    private fun FragmentTestCertificateDetailsBinding.bindToolbar() = toolbar.apply {
         setNavigationOnClickListener { popBackStack() }
         setOnMenuItemClickListener {
             when (it.itemId) {
