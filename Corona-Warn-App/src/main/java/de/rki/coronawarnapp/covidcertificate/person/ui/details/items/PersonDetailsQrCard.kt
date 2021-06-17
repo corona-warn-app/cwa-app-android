@@ -3,9 +3,11 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.details.items
 import android.graphics.Bitmap
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
@@ -25,12 +27,13 @@ class PersonDetailsQrCard(parent: ViewGroup) :
     override val onBindData: PersonDetailsQrCardItemBinding.(
         item: Item,
         payloads: List<Any>
-    ) -> Unit = { item, _ ->
-        image.setImageBitmap(item.qrCodeBitmap)
-        item.apply {
+    ) -> Unit = { item, payloads ->
+        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        image.setImageBitmap(curItem.qrCodeBitmap)
+        curItem.apply {
             qrCodeBitmap?.let { progressBar.hide() }
-            qrTitle.visibility = View.VISIBLE
-            qrSubtitle.visibility = View.VISIBLE
+            qrTitle.isVisible = true
+            qrSubtitle.isVisible = true
             when (certificate) {
                 is TestCertificate -> {
                     qrTitle.text = context.getString(R.string.detail_green_certificate_card_title)
@@ -66,6 +69,6 @@ class PersonDetailsQrCard(parent: ViewGroup) :
         val qrCodeBitmap: Bitmap?
     ) : SpecificCertificatesItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
-        override val stableId = this.hashCode().toLong()
+        override val stableId = certificate.personIdentifier.codeSHA256.hashCode().toLong()
     }
 }
