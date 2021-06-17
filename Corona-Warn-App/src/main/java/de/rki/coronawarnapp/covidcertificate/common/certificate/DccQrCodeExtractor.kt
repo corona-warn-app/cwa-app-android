@@ -172,14 +172,13 @@ class DccQrCodeExtractor @Inject constructor(
     fun RawCOSEObject.parse(mode: DccV1Parser.Mode): DccData<DccV1.MetaData> = try {
         Timber.v("Parsing COSE for covid certificate.")
         val cbor = coseDecoder.decode(this)
-
         DccData(
             header = headerParser.parse(cbor),
             certificate = bodyParser.parse(cbor, mode).toCertificate
         ).also {
             DccQrCodeCensor.addCertificateToCensor(it)
         }.also {
-            Timber.v("Parsed vaccination certificate for %s", it.certificate.nameData.familyNameStandardized)
+            Timber.v("Parsed covid certificate for %s", it.certificate.nameData.familyNameStandardized)
         }
     } catch (e: InvalidHealthCertificateException) {
         throw e
@@ -187,6 +186,41 @@ class DccQrCodeExtractor @Inject constructor(
         Timber.e(e)
         throw InvalidHealthCertificateException(HC_CBOR_DECODING_FAILED)
     }
+
+    private val DccV1.isVaccinationCertificate: Boolean
+        get() = this.vaccinations?.isNotEmpty() == true
+
+    private val DccV1.isTestCertificate: Boolean
+        get() = this.tests?.isNotEmpty() == true
+
+    private val DccV1.isRecoveryCertificate: Boolean
+        get() = this.recoveries?.isNotEmpty() == true
+
+    private val DccV1.toCertificate: DccV1.MetaData
+        get() = when {
+            isVaccinationCertificate -> DccV1Vaccination(
+                version = version,
+                nameData = nameData,
+                dateOfBirth = dateOfBirth,
+                personIdentifier = personIdentifier,
+                vaccination = vaccinations!!.first()
+            )
+            isTestCertificate -> DccV1Test(
+                version = version,
+                nameData = nameData,
+                dateOfBirth = dateOfBirth,
+                personIdentifier = personIdentifier,
+                test = tests!!.first()
+            )
+            isRecoveryCertificate -> DccV1Recovery(
+                version = version,
+                nameData = nameData,
+                dateOfBirth = dateOfBirth,
+                personIdentifier = personIdentifier,
+                recovery = recoveries!!.first()
+            )
+            else -> throw InvalidHealthCertificateException(JSON_SCHEMA_INVALID)
+        }
 }
 
 private const val PREFIX = "HC1:"
@@ -194,37 +228,4 @@ private const val PREFIX = "HC1:"
 // Zip bomb
 private const val DEFAULT_SIZE_LIMIT = 1024L * 1024 * 10L // 10 MB
 
-private val DccV1.isVaccinationCertificate: Boolean
-    get() = this.vaccinations?.isNotEmpty() == true
 
-private val DccV1.isTestCertificate: Boolean
-    get() = this.tests?.isNotEmpty() == true
-
-private val DccV1.isRecoveryCertificate: Boolean
-    get() = this.recoveries?.isNotEmpty() == true
-
-private val DccV1.toCertificate: DccV1.MetaData
-    get() = when {
-        isVaccinationCertificate -> DccV1Vaccination(
-            version = version,
-            nameData = nameData,
-            dateOfBirth = dateOfBirth,
-            personIdentifier = personIdentifier,
-            vaccination = vaccinations!!.first()
-        )
-        isTestCertificate -> DccV1Test(
-            version = version,
-            nameData = nameData,
-            dateOfBirth = dateOfBirth,
-            personIdentifier = personIdentifier,
-            test = tests!!.first()
-        )
-        isRecoveryCertificate -> DccV1Recovery(
-            version = version,
-            nameData = nameData,
-            dateOfBirth = dateOfBirth,
-            personIdentifier = personIdentifier,
-            recovery = recoveries!!.first()
-        )
-        else -> throw InvalidHealthCertificateException(JSON_SCHEMA_INVALID)
-    }
