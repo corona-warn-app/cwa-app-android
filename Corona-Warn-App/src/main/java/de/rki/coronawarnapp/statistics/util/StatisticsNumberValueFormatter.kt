@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
+import java.text.NumberFormat
 
 fun formatStatisticalValue(
     context: Context,
@@ -28,4 +29,6 @@ fun formatStatisticalValue(
     }.format(value)
 }
 
-fun formatPercentageValue(value: Double) = "$value%"
+fun formatPercentageValue(value: Double): String = percentInstance.format(value)
+
+private val percentInstance = NumberFormat.getPercentInstance().apply { minimumFractionDigits = 1 }
