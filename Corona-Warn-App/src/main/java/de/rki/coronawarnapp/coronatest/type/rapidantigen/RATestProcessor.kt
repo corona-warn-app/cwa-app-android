@@ -126,7 +126,7 @@ class RATestProcessor @Inject constructor(
                 return test
             }
 
-            val newTestResult = try {
+            val response = try {
                 submissionService.checkTestResult(test.registrationToken).let {
                     Timber.tag(TAG).v("Raw test result was %s", it)
                     it.copy(
@@ -136,27 +136,24 @@ class RATestProcessor @Inject constructor(
             } catch (e: BadRequestException) {
                 if (isOlderThan21Days) {
                     Timber.tag(TAG).w("HTTP 400 error after 21 days, remapping to RAT_REDEEMED.")
-                    CoronaTestResultResponse(
-                        coronaTestResult = RAT_REDEEMED,
-                        sampleCollectedAt = null,
-                        labId = null
-                    )
+                    CoronaTestResultResponse(coronaTestResult = RAT_REDEEMED)
                 } else {
                     Timber.tag(TAG).v("Unexpected HTTP 400 error, rethrowing...")
                     throw e
                 }
             }
 
-            if (newTestResult.coronaTestResult == RAT_POSITIVE) {
+            if (response.coronaTestResult == RAT_POSITIVE) {
                 analyticsKeySubmissionCollector.reportPositiveTestResultReceived(type)
             }
 
             test.copy(
-                testResult = check60Days(test, newTestResult.coronaTestResult),
-                testResultReceivedAt = determineReceivedDate(test, newTestResult.coronaTestResult),
+                testResult = check60Days(test, response.coronaTestResult),
+                testResultReceivedAt = determineReceivedDate(test, response.coronaTestResult),
                 lastUpdatedAt = nowUTC,
-                lastError = null,
-                sampleCollectedAt = newTestResult.sampleCollectedAt
+                sampleCollectedAt = response.sampleCollectedAt ?: test.sampleCollectedAt,
+                labId = response.labId ?: test.labId,
+                lastError = null
             )
         } catch (e: Exception) {
             Timber.tag(TAG).e(e, "Failed to poll server for  %s", test)
@@ -231,7 +228,7 @@ class RATestProcessor @Inject constructor(
 
     companion object {
         private val FINAL_STATES = setOf(RAT_POSITIVE, RAT_NEGATIVE, RAT_REDEEMED)
-        internal const val TAG = "RapidAntigenProcessor"
+        internal const val TAG = "RATestProcessor"
     }
 }
 
