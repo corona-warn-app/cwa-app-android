@@ -3,12 +3,9 @@ package de.rki.coronawarnapp.covidcertificate.test.core
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
-import de.rki.coronawarnapp.covidcertificate.common.exception.TestCertificateServerException
-import de.rki.coronawarnapp.covidcertificate.common.exception.TestCertificateServerException.ErrorCode.DCC_NOT_SUPPORTED_BY_LAB
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateIdentifier
-import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateProcessor
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.GenericTestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertificateData
@@ -198,6 +195,7 @@ class TestCertificateRepository @Inject constructor(
      *
      * [refresh] itself will NOT throw an exception.
      */
+    @Suppress("ComplexMethod")
     suspend fun refresh(identifier: TestCertificateIdentifier? = null): Set<RefreshResult> {
         Timber.tag(TAG).d("refresh(identifier=%s)", identifier)
 
@@ -207,11 +205,8 @@ class TestCertificateRepository @Inject constructor(
 
         internalData.updateBlocking {
             val toRefresh = values
-                .filter {
-                    // Can only update retrieved certificates
-                    it.data is RetrievedTestCertificate && it.isCertificateRetrievalPending
-                }
                 .filter { it.identifier == identifier || identifier == null } // Targets of our refresh
+                .filter { it.data is RetrievedTestCertificate } // Can only update retrieved certificates
                 .filter { !it.isUpdatingData && it.isCertificateRetrievalPending } // Those that need refreshing
 
             mutate {
@@ -222,33 +217,6 @@ class TestCertificateRepository @Inject constructor(
             }
         }
 
-        // Not sure i really like this
-        internalData.updateBlocking {
-            Timber.tag(TAG).d("Checking for invalid lab id.")
-
-            val refreshedCerts = values
-                .filter { workedOnIds.contains(it.identifier) } // Refresh targets
-                .filter { it.data is RetrievedTestCertificate && it.data.labId == null } // Targets of this step
-                .map { cert ->
-                    Timber.tag(TAG).d("%s is missing a lab id returning exception", cert)
-                    RefreshResult(
-                        cert,
-                        TestCertificateServerException(DCC_NOT_SUPPORTED_BY_LAB)
-                    )
-                }
-
-            refreshedCerts.forEach {
-                refreshCallResults[it.certificateContainer.identifier] = it
-            }
-
-            mutate {
-                refreshedCerts
-                    .filter { it.error == null }
-                    .map { it.certificateContainer }
-                    .forEach { this[it.identifier] = it }
-            }
-        }
-
         internalData.updateBlocking {
             Timber.tag(TAG).d("Checking for unregistered public keys.")
 
@@ -256,8 +224,6 @@ class TestCertificateRepository @Inject constructor(
                 .filter { workedOnIds.contains(it.identifier) } // Refresh targets
                 .mapNotNull { cert ->
                     if (cert.data !is RetrievedTestCertificate) return@mapNotNull null
-                    if (cert.data.labId == null) return@mapNotNull null
-
                     if (cert.data.isPublicKeyRegistered) return@mapNotNull null
 
                     withContext(dispatcherProvider.IO) {
@@ -290,7 +256,6 @@ class TestCertificateRepository @Inject constructor(
                 .filter { workedOnIds.contains(it.identifier) } // Refresh targets
                 .mapNotNull { cert ->
                     if (cert.data !is RetrievedTestCertificate) return@mapNotNull null
-                    if (cert.data.labId == null) return@mapNotNull null
 
                     if (!cert.data.isPublicKeyRegistered) return@mapNotNull null
                     if (!cert.isCertificateRetrievalPending) return@mapNotNull null
@@ -319,12 +284,10 @@ class TestCertificateRepository @Inject constructor(
         }
 
         internalData.updateBlocking {
-            val certs = values.filter { workedOnIds.contains(it.identifier) }
-
             mutate {
-                certs.forEach {
-                    this[it.identifier] = it.copy(isUpdatingData = false)
-                }
+                values
+                    .filter { workedOnIds.contains(it.identifier) }
+                    .forEach { this[it.identifier] = it.copy(isUpdatingData = false) }
             }
         }
 

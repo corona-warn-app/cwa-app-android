@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.test.core.storage
+package de.rki.coronawarnapp.covidcertificate.test.core
 
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtract
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.TestCertificateServerException
+import de.rki.coronawarnapp.covidcertificate.common.exception.TestCertificateServerException.ErrorCode
 import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateComponents
 import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateServer
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertificateData
@@ -39,6 +40,11 @@ class TestCertificateProcessor @Inject constructor(
         data: RetrievedTestCertificate
     ): RetrievedTestCertificate {
         Timber.tag(TAG).d("registerPublicKey(cert=%s)", data)
+
+        if (data.labId.isNullOrBlank()) {
+            Timber.tag(TAG).e("Certificate is missing valid labId: %s", data)
+            throw  TestCertificateServerException(ErrorCode.DCC_NOT_SUPPORTED_BY_LAB)
+        }
 
         if (data.publicKeyRegisteredAt != null) {
             Timber.tag(TAG).d("Public key is already registered for %s", data)
@@ -85,6 +91,11 @@ class TestCertificateProcessor @Inject constructor(
     ): RetrievedTestCertificate {
         Timber.tag(TAG).d("requestCertificate(cert=%s)", data)
 
+        if (data.labId.isNullOrBlank()) {
+            Timber.tag(TAG).e("Certificate is missing valid labId: %s", data)
+            throw  TestCertificateServerException(ErrorCode.DCC_NOT_SUPPORTED_BY_LAB)
+        }
+
         if (data.publicKeyRegisteredAt == null) {
             throw IllegalStateException("Public key is not registered yet.")
         }
@@ -113,7 +124,7 @@ class TestCertificateProcessor @Inject constructor(
         val components = try {
             executeRequest()
         } catch (e: TestCertificateServerException) {
-            if (e.errorCode == TestCertificateServerException.ErrorCode.DCC_COMP_202) {
+            if (e.errorCode == ErrorCode.DCC_COMP_202) {
                 delay(certConfig.waitForRetry.millis)
                 executeRequest()
             } else {

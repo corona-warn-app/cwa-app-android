@@ -1,17 +1,20 @@
-package de.rki.coronawarnapp.covidcertificate.test.execution
+package de.rki.coronawarnapp.covidcertificate.test.core
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.CovidCertificateConfig
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.exception.TestCertificateServerException
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateComponents
 import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateServer
-import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateProcessor
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertificateData
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.encryption.rsa.RSACryptography
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.shouldBe
+import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -43,6 +46,7 @@ class TestCertificateProcessorTest : BaseTest() {
         identifier = "identifier1",
         registrationToken = "regtoken1",
         registeredAt = Instant.EPOCH,
+        labId = "labId"
     )
 
     private val testCertificateWithPubKey = testCertificateNew.copy(
@@ -110,6 +114,16 @@ class TestCertificateProcessorTest : BaseTest() {
     }
 
     @Test
+    fun `public key registration - requires valid labId`() = runBlockingTest2(ignoreActive = true) {
+        val instance = createInstance()
+        shouldThrow<TestCertificateServerException> {
+            instance.registerPublicKey(testCertificateNew.copy(labId = null))
+        }.errorCode shouldBe TestCertificateServerException.ErrorCode.DCC_NOT_SUPPORTED_BY_LAB
+
+        coVerify { certificateServer wasNot Called }
+    }
+
+    @Test
     fun `obtain certificate components`() = runBlockingTest2(ignoreActive = true) {
         val instance = createInstance()
         instance.obtainCertificate(testCertificateWithPubKey)
@@ -118,5 +132,16 @@ class TestCertificateProcessorTest : BaseTest() {
             covidTestCertificateConfig.waitAfterPublicKeyRegistration
             certificateServer.requestCertificateForTest(testCertificateNew.registrationToken)
         }
+    }
+
+    @Test
+    fun `obtain certificate components - requires valid labId`() = runBlockingTest2(ignoreActive = true) {
+        val instance = createInstance()
+
+        shouldThrow<TestCertificateServerException> {
+            instance.obtainCertificate(testCertificateWithPubKey.copy(labId = null))
+        }.errorCode shouldBe TestCertificateServerException.ErrorCode.DCC_NOT_SUPPORTED_BY_LAB
+
+        coVerify { certificateServer wasNot Called }
     }
 }

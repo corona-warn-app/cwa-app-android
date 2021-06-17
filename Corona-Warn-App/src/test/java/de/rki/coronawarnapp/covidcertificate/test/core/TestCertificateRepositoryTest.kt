@@ -1,11 +1,10 @@
-package de.rki.coronawarnapp.covidcertificate.test
+package de.rki.coronawarnapp.covidcertificate.test.core
 
 import de.rki.coronawarnapp.appconfig.CovidCertificateConfig
 import de.rki.coronawarnapp.coronatest.DaggerCoronaTestTestComponent
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateProcessor
+import de.rki.coronawarnapp.covidcertificate.test.TestCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.BaseTestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.GenericTestCertificateData
