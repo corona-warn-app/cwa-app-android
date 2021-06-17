@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.bugreporting.debuglog
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.PackageManager
 import android.util.Log
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebugLogStorageCheck
@@ -62,13 +63,30 @@ class DebugLogger(
         )
     }
 
+    private fun isAutoLoggingEnabled(): Boolean {
+        if (!CWADebug.isDeviceForTestersBuild) return false
+
+        return try {
+            val autoLoggerPkg = "de.rki.coronawarnapp.els.autologger"
+            context.packageManager.getPackageInfo(autoLoggerPkg, 0)
+            Timber.tag(TAG).i("Autologger package is installed (%s).", autoLoggerPkg)
+            true
+        } catch (e: PackageManager.NameNotFoundException) {
+            Timber.tag(TAG).i("DeviceForTester build, but no autologger package installed.")
+            false
+        } catch (e: Exception) {
+            Timber.tag(TAG).e(e, "Failed to determiner if autologger package is installed.")
+            false
+        }
+    }
+
     fun init() = try {
         val startLogger = when {
             triggerFile.exists() -> {
                 Timber.tag(TAG).i("Trigger file exists, starting debug log.")
                 true
             }
-            CWADebug.isDeviceForTestersBuild -> {
+            isAutoLoggingEnabled() -> {
                 Timber.tag(TAG).i("Trigger file does not exist, but it's a tester build, starting debug log.")
                 true
             }

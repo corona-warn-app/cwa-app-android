@@ -130,6 +130,7 @@ class PCRTestProcessor @Inject constructor(
             testResult = testResult,
             testResultReceivedAt = determineReceivedDate(null, testResult),
             isDccConsentGiven = request.isDccConsentGiven,
+            labId = response.testResultResponse.labId
         )
     }
 

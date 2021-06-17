@@ -64,7 +64,8 @@ class TestCertificateTestData @Inject constructor(
             rsaPrivateKey = privateKey,
             certificateReceivedAt = Instant.ofEpochMilli(123456789),
             encryptedDataEncryptionkey = "ZW5jcnlwdGVkRGF0YUVuY3J5cHRpb25rZXk=".decodeBase64()!!,
-            testCertificateQrCode = personATest2CertQRCodeString
+            testCertificateQrCode = personATest2CertQRCodeString,
+            certificateSeenByUser = true
         )
     }
 

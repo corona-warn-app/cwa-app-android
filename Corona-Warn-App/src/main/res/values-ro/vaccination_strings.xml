@@ -70,7 +70,9 @@
     <!-- XBUT: button for Vaccination Certificate Registration Home Card -->
     <string name="vaccination_card_register">"Adăugare"</string>
     <!-- XHED: Homescreen vaccination status card title -->
-    <string name="vaccination_card_status_title">"Dovada digitală a vaccinării"</string>
+    <string name="vaccination_card_status_title_line_1">"Dovada vaccinării"</string>
+    <!-- XHED: Homescreen vaccination status card title -->
+    <string name="vaccination_card_status_title_line_2">"digitale"</string>
     <!-- XHED: Homescreen vaccination status card vaccination name -->
     <string name="vaccination_card_status_vaccination_name">"Vaccinare SARS-CoV-2"</string>
     <!-- XTXT: Homescreen card incomplete vaccination status label -->
@@ -84,6 +86,8 @@
         <item quantity="few">"Protecția prin vaccinare este completă în %1$d zile"</item>
         <item quantity="many">"Protecția prin vaccinare este completă în %1$d zile"</item>
     </plurals>
+    <!-- XTXT: Homescreen card complete vaccination status label -->
+    <string name="vaccination_card_status_vaccination_complete">"Valabil până la %s"</string>
 
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_invalid">"Acest cod QR nu este un certificat de vaccinare valabil.\n\nPentru mai multe informații despre modul în care puteți primi certificatul dvs. de vaccinare, consultați pagina noastră de întrebări frecvente."</string>

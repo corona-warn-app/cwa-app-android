@@ -1,11 +1,10 @@
 package de.rki.coronawarnapp.covidcertificate.test.ui
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CertificatesItem
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationSettings
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
@@ -50,7 +49,8 @@ class CertificatesViewModel @AssistedInject constructor(
                         add(NoCovidTestCertificatesCard.Item)
                     }
                 }
-            }.asLiveData()
+            }
+            .asLiveData2()
 
     private fun Set<VaccinatedPerson>.toCertificateItems(): List<CertificatesItem> = map { vaccinatedPerson ->
         when (vaccinatedPerson.getVaccinationStatus()) {
