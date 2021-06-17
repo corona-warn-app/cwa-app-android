@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         }
 
         vm.newCertificates.observe(this) { count ->
-            binding.mainBottomNavigation.updateCountBadge(R.id.green_certificate_graph, count)
+            binding.mainBottomNavigation.updateCountBadge(R.id.certificate_graph, count)
         }
 
         if (savedInstanceState == null) {

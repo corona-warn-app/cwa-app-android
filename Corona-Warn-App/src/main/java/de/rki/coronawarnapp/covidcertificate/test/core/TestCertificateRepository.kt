@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.test.core
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.covidcertificate.exception.TestCertificateServerException
+import de.rki.coronawarnapp.covidcertificate.common.exception.TestCertificateServerException
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.PCRCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.RACertificateData

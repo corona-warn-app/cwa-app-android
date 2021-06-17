@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.databinding.CovidTestErrorCardBinding
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
-import org.joda.time.DateTime
 
 class CovidTestCertificatePendingCard(parent: ViewGroup) :
     CertificatesAdapter.CertificatesItemVH<CovidTestCertificatePendingCard.Item, CovidTestErrorCardBinding>(
@@ -30,8 +29,8 @@ class CovidTestCertificatePendingCard(parent: ViewGroup) :
 
         testTime.text = context.getString(
             R.string.test_certificate_time,
-            curItem.testDate.toDayFormat(),
-            curItem.testDate.toShortTimeFormat()
+            curItem.certificate.registeredAt.toDayFormat(),
+            curItem.certificate.registeredAt.toShortTimeFormat()
         )
 
         retryButton.setOnClickListener {
@@ -55,7 +54,6 @@ class CovidTestCertificatePendingCard(parent: ViewGroup) :
     }
 
     data class Item(
-        override val testDate: DateTime,
         val certificate: TestCertificate,
         val onRetryAction: (Item) -> Unit,
         val onDeleteAction: (Item) -> Unit
