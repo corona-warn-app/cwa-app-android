@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.util.ui.LazyString
 class InvalidTestCertificateException(errorCode: ErrorCode) : InvalidHealthCertificateException(errorCode) {
     override fun toHumanReadableError(context: Context): HumanReadableError {
         return HumanReadableError(
-            description = errorMessage.get(context) + " ($errorCode)"
+            description = errorMessage.get(context) + " ($PREFIX$errorCode)"
         )
     }
 
@@ -35,3 +35,5 @@ class InvalidTestCertificateException(errorCode: ErrorCode) : InvalidHealthCerti
             else -> super.errorMessage
         }
 }
+
+private const val PREFIX = "TC_"
