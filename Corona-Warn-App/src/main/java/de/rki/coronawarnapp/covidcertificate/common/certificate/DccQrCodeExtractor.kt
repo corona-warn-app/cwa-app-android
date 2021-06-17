@@ -45,10 +45,7 @@ class DccQrCodeExtractor @Inject constructor(
     /**
      * May throw an **[InvalidHealthCertificateException]**
      */
-    override fun extract(rawString: String): DccQrCode {
-        val mode = CERT_SINGLE_STRICT
-        return extract(rawString, mode)
-    }
+    override fun extract(rawString: String): DccQrCode = extract(rawString, CERT_SINGLE_STRICT)
 
     /**
      * May throw an **[InvalidHealthCertificateException]**
