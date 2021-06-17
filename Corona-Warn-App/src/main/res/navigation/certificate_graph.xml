@@ -107,10 +107,10 @@
         <deepLink app:uri="coronawarnapp://vaccination-list/{personIdentifierCodeSha256}" />
         <action
             android:id="@+id/action_vaccinationListFragment_to_vaccinationQrCodeScanFragment"
-            app:destination="@id/vaccinationQrCodeScanFragment" />
+            app:destination="@id/dccQrCodeScanFragment" />
         <action
             android:id="@+id/action_vaccinationListFragment_to_covidCertificateDetailsFragment"
-            app:destination="@id/covidCertificateDetailsFragment" />
+            app:destination="@id/testCertificateDetailsFragment" />
     </fragment>
 
     <fragment
