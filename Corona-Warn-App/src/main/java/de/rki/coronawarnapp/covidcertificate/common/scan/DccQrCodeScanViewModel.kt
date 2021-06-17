@@ -47,14 +47,17 @@ class DccQrCodeScanViewModel @AssistedInject constructor(
     }
 
     private suspend fun registerTestCertificate(qrCode: TestCertificateQRCode) {
+        throw NotImplementedError("Test certificate found")
         // TODO
 //        val certificate = testCertificateRepository.requestCertificate(qrCode)
 //        event.postValue(Event.TestQrCodeScanSucceeded(certificate.certificateId))
     }
 
     private suspend fun registerRecoveryCertificate(qrCode: RecoveryCertificateQRCode) {
-        val certificate = recoveryCertificateRepository.requestCertificate(qrCode)
-        event.postValue(Event.RecoveryQrCodeScanSucceeded(certificate.certificateId))
+        throw NotImplementedError("Recovery certificate found")
+        // TODO
+//        val certificate = recoveryCertificateRepository.requestCertificate(qrCode)
+//        event.postValue(Event.RecoveryQrCodeScanSucceeded(certificate.certificateId))
     }
 
     fun setCameraDeniedPermanently(denied: Boolean) {
