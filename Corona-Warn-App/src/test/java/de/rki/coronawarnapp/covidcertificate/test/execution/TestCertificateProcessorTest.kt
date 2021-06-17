@@ -3,8 +3,8 @@ package de.rki.coronawarnapp.covidcertificate.test.execution
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.CovidCertificateConfig
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
-import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateComponents
 import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateServer
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.PCRCertificateData
@@ -35,7 +35,7 @@ class TestCertificateProcessorTest : BaseTest() {
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var certificateServer: TestCertificateServer
     @MockK lateinit var rsaCryptography: RSACryptography
-    @MockK lateinit var qrCodeExtractor: TestCertificateQRCodeExtractor
+    @MockK lateinit var qrCodeExtractor: DccQrCodeExtractor
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var appConfigData: ConfigData
     @MockK lateinit var covidTestCertificateConfig: CovidCertificateConfig.TestCertificate
@@ -82,7 +82,12 @@ class TestCertificateProcessorTest : BaseTest() {
 
         every { rsaCryptography.decrypt(any(), any()) } returns ByteString.Companion.EMPTY
 
-        coEvery { qrCodeExtractor.extract(any(), any()) } returns mockk<TestCertificateQRCode>().apply {
+        coEvery {
+            qrCodeExtractor.extractEncrypted(
+                any<ByteArray>(),
+                any()
+            )
+        } returns mockk<TestCertificateQRCode>().apply {
             every { qrCode } returns "qrCode"
             every { data } returns mockk()
         }

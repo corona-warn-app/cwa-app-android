@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.bugreporting.debuglog
 
 import android.app.Application
+import android.content.pm.PackageManager
 import dagger.Lazy
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebugLogTree
@@ -10,11 +11,14 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.string.shouldEndWith
 import io.kotest.matchers.string.shouldStartWith
+import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import io.mockk.mockkObject
+import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runBlockingTest
@@ -31,6 +35,7 @@ import java.io.File
 class DebugLoggerTest : BaseIOTest() {
 
     @MockK lateinit var application: Application
+    @MockK lateinit var packageManager: PackageManager
     @MockK lateinit var component: ApplicationComponent
     @MockK lateinit var coronaTestCensor1: BugCensor
     @MockK lateinit var coronaTestCensor2: BugCensor
@@ -51,6 +56,8 @@ class DebugLoggerTest : BaseIOTest() {
         testDir.exists() shouldBe true
 
         every { application.cacheDir } returns cacheDir
+        every { application.packageManager } returns packageManager
+
         every { component.inject(any<DebugLogger>()) } answers {
             val logger = arg<DebugLogger>(0)
             logger.bugCensors = Lazy { setOf(coronaTestCensor1, coronaTestCensor2) }
@@ -102,8 +109,12 @@ class DebugLoggerTest : BaseIOTest() {
     }
 
     @Test
-    fun `init calls start if it is a tester build`() = runBlockingTest {
+    fun `init calls start if it is a tester build and autologger pkg is installed`() = runBlockingTest {
         every { CWADebug.isDeviceForTestersBuild } returns true
+
+        every {
+            packageManager.getPackageInfo("de.rki.coronawarnapp.els.autologger", 0)
+        } returns mockk()
 
         val instance = createInstance(scope = this).apply {
             init()
@@ -114,6 +125,59 @@ class DebugLoggerTest : BaseIOTest() {
         runningLog.exists() shouldBe true
 
         instance.stop()
+    }
+
+    @Test
+    fun `init does not call start on tester builds without the autologger pkg`() = runBlockingTest {
+        every { CWADebug.isDeviceForTestersBuild } returns true
+
+        every { application.packageManager } returns mockk<PackageManager>().apply {
+            every { getPackageInfo(any<String>(), any()) } throws PackageManager.NameNotFoundException()
+        }
+
+        val instance = createInstance(scope = this).apply {
+            init()
+            setInjectionIsReady(component)
+            isLogging.value shouldBe false
+        }
+
+        runningLog.exists() shouldBe false
+
+        instance.stop()
+    }
+
+    @Test
+    fun `init does not call start on tester builds with ROM issues`() = runBlockingTest {
+        every { CWADebug.isDeviceForTestersBuild } returns true
+
+        every { application.packageManager } throws SecurityException()
+
+        val instance = createInstance(scope = this).apply {
+            init()
+            setInjectionIsReady(component)
+            isLogging.value shouldBe false
+        }
+
+        runningLog.exists() shouldBe false
+
+        instance.stop()
+    }
+
+    @Test
+    fun `package check is not executed in PROD`() = runBlockingTest {
+        every { CWADebug.isDeviceForTestersBuild } returns false
+
+        val instance = createInstance(scope = this).apply {
+            init()
+            setInjectionIsReady(component)
+            isLogging.value shouldBe false
+        }
+
+        runningLog.exists() shouldBe false
+
+        instance.stop()
+
+        verify { packageManager wasNot Called }
     }
 
     @Test

@@ -91,9 +91,7 @@ class PersonCertificatesProvider @Inject constructor(
                 get() = "testNameAndManufacturer"
             override val sampleCollectedAt: Instant
                 get() = Instant.now()
-            override val testResultAt: Instant?
-                get() = Instant.now()
-            override val testCenter: String
+            override val testCenter: String?
                 get() = "testCenter"
             override val registeredAt: Instant
                 get() = Instant.now()

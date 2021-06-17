@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <queries>
+        <!-- See DebugLogger.isAutoLoggingEnabled -->
+        <package android:name="de.rki.coronawarnapp.els.autologger" />
+    </queries>
+
+</manifest>
