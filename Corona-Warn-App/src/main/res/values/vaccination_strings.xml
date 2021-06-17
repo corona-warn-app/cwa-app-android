@@ -71,11 +71,9 @@
     <!-- XBUT: button for Vaccination Certificate Registration Home Card -->
     <string name="vaccination_card_register">"Add"</string>
     <!-- XHED: Homescreen vaccination status card title -->
-    <string name="vaccination_card_status_title">"Digital Proof of Vaccination"</string>
+    <string name="vaccination_card_status_title_line_1">"Digital"</string>
     <!-- XHED: Homescreen vaccination status card title -->
-    <string name="vaccination_card_status_title_line_1">"Digitaler"</string>
-    <!-- XHED: Homescreen vaccination status card title -->
-    <string name="vaccination_card_status_title_line_2">"Impfnachweis"</string>
+    <string name="vaccination_card_status_title_line_2">"Proof of Vaccination"</string>
     <!-- XHED: Homescreen vaccination status card vaccination name -->
     <string name="vaccination_card_status_vaccination_name">"SARS-CoV-2 Vaccination"</string>
     <!-- XTXT: Homescreen card incomplete vaccination status label -->
@@ -90,7 +88,8 @@
         <item quantity="many">"Full vaccination protection in %1$d days"</item>
     </plurals>
     <!-- XTXT: Homescreen card complete vaccination status label -->
-    <string name="vaccination_card_status_vaccination_complete">"Gültig bis einschließlich %s"</string>
+    <string name="vaccination_card_status_vaccination_complete">"Valid through %s"</string>
+
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_invalid">"This QR code is not a valid vaccination certificate.\n\nFor more information about how to receive your vaccination certificate, please see our FAQ page."</string>
     <!-- XTXT: Vaccination QR code scan error message-->

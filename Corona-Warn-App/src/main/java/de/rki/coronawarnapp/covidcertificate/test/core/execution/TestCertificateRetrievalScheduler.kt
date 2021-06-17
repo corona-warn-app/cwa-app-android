@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.worker.BackgroundConstants
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -30,7 +29,7 @@ class TestCertificateRetrievalScheduler @Inject constructor(
     private val workManager: WorkManager,
     private val certificateRepo: TestCertificateRepository,
     private val testRepo: CoronaTestRepository,
-    private val foregroundState: ForegroundState,
+    foregroundState: ForegroundState,
 ) : ResultScheduler(
     workManager = workManager
 ) {
@@ -69,21 +68,27 @@ class TestCertificateRetrievalScheduler @Inject constructor(
             .onEach { testsWithoutCert ->
                 Timber.tag(TAG).d("State change: testsWithoutCert=$testsWithoutCert")
                 testsWithoutCert.forEach { test ->
-                    val cert = certificateRepo.requestCertificate(test)
-                    Timber.tag(TAG).v("Certificate was created: %s", cert)
-                    testRepo.markDccAsCreated(test.identifier, created = true)
+                    try {
+                        val cert = certificateRepo.requestCertificate(test)
+                        Timber.tag(TAG).v("Certificate was created: %s", cert)
+                        testRepo.markDccAsCreated(test.identifier, created = true)
+                    } catch (e: Exception) {
+                        Timber.tag(TAG).e(e, "Creation trigger failed.")
+                    }
                 }
             }
-            .catch { Timber.tag(TAG).e(it, "Creation trigger failed.") }
             .launchIn(appScope)
 
         // For each change to the set of existing certificates, check if we need to refresh/load data
         refreshTrigger
             .onEach { checkCerts ->
-                Timber.tag(TAG).d("State change: checkCerts=$checkCerts")
-                if (checkCerts) scheduleWorker()
+                try {
+                    Timber.tag(TAG).d("State change: checkCerts=$checkCerts")
+                    if (checkCerts) scheduleWorker()
+                } catch (e: Exception) {
+                    Timber.tag(TAG).e(e, "Refresh trigger failed.")
+                }
             }
-            .catch { Timber.tag(TAG).e(it, "Refresh trigger failed.") }
             .launchIn(appScope)
     }
 

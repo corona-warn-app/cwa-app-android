@@ -1,16 +1,13 @@
 package de.rki.coronawarnapp.ui.submission.qrcode.consent
 
-import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.common.api.ApiException
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.nearby.modules.tekhistory.TEKHistoryProvider
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
+import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import de.rki.coronawarnapp.ui.Country
-import de.rki.coronawarnapp.ui.submission.ApiRequestState
-import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
-import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -21,6 +18,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -34,7 +32,7 @@ class SubmissionConsentViewModelTest {
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var interoperabilityRepository: InteroperabilityRepository
     @MockK lateinit var tekHistoryProvider: TEKHistoryProvider
-    @MockK lateinit var qrCodeRegistrationStateProcessor: QrCodeRegistrationStateProcessor
+    @MockK lateinit var testRegistrationStateProcessor: TestRegistrationStateProcessor
     @MockK lateinit var qrCodeValidator: CoronaTestQrCodeValidator
 
     lateinit var viewModel: SubmissionConsentViewModel
@@ -46,16 +44,17 @@ class SubmissionConsentViewModelTest {
         MockKAnnotations.init(this)
         every { interoperabilityRepository.countryList } returns MutableStateFlow(countryList)
         coEvery { submissionRepository.giveConsentToSubmission(any()) } just Runs
-        coEvery { qrCodeRegistrationStateProcessor.showRedeemedTokenWarning } returns SingleLiveEvent()
-        coEvery { qrCodeRegistrationStateProcessor.registrationState } returns MutableLiveData(
-            QrCodeRegistrationStateProcessor.RegistrationState(ApiRequestState.IDLE)
-        )
-        coEvery { qrCodeRegistrationStateProcessor.registrationError } returns SingleLiveEvent()
+
+        testRegistrationStateProcessor.apply {
+            every { state } returns flowOf(TestRegistrationStateProcessor.State.Idle)
+            coEvery { startRegistration(any(), any(), any()) } returns mockk()
+        }
+
         viewModel = SubmissionConsentViewModel(
             interoperabilityRepository,
             dispatcherProvider = TestDispatcherProvider(),
             tekHistoryProvider,
-            qrCodeRegistrationStateProcessor,
+            testRegistrationStateProcessor,
             submissionRepository,
             qrCodeValidator
         )
