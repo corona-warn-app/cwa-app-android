@@ -21,10 +21,10 @@
     <string name="request_gc_dialog_title">"Отмяна на регистрация"</string>
     <!-- XTXT: Request green certificate exit dialog message -->
     <string name="request_gc_dialog_message">"Ако отмените регистрацията на теста, няма да може да получите резултата от него в приложението."</string>
+    <!-- XBUT: Request green certificate exit dialog positive button -->
+    <string name="request_gc_dialog_positive_button">"Отказвам се от регистрацията"</string>
     <!-- XBUT: Request green certificate exit dialog negative button -->
-    <string name="request_gc_dialog_positive_button">"ОК"</string>
-    <!-- XBUT: Request green certificate exit dialog negative button -->
-    <string name="request_gc_dialog_negative_button">"Отказ"</string>
+    <string name="request_gc_dialog_negative_button">"Продължавам с регистрацията"</string>
     <!-- XTXT: Detail green certificate title -->
     <string name="detail_green_certificate_title">"Цифров COVID сертификат на ЕС за тестване"</string>
     <!-- XTXT: Detail green certificate test type -->
@@ -99,4 +99,8 @@
     <string name="test_certificate_error_label_refreshing">"Вашият сертификат се създава..."</string>
     <!-- XTXT: Test error card body refreshing -->
     <string name="test_certificate_error_refreshing_status">"Вашият сертификат се заявява. Това може да отнеме няколко минути..."</string>
+    <!-- XBUT: Text for invalid test certificate error button, linking to FAQ-->
+    <string name="test_certificate_error_invalid_labid_faq">"ЧЗВ за сертификати за извършен тест"</string>
+    <!-- XTXT: Explains user about test certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
+    <string name="test_certificate_error_invalid_labid_faq_link">"https://www.coronawarn.app/en/faq/#test_cert"</string>
 </resources>
