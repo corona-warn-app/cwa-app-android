@@ -5,6 +5,10 @@ import de.rki.coronawarnapp.util.encryption.rsa.RSAKey
 import okio.ByteString
 import org.joda.time.Instant
 
+/**
+ * A test certificate that is, or will be, retrieved by the CWA.
+ * Either a [RACertificateData] or [PCRCertificateData]
+ */
 sealed class RetrievedTestCertificate : BaseTestCertificateData() {
 
     abstract val registrationToken: RegistrationToken
