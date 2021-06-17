@@ -6,8 +6,8 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFrag
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFragmentModule
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewFragment
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewFragmentModule
-import de.rki.coronawarnapp.covidcertificate.test.ui.details.CovidCertificateDetailsFragment
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.CovidCertificateDetailsModule
+import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment
 
 @Module
 abstract class TestCertificateUIModule {
@@ -16,7 +16,7 @@ abstract class TestCertificateUIModule {
     abstract fun certificatesFragment(): CertificatesFragment
 
     @ContributesAndroidInjector(modules = [CovidCertificateDetailsModule::class])
-    abstract fun certificateDetailsFragment(): CovidCertificateDetailsFragment
+    abstract fun certificateDetailsFragment(): TestCertificateDetailsFragment
 
     @ContributesAndroidInjector(modules = [PersonOverviewFragmentModule::class])
     abstract fun personOverviewFragment(): PersonOverviewFragment
