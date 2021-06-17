@@ -124,11 +124,11 @@ class CertificatesViewModel @AssistedInject constructor(
 
     private fun Collection<TestCertificateWrapper>.toCertificateItems(): List<CertificatesItem> = this
         .map { certificate ->
-            val localRegistrationTime = certificate.registeredAt.toUserTimeZone()
+            val registrationTime = certificate.registeredAt.toUserTimeZone()
 
             if (certificate.isCertificateRetrievalPending) {
                 CovidTestCertificateErrorCard.Item(
-                    testDate = localRegistrationTime,
+                    testDate = registrationTime,
                     isUpdatingData = certificate.isUpdatingData,
                     onRetryAction = {
                         refreshTestCertificate(certificate.identifier)
@@ -143,7 +143,7 @@ class CertificatesViewModel @AssistedInject constructor(
                 )
             } else {
                 CovidTestCertificateCard.Item(
-                    testDate = localRegistrationTime,
+                    testDate = certificate.testCertificate?.sampleCollectedAt?.toUserTimeZone() ?: registrationTime,
                     testPerson =
                     certificate.testCertificate?.firstName + " " +
                         certificate.testCertificate?.lastName,
