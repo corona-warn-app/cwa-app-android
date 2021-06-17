@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePerso
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode
-import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Recovery
+import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
@@ -20,7 +20,7 @@ data class RecoveryCertificateContainer(
 ) : StoredRecoveryCertificate by data {
 
     @delegate:Transient
-    private val certificateData: DccData<DccV1Recovery> by lazy {
+    private val certificateData: DccData<RecoveryDccV1> by lazy {
         data.recoveryCertificateQrCode!!.let {
             (
                 qrCodeExtractor.extract(

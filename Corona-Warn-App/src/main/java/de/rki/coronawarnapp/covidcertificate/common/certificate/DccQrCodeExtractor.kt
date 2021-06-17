@@ -131,21 +131,21 @@ class DccQrCodeExtractor @Inject constructor(
 
     private fun toDccQrCode(rawString: String, parsedData: DccData<DccV1.MetaData>): DccQrCode =
         when (parsedData.certificate) {
-            is DccV1Vaccination -> VaccinationCertificateQRCode(
+            is VaccinationDccV1 -> VaccinationCertificateQRCode(
                 qrCode = rawString,
                 data = DccData(
                     parsedData.header,
                     parsedData.certificate
                 ),
             )
-            is DccV1Test -> TestCertificateQRCode(
+            is TestDccV1 -> TestCertificateQRCode(
                 qrCode = rawString,
                 data = DccData(
                     parsedData.header,
                     parsedData.certificate
                 ),
             )
-            is DccV1Recovery -> RecoveryCertificateQRCode(
+            is RecoveryDccV1 -> RecoveryCertificateQRCode(
                 qrCode = rawString,
                 data = DccData(
                     parsedData.header,
@@ -198,21 +198,21 @@ class DccQrCodeExtractor @Inject constructor(
 
     private val DccV1.toCertificate: DccV1.MetaData
         get() = when {
-            isVaccinationCertificate -> DccV1Vaccination(
+            isVaccinationCertificate -> VaccinationDccV1(
                 version = version,
                 nameData = nameData,
                 dateOfBirth = dateOfBirth,
                 personIdentifier = personIdentifier,
                 vaccination = vaccinations!!.first()
             )
-            isTestCertificate -> DccV1Test(
+            isTestCertificate -> TestDccV1(
                 version = version,
                 nameData = nameData,
                 dateOfBirth = dateOfBirth,
                 personIdentifier = personIdentifier,
                 test = tests!!.first()
             )
-            isRecoveryCertificate -> DccV1Recovery(
+            isRecoveryCertificate -> RecoveryDccV1(
                 version = version,
                 nameData = nameData,
                 dateOfBirth = dateOfBirth,

@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensorContainer
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
-import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Vaccination
+import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import java.util.LinkedList
 import javax.inject.Inject
 
@@ -30,7 +30,7 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
 
                 newMessage = censorNameData(nameData, newMessage)
 
-                (it.certificate as? DccV1Vaccination)?.let {
+                (it.certificate as? VaccinationDccV1)?.let {
                     newMessage = censorVaccinationData(it.vaccination, newMessage)
                 }
                 // TODO test and recovery ?
