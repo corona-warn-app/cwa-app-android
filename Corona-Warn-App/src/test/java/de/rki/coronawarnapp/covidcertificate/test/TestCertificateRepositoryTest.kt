@@ -58,7 +58,6 @@ class TestCertificateRepositoryTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-
         DaggerCoronaTestTestComponent.factory().create().inject(this)
 
         covidTestCertificateConfig.apply {
@@ -106,6 +105,7 @@ class TestCertificateRepositoryTest : BaseTest() {
                 every { type } returns CoronaTest.Type.PCR
                 every { registeredAt } returns Instant.ofEpochSecond(4555)
                 every { registrationToken } returns "token"
+                every { labId } returns "best-lab"
             }
         ).apply {
             this.dataExtractor shouldBe dataExtractor

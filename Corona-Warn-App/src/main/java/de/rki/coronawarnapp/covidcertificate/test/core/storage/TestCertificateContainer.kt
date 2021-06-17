@@ -7,6 +7,8 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.BaseTestCertificateData
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.GenericTestCertificateData
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RetrievedTestCertificate
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -17,6 +19,18 @@ data class TestCertificateContainer(
     internal val dataExtractor: TestCertificateQRCodeExtractor,
     val isUpdatingData: Boolean = false,
 ) {
+
+    val registrationToken: String?
+        get() = when (data) {
+            is RetrievedTestCertificate -> data.registrationToken
+            is GenericTestCertificateData -> null // Has none
+        }
+
+    val certificateSeenByUser: Boolean
+        get() = when (data) {
+            is RetrievedTestCertificate -> data.certificateSeenByUser
+            is GenericTestCertificateData -> true // Immediately available
+        }
 
     @delegate:Transient
     private val certificateData: DccData<TestDccV1> by lazy {

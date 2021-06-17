@@ -153,13 +153,13 @@ class TestCertificateProcessor @Inject constructor(
     }
 
     internal suspend fun updateSeenByUser(
-        data: StoredTestCertificateData,
+        data: RetrievedTestCertificate,
         seenByUser: Boolean,
-    ): StoredTestCertificateData {
+    ): RetrievedTestCertificate {
         Timber.tag(TAG).d("updateSeenByUser(data=%s, seenByUser=%b)", data, seenByUser)
-        return when (data.type) {
-            CoronaTest.Type.PCR -> (data as PCRCertificateData).copy(certificateSeenByUser = seenByUser)
-            CoronaTest.Type.RAPID_ANTIGEN -> (data as RACertificateData).copy(certificateSeenByUser = seenByUser)
+        return when (data) {
+            is PCRCertificateData -> data.copy(certificateSeenByUser = seenByUser)
+            is RACertificateData -> data.copy(certificateSeenByUser = seenByUser)
         }
     }
 

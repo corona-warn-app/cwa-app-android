@@ -224,7 +224,7 @@ class TestCertificateRepository @Inject constructor(
 
             val refreshedCerts = values
                 .filter { workedOnIds.contains(it.identifier) } // Refresh targets
-                .filter { it.labId == null } // Targets of this step
+                .filter { it.data is RetrievedTestCertificate && it.data.labId == null } // Targets of this step
                 .map { cert ->
                     Timber.tag(TAG).d("%s is missing a lab id returning exception", cert)
                     RefreshResult(
@@ -252,9 +252,10 @@ class TestCertificateRepository @Inject constructor(
 
             val refreshedCerts = values
                 .filter { workedOnIds.contains(it.identifier) } // Refresh targets
-                .filter { it.labId != null }
                 .mapNotNull { cert ->
                     if (cert.data !is RetrievedTestCertificate) return@mapNotNull null
+                    if (cert.data.labId == null) return@mapNotNull null
+
                     if (cert.data.isPublicKeyRegistered) return@mapNotNull null
 
                     withContext(dispatcherProvider.IO) {
@@ -285,9 +286,10 @@ class TestCertificateRepository @Inject constructor(
 
             val refreshedCerts = values
                 .filter { workedOnIds.contains(it.identifier) } // Refresh targets
-                .filter { it.labId != null }
                 .mapNotNull { cert ->
                     if (cert.data !is RetrievedTestCertificate) return@mapNotNull null
+                    if (cert.data.labId == null) return@mapNotNull null
+
                     if (!cert.data.isPublicKeyRegistered) return@mapNotNull null
                     if (!cert.isCertificateRetrievalPending) return@mapNotNull null
 
@@ -356,6 +358,11 @@ class TestCertificateRepository @Inject constructor(
 
             if (current.isCertificateRetrievalPending) {
                 Timber.tag(TAG).w("Can't mark %s as seen, certificate has not been retrieved yet.", identifier)
+                return@updateBlocking this
+            }
+
+            if (current.data !is RetrievedTestCertificate) {
+                Timber.tag(TAG).w("%s is not a retrieved certificate, so it was immediately available.", identifier)
                 return@updateBlocking this
             }
 

@@ -16,6 +16,9 @@ sealed class RetrievedTestCertificate : BaseTestCertificateData() {
     abstract val encryptedDataEncryptionkey: ByteString?
     abstract val encryptedDccCose: ByteString?
 
+    abstract val labId: String?
+    abstract val certificateSeenByUser: Boolean
+
     val isPublicKeyRegistered: Boolean
         get() = publicKeyRegisteredAt != null
 }
