@@ -138,7 +138,7 @@
                     style="@style/body1Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/green_certificate_attribute_name" />
+                    android:text="@string/covid_certificate_attribute_name" />
 
                 <TextView
                     android:id="@+id/name"
@@ -152,7 +152,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/green_certificate_attribute_dob" />
+                    android:text="@string/covid_certificate_attribute_date_of_birth" />
 
                 <TextView
                     android:id="@+id/date_of_birth"
@@ -197,7 +197,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/green_certificate_attribute_state_of_testing" />
+                    android:text="@string/test_certificate_attribute_state_of_testing" />
 
                 <TextView
                     android:id="@+id/certificate_country"
@@ -212,7 +212,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/green_certificate_attribute_certificate_issuer" />
+                    android:text="@string/covid_certificate_attribute_certificate_issuer" />
 
                 <TextView
                     android:id="@+id/certificate_issuer"
@@ -258,7 +258,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/green_certificate_attribute_certificate_id" />
+                    android:text="@string/covid_certificate_attribute_certificate_id" />
 
                 <TextView
                     android:id="@+id/certificate_id"

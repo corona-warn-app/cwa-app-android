@@ -138,7 +138,7 @@
                     style="@style/body1Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/green_certificate_attribute_name" />
+                    android:text="@string/covid_certificate_attribute_name" />
 
                 <TextView
                     android:id="@+id/name"
@@ -152,7 +152,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/green_certificate_attribute_dob" />
+                    android:text="@string/covid_certificate_attribute_date_of_birth" />
 
                 <TextView
                     android:id="@+id/birth_date"
@@ -167,7 +167,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/green_certificate_attribute_disease" />
+                    android:text="@string/covid_certificate_attribute_disease_type" />
 
                 <TextView
                     android:id="@+id/disease_type"
@@ -182,7 +182,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/green_certificate_attribute_test_type" />
+                    android:text="@string/test_certificate_attribute_test_type" />
 
                 <TextView
                     android:id="@+id/test_type"
@@ -197,7 +197,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/green_certificate_attribute_test_name" />
+                    android:text="@string/test_certificate_attribute_test_name" />
 
                 <TextView
                     android:id="@+id/test_name"
@@ -212,7 +212,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/green_certificate_attribute_test_manufacturer" />
+                    android:text="@string/test_certificate_attribute_test_manufacturer" />
 
                 <TextView
                     android:id="@+id/test_manufacturer"
@@ -227,7 +227,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/green_certificate_attribute_test_date" />
+                    android:text="@string/test_certificate_attribute_test_date" />
 
                 <TextView
                     android:id="@+id/test_date"
@@ -242,7 +242,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/green_certificate_attribute_test_result" />
+                    android:text="@string/test_certificate_attribute_test_result" />
 
                 <TextView
                     android:id="@+id/test_result"
@@ -257,7 +257,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/green_certificate_attribute_test_center" />
+                    android:text="@string/test_certificate_attribute_test_center" />
 
                 <TextView
                     android:id="@+id/test_center"
@@ -272,7 +272,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/green_certificate_attribute_state_of_testing" />
+                    android:text="@string/test_certificate_attribute_state_of_testing" />
 
                 <TextView
                     android:id="@+id/certificate_country"
@@ -287,7 +287,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/green_certificate_attribute_certificate_issuer" />
+                    android:text="@string/covid_certificate_attribute_certificate_issuer" />
 
                 <TextView
                     android:id="@+id/certificate_issuer"
@@ -303,7 +303,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/green_certificate_attribute_certificate_id" />
+                    android:text="@string/covid_certificate_attribute_certificate_id" />
 
                 <TextView
                     android:id="@+id/certificate_id"
