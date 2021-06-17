@@ -17,8 +17,8 @@ import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.VaccinationListViewModel.Event.DeleteVaccinationEvent
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.VaccinationListViewModel.Event.NavigateBack
+import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.VaccinationListViewModel.Event.NavigateToQrCodeScanScreen
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.VaccinationListViewModel.Event.NavigateToVaccinationCertificateDetails
-import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.VaccinationListViewModel.Event.NavigateToVaccinationQrCodeScanScreen
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.adapter.VaccinationListAdapter
 import de.rki.coronawarnapp.databinding.FragmentVaccinationListBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
@@ -74,7 +74,7 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
                         VaccinationListFragmentDirections
                             .actionVaccinationListFragmentToVaccinationDetailsFragment(event.vaccinationCertificateId)
                     )
-                    is NavigateToVaccinationQrCodeScanScreen -> doNavigate(
+                    is NavigateToQrCodeScanScreen -> doNavigate(
                         VaccinationListFragmentDirections.actionVaccinationListFragmentToDccQrCodeScanFragment()
                     )
                     is VaccinationListViewModel.Event.NavigateToQrCodeFullScreen -> {
