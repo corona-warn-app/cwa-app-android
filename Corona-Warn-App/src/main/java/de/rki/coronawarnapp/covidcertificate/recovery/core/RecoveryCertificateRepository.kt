@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flowOf
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -22,7 +22,7 @@ class RecoveryCertificateRepository @Inject constructor(
     valueSetsRepository: ValueSetsRepository,
 ) {
 
-    val certificates: Flow<Set<RecoveryCertificateWrapper>> = emptyFlow()
+    val certificates: Flow<Set<RecoveryCertificateWrapper>> = flowOf(emptySet())
 
     suspend fun requestCertificate(qrCode: RecoveryCertificateQRCode): RecoveryCertificateContainer {
         Timber.tag(TAG).d("requestCertificate(qrCode=%s)", qrCode)
