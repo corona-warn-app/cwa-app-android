@@ -10,6 +10,7 @@ import com.google.android.material.appbar.AppBarLayout
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.SpecificCertificatesItem
 import de.rki.coronawarnapp.databinding.PersonDetailsFragmentBinding
+import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
@@ -40,16 +41,17 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            toolbar.setNavigationOnClickListener {
-                popBackStack()
-            }
+            toolbar.setNavigationOnClickListener { popBackStack() }
             recyclerViewCertificatesList.apply {
                 adapter = personDetailsAdapter
                 addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
             }
 
-            viewModel.uiState.observe(viewLifecycleOwner) { item ->
-                bindViews(item)
+            viewModel.uiState.observe(viewLifecycleOwner) { item -> bindViews(item) }
+
+            appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
+                title.alpha = titleAlpha
+                europaImage.alpha = subtitleAlpha
             }
         }
     }
