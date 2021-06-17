@@ -8,7 +8,7 @@
     <!-- XTXT: Request green certificate body section 2 -->
     <string name="request_green_certificate_body_2">"Test sertifikası, AB’de geçerli bir negatif test sonucu kanıtıdır (ör. seyahat için)."</string>
     <!-- XTXT: Request green certificate body section 3 -->
-    <string name="request_green_certificate_body_3">"Test sertifikası, doğrulama uygulamasının sertifikanızı doğrulamasını sağlayan geçerli değer içerir."</string>
+    <string name="request_green_certificate_body_3">"Test sertifikası, doğrulama uygulamasının sertifikanızı doğrulamasını sağlayan verileri içerir."</string>
     <!-- XBUT: Request green certificate agree button -->
     <string name="request_green_certificate_agree_button">"Test Sertifikası Talep Et"</string>
     <!-- XBUT: Request green certificate disagree button -->
@@ -31,10 +31,23 @@
     <string name="detail_green_certificate_test_type">"SARS-CoV-2 Testi"</string>
     <!-- XTXT: Detail green certificate card title -->
     <string name="detail_green_certificate_card_title">"Test Sertifikası"</string>
+    <!-- XTXT: Detail green certificate card subtitle -->
+    <string name="detail_green_certificate_card_subtitle">"Testin gerçekleştirildiği tarih: %1$s %2$s"</string>
     <!-- XTXT: Detail green certificate travel notice link en -->
     <string name="green_certificate_travel_notice_link_en">"https://reopen.europa.eu/en"</string>
     <!-- XTXT: Detail green certificate travel notice link de -->
     <string name="green_certificate_travel_notice_link_de">"https://reopen.europa.eu/de"</string>
+    <!-- XTXT: Detail green certificate menu item: delete -->
+    <string name="green_certificate_details_menu_item_delete">"Kaldır"</string>
+    <!-- XTXT: Detail green certificate diaglog title -->
+    <string name="green_certificate_details_dialog_remove_test_title">"Test sertifikasını kaldırmak istiyor musunuz?"</string>
+    <!-- XTXT: Detail green certificate diaglog message -->
+    <string name="green_certificate_details_dialog_remove_test_message">"Test sertifikasını kaldırırsanız artık bunu uygulamada kanıt olarak kullanamazsınız."</string>
+    <!-- XTXT: Detail green certificate diaglog positive -->
+    <string name="green_certificate_details_dialog_remove_test_button_positive">"Kaldır"</string>
+    <!-- XTXT: Detail green certificate diaglog negative -->
+    <string name="green_certificate_details_dialog_remove_test_button_negative">"İptal Et"</string>
+
     <!-- XTXT: Green certificate main screen title -->
     <string name="certification_screen_title">"Sertifikalar"</string>
     <!-- XTXT: Green certificate menu item -->
@@ -47,4 +60,43 @@
     <string name="info_banner_title_2">"COVID Test Sertifikası"</string>
     <!-- XTXT: Green certificate info card body  -->
     <string name="info_banner_body">"Ana ekranda bir testi kaydedin ve dijital test sertifikası almayı kabul edin. Sertifika düzenlenir düzenlenmez burada görüntülenir."</string>
+
+    <!-- XTXT: Test certificate time -->
+    <string name="test_certificate_time">"Testin gerçekleştirildiği tarih: %1$s, %2$s"</string>
+    <!-- XTXT: Test error label -->
+    <string name="test_certificate_error_label">"Sertifika alınırken hata oluştu"</string>
+    <!-- XBUT: Test error retry button -->
+    <string name="test_certificate_error_retry_button">"Tekrar Dene"</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_try_again">"Bağlantı kurulamadı. Lütfen tekrar deneyin."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_dcc_not_supported_by_lab">"Bu test noktasında test sertifikalarının düzenlenmesi desteklenmediğinden bir test sertifikası talep edemezsiniz. Lütfen sertifikayı kaldırın veya Uygulama Bilgileri -&gt; Teknik Yardım Hattı üzerinden teknik yardım hattı ile iletişime geçin."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_no_network">"İnternet bağlantınız kesildi. Lütfen bağlantıyı kontrol edin ve tekrar deneyin."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_e2e_error_call_hotline">"Bir hata oluştu. Lütfen daha sonra tekrar deneyin veya Uygulama Bilgileri -&gt; Teknik Yardım Hattı üzerinden teknik yardım hattı ile iletişime geçin."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_try_again_dcc_not_available_yet">"Sertifikanız henüz çıkmadı. Lütfen tekrar deneyin. Hata devam ederse lütfen Uygulama Bilgileri -&gt; Teknik Yardım Hattı üzerinden teknik yardım hattı ile iletişime geçin."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_client_error_call_hotline">"Bir hata oluştu. Lütfen daha sonra tekrar deneyin veya Uygulama Bilgileri -&gt; Teknik Yardım Hattı üzerinden teknik yardım hattı ile iletişime geçin."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_dcc_expired">"Bu sertifika artık güncel değil. Sertifikayı Corona-Warn-App\'ten kaldırabilirsiniz."</string>
+    <!-- XBUT: Test error delete button -->
+    <string name="test_certificate_error_delete_button">"Test Sertifikasını Kaldır"</string>
+    <!-- XTXT: Test error refresh dialog title -->
+    <string name="test_certificate_refresh_dialog_title">"Yine de talebinizle ilgili problemler var."</string>
+    <!-- XBUT: Test error refresh dialog confirm button -->
+    <string name="test_certificate_refresh_dialog_confirm_button">"Tamam"</string>
+    <!-- XTXT: Test error delete dialog title -->
+    <string name="test_certificate_delete_dialog_title">"Sertifikayı kaldırmak istiyor musunuz?"</string>
+    <!-- XTXT: Test error delete dialog body -->
+    <string name="test_certificate_delete_dialog_body">"Sertifikayı kaldırırsanız tekrar talep edemezsiniz."</string>
+    <!-- XBUT: Test error delete dialog confirm button -->
+    <string name="test_certificate_delete_dialog_confirm_button">"Kaldır"</string>
+    <!-- XBUT: Test error delete dialog cancel button -->
+    <string name="test_certificate_delete_dialog_cancel_button">"İptal Et"</string>
+    <!-- XTXT: Test error card body refreshing -->
+    <string name="test_certificate_error_label_refreshing">"Sertifikanız oluşturuluyor..."</string>
+    <!-- XTXT: Test error card body refreshing -->
+    <string name="test_certificate_error_refreshing_status">"Sertifikanız talep ediliyor. Bu işlem birkaç dakika sürebilir..."</string>
 </resources>

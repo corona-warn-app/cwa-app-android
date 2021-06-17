@@ -39,7 +39,7 @@ data class VaccinatedPerson(
         val daysToImmunity = getTimeUntilImmunity(nowUTC)?.standardDays ?: return Status.INCOMPLETE
 
         return when {
-            daysToImmunity <= 0 -> Status.IMMUNITY
+            daysToImmunity < 0 -> Status.IMMUNITY
             else -> Status.COMPLETE
         }
     }
