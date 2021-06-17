@@ -43,7 +43,7 @@ class TestCertificateProcessor @Inject constructor(
 
         if (data.labId.isNullOrBlank()) {
             Timber.tag(TAG).e("Certificate is missing valid labId: %s", data)
-            throw  TestCertificateServerException(ErrorCode.DCC_NOT_SUPPORTED_BY_LAB)
+            throw TestCertificateServerException(ErrorCode.DCC_NOT_SUPPORTED_BY_LAB)
         }
 
         if (data.publicKeyRegisteredAt != null) {
@@ -93,7 +93,7 @@ class TestCertificateProcessor @Inject constructor(
 
         if (data.labId.isNullOrBlank()) {
             Timber.tag(TAG).e("Certificate is missing valid labId: %s", data)
-            throw  TestCertificateServerException(ErrorCode.DCC_NOT_SUPPORTED_BY_LAB)
+            throw TestCertificateServerException(ErrorCode.DCC_NOT_SUPPORTED_BY_LAB)
         }
 
         if (data.publicKeyRegisteredAt == null) {
