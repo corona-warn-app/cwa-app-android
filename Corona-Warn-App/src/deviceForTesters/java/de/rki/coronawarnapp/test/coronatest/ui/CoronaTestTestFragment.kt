@@ -65,16 +65,16 @@ class CoronaTestTestFragment : Fragment(R.layout.fragment_test_coronatest), Auto
             qrcodeScanViewfinder.setCameraPreview(binding.qrcodeScanPreview)
         }
 
-        viewModel.pcrtState.observe2(this) {
-            binding.pcrtData.text = it.getNiceTextForHumans()
+        viewModel.pcrtState.observe2(this) { state ->
+            binding.pcrtData.text = state.getNiceTextForHumans()
         }
         binding.apply {
             pcrtDeleteAction.setOnClickListener { viewModel.deletePCRT() }
             pcrtRefreshAction.setOnClickListener { viewModel.refreshPCRT() }
         }
 
-        viewModel.ratState.observe2(this) {
-            binding.ratData.text = it.getNiceTextForHumans()
+        viewModel.ratState.observe2(this) { state ->
+            binding.ratData.text = state.getNiceTextForHumans()
         }
         binding.apply {
             ratDeleteAction.setOnClickListener { viewModel.deleteRAT() }

@@ -26,13 +26,13 @@ import de.rki.coronawarnapp.ui.setupWithNavController2
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentFragment
 import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.CWADebug
-import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.device.PowerManagement
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper.Companion.getShortcutExtra
 import de.rki.coronawarnapp.util.ui.findNavController
 import de.rki.coronawarnapp.util.ui.findNestedGraph
+import de.rki.coronawarnapp.util.ui.updateCountBadge
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import org.joda.time.LocalDate
@@ -103,16 +103,11 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         }
 
         vm.activeCheckIns.observe(this) { count ->
-            val targetId = R.id.trace_location_attendee_nav_graph
-            binding.mainBottomNavigation.apply {
-                if (count > 0) {
-                    val badge = getOrCreateBadge(targetId)
-                    badge.number = count
-                    badge.badgeTextColor = getColorCompat(android.R.color.white)
-                } else {
-                    removeBadge(targetId)
-                }
-            }
+            binding.mainBottomNavigation.updateCountBadge(R.id.trace_location_attendee_nav_graph, count)
+        }
+
+        vm.newCertificates.observe(this) { count ->
+            binding.mainBottomNavigation.updateCountBadge(R.id.green_certificate_graph, count)
         }
 
         if (savedInstanceState == null) {

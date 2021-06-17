@@ -70,7 +70,9 @@
     <!-- XBUT: button for Vaccination Certificate Registration Home Card -->
     <string name="vaccination_card_register">"Ekle"</string>
     <!-- XHED: Homescreen vaccination status card title -->
-    <string name="vaccination_card_status_title">"Dijital Aşı Kanıtı"</string>
+    <string name="vaccination_card_status_title_line_1">"Dijital"</string>
+    <!-- XHED: Homescreen vaccination status card title -->
+    <string name="vaccination_card_status_title_line_2">"Aşı Kanıtı"</string>
     <!-- XHED: Homescreen vaccination status card vaccination name -->
     <string name="vaccination_card_status_vaccination_name">"SARS-CoV-2 Aşısı"</string>
     <!-- XTXT: Homescreen card incomplete vaccination status label -->
@@ -84,6 +86,8 @@
         <item quantity="few">"%1$d gün içinde tam aşı koruması"</item>
         <item quantity="many">"%1$d gün içinde tam aşı koruması"</item>
     </plurals>
+    <!-- XTXT: Homescreen card complete vaccination status label -->
+    <string name="vaccination_card_status_vaccination_complete">"Son geçerlilik tarihi: %s"</string>
 
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_invalid">"Bu QR kodu geçerli bir aşı sertifikası değildir.\n\nAşı sertifikanızı nasıl alacağınız hakkında daha fazla bilgi için lütfen SSS sayfamıza bakın."</string>

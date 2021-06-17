@@ -45,7 +45,8 @@ class CoronaTestServiceTest : BaseTest() {
             registrationToken = registrationToken,
             testResultResponse = CoronaTestResultResponse(
                 coronaTestResult = CoronaTestResult.PCR_OR_RAT_PENDING,
-                sampleCollectedAt = null
+                sampleCollectedAt = null,
+                labId = null,
             )
         )
     }
@@ -85,13 +86,15 @@ class CoronaTestServiceTest : BaseTest() {
     fun requestTestResultSucceeds() {
         coEvery { mockPlaybook.testResult(registrationToken) } returns CoronaTestResultResponse(
             coronaTestResult = CoronaTestResult.PCR_NEGATIVE,
-            sampleCollectedAt = null
+            sampleCollectedAt = null,
+            labId = null,
         )
 
         runBlocking {
             createInstance().checkTestResult(registrationToken) shouldBe CoronaTestResultResponse(
                 coronaTestResult = CoronaTestResult.PCR_NEGATIVE,
                 sampleCollectedAt = null,
+                labId = null,
             )
         }
         coVerify(exactly = 1) {

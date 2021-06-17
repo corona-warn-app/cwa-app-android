@@ -46,6 +46,9 @@ data class PCRCoronaTest(
 
     @SerializedName("isDccDataSetCreated")
     override val isDccDataSetCreated: Boolean = false,
+
+    @SerializedName("labId")
+    override val labId: String? = null,
 ) : CoronaTest {
 
     override val type: CoronaTest.Type

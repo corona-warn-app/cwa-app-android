@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.nearby.modules.tekhistory.TEKHistoryProvider
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
-import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor
+import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -22,17 +22,14 @@ class SubmissionConsentViewModel @AssistedInject constructor(
     interoperabilityRepository: InteroperabilityRepository,
     dispatcherProvider: DispatcherProvider,
     private val tekHistoryProvider: TEKHistoryProvider,
-    private val qrCodeRegistrationStateProcessor: QrCodeRegistrationStateProcessor,
+    private val registrationStateProcessor: TestRegistrationStateProcessor,
     private val submissionRepository: SubmissionRepository,
     private val qrCodeValidator: CoronaTestQrCodeValidator
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
-    val qrCodeValidationState = SingleLiveEvent<QrCodeRegistrationStateProcessor.ValidationState>()
-
-    val showRedeemedTokenWarning = qrCodeRegistrationStateProcessor.showRedeemedTokenWarning
-    val registrationState = qrCodeRegistrationStateProcessor.registrationState
-    val registrationError = qrCodeRegistrationStateProcessor.registrationError
+    val qrCodeError = SingleLiveEvent<Exception>()
+    val registrationState = registrationStateProcessor.state.asLiveData2()
 
     val countries = interoperabilityRepository.countryList
         .asLiveData(context = dispatcherProvider.Default)
@@ -76,24 +73,36 @@ class SubmissionConsentViewModel @AssistedInject constructor(
     }
 
     private suspend fun validateAndRegister(qrCodeString: String) {
-        try {
-            val coronaTestQRCode = qrCodeValidator.validate(qrCodeString)
-            qrCodeValidationState.postValue(QrCodeRegistrationStateProcessor.ValidationState.SUCCESS)
-            val coronaTest = submissionRepository.testForType(coronaTestQRCode.type).first()
-
-            if (coronaTest != null) {
-                routeToScreen.postValue(
-                    SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode(
-                        coronaTestQRCode,
-                        consentGiven = true
-                    )
-                )
-            } else {
-                qrCodeRegistrationStateProcessor.startQrCodeRegistration(coronaTestQRCode, true)
-            }
+        val coronaTestQRCode = try {
+            qrCodeValidator.validate(qrCodeString)
         } catch (err: InvalidQRCodeException) {
-            Timber.i(err)
-            qrCodeValidationState.postValue(QrCodeRegistrationStateProcessor.ValidationState.INVALID)
+            Timber.i(err, "Failed to validate QRCode")
+            qrCodeError.postValue(err)
+            return
+        }
+
+        val coronaTest = submissionRepository.testForType(coronaTestQRCode.type).first()
+
+        when {
+            coronaTest != null -> {
+                SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode(
+                    coronaTestQRCode,
+                    consentGiven = true
+                ).run { routeToScreen.postValue(this) }
+            }
+            coronaTestQRCode.isDccSupportedByPoc && !coronaTestQRCode.isDccConsentGiven -> {
+                SubmissionNavigationEvents.NavigateToRequestDccFragment(
+                    coronaTestQRCode = coronaTestQRCode,
+                    consentGiven = true,
+                ).run { routeToScreen.postValue(this) }
+            }
+            else -> {
+                registrationStateProcessor.startRegistration(
+                    request = coronaTestQRCode,
+                    isSubmissionConsentGiven = true,
+                    allowReplacement = false
+                )
+            }
         }
     }
 

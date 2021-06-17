@@ -31,10 +31,23 @@
     <string name="detail_green_certificate_test_type">"Test SARS-CoV-2"</string>
     <!-- XTXT: Detail green certificate card title -->
     <string name="detail_green_certificate_card_title">"Certificat de test"</string>
+    <!-- XTXT: Detail green certificate card subtitle -->
+    <string name="detail_green_certificate_card_subtitle">"Test efectuat pe %1$s %2$s"</string>
     <!-- XTXT: Detail green certificate travel notice link en -->
     <string name="green_certificate_travel_notice_link_en">"https://reopen.europa.eu/en"</string>
     <!-- XTXT: Detail green certificate travel notice link de -->
     <string name="green_certificate_travel_notice_link_de">"https://reopen.europa.eu/de"</string>
+    <!-- XTXT: Detail green certificate menu item: delete -->
+    <string name="green_certificate_details_menu_item_delete">"Eliminare"</string>
+    <!-- XTXT: Detail green certificate diaglog title -->
+    <string name="green_certificate_details_dialog_remove_test_title">"Doriți să eliminați certificatul de test?"</string>
+    <!-- XTXT: Detail green certificate diaglog message -->
+    <string name="green_certificate_details_dialog_remove_test_message">"Dacă eliminați certificatul de test, nu îl mai puteți utiliza ca dovadă în aplicație."</string>
+    <!-- XTXT: Detail green certificate diaglog positive -->
+    <string name="green_certificate_details_dialog_remove_test_button_positive">"Eliminare"</string>
+    <!-- XTXT: Detail green certificate diaglog negative -->
+    <string name="green_certificate_details_dialog_remove_test_button_negative">"Anulare"</string>
+
     <!-- XTXT: Green certificate main screen title -->
     <string name="certification_screen_title">"Certificate"</string>
     <!-- XTXT: Green certificate menu item -->
@@ -47,4 +60,43 @@
     <string name="info_banner_title_2">"Certificat de test COVID"</string>
     <!-- XTXT: Green certificate info card body  -->
     <string name="info_banner_body">"Înregistrați un test pe ecranul inițial și consimțiți să primiți un certificat de test digital. De îndată ce este disponibil certificatul, acesta este afișat aici."</string>
+
+    <!-- XTXT: Test certificate time -->
+    <string name="test_certificate_time">"Test efectuat pe %1$s, %2$s"</string>
+    <!-- XTXT: Test error label -->
+    <string name="test_certificate_error_label">"Eroare la obținerea certificatului"</string>
+    <!-- XBUT: Test error retry button -->
+    <string name="test_certificate_error_retry_button">"Încercați din nou"</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_try_again">"Nu a putut fi stabilită o conexiune. Încercați din nou."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_dcc_not_supported_by_lab">"Nu puteți solicita un certificat de test deoarece acest punct de testare nu suportă emiterea de certificate de test. Eliminați certificatul sau contactați hotline-ul tehnic prin Informații aplicație -&gt; Hotline tehnic."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_no_network">"Conexiunea dvs. la internet a fost pierdută. Verificați conexiunea și încercați din nou."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_e2e_error_call_hotline">"A apărut o eroare. Încercați din nou mai târziu sau contactați hotline-ul tehnic prin Informații aplicație -&gt; Hotline tehnic."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_try_again_dcc_not_available_yet">"Certificatul dvs. nu este disponibil încă. Încercați din nou. Dacă eroarea persistă, contactați hotline-ul tehnic prin Informații aplicație -&gt; Hotline tehnic."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_client_error_call_hotline">"A apărut o eroare. Încercați din nou mai târziu sau contactați hotline-ul tehnic prin Informații aplicație -&gt; Hotline tehnic."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_dcc_expired">"Acest certificat nu mai este de actualitate. Îl puteți elimina din Corona-Warn-App."</string>
+    <!-- XBUT: Test error delete button -->
+    <string name="test_certificate_error_delete_button">"Eliminare certificat de test"</string>
+    <!-- XTXT: Test error refresh dialog title -->
+    <string name="test_certificate_refresh_dialog_title">"Încă există probleme cu cererea dvs."</string>
+    <!-- XBUT: Test error refresh dialog confirm button -->
+    <string name="test_certificate_refresh_dialog_confirm_button">"OK"</string>
+    <!-- XTXT: Test error delete dialog title -->
+    <string name="test_certificate_delete_dialog_title">"Doriți să eliminați certificatul?"</string>
+    <!-- XTXT: Test error delete dialog body -->
+    <string name="test_certificate_delete_dialog_body">"Dacă eliminați certificatul, nu îl puteți solicita din nou."</string>
+    <!-- XBUT: Test error delete dialog confirm button -->
+    <string name="test_certificate_delete_dialog_confirm_button">"Eliminare"</string>
+    <!-- XBUT: Test error delete dialog cancel button -->
+    <string name="test_certificate_delete_dialog_cancel_button">"Anulare"</string>
+    <!-- XTXT: Test error card body refreshing -->
+    <string name="test_certificate_error_label_refreshing">"Certificatul dvs. este în curs de creare..."</string>
+    <!-- XTXT: Test error card body refreshing -->
+    <string name="test_certificate_error_refreshing_status">"Certificatul dvs. este în curs de solicitare. Acest lucru poate dura câteva minute..."</string>
 </resources>
