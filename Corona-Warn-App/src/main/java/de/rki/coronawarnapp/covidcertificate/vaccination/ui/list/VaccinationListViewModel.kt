@@ -142,7 +142,7 @@ class VaccinationListViewModel @AssistedInject constructor(
         }.toList()
 
     fun onRegisterNewVaccinationClick() {
-        events.postValue(Event.NavigateToVaccinationQrCodeScanScreen)
+        events.postValue(Event.NavigateToQrCodeScanScreen)
     }
 
     fun deleteVaccination(vaccinationCertificateId: String) {
@@ -163,7 +163,7 @@ class VaccinationListViewModel @AssistedInject constructor(
 
     sealed class Event {
         data class NavigateToVaccinationCertificateDetails(val vaccinationCertificateId: String) : Event()
-        object NavigateToVaccinationQrCodeScanScreen : Event()
+        object NavigateToQrCodeScanScreen : Event()
         data class NavigateToQrCodeFullScreen(val qrCode: String, val positionInList: Int) : Event()
         data class DeleteVaccinationEvent(val vaccinationCertificateId: String, val position: Int? = null) : Event()
         object NavigateBack : Event()

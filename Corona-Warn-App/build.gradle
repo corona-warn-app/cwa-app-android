@@ -322,6 +322,11 @@ dependencies {
     implementation 'androidx.preference:preference-ktx:1.1.1'
     implementation 'androidx.work:work-runtime-ktx:2.5.0'
 
+    def activity_version = "1.2.3"
+    implementation "androidx.activity:activity-ktx:$activity_version"
+    def fragment_version = "1.3.5"
+    implementation "androidx.fragment:fragment-ktx:$fragment_version"
+
     implementation 'androidx.lifecycle:lifecycle-common-java8:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-process:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
@@ -362,7 +367,8 @@ dependencies {
     testImplementation 'org.hamcrest:hamcrest-library:2.2'
 
     // Testing - jUnit4
-    testImplementation 'junit:junit:4.13.1'
+    def junit_version = "4.13.1"
+    testImplementation "junit:junit:$junit_version"
     testImplementation "org.junit.vintage:junit-vintage-engine:5.7.0"
     testImplementation "androidx.test:core-ktx:1.3.0"
 
@@ -383,7 +389,7 @@ dependencies {
     testImplementation "io.github.classgraph:classgraph:4.8.90"
 
     // Testing - Instrumentation
-    androidTestImplementation 'junit:junit:4.13.1'
+    androidTestImplementation "junit:junit:$junit_version"
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
