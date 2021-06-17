@@ -4,6 +4,8 @@ import de.rki.coronawarnapp.appconfig.CovidCertificateConfig
 import de.rki.coronawarnapp.coronatest.DaggerCoronaTestTestComponent
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.BaseTestCertificateData
@@ -11,6 +13,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.GenericTest
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertificateData
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.util.TimeStamper
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -152,5 +155,11 @@ class TestCertificateRepositoryTest : BaseTest() {
             registeredAt shouldBe timeStamper.nowUTC
             certificateReceivedAt shouldBe timeStamper.nowUTC
         }
+
+        shouldThrow<InvalidTestCertificateException> {
+            instance.registerTestCertificate(
+                qrCode = testData.personATest1CertQRCode
+            )
+        }.errorCode shouldBe ErrorCode.ALREADY_REGISTERED
     }
 }

@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.covidcertificate.test.core
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateIdentifier
@@ -108,7 +110,7 @@ class TestCertificateRepository @Inject constructor(
 
             if (matchesExisting) {
                 Timber.tag(TAG).e("Certificate entry already exists for %s", test.identifier)
-                throw IllegalArgumentException("A certificate was already created for this ${test.identifier}")
+                throw InvalidTestCertificateException(InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED)
             }
             if (!test.isDccSupportedByPoc) {
                 throw IllegalArgumentException("DCC is not supported by PoC for this test: ${test.identifier}")
@@ -152,12 +154,16 @@ class TestCertificateRepository @Inject constructor(
         Timber.tag(TAG).v("registerTestCertificate(qrCode=%s)", qrCode)
 
         val updatedData = internalData.updateBlocking {
-            val identifier = UUID.randomUUID().toString()
+
+            if (values.any { it.certificateId == qrCode.uniqueCertificateIdentifier }) {
+                Timber.tag(TAG).e("Certificate entry already exists for %s", qrCode)
+                throw InvalidTestCertificateException(InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED)
+            }
 
             val nowUtc = timeStamper.nowUTC
 
             val data = GenericTestCertificateData(
-                identifier = identifier,
+                identifier = UUID.randomUUID().toString(),
                 registeredAt = nowUtc,
                 certificateReceivedAt = nowUtc,
                 testCertificateQrCode = qrCode.qrCode
