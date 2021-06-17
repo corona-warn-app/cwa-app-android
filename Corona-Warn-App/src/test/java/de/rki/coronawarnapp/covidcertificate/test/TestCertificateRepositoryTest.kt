@@ -3,8 +3,8 @@ package de.rki.coronawarnapp.covidcertificate.test
 import de.rki.coronawarnapp.appconfig.CovidCertificateConfig
 import de.rki.coronawarnapp.coronatest.DaggerCoronaTestTestComponent
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateProcessor
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.BaseTestCertificateData
@@ -32,7 +32,7 @@ import javax.inject.Inject
 class TestCertificateRepositoryTest : BaseTest() {
 
     @MockK lateinit var storage: TestCertificateStorage
-    @MockK lateinit var qrCodeExtractor: TestCertificateQRCodeExtractor
+    @MockK lateinit var qrCodeExtractor: DccQrCodeExtractor
     @MockK lateinit var covidTestCertificateConfig: CovidCertificateConfig.TestCertificate
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var testCertificateProcessor: TestCertificateProcessor

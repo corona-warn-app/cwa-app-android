@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.test
 
-import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.GenericTestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertificateData
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @Suppress("MaxLineLength")
 class TestCertificateTestData @Inject constructor(
-    qrCodeExtractor: TestCertificateQRCodeExtractor
+    qrCodeExtractor: DccQrCodeExtractor
 ) {
 
     val personATest1CertQRCodeString =

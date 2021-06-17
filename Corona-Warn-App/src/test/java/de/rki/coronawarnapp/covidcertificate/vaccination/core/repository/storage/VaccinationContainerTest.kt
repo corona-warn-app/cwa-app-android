@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 
-import de.rki.coronawarnapp.coronatest.qrcode.QrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.DaggerVaccinationTestComponent
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationQRCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.DefaultValueSet
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import io.kotest.matchers.shouldBe
@@ -151,8 +151,13 @@ class VaccinationContainerTest : BaseTest() {
             vaccinationQrCode = testData.personYVacTwoEntriesQrCode,
             scannedAt = Instant.EPOCH
         )
-        val extractor = mockk<VaccinationQRCodeExtractor>().apply {
-            every { extract(any(), any()) } returns mockk<VaccinationCertificateQRCode>().apply {
+        val extractor = mockk<DccQrCodeExtractor>().apply {
+            every {
+                extract(
+                    any(),
+                    DccV1Parser.Mode.CERT_VAC_LENIENT
+                )
+            } returns mockk<VaccinationCertificateQRCode>().apply {
                 every { data } returns mockk()
             }
         }
@@ -160,11 +165,11 @@ class VaccinationContainerTest : BaseTest() {
 
         container.certificateData shouldNotBe null
 
-        verify { extractor.extract(testData.personYVacTwoEntriesQrCode, QrCodeExtractor.Mode.CERT_VAC_LENIENT) }
+        verify { extractor.extract(testData.personYVacTwoEntriesQrCode, DccV1Parser.Mode.CERT_VAC_LENIENT) }
     }
 
     @Test
     fun `gracefully handle semi invalid data - multiple entries`() {
-        testData.personYVacTwoEntriesContainer.certificate.payloads.size shouldBe 1
+        testData.personYVacTwoEntriesContainer.certificate.vaccination
     }
 }

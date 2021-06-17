@@ -98,8 +98,6 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
                     get() = "Xup"
                 override val sampleCollectedAt: Instant
                     get() = testDate
-                override val testResultAt: Instant
-                    get() = testDate
                 override val testCenter: String
                     get() = "AB123"
                 override val registeredAt: Instant

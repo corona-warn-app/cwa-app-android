@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.common.exception
 
 import android.content.Context
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.util.HasHumanReadableError
 import de.rki.coronawarnapp.util.HumanReadableError
@@ -22,15 +23,18 @@ open class InvalidHealthCertificateException(
         HC_COSE_TAG_INVALID("COSE tag invalid."),
         HC_COSE_MESSAGE_INVALID("COSE message invalid."),
         HC_CBOR_DECODING_FAILED("CBOR decoding failed."),
-        VC_NO_VACCINATION_ENTRY("Vaccination certificate missing."),
-        VC_MULTIPLE_VACCINATION_ENTRIES("Multiple vaccination certificates."),
+        NO_VACCINATION_ENTRY("Vaccination certificate missing."),
+        MULTIPLE_VACCINATION_ENTRIES("Multiple vaccination certificates."),
+        MULTIPLE_TEST_ENTRIES("Multiple test certificates."),
+        MULTIPLE_RECOVERY_ENTRIES("Multiple recovery certificates."),
         NO_TEST_ENTRY("Test certificate missing."),
-        VC_PREFIX_INVALID("Prefix invalid."),
-        VC_STORING_FAILED("Storing failed."),
+        NO_RECOVERY_ENTRY("Recovery certificate missing."),
+        PREFIX_INVALID("Prefix invalid."),
+        STORING_FAILED("Storing failed."),
         JSON_SCHEMA_INVALID("Json schema invalid."),
-        VC_NAME_MISMATCH("Name does not match."),
-        VC_ALREADY_REGISTERED("Certificate already registered."),
-        VC_DOB_MISMATCH("Date of birth does not match."),
+        NAME_MISMATCH("Name does not match."),
+        ALREADY_REGISTERED("Certificate already registered."),
+        DOB_MISMATCH("Date of birth does not match."),
         HC_CWT_NO_DGC("Dgc missing."),
         HC_CWT_NO_EXP("Expiration date missing."),
         HC_CWT_NO_HCERT("Health certificate missing."),
@@ -41,9 +45,22 @@ open class InvalidHealthCertificateException(
         RSA_KP_GENERATION_FAILED("RSA key pair generation failed."),
     }
 
+    open val showFaqButton: Boolean = false
+    open val faqButtonText: Int = 0
+    open val faqLink: Int = 0
+
     open val errorMessage: LazyString
-        get() = CachedString { context ->
-            context.getString(ERROR_MESSAGE_GENERIC)
+        get() = when (errorCode) {
+            ErrorCode.STORING_FAILED -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_SCAN_AGAIN)
+            }
+
+            ErrorCode.ALREADY_REGISTERED -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_ALREADY_REGISTERED)
+            }
+            else -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_GENERIC)
+            }
         }
 
     override fun toHumanReadableError(context: Context): HumanReadableError {
@@ -52,3 +69,6 @@ open class InvalidHealthCertificateException(
         )
     }
 }
+
+private const val ERROR_MESSAGE_SCAN_AGAIN = R.string.error_dcc_scan_again
+private const val ERROR_MESSAGE_ALREADY_REGISTERED = R.string.error_dcc_already_registered

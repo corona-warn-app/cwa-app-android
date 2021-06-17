@@ -2,9 +2,10 @@ package de.rki.coronawarnapp.covidcertificate.test.core
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.TestCertificateServerException
+import de.rki.coronawarnapp.covidcertificate.common.exception.TestCertificateServerException.ErrorCode.DCC_NOT_SUPPORTED_BY_LAB
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
-import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateIdentifier
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateProcessor
@@ -40,7 +41,7 @@ class TestCertificateRepository @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val dispatcherProvider: DispatcherProvider,
     private val storage: TestCertificateStorage,
-    private val qrCodeExtractor: TestCertificateQRCodeExtractor,
+    private val qrCodeExtractor: DccQrCodeExtractor,
     private val processor: TestCertificateProcessor,
     private val timeStamper: TimeStamper,
     valueSetsRepository: ValueSetsRepository,
@@ -230,7 +231,7 @@ class TestCertificateRepository @Inject constructor(
                     RefreshResult(
                         cert,
                         TestCertificateServerException(
-                            TestCertificateServerException.ErrorCode.DCC_NOT_SUPPORTED_BY_LAB
+                            DCC_NOT_SUPPORTED_BY_LAB
                         )
                     )
                 }
