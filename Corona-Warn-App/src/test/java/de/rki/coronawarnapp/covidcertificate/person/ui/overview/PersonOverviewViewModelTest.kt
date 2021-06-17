@@ -1,9 +1,12 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
+import android.content.Context
+import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -14,6 +17,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.mockkStatic
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.BeforeEach
@@ -23,6 +27,7 @@ import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
+import java.util.Locale
 
 @ExtendWith(InstantExecutorExtension::class)
 class PersonOverviewViewModelTest : BaseTest() {
@@ -31,14 +36,20 @@ class PersonOverviewViewModelTest : BaseTest() {
     @MockK lateinit var personCertificatesProvider: PersonCertificatesProvider
     @MockK lateinit var testCertificateRepository: TestCertificateRepository
     @MockK lateinit var refreshResult: TestCertificateRepository.RefreshResult
+    @MockK lateinit var valueSetsRepository: ValueSetsRepository
+    @MockK lateinit var context: Context
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this, true)
+        mockkStatic("de.rki.coronawarnapp.contactdiary.util.ContactDiaryExtensionsKt")
         coEvery { testCertificateRepository.refresh(any()) } returns setOf(refreshResult)
         coEvery { qrCodeGenerator.createQrCode(any(), any(), any(), any(), any()) } returns mockk()
         every { personCertificatesProvider.personCertificates } returns emptyFlow()
         every { refreshResult.error } returns null
+        every { testCertificateRepository.certificates } returns emptyFlow()
+        every { context.getLocale() } returns Locale.GERMAN
+        every { valueSetsRepository.triggerUpdateValueSet(any()) } just Runs
     }
 
     @Test
@@ -127,6 +138,8 @@ class PersonOverviewViewModelTest : BaseTest() {
             dispatcherProvider = TestDispatcherProvider(),
             testCertificateRepository = testCertificateRepository,
             certificatesProvider = personCertificatesProvider,
-            qrCodeGenerator = qrCodeGenerator
+            qrCodeGenerator = qrCodeGenerator,
+            valueSetsRepository = valueSetsRepository,
+            context = context
         )
 }
