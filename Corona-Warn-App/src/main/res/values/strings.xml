@@ -1145,11 +1145,11 @@
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"The test can only be scanned once."</string>
     <!-- XHED: Dialog title for test removal no submission -->
-    <string name="submission_test_result_dialog_remove_test_title_no_submission">"Sind Sie sicher, dass Sie Ihren Test entfernen wollen?"</string>
+    <string name="submission_test_result_dialog_remove_test_title_no_submission">"Are you sure you want to remove your test?"</string>
     <!-- YTXT: Dialog text for test removal -->
     <string name="submission_test_result_dialog_remove_test_message">"If you delete the test, you can no longer retrieve your test result. You will receive your test result from the test center or laboratory regardless of the validity of the QR code. If you are diagnosed with coronavirus, the public health authority will be notified through the legally prescribed channel and will contact you."</string>
     <!-- YTXT: Dialog text for test removal no submission -->
-    <string name="submission_test_result_dialog_remove_test_message_no_submission">"Dadurch werden andere nicht gewarnt."</string>
+    <string name="submission_test_result_dialog_remove_test_message_no_submission">"If you do, others will not be warned."</string>
     <!-- XBUT: Positive button for test removal -->
     <string name="submission_test_result_dialog_remove_test_button_positive">"Delete"</string>
     <!-- XBUT: Negative button for test removal -->
@@ -1239,7 +1239,7 @@
     <!-- XBUT: Button for giving consent for key sharing -->
     <string name="submission_test_result_positive_no_consent_button_warn_others">"Warn Others"</string>
     <!-- XBUT: Button for test removal -->
-    <string name="submission_test_result_positive_no_consent_button_remove_test">Test entfernen</string>
+    <string name="submission_test_result_positive_no_consent_button_remove_test">"Remove Test"</string>
 
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
@@ -1621,6 +1621,24 @@
     <!-- Applied Vaccination Dose Rates Statistics Card -->
     <!-- XHED: Title for applied vaccination dose rates -->
     <string name="statistics_applied_vaccination_dose_rates_card_title">"Verabreichte Impfdosen"</string>
+    <!-- XTXT: Statistics local 7 days title -->
+    <string name="statistics_explanation_local_seven_day_incidence_title">"Lokale 7-Tage-Inzidenz"</string>
+    <!-- XTXT: Statistics local 7 days text -->
+    <string name="statistics_explanation_local_seven_day_incidence_text">"Gesamtzahl der bestätigten Neuinfektionen der letzten 7 Tage (nach Meldedatum) pro 100.000 Einwohner im konfigurierten Kreis oder Bundesland."</string>
+    <!-- XTXT: Statistics number of vaccine doses title -->
+    <string name="statistics_number_of_vaccine_doses_title">"Verabreichte Impfdosen"</string>
+    <!-- XTXT: Statistics number of vaccine doses text -->
+    <string name="statistics_number_of_vaccine_doses_text">"Anzahl der Impfdosen, die bisher bundesweit verabreicht wurden."</string>
+    <!-- XTXT: Statistics number of fully vaccinated people title -->
+    <string name="statistics_fully_vaccinated_people_title">"Vollständig geimpfte Personen"</string>
+    <!-- XTXT: Statistics number of fully vaccinated people text -->
+    <string name="statistics_fully_vaccinated_people_text">"Anzahl der an das RKI übermittelten Personen, die die alle notwendigen Impfdosen erhalten haben."</string>
+    <!-- XTXT: Statistics number of vaccinated people at least title -->
+    <string name="statistics_people_vaccinated_at_least_once_title">"Mindestens einmal geimpfte Personen"</string>
+    <!-- XTXT: Statistics number of vaccinated people at least text -->
+    <string name="statistics_people_vaccinated_at_least_once_text">"Anzahl der an das RKI übermittelten Personen, die die erste Impfdosis erhalten haben."</string>
+    <!-- XTXT: Statistics FAQ text -->
+    <string name="statistics_faq_text">"Weitere Informationen finden Sie in den FAQ:\n\nFAQ zu Statistiken"</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility

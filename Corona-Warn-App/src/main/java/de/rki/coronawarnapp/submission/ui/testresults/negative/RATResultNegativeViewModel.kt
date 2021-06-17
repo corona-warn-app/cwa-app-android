@@ -6,6 +6,8 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -25,22 +27,28 @@ class RATResultNegativeViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val timeStamper: TimeStamper,
     private val submissionRepository: SubmissionRepository,
-    coronaTestRepository: CoronaTestRepository
+    coronaTestRepository: CoronaTestRepository,
+    certificateRepository: TestCertificateRepository
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<RATResultNegativeNavigation>()
     val testAge = combine(
         intervalFlow(1),
-        coronaTestRepository.coronaTests
-    ) { _, tests ->
+        coronaTestRepository.coronaTests,
+        certificateRepository.certificates
+    ) { _, tests, certs ->
         val rapidTest = tests.firstOrNull {
             it.type == CoronaTest.Type.RAPID_ANTIGEN
         }
 
-        rapidTest?.testAge()
+        val certificate = certs.firstOrNull {
+            it.registrationToken == rapidTest?.registrationToken
+        }
+
+        rapidTest?.uiState(certificate)
     }.asLiveData(context = dispatcherProvider.Default)
 
-    private fun CoronaTest.testAge(): TestAge? {
+    private fun CoronaTest.uiState(certificate: TestCertificateWrapper?): UIState? {
         if (this !is RACoronaTest) {
             Timber.d("Rapid test is missing")
             return null
@@ -50,7 +58,17 @@ class RATResultNegativeViewModel @AssistedInject constructor(
         val age = nowUTC.millis - testTakenAt.millis
         val ageText = formatter.print(Duration(age).toPeriod())
 
-        return TestAge(test = this, ageText)
+        val certificateState: CertificateState = when (certificate?.isCertificateRetrievalPending) {
+            true -> CertificateState.PENDING
+            false -> CertificateState.AVAILABLE
+            else -> CertificateState.NOT_REQUESTED
+        }
+
+        return UIState(
+            test = this,
+            ageText = ageText,
+            certificateState = certificateState
+        )
     }
 
     fun onDeleteTestConfirmed() {
@@ -75,9 +93,16 @@ class RATResultNegativeViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<RATResultNegativeViewModel>
 
-    data class TestAge(
+    enum class CertificateState {
+        NOT_REQUESTED,
+        PENDING,
+        AVAILABLE
+    }
+
+    data class UIState(
         val test: RACoronaTest,
         val ageText: String,
+        val certificateState: CertificateState
     )
 
     companion object {

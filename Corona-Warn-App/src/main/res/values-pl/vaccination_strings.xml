@@ -70,7 +70,9 @@
     <!-- XBUT: button for Vaccination Certificate Registration Home Card -->
     <string name="vaccination_card_register">"Dodaj"</string>
     <!-- XHED: Homescreen vaccination status card title -->
-    <string name="vaccination_card_status_title">"Cyfrowy dowód szczepienia"</string>
+    <string name="vaccination_card_status_title_line_1">"Cyfrowy"</string>
+    <!-- XHED: Homescreen vaccination status card title -->
+    <string name="vaccination_card_status_title_line_2">"Dowód szczepienia"</string>
     <!-- XHED: Homescreen vaccination status card vaccination name -->
     <string name="vaccination_card_status_vaccination_name">"Szczepienie przeciwko SARS-CoV-2"</string>
     <!-- XTXT: Homescreen card incomplete vaccination status label -->
@@ -84,6 +86,8 @@
         <item quantity="few">"Pełna ochrona poszczepienna za %1$d dni"</item>
         <item quantity="many">"Pełna ochrona poszczepienna za %1$d dni"</item>
     </plurals>
+    <!-- XTXT: Homescreen card complete vaccination status label -->
+    <string name="vaccination_card_status_vaccination_complete">"Ważne do %s"</string>
 
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_invalid">"Ten kod QR nie jest ważnym świadectwem szczepienia.\n\nWięcej informacji na temat tego, jak otrzymać swoje świadectwo szczepienia, znajduje się na naszej stronie „Często zadawane pytania”."</string>
