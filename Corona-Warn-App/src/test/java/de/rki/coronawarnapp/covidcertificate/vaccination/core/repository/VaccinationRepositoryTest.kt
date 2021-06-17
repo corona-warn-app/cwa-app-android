@@ -1,10 +1,10 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository
 
-import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.VC_ALREADY_REGISTERED
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.DaggerVaccinationTestComponent
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationQRCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.errors.VaccinationCertificateNotFoundException
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
@@ -35,7 +35,7 @@ class VaccinationRepositoryTest : BaseTest() {
     @MockK lateinit var storage: VaccinationStorage
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var vaccinationValueSet: VaccinationValueSets
-    @MockK lateinit var qrCodeExtractor: VaccinationQRCodeExtractor
+    @MockK lateinit var qrCodeExtractor: DccQrCodeExtractor
 
     private var testStorage: Set<VaccinatedPersonData> = emptySet()
 
@@ -66,7 +66,7 @@ class VaccinationRepositoryTest : BaseTest() {
         timeStamper = timeStamper,
         storage = storage,
         valueSetsRepository = valueSetsRepository,
-        vaccinationQRCodeExtractor = qrCodeExtractor,
+        qrCodeExtractor = qrCodeExtractor,
     )
 
     @Test
@@ -134,7 +134,7 @@ class VaccinationRepositoryTest : BaseTest() {
 
         shouldThrow<InvalidVaccinationCertificateException> {
             instance.registerVaccination(vaccinationTestData.personAVac1QRCode)
-        }.errorCode shouldBe VC_ALREADY_REGISTERED
+        }.errorCode shouldBe ALREADY_REGISTERED
 
         testStorage.first() shouldBe dataBefore
     }

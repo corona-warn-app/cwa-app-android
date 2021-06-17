@@ -95,9 +95,9 @@
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_not_yet_supported">Dieses Impfzertifikat wird in Ihrer App-Version noch nicht unterstützt. Bitte aktualisieren Sie Ihre App oder wenden Sie sich an die technische Hotline unter „App-Informationen“.</string>
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_scan_again">Das Impfzertifikat konnte nicht auf Ihrem Smartphone gespeichert werden. Bitte versuchen Sie es später noch einmal oder wenden Sie sich an die technische Hotline unter „App-Informationen“.</string>
+    <string name="error_dcc_scan_again">Das Zertifikat konnte nicht auf Ihrem Smartphone gespeichert werden. Bitte versuchen Sie es später noch einmal oder wenden Sie sich an die technische Hotline unter „App-Informationen“.</string>
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_already_registered">Das Impfzertifikat ist bereits in Ihrer App registriert.</string>
+    <string name="error_dcc_already_registered">Das Zertifikat ist bereits in Ihrer App registriert.</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_different_person">Die persönlichen Daten dieses Impfzertifikats stimmen nicht mit denen der bereits registrierten Zertifikate überein. Sie können in der App nur Zertifikate einer Person registrieren.</string>
 
