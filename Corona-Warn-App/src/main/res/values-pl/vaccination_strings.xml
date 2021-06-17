@@ -94,9 +94,9 @@
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_not_yet_supported">"To świadectwo szczepienia nie jest jeszcze obsługiwane w Twojej wersji aplikacji. Zaktualizuj aplikację lub skontaktuj się z infolinią techniczną dostępną w sekcji „Informacje o aplikacji”."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_scan_again">"Świadectwo szczepienia nie mogło zostać zapisane na Twoim smartfonie. Spróbuj ponownie później lub skontaktuj się z infolinią techniczną dostępną w sekcji „Informacje o aplikacji”."</string>
+    <string name="error_dcc_scan_again">"Świadectwo szczepienia nie mogło zostać zapisane na Twoim smartfonie. Spróbuj ponownie później lub skontaktuj się z infolinią techniczną dostępną w sekcji „Informacje o aplikacji”."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_already_registered">"Świadectwo szczepienia jest już zarejestrowane w Twojej aplikacji."</string>
+    <string name="error_dcc_already_registered">"Świadectwo szczepienia jest już zarejestrowane w Twojej aplikacji."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_different_person">"Dane osobowe tego świadectwa szczepienia nie są zgodne z danymi już zarejestrowanych świadectw. W aplikacji można rejestrować świadectwa tylko dla jednej osoby."</string>
 

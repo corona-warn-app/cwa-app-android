@@ -7,14 +7,14 @@ import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
 import dagger.Reusable
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationQRCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 
 @Reusable
 class ContainerPostProcessor @Inject constructor(
-    private val vaccinationQrCodeExtractor: VaccinationQRCodeExtractor,
+    private val vaccinationQrCodeExtractor: DccQrCodeExtractor,
 ) : TypeAdapterFactory {
     override fun <T> create(gson: Gson, type: TypeToken<T>): TypeAdapter<T> {
         val delegate = gson.getDelegateAdapter(this, type)
