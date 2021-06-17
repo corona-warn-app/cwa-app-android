@@ -1,11 +1,16 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode
 
-import de.rki.coronawarnapp.coronatest.qrcode.QrCodeExtractor.Mode
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_CWT_NO_ISS
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
-import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.VC_NO_VACCINATION_ENTRY
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.NO_RECOVERY_ENTRY
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.NO_TEST_ENTRY
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.NO_VACCINATION_ENTRY
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidRecoveryCertificateException
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.DaggerVaccinationTestComponent
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeTestData
@@ -19,9 +24,9 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import javax.inject.Inject
 
-class VaccinationQRCodeExtractorTest : BaseTest() {
+class DccQrCodeExtractorTest : BaseTest() {
 
-    @Inject lateinit var extractor: VaccinationQRCodeExtractor
+    @Inject lateinit var extractor: DccQrCodeExtractor
     @Inject lateinit var vaccinationTestData: VaccinationTestData
 
     @BeforeEach
@@ -36,12 +41,15 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
 
     @Test
     fun `happy path extraction 2`() {
-        extractor.extract(VaccinationQrCodeTestData.validVaccinationQrCode2, mode = Mode.CERT_VAC_STRICT)
+        extractor.extract(VaccinationQrCodeTestData.validVaccinationQrCode2)
     }
 
     @Test
     fun `happy path extraction with data`() {
-        val qrCode = extractor.extract(VaccinationQrCodeTestData.validVaccinationQrCode3, mode = Mode.CERT_VAC_STRICT)
+        val qrCode = extractor.extract(
+            VaccinationQrCodeTestData.validVaccinationQrCode3,
+            mode = Mode.CERT_VAC_STRICT
+        ) as VaccinationCertificateQRCode
 
         with(qrCode.data.header) {
             issuer shouldBe "AT"
@@ -56,11 +64,10 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
                 givenName shouldBe "Gabriele"
                 givenNameStandardized shouldBe "GABRIELE"
             }
-            dob shouldBe "1998-02-26"
             dateOfBirth shouldBe LocalDate.parse("1998-02-26")
             version shouldBe "1.0.0"
 
-            with(payloads[0]) {
+            with(vaccination) {
                 uniqueCertificateIdentifier shouldBe "urn:uvci:01:AT:10807843F94AEE0EE5093FBC254BD813P"
                 certificateCountry shouldBe "AT"
                 doseNumber shouldBe 1
@@ -86,7 +93,7 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
 
     @Test
     fun `valid encoding but not a health certificate fails with HC_CWT_NO_ISS`() {
-        shouldThrow<InvalidVaccinationCertificateException> {
+        shouldThrow<InvalidHealthCertificateException> {
             extractor.extract(
                 VaccinationQrCodeTestData.validEncoded,
                 mode = Mode.CERT_VAC_STRICT
@@ -121,7 +128,7 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
                 VaccinationQrCodeTestData.certificateMissing,
                 mode = Mode.CERT_VAC_STRICT
             )
-        }.errorCode shouldBe VC_NO_VACCINATION_ENTRY
+        }.errorCode shouldBe NO_VACCINATION_ENTRY
     }
 
     @Test
@@ -167,7 +174,7 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
         val qrCode = extractor.extract(
             VaccinationQrCodeTestData.qrCodeBulgaria,
             mode = Mode.CERT_VAC_STRICT
-        )
+        ) as VaccinationCertificateQRCode
         with(qrCode.data.header) {
             issuer shouldBe "BG"
             issuedAt shouldBe Instant.parse("2021-06-02T14:07:56.000Z")
@@ -181,11 +188,10 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
                 givenName shouldBe "СТАМО ГЕОРГИЕВ"
                 givenNameStandardized shouldBe "STAMO<GEORGIEV"
             }
-            dob shouldBe "1978-01-26T00:00:00"
             dateOfBirth shouldBe LocalDate.parse("1978-01-26")
             version shouldBe "1.0.0"
 
-            payload.apply {
+            vaccination.apply {
                 uniqueCertificateIdentifier shouldBe "urn:uvci:01:BG:UFR5PLGKU8WDSZK7#0"
                 certificateCountry shouldBe "BG"
                 doseNumber shouldBe 2
@@ -243,8 +249,9 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
             VaccinationQrCodeTestData.passGermanReferenceCase,
             mode = Mode.CERT_VAC_STRICT
         ).apply {
+            this as VaccinationCertificateQRCode
             data.certificate.dateOfBirth shouldBe LocalDate.parse("1964-08-12")
-            data.certificate.payload.vaccinatedAt shouldBe LocalDate.parse("2021-05-29")
+            data.certificate.vaccination.vaccinatedAt shouldBe LocalDate.parse("2021-05-29")
         }
     }
 
@@ -254,8 +261,9 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
             VaccinationQrCodeTestData.passDatesWithTimeAtMidnight,
             mode = Mode.CERT_VAC_STRICT
         ).apply {
+            this as VaccinationCertificateQRCode
             data.certificate.dateOfBirth shouldBe LocalDate.parse("1978-01-26")
-            data.certificate.payload.vaccinatedAt shouldBe LocalDate.parse("2021-03-09")
+            data.certificate.vaccination.vaccinatedAt shouldBe LocalDate.parse("2021-03-09")
         }
     }
 
@@ -265,8 +273,54 @@ class VaccinationQRCodeExtractorTest : BaseTest() {
             VaccinationQrCodeTestData.passDatesWithRealTimeInfo,
             mode = Mode.CERT_VAC_STRICT
         ).apply {
+            this as VaccinationCertificateQRCode
             data.certificate.dateOfBirth shouldBe LocalDate.parse("1958-11-11")
-            data.certificate.payload.vaccinatedAt shouldBe LocalDate.parse("2021-03-18")
+            data.certificate.vaccination.vaccinatedAt shouldBe LocalDate.parse("2021-03-18")
         }
+    }
+
+    @Test
+    fun `happy path extraction recovery`() {
+        extractor.extract(
+            RecoveryQrCodeTestData.validRecovery,
+        )
+    }
+
+    @Test
+    fun `happy path extraction recovery with strict mode`() {
+        extractor.extract(
+            RecoveryQrCodeTestData.validRecovery,
+            mode = Mode.CERT_REC_STRICT
+        )
+    }
+
+    @Test
+    fun `recovery cert fails in mode CERT_VAC_STRICT`() {
+        shouldThrow<InvalidVaccinationCertificateException> {
+            extractor.extract(
+                RecoveryQrCodeTestData.validRecovery,
+                mode = Mode.CERT_VAC_STRICT
+            )
+        }.errorCode shouldBe NO_VACCINATION_ENTRY
+    }
+
+    @Test
+    fun `recovery cert fails in mode CERT_TEST_STRICT`() {
+        shouldThrow<InvalidTestCertificateException> {
+            extractor.extract(
+                RecoveryQrCodeTestData.validRecovery,
+                mode = Mode.CERT_TEST_STRICT
+            )
+        }.errorCode shouldBe NO_TEST_ENTRY
+    }
+
+    @Test
+    fun `vaccination cert fails in mode CERT_REC_STRICT`() {
+        shouldThrow<InvalidRecoveryCertificateException> {
+            extractor.extract(
+                VaccinationQrCodeTestData.validVaccinationQrCode,
+                mode = Mode.CERT_REC_STRICT
+            )
+        }.errorCode shouldBe NO_RECOVERY_ENTRY
     }
 }

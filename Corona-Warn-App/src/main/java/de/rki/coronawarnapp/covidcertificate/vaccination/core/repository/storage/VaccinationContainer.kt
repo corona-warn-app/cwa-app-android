@@ -2,15 +2,16 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storag
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
-import de.rki.coronawarnapp.coronatest.qrcode.QrCodeExtractor.Mode
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccHeader
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
+import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationQRCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -23,7 +24,7 @@ data class VaccinationContainer internal constructor(
 ) {
 
     // Either set by [ContainerPostProcessor] or via [toVaccinationContainer]
-    @Transient lateinit var qrCodeExtractor: VaccinationQRCodeExtractor
+    @Transient lateinit var qrCodeExtractor: DccQrCodeExtractor
     @Transient internal var preParsedData: DccData<VaccinationDccV1>? = null
 
     // Otherwise GSON unsafes reflection to create this class, and sets the LAZY to null
@@ -32,7 +33,13 @@ data class VaccinationContainer internal constructor(
 
     @delegate:Transient
     internal val certificateData: DccData<VaccinationDccV1> by lazy {
-        preParsedData ?: qrCodeExtractor.extract(vaccinationQrCode, mode = Mode.CERT_VAC_LENIENT).data
+        preParsedData ?: (
+            qrCodeExtractor.extract(
+                vaccinationQrCode,
+                mode = DccV1Parser.Mode.CERT_VAC_LENIENT
+            ) as VaccinationCertificateQRCode
+            )
+            .data
     }
 
     val header: DccHeader
@@ -41,8 +48,8 @@ data class VaccinationContainer internal constructor(
     val certificate: VaccinationDccV1
         get() = certificateData.certificate
 
-    val vaccination: VaccinationDccV1.VaccinationData
-        get() = certificate.payload
+    val vaccination: DccV1.VaccinationData
+        get() = certificate.vaccination
 
     val certificateId: String
         get() = vaccination.uniqueCertificateIdentifier
@@ -113,7 +120,7 @@ data class VaccinationContainer internal constructor(
 
 fun VaccinationCertificateQRCode.toVaccinationContainer(
     scannedAt: Instant,
-    qrCodeExtractor: VaccinationQRCodeExtractor,
+    qrCodeExtractor: DccQrCodeExtractor,
 ) = VaccinationContainer(
     vaccinationQrCode = this.qrCode,
     scannedAt = scannedAt,

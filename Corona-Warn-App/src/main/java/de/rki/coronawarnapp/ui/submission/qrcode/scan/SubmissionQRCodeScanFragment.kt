@@ -7,19 +7,15 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type
+import de.rki.coronawarnapp.coronatest.errors.AlreadyRedeemedException
 import de.rki.coronawarnapp.databinding.FragmentSubmissionQrCodeScanBinding
 import de.rki.coronawarnapp.exception.http.BadRequestException
-import de.rki.coronawarnapp.exception.http.CwaClientError
-import de.rki.coronawarnapp.exception.http.CwaServerError
-import de.rki.coronawarnapp.exception.http.CwaWebException
-import de.rki.coronawarnapp.ui.submission.ApiRequestState
-import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor
+import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -30,7 +26,6 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -72,7 +67,10 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             when (it) {
                 is SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode -> {
                     NavGraphDirections
-                        .actionToSubmissionDeletionWarningFragment(it.consentGiven, it.coronaTestQRCode)
+                        .actionToSubmissionDeletionWarningFragment(
+                            testRegistrationRequest = it.coronaTestQRCode,
+                            isConsentGiven = it.consentGiven,
+                        )
                         .run { doNavigate(this) }
                 }
                 is SubmissionNavigationEvents.NavigateToDispatcher -> navigateToDispatchScreen()
@@ -83,57 +81,44 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
             }
         }
 
-        viewModel.qrCodeValidationState.observe2(this) {
-            if (QrCodeRegistrationStateProcessor.ValidationState.INVALID == it) {
-                DialogHelper.showDialog(createInvalidScanDialog())
-            }
-        }
-
-        viewModel.registrationError.observe2(this) {
-            DialogHelper.showDialog(buildErrorDialog(it))
-        }
-        viewModel.showRedeemedTokenWarning.observe2(this) {
-            val dialog = DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_tan_redeemed_title,
-                R.string.submission_error_dialog_web_tan_redeemed_body,
-                R.string.submission_error_dialog_web_tan_redeemed_button_positive
-            )
-
-            DialogHelper.showDialog(dialog)
-            goBack()
+        viewModel.qrCodeErrorEvent.observe2(this) {
+            showInvalidQrCodeDialog()
         }
 
         viewModel.registrationState.observe2(this) { state ->
-            when (state.apiRequestState) {
-                ApiRequestState.STARTED -> binding.submissionQrCodeScanSpinner.show()
-                else -> binding.submissionQrCodeScanSpinner.hide()
+            if (state is State.Working) {
+                binding.submissionQrCodeScanSpinner.show()
+            } else {
+                binding.submissionQrCodeScanSpinner.hide()
             }
-            when (state.test?.testResult) {
-                CoronaTestResult.PCR_POSITIVE ->
-                    NavGraphDirections.actionToSubmissionTestResultAvailableFragment(testType = Type.PCR)
-
-                CoronaTestResult.PCR_OR_RAT_PENDING ->
-                    NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = state.test.type)
-
-                CoronaTestResult.PCR_NEGATIVE,
-                CoronaTestResult.PCR_INVALID,
-                CoronaTestResult.PCR_REDEEMED ->
-                    NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = Type.PCR)
-
-                CoronaTestResult.RAT_POSITIVE ->
-                    NavGraphDirections.actionToSubmissionTestResultAvailableFragment(testType = Type.RAPID_ANTIGEN)
-
-                CoronaTestResult.RAT_NEGATIVE,
-                CoronaTestResult.RAT_INVALID,
-                CoronaTestResult.RAT_PENDING,
-                CoronaTestResult.RAT_REDEEMED ->
-                    NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = Type.RAPID_ANTIGEN)
-                null -> {
-                    Timber.w("Successful API request, but test was null?")
-                    return@observe2
+            when (state) {
+                State.Idle,
+                State.Working -> {
+                    // Handled above
                 }
-            }.run { doNavigate(this) }
+                is State.Error -> {
+                    when (state.exception) {
+                        is BadRequestException -> showInvalidQrCodeDialog()
+                        else -> {
+                            state.getDialogBuilder(requireContext()).apply {
+                                when (state.exception) {
+                                    is AlreadyRedeemedException -> setOnDismissListener { goBack() }
+                                    else -> setOnDismissListener { navigateToDispatchScreen() }
+                                }
+                            }.show()
+                        }
+                    }
+                }
+                is State.TestRegistered -> when {
+                    state.test.isPositive ->
+                        NavGraphDirections.actionToSubmissionTestResultAvailableFragment(testType = state.test.type)
+                            .run { doNavigate(this) }
+
+                    else ->
+                        NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = state.test.type)
+                            .run { doNavigate(this) }
+                }
+            }
         }
     }
 
@@ -143,45 +128,23 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
         }
     }
 
-    private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
-        return when (exception) {
-            is BadRequestException -> createInvalidScanDialog()
-            is CwaClientError, is CwaServerError -> DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_generic_error_title,
-                R.string.submission_error_dialog_web_generic_network_error_body,
-                R.string.submission_error_dialog_web_generic_error_button_positive,
-                null,
-                true,
-                ::navigateToDispatchScreen
-            )
-            else -> DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_generic_error_title,
-                R.string.submission_error_dialog_web_generic_error_body,
-                R.string.submission_error_dialog_web_generic_error_button_positive,
-                null,
-                true,
-                ::navigateToDispatchScreen
-            )
-        }
-    }
-
     private fun navigateToDispatchScreen() = doNavigate(
         SubmissionQRCodeScanFragmentDirections.actionSubmissionQRCodeScanFragmentToSubmissionDispatcherFragment()
     )
 
-    private fun createInvalidScanDialog() = DialogHelper.DialogInstance(
-        requireActivity(),
-        R.string.submission_qr_code_scan_invalid_dialog_headline,
-        R.string.submission_qr_code_scan_invalid_dialog_body,
-        R.string.submission_qr_code_scan_invalid_dialog_button_positive,
-        R.string.submission_qr_code_scan_invalid_dialog_button_negative,
-        true,
-        { startDecode() },
-        { viewModel.onBackPressed() },
-        { viewModel.onBackPressed() }
-    )
+    private fun showInvalidQrCodeDialog() {
+        MaterialAlertDialogBuilder(requireContext()).apply {
+            setTitle(R.string.submission_qr_code_scan_invalid_dialog_headline)
+            setMessage(R.string.submission_qr_code_scan_invalid_dialog_body)
+            setPositiveButton(R.string.submission_qr_code_scan_invalid_dialog_button_positive) { _, _ ->
+                startDecode()
+            }
+            setNegativeButton(R.string.submission_qr_code_scan_invalid_dialog_button_negative) { _, _ ->
+                viewModel.onBackPressed()
+            }
+            setOnCancelListener { viewModel.onBackPressed() }
+        }.show()
+    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,

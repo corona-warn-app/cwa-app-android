@@ -98,6 +98,7 @@ class RATestProcessor @Inject constructor(
             sampleCollectedAt = sampleCollectedAt,
             isDccSupportedByPoc = request.isDccSupportedByPoc,
             isDccConsentGiven = request.isDccConsentGiven,
+            labId = registrationData.testResultResponse.labId
         )
     }
 
@@ -137,7 +138,8 @@ class RATestProcessor @Inject constructor(
                     Timber.tag(TAG).w("HTTP 400 error after 21 days, remapping to RAT_REDEEMED.")
                     CoronaTestResultResponse(
                         coronaTestResult = RAT_REDEEMED,
-                        sampleCollectedAt = null
+                        sampleCollectedAt = null,
+                        labId = null
                     )
                 } else {
                     Timber.tag(TAG).v("Unexpected HTTP 400 error, rethrowing...")

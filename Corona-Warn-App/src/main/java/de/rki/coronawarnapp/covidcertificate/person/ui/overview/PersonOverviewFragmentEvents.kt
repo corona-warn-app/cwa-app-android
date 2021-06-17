@@ -6,3 +6,4 @@ data class ShowRefreshErrorDialog(val error: Throwable) : PersonOverviewFragment
 data class ShowDeleteDialog(val certificateId: String) : PersonOverviewFragmentEvents()
 data class OpenPersonDetailsFragment(val personIdentifier: String) : PersonOverviewFragmentEvents()
 object ScanQrCode : PersonOverviewFragmentEvents()
+object OpenAppDeviceSettings : PersonOverviewFragmentEvents()

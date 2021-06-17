@@ -166,12 +166,13 @@ class VerificationServerTest : BaseIOTest() {
                 registrationToken shouldBe "testRegistrationToken"
                 requestPadding.length shouldBe 170
             }
-            VerificationApiV1.TestResultResponse(testResult = 2, sampleCollectedAt = null)
+            VerificationApiV1.TestResultResponse(testResult = 2, sampleCollectedAt = null, labId = null)
         }
 
         server.pollTestResult("testRegistrationToken") shouldBe CoronaTestResultResponse(
             coronaTestResult = CoronaTestResult.PCR_POSITIVE,
-            sampleCollectedAt = null
+            sampleCollectedAt = null,
+            labId = null,
         )
 
         coVerify { verificationApi.getTestResult(any(), any(), any()) }

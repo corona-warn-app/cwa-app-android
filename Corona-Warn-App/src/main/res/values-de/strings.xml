@@ -315,7 +315,7 @@
     <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Die Corona-Warn-App ist seit %s Tagen installiert. Das Infektionsrisiko wird für Zeiträume berechnet, in denen die Risiko-Ermittlung aktiv ist. Wenn Sie andere Personen getroffen haben und die Risiko-Ermittlung aktiv war, wird Ihr Infektions-Risiko berechnet."</string>
     <!-- XTXT: risk details - infection period logged information body, over 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_over_14_days">"Wenn die Risiko-Ermittlung zu Zeiten, in denen Sie andere Personen getroffen haben, aktiv war, kann die Berechnung des Infektionsrisikos für diesen Zeitraum erfolgen."</string>
-    <!-- XHED: risk details - infection period logged information body, below behaviors -->	    <!-- XTXT: risk details - infection period logged information body, under 14 days -->
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->        <!-- XTXT: risk details - infection period logged information body, under 14 days -->
     <string name="risk_details_information_body_period_logged_assessment">"Ältere Tage werden automatisch gelöscht, da sie aus Sicht des Infektionsschutzes nicht mehr relevant sind."</string>
     <!-- XTXT: risk details - infection period days logged/14 -->
     <string name="risk_details_information_active_tracing_days_circle_progress">"%s/14"</string>
@@ -1547,7 +1547,7 @@
     <!-- XHED: Explanation screen title -->
     <string name="statistics_explanation_title">"Kennzahlen"</string>
     <!-- XHED: Explanation screen subtitle -->
-    <string name="statistics_explanation_subtitle">"Erklärung der bundesweiten Statistiken"</string>
+    <string name="statistics_explanation_subtitle">"Erklärung der Statistiken"</string>
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"Bestätigte Neuinfektionen"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
@@ -1555,7 +1555,7 @@
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Warnende Personen"</string>
     <!-- XTXT: Explanation screen warned persons text -->
-    <string name="statistics_explanation_warned_persons_text">"Anzahl der Corona-positiv getesteten Personen, die mithilfe der App ihre Mitmenschen gewarnt haben"</string>
+    <string name="statistics_explanation_warned_persons_text">"Anzahl der über einen PCR-Test Corona-positiv getesteten Personen, die mithilfe der App ihre Mitmenschen gewarnt haben."</string>
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7-Tage-Inzidenz"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
@@ -1563,7 +1563,7 @@
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-Tage-R-Wert"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
-    <string name="statistics_explanation_seven_day_r_value_text">"Die Reproduktionszahl R gibt an, wie viele Personen im Durchschnitt von einer infizierten Person angesteckt wurden. Der aktuelle Wert berücksichtigt Daten bis vor 5 Tagen.\n\nWeitere Informationen finden Sie in den FAQ:\nFAQ zu Statistiken."</string>
+    <string name="statistics_explanation_seven_day_r_value_text">"Die Reproduktionszahl R gibt an, wie viele Personen im Durchschnitt von einer infizierten Person angesteckt wurden. Der aktuelle Wert berücksichtigt Daten bis vor 5 Tagen."</string>
     <!-- XTXT: Explanation screen seven day r-value link label  - the characters have to match the last part of the text label above -->
     <string name="statistics_explanation_seven_day_r_link_label">"FAQ zu Statistiken"</string>
     <!-- XHED: Explanation screen legend title -->
@@ -1621,6 +1621,24 @@
     <!-- Applied Vaccination Dose Rates Statistics Card -->
     <!-- XHED: Title for applied vaccination dose rates -->
     <string name="statistics_applied_vaccination_dose_rates_card_title">"Verabreichte Impfdosen"</string>
+    <!-- XTXT: Statistics local 7 days title -->
+    <string name="statistics_explanation_local_seven_day_incidence_title">"Lokale 7-Tage-Inzidenz"</string>
+    <!-- XTXT: Statistics local 7 days text -->
+    <string name="statistics_explanation_local_seven_day_incidence_text">"Gesamtzahl der bestätigten Neuinfektionen der letzten 7 Tage (nach Meldedatum) pro 100.000 Einwohner im konfigurierten Kreis oder Bundesland."</string>
+    <!-- XTXT: Statistics number of vaccine doses title -->
+    <string name="statistics_number_of_vaccine_doses_title">"Verabreichte Impfdosen"</string>
+    <!-- XTXT: Statistics number of vaccine doses text -->
+    <string name="statistics_number_of_vaccine_doses_text">"Anzahl der Impfdosen, die bisher bundesweit verabreicht wurden."</string>
+    <!-- XTXT: Statistics number of fully vaccinated people title -->
+    <string name="statistics_fully_vaccinated_people_title">"Vollständig geimpfte Personen"</string>
+    <!-- XTXT: Statistics number of fully vaccinated people text -->
+    <string name="statistics_fully_vaccinated_people_text">"Anzahl der an das RKI übermittelten Personen, die die alle notwendigen Impfdosen erhalten haben."</string>
+    <!-- XTXT: Statistics number of vaccinated people at least title -->
+    <string name="statistics_people_vaccinated_at_least_once_title">"Mindestens einmal geimpfte Personen"</string>
+    <!-- XTXT: Statistics number of vaccinated people at least text -->
+    <string name="statistics_people_vaccinated_at_least_once_text">"Anzahl der an das RKI übermittelten Personen, die die erste Impfdosis erhalten haben."</string>
+    <!-- XTXT: Statistics FAQ text -->
+    <string name="statistics_faq_text">"Weitere Informationen finden Sie in den FAQ:\n\nFAQ zu Statistiken"</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility

@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.test.core.storage
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
-import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
-import de.rki.coronawarnapp.covidcertificate.test.core.certificate.TestDccV1
-import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -13,13 +13,18 @@ import java.util.Locale
 
 data class TestCertificateContainer(
     internal val data: StoredTestCertificateData,
-    private val qrCodeExtractor: TestCertificateQRCodeExtractor,
+    private val qrCodeExtractor: DccQrCodeExtractor,
     val isUpdatingData: Boolean = false,
 ) : StoredTestCertificateData by data {
 
     @delegate:Transient
-    private val certificateData: DccData<TestDccV1> by lazy {
-        data.testCertificateQrCode!!.let { qrCodeExtractor.extract(it).data }
+    private val testCertificateQRCode: TestCertificateQRCode by lazy {
+        data.testCertificateQrCode!!.let {
+            qrCodeExtractor.extract(
+                it,
+                DccV1Parser.Mode.CERT_TEST_STRICT
+            ) as TestCertificateQRCode
+        }
     }
 
     val isPublicKeyRegistered: Boolean
@@ -31,7 +36,7 @@ data class TestCertificateContainer(
     val certificateId: String?
         get() {
             if (isCertificateRetrievalPending) return null
-            return certificateData.certificate.payload.uniqueCertificateIdentifier
+            return testCertificateQRCode.uniqueCertificateIdentifier
         }
 
     fun toTestCertificate(
@@ -40,9 +45,9 @@ data class TestCertificateContainer(
     ): TestCertificate? {
         if (isCertificateRetrievalPending) return null
 
-        val header = certificateData.header
-        val certificate = certificateData.certificate
-        val testCertificate = certificate.payload
+        val header = testCertificateQRCode.data.header
+        val certificate = testCertificateQRCode.data.certificate
+        val testCertificate = certificate.test
 
         return object : TestCertificate {
             override val personIdentifier: CertificatePersonIdentifier
@@ -72,9 +77,7 @@ data class TestCertificateContainer(
                 get() = testCertificate.testNameAndManufactor?.let { valueSet?.getDisplayText(it) ?: it }
             override val sampleCollectedAt: Instant
                 get() = testCertificate.sampleCollectedAt
-            override val testResultAt: Instant?
-                get() = testCertificate.testResultAt
-            override val testCenter: String
+            override val testCenter: String?
                 get() = testCertificate.testCenter
 
             override val isUpdatingData: Boolean
