@@ -2,19 +2,19 @@ package de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsItemCameraBinding
+import de.rki.coronawarnapp.databinding.CameraPermissionItemBinding
 
 class CameraPermissionVH(parent: ViewGroup) :
-    BaseCheckInVH<CameraPermissionVH.Item, TraceLocationAttendeeCheckinsItemCameraBinding>(
-        layoutRes = R.layout.trace_location_attendee_checkins_item_camera,
+    BaseCheckInVH<CameraPermissionVH.Item, CameraPermissionItemBinding>(
+        layoutRes = R.layout.camera_permission_item,
         parent = parent
     ) {
 
-    override val viewBinding: Lazy<TraceLocationAttendeeCheckinsItemCameraBinding> = lazy {
-        TraceLocationAttendeeCheckinsItemCameraBinding.bind(itemView)
+    override val viewBinding: Lazy<CameraPermissionItemBinding> = lazy {
+        CameraPermissionItemBinding.bind(itemView)
     }
 
-    override val onBindData: TraceLocationAttendeeCheckinsItemCameraBinding.(
+    override val onBindData: CameraPermissionItemBinding.(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, _ ->

@@ -1,14 +1,19 @@
 package de.rki.coronawarnapp.util
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import de.rki.coronawarnapp.BuildConfig
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.ExternalActionException
 import de.rki.coronawarnapp.exception.reporting.report
+import timber.log.Timber
 
 /**
  * Helper object for external actions
@@ -120,6 +125,23 @@ object ExternalActionHelper {
             ExternalActionException(exception).report(
                 ExceptionCategory.UI
             )
+        }
+    }
+
+    /**
+     * Open App's device details settings such as permissions
+     */
+    fun Fragment.openAppDetailsSettings() {
+        try {
+            startActivity(
+                Intent(
+                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                    Uri.parse("package:" + BuildConfig.APPLICATION_ID)
+                )
+            )
+        } catch (e: ActivityNotFoundException) {
+            Timber.e(e, "Could not open device settings")
+            Toast.makeText(requireContext(), R.string.errors_generic_headline, Toast.LENGTH_LONG).show()
         }
     }
 }
