@@ -8,8 +8,8 @@ import org.json.JSONObject
 
 data class CoronaTestResultResponse(
     val coronaTestResult: CoronaTestResult,
-    val sampleCollectedAt: Instant?,
-    val labId: String?
+    val sampleCollectedAt: Instant? = null, // Only used for RA tests
+    val labId: String? = null, // May initially be null while test is pending
 ) {
     companion object {
         fun fromResponse(response: VerificationApiV1.TestResultResponse) =

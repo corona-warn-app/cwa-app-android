@@ -161,8 +161,7 @@ class PCRProcessorTest : BaseTest() {
                 RAT_NEGATIVE,
                 RAT_POSITIVE,
                 RAT_INVALID,
-                RAT_REDEEMED ->
-                    instance.create(request).testResult shouldBe PCR_INVALID
+                RAT_REDEEMED -> instance.create(request).testResult shouldBe PCR_INVALID
             }
         }
     }
@@ -290,7 +289,7 @@ class PCRProcessorTest : BaseTest() {
             testResultResponse = CoronaTestResultResponse(
                 coronaTestResult = PCR_OR_RAT_PENDING,
                 sampleCollectedAt = null,
-                labId = null,
+                labId = "labId",
             )
         )
         coEvery { submissionService.registerTest(any()) } answers { registrationData }
@@ -305,6 +304,7 @@ class PCRProcessorTest : BaseTest() {
             isDccConsentGiven shouldBe true
             isDccDataSetCreated shouldBe false
             isDccSupportedByPoc shouldBe true
+            labId shouldBe "labId"
         }
 
         createInstance().create(
@@ -316,6 +316,7 @@ class PCRProcessorTest : BaseTest() {
             isDccConsentGiven shouldBe false
             isDccDataSetCreated shouldBe false
             isDccSupportedByPoc shouldBe true
+            labId shouldBe "labId"
         }
     }
 
@@ -329,5 +330,56 @@ class PCRProcessorTest : BaseTest() {
         instance.markDccCreated(defaultTest, false) shouldBe defaultTest.copy(
             isDccDataSetCreated = false
         )
+    }
+
+    @Test
+    fun `response parameters are stored during initial registration`() = runBlockingTest {
+        val registrationData = RegistrationData(
+            registrationToken = "regtoken",
+            testResultResponse = CoronaTestResultResponse(
+                coronaTestResult = PCR_NEGATIVE,
+                labId = "labId",
+            )
+        )
+        coEvery { submissionService.registerTest(any()) } answers { registrationData }
+
+        createInstance().create(
+            CoronaTestQRCode.PCR(
+                qrCodeGUID = "guid",
+                isDccConsentGiven = true,
+                dateOfBirth = LocalDate.parse("2021-06-02"),
+            )
+        ).apply {
+            testResult shouldBe PCR_NEGATIVE
+            labId shouldBe "labId"
+            isDccDataSetCreated shouldBe false
+            isDccSupportedByPoc shouldBe true
+        }
+    }
+
+    @Test
+    fun `new data received during polling is stored in the test`() = runBlockingTest {
+        val instance = createInstance()
+        val pcrTest = PCRCoronaTest(
+            identifier = "identifier",
+            lastUpdatedAt = Instant.EPOCH,
+            registeredAt = nowUTC,
+            registrationToken = "regtoken",
+            testResult = PCR_POSITIVE,
+        )
+
+        (instance.pollServer(pcrTest) as PCRCoronaTest).apply {
+            labId shouldBe null
+        }
+
+        coEvery { submissionService.checkTestResult(any()) } returns CoronaTestResultResponse(
+            coronaTestResult = PCR_OR_RAT_PENDING,
+            sampleCollectedAt = nowUTC,
+            labId = "labId",
+        )
+
+        (instance.pollServer(pcrTest) as PCRCoronaTest).apply {
+            labId shouldBe "labId"
+        }
     }
 }
