@@ -63,6 +63,8 @@
 
     <!-- XTXT: Test certificate time -->
     <string name="test_certificate_time">"Test efectuat pe %1$s, %2$s"</string>
+    <!-- XTXT: Test certificate registration time -->
+    <string name="test_certificate_registration_time">"Înregistrat pe %1$s, %2$s"</string>
     <!-- XTXT: Test error label -->
     <string name="test_certificate_error_label">"Eroare la obținerea certificatului"</string>
     <!-- XBUT: Test error retry button -->
