@@ -175,7 +175,7 @@ class DefaultPlaybook @Inject constructor(
         try {
             body.invoke()
         } catch (e: Exception) {
-            Timber.d(e, "Ignoring dummy request exception")
+            Timber.v("Ignoring dummy request exception: %s", e.toString())
         }
     }
 
