@@ -8,6 +8,8 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFrag
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFragmentModule
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewFragment
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewFragmentModule
+import de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertificateDetailsFragment
+import de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertificateDetailsModule
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsModule
 import de.rki.coronawarnapp.covidcertificate.ui.info.CovidCertificateInfoFragment
@@ -35,4 +37,7 @@ abstract class DigitalCovidCertificateUIModule {
 
     @ContributesAndroidInjector(modules = [CovidCertificateInfoFragmentModule::class])
     abstract fun vaccinationConsentFragment(): CovidCertificateInfoFragment
+
+    @ContributesAndroidInjector(modules = [RecoveryCertificateDetailsModule::class])
+    abstract fun recoveryCertificateDetailsFragment(): RecoveryCertificateDetailsFragment
 }

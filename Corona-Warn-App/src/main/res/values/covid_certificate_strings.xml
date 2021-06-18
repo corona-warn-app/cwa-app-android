@@ -31,6 +31,9 @@
     <string name="vaccination_consent_onboarding_legal_information">"Ausführliche Informationen zur Datenverarbeitung finden Sie in der Datenschutzerklärung."</string>
     <!-- XBUT: Text for vaccination consent accept button -->
     <string name="vaccination_consent_accept_button">"Weiter"</string>
-
+    <!-- XTXT: Recovery certificate detail title -->
+    <string name="recovery_certificate_details_title">"Genesenenzertifikat"</string>
+    <!-- XTXT: Recovery certificate detail subtitle -->
+    <string name="recovery_certificate_details_subtitle">"EU Digitales COVID-Zertifikat"</string>
     <string name="vaccination_card_bookmark_info">Aktuell verwendetes Zertifikat</string>
 </resources>
