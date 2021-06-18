@@ -27,5 +27,5 @@ interface TestCertificate : CwaCovidCertificate {
     val registeredAt: Instant
     val isUpdatingData: Boolean
     val isCertificateRetrievalPending: Boolean
-    val identifier :TestCertificateIdentifier
+    val identifier: TestCertificateIdentifier
 }
