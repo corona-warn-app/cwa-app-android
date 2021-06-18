@@ -130,6 +130,8 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
                     get() = "Germany"
                 override val certificateId: String
                     get() = "05930482748454836478695764787840"
+                override val identifier: TestCertificateIdentifier
+                    get() = "TestCertificateIdentifier"
             }
         )
     }
