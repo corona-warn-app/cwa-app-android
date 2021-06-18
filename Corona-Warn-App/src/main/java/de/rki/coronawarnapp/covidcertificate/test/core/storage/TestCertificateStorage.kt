@@ -1,12 +1,15 @@
 package de.rki.coronawarnapp.covidcertificate.test.core.storage
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.ContainerPostProcessor
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.BaseTestCertificateData
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.GenericTestCertificateData
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertificateData
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RACertificateData
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import timber.log.Timber
@@ -17,7 +20,6 @@ import javax.inject.Singleton
 class TestCertificateStorage @Inject constructor(
     @AppContext val context: Context,
     @BaseGson val baseGson: Gson,
-    private val containerPostProcessor: ContainerPostProcessor,
 ) {
 
     private val prefs by lazy {
@@ -27,73 +29,73 @@ class TestCertificateStorage @Inject constructor(
     private val gson by lazy {
         baseGson.newBuilder().apply {
             registerTypeAdapter(CoronaTestResult::class.java, CoronaTestResult.GsonAdapter())
-            registerTypeAdapterFactory(containerPostProcessor)
         }.create()
     }
 
-    private val typeTokenPCR by lazy {
-        object : TypeToken<Set<PCRCertificateData>>() {}.type
+    private val typeTokenPCR: TypeToken<Set<PCRCertificateData>> by lazy {
+        object : TypeToken<Set<PCRCertificateData>>() {}
+    }
+    private val typeTokenRA: TypeToken<Set<RACertificateData>> by lazy {
+        object : TypeToken<Set<RACertificateData>>() {}
+    }
+    private val typeTokenGeneric: TypeToken<Set<GenericTestCertificateData>> by lazy {
+        object : TypeToken<Set<GenericTestCertificateData>>() {}
     }
 
-    private val typeTokenRA by lazy {
-        object : TypeToken<Set<RACertificateData>>() {}.type
-    }
-
-    var testCertificates: Collection<StoredTestCertificateData>
+    var testCertificates: Collection<BaseTestCertificateData>
         get() {
             Timber.tag(TAG).d("load()")
 
-            val pcrCertContainers: Set<PCRCertificateData> = run {
-                val raw = prefs.getString(PKEY_DATA_PCR, null) ?: return@run emptySet()
-                gson.fromJson<Set<PCRCertificateData>>(raw, typeTokenPCR).onEach {
-                    Timber.tag(TAG).v("PCR loaded: %s", it)
-                    requireNotNull(it.identifier)
-                    requireNotNull(it.type) { "PCR type should not be null, GSON footgun." }
-                }
-            }
+            val pcrCertContainers: Set<PCRCertificateData> = prefs.loadCerts(typeTokenPCR, PKEY_DATA_PCR)
+            val raCerts: Set<RACertificateData> = prefs.loadCerts(typeTokenRA, PKEY_DATA_RA)
+            val scannedCerts: Set<GenericTestCertificateData> = prefs.loadCerts(typeTokenGeneric, PKEY_DATA_SCANNED)
 
-            val raCerts: Set<RACertificateData> = run {
-                val raw = prefs.getString(PKEY_DATA_RA, null) ?: return@run emptySet()
-                gson.fromJson<Set<RACertificateData>>(raw, typeTokenRA).onEach {
-                    Timber.tag(TAG).v("RA loaded: %s", it)
-                    requireNotNull(it.identifier)
-                    requireNotNull(it.type) { "RA type should not be null, GSON footgun." }
-                }
-            }
-
-            return (pcrCertContainers + raCerts).also {
+            return (pcrCertContainers + raCerts + scannedCerts).also {
                 Timber.tag(TAG).v("Loaded %d certificates.", it.size)
             }
         }
         set(value) {
             Timber.tag(TAG).d("save(testCertificates=%s)", value)
             prefs.edit {
-                value.filter { it.type == CoronaTest.Type.PCR }.run {
-                    if (isNotEmpty()) {
-                        val raw = gson.toJson(this, typeTokenPCR)
-                        Timber.tag(TAG).v("PCR storing: %s", raw)
-                        putString(PKEY_DATA_PCR, raw)
-                    } else {
-                        Timber.tag(TAG).v("No PCR certificates available, clearing.")
-                        remove(PKEY_DATA_PCR)
-                    }
-                }
-                value.filter { it.type == CoronaTest.Type.RAPID_ANTIGEN }.run {
-                    if (isNotEmpty()) {
-                        val raw = gson.toJson(this, typeTokenRA)
-                        Timber.tag(TAG).v("RA storing: %s", raw)
-                        putString(PKEY_DATA_RA, raw)
-                    } else {
-                        Timber.tag(TAG).v("No RA certificates available, clearing.")
-                        remove(PKEY_DATA_RA)
-                    }
-                }
+
+                storeCerts(value.filterIsInstance<PCRCertificateData>(), typeTokenPCR, PKEY_DATA_PCR)
+                storeCerts(value.filterIsInstance<RACertificateData>(), typeTokenRA, PKEY_DATA_RA)
+                storeCerts(value.filterIsInstance<GenericTestCertificateData>(), typeTokenGeneric, PKEY_DATA_SCANNED)
             }
         }
+
+    private fun <T : BaseTestCertificateData> SharedPreferences.Editor.storeCerts(
+        certs: Collection<BaseTestCertificateData>,
+        typeToken: TypeToken<Set<T>>,
+        storageKey: String
+    ) {
+        val type = typeToken.type
+        if (certs.isNotEmpty()) {
+            val raw = gson.toJson(certs, type)
+            Timber.tag(TAG).v("Storing scanned certs ($type): %s", raw)
+            putString(storageKey, raw)
+        } else {
+            Timber.tag(TAG).v("No stored certificates ($type) available, clearing.")
+            remove(storageKey)
+        }
+    }
+
+    private fun <T : BaseTestCertificateData> SharedPreferences.loadCerts(
+        typeToken: TypeToken<Set<T>>,
+        storageKey: String
+    ): Set<T> {
+        val type = typeToken.type
+        val raw = prefs.getString(storageKey, null) ?: return emptySet()
+        return gson.fromJson<Set<T>>(raw, type).onEach {
+            Timber.tag(TAG).v("Certificates ($type) loaded: %s", it)
+            requireNotNull(it.identifier)
+        }
+    }
 
     companion object {
         private const val TAG = "TestCertificateStorage"
         private const val PKEY_DATA_RA = "testcertificate.data.ra"
         private const val PKEY_DATA_PCR = "testcertificate.data.pcr"
+        private const val PKEY_DATA_SCANNED = "testcertificate.data.scanned"
     }
 }
