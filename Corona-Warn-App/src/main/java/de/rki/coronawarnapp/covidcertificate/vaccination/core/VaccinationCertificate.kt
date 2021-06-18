@@ -6,7 +6,7 @@ import org.joda.time.LocalDate
 interface VaccinationCertificate : CwaCovidCertificate {
 
     val vaccinatedAt: LocalDate
-
+    val targetDisease: String
     val vaccineTypeName: String
     val vaccineManufacturer: String
     val medicalProductName: String
