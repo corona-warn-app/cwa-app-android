@@ -1,14 +1,17 @@
-package de.rki.coronawarnapp.covidcertificate.test.core.storage
+package de.rki.coronawarnapp.covidcertificate.test.core
 
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.TestCertificateServerException
+import de.rki.coronawarnapp.covidcertificate.common.exception.TestCertificateServerException.ErrorCode
 import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateComponents
 import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateServer
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertificateData
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RACertificateData
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RetrievedTestCertificate
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.encryption.rsa.RSACryptography
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
@@ -34,9 +37,14 @@ class TestCertificateProcessor @Inject constructor(
      * the test certificate components should be available, via [obtainCertificate].
      */
     internal suspend fun registerPublicKey(
-        data: StoredTestCertificateData
-    ): StoredTestCertificateData {
+        data: RetrievedTestCertificate
+    ): RetrievedTestCertificate {
         Timber.tag(TAG).d("registerPublicKey(cert=%s)", data)
+
+        if (data is PCRCertificateData && data.labId.isNullOrBlank()) {
+            Timber.tag(TAG).e("PCR certificate is missing valid labId: %s", data)
+            throw TestCertificateServerException(ErrorCode.DCC_NOT_SUPPORTED_BY_LAB)
+        }
 
         if (data.publicKeyRegisteredAt != null) {
             Timber.tag(TAG).d("Public key is already registered for %s", data)
@@ -57,13 +65,13 @@ class TestCertificateProcessor @Inject constructor(
 
         val nowUTC = timeStamper.nowUTC
 
-        return when (data.type) {
-            CoronaTest.Type.PCR -> (data as PCRCertificateData).copy(
+        return when (data) {
+            is PCRCertificateData -> data.copy(
                 publicKeyRegisteredAt = nowUTC,
                 rsaPublicKey = rsaKeyPair.publicKey,
                 rsaPrivateKey = rsaKeyPair.privateKey,
             )
-            CoronaTest.Type.RAPID_ANTIGEN -> (data as RACertificateData).copy(
+            is RACertificateData -> data.copy(
                 publicKeyRegisteredAt = nowUTC,
                 rsaPublicKey = rsaKeyPair.publicKey,
                 rsaPrivateKey = rsaKeyPair.privateKey,
@@ -79,9 +87,14 @@ class TestCertificateProcessor @Inject constructor(
      * The server does not immediately return the test certificate components after registering the public key.
      */
     internal suspend fun obtainCertificate(
-        data: StoredTestCertificateData
-    ): StoredTestCertificateData {
+        data: RetrievedTestCertificate
+    ): RetrievedTestCertificate {
         Timber.tag(TAG).d("requestCertificate(cert=%s)", data)
+
+        if (data is PCRCertificateData && data.labId.isNullOrBlank()) {
+            Timber.tag(TAG).e("PCR certificate is missing valid labId: %s", data)
+            throw TestCertificateServerException(ErrorCode.DCC_NOT_SUPPORTED_BY_LAB)
+        }
 
         if (data.publicKeyRegisteredAt == null) {
             throw IllegalStateException("Public key is not registered yet.")
@@ -111,7 +124,7 @@ class TestCertificateProcessor @Inject constructor(
         val components = try {
             executeRequest()
         } catch (e: TestCertificateServerException) {
-            if (e.errorCode == TestCertificateServerException.ErrorCode.DCC_COMP_202) {
+            if (e.errorCode == ErrorCode.DCC_COMP_202) {
                 delay(certConfig.waitForRetry.millis)
                 executeRequest()
             } else {
@@ -138,12 +151,12 @@ class TestCertificateProcessor @Inject constructor(
 
         val nowUtc = timeStamper.nowUTC
 
-        return when (data.type) {
-            CoronaTest.Type.PCR -> (data as PCRCertificateData).copy(
+        return when (data) {
+            is PCRCertificateData -> data.copy(
                 testCertificateQrCode = extractedData.qrCode,
                 certificateReceivedAt = nowUtc,
             )
-            CoronaTest.Type.RAPID_ANTIGEN -> (data as RACertificateData).copy(
+            is RACertificateData -> data.copy(
                 testCertificateQrCode = extractedData.qrCode,
                 certificateReceivedAt = nowUtc,
             )
@@ -151,13 +164,13 @@ class TestCertificateProcessor @Inject constructor(
     }
 
     internal suspend fun updateSeenByUser(
-        data: StoredTestCertificateData,
+        data: RetrievedTestCertificate,
         seenByUser: Boolean,
-    ): StoredTestCertificateData {
+    ): RetrievedTestCertificate {
         Timber.tag(TAG).d("updateSeenByUser(data=%s, seenByUser=%b)", data, seenByUser)
-        return when (data.type) {
-            CoronaTest.Type.PCR -> (data as PCRCertificateData).copy(certificateSeenByUser = seenByUser)
-            CoronaTest.Type.RAPID_ANTIGEN -> (data as RACertificateData).copy(certificateSeenByUser = seenByUser)
+        return when (data) {
+            is PCRCertificateData -> data.copy(certificateSeenByUser = seenByUser)
+            is RACertificateData -> data.copy(certificateSeenByUser = seenByUser)
         }
     }
 

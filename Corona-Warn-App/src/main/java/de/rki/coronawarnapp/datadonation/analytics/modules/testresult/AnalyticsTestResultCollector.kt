@@ -122,7 +122,7 @@ class AnalyticsTestResultCollector @Inject constructor(
         if (analyticsDisabled) return
         if (testResult.isFinal) {
             val receivedAt = timeStamper.nowUTC
-            Timber.d("finalTestResultReceivedAt($testResult, $receivedAt")
+            Timber.d("finalTestResultReceivedAt($testResult, $receivedAt)")
             type.settings.finalTestResultReceivedAt.update { receivedAt }
         }
     }
