@@ -155,6 +155,8 @@ class TestCertificateRepository @Inject constructor(
      *
      * [refresh] itself will NOT throw an exception.
      */
+    // TODO Will be addressed in 2.5?
+    @Suppress("ComplexMethod")
     suspend fun refresh(identifier: TestCertificateIdentifier? = null): Set<RefreshResult> {
         Timber.tag(TAG).d("refresh(identifier=%s)", identifier)
 
