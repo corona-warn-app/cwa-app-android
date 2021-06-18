@@ -41,8 +41,8 @@ class TestCertificateProcessor @Inject constructor(
     ): RetrievedTestCertificate {
         Timber.tag(TAG).d("registerPublicKey(cert=%s)", data)
 
-        if (data.labId.isNullOrBlank()) {
-            Timber.tag(TAG).e("Certificate is missing valid labId: %s", data)
+        if (data is PCRCertificateData && data.labId.isNullOrBlank()) {
+            Timber.tag(TAG).e("PCR certificate is missing valid labId: %s", data)
             throw TestCertificateServerException(ErrorCode.DCC_NOT_SUPPORTED_BY_LAB)
         }
 
@@ -91,8 +91,8 @@ class TestCertificateProcessor @Inject constructor(
     ): RetrievedTestCertificate {
         Timber.tag(TAG).d("requestCertificate(cert=%s)", data)
 
-        if (data.labId.isNullOrBlank()) {
-            Timber.tag(TAG).e("Certificate is missing valid labId: %s", data)
+        if (data is PCRCertificateData && data.labId.isNullOrBlank()) {
+            Timber.tag(TAG).e("PCR certificate is missing valid labId: %s", data)
             throw TestCertificateServerException(ErrorCode.DCC_NOT_SUPPORTED_BY_LAB)
         }
 
