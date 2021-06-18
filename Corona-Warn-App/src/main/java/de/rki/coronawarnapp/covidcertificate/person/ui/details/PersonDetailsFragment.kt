@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateItem
 import de.rki.coronawarnapp.databinding.PersonDetailsFragmentBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -52,16 +51,20 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                 europaImage.alpha = subtitleAlpha
             }
 
-            viewModel.uiState.observe(viewLifecycleOwner) { item -> bindViews(item) }
+            setToolbarOverlay()
+            viewModel.uiState.observe(viewLifecycleOwner) {
+                personDetailsAdapter.update(it)
+            }
             viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
         }
     }
 
     private fun onNavEvent(event: PersonDetailsEvents) {
         when (event) {
-            is OpenRecoveryCertificateDetails -> {
-                // TODO
-            }
+            is OpenRecoveryCertificateDetails -> doNavigate(
+                PersonDetailsFragmentDirections
+                    .actionPersonDetailsFragmentToRecoveryCertificateDetailsFragment(event.certificateId)
+            )
             is OpenTestCertificateDetails -> doNavigate(
                 PersonDetailsFragmentDirections
                     .actionPersonDetailsFragmentToTestCertificateDetailsFragment(event.certificateId)
@@ -90,11 +93,5 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
         val behavior: AppBarLayout.ScrollingViewBehavior =
             layoutParamsRecyclerView.behavior as (AppBarLayout.ScrollingViewBehavior)
         behavior.overlayTop = (deviceWidth / divider) - 24
-    }
-
-    private fun PersonDetailsFragmentBinding.bindViews(certificates: List<CertificateItem>) {
-        personDetailsAdapter.update(certificates)
-        setToolbarOverlay()
-        // TODO
     }
 }

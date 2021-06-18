@@ -70,6 +70,9 @@
             app:destination="@id/testCertificateDetailsFragment"
             app:popUpTo="@id/dccQrCodeScanFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_dccQrCodeScanFragment_to_recoveryCertificateDetailsFragment"
+            app:destination="@id/recoveryCertificateDetailsFragment" />
     </fragment>
 
     <fragment
@@ -86,6 +89,9 @@
         <action
             android:id="@+id/action_personDetailsFragment_to_testCertificateDetailsFragment"
             app:destination="@id/testCertificateDetailsFragment" />
+        <action
+            android:id="@+id/action_personDetailsFragment_to_recoveryCertificateDetailsFragment"
+            app:destination="@id/recoveryCertificateDetailsFragment" />
     </fragment>
 
     <fragment
@@ -95,6 +101,15 @@
         tools:layout="@layout/fragment_vaccination_details">
         <argument
             android:name="vaccinationCertificateId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/recoveryCertificateDetailsFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertificateDetailsFragment"
+        android:label="RecoveryCertificateDetailsFragment"
+        tools:layout="@layout/fragment_recovery_certificate_details">
+        <argument
+            android:name="recoveryCertificateId"
             app:argType="string" />
     </fragment>
 </navigation>
