@@ -80,7 +80,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
             personCertificates.certificates.find { it is VaccinationCertificate }?.let { certificate ->
                 val vaccinatedPerson = vaccinatedPerson(certificate)
                 val timeUntilImmunity = vaccinatedPerson.getTimeUntilImmunity()
-                if (vaccinatedPerson.getVaccinationStatus() != IMMUNITY) {
+                if (vaccinatedPerson.getVaccinationStatus(timeStamper.nowUTC) != IMMUNITY) {
                     add(VaccinationInfoCard.Item(timeUntilImmunity))
                 }
             }

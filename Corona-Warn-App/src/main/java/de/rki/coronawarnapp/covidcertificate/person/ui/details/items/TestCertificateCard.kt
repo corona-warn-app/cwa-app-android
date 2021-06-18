@@ -6,12 +6,14 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.databinding.TestCertificateCardBinding
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class TestCertificateCard(parent: ViewGroup) :
     PersonDetailsAdapter.PersonDetailsItemVH<TestCertificateCard.Item, TestCertificateCardBinding>(
-        layoutRes = R.layout.vaccination_certificate_card,
+        layoutRes = R.layout.test_certificate_card,
         parent = parent
     ) {
 
@@ -28,7 +30,7 @@ class TestCertificateCard(parent: ViewGroup) :
         root.setOnClickListener { curItem.onClick() }
         certificateDate.text = context.getString(
             R.string.test_certificate_card_date,
-            certificate.sampleCollectedAt.toUserTimeZone()
+            certificate.sampleCollectedAt.toUserTimeZone().toDayFormat()
         )
         testCertificateType.text = certificate.testType
         currentCertificate.isVisible = curItem.isCurrentCertificate
