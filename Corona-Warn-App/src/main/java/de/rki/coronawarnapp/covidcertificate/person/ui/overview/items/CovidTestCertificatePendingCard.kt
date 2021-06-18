@@ -28,7 +28,7 @@ class CovidTestCertificatePendingCard(parent: ViewGroup) :
 
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
 
-        val registrationTime =  curItem.certificate.registeredAt.toUserTimeZone()
+        val registrationTime = curItem.certificate.registeredAt.toUserTimeZone()
         testTime.text = context.getString(
             R.string.test_certificate_registration_time,
             registrationTime.toDayFormat(),
