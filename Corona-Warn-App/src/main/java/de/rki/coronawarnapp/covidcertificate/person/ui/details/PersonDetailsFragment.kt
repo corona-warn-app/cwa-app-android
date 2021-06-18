@@ -70,6 +70,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                 PersonDetailsFragmentDirections
                     .actionPersonDetailsFragmentToVaccinationDetailsFragment(event.certificateId)
             )
+            Back -> popBackStack()
         }
     }
 

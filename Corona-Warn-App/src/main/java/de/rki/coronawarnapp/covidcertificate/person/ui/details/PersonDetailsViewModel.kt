@@ -27,10 +27,12 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.transform
+import timber.log.Timber
 
 class PersonDetailsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
@@ -44,9 +46,12 @@ class PersonDetailsViewModel @AssistedInject constructor(
     val events = SingleLiveEvent<PersonDetailsEvents>()
 
     private val personCertificatesFlow = personCertificatesProvider.personCertificates.mapNotNull { certificateSet ->
-        certificateSet.firstOrNull {
+        certificateSet.first {
             it.personIdentifier.codeSHA256 == personIdentifierCode
         }
+    }.catch { error ->
+        Timber.d(error, "No person found for $personIdentifierCode")
+        events.postValue(Back)
     }
 
     private val qrCodeFlow: Flow<Bitmap?> = personCertificatesFlow.transform {
@@ -78,7 +83,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
                 }
             }
 
-            personCertificates.certificates.forEach { addCardItem(it) }
+            personCertificates.certificates.forEach { addCardItem(it, personCertificates.highestPriorityCertificate) }
         }
 
     private suspend fun cwaUserCard(
@@ -91,15 +96,19 @@ class PersonDetailsViewModel @AssistedInject constructor(
         }
     }
 
-    private suspend fun MutableList<SpecificCertificatesItem>.addCardItem(certificate: CwaCovidCertificate) {
+    private suspend fun MutableList<SpecificCertificatesItem>.addCardItem(
+        certificate: CwaCovidCertificate,
+        highestPriorityCertificate: CwaCovidCertificate
+    ) {
         when (certificate) {
             is TestCertificate -> {
                 // TODO add test certificate specific cards here
             }
             is VaccinationCertificate -> add(
                 VaccinationCertificateCard.Item(
-                    certificate,
-                    vaccinatedPerson(certificate).getVaccinationStatus(timeStamper.nowUTC)
+                    certificate = certificate,
+                    vaccinationStatus = vaccinatedPerson(certificate).getVaccinationStatus(timeStamper.nowUTC),
+                    isCurrentCertificate = certificate.certificateId == highestPriorityCertificate.certificateId
                 ) {
                     events.postValue(OpenVaccinationCertificateDetails(certificate.certificateId))
                 }

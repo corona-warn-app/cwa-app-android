@@ -29,13 +29,15 @@
     <string name="vaccination_list_title">"EU Digitales COVID-Zertifikat"</string>
     <!-- XTXT: Vaccination List complete vaccination subtitle-->
     <string name="vaccination_list_complete_vaccination_subtitle">"SARS-CoV-2 Vaccination Protection"</string>
-    <!-- XTXT: Vaccination List top card subtitle-->
-    <string name="vaccination_list_name_card_subtitle">"Born %1$s"</string>
-    <!-- XTXT: Vaccination List top card subtitle-->
-    <string name="vaccination_list_vaccination_card_title">"Vaccination %1$d of %2$d"</string>
-    <!-- XTXT: Vaccination List top card subtitle-->
-    <string name="vaccination_list_vaccination_card_subtitle">"Performed on %1$s"</string>
-    <!-- XTXT: Vaccination List immunity information card body-->
+    <!-- XTXT: Vaccination card date-->
+    <string name="vaccination_list_name_card_subtitle">geboren %1$s</string>
+    <!-- XTXT: Vaccination  card title-->
+    <string name="vaccination_list_vaccination_card_title">Impfung %1$d von %2$d</string>
+    <!-- XTXT: Vaccination card headline-->
+    <string name="vaccination_list_vaccination_card_headline">Impfzertifikat</string>
+    <!-- XTXT: Vaccination card subtitle-->
+    <string name="vaccination_list_vaccination_card_subtitle">geimpft am %1$s</string>
+    <!-- XTXT: Vaccination card immunity information card body-->
     <plurals name="vaccination_list_immunity_card_body">
         <item quantity="one">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete for another %1$d day."</item>
         <item quantity="other">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>

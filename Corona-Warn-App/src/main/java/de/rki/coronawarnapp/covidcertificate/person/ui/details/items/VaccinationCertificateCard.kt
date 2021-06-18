@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.details.items
 
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationCertificateCard.Item
@@ -34,10 +35,12 @@ class VaccinationCertificateCard(parent: ViewGroup) :
             certificate.doseNumber,
             certificate.totalSeriesOfDoses
         )
-        vaccinationCardSubtitle.text = context.getString(
+        vaccinationCardDate.text = context.getString(
             R.string.vaccination_list_vaccination_card_subtitle,
             certificate.vaccinatedAt
         )
+
+        currentCertificate.isVisible = curItem.isCurrentCertificate
 
         val iconRes = when (curItem.vaccinationStatus) {
             INCOMPLETE,
@@ -56,6 +59,7 @@ class VaccinationCertificateCard(parent: ViewGroup) :
     data class Item(
         val certificate: VaccinationCertificate,
         val vaccinationStatus: VaccinatedPerson.Status,
+        val isCurrentCertificate: Boolean,
         val onClick: () -> Unit
     ) : SpecificCertificatesItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
