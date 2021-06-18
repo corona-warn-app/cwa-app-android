@@ -114,7 +114,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         dateOfBirth.text = certificate.dateOfBirth.toHyphenSeparatedDate()
         vaccineName.text = certificate.medicalProductName
         vaccineType.text = certificate.vaccineTypeName
-        diseaseType.text = certificate.targetId
+        diseaseType.text = certificate.targetDisease
         vaccineManufacturer.text = certificate.vaccineManufacturer
         vaccinationNumber.text = getString(
             R.string.vaccination_certificate_attribute_dose_number,
