@@ -36,7 +36,7 @@
     <!-- XTXT: Vaccination List top card subtitle-->
     <string name="vaccination_list_vaccination_card_subtitle">durchgeführt am %1$s</string>
     <!-- XTXT: Vaccination List immunity information card body-->
-    <plurals name="vaccination_list_immunity_card_body">
+    <plurals name="vaccination_list_immunity_card_body" tools:ignore="UnusedQuantity">
         <item quantity="one">Sie haben nun alle derzeit geplanten Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tag vollständig.</item>
         <item quantity="other">Sie haben nun alle derzeit geplanten Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
         <item quantity="zero">Sie haben nun alle derzeit geplanten Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
@@ -44,6 +44,9 @@
         <item quantity="few">Sie haben nun alle derzeit geplanten Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
         <item quantity="many">Sie haben nun alle derzeit geplanten Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
     </plurals>
+
+    <!-- XTXT: Vaccination is not complete information card body-->
+    <string name="vaccination_not_complete_message">"Sie haben noch nicht alle derzeit geplanten Impfungen erhalten. Daher ist ihr Impfschutz noch nicht vollständig."</string>
     <!-- XBUT: Vaccination List register additional vaccination button -->
     <string name="vaccination_list_register_new_vaccination_button">Weitere Impfung hinzufügen</string>
     <!-- XBUT: Vaccination List delete button -->

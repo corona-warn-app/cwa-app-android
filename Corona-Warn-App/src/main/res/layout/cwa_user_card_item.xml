@@ -6,16 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="24dp"
-    android:padding="16dp"
-    android:layout_marginTop="8dp">
+    android:layout_marginTop="8dp"
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/user_name"
         style="@style/body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:textSize="16sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/cwa_user_switch"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Andrea Schneider" />
@@ -24,6 +26,7 @@
         android:id="@+id/birth_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/user_name"
         app:layout_constraintStart_toStartOf="@id/user_name"
         app:layout_constraintTop_toBottomOf="@id/user_name"
         tools:text="geboren 18.04.1943" />
@@ -32,8 +35,6 @@
         android:id="@+id/cwa_user_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="false"
-        android:importantForAccessibility="no"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

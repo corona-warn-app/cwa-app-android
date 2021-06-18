@@ -41,10 +41,13 @@ class VaccinationCertificateCard(parent: ViewGroup) :
 
         val iconRes = when (curItem.vaccinationStatus) {
             INCOMPLETE,
-            COMPLETE -> R.drawable.ic_vaccination_incomplete
+            COMPLETE -> when {
+                certificate.isFinalShot -> R.drawable.ic_vaccination_complete
+                else -> R.drawable.ic_vaccination_incomplete
+            }
             IMMUNITY -> when {
-                certificate.isFinalShot -> R.drawable.ic_vaccination_complete_final
-                else -> R.drawable.ic_vaccination_complete
+                certificate.isFinalShot -> R.drawable.ic_vaccination_immune
+                else -> R.drawable.ic_vaccination_incomplete
             }
         }
         vaccinationIcon.setImageResource(iconRes)

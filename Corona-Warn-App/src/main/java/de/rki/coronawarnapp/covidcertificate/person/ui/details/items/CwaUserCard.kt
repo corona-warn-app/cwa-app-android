@@ -5,6 +5,8 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
 import de.rki.coronawarnapp.databinding.CwaUserCardItemBinding
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateOfBirthFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class CwaUserCard(parent: ViewGroup) :
@@ -23,16 +25,14 @@ class CwaUserCard(parent: ViewGroup) :
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
         curItem.apply {
             userName.text = certificate.fullName
-            birthDate.text = certificate.dateOfBirth.toString(DATE_FORMAT)
+            birthDate.text = certificate.dateOfBirth.toDayFormat()
+            cwaUserSwitch.setOnCheckedChangeListener { _, isChecked -> onSwitch(isChecked) }
         }
     }
 
-    companion object {
-        private const val DATE_FORMAT = "dd.MM.yy"
-    }
-
     data class Item(
-        val certificate: CwaCovidCertificate
+        val certificate: CwaCovidCertificate,
+        val onSwitch: (Boolean) -> Unit
     ) : SpecificCertificatesItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
         override val stableId = this.hashCode().toLong()
