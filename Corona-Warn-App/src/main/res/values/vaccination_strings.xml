@@ -50,7 +50,7 @@
     <!-- XTXT: Vaccination is not complete information card body-->
     <string name="vaccination_not_complete_message">"Sie haben noch nicht alle derzeit geplanten Impfungen erhalten. Daher ist ihr Impfschutz noch nicht vollständig."</string>
     <!-- XBUT: Vaccination List register additional vaccination button -->
-    <string name="vaccination_list_register_new_vaccination_button">"Register Another Vaccination"</string>
+    <string name="vaccination_list_register_new_vaccination_button">"Add Another Vaccination"</string>
     <!-- XBUT: Vaccination List delete button -->
     <string name="vaccination_list_delete_button">"Delete"</string>
     <!-- XTXT: Vaccination List deletion dialog title-->
