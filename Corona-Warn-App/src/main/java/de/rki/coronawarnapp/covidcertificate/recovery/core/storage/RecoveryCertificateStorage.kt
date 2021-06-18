@@ -12,15 +12,11 @@ import javax.inject.Singleton
 @Singleton
 class RecoveryCertificateStorage @Inject constructor(
     @AppContext val context: Context,
-    @BaseGson val baseGson: Gson,
+    @BaseGson val gson: Gson,
 ) {
 
     private val prefs by lazy {
         context.getSharedPreferences("recovery_localdata", Context.MODE_PRIVATE)
-    }
-
-    private val gson by lazy {
-        baseGson.newBuilder().create()
     }
 
     var recoveryCertificates: Set<StoredRecoveryCertificateData>

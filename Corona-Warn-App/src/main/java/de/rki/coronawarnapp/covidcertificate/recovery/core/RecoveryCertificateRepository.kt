@@ -6,11 +6,9 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertif
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateIdentifier
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateStorage
-import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
-import de.rki.coronawarnapp.util.flow.combine
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -18,6 +16,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.plus
 import timber.log.Timber
 import javax.inject.Inject
@@ -28,7 +27,6 @@ class RecoveryCertificateRepository @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
     private val qrCodeExtractor: DccQrCodeExtractor,
-    valueSetsRepository: ValueSetsRepository,
     private val storage: RecoveryCertificateStorage,
 ) {
 
@@ -62,12 +60,10 @@ class RecoveryCertificateRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
-    val certificates: Flow<Set<RecoveryCertificateWrapper>> = combine(
-        internalData.data,
-        valueSetsRepository.latestVaccinationValueSets // TODO use corrects sets
-    ) { containers, currentValueSet ->
-        containers.map { RecoveryCertificateWrapper(currentValueSet, it) }.toSet()
-    }
+    val certificates: Flow<Set<RecoveryCertificateWrapper>> =
+        internalData.data.transform { set ->
+            set.map { RecoveryCertificateWrapper(null, it) }.toSet()
+        }
 
     suspend fun requestCertificate(qrCode: RecoveryCertificateQRCode): RecoveryCertificateContainer {
         Timber.tag(TAG).d("requestCertificate(qrCode=%s)", qrCode)
