@@ -27,20 +27,20 @@ class TravelNoticeView @JvmOverloads constructor(
 
         binding.apply {
             if (travelNoticeGerman.text ==
-                context.getString(R.string.green_certificate_attribute_certificate_travel_notice_german)
+                context.getString(R.string.covid_certificate_attribute_travel_notice_german)
             ) {
                 travelNoticeGerman.setUrl(
-                    R.string.green_certificate_attribute_certificate_travel_notice_german,
+                    R.string.covid_certificate_attribute_travel_notice_german,
                     R.string.green_certificate_travel_notice_link_de,
                     R.string.green_certificate_travel_notice_link_de
                 )
             }
 
             if (travelNoticeEnglish.text ==
-                context.getString(R.string.green_certificate_attribute_certificate_travel_notice_english)
+                context.getString(R.string.covid_certificate_attribute_travel_notice_english)
             ) {
                 travelNoticeEnglish.setUrl(
-                    R.string.green_certificate_attribute_certificate_travel_notice_english,
+                    R.string.covid_certificate_attribute_travel_notice_english,
                     R.string.green_certificate_travel_notice_link_en,
                     R.string.green_certificate_travel_notice_link_en
                 )
