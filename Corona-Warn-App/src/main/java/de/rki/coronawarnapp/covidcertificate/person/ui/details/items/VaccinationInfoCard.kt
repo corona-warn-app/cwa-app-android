@@ -18,7 +18,8 @@ class VaccinationInfoCard(parent: ViewGroup) :
     }
 
     override val onBindData: VaccinationInfoCardBinding.(
-        item: Item, payloads: List<Any>
+        item: Item,
+        payloads: List<Any>
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
         val daysUntilImmunity = curItem.timeUntilImmunity?.standardDays?.toInt()

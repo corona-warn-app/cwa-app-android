@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
 import de.rki.coronawarnapp.databinding.CwaUserCardItemBinding
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateOfBirthFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
