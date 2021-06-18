@@ -53,10 +53,10 @@
                     android:layout_marginTop="90dp"
                     android:layout_marginBottom="12dp"
                     android:gravity="center"
+                    android:text="@string/recovery_certificate_details_title"
                     android:textColor="@android:color/white"
                     android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:text="@string/vaccination_certificate_title" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/subtitle"
@@ -66,7 +66,7 @@
                     android:layout_marginHorizontal="24dp"
                     android:layout_marginBottom="8dp"
                     android:gravity="center"
-                    android:text="@string/vaccination_certificate_subtitle"
+                    android:text="@string/recovery_certificate_details_subtitle"
                     android:textColor="@android:color/white"
                     android:textSize="18sp" />
 
@@ -76,12 +76,12 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:theme="@style/Theme.MaterialComponents"
                 app:layout_collapseMode="pin"
                 app:layout_scrollFlags="scroll|enterAlways"
-                app:navigationIconTint="@android:color/white"
-                app:menu="@menu/menu_covid_certificate_detail"
-                android:theme="@style/Theme.MaterialComponents"
+                app:menu="@menu/menu_recovery_certificate_details"
                 app:navigationIcon="@drawable/ic_back"
+                app:navigationIconTint="@android:color/white"
                 app:popupTheme="@style/Theme.MaterialComponents.Light">
 
                 <LinearLayout
@@ -90,12 +90,14 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
+
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="32dp"
                         android:importantForAccessibility="no"
                         app:srcCompat="@drawable/ic_cwa_logo_white" />
+
                 </LinearLayout>
 
             </com.google.android.material.appbar.MaterialToolbar>
@@ -125,7 +127,7 @@
                 android:layout_marginBottom="6dp" />
 
             <LinearLayout
-                style="@style/Card.Vaccination"
+                style="@style/Card.GreenCertificate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
@@ -165,85 +167,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/covid_certificate_attribute_disease_type" />
+                    android:text="@string/recovery_certificate_attribute_recovered_from" />
 
                 <TextView
-                    android:id="@+id/disease_type"
+                    android:id="@+id/recovered_from_desease"
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    tools:text="" />
+                    tools:text="COVID-19" />
 
                 <TextView
                     style="@style/body1Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/vaccination_certificate_attribute_vaccine_name" />
+                    android:text="@string/recovery_certificate_attribute_first_positive_test_result" />
 
                 <TextView
-                    android:id="@+id/vaccine_name"
-                    style="@style/body1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    tools:text="Comirnaty" />
-
-                <TextView
-                    style="@style/body1Medium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="@string/vaccination_certificate_attribute_vaccine_type" />
-
-                <TextView
-                    android:id="@+id/vaccine_type"
-                    style="@style/body1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    tools:text="mRNA" />
-
-                <TextView
-                    style="@style/body1Medium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="@string/vaccination_certificate_attribute_manufacturer" />
-
-                <TextView
-                    android:id="@+id/vaccine_manufacturer"
-                    style="@style/body1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    tools:text="BioNTech" />
-
-                <TextView
-                    style="@style/body1Medium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="@string/vaccination_certificate_attribute_vaccination_number" />
-
-                <TextView
-                    android:id="@+id/vaccination_number"
-                    style="@style/body1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    tools:text="2 of 2" />
-
-                <TextView
-                    style="@style/body1Medium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="@string/vaccination_certificate_attribute_vaccination_date" />
-
-                <TextView
-                    android:id="@+id/vaccination_date"
+                    android:id="@+id/date_of_first_positive_test_result"
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -255,7 +197,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/vaccination_certificate_attribute_certificate_country" />
+                    android:text="@string/test_certificate_attribute_state_of_testing" />
 
                 <TextView
                     android:id="@+id/certificate_country"
@@ -278,7 +220,38 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    tools:text="RKI" />
+                    tools:text="G05930482748454836478695764787840" />
+
+
+                <TextView
+                    style="@style/body1Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/recovery_certificate_attribute_certificate_certification_period_start" />
+
+                <TextView
+                    android:id="@+id/certification_period_start"
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    tools:text="2021-05-23" />
+
+                <TextView
+                    style="@style/body1Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/recovery_certificate_attribute_certificate_certification_period_end" />
+
+                <TextView
+                    android:id="@+id/certification_period_end"
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    tools:text="2021-11-23" />
 
                 <TextView
                     style="@style/body1Medium"

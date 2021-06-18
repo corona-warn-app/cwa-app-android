@@ -21,10 +21,10 @@
     <string name="request_gc_dialog_title">"Cancel Registration"</string>
     <!-- XTXT: Request green certificate exit dialog message -->
     <string name="request_gc_dialog_message">"If you cancel the test registration, you cannot receive your test result in the app."</string>
+    <!-- XBUT: Request green certificate exit dialog positive button -->
+    <string name="request_gc_dialog_positive_button">"Cancel Registration"</string>
     <!-- XBUT: Request green certificate exit dialog negative button -->
-    <string name="request_gc_dialog_positive_button">"OK"</string>
-    <!-- XBUT: Request green certificate exit dialog negative button -->
-    <string name="request_gc_dialog_negative_button">"Cancel"</string>
+    <string name="request_gc_dialog_negative_button">"Continue Registration"</string>
     <!-- XTXT: Detail green certificate title -->
     <string name="detail_green_certificate_title">"EU Digital COVID Test Certificate"</string>
     <!-- XTXT: Detail green certificate test type -->
@@ -99,4 +99,8 @@
     <string name="test_certificate_error_label_refreshing">"Your certificate is being created..."</string>
     <!-- XTXT: Test error card body refreshing -->
     <string name="test_certificate_error_refreshing_status">"Your certificate is being requested. This may take a few minutes..."</string>
+    <!-- XBUT: Text for invalid test certificate error button, linking to FAQ-->
+    <string name="test_certificate_error_invalid_labid_faq">"FAQ for Test Certificates"</string>
+    <!-- XTXT: Explains user about test certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
+    <string name="test_certificate_error_invalid_labid_faq_link">"https://www.coronawarn.app/en/faq/#test_cert"</string>
 </resources>

@@ -107,29 +107,6 @@ class RAProcessorTest : BaseTest() {
     )
 
     @Test
-    fun `if a test result poll returns a sc set it on the test`() = runBlockingTest {
-        val instance = createInstance()
-        val raTest = RACoronaTest(
-            identifier = "identifier",
-            lastUpdatedAt = Instant.EPOCH,
-            registeredAt = nowUTC,
-            registrationToken = "regtoken",
-            testResult = RAT_POSITIVE,
-            testedAt = Instant.EPOCH,
-        )
-
-        (instance.pollServer(raTest) as RACoronaTest).sampleCollectedAt shouldBe null
-
-        coEvery { submissionService.checkTestResult(any()) } returns CoronaTestResultResponse(
-            coronaTestResult = PCR_OR_RAT_PENDING,
-            sampleCollectedAt = nowUTC,
-            labId = null,
-        )
-
-        (instance.pollServer(raTest) as RACoronaTest).sampleCollectedAt shouldBe nowUTC
-    }
-
-    @Test
     fun `if we receive a pending result 60 days after registration, we map to REDEEMED`() = runBlockingTest {
         val instance = createInstance()
 
@@ -319,7 +296,7 @@ class RAProcessorTest : BaseTest() {
             testResultResponse = CoronaTestResultResponse(
                 coronaTestResult = PCR_OR_RAT_PENDING,
                 sampleCollectedAt = null,
-                labId = null,
+                labId = "labId",
             )
         )
         coEvery { submissionService.registerTest(any()) } answers { registrationData }
@@ -336,6 +313,7 @@ class RAProcessorTest : BaseTest() {
             isDccConsentGiven shouldBe false
             isDccDataSetCreated shouldBe false
             isDccSupportedByPoc shouldBe false
+            labId shouldBe "labId"
         }
 
         createInstance().create(
@@ -350,6 +328,7 @@ class RAProcessorTest : BaseTest() {
             isDccConsentGiven shouldBe true
             isDccDataSetCreated shouldBe false
             isDccSupportedByPoc shouldBe true
+            labId shouldBe "labId"
         }
     }
 
@@ -363,5 +342,60 @@ class RAProcessorTest : BaseTest() {
         instance.markDccCreated(defaultTest, false) shouldBe defaultTest.copy(
             isDccDataSetCreated = false
         )
+    }
+
+    @Test
+    fun `response parameters are stored during initial registration`() = runBlockingTest {
+        val registrationData = RegistrationData(
+            registrationToken = "regtoken",
+            testResultResponse = CoronaTestResultResponse(
+                coronaTestResult = RAT_NEGATIVE,
+                sampleCollectedAt = Instant.ofEpochSecond(123),
+                labId = "labId",
+            )
+        )
+        coEvery { submissionService.registerTest(any()) } answers { registrationData }
+
+        createInstance().create(
+            CoronaTestQRCode.RapidAntigen(
+                hash = "hash",
+                createdAt = Instant.EPOCH,
+                dateOfBirth = LocalDate.parse("2021-06-02"),
+            )
+        ).apply {
+            this as RACoronaTest
+            testResult shouldBe RAT_NEGATIVE
+            sampleCollectedAt shouldBe Instant.ofEpochSecond(123)
+            labId shouldBe "labId"
+        }
+    }
+
+    @Test
+    fun `new data received during polling is stored in the test`() = runBlockingTest {
+        val instance = createInstance()
+        val raTest = RACoronaTest(
+            identifier = "identifier",
+            lastUpdatedAt = Instant.EPOCH,
+            registeredAt = nowUTC,
+            registrationToken = "regtoken",
+            testResult = RAT_POSITIVE,
+            testedAt = Instant.EPOCH,
+        )
+
+        (instance.pollServer(raTest) as RACoronaTest).apply {
+            sampleCollectedAt shouldBe null
+            labId shouldBe null
+        }
+
+        coEvery { submissionService.checkTestResult(any()) } returns CoronaTestResultResponse(
+            coronaTestResult = PCR_OR_RAT_PENDING,
+            sampleCollectedAt = nowUTC,
+            labId = "labId",
+        )
+
+        (instance.pollServer(raTest) as RACoronaTest).apply {
+            sampleCollectedAt shouldBe nowUTC
+            labId shouldBe "labId"
+        }
     }
 }

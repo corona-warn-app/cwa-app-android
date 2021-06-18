@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ####################################
+        Special string files for the strings
+        that should always keep the german / english
+        version independent from the selected system language
+    ###################################### -->
+
+    <!-- #####################################################
+         COMMON STRINGS FOR ALL TYPES OF CERTIFICATES BELOW
+         ##################################################### -->
+
+    <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Name -->
+    <string name="covid_certificate_attribute_name" translatable="false">"Name, Vorname / Name, First Name"</string>
+    <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Date of Birth -->
+    <string name="covid_certificate_attribute_date_of_birth" translatable="false">"Geburtsdatum / Date of Birth (YYYY-MM-DD)"</string>
+    <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Target Disease -->
+    <string name="covid_certificate_attribute_disease_type" translatable="false">"Zielkrankheit oder -erreger / Disease or Agent Targeted"</string>
+    <!-- XTXT: Green Certificate Detail Screen Attribute: Certificate Issuer -->
+    <string name="covid_certificate_attribute_certificate_issuer" translatable="false">"Zertifikataussteller / Certificate Issuer"</string>
+    <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Certification Id -->
+    <string name="covid_certificate_attribute_certificate_id" translatable="false">"Zertifikatkennung / Unique Certificate Identifier"</string>
+    <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Travel Notice German -->
+    <string name="covid_certificate_attribute_travel_notice_german" translatable="false">"Diese Bescheinigung ist kein Reisedokument. Die wissenschaftlichen Erkenntnisse zu COVID-19 in den Bereichen Impfung, Testung und Genesung entwickeln sich fortlaufend weiter, auch im Hinblick auf neue besorgniserregende Virusvarianten. Bitte informieren Sie sich vor Reiseantritt über die am Zielort geltenden Gesundheitsmaßnahmen und entsprechenden Beschränkungen. Informationen über die in den jeweiligen EU-Ländern geltenden Einreisebestimmungen finden Sie unter https://reopen.europa.eu/de."</string>
+    <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Travel Notice English -->
+    <string name="covid_certificate_attribute_travel_notice_english" translatable="false">"This certificate is not a travel document. The scientific evidence on COVID-19 vaccination, testing, and recovery continues to evolve, also in view of new variants of concern of the virus. Before traveling, please check the applicable public health measures and related restrictions applied at the point of destination. Information on the current travel restrictions that apply to EU countries is available at https://reopen.europa.eu/en."</string>
+
+
+    <!-- #####################################################
+         VACCINATION CERTIFICATE STRINGS BELOW
+         ##################################################### -->
+
+    <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Vaccine -->
+    <string name="vaccination_certificate_attribute_vaccine_name" translatable="false">"Impfstoff / Vaccine"</string>
+    <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Vaccination Type -->
+    <string name="vaccination_certificate_attribute_vaccine_type" translatable="false">"Art des Impfstoffs / Vaccine Type"</string>
+    <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Manufacturer -->
+    <string name="vaccination_certificate_attribute_manufacturer" translatable="false">"Hersteller / Manufacturer"</string>
+    <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Vaccination Number -->
+    <string name="vaccination_certificate_attribute_vaccination_number" translatable="false">"Nummer der Impfung / Number in a series of vaccinations"</string>
+    <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Vaccination Date -->
+    <string name="vaccination_certificate_attribute_vaccination_date" translatable="false">"Datum der Impfung / Date of vaccination (YYYY-MM-DD)"</string>
+    <!-- XTXT: Vaccination Certificate Detail Screen Attribute: State of Vaccination -->
+    <string name="vaccination_certificate_attribute_certificate_country" translatable="false">"Land der Impfung / Member State of Vaccination"</string>
+    <!-- XTXT: Vaccination Details Vaccination Dose Number-->
+    <string name="vaccination_certificate_attribute_dose_number" translatable="false">"%1$d of %2$d"</string>
+
+
+    <!-- #####################################################
+         RECOVERY CERTIFICATE STRINGS BELOW
+         ##################################################### -->
+
+    <!-- XTXT: Recovery Certificate Detail Screen Attribute: Recovered From Desease -->
+    <string name="recovery_certificate_attribute_recovered_from" translatable="false">"Genesen von / Recovered from"</string>
+    <!-- XTXT: Recovery Certificate Detail Screen Attribute: First Positive Test Result -->
+    <string name="recovery_certificate_attribute_first_positive_test_result" translatable="false">"Datum des ersten positiven Testergebnisses / Date of first positive test result (YYYY-MM-DD)"</string>
+    <!-- XTXT: Recovery Certificate Detail Screen Attribute: Member State of Test -->
+    <string name="recovery_certificate_attribute_state_of_testing" translatable="false">"Land der Testung / Member State of Test"</string>
+    <!-- XTXT: Recovery Certificate Detail Screen Attribute: Start of Certification Period -->
+    <string name="recovery_certificate_attribute_certificate_certification_period_start" translatable="false">"Zertifikat gültig ab / Certificate valid from (YYYY-MM-DD)"</string>
+    <!-- XTXT: Recovery Certificate Detail Screen Attribute: End of Certification Period -->
+    <string name="recovery_certificate_attribute_certificate_certification_period_end" translatable="false">"Zertifikat gültig bis / Certificate valid until (YYYY-MM-DD)"</string>
+
+
+    <!-- #####################################################
+         TEST CERTIFICATE STRINGS BELOW
+         ##################################################### -->
+
+    <!-- XTXT: Green Certificate Detail Screen Attribute: Test Type -->
+    <string name="test_certificate_attribute_test_type" translatable="false">"Art des Tests / Type of Test"</string>
+    <!-- XTXT: Green Certificate Detail Screen Attribute: Test Name -->
+    <string name="test_certificate_attribute_test_name" translatable="false">"Produktname / Test Name"</string>
+    <!-- XTXT: Green Certificate Detail Screen Attribute: Test Manufacturer -->
+    <string name="test_certificate_attribute_test_manufacturer" translatable="false">"Testhersteller / Test Manufacturer"</string>
+    <!-- XTXT: Green Certificate Detail Screen Attribute: Test Date -->
+    <string name="test_certificate_attribute_test_date" translatable="false">"Datum und Uhrzeit der Probenahme / Date and Time of Sample Collection"</string>
+    <!-- XTXT: Green Certificate Detail Screen Attribute: Result of the Test -->
+    <string name="test_certificate_attribute_test_result" translatable="false">"Testergebnis / Result of the Test"</string>
+    <!-- XTXT: Green Certificate Detail Screen Attribute: Testing Center or Facility -->
+    <string name="test_certificate_attribute_test_center" translatable="false">"Testzentrum oder -einrichtung / Testing Center or Facility"</string>
+    <!-- XTXT: Green Certificate Detail Screen Attribute: Member State of Test -->
+    <string name="test_certificate_attribute_state_of_testing" translatable="false">"Land der Testung / Member State of Test"</string>
+
+
+</resources>

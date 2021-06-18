@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_NEGATIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_PENDING
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResultResponse
 import de.rki.coronawarnapp.coronatest.server.RegistrationData
 import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
 import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
@@ -152,32 +153,36 @@ class PCRTestProcessor @Inject constructor(
                 return test
             }
 
-            val newTestResult = try {
-                submissionService.checkTestResult(test.registrationToken).coronaTestResult.let {
-                    Timber.tag(TAG).d("Raw test result was %s", it)
-                    analyticsTestResultCollector.reportTestResultReceived(it, type)
-
-                    it.toValidatedResult()
-                }
+            val response = try {
+                submissionService.checkTestResult(test.registrationToken)
+                    .also {
+                        Timber.tag(TAG).d("Raw test result was %s", it)
+                        // TODO Should this be called here? Compare with RA
+                        analyticsTestResultCollector.reportTestResultReceived(it.coronaTestResult, type)
+                    }
+                    .let { orig ->
+                        orig.copy(coronaTestResult = orig.coronaTestResult.toValidatedResult())
+                    }
             } catch (e: BadRequestException) {
                 if (isOlderThan21Days) {
                     Timber.tag(TAG).w("HTTP 400 error after 21 days, remapping to PCR_REDEEMED.")
-                    PCR_REDEEMED
+                    CoronaTestResultResponse(coronaTestResult = PCR_REDEEMED)
                 } else {
                     Timber.tag(TAG).v("Unexpected HTTP 400 error, rethrowing...")
                     throw e
                 }
             }
 
-            if (newTestResult == PCR_POSITIVE) {
+            if (response.coronaTestResult == PCR_POSITIVE) {
                 analyticsKeySubmissionCollector.reportPositiveTestResultReceived(type)
             }
 
             test.copy(
-                testResult = check60Days(test, newTestResult),
-                testResultReceivedAt = determineReceivedDate(test, newTestResult),
+                testResult = check60Days(test, response.coronaTestResult),
+                testResultReceivedAt = determineReceivedDate(test, response.coronaTestResult),
                 lastUpdatedAt = nowUTC,
-                lastError = null
+                labId = response.labId ?: test.labId,
+                lastError = null,
             )
         } catch (e: Exception) {
             Timber.tag(TAG).e(e, "Failed to poll server for  %s", test)
@@ -256,7 +261,7 @@ class PCRTestProcessor @Inject constructor(
 
     companion object {
         private val FINAL_STATES = setOf(PCR_POSITIVE, PCR_NEGATIVE, PCR_REDEEMED)
-        internal const val TAG = "PCRProcessor"
+        internal const val TAG = "PCRTestProcessor"
     }
 }
 
