@@ -26,7 +26,7 @@ class CovidTestCertificateErrorCard(parent: ViewGroup) :
     ) -> Unit = { item, _ ->
 
         testTime.text = context.getString(
-            R.string.test_certificate_time,
+            R.string.test_certificate_registration_time,
             item.testDate.toDayFormat(),
             item.testDate.toShortTimeFormat()
         )
