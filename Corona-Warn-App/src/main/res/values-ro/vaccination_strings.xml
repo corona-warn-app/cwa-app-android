@@ -44,7 +44,7 @@
         <item quantity="many">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă timp de încă %1$d zile."</item>
     </plurals>
     <!-- XBUT: Vaccination List register additional vaccination button -->
-    <string name="vaccination_list_register_new_vaccination_button">"Înregistrare altă vaccinare"</string>
+    <string name="vaccination_list_register_new_vaccination_button">"Adăugare altă vaccinare"</string>
     <!-- XBUT: Vaccination List delete button -->
     <string name="vaccination_list_delete_button">"Ștergere"</string>
     <!-- XTXT: Vaccination List deletion dialog title-->
