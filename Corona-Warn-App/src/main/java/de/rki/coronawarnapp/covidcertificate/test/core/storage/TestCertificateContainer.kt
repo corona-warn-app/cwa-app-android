@@ -89,6 +89,9 @@ data class TestCertificateContainer(
             override val isCertificateRetrievalPending: Boolean
                 get() = this@TestCertificateContainer.isCertificateRetrievalPending
 
+            override val identifier: TestCertificateIdentifier
+                get() = this@TestCertificateContainer.identifier
+
             override val certificateIssuer: String
                 get() = header.issuer
             override val certificateCountry: String

@@ -106,7 +106,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
         when (certificate) {
             is TestCertificate -> add(
                 TestCertificateCard.Item(certificate, isCurrentCertificate) {
-                    events.postValue(OpenTestCertificateDetails(certificate.certificateId))
+                    events.postValue(OpenTestCertificateDetails(certificate.identifier))
                 }
             )
             is VaccinationCertificate -> add(
