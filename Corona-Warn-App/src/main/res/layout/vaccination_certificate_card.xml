@@ -9,7 +9,7 @@
     android:layout_marginTop="8dp">
 
     <ImageView
-        android:id="@+id/vaccination_icon"
+        android:id="@+id/certificate_icon"
         android:layout_width="88dp"
         android:layout_height="95dp"
         android:layout_marginStart="16dp"
@@ -17,10 +17,10 @@
         android:importantForAccessibility="no"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_vaccination_incomplete" />
+        app:srcCompat="@drawable/ic_vaccination_certificate_incomplete_secondary" />
 
     <TextView
-        android:id="@+id/vaccination_card_headline"
+        android:id="@+id/vaccination_certificate_name"
         style="@style/body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -30,11 +30,11 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/vaccination_icon"
-        app:layout_constraintTop_toTopOf="@id/vaccination_icon" />
+        app:layout_constraintStart_toEndOf="@id/certificate_icon"
+        app:layout_constraintTop_toTopOf="@id/certificate_icon" />
 
     <TextView
-        android:id="@+id/vaccination_card_title"
+        android:id="@+id/vaccination_doses_info"
         style="@style/body2Medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -42,20 +42,20 @@
         android:layout_marginEnd="16dp"
         android:text="@string/vaccination_list_vaccination_card_title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/vaccination_icon"
-        app:layout_constraintTop_toBottomOf="@id/vaccination_card_headline" />
+        app:layout_constraintStart_toEndOf="@id/certificate_icon"
+        app:layout_constraintTop_toBottomOf="@id/vaccination_certificate_name" />
 
     <TextView
-        android:id="@+id/vaccination_card_date"
+        android:id="@+id/certificate_date"
         style="@style/body2Medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:text="@string/vaccination_list_vaccination_card_subtitle"
-        app:layout_constraintEnd_toEndOf="@+id/vaccination_card_title"
-        app:layout_constraintStart_toEndOf="@id/vaccination_icon"
-        app:layout_constraintTop_toBottomOf="@id/vaccination_card_title" />
+        app:layout_constraintEnd_toEndOf="@+id/vaccination_doses_info"
+        app:layout_constraintStart_toEndOf="@id/certificate_icon"
+        app:layout_constraintTop_toBottomOf="@id/vaccination_doses_info" />
 
     <ImageView
         android:id="@+id/bookmark"
@@ -63,8 +63,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:importantForAccessibility="no"
-        app:layout_constraintStart_toStartOf="@id/vaccination_card_date"
-        app:layout_constraintTop_toBottomOf="@id/vaccination_card_date"
+        app:layout_constraintStart_toStartOf="@id/certificate_date"
+        app:layout_constraintTop_toBottomOf="@id/certificate_date"
         app:srcCompat="@drawable/ic_bookmark" />
 
     <TextView
@@ -73,7 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="@string/vaccination_card_bookmark_info"
-        app:layout_constraintEnd_toEndOf="@id/vaccination_card_date"
+        app:layout_constraintEnd_toEndOf="@id/certificate_date"
         app:layout_constraintStart_toEndOf="@id/bookmark"
         app:layout_constraintTop_toTopOf="@id/bookmark" />
 
@@ -81,7 +81,6 @@
         android:id="@+id/current_certificate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         app:constraint_referenced_ids="bookmark,bookmark_info" />
 
     <androidx.constraintlayout.widget.Barrier
@@ -89,7 +88,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="current_certificate,bookmark,bookmark_info,vaccination_icon,vaccination_card_date"
+        app:constraint_referenced_ids="current_certificate,bookmark,bookmark_info,certificate_icon,certificate_date"
         tools:layout_editor_absoluteY="117dp" />
 
     <Space

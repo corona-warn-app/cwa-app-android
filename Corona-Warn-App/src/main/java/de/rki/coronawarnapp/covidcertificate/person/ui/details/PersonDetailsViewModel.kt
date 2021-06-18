@@ -112,7 +112,6 @@ class PersonDetailsViewModel @AssistedInject constructor(
             is VaccinationCertificate -> add(
                 VaccinationCertificateCard.Item(
                     certificate = certificate,
-                    vaccinationStatus = vaccinatedPerson(certificate).getVaccinationStatus(timeStamper.nowUTC),
                     isCurrentCertificate = isCurrentCertificate
                 ) {
                     events.postValue(OpenVaccinationCertificateDetails(certificate.certificateId))

@@ -5,10 +5,6 @@ import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationCertificateCard.Item
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson.Status.COMPLETE
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson.Status.IMMUNITY
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson.Status.INCOMPLETE
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.databinding.VaccinationCertificateCardBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
@@ -30,36 +26,33 @@ class VaccinationCertificateCard(parent: ViewGroup) :
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
         val certificate = curItem.certificate
         root.setOnClickListener { curItem.onClick() }
-        vaccinationCardTitle.text = context.getString(
+        vaccinationDosesInfo.text = context.getString(
             R.string.vaccination_list_vaccination_card_title,
             certificate.doseNumber,
             certificate.totalSeriesOfDoses
         )
-        vaccinationCardDate.text = context.getString(
+        certificateDate.text = context.getString(
             R.string.vaccination_list_vaccination_card_subtitle,
             certificate.vaccinatedAt
         )
-
         currentCertificate.isVisible = curItem.isCurrentCertificate
-
-        val iconRes = when (curItem.vaccinationStatus) {
-            INCOMPLETE,
-            COMPLETE -> when {
-                certificate.isFinalShot -> R.drawable.ic_vaccination_complete
-                else -> R.drawable.ic_vaccination_incomplete
+        val icon = when {
+            // Final shot
+            certificate.isFinalShot -> when {
+                curItem.isCurrentCertificate -> R.drawable.ic_vaccination_certificate_complete
+                else -> R.drawable.ic_vaccination_certificate_complete_secondary
             }
-            IMMUNITY -> when {
-                certificate.isFinalShot && curItem.isCurrentCertificate -> R.drawable.ic_vaccination_immune
-                certificate.isFinalShot -> R.drawable.ic_vaccination_complete
-                else -> R.drawable.ic_vaccination_incomplete
+            // Other shots
+            else -> when {
+                curItem.isCurrentCertificate -> R.drawable.ic_vaccination_certificate_incomplete
+                else -> R.drawable.ic_vaccination_certificate_incomplete_secondary
             }
         }
-        vaccinationIcon.setImageResource(iconRes)
+        certificateIcon.setImageResource(icon)
     }
 
     data class Item(
         val certificate: VaccinationCertificate,
-        val vaccinationStatus: VaccinatedPerson.Status,
         val isCurrentCertificate: Boolean,
         val onClick: () -> Unit
     ) : CertificateItem, HasPayloadDiffer {
