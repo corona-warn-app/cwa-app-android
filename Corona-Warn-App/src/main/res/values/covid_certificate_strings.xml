@@ -50,5 +50,9 @@
     // ------------------------------------------
     // TEST CERTIFICATE STRINGS BELOW
     // ------------------------------------------
+    <!-- XTXT: Recovery certificate detail title -->
+    <string name="recovery_certificate_details_title">"Genesenenzertifikat"</string>
+    <!-- XTXT: Recovery certificate detail subtitle -->
+    <string name="recovery_certificate_details_subtitle">"EU Digitales COVID-Zertifikat"</string>
 
 </resources>
