@@ -41,8 +41,6 @@
     // VACCINATION CERTIFICATE STRINGS BELOW
     // ------------------------------------------
 
-    <string name="vaccination_dose_number">%1$d von %2$d</string>
-
 
     // ------------------------------------------
     // RECOVERY CERTIFICATE STRINGS BELOW
