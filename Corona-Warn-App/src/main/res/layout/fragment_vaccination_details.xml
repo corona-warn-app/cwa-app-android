@@ -173,7 +173,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="COVID-19" />
+                    tools:text="COVID-19" />
 
                 <TextView
                     style="@style/body1Medium"
