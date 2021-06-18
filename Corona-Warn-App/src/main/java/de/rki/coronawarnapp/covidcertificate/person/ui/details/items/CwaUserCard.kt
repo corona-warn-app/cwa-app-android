@@ -32,7 +32,7 @@ class CwaUserCard(parent: ViewGroup) :
     data class Item(
         val certificate: CwaCovidCertificate,
         val onSwitch: (Boolean) -> Unit
-    ) : SpecificCertificatesItem, HasPayloadDiffer {
+    ) : CertificateItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
         override val stableId = this.hashCode().toLong()
     }

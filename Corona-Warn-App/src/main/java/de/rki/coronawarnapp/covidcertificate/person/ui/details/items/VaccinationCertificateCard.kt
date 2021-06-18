@@ -49,7 +49,8 @@ class VaccinationCertificateCard(parent: ViewGroup) :
                 else -> R.drawable.ic_vaccination_incomplete
             }
             IMMUNITY -> when {
-                certificate.isFinalShot -> R.drawable.ic_vaccination_immune
+                certificate.isFinalShot && curItem.isCurrentCertificate -> R.drawable.ic_vaccination_immune
+                certificate.isFinalShot -> R.drawable.ic_vaccination_complete
                 else -> R.drawable.ic_vaccination_incomplete
             }
         }
@@ -61,7 +62,7 @@ class VaccinationCertificateCard(parent: ViewGroup) :
         val vaccinationStatus: VaccinatedPerson.Status,
         val isCurrentCertificate: Boolean,
         val onClick: () -> Unit
-    ) : SpecificCertificatesItem, HasPayloadDiffer {
+    ) : CertificateItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
         override val stableId = certificate.certificateId.hashCode().toLong()
     }

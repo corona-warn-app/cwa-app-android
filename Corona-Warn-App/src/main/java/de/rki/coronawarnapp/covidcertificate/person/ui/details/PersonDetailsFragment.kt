@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.SpecificCertificatesItem
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateItem
 import de.rki.coronawarnapp.databinding.PersonDetailsFragmentBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -92,7 +92,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
         behavior.overlayTop = (deviceWidth / divider) - 24
     }
 
-    private fun PersonDetailsFragmentBinding.bindViews(certificates: List<SpecificCertificatesItem>) {
+    private fun PersonDetailsFragmentBinding.bindViews(certificates: List<CertificateItem>) {
         personDetailsAdapter.update(certificates)
         setToolbarOverlay()
         // TODO

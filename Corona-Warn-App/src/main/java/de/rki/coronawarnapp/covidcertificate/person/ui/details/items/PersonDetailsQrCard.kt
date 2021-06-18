@@ -65,7 +65,7 @@ class PersonDetailsQrCard(parent: ViewGroup) :
     data class Item(
         val certificate: CwaCovidCertificate,
         val qrCodeBitmap: Bitmap?
-    ) : SpecificCertificatesItem, HasPayloadDiffer {
+    ) : CertificateItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
         override val stableId = certificate.personIdentifier.codeSHA256.hashCode().toLong()
     }

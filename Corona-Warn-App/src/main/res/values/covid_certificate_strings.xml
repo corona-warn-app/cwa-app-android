@@ -36,4 +36,8 @@
     <!-- XTXT: Recovery certificate detail subtitle -->
     <string name="recovery_certificate_details_subtitle">"EU Digitales COVID-Zertifikat"</string>
     <string name="vaccination_card_bookmark_info">Aktuell verwendetes Zertifikat</string>
+    <string name="test_certificate_card_date">Probenahme am %s</string>
+    <string name="test_certificate_name">Testzertifikat</string>
+    <string name="recovery_certificate_name">Genesenzertifikat</string>
+    <string name="recovery_certificate_date">gültig bis %s</string>
 </resources>

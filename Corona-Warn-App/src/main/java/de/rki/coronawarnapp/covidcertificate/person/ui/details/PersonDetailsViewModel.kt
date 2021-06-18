@@ -11,7 +11,9 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CwaUserCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.PersonDetailsQrCard
-import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.SpecificCertificatesItem
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.RecoveryCertificateCard
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateItem
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.TestCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationInfoCard
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
@@ -59,7 +61,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
         emit(qrCodeGenerator.createQrCode(it.highestPriorityCertificate.qrCode, margin = 0))
     }
 
-    val uiState: LiveData<List<SpecificCertificatesItem>> = combine(
+    val uiState: LiveData<List<CertificateItem>> = combine(
         personCertificatesFlow,
         qrCodeFlow
     ) { personSpecificCertificates, qrCode ->
@@ -67,7 +69,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
     }.asLiveData()
 
     private suspend fun assembleList(personCertificates: PersonCertificates, qrCode: Bitmap?) =
-        mutableListOf<SpecificCertificatesItem>().apply {
+        mutableListOf<CertificateItem>().apply {
             val priorityCertificate = personCertificates.highestPriorityCertificate
             add(PersonDetailsQrCard.Item(priorityCertificate, qrCode))
             add(
@@ -96,27 +98,32 @@ class PersonDetailsViewModel @AssistedInject constructor(
         }
     }
 
-    private suspend fun MutableList<SpecificCertificatesItem>.addCardItem(
+    private suspend fun MutableList<CertificateItem>.addCardItem(
         certificate: CwaCovidCertificate,
-        highestPriorityCertificate: CwaCovidCertificate
+        priorityCertificate: CwaCovidCertificate
     ) {
+        val isCurrentCertificate = certificate.certificateId == priorityCertificate.certificateId
         when (certificate) {
-            is TestCertificate -> {
-                // TODO add test certificate specific cards here
-            }
+            is TestCertificate -> add(
+                TestCertificateCard.Item(certificate, isCurrentCertificate) {
+                    events.postValue(OpenTestCertificateDetails(certificate.certificateId))
+                }
+            )
             is VaccinationCertificate -> add(
                 VaccinationCertificateCard.Item(
                     certificate = certificate,
                     vaccinationStatus = vaccinatedPerson(certificate).getVaccinationStatus(timeStamper.nowUTC),
-                    isCurrentCertificate = certificate.certificateId == highestPriorityCertificate.certificateId
+                    isCurrentCertificate = isCurrentCertificate
                 ) {
                     events.postValue(OpenVaccinationCertificateDetails(certificate.certificateId))
                 }
             )
 
-            is RecoveryCertificate -> {
-                // TODO add recovery certificate specific cards here
-            }
+            is RecoveryCertificate -> add(
+                RecoveryCertificateCard.Item(certificate, isCurrentCertificate) {
+                    events.postValue(OpenRecoveryCertificateDetails(certificate.certificateId))
+                }
+            )
         }
     }
 
