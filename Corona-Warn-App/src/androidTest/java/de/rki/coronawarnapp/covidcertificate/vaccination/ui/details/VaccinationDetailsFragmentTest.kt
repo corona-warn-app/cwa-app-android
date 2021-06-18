@@ -13,6 +13,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -36,7 +37,9 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
 
     @MockK lateinit var vaccinationDetailsViewModel: VaccinationDetailsViewModel
 
-    private val args = VaccinationDetailsFragmentArgs("vaccinationCertificateId").toBundle()
+    private val args = VaccinationDetailsFragmentArgs(
+        containerId = VaccinationCertificateContainerId("vaccinationCertificateId")
+    ).toBundle()
 
     @Before
     fun setUp() {
@@ -46,7 +49,9 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
 
         setupMockViewModel(
             object : VaccinationDetailsViewModel.Factory {
-                override fun create(certificateId: String): VaccinationDetailsViewModel = vaccinationDetailsViewModel
+                override fun create(
+                    containerId: VaccinationCertificateContainerId
+                ): VaccinationDetailsViewModel = vaccinationDetailsViewModel
             }
         )
     }

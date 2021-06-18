@@ -14,6 +14,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.imageview.ShapeableImageView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
+import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.VaccinationListViewModel.Event.DeleteVaccinationEvent
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.VaccinationListViewModel.Event.NavigateBack
@@ -72,7 +73,7 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
                 when (event) {
                     is NavigateToVaccinationCertificateDetails -> doNavigate(
                         VaccinationListFragmentDirections
-                            .actionVaccinationListFragmentToVaccinationDetailsFragment(event.vaccinationCertificateId)
+                            .actionVaccinationListFragmentToVaccinationDetailsFragment(event.containerId)
                     )
                     is NavigateToQrCodeScanScreen -> doNavigate(
                         VaccinationListFragmentDirections.actionVaccinationListFragmentToDccQrCodeScanFragment()
@@ -92,7 +93,7 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
                         )
                     }
                     is DeleteVaccinationEvent ->
-                        showDeleteVaccinationDialog(event.vaccinationCertificateId, event.position)
+                        showDeleteVaccinationDialog(event.containerId, event.position)
                     is NavigateBack -> popBackStack()
                 }
             }
@@ -147,12 +148,12 @@ class VaccinationListFragment : Fragment(R.layout.fragment_vaccination_list), Au
         behavior.overlayTop = (deviceWidth / divider) - 24
     }
 
-    private fun showDeleteVaccinationDialog(vaccinationCertificateId: String, position: Int?) {
+    private fun showDeleteVaccinationDialog(containerId: VaccinationCertificateContainerId, position: Int?) {
         MaterialAlertDialogBuilder(requireContext()).apply {
             setTitle(R.string.vaccination_list_deletion_dialog_title)
             setMessage(R.string.vaccination_list_deletion_dialog_message)
             setPositiveButton(R.string.vaccination_list_deletion_dialog_positive_button) { _, _ ->
-                viewModel.deleteVaccination(vaccinationCertificateId)
+                viewModel.deleteVaccination(containerId)
             }
             setNegativeButton(R.string.vaccination_list_deletion_dialog_negative_button) { _, _ -> }
             setOnDismissListener {
