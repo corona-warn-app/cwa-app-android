@@ -33,9 +33,9 @@ fun StatsItem.getPrimaryLabel(context: Context): String {
             else -> dateTimeFormatter.print(updatedAtDate)
         }
         is IncidenceStats -> when (updatedAtDate) {
-            today -> context.getString(R.string.statistics_primary_value_today)
-            yesterday -> context.getString(R.string.statistics_primary_value_yesterday)
-            else -> dateTimeFormatter.print(updatedAtDate)
+            today -> context.getString(R.string.statistics_primary_value_until_today)
+            yesterday -> context.getString(R.string.statistics_primary_value_until_yesterday)
+            else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.print(updatedAtDate))
         }
         is PersonsVaccinatedOnceStats -> when (updatedAtDate) {
             today -> context.getString(R.string.statistics_primary_value_until_today)
