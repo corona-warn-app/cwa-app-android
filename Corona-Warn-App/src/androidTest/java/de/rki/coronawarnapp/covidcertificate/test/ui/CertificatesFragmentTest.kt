@@ -9,6 +9,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CertificatesItem
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.ui.cards.CovidTestCertificateCard
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.cards.CreateVaccinationCard
@@ -40,6 +41,7 @@ class CertificatesFragmentTest : BaseUITest() {
 
     @MockK lateinit var viewModel: CertificatesViewModel
     @MockK lateinit var vaccinatedPerson: VaccinatedPerson
+    @MockK lateinit var testCertificate: TestCertificate
 
     private val formatter = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm")
     private val testDate = DateTime.parse("12.05.2021 19:00", formatter)
@@ -47,9 +49,18 @@ class CertificatesFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        every { vaccinatedPerson.fullName } returns "Andrea Schneider"
-        every { vaccinatedPerson.getMostRecentVaccinationCertificate.expiresAt } returns
-            testDate.plus(Duration.standardDays(365)).toInstant()
+
+        vaccinatedPerson.apply {
+            every { fullName } returns "Andrea Schneider"
+            every {
+                getMostRecentVaccinationCertificate.expiresAt
+            } returns testDate.plus(Duration.standardDays(365)).toInstant()
+        }
+
+        testCertificate.apply {
+            every { fullName } returns "Andrea Schneider"
+            every { sampleCollectedAt } returns testDate.toInstant()
+        }
 
         setupMockViewModel(
             object : CertificatesViewModel.Factory {
@@ -126,8 +137,7 @@ class CertificatesFragmentTest : BaseUITest() {
                     onClickAction = {}
                 ),
                 CovidTestCertificateCard.Item(
-                    testDate = testDate,
-                    testPerson = "Andrea Schneider"
+                    certificate = testCertificate
                 ) { }
             )
         )
