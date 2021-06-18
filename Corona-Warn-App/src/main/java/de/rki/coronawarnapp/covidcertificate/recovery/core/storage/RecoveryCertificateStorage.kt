@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.recovery.core.storage
 
 import android.content.Context
-import androidx.core.content.edit
 import com.google.gson.Gson
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
@@ -27,37 +26,27 @@ class RecoveryCertificateStorage @Inject constructor(
     var recoveryCertificates: Set<StoredRecoveryCertificateData>
         get() {
             Timber.tag(TAG).d("recoveryCertificates - load()")
-            return prefs.all.mapNotNull { (key, value) ->
-                if (!key.startsWith(PKEY_RECOVERY_CERT_PREFIX)) {
-                    return@mapNotNull null
-                }
-                value as String
-                gson.fromJson<StoredRecoveryCertificateData>(value).also { data ->
+            return prefs.getStringSet(PKEY_RECOVERY_CERT, emptySet())?.map {
+                gson.fromJson<StoredRecoveryCertificateData>(it).also { data ->
                     Timber.tag(TAG).v("recovery certificate loaded: %s", data)
                     requireNotNull(data.identifier)
                     requireNotNull(data.registeredAt)
                 }
-            }.toSet()
+            }?.toSet() ?: emptySet()
         }
         set(value) {
             Timber.tag(TAG).d("recoveryCertificates - save(%s)", value)
-
-            prefs.edit {
-                prefs.all.keys.filter { it.startsWith(PKEY_RECOVERY_CERT_PREFIX) }.forEach {
-                    Timber.tag(TAG).v("Removing data for %s", it)
-                    remove(it)
-                }
-                value.forEach {
-                    val raw = gson.toJson(it)
-                    val identifier = it.identifier
-                    Timber.tag(TAG).v("Storing recovery certificate %s -> %s", identifier, raw)
-                    putString("$PKEY_RECOVERY_CERT_PREFIX$identifier", raw)
-                }
-            }
+            prefs.edit()
+                .putStringSet(PKEY_RECOVERY_CERT, value.map { data ->
+                    gson.toJson(data).also {
+                        Timber.tag(TAG).v("Storing recovery certificate %s -> %s", data.identifier, it)
+                    }
+                }.toSet())
+                .apply()
         }
 
     companion object {
         private const val TAG = "RecoveryCertStorage"
-        private const val PKEY_RECOVERY_CERT_PREFIX = "recovery.certificate."
+        private const val PKEY_RECOVERY_CERT = "recovery.certificate"
     }
 }
