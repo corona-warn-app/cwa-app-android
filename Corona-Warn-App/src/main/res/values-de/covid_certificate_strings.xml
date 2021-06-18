@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
-    // ----------------------------------------------------
-    // COMMON STRINGS FOR ALL TYPES OF CERTIFICATES BELOW
-    // ----------------------------------------------------
+    <!-- ####################################
+       Special string files for the strings
+       that should always keep the german / english
+       version independent from the selected system language
+   ###################################### -->
+
+    <!-- #####################################################
+         COMMON STRINGS FOR ALL TYPES OF CERTIFICATES BELOW
+         ##################################################### -->
 
     <!-- XTXT: Person overview no certificates title-->
     <string name="person_overview_no_certificates_title">Noch keine Zertifikate vorhanden</string>
@@ -38,21 +44,25 @@
     <string name="vaccination_consent_accept_button">"Weiter"</string>
 
 
-    // ------------------------------------------
-    // VACCINATION CERTIFICATE STRINGS BELOW
-    // ------------------------------------------
-
-    <string name="vaccination_dose_number">%1$d von %2$d</string>
+    <!-- #####################################################
+         VACCINATION CERTIFICATE STRINGS BELOW
+         ##################################################### -->
 
 
-    // ------------------------------------------
-    // RECOVERY CERTIFICATE STRINGS BELOW
-    // ------------------------------------------
+    <!-- #####################################################
+         RECOVERY CERTIFICATE STRINGS BELOW
+         ##################################################### -->
 
 
-    // ------------------------------------------
-    // TEST CERTIFICATE STRINGS BELOW
-    // ------------------------------------------
+    <!-- XTXT: Recovery certificate detail title -->
+    <string name="recovery_certificate_details_title">"Genesenenzertifikat"</string>
+    <!-- XTXT: Recovery certificate detail subtitle -->
+    <string name="recovery_certificate_details_subtitle">"EU Digitales COVID-Zertifikat"</string>
+
+    <!-- #####################################################
+         TEST CERTIFICATE STRINGS BELOW
+         ##################################################### -->
+
 
 
 </resources>

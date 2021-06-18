@@ -117,7 +117,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         diseaseType.text = certificate.targetId
         vaccineManufacturer.text = certificate.vaccineManufacturer
         vaccinationNumber.text = getString(
-            R.string.vaccination_dose_number,
+            R.string.vaccination_certificate_attribute_dose_number,
             certificate.doseNumber,
             certificate.totalSeriesOfDoses
         )
