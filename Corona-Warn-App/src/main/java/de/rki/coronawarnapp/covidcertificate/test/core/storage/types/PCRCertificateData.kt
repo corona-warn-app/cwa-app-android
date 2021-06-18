@@ -1,13 +1,12 @@
-package de.rki.coronawarnapp.covidcertificate.test.core.storage
+package de.rki.coronawarnapp.covidcertificate.test.core.storage.types
 
 import com.google.gson.annotations.SerializedName
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.RegistrationToken
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKey
 import okio.ByteString
 import org.joda.time.Instant
 
-data class RACertificateData(
+data class PCRCertificateData internal constructor(
     @SerializedName("identifier")
     override val identifier: String,
 
@@ -43,7 +42,7 @@ data class RACertificateData(
 
     @SerializedName("certificateSeenByUser")
     override val certificateSeenByUser: Boolean = false,
-) : StoredTestCertificateData {
+) : RetrievedTestCertificate() {
 
     // Otherwise GSON unsafes reflection to create this class, and sets the LAZY to null
     @Suppress("unused")
@@ -52,7 +51,4 @@ data class RACertificateData(
         registrationToken = "",
         registeredAt = Instant.EPOCH
     )
-
-    override val type: CoronaTest.Type
-        get() = CoronaTest.Type.RAPID_ANTIGEN
 }
