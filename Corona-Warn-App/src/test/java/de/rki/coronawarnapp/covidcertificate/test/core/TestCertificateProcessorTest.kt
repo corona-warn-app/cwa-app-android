@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRC
 import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateComponents
 import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateServer
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertificateData
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RACertificateData
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.encryption.rsa.RSACryptography
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
@@ -42,14 +43,27 @@ class TestCertificateProcessorTest : BaseTest() {
     @MockK lateinit var appConfigData: ConfigData
     @MockK lateinit var covidTestCertificateConfig: CovidCertificateConfig.TestCertificate
 
-    private val testCertificateNew = PCRCertificateData(
+    private val pcrCertificateData = PCRCertificateData(
         identifier = "identifier1",
         registrationToken = "regtoken1",
         registeredAt = Instant.EPOCH,
         labId = "labId"
     )
 
-    private val testCertificateWithPubKey = testCertificateNew.copy(
+    private val pcrCertificateDataWithPubKey = pcrCertificateData.copy(
+        publicKeyRegisteredAt = Instant.EPOCH,
+        rsaPublicKey = mockk(),
+        rsaPrivateKey = mockk(),
+    )
+
+    private val raCertificateData = RACertificateData(
+        identifier = "identifier2",
+        registrationToken = "regtoken2",
+        registeredAt = Instant.EPOCH,
+        labId = null
+    )
+
+    private val raCertificateDataWithPubKey = raCertificateData.copy(
         publicKeyRegisteredAt = Instant.EPOCH,
         rsaPublicKey = mockk(),
         rsaPrivateKey = mockk(),
@@ -106,42 +120,54 @@ class TestCertificateProcessorTest : BaseTest() {
     @Test
     fun `public key registration`() = runBlockingTest2(ignoreActive = true) {
         val instance = createInstance()
-        instance.registerPublicKey(testCertificateNew)
+        instance.registerPublicKey(pcrCertificateData)
 
         coVerify {
-            certificateServer.registerPublicKeyForTest(testCertificateNew.registrationToken, any())
+            certificateServer.registerPublicKeyForTest(pcrCertificateData.registrationToken, any())
         }
     }
 
     @Test
-    fun `public key registration - requires valid labId`() = runBlockingTest2(ignoreActive = true) {
+    fun `public key registration - requires valid labId only if PCR`() = runBlockingTest2(ignoreActive = true) {
         val instance = createInstance()
         shouldThrow<TestCertificateServerException> {
-            instance.registerPublicKey(testCertificateNew.copy(labId = null))
+            instance.registerPublicKey(pcrCertificateData.copy(labId = null))
         }.errorCode shouldBe TestCertificateServerException.ErrorCode.DCC_NOT_SUPPORTED_BY_LAB
 
         coVerify { certificateServer wasNot Called }
+
+        instance.registerPublicKey(raCertificateData)
+
+        coVerify(exactly = 1) {
+            certificateServer.registerPublicKeyForTest(any(), any())
+        }
     }
 
     @Test
     fun `obtain certificate components`() = runBlockingTest2(ignoreActive = true) {
         val instance = createInstance()
-        instance.obtainCertificate(testCertificateWithPubKey)
+        instance.obtainCertificate(pcrCertificateDataWithPubKey)
 
         coVerify {
             covidTestCertificateConfig.waitAfterPublicKeyRegistration
-            certificateServer.requestCertificateForTest(testCertificateNew.registrationToken)
+            certificateServer.requestCertificateForTest(pcrCertificateData.registrationToken)
         }
     }
 
     @Test
-    fun `obtain certificate components - requires valid labId`() = runBlockingTest2(ignoreActive = true) {
+    fun `obtain certificate components - requires valid labId only if PCR`() = runBlockingTest2(ignoreActive = true) {
         val instance = createInstance()
 
         shouldThrow<TestCertificateServerException> {
-            instance.obtainCertificate(testCertificateWithPubKey.copy(labId = null))
+            instance.obtainCertificate(pcrCertificateDataWithPubKey.copy(labId = null))
         }.errorCode shouldBe TestCertificateServerException.ErrorCode.DCC_NOT_SUPPORTED_BY_LAB
 
         coVerify { certificateServer wasNot Called }
+
+        instance.obtainCertificate(raCertificateDataWithPubKey)
+
+        coVerify(exactly = 1) {
+            certificateServer.requestCertificateForTest(any())
+        }
     }
 }
