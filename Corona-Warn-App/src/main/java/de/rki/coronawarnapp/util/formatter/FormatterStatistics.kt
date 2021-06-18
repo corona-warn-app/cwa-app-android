@@ -22,7 +22,11 @@ fun StatsItem.getPrimaryLabel(context: Context): String {
     val dateTimeFormatter = DateTimeFormat.mediumDate().withLocale(context.getLocale())
 
     return when (this) {
-        is InfectionStats,
+        is InfectionStats -> when (updatedAtDate) {
+            today -> context.getString(R.string.statistics_primary_value_today)
+            yesterday -> context.getString(R.string.statistics_primary_value_yesterday)
+            else -> dateTimeFormatter.print(updatedAtDate)
+        }
         is KeySubmissionsStats -> when (updatedAtDate) {
             today -> context.getString(R.string.statistics_primary_value_today)
             yesterday -> context.getString(R.string.statistics_primary_value_yesterday)
