@@ -155,6 +155,8 @@ class TestCertificateRepository @Inject constructor(
      *
      * [refresh] itself will NOT throw an exception.
      */
+    // TODO Will be addressed in 2.5?
+    @Suppress("ComplexMethod")
     suspend fun refresh(identifier: TestCertificateIdentifier? = null): Set<RefreshResult> {
         Timber.tag(TAG).d("refresh(identifier=%s)", identifier)
 
@@ -181,7 +183,7 @@ class TestCertificateRepository @Inject constructor(
 
             val refreshedCerts = values
                 .filter { workedOnIds.contains(it.identifier) } // Refresh targets
-                .filter { it.labId == null } // Targets of this step
+                .filter { it.labId == null && it.data is PCRCertificateData } // Targets of this step
                 .map { cert ->
                     Timber.tag(TAG).d("%s is missing a lab id returning exception", cert)
                     RefreshResult(
@@ -210,7 +212,7 @@ class TestCertificateRepository @Inject constructor(
             val refreshedCerts = values
                 .filter { workedOnIds.contains(it.identifier) } // Refresh targets
                 .filter { !it.isPublicKeyRegistered } // Targets of this step
-                .filter { it.labId != null }
+                .filter { it.labId != null || it.data !is PCRCertificateData }
                 .map { cert ->
                     withContext(dispatcherProvider.IO) {
                         try {
@@ -241,7 +243,7 @@ class TestCertificateRepository @Inject constructor(
             val refreshedCerts = values
                 .filter { workedOnIds.contains(it.identifier) } // Refresh targets
                 .filter { it.isPublicKeyRegistered && it.isCertificateRetrievalPending } // Targets of this step
-                .filter { it.labId != null }
+                .filter { it.labId != null || it.data !is PCRCertificateData }
                 .map { cert ->
                     withContext(dispatcherProvider.IO) {
                         try {
