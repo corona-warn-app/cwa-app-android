@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.covidcertificate.recovery.core
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
-import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateIdentifier
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateStorage
@@ -26,8 +26,8 @@ import javax.inject.Singleton
 @Singleton
 class RecoveryCertificateRepository @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
-    private val dispatcherProvider: DispatcherProvider,
-    private val qrCodeExtractor: RecoveryCertificateQRCodeExtractor,
+    dispatcherProvider: DispatcherProvider,
+    private val qrCodeExtractor: DccQrCodeExtractor,
     valueSetsRepository: ValueSetsRepository,
     private val storage: RecoveryCertificateStorage,
 ) {
@@ -50,7 +50,7 @@ class RecoveryCertificateRepository @Inject constructor(
 
     init {
         internalData.data
-            .onStart { Timber.tag(TAG).d("Observing test data.") }
+            .onStart { Timber.tag(TAG).d("Observing data.") }
             .onEach { recoveryCertificates ->
                 Timber.tag(TAG).v("Recovery Certificate data changed: %s", recoveryCertificates)
                 storage.recoveryCertificates = recoveryCertificates.map { it.data }.toSet()

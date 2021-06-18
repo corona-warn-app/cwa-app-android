@@ -24,8 +24,8 @@ class StatisticsExplanationFragment : Fragment(R.layout.fragment_statistics_expl
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
-        binding.statisticsExplanationSevenDayRValueText.setUrl(
-            R.string.statistics_explanation_seven_day_r_value_text,
+        binding.statisticsFaqText.setUrl(
+            R.string.statistics_faq_text,
             R.string.statistics_explanation_seven_day_r_link_label,
             R.string.statistics_explanation_faq_url
         )

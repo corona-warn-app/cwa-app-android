@@ -308,7 +308,7 @@
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
     <string name="risk_details_subtitle_period_logged">"Bu dönem hesaplamaya dahil edildi."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
-<!--    Dialog part 1-->
+    <!--    Dialog part 1-->
     <string name="risk_details_information_body_period_logged">"Enfeksiyon riskiniz yalnızca maruz kalma günlüğünün etkin olduğu dönemler için hesaplanabilir. Bu nedenle günlüğe kaydetme özelliğinin sürekli etkin kalması gerekir. Maruz kalma günlüğü son 14 günü kapsar."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Corona-Warn-App %s gün önce yüklendi. Enfeksiyon riskiniz, maruz kalma günlüğünün etkin olduğu dönemler için hesaplanır. Başka insanlarla karşılaşmışsanız ve bu sırada maruz kalma günlüğü etkindiyse enfeksiyon riskiniz hesaplanır."</string>
@@ -1143,8 +1143,12 @@
     <string name="submission_test_result_dialog_tracing_required_button">"Tamam"</string>
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"Test yalnızca bir kez taranabilir."</string>
+    <!-- XHED: Dialog title for test removal no submission -->
+    <string name="submission_test_result_dialog_remove_test_title_no_submission">"Testi kaldırmak istediğinizden emin misiniz?"</string>
     <!-- YTXT: Dialog text for test removal -->
     <string name="submission_test_result_dialog_remove_test_message">"Testi silerseniz test sonucunuzu alamazsınız. QR kod geçerli olsun veya olmasın test sonucunuzu test merkezinden veya laboratuvardan alacaksınız. Koronavirüs tanısı alırsanız kamu sağlığı yetkilisi yasal olarak belirlenen kanal üzerinden bilgilendirilecektir ve kamu sağlığı yetkilisi sizinle iletişime geçecektir."</string>
+    <!-- YTXT: Dialog text for test removal no submission -->
+    <string name="submission_test_result_dialog_remove_test_message_no_submission">"Bu işlemi gerçekleştirirseniz diğer kullanıcılar uyarılmaz."</string>
     <!-- XBUT: Positive button for test removal -->
     <string name="submission_test_result_dialog_remove_test_button_positive">"Sil"</string>
     <!-- XBUT: Negative button for test removal -->
@@ -1233,6 +1237,8 @@
     <string name="submission_test_result_positive_no_consent_text_3">"Başka insanların enfeksiyona yakalanmaması için lütfen kamu sağlığı yetkilinizin talimatlarına uyun ve evde kalın."</string>
     <!-- XBUT: Button for giving consent for key sharing -->
     <string name="submission_test_result_positive_no_consent_button_warn_others">"Diğer Kullanıcıları Uyarın"</string>
+    <!-- XBUT: Button for test removal -->
+    <string name="submission_test_result_positive_no_consent_button_remove_test">"Testi Kaldır"</string>
 
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->

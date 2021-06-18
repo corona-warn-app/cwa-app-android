@@ -12,4 +12,29 @@
     <string name="person_card_title">EU Digitales</string>
     <!-- XTXT: Person card subtitle-->
     <string name="person_card_subtitle">COVID-Zertifikat</string>
+
+    <!-- XTXT: Vaccination Consent title-->
+    <string name="vaccination_consent_title">Ihr Einverständnis</string>
+    <!-- XTXT: Vaccination Consent subtitle-->
+    <string name="vaccination_consent_headline">"Zertifikate hinzufügen"</string>
+    <!-- XTXT: Vaccination Consent subtitle of qr info -->
+    <string name="vaccination_consent_info_subtitle_text">"Fügen Sie EU digitale COVID-Zertifikate in der App hinzu, um mit der App den Impfschutz, ein negatives Testergebnis oder eine überstandene Infektion nachweisen zu können."</string>
+    <!-- XTXT: Vaccination Consent text of qr info -->
+    <string name="vaccination_consent_qr_info_text">"Sie können EU digitale COVID-Impfzertifikate, COVID-Testzertifikate und COVID-Genesenenzertifikate in der App hinzufügen."</string>
+    <!-- XTXT: Vaccination Consent qr code text -->
+    <string name="vaccination_consent_qr_info_qr_code_text">"Die Zertifikate gelten innerhalb der EU als gültiger Nachweis (z.B. für Reisen)."</string>
+    <!-- XTXT: Vaccination Consent time text  -->
+    <string name="vaccination_consent_qr_info_time_text">"Nach dem Hinzufügen bleiben die Zertifikate auf Ihrem Smartphone. Andere Personen können Ihre Daten nur einsehen, wenn Sie diesen ein Zertifikat zur Überprüfung vorzeigen."</string>
+    <!-- XTXT: Vaccination Consent family certificates text  -->
+    <string name="vaccination_consent_family_certificates_text">"Fügen Sie existierende Zertifikate für sich und Ihre Familienmitglieder hinzu."</string>
+    <!-- XTXT: Text for vaccination consent legal information button -->
+    <string name="vaccination_consent_onboarding_legal_information">"Ausführliche Informationen zur Datenverarbeitung finden Sie in der Datenschutzerklärung."</string>
+    <!-- XBUT: Text for vaccination consent accept button -->
+    <string name="vaccination_consent_accept_button">"Weiter"</string>
+
+    <!-- XTXT: Recovery certificate detail title -->
+    <string name="recovery_certificate_details_title">"Genesenenzertifikat"</string>
+    <!-- XTXT: Recovery certificate detail subtitle -->
+    <string name="recovery_certificate_details_subtitle">"EU Digitales COVID-Zertifikat"</string>
+
 </resources>

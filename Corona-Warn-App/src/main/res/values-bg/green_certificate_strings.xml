@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- XTXT: Request green certificate title -->
-    <string name="request_green_certificate_title">"Сертификат за тест за COVID"</string>
+    <string name="request_green_certificate_title">"COVID сертификат за тестване"</string>
     <!-- XTXT: Request green certificate subtitle -->
-    <string name="request_green_certificate_subtitle">"Можете да използвате приложението, за да заявите официален електронен сертификат за тестване, който ще бъде добавен в приложението."</string>
+    <string name="request_green_certificate_subtitle">"Можете да използвате приложението, за да заявите официален цифров сертификат за тестване, който ще бъде добавен вътре."</string>
     <!-- XTXT: Request green certificate body section 1 -->
-    <string name="request_green_certificate_body_1">"Сертификатът за тестване се издава само ако получите отрицателен резултат от теста."</string>
+    <string name="request_green_certificate_body_1">"Сертификат за тестване се издава само ако резултатът от теста е отрицателен."</string>
     <!-- XTXT: Request green certificate body section 2 -->
     <string name="request_green_certificate_body_2">"Сертификатът за тестване е валидно доказателство за отрицателен резултат от тест в рамките на ЕС (например при пътуване)."</string>
     <!-- XTXT: Request green certificate body section 3 -->
-    <string name="request_green_certificate_body_3">"Сертификатът за тестване съдържа валидни данни, които позволяват на приложението за проверка да валидира сертификата ви."</string>
+    <string name="request_green_certificate_body_3">"Сертификатът за тестване съдържа данни, които позволяват на приложението за проверка да валидира сертификата Ви."</string>
     <!-- XBUT: Request green certificate agree button -->
-    <string name="request_green_certificate_agree_button">"Заявете тестов сертификат"</string>
+    <string name="request_green_certificate_agree_button">"Заявете сертификат за тест"</string>
     <!-- XBUT: Request green certificate disagree button -->
     <string name="request_green_certificate_disagree_button">"Не, благодаря!"</string>
     <!-- XTXT: Request green certificate birth date description -->
@@ -21,30 +21,86 @@
     <string name="request_gc_dialog_title">"Отмяна на регистрация"</string>
     <!-- XTXT: Request green certificate exit dialog message -->
     <string name="request_gc_dialog_message">"Ако отмените регистрацията на теста, няма да може да получите резултата от него в приложението."</string>
+    <!-- XBUT: Request green certificate exit dialog positive button -->
+    <string name="request_gc_dialog_positive_button">"Отказвам се от регистрацията"</string>
     <!-- XBUT: Request green certificate exit dialog negative button -->
-    <string name="request_gc_dialog_positive_button">"ОК"</string>
-    <!-- XBUT: Request green certificate exit dialog negative button -->
-    <string name="request_gc_dialog_negative_button">"Отказ"</string>
+    <string name="request_gc_dialog_negative_button">"Продължавам с регистрацията"</string>
     <!-- XTXT: Detail green certificate title -->
-    <string name="detail_green_certificate_title">"Електронен сертификат на ЕС за тестване за COVID"</string>
+    <string name="detail_green_certificate_title">"Цифров COVID сертификат на ЕС за тестване"</string>
     <!-- XTXT: Detail green certificate test type -->
     <string name="detail_green_certificate_test_type">"Тест за SARS-CoV-2"</string>
     <!-- XTXT: Detail green certificate card title -->
     <string name="detail_green_certificate_card_title">"Сертификат за тестване"</string>
+    <!-- XTXT: Detail green certificate card subtitle -->
+    <string name="detail_green_certificate_card_subtitle">"Тестът е извършен на %1$s %2$s"</string>
     <!-- XTXT: Detail green certificate travel notice link en -->
     <string name="green_certificate_travel_notice_link_en">"https://reopen.europa.eu/en"</string>
     <!-- XTXT: Detail green certificate travel notice link de -->
     <string name="green_certificate_travel_notice_link_de">"https://reopen.europa.eu/de"</string>
+    <!-- XTXT: Detail green certificate menu item: delete -->
+    <string name="green_certificate_details_menu_item_delete">"Изтриване"</string>
+    <!-- XTXT: Detail green certificate diaglog title -->
+    <string name="green_certificate_details_dialog_remove_test_title">"Желаете ли да изтриете сертификата за тестване?"</string>
+    <!-- XTXT: Detail green certificate diaglog message -->
+    <string name="green_certificate_details_dialog_remove_test_message">"Ако изтриете този сертификат, повече няма да можете да го използвате за доказателство чрез приложението."</string>
+    <!-- XTXT: Detail green certificate diaglog positive -->
+    <string name="green_certificate_details_dialog_remove_test_button_positive">"Изтриване"</string>
+    <!-- XTXT: Detail green certificate diaglog negative -->
+    <string name="green_certificate_details_dialog_remove_test_button_negative">"Отказ"</string>
+
     <!-- XTXT: Green certificate main screen title -->
     <string name="certification_screen_title">"Сертификати"</string>
     <!-- XTXT: Green certificate menu item -->
     <string name="menu_certification_information">"Информация"</string>
     <!-- XTXT: Green certificate main screen header text -->
-    <string name="green_certification_header_info">"Тук се показват електронните ви сертификати за ваксиниране и за тествания."</string>
+    <string name="green_certification_header_info">"Тук се показват цифровите Ви сертификати за ваксиниране и за тествания."</string>
     <!-- XTXT: Green certificate info card title 1st line -->
     <string name="info_banner_title_1">"Електронен COVID-19"</string>
     <!-- XTXT: Green certificate info card title 2nd line  -->
-    <string name="info_banner_title_2">"Сертификат за тест за COVID"</string>
+    <string name="info_banner_title_2">"COVID сертификат за тестване"</string>
     <!-- XTXT: Green certificate info card body  -->
-    <string name="info_banner_body">"Регистрирайте тест на началния екран и дайте съгласие да получите електронен сертификат за тестване. Той ще се покаже тук веднага щом е наличен."</string>
+    <string name="info_banner_body">"Регистрирайте тест от началния екран и дайте съгласие да получите цифров сертификат за тестване. Той ще се покаже тук веднага щом стане наличен."</string>
+
+    <!-- XTXT: Test certificate time -->
+    <string name="test_certificate_time">"Тестът е извършен на %1$s, %2$s"</string>
+    <!-- XTXT: Test error label -->
+    <string name="test_certificate_error_label">"Грешка при извличането на сертификата"</string>
+    <!-- XBUT: Test error retry button -->
+    <string name="test_certificate_error_retry_button">"Опитайте пак"</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_try_again">"Не беше установена връзка. Опитайте отново."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_dcc_not_supported_by_lab">"Не можете да заявите сертификат за направен тест, тъй като пунктът не поддържа издаването на такива. Моля, изтрийте сертификата или се свържете с горещата линия за технически проблеми, посочена в „Информация за приложението“ -&gt; „Технически въпроси“."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_no_network">"Няма връзка с интернет. Моля, проверете я и опитайте отново."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_e2e_error_call_hotline">"Възникна грешка. Моля, опитайте по-късно или се свържете с горещата линия за технически проблеми, посочена в „Информация за приложението“ -&gt; „Технически въпроси“."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_try_again_dcc_not_available_yet">"Вашият сертификат още не е наличен. Моля, опитайте отново. Ако грешката продължи да възниква, се обърнете към горещата линия за технически проблеми, посочена в „Информация за приложението“ -&gt; „Технически въпроси“."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_client_error_call_hotline">"Възникна грешка. Моля, опитайте по-късно или се свържете с горещата линия за технически проблеми, посочена в „Информация за приложението“ -&gt; „Технически въпроси“."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_dcc_expired">"Сертификатът вече не е актуален. Можете да го изтриете от Corona-Warn-App."</string>
+    <!-- XBUT: Test error delete button -->
+    <string name="test_certificate_error_delete_button">"Изтриване на сертификата за тестване"</string>
+    <!-- XTXT: Test error refresh dialog title -->
+    <string name="test_certificate_refresh_dialog_title">"Все още има проблем със заявката."</string>
+    <!-- XBUT: Test error refresh dialog confirm button -->
+    <string name="test_certificate_refresh_dialog_confirm_button">"OK"</string>
+    <!-- XTXT: Test error delete dialog title -->
+    <string name="test_certificate_delete_dialog_title">"Желаете ли да изтриете сертификата?"</string>
+    <!-- XTXT: Test error delete dialog body -->
+    <string name="test_certificate_delete_dialog_body">"Ако изтриете този сертификат, не можете да го заявите отново."</string>
+    <!-- XBUT: Test error delete dialog confirm button -->
+    <string name="test_certificate_delete_dialog_confirm_button">"Изтриване"</string>
+    <!-- XBUT: Test error delete dialog cancel button -->
+    <string name="test_certificate_delete_dialog_cancel_button">"Отказ"</string>
+    <!-- XTXT: Test error card body refreshing -->
+    <string name="test_certificate_error_label_refreshing">"Вашият сертификат се създава..."</string>
+    <!-- XTXT: Test error card body refreshing -->
+    <string name="test_certificate_error_refreshing_status">"Вашият сертификат се заявява. Това може да отнеме няколко минути..."</string>
+    <!-- XBUT: Text for invalid test certificate error button, linking to FAQ-->
+    <string name="test_certificate_error_invalid_labid_faq">"ЧЗВ за сертификати за извършен тест"</string>
+    <!-- XTXT: Explains user about test certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
+    <string name="test_certificate_error_invalid_labid_faq_link">"https://www.coronawarn.app/en/faq/#test_cert"</string>
 </resources>

@@ -2,14 +2,19 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
+import de.rki.coronawarnapp.covidcertificate.common.exception.TestCertificateServerException
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CameraPermissionCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CertificatesItem
 import de.rki.coronawarnapp.databinding.PersonOverviewFragmentBinding
+import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
+import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
@@ -35,6 +40,12 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
         }
         viewModel.personCertificates.observe(viewLifecycleOwner) { binding.bindViews(it) }
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
+        viewModel.markNewCertsAsSeen.observe(viewLifecycleOwner) {
+            /**
+             * This just needs to stay subscribed while the UI is open.
+             * It causes new certificates to be marked seen automatically.
+             */
+        }
     }
 
     private fun onNavEvent(event: PersonOverviewFragmentEvents) {
@@ -54,18 +65,25 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 }
                 .show()
 
-            is ShowRefreshErrorDialog -> MaterialAlertDialogBuilder(requireContext())
-                .setTitle(R.string.test_certificate_refresh_dialog_title)
-                .setMessage(event.error.localizedMessage ?: getString(R.string.errors_generic_headline))
-                .setCancelable(false)
-                .setPositiveButton(R.string.test_certificate_refresh_dialog_confirm_button) { _, _ -> }
-                .show()
+            is ShowRefreshErrorDialog -> {
+                event.error.toErrorDialogBuilder(requireContext()).apply {
+                    setTitle(R.string.test_certificate_refresh_dialog_title)
+                    setCancelable(false)
+                    if (
+                        event.error is TestCertificateServerException &&
+                        event.error.errorCode == TestCertificateServerException.ErrorCode.DCC_NOT_SUPPORTED_BY_LAB
+                    ) {
+                        setNeutralButton(R.string.test_certificate_error_invalid_labid_faq) { _, _ ->
+                            openUrl(getString(R.string.test_certificate_error_invalid_labid_faq_link))
+                        }
+                    }
+                }.show()
+            }
 
-            ScanQrCode -> Toast.makeText(
-                requireContext(),
-                "TODO \uD83D\uDEA7 Tomorrow maybe?!",
-                Toast.LENGTH_LONG
-            ).show()
+            ScanQrCode -> doNavigate(
+                PersonOverviewFragmentDirections.actionPersonOverviewFragmentToDccQrCodeScanFragment()
+            )
+            OpenAppDeviceSettings -> openAppDetailsSettings()
         }
     }
 
@@ -81,9 +99,10 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
         }
     }
 
-    private fun PersonOverviewFragmentBinding.bindViews(persons: List<CertificatesItem>) {
-        emptyLayout.isVisible = persons.isEmpty()
-        personOverviewAdapter.update(persons)
+    private fun PersonOverviewFragmentBinding.bindViews(items: List<CertificatesItem>) {
+        scanQrcodeFab.isGone = items.any { it is CameraPermissionCard.Item }
+        emptyLayout.isVisible = items.isEmpty()
+        personOverviewAdapter.update(items)
     }
 
     private fun PersonOverviewFragmentBinding.bindRecycler() = recyclerView.apply {

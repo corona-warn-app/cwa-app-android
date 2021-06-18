@@ -70,7 +70,9 @@
     <!-- XBUT: button for Vaccination Certificate Registration Home Card -->
     <string name="vaccination_card_register">"Adăugare"</string>
     <!-- XHED: Homescreen vaccination status card title -->
-    <string name="vaccination_card_status_title">"Dovada digitală a vaccinării"</string>
+    <string name="vaccination_card_status_title_line_1">"Dovada vaccinării"</string>
+    <!-- XHED: Homescreen vaccination status card title -->
+    <string name="vaccination_card_status_title_line_2">"digitale"</string>
     <!-- XHED: Homescreen vaccination status card vaccination name -->
     <string name="vaccination_card_status_vaccination_name">"Vaccinare SARS-CoV-2"</string>
     <!-- XTXT: Homescreen card incomplete vaccination status label -->
@@ -84,15 +86,17 @@
         <item quantity="few">"Protecția prin vaccinare este completă în %1$d zile"</item>
         <item quantity="many">"Protecția prin vaccinare este completă în %1$d zile"</item>
     </plurals>
+    <!-- XTXT: Homescreen card complete vaccination status label -->
+    <string name="vaccination_card_status_vaccination_complete">"Valabil până la %s"</string>
 
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_invalid">"Acest cod QR nu este un certificat de vaccinare valabil.\n\nPentru mai multe informații despre modul în care puteți primi certificatul dvs. de vaccinare, consultați pagina noastră de întrebări frecvente."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_not_yet_supported">"Acest certificat de vaccinare nu este încă acceptat de versiunea aplicației dvs. Actualizați-vă aplicația sau contactați hotline-ul tehnic din „Informații aplicație”."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_scan_again">"Certificatul de vaccinare nu a putut fi salvat pe smartphone-ul dvs. Încercați din nou mai târziu sau contactați hotline-ul tehnic din „Informații aplicație”."</string>
+    <string name="error_dcc_scan_again">"Certificatul de vaccinare nu a putut fi salvat pe smartphone-ul dvs. Încercați din nou mai târziu sau contactați hotline-ul tehnic din „Informații aplicație”."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_already_registered">"Certificatul de vaccinare este deja înregistrat în aplicația dvs."</string>
+    <string name="error_dcc_already_registered">"Certificatul de vaccinare este deja înregistrat în aplicația dvs."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_different_person">"Informațiile personale din acest certificat de vaccinare nu corespund cu cele din certificatele deja înregistrate. Puteți înregistra certificate pentru o singură persoană în aplicație."</string>
 

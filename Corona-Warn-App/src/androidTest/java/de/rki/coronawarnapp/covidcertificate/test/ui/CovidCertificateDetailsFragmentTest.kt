@@ -17,9 +17,9 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePerso
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateIdentifier
-import de.rki.coronawarnapp.covidcertificate.test.ui.details.CovidCertificateDetailsFragment
-import de.rki.coronawarnapp.covidcertificate.test.ui.details.CovidCertificateDetailsFragmentArgs
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.CovidCertificateDetailsViewModel
+import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment
+import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragmentArgs
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -43,7 +43,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
     @MockK lateinit var vaccinationDetailsViewModel: CovidCertificateDetailsViewModel
     @MockK lateinit var certificatePersonIdentifier: CertificatePersonIdentifier
 
-    private val args = CovidCertificateDetailsFragmentArgs("testCertificateIdentifier").toBundle()
+    private val args = TestCertificateDetailsFragmentArgs("testCertificateIdentifier").toBundle()
 
     @Before
     fun setUp() {
@@ -61,17 +61,17 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment2<CovidCertificateDetailsFragment>(fragmentArgs = args)
+        launchFragment2<TestCertificateDetailsFragment>(fragmentArgs = args)
     }
 
     @Screenshot
     @Test
     fun capture_screenshot_incomplete() {
         every { vaccinationDetailsViewModel.covidCertificate } returns vaccinationDetailsData()
-        launchFragmentInContainer2<CovidCertificateDetailsFragment>(fragmentArgs = args)
-        takeScreenshot<CovidCertificateDetailsFragment>()
+        launchFragmentInContainer2<TestCertificateDetailsFragment>(fragmentArgs = args)
+        takeScreenshot<TestCertificateDetailsFragment>()
         onView(withId(R.id.coordinator_layout)).perform(swipeUp())
-        takeScreenshot<CovidCertificateDetailsFragment>("_2")
+        takeScreenshot<TestCertificateDetailsFragment>("_2")
     }
 
     private fun bitmapLiveDate(): LiveData<Bitmap> {
@@ -97,8 +97,6 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
                 override val testNameAndManufacturer: String
                     get() = "Xup"
                 override val sampleCollectedAt: Instant
-                    get() = testDate
-                override val testResultAt: Instant
                     get() = testDate
                 override val testCenter: String
                     get() = "AB123"
@@ -145,5 +143,5 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
 @Module
 abstract class CovidCertificateDetailsFragmentTestModule {
     @ContributesAndroidInjector
-    abstract fun covidCertificateDetailsFragment(): CovidCertificateDetailsFragment
+    abstract fun covidCertificateDetailsFragment(): TestCertificateDetailsFragment
 }

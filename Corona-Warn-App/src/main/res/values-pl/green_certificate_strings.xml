@@ -8,7 +8,7 @@
     <!-- XTXT: Request green certificate body section 2 -->
     <string name="request_green_certificate_body_2">"Certyfikat testu jest ważnym dowodem negatywnego wyniku testu na terenie UE (np. dla celów podróży)."</string>
     <!-- XTXT: Request green certificate body section 3 -->
-    <string name="request_green_certificate_body_3">"Certyfikat zawiera ważne dane, które umożliwiają aplikacji weryfikacyjnej jego walidację."</string>
+    <string name="request_green_certificate_body_3">"Certyfikat testu zawiera dane, które umożliwiają aplikacji weryfikacyjnej jego walidację."</string>
     <!-- XBUT: Request green certificate agree button -->
     <string name="request_green_certificate_agree_button">"Poproś o certyfikat testu"</string>
     <!-- XBUT: Request green certificate disagree button -->
@@ -21,20 +21,33 @@
     <string name="request_gc_dialog_title">"Anuluj rejestrację"</string>
     <!-- XTXT: Request green certificate exit dialog message -->
     <string name="request_gc_dialog_message">"Anulowanie rejestracji testu uniemożliwi otrzymanie wyniku testu w aplikacji."</string>
+    <!-- XBUT: Request green certificate exit dialog positive button -->
+    <string name="request_gc_dialog_positive_button">"Anuluj rejestrację"</string>
     <!-- XBUT: Request green certificate exit dialog negative button -->
-    <string name="request_gc_dialog_positive_button">"OK"</string>
-    <!-- XBUT: Request green certificate exit dialog negative button -->
-    <string name="request_gc_dialog_negative_button">"Anuluj"</string>
+    <string name="request_gc_dialog_negative_button">"Kontynuuj rejestrację"</string>
     <!-- XTXT: Detail green certificate title -->
     <string name="detail_green_certificate_title">"Unijny cyfrowy certyfikat testu na COVID"</string>
     <!-- XTXT: Detail green certificate test type -->
     <string name="detail_green_certificate_test_type">"Test SARS-CoV-2"</string>
     <!-- XTXT: Detail green certificate card title -->
     <string name="detail_green_certificate_card_title">"Certyfikat testu"</string>
+    <!-- XTXT: Detail green certificate card subtitle -->
+    <string name="detail_green_certificate_card_subtitle">"Test wykonany dnia %1$s %2$s"</string>
     <!-- XTXT: Detail green certificate travel notice link en -->
     <string name="green_certificate_travel_notice_link_en">"https://reopen.europa.eu/en"</string>
     <!-- XTXT: Detail green certificate travel notice link de -->
     <string name="green_certificate_travel_notice_link_de">"https://reopen.europa.eu/de"</string>
+    <!-- XTXT: Detail green certificate menu item: delete -->
+    <string name="green_certificate_details_menu_item_delete">"Usuń"</string>
+    <!-- XTXT: Detail green certificate diaglog title -->
+    <string name="green_certificate_details_dialog_remove_test_title">"Czy chcesz usunąć certyfikat testu?"</string>
+    <!-- XTXT: Detail green certificate diaglog message -->
+    <string name="green_certificate_details_dialog_remove_test_message">"Po usunięciu certyfikatu testu jego użycie jako dowodu w aplikacji nie będzie już możliwe."</string>
+    <!-- XTXT: Detail green certificate diaglog positive -->
+    <string name="green_certificate_details_dialog_remove_test_button_positive">"Usuń"</string>
+    <!-- XTXT: Detail green certificate diaglog negative -->
+    <string name="green_certificate_details_dialog_remove_test_button_negative">"Anuluj"</string>
+
     <!-- XTXT: Green certificate main screen title -->
     <string name="certification_screen_title">"Certyfikaty"</string>
     <!-- XTXT: Green certificate menu item -->
@@ -47,4 +60,47 @@
     <string name="info_banner_title_2">"Certyfikat testu na COVID"</string>
     <!-- XTXT: Green certificate info card body  -->
     <string name="info_banner_body">"Zarejestruj test na ekranie głównym i wyraź zgodę na otrzymanie cyfrowego certyfikatu testu. Gdy tylko certyfikat będzie dostępny, pojawi się w tym miejscu."</string>
+
+    <!-- XTXT: Test certificate time -->
+    <string name="test_certificate_time">"Test wykonany dnia %1$s, %2$s"</string>
+    <!-- XTXT: Test error label -->
+    <string name="test_certificate_error_label">"Błąd podczas pobierania certyfikatu"</string>
+    <!-- XBUT: Test error retry button -->
+    <string name="test_certificate_error_retry_button">"Spróbuj ponownie"</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_try_again">"Nie udało się nawiązać połączenia. Spróbuj ponownie."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_dcc_not_supported_by_lab">"Nie możesz zażądać wydania certyfikatu testu, ponieważ ten punkt testowania nie wydaje certyfikatów testów. Usuń certyfikat lub skontaktuj się z infolinią techniczną, korzystając z opcji: Informacje o aplikacji -&gt; Infolinia techniczna."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_no_network">"Połączenie internetowe zostało utracone. Sprawdź połączenie i spróbuj ponownie."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_e2e_error_call_hotline">"Wystąpił błąd. Spróbuj ponownie później lub skontaktuj się z infolinią techniczną, korzystając z opcji: Informacje o aplikacji -&gt; Infolinia techniczna."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_try_again_dcc_not_available_yet">"Twój certyfikat nie jest jeszcze dostępny. Spróbuj ponownie. Jeśli błąd będzie nadal występował, skontaktuj się z infolinią techniczną, korzystając z opcji: Informacje o aplikacji -&gt; Infolinia techniczna."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_client_error_call_hotline">"Wystąpił błąd. Spróbuj ponownie później lub skontaktuj się z infolinią techniczną, korzystając z opcji: Informacje o aplikacji -&gt; Infolinia techniczna."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_dcc_expired">"Ten certyfikat nie jest już aktualny. Możesz go usunąć z aplikacji Corona-Warn-App."</string>
+    <!-- XBUT: Test error delete button -->
+    <string name="test_certificate_error_delete_button">"Usuń certyfikat testu"</string>
+    <!-- XTXT: Test error refresh dialog title -->
+    <string name="test_certificate_refresh_dialog_title">"Nadal występują problemy z żądaniem."</string>
+    <!-- XBUT: Test error refresh dialog confirm button -->
+    <string name="test_certificate_refresh_dialog_confirm_button">"OK"</string>
+    <!-- XTXT: Test error delete dialog title -->
+    <string name="test_certificate_delete_dialog_title">"Czy chcesz usunąć certyfikat?"</string>
+    <!-- XTXT: Test error delete dialog body -->
+    <string name="test_certificate_delete_dialog_body">"Po usunięciu certyfikatu nie można zażądać go ponownie."</string>
+    <!-- XBUT: Test error delete dialog confirm button -->
+    <string name="test_certificate_delete_dialog_confirm_button">"Usuń"</string>
+    <!-- XBUT: Test error delete dialog cancel button -->
+    <string name="test_certificate_delete_dialog_cancel_button">"Anuluj"</string>
+    <!-- XTXT: Test error card body refreshing -->
+    <string name="test_certificate_error_label_refreshing">"Certyfikat jest tworzony..."</string>
+    <!-- XTXT: Test error card body refreshing -->
+    <string name="test_certificate_error_refreshing_status">"Żądanie dotyczące certyfikatu jest przetwarzane. Może to potrwać kilka minut..."</string>
+    <!-- XBUT: Text for invalid test certificate error button, linking to FAQ-->
+    <string name="test_certificate_error_invalid_labid_faq">"Często zadawane pytania na temat certyfikatów testów"</string>
+    <!-- XTXT: Explains user about test certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
+    <string name="test_certificate_error_invalid_labid_faq_link">"https://www.coronawarn.app/en/faq/#test_cert"</string>
 </resources>

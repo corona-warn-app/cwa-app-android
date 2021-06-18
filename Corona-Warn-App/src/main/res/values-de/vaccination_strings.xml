@@ -95,28 +95,12 @@
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_not_yet_supported">Dieses Impfzertifikat wird in Ihrer App-Version noch nicht unterstützt. Bitte aktualisieren Sie Ihre App oder wenden Sie sich an die technische Hotline unter „App-Informationen“.</string>
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_scan_again">Das Impfzertifikat konnte nicht auf Ihrem Smartphone gespeichert werden. Bitte versuchen Sie es später noch einmal oder wenden Sie sich an die technische Hotline unter „App-Informationen“.</string>
+    <string name="error_dcc_scan_again">Das Zertifikat konnte nicht auf Ihrem Smartphone gespeichert werden. Bitte versuchen Sie es später noch einmal oder wenden Sie sich an die technische Hotline unter „App-Informationen“.</string>
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_already_registered">Das Impfzertifikat ist bereits in Ihrer App registriert.</string>
+    <string name="error_dcc_already_registered">Das Zertifikat ist bereits in Ihrer App registriert.</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_different_person">Die persönlichen Daten dieses Impfzertifikats stimmen nicht mit denen der bereits registrierten Zertifikate überein. Sie können in der App nur Zertifikate einer Person registrieren.</string>
 
-    <!-- XTXT: Vaccination Consent title-->
-    <string name="vaccination_consent_title">Ihr Einverständnis</string>
-    <!-- XTXT: Vaccination Consent subtitle-->
-    <string name="vaccination_consent_headline">"Zertifikate hinzufügen"</string>
-    <!-- XTXT: Vaccination Consent subtitle of qr info -->
-    <string name="vaccination_consent_info_subtitle_text">"Fügen Sie Ihre EU digitalen COVID-Zertifikate in der App hinzu, um mit der App Ihren Impfschutz oder ein negatives Testergebnis nachweisen zu können."</string>
-    <!-- XTXT: Vaccination Consent text of qr info -->
-    <string name="vaccination_consent_qr_info_text">"Sie können EU digitale COVID-Impfzertifikate oder COVID-Testzertifikate in der App hinzufügen."</string>
-    <!-- XTXT: Vaccination Consent qr code text -->
-    <string name="vaccination_consent_qr_info_qr_code_text">"Die Zertifikate gelten innerhalb der EU als gültiger Nachweis (z.B. für Reisen)."</string>
-    <!-- XTXT: Vaccination Consent time text  -->
-    <string name="vaccination_consent_qr_info_time_text">"Nach dem Hinzufügen bleiben die Zertifikate auf Ihrem Smartphone. Andere Personen können Ihre Daten nur einsehen, wenn Sie diesen ein Zertifikat zur Überprüfung vorzeigen."</string>
-    <!-- XTXT: Text for vaccination consent legal information button -->
-    <string name="vaccination_consent_onboarding_legal_information">"Ausführliche Informationen zur Datenverarbeitung finden Sie in der Datenschutzerklärung."</string>
-    <!-- XBUT: Text for vaccination consent accept button -->
-    <string name="vaccination_consent_accept_button">"Weiter"</string>
     <!-- XBUT: Text for invalid vaccination certificate error button, linking to FAQ-->
     <string name="error_button_vc_faq">FAQ zu Impfzertifikaten</string>
     <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
