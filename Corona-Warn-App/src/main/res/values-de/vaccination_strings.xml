@@ -47,8 +47,6 @@
         <item quantity="many">Sie haben nun alle derzeit geplanten Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
     </plurals>
 
-    <!-- XTXT: Vaccination is not complete information card body-->
-    <string name="vaccination_not_complete_message">"Sie haben noch nicht alle derzeit geplanten Impfungen erhalten. Daher ist ihr Impfschutz noch nicht vollständig."</string>
     <!-- XBUT: Vaccination List register additional vaccination button -->
     <string name="vaccination_list_register_new_vaccination_button">Weitere Impfung hinzufügen</string>
     <!-- XBUT: Vaccination List delete button -->

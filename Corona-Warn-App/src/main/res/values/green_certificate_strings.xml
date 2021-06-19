@@ -106,16 +106,4 @@
     <string name="test_certificate_error_invalid_labid_faq">"FAQ for Test Certificates"</string>
     <!-- XTXT: Explains user about test certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
     <string name="test_certificate_error_invalid_labid_faq_link">"https://www.coronawarn.app/en/faq/#test_cert"</string>
-    <!-- XTXT: Test certificate sampled on -->
-    <string name="test_certificate_sampled_on">"Probenahme am %s"</string>
-    <!-- XTXT: Vaccination certificate vaccinated on -->
-    <string name="vaccination_certificate_vaccinated_on">"geimpft am %s"</string>
-    <!-- XTXT: Recovery certificate title -->
-    <string name="recovery_certificate_title">Genesenenzertifikat</string>
-    <!-- XTXT: Recovery certificate valid until -->
-    <string name="recovery_certificate_valid_until">"gültig bis %s"</string>
-    <!-- XTXT: Test Certificate CWA User card description -->
-    <string name="test_certificate_cwa_user_description">"Mein Smartphone, meine App. Zertifikate für mich erscheinen in der Liste an erster Stelle."</string>
-    <!-- XHED: Person certificate details title -->
-    <string name="person_details_certificate_title">"EU Digitales COVID-Zertifikat"</string>
 </resources>

@@ -24,7 +24,10 @@ class CwaUserCard(parent: ViewGroup) :
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
         curItem.apply {
             userName.text = certificate.fullName
-            birthDate.text = certificate.dateOfBirth.toDayFormat()
+            birthDate.text = context.getString(
+                R.string.person_details_cwa_user_birthdate,
+                certificate.dateOfBirth.toDayFormat()
+            )
             cwaUserSwitch.setOnCheckedChangeListener { _, isChecked -> onSwitch(isChecked) }
         }
     }

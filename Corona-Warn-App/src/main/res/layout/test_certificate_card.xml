@@ -52,7 +52,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
-        android:text="@string/test_certificate_card_date"
         app:layout_constraintEnd_toEndOf="@+id/test_certificate_type"
         app:layout_constraintStart_toEndOf="@id/certificate_icon"
         app:layout_constraintTop_toBottomOf="@id/test_certificate_type"
@@ -73,7 +72,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="@string/vaccination_card_bookmark_info"
+        android:text="@string/certificate_card_bookmark_info"
         app:layout_constraintEnd_toEndOf="@id/certificate_date"
         app:layout_constraintStart_toEndOf="@id/bookmark"
         app:layout_constraintTop_toTopOf="@id/bookmark" />

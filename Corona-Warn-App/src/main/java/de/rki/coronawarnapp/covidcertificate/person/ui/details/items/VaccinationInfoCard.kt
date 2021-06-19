@@ -25,11 +25,11 @@ class VaccinationInfoCard(parent: ViewGroup) :
         val daysUntilImmunity = curItem.timeUntilImmunity?.standardDays?.toInt()
         body.text = when {
             daysUntilImmunity != null -> context.resources.getQuantityString(
-                R.plurals.vaccination_list_immunity_card_body,
+                R.plurals.vaccination_certificate_days_unti_immunity,
                 daysUntilImmunity,
                 daysUntilImmunity
             )
-            else -> context.getString(R.string.vaccination_not_complete_message)
+            else -> context.getString(R.string.vaccination_certificate_incomplete_vaccination)
         }
     }
 

@@ -28,7 +28,7 @@ class TestCertificateCard(parent: ViewGroup) :
         val certificate = curItem.certificate
         root.setOnClickListener { curItem.onClick() }
         certificateDate.text = context.getString(
-            R.string.test_certificate_card_date,
+            R.string.test_certificate_sampled_on,
             certificate.sampleCollectedAt.toUserTimeZone().toDayFormat()
         )
         testCertificateType.text = certificate.testType

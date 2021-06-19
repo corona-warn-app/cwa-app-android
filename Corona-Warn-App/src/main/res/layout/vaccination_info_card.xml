@@ -14,6 +14,6 @@
         style="@style/body2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="@string/vaccination_not_complete_message" />
+        tools:text="@string/vaccination_certificate_incomplete_vaccination" />
 
 </FrameLayout>

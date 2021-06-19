@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:text="@string/vaccination_list_vaccination_card_headline"
+        android:text="@string/vaccination_certificate_name"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,10 +40,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:text="@string/vaccination_list_vaccination_card_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/certificate_icon"
-        app:layout_constraintTop_toBottomOf="@id/vaccination_certificate_name" />
+        app:layout_constraintTop_toBottomOf="@id/vaccination_certificate_name"
+        tools:text="Impfung 1 von 2" />
 
     <TextView
         android:id="@+id/certificate_date"
@@ -52,10 +52,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
-        android:text="@string/vaccination_list_vaccination_card_subtitle"
         app:layout_constraintEnd_toEndOf="@+id/vaccination_doses_info"
         app:layout_constraintStart_toEndOf="@id/certificate_icon"
-        app:layout_constraintTop_toBottomOf="@id/vaccination_doses_info" />
+        app:layout_constraintTop_toBottomOf="@id/vaccination_doses_info"
+        tools:text="geimpft am 01.06.21" />
 
     <ImageView
         android:id="@+id/bookmark"
@@ -72,7 +72,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="@string/vaccination_card_bookmark_info"
+        android:text="@string/certificate_card_bookmark_info"
         app:layout_constraintEnd_toEndOf="@id/certificate_date"
         app:layout_constraintStart_toEndOf="@id/bookmark"
         app:layout_constraintTop_toTopOf="@id/bookmark" />

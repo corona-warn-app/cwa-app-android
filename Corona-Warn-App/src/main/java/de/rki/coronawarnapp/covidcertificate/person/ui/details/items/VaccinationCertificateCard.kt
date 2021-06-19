@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdap
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationCertificateCard.Item
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.databinding.VaccinationCertificateCardBinding
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class VaccinationCertificateCard(parent: ViewGroup) :
@@ -27,13 +28,13 @@ class VaccinationCertificateCard(parent: ViewGroup) :
         val certificate = curItem.certificate
         root.setOnClickListener { curItem.onClick() }
         vaccinationDosesInfo.text = context.getString(
-            R.string.vaccination_list_vaccination_card_title,
+            R.string.vaccination_certificate_doses,
             certificate.doseNumber,
             certificate.totalSeriesOfDoses
         )
         certificateDate.text = context.getString(
-            R.string.vaccination_list_vaccination_card_subtitle,
-            certificate.vaccinatedAt
+            R.string.vaccination_certificate_vaccinated_on,
+            certificate.vaccinatedAt.toShortDayFormat()
         )
         currentCertificate.isVisible = curItem.isCurrentCertificate
         val icon = when {
