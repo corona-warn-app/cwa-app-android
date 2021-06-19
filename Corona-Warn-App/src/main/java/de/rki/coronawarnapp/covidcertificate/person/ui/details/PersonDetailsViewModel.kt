@@ -72,9 +72,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
         mutableListOf<CertificateItem>().apply {
             val priorityCertificate = personCertificates.highestPriorityCertificate
             add(PersonDetailsQrCard.Item(priorityCertificate, qrCode))
-            add(
-                cwaUserCard(priorityCertificate, personCertificates)
-            )
+            add(cwaUserCard(personCertificates))
 
             // Find any vaccination certificate to determine the vaccination information
             personCertificates.certificates.find { it is VaccinationCertificate }?.let { certificate ->
@@ -89,9 +87,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
         }
 
     private suspend fun cwaUserCard(
-        priorityCertificate: CwaCovidCertificate,
         personCertificates: PersonCertificates
-    ) = CwaUserCard.Item(priorityCertificate) { checked ->
+    ) = CwaUserCard.Item(personCertificates) { checked ->
         launch {
             val identifier = if (checked) personCertificates.personIdentifier else null
             personCertificatesProvider.setCurrentCwaUser(identifier)
