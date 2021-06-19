@@ -5,8 +5,11 @@ import android.view.View
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.transition.Hold
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CameraPermissionCard
@@ -72,11 +75,22 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 }
             }.show()
 
-            ScanQrCode -> doNavigate(
-                PersonOverviewFragmentDirections.actionPersonOverviewFragmentToDccQrCodeScanFragment()
-            )
+            ScanQrCode -> {
+                setupHoldTransition()
+                findNavController().navigate(
+                    R.id.action_personOverviewFragment_to_dccQrCodeScanFragment,
+                    null,
+                    null,
+                    FragmentNavigatorExtras(binding.scanQrcodeFab to binding.scanQrcodeFab.transitionName)
+                )
+            }
             OpenAppDeviceSettings -> openAppDetailsSettings()
         }
+    }
+
+    private fun setupHoldTransition() {
+        exitTransition = Hold()
+        reenterTransition = Hold()
     }
 
     private fun PersonOverviewFragmentBinding.bindToolbar() {
