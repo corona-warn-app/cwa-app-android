@@ -47,6 +47,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
             title.alpha = titleAlpha
             subtitle.alpha = subtitleAlpha
+            europaImage.alpha = subtitleAlpha
         }
 
         bindToolbar()
