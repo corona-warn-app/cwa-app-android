@@ -147,7 +147,7 @@
 
             <include
                 android:id="@+id/privacy_card"
-                layout="@layout/vaccination_consent_privacy_card"
+                layout="@layout/certificate_info_screen_privacy_card"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_small"
