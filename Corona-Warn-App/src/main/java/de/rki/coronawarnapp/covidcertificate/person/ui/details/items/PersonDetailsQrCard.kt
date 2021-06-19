@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.databinding.PersonDetailsQrCardItemBinding
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone

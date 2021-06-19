@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.details.items
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
 import de.rki.coronawarnapp.databinding.CwaUserCardItemBinding
