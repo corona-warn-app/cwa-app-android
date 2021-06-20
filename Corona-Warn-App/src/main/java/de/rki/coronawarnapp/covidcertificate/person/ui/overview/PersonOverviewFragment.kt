@@ -105,7 +105,8 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 R.id.menu_information -> {
                     setupAxisTransition()
                     doNavigate(
-                        PersonOverviewFragmentDirections.actionPersonOverviewFragmentToVaccinationConsentFragment(false)
+                        PersonOverviewFragmentDirections
+                            .actionPersonOverviewFragmentToCovidCertificateOnboardingFragment(false)
                     )
                     true
                 }

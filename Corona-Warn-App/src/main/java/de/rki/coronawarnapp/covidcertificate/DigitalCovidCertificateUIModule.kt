@@ -12,8 +12,8 @@ import de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertifi
 import de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertificateDetailsModule
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsModule
-import de.rki.coronawarnapp.covidcertificate.ui.info.CovidCertificateInfoFragment
-import de.rki.coronawarnapp.covidcertificate.ui.info.CovidCertificateInfoFragmentModule
+import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment
+import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragmentModule
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragment
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragmentModule
 
@@ -35,8 +35,8 @@ abstract class DigitalCovidCertificateUIModule {
     @ContributesAndroidInjector(modules = [TestCertificateDetailsModule::class])
     abstract fun certificateDetailsFragment(): TestCertificateDetailsFragment
 
-    @ContributesAndroidInjector(modules = [CovidCertificateInfoFragmentModule::class])
-    abstract fun vaccinationConsentFragment(): CovidCertificateInfoFragment
+    @ContributesAndroidInjector(modules = [CovidCertificateOnboardingFragmentModule::class])
+    abstract fun vaccinationConsentFragment(): CovidCertificateOnboardingFragment
 
     @ContributesAndroidInjector(modules = [RecoveryCertificateDetailsModule::class])
     abstract fun recoveryCertificateDetailsFragment(): RecoveryCertificateDetailsFragment

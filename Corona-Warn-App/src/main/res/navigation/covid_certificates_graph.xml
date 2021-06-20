@@ -10,8 +10,8 @@
         android:label="PersonOverviewFragment"
         tools:layout="@layout/person_overview_fragment">
         <action
-            android:id="@+id/action_personOverviewFragment_to_vaccinationConsentFragment"
-            app:destination="@id/covidCertificateInfoFragment" />
+            android:id="@+id/action_personOverviewFragment_to_covidCertificateOnboardingFragment"
+            app:destination="@id/covidCertificateOnboardingFragment" />
         <action
             android:id="@+id/action_personOverviewFragment_to_personDetailsFragment"
             app:destination="@id/personDetailsFragment" />
@@ -21,20 +21,20 @@
     </fragment>
 
     <fragment
-        android:id="@+id/covidCertificateInfoFragment"
-        android:name="de.rki.coronawarnapp.covidcertificate.ui.info.CovidCertificateInfoFragment"
-        tools:layout="@layout/covid_certificate_info_fragment">
+        android:id="@+id/covidCertificateOnboardingFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment"
+        tools:layout="@layout/covid_certificate_onboarding_fragment">
         <argument
             android:name="showBottomNav"
             android:defaultValue="true"
             app:argType="boolean" />
         <action
-            android:id="@+id/action_covidCertificateInfoFragment_to_personOverviewFragment"
+            android:id="@+id/action_covidCertificateOnboardingFragment_to_personOverviewFragment"
             app:destination="@id/personOverviewFragment"
-            app:popUpTo="@id/covidCertificateInfoFragment"
+            app:popUpTo="@id/covidCertificateOnboardingFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_covidCertificateInfoFragment_to_privacyFragment"
+            android:id="@+id/action_covidCertificateOnboardingFragment_to_privacyFragment"
             app:destination="@id/privacyFragment" />
     </fragment>
 

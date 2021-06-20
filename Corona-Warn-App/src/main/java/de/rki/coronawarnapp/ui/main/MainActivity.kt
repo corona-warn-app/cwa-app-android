@@ -167,7 +167,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         navController.findNestedGraph(R.id.covid_certificates_graph).startDestination = if (isConsentGiven) {
             R.id.personOverviewFragment
         } else {
-            R.id.covidCertificateInfoFragment
+            R.id.covidCertificateOnboardingFragment
         }
     }
 

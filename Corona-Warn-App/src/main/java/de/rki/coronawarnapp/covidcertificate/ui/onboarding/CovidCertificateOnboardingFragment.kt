@@ -1,27 +1,27 @@
-package de.rki.coronawarnapp.covidcertificate.ui.info
+package de.rki.coronawarnapp.covidcertificate.ui.onboarding
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.CovidCertificateInfoFragmentBinding
+import de.rki.coronawarnapp.databinding.CovidCertificateOnboardingFragmentBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
-class CovidCertificateInfoFragment : Fragment(R.layout.covid_certificate_info_fragment), AutoInject {
+class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_onboarding_fragment), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: CovidCertificateInfoViewModel by cwaViewModels { viewModelFactory }
-    private val binding: CovidCertificateInfoFragmentBinding by viewBinding()
-    private val args by navArgs<CovidCertificateInfoFragmentArgs>()
+    private val viewModel: CovidCertificateOnboardingViewModel by cwaViewModels { viewModelFactory }
+    private val binding: CovidCertificateOnboardingFragmentBinding by viewBinding()
+    private val args by navArgs<CovidCertificateOnboardingFragmentArgs>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,12 +45,14 @@ class CovidCertificateInfoFragment : Fragment(R.layout.covid_certificate_info_fr
 
         viewModel.events.observe(viewLifecycleOwner) { event ->
             when (event) {
-                CovidCertificateInfoViewModel.Event.NavigateToDataPrivacy -> doNavigate(
-                    CovidCertificateInfoFragmentDirections.actionCovidCertificateInfoFragmentToPrivacyFragment()
-                )
-                CovidCertificateInfoViewModel.Event.NavigateToPersonOverview -> doNavigate(
-                    CovidCertificateInfoFragmentDirections.actionCovidCertificateInfoFragmentToPersonOverviewFragment()
-                )
+                CovidCertificateOnboardingViewModel.Event.NavigateToDataPrivacy ->
+                    findNavController().navigate(
+                        R.id.action_covidCertificateOnboardingFragment_to_privacyFragment
+                    )
+                CovidCertificateOnboardingViewModel.Event.NavigateToPersonOverview ->
+                    findNavController().navigate(
+                        R.id.action_covidCertificateOnboardingFragment_to_personOverviewFragment
+                    )
             }
         }
     }

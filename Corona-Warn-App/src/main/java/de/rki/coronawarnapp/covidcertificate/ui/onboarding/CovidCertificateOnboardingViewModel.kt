@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.ui.info
+package de.rki.coronawarnapp.covidcertificate.ui.onboarding
 
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
-class CovidCertificateInfoViewModel @AssistedInject constructor(
+class CovidCertificateOnboardingViewModel @AssistedInject constructor(
     private val vaccinationSettings: VaccinationSettings,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider) {
@@ -25,7 +25,7 @@ class CovidCertificateInfoViewModel @AssistedInject constructor(
     }
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<CovidCertificateInfoViewModel>
+    interface Factory : SimpleCWAViewModelFactory<CovidCertificateOnboardingViewModel>
 
     sealed class Event {
         object NavigateToDataPrivacy : Event()
