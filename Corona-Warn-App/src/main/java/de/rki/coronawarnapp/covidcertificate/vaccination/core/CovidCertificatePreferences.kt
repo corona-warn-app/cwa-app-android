@@ -8,15 +8,15 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class VaccinationPreferences @Inject constructor(
+class CovidCertificatePreferences @Inject constructor(
     @AppContext val context: Context
 ) {
     private val prefs by lazy {
-        context.getSharedPreferences("vaccination_localdata", Context.MODE_PRIVATE)
+        context.getSharedPreferences("covid_certificate_localdata", Context.MODE_PRIVATE)
     }
 
-    val registrationAcknowledged = prefs.createFlowPreference(
-        key = "registration_acknowledged",
+    val isOnboarded = prefs.createFlowPreference(
+        key = "covid_certificate_onboarded",
         defaultValue = false
     )
 
