@@ -99,8 +99,8 @@ class PersonOverviewViewModel @AssistedInject constructor(
                         certificate = certificate,
                         qrcodeBitmap = qrCodes[certificate.qrCode],
                         color = PersonOverviewItemColor.colorFor(index)
-                    ) {
-                        events.postValue(OpenPersonDetailsFragment(person.personIdentifier.codeSHA256))
+                    ) { _, position ->
+                        events.postValue(OpenPersonDetailsFragment(person.personIdentifier.codeSHA256, position))
                     }
                 )
             }

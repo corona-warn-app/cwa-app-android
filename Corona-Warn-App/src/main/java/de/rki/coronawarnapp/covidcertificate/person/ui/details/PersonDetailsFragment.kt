@@ -7,6 +7,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.PersonDetailsFragmentBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
@@ -38,9 +39,18 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
     )
     private val personDetailsAdapter = PersonDetailsAdapter()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val materialContainerTransform = MaterialContainerTransform()
+        sharedElementEnterTransition = materialContainerTransform
+        sharedElementReturnTransition = materialContainerTransform
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
+            root.transitionName = args.personIdentifierCode
             toolbar.setNavigationOnClickListener { popBackStack() }
             recyclerViewCertificatesList.apply {
                 adapter = personDetailsAdapter

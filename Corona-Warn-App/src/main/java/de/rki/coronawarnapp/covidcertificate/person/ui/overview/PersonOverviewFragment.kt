@@ -13,6 +13,7 @@ import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFragmentArgs
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CameraPermissionCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificatesItem
 import de.rki.coronawarnapp.databinding.PersonOverviewFragmentBinding
@@ -53,11 +54,19 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
 
     private fun onNavEvent(event: PersonOverviewFragmentEvents) {
         when (event) {
-            is OpenPersonDetailsFragment -> doNavigate(
-                PersonOverviewFragmentDirections.actionPersonOverviewFragmentToPersonDetailsFragment(
-                    event.personIdentifier
+            is OpenPersonDetailsFragment -> {
+                setupHoldTransition()
+                val navigatorExtras = binding.recyclerView.layoutManager
+                    ?.findViewByPosition(event.position)?.run {
+                        FragmentNavigatorExtras(this to transitionName)
+                    }
+                findNavController().navigate(
+                    R.id.action_personOverviewFragment_to_personDetailsFragment,
+                    PersonDetailsFragmentArgs(event.personIdentifier).toBundle(),
+                    null,
+                    navigatorExtras
                 )
-            )
+            }
             is ShowDeleteDialog -> MaterialAlertDialogBuilder(requireContext())
                 .setTitle(R.string.test_certificate_delete_dialog_title)
                 .setMessage(R.string.test_certificate_delete_dialog_body)

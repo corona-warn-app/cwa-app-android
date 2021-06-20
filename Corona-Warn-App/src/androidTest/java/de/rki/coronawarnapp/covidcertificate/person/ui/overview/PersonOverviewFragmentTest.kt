@@ -116,7 +116,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
             add(
                 PersonCertificateCard.Item(
                     certificate = mockTestCertificate("Andrea Schneider"),
-                    onClickAction = {},
+                    onClickAction = { _, _ -> },
                     color = PersonOverviewItemColor.COLOR_1,
                     qrcodeBitmap = bitmap
                 )
@@ -136,7 +136,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
             add(
                 PersonCertificateCard.Item(
                     certificate = mockTestCertificate("Andrea Schneider"),
-                    onClickAction = {},
+                    onClickAction = { _, _ -> },
                     color = PersonOverviewItemColor.COLOR_1,
                     qrcodeBitmap = bitmap
                 )
@@ -148,7 +148,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
             add(
                 PersonCertificateCard.Item(
                     certificate = mockTestCertificate("Andrea Schneider"),
-                    onClickAction = {},
+                    onClickAction = { _, _ -> },
                     color = PersonOverviewItemColor.COLOR_1,
                     qrcodeBitmap = bitmap
                 )
@@ -157,7 +157,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
             add(
                 PersonCertificateCard.Item(
                     certificate = mockTestCertificate("Mia Schneider"),
-                    onClickAction = {},
+                    onClickAction = { _, _ -> },
                     color = PersonOverviewItemColor.COLOR_2,
                     qrcodeBitmap = bitmap
                 )
@@ -166,7 +166,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
             add(
                 PersonCertificateCard.Item(
                     certificate = mockTestCertificate("Thomas Schneider"),
-                    onClickAction = {},
+                    onClickAction = { _, _ -> },
                     color = PersonOverviewItemColor.COLOR_3,
                     qrcodeBitmap = bitmap
                 )
