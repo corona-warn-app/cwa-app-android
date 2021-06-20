@@ -7,13 +7,12 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
-        style="@style/CWAToolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/menu_person_overview_fragment"
+        app:menu="@menu/menu_person_overview"
         app:title="@string/certification_screen_title" />
 
     <androidx.recyclerview.widget.RecyclerView
