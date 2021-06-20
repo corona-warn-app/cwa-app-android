@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.Hold
+import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CameraPermissionCard
@@ -93,12 +94,21 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
         reenterTransition = Hold()
     }
 
+    private fun setupAxisTransition() {
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+    }
+
     private fun PersonOverviewFragmentBinding.bindToolbar() {
         toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
-                R.id.menu_information -> doNavigate(
-                    PersonOverviewFragmentDirections.actionPersonOverviewFragmentToVaccinationConsentFragment(false)
-                ).run { true }
+                R.id.menu_information -> {
+                    setupAxisTransition()
+                    doNavigate(
+                        PersonOverviewFragmentDirections.actionPersonOverviewFragmentToVaccinationConsentFragment(false)
+                    )
+                    true
+                }
 
                 else -> onOptionsItemSelected(it)
             }
