@@ -108,7 +108,7 @@ class HomeFragmentViewModelTest : BaseTest() {
         timeStamper = timeStamper,
         bluetoothSupport = bluetoothSupport,
         vaccinationRepository = vaccinationRepository,
-        vaccinationSettings = covidCertificateSettings
+        covidCertificateSettings = covidCertificateSettings
     )
 
     @Test
