@@ -67,13 +67,20 @@ class RecoveryCertificateRepository @Inject constructor(
 
     suspend fun requestCertificate(qrCode: RecoveryCertificateQRCode): RecoveryCertificateContainer {
         Timber.tag(TAG).d("requestCertificate(qrCode=%s)", qrCode)
-        throw NotImplementedError()
+        internalData.updateBlocking {
+            this.plus(
+                RecoveryCertificateContainer(
+                data = , // TODO convert qr code to entity
+                qrCodeExtractor = qrCodeExtractor,
+                isUpdatingData = false
+            ))
+        }
     }
 
     suspend fun deleteCertificate(identifier: RecoveryCertificateIdentifier) {
         Timber.tag(TAG).d("deleteCertificate(identifier=%s)", identifier)
         internalData.updateBlocking {
-            mapNotNull { if (it.certificateId == identifier) null else it }.toSet()
+            mapNotNull { if (it.data.identifier == identifier) null else it }.toSet()
         }
     }
 
