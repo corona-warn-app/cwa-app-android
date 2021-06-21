@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.test.TestData
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.decodeHex
-import org.joda.time.LocalDate
 import org.junit.jupiter.api.Test
 
 class TestCertificateDccParserTest {
@@ -25,7 +24,7 @@ class TestCertificateDccParserTest {
                 givenNameStandardized shouldBe "GABRIELE"
             }
             dob shouldBe "1998-02-26"
-            dateOfBirthFormatted shouldBe LocalDate.parse("1998-02-26")
+            dateOfBirthFormatted shouldBe "1998-02-26"
             version shouldBe "1.2.1"
 
             with(tests!!.single()) {
@@ -36,7 +35,7 @@ class TestCertificateDccParserTest {
                 sampleCollectedAt shouldBe org.joda.time.Instant.parse("2021-02-20T12:34:56+00:00")
                 testType shouldBe "LP217198-3"
                 testCenter shouldBe "Testing center Vienna 1"
-                testNameAndManufactor shouldBe "1232"
+                testNameAndManufacturer shouldBe "1232"
                 testResult shouldBe "260415000"
             }
         }

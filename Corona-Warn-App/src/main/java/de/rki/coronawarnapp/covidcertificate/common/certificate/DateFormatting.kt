@@ -2,12 +2,13 @@ package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
+import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatterBuilder
 import org.joda.time.format.ISODateTimeFormat
 
 internal fun String.formatDate(): String {
-    val regex = "T\\d\\d:\\d\\d:\\d\\d(\\+\\d\\d:\\d\\d)?".toRegex()
+    val regex = "T\\d\\d:\\d\\d:\\d\\d(\\+\\d\\d:\\d\\d)?.*".toRegex()
     return this.replace(regex, "")
 }
 
@@ -26,3 +27,5 @@ internal fun String.formatDateTime(tz: DateTimeZone = DateTimeZone.getDefault())
 } catch (e: Exception) {
     this
 }
+
+internal fun String.parseLocalDate(): LocalDate = LocalDate.parse(this, DateTimeFormat.forPattern("yyyy-MM-dd"))

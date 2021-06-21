@@ -47,6 +47,7 @@ fun testCertificate(
     override val testName: String = "testName"
     override val testNameAndManufacturer: String = "testNameAndManufacturer"
     override val sampleCollectedAt: Instant = Instant.EPOCH
+    override val sampleCollectedAtFormatted: String = ""
     override val testCenter: String = ""
     override val registeredAt: Instant = Instant.EPOCH
     override val isUpdatingData: Boolean = isUpdating

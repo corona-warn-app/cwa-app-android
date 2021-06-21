@@ -14,7 +14,6 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant
-import org.joda.time.LocalDate
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
@@ -40,7 +39,7 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
                 givenName shouldBe "Gabriele"
                 givenNameStandardized shouldBe "GABRIELE"
             }
-            dateOfBirthFormatted shouldBe LocalDate.parse("1998-02-26")
+            dateOfBirthFormatted shouldBe "1998-02-26"
             version shouldBe "1.2.1"
 
             with(test) {
@@ -51,7 +50,7 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
                 sampleCollectedAt shouldBe Instant.parse("2021-02-20T12:34:56+00:00")
                 testType shouldBe "LP217198-3"
                 testCenter shouldBe "Testing center Vienna 1"
-                testNameAndManufactor shouldBe "1232"
+                testNameAndManufacturer shouldBe "1232"
                 testResult shouldBe "260415000"
             }
         }

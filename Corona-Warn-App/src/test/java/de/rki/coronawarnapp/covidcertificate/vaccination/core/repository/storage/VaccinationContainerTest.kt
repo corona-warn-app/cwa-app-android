@@ -14,7 +14,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.joda.time.Instant
-import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -70,8 +69,8 @@ class VaccinationContainerTest : BaseTest() {
             firstName shouldBe "Andreas"
             lastName shouldBe "Astrá Eins"
             fullName shouldBe "Andreas Astrá Eins"
-            dateOfBirthFormatted shouldBe LocalDate.parse("1966-11-11")
-            vaccinatedAtFormatted shouldBe LocalDate.parse("2021-03-01")
+            dateOfBirthFormatted shouldBe "1966-11-11"
+            vaccinatedAtFormatted shouldBe "2021-03-01"
             vaccineTypeName shouldBe "1119305005"
             vaccineManufacturer shouldBe "ORG-100001699"
             medicalProductName shouldBe "EU/1/21/1529"
@@ -117,8 +116,8 @@ class VaccinationContainerTest : BaseTest() {
             firstName shouldBe "Andreas"
             lastName shouldBe "Astrá Eins"
             fullName shouldBe "Andreas Astrá Eins"
-            dateOfBirthFormatted shouldBe LocalDate.parse("1966-11-11")
-            vaccinatedAtFormatted shouldBe LocalDate.parse("2021-03-01")
+            dateOfBirthFormatted shouldBe "1966-11-11"
+            vaccinatedAtFormatted shouldBe "2021-03-01"
             vaccineTypeName shouldBe "Vaccine-Name"
             vaccineManufacturer shouldBe "Manufactorer-Name"
             medicalProductName shouldBe "MedicalProduct-Name"

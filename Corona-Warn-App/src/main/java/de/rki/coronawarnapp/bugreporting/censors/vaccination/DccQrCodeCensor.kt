@@ -79,7 +79,7 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
             "vaccinationData/vaccineId"
         )
 
-        val vaccinatedAt = vaccinationData.vaccinatedAtFormatted.toString()
+        val vaccinatedAt = vaccinationData.vaccinatedOnFormatted.toString()
         newMessage = newMessage.censor(
             vaccinatedAt,
             "vaccinationData/vaccinatedAt"

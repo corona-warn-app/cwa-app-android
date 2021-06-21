@@ -102,11 +102,11 @@ data class DccV1(
         // Unique Certificate Identifier, e.g.  "ci": "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"
         @SerializedName("ci") override val uniqueCertificateIdentifier: String
     ) : Payload {
-        val vaccinatedAtFormatted: String
+        val vaccinatedOnFormatted: String
             get() = dt.formatDate()
 
-        val vaccinatedAt: LocalDate
-            get() = LocalDate.parse(vaccinatedAtFormatted)
+        val vaccinatedOn: LocalDate
+            get() = vaccinatedOnFormatted.parseLocalDate()
     }
 
     data class TestCertificateData(
@@ -119,7 +119,7 @@ data class DccV1(
         // NAA Test Name (only for PCR tests, but not required) "nm": "Roche LightCycler qPCR",
         @SerializedName("nm") val testName: String? = null,
         // RAT Test name and manufacturer (only for RAT tests, but not required)
-        @SerializedName("ma") val testNameAndManufactor: String? = null,
+        @SerializedName("ma") val testNameAndManufacturer: String? = null,
         // Date/Time of Sample Collection (required) "sc": "2021-04-13T14:20:00+00:00"
         @SerializedName("sc") val sc: String,
         // Testing Center (required) "tc": "GGD Fryslân, L-Heliconweg",
