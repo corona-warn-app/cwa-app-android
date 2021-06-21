@@ -23,13 +23,13 @@ class RecoveryCertificateStorage @Inject constructor(
     var recoveryCertificates: Set<StoredRecoveryCertificateData>
         get() {
             Timber.tag(TAG).d("recoveryCertificates - load()")
-            return prefs.getStringSet(PKEY_RECOVERY_CERT, emptySet())?.map {
-                gson.fromJson<StoredRecoveryCertificateData>(it).also { data ->
-                    Timber.tag(TAG).v("recovery certificate loaded: %s", data)
-                    requireNotNull(data.identifier)
-                    requireNotNull(data.registeredAt)
-                }
-            }?.toSet() ?: emptySet()
+            return gson.fromJson<RecoveryCertificateDTO>(
+                prefs.getString(PKEY_RECOVERY_CERT, null) ?: return emptySet()
+            ).data.onEach {
+                Timber.tag(TAG).v("recovery certificate loaded: %s", it)
+                requireNotNull(it.identifier)
+                requireNotNull(it.registeredAt)
+            }.toSet()
         }
         set(value) {
             Timber.tag(TAG).d("recoveryCertificates - save(%s)", value)
@@ -37,13 +37,14 @@ class RecoveryCertificateStorage @Inject constructor(
                 if (value.isEmpty()) {
                     remove(PKEY_RECOVERY_CERT)
                 } else {
-                    putStringSet(
-                        PKEY_RECOVERY_CERT,
-                        value.map { data ->
-                            gson.toJson(data).also {
-                                Timber.tag(TAG).v("Storing recovery certificate %s -> %s", data.identifier, it)
-                            }
-                        }.toSet()
+                    putString(
+                        PKEY_RECOVERY_CERT, gson.toJson(
+                            RecoveryCertificateDTO(
+                                value.onEach { data ->
+                                    Timber.tag(TAG).v("Storing recovery certificate %s", data.identifier)
+                                }.toList()
+                            )
+                        )
                     )
                 }
             }
