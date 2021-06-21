@@ -84,6 +84,7 @@ class TestCertificateStorage @Inject constructor(
         typeToken: TypeToken<Set<T>>,
         storageKey: String
     ): Set<T> {
+        object : TypeToken<Set<PCRCertificateData>>() {}
         val type = typeToken.type
         val raw = prefs.getString(storageKey, null) ?: return emptySet()
         return gson.fromJson<Set<T>>(raw, type).onEach {
