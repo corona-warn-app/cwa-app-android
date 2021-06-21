@@ -11,5 +11,5 @@ data class PersonCertificates(
         get() = certificates.first().personIdentifier
 
     val highestPriorityCertificate: CwaCovidCertificate
-        get() = certificates.first()
+        get() = certificates.findHighestPriorityCertificate()
 }

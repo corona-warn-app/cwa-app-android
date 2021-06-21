@@ -20,6 +20,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkStatic
+import io.mockk.spyk
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.BeforeEach
@@ -46,6 +47,7 @@ class PersonOverviewViewModelTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this, true)
         mockkStatic("de.rki.coronawarnapp.contactdiary.util.ContactDiaryExtensionsKt")
+
         coEvery { testCertificateRepository.refresh(any()) } returns setOf(refreshResult)
         coEvery { qrCodeGenerator.createQrCode(any(), any(), any(), any(), any()) } returns mockk()
         every { personCertificatesProvider.personCertificates } returns emptyFlow()
@@ -94,7 +96,13 @@ class PersonOverviewViewModelTest : BaseTest() {
     @Test
     fun `Sorting - List has pending certificate`() {
         every { personCertificatesProvider.personCertificates } returns
-            flowOf(PersonCertificatesData.certificatesWithPending)
+            PersonCertificatesData.certificatesWithPending
+                .map {
+                    spyk(it).apply {
+                        every { highestPriorityCertificate } returns certificates.first()
+                    }
+                }.run { flowOf(this.toSet()) }
+
         instance.personCertificates.getOrAwaitValue().apply {
             (get(0) as CovidTestCertificatePendingCard.Item).apply { certificate.fullName shouldBe "Max Mustermann" }
             (get(1) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Zeebee" }
@@ -105,7 +113,13 @@ class PersonOverviewViewModelTest : BaseTest() {
     @Test
     fun `Sorting - List has pending & updating certificate`() {
         every { personCertificatesProvider.personCertificates } returns
-            flowOf(PersonCertificatesData.certificatesWithUpdating)
+            PersonCertificatesData.certificatesWithUpdating
+                .map {
+                    spyk(it).apply {
+                        every { highestPriorityCertificate } returns certificates.first()
+                    }
+                }.run { flowOf(this.toSet()) }
+
         instance.personCertificates.getOrAwaitValue().apply {
             (get(0) as CovidTestCertificatePendingCard.Item).apply { certificate.fullName shouldBe "Max Mustermann" }
             (get(1) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Zeebee" }
@@ -116,7 +130,13 @@ class PersonOverviewViewModelTest : BaseTest() {
     @Test
     fun `Sorting - List has no CWA user`() {
         every { personCertificatesProvider.personCertificates } returns
-            flowOf(PersonCertificatesData.certificatesWithoutCwaUser)
+            PersonCertificatesData.certificatesWithoutCwaUser
+                .map {
+                    spyk(it).apply {
+                        every { highestPriorityCertificate } returns certificates.first()
+                    }
+                }.run { flowOf(this.toSet()) }
+
         instance.personCertificates.getOrAwaitValue().apply {
             (get(0) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Andrea Schneider" }
             (get(1) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Erika Musterfrau" }
@@ -127,7 +147,13 @@ class PersonOverviewViewModelTest : BaseTest() {
     @Test
     fun `Sorting - List has CWA user`() {
         every { personCertificatesProvider.personCertificates } returns
-            flowOf(PersonCertificatesData.certificatesWithCwaUser)
+            PersonCertificatesData.certificatesWithCwaUser
+                .map {
+                    spyk(it).apply {
+                        every { highestPriorityCertificate } returns certificates.first()
+                    }
+                }.run { flowOf(this.toSet()) }
+
         instance.personCertificates.getOrAwaitValue().apply {
             (get(0) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Zeebee" } // CWA user
             (get(1) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Andrea Schneider" }

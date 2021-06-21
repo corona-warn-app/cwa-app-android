@@ -1,10 +1,12 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
+import io.mockk.mockk
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import java.util.UUID
@@ -72,4 +74,7 @@ fun testCertificate(
     override val certificateIssuer: String = "certificateIssuer"
     override val certificateCountry: String = "certificateCountry"
     override val certificateId: String = "certificateId"
+
+    override val rawCertificate: TestDccV1
+        get() = mockk()
 }

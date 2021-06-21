@@ -69,6 +69,9 @@ data class VaccinationContainer internal constructor(
         override val containerId: VaccinationCertificateContainerId
             get() = this@VaccinationContainer.containerId
 
+        override val rawCertificate: VaccinationDccV1
+            get() = certificate
+
         override val personIdentifier: CertificatePersonIdentifier
             get() = certificate.personIdentifier
 

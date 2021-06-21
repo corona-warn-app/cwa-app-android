@@ -45,15 +45,10 @@ class PersonCertificatesProvider @Inject constructor(
         mapping.entries.map { (personIdentifier, certs) ->
             Timber.tag(TAG).v("PersonCertificates for %s with %d certs.", personIdentifier, certs.size)
             PersonCertificates(
-                certificates = certs.toPrioritySortOrder(),
+                certificates = certs.toCertificateSortOrder(),
                 isCwaUser = personIdentifier == cwaUser,
             )
         }.toSet()
-    }
-
-    fun Collection<CwaCovidCertificate>.toPrioritySortOrder(): List<CwaCovidCertificate> {
-        // TODO
-        return this.toList()
     }
 
     /**
