@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
+import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
@@ -21,4 +22,9 @@ interface CwaCovidCertificate {
     val certificateIssuer: String
     val certificateCountry: String
     val certificateId: String
+
+    /**
+     * The ID of the container holding this certificate in the CWA.
+     */
+    val containerId: CertificateContainerId
 }
