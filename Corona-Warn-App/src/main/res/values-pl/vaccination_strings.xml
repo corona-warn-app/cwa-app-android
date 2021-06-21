@@ -44,7 +44,7 @@
         <item quantity="many">"Otrzymałeś(-aś) już wszystkie zaplanowane dotychczas szczepienia, jednak pełną ochronę poszczepienną uzyskasz dopiero za %1$d dni."</item>
     </plurals>
     <!-- XBUT: Vaccination List register additional vaccination button -->
-    <string name="vaccination_list_register_new_vaccination_button">"Zarejestruj kolejne szczepienie"</string>
+    <string name="vaccination_list_register_new_vaccination_button">"Dodaj kolejne szczepienie"</string>
     <!-- XBUT: Vaccination List delete button -->
     <string name="vaccination_list_delete_button">"Usuń"</string>
     <!-- XTXT: Vaccination List deletion dialog title-->
