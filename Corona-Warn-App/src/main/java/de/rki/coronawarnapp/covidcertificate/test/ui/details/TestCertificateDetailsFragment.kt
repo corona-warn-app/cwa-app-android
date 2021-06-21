@@ -10,13 +10,13 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.databinding.FragmentTestCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
-import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toHyphenSeparatedDate
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
@@ -38,7 +38,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         constructorCall = { factory, _ ->
             factory as CovidCertificateDetailsViewModel.Factory
             factory.create(
-                testCertificateIdentifier = args.testCertificateIdentifier
+                containerId = args.containerId
             )
         }
     )
@@ -110,7 +110,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_covid_certificate_delete -> {
-                    DialogHelper.showDialog(deleteTestConfirmationDialog)
+                    showCertificateDeletionRequest()
                     true
                 }
                 else -> onOptionsItemSelected(it)
@@ -130,16 +130,14 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         behavior.overlayTop = (width / 3) + 170
     }
 
-    private val deleteTestConfirmationDialog by lazy {
-        DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.green_certificate_details_dialog_remove_test_title,
-            R.string.green_certificate_details_dialog_remove_test_message,
-            R.string.green_certificate_details_dialog_remove_test_button_positive,
-            R.string.green_certificate_details_dialog_remove_test_button_negative,
-            positiveButtonFunction = {
-                viewModel.onDeleteTestConfirmed()
+    private fun showCertificateDeletionRequest() {
+        MaterialAlertDialogBuilder(requireContext()).apply {
+            setTitle(R.string.green_certificate_details_dialog_remove_test_title)
+            setMessage(R.string.green_certificate_details_dialog_remove_test_message)
+            setNegativeButton(R.string.green_certificate_details_dialog_remove_test_button_negative) { _, _ -> }
+            setPositiveButton(R.string.green_certificate_details_dialog_remove_test_button_positive) { _, _ ->
+                viewModel.onDeleteTestCertificateConfirmed()
             }
-        )
+        }.show()
     }
 }

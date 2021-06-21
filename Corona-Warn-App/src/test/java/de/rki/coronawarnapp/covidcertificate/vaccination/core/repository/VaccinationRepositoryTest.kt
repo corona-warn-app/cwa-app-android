@@ -3,9 +3,9 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
+import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.DaggerVaccinationTestComponent
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.errors.VaccinationCertificateNotFoundException
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
@@ -74,7 +74,7 @@ class VaccinationRepositoryTest : BaseTest() {
         val instance = createInstance(this)
         advanceUntilIdle()
 
-        instance.registerVaccination(vaccinationTestData.personAVac1QRCode).apply {
+        instance.registerCertificate(vaccinationTestData.personAVac1QRCode).apply {
             Timber.i("Returned cert is %s", this)
             this.personIdentifier shouldBe vaccinationTestData.personAVac1Container.personIdentifier
         }
@@ -96,7 +96,7 @@ class VaccinationRepositoryTest : BaseTest() {
         val instance = createInstance(this)
         advanceUntilIdle()
 
-        instance.registerVaccination(vaccinationTestData.personAVac2QRCode).apply {
+        instance.registerCertificate(vaccinationTestData.personAVac2QRCode).apply {
             Timber.i("Returned cert is %s", this)
             this.personIdentifier shouldBe vaccinationTestData.personAVac2Container.personIdentifier
         }
@@ -113,7 +113,7 @@ class VaccinationRepositoryTest : BaseTest() {
 
         every { timeStamper.nowUTC } returns vaccinationTestData.personBData1Vac.vaccinations.single().scannedAt
 
-        instance.registerVaccination(vaccinationTestData.personBVac1QRCode)
+        instance.registerCertificate(vaccinationTestData.personBVac1QRCode)
 
         testStorage shouldBe setOf(
             vaccinationTestData.personAData2Vac,
@@ -133,7 +133,7 @@ class VaccinationRepositoryTest : BaseTest() {
         advanceUntilIdle()
 
         shouldThrow<InvalidVaccinationCertificateException> {
-            instance.registerVaccination(vaccinationTestData.personAVac1QRCode)
+            instance.registerCertificate(vaccinationTestData.personAVac1QRCode)
         }.errorCode shouldBe ALREADY_REGISTERED
 
         testStorage.first() shouldBe dataBefore
@@ -169,7 +169,9 @@ class VaccinationRepositoryTest : BaseTest() {
 
         instance.vaccinationInfos.first().single().data shouldBe vaccinationTestData.personAData2Vac
 
-        instance.deleteVaccinationCertificate(toRemove.certificateId)
+        instance.deleteCertificate(
+            VaccinationCertificateContainerId(toRemove.certificateId)
+        ) shouldBe vaccinationTestData.personAVac2Container
         advanceUntilIdle()
 
         testStorage shouldBe setOf(after)
@@ -185,9 +187,9 @@ class VaccinationRepositoryTest : BaseTest() {
 
         instance.vaccinationInfos.first().single().data shouldBe vaccinationTestData.personAData2Vac
 
-        shouldThrow<VaccinationCertificateNotFoundException> {
-            instance.deleteVaccinationCertificate(vaccinationTestData.personBVac1Container.certificateId)
-        }
+        instance.deleteCertificate(
+            VaccinationCertificateContainerId(vaccinationTestData.personBVac1Container.certificateId)
+        ) shouldBe null
     }
 
     @Test
@@ -199,7 +201,9 @@ class VaccinationRepositoryTest : BaseTest() {
 
         instance.vaccinationInfos.first().single().data shouldBe vaccinationTestData.personBData1Vac
 
-        instance.deleteVaccinationCertificate(vaccinationTestData.personBVac1Container.certificateId)
+        instance.deleteCertificate(
+            VaccinationCertificateContainerId(vaccinationTestData.personBVac1Container.certificateId)
+        )
         advanceUntilIdle()
 
         instance.vaccinationInfos.first() shouldBe emptySet()

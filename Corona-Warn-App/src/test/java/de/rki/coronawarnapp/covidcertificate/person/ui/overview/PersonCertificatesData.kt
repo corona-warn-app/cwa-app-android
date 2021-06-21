@@ -2,10 +2,12 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
+import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import org.joda.time.Instant
 import org.joda.time.LocalDate
+import java.util.UUID
 
 object PersonCertificatesData {
     val certificatesWithPending = mutableSetOf<PersonCertificates>()
@@ -42,6 +44,8 @@ fun testCertificate(
     isPending: Boolean = false,
     isUpdating: Boolean = false
 ) = object : TestCertificate {
+    override val containerId: TestCertificateContainerId
+        get() = TestCertificateContainerId(UUID.randomUUID().toString())
     override val targetName: String = "targetName"
     override val testType: String = "testType"
     override val testResult: String = "testResult"

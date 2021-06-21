@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.test.ui
 
-import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 
 sealed class CertificatesFragmentEvents {
 
@@ -12,6 +12,6 @@ sealed class CertificatesFragmentEvents {
 
     data class ShowRefreshErrorCertificateDialog(val error: Exception) : CertificatesFragmentEvents()
 
-    data class ShowDeleteErrorCertificateDialog(val identifier: TestCertificateIdentifier) :
+    data class ShowDeleteErrorCertificateDialog(val containerId: TestCertificateContainerId) :
         CertificatesFragmentEvents()
 }

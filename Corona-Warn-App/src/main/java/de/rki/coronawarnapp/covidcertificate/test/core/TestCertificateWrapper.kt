@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.test.core
 
+import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainer
-import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateIdentifier
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
 import org.joda.time.Instant
 
@@ -10,7 +10,7 @@ data class TestCertificateWrapper(
     private val container: TestCertificateContainer
 ) {
 
-    val identifier: TestCertificateIdentifier get() = container.identifier
+    val containerId: TestCertificateContainerId get() = container.containerId
 
     val isCertificateRetrievalPending: Boolean get() = container.isCertificateRetrievalPending
 

@@ -7,9 +7,9 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateIdentifier
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -20,7 +20,7 @@ import timber.log.Timber
 
 class CovidCertificateDetailsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    @Assisted private val testCertificateIdentifier: TestCertificateIdentifier,
+    @Assisted private val containerId: TestCertificateContainerId,
     private val qrCodeGenerator: QrCodeGenerator,
     private val testCertificateRepository: TestCertificateRepository
 ) : CWAViewModel(dispatcherProvider) {
@@ -31,7 +31,7 @@ class CovidCertificateDetailsViewModel @AssistedInject constructor(
     val events = SingleLiveEvent<CovidCertificateDetailsNavigation>()
     val errors = SingleLiveEvent<Throwable>()
     val covidCertificate = testCertificateRepository.certificates.map { certificates ->
-        certificates.find { it.identifier == testCertificateIdentifier }?.testCertificate
+        certificates.find { it.containerId == containerId }?.testCertificate
             .also { generateQrCode(it) }
     }.asLiveData(dispatcherProvider.Default)
 
@@ -39,9 +39,9 @@ class CovidCertificateDetailsViewModel @AssistedInject constructor(
 
     fun openFullScreen() = qrCodeText?.let { events.postValue(CovidCertificateDetailsNavigation.FullQrCode(it)) }
 
-    fun onDeleteTestConfirmed() = launch {
-        Timber.d("Removing Test Certificate=$testCertificateIdentifier")
-        testCertificateRepository.deleteCertificate(testCertificateIdentifier)
+    fun onDeleteTestCertificateConfirmed() = launch {
+        Timber.d("Removing Test Certificate=$containerId")
+        testCertificateRepository.deleteCertificate(containerId)
         events.postValue(CovidCertificateDetailsNavigation.Back)
     }
 
@@ -53,7 +53,7 @@ class CovidCertificateDetailsViewModel @AssistedInject constructor(
                 }
             )
         } catch (e: Exception) {
-            Timber.d(e, "generateQrCode failed for covidCertificate=%s", testCertificateIdentifier)
+            Timber.d(e, "generateQrCode failed for covidCertificate=%s", containerId)
             bitmapStateData.postValue(null)
             errors.postValue(e)
         }
@@ -61,6 +61,6 @@ class CovidCertificateDetailsViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<CovidCertificateDetailsViewModel> {
-        fun create(testCertificateIdentifier: TestCertificateIdentifier): CovidCertificateDetailsViewModel
+        fun create(containerId: TestCertificateContainerId): CovidCertificateDetailsViewModel
     }
 }

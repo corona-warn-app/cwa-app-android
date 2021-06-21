@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
 import android.content.Context
 import de.rki.coronawarnapp.contactdiary.util.getLocale
+import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
@@ -61,22 +62,22 @@ class PersonOverviewViewModelTest : BaseTest() {
         every { refreshResult.error } returns error
 
         instance.apply {
-            refreshCertificate("Identifier")
+            refreshCertificate(TestCertificateContainerId("Identifier"))
             events.getOrAwaitValue() shouldBe ShowRefreshErrorDialog(error)
         }
     }
 
     @Test
     fun `refreshCertificate triggers refresh operation in repo`() {
-        instance.refreshCertificate("Identifier")
+        instance.refreshCertificate(TestCertificateContainerId("Identifier"))
         coVerify { testCertificateRepository.refresh(any()) }
     }
 
     @Test
     fun `deleteTestCertificate deletes certificates from repo`() {
-        coEvery { testCertificateRepository.deleteCertificate(any()) } just Runs
+        coEvery { testCertificateRepository.deleteCertificate(any()) } returns mockk()
         instance.apply {
-            deleteTestCertificate("Identifier")
+            deleteTestCertificate(TestCertificateContainerId("Identifier"))
         }
 
         coEvery { testCertificateRepository.deleteCertificate(any()) }

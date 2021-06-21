@@ -61,7 +61,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 .setNegativeButton(R.string.test_certificate_delete_dialog_cancel_button) { _, _ -> }
                 .setCancelable(false)
                 .setPositiveButton(R.string.test_certificate_delete_dialog_confirm_button) { _, _ ->
-                    viewModel.deleteTestCertificate(event.certificateId)
+                    viewModel.deleteTestCertificate(event.containerId)
                 }
                 .show()
 

@@ -3,9 +3,9 @@ package de.rki.coronawarnapp.covidcertificate.recovery.core
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
+import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateContainer
-import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateIdentifier
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateStorage
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.StoredRecoveryCertificateData
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -69,8 +69,8 @@ class RecoveryCertificateRepository @Inject constructor(
         }
 
     @Throws(DuplicateRecoveryCertificateException::class)
-    suspend fun requestCertificate(qrCode: RecoveryCertificateQRCode): RecoveryCertificateContainer {
-        Timber.tag(TAG).d("requestCertificate(qrCode=%s)", qrCode)
+    suspend fun registerCertificate(qrCode: RecoveryCertificateQRCode): RecoveryCertificateContainer {
+        Timber.tag(TAG).d("registerCertificate(qrCode=%s)", qrCode)
         qrCodeExtractor.extract(qrCode.qrCode).toContainer().apply {
             if (internalData.data.last().contains(this)) {
                 throw DuplicateRecoveryCertificateException(qrCode.uniqueCertificateIdentifier)
@@ -90,10 +90,10 @@ class RecoveryCertificateRepository @Inject constructor(
         isUpdatingData = false
     )
 
-    suspend fun deleteCertificate(identifier: RecoveryCertificateIdentifier) {
-        Timber.tag(TAG).d("deleteCertificate(identifier=%s)", identifier)
+    suspend fun deleteCertificate(containerId: RecoveryCertificateContainerId) {
+        Timber.tag(TAG).d("deleteCertificate(containerId=%s)", containerId)
         internalData.updateBlocking {
-            mapNotNull { if (it.data.identifier == identifier) null else it }.toSet()
+            mapNotNull { if (it.containerId == containerId) null else it }.toSet()
         }
     }
 
