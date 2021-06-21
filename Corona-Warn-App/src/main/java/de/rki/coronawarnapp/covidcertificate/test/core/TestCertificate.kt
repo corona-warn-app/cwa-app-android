@@ -1,10 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.test.core
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
-import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import org.joda.time.Instant
 
 interface TestCertificate : CwaCovidCertificate {
+    override val containerId: TestCertificateContainerId
 
     /**
      * Disease or agent targeted (required)
@@ -27,5 +28,4 @@ interface TestCertificate : CwaCovidCertificate {
     val registeredAt: Instant
     val isUpdatingData: Boolean
     val isCertificateRetrievalPending: Boolean
-    val identifier: TestCertificateIdentifier
 }

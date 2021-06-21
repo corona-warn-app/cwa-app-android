@@ -15,8 +15,8 @@ import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
+import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
-import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateIdentifier
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsViewModel
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragmentArgs
@@ -43,7 +43,9 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
     @MockK lateinit var vaccinationDetailsViewModel: TestCertificateDetailsViewModel
     @MockK lateinit var certificatePersonIdentifier: CertificatePersonIdentifier
 
-    private val args = TestCertificateDetailsFragmentArgs("testCertificateIdentifier").toBundle()
+    private val args = TestCertificateDetailsFragmentArgs(
+        containerId = TestCertificateContainerId("testCertificateIdentifier")
+    ).toBundle()
 
     @Before
     fun setUp() {
@@ -53,7 +55,7 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
 
         setupMockViewModel(
             object : TestCertificateDetailsViewModel.Factory {
-                override fun create(testCertificateIdentifier: TestCertificateIdentifier):
+                override fun create(containerId: TestCertificateContainerId):
                     TestCertificateDetailsViewModel = vaccinationDetailsViewModel
             }
         )
@@ -86,6 +88,8 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
         val testDate = DateTime.parse("12.05.2021 19:00", formatter).toInstant()
         return MutableLiveData(
             object : TestCertificate {
+                override val containerId: TestCertificateContainerId
+                    get() = TestCertificateContainerId("identifier")
                 override val targetName: String
                     get() = "Schneider, Andrea"
                 override val testType: String
@@ -130,8 +134,6 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
                     get() = "Germany"
                 override val certificateId: String
                     get() = "05930482748454836478695764787840"
-                override val identifier: TestCertificateIdentifier
-                    get() = "TestCertificateIdentifier"
             }
         )
     }

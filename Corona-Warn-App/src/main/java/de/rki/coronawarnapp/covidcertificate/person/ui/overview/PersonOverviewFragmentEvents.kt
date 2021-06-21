@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
 import de.rki.coronawarnapp.covidcertificate.common.exception.TestCertificateServerException
 
+import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
+
 sealed class PersonOverviewFragmentEvents
 
 data class ShowRefreshErrorDialog(val error: Throwable) : PersonOverviewFragmentEvents() {
@@ -10,7 +12,7 @@ data class ShowRefreshErrorDialog(val error: Throwable) : PersonOverviewFragment
             error.errorCode == TestCertificateServerException.ErrorCode.DCC_NOT_SUPPORTED_BY_LAB
 }
 
-data class ShowDeleteDialog(val certificateId: String) : PersonOverviewFragmentEvents()
+data class ShowDeleteDialog(val containerId: TestCertificateContainerId) : PersonOverviewFragmentEvents()
 data class OpenPersonDetailsFragment(val personIdentifier: String, val position: Int) : PersonOverviewFragmentEvents()
 object ScanQrCode : PersonOverviewFragmentEvents()
 object OpenAppDeviceSettings : PersonOverviewFragmentEvents()

@@ -38,7 +38,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         constructorCall = { factory, _ ->
             factory as TestCertificateDetailsViewModel.Factory
             factory.create(
-                testCertificateIdentifier = args.testCertificateIdentifier
+                containerId = args.containerId
             )
         }
     )

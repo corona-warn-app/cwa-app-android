@@ -51,8 +51,8 @@
         tools:layout="@layout/fragment_test_certificate_details">
 
         <argument
-            android:name="testCertificateIdentifier"
-            app:argType="string" />
+            android:name="containerId"
+            app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId" />
     </fragment>
 
     <fragment
@@ -100,8 +100,8 @@
         android:label="fragment_vaccination_details"
         tools:layout="@layout/fragment_vaccination_details">
         <argument
-            android:name="vaccinationCertificateId"
-            app:argType="string" />
+            android:name="containerId"
+            app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId" />
     </fragment>
     <fragment
         android:id="@+id/recoveryCertificateDetailsFragment"

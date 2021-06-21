@@ -4,6 +4,8 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePerso
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
+import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateRepoContainer
+import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.BaseTestCertificateData
@@ -18,7 +20,7 @@ data class TestCertificateContainer(
     internal val data: BaseTestCertificateData,
     internal val qrCodeExtractor: DccQrCodeExtractor,
     val isUpdatingData: Boolean = false,
-) {
+) : CertificateRepoContainer {
 
     @delegate:Transient
     private val testCertificateQRCode: TestCertificateQRCode by lazy {
@@ -29,6 +31,9 @@ data class TestCertificateContainer(
             ) as TestCertificateQRCode
         }
     }
+
+    override val containerId: TestCertificateContainerId
+        get() = TestCertificateContainerId(data.identifier)
 
     val registrationToken: String?
         get() = when (data) {
@@ -41,9 +46,6 @@ data class TestCertificateContainer(
             is RetrievedTestCertificate -> data.certificateSeenByUser
             is GenericTestCertificateData -> true // Immediately available
         }
-
-    val identifier: TestCertificateIdentifier
-        get() = data.identifier
 
     val registeredAt: Instant
         get() = data.registeredAt
@@ -68,6 +70,9 @@ data class TestCertificateContainer(
         val testCertificate = certificate.test
 
         return object : TestCertificate {
+            override val containerId: TestCertificateContainerId
+                get() = this@TestCertificateContainer.containerId
+
             override val personIdentifier: CertificatePersonIdentifier
                 get() = certificate.personIdentifier
 
