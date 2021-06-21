@@ -7,8 +7,10 @@ import de.rki.coronawarnapp.storage.TracingSettings
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
@@ -35,6 +37,7 @@ class DefaultTracingStatusTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { client.isEnabled } answers { MockGMSTask.forValue(true) }
+        every { tracingSettings.isConsentGiven = any() } just Runs
     }
 
     private fun createInstance(scope: CoroutineScope): DefaultTracingStatus = DefaultTracingStatus(
@@ -118,7 +121,8 @@ class DefaultTracingStatusTest : BaseTest() {
     @Test
     fun `api errors during state setting are rethrown`() = runBlockingTest2(ignoreActive = true) {
         val ourError = ApiException(Status.RESULT_INTERNAL_ERROR)
-        every { client.isEnabled } answers { MockGMSTask.forError(ourError) }
+        every { client.start() } answers { MockGMSTask.forError(ourError) }
+        every { client.isEnabled } answers { MockGMSTask.forValue(false) }
 
         val instance = createInstance(scope = this)
 
@@ -129,6 +133,8 @@ class DefaultTracingStatusTest : BaseTest() {
             onError = { thrownError = it },
             onPermissionRequired = {}
         )
+
+        advanceUntilIdle()
 
         thrownError shouldBe ourError
     }
