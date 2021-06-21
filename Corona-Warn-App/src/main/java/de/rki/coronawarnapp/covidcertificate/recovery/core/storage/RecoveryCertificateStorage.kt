@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.recovery.core.storage
 
 import android.content.Context
+import androidx.core.content.edit
 import com.google.gson.Gson
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
@@ -32,16 +33,20 @@ class RecoveryCertificateStorage @Inject constructor(
         }
         set(value) {
             Timber.tag(TAG).d("recoveryCertificates - save(%s)", value)
-            prefs.edit()
-                .putStringSet(
-                    PKEY_RECOVERY_CERT,
-                    value.map { data ->
-                        gson.toJson(data).also {
-                            Timber.tag(TAG).v("Storing recovery certificate %s -> %s", data.identifier, it)
-                        }
-                    }.toSet()
-                )
-                .apply()
+            prefs.edit {
+                if (value.isEmpty()) {
+                    remove(PKEY_RECOVERY_CERT)
+                } else {
+                    putStringSet(
+                        PKEY_RECOVERY_CERT,
+                        value.map { data ->
+                            gson.toJson(data).also {
+                                Timber.tag(TAG).v("Storing recovery certificate %s -> %s", data.identifier, it)
+                            }
+                        }.toSet()
+                    )
+                }
+            }
         }
 
     companion object {
