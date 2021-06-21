@@ -7,18 +7,7 @@ data class StoredRecoveryCertificateData(
     @SerializedName("identifier") override val identifier: String,
     @SerializedName("registeredAt") override val registeredAt: Instant,
     @SerializedName("recoveryCertificateQrCode") override val recoveryCertificateQrCode: String?,
-) : StoredRecoveryCertificate {
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as StoredRecoveryCertificateData
-
-        if (identifier != other.identifier) return false
-
-        return true
-    }
-}
+) : StoredRecoveryCertificate
 
 interface StoredRecoveryCertificate {
     val identifier: String

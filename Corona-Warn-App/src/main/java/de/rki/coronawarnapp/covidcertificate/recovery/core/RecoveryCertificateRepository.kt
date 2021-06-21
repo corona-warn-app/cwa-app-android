@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.covidcertificate.recovery.core
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidRecoveryCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
@@ -15,7 +17,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -72,8 +74,8 @@ class RecoveryCertificateRepository @Inject constructor(
     suspend fun registerCertificate(qrCode: RecoveryCertificateQRCode): RecoveryCertificateContainer {
         Timber.tag(TAG).d("registerCertificate(qrCode=%s)", qrCode)
         qrCodeExtractor.extract(qrCode.qrCode).toContainer().apply {
-            if (internalData.data.last().contains(this)) {
-                throw DuplicateRecoveryCertificateException(qrCode.uniqueCertificateIdentifier)
+            if (internalData.data.first().any { it.containerId == containerId }) {
+                throw InvalidRecoveryCertificateException(InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED)
             }
             internalData.updateBlocking { plus(this) }
             return this
