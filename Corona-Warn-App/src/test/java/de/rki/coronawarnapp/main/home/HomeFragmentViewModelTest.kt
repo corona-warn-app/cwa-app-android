@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.main.home
 import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationSettings
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
@@ -64,7 +64,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var traceLocationOrganizerSettings: TraceLocationOrganizerSettings
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var bluetoothSupport: BluetoothSupport
-    @MockK lateinit var vaccinationSettings: VaccinationSettings
+    @MockK lateinit var covidCertificateSettings: CovidCertificateSettings
     @MockK lateinit var vaccinationRepository: VaccinationRepository
 
     @BeforeEach
@@ -108,7 +108,7 @@ class HomeFragmentViewModelTest : BaseTest() {
         timeStamper = timeStamper,
         bluetoothSupport = bluetoothSupport,
         vaccinationRepository = vaccinationRepository,
-        vaccinationSettings = vaccinationSettings
+        covidCertificateSettings = covidCertificateSettings
     )
 
     @Test

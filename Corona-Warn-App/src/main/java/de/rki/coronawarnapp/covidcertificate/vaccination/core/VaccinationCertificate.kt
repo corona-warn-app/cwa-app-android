@@ -17,4 +17,6 @@ interface VaccinationCertificate : CwaCovidCertificate {
     val totalSeriesOfDoses: Int
 
     override val rawCertificate: VaccinationDccV1
+
+    val isFinalShot get() = doseNumber == totalSeriesOfDoses
 }

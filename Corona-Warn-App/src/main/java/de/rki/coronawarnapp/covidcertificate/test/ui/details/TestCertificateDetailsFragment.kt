@@ -10,13 +10,13 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.databinding.FragmentTestCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
-import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toHyphenSeparatedDate
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
@@ -33,10 +33,10 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val binding by viewBinding<FragmentTestCertificateDetailsBinding>()
     private val args by navArgs<TestCertificateDetailsFragmentArgs>()
-    private val viewModel: CovidCertificateDetailsViewModel by cwaViewModelsAssisted(
+    private val viewModel: TestCertificateDetailsViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
-            factory as CovidCertificateDetailsViewModel.Factory
+            factory as TestCertificateDetailsViewModel.Factory
             factory.create(
                 containerId = args.containerId
             )
@@ -47,6 +47,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
             title.alpha = titleAlpha
             subtitle.alpha = subtitleAlpha
+            europaImage.alpha = subtitleAlpha
         }
 
         bindToolbar()
@@ -93,10 +94,10 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         error.toErrorDialogBuilder(requireContext()).show()
     }
 
-    private fun FragmentTestCertificateDetailsBinding.onNavEvent(event: CovidCertificateDetailsNavigation) {
+    private fun FragmentTestCertificateDetailsBinding.onNavEvent(event: TestCertificateDetailsNavigation) {
         when (event) {
-            CovidCertificateDetailsNavigation.Back -> popBackStack()
-            is CovidCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
+            TestCertificateDetailsNavigation.Back -> popBackStack()
+            is TestCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
                 R.id.action_global_qrCodeFullScreenFragment,
                 QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
                 null,
@@ -110,7 +111,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_covid_certificate_delete -> {
-                    DialogHelper.showDialog(deleteTestConfirmationDialog)
+                    showCertificateDeletionRequest()
                     true
                 }
                 else -> onOptionsItemSelected(it)
@@ -130,16 +131,14 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         behavior.overlayTop = (width / 3) + 170
     }
 
-    private val deleteTestConfirmationDialog by lazy {
-        DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.green_certificate_details_dialog_remove_test_title,
-            R.string.green_certificate_details_dialog_remove_test_message,
-            R.string.green_certificate_details_dialog_remove_test_button_positive,
-            R.string.green_certificate_details_dialog_remove_test_button_negative,
-            positiveButtonFunction = {
-                viewModel.onDeleteTestConfirmed()
+    private fun showCertificateDeletionRequest() {
+        MaterialAlertDialogBuilder(requireContext()).apply {
+            setTitle(R.string.green_certificate_details_dialog_remove_test_title)
+            setMessage(R.string.green_certificate_details_dialog_remove_test_message)
+            setNegativeButton(R.string.green_certificate_details_dialog_remove_test_button_negative) { _, _ -> }
+            setPositiveButton(R.string.green_certificate_details_dialog_remove_test_button_positive) { _, _ ->
+                viewModel.onDeleteTestCertificateConfirmed()
             }
-        )
+        }.show()
     }
 }

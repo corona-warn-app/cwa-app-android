@@ -5,7 +5,7 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationSettings
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
@@ -17,7 +17,7 @@ class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
     private val settings: CWASettings,
     private val traceLocationSettings: TraceLocationSettings,
     private val contactDiarySettings: ContactDiarySettings,
-    private val vaccinationSettings: VaccinationSettings,
+    private val covidCertificateSettings: CovidCertificateSettings,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -61,10 +61,10 @@ class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    fun isVaccinationRegistrationOnboardingDone() = vaccinationSettings.registrationAcknowledged
+    fun isVaccinationRegistrationOnboardingDone() = covidCertificateSettings.isOnboardingDone
 
     fun setVaccinationRegistrationOnboardingDone(value: Boolean) {
-        vaccinationSettings.registrationAcknowledged = value
+        covidCertificateSettings.isOnboardingDone = value
     }
 
     @AssistedFactory

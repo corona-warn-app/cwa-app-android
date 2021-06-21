@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Card.Vaccination.Ripple.NoPadding"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="24dp"
+    android:layout_marginTop="8dp"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/user_name"
+        style="@style/body2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/cwa_user_switch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Andrea Schneider" />
+
+    <TextView
+        android:id="@+id/birth_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/person_details_cwa_user_birthdate"
+        app:layout_constraintEnd_toEndOf="@+id/user_name"
+        app:layout_constraintStart_toStartOf="@id/user_name"
+        app:layout_constraintTop_toBottomOf="@id/user_name"
+        tools:text="geboren 18.04.1943" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/cwa_user_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/description_text"
+        style="@style/subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_tiny"
+        android:text="@string/person_details_cwa_user_description"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/birth_date"
+        app:layout_constraintTop_toBottomOf="@id/birth_date" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
