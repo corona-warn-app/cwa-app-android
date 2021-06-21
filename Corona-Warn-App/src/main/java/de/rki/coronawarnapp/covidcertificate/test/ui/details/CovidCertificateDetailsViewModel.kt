@@ -39,7 +39,7 @@ class CovidCertificateDetailsViewModel @AssistedInject constructor(
 
     fun openFullScreen() = qrCodeText?.let { events.postValue(CovidCertificateDetailsNavigation.FullQrCode(it)) }
 
-    fun onDeleteTestConfirmed() = launch {
+    fun onDeleteTestCertificateConfirmed() = launch {
         Timber.d("Removing Test Certificate=$testCertificateIdentifier")
         testCertificateRepository.deleteCertificate(testCertificateIdentifier)
         events.postValue(CovidCertificateDetailsNavigation.Back)

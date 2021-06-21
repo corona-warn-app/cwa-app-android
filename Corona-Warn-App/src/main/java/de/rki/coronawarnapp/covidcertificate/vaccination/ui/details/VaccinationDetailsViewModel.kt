@@ -72,7 +72,7 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
         }
     }
 
-    fun deleteVaccination() {
+    fun onDeleteVaccinationCertificateConfirmed() {
         launch(scope = appScope) {
             try {
                 vaccinationRepository.deleteVaccinationCertificate(vaccinationCertificateId)
