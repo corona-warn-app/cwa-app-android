@@ -51,6 +51,9 @@ data class RecoveryCertificateContainer(
             override val containerId: RecoveryCertificateContainerId
                 get() = this@RecoveryCertificateContainer.containerId
 
+            override val rawCertificate: RecoveryDccV1
+                get() = certificate
+
             override val personIdentifier: CertificatePersonIdentifier
                 get() = certificate.personIdentifier
 

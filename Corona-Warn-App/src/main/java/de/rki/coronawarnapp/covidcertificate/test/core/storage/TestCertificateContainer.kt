@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.test.core.storage
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
+import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateRepoContainer
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
@@ -72,6 +73,9 @@ data class TestCertificateContainer(
         return object : TestCertificate {
             override val containerId: TestCertificateContainerId
                 get() = this@TestCertificateContainer.containerId
+
+            override val rawCertificate: TestDccV1
+                get() = certificate
 
             override val personIdentifier: CertificatePersonIdentifier
                 get() = certificate.personIdentifier
