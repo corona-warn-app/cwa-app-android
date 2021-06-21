@@ -88,7 +88,7 @@ class DccV1Parser @Inject constructor(
         // check for non null (Gson does not enforce it) + not blank & force date parsing
         require(version.isNotBlank())
         require(nameData.familyNameStandardized.isNotBlank())
-        require(dateOfBirthFormatted.isNotBlank())
+        dateOfBirthFormatted
         vaccinations?.forEach {
             it.vaccinatedAtFormatted
             require(it.certificateIssuer.isNotBlank())

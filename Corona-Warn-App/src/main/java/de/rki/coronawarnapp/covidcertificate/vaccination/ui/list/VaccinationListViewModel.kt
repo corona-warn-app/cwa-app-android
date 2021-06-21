@@ -134,11 +134,11 @@ class VaccinationListViewModel @AssistedInject constructor(
                                 },
                                 onSwipeToDelete = { certificateId, position ->
                                     events.postValue(Event.DeleteVaccinationEvent(certificateId, position))
-                            }
+                                }
+                            )
                         )
-                    )
+                    }
                 }
-            }
         }.toList()
 
     fun onRegisterNewVaccinationClick() {
