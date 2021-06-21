@@ -21,6 +21,7 @@ import javax.inject.Inject
 // Aggregate the certificates and sort them
 @Reusable
 class PersonCertificatesProvider @Inject constructor(
+    private val personCertificatesSettings: PersonCertificatesSettings,
     vaccinationRepository: VaccinationRepository,
     testCertificateRepository: TestCertificateRepository,
     recoveryCertificateRepository: RecoveryCertificateRepository,
@@ -35,8 +36,9 @@ class PersonCertificatesProvider @Inject constructor(
         },
         recoveryCertificateRepository.certificates.map { recoveryWrappers ->
             recoveryWrappers.mapNotNull { it.testCertificate }
-        }
-    ) { vaccs, tests, recos ->
+        },
+        personCertificatesSettings.currentCwaUser.flow,
+    ) { vaccs, tests, recos, cwaUser ->
         val mapping = mutableMapOf<CertificatePersonIdentifier, MutableSet<CwaCovidCertificate>>()
 
         val allCerts: Set<CwaCovidCertificate> = (vaccs + tests + recos)
@@ -48,7 +50,10 @@ class PersonCertificatesProvider @Inject constructor(
 
         mapping.entries.map { (personIdentifier, certs) ->
             Timber.tag(TAG).v("PersonCertificates for %s with %d certs.", personIdentifier, certs.size)
-            PersonCertificates(certificates = certs.toPrioritySortOrder())
+            PersonCertificates(
+                certificates = certs.toPrioritySortOrder(),
+                isCwaUser = personIdentifier == cwaUser,
+            )
         }.toSet()
 //        + testData // TODO remove
     }
@@ -64,7 +69,8 @@ class PersonCertificatesProvider @Inject constructor(
      * Setting it to null deletes it.
      */
     suspend fun setCurrentCwaUser(personIdentifier: CertificatePersonIdentifier?) {
-        // TODO
+        Timber.d("setCurrentCwaUser(personIdentifier=%s)", personIdentifier)
+        personCertificatesSettings.currentCwaUser.update { personIdentifier }
     }
 
     // TODO remove
