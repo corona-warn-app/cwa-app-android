@@ -19,6 +19,7 @@ import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest
+import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -32,18 +33,21 @@ class PersonCertificatesProviderTest : BaseTest() {
 
     private val vaccinatedPersonACertificate1 = mockk<VaccinationCertificate>().apply {
         every { personIdentifier } returns identifierA
+        every { issuedAt } returns Instant.EPOCH
     }
     private val vaccinatedPersonA = mockk<VaccinatedPerson>().apply {
         every { vaccinationCertificates } returns setOf(vaccinatedPersonACertificate1)
     }
     private val testWrapperACertificate = mockk<TestCertificate>().apply {
         every { personIdentifier } returns identifierA
+        every { issuedAt } returns Instant.EPOCH
     }
     private val testWrapperA = mockk<TestCertificateWrapper>().apply {
         every { testCertificate } returns testWrapperACertificate
     }
     private val recoveryWrapperACertificate = mockk<RecoveryCertificate>().apply {
         every { personIdentifier } returns identifierA
+        every { issuedAt } returns Instant.EPOCH
     }
     private val recoveryWrapperA = mockk<RecoveryCertificateWrapper>().apply {
         every { testCertificate } returns recoveryWrapperACertificate

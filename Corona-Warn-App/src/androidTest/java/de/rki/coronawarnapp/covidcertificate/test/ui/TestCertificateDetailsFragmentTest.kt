@@ -14,15 +14,17 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
-import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsViewModel
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragmentArgs
+import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import org.joda.time.DateTime
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -88,6 +90,9 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
         val testDate = DateTime.parse("12.05.2021 19:00", formatter).toInstant()
         return MutableLiveData(
             object : TestCertificate {
+                override val rawCertificate: TestDccV1
+                    get() = mockk()
+
                 override val containerId: TestCertificateContainerId
                     get() = TestCertificateContainerId("identifier")
                 override val targetName: String
