@@ -70,7 +70,7 @@ class RecoveryCertificateRepository @Inject constructor(
             set.map { RecoveryCertificateWrapper(null, it) }.toSet()
         }
 
-    @Throws(DuplicateRecoveryCertificateException::class)
+    @Throws(InvalidRecoveryCertificateException::class)
     suspend fun registerCertificate(qrCode: RecoveryCertificateQRCode): RecoveryCertificateContainer {
         Timber.tag(TAG).d("registerCertificate(qrCode=%s)", qrCode)
         qrCodeExtractor.extract(qrCode.qrCode).toContainer().apply {
