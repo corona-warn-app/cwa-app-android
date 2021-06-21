@@ -1,11 +1,10 @@
-package de.rki.coronawarnapp.covidcertificate.test.execution
+package de.rki.coronawarnapp.covidcertificate.test.core.execution
 
 import android.content.Context
 import androidx.work.ListenableWorker
 import androidx.work.WorkRequest
 import androidx.work.WorkerParameters
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalWorker
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery

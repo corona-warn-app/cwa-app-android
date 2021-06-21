@@ -921,6 +921,8 @@
     <string name="debugging_debuglog_share_log_privacy_information">"Detailed Information about This Data Processing and Data Protection Risks in the U.S. and Other Third Countries"</string>
     <!-- XBUT: Button for bugreporting share log screen -->
     <string name="debugging_debuglog_share_log_button">"Agree and Send"</string>
+    <!-- XMSG: Dialog body try again later -->
+    <string name="debugging_debuglog_share_try_again_later">"Der Fehlerbericht kann aktuell nicht gesendet werden. Bitte versuchen Sie es später noch einmal."</string>
     <!-- XHED: Title for log upload history -->
     <string name="debugging_debuglog_uploadhistory_title">"ID History"</string>
     <!-- YTXT: Description for log upload history -->
