@@ -12,9 +12,9 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
-import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CertificatesItem
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificatesItem
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
@@ -97,13 +97,13 @@ class PersonOverviewFragmentTest : BaseUITest() {
         clearAllViewModels()
     }
 
-    private fun takeSelfie(suffex: String) {
+    private fun takeSelfie(suffix: String) {
         launchInMainActivity<PersonOverviewFragment>()
-        onView(withId(R.id.fake_bottom_navigation)).perform(selectBottomNavTab(R.id.certificate_graph))
-        takeScreenshot<PersonOverviewFragment>(suffex)
+        onView(withId(R.id.fake_bottom_navigation)).perform(selectBottomNavTab(R.id.covid_certificates_graph))
+        takeScreenshot<PersonOverviewFragment>(suffix)
     }
 
-    private fun listItemWithPendingItem() = mutableListOf<CertificatesItem>()
+    private fun listItemWithPendingItem() = mutableListOf<PersonCertificatesItem>()
         .apply {
             add(
                 CovidTestCertificatePendingCard.Item(
@@ -116,14 +116,14 @@ class PersonOverviewFragmentTest : BaseUITest() {
             add(
                 PersonCertificateCard.Item(
                     certificate = mockTestCertificate("Andrea Schneider"),
-                    onClickAction = {},
+                    onClickAction = { _, _ -> },
                     color = PersonOverviewItemColor.COLOR_1,
                     qrcodeBitmap = bitmap
                 )
             )
         }
 
-    private fun listItemWithUpdatingItem() = mutableListOf<CertificatesItem>()
+    private fun listItemWithUpdatingItem() = mutableListOf<PersonCertificatesItem>()
         .apply {
             add(
                 CovidTestCertificatePendingCard.Item(
@@ -136,19 +136,19 @@ class PersonOverviewFragmentTest : BaseUITest() {
             add(
                 PersonCertificateCard.Item(
                     certificate = mockTestCertificate("Andrea Schneider"),
-                    onClickAction = {},
+                    onClickAction = { _, _ -> },
                     color = PersonOverviewItemColor.COLOR_1,
                     qrcodeBitmap = bitmap
                 )
             )
         }
 
-    private fun personsItems() = mutableListOf<CertificatesItem>()
+    private fun personsItems() = mutableListOf<PersonCertificatesItem>()
         .apply {
             add(
                 PersonCertificateCard.Item(
                     certificate = mockTestCertificate("Andrea Schneider"),
-                    onClickAction = {},
+                    onClickAction = { _, _ -> },
                     color = PersonOverviewItemColor.COLOR_1,
                     qrcodeBitmap = bitmap
                 )
@@ -157,7 +157,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
             add(
                 PersonCertificateCard.Item(
                     certificate = mockTestCertificate("Mia Schneider"),
-                    onClickAction = {},
+                    onClickAction = { _, _ -> },
                     color = PersonOverviewItemColor.COLOR_2,
                     qrcodeBitmap = bitmap
                 )
@@ -166,7 +166,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
             add(
                 PersonCertificateCard.Item(
                     certificate = mockTestCertificate("Thomas Schneider"),
-                    onClickAction = {},
+                    onClickAction = { _, _ -> },
                     color = PersonOverviewItemColor.COLOR_3,
                     qrcodeBitmap = bitmap
                 )

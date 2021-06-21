@@ -14,4 +14,6 @@ interface VaccinationCertificate : CwaCovidCertificate {
     val medicalProductName: String
     val doseNumber: Int
     val totalSeriesOfDoses: Int
+
+    val isFinalShot get() = doseNumber == totalSeriesOfDoses
 }
