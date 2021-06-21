@@ -23,11 +23,13 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.preferences.mockFlowPreference
 
 class PersonCertificatesProviderTest : BaseTest() {
     @MockK lateinit var vaccinationRepo: VaccinationRepository
     @MockK lateinit var testRepo: TestCertificateRepository
     @MockK lateinit var recoveryRepo: RecoveryCertificateRepository
+    @MockK lateinit var personCertificatesSettings: PersonCertificatesSettings
 
     private val identifierA = mockk<CertificatePersonIdentifier>()
 
@@ -64,12 +66,17 @@ class PersonCertificatesProviderTest : BaseTest() {
         every { vaccinationRepo.vaccinationInfos } returns vaccinationPersons
         every { testRepo.certificates } returns testWrappers
         every { recoveryRepo.certificates } returns recoveryWrappers
+
+        personCertificatesSettings.apply {
+            every { currentCwaUser } returns mockFlowPreference(identifierA)
+        }
     }
 
     private fun createInstance() = PersonCertificatesProvider(
         recoveryCertificateRepository = recoveryRepo,
         testCertificateRepository = testRepo,
         vaccinationRepository = vaccinationRepo,
+        personCertificatesSettings = personCertificatesSettings,
     )
 
     @Test
@@ -99,7 +106,8 @@ class PersonCertificatesProviderTest : BaseTest() {
                     vaccinatedPersonACertificate1,
                     testWrapperACertificate,
                     recoveryWrapperACertificate
-                )
+                ),
+                isCwaUser = true,
             )
         )
 
