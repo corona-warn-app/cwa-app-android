@@ -11,6 +11,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson.Status.COMPLETE
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson.Status.IMMUNITY
@@ -176,7 +177,7 @@ internal class VaccinationListFragmentTest : BaseUITest() {
         vaccinationStatus: VaccinatedPerson.Status,
         vaccinatedAt: LocalDate = LocalDate.parse("12.04.2021", formatter)
     ) = VaccinationListVaccinationCardItem(
-        vaccinationCertificateId = "vaccinationCertificateId",
+        containerId = VaccinationCertificateContainerId("vaccinationCertificateId"),
         doseNumber = doseNumber,
         totalSeriesOfDoses = totalSeriesOfDoses,
         vaccinatedAt = vaccinatedAt.toDayFormat(),

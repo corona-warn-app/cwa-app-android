@@ -71,7 +71,7 @@ class DccQrCodeScanFragment :
                     doNavigate(
                         DccQrCodeScanFragmentDirections
                             .actionDccQrCodeScanFragmentToVaccinationDetailsFragment(
-                                event.certificateId
+                                event.containerId
                             )
                     )
                 }
@@ -82,7 +82,7 @@ class DccQrCodeScanFragment :
                     doNavigate(
                         DccQrCodeScanFragmentDirections
                             .actionDccQrCodeScanFragmentToTestCertificateDetailsFragment(
-                                event.certificateId
+                                event.containerId
                             )
                     )
                 }

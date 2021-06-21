@@ -136,7 +136,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     fun `register via qrcode`() = runBlockingTest2(ignoreActive = true) {
         val instance = createInstance(scope = this)
 
-        instance.registerTestCertificate(
+        instance.registerCertificate(
             qrCode = testData.personATest1CertQRCode
         ).apply {
             this.qrCodeExtractor shouldBe qrCodeExtractor
@@ -157,7 +157,7 @@ class TestCertificateRepositoryTest : BaseTest() {
         }
 
         shouldThrow<InvalidTestCertificateException> {
-            instance.registerTestCertificate(
+            instance.registerCertificate(
                 qrCode = testData.personATest1CertQRCode
             )
         }.errorCode shouldBe ErrorCode.ALREADY_REGISTERED

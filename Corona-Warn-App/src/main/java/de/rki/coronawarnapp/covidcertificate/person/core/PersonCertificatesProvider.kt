@@ -4,6 +4,7 @@ import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
+import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.map
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import timber.log.Timber
+import java.util.UUID
 import javax.inject.Inject
 
 // Aggregate the certificates and sort them
@@ -78,6 +80,8 @@ class PersonCertificatesProvider @Inject constructor(
         isUpdating: Boolean = false
     ) =
         object : TestCertificate {
+            override val containerId: TestCertificateContainerId
+                get() = TestCertificateContainerId(UUID.randomUUID().toString())
             override val targetName: String
                 get() = "targetName"
             override val testType: String

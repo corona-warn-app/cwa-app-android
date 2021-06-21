@@ -4,13 +4,13 @@ import com.google.gson.annotations.SerializedName
 import org.joda.time.Instant
 
 data class StoredRecoveryCertificateData(
-    @SerializedName("identifier") override val identifier: RecoveryCertificateIdentifier,
+    @SerializedName("identifier") override val identifier: String,
     @SerializedName("registeredAt") override val registeredAt: Instant,
     @SerializedName("recoveryCertificateQrCode") override val recoveryCertificateQrCode: String?,
 ) : StoredRecoveryCertificate
 
 interface StoredRecoveryCertificate {
-    val identifier: RecoveryCertificateIdentifier
+    val identifier: String
     val registeredAt: Instant
     val recoveryCertificateQrCode: String?
 }
