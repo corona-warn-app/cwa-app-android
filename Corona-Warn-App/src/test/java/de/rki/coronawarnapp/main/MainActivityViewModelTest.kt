@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.main
 
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationSettings
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
@@ -37,7 +37,7 @@ class MainActivityViewModelTest : BaseTest() {
     @MockK lateinit var onboardingSettings: OnboardingSettings
     @MockK lateinit var traceLocationSettings: TraceLocationSettings
     @MockK lateinit var checkInRepository: CheckInRepository
-    @MockK lateinit var vaccinationSettings: VaccinationSettings
+    @MockK lateinit var covidCertificateSettings: CovidCertificateSettings
     @MockK lateinit var testCertificateRepository: TestCertificateRepository
 
     @BeforeEach
@@ -65,7 +65,7 @@ class MainActivityViewModelTest : BaseTest() {
         onboardingSettings = onboardingSettings,
         checkInRepository = checkInRepository,
         traceLocationSettings = traceLocationSettings,
-        vaccinationSettings = vaccinationSettings,
+        covidCertificateSettings = covidCertificateSettings,
         testCertificateRepository = testCertificateRepository,
     )
 
@@ -99,7 +99,7 @@ class MainActivityViewModelTest : BaseTest() {
     @Test
     fun `User is not onboarded when settings returns NOT_ONBOARDED `() {
         every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.NOT_ONBOARDED
-        every { vaccinationSettings.registrationAcknowledged } returns true
+        every { covidCertificateSettings.isOnboardingDone } returns true
         val vm = createInstance()
         vm.onBottomNavSelected()
         vm.isContactDiaryOnboardingDone.value shouldBe false
@@ -108,7 +108,7 @@ class MainActivityViewModelTest : BaseTest() {
     @Test
     fun `User is onboarded when settings returns RISK_STATUS_1_12 `() {
         every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
-        every { vaccinationSettings.registrationAcknowledged } returns true
+        every { covidCertificateSettings.isOnboardingDone } returns true
         val vm = createInstance()
         vm.onBottomNavSelected()
         vm.isContactDiaryOnboardingDone.value shouldBe true
@@ -117,7 +117,7 @@ class MainActivityViewModelTest : BaseTest() {
     @Test
     fun `Vaccination is not acknowledged when settings returns false `() {
         every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
-        every { vaccinationSettings.registrationAcknowledged } returns false
+        every { covidCertificateSettings.isOnboardingDone } returns false
         val vm = createInstance()
         vm.onBottomNavSelected()
         vm.isVaccinationConsentGiven.value shouldBe false
@@ -126,7 +126,7 @@ class MainActivityViewModelTest : BaseTest() {
     @Test
     fun `Vaccination is acknowledged  when settings returns true `() {
         every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
-        every { vaccinationSettings.registrationAcknowledged } returns true
+        every { covidCertificateSettings.isOnboardingDone } returns true
         val vm = createInstance()
         vm.onBottomNavSelected()
         vm.isVaccinationConsentGiven.value shouldBe true

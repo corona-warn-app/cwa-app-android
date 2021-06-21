@@ -6,6 +6,7 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent.TYPE_ANNOUNCEMENT
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import com.google.android.material.transition.MaterialContainerTransform
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
@@ -49,6 +50,14 @@ class DccQrCodeScanFragment :
             }
         }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val materialContainerTransform = MaterialContainerTransform()
+        sharedElementEnterTransition = materialContainerTransform
+        sharedElementReturnTransition = materialContainerTransform
+    }
+
     override fun onViewCreated(
         view: View,
         savedInstanceState: Bundle?
@@ -75,7 +84,12 @@ class DccQrCodeScanFragment :
                             )
                     )
                 }
-                is DccQrCodeScanViewModel.Event.RecoveryQrCodeScanSucceeded -> { // TODO
+                is DccQrCodeScanViewModel.Event.RecoveryQrCodeScanSucceeded -> {
+                    binding.qrCodeScanSpinner.hide()
+                    doNavigate(
+                        DccQrCodeScanFragmentDirections
+                            .actionDccQrCodeScanFragmentToRecoveryCertificateDetailsFragment(event.containerId)
+                    )
                 }
                 is DccQrCodeScanViewModel.Event.TestQrCodeScanSucceeded -> {
                     binding.qrCodeScanSpinner.hide()
