@@ -75,7 +75,9 @@ class RecoveryCertificateRepository @Inject constructor(
         return qrCodeExtractor.extract(qrCode.qrCode).toContainer().apply {
             internalData.updateBlocking {
                 if (any { it.containerId == containerId }) {
-                    throw InvalidRecoveryCertificateException(InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED)
+                    throw InvalidRecoveryCertificateException(
+                        InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
+                    )
                 }
                 plus(this)
             }

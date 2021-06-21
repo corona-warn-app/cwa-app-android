@@ -90,5 +90,4 @@ data class RecoveryCertificateContainer(
                 get() = data.recoveryCertificateQrCode!!
         }
     }
-
 }
