@@ -39,6 +39,6 @@ class CwaUserCard(parent: ViewGroup) :
         val onSwitch: (Boolean) -> Unit
     ) : CertificateItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
-        override val stableId = personCertificates.hashCode().toLong()
+        override val stableId = Item::class.hashCode().toLong()
     }
 }
