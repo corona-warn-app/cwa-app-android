@@ -13,17 +13,12 @@ interface CwaCovidCertificate {
     val issuer: String
     val issuedAt: Instant
     val expiresAt: Instant
-
     val qrCode: QrCodeString
-
     val firstName: String?
-
     val lastName: String
     val fullName: String
     val dateOfBirth: LocalDate
-
     val personIdentifier: CertificatePersonIdentifier
-
     val certificateIssuer: String
     val certificateCountry: String
     val certificateId: String

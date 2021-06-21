@@ -110,18 +110,18 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     private fun FragmentVaccinationDetailsBinding.bindCertificateViews(
         certificate: VaccinationCertificate
     ) {
-        name.text = certificate.fullName
+        fullname.text = certificate.fullName
         dateOfBirth.text = certificate.dateOfBirth.toHyphenSeparatedDate()
-        vaccineName.text = certificate.medicalProductName
-        vaccineType.text = certificate.vaccineTypeName
-        diseaseType.text = certificate.targetDisease
+        medialProductName.text = certificate.medicalProductName
+        vaccineTypeName.text = certificate.vaccineTypeName
+        targetDisease.text = certificate.targetDisease
         vaccineManufacturer.text = certificate.vaccineManufacturer
         vaccinationNumber.text = getString(
             R.string.vaccination_certificate_attribute_dose_number,
             certificate.doseNumber,
             certificate.totalSeriesOfDoses
         )
-        vaccinationDate.text = certificate.vaccinatedAt.toHyphenSeparatedDate()
+        vaccinatedAt.text = certificate.vaccinatedAt.toHyphenSeparatedDate()
         certificateCountry.text = certificate.certificateCountry
         certificateIssuer.text = certificate.certificateIssuer
         certificateId.text = certificate.certificateId
