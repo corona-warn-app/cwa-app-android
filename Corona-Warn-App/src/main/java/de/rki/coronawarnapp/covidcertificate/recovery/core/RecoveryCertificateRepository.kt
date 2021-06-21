@@ -72,16 +72,16 @@ class RecoveryCertificateRepository @Inject constructor(
     @Throws(InvalidRecoveryCertificateException::class)
     suspend fun registerCertificate(qrCode: RecoveryCertificateQRCode): RecoveryCertificateContainer {
         Timber.tag(TAG).d("registerCertificate(qrCode=%s)", qrCode)
-        return qrCodeExtractor.extract(qrCode.qrCode).toContainer().apply {
-            internalData.updateBlocking {
-                if (any { it.containerId == containerId }) {
-                    throw InvalidRecoveryCertificateException(
-                        InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
-                    )
-                }
-                plus(this)
+        val newContainer = qrCodeExtractor.extract(qrCode.qrCode).toContainer()
+        internalData.updateBlocking {
+            if (any { it.containerId == newContainer.containerId }) {
+                throw InvalidRecoveryCertificateException(
+                    InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
+                )
             }
+            plus(newContainer)
         }
+        return newContainer
     }
 
     private fun DccQrCode.toContainer() = RecoveryCertificateContainer(
