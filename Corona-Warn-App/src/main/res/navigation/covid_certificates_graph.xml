@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/covid_certificates_graph"
+    app:startDestination="@id/personOverviewFragment">
+    <fragment
+        android:id="@+id/personOverviewFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewFragment"
+        android:label="PersonOverviewFragment"
+        tools:layout="@layout/person_overview_fragment">
+        <action
+            android:id="@+id/action_personOverviewFragment_to_covidCertificateOnboardingFragment"
+            app:destination="@id/covidCertificateOnboardingFragment" />
+        <action
+            android:id="@+id/action_personOverviewFragment_to_personDetailsFragment"
+            app:destination="@id/personDetailsFragment" />
+        <action
+            android:id="@+id/action_personOverviewFragment_to_dccQrCodeScanFragment"
+            app:destination="@id/dccQrCodeScanFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/covidCertificateOnboardingFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment"
+        tools:layout="@layout/covid_certificate_onboarding_fragment">
+        <argument
+            android:name="showBottomNav"
+            android:defaultValue="true"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_covidCertificateOnboardingFragment_to_personOverviewFragment"
+            app:destination="@id/personOverviewFragment"
+            app:popUpTo="@id/covidCertificateOnboardingFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_covidCertificateOnboardingFragment_to_privacyFragment"
+            app:destination="@id/privacyFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/privacyFragment"
+        android:name="de.rki.coronawarnapp.ui.information.InformationPrivacyFragment"
+        android:label="privacyFragment"
+        tools:layout="@layout/fragment_information_privacy" />
+
+    <fragment
+        android:id="@+id/testCertificateDetailsFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment"
+        android:label="CovidCertificateDetailsFragment"
+        tools:layout="@layout/fragment_test_certificate_details">
+
+        <argument
+            android:name="containerId"
+            app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/dccQrCodeScanFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.common.scan.DccQrCodeScanFragment"
+        android:label="DccQrCodeScanFragment"
+        tools:layout="@layout/fragment_scan_qr_code">
+        <action
+            android:id="@+id/action_dccQrCodeScanFragment_to_vaccinationDetailsFragment"
+            app:destination="@id/vaccinationDetailsFragment"
+            app:popUpTo="@id/dccQrCodeScanFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_dccQrCodeScanFragment_to_testCertificateDetailsFragment"
+            app:destination="@id/testCertificateDetailsFragment"
+            app:popUpTo="@id/dccQrCodeScanFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_dccQrCodeScanFragment_to_recoveryCertificateDetailsFragment"
+            app:destination="@id/recoveryCertificateDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/personDetailsFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFragment"
+        android:label="person_details_fragment"
+        tools:layout="@layout/person_details_fragment">
+        <argument
+            android:name="personIdentifierCode"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_personDetailsFragment_to_vaccinationDetailsFragment"
+            app:destination="@id/vaccinationDetailsFragment" />
+        <action
+            android:id="@+id/action_personDetailsFragment_to_testCertificateDetailsFragment"
+            app:destination="@id/testCertificateDetailsFragment" />
+        <action
+            android:id="@+id/action_personDetailsFragment_to_recoveryCertificateDetailsFragment"
+            app:destination="@id/recoveryCertificateDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/vaccinationDetailsFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragment"
+        android:label="fragment_vaccination_details"
+        tools:layout="@layout/fragment_vaccination_details">
+        <argument
+            android:name="containerId"
+            app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId" />
+    </fragment>
+    <fragment
+        android:id="@+id/recoveryCertificateDetailsFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertificateDetailsFragment"
+        android:label="RecoveryCertificateDetailsFragment"
+        tools:layout="@layout/fragment_recovery_certificate_details">
+        <argument
+            android:name="containerId"
+            app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId" />
+    </fragment>
+</navigation>

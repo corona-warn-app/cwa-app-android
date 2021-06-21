@@ -43,10 +43,36 @@
     <!-- XBUT: Text for vaccination consent accept button -->
     <string name="vaccination_consent_accept_button">"Weiter"</string>
 
+    <!-- XTXT: Current priority certificate info -->
+    <string name="certificate_card_bookmark_info">Aktuell verwendetes Zertifikat</string>
+    <!-- XHED: Person certificate details title -->
+    <string name="person_details_certificate_title">"EU Digitales COVID-Zertifikat"</string>
+    <!-- XTXT: Test Certificate CWA User card description -->
+    <string name="person_details_cwa_user_description">"Mein Smartphone, meine App. Zertifikate für mich erscheinen in der Liste an erster Stelle."</string>
+    <!-- XTXT: Test Certificate CWA User card birthdate -->
+    <string name="person_details_cwa_user_birthdate">"geboren %1$s"</string>
     <!-- #####################################################
          VACCINATION CERTIFICATE STRINGS BELOW
          ##################################################### -->
+    <!-- XTXT: Vaccination certificate vaccinated on -->
+    <string name="vaccination_certificate_vaccinated_on">"geimpft am %s"</string>
+    <!-- XTXT: Vaccination  card doses-->
+    <string name="vaccination_certificate_doses">Impfung %1$d von %2$d</string>
+    <!-- XTXT: Vaccination card name-->
+    <string name="vaccination_certificate_name">Impfzertifikat</string>
 
+    <!-- XTXT: Vaccination card immunity information card body-->
+    <plurals name="vaccination_certificate_days_unti_immunity">
+        <item quantity="one">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete for another %1$d day."</item>
+        <item quantity="other">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
+        <item quantity="zero">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
+        <item quantity="two">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
+        <item quantity="few">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
+        <item quantity="many">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
+    </plurals>
+
+    <!-- XTXT: Vaccination is not complete information card body-->
+    <string name="vaccination_certificate_incomplete_vaccination">"Sie haben noch nicht alle derzeit geplanten Impfungen erhalten. Daher ist ihr Impfschutz noch nicht vollständig."</string>
 
     <!-- #####################################################
          RECOVERY CERTIFICATE STRINGS BELOW
@@ -56,11 +82,18 @@
     <string name="recovery_certificate_details_title">"Genesenenzertifikat"</string>
     <!-- XTXT: Recovery certificate detail subtitle -->
     <string name="recovery_certificate_details_subtitle">"EU Digitales COVID-Zertifikat"</string>
+    <!-- XTXT: Recovery certificate card name  -->
+    <string name="recovery_certificate_name">Genesenzertifikat</string>
+    <!-- XTXT: Recovery certificate valid until -->
+    <string name="recovery_certificate_valid_until">"gültig bis %s"</string>
 
     <!-- #####################################################
          TEST CERTIFICATE STRINGS BELOW
          ##################################################### -->
-
-
-
+    <!-- XTXT: Test certificate sampled on -->
+    <string name="test_certificate_sampled_on">"Probenahme am %s"</string>
+    <!-- XTXT: Test certificate sampled on date and time -->
+    <string name="test_certificate_qrcode_card_sampled_on">"Probenahme am %s Uhr"</string>
+    <!-- XTXT: Test certificate card name  -->
+    <string name="test_certificate_name">Testzertifikat</string>
 </resources>
