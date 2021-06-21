@@ -15,13 +15,16 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withTimeoutOrNull
 import timber.log.Timber
+import java.util.concurrent.TimeoutException
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.resume
@@ -43,9 +46,10 @@ class DefaultTracingStatus @Inject constructor(
     ) {
         scope.launch {
             try {
-                if (enable && !isEnabled()) {
+                val isEnabled = isTracingEnabled.first()
+                if (enable && !isEnabled) {
                     asyncStart()
-                } else if (!enable && isEnabled()) {
+                } else if (!enable && isEnabled) {
                     asyncStop()
                 }
                 onSuccess(enable)
@@ -62,26 +66,53 @@ class DefaultTracingStatus @Inject constructor(
     }
 
     private suspend fun asyncStart() = suspendCoroutine<Void> { cont ->
+        Timber.tag(TAG).i("asyncStart() - enabling tracing...")
         client.start()
-            .addOnSuccessListener { cont.resume(it) }
-            .addOnFailureListener { cont.resumeWithException(it) }
+            .addOnSuccessListener {
+                Timber.tag(TAG).i("asyncStart() - Tracing enabled!")
+                cont.resume(it)
+            }
+            .addOnFailureListener {
+                Timber.tag(TAG).e(it, "asyncStart() - failed to enable tracing!")
+                cont.resumeWithException(it)
+            }
             .also {
                 tracingSettings.isConsentGiven = true
             }
     }
 
     private suspend fun asyncStop() = suspendCoroutine<Void> { cont ->
+        Timber.tag(TAG).i("asyncStop() - disabling tracing...")
         client.stop()
-            .addOnSuccessListener { cont.resume(it) }
-            .addOnFailureListener { cont.resumeWithException(it) }
+            .addOnSuccessListener {
+                Timber.tag(TAG).i("asyncStop() - tracing disabled!")
+                cont.resume(it)
+            }
+            .addOnFailureListener {
+                Timber.tag(TAG).e(it, "asyncStop() - failed to disable tracing!")
+                cont.resumeWithException(it)
+            }
     }
 
     @Suppress("LoopWithTooManyJumpStatements")
     override val isTracingEnabled: Flow<Boolean> = flow {
         while (true) {
             try {
-                emit(isEnabled())
+                val isEnabledQuick = withTimeoutOrNull(POLLING_DELAY_MS) {
+                    isEnabledInternal()
+                }
+
+                if (isEnabledQuick == null) {
+                    // Usually it takes 20ms, sometimes up to 600ms
+                    Timber.tag(TAG).w("Quick isEnabled check had timeout, retrying with more patience.")
+                }
+
+                emit(isEnabledQuick ?: isEnabledInternal())
+
                 delay(POLLING_DELAY_MS)
+            } catch (e: TimeoutException) {
+                Timber.tag(TAG).w(e, "Timeout on ENF side, assuming isEnabled false")
+                emit(false)
             } catch (e: CancellationException) {
                 Timber.tag(TAG).d("isBackgroundRestricted was cancelled")
                 break
@@ -112,7 +143,7 @@ class DefaultTracingStatus @Inject constructor(
             scope = scope
         )
 
-    private suspend fun isEnabled(): Boolean = try {
+    private suspend fun isEnabledInternal(): Boolean = try {
         client.isEnabled.await()
     } catch (e: Throwable) {
         Timber.tag(TAG).w(e, "Failed to determine tracing status.")
