@@ -8,7 +8,7 @@
         android:id="@+id/content_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/contact_diary_onboarding_background"
+        android:background="@color/colorSurface"
         android:contentDescription="@string/contact_diary_title"
         android:focusable="true">
 
@@ -40,10 +40,10 @@
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/contact_diary_onboarding_image_content_description"
                     android:focusable="true"
-                    app:srcCompat="@drawable/ic_contact_diary_illustration_onboarding"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_contact_diary_illustration_onboarding"
                     tools:src="@drawable/ic_contact_diary_illustration_onboarding" />
 
                 <TextView
