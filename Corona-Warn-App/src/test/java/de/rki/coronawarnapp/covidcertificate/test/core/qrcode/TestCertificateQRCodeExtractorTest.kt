@@ -40,7 +40,7 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
                 givenName shouldBe "Gabriele"
                 givenNameStandardized shouldBe "GABRIELE"
             }
-            dateOfBirth shouldBe LocalDate.parse("1998-02-26")
+            dateOfBirthFormatted shouldBe LocalDate.parse("1998-02-26")
             version shouldBe "1.2.1"
 
             with(test) {

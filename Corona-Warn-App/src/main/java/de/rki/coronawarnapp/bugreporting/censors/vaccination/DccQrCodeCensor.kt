@@ -21,10 +21,8 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
 
         synchronized(certsToCensor) { certsToCensor.toList() }.forEach {
             it.certificate.apply {
-                val dobFormatted = dateOfBirth.toString()
-
                 newMessage = newMessage.censor(
-                    dobFormatted,
+                    dateOfBirthFormatted,
                     "covidCertificate/dateOfBirth"
                 )
 
@@ -81,7 +79,7 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
             "vaccinationData/vaccineId"
         )
 
-        val vaccinatedAt = vaccinationData.vaccinatedAt.toString()
+        val vaccinatedAt = vaccinationData.vaccinatedAtFormatted.toString()
         newMessage = newMessage.censor(
             vaccinatedAt,
             "vaccinationData/vaccinatedAt"

@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.adapter.Vaccina
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.adapter.viewholder.VaccinationListQrCodeCardItemVH.VaccinationListQrCodeCardItem
 import de.rki.coronawarnapp.databinding.IncludeCertificateQrcodeCardBinding
 import org.joda.time.Instant
-import org.joda.time.LocalDate
 
 class VaccinationListQrCodeCardItemVH(parent: ViewGroup) :
     VaccinationListAdapter.ItemVH<VaccinationListQrCodeCardItem, IncludeCertificateQrcodeCardBinding>(
@@ -34,7 +33,7 @@ class VaccinationListQrCodeCardItemVH(parent: ViewGroup) :
         val qrCode: Bitmap?,
         val doseNumber: Int,
         val totalSeriesOfDoses: Int,
-        val vaccinatedAt: LocalDate,
+        val vaccinatedAtFormatted: String,
         val expiresAt: Instant,
         val onQrCodeClick: () -> Unit
     ) :

@@ -171,7 +171,7 @@ class DccQrCodeExtractor @Inject constructor(
         val cbor = coseDecoder.decode(this)
         DccData(
             header = headerParser.parse(cbor),
-            certificate = bodyParser.parse(cbor, mode).toCertificate
+            certificate = bodyParser.parse(cbor, mode).asCertificate
         ).also {
             DccQrCodeCensor.addCertificateToCensor(it)
         }.also {
@@ -193,26 +193,26 @@ class DccQrCodeExtractor @Inject constructor(
     private val DccV1.isRecoveryCertificate: Boolean
         get() = this.recoveries?.isNotEmpty() == true
 
-    private val DccV1.toCertificate: DccV1.MetaData
+    private val DccV1.asCertificate: DccV1.MetaData
         get() = when {
             isVaccinationCertificate -> VaccinationDccV1(
                 version = version,
                 nameData = nameData,
-                dateOfBirth = dateOfBirth,
+                dateOfBirthFormatted = dateOfBirthFormatted,
                 personIdentifier = personIdentifier,
                 vaccination = vaccinations!!.first()
             )
             isTestCertificate -> TestDccV1(
                 version = version,
                 nameData = nameData,
-                dateOfBirth = dateOfBirth,
+                dateOfBirthFormatted = dateOfBirthFormatted,
                 personIdentifier = personIdentifier,
                 test = tests!!.first()
             )
             isRecoveryCertificate -> RecoveryDccV1(
                 version = version,
                 nameData = nameData,
-                dateOfBirth = dateOfBirth,
+                dateOfBirthFormatted = dateOfBirthFormatted,
                 personIdentifier = personIdentifier,
                 recovery = recoveries!!.first()
             )

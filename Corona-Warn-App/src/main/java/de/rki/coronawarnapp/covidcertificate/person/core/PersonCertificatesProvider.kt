@@ -113,11 +113,11 @@ class PersonCertificatesProvider @Inject constructor(
                 get() = "Mustermann"
             override val fullName: String
                 get() = "Max Mustermann $index"
-            override val dateOfBirth: LocalDate
-                get() = LocalDate.now()
+            override val dateOfBirthFormatted: String
+                get() = LocalDate.now().toString()
             override val personIdentifier: CertificatePersonIdentifier
                 get() = CertificatePersonIdentifier(
-                    LocalDate.now(),
+                    LocalDate.now().toString(),
                     "last$index",
                     "firs$index"
                 )

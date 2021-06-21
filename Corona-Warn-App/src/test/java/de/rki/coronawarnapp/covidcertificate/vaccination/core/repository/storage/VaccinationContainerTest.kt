@@ -33,7 +33,7 @@ class VaccinationContainerTest : BaseTest() {
     @Test
     fun `person identifier calculation`() {
         testData.personAVac1Container.personIdentifier shouldBe CertificatePersonIdentifier(
-            dateOfBirth = LocalDate.parse("1966-11-11"),
+            dateOfBirthFormatted = "1966-11-11",
             firstNameStandardized = "ANDREAS",
             lastNameStandardized = "ASTRA<EINS"
         )
@@ -70,8 +70,8 @@ class VaccinationContainerTest : BaseTest() {
             firstName shouldBe "Andreas"
             lastName shouldBe "Astrá Eins"
             fullName shouldBe "Andreas Astrá Eins"
-            dateOfBirth shouldBe LocalDate.parse("1966-11-11")
-            vaccinatedAt shouldBe LocalDate.parse("2021-03-01")
+            dateOfBirthFormatted shouldBe LocalDate.parse("1966-11-11")
+            vaccinatedAtFormatted shouldBe LocalDate.parse("2021-03-01")
             vaccineTypeName shouldBe "1119305005"
             vaccineManufacturer shouldBe "ORG-100001699"
             medicalProductName shouldBe "EU/1/21/1529"
@@ -81,7 +81,7 @@ class VaccinationContainerTest : BaseTest() {
             certificateCountry shouldBe "Deutschland"
             certificateId shouldBe "01DE/00001/1119305005/7T1UG87G61Y7NRXIBQJDTYQ9#S"
             personIdentifier shouldBe CertificatePersonIdentifier(
-                dateOfBirth = LocalDate.parse("1966-11-11"),
+                dateOfBirthFormatted = "1966-11-11",
                 firstNameStandardized = "ANDREAS",
                 lastNameStandardized = "ASTRA<EINS"
             )
@@ -117,8 +117,8 @@ class VaccinationContainerTest : BaseTest() {
             firstName shouldBe "Andreas"
             lastName shouldBe "Astrá Eins"
             fullName shouldBe "Andreas Astrá Eins"
-            dateOfBirth shouldBe LocalDate.parse("1966-11-11")
-            vaccinatedAt shouldBe LocalDate.parse("2021-03-01")
+            dateOfBirthFormatted shouldBe LocalDate.parse("1966-11-11")
+            vaccinatedAtFormatted shouldBe LocalDate.parse("2021-03-01")
             vaccineTypeName shouldBe "Vaccine-Name"
             vaccineManufacturer shouldBe "Manufactorer-Name"
             medicalProductName shouldBe "MedicalProduct-Name"
@@ -128,7 +128,7 @@ class VaccinationContainerTest : BaseTest() {
             certificateCountry shouldBe "Deutschland"
             certificateId shouldBe "01DE/00001/1119305005/7T1UG87G61Y7NRXIBQJDTYQ9#S"
             personIdentifier shouldBe CertificatePersonIdentifier(
-                dateOfBirth = LocalDate.parse("1966-11-11"),
+                dateOfBirthFormatted = "1966-11-11",
                 firstNameStandardized = "ANDREAS",
                 lastNameStandardized = "ASTRA<EINS"
             )

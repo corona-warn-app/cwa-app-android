@@ -201,7 +201,7 @@ internal class VaccinationListFragmentTest : BaseUITest() {
         qrCode = testQrCode,
         doseNumber = doseNumber,
         totalSeriesOfDoses = totalSeriesOfDoses,
-        vaccinatedAt = vaccinatedAt,
+        vaccinatedAtFormatted = vaccinatedAt,
         expiresAt = expiresAt
     ) {}
 

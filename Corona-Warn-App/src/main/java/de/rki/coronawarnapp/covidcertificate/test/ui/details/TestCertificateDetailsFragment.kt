@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.databinding.FragmentTestCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.DialogHelper
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateOfBirthFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
@@ -64,7 +63,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         val testDateTime = testCertificate.sampleCollectedAt.toUserTimeZone()
 
         name.text = testCertificate.run { "$lastName, $firstName" }
-        birthDate.text = testCertificate.dateOfBirth.toDateOfBirthFormat()
+        birthDate.text = testCertificate.dateOfBirthFormatted
         diseaseType.text = testCertificate.targetName
         testType.text = testCertificate.testType
         testName.text = testCertificate.testName

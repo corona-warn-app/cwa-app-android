@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValue
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import org.joda.time.Duration
 import org.joda.time.Instant
-import org.joda.time.LocalDate
 
 data class VaccinatedPerson(
     internal val data: VaccinatedPersonData,
@@ -27,11 +26,11 @@ data class VaccinatedPerson(
     val fullName: String
         get() = vaccinationCertificates.first().fullName
 
-    val dateOfBirth: LocalDate
-        get() = vaccinationCertificates.first().dateOfBirth
+    val dateOfBirthFormatted: String
+        get() = vaccinationCertificates.first().dateOfBirthFormatted
 
     val getMostRecentVaccinationCertificate: VaccinationCertificate
-        get() = vaccinationCertificates.maxByOrNull { it.vaccinatedAt } ?: throw IllegalStateException(
+        get() = vaccinationCertificates.maxByOrNull { it.vaccinatedAtFormatted } ?: throw IllegalStateException(
             "Every Vaccinated Person needs to have at least one vaccinationCertificate"
         )
 
@@ -50,7 +49,9 @@ data class VaccinatedPerson(
             .maxByOrNull { it.vaccinatedAt }
             ?: return null
 
-        val immunityAt = newestFullDose.vaccinatedAt.toDateTimeAtStartOfDay().plus(IMMUNITY_WAITING_PERIOD)
+        val immunityAt = newestFullDose.vaccinatedAt
+            .toDateTimeAtStartOfDay()
+            .plus(IMMUNITY_WAITING_PERIOD)
 
         return Duration(nowUTC.toLocalDateUtc().toDateTimeAtStartOfDay(), immunityAt)
     }

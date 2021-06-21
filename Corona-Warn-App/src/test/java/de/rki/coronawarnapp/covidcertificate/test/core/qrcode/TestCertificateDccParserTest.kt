@@ -25,7 +25,7 @@ class TestCertificateDccParserTest {
                 givenNameStandardized shouldBe "GABRIELE"
             }
             dob shouldBe "1998-02-26"
-            dateOfBirth shouldBe LocalDate.parse("1998-02-26")
+            dateOfBirthFormatted shouldBe LocalDate.parse("1998-02-26")
             version shouldBe "1.2.1"
 
             with(tests!!.single()) {

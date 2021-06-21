@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import org.joda.time.Instant
-import org.joda.time.LocalDate
 
 /**
  * For use with the UI
@@ -19,7 +18,7 @@ interface CwaCovidCertificate {
 
     val lastName: String
     val fullName: String
-    val dateOfBirth: LocalDate
+    val dateOfBirthFormatted: String
 
     val personIdentifier: CertificatePersonIdentifier
 

@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.adapter.viewhol
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.adapter.viewholder.VaccinationListVaccinationCardItemVH.VaccinationListVaccinationCardItem
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -87,7 +86,7 @@ class VaccinationListViewModel @AssistedInject constructor(
                     qrCode = qrCode,
                     doseNumber = vaccinationCertificate.doseNumber,
                     totalSeriesOfDoses = vaccinationCertificate.totalSeriesOfDoses,
-                    vaccinatedAt = vaccinatedPerson.getMostRecentVaccinationCertificate.vaccinatedAt,
+                    vaccinatedAtFormatted = vaccinatedPerson.getMostRecentVaccinationCertificate.vaccinatedAtFormatted,
                     expiresAt = vaccinatedPerson.getMostRecentVaccinationCertificate.expiresAt,
                     onQrCodeClick = {
                         events.postValue(
@@ -103,7 +102,7 @@ class VaccinationListViewModel @AssistedInject constructor(
             add(
                 VaccinationListNameCardItem(
                     fullName = vaccinatedPerson.fullName,
-                    dayOfBirth = vaccinatedPerson.dateOfBirth.toDayFormat()
+                    dayOfBirth = vaccinatedPerson.dateOfBirthFormatted
                 )
             )
 
@@ -116,24 +115,25 @@ class VaccinationListViewModel @AssistedInject constructor(
                 }
             }
 
-            vaccinatedPerson.vaccinationCertificates.sortedBy { it.vaccinatedAt }.forEach { vaccinationCertificate ->
-                with(vaccinationCertificate) {
-                    add(
-                        VaccinationListVaccinationCardItem(
-                            vaccinationCertificateId = certificateId,
-                            doseNumber = doseNumber,
-                            totalSeriesOfDoses = totalSeriesOfDoses,
-                            vaccinatedAt = vaccinatedAt.toDayFormat(),
-                            vaccinationStatus = vaccinatedPerson.getVaccinationStatus(),
-                            isFinalVaccination = doseNumber == totalSeriesOfDoses,
-                            onCardClick = { certificateId ->
-                                events.postValue(Event.NavigateToVaccinationCertificateDetails(certificateId))
-                            },
-                            onDeleteClick = { certificateId ->
-                                events.postValue(Event.DeleteVaccinationEvent(certificateId))
-                            },
-                            onSwipeToDelete = { certificateId, position ->
-                                events.postValue(Event.DeleteVaccinationEvent(certificateId, position))
+            vaccinatedPerson.vaccinationCertificates.sortedBy { it.vaccinatedAtFormatted }
+                .forEach { vaccinationCertificate ->
+                    with(vaccinationCertificate) {
+                        add(
+                            VaccinationListVaccinationCardItem(
+                                vaccinationCertificateId = certificateId,
+                                doseNumber = doseNumber,
+                                totalSeriesOfDoses = totalSeriesOfDoses,
+                                vaccinatedAt = vaccinatedAtFormatted,
+                                vaccinationStatus = vaccinatedPerson.getVaccinationStatus(),
+                                isFinalVaccination = doseNumber == totalSeriesOfDoses,
+                                onCardClick = { certificateId ->
+                                    events.postValue(Event.NavigateToVaccinationCertificateDetails(certificateId))
+                                },
+                                onDeleteClick = { certificateId ->
+                                    events.postValue(Event.DeleteVaccinationEvent(certificateId))
+                                },
+                                onSwipeToDelete = { certificateId, position ->
+                                    events.postValue(Event.DeleteVaccinationEvent(certificateId, position))
                             }
                         )
                     )

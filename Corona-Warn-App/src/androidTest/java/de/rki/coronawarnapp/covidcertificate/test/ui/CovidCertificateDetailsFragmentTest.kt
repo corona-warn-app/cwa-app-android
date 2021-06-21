@@ -120,7 +120,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
                     get() = "Schneider"
                 override val fullName: String
                     get() = "Schneider, Andrea"
-                override val dateOfBirth: LocalDate
+                override val dateOfBirthFormatted: LocalDate
                     get() = LocalDate.parse("18.04.1943 00:00", formatter)
                 override val personIdentifier: CertificatePersonIdentifier
                     get() = certificatePersonIdentifier

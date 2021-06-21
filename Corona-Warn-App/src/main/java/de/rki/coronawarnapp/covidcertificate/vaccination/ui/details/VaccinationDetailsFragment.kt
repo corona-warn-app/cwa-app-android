@@ -16,7 +16,6 @@ import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.DialogHelper
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateOfBirthFormat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -111,7 +110,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         certificate: VaccinationCertificate
     ) {
         name.text = certificate.fullName
-        dateOfBirth.text = certificate.dateOfBirth.toDateOfBirthFormat()
+        dateOfBirth.text = certificate.dateOfBirthFormatted
         vaccineName.text = certificate.medicalProductName
         vaccineManufacturer.text = certificate.vaccineManufacturer
         certificateIssuer.text = certificate.certificateIssuer

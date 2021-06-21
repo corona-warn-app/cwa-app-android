@@ -1,13 +1,8 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import com.google.gson.annotations.SerializedName
-import org.joda.time.DateTime
 import org.joda.time.Instant
 import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
-import org.joda.time.format.DateTimeFormatterBuilder
-import org.joda.time.format.ISODateTimeFormat
-import timber.log.Timber
 
 data class DccV1(
     @SerializedName("ver") val version: String,
@@ -36,14 +31,12 @@ data class DccV1(
             }
     }
 
-    // Can't use lazy because GSON will NULL it, as we have no no-args constructor
-    private var dateOfBirthCache: LocalDate? = null
-    val dateOfBirth: LocalDate
-        get() = dateOfBirthCache ?: dob.toLocalDateLeniently().also { dateOfBirthCache = it }
+    val dateOfBirthFormatted: String
+        get() = dob.formatDate()
 
     val personIdentifier: CertificatePersonIdentifier
         get() = CertificatePersonIdentifier(
-            dateOfBirth = dateOfBirth,
+            dateOfBirthFormatted = dateOfBirthFormatted,
             lastNameStandardized = nameData.familyNameStandardized,
             firstNameStandardized = nameData.givenNameStandardized
         )
@@ -51,7 +44,7 @@ data class DccV1(
     interface MetaData {
         val version: String
         val nameData: NameData
-        val dateOfBirth: LocalDate
+        val dateOfBirthFormatted: String
         val payload: Payload
         val personIdentifier: CertificatePersonIdentifier
     }
@@ -79,12 +72,12 @@ data class DccV1(
         // Unique Certificate Identifier, e.g.  "ci": "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"
         @SerializedName("ci") override val uniqueCertificateIdentifier: String
     ) : Payload {
-        val testedPositiveOn: LocalDate
-            get() = LocalDate.parse(fr)
-        val validFrom: LocalDate
-            get() = LocalDate.parse(df)
-        val validUntil: LocalDate
-            get() = LocalDate.parse(du)
+        val testedPositiveOnFormatted: String
+            get() = fr.formatDate()
+        val validFromFormatted: String
+            get() = df.formatDate()
+        val validUntilFormatted: String
+            get() = du.formatDate()
     }
 
     data class VaccinationData(
@@ -109,10 +102,11 @@ data class DccV1(
         // Unique Certificate Identifier, e.g.  "ci": "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"
         @SerializedName("ci") override val uniqueCertificateIdentifier: String
     ) : Payload {
-        // Can't use lazy because GSON will NULL it, as we have no no-args constructor
-        private var vaccinatedAtCache: LocalDate? = null
+        val vaccinatedAtFormatted: String
+            get() = dt.formatDate()
+
         val vaccinatedAt: LocalDate
-            get() = vaccinatedAtCache ?: dt.toLocalDateLeniently().also { vaccinatedAtCache = it }
+            get() = LocalDate.parse(vaccinatedAtFormatted)
     }
 
     data class TestCertificateData(
@@ -140,31 +134,16 @@ data class DccV1(
 
         val sampleCollectedAt: Instant
             get() = Instant.parse(sc)
-    }
-}
 
-internal fun String.toLocalDateLeniently(): LocalDate = try {
-    LocalDate.parse(this, DateTimeFormat.forPattern("yyyy-MM-dd"))
-} catch (e: Exception) {
-    Timber.w("Irregular date string: %s", this)
-    try {
-        DateTime.parse(
-            this,
-            DateTimeFormatterBuilder()
-                .append(ISODateTimeFormat.date())
-                .append(ISODateTimeFormat.timeParser().withOffsetParsed())
-                .toFormatter()
-        ).toLocalDate()
-    } catch (giveUp: Exception) {
-        Timber.e("Invalid date string: %s", this)
-        throw giveUp
+        val sampleCollectedAtFormatted: String
+            get() = sc.formatDateTime()
     }
 }
 
 data class VaccinationDccV1(
     override val version: String,
     override val nameData: DccV1.NameData,
-    override val dateOfBirth: LocalDate,
+    override val dateOfBirthFormatted: String,
     override val personIdentifier: CertificatePersonIdentifier,
     val vaccination: DccV1.VaccinationData
 ) : DccV1.MetaData {
@@ -175,7 +154,7 @@ data class VaccinationDccV1(
 data class TestDccV1(
     override val version: String,
     override val nameData: DccV1.NameData,
-    override val dateOfBirth: LocalDate,
+    override val dateOfBirthFormatted: String,
     override val personIdentifier: CertificatePersonIdentifier,
     val test: DccV1.TestCertificateData
 ) : DccV1.MetaData {
@@ -186,7 +165,7 @@ data class TestDccV1(
 data class RecoveryDccV1(
     override val version: String,
     override val nameData: DccV1.NameData,
-    override val dateOfBirth: LocalDate,
+    override val dateOfBirthFormatted: String,
     override val personIdentifier: CertificatePersonIdentifier,
     val recovery: DccV1.RecoveryCertificateData
 ) : DccV1.MetaData {

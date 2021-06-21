@@ -8,7 +8,6 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.mockk
 import kotlinx.coroutines.test.runBlockingTest
-import org.joda.time.LocalDate
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -28,7 +27,7 @@ internal class DccQrCodeCensorTest {
                 givenName = "Bob",
                 givenNameStandardized = "BOB"
             ),
-            dateOfBirth = LocalDate.parse("1969-11-16"),
+            dateOfBirthFormatted = "1969-11-16",
             vaccination = DccV1.VaccinationData(
                 targetId = "12345",
                 vaccineId = "1214765",
@@ -42,7 +41,7 @@ internal class DccQrCodeCensorTest {
                 uniqueCertificateIdentifier = "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"
             ),
             personIdentifier = CertificatePersonIdentifier(
-                dateOfBirth = LocalDate.parse("1969-11-16"),
+                dateOfBirthFormatted = "1969-11-16",
                 lastNameStandardized = "KEVIN",
                 firstNameStandardized = "BOB"
             )
