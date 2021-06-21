@@ -2,10 +2,12 @@ package de.rki.coronawarnapp.covidcertificate.recovery.core
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateIdentifier
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateStorage
+import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.StoredRecoveryCertificateData
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
@@ -13,6 +15,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -65,17 +68,27 @@ class RecoveryCertificateRepository @Inject constructor(
             set.map { RecoveryCertificateWrapper(null, it) }.toSet()
         }
 
+    @Throws(DuplicateRecoveryCertificateException::class)
     suspend fun requestCertificate(qrCode: RecoveryCertificateQRCode): RecoveryCertificateContainer {
         Timber.tag(TAG).d("requestCertificate(qrCode=%s)", qrCode)
-        internalData.updateBlocking {
-            this.plus(
-                RecoveryCertificateContainer(
-                data = , // TODO convert qr code to entity
-                qrCodeExtractor = qrCodeExtractor,
-                isUpdatingData = false
-            ))
+        qrCodeExtractor.extract(qrCode.qrCode).toContainer().apply {
+            if (internalData.data.last().contains(this)) {
+                throw DuplicateRecoveryCertificateException(qrCode.uniqueCertificateIdentifier)
+            }
+            internalData.updateBlocking { plus(this) }
+            return this
         }
     }
+
+    private fun DccQrCode.toContainer() = RecoveryCertificateContainer(
+        data = StoredRecoveryCertificateData(
+            identifier = uniqueCertificateIdentifier,
+            registeredAt = data.header.issuedAt,
+            recoveryCertificateQrCode = qrCode
+        ),
+        qrCodeExtractor = qrCodeExtractor,
+        isUpdatingData = false
+    )
 
     suspend fun deleteCertificate(identifier: RecoveryCertificateIdentifier) {
         Timber.tag(TAG).d("deleteCertificate(identifier=%s)", identifier)
