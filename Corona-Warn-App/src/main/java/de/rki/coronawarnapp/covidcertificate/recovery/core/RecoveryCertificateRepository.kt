@@ -17,7 +17,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -73,12 +72,13 @@ class RecoveryCertificateRepository @Inject constructor(
     @Throws(InvalidRecoveryCertificateException::class)
     suspend fun registerCertificate(qrCode: RecoveryCertificateQRCode): RecoveryCertificateContainer {
         Timber.tag(TAG).d("registerCertificate(qrCode=%s)", qrCode)
-        qrCodeExtractor.extract(qrCode.qrCode).toContainer().apply {
-            if (internalData.data.first().any { it.containerId == containerId }) {
-                throw InvalidRecoveryCertificateException(InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED)
+        return qrCodeExtractor.extract(qrCode.qrCode).toContainer().apply {
+            internalData.updateBlocking {
+                if (any { it.containerId == containerId }) {
+                    throw InvalidRecoveryCertificateException(InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED)
+                }
+                plus(this)
             }
-            internalData.updateBlocking { plus(this) }
-            return this
         }
     }
 
