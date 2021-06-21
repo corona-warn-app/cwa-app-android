@@ -10,7 +10,6 @@ interface VaccinationCertificate : CwaCovidCertificate {
     val vaccineTypeName: String
     val vaccineManufacturer: String
     val medicalProductName: String
-
     val doseNumber: Int
     val totalSeriesOfDoses: Int
 }
