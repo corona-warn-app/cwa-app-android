@@ -4,7 +4,6 @@ import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidRecoveryCertificateException
-import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateContainer
@@ -72,7 +71,7 @@ class RecoveryCertificateRepository @Inject constructor(
     @Throws(InvalidRecoveryCertificateException::class)
     suspend fun registerCertificate(qrCode: RecoveryCertificateQRCode): RecoveryCertificateContainer {
         Timber.tag(TAG).d("registerCertificate(qrCode=%s)", qrCode)
-        val newContainer = qrCodeExtractor.extract(qrCode.qrCode).toContainer()
+        val newContainer = qrCode.toContainer()
         internalData.updateBlocking {
             if (any { it.containerId == newContainer.containerId }) {
                 throw InvalidRecoveryCertificateException(
@@ -84,7 +83,7 @@ class RecoveryCertificateRepository @Inject constructor(
         return newContainer
     }
 
-    private fun DccQrCode.toContainer() = RecoveryCertificateContainer(
+    private fun RecoveryCertificateQRCode.toContainer() = RecoveryCertificateContainer(
         data = StoredRecoveryCertificateData(
             identifier = uniqueCertificateIdentifier,
             registeredAt = data.header.issuedAt,
