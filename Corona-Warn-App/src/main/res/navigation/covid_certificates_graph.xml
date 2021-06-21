@@ -109,7 +109,7 @@
         android:label="RecoveryCertificateDetailsFragment"
         tools:layout="@layout/fragment_recovery_certificate_details">
         <argument
-            android:name="recoveryCertificateId"
-            app:argType="string" />
+            android:name="containerId"
+            app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId" />
     </fragment>
 </navigation>

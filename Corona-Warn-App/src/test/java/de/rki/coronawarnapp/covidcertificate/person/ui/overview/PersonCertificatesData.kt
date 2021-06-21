@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
-import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateIdentifier
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import java.util.UUID
@@ -73,5 +72,4 @@ fun testCertificate(
     override val certificateIssuer: String = "certificateIssuer"
     override val certificateCountry: String = "certificateCountry"
     override val certificateId: String = "certificateId"
-    override val identifier: TestCertificateIdentifier = "TestCertificateIdentifier"
 }

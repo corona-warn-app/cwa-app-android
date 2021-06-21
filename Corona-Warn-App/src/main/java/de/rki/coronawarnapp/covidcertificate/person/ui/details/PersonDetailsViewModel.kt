@@ -95,7 +95,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
         }
     }
 
-    private suspend fun MutableList<CertificateItem>.addCardItem(
+    private fun MutableList<CertificateItem>.addCardItem(
         certificate: CwaCovidCertificate,
         priorityCertificate: CwaCovidCertificate
     ) {
@@ -103,7 +103,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
         when (certificate) {
             is TestCertificate -> add(
                 TestCertificateCard.Item(certificate, isCurrentCertificate) {
-                    events.postValue(OpenTestCertificateDetails(certificate.identifier))
+                    events.postValue(OpenTestCertificateDetails(certificate.containerId))
                 }
             )
             is VaccinationCertificate -> add(
@@ -111,13 +111,13 @@ class PersonDetailsViewModel @AssistedInject constructor(
                     certificate = certificate,
                     isCurrentCertificate = isCurrentCertificate
                 ) {
-                    events.postValue(OpenVaccinationCertificateDetails(certificate.certificateId))
+                    events.postValue(OpenVaccinationCertificateDetails(certificate.containerId))
                 }
             )
 
             is RecoveryCertificate -> add(
                 RecoveryCertificateCard.Item(certificate, isCurrentCertificate) {
-                    events.postValue(OpenRecoveryCertificateDetails(certificate.certificateId))
+                    events.postValue(OpenRecoveryCertificateDetails(certificate.containerId))
                 }
             )
         }

@@ -88,7 +88,7 @@ class DccQrCodeScanFragment :
                     binding.qrCodeScanSpinner.hide()
                     doNavigate(
                         DccQrCodeScanFragmentDirections
-                            .actionDccQrCodeScanFragmentToRecoveryCertificateDetailsFragment(event.certificateId)
+                            .actionDccQrCodeScanFragmentToRecoveryCertificateDetailsFragment(event.containerId)
                     )
                 }
                 is DccQrCodeScanViewModel.Event.TestQrCodeScanSucceeded -> {

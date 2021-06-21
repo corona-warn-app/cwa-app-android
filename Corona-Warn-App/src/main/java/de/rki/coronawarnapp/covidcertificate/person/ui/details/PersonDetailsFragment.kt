@@ -73,15 +73,15 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
         when (event) {
             is OpenRecoveryCertificateDetails -> doNavigate(
                 PersonDetailsFragmentDirections
-                    .actionPersonDetailsFragmentToRecoveryCertificateDetailsFragment(event.certificateId)
+                    .actionPersonDetailsFragmentToRecoveryCertificateDetailsFragment(event.containerId)
             )
             is OpenTestCertificateDetails -> doNavigate(
                 PersonDetailsFragmentDirections
-                    .actionPersonDetailsFragmentToTestCertificateDetailsFragment(event.certificateId)
+                    .actionPersonDetailsFragmentToTestCertificateDetailsFragment(event.containerId)
             )
             is OpenVaccinationCertificateDetails -> doNavigate(
                 PersonDetailsFragmentDirections
-                    .actionPersonDetailsFragmentToVaccinationDetailsFragment(event.certificateId)
+                    .actionPersonDetailsFragmentToVaccinationDetailsFragment(event.containerId)
             )
             Back -> popBackStack()
         }
