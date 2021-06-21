@@ -4,18 +4,23 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePerso
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
+import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateRepoContainer
+import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.BaseTestCertificateData
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.GenericTestCertificateData
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RetrievedTestCertificate
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import java.util.Locale
 
 data class TestCertificateContainer(
-    internal val data: StoredTestCertificateData,
-    private val qrCodeExtractor: DccQrCodeExtractor,
+    internal val data: BaseTestCertificateData,
+    internal val qrCodeExtractor: DccQrCodeExtractor,
     val isUpdatingData: Boolean = false,
-) : StoredTestCertificateData by data {
+) : CertificateRepoContainer {
 
     @delegate:Transient
     private val testCertificateQRCode: TestCertificateQRCode by lazy {
@@ -27,8 +32,23 @@ data class TestCertificateContainer(
         }
     }
 
-    val isPublicKeyRegistered: Boolean
-        get() = data.publicKeyRegisteredAt != null
+    override val containerId: TestCertificateContainerId
+        get() = TestCertificateContainerId(data.identifier)
+
+    val registrationToken: String?
+        get() = when (data) {
+            is RetrievedTestCertificate -> data.registrationToken
+            is GenericTestCertificateData -> null // Has none
+        }
+
+    val certificateSeenByUser: Boolean
+        get() = when (data) {
+            is RetrievedTestCertificate -> data.certificateSeenByUser
+            is GenericTestCertificateData -> true // Immediately available
+        }
+
+    val registeredAt: Instant
+        get() = data.registeredAt
 
     val isCertificateRetrievalPending: Boolean
         get() = data.certificateReceivedAt == null
@@ -40,7 +60,7 @@ data class TestCertificateContainer(
         }
 
     fun toTestCertificate(
-        valueSet: TestCertificateValueSets?,
+        valueSet: TestCertificateValueSets? = null,
         userLocale: Locale = Locale.getDefault(),
     ): TestCertificate? {
         if (isCertificateRetrievalPending) return null
@@ -50,6 +70,9 @@ data class TestCertificateContainer(
         val testCertificate = certificate.test
 
         return object : TestCertificate {
+            override val containerId: TestCertificateContainerId
+                get() = this@TestCertificateContainer.containerId
+
             override val personIdentifier: CertificatePersonIdentifier
                 get() = certificate.personIdentifier
 
@@ -80,15 +103,6 @@ data class TestCertificateContainer(
             override val testCenter: String?
                 get() = testCertificate.testCenter
 
-            override val isUpdatingData: Boolean
-                get() = this@TestCertificateContainer.isUpdatingData
-
-            override val registeredAt: Instant
-                get() = this@TestCertificateContainer.registeredAt
-
-            override val isCertificateRetrievalPending: Boolean
-                get() = this@TestCertificateContainer.isCertificateRetrievalPending
-
             override val certificateIssuer: String
                 get() = header.issuer
             override val certificateCountry: String
@@ -106,6 +120,15 @@ data class TestCertificateContainer(
 
             override val qrCode: QrCodeString
                 get() = data.testCertificateQrCode!!
+
+            override val isUpdatingData: Boolean
+                get() = this@TestCertificateContainer.isUpdatingData
+
+            override val registeredAt: Instant
+                get() = data.registeredAt
+
+            override val isCertificateRetrievalPending: Boolean
+                get() = this@TestCertificateContainer.isCertificateRetrievalPending
         }
     }
 }

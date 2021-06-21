@@ -8,6 +8,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.util.getLocale
+import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.adapter.VaccinationListItem
@@ -120,20 +121,20 @@ class VaccinationListViewModel @AssistedInject constructor(
                 with(vaccinationCertificate) {
                     add(
                         VaccinationListVaccinationCardItem(
-                            vaccinationCertificateId = certificateId,
+                            containerId = containerId,
                             doseNumber = doseNumber,
                             totalSeriesOfDoses = totalSeriesOfDoses,
                             vaccinatedAt = vaccinatedAt.toDayFormat(),
                             vaccinationStatus = vaccinatedPerson.getVaccinationStatus(),
                             isFinalVaccination = doseNumber == totalSeriesOfDoses,
-                            onCardClick = { certificateId ->
-                                events.postValue(Event.NavigateToVaccinationCertificateDetails(certificateId))
+                            onCardClick = { containerId ->
+                                events.postValue(Event.NavigateToVaccinationCertificateDetails(containerId))
                             },
-                            onDeleteClick = { certificateId ->
-                                events.postValue(Event.DeleteVaccinationEvent(certificateId))
+                            onDeleteClick = { containerId ->
+                                events.postValue(Event.DeleteVaccinationEvent(containerId))
                             },
-                            onSwipeToDelete = { certificateId, position ->
-                                events.postValue(Event.DeleteVaccinationEvent(certificateId, position))
+                            onSwipeToDelete = { containerId, position ->
+                                events.postValue(Event.DeleteVaccinationEvent(containerId, position))
                             }
                         )
                     )
@@ -145,10 +146,10 @@ class VaccinationListViewModel @AssistedInject constructor(
         events.postValue(Event.NavigateToQrCodeScanScreen)
     }
 
-    fun deleteVaccination(vaccinationCertificateId: String) {
+    fun deleteVaccination(containerId: VaccinationCertificateContainerId) {
         launch(scope = appScope) {
             try {
-                vaccinationRepository.deleteVaccinationCertificate(vaccinationCertificateId)
+                vaccinationRepository.deleteCertificate(containerId)
             } catch (exception: Exception) {
                 errors.postValue(exception)
                 Timber.e(exception, "Something went wrong when trying to delete a vaccination certificate.")
@@ -162,10 +163,17 @@ class VaccinationListViewModel @AssistedInject constructor(
     )
 
     sealed class Event {
-        data class NavigateToVaccinationCertificateDetails(val vaccinationCertificateId: String) : Event()
+        data class NavigateToVaccinationCertificateDetails(
+            val containerId: VaccinationCertificateContainerId
+        ) : Event()
+
         object NavigateToQrCodeScanScreen : Event()
         data class NavigateToQrCodeFullScreen(val qrCode: String, val positionInList: Int) : Event()
-        data class DeleteVaccinationEvent(val vaccinationCertificateId: String, val position: Int? = null) : Event()
+        data class DeleteVaccinationEvent(
+            val containerId: VaccinationCertificateContainerId,
+            val position: Int? = null
+        ) : Event()
+
         object NavigateBack : Event()
     }
 

@@ -8,15 +8,15 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
+import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CameraPermissionCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CertificatesItem
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
-import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CameraPermissionCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateIdentifier
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.permission.CameraPermissionProvider
@@ -64,15 +64,15 @@ class PersonOverviewViewModel @AssistedInject constructor(
             wrappers
                 .filter { !it.seenByUser && !it.isCertificateRetrievalPending }
                 .forEach {
-                    testCertificateRepository.markCertificateAsSeenByUser(it.identifier)
+                    testCertificateRepository.markCertificateAsSeenByUser(it.containerId)
                 }
         }
         .map { }
         .catch { Timber.w("Failed to mark certificates as seen.") }
         .asLiveData2()
 
-    fun deleteTestCertificate(identifier: TestCertificateIdentifier) = launch {
-        testCertificateRepository.deleteCertificate(identifier)
+    fun deleteTestCertificate(containerId: TestCertificateContainerId) = launch {
+        testCertificateRepository.deleteCertificate(containerId)
     }
 
     fun onScanQrCode() = events.postValue(ScanQrCode)
@@ -113,8 +113,8 @@ class PersonOverviewViewModel @AssistedInject constructor(
                 add(
                     CovidTestCertificatePendingCard.Item(
                         certificate = certificate,
-                        onRetryAction = { refreshCertificate(certificate.certificateId) },
-                        onDeleteAction = { events.postValue(ShowDeleteDialog(certificate.certificateId)) }
+                        onRetryAction = { refreshCertificate(certificate.containerId) },
+                        onDeleteAction = { events.postValue(ShowDeleteDialog(certificate.containerId)) }
                     )
                 )
             }
@@ -149,9 +149,9 @@ class PersonOverviewViewModel @AssistedInject constructor(
         null
     }
 
-    fun refreshCertificate(identifier: TestCertificateIdentifier) =
+    fun refreshCertificate(containerId: TestCertificateContainerId) =
         launch {
-            val error = testCertificateRepository.refresh(identifier).mapNotNull { it.error }.singleOrNull()
+            val error = testCertificateRepository.refresh(containerId).mapNotNull { it.error }.singleOrNull()
             error?.let { events.postValue(ShowRefreshErrorDialog(error)) }
         }
 

@@ -139,7 +139,7 @@
                     android:text="@string/covid_certificate_attribute_name" />
 
                 <TextView
-                    android:id="@+id/name"
+                    android:id="@+id/fullname"
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -168,12 +168,12 @@
                     android:text="@string/covid_certificate_attribute_disease_type" />
 
                 <TextView
-                    android:id="@+id/disease_type"
+                    android:id="@+id/target_disease"
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    tools:text="" />
+                    tools:text="COVID-19" />
 
                 <TextView
                     style="@style/body1Medium"
@@ -183,7 +183,7 @@
                     android:text="@string/vaccination_certificate_attribute_vaccine_name" />
 
                 <TextView
-                    android:id="@+id/vaccine_name"
+                    android:id="@+id/medial_product_name"
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -198,7 +198,7 @@
                     android:text="@string/vaccination_certificate_attribute_vaccine_type" />
 
                 <TextView
-                    android:id="@+id/vaccine_type"
+                    android:id="@+id/vaccine_type_name"
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -243,7 +243,7 @@
                     android:text="@string/vaccination_certificate_attribute_vaccination_date" />
 
                 <TextView
-                    android:id="@+id/vaccination_date"
+                    android:id="@+id/vaccinated_at"
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

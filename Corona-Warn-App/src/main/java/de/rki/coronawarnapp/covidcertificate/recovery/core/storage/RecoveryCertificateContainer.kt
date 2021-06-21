@@ -6,6 +6,8 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtract
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode
 import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
+import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateRepoContainer
+import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
@@ -17,7 +19,7 @@ data class RecoveryCertificateContainer(
     internal val data: StoredRecoveryCertificateData,
     private val qrCodeExtractor: DccQrCodeExtractor,
     val isUpdatingData: Boolean = false,
-) : StoredRecoveryCertificate by data {
+) : StoredRecoveryCertificate by data, CertificateRepoContainer {
 
     @delegate:Transient
     private val certificateData: DccData<RecoveryDccV1> by lazy {
@@ -31,6 +33,9 @@ data class RecoveryCertificateContainer(
         }
     }
 
+    override val containerId: RecoveryCertificateContainerId
+        get() = RecoveryCertificateContainerId(data.identifier)
+
     val certificateId: String
         get() = certificateData.certificate.recovery.uniqueCertificateIdentifier
 
@@ -43,6 +48,9 @@ data class RecoveryCertificateContainer(
         val recoveryCertificate = certificate.recovery
 
         return object : RecoveryCertificate {
+            override val containerId: RecoveryCertificateContainerId
+                get() = this@RecoveryCertificateContainer.containerId
+
             override val personIdentifier: CertificatePersonIdentifier
                 get() = certificate.personIdentifier
 

@@ -1,7 +1,9 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import org.joda.time.Duration
@@ -17,8 +19,15 @@ data class VaccinatedPerson(
     val identifier: CertificatePersonIdentifier
         get() = data.identifier
 
+    val vaccinationContainers: Set<VaccinationContainer>
+        get() = data.vaccinations
+
     val vaccinationCertificates: Set<VaccinationCertificate> by lazy {
-        data.vaccinations.map { it.toVaccinationCertificate(valueSet) }.toSet()
+        vaccinationContainers.map { it.toVaccinationCertificate(valueSet) }.toSet()
+    }
+
+    fun findVaccination(containerId: VaccinationCertificateContainerId) = vaccinationContainers.find {
+        it.containerId == containerId
     }
 
     val vaccineName: String

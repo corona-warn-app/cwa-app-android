@@ -5,10 +5,10 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePerso
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
+import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.errors.VaccinationCertificateNotFoundException
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
@@ -80,7 +80,7 @@ class VaccinationRepository @Inject constructor(
         personDatas.map { it.copy(valueSet = currentValueSet) }.toSet()
     }
 
-    suspend fun registerVaccination(
+    suspend fun registerCertificate(
         qrCode: VaccinationCertificateQRCode
     ): VaccinationCertificate {
         Timber.tag(TAG).v("registerVaccination(qrCode=%s)", qrCode)
@@ -140,19 +140,22 @@ class VaccinationRepository @Inject constructor(
         }
     }
 
-    suspend fun deleteVaccinationCertificate(vaccinationCertificateId: String) {
-        Timber.tag(TAG).w("deleteVaccinationCertificate(certificateId=%s)", vaccinationCertificateId)
+    suspend fun deleteCertificate(containerId: VaccinationCertificateContainerId): VaccinationContainer? {
+        Timber.tag(TAG).w("deleteCertificate(containerId=%s)", containerId)
         var deletedVaccination: VaccinationContainer? = null
 
         internalData.updateBlocking {
             val target = this.find { person ->
-                person.vaccinationCertificates.any { it.certificateId == vaccinationCertificateId }
-            } ?: throw VaccinationCertificateNotFoundException(
-                "No vaccination certificate found for $vaccinationCertificateId"
-            )
+                person.vaccinationContainers.any { it.containerId == containerId }
+            }
 
-            deletedVaccination = target.data.vaccinations.single {
-                it.certificateId == vaccinationCertificateId
+            if (target == null) {
+                Timber.tag(TAG).w("Can't find certificate, doesn't exist? (%s)", containerId)
+                return@updateBlocking this
+            }
+
+            deletedVaccination = target.vaccinationContainers.single {
+                it.containerId == containerId
             }
 
             val newTarget = if (target.data.vaccinations.size > 1) {
@@ -169,8 +172,8 @@ class VaccinationRepository @Inject constructor(
             this.mapNotNull { if (it == target) newTarget else it }.toSet()
         }
 
-        deletedVaccination?.let {
-            Timber.tag(TAG).i("Deleted vaccination certificate: %s", it.certificateId)
+        return deletedVaccination?.also {
+            Timber.tag(TAG).i("Deleted: %s", containerId)
         }
     }
 

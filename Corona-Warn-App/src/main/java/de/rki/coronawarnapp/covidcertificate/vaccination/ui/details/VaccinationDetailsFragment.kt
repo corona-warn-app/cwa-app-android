@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.DialogHelper
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateOfBirthFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toHyphenSeparatedDate
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -35,7 +35,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         constructorCall = { factory, _ ->
             factory as VaccinationDetailsViewModel.Factory
             factory.create(
-                certificateId = args.vaccinationCertificateId,
+                containerId = args.containerId,
             )
         }
     )
@@ -110,12 +110,20 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     private fun FragmentVaccinationDetailsBinding.bindCertificateViews(
         certificate: VaccinationCertificate
     ) {
-        name.text = certificate.fullName
-        dateOfBirth.text = certificate.dateOfBirth.toDateOfBirthFormat()
-        vaccineName.text = certificate.medicalProductName
+        fullname.text = certificate.fullName
+        dateOfBirth.text = certificate.dateOfBirth.toHyphenSeparatedDate()
+        medialProductName.text = certificate.medicalProductName
+        vaccineTypeName.text = certificate.vaccineTypeName
+        targetDisease.text = certificate.targetDisease
         vaccineManufacturer.text = certificate.vaccineManufacturer
-        certificateIssuer.text = certificate.certificateIssuer
+        vaccinationNumber.text = getString(
+            R.string.vaccination_certificate_attribute_dose_number,
+            certificate.doseNumber,
+            certificate.totalSeriesOfDoses
+        )
+        vaccinatedAt.text = certificate.vaccinatedAt.toHyphenSeparatedDate()
         certificateCountry.text = certificate.certificateCountry
+        certificateIssuer.text = certificate.certificateIssuer
         certificateId.text = certificate.certificateId
     }
 

@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson.Status.COMPLETE
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson.Status.IMMUNITY
@@ -26,7 +27,7 @@ class VaccinationListVaccinationCardItemVH(parent: ViewGroup) :
     private var latestItem: VaccinationListVaccinationCardItem? = null
 
     override fun onSwipe(holder: RecyclerView.ViewHolder, direction: Int) {
-        latestItem?.let { it.onSwipeToDelete(it.vaccinationCertificateId, holder.adapterPosition) }
+        latestItem?.let { it.onSwipeToDelete(it.containerId, holder.adapterPosition) }
     }
 
     override val viewBinding: Lazy<VaccinationListVaccinationCardBinding> = lazy {
@@ -40,7 +41,7 @@ class VaccinationListVaccinationCardItemVH(parent: ViewGroup) :
 
         item.apply {
             root.setOnClickListener {
-                onCardClick.invoke(vaccinationCertificateId)
+                onCardClick.invoke(containerId)
             }
             vaccinationCardTitle.text = context.getString(
                 R.string.vaccination_list_vaccination_card_title,
@@ -70,7 +71,7 @@ class VaccinationListVaccinationCardItemVH(parent: ViewGroup) :
                 inflate(R.menu.menu_vaccination_item)
                 setOnMenuItemClickListener {
                     when (it.itemId) {
-                        R.id.menu_delete -> item.onDeleteClick(item.vaccinationCertificateId).let { true }
+                        R.id.menu_delete -> item.onDeleteClick(item.containerId).let { true }
                         else -> false
                     }
                 }
@@ -81,19 +82,19 @@ class VaccinationListVaccinationCardItemVH(parent: ViewGroup) :
     }
 
     data class VaccinationListVaccinationCardItem(
-        val vaccinationCertificateId: String,
+        val containerId: VaccinationCertificateContainerId,
         val doseNumber: Int,
         val totalSeriesOfDoses: Int,
         val vaccinatedAt: String,
         val vaccinationStatus: VaccinatedPerson.Status,
         val isFinalVaccination: Boolean,
-        val onCardClick: (String) -> Unit,
-        val onDeleteClick: (String) -> Unit,
-        val onSwipeToDelete: (String, Int) -> Unit
+        val onCardClick: (VaccinationCertificateContainerId) -> Unit,
+        val onDeleteClick: (VaccinationCertificateContainerId) -> Unit,
+        val onSwipeToDelete: (VaccinationCertificateContainerId, Int) -> Unit
     ) : VaccinationListItem {
 
         override val stableId: Long = Objects.hash(
-            vaccinationCertificateId,
+            containerId,
             doseNumber,
             totalSeriesOfDoses,
             vaccinatedAt,
@@ -108,7 +109,7 @@ class VaccinationListVaccinationCardItemVH(parent: ViewGroup) :
 
             other as VaccinationListVaccinationCardItem
 
-            if (vaccinationCertificateId != other.vaccinationCertificateId) return false
+            if (containerId != other.containerId) return false
             if (doseNumber != other.doseNumber) return false
             if (totalSeriesOfDoses != other.totalSeriesOfDoses) return false
             if (vaccinatedAt != other.vaccinatedAt) return false
@@ -121,7 +122,7 @@ class VaccinationListVaccinationCardItemVH(parent: ViewGroup) :
 
         // Ignore onCardClick Listener in equals() to avoid re-drawing when only the click listener is updated
         override fun hashCode(): Int {
-            var result = vaccinationCertificateId.hashCode()
+            var result = containerId.hashCode()
             result = 31 * result + doseNumber.hashCode()
             result = 31 * result + totalSeriesOfDoses.hashCode()
             result = 31 * result + vaccinatedAt.hashCode()

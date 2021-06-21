@@ -3,15 +3,18 @@ package de.rki.coronawarnapp.covidcertificate.test.core
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
-import de.rki.coronawarnapp.covidcertificate.common.exception.TestCertificateServerException
-import de.rki.coronawarnapp.covidcertificate.common.exception.TestCertificateServerException.ErrorCode.DCC_NOT_SUPPORTED_BY_LAB
-import de.rki.coronawarnapp.covidcertificate.test.core.storage.PCRCertificateData
-import de.rki.coronawarnapp.covidcertificate.test.core.storage.RACertificateData
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
+import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainer
-import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateIdentifier
-import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateProcessor
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.GenericTestCertificateData
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertificateData
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RACertificateData
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RetrievedTestCertificate
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
@@ -39,10 +42,11 @@ class TestCertificateRepository @Inject constructor(
     private val storage: TestCertificateStorage,
     private val qrCodeExtractor: DccQrCodeExtractor,
     private val processor: TestCertificateProcessor,
+    private val timeStamper: TimeStamper,
     valueSetsRepository: ValueSetsRepository,
 ) {
 
-    private val internalData: HotDataFlow<Map<TestCertificateIdentifier, TestCertificateContainer>> = HotDataFlow(
+    private val internalData: HotDataFlow<Map<TestCertificateContainerId, TestCertificateContainer>> = HotDataFlow(
         loggingTag = TAG,
         scope = appScope + dispatcherProvider.Default,
         sharingBehavior = SharingStarted.Eagerly,
@@ -54,7 +58,7 @@ class TestCertificateRepository @Inject constructor(
                     qrCodeExtractor = qrCodeExtractor
                 )
             }
-            .map { it.identifier to it }
+            .map { it.containerId to it }
             .toMap().also {
                 Timber.tag(TAG).v("Restored TestCertificate data: %s", it)
             }
@@ -98,9 +102,15 @@ class TestCertificateRepository @Inject constructor(
         Timber.tag(TAG).d("requestCertificate(test.identifier=%s)", test.identifier)
 
         val newData = internalData.updateBlocking {
-            if (values.any { it.registrationToken == test.registrationToken }) {
+
+            val matchesExisting = values
+                .map { it.data }
+                .filterIsInstance<RetrievedTestCertificate>()
+                .any { it.registrationToken == test.registrationToken }
+
+            if (matchesExisting) {
                 Timber.tag(TAG).e("Certificate entry already exists for %s", test.identifier)
-                throw IllegalArgumentException("A certificate was already created for this ${test.identifier}")
+                throw InvalidTestCertificateException(InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED)
             }
             if (!test.isDccSupportedByPoc) {
                 throw IllegalArgumentException("DCC is not supported by PoC for this test: ${test.identifier}")
@@ -130,10 +140,45 @@ class TestCertificateRepository @Inject constructor(
                 qrCodeExtractor = qrCodeExtractor,
             )
             Timber.tag(TAG).d("Adding test certificate entry: %s", container)
-            mutate { this[container.identifier] = container }
+            mutate { this[container.containerId] = container }
         }
 
-        return newData.values.single { it.registrationToken == test.registrationToken }
+        return newData.values.single {
+            it.data is RetrievedTestCertificate && it.data.registrationToken == test.registrationToken
+        }
+    }
+
+    suspend fun registerCertificate(
+        qrCode: TestCertificateQRCode
+    ): TestCertificateContainer {
+        Timber.tag(TAG).v("registerTestCertificate(qrCode=%s)", qrCode)
+
+        val updatedData = internalData.updateBlocking {
+
+            if (values.any { it.certificateId == qrCode.uniqueCertificateIdentifier }) {
+                Timber.tag(TAG).e("Certificate entry already exists for %s", qrCode)
+                throw InvalidTestCertificateException(InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED)
+            }
+
+            val nowUtc = timeStamper.nowUTC
+
+            val data = GenericTestCertificateData(
+                identifier = UUID.randomUUID().toString(),
+                registeredAt = nowUtc,
+                certificateReceivedAt = nowUtc,
+                testCertificateQrCode = qrCode.qrCode
+            )
+            val container = TestCertificateContainer(
+                data = data,
+                qrCodeExtractor = qrCodeExtractor,
+            )
+            Timber.tag(TAG).d("Adding test certificate entry: %s", container)
+            mutate { this[container.containerId] = container }
+        }
+
+        // We just registered it, it MUST be available.
+        return updatedData.values
+            .single { it.certificateId == qrCode.uniqueCertificateIdentifier }
     }
 
     /**
@@ -156,54 +201,25 @@ class TestCertificateRepository @Inject constructor(
      *
      * [refresh] itself will NOT throw an exception.
      */
-    // TODO Will be addressed in 2.5?
     @Suppress("ComplexMethod")
-    suspend fun refresh(identifier: TestCertificateIdentifier? = null): Set<RefreshResult> {
-        Timber.tag(TAG).d("refresh(identifier=%s)", identifier)
+    suspend fun refresh(containerId: TestCertificateContainerId? = null): Set<RefreshResult> {
+        Timber.tag(TAG).d("refresh(containerId=%s)", containerId)
 
-        val refreshCallResults = mutableMapOf<TestCertificateIdentifier, RefreshResult>()
+        val refreshCallResults = mutableMapOf<TestCertificateContainerId, RefreshResult>()
 
-        val workedOnIds = mutableSetOf<TestCertificateIdentifier>()
+        val workedOnIds = mutableSetOf<TestCertificateContainerId>()
 
         internalData.updateBlocking {
             val toRefresh = values
-                .filter { it.identifier == identifier || identifier == null } // Targets of our refresh
+                .filter { it.containerId == containerId || containerId == null } // Targets of our refresh
+                .filter { it.data is RetrievedTestCertificate } // Can only update retrieved certificates
                 .filter { !it.isUpdatingData && it.isCertificateRetrievalPending } // Those that need refreshing
 
             mutate {
                 toRefresh.forEach {
-                    workedOnIds.add(it.identifier)
-                    this[it.identifier] = it.copy(isUpdatingData = true)
+                    workedOnIds.add(it.containerId)
+                    this[it.containerId] = it.copy(isUpdatingData = true)
                 }
-            }
-        }
-
-        // Not sure i really like this
-        internalData.updateBlocking {
-            Timber.tag(TAG).d("Checking for invalid lab id.")
-
-            val refreshedCerts = values
-                .filter { workedOnIds.contains(it.identifier) } // Refresh targets
-                .filter { it.labId == null && it.data is PCRCertificateData } // Targets of this step
-                .map { cert ->
-                    Timber.tag(TAG).d("%s is missing a lab id returning exception", cert)
-                    RefreshResult(
-                        cert,
-                        TestCertificateServerException(
-                            DCC_NOT_SUPPORTED_BY_LAB
-                        )
-                    )
-                }
-
-            refreshedCerts.forEach {
-                refreshCallResults[it.certificateContainer.identifier] = it
-            }
-
-            mutate {
-                refreshedCerts
-                    .filter { it.error == null }
-                    .map { it.certificateContainer }
-                    .forEach { this[it.identifier] = it }
             }
         }
 
@@ -211,10 +227,11 @@ class TestCertificateRepository @Inject constructor(
             Timber.tag(TAG).d("Checking for unregistered public keys.")
 
             val refreshedCerts = values
-                .filter { workedOnIds.contains(it.identifier) } // Refresh targets
-                .filter { !it.isPublicKeyRegistered } // Targets of this step
-                .filter { it.labId != null || it.data !is PCRCertificateData }
-                .map { cert ->
+                .filter { workedOnIds.contains(it.containerId) } // Refresh targets
+                .mapNotNull { cert ->
+                    if (cert.data !is RetrievedTestCertificate) return@mapNotNull null
+                    if (cert.data.isPublicKeyRegistered) return@mapNotNull null
+
                     withContext(dispatcherProvider.IO) {
                         try {
                             val updatedData = processor.registerPublicKey(cert.data)
@@ -227,14 +244,14 @@ class TestCertificateRepository @Inject constructor(
                 }
 
             refreshedCerts.forEach {
-                refreshCallResults[it.certificateContainer.identifier] = it
+                refreshCallResults[it.certificateContainer.containerId] = it
             }
 
             mutate {
                 refreshedCerts
                     .filter { it.error == null }
                     .map { it.certificateContainer }
-                    .forEach { this[it.identifier] = it }
+                    .forEach { this[it.containerId] = it }
             }
         }
 
@@ -242,10 +259,13 @@ class TestCertificateRepository @Inject constructor(
             Timber.tag(TAG).d("Checking for pending certificates.")
 
             val refreshedCerts = values
-                .filter { workedOnIds.contains(it.identifier) } // Refresh targets
-                .filter { it.isPublicKeyRegistered && it.isCertificateRetrievalPending } // Targets of this step
-                .filter { it.labId != null || it.data !is PCRCertificateData }
-                .map { cert ->
+                .filter { workedOnIds.contains(it.containerId) } // Refresh targets
+                .mapNotNull { cert ->
+                    if (cert.data !is RetrievedTestCertificate) return@mapNotNull null
+
+                    if (!cert.data.isPublicKeyRegistered) return@mapNotNull null
+                    if (!cert.isCertificateRetrievalPending) return@mapNotNull null
+
                     withContext(dispatcherProvider.IO) {
                         try {
                             val updatedData = processor.obtainCertificate(cert.data)
@@ -258,24 +278,22 @@ class TestCertificateRepository @Inject constructor(
                 }
 
             refreshedCerts.forEach {
-                refreshCallResults[it.certificateContainer.identifier] = it
+                refreshCallResults[it.certificateContainer.containerId] = it
             }
 
             mutate {
                 refreshedCerts
                     .filter { it.error == null }
                     .map { it.certificateContainer }
-                    .forEach { this[it.identifier] = it }
+                    .forEach { this[it.containerId] = it }
             }
         }
 
         internalData.updateBlocking {
-            val certs = values.filter { workedOnIds.contains(it.identifier) }
-
             mutate {
-                certs.forEach {
-                    this[it.identifier] = it.copy(isUpdatingData = false)
-                }
+                values
+                    .filter { workedOnIds.contains(it.containerId) }
+                    .forEach { this[it.containerId] = it.copy(isUpdatingData = false) }
             }
         }
 
@@ -285,12 +303,19 @@ class TestCertificateRepository @Inject constructor(
     /**
      * [deleteCertificate] does not throw an exception, if the deletion target already does not exist.
      */
-    suspend fun deleteCertificate(identifier: TestCertificateIdentifier) {
-        Timber.tag(TAG).d("deleteTestCertificate(identifier=%s)", identifier)
+    suspend fun deleteCertificate(containerId: TestCertificateContainerId): TestCertificateContainer? {
+        Timber.tag(TAG).d("deleteCertificate(containerId=%s)", containerId)
+
+        var deletedCertificate: TestCertificateContainer? = null
+
         internalData.updateBlocking {
             mutate {
-                remove(identifier)
+                deletedCertificate = remove(containerId)
             }
+        }
+
+        return deletedCertificate?.also {
+            Timber.tag(TAG).i("Deleted: %s", containerId)
         }
     }
 
@@ -299,18 +324,23 @@ class TestCertificateRepository @Inject constructor(
         internalData.updateBlocking { emptyMap() }
     }
 
-    suspend fun markCertificateAsSeenByUser(identifier: TestCertificateIdentifier) {
-        Timber.tag(TAG).d("markCertificateSeenByUser(identifier=%s)", identifier)
+    suspend fun markCertificateAsSeenByUser(containerId: TestCertificateContainerId) {
+        Timber.tag(TAG).d("markCertificateSeenByUser(containerId=%s)", containerId)
 
         internalData.updateBlocking {
-            val current = this[identifier]
+            val current = this[containerId]
             if (current == null) {
-                Timber.tag(TAG).w("Can't mark %s as seen, it doesn't exist, racecondition?", identifier)
+                Timber.tag(TAG).w("Can't mark %s as seen, it doesn't exist, racecondition?", containerId)
                 return@updateBlocking this
             }
 
             if (current.isCertificateRetrievalPending) {
-                Timber.tag(TAG).w("Can't mark %s as seen, certificate has not been retrieved yet.", identifier)
+                Timber.tag(TAG).w("Can't mark %s as seen, certificate has not been retrieved yet.", containerId)
+                return@updateBlocking this
+            }
+
+            if (current.data !is RetrievedTestCertificate) {
+                Timber.tag(TAG).w("%s is not a retrieved certificate, so it was immediately available.", containerId)
                 return@updateBlocking this
             }
 
@@ -318,7 +348,7 @@ class TestCertificateRepository @Inject constructor(
                 data = processor.updateSeenByUser(current.data, true)
             )
 
-            mutate { this[identifier] = updated }
+            mutate { this[containerId] = updated }
         }
     }
 
