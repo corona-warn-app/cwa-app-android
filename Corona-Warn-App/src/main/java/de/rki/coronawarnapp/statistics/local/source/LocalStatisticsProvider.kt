@@ -1,0 +1,128 @@
+package de.rki.coronawarnapp.statistics.local.source
+
+import de.rki.coronawarnapp.statistics.StatisticsData
+import de.rki.coronawarnapp.statistics.local.FederalStateToPackageId
+import de.rki.coronawarnapp.statistics.local.storage.LocalStatisticsConfigStorage
+import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.device.ForegroundState
+import de.rki.coronawarnapp.util.flow.HotDataFlow
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import org.joda.time.Duration
+import timber.log.Timber
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class LocalStatisticsProvider @Inject constructor(
+    @AppScope private val scope: CoroutineScope,
+    private val server: LocalStatisticsServer,
+    private val localStatisticsCacheFactory: LocalStatisticsCache.LocalStatisticsCacheFactory,
+    private val localStatisticsConfigStorage: LocalStatisticsConfigStorage,
+    private val localStatisticsParser: LocalStatisticsParser,
+    foregroundState: ForegroundState,
+    dispatcherProvider: DispatcherProvider
+) {
+
+    private val localStatisticsData = HotDataFlow(
+        loggingTag = TAG,
+        scope = scope,
+        coroutineContext = dispatcherProvider.IO,
+        sharingBehavior = SharingStarted.WhileSubscribed(
+            stopTimeoutMillis = Duration.standardSeconds(5).millis,
+            replayExpirationMillis = 0
+        )
+    ) {
+        try {
+            fetchCacheFirst()
+        } catch (e: Exception) {
+            Timber.tag(TAG).e(e, "Failed to get data from server.")
+            emptyList()
+        }
+    }
+
+    val current: Flow<List<StatisticsData>> = localStatisticsData.data
+
+    init {
+        foregroundState.isInForeground
+            .onEach {
+                if (it) {
+                    Timber.tag(TAG).d("App moved to foreground triggering statistics update.")
+                    triggerUpdate()
+                }
+            }
+            .catch { Timber.tag(TAG).e("Failed to trigger statistics update.") }
+            .launchIn(scope)
+
+        localStatisticsConfigStorage.activeStates.flow
+            .onEach {
+                Timber.tag(TAG).d("The local statistics config was updated, triggering statistics update.")
+                triggerUpdate()
+            }
+            .catch { Timber.tag(TAG).e("Failed to trigger statistics update.") }
+            .launchIn(scope)
+    }
+
+    private suspend fun fetchCacheFirst(): List<StatisticsData> {
+        Timber.tag(TAG).d("fromCache()")
+
+        val targetedStates = localStatisticsConfigStorage.activeStates.value
+
+        return targetedStates.map { fromCache(it) ?: fromServer(it) }
+    }
+
+    private fun fromCache(forState: FederalStateToPackageId): StatisticsData? = try {
+        Timber.tag(TAG).d("fromCache(%s)", forState)
+
+        val localCache = localStatisticsCacheFactory.create(forState)
+        localCache.load()?.let { localStatisticsParser.parse(it) }?.also {
+            Timber.tag(TAG).d("Parsed from cache: %s", it)
+        }
+    } catch (e: Exception) {
+        Timber.tag(TAG).w(e, "Failed to parse cached data.")
+        null
+    }
+
+    private suspend fun fromServer(): List<StatisticsData> {
+        Timber.tag(TAG).d("fromServer()")
+
+        val targetedStates = localStatisticsConfigStorage.activeStates.value
+
+        return targetedStates.map { fromServer(it) }
+    }
+
+    private suspend fun fromServer(forState: FederalStateToPackageId): StatisticsData {
+        Timber.tag(TAG).d("fromServer(%s)", forState)
+
+        val localCache = localStatisticsCacheFactory.create(forState)
+        val rawData = server.getRawLocalStatistics(forState)
+        return localStatisticsParser.parse(rawData).also {
+            Timber.tag(TAG).d("Parsed from server: %s", it)
+            localCache.save(rawData)
+        }
+    }
+
+    fun triggerUpdate() {
+        Timber.tag(TAG).d("triggerUpdate()")
+        localStatisticsData.updateAsync(
+            onUpdate = { fromServer() },
+            onError = { Timber.tag(TAG).e(it, "Failed to update statistics.") }
+        )
+    }
+
+    fun clear(forState: FederalStateToPackageId) {
+        Timber.d("clear()")
+
+        server.clear()
+        localStatisticsCacheFactory.create(forState).save(null)
+    }
+
+    companion object {
+        const val TAG = "LocalStatisticsProvider"
+    }
+}
