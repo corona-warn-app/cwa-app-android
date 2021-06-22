@@ -131,7 +131,7 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
                 override val fullName: String
                     get() = "Schneider, Andrea"
                 override val dateOfBirthFormatted: String
-                    get() = "18.04.1943 00:00"
+                    get() = "1943-04-18"
                 override val personIdentifier: CertificatePersonIdentifier
                     get() = certificatePersonIdentifier
                 override val certificateIssuer: String
