@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import io.mockk.mockk
 import org.joda.time.Instant
-import org.joda.time.LocalDate
 import java.util.UUID
 
 object PersonCertificatesData {
