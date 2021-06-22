@@ -125,21 +125,24 @@ class PersonDetailsFragmentTest : BaseUITest() {
                     isCurrentCertificate = false,
                     VaccinatedPerson.Status.COMPLETE,
                     PersonColorShade.COLOR_1
-                ) {})
+                ) {}
+            )
             add(
                 VaccinationCertificateCard.Item(
                     vaccinationCertificate2,
                     isCurrentCertificate = false,
                     VaccinatedPerson.Status.COMPLETE,
                     PersonColorShade.COLOR_1
-                ) {})
+                ) {}
+            )
             add(TestCertificateCard.Item(testCertificate, isCurrentCertificate = true, PersonColorShade.COLOR_1) {})
             add(
                 RecoveryCertificateCard.Item(
                     recoveryCertificate,
                     isCurrentCertificate = false,
                     PersonColorShade.COLOR_1
-                ) {})
+                ) {}
+            )
         }
     )
 
