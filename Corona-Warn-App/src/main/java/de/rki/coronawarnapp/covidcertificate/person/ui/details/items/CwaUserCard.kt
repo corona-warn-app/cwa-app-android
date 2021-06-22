@@ -24,7 +24,7 @@ class CwaUserCard(parent: ViewGroup) :
         val certificate = curItem.personCertificates.highestPriorityCertificate
         curItem.apply {
             userName.text = certificate.fullName
-            birthDate.text = context.getString(
+            dateOfBirth.text = context.getString(
                 R.string.person_details_cwa_user_birthdate,
                 certificate.dateOfBirthFormatted
             )
