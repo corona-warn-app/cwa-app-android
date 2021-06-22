@@ -73,7 +73,7 @@ class RecoveryCertificateRepository @Inject constructor(
         Timber.tag(TAG).d("registerCertificate(qrCode=%s)", qrCode)
         val newContainer = qrCode.toContainer()
         internalData.updateBlocking {
-            if (any { it.containerId == newContainer.containerId }) {
+            if (any { it.certificateId == newContainer.certificateId }) {
                 throw InvalidRecoveryCertificateException(
                     InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
                 )
