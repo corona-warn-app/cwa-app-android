@@ -19,31 +19,37 @@ import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest
+import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.preferences.mockFlowPreference
 
 class PersonCertificatesProviderTest : BaseTest() {
     @MockK lateinit var vaccinationRepo: VaccinationRepository
     @MockK lateinit var testRepo: TestCertificateRepository
     @MockK lateinit var recoveryRepo: RecoveryCertificateRepository
+    @MockK lateinit var personCertificatesSettings: PersonCertificatesSettings
 
     private val identifierA = mockk<CertificatePersonIdentifier>()
 
     private val vaccinatedPersonACertificate1 = mockk<VaccinationCertificate>().apply {
         every { personIdentifier } returns identifierA
+        every { issuedAt } returns Instant.EPOCH
     }
     private val vaccinatedPersonA = mockk<VaccinatedPerson>().apply {
         every { vaccinationCertificates } returns setOf(vaccinatedPersonACertificate1)
     }
     private val testWrapperACertificate = mockk<TestCertificate>().apply {
         every { personIdentifier } returns identifierA
+        every { issuedAt } returns Instant.EPOCH
     }
     private val testWrapperA = mockk<TestCertificateWrapper>().apply {
         every { testCertificate } returns testWrapperACertificate
     }
     private val recoveryWrapperACertificate = mockk<RecoveryCertificate>().apply {
         every { personIdentifier } returns identifierA
+        every { issuedAt } returns Instant.EPOCH
     }
     private val recoveryWrapperA = mockk<RecoveryCertificateWrapper>().apply {
         every { testCertificate } returns recoveryWrapperACertificate
@@ -60,12 +66,17 @@ class PersonCertificatesProviderTest : BaseTest() {
         every { vaccinationRepo.vaccinationInfos } returns vaccinationPersons
         every { testRepo.certificates } returns testWrappers
         every { recoveryRepo.certificates } returns recoveryWrappers
+
+        personCertificatesSettings.apply {
+            every { currentCwaUser } returns mockFlowPreference(identifierA)
+        }
     }
 
     private fun createInstance() = PersonCertificatesProvider(
         recoveryCertificateRepository = recoveryRepo,
         testCertificateRepository = testRepo,
         vaccinationRepository = vaccinationRepo,
+        personCertificatesSettings = personCertificatesSettings,
     )
 
     @Test
@@ -95,7 +106,8 @@ class PersonCertificatesProviderTest : BaseTest() {
                     vaccinatedPersonACertificate1,
                     testWrapperACertificate,
                     recoveryWrapperACertificate
-                )
+                ),
+                isCwaUser = true,
             )
         )
 

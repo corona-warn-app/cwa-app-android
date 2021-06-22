@@ -5,13 +5,17 @@ import android.view.View
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.transition.Hold
+import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
-import de.rki.coronawarnapp.covidcertificate.common.exception.TestCertificateServerException
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFragmentArgs
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CameraPermissionCard
-import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CertificatesItem
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificatesItem
 import de.rki.coronawarnapp.databinding.PersonOverviewFragmentBinding
 import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
@@ -50,56 +54,78 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
 
     private fun onNavEvent(event: PersonOverviewFragmentEvents) {
         when (event) {
-            is OpenPersonDetailsFragment -> doNavigate(
-                PersonOverviewFragmentDirections.actionPersonOverviewFragmentToVaccinationListFragment(
-                    event.personIdentifier
+            is OpenPersonDetailsFragment -> {
+                setupHoldTransition()
+                val navigatorExtras = binding.recyclerView.layoutManager
+                    ?.findViewByPosition(event.position)?.run {
+                        FragmentNavigatorExtras(this to transitionName)
+                    }
+                findNavController().navigate(
+                    R.id.action_personOverviewFragment_to_personDetailsFragment,
+                    PersonDetailsFragmentArgs(event.personIdentifier).toBundle(),
+                    null,
+                    navigatorExtras
                 )
-            )
+            }
             is ShowDeleteDialog -> MaterialAlertDialogBuilder(requireContext())
                 .setTitle(R.string.test_certificate_delete_dialog_title)
                 .setMessage(R.string.test_certificate_delete_dialog_body)
                 .setNegativeButton(R.string.test_certificate_delete_dialog_cancel_button) { _, _ -> }
                 .setCancelable(false)
                 .setPositiveButton(R.string.test_certificate_delete_dialog_confirm_button) { _, _ ->
-                    viewModel.deleteTestCertificate(event.certificateId)
+                    viewModel.deleteTestCertificate(event.containerId)
                 }
                 .show()
 
-            is ShowRefreshErrorDialog -> {
-                event.error.toErrorDialogBuilder(requireContext()).apply {
-                    setTitle(R.string.test_certificate_refresh_dialog_title)
-                    setCancelable(false)
-                    if (
-                        event.error is TestCertificateServerException &&
-                        event.error.errorCode == TestCertificateServerException.ErrorCode.DCC_NOT_SUPPORTED_BY_LAB
-                    ) {
-                        setNeutralButton(R.string.test_certificate_error_invalid_labid_faq) { _, _ ->
-                            openUrl(getString(R.string.test_certificate_error_invalid_labid_faq_link))
-                        }
-                    }
-                }.show()
-            }
+            is ShowRefreshErrorDialog -> event.error.toErrorDialogBuilder(requireContext()).apply {
+                setTitle(R.string.test_certificate_refresh_dialog_title)
+                setCancelable(false)
+                if (event.isLabError) setNeutralButton(R.string.test_certificate_error_invalid_labid_faq) { _, _ ->
+                    openUrl(getString(R.string.test_certificate_error_invalid_labid_faq_link))
+                }
+            }.show()
 
-            ScanQrCode -> doNavigate(
-                PersonOverviewFragmentDirections.actionPersonOverviewFragmentToDccQrCodeScanFragment()
-            )
+            ScanQrCode -> {
+                setupHoldTransition()
+                findNavController().navigate(
+                    R.id.action_personOverviewFragment_to_dccQrCodeScanFragment,
+                    null,
+                    null,
+                    FragmentNavigatorExtras(binding.scanQrcodeFab to binding.scanQrcodeFab.transitionName)
+                )
+            }
             OpenAppDeviceSettings -> openAppDetailsSettings()
         }
+    }
+
+    private fun setupHoldTransition() {
+        exitTransition = Hold()
+        reenterTransition = Hold()
+    }
+
+    private fun setupAxisTransition() {
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
     }
 
     private fun PersonOverviewFragmentBinding.bindToolbar() {
         toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
-                R.id.menu_information -> doNavigate(
-                    PersonOverviewFragmentDirections.actionPersonOverviewFragmentToVaccinationConsentFragment(false)
-                ).run { true }
+                R.id.menu_information -> {
+                    setupAxisTransition()
+                    doNavigate(
+                        PersonOverviewFragmentDirections
+                            .actionPersonOverviewFragmentToCovidCertificateOnboardingFragment(false)
+                    )
+                    true
+                }
 
                 else -> onOptionsItemSelected(it)
             }
         }
     }
 
-    private fun PersonOverviewFragmentBinding.bindViews(items: List<CertificatesItem>) {
+    private fun PersonOverviewFragmentBinding.bindViews(items: List<PersonCertificatesItem>) {
         scanQrcodeFab.isGone = items.any { it is CameraPermissionCard.Item }
         emptyLayout.isVisible = items.isEmpty()
         personOverviewAdapter.update(items)

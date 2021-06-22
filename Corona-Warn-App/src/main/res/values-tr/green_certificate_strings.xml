@@ -63,6 +63,8 @@
 
     <!-- XTXT: Test certificate time -->
     <string name="test_certificate_time">"Testin gerçekleştirildiği tarih: %1$s, %2$s"</string>
+    <!-- XTXT: Test certificate registration time -->
+    <string name="test_certificate_registration_time">"Kayıt zamanı %1$s, %2$s"</string>
     <!-- XTXT: Test error label -->
     <string name="test_certificate_error_label">"Sertifika alınırken hata oluştu"</string>
     <!-- XBUT: Test error retry button -->

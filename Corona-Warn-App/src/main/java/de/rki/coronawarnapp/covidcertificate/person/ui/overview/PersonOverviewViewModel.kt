@@ -8,15 +8,15 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
+import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
-import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CertificatesItem
-import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CameraPermissionCard
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificatesItem
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateIdentifier
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.permission.CameraPermissionProvider
@@ -48,12 +48,12 @@ class PersonOverviewViewModel @AssistedInject constructor(
 
     private val qrCodes = mutableMapOf<String, Bitmap?>()
     val events = SingleLiveEvent<PersonOverviewFragmentEvents>()
-    val personCertificates: LiveData<List<CertificatesItem>> = combine(
+    val personCertificates: LiveData<List<PersonCertificatesItem>> = combine(
         cameraPermissionProvider.deniedPermanently,
         certificatesProvider.personCertificates,
         certificatesProvider.qrCodesFlow
     ) { denied, persons, qrCodesMap ->
-        mutableListOf<CertificatesItem>().apply {
+        mutableListOf<PersonCertificatesItem>().apply {
             if (denied) add(CameraPermissionCard.Item { events.postValue(OpenAppDeviceSettings) })
             addPersonItems(persons, qrCodesMap)
         }
@@ -64,22 +64,22 @@ class PersonOverviewViewModel @AssistedInject constructor(
             wrappers
                 .filter { !it.seenByUser && !it.isCertificateRetrievalPending }
                 .forEach {
-                    testCertificateRepository.markCertificateAsSeenByUser(it.identifier)
+                    testCertificateRepository.markCertificateAsSeenByUser(it.containerId)
                 }
         }
         .map { }
         .catch { Timber.w("Failed to mark certificates as seen.") }
         .asLiveData2()
 
-    fun deleteTestCertificate(identifier: TestCertificateIdentifier) = launch {
-        testCertificateRepository.deleteCertificate(identifier)
+    fun deleteTestCertificate(containerId: TestCertificateContainerId) = launch {
+        testCertificateRepository.deleteCertificate(containerId)
     }
 
     fun onScanQrCode() = events.postValue(ScanQrCode)
 
     fun checkCameraSettings() = cameraPermissionProvider.checkSettings()
 
-    private fun MutableList<CertificatesItem>.addPersonItems(
+    private fun MutableList<PersonCertificatesItem>.addPersonItems(
         persons: Set<PersonCertificates>,
         qrCodesMap: Map<String, Bitmap?>
     ) {
@@ -87,7 +87,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
         addCertificateCards(persons, qrCodesMap)
     }
 
-    private fun MutableList<CertificatesItem>.addCertificateCards(
+    private fun MutableList<PersonCertificatesItem>.addCertificateCards(
         persons: Set<PersonCertificates>,
         qrCodes: Map<String, Bitmap?>
     ) {
@@ -99,22 +99,22 @@ class PersonOverviewViewModel @AssistedInject constructor(
                         certificate = certificate,
                         qrcodeBitmap = qrCodes[certificate.qrCode],
                         color = PersonOverviewItemColor.colorFor(index)
-                    ) {
-                        events.postValue(OpenPersonDetailsFragment(person.personIdentifier.codeSHA256))
+                    ) { _, position ->
+                        events.postValue(OpenPersonDetailsFragment(person.personIdentifier.codeSHA256, position))
                     }
                 )
             }
     }
 
-    private fun MutableList<CertificatesItem>.addPendingCards(persons: Set<PersonCertificates>) {
+    private fun MutableList<PersonCertificatesItem>.addPendingCards(persons: Set<PersonCertificates>) {
         persons.forEach {
             val certificate = it.highestPriorityCertificate
             if (certificate is TestCertificate && certificate.isCertificateRetrievalPending) {
                 add(
                     CovidTestCertificatePendingCard.Item(
                         certificate = certificate,
-                        onRetryAction = { refreshCertificate(certificate.certificateId) },
-                        onDeleteAction = { events.postValue(ShowDeleteDialog(certificate.certificateId)) }
+                        onRetryAction = { refreshCertificate(certificate.containerId) },
+                        onDeleteAction = { events.postValue(ShowDeleteDialog(certificate.containerId)) }
                     )
                 )
             }
@@ -149,9 +149,9 @@ class PersonOverviewViewModel @AssistedInject constructor(
         null
     }
 
-    fun refreshCertificate(identifier: TestCertificateIdentifier) =
+    fun refreshCertificate(containerId: TestCertificateContainerId) =
         launch {
-            val error = testCertificateRepository.refresh(identifier).mapNotNull { it.error }.singleOrNull()
+            val error = testCertificateRepository.refresh(containerId).mapNotNull { it.error }.singleOrNull()
             error?.let { events.postValue(ShowRefreshErrorDialog(error)) }
         }
 

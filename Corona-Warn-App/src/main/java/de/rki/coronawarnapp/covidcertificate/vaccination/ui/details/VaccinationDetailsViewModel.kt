@@ -5,6 +5,7 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
@@ -20,7 +21,7 @@ import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 class VaccinationDetailsViewModel @AssistedInject constructor(
-    @Assisted private val vaccinationCertificateId: String,
+    @Assisted private val containerId: VaccinationCertificateContainerId,
     private val qrCodeGenerator: QrCodeGenerator,
     private val vaccinationRepository: VaccinationRepository,
     @AppScope private val appScope: CoroutineScope,
@@ -50,10 +51,10 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
         vaccinatedPersons: Set<VaccinatedPerson>
     ): VaccinationDetails {
         val person = vaccinatedPersons.find { p ->
-            p.vaccinationCertificates.any { it.certificateId == vaccinationCertificateId }
+            p.vaccinationContainers.any { it.containerId == containerId }
         }
 
-        val certificate = person?.vaccinationCertificates?.find { it.certificateId == vaccinationCertificateId }
+        val certificate = person?.vaccinationCertificates?.find { it.containerId == containerId }
         return VaccinationDetails(
             certificate = certificate,
             isImmune = person?.getVaccinationStatus() == VaccinatedPerson.Status.IMMUNITY,
@@ -72,10 +73,10 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
         }
     }
 
-    fun deleteVaccination() {
+    fun onDeleteVaccinationCertificateConfirmed() {
         launch(scope = appScope) {
             try {
-                vaccinationRepository.deleteVaccinationCertificate(vaccinationCertificateId)
+                vaccinationRepository.deleteCertificate(containerId)
                 events.postValue(VaccinationDetailsNavigation.Back)
             } catch (exception: Exception) {
                 errors.postValue(exception)
@@ -87,7 +88,7 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : CWAViewModelFactory<VaccinationDetailsViewModel> {
         fun create(
-            certificateId: String,
+            containerId: VaccinationCertificateContainerId,
         ): VaccinationDetailsViewModel
     }
 }

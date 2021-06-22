@@ -4,15 +4,16 @@ import android.view.ViewGroup
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewAdapter
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
-import de.rki.coronawarnapp.covidcertificate.test.ui.CertificatesAdapter
 import de.rki.coronawarnapp.databinding.CovidTestErrorCardBinding
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class CovidTestCertificatePendingCard(parent: ViewGroup) :
-    CertificatesAdapter.CertificatesItemVH<CovidTestCertificatePendingCard.Item, CovidTestErrorCardBinding>(
+    PersonOverviewAdapter.PersonOverviewItemVH<CovidTestCertificatePendingCard.Item, CovidTestErrorCardBinding>(
         R.layout.home_card_container_layout,
         parent
     ) {
@@ -27,10 +28,11 @@ class CovidTestCertificatePendingCard(parent: ViewGroup) :
 
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
 
+        val registrationTime = curItem.certificate.registeredAt.toUserTimeZone()
         testTime.text = context.getString(
-            R.string.test_certificate_time,
-            curItem.certificate.registeredAt.toDayFormat(),
-            curItem.certificate.registeredAt.toShortTimeFormat()
+            R.string.test_certificate_registration_time,
+            registrationTime.toDayFormat(),
+            registrationTime.toShortTimeFormat()
         )
 
         retryButton.setOnClickListener {
@@ -57,7 +59,7 @@ class CovidTestCertificatePendingCard(parent: ViewGroup) :
         val certificate: TestCertificate,
         val onRetryAction: (Item) -> Unit,
         val onDeleteAction: (Item) -> Unit
-    ) : CertificatesItem, HasPayloadDiffer {
+    ) : PersonCertificatesItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
         override val stableId: Long = certificate.personIdentifier.codeSHA256.hashCode().toLong()
     }

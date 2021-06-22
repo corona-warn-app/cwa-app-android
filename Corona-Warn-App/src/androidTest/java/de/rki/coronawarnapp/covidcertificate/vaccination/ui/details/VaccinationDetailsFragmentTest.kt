@@ -13,6 +13,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -36,7 +37,9 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
 
     @MockK lateinit var vaccinationDetailsViewModel: VaccinationDetailsViewModel
 
-    private val args = VaccinationDetailsFragmentArgs("vaccinationCertificateId").toBundle()
+    private val args = VaccinationDetailsFragmentArgs(
+        containerId = VaccinationCertificateContainerId("vaccinationCertificateId")
+    ).toBundle()
 
     @Before
     fun setUp() {
@@ -46,7 +49,9 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
 
         setupMockViewModel(
             object : VaccinationDetailsViewModel.Factory {
-                override fun create(certificateId: String): VaccinationDetailsViewModel = vaccinationDetailsViewModel
+                override fun create(
+                    containerId: VaccinationCertificateContainerId
+                ): VaccinationDetailsViewModel = vaccinationDetailsViewModel
             }
         )
     }
@@ -89,13 +94,15 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
             every { fullName } returns "Max Mustermann"
             every { dateOfBirthFormatted } returns LocalDate.parse("01.02.1976", formatter)
             every { vaccinatedAtFormatted } returns LocalDate.parse("18.02.2021", formatter)
-            every { vaccineTypeName } returns "Comirnaty (mRNA)"
+            every { vaccinatedAt } returns LocalDate.parse("18.02.2021", formatter)
+            every { targetDisease } returns "COVID-19"
+            every { medicalProductName } returns "Comirnaty"
+            every { vaccineTypeName } returns "mRNA"
             every { vaccineManufacturer } returns "BioNTech"
             every { certificateIssuer } returns "Landratsamt Musterstadt"
             every { certificateCountry } returns "Deutschland"
             every { certificateId } returns "05930482748454836478695764787841"
             every { expiresAt } returns Instant.parse("2021-05-16T00:00:00.000Z")
-            every { medicalProductName } returns "mRNA"
             every { totalSeriesOfDoses } returns 2
             if (complete) every { doseNumber } returns 2 else every { doseNumber } returns 1
         }

@@ -3,7 +3,8 @@ package de.rki.coronawarnapp.coronatest
 import dagger.Component
 import dagger.Module
 import de.rki.coronawarnapp.coronatest.type.TestCertificateContainerTest
-import de.rki.coronawarnapp.covidcertificate.test.storage.TestCertificateStorageTest
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepositoryTest
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorageTest
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import javax.inject.Singleton
 
@@ -18,6 +19,7 @@ interface CoronaTestTestComponent {
 
     fun inject(testClass: TestCertificateStorageTest)
     fun inject(testClass: TestCertificateContainerTest)
+    fun inject(testClass: TestCertificateRepositoryTest)
 
     @Component.Factory
     interface Factory {

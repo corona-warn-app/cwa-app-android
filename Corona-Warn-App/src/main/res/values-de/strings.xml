@@ -921,6 +921,8 @@
     <string name="debugging_debuglog_share_log_privacy_information">"Ausführliche Informationen zu dieser Datenverarbeitung und den Datenschutzrisiken in den USA und anderen Drittländern"</string>
     <!-- XBUT: Button for bugreporting share log screen -->
     <string name="debugging_debuglog_share_log_button">"Einverstanden und senden"</string>
+    <!-- XMSG: Dialog body try again later -->
+    <string name="debugging_debuglog_share_try_again_later">"Der Fehlerbericht kann aktuell nicht gesendet werden. Bitte versuchen Sie es später noch einmal."</string>
     <!-- XHED: Title for log upload history -->
     <string name="debugging_debuglog_uploadhistory_title">"ID-Historie"</string>
     <!-- YTXT: Description for log upload history -->
@@ -1093,7 +1095,7 @@
     <string name="submission_test_result_pending_steps_contact_diary_body">"Sobald Ihr Testergebnis vorliegt, wird es Ihnen in der App angezeigt."</string>
 
     <!-- XHED: Page headline for test result certifcate info title  -->
-    <string name="submission_test_result_pending_steps_test_certificate_heading">"COVID-Testzertifikat"</string>
+    <string name="submission_test_result_pending_steps_test_certificate_heading">"Ihr COVID-Testzertifikat"</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not supported, RAT Test -->
     <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"Ein offizielles digitales COVID-Testzertifikat kann nicht ausgestellt werden, da diese Teststelle die Ausstellung der Testzertifikate nicht unterstützt."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not available yet, PCR Test consent given -->

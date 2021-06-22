@@ -9,13 +9,14 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
-import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toHyphenSeparatedDate
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -34,7 +35,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         constructorCall = { factory, _ ->
             factory as VaccinationDetailsViewModel.Factory
             factory.create(
-                certificateId = args.vaccinationCertificateId,
+                containerId = args.containerId,
             )
         }
     )
@@ -98,7 +99,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_covid_certificate_delete -> {
-                    DialogHelper.showDialog(deleteTestConfirmationDialog)
+                    showCertificateDeletionRequest()
                     true
                 }
                 else -> onOptionsItemSelected(it)
@@ -109,12 +110,20 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     private fun FragmentVaccinationDetailsBinding.bindCertificateViews(
         certificate: VaccinationCertificate
     ) {
-        name.text = certificate.fullName
+        fullname.text = certificate.fullName
         dateOfBirth.text = certificate.dateOfBirthFormatted
-        vaccineName.text = certificate.medicalProductName
+        medialProductName.text = certificate.medicalProductName
+        vaccineTypeName.text = certificate.vaccineTypeName
+        targetDisease.text = certificate.targetDisease
         vaccineManufacturer.text = certificate.vaccineManufacturer
-        certificateIssuer.text = certificate.certificateIssuer
+        vaccinationNumber.text = getString(
+            R.string.vaccination_certificate_attribute_dose_number,
+            certificate.doseNumber,
+            certificate.totalSeriesOfDoses
+        )
+        vaccinatedAt.text = certificate.vaccinatedAt.toHyphenSeparatedDate()
         certificateCountry.text = certificate.certificateCountry
+        certificateIssuer.text = certificate.certificateIssuer
         certificateId.text = certificate.certificateId
     }
 
@@ -132,16 +141,14 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         behavior.overlayTop = (width / 2) - 24
     }
 
-    private val deleteTestConfirmationDialog by lazy {
-        DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.vaccination_list_deletion_dialog_title,
-            R.string.vaccination_list_deletion_dialog_message,
-            R.string.green_certificate_details_dialog_remove_test_button_positive,
-            R.string.green_certificate_details_dialog_remove_test_button_negative,
-            positiveButtonFunction = {
-                viewModel.deleteVaccination()
+    private fun showCertificateDeletionRequest() {
+        MaterialAlertDialogBuilder(requireContext()).apply {
+            setTitle(R.string.vaccination_list_deletion_dialog_title)
+            setMessage(R.string.vaccination_list_deletion_dialog_message)
+            setNegativeButton(R.string.green_certificate_details_dialog_remove_test_button_negative) { _, _ -> }
+            setPositiveButton(R.string.green_certificate_details_dialog_remove_test_button_positive) { _, _ ->
+                viewModel.onDeleteVaccinationCertificateConfirmed()
             }
-        )
+        }.show()
     }
 }

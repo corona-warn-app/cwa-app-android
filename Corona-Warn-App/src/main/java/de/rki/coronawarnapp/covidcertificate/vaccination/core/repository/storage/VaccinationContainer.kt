@@ -10,6 +10,8 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
+import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateRepoContainer
+import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
@@ -21,7 +23,7 @@ import java.util.Locale
 data class VaccinationContainer internal constructor(
     @SerializedName("vaccinationQrCode") val vaccinationQrCode: QrCodeString,
     @SerializedName("scannedAt") val scannedAt: Instant,
-) {
+) : CertificateRepoContainer {
 
     // Either set by [ContainerPostProcessor] or via [toVaccinationContainer]
     @Transient lateinit var qrCodeExtractor: DccQrCodeExtractor
@@ -42,6 +44,9 @@ data class VaccinationContainer internal constructor(
             .data
     }
 
+    override val containerId: VaccinationCertificateContainerId
+        get() = VaccinationCertificateContainerId(certificateId)
+
     val header: DccHeader
         get() = certificateData.header
 
@@ -61,6 +66,12 @@ data class VaccinationContainer internal constructor(
         valueSet: VaccinationValueSets?,
         userLocale: Locale = Locale.getDefault(),
     ) = object : VaccinationCertificate {
+        override val containerId: VaccinationCertificateContainerId
+            get() = this@VaccinationContainer.containerId
+
+        override val rawCertificate: VaccinationDccV1
+            get() = certificate
+
         override val personIdentifier: CertificatePersonIdentifier
             get() = certificate.personIdentifier
 
@@ -80,6 +91,9 @@ data class VaccinationContainer internal constructor(
             get() = vaccination.vaccinatedOn
         override val vaccinatedAtFormatted: String
             get() = vaccination.vaccinatedOnFormatted
+
+        override val targetDisease: String
+            get() = valueSet?.getDisplayText(vaccination.targetId) ?: vaccination.targetId
 
         override val doseNumber: Int
             get() = vaccination.doseNumber

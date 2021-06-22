@@ -136,10 +136,10 @@
                     style="@style/body1Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/vaccination_certificate_attribute_name" />
+                    android:text="@string/covid_certificate_attribute_name" />
 
                 <TextView
-                    android:id="@+id/name"
+                    android:id="@+id/fullname"
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -150,7 +150,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/vaccination_certificate_attribute_date_of_birth" />
+                    android:text="@string/covid_certificate_attribute_date_of_birth" />
 
                 <TextView
                     android:id="@+id/date_of_birth"
@@ -165,15 +165,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/vaccination_certificate_attribute_disease_type" />
+                    android:text="@string/covid_certificate_attribute_disease_type" />
 
                 <TextView
-                    android:id="@+id/disease_type"
+                    android:id="@+id/target_disease"
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    tools:text="" />
+                    tools:text="COVID-19" />
 
                 <TextView
                     style="@style/body1Medium"
@@ -183,7 +183,7 @@
                     android:text="@string/vaccination_certificate_attribute_vaccine_name" />
 
                 <TextView
-                    android:id="@+id/vaccine_name"
+                    android:id="@+id/medial_product_name"
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -198,7 +198,7 @@
                     android:text="@string/vaccination_certificate_attribute_vaccine_type" />
 
                 <TextView
-                    android:id="@+id/vaccine_type"
+                    android:id="@+id/vaccine_type_name"
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -243,7 +243,7 @@
                     android:text="@string/vaccination_certificate_attribute_vaccination_date" />
 
                 <TextView
-                    android:id="@+id/vaccination_date"
+                    android:id="@+id/vaccinated_at"
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -270,7 +270,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/vaccination_certificate_attribute_certificate_issuer" />
+                    android:text="@string/covid_certificate_attribute_certificate_issuer" />
 
                 <TextView
                     android:id="@+id/certificate_issuer"
@@ -285,7 +285,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/vaccination_certificate_attribute_certificate_id" />
+                    android:text="@string/covid_certificate_attribute_certificate_id" />
 
                 <TextView
                     android:id="@+id/certificate_id"

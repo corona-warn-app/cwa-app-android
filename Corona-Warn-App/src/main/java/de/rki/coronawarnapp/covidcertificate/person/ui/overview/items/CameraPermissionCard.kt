@@ -25,7 +25,7 @@ class CameraPermissionCard(parent: ViewGroup) :
 
     data class Item(
         val onOpenSettings: () -> Unit
-    ) : CertificatesItem, HasPayloadDiffer {
+    ) : PersonCertificatesItem, HasPayloadDiffer {
         override val stableId: Long = Item::class.simpleName.hashCode().toLong()
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }
