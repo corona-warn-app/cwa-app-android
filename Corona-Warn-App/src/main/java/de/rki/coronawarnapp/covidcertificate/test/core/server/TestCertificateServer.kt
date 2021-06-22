@@ -66,8 +66,7 @@ class TestCertificateServer @Inject constructor(
                 409 -> throw TestCertificateServerException(PKR_409)
                 500 -> throw TestCertificateServerException(PKR_500)
             }
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             Timber.tag(TAG).w(e, "registerPublicKeyForTest failed")
             throw when (e) {
                 is TestCertificateServerException -> e
