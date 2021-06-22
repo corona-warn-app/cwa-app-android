@@ -6,11 +6,11 @@ import org.joda.time.Instant
 data class StoredRecoveryCertificateData(
     @SerializedName("identifier") override val identifier: String,
     @SerializedName("registeredAt") override val registeredAt: Instant,
-    @SerializedName("recoveryCertificateQrCode") override val recoveryCertificateQrCode: String?,
+    @SerializedName("recoveryCertificateQrCode") override val recoveryCertificateQrCode: String,
 ) : StoredRecoveryCertificate
 
 interface StoredRecoveryCertificate {
     val identifier: String
     val registeredAt: Instant
-    val recoveryCertificateQrCode: String?
+    val recoveryCertificateQrCode: String
 }
