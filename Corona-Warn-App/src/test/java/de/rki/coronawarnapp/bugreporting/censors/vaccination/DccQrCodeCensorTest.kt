@@ -81,7 +81,7 @@ internal class DccQrCodeCensorTest {
             .compile()!!.censored shouldBe "Hello my name is nameData/familyName nameData/givenName, i was born at " +
             "covidCertificate/dateOfBirth, i have been vaccinated with: vaccinationData/targetId " +
             "vaccinationData/vaccineId vaccinationData/medicalProductId" +
-            " vaccinationData/marketAuthorizationHolderId vaccinationData/vaccinatedAt" +
+            " vaccinationData/marketAuthorizationHolderId vaccinationData/vaccinatedOnFormatted" +
             " vaccinationData/certificateCountry vaccinationData/certificateIssuer" +
             " vaccinationData/uniqueCertificateIdentifier"
     }
