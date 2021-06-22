@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.databinding.RecoveryCertificateCardBinding
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class RecoveryCertificateCard(parent: ViewGroup) :
@@ -29,7 +28,7 @@ class RecoveryCertificateCard(parent: ViewGroup) :
 
         certificateDate.text = context.getString(
             R.string.recovery_certificate_valid_until,
-            certificate.validUntil.toShortDayFormat()
+            certificate.validUntilFormatted
         )
 
         currentCertificate.isVisible = curItem.isCurrentCertificate

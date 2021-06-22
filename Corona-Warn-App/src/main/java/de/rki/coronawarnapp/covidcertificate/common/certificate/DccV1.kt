@@ -78,6 +78,9 @@ data class DccV1(
             get() = df.formatDate()
         val validUntilFormatted: String
             get() = du.formatDate()
+
+        val validFrom: LocalDate
+            get() = validFromFormatted.parseLocalDate()
     }
 
     data class VaccinationData(

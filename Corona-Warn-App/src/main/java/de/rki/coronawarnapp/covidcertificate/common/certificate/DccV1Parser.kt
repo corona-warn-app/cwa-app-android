@@ -112,6 +112,7 @@ class DccV1Parser @Inject constructor(
             it.testedPositiveOnFormatted
             it.validFromFormatted
             it.validUntilFormatted
+            it.validFrom
             require(it.certificateIssuer.isNotBlank())
             require(it.certificateCountry.isNotBlank())
             require(it.targetId.isNotBlank())
