@@ -16,7 +16,7 @@ data class ShowDeleteDialog(val containerId: TestCertificateContainerId) : Perso
 data class OpenPersonDetailsFragment(
     val personIdentifier: String,
     val position: Int,
-    val color: PersonOverviewItemColor
+    val color: PersonColorShade
 ) : PersonOverviewFragmentEvents()
 
 object ScanQrCode : PersonOverviewFragmentEvents()

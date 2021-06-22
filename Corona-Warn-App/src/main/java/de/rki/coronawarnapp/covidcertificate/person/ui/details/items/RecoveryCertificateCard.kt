@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.databinding.RecoveryCertificateCardBinding
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
@@ -34,16 +35,17 @@ class RecoveryCertificateCard(parent: ViewGroup) :
 
         currentCertificate.isVisible = curItem.isCurrentCertificate
 
-        val iconRes = when {
-            curItem.isCurrentCertificate -> R.drawable.ic_recovery_certificate_valid
-            else -> R.drawable.ic_recovery_certificate_valid_secondary
+        val background = when {
+            curItem.isCurrentCertificate -> curItem.colorShade.currentCertificateBg
+            else -> curItem.colorShade.defaultCertificateBg
         }
-        certificateIcon.setImageResource(iconRes)
+        certificateBg.setImageResource(background)
     }
 
     data class Item(
         val certificate: RecoveryCertificate,
         val isCurrentCertificate: Boolean,
+        val colorShade: PersonColorShade,
         val onClick: () -> Unit
     ) : CertificateItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null

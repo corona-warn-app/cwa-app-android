@@ -36,7 +36,8 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
         constructorCall = { factory, _ ->
             factory as PersonDetailsViewModel.Factory
             factory.create(
-                personIdentifierCode = args.personIdentifierCode
+                personIdentifierCode = args.personIdentifierCode,
+                colorShade = args.colorShade
             )
         }
     )
@@ -70,13 +71,13 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
             }
             viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
 
-            expandedImage.setImageResource(args.color.background)
+            expandedImage.setImageResource(args.colorShade.background)
             europaImage.setImageDrawable(
                 requireContext().getDrawableCompat(R.drawable.ic_eu_stars_blue)?.let {
                     DrawableCompat.wrap(it)
                         .mutate()
                         .apply {
-                            setTint(requireContext().getColorCompat(args.color.starsTint))
+                            setTint(requireContext().getColorCompat(args.colorShade.starsTint))
                         }
                 }
             )

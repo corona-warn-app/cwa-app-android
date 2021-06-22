@@ -94,12 +94,12 @@ class PersonOverviewViewModel @AssistedInject constructor(
         persons.filterNotPending()
             .forEachIndexed { index, person ->
                 val certificate = person.highestPriorityCertificate
-                val color = PersonOverviewItemColor.colorFor(index)
+                val color = PersonColorShade.shadeFor(index)
                 add(
                     PersonCertificateCard.Item(
                         certificate = certificate,
                         qrcodeBitmap = qrCodes[certificate.qrCode],
-                        color = color
+                        colorShade = color
                     ) { _, position ->
                         events.postValue(OpenPersonDetailsFragment(person.personIdentifier.codeSHA256, position, color))
                     }

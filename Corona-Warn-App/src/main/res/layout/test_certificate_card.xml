@@ -9,7 +9,7 @@
     android:layout_marginTop="8dp">
 
     <ImageView
-        android:id="@+id/certificate_icon"
+        android:id="@+id/certificate_bg"
         android:layout_width="88dp"
         android:layout_height="95dp"
         android:layout_marginStart="16dp"
@@ -17,7 +17,18 @@
         android:importantForAccessibility="no"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_test_certificate_valid_secondary" />
+        app:srcCompat="@drawable/bg_certificate_grey" />
+
+    <ImageView
+        android:id="@+id/certificate_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="@id/certificate_bg"
+        app:layout_constraintEnd_toEndOf="@id/certificate_bg"
+        app:layout_constraintStart_toStartOf="@id/certificate_bg"
+        app:layout_constraintTop_toTopOf="@id/certificate_bg"
+        app:srcCompat="@drawable/ic_test_certificate" />
 
     <TextView
         android:id="@+id/test_certificate_name"
@@ -41,7 +52,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/certificate_icon"
+        app:layout_constraintStart_toEndOf="@id/certificate_bg"
         app:layout_constraintTop_toBottomOf="@id/test_certificate_name"
         tools:text="PCR-Test" />
 
@@ -53,7 +64,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="@+id/test_certificate_type"
-        app:layout_constraintStart_toEndOf="@id/certificate_icon"
+        app:layout_constraintStart_toEndOf="@id/certificate_bg"
         app:layout_constraintTop_toBottomOf="@id/test_certificate_type"
         tools:text="Probenahme am 31.05.2021" />
 
@@ -88,7 +99,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="current_certificate,bookmark,bookmark_info,certificate_icon,certificate_date"
+        app:constraint_referenced_ids="current_certificate,bookmark,bookmark_info,certificate_bg,certificate_date"
         tools:layout_editor_absoluteY="117dp" />
 
     <Space

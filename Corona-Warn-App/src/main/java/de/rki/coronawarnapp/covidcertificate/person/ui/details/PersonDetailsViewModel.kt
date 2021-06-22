@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.Certificate
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.TestCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationInfoCard
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
@@ -43,6 +44,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private val vaccinationRepository: VaccinationRepository,
     private val timeStamper: TimeStamper,
     @Assisted private val personIdentifierCode: String,
+    @Assisted private val colorShade: PersonColorShade,
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<PersonDetailsEvents>()
@@ -95,28 +97,33 @@ class PersonDetailsViewModel @AssistedInject constructor(
         }
     }
 
-    private fun MutableList<CertificateItem>.addCardItem(
+    private suspend fun MutableList<CertificateItem>.addCardItem(
         certificate: CwaCovidCertificate,
         priorityCertificate: CwaCovidCertificate
     ) {
         val isCurrentCertificate = certificate.certificateId == priorityCertificate.certificateId
         when (certificate) {
             is TestCertificate -> add(
-                TestCertificateCard.Item(certificate, isCurrentCertificate) {
+                TestCertificateCard.Item(certificate, isCurrentCertificate, colorShade) {
                     events.postValue(OpenTestCertificateDetails(certificate.containerId))
                 }
             )
-            is VaccinationCertificate -> add(
-                VaccinationCertificateCard.Item(
-                    certificate = certificate,
-                    isCurrentCertificate = isCurrentCertificate
-                ) {
-                    events.postValue(OpenVaccinationCertificateDetails(certificate.containerId))
-                }
-            )
+            is VaccinationCertificate -> {
+                val status = vaccinatedPerson(certificate).getVaccinationStatus(timeStamper.nowUTC)
+                add(
+                    VaccinationCertificateCard.Item(
+                        certificate = certificate,
+                        isCurrentCertificate = isCurrentCertificate,
+                        colorShade = colorShade,
+                        status = status
+                    ) {
+                        events.postValue(OpenVaccinationCertificateDetails(certificate.containerId))
+                    }
+                )
+            }
 
             is RecoveryCertificate -> add(
-                RecoveryCertificateCard.Item(certificate, isCurrentCertificate) {
+                RecoveryCertificateCard.Item(certificate, isCurrentCertificate, colorShade) {
                     events.postValue(OpenRecoveryCertificateDetails(certificate.containerId))
                 }
             )
@@ -131,7 +138,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : CWAViewModelFactory<PersonDetailsViewModel> {
         fun create(
-            personIdentifierCode: String
+            personIdentifierCode: String,
+            colorShade: PersonColorShade,
         ): PersonDetailsViewModel
     }
 }
