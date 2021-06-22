@@ -62,7 +62,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                     }
                 findNavController().navigate(
                     R.id.action_personOverviewFragment_to_personDetailsFragment,
-                    PersonDetailsFragmentArgs(event.personIdentifier, event.color).toBundle(),
+                    PersonDetailsFragmentArgs(event.personIdentifier, event.colorShade).toBundle(),
                     null,
                     navigatorExtras
                 )
