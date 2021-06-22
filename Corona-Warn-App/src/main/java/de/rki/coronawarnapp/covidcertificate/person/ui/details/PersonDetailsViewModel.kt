@@ -56,9 +56,15 @@ class PersonDetailsViewModel @AssistedInject constructor(
         events.postValue(Back)
     }
 
+    private val qrcodeCache = mutableMapOf<String, Bitmap?>()
+
     private val qrCodeFlow: Flow<Bitmap?> = personCertificatesFlow.transform {
-        emit(null)
-        emit(qrCodeGenerator.createQrCode(it.highestPriorityCertificate.qrCode, margin = 0))
+        val input = it.highestPriorityCertificate.qrCode
+        emit(qrcodeCache[input]) // Initial state
+
+        val qrcode = qrcodeCache[input] ?: qrCodeGenerator.createQrCode(input, margin = 0)
+        qrcodeCache[input] = qrcode
+        emit(qrcode)
     }
 
     val uiState: LiveData<List<CertificateItem>> = combine(
