@@ -41,8 +41,8 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/certificate_icon"
-        app:layout_constraintTop_toTopOf="@id/certificate_icon" />
+        app:layout_constraintStart_toEndOf="@id/certificate_bg"
+        app:layout_constraintTop_toTopOf="@id/certificate_bg" />
 
     <TextView
         android:id="@+id/test_certificate_type"
