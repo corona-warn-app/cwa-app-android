@@ -73,11 +73,6 @@ class PCRTestProcessor @Inject constructor(
             Timber.tag(TAG).d("Request %s gave us %s", request, it)
         }
 
-        analyticsTestResultCollector.reportTestResultAtRegistration(
-            registrationData.testResultResponse.coronaTestResult,
-            type
-        )
-
         return createCoronaTest(request, registrationData)
     }
 
@@ -109,17 +104,21 @@ class PCRTestProcessor @Inject constructor(
 
         val testResult = response.testResultResponse.coronaTestResult.let {
             Timber.tag(TAG).v("Raw test result $it")
-            analyticsTestResultCollector.reportTestResultReceived(it, type)
+
             it.toValidatedResult()
         }
 
+        analyticsKeySubmissionCollector.reportTestRegistered(type)
         if (testResult == PCR_POSITIVE) {
             analyticsKeySubmissionCollector.reportPositiveTestResultReceived(type)
         }
 
-        analyticsKeySubmissionCollector.reportTestRegistered(type)
         // only collect for QR code test
-        if (request is CoronaTestQRCode) analyticsTestResultCollector.reportTestRegistered(type)
+        if (request is CoronaTestQRCode) {
+            analyticsTestResultCollector.reportTestRegistered(type)
+            analyticsTestResultCollector.reportTestResultAtRegistration(testResult, type)
+            analyticsTestResultCollector.reportTestResultReceived(testResult, type)
+        }
 
         val now = timeStamper.nowUTC
 
@@ -157,8 +156,6 @@ class PCRTestProcessor @Inject constructor(
                 submissionService.checkTestResult(test.registrationToken)
                     .also {
                         Timber.tag(TAG).d("Raw test result was %s", it)
-                        // TODO Should this be called here? Compare with RA
-                        analyticsTestResultCollector.reportTestResultReceived(it.coronaTestResult, type)
                     }
                     .let { orig ->
                         orig.copy(coronaTestResult = orig.coronaTestResult.toValidatedResult())
@@ -176,6 +173,7 @@ class PCRTestProcessor @Inject constructor(
             if (response.coronaTestResult == PCR_POSITIVE) {
                 analyticsKeySubmissionCollector.reportPositiveTestResultReceived(type)
             }
+            analyticsTestResultCollector.reportTestResultReceived(response.coronaTestResult, type)
 
             test.copy(
                 testResult = check60Days(test, response.coronaTestResult),
