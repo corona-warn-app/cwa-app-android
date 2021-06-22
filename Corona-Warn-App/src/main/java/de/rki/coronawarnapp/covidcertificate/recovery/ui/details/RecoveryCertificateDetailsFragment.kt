@@ -8,12 +8,14 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.databinding.FragmentRecoveryCertificateDetailsBinding
+import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsViewModel
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -21,13 +23,21 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
 class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_certificate_details), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val binding by viewBinding<FragmentRecoveryCertificateDetailsBinding>()
-    private val viewModel: RecoveryCertificateDetailsViewModel by cwaViewModels { viewModelFactory }
+    private val args by navArgs<RecoveryCertificateDetailsFragmentArgs>()
+    private val viewModel: RecoveryCertificateDetailsViewModel by cwaViewModelsAssisted(
+        factoryProducer = { viewModelFactory },
+        constructorCall = { factory, _ ->
+            factory as RecoveryCertificateDetailsViewModel.Factory
+            factory.create(args.containerId)
+        }
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
