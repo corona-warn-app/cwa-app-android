@@ -31,8 +31,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -116,13 +114,13 @@ class PersonDetailsFragmentTest : BaseUITest() {
         every { certificateId } returns "testCertificateId"
         every { fullName } returns "Andrea Schneider"
         every { testType } returns "PCR-Test"
-        every { dateOfBirth } returns LocalDate.parse("18.04.1943", DateTimeFormat.forPattern("dd.MM.yyyy"))
+        every { dateOfBirthFormatted } returns "1943-04-18"
         every { sampleCollectedAt } returns Instant.parse("2021-05-31T11:35:00.000Z")
         every { registeredAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
         every { personIdentifier } returns CertificatePersonIdentifier(
             firstNameStandardized = "firstNameStandardized",
             lastNameStandardized = "lastNameStandardized",
-            dateOfBirth = LocalDate.now()
+            dateOfBirthFormatted = "1943-04-18"
         )
     }
 
@@ -136,7 +134,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { personIdentifier } returns CertificatePersonIdentifier(
                 firstNameStandardized = "firstNameStandardized",
                 lastNameStandardized = "lastNameStandardized",
-                dateOfBirth = LocalDate.now()
+                dateOfBirthFormatted = "1943-04-18"
             )
             every { doseNumber } returns number
             every { totalSeriesOfDoses } returns 2
