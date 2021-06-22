@@ -74,13 +74,16 @@ data class DccV1(
     ) : Payload {
         val testedPositiveOnFormatted: String
             get() = fr.formatDate()
+
         val validFromFormatted: String
             get() = df.formatDate()
-        val validUntilFormatted: String
-            get() = du.formatDate()
-
         val validFrom: LocalDate
             get() = validFromFormatted.parseLocalDate()
+
+        val validUntilFormatted: String
+            get() = du.formatDate()
+        val validUntil: LocalDate
+            get() = validUntilFormatted.parseLocalDate()
     }
 
     data class VaccinationData(

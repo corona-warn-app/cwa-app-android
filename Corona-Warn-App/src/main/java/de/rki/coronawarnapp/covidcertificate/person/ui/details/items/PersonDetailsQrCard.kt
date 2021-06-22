@@ -54,7 +54,7 @@ class PersonDetailsQrCard(parent: ViewGroup) :
                     qrTitle.text = context.getString(R.string.recovery_certificate_name)
                     qrSubtitle.text = context.getString(
                         R.string.recovery_certificate_valid_until,
-                        certificate.validUntilFormatted
+                        certificate.validUntil.toShortDayFormat()
                     )
                 }
             }

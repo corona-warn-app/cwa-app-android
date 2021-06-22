@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
 import org.joda.time.Instant
+import org.joda.time.LocalDate
 import java.util.Locale
 
 data class RecoveryCertificateContainer(
@@ -68,10 +69,16 @@ data class RecoveryCertificateContainer(
 
             override val testedPositiveOnFormatted: String
                 get() = recoveryCertificate.testedPositiveOnFormatted
-            override val validFromFormatted: String
-                get() = recoveryCertificate.validFromFormatted
+
             override val validUntilFormatted: String
                 get() = recoveryCertificate.validUntilFormatted
+            override val validUntil: LocalDate
+                get() = recoveryCertificate.validUntil
+
+            override val validFromFormatted: String
+                get() = recoveryCertificate.validFromFormatted
+            override val validFrom: LocalDate
+                get() = recoveryCertificate.validFrom
 
             override val certificateIssuer: String
                 get() = header.issuer
