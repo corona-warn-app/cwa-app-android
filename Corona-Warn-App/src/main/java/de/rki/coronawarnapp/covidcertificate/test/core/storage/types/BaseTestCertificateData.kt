@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.test.core.storage.types
 import org.joda.time.Instant
 
 /**
- * Common data for test certificates, idepdent of whether they were retrieved or scanned.
+ * Common data for test certificates, independent of whether they were retrieved or scanned.
  */
 sealed class BaseTestCertificateData {
     abstract val identifier: String
