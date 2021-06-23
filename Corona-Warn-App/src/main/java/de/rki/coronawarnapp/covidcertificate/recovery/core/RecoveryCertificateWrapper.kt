@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValue
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.ValueSets
 
 data class RecoveryCertificateWrapper(
-    private val valueSets: VaccinationValueSets?,
+    private val valueSets: VaccinationValueSets,
     private val container: RecoveryCertificateContainer
 ) {
 
