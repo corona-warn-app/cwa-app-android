@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateRepoCo
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import java.util.Locale
@@ -39,6 +40,7 @@ data class RecoveryCertificateContainer(
         get() = certificateData.certificate.recovery.uniqueCertificateIdentifier
 
     fun toRecoveryCertificate(
+        valueSet: VaccinationValueSets? = null,
         userLocale: Locale = Locale.getDefault(),
     ): RecoveryCertificate {
         val header = certificateData.header
@@ -65,24 +67,31 @@ data class RecoveryCertificateContainer(
             override val dateOfBirthFormatted: String
                 get() = certificate.dateOfBirthFormatted
 
+            override val targetDisease: String
+                get() = valueSet?.getDisplayText(recoveryCertificate.targetId) ?: recoveryCertificate.targetId
+
             override val testedPositiveOnFormatted: String
                 get() = recoveryCertificate.testedPositiveOnFormatted
 
             override val validUntilFormatted: String
                 get() = recoveryCertificate.validUntilFormatted
+
             override val validUntil: LocalDate
                 get() = recoveryCertificate.validUntil
 
             override val validFromFormatted: String
                 get() = recoveryCertificate.validFromFormatted
+
             override val validFrom: LocalDate
                 get() = recoveryCertificate.validFrom
 
             override val certificateIssuer: String
-                get() = header.issuer
+                get() = recoveryCertificate.certificateIssuer
+
             override val certificateCountry: String
                 get() = Locale(userLocale.language, recoveryCertificate.certificateCountry.uppercase())
                     .getDisplayCountry(userLocale)
+
             override val certificateId: String
                 get() = recoveryCertificate.uniqueCertificateIdentifier
 

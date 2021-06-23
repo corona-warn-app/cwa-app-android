@@ -31,7 +31,7 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
     val events = SingleLiveEvent<RecoveryCertificateDetailsNavigation>()
     val errors = SingleLiveEvent<Throwable>()
     val recoveryCertificate = recoveryCertificateRepository.certificates.map { certificates ->
-        certificates.find { it.containerId == containerId }?.testCertificate
+        certificates.find { it.containerId == containerId }?.recoveryCertificate
             .also { generateQrCode(it) }
     }.asLiveData(dispatcherProvider.Default)
 
@@ -39,7 +39,7 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
 
     fun openFullScreen() = qrCodeText?.let { events.postValue(RecoveryCertificateDetailsNavigation.FullQrCode(it)) }
 
-    fun onDeleteTestConfirmed() = launch {
+    fun onDeleteRecoveryCertificateConfirmed() = launch {
         Timber.d("Removing Recovery Certificate=$containerId")
         recoveryCertificateRepository.deleteCertificate(containerId)
         events.postValue(RecoveryCertificateDetailsNavigation.Back)
