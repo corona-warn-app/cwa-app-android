@@ -86,7 +86,6 @@ class RecoveryCertificateRepository @Inject constructor(
     private fun RecoveryCertificateQRCode.toContainer() = RecoveryCertificateContainer(
         data = StoredRecoveryCertificateData(
             identifier = uniqueCertificateIdentifier,
-            registeredAt = data.header.issuedAt,
             recoveryCertificateQrCode = qrCode
         ),
         qrCodeExtractor = qrCodeExtractor,
