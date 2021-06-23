@@ -116,7 +116,6 @@ class PCRTestProcessor @Inject constructor(
         // only collect for QR code test
         if (request is CoronaTestQRCode) {
             analyticsTestResultCollector.reportTestRegistered(type)
-            analyticsTestResultCollector.reportTestResultAtRegistration(testResult, type)
             analyticsTestResultCollector.reportTestResultReceived(testResult, type)
         }
 

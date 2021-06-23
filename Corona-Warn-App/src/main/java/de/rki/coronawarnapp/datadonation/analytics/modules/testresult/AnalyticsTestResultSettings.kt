@@ -82,8 +82,8 @@ open class AnalyticsTestResultSettings(
         }
     )
 
-    val testResultAtRegistration = prefs.createFlowPreference(
-        key = PREFS_KEY_TEST_RESULT_AT_REGISTRATION + sharedPrefKeySuffix,
+    val testResult = prefs.createFlowPreference(
+        key = PREFS_KEY_TEST_RESULT + sharedPrefKeySuffix,
         reader = { key ->
             val value = getInt(key, -1)
             if (value == -1) {
@@ -119,7 +119,7 @@ open class AnalyticsTestResultSettings(
     fun clear() = prefs.clearAndNotify()
 
     companion object {
-        private const val PREFS_KEY_TEST_RESULT_AT_REGISTRATION = "testResultDonor.testResultAtRegistration"
+        private const val PREFS_KEY_TEST_RESULT = "testResultDonor.testResultAtRegistration"// wrong name legacy
 
         private const val PREFS_KEY_RISK_LEVEL_AT_REGISTRATION_EW = "testResultDonor.riskLevelAtRegistration"
         private const val PREFS_KEY_RISK_LEVEL_AT_REGISTRATION_PT = "testResultDonor.ptRiskLevelAtRegistration"

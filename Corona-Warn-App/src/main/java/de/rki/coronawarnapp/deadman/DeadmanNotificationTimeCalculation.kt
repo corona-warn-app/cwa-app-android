@@ -6,8 +6,8 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.pkgDateTime
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
 import org.joda.time.DateTimeConstants
-import org.joda.time.Hours
 import org.joda.time.Instant
+import org.joda.time.Minutes
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -18,36 +18,34 @@ class DeadmanNotificationTimeCalculation @Inject constructor(
 ) {
 
     /**
-     * Calculate initial delay in minutes for deadman notification
-     */
-    fun getHoursDiff(lastSuccess: Instant): Int {
-        val hoursDiff = Hours.hoursBetween(lastSuccess, timeStamper.nowUTC)
-        return (DEADMAN_NOTIFICATION_DELAY - hoursDiff.hours) * DateTimeConstants.MINUTES_PER_HOUR
-    }
-
-    /**
      * Get initial delay in minutes for deadman notification
-     * If last success date time is null (eg: on application first start) - return [DEADMAN_NOTIFICATION_DELAY]
+     * If last success date time is null (eg: on application first start) - return [DEADMAN_NOTIFICATION_DELAY_IN_HOURS]
      */
     suspend fun getDelay(): Long {
-        val lastSuccess = keyCacheRepository.allCachedKeys()
+        val latestKeyPackageInfo = keyCacheRepository.allCachedKeys()
             .first()
             .filter { it.info.isDownloadComplete }
             .maxByOrNull { it.info.pkgDateTime }
             ?.info
 
-        Timber.d("Last successful diagnosis key package download: $lastSuccess")
-        return if (lastSuccess != null) {
-            getHoursDiff(lastSuccess.pkgDateTime.toInstant()).toLong()
+        Timber.d("Last successful diagnosis key package download: $latestKeyPackageInfo")
+        return if (latestKeyPackageInfo != null) {
+            calculateDelayInMinutes(latestKeyPackageInfo.pkgDateTime.toInstant()).toLong()
         } else {
-            (DEADMAN_NOTIFICATION_DELAY * DateTimeConstants.MINUTES_PER_HOUR).toLong()
+            DEADMAN_NOTIFICATION_DELAY_IN_MINUTES.toLong()
         }
     }
+
+    /**
+     * Calculate initial delay in minutes for deadman notification
+     */
+    internal fun calculateDelayInMinutes(lastSuccess: Instant): Int =
+        DEADMAN_NOTIFICATION_DELAY_IN_MINUTES - Minutes.minutesBetween(lastSuccess, timeStamper.nowUTC).minutes
 
     companion object {
         /**
          * Deadman notification background job delay set to 36 hours
          */
-        const val DEADMAN_NOTIFICATION_DELAY = 36
+        const val DEADMAN_NOTIFICATION_DELAY_IN_MINUTES = 36 * DateTimeConstants.MINUTES_PER_HOUR
     }
 }
