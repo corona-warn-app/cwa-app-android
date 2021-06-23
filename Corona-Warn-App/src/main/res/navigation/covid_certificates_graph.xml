@@ -75,7 +75,9 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_dccQrCodeScanFragment_to_recoveryCertificateDetailsFragment"
-            app:destination="@id/recoveryCertificateDetailsFragment" />
+            app:destination="@id/recoveryCertificateDetailsFragment"
+            app:popUpTo="@id/dccQrCodeScanFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -86,6 +88,12 @@
         <argument
             android:name="personIdentifierCode"
             app:argType="string" />
+
+        <argument
+            android:name="colorShade"
+            android:defaultValue="COLOR_1"
+            app:argType="de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade" />
+
         <action
             android:id="@+id/action_personDetailsFragment_to_vaccinationDetailsFragment"
             app:destination="@id/vaccinationDetailsFragment" />

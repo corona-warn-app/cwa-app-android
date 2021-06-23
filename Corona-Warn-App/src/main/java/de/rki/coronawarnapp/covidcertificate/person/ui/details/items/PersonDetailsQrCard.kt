@@ -47,7 +47,7 @@ class PersonDetailsQrCard(parent: ViewGroup) :
                     qrTitle.text = context.getString(R.string.vaccination_details_subtitle)
                     qrSubtitle.text = context.getString(
                         R.string.vaccination_certificate_vaccinated_on,
-                        certificate.vaccinatedAt.toShortDayFormat()
+                        certificate.vaccinatedOn.toShortDayFormat()
                     )
                 }
                 is RecoveryCertificate -> {

@@ -155,11 +155,6 @@ object TimeAndDateExtensions {
      * Returns a readable date String with the format "dd.MM.yy" like 23.05.89 of an LocalDate
      */
     fun LocalDate.toShortDayFormat(): String = toString(dayFormatter2DigitYear)
-
-    /**
-     * Returns a readable date String with the format "yyy.MM.dd" like 1983-05-23 of an LocalDate
-     */
-    fun LocalDate.toHyphenSeparatedDate(): String = toString(dateFormatterWithHyphenSeparator)
 }
 
 typealias HourInterval = Long
