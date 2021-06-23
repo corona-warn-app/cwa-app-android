@@ -37,7 +37,7 @@ class VaccinationCertificateCard(parent: ViewGroup) :
         )
         certificateDate.text = context.getString(
             R.string.vaccination_certificate_vaccinated_on,
-            certificate.vaccinatedAt.toShortDayFormat()
+            certificate.vaccinatedOn.toShortDayFormat()
         )
         currentCertificate.isVisible = curItem.isCurrentCertificate
         val icon = when {

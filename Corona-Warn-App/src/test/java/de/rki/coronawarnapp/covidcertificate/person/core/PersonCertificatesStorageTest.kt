@@ -8,7 +8,6 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -56,7 +55,7 @@ class PersonCertificatesStorageTest : BaseTest() {
         val testIdentifier = CertificatePersonIdentifier(
             firstNameStandardized = "firstname",
             lastNameStandardized = "lastname",
-            dateOfBirth = LocalDate.parse("1999-12-24")
+            dateOfBirthFormatted = "1999-12-24"
         )
 
         createInstance().apply {

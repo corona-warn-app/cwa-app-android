@@ -7,7 +7,10 @@ import org.joda.time.LocalDate
 
 interface RecoveryCertificate : CwaCovidCertificate {
     override val containerId: RecoveryCertificateContainerId
-    val testedPositiveOn: LocalDate
+    val testedPositiveOnFormatted: String
+    val validFromFormatted: String
+    val validUntilFormatted: String
+
     val validFrom: LocalDate
     val validUntil: LocalDate
 

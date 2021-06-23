@@ -5,11 +5,10 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCerti
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.NAME_MISMATCH
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
-import org.joda.time.LocalDate
 import timber.log.Timber
 
 data class CertificatePersonIdentifier(
-    @SerializedName("dateOfBirth") val dateOfBirth: LocalDate,
+    @SerializedName("dateOfBirth") val dateOfBirthFormatted: String,
     @SerializedName("familyNameStandardized") val lastNameStandardized: String,
     @SerializedName("givenNameStandardized") val firstNameStandardized: String?
 ) {
@@ -19,10 +18,9 @@ data class CertificatePersonIdentifier(
      */
     internal val code: String
         get() {
-            val dob = dateOfBirth.toString()
             val lastName = lastNameStandardized
             val firstName = firstNameStandardized
-            return "$dob#$lastName#$firstName"
+            return "$dateOfBirthFormatted#$lastName#$firstName"
         }
 
     /**
@@ -41,8 +39,8 @@ data class CertificatePersonIdentifier(
             Timber.d("Given name does not match, got ${other.firstNameStandardized}, expected $firstNameStandardized")
             throw InvalidVaccinationCertificateException(NAME_MISMATCH)
         }
-        if (dateOfBirth != other.dateOfBirth) {
-            Timber.d("Date of birth does not match, got ${other.dateOfBirth}, expected $dateOfBirth")
+        if (dateOfBirthFormatted != other.dateOfBirthFormatted) {
+            Timber.d("Date of birth does not match, got ${other.dateOfBirthFormatted}, expected $dateOfBirthFormatted")
             throw InvalidVaccinationCertificateException(DOB_MISMATCH)
         }
     }

@@ -25,6 +25,7 @@ interface TestCertificate : CwaCovidCertificate {
      */
     val testNameAndManufacturer: String?
     val sampleCollectedAt: Instant
+    val sampleCollectedAtFormatted: String
     val testCenter: String?
     val registeredAt: Instant
     val isUpdatingData: Boolean
