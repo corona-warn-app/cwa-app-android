@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
 import de.rki.coronawarnapp.databinding.CwaUserCardItemBinding
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class CwaUserCard(parent: ViewGroup) :
@@ -25,9 +24,9 @@ class CwaUserCard(parent: ViewGroup) :
         val certificate = curItem.personCertificates.highestPriorityCertificate
         curItem.apply {
             userName.text = certificate.fullName
-            birthDate.text = context.getString(
+            dateOfBirth.text = context.getString(
                 R.string.person_details_cwa_user_birthdate,
-                certificate.dateOfBirth.toDayFormat()
+                certificate.dateOfBirthFormatted
             )
             cwaUserSwitch.isChecked = curItem.personCertificates.isCwaUser
             cwaUserSwitch.setOnCheckedChangeListener { _, isChecked -> onSwitch(isChecked) }

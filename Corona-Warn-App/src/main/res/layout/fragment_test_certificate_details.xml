@@ -155,7 +155,7 @@
                     android:text="@string/covid_certificate_attribute_date_of_birth" />
 
                 <TextView
-                    android:id="@+id/birth_date"
+                    android:id="@+id/date_of_birth"
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
