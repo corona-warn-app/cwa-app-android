@@ -176,11 +176,11 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 every { vaccination } returns mockk<DccV1.VaccinationData>().apply {
                     every { doseNumber } returns number
                     every { totalSeriesOfDoses } returns 2
-                    every { vaccinatedAt } returns localDate
+                    every { vaccinatedOn } returns localDate
                 }
             }
             every { containerId } returns vcContainerId
-            every { vaccinatedAt } returns localDate
+            every { vaccinatedOn } returns localDate
             every { personIdentifier } returns certificatePersonIdentifier
             every { vaccinatedOn } returns Instant.parse("2021-06-01T11:35:00.000Z").toLocalDateUserTz()
             every { personIdentifier } returns CertificatePersonIdentifier(
@@ -190,7 +190,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             )
             every { doseNumber } returns number
             every { totalSeriesOfDoses } returns 2
-            every { dateOfBirth } returns LocalDate.now()
+            every { dateOfBirthFormatted } returns "1981-03-20"
             every { isFinalShot } returns final
             every { qrCode } returns "qrCode"
         }
@@ -199,7 +199,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
         mockk<RecoveryCertificate>().apply {
             every { fullName } returns "Andrea Schneider"
             every { certificateId } returns "recoveryCertificateId"
-            every { dateOfBirth } returns LocalDate.now()
+            every { dateOfBirthFormatted } returns "1981-03-20"
             every { validUntil } returns Instant.parse("2021-05-31T11:35:00.000Z").toLocalDateUserTz()
             every { personIdentifier } returns certificatePersonIdentifier
             every { qrCode } returns "qrCode"
@@ -207,7 +207,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
         }
 
     private val certificatePersonIdentifier = CertificatePersonIdentifier(
-        dateOfBirth = LocalDate.parse("01.01.2020", DateTimeFormat.forPattern("dd.MM.yyyy")),
+        dateOfBirthFormatted = "1981-03-20",
         firstNameStandardized = "firstNameStandardized",
         lastNameStandardized = "lastNameStandardized",
     )
