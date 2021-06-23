@@ -10,6 +10,8 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsScrollcontainerBinding
 import de.rki.coronawarnapp.statistics.StatisticsData
 import de.rki.coronawarnapp.statistics.StatsItem
+import de.rki.coronawarnapp.statistics.ui.homecards.cards.AllStatisticsCardItem
+import de.rki.coronawarnapp.statistics.ui.homecards.cards.LocalStatisticsCardItem
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.StatisticsCardItem
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
@@ -58,11 +60,14 @@ class StatisticsHomeCard(
     ) -> Unit = { item, _ ->
         savedStateKey = "stats:${item.stableId}"
 
-        item.data.items.map {
+        item.data.items.map<StatsItem, AllStatisticsCardItem> {
             StatisticsCardItem(it, item.onHelpAction)
         }.let {
-            statisticsCardAdapter.update(it)
+            val mutableList = it.toMutableList()
+            mutableList.add(0, LocalStatisticsCardItem(true))
+            statisticsCardAdapter.update(mutableList)
         }
+
     }
 
     override fun onSaveState(): Parcelable? = statisticsLayoutManager.onSaveInstanceState()

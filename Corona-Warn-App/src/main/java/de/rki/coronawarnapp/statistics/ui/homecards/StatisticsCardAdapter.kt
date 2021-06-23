@@ -11,10 +11,13 @@ import de.rki.coronawarnapp.statistics.PersonsVaccinatedCompletelyStats
 import de.rki.coronawarnapp.statistics.PersonsVaccinatedOnceStats
 import de.rki.coronawarnapp.statistics.SevenDayRValue
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter.ItemVH
+import de.rki.coronawarnapp.statistics.ui.homecards.cards.AddCard
+import de.rki.coronawarnapp.statistics.ui.homecards.cards.AllStatisticsCardItem
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.AppliedVaccinationRatesCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.IncidenceCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.InfectionsCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.KeySubmissionsCard
+import de.rki.coronawarnapp.statistics.ui.homecards.cards.LocalStatisticsCardItem
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.PersonsVaccinatedCompletelyCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.PersonsVaccinatedOnceCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.SevenDayRValueCard
@@ -28,26 +31,39 @@ import de.rki.coronawarnapp.util.lists.modular.mods.StableIdMod
 import de.rki.coronawarnapp.util.lists.modular.mods.TypedVHCreatorMod
 
 class StatisticsCardAdapter :
-    ModularAdapter<ItemVH<StatisticsCardItem, ViewBinding>>(),
-    AsyncDiffUtilAdapter<StatisticsCardItem> {
+    ModularAdapter<ItemVH<AllStatisticsCardItem, ViewBinding>>(),
+    AsyncDiffUtilAdapter<AllStatisticsCardItem> {
 
-    override val asyncDiffer: AsyncDiffer<StatisticsCardItem> = AsyncDiffer(adapter = this)
+    override val asyncDiffer: AsyncDiffer<AllStatisticsCardItem> = AsyncDiffer(adapter = this)
 
     init {
         listOf(
             StableIdMod(data),
-            DataBinderMod<StatisticsCardItem, ItemVH<StatisticsCardItem, ViewBinding>>(data),
-            TypedVHCreatorMod({ data[it].stats is InfectionStats }) { InfectionsCard(it) },
-            TypedVHCreatorMod({ data[it].stats is IncidenceStats }) { IncidenceCard(it) },
-            TypedVHCreatorMod({ data[it].stats is KeySubmissionsStats }) { KeySubmissionsCard(it) },
-            TypedVHCreatorMod({ data[it].stats is SevenDayRValue }) { SevenDayRValueCard(it) },
-            TypedVHCreatorMod({ data[it].stats is PersonsVaccinatedOnceStats }) { PersonsVaccinatedOnceCard(it) },
-            TypedVHCreatorMod({ data[it].stats is PersonsVaccinatedCompletelyStats }) {
+            DataBinderMod<AllStatisticsCardItem, ItemVH<AllStatisticsCardItem, ViewBinding>>(data),
+            TypedVHCreatorMod({ (data[it] as? StatisticsCardItem)?.stats is InfectionStats }) { InfectionsCard(it) },
+            TypedVHCreatorMod({ (data[it] as? StatisticsCardItem)?.stats is IncidenceStats }) { IncidenceCard(it) },
+            TypedVHCreatorMod({ (data[it] as? StatisticsCardItem)?.stats is KeySubmissionsStats }) {
+                KeySubmissionsCard(
+                    it
+                )
+            },
+            TypedVHCreatorMod({ (data[it] as? StatisticsCardItem)?.stats is SevenDayRValue }) { SevenDayRValueCard(it) },
+            TypedVHCreatorMod({ (data[it] as? StatisticsCardItem)?.stats is PersonsVaccinatedOnceStats }) {
+                PersonsVaccinatedOnceCard(
+                    it
+                )
+            },
+            TypedVHCreatorMod({ (data[it] as? StatisticsCardItem)?.stats is PersonsVaccinatedCompletelyStats }) {
                 PersonsVaccinatedCompletelyCard(
                     it
                 )
             },
-            TypedVHCreatorMod({ data[it].stats is AppliedVaccinationRatesStats }) { AppliedVaccinationRatesCard(it) }
+            TypedVHCreatorMod({ (data[it] as? StatisticsCardItem)?.stats is AppliedVaccinationRatesStats }) {
+                AppliedVaccinationRatesCard(
+                    it
+                )
+            },
+            TypedVHCreatorMod({ data[it] is LocalStatisticsCardItem }) { AddCard(it) },
         ).let { modules.addAll(it) }
     }
 
