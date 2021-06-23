@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateRepoCo
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
-import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import java.util.Locale
@@ -34,13 +33,12 @@ data class RecoveryCertificateContainer(
     }
 
     override val containerId: RecoveryCertificateContainerId
-        get() = RecoveryCertificateContainerId(data.identifier)
+        get() = RecoveryCertificateContainerId(certificateData.certificate.recovery.uniqueCertificateIdentifier)
 
     val certificateId: String
         get() = certificateData.certificate.recovery.uniqueCertificateIdentifier
 
     fun toRecoveryCertificate(
-        valueSet: TestCertificateValueSets?,
         userLocale: Locale = Locale.getDefault(),
     ): RecoveryCertificate {
         val header = certificateData.header

@@ -6,7 +6,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewAdapter
-import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewItemColor
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.databinding.PersonOverviewItemBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
@@ -29,7 +29,7 @@ class PersonCertificateCard(parent: ViewGroup) :
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
         name.text = curItem.certificate.fullName
         qrcodeImage.setImageBitmap(curItem.qrcodeBitmap)
-        backgroundImage.setImageResource(curItem.color.background)
+        backgroundImage.setImageResource(curItem.colorShade.background)
         starsImage.setImageDrawable(starsDrawable(curItem))
 
         itemView.apply {
@@ -43,14 +43,14 @@ class PersonCertificateCard(parent: ViewGroup) :
             DrawableCompat.wrap(it)
                 .mutate()
                 .apply {
-                    setTint(context.getColorCompat(item.color.starsTint))
+                    setTint(context.getColorCompat(item.colorShade.starsTint))
                 }
         }
 
     data class Item(
         val certificate: CwaCovidCertificate,
         val qrcodeBitmap: Bitmap?,
-        val color: PersonOverviewItemColor,
+        val colorShade: PersonColorShade,
         val onClickAction: (Item, Int) -> Unit,
     ) : PersonCertificatesItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
