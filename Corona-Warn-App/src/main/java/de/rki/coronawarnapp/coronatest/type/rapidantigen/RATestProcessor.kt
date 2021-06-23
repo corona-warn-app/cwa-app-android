@@ -75,7 +75,6 @@ class RATestProcessor @Inject constructor(
             analyticsKeySubmissionCollector.reportPositiveTestResultReceived(type)
         }
         analyticsTestResultCollector.reportTestRegistered(type)
-        analyticsTestResultCollector.reportTestResultAtRegistration(testResult, type)
         analyticsTestResultCollector.reportTestResultReceived(testResult, type)
 
         val sampleCollectedAt = registrationData.testResultResponse.sampleCollectedAt
