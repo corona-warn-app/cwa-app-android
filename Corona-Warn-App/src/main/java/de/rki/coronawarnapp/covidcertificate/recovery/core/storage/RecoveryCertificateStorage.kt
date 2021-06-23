@@ -27,8 +27,6 @@ class RecoveryCertificateStorage @Inject constructor(
                 prefs.getString(PKEY_RECOVERY_CERT, null) ?: return emptySet(), TYPE_TOKEN
             ).onEach {
                 Timber.tag(TAG).v("recovery certificate loaded: %s", it)
-                requireNotNull(it.identifier)
-                requireNotNull(it.registeredAt)
             }
         }
         set(value) {
@@ -41,7 +39,7 @@ class RecoveryCertificateStorage @Inject constructor(
                         PKEY_RECOVERY_CERT,
                         gson.toJson(
                             value.onEach { data ->
-                                Timber.tag(TAG).v("Storing recovery certificate %s", data.identifier)
+                                Timber.tag(TAG).v("Storing recovery certificate %s", data.recoveryCertificateQrCode)
                             },
                             TYPE_TOKEN
                         )
