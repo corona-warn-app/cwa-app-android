@@ -10,9 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateRepoCo
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
-import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
-import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.ValueSets
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import java.util.Locale

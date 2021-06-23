@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.covidcertificate.recovery.core
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
-import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.ValueSets
 
 data class RecoveryCertificateWrapper(
     private val valueSets: VaccinationValueSets,
