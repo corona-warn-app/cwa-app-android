@@ -85,6 +85,12 @@
         <argument
             android:name="personIdentifierCode"
             app:argType="string" />
+
+        <argument
+            android:name="colorShade"
+            android:defaultValue="COLOR_1"
+            app:argType="de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade" />
+
         <action
             android:id="@+id/action_personDetailsFragment_to_vaccinationDetailsFragment"
             app:destination="@id/vaccinationDetailsFragment" />
