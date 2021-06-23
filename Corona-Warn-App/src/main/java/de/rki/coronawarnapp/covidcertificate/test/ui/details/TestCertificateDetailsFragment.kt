@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -69,16 +70,32 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         diseaseType.text = testCertificate.targetName
         testType.text = testCertificate.testType
         testName.text = testCertificate.testName
-        testManufacturer.text = testCertificate.testNameAndManufacturer
         testDate.text = "%s %s".format(
             testDateTime.toDayFormat(),
             testDateTime.toShortTimeFormat()
         )
         testResult.text = testCertificate.testResult
-        testCenter.text = testCertificate.testCenter
         certificateCountry.text = testCertificate.certificateCountry
         certificateIssuer.text = testCertificate.certificateIssuer
         certificateId.text = testCertificate.certificateId
+
+        if (testCertificate.testCenter.isNullOrBlank()) {
+            testCenterTitle.isGone = true
+            testCenter.isGone = true
+        } else {
+            testCenter.text = testCertificate.testCenter
+            testCenter.isGone = false
+            testCenterTitle.isGone = false
+        }
+
+        if (testCertificate.testNameAndManufacturer.isNullOrBlank()) {
+            testManufacturer.isGone = true
+            testManufacturerTitle.isGone = true
+        } else {
+            testManufacturer.text = testCertificate.testNameAndManufacturer
+            testManufacturer.isGone = false
+            testManufacturerTitle.isGone = false
+        }
     }
 
     private fun FragmentTestCertificateDetailsBinding.onQrCodeReady(bitmap: Bitmap?) {
