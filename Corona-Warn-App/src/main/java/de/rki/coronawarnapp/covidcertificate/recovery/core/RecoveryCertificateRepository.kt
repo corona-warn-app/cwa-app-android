@@ -32,7 +32,7 @@ class RecoveryCertificateRepository @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
     private val qrCodeExtractor: DccQrCodeExtractor,
-    valueSetsRepository: ValueSetsRepository,
+    private val valueSetsRepository: ValueSetsRepository,
     private val storage: RecoveryCertificateStorage,
 ) {
 
@@ -72,7 +72,7 @@ class RecoveryCertificateRepository @Inject constructor(
         }
 
     @Throws(InvalidRecoveryCertificateException::class)
-    suspend fun registerCertificate(qrCode: RecoveryCertificateQRCode): RecoveryCertificateContainer {
+    suspend fun registerCertificate(qrCode: RecoveryCertificateQRCode): RecoveryCertificate {
         Timber.tag(TAG).d("registerCertificate(qrCode=%s)", qrCode)
         val newContainer = qrCode.toContainer()
         internalData.updateBlocking {
@@ -83,7 +83,9 @@ class RecoveryCertificateRepository @Inject constructor(
             }
             plus(newContainer)
         }
-        return newContainer
+        return newContainer.toRecoveryCertificate(
+            valueSetsRepository.latestVaccinationValueSets.first()
+        )
     }
 
     private fun RecoveryCertificateQRCode.toContainer() = RecoveryCertificateContainer(

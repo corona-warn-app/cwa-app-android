@@ -24,6 +24,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -43,7 +44,7 @@ class TestCertificateRepository @Inject constructor(
     private val qrCodeExtractor: DccQrCodeExtractor,
     private val processor: TestCertificateProcessor,
     private val timeStamper: TimeStamper,
-    valueSetsRepository: ValueSetsRepository,
+    private val valueSetsRepository: ValueSetsRepository,
 ) {
 
     private val internalData: HotDataFlow<Map<TestCertificateContainerId, TestCertificateContainer>> = HotDataFlow(
@@ -150,7 +151,7 @@ class TestCertificateRepository @Inject constructor(
 
     suspend fun registerCertificate(
         qrCode: TestCertificateQRCode
-    ): TestCertificateContainer {
+    ): TestCertificate {
         Timber.tag(TAG).v("registerTestCertificate(qrCode=%s)", qrCode)
 
         val updatedData = internalData.updateBlocking {
@@ -179,6 +180,9 @@ class TestCertificateRepository @Inject constructor(
         // We just registered it, it MUST be available.
         return updatedData.values
             .single { it.certificateId == qrCode.uniqueCertificateIdentifier }
+            .toTestCertificate(
+                valueSetsRepository.latestTestCertificateValueSets.first()
+            )!!
     }
 
     /**
