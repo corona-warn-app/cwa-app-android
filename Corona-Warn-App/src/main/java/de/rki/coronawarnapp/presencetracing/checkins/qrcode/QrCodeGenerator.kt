@@ -40,7 +40,7 @@ class QrCodeGenerator @Inject constructor(
         input: String,
         length: Int = 1000,
         margin: Int = 1,
-        correctionLevel: ErrorCorrectionLevel = ErrorCorrectionLevel.Q,
+        correctionLevel: ErrorCorrectionLevel = ErrorCorrectionLevel.M,
         characterSet: String = Charsets.UTF_8.name()
     ): Bitmap = withContext(dispatcherProvider.Default) {
         Timber.i("correctionLevel=$correctionLevel")
