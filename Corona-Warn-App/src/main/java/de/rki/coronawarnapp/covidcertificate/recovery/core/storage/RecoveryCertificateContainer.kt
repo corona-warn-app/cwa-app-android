@@ -23,7 +23,7 @@ data class RecoveryCertificateContainer(
 
     @delegate:Transient
     private val certificateData: DccData<RecoveryDccV1> by lazy {
-        data.recoveryCertificateQrCode!!.let {
+        data.recoveryCertificateQrCode.let {
             (
                 qrCodeExtractor.extract(
                     it,
@@ -103,7 +103,7 @@ data class RecoveryCertificateContainer(
                 get() = header.expiresAt
 
             override val qrCode: QrCodeString
-                get() = data.recoveryCertificateQrCode!!
+                get() = data.recoveryCertificateQrCode
         }
     }
 }
