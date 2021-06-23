@@ -17,26 +17,29 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"COVID Test Certificate"</item>
-        <item>"Contact Journal Enhancement"</item>
+        <item>COVID-Genesenenzertifikate</item>
+        <item>Familienzertifikate</item>
+        <item>Erweiterung Statistiken</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"You can now request an official digital test certificate through the app and then add it in the app. You can use this test certificate (QR code) within the EU to prove a negative test result (for international travel, for example)."</item>
-        <item>"As soon as your test result is available, it is now also added to your contact journal."</item>
+        <item>Sie können nun in der App auch digitale Genesenenzertifikate hinzufügen. Sie können diese Zertifikate innerhalb der EU verwenden, um eine frühere Infektion nachzuweisen (z.B. für Auslandsreisen).</item>
+        <item>Sie können nun digitale COVID-Zertifikate von Familienmitgliedern in der App hinzufügen und verwalten, um die Zertifikate vorzeigen zu können (z.B. bei Auslandsreisen).</item>
+        <item>Es sind nun folgende Impfstatistiken in der App verfügbar:\n\n\t- Anzahl mindestens einmal geimpfter Personen\n\t- Anzahl vollständig geimpfter Personen\n\t- Anzahl verabreichter Impfdosen</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
-        <item />
-        <item />
+        <item></item>
+        <item></item>
+        <item></item>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item />
-        <item />
+        <item></item>
+        <item></item>
+        <item></item>
     </string-array>
-
 </resources>
