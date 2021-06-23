@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.databinding.FragmentRecoveryCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toHyphenSeparatedDate
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -58,13 +57,13 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
     ) {
 
         fullname.text = certificate.fullName
-        dateOfBirth.text = certificate.dateOfBirth.toHyphenSeparatedDate()
+        dateOfBirth.text = certificate.dateOfBirthFormatted
         recoveredFromDisease.text = certificate.targetDisease //TODO
-        dateOfFirstPositiveTestResult.text = certificate.testedPositiveOn.toHyphenSeparatedDate()
+        dateOfFirstPositiveTestResult.text = certificate.testedPositiveOnFormatted
         certificateCountry.text = certificate.certificateCountry
         certificateIssuer.text = certificate.certificateIssuer
-        certificationPeriodStart.text = certificate.validFrom.toHyphenSeparatedDate()
-        certificationPeriodEnd.text = certificate.validUntil.toHyphenSeparatedDate()
+        certificationPeriodStart.text = certificate.validFromFormatted
+        certificationPeriodEnd.text = certificate.validUntilFormatted
         certificateId.text = certificate.certificateId
     }
 
