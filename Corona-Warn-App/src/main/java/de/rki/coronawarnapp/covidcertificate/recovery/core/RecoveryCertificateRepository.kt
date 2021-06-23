@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertif
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateStorage
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.StoredRecoveryCertificateData
+import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
@@ -16,6 +17,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -30,6 +32,7 @@ class RecoveryCertificateRepository @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
     private val qrCodeExtractor: DccQrCodeExtractor,
+    valueSetsRepository: ValueSetsRepository,
     private val storage: RecoveryCertificateStorage,
 ) {
 
@@ -65,7 +68,7 @@ class RecoveryCertificateRepository @Inject constructor(
 
     val certificates: Flow<Set<RecoveryCertificateWrapper>> =
         internalData.data.map { set ->
-            set.map { RecoveryCertificateWrapper(null, it) }.toSet()
+            set.map { RecoveryCertificateWrapper(valueSetsRepository.latestVaccinationValueSets.first(), it) }.toSet()
         }
 
     @Throws(InvalidRecoveryCertificateException::class)
