@@ -17,9 +17,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.plus
 import timber.log.Timber
 import javax.inject.Inject
@@ -64,7 +64,7 @@ class RecoveryCertificateRepository @Inject constructor(
     }
 
     val certificates: Flow<Set<RecoveryCertificateWrapper>> =
-        internalData.data.transform { set ->
+        internalData.data.map { set ->
             set.map { RecoveryCertificateWrapper(null, it) }.toSet()
         }
 
