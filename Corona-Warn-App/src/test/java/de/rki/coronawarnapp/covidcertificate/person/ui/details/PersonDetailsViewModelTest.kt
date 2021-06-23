@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.PersonDetai
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.RecoveryCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.TestCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationCertificateCard
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
@@ -148,7 +149,8 @@ class PersonDetailsViewModelTest : BaseTest() {
         vaccinationRepository = vaccinationRepository,
         timeStamper = timeStamper,
         personCertificatesProvider = personCertificatesProvider,
-        personIdentifierCode = personCode
+        personIdentifierCode = personCode,
+        colorShade = PersonColorShade.COLOR_1
     )
 
     private fun mockTestCertificate(): TestCertificate = mockk<TestCertificate>().apply {

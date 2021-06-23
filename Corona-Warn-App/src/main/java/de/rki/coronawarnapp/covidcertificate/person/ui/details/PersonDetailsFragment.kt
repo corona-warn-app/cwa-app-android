@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
@@ -11,6 +12,8 @@ import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.PersonDetailsFragmentBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
+import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
@@ -33,7 +36,8 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
         constructorCall = { factory, _ ->
             factory as PersonDetailsViewModel.Factory
             factory.create(
-                personIdentifierCode = args.personIdentifierCode
+                personIdentifierCode = args.personIdentifierCode,
+                colorShade = args.colorShade
             )
         }
     )
@@ -66,6 +70,17 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                 personDetailsAdapter.update(it)
             }
             viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
+
+            expandedImage.setImageResource(args.colorShade.background)
+            europaImage.setImageDrawable(
+                requireContext().getDrawableCompat(R.drawable.ic_eu_stars_blue)?.let {
+                    DrawableCompat.wrap(it)
+                        .mutate()
+                        .apply {
+                            setTint(requireContext().getColorCompat(args.colorShade.starsTint))
+                        }
+                }
+            )
         }
     }
 

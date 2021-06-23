@@ -117,7 +117,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                 PersonCertificateCard.Item(
                     certificate = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
-                    color = PersonOverviewItemColor.COLOR_1,
+                    colorShade = PersonColorShade.COLOR_1,
                     qrcodeBitmap = bitmap
                 )
             )
@@ -137,7 +137,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                 PersonCertificateCard.Item(
                     certificate = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
-                    color = PersonOverviewItemColor.COLOR_1,
+                    colorShade = PersonColorShade.COLOR_1,
                     qrcodeBitmap = bitmap
                 )
             )
@@ -149,7 +149,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                 PersonCertificateCard.Item(
                     certificate = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
-                    color = PersonOverviewItemColor.COLOR_1,
+                    colorShade = PersonColorShade.COLOR_1,
                     qrcodeBitmap = bitmap
                 )
             )
@@ -158,7 +158,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                 PersonCertificateCard.Item(
                     certificate = mockTestCertificate("Mia Schneider"),
                     onClickAction = { _, _ -> },
-                    color = PersonOverviewItemColor.COLOR_2,
+                    colorShade = PersonColorShade.COLOR_2,
                     qrcodeBitmap = bitmap
                 )
             )
@@ -167,7 +167,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                 PersonCertificateCard.Item(
                     certificate = mockTestCertificate("Thomas Schneider"),
                     onClickAction = { _, _ -> },
-                    color = PersonOverviewItemColor.COLOR_3,
+                    colorShade = PersonColorShade.COLOR_3,
                     qrcodeBitmap = bitmap
                 )
             )
