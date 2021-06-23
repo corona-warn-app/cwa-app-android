@@ -43,9 +43,8 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
-            toolbar.setNavigationOnClickListener { navigateBack() }
-
             bindToolbar()
+            setToolbarOverlay()
 
             val backButtonCallback = object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() = navigateBack()
@@ -76,7 +75,6 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 subtitle.alpha = subtitleAlpha
                 europaImage.alpha = subtitleAlpha
             }
-            setToolbarOverlay()
 
             viewModel.errors.observe(viewLifecycleOwner) {
                 qrCodeCard.progressBar.hide()

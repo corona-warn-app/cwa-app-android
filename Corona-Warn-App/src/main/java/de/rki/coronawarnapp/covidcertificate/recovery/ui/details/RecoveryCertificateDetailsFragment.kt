@@ -43,6 +43,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
             title.alpha = titleAlpha
             subtitle.alpha = subtitleAlpha
+            europaImage.alpha = subtitleAlpha
         }
 
         bindToolbar()
@@ -65,9 +66,18 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
     }
 
     private fun FragmentRecoveryCertificateDetailsBinding.onCertificateReady(
-        recoveryCertificate: RecoveryCertificate
+        certificate: RecoveryCertificate
     ) {
-        /* TODO */
+
+        fullname.text = certificate.fullName
+        dateOfBirth.text = certificate.dateOfBirthFormatted
+        recoveredFromDisease.text = certificate.targetDisease
+        dateOfFirstPositiveTestResult.text = certificate.testedPositiveOnFormatted
+        certificateCountry.text = certificate.certificateCountry
+        certificateIssuer.text = certificate.certificateIssuer
+        certificationPeriodStart.text = certificate.validFromFormatted
+        certificationPeriodEnd.text = certificate.validUntilFormatted
+        certificateId.text = certificate.certificateId
     }
 
     private fun FragmentRecoveryCertificateDetailsBinding.onQrCodeReady(bitmap: Bitmap?) {
@@ -105,7 +115,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         setNavigationOnClickListener { navigateBack() }
         setOnMenuItemClickListener {
             when (it.itemId) {
-                R.id.menu_covid_certificate_delete -> {
+                R.id.menu_recovery_certificate_delete -> {
                     showCertificateDeletionRequest()
                     true
                 }
@@ -128,11 +138,11 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
 
     private fun showCertificateDeletionRequest() {
         MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle(R.string.green_certificate_details_dialog_remove_test_title)
-            setMessage(R.string.green_certificate_details_dialog_remove_test_message)
+            setTitle(R.string.recovery_certificate_details_dialog_remove_test_title)
+            setMessage(R.string.recovery_certificate_details_dialog_remove_test_message)
             setNegativeButton(R.string.green_certificate_details_dialog_remove_test_button_negative) { _, _ -> }
             setPositiveButton(R.string.green_certificate_details_dialog_remove_test_button_positive) { _, _ ->
-                viewModel.onDeleteTestConfirmed()
+                viewModel.onDeleteRecoveryCertificateConfirmed()
             }
         }.show()
     }
