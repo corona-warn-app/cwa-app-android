@@ -22,7 +22,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import org.joda.time.Instant
-import org.joda.time.LocalDate
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -117,7 +116,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                 PersonCertificateCard.Item(
                     certificate = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
-                    color = PersonOverviewItemColor.COLOR_1,
+                    colorShade = PersonColorShade.COLOR_1,
                     qrcodeBitmap = bitmap
                 )
             )
@@ -137,7 +136,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                 PersonCertificateCard.Item(
                     certificate = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
-                    color = PersonOverviewItemColor.COLOR_1,
+                    colorShade = PersonColorShade.COLOR_1,
                     qrcodeBitmap = bitmap
                 )
             )
@@ -149,7 +148,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                 PersonCertificateCard.Item(
                     certificate = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
-                    color = PersonOverviewItemColor.COLOR_1,
+                    colorShade = PersonColorShade.COLOR_1,
                     qrcodeBitmap = bitmap
                 )
             )
@@ -158,7 +157,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                 PersonCertificateCard.Item(
                     certificate = mockTestCertificate("Mia Schneider"),
                     onClickAction = { _, _ -> },
-                    color = PersonOverviewItemColor.COLOR_2,
+                    colorShade = PersonColorShade.COLOR_2,
                     qrcodeBitmap = bitmap
                 )
             )
@@ -167,7 +166,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                 PersonCertificateCard.Item(
                     certificate = mockTestCertificate("Thomas Schneider"),
                     onClickAction = { _, _ -> },
-                    color = PersonOverviewItemColor.COLOR_3,
+                    colorShade = PersonColorShade.COLOR_3,
                     qrcodeBitmap = bitmap
                 )
             )
@@ -185,7 +184,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
         every { personIdentifier } returns CertificatePersonIdentifier(
             firstNameStandardized = "firstNameStandardized",
             lastNameStandardized = "lastNameStandardized",
-            dateOfBirth = LocalDate.now()
+            dateOfBirthFormatted = "1943-04-18"
         )
     }
 }

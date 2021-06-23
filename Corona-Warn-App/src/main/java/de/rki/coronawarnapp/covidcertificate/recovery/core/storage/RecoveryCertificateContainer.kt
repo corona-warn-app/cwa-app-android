@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateRepoCo
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
-import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import java.util.Locale
@@ -23,7 +23,7 @@ data class RecoveryCertificateContainer(
 
     @delegate:Transient
     private val certificateData: DccData<RecoveryDccV1> by lazy {
-        data.recoveryCertificateQrCode!!.let {
+        data.recoveryCertificateQrCode.let {
             (
                 qrCodeExtractor.extract(
                     it,
@@ -34,13 +34,13 @@ data class RecoveryCertificateContainer(
     }
 
     override val containerId: RecoveryCertificateContainerId
-        get() = RecoveryCertificateContainerId(data.identifier)
+        get() = RecoveryCertificateContainerId(certificateData.certificate.recovery.uniqueCertificateIdentifier)
 
     val certificateId: String
         get() = certificateData.certificate.recovery.uniqueCertificateIdentifier
 
     fun toRecoveryCertificate(
-        valueSet: TestCertificateValueSets?,
+        valueSet: VaccinationValueSets? = null,
         userLocale: Locale = Locale.getDefault(),
     ): RecoveryCertificate {
         val header = certificateData.header
@@ -64,21 +64,34 @@ data class RecoveryCertificateContainer(
             override val fullName: String
                 get() = certificate.nameData.fullName
 
-            override val dateOfBirth: LocalDate
-                get() = certificate.dateOfBirth
+            override val dateOfBirthFormatted: String
+                get() = certificate.dateOfBirthFormatted
 
-            override val testedPositiveOn: LocalDate
-                get() = recoveryCertificate.testedPositiveOn
-            override val validFrom: LocalDate
-                get() = recoveryCertificate.validFrom
+            override val targetDisease: String
+                get() = valueSet?.getDisplayText(recoveryCertificate.targetId) ?: recoveryCertificate.targetId
+
+            override val testedPositiveOnFormatted: String
+                get() = recoveryCertificate.testedPositiveOnFormatted
+
+            override val validUntilFormatted: String
+                get() = recoveryCertificate.validUntilFormatted
+
             override val validUntil: LocalDate
                 get() = recoveryCertificate.validUntil
 
+            override val validFromFormatted: String
+                get() = recoveryCertificate.validFromFormatted
+
+            override val validFrom: LocalDate
+                get() = recoveryCertificate.validFrom
+
             override val certificateIssuer: String
-                get() = header.issuer
+                get() = recoveryCertificate.certificateIssuer
+
             override val certificateCountry: String
                 get() = Locale(userLocale.language, recoveryCertificate.certificateCountry.uppercase())
                     .getDisplayCountry(userLocale)
+
             override val certificateId: String
                 get() = recoveryCertificate.uniqueCertificateIdentifier
 
@@ -90,7 +103,7 @@ data class RecoveryCertificateContainer(
                 get() = header.expiresAt
 
             override val qrCode: QrCodeString
-                get() = data.recoveryCertificateQrCode!!
+                get() = data.recoveryCertificateQrCode
         }
     }
 }

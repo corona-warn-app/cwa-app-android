@@ -51,9 +51,13 @@
     <string name="person_details_cwa_user_description">"Mein Smartphone, meine App. Zertifikate für mich erscheinen in der Liste an erster Stelle."</string>
     <!-- XTXT: Test Certificate CWA User card birthdate -->
     <string name="person_details_cwa_user_birthdate">"geboren %1$s"</string>
+
+
+
     <!-- #####################################################
          VACCINATION CERTIFICATE STRINGS BELOW
          ##################################################### -->
+
     <!-- XTXT: Vaccination certificate vaccinated on -->
     <string name="vaccination_certificate_vaccinated_on">"geimpft am %s"</string>
     <!-- XTXT: Vaccination  card doses-->
@@ -74,9 +78,12 @@
     <!-- XTXT: Vaccination is not complete information card body-->
     <string name="vaccination_certificate_incomplete_vaccination">"Sie haben noch nicht alle derzeit geplanten Impfungen erhalten. Daher ist ihr Impfschutz noch nicht vollständig."</string>
 
+
+
     <!-- #####################################################
          RECOVERY CERTIFICATE STRINGS BELOW
          ##################################################### -->
+
 
     <!-- XTXT: Recovery certificate detail title -->
     <string name="recovery_certificate_details_title">"Genesenenzertifikat"</string>
@@ -87,9 +94,16 @@
     <!-- XTXT: Recovery certificate valid until -->
     <string name="recovery_certificate_valid_until">"gültig bis %s"</string>
 
+    <!-- XTXT: Detail green certificate diaglog title -->
+    <string name="recovery_certificate_details_dialog_remove_test_title">"Do you want to remove the recovery certificate?"</string>
+    <!-- XTXT: Detail green certificate diaglog message -->
+    <string name="recovery_certificate_details_dialog_remove_test_message">"If you remove the recovery certificate, you can no longer use it as proof in the app."</string>
+
+
     <!-- #####################################################
          TEST CERTIFICATE STRINGS BELOW
          ##################################################### -->
+
     <!-- XTXT: Test certificate sampled on -->
     <string name="test_certificate_sampled_on">"Probenahme am %s"</string>
     <!-- XTXT: Test certificate sampled on date and time -->
