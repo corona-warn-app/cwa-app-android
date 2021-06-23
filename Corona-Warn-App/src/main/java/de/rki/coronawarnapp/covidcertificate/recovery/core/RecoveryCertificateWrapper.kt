@@ -13,7 +13,7 @@ data class RecoveryCertificateWrapper(
 
     val isUpdatingData = container.isUpdatingData
 
-    val testCertificate: RecoveryCertificate? by lazy {
-        container.toRecoveryCertificate()
+    val recoveryCertificate: RecoveryCertificate? by lazy {
+        container.toRecoveryCertificate(valueSets)
     }
 }

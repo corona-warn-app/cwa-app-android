@@ -10,6 +10,8 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateRepoCo
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.ValueSets
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import java.util.Locale
@@ -39,6 +41,7 @@ data class RecoveryCertificateContainer(
         get() = certificateData.certificate.recovery.uniqueCertificateIdentifier
 
     fun toRecoveryCertificate(
+        valueSet: ValueSets?,
         userLocale: Locale = Locale.getDefault(),
     ): RecoveryCertificate {
         val header = certificateData.header
@@ -64,6 +67,9 @@ data class RecoveryCertificateContainer(
 
             override val dateOfBirth: LocalDate
                 get() = certificate.dateOfBirth
+
+            override val targetDisease: String
+                get() = valueSet?.getDisplayText(certificateData.certificate.recovery.targetId) ?: certificateData.certificate.recovery.targetId
 
             override val testedPositiveOn: LocalDate
                 get() = recoveryCertificate.testedPositiveOn
