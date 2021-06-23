@@ -120,7 +120,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             certificate.doseNumber,
             certificate.totalSeriesOfDoses
         )
-        vaccinatedAt.text = certificate.vaccinatedAtFormatted
+        vaccinatedAt.text = certificate.vaccinatedOnFormatted
         certificateCountry.text = certificate.certificateCountry
         certificateIssuer.text = certificate.certificateIssuer
         certificateId.text = certificate.certificateId

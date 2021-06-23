@@ -87,9 +87,9 @@ data class VaccinationContainer internal constructor(
         override val dateOfBirthFormatted: String
             get() = certificate.dateOfBirthFormatted
 
-        override val vaccinatedAt: LocalDate
+        override val vaccinatedOn: LocalDate
             get() = vaccination.vaccinatedOn
-        override val vaccinatedAtFormatted: String
+        override val vaccinatedOnFormatted: String
             get() = vaccination.vaccinatedOnFormatted
 
         override val targetDisease: String

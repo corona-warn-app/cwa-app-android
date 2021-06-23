@@ -130,7 +130,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
     ): VaccinationCertificate =
         mockk<VaccinationCertificate>().apply {
             every { certificateId } returns "vaccinationCertificateId$number"
-            every { vaccinatedAt } returns Instant.parse("2021-06-01T11:35:00.000Z").toLocalDateUserTz()
+            every { vaccinatedOn } returns Instant.parse("2021-06-01T11:35:00.000Z").toLocalDateUserTz()
             every { personIdentifier } returns CertificatePersonIdentifier(
                 firstNameStandardized = "firstNameStandardized",
                 lastNameStandardized = "lastNameStandardized",

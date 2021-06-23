@@ -109,7 +109,7 @@ class PersonDetailsViewModelTest : BaseTest() {
             every { getVaccinationStatus(any()) } returns VaccinatedPerson.Status.IMMUNITY
         }
         every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPerson))
-        personDetailsViewModel("b32983bc6be9a6f31055c7aa34f2767c34a1e99940016e91e35acfdc9bbb7e51")
+        personDetailsViewModel(certificatePersonIdentifier.codeSHA256)
             .apply {
                 uiState.getOrAwaitValue().apply {
                     get(0) as PersonDetailsQrCard.Item
@@ -175,11 +175,11 @@ class PersonDetailsViewModelTest : BaseTest() {
                 every { vaccination } returns mockk<DccV1.VaccinationData>().apply {
                     every { doseNumber } returns number
                     every { totalSeriesOfDoses } returns 2
-                    every { vaccinatedAt } returns localDate
+                    every { vaccinatedOn } returns localDate
                 }
             }
             every { containerId } returns vcContainerId
-            every { vaccinatedAt } returns localDate
+            every { vaccinatedOn } returns localDate
             every { personIdentifier } returns certificatePersonIdentifier
             every { doseNumber } returns number
             every { totalSeriesOfDoses } returns 2

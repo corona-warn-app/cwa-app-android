@@ -39,7 +39,7 @@ data class VaccinatedPerson(
         get() = vaccinationCertificates.first().dateOfBirthFormatted
 
     val getMostRecentVaccinationCertificate: VaccinationCertificate
-        get() = vaccinationCertificates.maxByOrNull { it.vaccinatedAtFormatted } ?: throw IllegalStateException(
+        get() = vaccinationCertificates.maxByOrNull { it.vaccinatedOnFormatted } ?: throw IllegalStateException(
             "Every Vaccinated Person needs to have at least one vaccinationCertificate"
         )
 
@@ -55,10 +55,10 @@ data class VaccinatedPerson(
     fun getTimeUntilImmunity(nowUTC: Instant = Instant.now()): Duration? {
         val newestFullDose = vaccinationCertificates
             .filter { it.doseNumber == it.totalSeriesOfDoses }
-            .maxByOrNull { it.vaccinatedAt }
+            .maxByOrNull { it.vaccinatedOn }
             ?: return null
 
-        val immunityAt = newestFullDose.vaccinatedAt
+        val immunityAt = newestFullDose.vaccinatedOn
             .toDateTimeAtStartOfDay()
             .plus(IMMUNITY_WAITING_PERIOD)
 
