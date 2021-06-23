@@ -41,9 +41,9 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
-            toolbar.setNavigationOnClickListener { popBackStack() }
 
             bindToolbar()
+            setToolbarOverlay()
 
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
                 it.certificate?.let { certificate -> bindCertificateViews(certificate) }
@@ -66,7 +66,6 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 subtitle.alpha = subtitleAlpha
                 europaImage.alpha = subtitleAlpha
             }
-            setToolbarOverlay()
 
             viewModel.errors.observe(viewLifecycleOwner) {
                 qrCodeCard.progressBar.hide()

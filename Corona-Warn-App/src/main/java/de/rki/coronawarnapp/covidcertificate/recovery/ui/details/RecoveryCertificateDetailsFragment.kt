@@ -97,7 +97,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         setNavigationOnClickListener { popBackStack() }
         setOnMenuItemClickListener {
             when (it.itemId) {
-                R.id.menu_covid_certificate_delete -> {
+                R.id.menu_recovery_certificate_delete -> {
                     showCertificateDeletionRequest()
                     true
                 }
@@ -124,7 +124,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
             setMessage(R.string.green_certificate_details_dialog_remove_test_message)
             setNegativeButton(R.string.green_certificate_details_dialog_remove_test_button_negative) { _, _ -> }
             setPositiveButton(R.string.green_certificate_details_dialog_remove_test_button_positive) { _, _ ->
-                viewModel.onDeleteTestConfirmed()
+                viewModel.onDeleteREcoveryCertificateConfirmed()
             }
         }.show()
     }
