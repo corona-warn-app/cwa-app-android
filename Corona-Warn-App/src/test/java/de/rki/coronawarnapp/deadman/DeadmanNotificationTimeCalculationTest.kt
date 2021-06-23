@@ -55,21 +55,21 @@ class DeadmanNotificationTimeCalculationTest : BaseTest() {
     fun `12 hours difference`() {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-28T14:00:00")
 
-        createTimeCalculator().calculateDelayInMinutes(Instant.parse("2020-08-27T14:00:00")) shouldBe 720
+        createTimeCalculator().getHoursDiff(Instant.parse("2020-08-27T14:00:00")) shouldBe 720
     }
 
     @Test
     fun `negative time difference`() {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-30T14:00:00")
 
-        createTimeCalculator().calculateDelayInMinutes(Instant.parse("2020-08-27T14:00:00")) shouldBe -2160
+        createTimeCalculator().getHoursDiff(Instant.parse("2020-08-27T14:00:00")) shouldBe -2160
     }
 
     @Test
     fun `success in future case`() {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-27T14:00:00")
 
-        createTimeCalculator().calculateDelayInMinutes(Instant.parse("2020-08-27T15:00:00")) shouldBe 2220
+        createTimeCalculator().getHoursDiff(Instant.parse("2020-08-27T15:00:00")) shouldBe 2220
     }
 
     @Test
