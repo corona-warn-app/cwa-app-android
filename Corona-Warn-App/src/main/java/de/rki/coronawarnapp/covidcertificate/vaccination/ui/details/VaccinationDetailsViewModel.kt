@@ -43,8 +43,6 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
     val errors = SingleLiveEvent<Throwable>()
     val events = SingleLiveEvent<VaccinationDetailsNavigation>()
 
-    fun onClose() = events.postValue(VaccinationDetailsNavigation.Back)
-
     fun openFullScreen() = qrCodeText?.let { events.postValue(VaccinationDetailsNavigation.FullQrCode(it)) }
 
     private fun findVaccinationDetails(

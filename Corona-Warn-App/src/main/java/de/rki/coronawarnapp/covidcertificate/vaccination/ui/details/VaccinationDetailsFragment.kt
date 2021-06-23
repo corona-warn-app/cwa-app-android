@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.ui.details
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
+import androidx.activity.OnBackPressedCallback
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -18,7 +19,7 @@ import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toHyphenSeparatedDate
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.popBackStack
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -30,6 +31,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
     private val args by navArgs<VaccinationDetailsFragmentArgs>()
     private val binding: FragmentVaccinationDetailsBinding by viewBinding()
+    private lateinit var personId: String
     private val viewModel: VaccinationDetailsViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
@@ -42,12 +44,20 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
-            toolbar.setNavigationOnClickListener { popBackStack() }
+            toolbar.setNavigationOnClickListener { navigateBack() }
 
             bindToolbar()
 
+            val backButtonCallback = object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() = navigateBack()
+            }
+            requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backButtonCallback)
+
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
-                it.certificate?.let { certificate -> bindCertificateViews(certificate) }
+                it.certificate?.let { certificate ->
+                    bindCertificateViews(certificate)
+                    personId = certificate.personIdentifier.codeSHA256
+                }
                 val background = when {
                     it.isImmune -> R.drawable.certificate_complete_gradient
                     else -> R.drawable.vaccination_incomplete
@@ -83,7 +93,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
             viewModel.events.observe(viewLifecycleOwner) { event ->
                 when (event) {
-                    VaccinationDetailsNavigation.Back -> popBackStack()
+                    VaccinationDetailsNavigation.Back -> navigateBack()
                     is VaccinationDetailsNavigation.FullQrCode -> findNavController().navigate(
                         R.id.action_global_qrCodeFullScreenFragment,
                         QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
@@ -94,8 +104,14 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             }
         }
 
+    private fun navigateBack() = doNavigate(
+        VaccinationDetailsFragmentDirections.actionVaccinationDetailsFragmentToPersonDetailsFragment(
+            personId
+        )
+    )
+
     private fun FragmentVaccinationDetailsBinding.bindToolbar() = toolbar.apply {
-        setNavigationOnClickListener { popBackStack() }
+        setNavigationOnClickListener { navigateBack() }
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_covid_certificate_delete -> {

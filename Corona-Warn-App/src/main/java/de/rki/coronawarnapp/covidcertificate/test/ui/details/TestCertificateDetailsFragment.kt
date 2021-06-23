@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
+import androidx.activity.OnBackPressedCallback
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
@@ -23,7 +24,7 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toHyphenSeparatedDate
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.popBackStack
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -33,7 +34,9 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val binding by viewBinding<FragmentTestCertificateDetailsBinding>()
+    private lateinit var personId: String
     private val args by navArgs<TestCertificateDetailsFragmentArgs>()
+
     private val viewModel: TestCertificateDetailsViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
@@ -53,6 +56,11 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
 
         bindToolbar()
         setToolbarOverlay()
+
+        val backButtonCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() = navigateBack()
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backButtonCallback)
 
         viewModel.qrCode.observe(viewLifecycleOwner) { onQrCodeReady(it) }
         viewModel.errors.observe(viewLifecycleOwner) { onError(it) }
@@ -98,6 +106,12 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         }
     }
 
+    private fun navigateBack() = doNavigate(
+        TestCertificateDetailsFragmentDirections.actionTestCertificateDetailsFragmentToPersonDetailsFragment(
+            personId
+        )
+    )
+
     private fun FragmentTestCertificateDetailsBinding.onQrCodeReady(bitmap: Bitmap?) {
         qrCodeCard.apply {
             image.setImageBitmap(bitmap)
@@ -113,7 +127,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
 
     private fun FragmentTestCertificateDetailsBinding.onNavEvent(event: TestCertificateDetailsNavigation) {
         when (event) {
-            TestCertificateDetailsNavigation.Back -> popBackStack()
+            TestCertificateDetailsNavigation.Back -> navigateBack()
             is TestCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
                 R.id.action_global_qrCodeFullScreenFragment,
                 QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
@@ -124,7 +138,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     }
 
     private fun FragmentTestCertificateDetailsBinding.bindToolbar() = toolbar.apply {
-        setNavigationOnClickListener { popBackStack() }
+        setNavigationOnClickListener { navigateBack() }
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_covid_certificate_delete -> {

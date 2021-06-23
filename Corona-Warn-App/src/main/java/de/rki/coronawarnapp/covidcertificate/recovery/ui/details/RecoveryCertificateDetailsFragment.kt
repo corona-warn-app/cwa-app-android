@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
+import androidx.activity.OnBackPressedCallback
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -17,7 +18,7 @@ import de.rki.coronawarnapp.databinding.FragmentRecoveryCertificateDetailsBindin
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.popBackStack
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -27,6 +28,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val binding by viewBinding<FragmentRecoveryCertificateDetailsBinding>()
+    private lateinit var personId: String
     private val viewModel: RecoveryCertificateDetailsViewModel by cwaViewModels { viewModelFactory }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
@@ -38,10 +40,20 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         bindToolbar()
         setToolbarOverlay()
 
+        val backButtonCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() = navigateBack()
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backButtonCallback)
+
         viewModel.qrCode.observe(viewLifecycleOwner) { onQrCodeReady(it) }
         viewModel.errors.observe(viewLifecycleOwner) { onError(it) }
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
-        viewModel.recoveryCertificate.observe(viewLifecycleOwner) { it?.let { onCertificateReady(it) } }
+        viewModel.recoveryCertificate.observe(viewLifecycleOwner) {
+            it?.let {
+                onCertificateReady(it)
+                personId = it.personIdentifier.codeSHA256
+            }
+        }
     }
 
     private fun FragmentRecoveryCertificateDetailsBinding.onCertificateReady(
@@ -65,7 +77,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
 
     private fun FragmentRecoveryCertificateDetailsBinding.onNavEvent(event: RecoveryCertificateDetailsNavigation) {
         when (event) {
-            RecoveryCertificateDetailsNavigation.Back -> popBackStack()
+            RecoveryCertificateDetailsNavigation.Back -> navigateBack()
             is RecoveryCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
                 R.id.action_global_qrCodeFullScreenFragment,
                 QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
@@ -75,8 +87,14 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         }
     }
 
+    private fun navigateBack() = doNavigate(
+        RecoveryCertificateDetailsFragmentDirections.actionRecoveryCertificateDetailsFragmentToPersonDetailsFragment(
+            personId
+        )
+    )
+
     private fun FragmentRecoveryCertificateDetailsBinding.bindToolbar() = toolbar.apply {
-        setNavigationOnClickListener { popBackStack() }
+        setNavigationOnClickListener { navigateBack() }
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_covid_certificate_delete -> {

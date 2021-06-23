@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.details
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
+import androidx.activity.OnBackPressedCallback
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
@@ -15,7 +16,6 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.doNavigate
-import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -49,9 +49,15 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val backButtonCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() = navigateBack()
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backButtonCallback)
+
         binding.apply {
             root.transitionName = args.personIdentifierCode
-            toolbar.setNavigationOnClickListener { popBackStack() }
+            toolbar.setNavigationOnClickListener { navigateBack() }
             recyclerViewCertificatesList.apply {
                 adapter = personDetailsAdapter
                 addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
@@ -69,6 +75,12 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
         }
     }
 
+    private fun navigateBack() {
+        doNavigate(
+            PersonDetailsFragmentDirections.actionPersonDetailsFragmentToPersonOverviewFragment()
+        )
+    }
+
     private fun onNavEvent(event: PersonDetailsEvents) {
         when (event) {
             is OpenRecoveryCertificateDetails -> doNavigate(
@@ -83,7 +95,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                 PersonDetailsFragmentDirections
                     .actionPersonDetailsFragmentToVaccinationDetailsFragment(event.containerId)
             )
-            Back -> popBackStack()
+            Back -> navigateBack()
         }
     }
 
