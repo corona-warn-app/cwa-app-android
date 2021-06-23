@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.details
 
 import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -66,7 +65,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
         qrCodeFlow
     ) { personSpecificCertificates, qrCode ->
         assembleList(personSpecificCertificates, qrCode)
-    }.asLiveData()
+    }.asLiveData2()
 
     private suspend fun assembleList(personCertificates: PersonCertificates, qrCode: Bitmap?) =
         mutableListOf<CertificateItem>().apply {
@@ -77,8 +76,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
             // Find any vaccination certificate to determine the vaccination information
             personCertificates.certificates.find { it is VaccinationCertificate }?.let { certificate ->
                 val vaccinatedPerson = vaccinatedPerson(certificate)
-                val timeUntilImmunity = vaccinatedPerson.getTimeUntilImmunity()
                 if (vaccinatedPerson.getVaccinationStatus(timeStamper.nowUTC) != IMMUNITY) {
+                    val timeUntilImmunity = vaccinatedPerson.getTimeUntilImmunity()
                     add(VaccinationInfoCard.Item(timeUntilImmunity))
                 }
             }
