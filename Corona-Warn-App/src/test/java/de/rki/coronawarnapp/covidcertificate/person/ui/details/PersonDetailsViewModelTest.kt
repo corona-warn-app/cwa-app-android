@@ -34,8 +34,6 @@ import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -162,7 +160,7 @@ class PersonDetailsViewModelTest : BaseTest() {
         }
         every { containerId } returns tcsContainerId
         every { testType } returns "PCR-Test"
-        every { dateOfBirth } returns LocalDate.parse("18.04.1943", DateTimeFormat.forPattern("dd.MM.yyyy"))
+        every { dateOfBirthFormatted } returns "18.04.1943"
         every { sampleCollectedAt } returns Instant.parse("2021-05-31T11:35:00.000Z")
         every { registeredAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
         every { personIdentifier } returns certificatePersonIdentifier
@@ -199,7 +197,7 @@ class PersonDetailsViewModelTest : BaseTest() {
         }
 
     private val certificatePersonIdentifier = CertificatePersonIdentifier(
-        dateOfBirth = LocalDate.parse("01.01.2020", DateTimeFormat.forPattern("dd.MM.yyyy")),
+        dateOfBirthFormatted = "01.01.2020",
         firstNameStandardized = "firstNameStandardized",
         lastNameStandardized = "lastNameStandardized",
     )
