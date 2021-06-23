@@ -35,8 +35,6 @@ import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -112,7 +110,7 @@ class PersonDetailsViewModelTest : BaseTest() {
             every { getVaccinationStatus(any()) } returns VaccinatedPerson.Status.IMMUNITY
         }
         every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPerson))
-        personDetailsViewModel("b32983bc6be9a6f31055c7aa34f2767c34a1e99940016e91e35acfdc9bbb7e51")
+        personDetailsViewModel(certificatePersonIdentifier.codeSHA256)
             .apply {
                 uiState.getOrAwaitValue().apply {
                     get(0) as PersonDetailsQrCard.Item
@@ -164,7 +162,7 @@ class PersonDetailsViewModelTest : BaseTest() {
         }
         every { containerId } returns tcsContainerId
         every { testType } returns "PCR-Test"
-        every { dateOfBirth } returns LocalDate.parse("18.04.1943", DateTimeFormat.forPattern("dd.MM.yyyy"))
+        every { dateOfBirthFormatted } returns "18.04.1943"
         every { sampleCollectedAt } returns Instant.parse("2021-05-31T11:35:00.000Z")
         every { registeredAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
         every { personIdentifier } returns certificatePersonIdentifier
@@ -179,11 +177,11 @@ class PersonDetailsViewModelTest : BaseTest() {
                 every { vaccination } returns mockk<DccV1.VaccinationData>().apply {
                     every { doseNumber } returns number
                     every { totalSeriesOfDoses } returns 2
-                    every { vaccinatedAt } returns localDate
+                    every { vaccinatedOn } returns localDate
                 }
             }
             every { containerId } returns vcContainerId
-            every { vaccinatedAt } returns localDate
+            every { vaccinatedOn } returns localDate
             every { personIdentifier } returns certificatePersonIdentifier
             every { doseNumber } returns number
             every { totalSeriesOfDoses } returns 2
@@ -201,7 +199,7 @@ class PersonDetailsViewModelTest : BaseTest() {
         }
 
     private val certificatePersonIdentifier = CertificatePersonIdentifier(
-        dateOfBirth = LocalDate.parse("01.01.2020", DateTimeFormat.forPattern("dd.MM.yyyy")),
+        dateOfBirthFormatted = "01.01.2020",
         firstNameStandardized = "firstNameStandardized",
         lastNameStandardized = "lastNameStandardized",
     )

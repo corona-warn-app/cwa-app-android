@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.GenericTest
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RetrievedTestCertificate
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
 import org.joda.time.Instant
-import org.joda.time.LocalDate
 import java.util.Locale
 
 data class TestCertificateContainer(
@@ -89,8 +88,8 @@ data class TestCertificateContainer(
             override val fullName: String
                 get() = certificate.nameData.fullName
 
-            override val dateOfBirth: LocalDate
-                get() = certificate.dateOfBirth
+            override val dateOfBirthFormatted: String
+                get() = certificate.dateOfBirthFormatted
 
             override val targetName: String
                 get() = valueSet?.getDisplayText(testCertificate.targetId) ?: testCertificate.targetId
@@ -101,9 +100,11 @@ data class TestCertificateContainer(
             override val testName: String?
                 get() = testCertificate.testName?.let { valueSet?.getDisplayText(it) ?: it }
             override val testNameAndManufacturer: String?
-                get() = testCertificate.testNameAndManufactor?.let { valueSet?.getDisplayText(it) ?: it }
+                get() = testCertificate.testNameAndManufacturer?.let { valueSet?.getDisplayText(it) ?: it }
             override val sampleCollectedAt: Instant
                 get() = testCertificate.sampleCollectedAt
+            override val sampleCollectedAtFormatted: String
+                get() = testCertificate.sampleCollectedAtFormatted
             override val testCenter: String?
                 get() = testCertificate.testCenter
 

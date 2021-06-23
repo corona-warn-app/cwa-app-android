@@ -65,8 +65,8 @@ data class RecoveryCertificateContainer(
             override val fullName: String
                 get() = certificate.nameData.fullName
 
-            override val dateOfBirth: LocalDate
-                get() = certificate.dateOfBirth
+            override val dateOfBirthFormatted: String
+                get() = certificate.dateOfBirthFormatted
 
             override val targetDisease: String
                 get() = valueSet?.getDisplayText(certificateData.certificate.recovery.targetId) ?: certificateData.certificate.recovery.targetId
@@ -75,8 +75,18 @@ data class RecoveryCertificateContainer(
                 get() = recoveryCertificate.testedPositiveOn
             override val validFrom: LocalDate
                 get() = recoveryCertificate.validFrom
+            override val testedPositiveOnFormatted: String
+                get() = recoveryCertificate.testedPositiveOnFormatted
+
+            override val validUntilFormatted: String
+                get() = recoveryCertificate.validUntilFormatted
             override val validUntil: LocalDate
                 get() = recoveryCertificate.validUntil
+
+            override val validFromFormatted: String
+                get() = recoveryCertificate.validFromFormatted
+            override val validFrom: LocalDate
+                get() = recoveryCertificate.validFrom
 
             override val certificateIssuer: String
                 get() = header.issuer

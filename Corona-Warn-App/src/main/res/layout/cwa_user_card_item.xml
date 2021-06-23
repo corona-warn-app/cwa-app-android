@@ -23,7 +23,7 @@
         tools:text="Andrea Schneider" />
 
     <TextView
-        android:id="@+id/birth_date"
+        android:id="@+id/date_of_birth"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/person_details_cwa_user_birthdate"
@@ -47,7 +47,7 @@
         android:layout_marginTop="@dimen/spacing_tiny"
         android:text="@string/person_details_cwa_user_description"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@id/birth_date"
-        app:layout_constraintTop_toBottomOf="@id/birth_date" />
+        app:layout_constraintStart_toStartOf="@id/date_of_birth"
+        app:layout_constraintTop_toBottomOf="@id/date_of_birth" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
