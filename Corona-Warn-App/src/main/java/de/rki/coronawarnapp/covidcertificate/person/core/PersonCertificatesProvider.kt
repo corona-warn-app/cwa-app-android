@@ -29,7 +29,7 @@ class PersonCertificatesProvider @Inject constructor(
             testWrappers.mapNotNull { it.testCertificate }
         },
         recoveryCertificateRepository.certificates.map { recoveryWrappers ->
-            recoveryWrappers.mapNotNull { it.testCertificate }
+            recoveryWrappers.mapNotNull { it.recoveryCertificate }
         },
         personCertificatesSettings.currentCwaUser.flow,
     ) { vaccs, tests, recos, cwaUser ->

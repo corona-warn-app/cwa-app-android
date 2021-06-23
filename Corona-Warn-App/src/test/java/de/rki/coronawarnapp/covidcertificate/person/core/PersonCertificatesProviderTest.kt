@@ -52,7 +52,7 @@ class PersonCertificatesProviderTest : BaseTest() {
         every { issuedAt } returns Instant.EPOCH
     }
     private val recoveryWrapperA = mockk<RecoveryCertificateWrapper>().apply {
-        every { testCertificate } returns recoveryWrapperACertificate
+        every { recoveryCertificate } returns recoveryWrapperACertificate
     }
 
     private val vaccinationPersons = MutableStateFlow(setOf(vaccinatedPersonA))

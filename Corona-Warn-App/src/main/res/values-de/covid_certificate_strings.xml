@@ -88,6 +88,11 @@
     <!-- XTXT: Recovery certificate valid until -->
     <string name="recovery_certificate_valid_until">"gültig bis %s"</string>
 
+    <!-- XTXT: Detail green certificate diaglog title -->
+    <string name="recovery_certificate_details_dialog_remove_test_title">"Wollen Sie das Genesenenzertifikat wirklich entfernen?"</string>
+    <!-- XTXT: Detail green certificate diaglog message -->
+    <string name="recovery_certificate_details_dialog_remove_test_message">"Wenn Sie das Genesenenzertifikat entfernen, können Sie es nicht mehr als Nachweis in der App verwenden."</string>
+
     <!-- #####################################################
          TEST CERTIFICATE STRINGS BELOW
          ##################################################### -->
