@@ -72,7 +72,9 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_dccQrCodeScanFragment_to_recoveryCertificateDetailsFragment"
-            app:destination="@id/recoveryCertificateDetailsFragment" />
+            app:destination="@id/recoveryCertificateDetailsFragment"
+            app:popUpTo="@id/dccQrCodeScanFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
