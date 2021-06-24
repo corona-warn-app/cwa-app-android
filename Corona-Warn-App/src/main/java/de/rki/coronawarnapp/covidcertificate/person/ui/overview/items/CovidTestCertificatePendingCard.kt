@@ -5,7 +5,7 @@ import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewAdapter
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
 import de.rki.coronawarnapp.databinding.CovidTestErrorCardBinding
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
@@ -56,11 +56,11 @@ class CovidTestCertificatePendingCard(parent: ViewGroup) :
     }
 
     data class Item(
-        val certificate: TestCertificate,
+        val certificate: TestCertificateWrapper,
         val onRetryAction: (Item) -> Unit,
         val onDeleteAction: (Item) -> Unit
     ) : PersonCertificatesItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
-        override val stableId: Long = certificate.personIdentifier.codeSHA256.hashCode().toLong()
+        override val stableId: Long = certificate.containerId.hashCode().toLong()
     }
 }
