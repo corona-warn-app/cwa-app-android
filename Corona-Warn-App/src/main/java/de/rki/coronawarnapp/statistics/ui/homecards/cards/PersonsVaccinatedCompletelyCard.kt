@@ -31,11 +31,11 @@ class PersonsVaccinatedCompletelyCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, _ ->
 
-        infoStatistics.setOnClickListener {
-            item.onHelpAction.invoke(item.stats)
-        }
-
         with(item.stats as PersonsVaccinatedCompletelyStats) {
+            infoStatistics.setOnClickListener {
+                item.onHelpAction.invoke(this)
+            }
+
             personsVaccinatedCompletelyContainer.contentDescription =
                 buildAccessibilityStringForPersonsVaccinatedCompletelyCard(item.stats, allDoses, total)
 

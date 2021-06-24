@@ -32,11 +32,10 @@ class InfectionsCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, _ ->
 
-        infoStatistics.setOnClickListener {
-            item.onHelpAction.invoke(item.stats)
-        }
-
         with(item.stats as InfectionStats) {
+            infoStatistics.setOnClickListener {
+                item.onHelpAction.invoke(this)
+            }
 
             infectionsContainer.contentDescription =
                 buildAccessibilityStringForInfectionsCard(item.stats, newInfections, sevenDayAverage, total)

@@ -5,16 +5,27 @@ import org.joda.time.Instant
 import timber.log.Timber
 
 data class StatisticsData(
-    val items: List<StatsItem> = emptyList()
+    val items: List<GenericStatsItem> = emptyList()
 ) {
     val isDataAvailable: Boolean = items.isNotEmpty()
 
     override fun toString(): String {
-        return "StatisticsData(cards=${items.map { it.cardType.name + " " + it.updatedAt }})"
+        return "StatisticsData(cards=${
+        items.map {
+            when (it) {
+                is AddStatsItem -> "AddCard(${it.isEnabled})"
+                is StatsItem -> it.cardType.name + " " + it.updatedAt
+            }
+        }
+        })"
     }
 }
 
-sealed class StatsItem(val cardType: Type) {
+sealed class GenericStatsItem
+
+data class AddStatsItem(val isEnabled: Boolean) : GenericStatsItem()
+
+sealed class StatsItem(val cardType: Type) : GenericStatsItem() {
     abstract val updatedAt: Instant
     abstract val keyFigures: List<KeyFigure>
 

@@ -32,11 +32,10 @@ class KeySubmissionsCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, _ ->
 
-        infoStatistics.setOnClickListener {
-            item.onHelpAction.invoke(item.stats)
-        }
-
         with(item.stats as KeySubmissionsStats) {
+            infoStatistics.setOnClickListener {
+                item.onHelpAction.invoke(this)
+            }
 
             keysubmissionsContainer.contentDescription =
                 buildAccessibilityStringForKeySubmissionsCard(item.stats, keySubmissions, sevenDayAverage, total)

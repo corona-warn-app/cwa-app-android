@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.databinding.HomeStatisticsCardsAddLayoutBinding
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter
 
 class AddCard(parent: ViewGroup) :
-    StatisticsCardAdapter.ItemVH<AllStatisticsCardItem, HomeStatisticsCardsAddLayoutBinding>(
+    StatisticsCardAdapter.ItemVH<StatisticsCardItem, HomeStatisticsCardsAddLayoutBinding>(
         R.layout.home_statistics_cards_basecard_layout,
         parent
     ) {
@@ -20,9 +20,8 @@ class AddCard(parent: ViewGroup) :
     }
 
     override val onBindData: HomeStatisticsCardsAddLayoutBinding.(
-        item: AllStatisticsCardItem,
+        item: StatisticsCardItem,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
-
     }
 }
