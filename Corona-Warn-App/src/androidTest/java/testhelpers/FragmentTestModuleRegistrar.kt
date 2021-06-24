@@ -5,6 +5,8 @@ import de.rki.coronawarnapp.bugreporting.DebugLogTestModule
 import de.rki.coronawarnapp.bugreporting.DebugLogUploadTestModule
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFragmentTestModule
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewFragmentTestModule
+import de.rki.coronawarnapp.covidcertificate.recovery.ui.RecoveryCertificateDetailsFragmentTestModule
+import de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertificateDetailsModule
 import de.rki.coronawarnapp.covidcertificate.test.ui.CovidCertificateDetailsFragmentTestModule
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryDayFragmentTestModule
@@ -46,7 +48,8 @@ import de.rki.coronawarnapp.ui.vaccination.CovidCertificateInfoFragmentTestModul
 @Module(
     includes = [
         HomeFragmentTestModule::class,
-        // Onboarding
+
+        // -------- Onboarding --------
         OnboardingFragmentTestModule::class,
         OnboardingDeltaInteroperabilityFragmentTestModule::class,
         OnboardingNotificationsTestModule::class,
@@ -54,7 +57,8 @@ import de.rki.coronawarnapp.ui.vaccination.CovidCertificateInfoFragmentTestModul
         OnboardingTestFragmentModule::class,
         OnboardingTracingFragmentTestModule::class,
         OnboardingAnalyticsFragmentTestModule::class,
-        // Submission
+
+        // -------- Submission --------
         SubmissionDispatcherTestModule::class,
         SubmissionTanTestModule::class,
         SubmissionTestResultTestModule::class,
@@ -69,9 +73,11 @@ import de.rki.coronawarnapp.ui.vaccination.CovidCertificateInfoFragmentTestModul
         SubmissionYourConsentFragmentTestModule::class,
         SubmissionSymptomCalendarFragmentTestModule::class,
         SubmissionQRScanFragmentModule::class,
-        // Tracing
+
+        // -------- Tracing --------
         TracingDetailsFragmentTestTestModule::class,
-        // Contact Diary
+
+        // -------- Contact Diary --------
         ContactDiaryOnboardingFragmentTestModule::class,
         ContactDiaryOverviewFragmentTestModule::class,
         ContactDiaryDayFragmentTestModule::class,
@@ -79,17 +85,22 @@ import de.rki.coronawarnapp.ui.vaccination.CovidCertificateInfoFragmentTestModul
         ContactDiaryLocationListFragmentTestModule::class,
         ContactDiaryEditLocationsFragmentTestModule::class,
         ContactDiaryEditPersonsFragmentTestModule::class,
-        // Statistics
+
+        // -------- Statistics --------
         StatisticsExplanationFragmentTestModule::class,
-        // Bugreporting
+
+        // -------- Bugreporting --------
         DebugLogUploadTestModule::class,
         DebugLogTestModule::class,
-        // Presence tracing
+
+        // -------- Presence tracing --------
         CreateEventTestModule::class,
         TraceLocationsFragmentTestModule::class,
         QrCodeDetailFragmentTestModule::class,
-        // Vaccination
+
+        // -------- Certificates --------
         VaccinationDetailsFragmentTestModule::class,
+        RecoveryCertificateDetailsFragmentTestModule::class,
         CovidCertificateInfoFragmentTestModule::class,
         RequestCovidCertificateFragmentTestModule::class,
         CovidCertificateDetailsFragmentTestModule::class,
