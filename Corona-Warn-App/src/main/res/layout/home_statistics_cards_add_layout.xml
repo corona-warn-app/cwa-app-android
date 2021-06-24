@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingConstraints">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/incidence_container"
@@ -14,14 +13,14 @@
         tools:showIn="@layout/home_statistics_cards_basecard_layout">
 
         <TextView
-            android:id="@+id/warning"
+            android:id="@+id/warning_text"
             style="@style/StatisticsCardValueLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_large"
             android:layout_marginEnd="@dimen/spacing_normal"
-            android:text="Maximale Anzahl der Lokalen 7-Tage Inzidenz erreicht."
+            android:text="@string/statistics_add_card_warning"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,16 +39,16 @@
             app:srcCompat="@drawable/ic_blue_plus" />
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/title_text"
             style="@style/StatisticsCardValueLabel"
-            android:textStyle="bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_small"
             android:layout_marginEnd="@dimen/spacing_normal"
-            android:text="Lokale 7-Tage-Inzidenz hinzufügen"
+            android:text="@string/statistics_add_card_title"
             android:textAlignment="center"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/plus_image" />
@@ -67,9 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="horizontal_guideline,warning" />
-
+            app:constraint_referenced_ids="horizontal_guideline,warning_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

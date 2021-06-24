@@ -1642,6 +1642,12 @@
     <!-- XTXT: Statistics FAQ text -->
     <string name="statistics_faq_text">"Weitere Informationen finden Sie in den FAQ:\n\nFAQ zu Statistiken"</string>
 
+    <!-- Statistics Add new tile -->
+    <!-- XTXT: Statistics add card title -->
+    <string name="statistics_add_card_title">"Lokale 7-Tage-Inzidenz hinzufügen"</string>
+    <!-- XTXT: Statistics add card warning -->
+    <string name="statistics_add_card_warning">"Maximale Anzahl der Lokalen 7-Tage Inzidenz erreicht."</string>
+
     <!-- ####################################
           Button Tooltips for Accessibility
     ###################################### -->
