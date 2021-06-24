@@ -183,6 +183,14 @@ class DccQrCodeExtractor @Inject constructor(
         Timber.e(e)
         throw InvalidHealthCertificateException(HC_CBOR_DECODING_FAILED)
     }
+
+    private val DccV1.asCertificate: DccV1.MetaData
+        get() = when {
+            isVaccinationCertificate -> asVaccinationCertificate!!
+            isTestCertificate -> asTestCertificate!!
+            isRecoveryCertificate -> asRecoveryCertificate!!
+            else -> throw InvalidHealthCertificateException(JSON_SCHEMA_INVALID)
+        }
 }
 
 private const val PREFIX = "HC1:"

@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
-import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
-
 val DccV1.asRecoveryCertificate: RecoveryDccV1?
     get() = recoveries?.first()?.let {
         RecoveryDccV1(
@@ -43,11 +41,3 @@ val DccV1.isTestCertificate: Boolean
 
 val DccV1.isRecoveryCertificate: Boolean
     get() = this.recoveries?.isNotEmpty() == true
-
-val DccV1.asCertificate: DccV1.MetaData
-    get() = when {
-        isVaccinationCertificate -> asVaccinationCertificate!!
-        isTestCertificate -> asTestCertificate!!
-        isRecoveryCertificate -> asRecoveryCertificate!!
-        else -> throw InvalidHealthCertificateException(InvalidHealthCertificateException.ErrorCode.JSON_SCHEMA_INVALID)
-    }
