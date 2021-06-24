@@ -189,8 +189,13 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     StatisticsHomeCard.Item(
                         // TODO: improve in future PRs
                         data = statsData.copy(items = mutableListOf(AddStatsItem(true)).plus(statsData.items)),
-                        onHelpAction = {
-                            events.postValue(HomeFragmentEvents.GoToStatisticsExplanation)
+                        onClickListener = {
+                            when (it) {
+                                is AddStatsItem -> {
+                                    // TODO: implement me!
+                                }
+                                else -> events.postValue(HomeFragmentEvents.GoToStatisticsExplanation)
+                            }
                         }
                     )
                 )

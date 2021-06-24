@@ -33,10 +33,11 @@ class SevenDayRValueCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, _ ->
 
+        infoStatistics.setOnClickListener {
+            item.onClickListener(item.stats)
+        }
+
         with(item.stats as SevenDayRValue) {
-            infoStatistics.setOnClickListener {
-                item.onHelpAction.invoke(this)
-            }
 
             sevenDayRValueContainer.contentDescription =
                 buildAccessibilityStringForSevenDayRValueCard(item.stats, reproductionNumber)

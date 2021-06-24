@@ -33,10 +33,11 @@ class IncidenceCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, _ ->
 
+        infoStatistics.setOnClickListener {
+            item.onClickListener(item.stats)
+        }
+
         with(item.stats as IncidenceStats) {
-            infoStatistics.setOnClickListener {
-                item.onHelpAction.invoke(this)
-            }
 
             incidenceContainer.contentDescription =
                 buildAccessibilityStringForIncidenceCard(item.stats, sevenDayIncidence)

@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.util.lists.HasStableId
 
 data class StatisticsCardItem(
     val stats: GenericStatsItem,
-    val onHelpAction: (StatsItem) -> Unit
+    val onClickListener: (GenericStatsItem) -> Unit
 ) : HasStableId {
 
     override val stableId: Long = when (stats) {
