@@ -41,6 +41,9 @@ data class TestCertificateContainer(
             is GenericTestCertificateData -> null // Has none
         }
 
+    val personIdentifier: CertificatePersonIdentifier
+        get() = testCertificateQRCode.data.certificate.personIdentifier
+
     val certificateSeenByUser: Boolean
         get() = when (data) {
             is RetrievedTestCertificate -> data.certificateSeenByUser
