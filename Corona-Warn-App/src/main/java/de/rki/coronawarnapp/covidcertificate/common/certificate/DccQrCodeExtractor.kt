@@ -183,41 +183,6 @@ class DccQrCodeExtractor @Inject constructor(
         Timber.e(e)
         throw InvalidHealthCertificateException(HC_CBOR_DECODING_FAILED)
     }
-
-    private val DccV1.isVaccinationCertificate: Boolean
-        get() = this.vaccinations?.isNotEmpty() == true
-
-    private val DccV1.isTestCertificate: Boolean
-        get() = this.tests?.isNotEmpty() == true
-
-    private val DccV1.isRecoveryCertificate: Boolean
-        get() = this.recoveries?.isNotEmpty() == true
-
-    private val DccV1.asCertificate: DccV1.MetaData
-        get() = when {
-            isVaccinationCertificate -> VaccinationDccV1(
-                version = version,
-                nameData = nameData,
-                dateOfBirthFormatted = dateOfBirthFormatted,
-                personIdentifier = personIdentifier,
-                vaccination = vaccinations!!.first()
-            )
-            isTestCertificate -> TestDccV1(
-                version = version,
-                nameData = nameData,
-                dateOfBirthFormatted = dateOfBirthFormatted,
-                personIdentifier = personIdentifier,
-                test = tests!!.first()
-            )
-            isRecoveryCertificate -> RecoveryDccV1(
-                version = version,
-                nameData = nameData,
-                dateOfBirthFormatted = dateOfBirthFormatted,
-                personIdentifier = personIdentifier,
-                recovery = recoveries!!.first()
-            )
-            else -> throw InvalidHealthCertificateException(JSON_SCHEMA_INVALID)
-        }
 }
 
 private const val PREFIX = "HC1:"

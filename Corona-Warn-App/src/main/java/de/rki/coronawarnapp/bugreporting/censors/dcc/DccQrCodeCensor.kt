@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
-import java.util.LinkedList
 import javax.inject.Inject
 
 @Reusable
@@ -180,16 +179,14 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
         }
 
         newMessage = newMessage.censor(
-            data.sampleCollectedAt.toString(),
-            "test/sampleCollectedAt"
+            data.sampleCollectedAtFormatted,
+            "test/sampleCollectedAtFormatted"
         )
 
-        if (data.sampleCollectedAt.toString() != data.sc) {
-            newMessage = newMessage.censor(
-                data.sc,
-                "test/sc"
-            )
-        }
+        newMessage = newMessage.censor(
+            data.sampleCollectedAt.toShortDayFormat(),
+            "test/sampleCollectedAt"
+        )
 
         newMessage = newMessage.censor(
             data.targetId,
@@ -247,22 +244,22 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
     }
 
     companion object {
-        private val qrCodeStringsToCensor = LinkedList<String>()
+        private val qrCodeStringsToCensor = ArrayList<String>()
 
         fun addQRCodeStringToCensor(rawString: String) = synchronized(qrCodeStringsToCensor) {
             qrCodeStringsToCensor.apply {
                 if (contains(rawString)) return@apply
-                addFirst(rawString)
+                add(rawString)
             }
         }
 
         fun clearQRCodeStringToCensor() = synchronized(qrCodeStringsToCensor) { qrCodeStringsToCensor.clear() }
 
-        private val certsToCensor = LinkedList<DccData<out DccV1.MetaData>>()
+        private val certsToCensor = ArrayList<DccData<out DccV1.MetaData>>()
         fun addCertificateToCensor(cert: DccData<out DccV1.MetaData>) = synchronized(certsToCensor) {
             certsToCensor.apply {
                 if (contains(cert)) return@apply
-                addFirst(cert)
+                add(cert)
             }
         }
 
