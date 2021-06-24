@@ -22,8 +22,8 @@ import io.mockk.mockkStatic
 import io.mockk.spyk
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
-import org.junit.Ignore
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
@@ -32,7 +32,7 @@ import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
 import java.util.Locale
 
-@Ignore("FIX ME")
+@Disabled("FIX ME")
 @ExtendWith(InstantExecutorExtension::class)
 class PersonOverviewViewModelTest : BaseTest() {
 
