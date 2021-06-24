@@ -334,7 +334,7 @@ jobs:
             curl --location --request POST $tsystems_upload_url \
             --header "Authorization: Bearer $tsystems_upload_bearer" \
             --form "file=@${fileName}" \
-            --form "camera='true'"
+            --form "camera=true"
 
   instrumentation_tests_device:
     resource_class: xlarge
