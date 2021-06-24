@@ -62,12 +62,12 @@
         tools:layout="@layout/fragment_scan_qr_code">
 
         <!--
-        To avoid in conflicting in the navigation flow between:
-        1- Scan -> certificate details -> Person details.
-        2- Person details -> Person details -> certificate details.
+        To avoid conflicting in the navigation flow between:
+        1- Scan screen -> any certificate details -> Person details  screen-> Person overview screen.
+        2- Person overview screen -> Person details screen -> any  certificate details.
 
-        Do navigate to Person details and then to the relevant certificate details to have the same flow
-        all the time.
+        Do navigate to "person details screen " and then to the relevant certificate details
+        to have the same flow all the time.
         -->
         <action
             android:id="@+id/action_dccQrCodeScanFragment_to_personDetailsFragment"
