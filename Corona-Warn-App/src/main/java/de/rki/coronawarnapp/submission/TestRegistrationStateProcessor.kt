@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.submission
 import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.censors.submission.PcrQrCodeCensor
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.errors.AlreadyRedeemedException
@@ -19,6 +20,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import timber.log.Timber
 import javax.inject.Inject
 
 class TestRegistrationStateProcessor @Inject constructor(
@@ -85,6 +87,8 @@ class TestRegistrationStateProcessor @Inject constructor(
         return try {
             stateInternal.value = State.Working
 
+            Timber.d("Censoring date of birth ${request.dateOfBirth}")
+            PcrQrCodeCensor.dateOfBirth = request.dateOfBirth
             val coronaTest = if (allowReplacement) {
                 submissionRepository.tryReplaceTest(request)
             } else {

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.bugreporting.censors.vaccination
+package de.rki.coronawarnapp.bugreporting.censors.dcc
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData

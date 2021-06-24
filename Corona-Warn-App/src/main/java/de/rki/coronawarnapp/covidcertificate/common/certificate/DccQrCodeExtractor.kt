@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
-import de.rki.coronawarnapp.bugreporting.censors.vaccination.DccQrCodeCensor
+import de.rki.coronawarnapp.bugreporting.censors.dcc.DccQrCodeCensor
 import de.rki.coronawarnapp.coronatest.qrcode.QrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode.CERT_REC_STRICT
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode.CERT_SINGLE_STRICT

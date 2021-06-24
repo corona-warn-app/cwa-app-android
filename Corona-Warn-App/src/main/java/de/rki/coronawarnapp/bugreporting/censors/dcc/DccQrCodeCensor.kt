@@ -1,11 +1,14 @@
-package de.rki.coronawarnapp.bugreporting.censors.vaccination
+package de.rki.coronawarnapp.bugreporting.censors.dcc
 
 import dagger.Reusable
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensorContainer
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
+import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
+import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import java.util.LinkedList
 import javax.inject.Inject
 
@@ -23,19 +26,64 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
             it.certificate.apply {
                 newMessage = newMessage.censor(
                     dateOfBirthFormatted,
-                    "covidCertificate/dateOfBirth"
+                    "dcc/dateOfBirth"
                 )
 
                 newMessage = censorNameData(nameData, newMessage)
 
-                (it.certificate as? VaccinationDccV1)?.let {
-                    newMessage = censorVaccinationData(it.vaccination, newMessage)
+                newMessage = when (it.certificate) {
+                    is VaccinationDccV1 -> censorVaccinationData(it.certificate.vaccination, newMessage)
+                    is TestDccV1 -> censorTestData(it.certificate.test, newMessage)
+                    is RecoveryDccV1 -> censorRecoveryData(it.certificate.recovery, newMessage)
+                    else -> newMessage
                 }
-                // TODO test and recovery ?
             }
         }
 
         return newMessage.nullIfEmpty()
+    }
+
+    private fun censorRecoveryData(
+        data: DccV1.RecoveryCertificateData,
+        message: CensorContainer
+    ): CensorContainer {
+        var newMessage = message
+        newMessage = newMessage.censor(
+            data.certificateIssuer,
+            "recovery/certificateIssuer"
+        )
+
+        newMessage = newMessage.censor(
+            data.uniqueCertificateIdentifier,
+            "recovery/uniqueCertificateIdentifier"
+        )
+
+        newMessage = newMessage.censor(
+            data.certificateCountry,
+            "recovery/certificateCountry"
+        )
+
+        newMessage = newMessage.censor(
+            data.testedPositiveOnFormatted,
+            "recovery/testedPositiveOnFormatted"
+        )
+
+        newMessage = newMessage.censor(
+            data.validFromFormatted,
+            "recovery/validFromFormatted"
+        )
+
+        newMessage = newMessage.censor(
+            data.validUntilFormatted,
+            "recovery/validUntilFormatted"
+        )
+
+        newMessage = newMessage.censor(
+            data.validUntil.toShortDayFormat(),
+            "recovery/validFromFormatted"
+        )
+
+        return newMessage
     }
 
     private fun censorVaccinationData(
@@ -46,50 +94,122 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
 
         newMessage = newMessage.censor(
             vaccinationData.marketAuthorizationHolderId,
-            "vaccinationData/marketAuthorizationHolderId"
+            "vaccination/marketAuthorizationHolderId"
         )
 
         newMessage = newMessage.censor(
             vaccinationData.medicalProductId,
-            "vaccinationData/medicalProductId"
+            "vaccination/medicalProductId"
         )
 
         newMessage = newMessage.censor(
             vaccinationData.targetId,
-            "vaccinationData/targetId"
+            "vaccination/targetId"
         )
 
         newMessage = newMessage.censor(
             vaccinationData.certificateIssuer,
-            "vaccinationData/certificateIssuer"
+            "vaccination/certificateIssuer"
         )
 
         newMessage = newMessage.censor(
             vaccinationData.uniqueCertificateIdentifier,
-            "vaccinationData/uniqueCertificateIdentifier"
+            "vaccination/uniqueCertificateIdentifier"
         )
 
         newMessage = newMessage.censor(
             vaccinationData.certificateCountry,
-            "vaccinationData/certificateCountry"
+            "vaccination/certificateCountry"
         )
 
         newMessage = newMessage.censor(
             vaccinationData.vaccineId,
-            "vaccinationData/vaccineId"
+            "vaccination/vaccineId"
         )
 
         val vaccinatedOn = vaccinationData.vaccinatedOnFormatted
         newMessage = newMessage.censor(
             vaccinatedOn,
-            "vaccinationData/vaccinatedOnFormatted"
+            "vaccination/vaccinatedOnFormatted"
         )
         if (vaccinatedOn != vaccinationData.dt) {
             newMessage = newMessage.censor(
                 vaccinationData.dt,
-                "vaccinationData/dt"
+                "vaccination/dt"
             )
         }
+
+        return newMessage
+    }
+
+    private fun censorTestData(
+        data: DccV1.TestCertificateData,
+        message: CensorContainer
+    ): CensorContainer {
+        var newMessage = message
+
+        data.testCenter?.let {
+            newMessage = newMessage.censor(
+                data.testCenter,
+                "test/testCenter"
+            )
+        }
+
+        newMessage = newMessage.censor(
+            data.testResult,
+            "test/testResult"
+        )
+
+        newMessage = newMessage.censor(
+            data.testType,
+            "test/testType"
+        )
+
+        data.testName?.let {
+            newMessage = newMessage.censor(
+                data.testName,
+                "test/testName"
+            )
+        }
+
+        data.testNameAndManufacturer?.let {
+            newMessage = newMessage.censor(
+                data.testNameAndManufacturer,
+                "test/testNameAndManufacturer"
+            )
+        }
+
+        newMessage = newMessage.censor(
+            data.sampleCollectedAt.toString(),
+            "test/sampleCollectedAt"
+        )
+
+        if (data.sampleCollectedAt.toString() != data.sc) {
+            newMessage = newMessage.censor(
+                data.sc,
+                "test/sc"
+            )
+        }
+
+        newMessage = newMessage.censor(
+            data.targetId,
+            "test/targetId"
+        )
+
+        newMessage = newMessage.censor(
+            data.certificateIssuer,
+            "test/certificateIssuer"
+        )
+
+        newMessage = newMessage.censor(
+            data.uniqueCertificateIdentifier,
+            "test/uniqueCertificateIdentifier"
+        )
+
+        newMessage = newMessage.censor(
+            data.certificateCountry,
+            "test/certificateCountry"
+        )
 
         return newMessage
     }
@@ -133,8 +253,6 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
             qrCodeStringsToCensor.apply {
                 if (contains(rawString)) return@apply
                 addFirst(rawString)
-                // Max certs is at 4, but we may scan invalid qr codes that are not added which will be shown in raw
-                if (size > 8) removeLast()
             }
         }
 
@@ -145,8 +263,6 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
             certsToCensor.apply {
                 if (contains(cert)) return@apply
                 addFirst(cert)
-                // max certs we should have is 2, 50% leeway
-                if (size > 4) removeLast()
             }
         }
 
