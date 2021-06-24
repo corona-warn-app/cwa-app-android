@@ -3,9 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.common.scan
 import com.journeyapps.barcodescanner.BarcodeResult
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
@@ -46,17 +44,29 @@ class DccQrCodeScanViewModel @AssistedInject constructor(
 
     private suspend fun registerVaccinationCertificate(qrCode: VaccinationCertificateQRCode) {
         val certificate = vaccinationRepository.registerCertificate(qrCode)
-        event.postValue(Event.VaccinationQrCodeScanSucceeded(certificate.containerId))
+        event.postValue(
+            Event.PersonDetailsScreen(
+                certificate.personIdentifier.codeSHA256, certificate.containerId
+            )
+        )
     }
 
     private suspend fun registerTestCertificate(qrCode: TestCertificateQRCode) {
         val certificate = testCertificateRepository.registerCertificate(qrCode)
-        event.postValue(Event.TestQrCodeScanSucceeded(certificate.containerId))
+        event.postValue(
+            Event.PersonDetailsScreen(
+                certificate.personIdentifier.codeSHA256, certificate.containerId
+            )
+        )
     }
 
     private suspend fun registerRecoveryCertificate(qrCode: RecoveryCertificateQRCode) {
         val certificate = recoveryCertificateRepository.registerCertificate(qrCode)
-        event.postValue(Event.RecoveryQrCodeScanSucceeded(certificate.containerId))
+        event.postValue(
+            Event.PersonDetailsScreen(
+                certificate.personIdentifier.codeSHA256, certificate.containerId
+            )
+        )
     }
 
     fun setCameraDeniedPermanently(denied: Boolean) {
@@ -66,9 +76,10 @@ class DccQrCodeScanViewModel @AssistedInject constructor(
 
     sealed class Event {
         object QrCodeScanInProgress : Event()
-        data class VaccinationQrCodeScanSucceeded(val containerId: VaccinationCertificateContainerId) : Event()
-        data class TestQrCodeScanSucceeded(val containerId: TestCertificateContainerId) : Event()
-        data class RecoveryQrCodeScanSucceeded(val containerId: RecoveryCertificateContainerId) : Event()
+        data class PersonDetailsScreen(
+            val codeSHA256: String,
+            val containerId: CertificateContainerId
+        ) : Event()
     }
 
     @AssistedFactory
