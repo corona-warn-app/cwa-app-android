@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.deadman
 
 import dagger.Reusable
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
-import de.rki.coronawarnapp.diagnosiskeys.storage.pkgDateTime
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
 import org.joda.time.DateTimeConstants
@@ -33,12 +32,12 @@ class DeadmanNotificationTimeCalculation @Inject constructor(
         val lastSuccess = keyCacheRepository.allCachedKeys()
             .first()
             .filter { it.info.isDownloadComplete }
-            .maxByOrNull { it.info.pkgDateTime }
+            .maxByOrNull { it.info.createdAt }
             ?.info
 
         Timber.d("Last successful diagnosis key package download: $lastSuccess")
         return if (lastSuccess != null) {
-            getHoursDiff(lastSuccess.pkgDateTime.toInstant()).toLong()
+            getHoursDiff(lastSuccess.createdAt).toLong()
         } else {
             (DEADMAN_NOTIFICATION_DELAY * DateTimeConstants.MINUTES_PER_HOUR).toLong()
         }
