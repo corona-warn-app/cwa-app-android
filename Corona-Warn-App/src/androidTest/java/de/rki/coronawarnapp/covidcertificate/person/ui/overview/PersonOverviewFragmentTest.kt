@@ -12,10 +12,12 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificatesItem
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -24,7 +26,6 @@ import io.mockk.mockk
 import org.joda.time.Instant
 import org.junit.After
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
@@ -34,7 +35,6 @@ import testhelpers.launchInMainActivity
 import testhelpers.selectBottomNavTab
 import testhelpers.takeScreenshot
 
-@Ignore("FIX ME")
 @RunWith(AndroidJUnit4::class)
 class PersonOverviewFragmentTest : BaseUITest() {
 
@@ -108,7 +108,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
         .apply {
             add(
                 CovidTestCertificatePendingCard.Item(
-                    certificate = mockk(),
+                    certificate = mockTestCertificateWrapper(false),
                     onDeleteAction = {},
                     onRetryAction = {},
                 )
@@ -128,7 +128,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
         .apply {
             add(
                 CovidTestCertificatePendingCard.Item(
-                    certificate = mockk(),
+                    certificate = mockTestCertificateWrapper(true),
                     onDeleteAction = {},
                     onRetryAction = {},
                 )
@@ -188,6 +188,13 @@ class PersonOverviewFragmentTest : BaseUITest() {
             lastNameStandardized = "lastNameStandardized",
             dateOfBirthFormatted = "1943-04-18"
         )
+    }
+
+    fun mockTestCertificateWrapper(isUpdating: Boolean) = mockk<TestCertificateWrapper>().apply {
+        every { isCertificateRetrievalPending } returns true
+        every { isUpdatingData } returns isUpdating
+        every { registeredAt } returns Instant.EPOCH
+        every { containerId } returns TestCertificateContainerId("testCertificateContainerId")
     }
 }
 

@@ -4,6 +4,7 @@ import android.content.Context
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
@@ -23,7 +24,6 @@ import io.mockk.spyk
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
@@ -32,10 +32,8 @@ import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
 import java.util.Locale
 
-@Disabled("FIX ME")
 @ExtendWith(InstantExecutorExtension::class)
 class PersonOverviewViewModelTest : BaseTest() {
-
     @MockK lateinit var qrCodeGenerator: QrCodeGenerator
     @MockK lateinit var personCertificatesProvider: PersonCertificatesProvider
     @MockK lateinit var testCertificateRepository: TestCertificateRepository
@@ -53,7 +51,7 @@ class PersonOverviewViewModelTest : BaseTest() {
         coEvery { qrCodeGenerator.createQrCode(any(), any(), any(), any(), any()) } returns mockk()
         every { personCertificatesProvider.personCertificates } returns emptyFlow()
         every { refreshResult.error } returns null
-        every { testCertificateRepository.certificates } returns emptyFlow()
+        every { testCertificateRepository.certificates } returns flowOf(setOf())
         every { context.getLocale() } returns Locale.GERMAN
         every { valueSetsRepository.triggerUpdateValueSet(any()) } just Runs
         every { cameraPermissionProvider.deniedPermanently } returns flowOf(false)
@@ -96,6 +94,9 @@ class PersonOverviewViewModelTest : BaseTest() {
 
     @Test
     fun `Sorting - List has pending certificate`() {
+        every { testCertificateRepository.certificates } returns flowOf(
+            setOf(PersonCertificatesData.mockTestCertificateWrapper)
+        )
         every { personCertificatesProvider.personCertificates } returns
             PersonCertificatesData.certificatesWithPending
                 .map {
@@ -105,7 +106,11 @@ class PersonOverviewViewModelTest : BaseTest() {
                 }.run { flowOf(this.toSet()) }
 
         instance.personCertificates.getOrAwaitValue().apply {
-            // (get(0) as CovidTestCertificatePendingCard.Item).apply { certificate.fullName shouldBe "Max Mustermann" }
+            (get(0) as CovidTestCertificatePendingCard.Item).apply {
+                certificate.containerId shouldBe TestCertificateContainerId(
+                    "testCertificateContainerId"
+                )
+            }
             (get(1) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Zeebee" }
             (get(2) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Andrea Schneider" }
         }
@@ -113,6 +118,9 @@ class PersonOverviewViewModelTest : BaseTest() {
 
     @Test
     fun `Sorting - List has pending & updating certificate`() {
+        every { testCertificateRepository.certificates } returns flowOf(
+            setOf(PersonCertificatesData.mockTestCertificateWrapper)
+        )
         every { personCertificatesProvider.personCertificates } returns
             PersonCertificatesData.certificatesWithUpdating
                 .map {
@@ -122,7 +130,11 @@ class PersonOverviewViewModelTest : BaseTest() {
                 }.run { flowOf(this.toSet()) }
 
         instance.personCertificates.getOrAwaitValue().apply {
-            // (get(0) as CovidTestCertificatePendingCard.Item).apply { certificate.fullName shouldBe "Max Mustermann" }
+            (get(0) as CovidTestCertificatePendingCard.Item).apply {
+                certificate.containerId shouldBe TestCertificateContainerId(
+                    "testCertificateContainerId"
+                )
+            }
             (get(1) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Zeebee" }
             (get(2) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Andrea Schneider" }
         }
@@ -130,6 +142,7 @@ class PersonOverviewViewModelTest : BaseTest() {
 
     @Test
     fun `Sorting - List has no CWA user`() {
+        every { testCertificateRepository.certificates } returns flowOf(setOf())
         every { personCertificatesProvider.personCertificates } returns
             PersonCertificatesData.certificatesWithoutCwaUser
                 .map {
