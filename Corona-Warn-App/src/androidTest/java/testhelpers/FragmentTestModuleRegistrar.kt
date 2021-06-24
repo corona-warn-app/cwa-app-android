@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.bugreporting.DebugLogUploadTestModule
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFragmentTestModule
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewFragmentTestModule
 import de.rki.coronawarnapp.covidcertificate.recovery.ui.RecoveryCertificateDetailsFragmentTestModule
-import de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertificateDetailsModule
 import de.rki.coronawarnapp.covidcertificate.test.ui.CovidCertificateDetailsFragmentTestModule
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryDayFragmentTestModule
