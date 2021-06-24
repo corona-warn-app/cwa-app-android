@@ -60,19 +60,18 @@
         android:name="de.rki.coronawarnapp.covidcertificate.common.scan.DccQrCodeScanFragment"
         android:label="DccQrCodeScanFragment"
         tools:layout="@layout/fragment_scan_qr_code">
+
+        <!--
+        To avoid conflicting in the navigation flow between:
+        1- Scan screen -> any certificate details -> Person details  screen-> Person overview screen.
+        2- Person overview screen -> Person details screen -> any  certificate details.
+
+        Do navigate to "person details screen " and then to the relevant certificate details
+        to have the same flow all the time.
+        -->
         <action
-            android:id="@+id/action_dccQrCodeScanFragment_to_vaccinationDetailsFragment"
-            app:destination="@id/vaccinationDetailsFragment"
-            app:popUpTo="@id/dccQrCodeScanFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_dccQrCodeScanFragment_to_testCertificateDetailsFragment"
-            app:destination="@id/testCertificateDetailsFragment"
-            app:popUpTo="@id/dccQrCodeScanFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_dccQrCodeScanFragment_to_recoveryCertificateDetailsFragment"
-            app:destination="@id/recoveryCertificateDetailsFragment"
+            android:id="@+id/action_dccQrCodeScanFragment_to_personDetailsFragment"
+            app:destination="@id/personDetailsFragment"
             app:popUpTo="@id/dccQrCodeScanFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -83,13 +82,19 @@
         android:label="person_details_fragment"
         tools:layout="@layout/person_details_fragment">
         <argument
-            android:name="personIdentifierCode"
+            android:name="personCode"
             app:argType="string" />
 
         <argument
             android:name="colorShade"
             android:defaultValue="COLOR_1"
             app:argType="de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade" />
+
+        <argument
+            android:name="containerId"
+            android:defaultValue="@null"
+            app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId"
+            app:nullable="true" />
 
         <action
             android:id="@+id/action_personDetailsFragment_to_vaccinationDetailsFragment"

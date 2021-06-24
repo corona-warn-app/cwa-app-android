@@ -33,11 +33,13 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
     private val binding: PersonDetailsFragmentBinding by viewBinding()
     private val viewModel: PersonDetailsViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
+        constructorCall = { factory, savedInstance ->
             factory as PersonDetailsViewModel.Factory
             factory.create(
-                personIdentifierCode = args.personIdentifierCode,
-                colorShade = args.colorShade
+                personIdentifierCode = args.personCode,
+                colorShade = args.colorShade,
+                containerId = args.containerId,
+                savedInstance = savedInstance
             )
         }
     )
@@ -54,7 +56,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            root.transitionName = args.personIdentifierCode
+            root.transitionName = args.personCode
             toolbar.setNavigationOnClickListener { popBackStack() }
             recyclerViewCertificatesList.apply {
                 adapter = personDetailsAdapter

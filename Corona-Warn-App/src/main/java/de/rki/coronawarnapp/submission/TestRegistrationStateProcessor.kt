@@ -104,7 +104,7 @@ class TestRegistrationStateProcessor @Inject constructor(
             coronaTest
         } catch (err: Exception) {
             stateInternal.value = State.Error(exception = err)
-            if (err !is CwaWebException) {
+            if (err !is CwaWebException && err !is AlreadyRedeemedException) {
                 err.report(ExceptionCategory.INTERNAL)
             }
             null

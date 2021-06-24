@@ -39,6 +39,9 @@ data class RecoveryCertificateContainer(
     val certificateId: String
         get() = certificateData.certificate.recovery.uniqueCertificateIdentifier
 
+    val personIdentifier: CertificatePersonIdentifier
+        get() = certificateData.certificate.personIdentifier
+
     fun toRecoveryCertificate(
         valueSet: VaccinationValueSets? = null,
         userLocale: Locale = Locale.getDefault(),
