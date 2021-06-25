@@ -15,7 +15,63 @@
             "green_certificate_strings.xml",
             "covid_certificate_strings.xml"
           ],
-          "targetFolderPath": "../values-[langCode]"
+          "targetFolderPath": "../values"
+        },
+        {
+          "startingFolderPath": "**/res/values-de/**",
+          "sourceFilters": [
+            "strings.xml",
+            "contact_diary_strings.xml",
+            "release_info_strings.xml",
+            "event_registration_strings.xml",
+            "antigen_strings.xml",
+            "vaccination_strings.xml",
+            "green_certificate_strings.xml",
+            "covid_certificate_strings.xml"
+          ],
+          "targetFolderPath": "../values-bg"
+        },
+        {
+          "startingFolderPath": "**/res/values-de/**",
+          "sourceFilters": [
+            "strings.xml",
+            "contact_diary_strings.xml",
+            "release_info_strings.xml",
+            "event_registration_strings.xml",
+            "antigen_strings.xml",
+            "vaccination_strings.xml",
+            "green_certificate_strings.xml",
+            "covid_certificate_strings.xml"
+          ],
+          "targetFolderPath": "../values-pl"
+        },
+        {
+          "startingFolderPath": "**/res/values-de/**",
+          "sourceFilters": [
+            "strings.xml",
+            "contact_diary_strings.xml",
+            "release_info_strings.xml",
+            "event_registration_strings.xml",
+            "antigen_strings.xml",
+            "vaccination_strings.xml",
+            "green_certificate_strings.xml",
+            "covid_certificate_strings.xml"
+          ],
+          "targetFolderPath": "../values-ro"
+        },
+        {
+          "startingFolderPath": "**/res/values-de/**",
+          "sourceFilters": [
+            "strings.xml",
+            "contact_diary_strings.xml",
+            "release_info_strings.xml",
+            "event_registration_strings.xml",
+            "antigen_strings.xml",
+            "vaccination_strings.xml",
+            "green_certificate_strings.xml",
+            "covid_certificate_strings.xml"
+          ],
+          "targetFolderPath": "../values-tr"
         }
       ]
     }
