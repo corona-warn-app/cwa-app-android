@@ -1,9 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.details
 
+import androidx.lifecycle.SavedStateHandle
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
+import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
@@ -148,7 +150,12 @@ class PersonDetailsViewModelTest : BaseTest() {
         timeStamper = timeStamper,
         personCertificatesProvider = personCertificatesProvider,
         personIdentifierCode = personCode,
-        colorShade = PersonColorShade.COLOR_1
+        colorShade = PersonColorShade.COLOR_1,
+        containerId = vcContainerId,
+        savedInstance = mockk<SavedStateHandle>().apply {
+            every { get<CertificateContainerId>(any()) } returns vcContainerId
+            every { set(any(), any<CertificateContainerId>()) } just Runs
+        }
     )
 
     private fun mockTestCertificate(): TestCertificate = mockk<TestCertificate>().apply {

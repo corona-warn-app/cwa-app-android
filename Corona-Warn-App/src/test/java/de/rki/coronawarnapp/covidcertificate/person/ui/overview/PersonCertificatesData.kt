@@ -6,25 +6,28 @@ import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
+import io.mockk.every
 import io.mockk.mockk
 import org.joda.time.Instant
 import java.util.UUID
 
 object PersonCertificatesData {
+
+    val mockTestCertificateWrapper = mockk<TestCertificateWrapper>().apply {
+        every { isCertificateRetrievalPending } returns true
+        every { isUpdatingData } returns true
+        every { registeredAt } returns Instant.EPOCH
+        every { containerId } returns TestCertificateContainerId("testCertificateContainerId")
+    }
     val certificatesWithPending = mutableSetOf<PersonCertificates>()
         .apply {
             add(PersonCertificates(listOf(testCertificate(fullName = "Andrea Schneider"))))
-            add(PersonCertificates(listOf(testCertificate(fullName = "Max Mustermann", isPending = true))))
             add(PersonCertificates(listOf(testCertificate(fullName = "Zeebee")), isCwaUser = true))
         }
     val certificatesWithUpdating = mutableSetOf<PersonCertificates>().apply {
         add(PersonCertificates(listOf(testCertificate(fullName = "Andrea Schneider"))))
         add(PersonCertificates(listOf(testCertificate(fullName = "Zeebee")), isCwaUser = true))
-        add(
-            PersonCertificates(
-                listOf(testCertificate(fullName = "Max Mustermann", isPending = true, isUpdating = true))
-            )
-        )
     }
     val certificatesWithCwaUser = mutableSetOf<PersonCertificates>().apply {
         add(PersonCertificates(listOf(testCertificate(fullName = "Max Mustermann"))))

@@ -28,6 +28,7 @@ class CwaUserCard(parent: ViewGroup) :
                 R.string.person_details_cwa_user_birthdate,
                 certificate.dateOfBirthFormatted
             )
+            cwaUserSwitch.setOnCheckedChangeListener(null)
             cwaUserSwitch.isChecked = curItem.personCertificates.isCwaUser
             cwaUserSwitch.setOnCheckedChangeListener { _, isChecked -> onSwitch(isChecked) }
         }
