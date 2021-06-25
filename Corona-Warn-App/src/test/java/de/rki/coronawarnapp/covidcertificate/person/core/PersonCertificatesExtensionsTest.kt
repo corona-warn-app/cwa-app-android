@@ -61,7 +61,9 @@ class PersonCertificatesExtensionsTest : BaseTest() {
         val third = mockk<VaccinationCertificate>().apply {
             every { rawCertificate.vaccination.doseNumber } returns 2
             every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
-            every { rawCertificate.vaccination.vaccinatedOn } returns time.minus(Duration.standardDays(15)).toLocalDateUtc()
+            every {
+                rawCertificate.vaccination.vaccinatedOn
+            } returns time.minus(Duration.standardDays(15)).toLocalDateUtc()
         }
 
         val fourth = mockk<RecoveryCertificate>().apply {
