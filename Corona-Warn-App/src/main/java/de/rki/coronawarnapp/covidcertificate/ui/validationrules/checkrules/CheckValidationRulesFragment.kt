@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.ui.onboarding.validationrules.checkrules
+package de.rki.coronawarnapp.covidcertificate.ui.validationrules.checkrules
 
 import androidx.fragment.app.Fragment
 
