@@ -20,7 +20,11 @@ class LocalStatisticsParser @Inject constructor() {
                 val updatedAt = Instant.ofEpochSecond(rawState.updatedAt)
                 val stateIncidenceKeyFigure = rawState.sevenDayIncidence.toKeyFigure()
 
-                LocalIncidenceStats(updatedAt = updatedAt, keyFigures = listOf(stateIncidenceKeyFigure)).also {
+                LocalIncidenceStats(
+                    updatedAt = updatedAt,
+                    keyFigures = listOf(stateIncidenceKeyFigure),
+                    federalState = rawState.federalState
+                ).also {
                     Timber.tag(TAG).v("Parsed %s", it.toString().replace("\n", ", "))
                     it.requireValidity()
                 }
@@ -35,9 +39,12 @@ class LocalStatisticsParser @Inject constructor() {
                 val updatedAt = Instant.ofEpochSecond(rawState.updatedAt)
                 val administrativeUnitIncidenceKeyFigure = rawState.sevenDayIncidence.toKeyFigure()
 
+                val federalStateId = rawState.administrativeUnitShortId.toString().dropLast(3).toInt()
+
                 LocalIncidenceStats(
                     updatedAt = updatedAt,
-                    keyFigures = listOf(administrativeUnitIncidenceKeyFigure)
+                    keyFigures = listOf(administrativeUnitIncidenceKeyFigure),
+                    federalState = LocalStatisticsOuterClass.FederalStateData.FederalState.forNumber(federalStateId)
                 ).also {
                     Timber.tag(TAG).v("Parsed %s", it.toString().replace("\n", ", "))
                     it.requireValidity()
