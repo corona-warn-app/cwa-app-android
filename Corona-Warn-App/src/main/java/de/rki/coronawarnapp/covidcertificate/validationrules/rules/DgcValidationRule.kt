@@ -8,7 +8,7 @@ interface DgcValidationRule {
     val identifier: String
 
     // Type of the rule ("Acceptance", "Invalidation")
-    val type: ValidationRuleType
+    val typeDgc: DgcValidationRuleType
 
     // Country code of the country that created the rule
     // ISO 3166 two-letter country code "Country": "CZ",

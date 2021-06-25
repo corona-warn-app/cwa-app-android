@@ -8,18 +8,27 @@ import javax.inject.Inject
 
 class DgcRulesValidator @Inject constructor(
     testCertificateRepository: TestCertificateRepository,
-    dgcValidationRulesRepository: ValidationRulesRepository,
+    dgcDgcValidationRulesRepository: DgcValidationRulesRepository,
 ) {
 
     /**
      * Validates DGC against country of arrival's rules and issuer country rules
      */
     suspend fun validateDgc(
-        arrivalsCountry: Set<DgcCountry>, // For future
+        arrivalsCountry: Set<DgcCountry>, // For future allow multiple country selection
         containerId: CertificateContainerId,
-        dateTime: DateTime
+        dateTime: DateTime,
+        cwt: CWT
     ): DgcValidationResult {
-
-        return DgcValidationResult.FAIL
+        return object : DgcValidationResult {
+            override val expirationCheckPassed: Boolean
+                get() = false
+            override val jsonSchemaCheckPassed: Boolean
+                get() = false
+            override val acceptanceRulesResultDgcs: Set<DgcValidationResultSet>
+                get() = setOf()
+            override val invalidationRulesResultDgcs: Set<DgcValidationResultSet>
+                get() = setOf()
+        }
     }
 }

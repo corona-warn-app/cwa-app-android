@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.covidcertificate.validationrules.rules
 
-enum class DgcValidationResult {
-    PASS,
-    FAIL,
-    OPEN
+interface DgcValidationResult {
+    val expirationCheckPassed: Boolean
+    val jsonSchemaCheckPassed: Boolean
+    val acceptanceRulesResultDgcs: Set<DgcValidationResultSet>
+    val invalidationRulesResultDgcs: Set<DgcValidationResultSet>
 }

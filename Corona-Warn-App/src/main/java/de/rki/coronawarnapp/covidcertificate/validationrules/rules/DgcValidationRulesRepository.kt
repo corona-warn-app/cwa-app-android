@@ -6,7 +6,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ValidationRulesRepository @Inject constructor(
+class DgcValidationRulesRepository @Inject constructor(
     dgcValidationRulesServer: DgcValidationRulesServer
 ) {
 
