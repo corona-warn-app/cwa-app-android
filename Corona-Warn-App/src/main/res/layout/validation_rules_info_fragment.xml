@@ -14,7 +14,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/vaccination_consent_headline" />
+        style="@style/CWAToolbar.Close"
+        app:title="@string/validation_rules_info_title"
+        android:contentDescription="@string/validation_rules_info_title"/>
 
     <ScrollView
         android:id="@+id/scrollview"
@@ -33,7 +35,8 @@
                 android:id="@+id/validation_rule_map"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:importantForAccessibility="no"
+                android:importantForAccessibility="yes"
+                android:contentDescription=""
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
