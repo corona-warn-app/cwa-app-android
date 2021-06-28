@@ -38,4 +38,8 @@ class LocalStatisticsCache @Inject constructor(
         cacheFile.parentFile?.mkdirs()
         cacheFile.writeBytes(data)
     }
+
+    fun clearAll() {
+        cacheFolder.deleteRecursively()
+    }
 }

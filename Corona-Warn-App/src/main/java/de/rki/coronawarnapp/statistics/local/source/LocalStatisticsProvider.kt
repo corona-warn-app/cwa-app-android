@@ -113,11 +113,11 @@ class LocalStatisticsProvider @Inject constructor(
         )
     }
 
-    fun clear(forState: FederalStateToPackageId) {
+    fun clear() {
         Timber.d("clear()")
 
         server.clear()
-        localStatisticsCache.save(forState, null)
+        localStatisticsCache.clearAll()
     }
 
     companion object {
