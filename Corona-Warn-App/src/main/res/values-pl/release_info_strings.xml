@@ -16,24 +16,28 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Certyfikat testu na COVID"</item>
-        <item>"Rozszerzenie dziennika kontaktów"</item>
+        <item>"Zaświadczenie o statusie ozdrowieńca COVID"</item>
+        <item>"Certyfikaty rodzinne"</item>
+        <item>"Rozszerzone statystyki"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Możesz teraz poprosić o oficjalny cyfrowy certyfikat testu za pośrednictwem aplikacji, a następnie dodać go w aplikacji. Certyfikatu testu (kodu QR) możesz używać w UE jako dowodu negatywnego wyniku testu (na przykład w przypadku podróży międzynarodowych)."</item>
-        <item>"Gdy tylko Twój wynik testu będzie dostępny, zostanie on również dodany do Twojego dziennika kontaktów."</item>
+        <item>"Za pośrednictwem aplikacji możesz teraz również poprosić o wydanie cyfrowych zaświadczeń o statusie ozdrowieńca, a następnie dodać je w aplikacji. Zaświadczeń tych można używać na terenie UE, aby udowodnić przejście infekcji (np. w przypadku podróży zagranicznych)."</item>
+        <item>"Aplikacja umożliwia teraz dodawanie cyfrowych certyfikatów COVID dla członków rodziny i zarządzanie nimi. Można je okazywać w razie potrzeby (np. w czasie podróży międzynarodowych)."</item>
+        <item>"W aplikacji dostępne są teraz następujące statystyki dotyczące szczepień:\n\t- Liczba osób, które otrzymały co najmniej jedną dawkę szczepionki\n\t- Liczba osób, które są w pełni zaszczepione\n\t- Liczba podanych dawek szczepionki"</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
         <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item/>
         <item/>
         <item/>
     </string-array>

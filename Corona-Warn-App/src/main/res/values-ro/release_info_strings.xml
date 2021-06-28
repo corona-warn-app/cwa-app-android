@@ -16,24 +16,28 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Certificat de test COVID"</item>
-        <item>"Extinderea jurnalului de contacte"</item>
+        <item>"Certificat de recuperare COVID"</item>
+        <item>"Certificate de familie"</item>
+        <item>"Statistică extinsă"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Acum puteți solicita un certificat de test digital oficial prin aplicație și apoi îl puteți adăuga în aplicație. Puteți utiliza acest certificat de test (cod QR) în UE pentru a face dovada unui rezultat de test negativ (de exemplu, pentru călătoria internațională)."</item>
-        <item>"De îndată ce rezultatul testului dvs. este disponibil, acum acesta este adăugat și la jurnalul dvs. de contacte."</item>
+        <item>"Acum puteți solicita și certificate digitale de recuperare prin aplicație și apoi le puteți adăuga în aplicație. Puteți utiliza aceste certificate în UE pentru a face dovada recuperării de la o infecție anterioară (de exemplu, pentru călătoria internațională)."</item>
+        <item>"Acum puteți adăuga și gestiona certificate COVID digitale ale membrilor familiei în aplicație, pe care le puteți transmite când este nevoie (pentru călătoria internațională, de exemplu)."</item>
+        <item>"Următoarele statistici privind vaccinarea sunt acum disponibile în aplicație:\n\t- Numărul de persoane care au primit cel puțin o doză de vaccin\n\t- Numărul de persoane care sunt complet vaccinate\n\t- Numărul de doze de vaccin administrate"</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
         <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item/>
         <item/>
         <item/>
     </string-array>
