@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
     <!-- ####################################
                      Generics
     ###################################### -->
@@ -671,7 +670,7 @@
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_bluetooth_illustration_description_inactive">"A person has turned off Bluetooth on their smartphone, so an encounter with two other persons is not logged."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
-    <string name="settings_tracing_location_illustration_description_inactive" />
+    <string name="settings_tracing_location_illustration_description_inactive"/>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_connection_illustration_description_inactive">"A person has turned off the Internet connection on their smartphone, so an encounter with two other persons is not logged."</string>
 
@@ -922,7 +921,7 @@
     <!-- XBUT: Button for bugreporting share log screen -->
     <string name="debugging_debuglog_share_log_button">"Agree and Send"</string>
     <!-- XMSG: Dialog body try again later -->
-    <string name="debugging_debuglog_share_try_again_later">"Der Fehlerbericht kann aktuell nicht gesendet werden. Bitte versuchen Sie es später noch einmal."</string>
+    <string name="debugging_debuglog_share_try_again_later">"The error report cannot be sent right now. Please try again later."</string>
     <!-- XHED: Title for log upload history -->
     <string name="debugging_debuglog_uploadhistory_title">"ID History"</string>
     <!-- YTXT: Description for log upload history -->
@@ -1072,36 +1071,36 @@
     <!-- XHED: Page subheadline for test result  -->
     <string name="submission_test_result_subtitle">"How this works:"</string>
     <!-- XHED: Page headline for results next steps  -->
-    <string name="submission_test_result_steps_added_heading">"Your PCR test was added successfully."</string>
+    <string name="submission_test_result_steps_added_heading">"Your PCR Test Was Added"</string>
     <!-- YTXT: Body text for for results next steps  -->
     <string name="submission_test_result_steps_added_body">"Your test has been stored in the Corona-Warn-App."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_heading">"Your test result is not available yet."</string>
+    <string name="submission_test_result_pending_steps_waiting_heading">"Your Test Result Is Not Available Yet"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_body">"As soon as your test result becomes available, it will be displayed in the app.\n\nYou will also receive your test result outside of the app. The public health authorities will notify you, should your test be positive.\n\nIf you are notified of a positive test result outside the app, please delete the test currently registered in the app. Call the number shown under “Request TAN” to get a TAN. You can then use this TAN to register your result in the app and warn others."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Your test result is not available yet."</string>
+    <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Your Test Result Is Not Available Yet"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_pcr_body">"As soon as your test result becomes available, it will be displayed in the app.\n\nYou will also receive your test result outside of the app. The public health authorities will notify you, should your test be positive.\n\nIf you are notified of a positive test result outside the app, please delete the test currently registered in the app. Call the number shown under “Request TAN” to get a TAN. You can then use this TAN to register your result in the app and warn others."</string>
     <!-- XHED: Page headline for results next steps  -->
-    <string name="submission_test_result_steps_added_rat_heading">"Your rapid test was added."</string>
+    <string name="submission_test_result_steps_added_rat_heading">"Your rapid test was added"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_rat_heading">"Your test result is not available yet."</string>
+    <string name="submission_test_result_pending_steps_waiting_rat_heading">"Your test result is not available yet"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_rat_body">"As soon as your test result becomes available, it will be displayed in the app."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_contact_diary_heading">"Your test result will be added to your contact journal."</string>
+    <string name="submission_test_result_pending_steps_contact_diary_heading">"Your test result will be added to your contact journal"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_contact_diary_body">"As soon as your test result becomes available, it will be displayed in the app."</string>
 
     <!-- XHED: Page headline for test result certifcate info title  -->
-    <string name="submission_test_result_pending_steps_test_certificate_heading">"Your Test Certificate"</string>
+    <string name="submission_test_result_pending_steps_test_certificate_heading">"Your COVID Test Certificate"</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not supported, RAT Test -->
-    <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"No test certificate is available because this testing point does not support the issuing of test certificates."</string>
+    <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"An official digital COVID test certificate cannot be issued because this testing point does not support the issuing of test certificates."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
-    <string name="submission_test_result_pending_steps_test_certificate_not_available_yet_body">"Your test certificate is not available yet. As soon as it becomes available, it will be displayed in your app."</string>
+    <string name="submission_test_result_pending_steps_test_certificate_not_available_yet_body">"Your official digital COVID test certificate is not available yet. As soon as it becomes available, it will be displayed in your app."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not desired by the user, PCR Test no consent given -->
-    <string name="submission_test_result_pending_steps_test_certificate_not_desired_by_user_body">"No test certificate was issued, as per your request."</string>
+    <string name="submission_test_result_pending_steps_test_certificate_not_desired_by_user_body">"No official digital COVID test certificate will be issued, as per your request."</string>
 
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Update"</string>
@@ -1110,7 +1109,7 @@
     <!-- XHED: Page headline for negative test result next steps  -->
     <string name="submission_test_result_negative_steps_negative_heading">"Negative Diagnosis"</string>
     <!-- YTXT: Body text for next steps section of test negative result -->
-    <string name="submission_test_result_negative_steps_negative_body">"The laboratory result indicates no verification that you have the SARS-CoV-2 coronavirus.\n\nPlease delete the test from the Corona-Warn-App, so that you can save a new test code here if necessary."</string>
+    <string name="submission_test_result_negative_steps_negative_body">"The laboratory result indicates no verification that you have the SARS-CoV-2 coronavirus.\n\nYou have to remove the last test before you can register a new one."</string>
     <!-- XBUT: negative test result : remove the test button -->
     <string name="submission_test_result_negative_remove_test_button">"Delete Test"</string>
     <!-- XHED: Page headline for other warnings screen  -->
@@ -1134,7 +1133,7 @@
     <!-- YTXT: Body text for next steps section of invalid test result-->
     <string name="submission_test_result_invalid_steps_invalid_body">"There was a problem evaluating your test. Please contact the test center or laboratory involved to find out how to proceed."</string>
     <!-- YTXT: Body text for next steps section of invalid test result-->
-    <string name="submission_test_result_delete_steps_invalid_body">"Please delete the test from the Corona-Warn-App, so that you can save a new test code here if necessary."</string>
+    <string name="submission_test_result_delete_steps_invalid_body">"You have to remove the last test before you can register a new one."</string>
 
     <!-- XBUT: invalid test result : remove the test button -->
     <string name="submission_test_result_invalid_remove_test_button">"Delete Test"</string>
@@ -1165,7 +1164,7 @@
     <!-- XHED: Subtitle text for test result card with consent given -->
     <string name="submission_test_result_consent_given_subtitle">"Thank you for helping to stop the spread of coronavirus."</string>
     <!-- YTXT: body text for test result card with consent given -->
-    <string name="submission_test_result_consent_given_body"><b>"Others you have had contact with will now be warned."</b>" "<br /><br />"You can now help to improve the accuracy of the warnings. To do so, in the next step, tell us when you first developed symptoms. You can cancel this step at any time."</string>
+    <string name="submission_test_result_consent_given_body"><b>"Others you have had contact with will now be warned."</b>" "<br/><br/>"You can now help to improve the accuracy of the warnings. To do so, in the next step, tell us when you first developed symptoms. You can cancel this step at any time."</string>
     <!-- XBUT: button text for the 'break up' button option on test result consent given page -->
     <string name="submission_test_result_consent_given_breakup_button">"Exit"</string>
 
@@ -1418,7 +1417,7 @@
     <!-- YTXT: Button text for submission status fetch ready -->
     <string name="submission_status_card_retrieve_test_result">"Retrieve Test Result"</string>
     <!-- XBUT: submission status card unregistered button -->
-    <string name="submission_status_card_button_unregistered">"Next Steps"</string>
+    <string name="submission_status_card_button_unregistered">"Register Test"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Display Test"</string>
     <!-- XBUT: submission status card fetch failed button -->
@@ -1549,7 +1548,7 @@
     <!-- XHED: Explanation screen title -->
     <string name="statistics_explanation_title">"Key Figures"</string>
     <!-- XHED: Explanation screen subtitle -->
-    <string name="statistics_explanation_subtitle">"Explanation of nationwide statistics"</string>
+    <string name="statistics_explanation_subtitle">"Explanation of Statistics"</string>
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"Confirmed New Infections"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
@@ -1557,7 +1556,7 @@
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Warnings by App Users"</string>
     <!-- XTXT: Explanation screen warned persons text -->
-    <string name="statistics_explanation_warned_persons_text">"Number of app users who have been diagnosed with coronavirus and have warned others through the app"</string>
+    <string name="statistics_explanation_warned_persons_text">"Number of app users who have been diagnosed with coronavirus via PCR test and have warned others through the app"</string>
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7-Day Incidence"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
@@ -1565,7 +1564,7 @@
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-Day R Value"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
-    <string name="statistics_explanation_seven_day_r_value_text">"The reproduction figure, R, indicates how many people an average infected person has infected further. The current value takes data up to the last 5 days into account.\n\nFor more information, refer to the FAQ:\nFAQ for the statistics."</string>
+    <string name="statistics_explanation_seven_day_r_value_text">"The reproduction figure, R, indicates how many people an average infected person has infected further. The current value takes data up to the last 5 days into account."</string>
     <!-- XTXT: Explanation screen seven day r-value link label  - the characters have to match the last part of the text label above -->
     <string name="statistics_explanation_seven_day_r_link_label">"FAQ for the statistics"</string>
     <!-- XHED: Explanation screen legend title -->
@@ -1610,37 +1609,37 @@
 
     <!-- Persons Vaccinated Once Statistics Card -->
     <!-- XHED: Title for vaccinated once statistics card -->
-    <string name="statistics_vaccinated_once_card_title">"Mindestens einmal geimpfte Personen"</string>
+    <string name="statistics_vaccinated_once_card_title">"people who have received at least one vaccine dose"</string>
     <!-- XTXT: Nationwide text -->
-    <string name="statistics_vaccinated_nationwide_text">"Bundesweit"</string>
+    <string name="statistics_vaccinated_nationwide_text">"Nationwide"</string>
     <!-- XTXT: Vaccination primary value footnote text -->
-    <string name="statistics_vaccination_primary_value_footnote">"der Gesamtbevölkerung"</string>
+    <string name="statistics_vaccination_primary_value_footnote">"of the total population"</string>
 
     <!-- Persons Vaccinated Completely Statistics Card -->
     <!-- XHED: Title for vaccinated completely statistics card -->
-    <string name="statistics_vaccinated_completely_card_title">"Vollständig geimpfte Personen"</string>
+    <string name="statistics_vaccinated_completely_card_title">"people who are fully vaccinated"</string>
 
     <!-- Applied Vaccination Dose Rates Statistics Card -->
     <!-- XHED: Title for applied vaccination dose rates -->
-    <string name="statistics_applied_vaccination_dose_rates_card_title">"Verabreichte Impfdosen"</string>
+    <string name="statistics_applied_vaccination_dose_rates_card_title">"vaccine doses administered"</string>
     <!-- XTXT: Statistics local 7 days title -->
-    <string name="statistics_explanation_local_seven_day_incidence_title">"Lokale 7-Tage-Inzidenz"</string>
+    <string name="statistics_explanation_local_seven_day_incidence_title">"Local 7-day incidence"</string>
     <!-- XTXT: Statistics local 7 days text -->
-    <string name="statistics_explanation_local_seven_day_incidence_text">"Gesamtzahl der bestätigten Neuinfektionen der letzten 7 Tage (nach Meldedatum) pro 100.000 Einwohner im konfigurierten Kreis oder Bundesland."</string>
+    <string name="statistics_explanation_local_seven_day_incidence_text">"Total number of confirmed new infections in the last 7 days (by reporting date) per 100,000 residents in the configured district or federal state."</string>
     <!-- XTXT: Statistics number of vaccine doses title -->
-    <string name="statistics_number_of_vaccine_doses_title">"Verabreichte Impfdosen"</string>
+    <string name="statistics_number_of_vaccine_doses_title">"Vaccine doses administered"</string>
     <!-- XTXT: Statistics number of vaccine doses text -->
-    <string name="statistics_number_of_vaccine_doses_text">"Anzahl der Impfdosen, die bisher bundesweit verabreicht wurden."</string>
+    <string name="statistics_number_of_vaccine_doses_text">"Number of vaccine doses that have been administered nationwide to date."</string>
     <!-- XTXT: Statistics number of fully vaccinated people title -->
-    <string name="statistics_fully_vaccinated_people_title">"Vollständig geimpfte Personen"</string>
+    <string name="statistics_fully_vaccinated_people_title">"People who are fully vaccinated"</string>
     <!-- XTXT: Statistics number of fully vaccinated people text -->
-    <string name="statistics_fully_vaccinated_people_text">"Anzahl der an das RKI übermittelten Personen, die die alle notwendigen Impfdosen erhalten haben."</string>
+    <string name="statistics_fully_vaccinated_people_text">"Number of persons reported to the RKI who have received all the necessary vaccine doses."</string>
     <!-- XTXT: Statistics number of vaccinated people at least title -->
-    <string name="statistics_people_vaccinated_at_least_once_title">"Mindestens einmal geimpfte Personen"</string>
+    <string name="statistics_people_vaccinated_at_least_once_title">"People who have received at least one vaccine dose"</string>
     <!-- XTXT: Statistics number of vaccinated people at least text -->
-    <string name="statistics_people_vaccinated_at_least_once_text">"Anzahl der an das RKI übermittelten Personen, die die erste Impfdosis erhalten haben."</string>
+    <string name="statistics_people_vaccinated_at_least_once_text">"Number of persons reported to the RKI who have received the first dose of the vaccine."</string>
     <!-- XTXT: Statistics FAQ text -->
-    <string name="statistics_faq_text">"Weitere Informationen finden Sie in den FAQ:\n\nFAQ zu Statistiken"</string>
+    <string name="statistics_faq_text">"For further information, please see our FAQ page:\n\nFAQ for statistics"</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility

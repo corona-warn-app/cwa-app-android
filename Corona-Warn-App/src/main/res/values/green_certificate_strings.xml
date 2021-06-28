@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- XTXT: Request green certificate title -->
     <string name="request_green_certificate_title">"COVID Test Certificate"</string>
     <!-- XTXT: Request green certificate subtitle -->
-    <string name="request_green_certificate_subtitle">"You can use the app to request an official digital test certificate, which is then added in the app."</string>
+    <string name="request_green_certificate_subtitle">"You can use the app to request an official EU COVID digital test certificate, which is then added in the app."</string>
     <!-- XTXT: Request green certificate body section 1 -->
     <string name="request_green_certificate_body_1">"The test certificate is only issued if your test result is negative."</string>
     <!-- XTXT: Request green certificate body section 2 -->
@@ -56,9 +55,9 @@
     <!-- XTXT: Green certificate main screen header text -->
     <string name="green_certification_header_info">"Your digital vaccination certificates and test certificates are displayed here."</string>
     <!-- XTXT: Green certificate info card title 1st line -->
-    <string name="info_banner_title_1">"Digital COVID-19"</string>
+    <string name="info_banner_title_1">"Digital"</string>
     <!-- XTXT: Green certificate info card title 2nd line  -->
-    <string name="info_banner_title_2">"COVID Test Certificate"</string>
+    <string name="info_banner_title_2">"EU COVID Test Certificate"</string>
     <!-- XTXT: Green certificate info card body  -->
     <string name="info_banner_body">"Register a test on the home screen and agree to receive a digital test certificate. As soon as the certificate is available, it is displayed here."</string>
 

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <!-- ####################################
+       Special string files for the strings
+       that should always keep the german / english
+       version independent from the selected system language
+   ###################################### -->
+
+    <!-- #####################################################
+         COMMON STRINGS FOR ALL TYPES OF CERTIFICATES BELOW
+         ##################################################### -->
+
+    <!-- XTXT: Person overview no certificates title-->
+    <string name="person_overview_no_certificates_title">"Nu sunt încă disponibile certificate"</string>
+    <!-- XTXT: Person overview no certificates subtitle-->
+    <string name="person_overview_no_certificates_subtitle">"Certificatele de vaccinare digitale, certificatele de recuperare și certificatele de test salvate sunt afișate aici."</string>
+    <!-- XBUT: Person overview certificates scan button-->
+    <string name="person_overview_scan_button">"Adăugare certificate"</string>
+    <!-- XTXT: Person overview no certificates image content description-->
+    <string name="person_overview_no_certificates_image_description">"Un certificat cu un simbol de cod QR aplicat pe el."</string>
+    <!-- XTXT: Person card title-->
+    <string name="person_card_title">"Certificat COVID digital"</string>
+    <!-- XTXT: Person card subtitle-->
+    <string name="person_card_subtitle">"UE"</string>
+
+    <!-- XTXT: Vaccination Consent title-->
+    <string name="vaccination_consent_title">"Consimțământul dvs."</string>
+    <!-- XTXT: Vaccination Consent subtitle-->
+    <string name="vaccination_consent_headline">"Adăugarea certificatelor"</string>
+    <!-- XTXT: Vaccination Consent subtitle of qr info -->
+    <string name="vaccination_consent_info_subtitle_text">"Adăugați certificatele dvs. de COVID digitale UE în aplicație. Acest lucru vă ajută să dovediți în aplicație protecția dvs. prin vaccinare, un rezultat de test negativ sau recuperarea în urma unei infecții."</string>
+    <!-- XTXT: Vaccination Consent text of qr info -->
+    <string name="vaccination_consent_qr_info_text">"Puteți adăuga certificate de vaccinare COVID digitale UE, certificate de test COVID și certificate de recuperare COVID în aplicație."</string>
+    <!-- XTXT: Vaccination Consent qr code text -->
+    <string name="vaccination_consent_qr_info_qr_code_text">"Aceste certificate sunt considerate o dovadă valabilă în UE (de exemplu, în scop de călătorie)."</string>
+    <!-- XTXT: Vaccination Consent time text  -->
+    <string name="vaccination_consent_qr_info_time_text">"După ce adăugați un certificat, acesta rămâne pe smartphone-ul dvs. Va fi partajat cu alte persoane doar dacă prezentați un certificat pentru verificare."</string>
+    <!-- XTXT: Vaccination Consent family certificates text  -->
+    <string name="vaccination_consent_family_certificates_text">"Adăugați certificatele existente pentru dvs. și membrii familiei dvs."</string>
+    <!-- XTXT: Text for vaccination consent legal information button -->
+    <string name="vaccination_consent_onboarding_legal_information">"Pentru mai multe informații despre prelucrarea datelor, consultați înștiințarea de confidențialitate."</string>
+    <!-- XBUT: Text for vaccination consent accept button -->
+    <string name="vaccination_consent_accept_button">"Continuare"</string>
+
+
+    <!-- XTXT: Current priority certificate info -->
+    <string name="certificate_card_bookmark_info">"Certificat utilizat în prezent"</string>
+    <!-- XHED: Person certificate details title -->
+    <string name="person_details_certificate_title">"Certificat COVID digital UE"</string>
+    <!-- XTXT: Test Certificate CWA User card description -->
+    <string name="person_details_cwa_user_description">"Smartphone-ul meu, aplicația mea. Certificatele pentru mine apar în partea de sus a listei."</string>
+    <!-- XTXT: Test Certificate CWA User card birthdate -->
+    <string name="person_details_cwa_user_birthdate">"Născut(ă) pe %1$s"</string>
+    <!-- #####################################################
+         VACCINATION CERTIFICATE STRINGS BELOW
+         ##################################################### -->
+    <!-- XTXT: Vaccination certificate vaccinated on -->
+    <string name="vaccination_certificate_vaccinated_on">"vaccinat(ă) pe %s"</string>
+    <!-- XTXT: Vaccination  card doses-->
+    <string name="vaccination_certificate_doses">"Vaccinarea %1$d din %2$d"</string>
+    <!-- XTXT: Vaccination card name-->
+    <string name="vaccination_certificate_name">"Certificat de vaccinare"</string>
+
+    <!-- XTXT: Vaccination card immunity information card body-->
+    <plurals name="vaccination_certificate_days_unti_immunity" tools:ignore="UnusedQuantity">
+        <item quantity="one">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă timp de încă %1$d zi."</item>
+        <item quantity="other">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă timp de încă %1$d de zile."</item>
+        <item quantity="zero">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă timp de încă %1$d zile."</item>
+        <item quantity="two">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă timp de încă %1$d zile."</item>
+        <item quantity="few">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă timp de încă %1$d zile."</item>
+        <item quantity="many">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă timp de încă %1$d zile."</item>
+    </plurals>
+
+    <!-- XTXT: Vaccination is not complete information card body-->
+    <string name="vaccination_certificate_incomplete_vaccination">"Nu ați primit încă toate vaccinările planificate curente. Astfel, protecția dvs. prin vaccinare nu este completă încă."</string>
+
+    <!-- #####################################################
+         RECOVERY CERTIFICATE STRINGS BELOW
+         ##################################################### -->
+
+    <!-- XTXT: Recovery certificate detail title -->
+    <string name="recovery_certificate_details_title">"Certificat de recuperare"</string>
+    <!-- XTXT: Recovery certificate detail subtitle -->
+    <string name="recovery_certificate_details_subtitle">"Certificat COVID digital UE"</string>
+    <!-- XTXT: Recovery certificate card name  -->
+    <string name="recovery_certificate_name">"Certificat de recuperare"</string>
+    <!-- XTXT: Recovery certificate valid until -->
+    <string name="recovery_certificate_valid_until">"valabil până la %s"</string>
+
+    <!-- XTXT: Detail green certificate diaglog title -->
+    <string name="recovery_certificate_details_dialog_remove_test_title">"Doriți să eliminați certificatul de recuperare?"</string>
+    <!-- XTXT: Detail green certificate diaglog message -->
+    <string name="recovery_certificate_details_dialog_remove_test_message">"Dacă eliminați certificatul de recuperare, nu îl mai puteți utiliza ca dovadă în aplicație."</string>
+
+    <!-- #####################################################
+         TEST CERTIFICATE STRINGS BELOW
+         ##################################################### -->
+    <!-- XTXT: Test certificate sampled on -->
+    <string name="test_certificate_sampled_on">"Probă prelevată %s"</string>
+    <!-- XTXT: Test certificate sampled on date and time -->
+    <string name="test_certificate_qrcode_card_sampled_on">"Probă prelevată %s"</string>
+    <!-- XTXT: Test certificate card name  -->
+    <string name="test_certificate_name">"Certificat de test"</string>
+</resources>
