@@ -23,7 +23,6 @@ class DccV1Parser @Inject constructor(
                     raw = rawBody,
                     parsed = dcc.toValidated(mode)
                 )
-
             } ?: throw InvalidVaccinationCertificateException(ErrorCode.HC_CWT_NO_DGC)
         } ?: throw InvalidVaccinationCertificateException(ErrorCode.HC_CWT_NO_HCERT)
     } catch (e: InvalidHealthCertificateException) {
