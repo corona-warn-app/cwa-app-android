@@ -5,15 +5,13 @@ import de.rki.coronawarnapp.statistics.local.FederalStateToPackageId
 import de.rki.coronawarnapp.statistics.local.storage.LocalStatisticsConfigStorage
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.flow.HotDataFlow
-import de.rki.coronawarnapp.util.flow.combine
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.joda.time.Duration
 import timber.log.Timber
 import javax.inject.Inject
@@ -26,8 +24,8 @@ class LocalStatisticsProvider @Inject constructor(
     private val localStatisticsCache: LocalStatisticsCache,
     private val localStatisticsConfigStorage: LocalStatisticsConfigStorage,
     private val localStatisticsParser: LocalStatisticsParser,
-    foregroundState: ForegroundState,
-    dispatcherProvider: DispatcherProvider
+    localStatisticsRetrievalScheduler: LocalStatisticsRetrievalScheduler,
+    dispatcherProvider: DispatcherProvider,
 ) {
 
     private val localStatisticsData = HotDataFlow(
@@ -50,16 +48,14 @@ class LocalStatisticsProvider @Inject constructor(
     val current: Flow<List<StatisticsData>> = localStatisticsData.data
 
     init {
-        combine(
-            foregroundState.isInForeground.filter { it },
-            localStatisticsConfigStorage.activeStates.flow
-        ) { _, _ ->
-            Timber
-                .tag(TAG)
-                .d("App moved to foreground or stats config was updated, triggering statistics update.")
-
-            triggerUpdate()
-        }.catch { Timber.tag(TAG).e("Failed to trigger statistics update.") }
+        localStatisticsRetrievalScheduler.updateStatsTrigger
+            .onEach {
+                if (it) {
+                    Timber.tag(TAG).d("Triggering local statistics update.")
+                    triggerUpdate()
+                }
+            }
+            .catch { Timber.tag(TAG).e("Failed to trigger local statistics update.") }
             .launchIn(scope)
     }
 
