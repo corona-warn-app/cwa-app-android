@@ -25,6 +25,9 @@
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
+    <!--    Empty affinity means activities don't have an affinity for any task-->
+    <!--    default affinity is the application package -->
+    <!--    more info in EXPOSUREAPP-7714  -->
     <application
         android:name="de.rki.coronawarnapp.CoronaWarnApplication"
         android:allowBackup="false"
@@ -34,6 +37,7 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:taskAffinity=""
         android:theme="@style/AppTheme">
 
         <provider
@@ -79,6 +83,7 @@
 
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
