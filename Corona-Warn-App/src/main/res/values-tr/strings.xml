@@ -314,7 +314,7 @@
     <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Corona-Warn-App %s gün önce yüklendi. Enfeksiyon riskiniz, maruz kalma günlüğünün etkin olduğu dönemler için hesaplanır. Başka insanlarla karşılaşmışsanız ve bu sırada maruz kalma günlüğü etkindiyse enfeksiyon riskiniz hesaplanır."</string>
     <!-- XTXT: risk details - infection period logged information body, over 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_over_14_days">"Maruz kalma günlüğü başka insanlarla karşılaştığınız anlarda etkindiyse bu dönem için enfeksiyon riskiniz hesaplanabilir."</string>
-    <!-- XHED: risk details - infection period logged information body, below behaviors -->	    <!-- XTXT: risk details - infection period logged information body, under 14 days -->
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->        <!-- XTXT: risk details - infection period logged information body, under 14 days -->
     <string name="risk_details_information_body_period_logged_assessment">"Uygulama, enfeksiyondan korunma için artık ilgili olmadığından daha eski kayıtları otomatik olarak siler."</string>
     <!-- XTXT: risk details - infection period days logged/14 -->
     <string name="risk_details_information_active_tracing_days_circle_progress">"%s/14"</string>
@@ -920,6 +920,8 @@
     <string name="debugging_debuglog_share_log_privacy_information">"ABD’de ve Diğer Üçüncü Ülkelerde Veri İşleme ve Veri Koruma Riskleri Hakkında Ayrıntılı Bilgiler"</string>
     <!-- XBUT: Button for bugreporting share log screen -->
     <string name="debugging_debuglog_share_log_button">"Kabul Et ve Gönder"</string>
+    <!-- XMSG: Dialog body try again later -->
+    <string name="debugging_debuglog_share_try_again_later">"Hata raporu şu anda gönderilemiyor. Lütfen daha sonra tekrar deneyin."</string>
     <!-- XHED: Title for log upload history -->
     <string name="debugging_debuglog_uploadhistory_title">"Tanıtıcı Geçmişi"</string>
     <!-- YTXT: Description for log upload history -->
@@ -1069,36 +1071,36 @@
     <!-- XHED: Page subheadline for test result  -->
     <string name="submission_test_result_subtitle">"Nasıl çalışır?"</string>
     <!-- XHED: Page headline for results next steps  -->
-    <string name="submission_test_result_steps_added_heading">"PCR testiniz başarıyla eklendi."</string>
+    <string name="submission_test_result_steps_added_heading">"PCR Testiniz Eklendi"</string>
     <!-- YTXT: Body text for for results next steps  -->
     <string name="submission_test_result_steps_added_body">"Testiniz Corona-Warn-App\'e kaydedildi."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_heading">"Test sonucunuz henüz çıkmadı."</string>
+    <string name="submission_test_result_pending_steps_waiting_heading">"Test Sonucunuz Henüz Çıkmadı"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_body">"Test sonucunuz çıkar çıkmaz uygulamada görüntülenecektir.\n\nTest sonucunuz uygulama dışından da tarafınıza iletilecektir. Testinizin pozitif sonuç vermesi halinde kamu sağlığı yetkilileri sizi bilgilendirecektir.\n\nUygulama dışından bir pozitif test sonucu aldıysanız lütfen uygulamaya kayıtlı testi silin. TAN almak için \"TAN Talebi\" başlığının altında gösterilen numarayı arayın. Ardından bu TAN\'yi kullanarak sonucunuzu uygulamaya kaydedin ve diğer kullanıcıları uyarın."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Test sonucunuz henüz çıkmadı."</string>
+    <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Test Sonucunuz Henüz Çıkmadı"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_pcr_body">"Test sonucunuz çıkar çıkmaz uygulamada görüntülenecektir.\n\nTest sonucunuz uygulama dışından da tarafınıza iletilecektir. Testinizin pozitif sonuç vermesi halinde kamu sağlığı yetkilileri sizi bilgilendirecektir.\n\nUygulama dışından bir pozitif test sonucu aldıysanız lütfen uygulamaya kayıtlı testi silin. TAN almak için \"TAN Talebi\" başlığının altında gösterilen numarayı arayın. Ardından bu TAN\'yi kullanarak sonucunuzu uygulamaya kaydedin ve diğer kullanıcıları uyarın."</string>
     <!-- XHED: Page headline for results next steps  -->
-    <string name="submission_test_result_steps_added_rat_heading">"Hızlı testiniz eklendi."</string>
+    <string name="submission_test_result_steps_added_rat_heading">"Hızlı testiniz eklendi"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_rat_heading">"Test sonucunuz henüz çıkmadı."</string>
+    <string name="submission_test_result_pending_steps_waiting_rat_heading">"Test sonucunuz henüz çıkmadı"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_rat_body">"Test sonucunuz çıkar çıkmaz uygulamada görüntülenecektir."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_contact_diary_heading">"Test sonucunuz temas güncenize eklenecektir."</string>
+    <string name="submission_test_result_pending_steps_contact_diary_heading">"Test sonucunuz temas güncenize eklenecektir"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_contact_diary_body">"Test sonucunuz çıkar çıkmaz uygulamada görüntülenecektir."</string>
 
     <!-- XHED: Page headline for test result certifcate info title  -->
-    <string name="submission_test_result_pending_steps_test_certificate_heading">"Test Sertifikanız"</string>
+    <string name="submission_test_result_pending_steps_test_certificate_heading">"COVID Test Sertifikanız"</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not supported, RAT Test -->
-    <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"Bu test noktasında test sertifikalarını düzenleme işlevi desteklenmediğinden hiçbir test sertifikası bulunmamaktadır."</string>
+    <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"Bu test noktasında test sertifikalarının düzenlenmesi desteklenmediğinden resmi bir dijital COVID test sertifikası talep edemezsiniz."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
-    <string name="submission_test_result_pending_steps_test_certificate_not_available_yet_body">"Test sertifikanız henüz çıkmadı. Çıkar çıkmaz uygulamanızda görüntülenecektir."</string>
+    <string name="submission_test_result_pending_steps_test_certificate_not_available_yet_body">"Resmi dijital COVID test sertifikanız henüz çıkmadı. Çıkar çıkmaz uygulamanızda görüntülenecektir."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not desired by the user, PCR Test no consent given -->
-    <string name="submission_test_result_pending_steps_test_certificate_not_desired_by_user_body">"Talebiniz üzerine, hiçbir test sertifikası düzenlenmedi."</string>
+    <string name="submission_test_result_pending_steps_test_certificate_not_desired_by_user_body">"Talebiniz üzerine, hiçbir resmi dijital COVID test sertifikası düzenlenmeyecektir."</string>
 
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Güncelle"</string>
@@ -1107,7 +1109,7 @@
     <!-- XHED: Page headline for negative test result next steps  -->
     <string name="submission_test_result_negative_steps_negative_heading">"Negatif Tanı"</string>
     <!-- YTXT: Body text for next steps section of test negative result -->
-    <string name="submission_test_result_negative_steps_negative_body">"Laboratuvar sonucuna göre SARS-CoV-2 koronavirüs olduğunuza dair bir doğrulama yok.\n\nGerekirse yeni bir test kodu kaydedebilmeniz için lütfen testi Corona-Warn-App\'ten silin."</string>
+    <string name="submission_test_result_negative_steps_negative_body">"Laboratuvar sonucuna göre SARS-CoV-2 koronavirüs olduğunuza dair bir doğrulama yok.\n\nYeni bir test kaydedebilmeniz için son testi kaldırmanız gerekir."</string>
     <!-- XBUT: negative test result : remove the test button -->
     <string name="submission_test_result_negative_remove_test_button">"Testi Sil"</string>
     <!-- XHED: Page headline for other warnings screen  -->
@@ -1131,7 +1133,7 @@
     <!-- YTXT: Body text for next steps section of invalid test result-->
     <string name="submission_test_result_invalid_steps_invalid_body">"Testinizi değerlendirirken bir problem oluştu. Lütfen sonraki adımlarınız için test merkezi veya laboratuvar ile görüşün."</string>
     <!-- YTXT: Body text for next steps section of invalid test result-->
-    <string name="submission_test_result_delete_steps_invalid_body">"Gerekirse yeni bir test kodu kaydedebilmeniz için lütfen testi Corona-Warn-App\'ten silin."</string>
+    <string name="submission_test_result_delete_steps_invalid_body">"Yeni bir test kaydedebilmeniz için son testi kaldırmanız gerekir."</string>
 
     <!-- XBUT: invalid test result : remove the test button -->
     <string name="submission_test_result_invalid_remove_test_button">"Testi Sil"</string>
@@ -1415,7 +1417,7 @@
     <!-- YTXT: Button text for submission status fetch ready -->
     <string name="submission_status_card_retrieve_test_result">"Test Sonucunu Al"</string>
     <!-- XBUT: submission status card unregistered button -->
-    <string name="submission_status_card_button_unregistered">"Sonraki Adımlar"</string>
+    <string name="submission_status_card_button_unregistered">"Testi Kaydet"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Testi Göster"</string>
     <!-- XBUT: submission status card fetch failed button -->
@@ -1546,7 +1548,7 @@
     <!-- XHED: Explanation screen title -->
     <string name="statistics_explanation_title">"Önemli Değerler"</string>
     <!-- XHED: Explanation screen subtitle -->
-    <string name="statistics_explanation_subtitle">"Ülke geneli istatistiklerin açıklaması"</string>
+    <string name="statistics_explanation_subtitle">"İstatistiklerin Açıklaması"</string>
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"Onaylanan Yeni Enfeksiyon Sayısı"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
@@ -1554,7 +1556,7 @@
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Uygulama Kullanıcılarının Uyarıları"</string>
     <!-- XTXT: Explanation screen warned persons text -->
-    <string name="statistics_explanation_warned_persons_text">"Koronavirüs tanısı koyulan ve uygulama üzerinden diğer kullanıcıları uyaran uygulama kullanıcılarının sayısı"</string>
+    <string name="statistics_explanation_warned_persons_text">"PCR testi ile koronavirüs tanısı alan ve uygulama üzerinden diğer kullanıcıları uyaran uygulama kullanıcılarının sayısı"</string>
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7 Günlük Olay"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
@@ -1562,7 +1564,7 @@
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7 Günlük R Değeri"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
-    <string name="statistics_explanation_seven_day_r_value_text">"Reprodüksiyon değeri R, enfekte olan bir kişinin ortalama olarak kaç kişiyi enfekte ettiğini belirtir. Geçerli değerde, en fazla son 5 günün verileri dikkate alınır.\n\nDaha fazla bilgi için SSS bölümüne bakın:\nistatistikler için SSS."</string>
+    <string name="statistics_explanation_seven_day_r_value_text">"Reprodüksiyon değeri R, enfekte olan bir kişinin ortalama olarak kaç kişiyi enfekte ettiğini belirtir. Geçerli değerde, en fazla son 5 günün verileri dikkate alınır."</string>
     <!-- XTXT: Explanation screen seven day r-value link label  - the characters have to match the last part of the text label above -->
     <string name="statistics_explanation_seven_day_r_link_label">"istatistikler için SSS."</string>
     <!-- XHED: Explanation screen legend title -->
@@ -1604,6 +1606,40 @@
     <string name="accessibility_statistics_card_announcement">"İstatistik kutucuğu"</string>
     <!-- XTXT: Statistics Card Navigation Announcement -->
     <string name="accessibility_statistics_card_navigation_information">"Daha fazla istatistik görüntülemek için kutucuklar arasında yatay olarak kaydırın"</string>
+
+    <!-- Persons Vaccinated Once Statistics Card -->
+    <!-- XHED: Title for vaccinated once statistics card -->
+    <string name="statistics_vaccinated_once_card_title">"en az bir doz aşı olan kişiler"</string>
+    <!-- XTXT: Nationwide text -->
+    <string name="statistics_vaccinated_nationwide_text">"Ülke genelinde"</string>
+    <!-- XTXT: Vaccination primary value footnote text -->
+    <string name="statistics_vaccination_primary_value_footnote">"oran (toplam popülasyona göre)"</string>
+
+    <!-- Persons Vaccinated Completely Statistics Card -->
+    <!-- XHED: Title for vaccinated completely statistics card -->
+    <string name="statistics_vaccinated_completely_card_title">"tüm aşıları olan kişiler"</string>
+
+    <!-- Applied Vaccination Dose Rates Statistics Card -->
+    <!-- XHED: Title for applied vaccination dose rates -->
+    <string name="statistics_applied_vaccination_dose_rates_card_title">"uygulanan aşı dozu"</string>
+    <!-- XTXT: Statistics local 7 days title -->
+    <string name="statistics_explanation_local_seven_day_incidence_title">"Yerel 7 günlük olay"</string>
+    <!-- XTXT: Statistics local 7 days text -->
+    <string name="statistics_explanation_local_seven_day_incidence_text">"Konfigüre edilen bölgede veya federal eyalette her 100.000 vatandaşta son 7 günde (bildirme tarihine göre) onaylanan toplam yeni enfeksiyon sayısı."</string>
+    <!-- XTXT: Statistics number of vaccine doses title -->
+    <string name="statistics_number_of_vaccine_doses_title">"Uygulanan aşı dozları"</string>
+    <!-- XTXT: Statistics number of vaccine doses text -->
+    <string name="statistics_number_of_vaccine_doses_text">"Bugüne dek ülke genelinde uygulanan aşı dozlarının sayısı."</string>
+    <!-- XTXT: Statistics number of fully vaccinated people title -->
+    <string name="statistics_fully_vaccinated_people_title">"Tüm aşıları olan kişiler"</string>
+    <!-- XTXT: Statistics number of fully vaccinated people text -->
+    <string name="statistics_fully_vaccinated_people_text">"RKI\'ye gereken tüm aşı dozlarını aldıkları bildirilen kişilerin sayısı."</string>
+    <!-- XTXT: Statistics number of vaccinated people at least title -->
+    <string name="statistics_people_vaccinated_at_least_once_title">"En az bir doz aşı olan kişiler"</string>
+    <!-- XTXT: Statistics number of vaccinated people at least text -->
+    <string name="statistics_people_vaccinated_at_least_once_text">"RKI\'ye aşının ilk dozunu aldıkları bildirilen kişilerin sayısı."</string>
+    <!-- XTXT: Statistics FAQ text -->
+    <string name="statistics_faq_text">"Daha fazla bilgi için lütfen SSS sayfamıza bakın:\n\nİstatistikler için SSS"</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility
