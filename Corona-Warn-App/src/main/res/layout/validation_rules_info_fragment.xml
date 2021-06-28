@@ -9,14 +9,14 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
+        style="@style/CWAToolbar.Close"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/validation_rules_info_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        style="@style/CWAToolbar.Close"
-        app:title="@string/validation_rules_info_title"
-        android:contentDescription="@string/validation_rules_info_title"/>
+        app:title="@string/validation_rules_info_title" />
 
     <ScrollView
         android:id="@+id/scrollview"
@@ -35,8 +35,8 @@
                 android:id="@+id/validation_rule_map"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:importantForAccessibility="yes"
                 android:contentDescription="@string/validation_rules_info_image"
+                android:importantForAccessibility="yes"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -46,9 +46,9 @@
                 android:id="@+id/first_row_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
                 android:layout_marginTop="32dp"
                 android:importantForAccessibility="no"
-                android:layout_marginStart="@dimen/spacing_normal"
                 app:layout_constraintStart_toStartOf="@id/validation_rule_map"
                 app:layout_constraintTop_toBottomOf="@id/validation_rule_map"
                 app:srcCompat="@drawable/ic_car" />
