@@ -22,7 +22,7 @@ import javax.inject.Singleton
 class LocalStatisticsProvider @Inject constructor(
     @AppScope private val scope: CoroutineScope,
     private val server: LocalStatisticsServer,
-    private val localStatisticsCacheFactory: LocalStatisticsCache.LocalStatisticsCacheFactory,
+    private val localStatisticsCache: LocalStatisticsCache,
     private val localStatisticsConfigStorage: LocalStatisticsConfigStorage,
     private val localStatisticsParser: LocalStatisticsParser,
     foregroundState: ForegroundState,
@@ -79,8 +79,7 @@ class LocalStatisticsProvider @Inject constructor(
     private fun fromCache(forState: FederalStateToPackageId): StatisticsData? = try {
         Timber.tag(TAG).d("fromCache(%s)", forState)
 
-        val localCache = localStatisticsCacheFactory.create(forState)
-        localCache.load()?.let { localStatisticsParser.parse(it) }?.also {
+        localStatisticsCache.load(forState)?.let { localStatisticsParser.parse(it) }?.also {
             Timber.tag(TAG).d("Parsed from cache: %s", it)
         }
     } catch (e: Exception) {
@@ -99,11 +98,10 @@ class LocalStatisticsProvider @Inject constructor(
     private suspend fun fromServer(forState: FederalStateToPackageId): StatisticsData {
         Timber.tag(TAG).d("fromServer(%s)", forState)
 
-        val localCache = localStatisticsCacheFactory.create(forState)
         val rawData = server.getRawLocalStatistics(forState)
         return localStatisticsParser.parse(rawData).also {
             Timber.tag(TAG).d("Parsed from server: %s", it)
-            localCache.save(rawData)
+            localStatisticsCache.save(forState, rawData)
         }
     }
 
@@ -119,7 +117,7 @@ class LocalStatisticsProvider @Inject constructor(
         Timber.d("clear()")
 
         server.clear()
-        localStatisticsCacheFactory.create(forState).save(null)
+        localStatisticsCache.save(forState, null)
     }
 
     companion object {

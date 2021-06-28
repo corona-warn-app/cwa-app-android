@@ -1,29 +1,31 @@
 package de.rki.coronawarnapp.statistics.local.source
 
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.statistics.Statistics
 import de.rki.coronawarnapp.statistics.local.FederalStateToPackageId
 import timber.log.Timber
 import java.io.File
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class LocalStatisticsCache @AssistedInject constructor(
-    @Statistics cacheDir: File,
-    @Assisted private val stateForCache: FederalStateToPackageId,
+@Singleton
+class LocalStatisticsCache @Inject constructor(
+    @Statistics cacheDir: File
 ) {
 
     private val cacheFolder = File(cacheDir, "cache_raw_local")
-    private val cacheFile = File(cacheFolder, stateForCache.toString())
 
-    fun load(): ByteArray? = try {
+    fun load(stateForCache: FederalStateToPackageId): ByteArray? = try {
+        val cacheFile = File(cacheFolder, stateForCache.name)
+
         if (cacheFile.exists()) cacheFile.readBytes() else null
     } catch (e: Exception) {
         Timber.e(e, "Failed to load raw statistics from cache.")
         null
     }
 
-    fun save(data: ByteArray?) {
+    fun save(stateForCache: FederalStateToPackageId, data: ByteArray?) {
+        val cacheFile = File(cacheFolder, stateForCache.name)
+
         if (data == null) {
             if (cacheFile.exists() && cacheFile.delete()) {
                 Timber.d("Cache file was deleted.")
@@ -35,10 +37,5 @@ class LocalStatisticsCache @AssistedInject constructor(
         }
         cacheFile.parentFile?.mkdirs()
         cacheFile.writeBytes(data)
-    }
-
-    @AssistedFactory
-    interface LocalStatisticsCacheFactory {
-        fun create(stateForCache: FederalStateToPackageId): LocalStatisticsCache
     }
 }
