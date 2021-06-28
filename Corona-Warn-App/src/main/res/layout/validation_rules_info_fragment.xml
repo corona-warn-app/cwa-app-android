@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSurface"
+    tools:context=".covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/vaccination_consent_headline" />
+
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/vaccination_consent_info_graphic"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:importantForAccessibility="yes"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_map_of_europe" />
+
+
+            <ImageView
+                android:id="@+id/vaccination_consent_info_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:importantForAccessibility="no"
+                android:layout_marginStart="@dimen/spacing_normal"
+                app:layout_constraintStart_toStartOf="@id/vaccination_consent_info_graphic"
+                app:layout_constraintTop_toBottomOf="@id/vaccination_consent_info_graphic"
+                app:srcCompat="@drawable/ic_qr_code_illustration" />
+
+            <TextView
+                android:id="@+id/vaccination_consent_info_text"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:text="@string/vaccination_consent_qr_info_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/vaccination_consent_info_icon"
+                app:layout_constraintTop_toTopOf="@id/vaccination_consent_info_icon" />
+
+            <ImageView
+                android:id="@+id/vaccination_consent_qr_code_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:importantForAccessibility="no"
+                app:layout_constraintStart_toStartOf="@id/vaccination_consent_info_icon"
+                app:layout_constraintTop_toBottomOf="@id/vaccination_consent_info_text"
+                app:srcCompat="@drawable/ic_certificates_filled" />
+
+            <TextView
+                android:id="@+id/vaccination_consent_qr_code_text"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:text="@string/vaccination_consent_qr_info_qr_code_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/vaccination_consent_qr_code_icon"
+                app:layout_constraintTop_toTopOf="@id/vaccination_consent_qr_code_icon" />
+            
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
