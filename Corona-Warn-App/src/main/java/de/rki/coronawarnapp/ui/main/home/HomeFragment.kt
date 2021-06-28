@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.HomeFragmentLayoutBinding
+import de.rki.coronawarnapp.statistics.ui.FederalStateSelectionFragment
 import de.rki.coronawarnapp.tracing.ui.TracingExplanationDialog
 import de.rki.coronawarnapp.ui.main.home.popups.DeviceTimeIncorrectDialog
 import de.rki.coronawarnapp.util.CWADebug
@@ -187,6 +188,9 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                     event.testType,
                     event.forceUpdate
                 )
+            )
+            HomeFragmentEvents.GoToFederalStateSelection -> doNavigate(
+                HomeFragmentDirections.actionMainFragmentToFederalStateSelectionFragment()
             )
         }
     }

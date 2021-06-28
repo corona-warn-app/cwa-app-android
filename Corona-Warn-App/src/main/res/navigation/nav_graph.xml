@@ -76,6 +76,9 @@
         <action
             android:id="@+id/action_mainFragment_to_submissionTestResultKeysSharedFragment"
             app:destination="@id/submissionTestResultKeysSharedFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_federalStateSelectionFragment"
+            app:destination="@id/federalStateSelectionFragment" />
     </fragment>
 
     <fragment
@@ -843,5 +846,22 @@
             android:id="@+id/action_requestCovidCertificateFragment_to_homeFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/federalStateSelectionFragment"
+        android:name="de.rki.coronawarnapp.statistics.ui.FederalStateSelectionFragment"
+        android:label="federal_state_selection_fragment"
+        tools:layout="@layout/federal_state_selection_fragment">
+
+        <action
+            android:id="@+id/action_federalStateSelectionFragment_to_federalStateSelectionFragment"
+            app:destination="@id/federalStateSelectionFragment" />
+
+        <argument
+            android:name="selectedFederalStateShortName"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 </navigation>

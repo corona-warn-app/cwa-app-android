@@ -192,7 +192,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                         onClickListener = {
                             when (it) {
                                 is AddStatsItem -> {
-                                    // TODO: implement me!
+                                    events.postValue(HomeFragmentEvents.GoToFederalStateSelection)
                                 }
                                 else -> events.postValue(HomeFragmentEvents.GoToStatisticsExplanation)
                             }
