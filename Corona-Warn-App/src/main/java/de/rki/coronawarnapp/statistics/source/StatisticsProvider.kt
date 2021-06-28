@@ -36,7 +36,8 @@ class StatisticsProvider @Inject constructor(
         )
     ) {
         try {
-            fromCache() ?: fromServer()
+            triggerUpdate()
+            fromCache() ?: StatisticsData()
         } catch (e: Exception) {
             Timber.tag(TAG).e(e, "Failed to get data from server.")
             StatisticsData()
