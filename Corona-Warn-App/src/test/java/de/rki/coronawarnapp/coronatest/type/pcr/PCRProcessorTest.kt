@@ -15,10 +15,13 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.values
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResultResponse
+import de.rki.coronawarnapp.coronatest.server.RegistrationData
+import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
-import de.rki.coronawarnapp.datadonation.analytics.modules.registeredtest.TestResultDataCollector
+import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultCollector
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
@@ -32,6 +35,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Duration
 import org.joda.time.Instant
+import org.joda.time.LocalDate
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -42,9 +46,16 @@ class PCRProcessorTest : BaseTest() {
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var submissionService: CoronaTestService
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
-    @MockK lateinit var testResultDataCollector: TestResultDataCollector
+    @MockK lateinit var analyticsTestResultCollector: AnalyticsTestResultCollector
 
     private val nowUTC = Instant.parse("2021-03-15T05:45:00.000Z")
+    private val defaultTest = PCRCoronaTest(
+        identifier = "identifier",
+        lastUpdatedAt = Instant.EPOCH,
+        registeredAt = nowUTC,
+        registrationToken = "regtoken",
+        testResult = PCR_OR_RAT_PENDING
+    )
 
     @BeforeEach
     fun setup() {
@@ -53,35 +64,36 @@ class PCRProcessorTest : BaseTest() {
         every { timeStamper.nowUTC } returns nowUTC
 
         submissionService.apply {
-            coEvery { asyncRequestTestResult(any()) } returns CoronaTestResultResponse(
+            coEvery { checkTestResult(any()) } returns CoronaTestResultResponse(
                 coronaTestResult = PCR_OR_RAT_PENDING,
                 sampleCollectedAt = null,
+                labId = null,
             )
-            coEvery { asyncRegisterDeviceViaGUID(any()) } returns CoronaTestService.RegistrationData(
-                registrationToken = "regtoken-qr",
-                testResultResponse = CoronaTestResultResponse(
-                    coronaTestResult = PCR_OR_RAT_PENDING,
-                    sampleCollectedAt = null,
-                ),
-            )
-            coEvery { asyncRegisterDeviceViaTAN(any()) } returns CoronaTestService.RegistrationData(
-                registrationToken = "regtoken-tan",
-                testResultResponse = CoronaTestResultResponse(
-                    coronaTestResult = PCR_OR_RAT_PENDING,
-                    sampleCollectedAt = null,
-                ),
-            )
+            coEvery { registerTest(any()) } answers {
+                val request = arg<RegistrationRequest>(0)
+
+                RegistrationData(
+                    registrationToken = "regtoken-${request.type}",
+                    testResultResponse = CoronaTestResultResponse(
+                        coronaTestResult = PCR_OR_RAT_PENDING,
+                        sampleCollectedAt = null,
+                        labId = null,
+                    ),
+                )
+            }
         }
 
         analyticsKeySubmissionCollector.apply {
             coEvery { reportRegisteredWithTeleTAN() } just Runs
-            coEvery { reset() } just Runs
-            coEvery { reportPositiveTestResultReceived() } just Runs
-            coEvery { reportTestRegistered() } just Runs
+            coEvery { reset(PCR) } just Runs
+            coEvery { reportPositiveTestResultReceived(PCR) } just Runs
+            coEvery { reportTestRegistered(PCR) } just Runs
         }
-        testResultDataCollector.apply {
-            coEvery { updatePendingTestResultReceivedTime(any()) } just Runs
-            coEvery { saveTestResultAnalyticsSettings(any()) } just Runs
+        analyticsTestResultCollector.apply {
+            coEvery { reportTestResultReceived(any(), any()) } just Runs
+            coEvery { reportTestResultAtRegistration(any(), PCR) } just Runs
+            coEvery { reportTestRegistered(PCR) } just Runs
+            coEvery { clear(PCR) } just Runs
         }
     }
 
@@ -90,23 +102,19 @@ class PCRProcessorTest : BaseTest() {
         runBlocking { PcrTeleTanCensor.clearTans() }
     }
 
-    fun createInstance() = PCRProcessor(
+    fun createInstance() = PCRTestProcessor(
         timeStamper = timeStamper,
         submissionService = submissionService,
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
-        testResultDataCollector = testResultDataCollector
+        analyticsTestResultCollector = analyticsTestResultCollector
     )
 
     @Test
     fun `if we receive a pending result 60 days after registration, we map to REDEEMED`() = runBlockingTest {
         val instance = createInstance()
 
-        val pcrTest = PCRCoronaTest(
-            identifier = "identifier",
-            lastUpdatedAt = Instant.EPOCH,
-            registeredAt = nowUTC,
-            registrationToken = "regtoken",
-            testResult = PCR_POSITIVE
+        val pcrTest = defaultTest.copy(
+            testResult = PCR_POSITIVE,
         )
 
         instance.pollServer(pcrTest).testResult shouldBe PCR_OR_RAT_PENDING
@@ -120,14 +128,15 @@ class PCRProcessorTest : BaseTest() {
 
     @Test
     fun `registering a new test maps invalid results to INVALID state`() = runBlockingTest {
-        var registrationData = CoronaTestService.RegistrationData(
+        var registrationData = RegistrationData(
             registrationToken = "regtoken",
             testResultResponse = CoronaTestResultResponse(
                 coronaTestResult = PCR_OR_RAT_PENDING,
                 sampleCollectedAt = null,
+                labId = null,
             )
         )
-        coEvery { submissionService.asyncRegisterDeviceViaGUID(any()) } answers { registrationData }
+        coEvery { submissionService.registerTest(any()) } answers { registrationData }
 
         val instance = createInstance()
 
@@ -138,6 +147,7 @@ class PCRProcessorTest : BaseTest() {
                 testResultResponse = CoronaTestResultResponse(
                     coronaTestResult = it,
                     sampleCollectedAt = null,
+                    labId = null,
                 )
             )
             when (it) {
@@ -151,8 +161,7 @@ class PCRProcessorTest : BaseTest() {
                 RAT_NEGATIVE,
                 RAT_POSITIVE,
                 RAT_INVALID,
-                RAT_REDEEMED ->
-                    instance.create(request).testResult shouldBe PCR_INVALID
+                RAT_REDEEMED -> instance.create(request).testResult shouldBe PCR_INVALID
             }
         }
     }
@@ -160,21 +169,18 @@ class PCRProcessorTest : BaseTest() {
     @Test
     fun `polling maps invalid results to INVALID state`() = runBlockingTest {
         var pollResult: CoronaTestResult = PCR_OR_RAT_PENDING
-        coEvery { submissionService.asyncRequestTestResult(any()) } answers {
+        coEvery { submissionService.checkTestResult(any()) } answers {
             CoronaTestResultResponse(
                 coronaTestResult = pollResult,
                 sampleCollectedAt = null,
+                labId = null,
             )
         }
 
         val instance = createInstance()
 
-        val pcrTest = PCRCoronaTest(
-            identifier = "identifier",
-            lastUpdatedAt = Instant.EPOCH,
-            registeredAt = nowUTC,
-            registrationToken = "regtoken",
-            testResult = PCR_POSITIVE
+        val pcrTest = defaultTest.copy(
+            testResult = PCR_POSITIVE,
         )
 
         values().forEach {
@@ -216,21 +222,19 @@ class PCRProcessorTest : BaseTest() {
 
     @Test
     fun `polling is skipped if test is older than 21 days and state was already REDEEMED`() = runBlockingTest {
-        coEvery { submissionService.asyncRequestTestResult(any()) } answers {
+        coEvery { submissionService.checkTestResult(any()) } answers {
             CoronaTestResultResponse(
                 coronaTestResult = PCR_POSITIVE,
                 sampleCollectedAt = null,
+                labId = null,
             )
         }
 
         val instance = createInstance()
 
-        val pcrTest = PCRCoronaTest(
-            identifier = "identifier",
-            lastUpdatedAt = Instant.EPOCH,
+        val pcrTest = defaultTest.copy(
             registeredAt = nowUTC.minus(Duration.standardDays(22)),
-            registrationToken = "regtoken",
-            testResult = PCR_REDEEMED
+            testResult = PCR_REDEEMED,
         )
 
         // Older than 21 days and already redeemed
@@ -245,16 +249,12 @@ class PCRProcessorTest : BaseTest() {
     @Test
     fun `http 400 errors map to REDEEMED (EXPIRED) state after 21 days`() = runBlockingTest {
         val ourBadRequest = BadRequestException("Who?")
-        coEvery { submissionService.asyncRequestTestResult(any()) } throws ourBadRequest
+        coEvery { submissionService.checkTestResult(any()) } throws ourBadRequest
 
         val instance = createInstance()
 
-        val pcrTest = PCRCoronaTest(
-            identifier = "identifier",
-            lastUpdatedAt = Instant.EPOCH,
-            registeredAt = nowUTC,
-            registrationToken = "regtoken",
-            testResult = PCR_POSITIVE
+        val pcrTest = defaultTest.copy(
+            testResult = PCR_POSITIVE,
         )
 
         // Test is not older than 21 days, we want the error!
@@ -267,6 +267,119 @@ class PCRProcessorTest : BaseTest() {
         instance.pollServer(pcrTest.copy(registeredAt = nowUTC.minus(Duration.standardDays(22)))).apply {
             testResult shouldBe PCR_REDEEMED
             lastError shouldBe null
+        }
+    }
+
+    @Test
+    fun `giving submission consent`() = runBlockingTest {
+        val instance = createInstance()
+
+        instance.updateSubmissionConsent(defaultTest, true) shouldBe defaultTest.copy(
+            isAdvancedConsentGiven = true
+        )
+        instance.updateSubmissionConsent(defaultTest, false) shouldBe defaultTest.copy(
+            isAdvancedConsentGiven = false
+        )
+    }
+
+    @Test
+    fun `request parameters for dcc are mapped`() = runBlockingTest {
+        val registrationData = RegistrationData(
+            registrationToken = "regtoken",
+            testResultResponse = CoronaTestResultResponse(
+                coronaTestResult = PCR_OR_RAT_PENDING,
+                sampleCollectedAt = null,
+                labId = "labId",
+            )
+        )
+        coEvery { submissionService.registerTest(any()) } answers { registrationData }
+
+        createInstance().create(
+            CoronaTestQRCode.PCR(
+                qrCodeGUID = "guid",
+                isDccConsentGiven = true,
+                dateOfBirth = LocalDate.parse("2021-06-02"),
+            )
+        ).apply {
+            isDccConsentGiven shouldBe true
+            isDccDataSetCreated shouldBe false
+            isDccSupportedByPoc shouldBe true
+            labId shouldBe "labId"
+        }
+
+        createInstance().create(
+            CoronaTestQRCode.PCR(
+                qrCodeGUID = "guid",
+                dateOfBirth = LocalDate.parse("2021-06-02"),
+            )
+        ).apply {
+            isDccConsentGiven shouldBe false
+            isDccDataSetCreated shouldBe false
+            isDccSupportedByPoc shouldBe true
+            labId shouldBe "labId"
+        }
+    }
+
+    @Test
+    fun `marking dcc as created`() = runBlockingTest {
+        val instance = createInstance()
+
+        instance.markDccCreated(defaultTest, true) shouldBe defaultTest.copy(
+            isDccDataSetCreated = true
+        )
+        instance.markDccCreated(defaultTest, false) shouldBe defaultTest.copy(
+            isDccDataSetCreated = false
+        )
+    }
+
+    @Test
+    fun `response parameters are stored during initial registration`() = runBlockingTest {
+        val registrationData = RegistrationData(
+            registrationToken = "regtoken",
+            testResultResponse = CoronaTestResultResponse(
+                coronaTestResult = PCR_NEGATIVE,
+                labId = "labId",
+            )
+        )
+        coEvery { submissionService.registerTest(any()) } answers { registrationData }
+
+        createInstance().create(
+            CoronaTestQRCode.PCR(
+                qrCodeGUID = "guid",
+                isDccConsentGiven = true,
+                dateOfBirth = LocalDate.parse("2021-06-02"),
+            )
+        ).apply {
+            testResult shouldBe PCR_NEGATIVE
+            labId shouldBe "labId"
+            isDccDataSetCreated shouldBe false
+            isDccSupportedByPoc shouldBe true
+        }
+    }
+
+    @Test
+    fun `new data received during polling is stored in the test`() = runBlockingTest {
+        val instance = createInstance()
+        val pcrTest = PCRCoronaTest(
+            identifier = "identifier",
+            lastUpdatedAt = Instant.EPOCH,
+            registeredAt = nowUTC,
+            registrationToken = "regtoken",
+            testResult = PCR_POSITIVE,
+        )
+
+        (instance.pollServer(pcrTest) as PCRCoronaTest).apply {
+            labId shouldBe null
+        }
+
+        coEvery { submissionService.checkTestResult(any()) } returns CoronaTestResultResponse(
+            coronaTestResult = PCR_OR_RAT_PENDING,
+            sampleCollectedAt = nowUTC,
+            labId = "labId",
+        )
+
+        (instance.pollServer(pcrTest) as PCRCoronaTest).apply {
+            labId shouldBe "labId"
         }
     }
 }

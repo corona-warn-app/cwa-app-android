@@ -3,26 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/vaccination_nav_graph"
-    app:startDestination="@id/vaccinationConsentFragment">
-
-    <fragment
-        android:id="@+id/vaccinationConsentFragment"
-        android:name="de.rki.coronawarnapp.vaccination.ui.consent.VaccinationConsentFragment"
-        android:label="VaccinationConsentFragment"
-        tools:layout="@layout/vaccination_consent_fragment">
-        <action
-            android:id="@+id/vaccinationConsentFragment_to_privacyFragment"
-            app:destination="@id/privacyFragment" />
-        <action
-            android:id="@+id/vaccinationConsentFragment_to_QrCodeFragment"
-            app:destination="@id/vaccinationQrCodeScanFragment"
-            app:popUpTo="@id/vaccinationConsentFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
+    app:startDestination="@id/vaccinationListFragment">
 
     <fragment
         android:id="@+id/vaccinationQrCodeScanFragment"
-        android:name="de.rki.coronawarnapp.vaccination.ui.scan.VaccinationQrCodeScanFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.vaccination.ui.scan.VaccinationQrCodeScanFragment"
         android:label="VaccinationQrCodeScanFragment"
         tools:layout="@layout/fragment_scan_qr_code">
         <action
@@ -35,7 +20,7 @@
 
     <fragment
         android:id="@+id/vaccinationListFragment"
-        android:name="de.rki.coronawarnapp.vaccination.ui.list.VaccinationListFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.VaccinationListFragment"
         android:label="fragment_vaccination_list"
         tools:layout="@layout/fragment_vaccination_list">
         <argument
@@ -52,7 +37,7 @@
 
     <fragment
         android:id="@+id/vaccinationDetailsFragment"
-        android:name="de.rki.coronawarnapp.vaccination.ui.details.VaccinationDetailsFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragment"
         android:label="fragment_vaccination_details"
         tools:layout="@layout/fragment_vaccination_details">
         <argument
@@ -60,9 +45,4 @@
             app:argType="string" />
     </fragment>
 
-    <fragment
-        android:id="@+id/privacyFragment"
-        android:name="de.rki.coronawarnapp.ui.information.InformationPrivacyFragment"
-        android:label="privacyFragment"
-        tools:layout="@layout/fragment_information_privacy" />
 </navigation>

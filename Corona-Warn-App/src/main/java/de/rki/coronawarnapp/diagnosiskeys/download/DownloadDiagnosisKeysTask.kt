@@ -15,9 +15,8 @@ import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.TaskFactory.Config.CollisionBehavior
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.ui.toLazyString
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -37,8 +36,8 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     private val coronaTestRepository: CoronaTestRepository,
 ) : Task<DownloadDiagnosisKeysTask.Progress, DownloadDiagnosisKeysTask.Result> {
 
-    private val internalProgress = ConflatedBroadcastChannel<Progress>()
-    override val progress: Flow<Progress> = internalProgress.asFlow()
+    private val internalProgress = MutableStateFlow<Progress>(Progress.Started)
+    override val progress: Flow<Progress> = internalProgress
 
     private var isCanceled = false
 
@@ -67,8 +66,8 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             // RETRIEVE RISK SCORE PARAMETERS
             val exposureConfig: ConfigData = appConfigProvider.getAppConfig()
 
-            internalProgress.send(Progress.ApiSubmissionStarted)
-            internalProgress.send(Progress.KeyFilesDownloadStarted)
+            internalProgress.value = Progress.ApiSubmissionStarted
+            internalProgress.value = Progress.KeyFilesDownloadStarted
 
             val requestedCountries = arguments.requestedCountries
             val keySyncResult = getAvailableKeyFiles(requestedCountries)
@@ -104,12 +103,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             val availableKeyFiles = keySyncResult.availableKeys.map { it.path }
             val totalFileSize = availableKeyFiles.fold(0L, { acc, file -> file.length() + acc })
 
-            internalProgress.send(
-                Progress.KeyFilesDownloadFinished(
-                    availableKeyFiles.size,
-                    totalFileSize
-                )
-            )
+            internalProgress.value = Progress.KeyFilesDownloadFinished(availableKeyFiles.size, totalFileSize)
 
             // remember version code of this execution for next time
             settings.updateLastVersionCodeToCurrent()
@@ -127,7 +121,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             )
             Timber.tag(TAG).d("Diagnosis Keys provided (success=%s)", isSubmissionSuccessful)
 
-            internalProgress.send(Progress.ApiSubmissionFinished)
+            internalProgress.value = Progress.ApiSubmissionFinished
 
             return Result()
         } catch (error: Exception) {
@@ -138,7 +132,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             throw error
         } finally {
             Timber.i("Finished (isCanceled=$isCanceled).")
-            internalProgress.close()
+            internalProgress.value = Progress.Finished
         }
     }
 
@@ -218,6 +212,8 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     class Result : Task.Result
 
     sealed class Progress : Task.Progress {
+        object Started : Progress()
+        object Finished : Progress()
         object ApiSubmissionStarted : Progress()
         object ApiSubmissionFinished : Progress()
 

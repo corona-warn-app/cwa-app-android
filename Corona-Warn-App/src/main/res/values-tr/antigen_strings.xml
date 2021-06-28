@@ -6,8 +6,7 @@
     <!-- XHED: Register test homescreen card: title -->
     <string name="ag_homescreen_card_test_register_title">"Testinizi Kaydedin"</string>
     <!-- XTXT: Register test homescreen card: body -->
-    <string name="ag_homescreen_card_test_register_body">"Diğer kullanıcıları daha hızlı uyarmak için testlerinizi kaydetmek ve test sonuçlarınızı almak üzere uygulamayı kullanın."</string>
-
+    <string name="ag_homescreen_card_test_register_body">"Diğer kullanıcıları daha hızlı uyarmak için testlerinizi kaydetmek ve test sonuçlarınızı almak ya da COVID test sertifikanızı talep etmek üzere uygulamayı kullanın."</string>
     <!-- ####################################
         Homescreen cards - common buttons
     ###################################### -->
@@ -141,6 +140,10 @@
     <string name="coronatest_negative_antigen_result_third_info_title">"Testi Kaldır"</string>
     <!-- XTXT: coronatest negative antigen result third info body -->
     <string name="coronatest_negative_antigen_restul_third_info_body">"Gerekirse yeni bir test kodu kaydedebilmeniz için lütfen testi Corona-Warn-App\'ten silin."</string>
+    <!-- XTXT: coronatest negative result certificate info title -->
+    <string name="coronatest_negative_result_certificate_info_title">"Test Sertifikası"</string>
+    <!-- XTXT: coronatest negative result certificate info body -->
+    <string name="coronatest_negative_result_certificate_info_body">"Test sertifikasını \"Sertifikalar\" sekmesinde bulabilirsiniz."</string>
 
     <!-- ####################################
      Rapid Antigen Test Profile

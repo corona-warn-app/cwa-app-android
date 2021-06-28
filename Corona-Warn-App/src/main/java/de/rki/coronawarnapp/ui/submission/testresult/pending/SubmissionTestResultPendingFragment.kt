@@ -61,6 +61,10 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             }
         }
 
+        viewModel.testCertResultInfo.observe2(this) { result ->
+            binding.testResultPendingStepsCertificateInfo.setEntryText(result.get(requireContext()))
+        }
+
         binding.apply {
             val isPcr = navArgs.testType == CoronaTest.Type.PCR
             testResultPendingStepsWaitingAntigenResult.isVisible = !isPcr
@@ -90,6 +94,12 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             )
 
             DialogHelper.showDialog(dialog)
+        }
+
+        viewModel.testCertResultInfo.observe2(this) {
+            binding.testResultPendingStepsCertificateInfo.apply {
+                setEntryText(it.get(context))
+            }
         }
 
         viewModel.routeToScreen.observe2(this) { it?.let { doNavigate(it) } ?: navigateToMainScreen() }

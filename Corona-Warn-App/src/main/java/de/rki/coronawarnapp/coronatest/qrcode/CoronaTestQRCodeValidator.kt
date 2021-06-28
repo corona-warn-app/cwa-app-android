@@ -13,7 +13,7 @@ class CoronaTestQrCodeValidator @Inject constructor(
 
     fun validate(rawString: String): CoronaTestQRCode {
         return findExtractor(rawString)
-            ?.extract(rawString)
+            ?.extract(rawString, mode = QrCodeExtractor.Mode.TEST_STRICT)
             ?.also { Timber.i("Extracted data from QR code is %s", it) }
             ?: throw InvalidQRCodeException()
     }
@@ -25,5 +25,11 @@ class CoronaTestQrCodeValidator @Inject constructor(
 
 interface QrCodeExtractor<T> {
     fun canHandle(rawString: String): Boolean
-    fun extract(rawString: String): T
+    fun extract(rawString: String, mode: Mode): T
+
+    enum class Mode {
+        TEST_STRICT,
+        CERT_VAC_STRICT,
+        CERT_VAC_LENIENT
+    }
 }

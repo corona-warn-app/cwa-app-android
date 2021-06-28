@@ -1,17 +1,13 @@
 package de.rki.coronawarnapp.test.coronatest.ui
 
-import android.content.Context
 import androidx.lifecycle.asLiveData
 import com.journeyapps.barcodescanner.BarcodeResult
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.latestPCRT
-import de.rki.coronawarnapp.coronatest.latestRAT
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
-import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -24,19 +20,26 @@ class CoronaTestTestFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val coronaTestRepository: CoronaTestRepository,
     private val coronaTestQrCodeValidator: CoronaTestQrCodeValidator,
+    contactDiaryRepository: ContactDiaryRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val errorEvents = SingleLiveEvent<Throwable>()
-    val pcrtState = coronaTestRepository.latestPCRT.map {
-        PCRTState(
-            coronaTest = it
-        )
-    }.asLiveData(context = dispatcherProvider.Default)
+    val pcrtState = coronaTestRepository.coronaTests
+        .map { tests -> tests.filter { it.type == CoronaTest.Type.PCR } }
+        .map { pcrTests ->
+            PCRTState(coronaTests = pcrTests)
+        }.asLiveData(context = dispatcherProvider.Default)
 
-    val ratState = coronaTestRepository.latestRAT.map {
-        RATState(
-            coronaTest = it
-        )
+    val ratState = coronaTestRepository.coronaTests
+        .map { tests -> tests.filter { it.type == CoronaTest.Type.RAPID_ANTIGEN } }
+        .map { raTests ->
+            RATState(coronaTests = raTests)
+        }.asLiveData(context = dispatcherProvider.Default)
+
+    val testsInContactDiary = contactDiaryRepository.testResults.map {
+        it.foldIndexed(StringBuilder()) { id, buffer, item ->
+            buffer.append(id).append(":\n").append(item).append("\n")
+        }.toString()
     }.asLiveData(context = dispatcherProvider.Default)
 
     fun refreshPCRT() = launch {
@@ -51,12 +54,12 @@ class CoronaTestTestFragmentViewModel @AssistedInject constructor(
 
     fun deletePCRT() = launch {
         try {
-            val pcrTest = coronaTestRepository.latestPCRT.first()
-            if (pcrTest == null) {
-                Timber.d("No PCR test to delete")
-                return@launch
-            }
-            coronaTestRepository.removeTest(pcrTest.identifier)
+            Timber.i("Deleting PCR tests.")
+            coronaTestRepository.coronaTests.first()
+                .filter { it.type == CoronaTest.Type.PCR }
+                .forEach { test ->
+                    coronaTestRepository.removeTest(test.identifier)
+                }
         } catch (e: Exception) {
             Timber.e(e, "Failed to delete PCR test.")
             errorEvents.postValue(e)
@@ -73,14 +76,14 @@ class CoronaTestTestFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    fun deleteRAT() = launch {
+    fun deleteRAT(): Unit = launch {
         try {
-            val raTest = coronaTestRepository.latestRAT.first()
-            if (raTest == null) {
-                Timber.d("No RA test to delete")
-                return@launch
-            }
-            coronaTestRepository.removeTest(raTest.identifier)
+            Timber.i("Deleting RA tests.")
+            coronaTestRepository.coronaTests.first()
+                .filter { it.type == CoronaTest.Type.RAPID_ANTIGEN }
+                .forEach { test ->
+                    coronaTestRepository.removeTest(test.identifier)
+                }
         } catch (e: Exception) {
             Timber.e(e, "Failed to delete RA test.")
             errorEvents.postValue(e)
@@ -98,28 +101,34 @@ class CoronaTestTestFragmentViewModel @AssistedInject constructor(
     }
 
     data class PCRTState(
-        val coronaTest: PCRCoronaTest?
+        val coronaTests: Collection<CoronaTest>
     ) {
-        fun getNiceTextForHumans(context: Context): String {
-            return coronaTest
-                ?.toString()
-                ?.replace("PCRCoronaTest(", "")
-                ?.replace(",", ",\n")
-                ?.trimEnd { it == ')' }
-                ?: "No PCR test registered."
+        fun getNiceTextForHumans(): String {
+            if (coronaTests.isEmpty()) {
+                return "No PCR test registered."
+            }
+            return coronaTests.joinToString("\n") { test ->
+                test.toString()
+                    .replace("PCRCoronaTest(", "")
+                    .replace(",", ",\n")
+                    .trimEnd { it == ')' }
+            }
         }
     }
 
     data class RATState(
-        val coronaTest: RACoronaTest?
+        val coronaTests: Collection<CoronaTest>
     ) {
-        fun getNiceTextForHumans(context: Context): String {
-            return coronaTest
-                ?.toString()
-                ?.replace("RACoronaTest(", "")
-                ?.replace(",", ",\n")
-                ?.trimEnd { it == ')' }
-                ?: "No rapid antigen test registered."
+        fun getNiceTextForHumans(): String {
+            if (coronaTests.isEmpty()) {
+                return "No rapid antigen test registered."
+            }
+            return coronaTests.joinToString("\n") { test ->
+                test.toString()
+                    .replace("RACoronaTest(", "")
+                    .replace(",", ",\n")
+                    .trimEnd { it == ')' }
+            }
         }
     }
 

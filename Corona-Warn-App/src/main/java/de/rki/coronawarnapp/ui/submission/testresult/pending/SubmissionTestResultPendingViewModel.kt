@@ -6,6 +6,7 @@ import androidx.navigation.NavDirections
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -13,7 +14,9 @@ import de.rki.coronawarnapp.submission.toDeviceUIState
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
+import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.filter
@@ -93,6 +96,23 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
                 Timber.w("Filtering out positive test emission as we don't display this here.")
             }
             !isPositiveTest
+        }
+        .asLiveData(context = dispatcherProvider.Default)
+
+    val testCertResultInfo: LiveData<LazyString> = testResultFlow
+        .map {
+            when {
+                !it.coronaTest.isDccSupportedByPoc -> {
+                    R.string.submission_test_result_pending_steps_test_certificate_not_supported_body
+                }
+                else -> {
+                    if (it.coronaTest.isDccConsentGiven) {
+                        R.string.submission_test_result_pending_steps_test_certificate_not_available_yet_body
+                    } else {
+                        R.string.submission_test_result_pending_steps_test_certificate_not_desired_by_user_body
+                    }
+                }
+            }.toResolvingString()
         }
         .asLiveData(context = dispatcherProvider.Default)
 

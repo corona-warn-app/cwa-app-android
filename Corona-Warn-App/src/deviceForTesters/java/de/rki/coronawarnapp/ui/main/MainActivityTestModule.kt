@@ -34,8 +34,6 @@ import de.rki.coronawarnapp.test.submission.ui.SubmissionTestFragment
 import de.rki.coronawarnapp.test.submission.ui.SubmissionTestFragmentModule
 import de.rki.coronawarnapp.test.tasks.ui.TestTaskControllerFragment
 import de.rki.coronawarnapp.test.tasks.ui.TestTaskControllerFragmentModule
-import de.rki.coronawarnapp.vaccination.ui.VaccinationTestFragment
-import de.rki.coronawarnapp.vaccination.ui.VaccinationTestFragmentModule
 
 @Module
 abstract class MainActivityTestModule {
@@ -87,7 +85,4 @@ abstract class MainActivityTestModule {
 
     @ContributesAndroidInjector(modules = [CoronaTestTestFragmentModule::class])
     abstract fun coronaTest(): CoronaTestTestFragment
-
-    @ContributesAndroidInjector(modules = [VaccinationTestFragmentModule::class])
-    abstract fun vaccinationTest(): VaccinationTestFragment
 }

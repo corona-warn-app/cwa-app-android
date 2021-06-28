@@ -281,6 +281,8 @@
     <string name="risk_details_behavior_body_wear_mask">"Purtați o mască facială când întâlniți alte persoane."</string>
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_away">"Păstrați o distanță de cel puțin 1,5 metri față de alte persoane."</string>
+    <!-- XTXT: find details about exposures in the contact journal -->
+    <string name="risk_details_find_details_in_journal">"Veți găsi mai multe informații despre expunerile dvs. în jurnalul dvs. de contacte."</string>
 
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
     <string name="risk_details_increased_risk_faq_link_text">"Dacă vă testați, veți găsi mai multe informații despre procedura de testare în Întrebările frecvente."</string>
@@ -306,7 +308,7 @@
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
     <string name="risk_details_subtitle_period_logged">"Această perioadă este inclusă în calcul."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
-<!--    Dialog part 1-->
+    <!--    Dialog part 1-->
     <string name="risk_details_information_body_period_logged">"Riscul dvs. de infectare poate fi calculat doar pentru perioadele în care a fost activă înregistrarea în jurnal a expunerilor. Prin urmare, caracteristica de înregistrare în jurnal trebuie să rămână permanent activă. Înregistrarea în jurnal a expunerilor acoperă ultimele 14 zile."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Aplicația Corona-Warn a fost instalată acum %s zi(le). Riscul dvs. de infectare este calculat pentru perioadele în care înregistrarea în jurnal a expunerilor a fost activă. Dacă v-ați întâlnit cu alte persoane și înregistrarea în jurnal a expunerilor a fost activă, este calculat riscul dvs. de infectare."</string>
@@ -1027,6 +1029,8 @@
     <string name="submission_consent_call_test_result_scan_your_test_only">"Acum scanați codul QR de pe testul dvs. și aflați rezultatul testului."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_test_only_once">"Fiecare test poate fi scanat o singură dată. Aplicația poate gestiona cel mult un test rapid și un test PCR în același timp."</string>
+    <!-- YTXT:  Body sub text 3 for Submission Consent call test result   -->
+    <string name="submission_consent_call_test_result_checkmark_text">"Dacă rezultatul testului dvs. este negativ, puteți confirma acest lucru cu un certificat de test COVID oficial. Pentru aceasta, solicitați certificatul de test în următoarele etape."</string>
     <!-- XHED: Page subheadline for consent help by warning others  -->
     <string name="submission_consent_help_by_warning_others_headline">"Vă rugăm să îi ajutați pe ceilalți cu care v-ați întâlnit, avertizându-i!"</string>
     <!-- YTXT: Body for consent help by warning others -->
@@ -1087,6 +1091,15 @@
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_contact_diary_body">"Imediat ce devine disponibil, rezultatul testului dvs. va fi afișat în aplicație."</string>
 
+    <!-- XHED: Page headline for test result certifcate info title  -->
+    <string name="submission_test_result_pending_steps_test_certificate_heading">"Certificatul dvs. de test"</string>
+    <!-- YTXT: Body text for test result certifcate info, if certifcate is not supported, RAT Test -->
+    <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"Nu este disponibil niciun certificat de test deoarece acest punct de testare nu suportă emiterea de certificate de test."</string>
+    <!-- YTXT: Body text for test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
+    <string name="submission_test_result_pending_steps_test_certificate_not_available_yet_body">"Certificatul dvs. de test nu este disponibil încă. De îndată ce devine disponibil, va fi afișat în aplicație."</string>
+    <!-- YTXT: Body text for test result certifcate info, if certifcate is not desired by the user, PCR Test no consent given -->
+    <string name="submission_test_result_pending_steps_test_certificate_not_desired_by_user_body">"Nu a fost emis niciun certificat de test, conform cererii dvs."</string>
+
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Actualizare"</string>
     <!-- XBUT: test result pending : remove the test button -->
@@ -1130,8 +1143,12 @@
     <string name="submission_test_result_dialog_tracing_required_button">"OK"</string>
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"Testul poate fi scanat o singură dată."</string>
+    <!-- XHED: Dialog title for test removal no submission -->
+    <string name="submission_test_result_dialog_remove_test_title_no_submission">"Sigur doriți să eliminați testul dvs.?"</string>
     <!-- YTXT: Dialog text for test removal -->
     <string name="submission_test_result_dialog_remove_test_message">"Dacă ștergeți testul, nu veți mai putea afla rezultatul testului. Veți primi rezultatul testului dvs. de la centrul sau laboratorul de testare, indiferent de valabilitatea codului QR. Dacă sunteți diagnosticat cu coronavirus, autoritatea de sănătate publică va fi notificată prin canalul de comunicare prevăzut în mod legal și vă va contacta."</string>
+    <!-- YTXT: Dialog text for test removal no submission -->
+    <string name="submission_test_result_dialog_remove_test_message_no_submission">"În caz afirmativ, alte persoane nu vor fi avertizate."</string>
     <!-- XBUT: Positive button for test removal -->
     <string name="submission_test_result_dialog_remove_test_button_positive">"Ștergere"</string>
     <!-- XBUT: Negative button for test removal -->
@@ -1179,7 +1196,7 @@
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"Scanare cod QR"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Primiți rezultatul testului dvs. în aplicație și avertizați-i pe ceilalți."</string>
+    <string name="submission_dispatcher_qr_card_text">"Primiți rezultatul testului dvs. în aplicație și avertizați-i pe ceilalți sau solicitați certificatul dvs. de test COVID."</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"Introduceți codul TAN pentru testul PCR"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
@@ -1220,6 +1237,8 @@
     <string name="submission_test_result_positive_no_consent_text_3">"Asigurați-vă că urmați instrucțiunile autorității dvs. de sănătate publică și că stați acasă, pentru a nu-i infecta pe ceilalți."</string>
     <!-- XBUT: Button for giving consent for key sharing -->
     <string name="submission_test_result_positive_no_consent_button_warn_others">"Avertizați-i pe ceilalți"</string>
+    <!-- XBUT: Button for test removal -->
+    <string name="submission_test_result_positive_no_consent_button_remove_test">"Eliminare test"</string>
 
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
@@ -1838,7 +1857,8 @@
     <string name="bottom_nav_diary_title">"Jurnal"</string>
     <!-- XHED: Title for BottomNav check-in screen title -->
     <string name="bottom_nav_check_ins_title">"Check-in"</string>
-
+    <!-- XHED: Title for BottomNav certificates screen title -->
+    <string name="bottom_nav_certificates_title">"Certificate"</string>
     <!-- ####################################
            Data Donation & Survey
     ###################################### -->

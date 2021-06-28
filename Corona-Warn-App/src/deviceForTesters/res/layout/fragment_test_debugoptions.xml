@@ -55,12 +55,12 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
-                android:orientation="vertical"
                 android:id="@+id/environment_container"
                 style="@style/Card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/spacing_tiny">
+                android:layout_margin="@dimen/spacing_tiny"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/environment_title"
@@ -108,6 +108,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     tools:text="LogUpload: ?" />
+
+                <TextView
+                    android:id="@+id/environment_dcc_server_url"
+                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    tools:text="Dcc Server Url: ?" />
 
                 <TextView
                     android:id="@+id/environment_pubkey_appconfig"

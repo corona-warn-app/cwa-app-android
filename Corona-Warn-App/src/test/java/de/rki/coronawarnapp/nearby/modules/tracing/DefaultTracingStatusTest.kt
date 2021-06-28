@@ -139,11 +139,7 @@ class DefaultTracingStatusTest : BaseTest() {
         val tracingStatus = mockk<TracingStatus>().apply {
             every { isTracingEnabled } returns enabledFlow
             every { setTracing(any(), any(), any(), any()) } answers {
-                val enabled = arg<Boolean>(0)
                 val onSuccess = arg<(Boolean) -> Unit>(1)
-                val onError = arg<(Throwable) -> Unit>(2)
-                val onPermissionRequired = arg<(Status) -> Unit>(3)
-
                 onSuccess(false)
             }
         }

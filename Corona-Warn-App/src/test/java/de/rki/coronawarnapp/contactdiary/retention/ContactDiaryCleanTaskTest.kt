@@ -4,7 +4,7 @@ import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.coVerifyOrder
+import io.mockk.coVerifySequence
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.test.runBlockingTest
@@ -24,6 +24,7 @@ class ContactDiaryCleanTaskTest : BaseTest() {
         coEvery { retentionCalculation.clearObsoleteContactDiaryPersonEncounters() } returns Unit
         coEvery { retentionCalculation.clearObsoleteContactDiaryLocationVisits() } returns Unit
         coEvery { retentionCalculation.clearObsoleteRiskPerDate() } returns Unit
+        coEvery { retentionCalculation.clearObsoleteCoronaTests() } returns Unit
     }
 
     private fun createInstance() = ContactDiaryCleanTask(
@@ -34,10 +35,13 @@ class ContactDiaryCleanTaskTest : BaseTest() {
     fun `no errors`() = runBlockingTest {
         val result = createInstance().run(mockk())
 
-        coVerifyOrder {
-            retentionCalculation.clearObsoleteContactDiaryLocationVisits()
-            retentionCalculation.clearObsoleteContactDiaryPersonEncounters()
-            retentionCalculation.clearObsoleteRiskPerDate()
+        coVerifySequence {
+            retentionCalculation.run {
+                clearObsoleteContactDiaryLocationVisits()
+                clearObsoleteContactDiaryPersonEncounters()
+                clearObsoleteRiskPerDate()
+                clearObsoleteCoronaTests()
+            }
         }
         result shouldNotBe null
     }
@@ -50,8 +54,11 @@ class ContactDiaryCleanTaskTest : BaseTest() {
 
         coVerify(exactly = 1) { retentionCalculation.clearObsoleteContactDiaryLocationVisits() }
         coVerify(exactly = 0) {
-            retentionCalculation.clearObsoleteContactDiaryPersonEncounters()
-            retentionCalculation.clearObsoleteRiskPerDate()
+            retentionCalculation.run {
+                clearObsoleteContactDiaryPersonEncounters()
+                clearObsoleteRiskPerDate()
+                clearObsoleteCoronaTests()
+            }
         }
         result shouldNotBe null
     }
@@ -66,7 +73,12 @@ class ContactDiaryCleanTaskTest : BaseTest() {
             retentionCalculation.clearObsoleteContactDiaryLocationVisits()
             retentionCalculation.clearObsoleteContactDiaryPersonEncounters()
         }
-        coVerify(exactly = 0) { retentionCalculation.clearObsoleteRiskPerDate() }
+        coVerify(exactly = 0) {
+            retentionCalculation.run {
+                clearObsoleteRiskPerDate()
+                clearObsoleteCoronaTests()
+            }
+        }
 
         result shouldNotBe null
     }
@@ -83,6 +95,28 @@ class ContactDiaryCleanTaskTest : BaseTest() {
             retentionCalculation.clearObsoleteRiskPerDate()
         }
 
+        coVerify(exactly = 0) {
+            retentionCalculation.clearObsoleteCoronaTests()
+        }
+
+        result shouldNotBe null
+    }
+
+    @Test
+    fun `corona tests fails`() = runBlockingTest {
+        coEvery { retentionCalculation.clearObsoleteCoronaTests() } throws Exception()
+
+        val result = assertThrows<Exception> { createInstance().run(mockk()) }
+
+        coVerify(exactly = 1) {
+            retentionCalculation.run {
+                clearObsoleteContactDiaryLocationVisits()
+                clearObsoleteContactDiaryPersonEncounters()
+                clearObsoleteRiskPerDate()
+                clearObsoleteCoronaTests()
+            }
+        }
+
         result shouldNotBe null
     }
 
@@ -95,8 +129,11 @@ class ContactDiaryCleanTaskTest : BaseTest() {
 
         coVerify(exactly = 1) { retentionCalculation.clearObsoleteContactDiaryLocationVisits() }
         coVerify(exactly = 0) {
-            retentionCalculation.clearObsoleteContactDiaryPersonEncounters()
-            retentionCalculation.clearObsoleteRiskPerDate()
+            retentionCalculation.run {
+                clearObsoleteContactDiaryPersonEncounters()
+                clearObsoleteRiskPerDate()
+                clearObsoleteCoronaTests()
+            }
         }
         result shouldNotBe null
     }

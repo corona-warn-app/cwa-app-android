@@ -282,6 +282,8 @@
     <string name="risk_details_behavior_body_wear_mask">"Wear a face mask when you encounter other people."</string>
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_away">"Keep at least 1.5 meters distance from other people."</string>
+    <!-- XTXT: find details about exposures in the contact journal -->
+    <string name="risk_details_find_details_in_journal">"You will find more information about your exposures in your contact journal."</string>
 
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
     <string name="risk_details_increased_risk_faq_link_text">"If you get tested, you will find additional information about the testing procedure in the FAQ."</string>
@@ -1028,6 +1030,8 @@
     <string name="submission_consent_call_test_result_scan_your_test_only">"Now scan the QR code for your test and retrieve your test result."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_test_only_once">"Each test can only be scanned once. The app can manage a maximum of one rapid test and one PCR test at the same time."</string>
+    <!-- YTXT:  Body sub text 3 for Submission Consent call test result   -->
+    <string name="submission_consent_call_test_result_checkmark_text">"If your test result is negative, you can confirm this with an official COVID test certificate. To do so, request the test certificate in the following steps."</string>
     <!-- XHED: Page subheadline for consent help by warning others  -->
     <string name="submission_consent_help_by_warning_others_headline">"Please help others you have encountered by warning them!"</string>
     <!-- YTXT: Body for consent help by warning others -->
@@ -1088,6 +1092,15 @@
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_contact_diary_body">"As soon as your test result becomes available, it will be displayed in the app."</string>
 
+    <!-- XHED: Page headline for test result certifcate info title  -->
+    <string name="submission_test_result_pending_steps_test_certificate_heading">"Your Test Certificate"</string>
+    <!-- YTXT: Body text for test result certifcate info, if certifcate is not supported, RAT Test -->
+    <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"No test certificate is available because this testing point does not support the issuing of test certificates."</string>
+    <!-- YTXT: Body text for test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
+    <string name="submission_test_result_pending_steps_test_certificate_not_available_yet_body">"Your test certificate is not available yet. As soon as it becomes available, it will be displayed in your app."</string>
+    <!-- YTXT: Body text for test result certifcate info, if certifcate is not desired by the user, PCR Test no consent given -->
+    <string name="submission_test_result_pending_steps_test_certificate_not_desired_by_user_body">"No test certificate was issued, as per your request."</string>
+
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Update"</string>
     <!-- XBUT: test result pending : remove the test button -->
@@ -1131,8 +1144,12 @@
     <string name="submission_test_result_dialog_tracing_required_button">"OK"</string>
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"The test can only be scanned once."</string>
+    <!-- XHED: Dialog title for test removal no submission -->
+    <string name="submission_test_result_dialog_remove_test_title_no_submission">"Are you sure you want to remove your test?"</string>
     <!-- YTXT: Dialog text for test removal -->
     <string name="submission_test_result_dialog_remove_test_message">"If you delete the test, you can no longer retrieve your test result. You will receive your test result from the test center or laboratory regardless of the validity of the QR code. If you are diagnosed with coronavirus, the public health authority will be notified through the legally prescribed channel and will contact you."</string>
+    <!-- YTXT: Dialog text for test removal no submission -->
+    <string name="submission_test_result_dialog_remove_test_message_no_submission">"If you do, others will not be warned."</string>
     <!-- XBUT: Positive button for test removal -->
     <string name="submission_test_result_dialog_remove_test_button_positive">"Delete"</string>
     <!-- XBUT: Negative button for test removal -->
@@ -1180,7 +1197,7 @@
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"Scan QR Code"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Receive your test result in the app and warn others."</string>
+    <string name="submission_dispatcher_qr_card_text">"Receive your test result in the app and warn others or request your COVID test certificate."</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"Enter TAN for PCR Test"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
@@ -1221,6 +1238,8 @@
     <string name="submission_test_result_positive_no_consent_text_3">"Please be sure to follow the instructions from your public health authority and stay home, so you don’t infect others."</string>
     <!-- XBUT: Button for giving consent for key sharing -->
     <string name="submission_test_result_positive_no_consent_button_warn_others">"Warn Others"</string>
+    <!-- XBUT: Button for test removal -->
+    <string name="submission_test_result_positive_no_consent_button_remove_test">"Remove Test"</string>
 
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
@@ -1839,7 +1858,8 @@
     <string name="bottom_nav_diary_title">"Journal"</string>
     <!-- XHED: Title for BottomNav check-in screen title -->
     <string name="bottom_nav_check_ins_title">"Check In"</string>
-
+    <!-- XHED: Title for BottomNav certificates screen title -->
+    <string name="bottom_nav_certificates_title">"Certificates"</string>
     <!-- ####################################
            Data Donation & Survey
     ###################################### -->

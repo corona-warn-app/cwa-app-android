@@ -281,6 +281,8 @@
     <string name="risk_details_behavior_body_wear_mask">"Носете маска при контакт с други хора."</string>
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_away">"Спазвайте дистанция от поне 1,5 м от околните."</string>
+    <!-- XTXT: find details about exposures in the contact journal -->
+    <string name="risk_details_find_details_in_journal">"Ще намерите още информация относно излаганията ви на риск във вашия дневник на контактите."</string>
 
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
     <string name="risk_details_increased_risk_faq_link_text">"Ако се тествате, вижте Процедура за тестване в ЧЗВ, за да получите допълнителна информация."</string>
@@ -306,7 +308,7 @@
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
     <string name="risk_details_subtitle_period_logged">"Този период се включва в изчислението."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
-<!--    Dialog part 1-->
+    <!--    Dialog part 1-->
     <string name="risk_details_information_body_period_logged">"Вашият риск от заразяване може да се изчисли само за периодите, в които регистрирането на излаганията на риск е било активно. Ето защо тази функция трябва да бъде активирана постоянно. Регистрирането на контактите Ви покрива последните 14 дни."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Приложението Corona-Warn-App е инсталирано преди %s дни. Рискът да сте се заразили се изчислява за периодите, през които е било активно регистрирането на контактите Ви. Ако сте били в близост до други хора и регистрирането на излаганията е било активно, рискът да сте се заразили ще бъде изчислен."</string>
@@ -1027,6 +1029,8 @@
     <string name="submission_consent_call_test_result_scan_your_test_only">"Сега сканирайте QR кода от Вашия тест, за да получите резултата."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_test_only_once">"Можете да сканирате Вашия тест само веднъж. Приложението може да обработва едновременно само един бърз тест и един PCR тест."</string>
+    <!-- YTXT:  Body sub text 3 for Submission Consent call test result   -->
+    <string name="submission_consent_call_test_result_checkmark_text">"Ако резултатът от теста ви е отрицателен, може да го потвърдите с официален сертификат за тестване за COVID. За да направите това, заявете сертификата като следвате стъпките."</string>
     <!-- XHED: Page subheadline for consent help by warning others  -->
     <string name="submission_consent_help_by_warning_others_headline">"Моля, помогнете на хората, с които сте имали контакт, като ги предупредите!"</string>
     <!-- YTXT: Body for consent help by warning others -->
@@ -1087,6 +1091,15 @@
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_contact_diary_body">"Резултатът от Вашия тест ще се покаже в приложението веднага щом бъде готов."</string>
 
+    <!-- XHED: Page headline for test result certifcate info title  -->
+    <string name="submission_test_result_pending_steps_test_certificate_heading">"Вашият сертификат за тестване"</string>
+    <!-- YTXT: Body text for test result certifcate info, if certifcate is not supported, RAT Test -->
+    <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"Не е наличен сертификат за тестване, защото този пункт за тестване не поддържа издаването на такива сертификати."</string>
+    <!-- YTXT: Body text for test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
+    <string name="submission_test_result_pending_steps_test_certificate_not_available_yet_body">"Сертификатът Ви за тестване все още не е наличен. Когато това се случи, той ще се покаже в приложението Ви."</string>
+    <!-- YTXT: Body text for test result certifcate info, if certifcate is not desired by the user, PCR Test no consent given -->
+    <string name="submission_test_result_pending_steps_test_certificate_not_desired_by_user_body">"Не е издаден сертификат, отговарящ на искането Ви."</string>
+
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Актуализиране"</string>
     <!-- XBUT: test result pending : remove the test button -->
@@ -1130,8 +1143,12 @@
     <string name="submission_test_result_dialog_tracing_required_button">"OK"</string>
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"Тестът може да се сканира само веднъж."</string>
+    <!-- XHED: Dialog title for test removal no submission -->
+    <string name="submission_test_result_dialog_remove_test_title_no_submission">"Наистина ли искате да изтриете теста?"</string>
     <!-- YTXT: Dialog text for test removal -->
     <string name="submission_test_result_dialog_remove_test_message">"Ако изтриете теста, повече няма да можете да извлечете данните за резултата си. Ще получите резултата си от център за тестване или лаборатория, независимо от валидността на QR кода. Ако Ви бъде поставена диагноза „коронавирус“, службата за обществено здравеопазване ще бъде уведомена за това по установения от правните норми канал и ще се свърже с Вас."</string>
+    <!-- YTXT: Dialog text for test removal no submission -->
+    <string name="submission_test_result_dialog_remove_test_message_no_submission">"Ако го направите, другите няма да бъдат предупредени."</string>
     <!-- XBUT: Positive button for test removal -->
     <string name="submission_test_result_dialog_remove_test_button_positive">"Изтриване"</string>
     <!-- XBUT: Negative button for test removal -->
@@ -1179,7 +1196,7 @@
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"Сканиране на QR код"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Получете резултата си в приложението и предупредете останалите."</string>
+    <string name="submission_dispatcher_qr_card_text">"Получете резултата си в приложението и предупредете останалите или заявете своя сертификат за тестване за COVID."</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"Въведете ТАН код за PCR тест"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
@@ -1220,6 +1237,8 @@
     <string name="submission_test_result_positive_no_consent_text_3">"Моля, следвайте инструкциите на Вашия лекар и си останете вкъщи, за да не заразявате други хора."</string>
     <!-- XBUT: Button for giving consent for key sharing -->
     <string name="submission_test_result_positive_no_consent_button_warn_others">"Предупредете другите"</string>
+    <!-- XBUT: Button for test removal -->
+    <string name="submission_test_result_positive_no_consent_button_remove_test">"Премахване на теста"</string>
 
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
@@ -1838,7 +1857,8 @@
     <string name="bottom_nav_diary_title">"Дневник"</string>
     <!-- XHED: Title for BottomNav check-in screen title -->
     <string name="bottom_nav_check_ins_title">"Регистрация"</string>
-
+    <!-- XHED: Title for BottomNav certificates screen title -->
+    <string name="bottom_nav_certificates_title">"Сертификати"</string>
     <!-- ####################################
            Data Donation & Survey
     ###################################### -->

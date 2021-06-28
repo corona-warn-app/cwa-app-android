@@ -6,8 +6,7 @@
     <!-- XHED: Register test homescreen card: title -->
     <string name="ag_homescreen_card_test_register_title">"Регистрирайте своя тест"</string>
     <!-- XTXT: Register test homescreen card: body -->
-    <string name="ag_homescreen_card_test_register_body">"Използвайте приложението, за да регистрирате тестовете си и да извлечете резултатите от тях, за да можете предупредите останалите по-бързо."</string>
-
+    <string name="ag_homescreen_card_test_register_body">"Използвайте приложението, за да регистрирате тестовете си и да извлечете резултатите от тях, за да можете да предупредите останалите по-бързо или за да заявите своя сертификат за тестване за COVID."</string>
     <!-- ####################################
         Homescreen cards - common buttons
     ###################################### -->
@@ -141,6 +140,10 @@
     <string name="coronatest_negative_antigen_result_third_info_title">"Премахване на теста"</string>
     <!-- XTXT: coronatest negative antigen result third info body -->
     <string name="coronatest_negative_antigen_restul_third_info_body">"Моля, изтрийте теста от приложението Corona-Warn-App, за да можете да запазите нов код на тест, ако е необходимо."</string>
+    <!-- XTXT: coronatest negative result certificate info title -->
+    <string name="coronatest_negative_result_certificate_info_title">"Сертификат за тестване"</string>
+    <!-- XTXT: coronatest negative result certificate info body -->
+    <string name="coronatest_negative_result_certificate_info_body">"Сертификатът за направен тест е наличен на таба „Сертификати“."</string>
 
     <!-- ####################################
      Rapid Antigen Test Profile

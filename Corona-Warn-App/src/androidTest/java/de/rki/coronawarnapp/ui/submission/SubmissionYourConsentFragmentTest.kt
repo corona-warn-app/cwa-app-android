@@ -15,29 +15,20 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
-import testhelpers.captureScreenshot
-import tools.fastlane.screengrab.locale.LocaleTestRule
+import testhelpers.launchFragmentInContainer2
+import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionYourConsentFragmentTest : BaseUITest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var interoperabilityRepository: InteroperabilityRepository
-    @MockK lateinit var testType: CoronaTest.Type
-
-    @Rule
-    @JvmField
-    val localeTestRule = LocaleTestRule()
-
-    @get:Rule
-    val systemUIDemoModeRule = SystemUIDemoModeRule()
+    val testType = CoronaTest.Type.PCR
 
     private lateinit var viewModel: SubmissionYourConsentViewModel
 
@@ -67,9 +58,10 @@ class SubmissionYourConsentFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment_results() {
-        captureScreenshot<SubmissionYourConsentFragment>(
+        launchFragmentInContainer2<SubmissionYourConsentFragment>(
             fragmentArgs = SubmissionYourConsentFragmentArgs(true, testType).toBundle()
         )
+        takeScreenshot<SubmissionYourConsentFragment>()
     }
 }
 

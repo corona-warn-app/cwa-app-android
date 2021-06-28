@@ -55,7 +55,8 @@ fun BottomNavigationView.setupWithNavController2(
                 val inShowList = destination.id in listOf(
                     R.id.mainFragment,
                     R.id.checkInsFragment,
-                    R.id.contactDiaryOverviewFragment
+                    R.id.contactDiaryOverviewFragment,
+                    R.id.certificatesFragment,
                 )
                 // For destinations that can show or hide the bottom bar in different cases
                 // for example [ContactDiaryOnboardingFragment]

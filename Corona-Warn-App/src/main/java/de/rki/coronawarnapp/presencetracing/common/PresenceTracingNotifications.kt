@@ -2,10 +2,9 @@ package de.rki.coronawarnapp.presencetracing.common
 
 import android.annotation.TargetApi
 import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
+import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.NavDeepLinkBuilder
@@ -37,13 +36,13 @@ class PresenceTracingNotifications @Inject constructor(
     fun setupChannel() {
         Timber.d("setupChannel()")
 
-        val channel = NotificationChannel(
+        val channel = NotificationChannelCompat.Builder(
             channelId,
-            context.getString(R.string.tracelocation_notification_channel_title),
-            NotificationManager.IMPORTANCE_DEFAULT
-        ).apply {
-            description = context.getString(R.string.tracelocation_notification_channel_description)
-        }
+            NotificationManagerCompat.IMPORTANCE_DEFAULT
+        )
+            .setName(context.getString(R.string.tracelocation_notification_channel_title))
+            .setDescription(context.getString(R.string.tracelocation_notification_channel_description))
+            .build()
 
         notificationManagerCompat.createNotificationChannel(channel)
     }

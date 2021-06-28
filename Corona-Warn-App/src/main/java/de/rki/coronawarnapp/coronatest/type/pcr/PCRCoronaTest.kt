@@ -26,9 +26,6 @@ data class PCRCoronaTest(
     @SerializedName("isAdvancedConsentGiven")
     override val isAdvancedConsentGiven: Boolean = false,
 
-    @SerializedName("isJournalEntryCreated")
-    override val isJournalEntryCreated: Boolean = false,
-
     @SerializedName("isResultAvailableNotificationSent")
     override val isResultAvailableNotificationSent: Boolean = false,
 
@@ -43,6 +40,15 @@ data class PCRCoronaTest(
 
     @Transient override val isProcessing: Boolean = false,
     @Transient override val lastError: Throwable? = null,
+
+    @SerializedName("isDccConsentGiven")
+    override val isDccConsentGiven: Boolean = false,
+
+    @SerializedName("isDccDataSetCreated")
+    override val isDccDataSetCreated: Boolean = false,
+
+    @SerializedName("labId")
+    override val labId: String? = null,
 ) : CoronaTest {
 
     override val type: CoronaTest.Type
@@ -51,8 +57,14 @@ data class PCRCoronaTest(
     override val isFinal: Boolean
         get() = testResult == CoronaTestResult.PCR_REDEEMED
 
+    override val isRedeemed: Boolean
+        get() = testResult == CoronaTestResult.PCR_REDEEMED
+
     override val isPositive: Boolean
         get() = testResult == CoronaTestResult.PCR_POSITIVE
+
+    override val isNegative: Boolean
+        get() = testResult == CoronaTestResult.PCR_NEGATIVE
 
     override val isPending: Boolean
         get() = testResult == CoronaTestResult.PCR_OR_RAT_PENDING
@@ -69,6 +81,9 @@ data class PCRCoronaTest(
             CoronaTestResult.PCR_REDEEMED -> State.REDEEMED
             else -> throw IllegalArgumentException("Invalid PCR test state $testResult")
         }
+
+    override val isDccSupportedByPoc: Boolean
+        get() = true
 
     enum class State {
         PENDING,

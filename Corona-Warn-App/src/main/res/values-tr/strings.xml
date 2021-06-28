@@ -281,6 +281,8 @@
     <string name="risk_details_behavior_body_wear_mask">"Diğer insanlarla karşılaştığınızda yüz maskesi takın."</string>
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_away">"Diğer insanlarla aranızda en az 1,5 metre mesafeyi koruyun."</string>
+    <!-- XTXT: find details about exposures in the contact journal -->
+    <string name="risk_details_find_details_in_journal">"Temas güncenizde maruz kalmalarınız hakkında daha fazla bilgi bulabilirsiniz."</string>
 
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
     <string name="risk_details_increased_risk_faq_link_text">"Test yaptırırsanız SSS bölümünde test prosedürü hakkında ek bilgi bulabilirsiniz."</string>
@@ -306,7 +308,7 @@
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
     <string name="risk_details_subtitle_period_logged">"Bu dönem hesaplamaya dahil edildi."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
-<!--    Dialog part 1-->
+    <!--    Dialog part 1-->
     <string name="risk_details_information_body_period_logged">"Enfeksiyon riskiniz yalnızca maruz kalma günlüğünün etkin olduğu dönemler için hesaplanabilir. Bu nedenle günlüğe kaydetme özelliğinin sürekli etkin kalması gerekir. Maruz kalma günlüğü son 14 günü kapsar."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Corona-Warn-App %s gün önce yüklendi. Enfeksiyon riskiniz, maruz kalma günlüğünün etkin olduğu dönemler için hesaplanır. Başka insanlarla karşılaşmışsanız ve bu sırada maruz kalma günlüğü etkindiyse enfeksiyon riskiniz hesaplanır."</string>
@@ -1027,6 +1029,8 @@
     <string name="submission_consent_call_test_result_scan_your_test_only">"Şimdi, testinizin QR kodunu tarayın ve test sonucunuzu alın."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_test_only_once">"Her bir test yalnızca bir kez taranabilir. Uygulama tek seferde en fazla bir hızlı testi ve bir PCR testini yönetebilir."</string>
+    <!-- YTXT:  Body sub text 3 for Submission Consent call test result   -->
+    <string name="submission_consent_call_test_result_checkmark_text">"Testinizin sonucu negatifse bunu resmi bir COVID test sertifikası ile onaylayabilirsiniz. Bu işlemi gerçekleştirmek için, aşağıda belirtilen adımları uygulayarak test sertifikası talebinde bulunun."</string>
     <!-- XHED: Page subheadline for consent help by warning others  -->
     <string name="submission_consent_help_by_warning_others_headline">"Lütfen karşılaştığınız diğer kullanıcıları uyararak onlara yardımcı olun!"</string>
     <!-- YTXT: Body for consent help by warning others -->
@@ -1087,6 +1091,15 @@
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_contact_diary_body">"Test sonucunuz çıkar çıkmaz uygulamada görüntülenecektir."</string>
 
+    <!-- XHED: Page headline for test result certifcate info title  -->
+    <string name="submission_test_result_pending_steps_test_certificate_heading">"Test Sertifikanız"</string>
+    <!-- YTXT: Body text for test result certifcate info, if certifcate is not supported, RAT Test -->
+    <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"Bu test noktasında test sertifikalarını düzenleme işlevi desteklenmediğinden hiçbir test sertifikası bulunmamaktadır."</string>
+    <!-- YTXT: Body text for test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
+    <string name="submission_test_result_pending_steps_test_certificate_not_available_yet_body">"Test sertifikanız henüz çıkmadı. Çıkar çıkmaz uygulamanızda görüntülenecektir."</string>
+    <!-- YTXT: Body text for test result certifcate info, if certifcate is not desired by the user, PCR Test no consent given -->
+    <string name="submission_test_result_pending_steps_test_certificate_not_desired_by_user_body">"Talebiniz üzerine, hiçbir test sertifikası düzenlenmedi."</string>
+
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Güncelle"</string>
     <!-- XBUT: test result pending : remove the test button -->
@@ -1130,8 +1143,12 @@
     <string name="submission_test_result_dialog_tracing_required_button">"Tamam"</string>
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"Test yalnızca bir kez taranabilir."</string>
+    <!-- XHED: Dialog title for test removal no submission -->
+    <string name="submission_test_result_dialog_remove_test_title_no_submission">"Testi kaldırmak istediğinizden emin misiniz?"</string>
     <!-- YTXT: Dialog text for test removal -->
     <string name="submission_test_result_dialog_remove_test_message">"Testi silerseniz test sonucunuzu alamazsınız. QR kod geçerli olsun veya olmasın test sonucunuzu test merkezinden veya laboratuvardan alacaksınız. Koronavirüs tanısı alırsanız kamu sağlığı yetkilisi yasal olarak belirlenen kanal üzerinden bilgilendirilecektir ve kamu sağlığı yetkilisi sizinle iletişime geçecektir."</string>
+    <!-- YTXT: Dialog text for test removal no submission -->
+    <string name="submission_test_result_dialog_remove_test_message_no_submission">"Bu işlemi gerçekleştirirseniz diğer kullanıcılar uyarılmaz."</string>
     <!-- XBUT: Positive button for test removal -->
     <string name="submission_test_result_dialog_remove_test_button_positive">"Sil"</string>
     <!-- XBUT: Negative button for test removal -->
@@ -1179,7 +1196,7 @@
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"QR Kodu Tara"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Uygulamada test sonucunuzu alın ve diğer kullanıcıları uyarın."</string>
+    <string name="submission_dispatcher_qr_card_text">"Uygulamada test sonucunuzu alın ve diğer kullanıcıları uyarın ya da COVID test sertifikanızı talep edin."</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"PCR Testi için TAN girin"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
@@ -1220,6 +1237,8 @@
     <string name="submission_test_result_positive_no_consent_text_3">"Başka insanların enfeksiyona yakalanmaması için lütfen kamu sağlığı yetkilinizin talimatlarına uyun ve evde kalın."</string>
     <!-- XBUT: Button for giving consent for key sharing -->
     <string name="submission_test_result_positive_no_consent_button_warn_others">"Diğer Kullanıcıları Uyarın"</string>
+    <!-- XBUT: Button for test removal -->
+    <string name="submission_test_result_positive_no_consent_button_remove_test">"Testi Kaldır"</string>
 
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
@@ -1838,7 +1857,8 @@
     <string name="bottom_nav_diary_title">"Günce"</string>
     <!-- XHED: Title for BottomNav check-in screen title -->
     <string name="bottom_nav_check_ins_title">"Check In"</string>
-
+    <!-- XHED: Title for BottomNav certificates screen title -->
+    <string name="bottom_nav_certificates_title">"Sertifikalar"</string>
     <!-- ####################################
            Data Donation & Survey
     ###################################### -->

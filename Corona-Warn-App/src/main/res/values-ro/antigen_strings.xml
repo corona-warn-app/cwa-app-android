@@ -6,8 +6,7 @@
     <!-- XHED: Register test homescreen card: title -->
     <string name="ag_homescreen_card_test_register_title">"Înregistrarea testului dvs."</string>
     <!-- XTXT: Register test homescreen card: body -->
-    <string name="ag_homescreen_card_test_register_body">"Utilizați aplicația pentru a înregistra testele dvs. și a afla rezultatele testelor dvs. pentru a-i putea avertiza pe ceilalți mai rapid."</string>
-
+    <string name="ag_homescreen_card_test_register_body">"Utilizați aplicația pentru a înregistra testele dvs. și a afla rezultatele testelor dvs. pentru a-i putea avertiza pe ceilalți mai rapid sau pentru a solicita certificatul dvs. de test COVID."</string>
     <!-- ####################################
         Homescreen cards - common buttons
     ###################################### -->
@@ -141,6 +140,10 @@
     <string name="coronatest_negative_antigen_result_third_info_title">"Eliminare test"</string>
     <!-- XTXT: coronatest negative antigen result third info body -->
     <string name="coronatest_negative_antigen_restul_third_info_body">"Ștergeți testul din Corona-Warn-App pentru a salva un nou cod de test aici dacă este necesar."</string>
+    <!-- XTXT: coronatest negative result certificate info title -->
+    <string name="coronatest_negative_result_certificate_info_title">"Certificat de test"</string>
+    <!-- XTXT: coronatest negative result certificate info body -->
+    <string name="coronatest_negative_result_certificate_info_body">"Certificatul de test este disponibil pe tabul „Certificate”."</string>
 
     <!-- ####################################
      Rapid Antigen Test Profile

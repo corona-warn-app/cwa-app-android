@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.submission
 
+import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.Navigation
 import androidx.navigation.testing.TestNavHostController
@@ -30,17 +31,14 @@ import io.mockk.spyk
 import org.joda.time.Instant
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
-import testhelpers.captureScreenshot
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
-import tools.fastlane.screengrab.locale.LocaleTestRule
+import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
@@ -52,13 +50,6 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
     @MockK lateinit var testType: CoronaTest.Type
     private val consentGivenFragmentArgs =
         SubmissionTestResultConsentGivenFragmentArgs(testType = CoronaTest.Type.PCR).toBundle()
-
-    @Rule
-    @JvmField
-    val localeTestRule = LocaleTestRule()
-
-    @get:Rule
-    val systemUIDemoModeRule = SystemUIDemoModeRule()
 
     private lateinit var viewModel: SubmissionTestResultConsentGivenViewModel
 
@@ -101,7 +92,10 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
 
     @Test
     fun testEventConsentGivenContinueWithSymptomsClicked() {
-        launchFragmentInContainer2<SubmissionTestResultConsentGivenFragment>(consentGivenFragmentArgs).onFragment { fragment ->
+        launchFragmentInContainer<SubmissionTestResultConsentGivenFragment>(
+            themeResId = R.style.AppTheme_Main,
+            fragmentArgs = consentGivenFragmentArgs
+        ).onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), navController)
         }
         // Verify that performing a click prompts the correct Navigation action
@@ -121,7 +115,8 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
             )
         )
 
-        captureScreenshot<SubmissionTestResultConsentGivenFragment>(fragmentArgs = consentGivenFragmentArgs)
+        launchFragmentInContainer2<SubmissionTestResultConsentGivenFragment>(fragmentArgs = consentGivenFragmentArgs)
+        takeScreenshot<SubmissionTestResultConsentGivenFragment>()
     }
 }
 

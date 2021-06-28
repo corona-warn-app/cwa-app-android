@@ -5,10 +5,8 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.submission.SubmissionRepository
-import de.rki.coronawarnapp.ui.submission.qrcode.QrCodeRegistrationStateProcessor
+import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.permission.CameraSettings
@@ -20,56 +18,51 @@ import timber.log.Timber
 
 class SubmissionQRCodeScanViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val cameraSettings: CameraSettings,
-    private val qrCodeRegistrationStateProcessor: QrCodeRegistrationStateProcessor,
     @Assisted private val isConsentGiven: Boolean,
+    private val cameraSettings: CameraSettings,
+    private val registrationStateProcessor: TestRegistrationStateProcessor,
     private val submissionRepository: SubmissionRepository,
     private val qrCodeValidator: CoronaTestQrCodeValidator,
-    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
-    val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
-    val showRedeemedTokenWarning = qrCodeRegistrationStateProcessor.showRedeemedTokenWarning
-    val qrCodeValidationState = SingleLiveEvent<QrCodeRegistrationStateProcessor.ValidationState>()
-    val registrationState = qrCodeRegistrationStateProcessor.registrationState
-    val registrationError = qrCodeRegistrationStateProcessor.registrationError
 
-    fun onQrCodeAvailable(rawResult: String) {
-        launch {
-            startQrCodeRegistration(rawResult, isConsentGiven)
-        }
-    }
+    val events = SingleLiveEvent<SubmissionNavigationEvents>()
+    val qrCodeErrorEvent = SingleLiveEvent<Exception>()
+    val registrationState = registrationStateProcessor.state.asLiveData2()
 
-    suspend fun startQrCodeRegistration(rawResult: String, isConsentGiven: Boolean) {
+    fun registerCoronaTest(rawResult: String) = launch {
         try {
-            val coronaTestQRCode = qrCodeValidator.validate(rawResult)
-            qrCodeValidationState.postValue(QrCodeRegistrationStateProcessor.ValidationState.SUCCESS)
-            val coronaTest = submissionRepository.testForType(coronaTestQRCode.type).first()
+            val ctQrCode = qrCodeValidator.validate(rawResult)
 
-            if (coronaTest != null) {
-                routeToScreen.postValue(
+            val coronaTest = submissionRepository.testForType(ctQrCode.type).first()
+            when {
+                coronaTest != null -> events.postValue(
                     SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode(
-                        coronaTestQRCode = coronaTestQRCode,
+                        coronaTestQRCode = ctQrCode,
                         consentGiven = isConsentGiven
                     )
                 )
-            } else {
-                if (isConsentGiven && coronaTestQRCode.type == CoronaTest.Type.PCR) {
-                    analyticsKeySubmissionCollector.reportAdvancedConsentGiven()
+
+                else -> if (!ctQrCode.isDccSupportedByPoc) {
+                    registrationStateProcessor.startRegistration(
+                        request = ctQrCode,
+                        isSubmissionConsentGiven = isConsentGiven,
+                        allowReplacement = false
+                    )
+                } else {
+                    events.postValue(
+                        SubmissionNavigationEvents.NavigateToRequestDccFragment(ctQrCode, isConsentGiven)
+                    )
                 }
-                qrCodeRegistrationStateProcessor.startQrCodeRegistration(coronaTestQRCode, isConsentGiven)
             }
         } catch (err: InvalidQRCodeException) {
-            qrCodeValidationState.postValue(QrCodeRegistrationStateProcessor.ValidationState.INVALID)
+            Timber.d(err, "Invalid QrCode")
+            qrCodeErrorEvent.postValue(err)
         }
     }
 
-    fun onBackPressed() {
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToConsent)
-    }
+    fun onBackPressed() = events.postValue(SubmissionNavigationEvents.NavigateToConsent)
 
-    fun onClosePressed() {
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToDispatcher)
-    }
+    fun onClosePressed() = events.postValue(SubmissionNavigationEvents.NavigateToDispatcher)
 
     fun setCameraDeniedPermanently(denied: Boolean) {
         Timber.d("setCameraDeniedPermanently(denied=$denied)")

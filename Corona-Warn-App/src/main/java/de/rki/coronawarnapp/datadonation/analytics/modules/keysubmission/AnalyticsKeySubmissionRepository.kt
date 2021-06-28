@@ -2,10 +2,27 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission
 
 import org.joda.time.Duration
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class AnalyticsKeySubmissionRepository @Inject constructor(
+@Singleton
+class AnalyticsPCRKeySubmissionRepository @Inject constructor(
+    storage: AnalyticsPCRKeySubmissionStorage
+) : AnalyticsKeySubmissionRepository(storage) {
+    override val submittedAfterRAT: Boolean = false
+}
+
+@Singleton
+class AnalyticsRAKeySubmissionRepository @Inject constructor(
+    storage: AnalyticsRAKeySubmissionStorage
+) : AnalyticsKeySubmissionRepository(storage) {
+    override val submittedAfterRAT: Boolean = true
+}
+
+abstract class AnalyticsKeySubmissionRepository(
     private val storage: AnalyticsKeySubmissionStorage
 ) {
+    abstract val submittedAfterRAT: Boolean
+
     val testResultReceivedAt: Long
         get() = storage.testResultReceivedAt.value
 
@@ -52,11 +69,20 @@ class AnalyticsKeySubmissionRepository @Inject constructor(
             return Duration.millis(submittedAt - testRegisteredAt).toStandardHours().hours
         }
 
-    val daysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int
-        get() = storage.daysSinceMostRecentDateAtRiskLevelAtTestRegistration.value
+    val ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int
+        get() = storage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.value
 
-    val hoursSinceHighRiskWarningAtTestRegistration: Int
-        get() = storage.hoursSinceHighRiskWarningAtTestRegistration.value
+    val ewHoursSinceHighRiskWarningAtTestRegistration: Int
+        get() = storage.ewHoursSinceHighRiskWarningAtTestRegistration.value
+
+    val ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int
+        get() = storage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.value
+
+    val ptHoursSinceHighRiskWarningAtTestRegistration: Int
+        get() = storage.ptHoursSinceHighRiskWarningAtTestRegistration.value
+
+    val submittedWithCheckIns: Boolean
+        get() = storage.submittedWithCheckIns.value
 
     fun reset() = storage.clear()
 }

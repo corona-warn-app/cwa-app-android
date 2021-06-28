@@ -14,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
+@Suppress("MaxLineLength")
 internal class RatProfileCensorTest : BaseTest() {
 
     @MockK lateinit var ratProfileSettings: RATProfileSettings

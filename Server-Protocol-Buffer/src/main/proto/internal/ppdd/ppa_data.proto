@@ -2,6 +2,7 @@
 syntax = "proto3";
 package de.rki.coronawarnapp.server.protocols.internal.ppdd;
 
+import "internal/ppdd/tri_state_boolean.proto";
 
 message PPADataIOS {
 
@@ -12,9 +13,9 @@ message PPADataIOS {
   repeated ExposureRiskMetadata exposureRiskMetadataSet = 2;
   // 0..n entries expected
   repeated PPANewExposureWindow newExposureWindows = 3;
-  // 0..1 entries expected
+  // 0..2 entries expected
   repeated PPATestResultMetadata testResultMetadataSet = 4;
-  // 0..1 entries expected
+  // 0..2 entries expected
   repeated PPAKeySubmissionMetadata keySubmissionMetadataSet = 5;
 
   PPAClientMetadataIOS clientMetadata = 6;
@@ -26,13 +27,13 @@ message PPADataAndroid {
   // for Plausible Deniability; can be ignored by the server
   bytes requestPadding = 1;
 
-  // 0..n entries expected
+  // 0..1 entries expected
   repeated ExposureRiskMetadata exposureRiskMetadataSet = 2;
   // 0..n entries expected
   repeated PPANewExposureWindow newExposureWindows = 3;
-  // 0..1 entries expected
+  // 0..2 entries expected
   repeated PPATestResultMetadata testResultMetadataSet = 4;
-  // 0..1 entries expected
+  // 0..2 entries expected
   repeated PPAKeySubmissionMetadata keySubmissionMetadataSet = 5;
 
   PPAClientMetadataAndroid clientMetadata = 6;
@@ -40,10 +41,16 @@ message PPADataAndroid {
 }
 
 message ExposureRiskMetadata {
+  // BLE-based proximity tracing
   PPARiskLevel riskLevel = 1;
   bool riskLevelChangedComparedToPreviousSubmission = 2;
   int64 mostRecentDateAtRiskLevel = 3;
   bool dateChangedComparedToPreviousSubmission = 4;
+  // check-in-based presence tracing
+  PPARiskLevel ptRiskLevel = 5;
+  bool ptRiskLevelChangedComparedToPreviousSubmission = 6;
+  int64 ptMostRecentDateAtRiskLevel = 7;
+  bool ptDateChangedComparedToPreviousSubmission = 8;
 }
 
 message PPANewExposureWindow {
@@ -55,9 +62,14 @@ message PPANewExposureWindow {
 message PPATestResultMetadata {
   PPATestResult testResult = 1;
   int32 hoursSinceTestRegistration = 2;
+  // BLE-based proximity tracing
   PPARiskLevel riskLevelAtTestRegistration = 3;
   int32 daysSinceMostRecentDateAtRiskLevelAtTestRegistration = 4;
   int32 hoursSinceHighRiskWarningAtTestRegistration = 5;
+  // check-in-based presence tracing
+  PPARiskLevel ptRiskLevelAtTestRegistration = 6;
+  int32 ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration = 7;
+  int32 ptHoursSinceHighRiskWarningAtTestRegistration = 8;
 }
 
 message PPAKeySubmissionMetadata {
@@ -69,9 +81,19 @@ message PPAKeySubmissionMetadata {
   PPALastSubmissionFlowScreen lastSubmissionFlowScreen = 6;
   int32 hoursSinceTestResult = 7;
   int32 hoursSinceTestRegistration = 8;
+
+  // BLE-based proximity tracing
   int32 daysSinceMostRecentDateAtRiskLevelAtTestRegistration = 9;
   int32 hoursSinceHighRiskWarningAtTestRegistration = 10;
+
   bool submittedWithTeleTAN = 11;
+  bool submittedAfterRapidAntigenTest = 12;
+
+  // check-in-based presence tracing
+  int32 ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration = 13;
+  int32 ptHoursSinceHighRiskWarningAtTestRegistration = 14;
+
+  TriStateBoolean submittedWithCheckIns = 15;
 }
 
 enum PPARiskLevel {
@@ -138,9 +160,18 @@ enum PPAExposureWindowInfectiousness {
 
 enum PPATestResult {
   TEST_RESULT_UNKNOWN = 0;
+  
+  // PCR Test
   TEST_RESULT_PENDING = 1;
   TEST_RESULT_NEGATIVE = 2;
   TEST_RESULT_POSITIVE = 3;
+  TEST_RESULT_INVALID = 4;
+  
+  // Rapid Antigen Test
+  TEST_RESULT_RAT_PENDING = 5;
+  TEST_RESULT_RAT_NEGATIVE = 6;
+  TEST_RESULT_RAT_POSITIVE = 7;
+  TEST_RESULT_RAT_INVALID = 8;
 }
 
 enum PPALastSubmissionFlowScreen {

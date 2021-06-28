@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.playbook
 
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResultResponse
-import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
+import de.rki.coronawarnapp.coronatest.server.RegistrationData
+import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
 import de.rki.coronawarnapp.coronatest.server.VerificationServer
 import de.rki.coronawarnapp.exception.TanPairingException
 import de.rki.coronawarnapp.exception.http.BadRequestException
@@ -26,23 +27,18 @@ class DefaultPlaybook @Inject constructor(
     private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 
     override suspend fun initialRegistration(
-        key: String,
-        keyType: VerificationKeyType
-    ): Pair<String, CoronaTestResultResponse> {
+        request: RegistrationRequest
+    ): RegistrationData {
         Timber.i("[$uid] New Initial Registration Playbook")
 
         // real registration
-        val (registrationToken, registrationException) =
-            executeCapturingExceptions {
-                verificationServer.retrieveRegistrationToken(
-                    key,
-                    keyType
-                )
-            }
+        val (registrationToken, registrationException) = executeCapturingExceptions {
+            verificationServer.retrieveRegistrationToken(request)
+        }
 
         // if the registration succeeded continue with the real test result retrieval
         // if it failed, execute a dummy request to satisfy the required playbook pattern
-        val (testResult, testResultException) = if (registrationToken != null) {
+        val (testResultResponse, testResultException) = if (registrationToken != null) {
             executeCapturingExceptions { verificationServer.pollTestResult(registrationToken) }
         } else {
             ignoreExceptions { verificationServer.retrieveTanFake() }
@@ -55,8 +51,13 @@ class DefaultPlaybook @Inject constructor(
         coroutineScope.launch { followUpPlaybooks() }
 
         // if registration and test result retrieval succeeded, return the result
-        if (registrationToken != null && testResult != null)
-            return registrationToken to testResult
+        if (registrationToken != null && testResultResponse != null) {
+
+            return RegistrationData(
+                registrationToken = registrationToken,
+                testResultResponse = testResultResponse,
+            )
+        }
 
         // else propagate the exception of either the first or the second step
         propagateException(registrationException, testResultException)

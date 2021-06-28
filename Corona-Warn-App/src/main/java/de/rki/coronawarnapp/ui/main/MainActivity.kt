@@ -11,7 +11,6 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -27,12 +26,13 @@ import de.rki.coronawarnapp.ui.setupWithNavController2
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentFragment
 import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.CWADebug
-import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.device.PowerManagement
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper.Companion.getShortcutExtra
 import de.rki.coronawarnapp.util.ui.findNavController
+import de.rki.coronawarnapp.util.ui.findNestedGraph
+import de.rki.coronawarnapp.util.ui.updateCountBadge
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import org.joda.time.LocalDate
@@ -98,18 +98,16 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         vm.isTraceLocationOnboardingDone.observe(this) { isOnboardingDone ->
             startTraceLocationNestedGraphDestination(navController, isOnboardingDone)
         }
+        vm.isVaccinationConsentGiven.observe(this) { isConsentGiven ->
+            startCertificatesNestedGraphDestination(navController, isConsentGiven)
+        }
 
         vm.activeCheckIns.observe(this) { count ->
-            val targetId = R.id.trace_location_attendee_nav_graph
-            binding.mainBottomNavigation.apply {
-                if (count > 0) {
-                    val badge = getOrCreateBadge(targetId)
-                    badge.number = count
-                    badge.badgeTextColor = getColorCompat(android.R.color.white)
-                } else {
-                    removeBadge(targetId)
-                }
-            }
+            binding.mainBottomNavigation.updateCountBadge(R.id.trace_location_attendee_nav_graph, count)
+        }
+
+        vm.newCertificates.observe(this) { count ->
+            binding.mainBottomNavigation.updateCountBadge(R.id.green_certificate_graph, count)
         }
 
         if (savedInstanceState == null) {
@@ -134,7 +132,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     private fun goToContactJournal() {
         findViewById<BottomNavigationView>(R.id.main_bottom_navigation).selectedItemId =
             R.id.contact_diary_nav_graph
-        val nestedGraph = navController.graph.findNode(R.id.contact_diary_nav_graph) as NavGraph
+        val nestedGraph = navController.findNestedGraph(R.id.contact_diary_nav_graph)
 
         if (vm.isContactDiaryOnboardingDone.value == true) {
             nestedGraph.startDestination = R.id.contactDiaryOverviewFragment
@@ -150,8 +148,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     }
 
     private fun startContactDiaryNestedGraphDestination(navController: NavController, isOnboardingDone: Boolean) {
-        val nestedGraph = navController.graph.findNode(R.id.contact_diary_nav_graph) as NavGraph
-        nestedGraph.startDestination = if (isOnboardingDone) {
+        navController.findNestedGraph(R.id.contact_diary_nav_graph).startDestination = if (isOnboardingDone) {
             R.id.contactDiaryOverviewFragment
         } else {
             R.id.contactDiaryOnboardingFragment
@@ -159,11 +156,18 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     }
 
     private fun startTraceLocationNestedGraphDestination(navController: NavController, isOnboardingDone: Boolean) {
-        val nestedGraph = navController.graph.findNode(R.id.trace_location_attendee_nav_graph) as NavGraph
-        nestedGraph.startDestination = if (isOnboardingDone) {
+        navController.findNestedGraph(R.id.trace_location_attendee_nav_graph).startDestination = if (isOnboardingDone) {
             R.id.checkInsFragment
         } else {
             R.id.checkInOnboardingFragment
+        }
+    }
+
+    private fun startCertificatesNestedGraphDestination(navController: NavController, isConsentGiven: Boolean) {
+        navController.findNestedGraph(R.id.green_certificate_graph).startDestination = if (isConsentGiven) {
+            R.id.certificatesFragment
+        } else {
+            R.id.vaccinationConsentFragment
         }
     }
 

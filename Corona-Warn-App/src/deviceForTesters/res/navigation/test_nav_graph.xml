@@ -55,9 +55,6 @@
         <action
             android:id="@+id/action_test_menu_fragment_to_coronaTestTestFragment"
             app:destination="@id/coronaTestTestFragment" />
-        <action
-            android:id="@+id/action_test_menu_fragment_to_vaccinationTestFragment"
-            app:destination="@id/vaccinationTestFragment" />
     </fragment>
 
     <fragment
@@ -165,24 +162,5 @@
         android:name="de.rki.coronawarnapp.test.coronatest.ui.CoronaTestTestFragment"
         android:label="CoronaTestTestFragment"
         tools:layout="@layout/fragment_test_coronatest" />
-    <fragment
-        android:id="@+id/vaccinationTestFragment"
-        android:name="de.rki.coronawarnapp.vaccination.ui.VaccinationTestFragment"
-        android:label="VaccinationTestFragment"
-        tools:layout="@layout/fragment_test_vaccination" >
 
-        <action
-            android:id="@+id/action_vaccinationTestFragment_to_vaccinationDetailsFragment"
-            app:destination="@id/vaccinationDetailsFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/vaccinationDetailsFragment"
-        android:name="de.rki.coronawarnapp.vaccination.ui.details.VaccinationDetailsFragment"
-        android:label="fragment_vaccination_details"
-        tools:layout="@layout/fragment_vaccination_details">
-        <argument
-            android:name="vaccinationCertificateId"
-            app:argType="string" />
-    </fragment>
 </navigation>

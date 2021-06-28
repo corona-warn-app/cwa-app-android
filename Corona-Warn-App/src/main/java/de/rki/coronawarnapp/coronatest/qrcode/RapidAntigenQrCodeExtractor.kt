@@ -19,7 +19,7 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
         return rawString.startsWith(PREFIX1, ignoreCase = true) || rawString.startsWith(PREFIX2, ignoreCase = true)
     }
 
-    override fun extract(rawString: String): CoronaTestQRCode.RapidAntigen {
+    override fun extract(rawString: String, mode: QrCodeExtractor.Mode): CoronaTestQRCode.RapidAntigen {
         Timber.v("extract(rawString=%s)", rawString)
         val payload = CleanPayload(extractData(rawString))
 
@@ -39,8 +39,9 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
             firstName = payload.firstName,
             lastName = payload.lastName,
             dateOfBirth = payload.dateOfBirth,
-            testid = payload.testId,
-            salt = payload.salt
+            testId = payload.testId,
+            salt = payload.salt,
+            isDccSupportedByPoc = payload.isDccSupportedByPoc
         )
     }
 
@@ -82,7 +83,8 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
         @SerializedName("ln") val lastName: String?,
         @SerializedName("dob") val dateOfBirth: String?,
         @SerializedName("testid") val testid: String?,
-        @SerializedName("salt") val salt: String?
+        @SerializedName("salt") val salt: String?,
+        @SerializedName("dgc") val dgc: Boolean?
     )
 
     private data class CleanPayload(val raw: RawPayload) {
@@ -125,6 +127,8 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
         val salt: String? by lazy {
             if (raw.salt.isNullOrEmpty()) null else raw.salt
         }
+
+        val isDccSupportedByPoc: Boolean by lazy { raw.dgc == true }
 
         fun requireValidData() {
             requireValidPersonalData()

@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.util.viewmodel
 
 import androidx.annotation.CallSuper
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import de.rki.coronawarnapp.util.coroutine.DefaultDispatcherProvider
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -26,6 +27,8 @@ abstract class CWAViewModel constructor(
     init {
         Timber.tag(tag).v("Initialized")
     }
+
+    fun <T> Flow<T>.asLiveData2() = asLiveData(context = dispatcherProvider.Default)
 
     /**
      * This launches a coroutine on another thread

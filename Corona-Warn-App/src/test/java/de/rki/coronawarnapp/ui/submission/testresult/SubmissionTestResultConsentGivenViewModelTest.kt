@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.ui.submission.testresult
 
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
@@ -58,15 +60,21 @@ class SubmissionTestResultConsentGivenViewModelTest : BaseTest() {
 
     @Test
     fun `onNewUserActivity should call analyticsSubmissionCollector for PCR tests`() {
-        testType = CoronaTest.Type.PCR
+        testType = PCR
         createViewModel().onNewUserActivity()
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT) }
+        verify(exactly = 1) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT, PCR) }
+        verify(exactly = 0) {
+            analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT, RAPID_ANTIGEN)
+        }
     }
 
     @Test
     fun `onNewUserActivity should NOT call analyticsSubmissionCollector for RAT tests`() {
-        testType = CoronaTest.Type.RAPID_ANTIGEN
+        testType = RAPID_ANTIGEN
         createViewModel().onNewUserActivity()
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT) }
+        verify(exactly = 0) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT, PCR) }
+        verify(exactly = 1) {
+            analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT, RAPID_ANTIGEN)
+        }
     }
 }

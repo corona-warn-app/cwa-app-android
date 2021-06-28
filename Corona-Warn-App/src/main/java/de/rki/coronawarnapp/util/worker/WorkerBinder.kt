@@ -7,6 +7,8 @@ import dagger.multibindings.IntoMap
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryRetentionWorker
 import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultRetrievalWorker
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultRetrievalWorker
+import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalWorker
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.execution.worker.VaccinationUpdateWorker
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsPeriodicWorker
 import de.rki.coronawarnapp.deadman.DeadmanNotificationOneTimeWorker
 import de.rki.coronawarnapp.deadman.DeadmanNotificationPeriodicWorker
@@ -18,7 +20,6 @@ import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOutW
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingWarningWorker
 import de.rki.coronawarnapp.presencetracing.storage.retention.TraceLocationDbCleanUpPeriodicWorker
 import de.rki.coronawarnapp.submission.auto.SubmissionWorker
-import de.rki.coronawarnapp.vaccination.core.execution.worker.VaccinationUpdateWorker
 
 @Module
 abstract class WorkerBinder {
@@ -126,5 +127,12 @@ abstract class WorkerBinder {
     @WorkerKey(VaccinationUpdateWorker::class)
     abstract fun vaccinationUpdateWorker(
         factory: VaccinationUpdateWorker.Factory
+    ): InjectedWorkerFactory<out ListenableWorker>
+
+    @Binds
+    @IntoMap
+    @WorkerKey(TestCertificateRetrievalWorker::class)
+    abstract fun testCertificateRetrievalWorker(
+        factory: TestCertificateRetrievalWorker.Factory
     ): InjectedWorkerFactory<out ListenableWorker>
 }

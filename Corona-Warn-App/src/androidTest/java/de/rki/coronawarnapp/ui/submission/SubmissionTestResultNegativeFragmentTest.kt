@@ -7,8 +7,8 @@ import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
-import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeFragment
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeViewModel
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenFragmentArgs
@@ -21,43 +21,37 @@ import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.SystemUIDemoModeRule
 import testhelpers.TestDispatcherProvider
-import testhelpers.captureScreenshot
-import tools.fastlane.screengrab.locale.LocaleTestRule
+import testhelpers.launchFragmentInContainer2
+import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
 
     lateinit var viewModel: SubmissionTestResultNegativeViewModel
     @MockK lateinit var submissionRepository: SubmissionRepository
+    @MockK lateinit var certificateRepository: TestCertificateRepository
     @MockK lateinit var testResultAvailableNotificationService: PCRTestResultAvailableNotificationService
     @MockK lateinit var testType: CoronaTest.Type
     private val resultNegativeFragmentArgs =
         SubmissionTestResultConsentGivenFragmentArgs(testType = CoronaTest.Type.PCR).toBundle()
-
-    @Rule
-    @JvmField
-    val localeTestRule = LocaleTestRule()
-
-    @get:Rule
-    val systemUIDemoModeRule = SystemUIDemoModeRule()
 
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
 
         every { submissionRepository.testForType(any()) } returns flowOf()
+        every { certificateRepository.certificates } returns flowOf()
 
         viewModel = spyk(
             SubmissionTestResultNegativeViewModel(
                 TestDispatcherProvider(),
                 submissionRepository,
+                certificateRepository,
                 testResultAvailableNotificationService,
                 testType
             )
@@ -79,15 +73,17 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
     @Screenshot
     fun capture_fragment() {
         every { viewModel.testResult } returns MutableLiveData(
-            TestResultUIState(
+            SubmissionTestResultNegativeViewModel.UIState(
                 coronaTest = mockk<CoronaTest>().apply {
                     every { testResult } returns CoronaTestResult.PCR_NEGATIVE
                     every { registeredAt } returns Instant.now()
                     every { type } returns CoronaTest.Type.PCR
-                }
+                },
+                certificateState = SubmissionTestResultNegativeViewModel.CertificateState.AVAILABLE
             )
         )
-        captureScreenshot<SubmissionTestResultNegativeFragment>(fragmentArgs = resultNegativeFragmentArgs)
+        launchFragmentInContainer2<SubmissionTestResultNegativeFragment>(fragmentArgs = resultNegativeFragmentArgs)
+        takeScreenshot<SubmissionTestResultNegativeFragment>()
     }
 }
 

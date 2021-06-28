@@ -8,13 +8,15 @@ import org.json.JSONObject
 
 data class CoronaTestResultResponse(
     val coronaTestResult: CoronaTestResult,
-    val sampleCollectedAt: Instant?
+    val sampleCollectedAt: Instant? = null, // Only used for RA tests
+    val labId: String? = null, // May initially be null while test is pending
 ) {
     companion object {
         fun fromResponse(response: VerificationApiV1.TestResultResponse) =
             CoronaTestResultResponse(
                 coronaTestResult = CoronaTestResult.fromInt(response.testResult),
-                sampleCollectedAt = response.sampleCollectedAt?.toLong()?.let { Instant.ofEpochSecond(it) }
+                sampleCollectedAt = response.sampleCollectedAt?.toLong()?.let { Instant.ofEpochSecond(it) },
+                labId = response.labId
             )
     }
 }

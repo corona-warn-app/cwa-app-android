@@ -21,6 +21,8 @@ import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.notification.RATTestResultAvailableNotificationService
+import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalScheduler
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.execution.VaccinationUpdateScheduler
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
@@ -29,19 +31,20 @@ import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingRiskWorkScheduler
 import de.rki.coronawarnapp.presencetracing.storage.retention.TraceLocationDbCleanUpScheduler
-import de.rki.coronawarnapp.risk.RiskLevelChangeDetector
+import de.rki.coronawarnapp.risk.changedetection.CombinedRiskLevelChangeDetector
+import de.rki.coronawarnapp.risk.changedetection.EwRiskLevelChangeDetector
 import de.rki.coronawarnapp.risk.execution.ExposureWindowRiskWorkScheduler
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.WatchdogService
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
 import de.rki.coronawarnapp.util.hasAPILevel
-import de.rki.coronawarnapp.vaccination.core.execution.VaccinationUpdateScheduler
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.conscrypt.Conscrypt
@@ -62,7 +65,8 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var foregroundState: ForegroundState
     @Inject lateinit var workManager: WorkManager
     @Inject lateinit var configChangeDetector: ConfigChangeDetector
-    @Inject lateinit var riskLevelChangeDetector: RiskLevelChangeDetector
+    @Inject lateinit var ewRiskLevelChangeDetector: EwRiskLevelChangeDetector
+    @Inject lateinit var combinedRiskLevelChangeDetector: CombinedRiskLevelChangeDetector
     @Inject lateinit var deadmanNotificationScheduler: DeadmanNotificationScheduler
     @Inject lateinit var contactDiaryWorkScheduler: ContactDiaryWorkScheduler
     @Inject lateinit var dataDonationAnalyticsScheduler: DataDonationAnalyticsScheduler
@@ -80,6 +84,10 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var pcrTestResultAvailableNotificationService: PCRTestResultAvailableNotificationService
     @Inject lateinit var raTestResultAvailableNotificationService: RATTestResultAvailableNotificationService
     @Inject lateinit var vaccinationUpdateScheduler: VaccinationUpdateScheduler
+    @Inject lateinit var testCertificateRetrievalScheduler: TestCertificateRetrievalScheduler
+
+    @AppScope
+    @Inject lateinit var appScope: CoroutineScope
 
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
@@ -113,7 +121,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
 
         foregroundState.isInForeground
             .onEach { isAppInForeground = it }
-            .launchIn(GlobalScope)
+            .launchIn(appScope)
 
         Timber.v("Setting up contact diary work scheduler")
         contactDiaryWorkScheduler.setup()
@@ -132,13 +140,15 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         Timber.v("Setting up test result available notification services.")
         pcrTestResultAvailableNotificationService.setup()
         raTestResultAvailableNotificationService.setup()
+        testCertificateRetrievalScheduler.setup()
 
         Timber.v("Setting up vaccination data update scheduler.")
         vaccinationUpdateScheduler.setup()
 
         deviceTimeHandler.launch()
         configChangeDetector.launch()
-        riskLevelChangeDetector.launch()
+        ewRiskLevelChangeDetector.launch()
+        combinedRiskLevelChangeDetector.launch()
         autoSubmission.setup()
         autoCheckOut.setupMonitor()
         traceLocationDbCleanupScheduler.scheduleDaily()

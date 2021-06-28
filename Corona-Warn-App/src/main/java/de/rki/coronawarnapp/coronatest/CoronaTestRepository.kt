@@ -1,17 +1,18 @@
 package de.rki.coronawarnapp.coronatest
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
+import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
+import de.rki.coronawarnapp.coronatest.errors.AlreadyRedeemedException
 import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.errors.DuplicateCoronaTestException
-import de.rki.coronawarnapp.coronatest.errors.UnknownTestTypeException
 import de.rki.coronawarnapp.coronatest.migration.PCRTestMigration
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
-import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.storage.CoronaTestStorage
-import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
@@ -39,6 +40,7 @@ class CoronaTestRepository @Inject constructor(
     private val storage: CoronaTestStorage,
     private val processors: Set<@JvmSuppressWildcards CoronaTestProcessor>,
     private val legacyMigration: PCRTestMigration,
+    private val contactDiaryRepository: ContactDiaryRepository
 ) {
 
     private val internalData: HotDataFlow<Map<CoronaTestGUID, CoronaTest>> = HotDataFlow(
@@ -62,6 +64,7 @@ class CoronaTestRepository @Inject constructor(
                 Timber.tag(TAG).v("CoronaTest data changed: %s", it)
                 storage.coronaTests = it.values.toSet()
                 legacyMigration.finishMigration()
+                contactDiaryRepository.updateTests(it)
             }
             .catch {
                 it.reportProblem(TAG, "Failed to snapshot CoronaTest data to storage.")
@@ -72,26 +75,65 @@ class CoronaTestRepository @Inject constructor(
 
     private fun getProcessor(type: CoronaTest.Type) = processors.single { it.type == type }
 
-    suspend fun registerTest(request: TestRegistrationRequest): CoronaTest {
-        Timber.tag(TAG).i("registerTest(request=%s)", request)
+    /**
+     * Default preconditions prevent duplicate test registration,
+     * and registration of an already redeemed test.
+     * If pre and post-condition are not met an [IllegalStateException] is thrown.
+     *
+     * @return the new test that was registered (or an exception is thrown)
+     */
+    suspend fun registerTest(
+        request: TestRegistrationRequest,
+        preCondition: ((Collection<CoronaTest>) -> Boolean) = { currentTests ->
+            if (currentTests.any { it.type == request.type }) {
+                throw DuplicateCoronaTestException("There is already a test of this type: ${request.type}.")
+            }
+            true
+        },
+        postCondition: ((CoronaTest) -> Boolean) = { newTest ->
+            if (newTest.isRedeemed) {
+                Timber.w("Replacement test was already redeemed, removing it, will not use.")
+                throw AlreadyRedeemedException(newTest)
+            }
+            true
+        }
+    ): CoronaTest {
+        Timber.tag(TAG).i(
+            "registerTest(request=%s, preCondition=%s, postCondition=%s)",
+            request, preCondition, postCondition
+        )
 
         // We check early, if there is no processor, crash early, "should" never happen though...
         val processor = getProcessor(request.type)
 
         val currentTests = internalData.updateBlocking {
-            if (values.any { it.type == request.type }) {
-                throw DuplicateCoronaTestException("There is already a test of this type: ${request.type}.")
+            if (!preCondition(values)) {
+                throw IllegalStateException("PreCondition for current tests not fullfilled.")
             }
 
-            val test = when (request) {
-                is CoronaTestQRCode -> processor.create(request)
-                is CoronaTestTAN -> processor.create(request)
-                else -> throw UnknownTestTypeException("Unknown test request: $request")
+            val existing = values.singleOrNull { it.type == request.type }
+
+            val newTest = processor.create(request).also {
+                Timber.tag(TAG).i("New test created: %s", it)
             }
 
-            Timber.tag(TAG).i("Adding new test: %s", test)
+            if (!postCondition(newTest)) {
+                throw IllegalStateException("PostCondition for new tests not fullfilled.")
+            }
 
-            toMutableMap().apply { this[test.identifier] = test }
+            if (existing != null) {
+                Timber.tag(TAG).w("We already have a test of this type, removing old test: %s", request)
+                try {
+                    getProcessor(existing.type).onRemove(existing)
+                } catch (e: Exception) {
+                    e.report(ExceptionCategory.INTERNAL)
+                }
+            }
+
+            toMutableMap().apply {
+                existing?.let { remove(it.identifier) }
+                this[newTest.identifier] = newTest
+            }
         }
 
         return currentTests[request.identifier]!!
@@ -195,11 +237,11 @@ class CoronaTestRepository @Inject constructor(
         }
     }
 
-    suspend fun updateConsent(identifier: TestIdentifier, consented: Boolean) {
-        Timber.tag(TAG).i("updateConsent(identifier=%s, consented=%b)", identifier, consented)
+    suspend fun updateSubmissionConsent(identifier: TestIdentifier, consented: Boolean) {
+        Timber.tag(TAG).i("updateSubmissionConsent(identifier=%s, consented=%b)", identifier, consented)
 
         modifyTest(identifier) { processor, before ->
-            processor.updateConsent(before, consented)
+            processor.updateSubmissionConsent(before, consented)
         }
     }
 
@@ -225,6 +267,14 @@ class CoronaTestRepository @Inject constructor(
             Timber.tag(TAG).d("Updated %s to %s", original, updated)
 
             toMutableMap().apply { this[original.identifier] = updated }
+        }
+    }
+
+    suspend fun markDccAsCreated(identifier: TestIdentifier, created: Boolean) {
+        Timber.tag(TAG).i("markDccAsCreated(identifier=%s, created=%b)", identifier, created)
+
+        modifyTest(identifier) { processor, before ->
+            processor.markDccCreated(before, created)
         }
     }
 

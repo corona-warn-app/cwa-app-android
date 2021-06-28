@@ -108,7 +108,7 @@
                     android:id="@+id/test_result_pending_steps_waiting_pcr_result"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:step_entry_final="true"
+                    app:step_entry_final="false"
                     app:layout_constraintEnd_toEndOf="@id/submission_test_result_subtitle"
                     app:layout_constraintStart_toStartOf="@id/submission_test_result_subtitle"
                     app:layout_constraintTop_toBottomOf="@+id/test_result_pending_steps_rat_added"
@@ -124,7 +124,7 @@
                     app:layout_constraintStart_toStartOf="@id/submission_test_result_subtitle"
                     app:layout_constraintTop_toBottomOf="@+id/test_result_pending_steps_waiting_pcr_result"
                     android:visibility="gone"
-                    app:step_entry_final="true"
+                    app:step_entry_final="false"
                     app:simple_step_entry_text="@string/submission_test_result_pending_steps_waiting_rat_body"
                     app:simple_step_entry_title="@string/submission_test_result_pending_steps_waiting_rat_heading"
                     app:step_entry_icon="@drawable/ic_hourglass"
@@ -139,9 +139,22 @@
                     app:layout_constraintTop_toBottomOf="@+id/test_result_pending_steps_waiting_antigen_result"
                     app:simple_step_entry_text="@string/submission_test_result_pending_steps_contact_diary_body"
                     app:simple_step_entry_title="@string/submission_test_result_pending_steps_contact_diary_heading"
-                    app:step_entry_final="true"
-                    android:visibility="gone"
+                    app:step_entry_final="false"
                     app:step_entry_icon="@drawable/ic_result_pending_contact_diary"
+                    tools:visibility="visible"/>
+
+                <de.rki.coronawarnapp.ui.view.SimpleStepEntry
+                    android:id="@+id/test_result_pending_steps_certificate_info"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="@id/submission_test_result_subtitle"
+                    app:layout_constraintStart_toStartOf="@id/submission_test_result_subtitle"
+                    app:layout_constraintTop_toBottomOf="@+id/test_result_pending_steps_contact_diary_result"
+                    app:simple_step_entry_text="@string/submission_test_result_pending_steps_test_certificate_not_supported_body"
+                    app:simple_step_entry_title="@string/submission_test_result_pending_steps_test_certificate_heading"
+                    app:step_entry_final="true"
+                    android:visibility="visible"
+                    app:step_entry_icon="@drawable/ic_result_pending_certificate_info"
                     tools:visibility="visible"/>
 
                 <de.rki.coronawarnapp.ui.submission.consentstatus.ConsentStatusView
@@ -151,7 +164,7 @@
                     android:focusable="true"
                     app:layout_constraintEnd_toEndOf="@id/submission_test_result_subtitle"
                     app:layout_constraintStart_toStartOf="@id/submission_test_result_subtitle"
-                    app:layout_constraintTop_toBottomOf="@id/test_result_pending_steps_contact_diary_result" />
+                    app:layout_constraintTop_toBottomOf="@id/test_result_pending_steps_certificate_info" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
