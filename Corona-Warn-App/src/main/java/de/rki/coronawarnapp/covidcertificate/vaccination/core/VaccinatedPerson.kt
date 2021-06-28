@@ -3,10 +3,12 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
+import org.joda.time.DateTimeZone
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.joda.time.LocalDate
+import java.util.TimeZone
 
 data class VaccinatedPerson(
     internal val data: VaccinatedPersonData,
@@ -50,9 +52,14 @@ data class VaccinatedPerson(
             .maxByOrNull { it.vaccinatedAt }
             ?: return null
 
-        val immunityAt = newestFullDose.vaccinatedAt.toDateTimeAtStartOfDay().plus(IMMUNITY_WAITING_PERIOD)
+        val immunityAt = newestFullDose.vaccinatedAt
+            .toDateTimeAtStartOfDay(DateTimeZone.forTimeZone(TimeZone.getDefault()))
+            .plus(IMMUNITY_WAITING_PERIOD)
 
-        return Duration(nowUTC.toLocalDateUtc().toDateTimeAtStartOfDay(), immunityAt)
+        val now = nowUTC
+            .toUserTimeZone()
+
+        return Duration(now, immunityAt)
     }
 
     enum class Status {

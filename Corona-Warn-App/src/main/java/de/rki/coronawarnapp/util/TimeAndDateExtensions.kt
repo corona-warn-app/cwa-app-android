@@ -102,7 +102,7 @@ object TimeAndDateExtensions {
 
     fun Instant.toLocalDateUtc(): LocalDate = this.toDateTime(DateTimeZone.UTC).toLocalDate()
 
-    fun Instant.toLocalTime(): LocalTime = this.toDateTime(DateTimeZone.UTC).toLocalTime()
+    fun Instant.toLocalTimeUtc(): LocalTime = this.toDateTime(DateTimeZone.UTC).toLocalTime()
 
     val Instant.seconds get() = TimeUnit.MILLISECONDS.toSeconds(millis)
 
