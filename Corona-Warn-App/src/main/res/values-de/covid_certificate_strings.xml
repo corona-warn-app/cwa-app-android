@@ -97,4 +97,13 @@
     <string name="test_certificate_qrcode_card_sampled_on">"Probenahme am %s Uhr"</string>
     <!-- XTXT: Test certificate card name  -->
     <string name="test_certificate_name">Testzertifikat</string>
+
+    <!-- #####################################################
+         VALIDATION RULES INFO SCREEN STRINGS BELOW
+         ##################################################### -->
+    <!-- XTXT: Validation Rule Info Screen: Car Text  -->
+    <string name="validation_rules_info_car">Geben Sie die geplante lokale Ankunftszeit an der Grenze zu Ihrem Einreiseland ein. Bitte beachten Sie die mögliche Zeitverschiebung.</string>
+    <!-- XTXT: Validation Rule Info Screen: Flight Text  -->
+    <string name="validation_rules_info_flight">Geben Sie die geplante lokale Ankunftszeit an der Grenze zu Ihrem Einreiseland ein. Bitte beachten Sie die mögliche Zeitverschiebung.</string>
+
 </resources>
