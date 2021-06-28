@@ -22,8 +22,6 @@ class ValidationRulesInfoFragment : Fragment(R.layout.validation_rules_info_frag
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        with(binding) {
-
-        }
+        with(binding) {}
     }
 }
