@@ -8,12 +8,6 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
 class ValidationRulesInfoViewModel @AssistedInject constructor() : CWAViewModel() {
 
-    val events = SingleLiveEvent<Event>()
-
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<ValidationRulesInfoViewModel>
-
-    sealed class Event {
-        object NavigateBack : Event()
-    }
 }
