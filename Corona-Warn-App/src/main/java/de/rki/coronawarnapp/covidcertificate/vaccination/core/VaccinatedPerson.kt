@@ -4,11 +4,9 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePerso
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
-import org.joda.time.DateTimeZone
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.joda.time.LocalDate
-import java.util.TimeZone
 
 data class VaccinatedPerson(
     internal val data: VaccinatedPersonData,
@@ -38,10 +36,10 @@ data class VaccinatedPerson(
         )
 
     fun getVaccinationStatus(nowUTC: Instant = Instant.now()): Status {
-        val daysToImmunity = getTimeUntilImmunity(nowUTC)?.standardDays ?: return Status.INCOMPLETE
+        val timeToImmunity = getTimeUntilImmunity(nowUTC) ?: return Status.INCOMPLETE
 
         return when {
-            daysToImmunity < 0 -> Status.IMMUNITY
+            timeToImmunity <= Duration.ZERO -> Status.IMMUNITY
             else -> Status.COMPLETE
         }
     }
@@ -53,7 +51,7 @@ data class VaccinatedPerson(
             ?: return null
 
         val immunityAt = newestFullDose.vaccinatedAt
-            .toDateTimeAtStartOfDay(DateTimeZone.forTimeZone(TimeZone.getDefault()))
+            .toDateTimeAtStartOfDay()
             .plus(IMMUNITY_WAITING_PERIOD)
 
         val now = nowUTC
@@ -69,6 +67,6 @@ data class VaccinatedPerson(
     }
 
     companion object {
-        private val IMMUNITY_WAITING_PERIOD = Duration.standardDays(14)
+        private val IMMUNITY_WAITING_PERIOD = Duration.standardDays(15)
     }
 }
