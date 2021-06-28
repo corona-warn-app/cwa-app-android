@@ -7,12 +7,13 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.flow.HotDataFlow
+import de.rki.coronawarnapp.util.flow.combine
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import org.joda.time.Duration
 import timber.log.Timber
 import javax.inject.Inject
@@ -49,22 +50,16 @@ class LocalStatisticsProvider @Inject constructor(
     val current: Flow<List<StatisticsData>> = localStatisticsData.data
 
     init {
-        foregroundState.isInForeground
-            .onEach {
-                if (it) {
-                    Timber.tag(TAG).d("App moved to foreground triggering statistics update.")
-                    triggerUpdate()
-                }
-            }
-            .catch { Timber.tag(TAG).e("Failed to trigger statistics update.") }
-            .launchIn(scope)
+        combine(
+            foregroundState.isInForeground.filter { it },
+            localStatisticsConfigStorage.activeStates.flow
+        ) { _, _ ->
+            Timber
+                .tag(TAG)
+                .d("App moved to foreground or stats config was updated, triggering statistics update.")
 
-        localStatisticsConfigStorage.activeStates.flow
-            .onEach {
-                Timber.tag(TAG).d("The local statistics config was updated, triggering statistics update.")
-                triggerUpdate()
-            }
-            .catch { Timber.tag(TAG).e("Failed to trigger statistics update.") }
+            triggerUpdate()
+        }.catch { Timber.tag(TAG).e("Failed to trigger statistics update.") }
             .launchIn(scope)
     }
 
