@@ -45,5 +45,4 @@ abstract class DigitalCovidCertificateUIModule {
 
     @ContributesAndroidInjector(modules = [ValidationRulesInfoFragmentModule::class])
     abstract fun validationRulesInfoFragment(): ValidationRulesInfoFragment
-
 }
