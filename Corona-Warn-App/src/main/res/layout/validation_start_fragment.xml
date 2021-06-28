@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:contentDescription="@string/tracelocation_organizer_category_title"
+    android:background="@color/colorSurface"
+    tools:context=".ui.presencetracing.organizer.qrinfo.TraceLocationQRInfoFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAToolbar.Close.Transparent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/validation_start_header" />
+
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toTopOf="@id/trace_location_qr_info_understand_button">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/body"
+                style="@style/subtitleMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="22dp"
+                android:text="@string/validation_start_body"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/subtitle"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:textSize="18sp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/validation_start_subtitle"
+                app:layout_constraintStart_toStartOf="@id/body"
+                app:layout_constraintEnd_toEndOf="@id/body"
+                app:layout_constraintTop_toBottomOf="@id/body" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/land"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                app:boxBackgroundColor="#F5F5F5"
+                android:layout_marginBottom="@dimen/spacing_tiny"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="22dp"
+                android:hint="@string/validation_start_land_hint"
+                app:layout_constraintStart_toStartOf="@+id/body"
+                app:layout_constraintTop_toBottomOf="@+id/subtitle">
+
+                <AutoCompleteTextView
+                    android:enabled="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/date"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                app:boxBackgroundColor="#F5F5F5"
+                android:layout_marginBottom="@dimen/spacing_tiny"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="22dp"
+                android:hint="@string/validation_start_date_hint"
+                app:layout_constraintStart_toStartOf="@+id/body"
+                app:layout_constraintTop_toBottomOf="@+id/land">
+
+                <AutoCompleteTextView
+                    android:enabled="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/date_info"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:text="@string/validation_start_date_info"
+                app:layout_constraintStart_toStartOf="@id/body"
+                app:layout_constraintEnd_toEndOf="@id/body"
+                app:layout_constraintTop_toBottomOf="@id/date" />
+
+            <ImageView
+                android:id="@+id/date_info_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="10dp"
+                android:importantForAccessibility="no"
+                app:srcCompat="@drawable/ic_info"
+                app:layout_constraintStart_toEndOf="@id/date_info"
+                app:layout_constraintEnd_toEndOf="@id/body"
+                app:layout_constraintTop_toTopOf="@id/date_info"
+                app:tint="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/certificate_proof"
+                style="@style/body1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:text="@string/validation_start_certificate_proof"
+                app:layout_constraintStart_toStartOf="@id/body"
+                app:layout_constraintEnd_toEndOf="@id/body"
+                app:layout_constraintTop_toBottomOf="@id/date_info" />
+
+            <TextView
+                android:id="@+id/note_subtitle"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/validation_start_note_subtitle"
+                app:layout_constraintStart_toStartOf="@id/body"
+                app:layout_constraintEnd_toEndOf="@id/body"
+                app:layout_constraintTop_toBottomOf="@id/certificate_proof" />
+
+            <include
+                android:id="@+id/note_bulletpoint_one"
+                layout="@layout/include_bullet_point"
+                android:layout_width="@dimen/bullet_point_size"
+                android:layout_height="@dimen/bullet_point_size"
+                app:layout_constraintBaseline_toBaselineOf="@id/note_text_one"
+                app:layout_constraintStart_toStartOf="@id/body" />
+
+            <TextView
+                android:id="@+id/note_text_one"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginTop="10dp"
+                android:text="@string/validation_start_note_point_1"
+                app:layout_constraintEnd_toEndOf="@id/body"
+                app:layout_constraintStart_toEndOf="@id/note_bulletpoint_one"
+                app:layout_constraintTop_toBottomOf="@id/note_subtitle" />
+
+            <include
+                android:id="@+id/note_bulletpoint_two"
+                layout="@layout/include_bullet_point"
+                android:layout_width="@dimen/bullet_point_size"
+                android:layout_height="@dimen/bullet_point_size"
+                app:layout_constraintBaseline_toBaselineOf="@id/note_text_two"
+                app:layout_constraintStart_toStartOf="@id/body" />
+
+            <TextView
+                android:id="@+id/note_text_two"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginTop="5dp"
+                android:text="@string/validation_start_note_point_2"
+                app:layout_constraintEnd_toEndOf="@id/body"
+                app:layout_constraintStart_toEndOf="@id/note_bulletpoint_two"
+                app:layout_constraintTop_toBottomOf="@id/note_text_one" />
+
+            <include
+                android:id="@+id/note_bulletpoint_three"
+                layout="@layout/include_bullet_point"
+                android:layout_width="@dimen/bullet_point_size"
+                android:layout_height="@dimen/bullet_point_size"
+                app:layout_constraintBaseline_toBaselineOf="@id/note_text_three"
+                app:layout_constraintStart_toStartOf="@id/body" />
+
+            <TextView
+                android:id="@+id/note_text_three"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginTop="5dp"
+                android:text="@string/validation_start_note_point_3"
+                app:layout_constraintEnd_toEndOf="@id/body"
+                app:layout_constraintStart_toEndOf="@id/note_bulletpoint_three"
+                app:layout_constraintTop_toBottomOf="@id/note_text_two" />
+
+            <TextView
+                android:id="@+id/faq"
+                style="@style/body1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/validation_start_faq"
+                app:layout_constraintStart_toStartOf="@id/body"
+                app:layout_constraintEnd_toEndOf="@id/body"
+                app:layout_constraintTop_toBottomOf="@id/note_text_three" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/privacy_card"
+                style="@style/GreyCard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="@{FormatterSubmissionHelper.formatCountrySelectCardColor(context, active)}"
+                android:focusable="true"
+                app:layout_constraintStart_toStartOf="@id/body"
+                app:layout_constraintEnd_toEndOf="@id/body"
+                app:layout_constraintTop_toBottomOf="@id/faq" >
+
+                <TextView
+                    android:id="@+id/privacy_card_title"
+                    style="@style/headline6"
+                    android:accessibilityHeading="true"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/validation_start_privacy_title"
+                    android:focusable="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/privacy_card_text"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="24dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/validation_start_privacy_body"
+                    android:focusable="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/privacy_card_title" />
+
+                <include layout="@layout/merge_guidelines_side" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <de.rki.coronawarnapp.ui.view.MoreInformationView
+                android:id="@+id/privacy_information"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="15dp"
+                android:focusable="true"
+                app:titleText="@string/validation_start_data_protection"
+                app:layout_constraintTop_toBottomOf="@id/privacy_card"
+                app:layout_constraintStart_toStartOf="@id/body"
+                app:layout_constraintEnd_toEndOf="@id/body"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/trace_location_qr_info_understand_button"
+        style="@style/buttonPrimary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:text="@string/validation_start_check_button"
+        app:layout_constraintTop_toBottomOf="@id/scrollview"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="@string/validation_start_check_button" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

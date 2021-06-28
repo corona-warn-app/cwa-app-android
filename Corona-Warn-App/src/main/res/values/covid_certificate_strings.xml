@@ -96,4 +96,38 @@
     <string name="test_certificate_qrcode_card_sampled_on">"Probenahme am %s Uhr"</string>
     <!-- XTXT: Test certificate card name  -->
     <string name="test_certificate_name">Testzertifikat</string>
+
+    <!-- #####################################################
+         VALIDATION START SCREEN
+         ##################################################### -->
+
+    <!-- XHED: Validation start header -->
+    <string name="validation_start_header">"Gültigkeit des Zertifikates"</string>
+    <!-- XTXT: Validation start body -->
+    <string name="validation_start_body">"Prüfen Sie vorab, ob Ihr Zertifikat im Reiseland zum Zeitpunkt der Reise gültig ist. Hierfür werden die geltenden Einreiseregeln des gewählten Reiselandes berücksichtigt"</string>
+    <!-- XTXT: Validation start subtitle -->
+    <string name="validation_start_subtitle">"Prüfen für"</string>
+    <!-- XTXT: Validation start land dropdown hint -->
+    <string name="validation_start_land_hint">"Land"</string>
+    <!-- XTXT: Validation start date and time dropdown hint -->
+    <string name="validation_start_date_hint">"Datum und Uhrzeit"</string>
+    <!-- XTXT: Validation start date and time info -->
+    <string name="validation_start_date_info">"Geben Sie Ihr Einreisedatum und die lokale Uhrzeit des Reiselandes ein."</string>
+    <!-- XTXT: Validation start certificate proof -->
+    <string name="validation_start_certificate_proof">"Ein COVID-Zertifikat gilt bei Reisen innerhalb der EU als Nachweis."</string>
+    <!-- XTXT: Validation start note subtitle -->
+    <string name="validation_start_note_subtitle">"Hinweis"</string>
+    <!-- XTXT: Validation start note point 1 -->
+    <string name="validation_start_note_point_1">"Beachten Sie, dass sich die Einreiseregeln ändern können. Prüfen Sie daher das Zertifikat kurz vor der Einreise (max. 48 Stunden). Es können in einzelnen Regionen weitere Regeln oder Einschränkungen gelten."</string>
+    <!-- XTXT: Validation start note point 2 -->
+    <string name="validation_start_note_point_2">"Um die Echtheit eines Zertifikats sicherzustellen, wird jedes Zertifikat mit einer digitalen Signatur ausgestellt. Diese Signatur wird nur in einer Prüf-Anwendung validiert."</string>
+    <!-- XTXT: Validation start note point 3 -->
+    <string name="validation_start_note_point_3">"Ob die im Zertifikat eingetragenen Daten richtig sind, wird nicht geprüft."</string>
+    <!-- XTXT: Validation start FAQ -->
+    <string name="validation_start_faq">"Mehr Informationen finden Sie in den FAQ und unter reopen.europa.eu."</string>
+    <!-- XTXT: Validation start data protection button -->
+    <string name="validation_start_data_protection">"Ausführliche Hinweise zur Datenverarbeitung finden Sie in der Datenschutzerklärung"</string>
+    <!-- XBUT: Validation start check button -->
+    <string name="validation_start_check_button">"Prüfen"</string>
+
 </resources>
