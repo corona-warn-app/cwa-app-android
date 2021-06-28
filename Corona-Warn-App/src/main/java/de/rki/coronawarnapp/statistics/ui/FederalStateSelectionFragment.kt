@@ -61,11 +61,13 @@ class FederalStateSelectionFragment : Fragment(R.layout.federal_state_selection_
         viewModel.event.observe2(this) {
             when (it) {
                 FederalStateSelectionViewModel.Events.FinishEvent -> {
-                    findNavController().popBackStack(R.id.mainFragment,false)
+                    findNavController().popBackStack(R.id.mainFragment, false)
                 }
                 is FederalStateSelectionViewModel.Events.OpenDistricts -> findNavController().navigate(
                     FederalStateSelectionFragmentDirections
-                        .actionFederalStateSelectionFragmentToFederalStateSelectionFragment(it.selectedFederalStateShortName)
+                        .actionFederalStateSelectionFragmentToFederalStateSelectionFragment(
+                            it.selectedFederalStateShortName
+                        )
                 )
             }
         }
