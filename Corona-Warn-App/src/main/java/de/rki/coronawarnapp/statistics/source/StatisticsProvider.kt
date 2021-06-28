@@ -36,8 +36,13 @@ class StatisticsProvider @Inject constructor(
         )
     ) {
         try {
-            triggerUpdate()
-            fromCache() ?: StatisticsData()
+            val cachedValues = fromCache()
+            if (cachedValues == null) {
+                triggerUpdate()
+                StatisticsData()
+            } else {
+                cachedValues
+            }
         } catch (e: Exception) {
             Timber.tag(TAG).e(e, "Failed to get data from server.")
             StatisticsData()
