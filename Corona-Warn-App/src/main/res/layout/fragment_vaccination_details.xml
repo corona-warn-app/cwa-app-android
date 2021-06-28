@@ -331,9 +331,9 @@
             android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_normal"
             android:layout_marginVertical="@dimen/spacing_tiny"
-            android:text="@string/contact_diary_onboarding_button_text"
+            android:text="@string/start_validation_rule_check_button"
             android:layout_weight="1"
-            tools:text="@string/contact_diary_onboarding_button_text" />
+            tools:text="@string/start_validation_rule_check_button" />
 
     </LinearLayout>
 </RelativeLayout>
