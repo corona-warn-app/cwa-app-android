@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.submission
 import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.censors.submission.PcrQrCodeCensor
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.errors.AlreadyRedeemedException
@@ -85,6 +86,7 @@ class TestRegistrationStateProcessor @Inject constructor(
         return try {
             stateInternal.value = State.Working
 
+            PcrQrCodeCensor.dateOfBirth = request.dateOfBirth
             val coronaTest = if (allowReplacement) {
                 submissionRepository.tryReplaceTest(request)
             } else {
