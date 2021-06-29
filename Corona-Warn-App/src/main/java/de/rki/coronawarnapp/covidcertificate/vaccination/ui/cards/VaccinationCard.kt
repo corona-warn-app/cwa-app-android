@@ -31,7 +31,8 @@ class VaccinationCard(parent: ViewGroup) :
                 vaccinationState.text = if (immunityIn < Duration.standardDays(1)) {
                     resources.getString(R.string.vaccination_card_status_vaccination_complete_tomorrow)
                 } else {
-                    val days = immunityIn.standardDays.toInt()
+                    // Round up, start with 15 despite 15th day already being started for better UX
+                    val days = immunityIn.standardDays.toInt() + 1
                     resources.getQuantityString(
                         R.plurals.vaccination_card_status_vaccination_complete,
                         days,
