@@ -27,7 +27,7 @@ class VaccinationCard(parent: ViewGroup) :
         when (curItem.vaccinatedPerson.getVaccinationStatus()) {
             VaccinatedPerson.Status.COMPLETE -> {
                 val immunityInDays = curItem.vaccinatedPerson.getDaysUntilImmunity()!!
-                vaccinationState.text = if (immunityInDays < 1) {
+                vaccinationState.text = if (immunityInDays == 1) {
                     resources.getString(R.string.vaccination_card_status_vaccination_complete_tomorrow)
                 } else {
                     resources.getQuantityString(

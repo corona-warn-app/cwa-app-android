@@ -108,10 +108,10 @@ class VaccinationListViewModel @AssistedInject constructor(
             )
 
             if (vaccinatedPerson.getVaccinationStatus() == VaccinatedPerson.Status.COMPLETE) {
-                val timeUntilImmunity = vaccinatedPerson.getDaysUntilImmunity()
-                if (timeUntilImmunity != null) {
+                val daysUntilImmunity = vaccinatedPerson.getDaysUntilImmunity()
+                if (daysUntilImmunity != null) {
                     add(
-                        VaccinationListImmunityInformationCardItem(timeUntilImmunity)
+                        VaccinationListImmunityInformationCardItem(daysUntilImmunity)
                     )
                 }
             }

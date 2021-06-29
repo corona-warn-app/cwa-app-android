@@ -36,10 +36,10 @@ data class VaccinatedPerson(
         )
 
     fun getVaccinationStatus(nowUTC: Instant = Instant.now()): Status {
-        val timeToImmunity = getDaysUntilImmunity(nowUTC) ?: return Status.INCOMPLETE
+        val daysToImmunity = getDaysUntilImmunity(nowUTC) ?: return Status.INCOMPLETE
 
         return when {
-            timeToImmunity <= 0 -> Status.IMMUNITY
+            daysToImmunity <= 0 -> Status.IMMUNITY
             else -> Status.COMPLETE
         }
     }
