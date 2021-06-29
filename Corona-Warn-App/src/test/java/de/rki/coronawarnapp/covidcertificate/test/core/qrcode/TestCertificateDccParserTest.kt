@@ -5,6 +5,7 @@ import com.upokecenter.cbor.CBORObject
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.test.TestData
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContain
 import okio.ByteString.Companion.decodeHex
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.Test
@@ -16,8 +17,8 @@ class TestCertificateDccParserTest {
     @Test
     fun `happy path cose decryption with Ellen Cheng`() {
         val coseObject = CBORObject.DecodeFromBytes(TestData.cborObject.decodeHex().toByteArray())
-        with(bodyParser.parse(coseObject, DccV1Parser.Mode.CERT_TEST_STRICT)) {
-
+        val body = bodyParser.parse(coseObject, DccV1Parser.Mode.CERT_TEST_STRICT)
+        with(body.parsed) {
             with(nameData) {
                 familyName shouldBe "Musterfrau-Gößinger"
                 familyNameStandardized shouldBe "MUSTERFRAU<GOESSINGER"
@@ -39,6 +40,10 @@ class TestCertificateDccParserTest {
                 testNameAndManufactor shouldBe "1232"
                 testResult shouldBe "260415000"
             }
+        }
+        with(body.raw) {
+            this shouldContain "Musterfrau-Gößinger"
+            this shouldContain "URN:UVCI:01:AT:71EE2559DE38C6BF7304FB65A1A451EC#3"
         }
     }
 }
