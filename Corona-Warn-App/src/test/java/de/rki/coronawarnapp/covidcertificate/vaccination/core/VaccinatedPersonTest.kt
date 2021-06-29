@@ -223,6 +223,10 @@ class VaccinatedPersonTest : BaseTest() {
                 getDaysUntilImmunity(now)!! shouldBe 0
                 getVaccinationStatus(now) shouldBe VaccinatedPerson.Status.IMMUNITY
             }
+            Instant.parse("2021-01-15T23:00:00.000Z").let { now ->
+                getDaysUntilImmunity(now)!! shouldBe 0
+                getVaccinationStatus(now) shouldBe VaccinatedPerson.Status.IMMUNITY
+            }
         }
     }
 }
