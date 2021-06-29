@@ -36,7 +36,6 @@ import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import io.mockk.every
 import io.mockk.mockk
-import org.joda.time.Duration
 import org.joda.time.Instant
 
 object HomeData {
@@ -192,7 +191,7 @@ object HomeData {
                 every { fullName } returns "Andrea Schneider"
                 every { identifier } returns mockk()
                 every { getVaccinationStatus(any()) } returns VaccinatedPerson.Status.INCOMPLETE
-                every { getTimeUntilImmunity(any()) } returns Duration.standardDays(14)
+                every { getDaysUntilImmunity(any()) } returns 14
             },
             onClickAction = {}
         )
@@ -201,7 +200,7 @@ object HomeData {
                 every { fullName } returns "Andrea Schneider"
                 every { identifier } returns mockk()
                 every { getVaccinationStatus(any()) } returns VaccinatedPerson.Status.COMPLETE
-                every { getTimeUntilImmunity(any()) } returns Duration.standardDays(14)
+                every { getDaysUntilImmunity(any()) } returns 14
             },
             onClickAction = {}
         )
@@ -210,7 +209,7 @@ object HomeData {
                 every { fullName } returns "Andrea Schneider"
                 every { identifier } returns mockk()
                 every { getVaccinationStatus(any()) } returns VaccinatedPerson.Status.IMMUNITY
-                every { getTimeUntilImmunity(any()) } returns Duration.standardDays(14)
+                every { getDaysUntilImmunity(any()) } returns 14
             },
             onClickAction = {}
         )
