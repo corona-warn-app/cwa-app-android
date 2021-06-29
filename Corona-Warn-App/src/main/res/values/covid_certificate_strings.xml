@@ -96,4 +96,26 @@
     <string name="test_certificate_qrcode_card_sampled_on">"Probenahme am %s Uhr"</string>
     <!-- XTXT: Test certificate card name  -->
     <string name="test_certificate_name">Testzertifikat</string>
+
+    <!-- #####################################################
+      VALIDATION RULES RESULT SCREEN (VALID) STRINGS BELOW
+      ##################################################### -->
+    <!-- XTXT: Validation Rule Result Valid - Header  -->
+    <string name="validation_rules_result_valid_header">Gültiges Zertifikat</string>
+    <!-- XTXT: Validation Rule Result Valid - Result  -->
+    <string name="validation_rules_result_valid_result_title">Ihr Zertifikat ist im gewählten Reiseland gültig.</string>
+    <!-- XTXT: Validation Rule Result Valid - Remark -->
+    <string name="validation_rules_result_valid_result_remark">Hinweis</string>
+    <!-- XTXT: Validation Rule Result Valid - note point 1 -->
+    <string name="validation_rules_result_valid_result_note_1">Beachten Sie, dass sich die Einreiseregeln ändern können. Prüfen Sie daher das Zertifikat kurz vor der Einreise (max. 48 Stunden).</string>
+    <!-- XTXT: Validation Rule Result Valid - note point 2 -->
+    <string name="validation_rules_result_valid_result_note_2">Es können in einzelnen Regionen weitere Regeln oder Einschränkungen gelten.</string>
+    <!-- XTXT: Validation Rule Result Valid - note point 3 -->
+    <string name="validation_rules_result_valid_result_note_3">Um die Echtheit eines Zertifikats sicherzustellen, wird jedes Zertifikat mit einer digitalen Signatur ausgestellt. Diese Signatur wird in einer Prüf-Anwendung validiert.</string>
+    <!-- XTXT: Validation Rule Result Valid - note point 4 -->
+    <string name="validation_rules_result_valid_result_note_4">Ob die im Zertifikat eingetragenen Daten richtig sind, wird nicht geprüft.</string>
+    <!-- XTXT: Validation Rule Result Valid - faq & infos -->
+    <string name="validation_rules_result_valid_result_faq">Mehr Informationen finden Sie in den FAQ und unter reopen.europa.eu.</string>
+    <!-- XTXT: Validation Rule Result Valid - button text -->
+    <string name="validation_rules_result_valid_result_button">für weiteres Land prüfen</string>
 </resources>
