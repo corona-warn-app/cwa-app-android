@@ -319,6 +319,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="true" />
+
+            <Button
+                android:id="@+id/trace_location_qr_info_understand_button"
+                style="@style/buttonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="6dp"
+                android:text="@string/test_certificate_validation_start_button"
+                tools:text="@string/test_certificate_validation_start_button" />
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

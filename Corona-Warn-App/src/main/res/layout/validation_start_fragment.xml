@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:contentDescription="@string/tracelocation_organizer_category_title"
     android:background="@color/colorSurface"
+    android:contentDescription="@string/tracelocation_organizer_category_title"
     tools:context=".ui.presencetracing.organizer.qrinfo.TraceLocationQRInfoFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -22,11 +22,10 @@
         android:id="@+id/scrollview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/trace_location_qr_info_understand_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintBottom_toTopOf="@id/trace_location_qr_info_understand_button">
-
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -49,33 +48,33 @@
             <TextView
                 android:id="@+id/subtitle"
                 style="@style/TextAppearance.MaterialComponents.Subtitle2"
-                android:textSize="18sp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="@string/validation_start_subtitle"
-                app:layout_constraintStart_toStartOf="@id/body"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="@id/body"
+                app:layout_constraintStart_toStartOf="@id/body"
                 app:layout_constraintTop_toBottomOf="@id/body" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/land"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-                app:boxBackgroundColor="#F5F5F5"
-                android:layout_marginBottom="@dimen/spacing_tiny"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="26dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="22dp"
+                android:layout_marginBottom="@dimen/spacing_tiny"
                 android:hint="@string/validation_start_land_hint"
+                app:boxBackgroundColor="#F5F5F5"
                 app:layout_constraintStart_toStartOf="@+id/body"
                 app:layout_constraintTop_toBottomOf="@+id/subtitle">
 
                 <AutoCompleteTextView
-                    android:enabled="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:enabled="false"
                     android:inputType="none" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -83,21 +82,21 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/date"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-                app:boxBackgroundColor="#F5F5F5"
-                android:layout_marginBottom="@dimen/spacing_tiny"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="26dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="22dp"
+                android:layout_marginBottom="@dimen/spacing_tiny"
                 android:hint="@string/validation_start_date_hint"
+                app:boxBackgroundColor="#F5F5F5"
                 app:layout_constraintStart_toStartOf="@+id/body"
                 app:layout_constraintTop_toBottomOf="@+id/land">
 
                 <AutoCompleteTextView
-                    android:enabled="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:enabled="false"
                     android:inputType="none" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -110,8 +109,8 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginEnd="@dimen/spacing_normal"
                 android:text="@string/validation_start_date_info"
-                app:layout_constraintStart_toStartOf="@id/body"
                 app:layout_constraintEnd_toEndOf="@id/body"
+                app:layout_constraintStart_toStartOf="@id/body"
                 app:layout_constraintTop_toBottomOf="@id/date" />
 
             <ImageView
@@ -120,10 +119,10 @@
                 android:layout_height="20dp"
                 android:layout_marginStart="10dp"
                 android:importantForAccessibility="no"
-                app:srcCompat="@drawable/ic_info"
-                app:layout_constraintStart_toEndOf="@id/date_info"
                 app:layout_constraintEnd_toEndOf="@id/body"
+                app:layout_constraintStart_toEndOf="@id/date_info"
                 app:layout_constraintTop_toTopOf="@id/date_info"
+                app:srcCompat="@drawable/ic_info"
                 app:tint="@color/colorPrimary" />
 
             <TextView
@@ -133,8 +132,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="26dp"
                 android:text="@string/validation_start_certificate_proof"
-                app:layout_constraintStart_toStartOf="@id/body"
                 app:layout_constraintEnd_toEndOf="@id/body"
+                app:layout_constraintStart_toStartOf="@id/body"
                 app:layout_constraintTop_toBottomOf="@id/date_info" />
 
             <TextView
@@ -144,8 +143,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="@string/validation_start_note_subtitle"
-                app:layout_constraintStart_toStartOf="@id/body"
                 app:layout_constraintEnd_toEndOf="@id/body"
+                app:layout_constraintStart_toStartOf="@id/body"
                 app:layout_constraintTop_toBottomOf="@id/certificate_proof" />
 
             <include
@@ -215,8 +214,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/validation_start_faq"
-                app:layout_constraintStart_toStartOf="@id/body"
                 app:layout_constraintEnd_toEndOf="@id/body"
+                app:layout_constraintStart_toStartOf="@id/body"
                 app:layout_constraintTop_toBottomOf="@id/note_text_three" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -225,21 +224,20 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:backgroundTint="@{FormatterSubmissionHelper.formatCountrySelectCardColor(context, active)}"
                 android:focusable="true"
-                app:layout_constraintStart_toStartOf="@id/body"
                 app:layout_constraintEnd_toEndOf="@id/body"
+                app:layout_constraintStart_toStartOf="@id/body"
                 app:layout_constraintTop_toBottomOf="@id/faq" >
 
                 <TextView
                     android:id="@+id/privacy_card_title"
                     style="@style/headline6"
-                    android:accessibilityHeading="true"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/validation_start_privacy_title"
+                    android:accessibilityHeading="true"
                     android:focusable="true"
+                    android:text="@string/validation_start_privacy_title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toStartOf="@+id/guideline_start"
@@ -250,10 +248,10 @@
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="24dp"
                     android:layout_marginTop="16dp"
-                    android:text="@string/validation_start_privacy_body"
                     android:focusable="true"
+                    android:paddingBottom="24dp"
+                    android:text="@string/validation_start_privacy_body"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toStartOf="@+id/guideline_start"
@@ -267,16 +265,16 @@
                 android:id="@+id/privacy_information"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="15dp"
                 android:focusable="true"
-                app:titleText="@string/validation_start_data_protection"
-                app:layout_constraintTop_toBottomOf="@id/privacy_card"
-                app:layout_constraintStart_toStartOf="@id/body"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/body"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintStart_toStartOf="@id/body"
+                app:layout_constraintTop_toBottomOf="@id/privacy_card"
+                app:titleText="@string/validation_start_data_protection" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
@@ -286,15 +284,15 @@
         style="@style/buttonPrimary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_small"
         android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_small"
         android:layout_marginEnd="@dimen/spacing_normal"
         android:layout_marginBottom="@dimen/spacing_small"
         android:text="@string/validation_start_check_button"
-        app:layout_constraintTop_toBottomOf="@id/scrollview"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scrollview"
         tools:text="@string/validation_start_check_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

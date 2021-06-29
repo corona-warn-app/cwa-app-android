@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toHyphenSeparatedDate
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -103,6 +104,8 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
                 null,
                 FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
             )
+            is TestCertificateDetailsNavigation.ValidationStart -> doNavigate(TestCertificateDetailsFragmentDirections
+                .actionTestCertificateDetailsFragmentToValidationStartFragment())
         }
     }
 

@@ -53,6 +53,9 @@
         <argument
             android:name="containerId"
             app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId" />
+        <action
+            android:id="@+id/action_testCertificateDetailsFragment_to_validationStartFragment"
+            app:destination="@id/validationStartFragment" />
     </fragment>
 
     <fragment
@@ -111,5 +114,11 @@
         <argument
             android:name="containerId"
             app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId" />
+    </fragment>
+    <fragment
+        android:id="@+id/validationStartFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.validation.ui.ValidationStartFragment"
+        android:label="ValidationStartFragment"
+        tools:layout="@layout/validation_start_fragment">
     </fragment>
 </navigation>

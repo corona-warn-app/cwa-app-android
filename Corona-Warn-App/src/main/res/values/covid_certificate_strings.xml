@@ -96,6 +96,8 @@
     <string name="test_certificate_qrcode_card_sampled_on">"Probenahme am %s Uhr"</string>
     <!-- XTXT: Test certificate card name  -->
     <string name="test_certificate_name">Testzertifikat</string>
+    <!-- XBUT: Test certificate validation start button -->
+    <string name="test_certificate_validation_start_button">"Gültigkeit prüfen"</string>
 
     <!-- #####################################################
          VALIDATION START SCREEN
