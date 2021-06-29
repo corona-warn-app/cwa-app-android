@@ -24,6 +24,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
+import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.TracingSettings
@@ -53,6 +54,7 @@ class DataReset @Inject constructor(
     private var traceLocationPreferences: TraceLocationPreferences,
     private val cwaSettings: CWASettings,
     private val statisticsProvider: StatisticsProvider,
+    private val localStatisticsProvider: LocalStatisticsProvider,
     private val surveySettings: SurveySettings,
     private val analyticsSettings: AnalyticsSettings,
     private val analytics: Analytics,
@@ -106,6 +108,7 @@ class DataReset @Inject constructor(
         contactDiaryRepository.clear()
 
         statisticsProvider.clear()
+        localStatisticsProvider.clear()
 
         bugReportingSettings.clear()
 
