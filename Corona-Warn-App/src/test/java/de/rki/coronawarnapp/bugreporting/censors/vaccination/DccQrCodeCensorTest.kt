@@ -46,7 +46,8 @@ internal class DccQrCodeCensorTest {
                 lastNameStandardized = "KEVIN",
                 firstNameStandardized = "BOB"
             )
-        )
+        ),
+        certificateJson = "",
     )
 
     @BeforeEach

@@ -131,22 +131,25 @@ class DccQrCodeExtractor @Inject constructor(
             is VaccinationDccV1 -> VaccinationCertificateQRCode(
                 qrCode = rawString,
                 data = DccData(
-                    parsedData.header,
-                    parsedData.certificate
+                    header = parsedData.header,
+                    certificate = parsedData.certificate,
+                    certificateJson = parsedData.certificateJson,
                 ),
             )
             is TestDccV1 -> TestCertificateQRCode(
                 qrCode = rawString,
                 data = DccData(
                     parsedData.header,
-                    parsedData.certificate
+                    parsedData.certificate,
+                    certificateJson = parsedData.certificateJson,
                 ),
             )
             is RecoveryDccV1 -> RecoveryCertificateQRCode(
                 qrCode = rawString,
                 data = DccData(
                     parsedData.header,
-                    parsedData.certificate
+                    parsedData.certificate,
+                    certificateJson = parsedData.certificateJson,
                 ),
             )
             else -> throw InvalidHealthCertificateException(JSON_SCHEMA_INVALID)
@@ -169,9 +172,12 @@ class DccQrCodeExtractor @Inject constructor(
     fun RawCOSEObject.parse(mode: DccV1Parser.Mode): DccData<DccV1.MetaData> = try {
         Timber.v("Parsing COSE for covid certificate.")
         val cbor = coseDecoder.decode(this)
+        val header = headerParser.parse(cbor)
+        val body = bodyParser.parse(cbor, mode)
         DccData(
-            header = headerParser.parse(cbor),
-            certificate = bodyParser.parse(cbor, mode).toCertificate
+            header = header,
+            certificate = body.parsed.toCertificate,
+            certificateJson = body.raw,
         ).also {
             DccQrCodeCensor.addCertificateToCensor(it)
         }.also {
@@ -221,5 +227,6 @@ class DccQrCodeExtractor @Inject constructor(
 }
 
 private const val PREFIX = "HC1:"
+
 // Zip bomb
 private const val DEFAULT_SIZE_LIMIT = 1024L * 1024 * 10L // 10 MB
