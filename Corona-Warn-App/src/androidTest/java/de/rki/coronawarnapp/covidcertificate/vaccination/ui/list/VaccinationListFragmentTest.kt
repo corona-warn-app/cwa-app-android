@@ -24,7 +24,6 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.joda.time.Duration
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
@@ -104,7 +103,7 @@ internal class VaccinationListFragmentTest : BaseUITest() {
                 expiresAt = Instant.parse("2022-04-24T00:00:00.000Z")
             ),
             createNameCardItem(),
-            VaccinationListImmunityInformationCardItem(Duration.standardDays(14)),
+            VaccinationListImmunityInformationCardItem(14),
             createVaccinationCardItem(
                 doseNumber = 1,
                 totalSeriesOfDoses = 2,

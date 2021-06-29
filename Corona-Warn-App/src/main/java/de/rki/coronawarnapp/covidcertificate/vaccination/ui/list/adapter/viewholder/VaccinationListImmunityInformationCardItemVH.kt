@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.adapter.Vaccina
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.adapter.VaccinationListItem
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.list.adapter.viewholder.VaccinationListImmunityInformationCardItemVH.VaccinationListImmunityInformationCardItem
 import de.rki.coronawarnapp.databinding.VaccinationListImmunityCardBinding
-import org.joda.time.Duration
 
 class VaccinationListImmunityInformationCardItemVH(parent: ViewGroup) :
     VaccinationListAdapter.ItemVH<VaccinationListImmunityInformationCardItem, VaccinationListImmunityCardBinding>(
@@ -20,6 +19,8 @@ class VaccinationListImmunityInformationCardItemVH(parent: ViewGroup) :
 
     override val onBindData: VaccinationListImmunityCardBinding
     .(item: VaccinationListImmunityInformationCardItem, payloads: List<Any>) -> Unit = { item, _ ->
+        body.text =
+            context.resources.getQuantityString(
         val timeTillImmunity = item.timeUntilImmunity
         body.text = if (timeTillImmunity < Duration.standardDays(1)) {
             resources.getString(R.string.vaccination_list_immunity_tomorrow_card_body)
@@ -29,13 +30,13 @@ class VaccinationListImmunityInformationCardItemVH(parent: ViewGroup) :
             val days = timeTillImmunity.standardDays + 1
             resources.getQuantityString(
                 R.plurals.vaccination_list_immunity_card_body,
-                days.toInt(),
-                days
+                item.daysUntilImmunity,
+                item.daysUntilImmunity
             )
         }
     }
 
-    data class VaccinationListImmunityInformationCardItem(val timeUntilImmunity: Duration) : VaccinationListItem {
+    data class VaccinationListImmunityInformationCardItem(val daysUntilImmunity: Int) : VaccinationListItem {
         override val stableId = VaccinationListImmunityInformationCardItem::class.java.name.hashCode().toLong()
     }
 }
