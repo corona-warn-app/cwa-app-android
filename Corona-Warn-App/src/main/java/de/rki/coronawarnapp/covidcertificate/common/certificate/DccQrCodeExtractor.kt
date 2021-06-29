@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
-import de.rki.coronawarnapp.bugreporting.censors.vaccination.DccQrCodeCensor
+import de.rki.coronawarnapp.bugreporting.censors.dcc.DccQrCodeCensor
 import de.rki.coronawarnapp.coronatest.qrcode.QrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode.CERT_REC_STRICT
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode.CERT_SINGLE_STRICT
@@ -131,22 +131,25 @@ class DccQrCodeExtractor @Inject constructor(
             is VaccinationDccV1 -> VaccinationCertificateQRCode(
                 qrCode = rawString,
                 data = DccData(
-                    parsedData.header,
-                    parsedData.certificate
+                    header = parsedData.header,
+                    certificate = parsedData.certificate,
+                    certificateJson = parsedData.certificateJson,
                 ),
             )
             is TestDccV1 -> TestCertificateQRCode(
                 qrCode = rawString,
                 data = DccData(
                     parsedData.header,
-                    parsedData.certificate
+                    parsedData.certificate,
+                    certificateJson = parsedData.certificateJson,
                 ),
             )
             is RecoveryDccV1 -> RecoveryCertificateQRCode(
                 qrCode = rawString,
                 data = DccData(
                     parsedData.header,
-                    parsedData.certificate
+                    parsedData.certificate,
+                    certificateJson = parsedData.certificateJson,
                 ),
             )
             else -> throw InvalidHealthCertificateException(JSON_SCHEMA_INVALID)
@@ -169,9 +172,12 @@ class DccQrCodeExtractor @Inject constructor(
     fun RawCOSEObject.parse(mode: DccV1Parser.Mode): DccData<DccV1.MetaData> = try {
         Timber.v("Parsing COSE for covid certificate.")
         val cbor = coseDecoder.decode(this)
+        val header = headerParser.parse(cbor)
+        val body = bodyParser.parse(cbor, mode)
         DccData(
-            header = headerParser.parse(cbor),
-            certificate = bodyParser.parse(cbor, mode).toCertificate
+            header = header,
+            certificate = body.parsed.asCertificate,
+            certificateJson = body.raw,
         ).also {
             DccQrCodeCensor.addCertificateToCensor(it)
         }.also {
@@ -184,42 +190,16 @@ class DccQrCodeExtractor @Inject constructor(
         throw InvalidHealthCertificateException(HC_CBOR_DECODING_FAILED)
     }
 
-    private val DccV1.isVaccinationCertificate: Boolean
-        get() = this.vaccinations?.isNotEmpty() == true
-
-    private val DccV1.isTestCertificate: Boolean
-        get() = this.tests?.isNotEmpty() == true
-
-    private val DccV1.isRecoveryCertificate: Boolean
-        get() = this.recoveries?.isNotEmpty() == true
-
-    private val DccV1.toCertificate: DccV1.MetaData
+    private val DccV1.asCertificate: DccV1.MetaData
         get() = when {
-            isVaccinationCertificate -> VaccinationDccV1(
-                version = version,
-                nameData = nameData,
-                dateOfBirth = dateOfBirth,
-                personIdentifier = personIdentifier,
-                vaccination = vaccinations!!.first()
-            )
-            isTestCertificate -> TestDccV1(
-                version = version,
-                nameData = nameData,
-                dateOfBirth = dateOfBirth,
-                personIdentifier = personIdentifier,
-                test = tests!!.first()
-            )
-            isRecoveryCertificate -> RecoveryDccV1(
-                version = version,
-                nameData = nameData,
-                dateOfBirth = dateOfBirth,
-                personIdentifier = personIdentifier,
-                recovery = recoveries!!.first()
-            )
+            isVaccinationCertificate -> asVaccinationCertificate!!
+            isTestCertificate -> asTestCertificate!!
+            isRecoveryCertificate -> asRecoveryCertificate!!
             else -> throw InvalidHealthCertificateException(JSON_SCHEMA_INVALID)
         }
 }
 
 private const val PREFIX = "HC1:"
+
 // Zip bomb
 private const val DEFAULT_SIZE_LIMIT = 1024L * 1024 * 10L // 10 MB

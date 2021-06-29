@@ -314,7 +314,7 @@
     <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Aplikacja Corona-Warn-App została zainstalowana %s dni temu. Ryzyko zakażenia jest obliczane dla okresów, w których aktywne było rejestrowanie narażenia. Oblicza się je w przypadku kontaktowania się z innymi ludźmi przy aktywnej funkcji rejestrowania narażenia."</string>
     <!-- XTXT: risk details - infection period logged information body, over 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_over_14_days">"Jeśli rejestrowanie narażenia było aktywne podczas kontaktowania się z innymi ludźmi, można obliczyć ryzyko zakażenia dla tego okresu."</string>
-    <!-- XHED: risk details - infection period logged information body, below behaviors -->	    <!-- XTXT: risk details - infection period logged information body, under 14 days -->
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->        <!-- XTXT: risk details - infection period logged information body, under 14 days -->
     <string name="risk_details_information_body_period_logged_assessment">"Aplikacja automatycznie usuwa starsze dzienniki, ponieważ nie są one już istotne dla zapobiegania zakażeniom."</string>
     <!-- XTXT: risk details - infection period days logged/14 -->
     <string name="risk_details_information_active_tracing_days_circle_progress">"%s/14"</string>
@@ -920,6 +920,8 @@
     <string name="debugging_debuglog_share_log_privacy_information">"Szczegółowe informacje o ryzyku związanym z przetwarzaniem i ochroną danych w USA i innych krajach trzecich"</string>
     <!-- XBUT: Button for bugreporting share log screen -->
     <string name="debugging_debuglog_share_log_button">"Akceptuj i wyślij"</string>
+    <!-- XMSG: Dialog body try again later -->
+    <string name="debugging_debuglog_share_try_again_later">"W tej chwili nie można wysłać raportu o błędzie. Spróbuj ponownie później."</string>
     <!-- XHED: Title for log upload history -->
     <string name="debugging_debuglog_uploadhistory_title">"Historia identyfikatorów"</string>
     <!-- YTXT: Description for log upload history -->
@@ -1069,36 +1071,36 @@
     <!-- XHED: Page subheadline for test result  -->
     <string name="submission_test_result_subtitle">"Jak to działa:"</string>
     <!-- XHED: Page headline for results next steps  -->
-    <string name="submission_test_result_steps_added_heading">"Test PCR został dodany."</string>
+    <string name="submission_test_result_steps_added_heading">"Test PCR został dodany"</string>
     <!-- YTXT: Body text for for results next steps  -->
     <string name="submission_test_result_steps_added_body">"Twój test został zapisany w Corona-Warn-App."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_heading">"Twój wynik testu nie jest jeszcze dostępny."</string>
+    <string name="submission_test_result_pending_steps_waiting_heading">"Wynik Twojego testu nie jest jeszcze dostępny"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_body">"Wynik testu zostanie wyświetlony w aplikacji, jak tylko będzie dostępny.\n\nWynik testu otrzymasz również poza aplikacją. Organ ds. zdrowia publicznego powiadomi Cię, jeśli wynik testu będzie pozytywny.\n\nJeśli otrzymasz powiadomienie o pozytywnym wyniku testu poza aplikacją, usuń test aktualnie zarejestrowany w aplikacji. Zadzwoń na numer podany w sekcji „Poproś o TAN”, aby otrzymać numer TAN. Będziesz mieć wówczas możliwość zarejestrowania swojego wyniku w aplikacji za pomocą tego numeru, aby ostrzegać innych."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Twój wynik testu nie jest jeszcze dostępny."</string>
+    <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Wynik Twojego testu nie jest jeszcze dostępny"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_pcr_body">"Wynik testu zostanie wyświetlony w aplikacji, jak tylko będzie dostępny.\n\nWynik testu otrzymasz również poza aplikacją. Organ ds. zdrowia publicznego powiadomi Cię, jeśli wynik testu będzie pozytywny.\n\nJeśli otrzymasz powiadomienie o pozytywnym wyniku testu poza aplikacją, usuń test aktualnie zarejestrowany w aplikacji. Zadzwoń na numer podany w sekcji „Poproś o TAN”, aby otrzymać numer TAN. Będziesz mieć wówczas możliwość zarejestrowania swojego wyniku w aplikacji za pomocą tego numeru, aby ostrzegać innych."</string>
     <!-- XHED: Page headline for results next steps  -->
-    <string name="submission_test_result_steps_added_rat_heading">"Twój szybki test został dodany."</string>
+    <string name="submission_test_result_steps_added_rat_heading">"Twój szybki test został dodany"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_rat_heading">"Twój wynik testu nie jest jeszcze dostępny."</string>
+    <string name="submission_test_result_pending_steps_waiting_rat_heading">"Wynik Twojego testu nie jest jeszcze dostępny"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_rat_body">"Wynik testu zostanie wyświetlony w aplikacji, jak tylko będzie dostępny."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_contact_diary_heading">"Wynik Twojego testu zostanie dodany do dziennika kontaktów."</string>
+    <string name="submission_test_result_pending_steps_contact_diary_heading">"Wynik Twojego testu zostanie dodany do dziennika kontaktów"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_contact_diary_body">"Wynik testu zostanie wyświetlony w aplikacji, jak tylko będzie dostępny."</string>
 
     <!-- XHED: Page headline for test result certifcate info title  -->
-    <string name="submission_test_result_pending_steps_test_certificate_heading">"Twój certyfikat testu "</string>
+    <string name="submission_test_result_pending_steps_test_certificate_heading">"Twój certyfikat testu na COVID"</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not supported, RAT Test -->
-    <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"Certyfikat testu jest niedostępny, ponieważ ten punkt testowania nie wydaje certyfikatów testów."</string>
+    <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"Oficjalny cyfrowy certyfikat testu na COVID nie może zostać wydany, ponieważ ten punkt testowania nie wydaje certyfikatów testów."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
-    <string name="submission_test_result_pending_steps_test_certificate_not_available_yet_body">"Twój certyfikat testu nie jest jeszcze dostępny. Gdy tylko stanie się dostępny, pojawi się w Twojej aplikacji."</string>
+    <string name="submission_test_result_pending_steps_test_certificate_not_available_yet_body">"Twój oficjalny cyfrowy certyfikat testu na COVID nie jest jeszcze dostępny. Gdy tylko stanie się dostępny, pojawi się w Twojej aplikacji."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not desired by the user, PCR Test no consent given -->
-    <string name="submission_test_result_pending_steps_test_certificate_not_desired_by_user_body">"Zgodnie z Twoją prośbą nie wydano certyfikatu testu."</string>
+    <string name="submission_test_result_pending_steps_test_certificate_not_desired_by_user_body">"Zgodnie z Twoją prośbą nie zostanie wydany żaden oficjalny cyfrowy certyfikat testu na COVID."</string>
 
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Aktualizuj"</string>
@@ -1107,7 +1109,7 @@
     <!-- XHED: Page headline for negative test result next steps  -->
     <string name="submission_test_result_negative_steps_negative_heading">"Diagnoza: brak zakażenia"</string>
     <!-- YTXT: Body text for next steps section of test negative result -->
-    <string name="submission_test_result_negative_steps_negative_body">"Wynik laboratoryjny nie potwierdza zakażenia koronawirusem SARS-CoV-2.\n\nUsuń test z aplikacji Corona-Warn-App, aby w razie potrzeby móc zapisać w niej kod nowego testu."</string>
+    <string name="submission_test_result_negative_steps_negative_body">"Wynik laboratoryjny nie potwierdza zakażenia koronawirusem SARS-CoV-2.\n\nPrzed zarejestrowaniem nowego testu musisz usunąć ostatni test."</string>
     <!-- XBUT: negative test result : remove the test button -->
     <string name="submission_test_result_negative_remove_test_button">"Usuń test"</string>
     <!-- XHED: Page headline for other warnings screen  -->
@@ -1131,7 +1133,7 @@
     <!-- YTXT: Body text for next steps section of invalid test result-->
     <string name="submission_test_result_invalid_steps_invalid_body">"Wystąpił problem z ustaleniem wyniku Twojego testu. Skontaktuj się z odpowiednim ośrodkiem wykonującym testy laboratorium, aby dowiedzieć się, jak dalej postępować."</string>
     <!-- YTXT: Body text for next steps section of invalid test result-->
-    <string name="submission_test_result_delete_steps_invalid_body">"Usuń test z aplikacji Corona-Warn-App, aby w razie potrzeby można było zapisać w niej kod nowego testu."</string>
+    <string name="submission_test_result_delete_steps_invalid_body">"Przed zarejestrowaniem nowego testu musisz usunąć ostatni test."</string>
 
     <!-- XBUT: invalid test result : remove the test button -->
     <string name="submission_test_result_invalid_remove_test_button">"Usuń test"</string>
@@ -1158,7 +1160,7 @@
     <!-- YTXT: Body text for test result card positive -->
     <string name="submission_test_result_card_positive_body">"Zdiagnozowano u Ciebie wirusa SARS-CoV-2."</string>
     <!-- XHED: Page headline for test result with consent given  -->
-    <string name="submission_test_result_consent_given_heading">"Twój wynik testu"</string>
+    <string name="submission_test_result_consent_given_heading">"Wynik Twojego testu"</string>
     <!-- XHED: Subtitle text for test result card with consent given -->
     <string name="submission_test_result_consent_given_subtitle">"Dziękujemy za pomoc w powstrzymywaniu rozprzestrzeniania się koronawirusa."</string>
     <!-- YTXT: body text for test result card with consent given -->
@@ -1381,15 +1383,15 @@
     <!-- XHED: Page title for the various submission status: unregistered -->
     <string name="submission_status_card_title_unregistered">"Czy wykonano Ci test?"</string>
     <!-- XHED: Page title for the various submission status: pending -->
-    <string name="submission_status_card_title_pending">"Twój wynik testu nie jest jeszcze dostępny"</string>
+    <string name="submission_status_card_title_pending">"Wynik Twojego testu nie jest jeszcze dostępny"</string>
     <!-- XHED: Page title for the various submission status: available -->
-    <string name="submission_status_card_title_available">"Twój wynik testu jest dostępny"</string>
+    <string name="submission_status_card_title_available">"Wynik Twojego testu jest dostępny"</string>
     <!-- XHED: Page title for the various submission status: positive -->
     <string name="submission_status_card_title_positive">"Diagnoza zakażenia"</string>
     <!-- XHED: Page title for the various submission status fetch failed -->
     <string name="submission_status_card_title_failed">"Test stracił ważność"</string>
     <!-- XHED: Page title for the various submission status fetch ready -->
-    <string name="submission_status_card_title_ready">"Twój wynik testu jest dostępny"</string>
+    <string name="submission_status_card_title_ready">"Wynik Twojego testu jest dostępny"</string>
     <!-- XHED: Subtitle for the submission status card: invalid -->
     <string name="submission_status_card_subtitle_invalid">"Ustalenie wyniku Twojego testu jest niemożliwe"</string>
     <!-- XHED: Subtitle for the submission status card: negative -->
@@ -1415,7 +1417,7 @@
     <!-- YTXT: Button text for submission status fetch ready -->
     <string name="submission_status_card_retrieve_test_result">"Pobierz wynik testu"</string>
     <!-- XBUT: submission status card unregistered button -->
-    <string name="submission_status_card_button_unregistered">"Następne kroki"</string>
+    <string name="submission_status_card_button_unregistered">"Zarejestruj test"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Wyświetl test"</string>
     <!-- XBUT: submission status card fetch failed button -->
@@ -1444,7 +1446,7 @@
     <!-- YTXT: invalid status text -->
     <string name="test_result_card_status_invalid">"Ustalenie wyniku jest niemożliwe"</string>
     <!-- YTXT: pending status text -->
-    <string name="test_result_card_status_pending">"Twój wynik testu nie jest jeszcze dostępny"</string>
+    <string name="test_result_card_status_pending">"Wynik Twojego testu nie jest jeszcze dostępny"</string>
     <!-- XHED: Title for further info of test result negative -->
     <string name="test_result_card_negative_further_info_title">"Inne informacje:"</string>
     <!-- YTXT: Content for further info of test result negative -->
@@ -1466,7 +1468,7 @@
 
     <!--  Submission test result available -->
     <!-- XHED: Page title for test results available step -->
-    <string name="submission_test_result_available_title">"Twój wynik testu jest dostępny"</string>
+    <string name="submission_test_result_available_title">"Wynik Twojego testu jest dostępny"</string>
     <!-- XACT: Test result available illustration description -->
     <string name="submission_test_result_available_illustration_description">"Kobieta trzyma w dłoni smartfon, który wysyła sygnał do innego smartfona."</string>
     <!-- YTXT: Text for consent given -->
@@ -1546,7 +1548,7 @@
     <!-- XHED: Explanation screen title -->
     <string name="statistics_explanation_title">"Wskaźniki"</string>
     <!-- XHED: Explanation screen subtitle -->
-    <string name="statistics_explanation_subtitle">"Objaśnienie ogólnokrajowych statystyk"</string>
+    <string name="statistics_explanation_subtitle">"Objaśnienie statystyk"</string>
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"Potwierdzone nowe zakażenia"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
@@ -1554,7 +1556,7 @@
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Ostrzeżenia od użytkowników aplikacji"</string>
     <!-- XTXT: Explanation screen warned persons text -->
-    <string name="statistics_explanation_warned_persons_text">"Liczba użytkowników aplikacji ze zdiagnozowanym zakażeniem koronawirusem, którzy ostrzegli innych za pomocą aplikacji"</string>
+    <string name="statistics_explanation_warned_persons_text">"Liczba użytkowników aplikacji ze zdiagnozowanym za pomocą testu PCR zakażeniem koronawirusem, którzy ostrzegli innych za pomocą aplikacji"</string>
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7-dniowa zapadalność"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
@@ -1562,7 +1564,7 @@
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-dniowa wartość R"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
-    <string name="statistics_explanation_seven_day_r_value_text">"Współczynnik reprodukcji R wskazuje liczbę osób, którą zaraża przeciętna osoba zakażona. Bieżąca wartość uwzględnia dane z ostatnich 5 dni.\n\nWięcej informacji znajdziesz w odpowiedziach na często zadawane pytania:\nCzęsto zadawane pytania dotyczące statystyk."</string>
+    <string name="statistics_explanation_seven_day_r_value_text">"Współczynnik reprodukcji R wskazuje liczbę osób, którą zaraża przeciętna osoba zakażona. Bieżąca wartość uwzględnia dane z ostatnich 5 dni."</string>
     <!-- XTXT: Explanation screen seven day r-value link label  - the characters have to match the last part of the text label above -->
     <string name="statistics_explanation_seven_day_r_link_label">"Często zadawane pytania dotyczące statystyk"</string>
     <!-- XHED: Explanation screen legend title -->
@@ -1604,6 +1606,40 @@
     <string name="accessibility_statistics_card_announcement">"Kafelek statystyk"</string>
     <!-- XTXT: Statistics Card Navigation Announcement -->
     <string name="accessibility_statistics_card_navigation_information">"Aby wyświetlić więcej statystyk, przesuń palcem poziomo między kafelkami."</string>
+
+    <!-- Persons Vaccinated Once Statistics Card -->
+    <!-- XHED: Title for vaccinated once statistics card -->
+    <string name="statistics_vaccinated_once_card_title">"osoby, które otrzymały co najmniej jedną dawkę szczepionki"</string>
+    <!-- XTXT: Nationwide text -->
+    <string name="statistics_vaccinated_nationwide_text">"W całym kraju"</string>
+    <!-- XTXT: Vaccination primary value footnote text -->
+    <string name="statistics_vaccination_primary_value_footnote">"ogółu populacji"</string>
+
+    <!-- Persons Vaccinated Completely Statistics Card -->
+    <!-- XHED: Title for vaccinated completely statistics card -->
+    <string name="statistics_vaccinated_completely_card_title">"osoby w pełni zaszczepione"</string>
+
+    <!-- Applied Vaccination Dose Rates Statistics Card -->
+    <!-- XHED: Title for applied vaccination dose rates -->
+    <string name="statistics_applied_vaccination_dose_rates_card_title">"podane dawki szczepionki"</string>
+    <!-- XTXT: Statistics local 7 days title -->
+    <string name="statistics_explanation_local_seven_day_incidence_title">"Lokalna 7-dniowa zapadalność"</string>
+    <!-- XTXT: Statistics local 7 days text -->
+    <string name="statistics_explanation_local_seven_day_incidence_text">"Łączna liczba potwierdzonych nowych zakażeń w ciągu ostatnich 7 dni (według daty zgłoszenia) na 100 000 mieszkańców w skonfigurowanym okręgu lub stanie federalnym."</string>
+    <!-- XTXT: Statistics number of vaccine doses title -->
+    <string name="statistics_number_of_vaccine_doses_title">"Podane dawki szczepionki"</string>
+    <!-- XTXT: Statistics number of vaccine doses text -->
+    <string name="statistics_number_of_vaccine_doses_text">"Liczba dawek szczepionki podanych do tej pory w całym kraju."</string>
+    <!-- XTXT: Statistics number of fully vaccinated people title -->
+    <string name="statistics_fully_vaccinated_people_title">"Osoby w pełni zaszczepione"</string>
+    <!-- XTXT: Statistics number of fully vaccinated people text -->
+    <string name="statistics_fully_vaccinated_people_text">"Liczba osób zgłoszonych w RKI, które otrzymały wszystkie niezbędne dawki szczepionki."</string>
+    <!-- XTXT: Statistics number of vaccinated people at least title -->
+    <string name="statistics_people_vaccinated_at_least_once_title">"Osoby, które otrzymały co najmniej jedną dawkę szczepionki"</string>
+    <!-- XTXT: Statistics number of vaccinated people at least text -->
+    <string name="statistics_people_vaccinated_at_least_once_text">"Liczba osób zgłoszonych w RKI, które otrzymały pierwszą dawkę szczepionki."</string>
+    <!-- XTXT: Statistics FAQ text -->
+    <string name="statistics_faq_text">"Więcej informacji znajduje się na naszej stronie „Często zadawane pytania:\n\nCzęsto zadawane pytania dotyczące statystyk"</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility

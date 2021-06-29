@@ -232,6 +232,8 @@ android {
         exclude 'CODE_OF_CONDUCT.md'
         exclude 'META-INF/AL2.0'
         exclude 'META-INF/LGPL2.1'
+        // https://github.com/Kotlin/kotlinx.coroutines/issues/2274
+        exclude 'DebugProbesKt.bin'
     }
 
     sourceSets {

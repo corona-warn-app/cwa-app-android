@@ -7,19 +7,18 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccination
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
-import org.joda.time.LocalDate
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
 class CertificatePersonIdentifierTest : BaseTest() {
     private val testPersonMaxData = CertificatePersonIdentifier(
-        dateOfBirth = LocalDate.parse("1966-11-11"),
+        dateOfBirthFormatted = "1966-11-11",
         firstNameStandardized = "ANDREAS",
         lastNameStandardized = "ASTRA<EINS"
     )
 
     private val testPersonMin = CertificatePersonIdentifier(
-        dateOfBirth = LocalDate.parse("1900-01-01"),
+        dateOfBirthFormatted = "1900-01-01",
         lastNameStandardized = "#",
         firstNameStandardized = null
     )
@@ -40,7 +39,7 @@ class CertificatePersonIdentifierTest : BaseTest() {
     fun `person equality`() {
         val person1 = testPersonMaxData
         val person2 = CertificatePersonIdentifier(
-            dateOfBirth = LocalDate.parse("1966-11-11"),
+            dateOfBirthFormatted = "1966-11-11",
             firstNameStandardized = "ANDREAS",
             lastNameStandardized = "ASTRA<EINS"
         )
@@ -65,7 +64,7 @@ class CertificatePersonIdentifierTest : BaseTest() {
         }.errorCode shouldBe NAME_MISMATCH
 
         shouldThrow<InvalidVaccinationCertificateException> {
-            testPersonMaxData.requireMatch(testPersonMaxData.copy(dateOfBirth = LocalDate.parse("1900-12-31")))
+            testPersonMaxData.requireMatch(testPersonMaxData.copy(dateOfBirthFormatted = "1900-12-31"))
         }.errorCode shouldBe DOB_MISMATCH
     }
 }

@@ -6,26 +6,28 @@ import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
+import io.mockk.every
 import io.mockk.mockk
 import org.joda.time.Instant
-import org.joda.time.LocalDate
 import java.util.UUID
 
 object PersonCertificatesData {
+
+    val mockTestCertificateWrapper = mockk<TestCertificateWrapper>().apply {
+        every { isCertificateRetrievalPending } returns true
+        every { isUpdatingData } returns true
+        every { registeredAt } returns Instant.EPOCH
+        every { containerId } returns TestCertificateContainerId("testCertificateContainerId")
+    }
     val certificatesWithPending = mutableSetOf<PersonCertificates>()
         .apply {
             add(PersonCertificates(listOf(testCertificate(fullName = "Andrea Schneider"))))
-            add(PersonCertificates(listOf(testCertificate(fullName = "Max Mustermann", isPending = true))))
             add(PersonCertificates(listOf(testCertificate(fullName = "Zeebee")), isCwaUser = true))
         }
     val certificatesWithUpdating = mutableSetOf<PersonCertificates>().apply {
         add(PersonCertificates(listOf(testCertificate(fullName = "Andrea Schneider"))))
         add(PersonCertificates(listOf(testCertificate(fullName = "Zeebee")), isCwaUser = true))
-        add(
-            PersonCertificates(
-                listOf(testCertificate(fullName = "Max Mustermann", isPending = true, isUpdating = true))
-            )
-        )
     }
     val certificatesWithCwaUser = mutableSetOf<PersonCertificates>().apply {
         add(PersonCertificates(listOf(testCertificate(fullName = "Max Mustermann"))))
@@ -54,6 +56,7 @@ fun testCertificate(
     override val testName: String = "testName"
     override val testNameAndManufacturer: String = "testNameAndManufacturer"
     override val sampleCollectedAt: Instant = Instant.EPOCH
+    override val sampleCollectedAtFormatted: String = ""
     override val testCenter: String = ""
     override val registeredAt: Instant = Instant.EPOCH
     override val isUpdatingData: Boolean = isUpdating
@@ -65,9 +68,9 @@ fun testCertificate(
     override val firstName: String = "firstName"
     override val lastName: String = "lastName"
     override val fullName: String = fullName
-    override val dateOfBirth: LocalDate = LocalDate.now()
+    override val dateOfBirthFormatted = "1981-03-20"
     override val personIdentifier = CertificatePersonIdentifier(
-        dateOfBirth = LocalDate(System.currentTimeMillis()),
+        dateOfBirthFormatted = "1981-03-20",
         lastNameStandardized = "lastNameStandardized",
         firstNameStandardized = "firstNameStandardized"
     )

@@ -27,7 +27,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import org.joda.time.DateTime
 import org.joda.time.Instant
-import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.junit.After
 import org.junit.Before
@@ -107,6 +106,8 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
                     get() = "Xup"
                 override val sampleCollectedAt: Instant
                     get() = testDate
+                override val sampleCollectedAtFormatted: String
+                    get() = "12.05.2021 19:00"
                 override val testCenter: String
                     get() = "AB123"
                 override val registeredAt: Instant
@@ -129,8 +130,8 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
                     get() = "Schneider"
                 override val fullName: String
                     get() = "Schneider, Andrea"
-                override val dateOfBirth: LocalDate
-                    get() = LocalDate.parse("18.04.1943 00:00", formatter)
+                override val dateOfBirthFormatted: String
+                    get() = "1943-04-18"
                 override val personIdentifier: CertificatePersonIdentifier
                     get() = certificatePersonIdentifier
                 override val certificateIssuer: String
