@@ -6,7 +6,6 @@ import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import org.joda.time.DateTimeZone
-import org.joda.time.Duration
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.AfterEach
@@ -128,31 +127,26 @@ class VaccinatedPersonTest : BaseTest() {
         VaccinatedPerson(data = personData, valueSet = null).apply {
 
             Instant.parse("2021-04-27T12:00:00.000Z").let { now ->
-                getTimeUntilImmunity(now)!!.apply {
-                    standardDays shouldBe 14
+                getDaysUntilImmunity(now)!!.apply {
+                    this shouldBe 15
                 }
                 getVaccinationStatus(now) shouldBe VaccinatedPerson.Status.COMPLETE
             }
             Instant.parse("2021-05-10T12:00:00.000Z").let { now ->
-                getTimeUntilImmunity(now)!!.apply {
-                    standardDays shouldBe 1
-                    standardHours shouldBe 36
+                getDaysUntilImmunity(now)!!.apply {
+                    this shouldBe 2
                 }
                 getVaccinationStatus(now) shouldBe VaccinatedPerson.Status.COMPLETE
             }
             Instant.parse("2021-05-11T12:00:00.000Z").let { now ->
-                getTimeUntilImmunity(now)!!.apply {
-                    standardHours shouldBe 12
-                    standardDays shouldBe 0
-                    this shouldBe Duration.standardHours(12)
+                getDaysUntilImmunity(now)!!.apply {
+                    this shouldBe 1
                 }
                 getVaccinationStatus(now) shouldBe VaccinatedPerson.Status.COMPLETE
             }
             Instant.parse("2021-05-12T0:00:00.000Z").let { now ->
-                getTimeUntilImmunity(now)!!.apply {
-                    standardHours shouldBe 0
-                    standardDays shouldBe 0
-                    this shouldBe Duration.ZERO
+                getDaysUntilImmunity(now)!!.apply {
+                    this shouldBe 0
                 }
                 getVaccinationStatus(now) shouldBe VaccinatedPerson.Status.IMMUNITY
             }
@@ -177,21 +171,17 @@ class VaccinatedPersonTest : BaseTest() {
 
         VaccinatedPerson(data = personData, valueSet = null).apply {
             // User was in GMT+2 timezone (UTC+2) , we want their MIDNIGHT
-            // Last day before immunity, UI shows 0 days until immunity
+            // Last day before immunity, UI shows 1 day until immunity
             Instant.parse("2021-06-27T12:00:00.000Z").let { now ->
-                getTimeUntilImmunity(now)!!.apply {
-                    standardHours shouldBe 10 // In 10 hours it is 22 UTC, which is midnight in the users TZ.
-                    standardDays shouldBe 0
-                    this shouldBe Duration.standardHours(10)
+                getDaysUntilImmunity(now)!!.apply {
+                    this shouldBe 1
                 }
                 getVaccinationStatus(now) shouldBe VaccinatedPerson.Status.COMPLETE
             }
             // Immunity should be reached at midnight in the users timezone
             Instant.parse("2021-06-27T22:00:00.000Z").let { now ->
-                getTimeUntilImmunity(now)!!.apply {
-                    standardHours shouldBe 0
-                    standardDays shouldBe 0
-                    this shouldBe Duration.ZERO
+                getDaysUntilImmunity(now)!!.apply {
+                    this shouldBe 0
                 }
                 getVaccinationStatus(now) shouldBe VaccinatedPerson.Status.IMMUNITY
             }
@@ -216,26 +206,21 @@ class VaccinatedPersonTest : BaseTest() {
 
         VaccinatedPerson(data = personData, valueSet = null).apply {
             Instant.parse("2021-01-14T0:00:00.000Z").let { now ->
-                getTimeUntilImmunity(now)!!.standardHours shouldBe 47
-                getTimeUntilImmunity(now)!!.standardDays shouldBe 1
+                getDaysUntilImmunity(now)!! shouldBe 2
                 getVaccinationStatus(now) shouldBe VaccinatedPerson.Status.COMPLETE
             }
             Instant.parse("2021-01-15T0:00:00.000Z").let { now ->
-                getTimeUntilImmunity(now)!!.standardHours shouldBe 23
-                getTimeUntilImmunity(now)!!.standardDays shouldBe 0
+                getDaysUntilImmunity(now)!! shouldBe 1
                 getVaccinationStatus(now) shouldBe VaccinatedPerson.Status.COMPLETE
             }
-            // Case Luka#1 happens on 01.15.21, this mean it's winter time!
+            // Case Luka#1 happens on 15.01.21, this mean it's winter time!
             // The users timezone is GMT+1 (winter-time) (UTC+1), not GMT+2 (summer-time) (UTC+2)
             Instant.parse("2021-01-15T22:00:00.000Z").let { now ->
-                getTimeUntilImmunity(now)!!.standardMinutes shouldBe 60
-                getTimeUntilImmunity(now)!!.standardHours shouldBe 1
-                getTimeUntilImmunity(now) shouldBe Duration.standardHours(1)
+                getDaysUntilImmunity(now)!! shouldBe 1
                 getVaccinationStatus(now) shouldBe VaccinatedPerson.Status.COMPLETE
             }
             Instant.parse("2021-01-16T0:00:00.000Z").let { now ->
-                getTimeUntilImmunity(now)!!.standardHours shouldBe -1
-                getTimeUntilImmunity(now)!!.standardDays shouldBe 0
+                getDaysUntilImmunity(now)!! shouldBe 0
                 getVaccinationStatus(now) shouldBe VaccinatedPerson.Status.IMMUNITY
             }
         }

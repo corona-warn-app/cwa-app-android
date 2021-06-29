@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.covidcertificate.test.ui.CertificatesAdapter
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.databinding.VaccinationHomeCardBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
-import org.joda.time.Duration
 
 class VaccinationCard(parent: ViewGroup) :
     CertificatesAdapter.CertificatesItemVH<VaccinationCard.Item, VaccinationHomeCardBinding>(
@@ -27,16 +26,14 @@ class VaccinationCard(parent: ViewGroup) :
         personName.text = curItem.vaccinatedPerson.fullName
         when (curItem.vaccinatedPerson.getVaccinationStatus()) {
             VaccinatedPerson.Status.COMPLETE -> {
-                val immunityIn = curItem.vaccinatedPerson.getTimeUntilImmunity()!!
-                vaccinationState.text = if (immunityIn < Duration.standardDays(1)) {
+                val immunityInDays = curItem.vaccinatedPerson.getDaysUntilImmunity()!!
+                vaccinationState.text = if (immunityInDays < 1) {
                     resources.getString(R.string.vaccination_card_status_vaccination_complete_tomorrow)
                 } else {
-                    // Round up, start with 15 despite 15th day already being started for better UX
-                    val days = immunityIn.standardDays.toInt() + 1
                     resources.getQuantityString(
                         R.plurals.vaccination_card_status_vaccination_complete,
-                        days,
-                        days
+                        immunityInDays,
+                        immunityInDays
                     )
                 }
             }
