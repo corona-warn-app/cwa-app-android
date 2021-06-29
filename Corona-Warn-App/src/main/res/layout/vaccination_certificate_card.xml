@@ -76,6 +76,7 @@
         app:layout_constraintBottom_toBottomOf="@id/bookmark_info"
         app:layout_constraintStart_toStartOf="@id/certificate_date"
         app:layout_constraintTop_toTopOf="@id/bookmark_info"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_bookmark" />
 
     <TextView
