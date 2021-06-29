@@ -63,6 +63,6 @@ data class VaccinatedPerson(
     }
 
     companion object {
-        private val IMMUNITY_WAITING_DAYS = 15
+        private const val IMMUNITY_WAITING_DAYS = 15
     }
 }
