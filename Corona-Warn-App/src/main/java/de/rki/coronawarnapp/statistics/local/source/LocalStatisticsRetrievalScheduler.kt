@@ -25,19 +25,17 @@ class LocalStatisticsRetrievalScheduler @Inject constructor(
     private val updateStatsTrigger = combine(
         foregroundState.isInForeground,
         localStatisticsConfigStorage.activeStates.flow
-    ) { isInForeground, statistics ->
-        val hasNewStats = statistics.any {
-            val isNew = !lastActiveStates.contains(it)
-            if (isNew) lastActiveStates.add(it)
-            isNew
-        }
+    ) { isInForeground, activeStates ->
+        val statsChanged = !lastActiveStates.containsAll(activeStates)
+        lastActiveStates.clear()
+        lastActiveStates.addAll(activeStates)
 
         Timber.tag(TAG).v(
-            "should stats update: isInForeground = %s || hasNewStats = %s",
+            "should stats update: isInForeground = %s || statsChanged = %s",
             isInForeground,
-            hasNewStats
+            statsChanged
         )
-        isInForeground || hasNewStats
+        isInForeground || statsChanged
     }.distinctUntilChanged()
 
     fun setup() {
