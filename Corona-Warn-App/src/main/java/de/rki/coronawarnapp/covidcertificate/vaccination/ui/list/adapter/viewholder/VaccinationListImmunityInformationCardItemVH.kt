@@ -19,12 +19,15 @@ class VaccinationListImmunityInformationCardItemVH(parent: ViewGroup) :
 
     override val onBindData: VaccinationListImmunityCardBinding
     .(item: VaccinationListImmunityInformationCardItem, payloads: List<Any>) -> Unit = { item, _ ->
-        body.text =
+        body.text = if (item.daysUntilImmunity == 1) {
+            context.resources.getString(R.string.vaccination_list_immunity_tomorrow_card_body)
+        } else {
             context.resources.getQuantityString(
                 R.plurals.vaccination_list_immunity_card_body,
                 item.daysUntilImmunity,
                 item.daysUntilImmunity
             )
+        }
     }
 
     data class VaccinationListImmunityInformationCardItem(val daysUntilImmunity: Int) : VaccinationListItem {
