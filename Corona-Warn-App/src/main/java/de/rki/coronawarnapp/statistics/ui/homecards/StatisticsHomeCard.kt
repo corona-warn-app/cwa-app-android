@@ -61,15 +61,19 @@ class StatisticsHomeCard(
         item.data.items.map {
             StatisticsCardItem(it, item.onClickListener)
         }.let {
-            val updatingEmpty = statisticsCardAdapter.data.isNullOrEmpty() && it.isNotEmpty()
             statisticsCardAdapter.update(it)
-            if (updatingEmpty) statisticsRecyclerview.smoothScrollToPosition(1)
         }
     }
 
     override fun onSaveState(): Parcelable? = statisticsLayoutManager.onSaveInstanceState()
 
-    override fun restoreState(state: Parcelable) = statisticsLayoutManager.onRestoreInstanceState(state)
+    override fun restoreState(state: Parcelable?) {
+        if (state != null) {
+            statisticsLayoutManager.onRestoreInstanceState(state)
+        } else {
+            viewBinding.value.statisticsRecyclerview.smoothScrollToPosition(1)
+        }
+    }
 
     data class Item(
         val data: StatisticsData,
