@@ -10,11 +10,11 @@ class DccValidationRuleRepository @Inject constructor(
     dccValidationRulesServer: DccValidationRulesServer
 ) {
 
-    /**
-     * Gets validation rules of the arrival country
-     *
-     */
-    suspend fun validationRules(arrivalCountry: DccCountry): List<DccValidationRule> {
+    suspend fun acceptanceRules(arrivalCountry: DccCountry): List<DccValidationRule> {
+        return emptyList() // TODO
+    }
+
+    suspend fun invalidationRules(arrivalCountry: DccCountry): List<DccValidationRule> {
         return emptyList() // TODO
     }
 }

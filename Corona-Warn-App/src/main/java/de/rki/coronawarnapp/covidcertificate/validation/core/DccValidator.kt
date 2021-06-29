@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class DccValidator @Inject constructor(
     private val technicalValidator: TechnicalValidator,
-    private val businessValidator: BusinessValidator
+    private val businessValidator: BusinessValidator,
 ) {
 
     /**
@@ -26,6 +26,7 @@ class DccValidator @Inject constructor(
         val technicalValidation = technicalValidator.validate(
             validationClock, certificate
         )
+
         val businessValidation = businessValidator.validate(
             arrivalCountries,
             validationClock,
@@ -36,6 +37,6 @@ class DccValidator @Inject constructor(
     }
 
     companion object {
-        private val TAG = "DccValidator"
+        private const val TAG = "DccValidator"
     }
 }
