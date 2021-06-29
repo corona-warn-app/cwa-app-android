@@ -70,12 +70,12 @@
 
     <ImageView
         android:id="@+id/bookmark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="@id/bookmark_info"
         app:layout_constraintStart_toStartOf="@id/certificate_date"
-        app:layout_constraintTop_toBottomOf="@id/certificate_date"
+        app:layout_constraintTop_toTopOf="@id/bookmark_info"
         app:srcCompat="@drawable/ic_bookmark" />
 
     <TextView
@@ -83,10 +83,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
         android:text="@string/certificate_card_bookmark_info"
         app:layout_constraintEnd_toEndOf="@id/certificate_date"
         app:layout_constraintStart_toEndOf="@id/bookmark"
-        app:layout_constraintTop_toTopOf="@id/bookmark" />
+        app:layout_constraintTop_toBottomOf="@id/certificate_date" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/current_certificate"
