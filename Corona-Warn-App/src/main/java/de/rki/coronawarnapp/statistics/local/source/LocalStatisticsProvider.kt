@@ -9,9 +9,6 @@ import de.rki.coronawarnapp.util.flow.HotDataFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import org.joda.time.Duration
 import timber.log.Timber
 import javax.inject.Inject
@@ -24,7 +21,6 @@ class LocalStatisticsProvider @Inject constructor(
     private val localStatisticsCache: LocalStatisticsCache,
     private val localStatisticsConfigStorage: LocalStatisticsConfigStorage,
     private val localStatisticsParser: LocalStatisticsParser,
-    localStatisticsRetrievalScheduler: LocalStatisticsRetrievalScheduler,
     dispatcherProvider: DispatcherProvider,
 ) {
 
@@ -47,18 +43,6 @@ class LocalStatisticsProvider @Inject constructor(
     }
 
     val current: Flow<List<StatisticsData>> = localStatisticsData.data
-
-    init {
-        localStatisticsRetrievalScheduler.updateStatsTrigger
-            .onEach {
-                if (it) {
-                    Timber.tag(TAG).d("Triggering local statistics update.")
-                    triggerUpdate()
-                }
-            }
-            .catch { Timber.tag(TAG).e("Failed to trigger local statistics update.") }
-            .launchIn(scope)
-    }
 
     private fun fetchCacheFirst(): List<StatisticsData> {
         Timber.tag(TAG).d("fromCache()")
