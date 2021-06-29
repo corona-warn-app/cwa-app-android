@@ -3,8 +3,8 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
-import org.joda.time.Duration
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
+import org.joda.time.Days
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
@@ -36,23 +36,24 @@ data class VaccinatedPerson(
         )
 
     fun getVaccinationStatus(nowUTC: Instant = Instant.now()): Status {
-        val daysToImmunity = getTimeUntilImmunity(nowUTC)?.standardDays ?: return Status.INCOMPLETE
+        val daysToImmunity = getDaysUntilImmunity(nowUTC) ?: return Status.INCOMPLETE
 
         return when {
-            daysToImmunity < 0 -> Status.IMMUNITY
+            daysToImmunity <= 0 -> Status.IMMUNITY
             else -> Status.COMPLETE
         }
     }
 
-    fun getTimeUntilImmunity(nowUTC: Instant = Instant.now()): Duration? {
+    fun getDaysUntilImmunity(nowUTC: Instant = Instant.now()): Int? {
         val newestFullDose = vaccinationCertificates
             .filter { it.doseNumber == it.totalSeriesOfDoses }
             .maxByOrNull { it.vaccinatedAt }
             ?: return null
 
-        val immunityAt = newestFullDose.vaccinatedAt.toDateTimeAtStartOfDay().plus(IMMUNITY_WAITING_PERIOD)
+        val today = nowUTC
+            .toLocalDateUserTz()
 
-        return Duration(nowUTC.toLocalDateUtc().toDateTimeAtStartOfDay(), immunityAt)
+        return IMMUNITY_WAITING_DAYS - Days.daysBetween(newestFullDose.vaccinatedAt, today).days
     }
 
     enum class Status {
@@ -62,6 +63,6 @@ data class VaccinatedPerson(
     }
 
     companion object {
-        private val IMMUNITY_WAITING_PERIOD = Duration.standardDays(14)
+        private const val IMMUNITY_WAITING_DAYS = 15
     }
 }

@@ -26,12 +26,16 @@ class VaccinationCard(parent: ViewGroup) :
         personName.text = curItem.vaccinatedPerson.fullName
         when (curItem.vaccinatedPerson.getVaccinationStatus()) {
             VaccinatedPerson.Status.COMPLETE -> {
-                val days = curItem.vaccinatedPerson.getTimeUntilImmunity()!!.standardDays.toInt()
-                vaccinationState.text = context.resources.getQuantityString(
-                    R.plurals.vaccination_card_status_vaccination_complete,
-                    days,
-                    days
-                )
+                val immunityInDays = curItem.vaccinatedPerson.getDaysUntilImmunity()!!
+                vaccinationState.text = if (immunityInDays == 1) {
+                    resources.getString(R.string.vaccination_card_status_vaccination_complete_tomorrow)
+                } else {
+                    resources.getQuantityString(
+                        R.plurals.vaccination_card_status_vaccination_complete,
+                        immunityInDays,
+                        immunityInDays
+                    )
+                }
             }
             else -> {
                 vaccinationState.setText(R.string.vaccination_card_status_vaccination_incomplete)
