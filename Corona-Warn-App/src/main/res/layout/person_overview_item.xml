@@ -7,11 +7,10 @@
 
     <ImageView
         android:id="@+id/background_image"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:importantForAccessibility="no"
-        app:layout_constraintDimensionRatio="1:0.95"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/qrcode_center_guideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@drawable/bg_person_overview_2" />
@@ -22,8 +21,8 @@
         android:layout_height="0dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="55dp"
-        android:importantForAccessibility="no"
         android:scaleType="fitXY"
+        android:importantForAccessibility="no"
         app:layout_constraintBottom_toBottomOf="@id/background_image"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,46 +30,23 @@
         app:srcCompat="@drawable/ic_eu_stars_blue"
         tools:tint="#116A9F" />
 
-    <FrameLayout
-        android:id="@+id/qr_code_image_container"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/rounded_white_background"
-        android:backgroundTint="@color/qrcodeCardColor"
-        android:contentDescription="@string/trace_location_event_detail_qr_code_accessibility"
-        android:elevation="1dp"
-        android:padding="12dp"
-        app:layout_constraintBottom_toBottomOf="@+id/background_image"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/background_image">
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/qrcode_image"
-            style="@style/ShapeAppearanceOverlay"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:srcCompat="@drawable/ic_qr_code"
-            tools:tint="@android:color/black" />
-    </FrameLayout>
-
     <TextView
         android:id="@+id/certificate_title"
-        style="@style/headline6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
+        android:fontFamily="sans-serif-light"
         android:maxLines="1"
         android:text="@string/person_card_title"
         android:textColor="@color/colorTextPrimary1InvertedStable"
+        android:textSize="18sp"
         app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/certificate_subtitle"
         style="@style/headline6"
@@ -84,12 +60,14 @@
         app:layout_constraintEnd_toEndOf="@+id/certificate_title"
         app:layout_constraintStart_toStartOf="@+id/certificate_title"
         app:layout_constraintTop_toBottomOf="@+id/certificate_title" />
+
     <TextView
         android:id="@+id/name"
         style="@style/headline5"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:maxLines="1"
         android:textColor="@color/colorTextPrimary1InvertedStable"
         app:autoSizeTextType="uniform"
@@ -99,4 +77,49 @@
         app:layout_constraintTop_toBottomOf="@+id/certificate_subtitle"
         app:layout_constraintVertical_bias="0.0"
         tools:text="Andrea Schneider" />
+
+    <FrameLayout
+        android:id="@+id/qr_code_image_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/rounded_white_background"
+        android:backgroundTint="@color/qrcodeCardColor"
+        android:contentDescription="@string/trace_location_event_detail_qr_code_accessibility"
+        android:elevation="1dp"
+        android:padding="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name">
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/qrcode_image"
+            style="@style/ShapeAppearanceOverlay"
+            android:layout_width="match_parent"
+            android:visibility="invisible"
+            tools:visibility="visible"
+            android:layout_height="match_parent"
+            tools:srcCompat="@drawable/ic_qr_code"
+            tools:tint="@android:color/black" />
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/qr_code_loading_indicator"
+            android:layout_width="140dp"
+            android:layout_height="24dp"
+            android:indeterminate="true"
+            android:layout_gravity="center"
+            app:hideAnimationBehavior="inward" />
+    </FrameLayout>
+
+    <View
+        android:id="@+id/qrcode_center_guideline"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@id/qr_code_image_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/qr_code_image_container" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
