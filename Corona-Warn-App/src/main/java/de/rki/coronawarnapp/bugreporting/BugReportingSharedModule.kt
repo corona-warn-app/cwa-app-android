@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.bugreporting.censors.contactdiary.DiaryEncounterCens
 import de.rki.coronawarnapp.bugreporting.censors.contactdiary.DiaryLocationCensor
 import de.rki.coronawarnapp.bugreporting.censors.contactdiary.DiaryPersonCensor
 import de.rki.coronawarnapp.bugreporting.censors.contactdiary.DiaryVisitCensor
+import de.rki.coronawarnapp.bugreporting.censors.dcc.DccQrCodeCensor
 import de.rki.coronawarnapp.bugreporting.censors.presencetracing.CheckInsCensor
 import de.rki.coronawarnapp.bugreporting.censors.presencetracing.TraceLocationCensor
 import de.rki.coronawarnapp.bugreporting.censors.submission.CoronaTestCensor
@@ -17,7 +18,6 @@ import de.rki.coronawarnapp.bugreporting.censors.submission.PcrTeleTanCensor
 import de.rki.coronawarnapp.bugreporting.censors.submission.RACoronaTestCensor
 import de.rki.coronawarnapp.bugreporting.censors.submission.RatProfileCensor
 import de.rki.coronawarnapp.bugreporting.censors.submission.RatQrCodeCensor
-import de.rki.coronawarnapp.bugreporting.censors.vaccination.DccQrCodeCensor
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebugLoggerScope
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.server.LogUploadApiV1

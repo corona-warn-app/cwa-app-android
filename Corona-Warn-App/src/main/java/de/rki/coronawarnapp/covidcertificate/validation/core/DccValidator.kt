@@ -2,13 +2,15 @@ package de.rki.coronawarnapp.covidcertificate.validation.core
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
-import de.rki.coronawarnapp.covidcertificate.validation.core.result.DccValidation
-import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRuleRepository
-import org.joda.time.DateTime
+import de.rki.coronawarnapp.covidcertificate.validation.core.validation.business.BusinessValidator
+import de.rki.coronawarnapp.covidcertificate.validation.core.validation.technical.TechnicalValidator
+import org.joda.time.Instant
+import timber.log.Timber
 import javax.inject.Inject
 
 class DccValidator @Inject constructor(
-    dccValidationRuleRepository: DccValidationRuleRepository,
+    private val technicalValidator: TechnicalValidator,
+    private val businessValidator: BusinessValidator,
 ) {
 
     /**
@@ -16,9 +18,25 @@ class DccValidator @Inject constructor(
      */
     suspend fun validateDcc(
         arrivalCountries: Set<DccCountry>, // For future allow multiple country selection
-        dateTime: DateTime,
+        validationClock: Instant,
         certificate: DccData<*>,
     ): DccValidation {
-        throw NotImplementedError()
+        Timber.tag(TAG).v("validateDcc(countries=%s)", arrivalCountries)
+
+        val technicalValidation = technicalValidator.validate(
+            validationClock, certificate
+        )
+
+        val businessValidation = businessValidator.validate(
+            arrivalCountries,
+            validationClock,
+            certificate
+        )
+
+        return DccValidation(technicalValidation, businessValidation)
+    }
+
+    companion object {
+        private const val TAG = "DccValidator"
     }
 }

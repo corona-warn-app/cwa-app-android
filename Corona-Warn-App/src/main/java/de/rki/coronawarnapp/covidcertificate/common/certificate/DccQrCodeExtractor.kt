@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
-import de.rki.coronawarnapp.bugreporting.censors.vaccination.DccQrCodeCensor
+import de.rki.coronawarnapp.bugreporting.censors.dcc.DccQrCodeCensor
 import de.rki.coronawarnapp.coronatest.qrcode.QrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode.CERT_REC_STRICT
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode.CERT_SINGLE_STRICT
@@ -176,7 +176,7 @@ class DccQrCodeExtractor @Inject constructor(
         val body = bodyParser.parse(cbor, mode)
         DccData(
             header = header,
-            certificate = body.parsed.toCertificate,
+            certificate = body.parsed.asCertificate,
             certificateJson = body.raw,
         ).also {
             DccQrCodeCensor.addCertificateToCensor(it)
@@ -190,38 +190,11 @@ class DccQrCodeExtractor @Inject constructor(
         throw InvalidHealthCertificateException(HC_CBOR_DECODING_FAILED)
     }
 
-    private val DccV1.isVaccinationCertificate: Boolean
-        get() = this.vaccinations?.isNotEmpty() == true
-
-    private val DccV1.isTestCertificate: Boolean
-        get() = this.tests?.isNotEmpty() == true
-
-    private val DccV1.isRecoveryCertificate: Boolean
-        get() = this.recoveries?.isNotEmpty() == true
-
-    private val DccV1.toCertificate: DccV1.MetaData
+    private val DccV1.asCertificate: DccV1.MetaData
         get() = when {
-            isVaccinationCertificate -> VaccinationDccV1(
-                version = version,
-                nameData = nameData,
-                dateOfBirth = dateOfBirth,
-                personIdentifier = personIdentifier,
-                vaccination = vaccinations!!.first()
-            )
-            isTestCertificate -> TestDccV1(
-                version = version,
-                nameData = nameData,
-                dateOfBirth = dateOfBirth,
-                personIdentifier = personIdentifier,
-                test = tests!!.first()
-            )
-            isRecoveryCertificate -> RecoveryDccV1(
-                version = version,
-                nameData = nameData,
-                dateOfBirth = dateOfBirth,
-                personIdentifier = personIdentifier,
-                recovery = recoveries!!.first()
-            )
+            isVaccinationCertificate -> asVaccinationCertificate!!
+            isTestCertificate -> asTestCertificate!!
+            isRecoveryCertificate -> asRecoveryCertificate!!
             else -> throw InvalidHealthCertificateException(JSON_SCHEMA_INVALID)
         }
 }

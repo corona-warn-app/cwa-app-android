@@ -15,7 +15,7 @@
             "green_certificate_strings.xml",
             "covid_certificate_strings.xml"
           ],
-          "targetFolderPath": "../values-[langCode]"
+          "targetFolderPath": "../[langCode]"
         }
       ]
     }

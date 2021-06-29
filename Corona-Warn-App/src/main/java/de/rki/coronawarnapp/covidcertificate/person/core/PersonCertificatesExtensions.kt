@@ -65,9 +65,9 @@ private fun Collection<CwaCovidCertificate>.rule3FindRecentLastShot(
         with(it.rawCertificate.vaccination) { doseNumber == totalSeriesOfDoses }
     }
     .filter {
-        Days.daysBetween(it.rawCertificate.vaccination.vaccinatedAt, nowUtc.toLocalDateUtc()).days > 14
+        Days.daysBetween(it.rawCertificate.vaccination.vaccinatedOn, nowUtc.toLocalDateUtc()).days > 14
     }
-    .maxByOrNull { it.rawCertificate.vaccination.vaccinatedAt }
+    .maxByOrNull { it.rawCertificate.vaccination.vaccinatedOn }
 
 /**
  * 4
@@ -103,9 +103,9 @@ private fun Collection<CwaCovidCertificate>.rule5findTooRecentFinalShot(
         with(it.rawCertificate.vaccination) { doseNumber == totalSeriesOfDoses }
     }
     .filter {
-        Days.daysBetween(it.rawCertificate.vaccination.vaccinatedAt, nowUtc.toLocalDateUtc()).days <= 14
+        Days.daysBetween(it.rawCertificate.vaccination.vaccinatedOn, nowUtc.toLocalDateUtc()).days <= 14
     }
-    .maxByOrNull { it.rawCertificate.vaccination.vaccinatedAt }
+    .maxByOrNull { it.rawCertificate.vaccination.vaccinatedOn }
 
 /**
  * 6
@@ -116,7 +116,7 @@ private fun Collection<CwaCovidCertificate>.rule5findTooRecentFinalShot(
  */
 private fun Collection<CwaCovidCertificate>.rule6findOtherVaccinations(): CwaCovidCertificate? = this
     .filterIsInstance<VaccinationCertificate>()
-    .maxByOrNull { it.rawCertificate.vaccination.vaccinatedAt }
+    .maxByOrNull { it.rawCertificate.vaccination.vaccinatedOn }
 
 /**
  * 7
