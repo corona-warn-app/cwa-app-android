@@ -34,7 +34,6 @@ class LocalStatisticsProvider @Inject constructor(
         )
     ) {
         try {
-            triggerUpdate()
             fetchCacheFirst()
         } catch (e: Exception) {
             Timber.tag(TAG).e(e, "Failed to get data from server.")
@@ -49,7 +48,13 @@ class LocalStatisticsProvider @Inject constructor(
 
         val targetedStates = localStatisticsConfigStorage.activeStates.value
 
-        return targetedStates.map { fromCache(it) ?: StatisticsData() }
+        val cacheResults = targetedStates.map { fromCache(it) }
+
+        if (cacheResults.contains(null)) {
+            triggerUpdate()
+        }
+
+        return cacheResults.map { it ?: StatisticsData() }
     }
 
     private fun fromCache(forState: FederalStateToPackageId): StatisticsData? = try {
