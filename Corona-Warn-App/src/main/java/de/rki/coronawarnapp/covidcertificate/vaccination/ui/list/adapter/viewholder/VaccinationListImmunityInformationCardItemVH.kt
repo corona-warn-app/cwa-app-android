@@ -20,13 +20,19 @@ class VaccinationListImmunityInformationCardItemVH(parent: ViewGroup) :
 
     override val onBindData: VaccinationListImmunityCardBinding
     .(item: VaccinationListImmunityInformationCardItem, payloads: List<Any>) -> Unit = { item, _ ->
-        val daysUntilImmunity = item.timeUntilImmunity.standardDays.toInt()
-        body.text =
-            context.resources.getQuantityString(
+        val timeTillImmunity = item.timeUntilImmunity
+        body.text = if (timeTillImmunity < Duration.standardDays(1)) {
+            resources.getString(R.string.vaccination_list_immunity_tomorrow_card_body)
+        } else {
+            // We round up for nicer UX, despite being on the 1st day of 15 and days left < 15, we show 15 days left.
+            // 15, 14, ..., 2, tomorrow, immune.
+            val days = timeTillImmunity.standardDays + 1
+            resources.getQuantityString(
                 R.plurals.vaccination_list_immunity_card_body,
-                daysUntilImmunity,
-                daysUntilImmunity
+                days.toInt(),
+                days
             )
+        }
     }
 
     data class VaccinationListImmunityInformationCardItem(val timeUntilImmunity: Duration) : VaccinationListItem {
