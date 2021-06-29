@@ -87,7 +87,7 @@
         <item quantity="few">"Full vaccination protection in %1$d days"</item>
         <item quantity="many">"Full vaccination protection in %1$d days"</item>
     </plurals>
-    <string name="vaccination_card_status_vaccination_complete_tomorrow">Sie haben nun alle derzeit geplanten Impfungen erhalten. Allerdings ist der Impfschutz erst morgen vollständig.</string>
+    <string name="vaccination_card_status_vaccination_complete_tomorrow">Full vaccination protection tomorrow</string>
     <!-- XTXT: Homescreen card complete vaccination status label -->
     <string name="vaccination_card_status_vaccination_complete">"Valid through %s"</string>
 
