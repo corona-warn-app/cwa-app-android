@@ -16,7 +16,6 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertifi
 import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toHyphenSeparatedDate
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -42,9 +41,9 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
-            toolbar.setNavigationOnClickListener { popBackStack() }
 
             bindToolbar()
+            setToolbarOverlay()
 
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
                 it.certificate?.let { certificate -> bindCertificateViews(certificate) }
@@ -67,7 +66,6 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 subtitle.alpha = subtitleAlpha
                 europaImage.alpha = subtitleAlpha
             }
-            setToolbarOverlay()
 
             viewModel.errors.observe(viewLifecycleOwner) {
                 qrCodeCard.progressBar.hide()
@@ -111,7 +109,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         certificate: VaccinationCertificate
     ) {
         fullname.text = certificate.fullName
-        dateOfBirth.text = certificate.dateOfBirth.toHyphenSeparatedDate()
+        dateOfBirth.text = certificate.dateOfBirthFormatted
         medialProductName.text = certificate.medicalProductName
         vaccineTypeName.text = certificate.vaccineTypeName
         targetDisease.text = certificate.targetDisease
@@ -121,7 +119,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             certificate.doseNumber,
             certificate.totalSeriesOfDoses
         )
-        vaccinatedAt.text = certificate.vaccinatedAt.toHyphenSeparatedDate()
+        vaccinatedAt.text = certificate.vaccinatedOnFormatted
         certificateCountry.text = certificate.certificateCountry
         certificateIssuer.text = certificate.certificateIssuer
         certificateId.text = certificate.certificateId

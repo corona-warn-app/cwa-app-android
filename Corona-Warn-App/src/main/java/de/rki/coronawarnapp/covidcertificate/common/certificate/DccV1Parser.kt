@@ -65,7 +65,7 @@ class DccV1Parser @Inject constructor(
             if (vaccinations.isNullOrEmpty())
                 throw InvalidVaccinationCertificateException(ErrorCode.NO_VACCINATION_ENTRY)
             Timber.w("Lenient: Vaccination data contained multiple entries.")
-            copy(vaccinations = listOf(vaccinations.maxByOrNull { it.vaccinatedAt }!!))
+            copy(vaccinations = listOf(vaccinations.maxByOrNull { it.vaccinatedOn }!!))
         }
         Mode.CERT_REC_STRICT ->
             if (recoveries?.size != 1)
@@ -92,9 +92,10 @@ class DccV1Parser @Inject constructor(
         // check for non null (Gson does not enforce it) + not blank & force date parsing
         require(version.isNotBlank())
         require(nameData.familyNameStandardized.isNotBlank())
-        dateOfBirth
+        dateOfBirthFormatted
         vaccinations?.forEach {
-            it.vaccinatedAt
+            it.vaccinatedOnFormatted
+            it.vaccinatedOn
             require(it.certificateIssuer.isNotBlank())
             require(it.certificateCountry.isNotBlank())
             require(it.marketAuthorizationHolderId.isNotBlank())
@@ -112,7 +113,9 @@ class DccV1Parser @Inject constructor(
             require(it.testType.isNotBlank())
         }
         recoveries?.forEach {
-            it.testedPositiveOn
+            it.testedPositiveOnFormatted
+            it.validFromFormatted
+            it.validUntilFormatted
             it.validFrom
             it.validUntil
             require(it.certificateIssuer.isNotBlank())

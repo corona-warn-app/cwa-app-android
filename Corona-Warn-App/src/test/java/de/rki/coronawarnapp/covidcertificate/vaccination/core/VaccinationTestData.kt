@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.Vaccination
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
 import org.joda.time.Instant
-import org.joda.time.LocalDate
 import javax.inject.Inject
 
 @Suppress("MaxLineLength")
@@ -30,7 +29,7 @@ class VaccinationTestData @Inject constructor(
             familyName = "Astrá Eins",
             familyNameStandardized = "ASTRA<EINS",
         ),
-        dateOfBirth = LocalDate.parse("1966-11-11"),
+        dateOfBirthFormatted = "1966-11-11",
         vaccination =
         DccV1.VaccinationData(
             targetId = "840539006",
@@ -45,7 +44,7 @@ class VaccinationTestData @Inject constructor(
             uniqueCertificateIdentifier = "01DE/00001/1119305005/7T1UG87G61Y7NRXIBQJDTYQ9#S",
         ),
         personIdentifier = CertificatePersonIdentifier(
-            dateOfBirth = LocalDate.parse("1966-11-11"),
+            dateOfBirthFormatted = "1966-11-11",
             lastNameStandardized = "ASTRA<EINS",
             firstNameStandardized = "ANDREAS"
         )
@@ -87,7 +86,7 @@ class VaccinationTestData @Inject constructor(
             familyName = "Astrá Eins",
             familyNameStandardized = "ASTRA<EINS",
         ),
-        dateOfBirth = LocalDate.parse("1966-11-11"),
+        dateOfBirthFormatted = "1966-11-11",
         vaccination = DccV1.VaccinationData(
             targetId = "840539006",
             vaccineId = "1119305005",
@@ -101,7 +100,7 @@ class VaccinationTestData @Inject constructor(
             uniqueCertificateIdentifier = "01DE/00001/1119305005/6IPYBAIDWEWRWW73QEP92FQSN#S",
         ),
         personIdentifier = CertificatePersonIdentifier(
-            dateOfBirth = LocalDate.parse("1966-11-11"),
+            dateOfBirthFormatted = "1966-11-11",
             lastNameStandardized = "ASTRA<EINS",
             firstNameStandardized = "ANDREAS"
         )
@@ -147,7 +146,7 @@ class VaccinationTestData @Inject constructor(
             familyName = "Johnson Gültig",
             familyNameStandardized = "JOHNSON<GUELTIG",
         ),
-        dateOfBirth = LocalDate.parse("1966-11-11"),
+        dateOfBirthFormatted = "1966-11-11",
         vaccination = DccV1.VaccinationData(
             targetId = "840539006",
             vaccineId = "1119305005",
@@ -161,7 +160,7 @@ class VaccinationTestData @Inject constructor(
             uniqueCertificateIdentifier = "01DE/00001/1119305005/3H24U2KVOTPCSINK7N64F2OB9#S",
         ),
         personIdentifier = CertificatePersonIdentifier(
-            dateOfBirth = LocalDate.parse("1966-11-11"),
+            dateOfBirthFormatted = "1966-11-11",
             lastNameStandardized = "JOHNSON<GUELTIG",
             firstNameStandardized = "BORIS"
         )

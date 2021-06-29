@@ -38,7 +38,7 @@ class DeadmanNotificationTimeCalculation @Inject constructor(
 
         Timber.d("Last successful diagnosis key package download: $lastSuccess")
         return if (lastSuccess != null) {
-            getHoursDiff(lastSuccess.pkgDateTime.toInstant()).toLong()
+            getHoursDiff(lastSuccess.createdAt).toLong()
         } else {
             (DEADMAN_NOTIFICATION_DELAY * DateTimeConstants.MINUTES_PER_HOUR).toLong()
         }
