@@ -16,6 +16,8 @@ import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboa
 import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragmentModule
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragment
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragmentModule
+import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.passed.DccValidationPassedFragment
+import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.passed.DccValidationPassedFragmentModule
 
 @Module
 abstract class DigitalCovidCertificateUIModule {
@@ -40,4 +42,7 @@ abstract class DigitalCovidCertificateUIModule {
 
     @ContributesAndroidInjector(modules = [RecoveryCertificateDetailsModule::class])
     abstract fun recoveryCertificateDetailsFragment(): RecoveryCertificateDetailsFragment
+
+    @ContributesAndroidInjector(modules = [DccValidationPassedFragmentModule::class])
+    abstract fun dccValidationPassedFragment(): DccValidationPassedFragment
 }
