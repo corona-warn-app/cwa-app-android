@@ -26,7 +26,7 @@
     <string name="vaccination_qrcode_card_subtitle">Geimpft %1$s - gültig bis %2$s</string>
 
     <!-- XTXT: Vaccination List title-->
-    <string name="vaccination_list_title">EU Digitaler COVID-Impfnachweis</string>
+    <string name="vaccination_list_title">Digitaler COVID-Impfnachweis der EU</string>
     <!-- XTXT: Vaccination List complete vaccination subtitle-->
     <string name="vaccination_list_complete_vaccination_subtitle">SARS-CoV-2-Impfschutz</string>
     <!-- XTXT: Vaccination card date-->
@@ -46,7 +46,8 @@
         <item quantity="few">Sie haben nun alle derzeit geplanten Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
         <item quantity="many">Sie haben nun alle derzeit geplanten Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
     </plurals>
-
+    <!-- XTXT: Vaccination card immunity information card body when <1 day is left till immunity -->
+    <string name="vaccination_list_immunity_tomorrow_card_body">Sie haben nun alle derzeit geplanten Impfungen erhalten. Allerdings ist der Impfschutz erst morgen vollständig.</string>
     <!-- XBUT: Vaccination List register additional vaccination button -->
     <string name="vaccination_list_register_new_vaccination_button">Weitere Impfung hinzufügen</string>
     <!-- XBUT: Vaccination List delete button -->
@@ -66,17 +67,17 @@
         Homescreen cards
     ###################################### -->
     <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_registration_title_line_1">"EU Digitalen"</string>
+    <string name="vaccination_card_registration_title_line_1">"Digitalen"</string>
     <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_registration_title_line_2">"COVID-Impfnachweis hinzufügen"</string>
+    <string name="vaccination_card_registration_title_line_2">"COVID-Impfnachweis der EU hinzufügen"</string>
     <!-- YTXT: Body text for Vaccination Certificate Registration Home Card -->
     <string name="vaccination_card_registration_body">"Fügen Sie Ihre Impfzertifikate in die App hinzu, um sie immer bei sich zu haben. Scannen Sie dafür den QR-Code Ihres Dokuments."</string>
     <!-- XBUT: button for Vaccination Certificate Registration Home Card -->
     <string name="vaccination_card_register">"Hinzufügen"</string>
     <!-- XHED: Homescreen vaccination status card title -->
-    <string name="vaccination_card_status_title_line_1">"EU Digitaler"</string>
+    <string name="vaccination_card_status_title_line_1">"Digitaler"</string>
     <!-- XHED: Homescreen vaccination status card title -->
-    <string name="vaccination_card_status_title_line_2">"COVID-Impfnachweis"</string>
+    <string name="vaccination_card_status_title_line_2">"COVID-Impfnachweis der EU"</string>
     <!-- XHED: Homescreen vaccination status card vaccination name -->
     <string name="vaccination_card_status_vaccination_name">SARS-CoV-2 Impfschutz</string>
     <!-- XTXT: Homescreen card incomplete vaccination status label -->
@@ -90,6 +91,7 @@
         <item quantity="few">Vollständiger Impfschutz in %1$d Tagen</item>
         <item quantity="many">Vollständiger Impfschutz in %1$d Tagen</item>
     </plurals>
+    <string name="vaccination_card_status_vaccination_complete_tomorrow">Vollständiger Impfschutz ab morgen</string>
     <!-- XTXT: Homescreen card complete vaccination status label -->
     <string name="vaccination_card_status_vaccination_complete">"Gültig bis einschließlich %s"</string>
 
@@ -112,6 +114,6 @@
     <!-- XTXT: Vaccination certificate Detail title -->
     <string name="vaccination_certificate_title">"Impfzertifikat"</string>
     <!-- XTXT: Vaccination certificate Detail subtitle -->
-    <string name="vaccination_certificate_subtitle">"EU Digitales COVID-Zertifikat"</string>
+    <string name="vaccination_certificate_subtitle">"Digitales COVID-Zertifikat der EU"</string>
 
 </resources>

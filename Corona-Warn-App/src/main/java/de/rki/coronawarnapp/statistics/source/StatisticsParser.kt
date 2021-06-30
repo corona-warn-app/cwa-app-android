@@ -50,6 +50,9 @@ class StatisticsParser @Inject constructor() {
                         updatedAt = updatedAt,
                         keyFigures = keyFigures
                     )
+                    StatsItem.Type.LOCAL_INCIDENCE -> null.also {
+                        Timber.tag(TAG).e("Statistics card of type local in global stats: %s", rawCard)
+                    }
                     null -> null.also { Timber.tag(TAG).e("Unknown statistics type: %s", rawCard) }
                 }.also {
                     Timber.tag(TAG).v("Parsed %s", it.toString().replace("\n", ", "))

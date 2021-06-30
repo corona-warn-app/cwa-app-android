@@ -16,24 +16,28 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"COVID Test Sertifikası"</item>
-        <item>"Temas Güncesi Geliştirmesi"</item>
+        <item>"COVID İyileşme Sertifikası"</item>
+        <item>"Aile Sertifikaları"</item>
+        <item>"Genişletilmiş İstatistikler"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Artık uygulama üzerinden resmi bir dijital test sertifikası talebinde bulunabilir ve sertifikayı uygulamaya ekleyebilirsiniz. Daha sonra bu test sertifikasını (QR kod) AB içinde negatif test sonucunu kanıtlamak için kullanabilirsiniz (örneğin, uluslararası seyahat için)."</item>
-        <item>"Artık test sonucunuz çıkar çıkmaz temas güncenize eklenir."</item>
+        <item>"Artık uygulama üzerinden resmi dijital iyileşme sertifikası talebinde bulunabilir ve bunları uygulamaya ekleyebilirsiniz. Daha sonra bu sertifikaları AB içinde, daha önce enfeksiyonu geçirdiğinizi kanıtlamak için kullanabilirsiniz (örneğin, uluslararası seyahat için)."</item>
+        <item>"Artık uygulamaya, gerektiğinde sertifikaları göndermek üzere, aile üyeleri için dijital COVID sertifikaları ekleyebilir ve yönetebilirsiniz (örneğin, uluslararası seyahat için)."</item>
+        <item>"Artık uygulamada şu aşı istatistikleri sunulmaktadır:\n\t- En az bir doz aşı olan kişilerin sayısı\n\t- Tüm aşıları olan kişilerin sayısı\n\t- Uygulanan aşı dozlarının sayısı"</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
+        <item />
         <item/>
         <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item />
         <item/>
         <item/>
     </string-array>

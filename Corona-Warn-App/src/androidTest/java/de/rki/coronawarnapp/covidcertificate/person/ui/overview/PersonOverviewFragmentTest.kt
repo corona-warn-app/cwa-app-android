@@ -12,17 +12,18 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificatesItem
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import org.joda.time.Instant
-import org.joda.time.LocalDate
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -107,7 +108,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
         .apply {
             add(
                 CovidTestCertificatePendingCard.Item(
-                    certificate = mockTestCertificate("Andrea Schneider", isPending = true),
+                    certificate = mockTestCertificateWrapper(false),
                     onDeleteAction = {},
                     onRetryAction = {},
                 )
@@ -117,7 +118,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                 PersonCertificateCard.Item(
                     certificate = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
-                    color = PersonOverviewItemColor.COLOR_1,
+                    colorShade = PersonColorShade.COLOR_1,
                     qrcodeBitmap = bitmap
                 )
             )
@@ -127,7 +128,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
         .apply {
             add(
                 CovidTestCertificatePendingCard.Item(
-                    certificate = mockTestCertificate("Andrea Schneider", isPending = true, isUpdating = true),
+                    certificate = mockTestCertificateWrapper(true),
                     onDeleteAction = {},
                     onRetryAction = {},
                 )
@@ -137,7 +138,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                 PersonCertificateCard.Item(
                     certificate = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
-                    color = PersonOverviewItemColor.COLOR_1,
+                    colorShade = PersonColorShade.COLOR_1,
                     qrcodeBitmap = bitmap
                 )
             )
@@ -149,7 +150,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                 PersonCertificateCard.Item(
                     certificate = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
-                    color = PersonOverviewItemColor.COLOR_1,
+                    colorShade = PersonColorShade.COLOR_1,
                     qrcodeBitmap = bitmap
                 )
             )
@@ -158,7 +159,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                 PersonCertificateCard.Item(
                     certificate = mockTestCertificate("Mia Schneider"),
                     onClickAction = { _, _ -> },
-                    color = PersonOverviewItemColor.COLOR_2,
+                    colorShade = PersonColorShade.COLOR_2,
                     qrcodeBitmap = bitmap
                 )
             )
@@ -167,7 +168,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                 PersonCertificateCard.Item(
                     certificate = mockTestCertificate("Thomas Schneider"),
                     onClickAction = { _, _ -> },
-                    color = PersonOverviewItemColor.COLOR_3,
+                    colorShade = PersonColorShade.COLOR_3,
                     qrcodeBitmap = bitmap
                 )
             )
@@ -185,8 +186,15 @@ class PersonOverviewFragmentTest : BaseUITest() {
         every { personIdentifier } returns CertificatePersonIdentifier(
             firstNameStandardized = "firstNameStandardized",
             lastNameStandardized = "lastNameStandardized",
-            dateOfBirth = LocalDate.now()
+            dateOfBirthFormatted = "1943-04-18"
         )
+    }
+
+    fun mockTestCertificateWrapper(isUpdating: Boolean) = mockk<TestCertificateWrapper>().apply {
+        every { isCertificateRetrievalPending } returns true
+        every { isUpdatingData } returns isUpdating
+        every { registeredAt } returns Instant.EPOCH
+        every { containerId } returns TestCertificateContainerId("testCertificateContainerId")
     }
 }
 
