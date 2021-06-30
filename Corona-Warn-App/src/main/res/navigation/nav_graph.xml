@@ -850,7 +850,7 @@
 
     <fragment
         android:id="@+id/federalStateSelectionFragment"
-        android:name="de.rki.coronawarnapp.statistics.ui.FederalStateSelectionFragment"
+        android:name="de.rki.coronawarnapp.statistics.ui.stateselection.FederalStateSelectionFragment"
         android:label="federal_state_selection_fragment"
         tools:layout="@layout/federal_state_selection_fragment">
 

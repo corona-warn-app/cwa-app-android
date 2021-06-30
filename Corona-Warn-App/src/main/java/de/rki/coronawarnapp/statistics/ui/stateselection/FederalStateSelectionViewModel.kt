@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.statistics.ui
+package de.rki.coronawarnapp.statistics.ui.stateselection
 
 import android.content.Context
 import androidx.lifecycle.LiveData
@@ -31,26 +31,26 @@ class FederalStateSelectionViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel() {
 
-    private val federalStateSource: Flow<List<UserInfoItem>> = flowOf(PpaData.PPAFederalState.values())
+    private val federalStateSource: Flow<List<ListItem>> = flowOf(PpaData.PPAFederalState.values())
         .map { states ->
             states.mapNotNull { state ->
                 if (state == PpaData.PPAFederalState.UNRECOGNIZED) return@mapNotNull null
                 if (state == PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED) return@mapNotNull null
-                UserInfoItem(
+                ListItem(
                     data = state,
                     label = state.labelStringRes.toResolvingString()
                 )
             }.sortedBy { it.label.get(context).lowercase() }
         }
 
-    private val districtSource: Flow<List<UserInfoItem>> = flow { emit(districtsSource.loadDistricts()) }
+    private val districtSource: Flow<List<ListItem>> = flow { emit(districtsSource.loadDistricts()) }
         .map { allDistricts ->
             allDistricts.filter { it.federalStateShortName == selectedFederalStateShortName }
         }
         .map { districts ->
             districts
                 .map { district ->
-                    UserInfoItem(
+                    ListItem(
                         data = district,
                         label = district.districtName.toLazyString()
                     )
@@ -58,7 +58,7 @@ class FederalStateSelectionViewModel @AssistedInject constructor(
                 .sortedBy { it.label.get(context).lowercase() }
         }
 
-    val userInfoItems: LiveData<List<UserInfoItem>> = if (selectedFederalStateShortName != null) {
+    val listItems: LiveData<List<ListItem>> = if (selectedFederalStateShortName != null) {
         districtSource
     } else {
         federalStateSource
@@ -67,12 +67,15 @@ class FederalStateSelectionViewModel @AssistedInject constructor(
 
     val event = SingleLiveEvent<Events>()
 
-    fun selectUserInfoItem(item: UserInfoItem) {
+    fun selectUserInfoItem(item: ListItem) {
         when (item.data) {
             is PpaData.PPAFederalState -> {
                 event.postValue(Events.OpenDistricts(item.data.federalStateShortName))
             }
             is Districts.District -> {
+
+                // TODO: use data in (EXPOSUREAPP-7446)
+
                 event.postValue(Events.FinishEvent)
             }
             else -> throw IllegalArgumentException()

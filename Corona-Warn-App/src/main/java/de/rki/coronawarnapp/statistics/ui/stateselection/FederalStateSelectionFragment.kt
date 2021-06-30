@@ -1,11 +1,10 @@
-package de.rki.coronawarnapp.statistics.ui
+package de.rki.coronawarnapp.statistics.ui.stateselection
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FederalStateSelectionFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -36,45 +35,42 @@ class FederalStateSelectionFragment : Fragment(R.layout.federal_state_selection_
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val toolbarLabel = if (navArgs.selectedFederalStateShortName != null) {
-            R.string.analytics_userinput_federalstate_title
-        } else {
-            R.string.analytics_userinput_district_title
-        }
-        binding.toolbar.apply {
-            setTitle(toolbarLabel)
-            setNavigationOnClickListener { popBackStack() }
-            if (navArgs.selectedFederalStateShortName != null) {
-                setNavigationIcon(R.drawable.ic_back)
-            } else {
-                setNavigationIcon(R.drawable.ic_close)
+        binding.apply {
+            toolbar.apply {
+                setTitle(getToolbarLabel())
+                setNavigationOnClickListener { popBackStack() }
+                if (navArgs.selectedFederalStateShortName != null) {
+                    setNavigationIcon(R.drawable.ic_back)
+                } else {
+                    setNavigationIcon(R.drawable.ic_close)
+                }
             }
+            inputList.adapter = itemAdapter
         }
 
-        binding.inputList.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = itemAdapter
-        }
-        viewModel.userInfoItems.observe2(this) {
-            itemAdapter.data = it
-        }
-        viewModel.event.observe2(this) {
-            when (it) {
-                FederalStateSelectionViewModel.Events.FinishEvent -> {
-                    findNavController().popBackStack(R.id.mainFragment, false)
+        viewModel.apply {
+            listItems.observe2(this@FederalStateSelectionFragment) {
+                itemAdapter.data = it
+            }
+            event.observe2(this@FederalStateSelectionFragment) {
+                when (it) {
+                    FederalStateSelectionViewModel.Events.FinishEvent -> {
+                        findNavController().popBackStack(R.id.mainFragment, false)
+                    }
+                    is FederalStateSelectionViewModel.Events.OpenDistricts -> findNavController().navigate(
+                        FederalStateSelectionFragmentDirections
+                            .actionFederalStateSelectionFragmentToFederalStateSelectionFragment(
+                                it.selectedFederalStateShortName
+                            )
+                    )
                 }
-                is FederalStateSelectionViewModel.Events.OpenDistricts -> findNavController().navigate(
-                    FederalStateSelectionFragmentDirections
-                        .actionFederalStateSelectionFragmentToFederalStateSelectionFragment(
-                            it.selectedFederalStateShortName
-                        )
-                )
             }
         }
     }
 
-    enum class InputType {
-        FEDERAL_STATE,
-        DISTRICT
+    private fun getToolbarLabel() = if (navArgs.selectedFederalStateShortName != null) {
+        R.string.analytics_userinput_federalstate_title
+    } else {
+        R.string.analytics_userinput_district_title
     }
 }

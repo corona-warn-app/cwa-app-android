@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.statistics.ui
+package de.rki.coronawarnapp.statistics.ui.stateselection
 
 import dagger.Binds
 import dagger.Module
