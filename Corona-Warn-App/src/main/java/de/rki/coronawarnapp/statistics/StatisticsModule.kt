@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
+import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsApiV1
 import de.rki.coronawarnapp.statistics.source.StatisticsApiV1
 import de.rki.coronawarnapp.util.di.AppContext
 import okhttp3.Cache
@@ -56,6 +57,30 @@ class StatisticsModule {
             .addConverterFactory(gsonConverterFactory)
             .build()
             .create(StatisticsApiV1::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun localApi(
+        @DownloadCDNHttpClient client: OkHttpClient,
+        @DownloadCDNServerUrl url: String,
+        gsonConverterFactory: GsonConverterFactory,
+        @Statistics cache: Cache
+    ): LocalStatisticsApiV1 {
+        val configHttpClient = client.newBuilder().apply {
+            cache(cache)
+            connectTimeout(HTTP_TIMEOUT.millis, TimeUnit.MILLISECONDS)
+            readTimeout(HTTP_TIMEOUT.millis, TimeUnit.MILLISECONDS)
+            writeTimeout(HTTP_TIMEOUT.millis, TimeUnit.MILLISECONDS)
+            callTimeout(HTTP_TIMEOUT.millis, TimeUnit.MILLISECONDS)
+        }.build()
+
+        return Retrofit.Builder()
+            .client(configHttpClient)
+            .baseUrl(url)
+            .addConverterFactory(gsonConverterFactory)
+            .build()
+            .create(LocalStatisticsApiV1::class.java)
     }
 
     companion object {

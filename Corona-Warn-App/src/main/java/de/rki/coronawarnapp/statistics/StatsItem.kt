@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.statistics
 
 import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass.KeyFigure
+import de.rki.coronawarnapp.server.protocols.internal.stats.LocalStatisticsOuterClass
 import org.joda.time.Instant
 import timber.log.Timber
 
@@ -25,7 +26,8 @@ sealed class StatsItem(val cardType: Type) {
         SEVEN_DAY_RVALUE(4),
         PERSONS_VACCINATED_ONCE(5),
         PERSONS_VACCINATED_COMPLETELY(6),
-        APPLIED_VACCINATION_RATES(7)
+        APPLIED_VACCINATION_RATES(7),
+        LOCAL_INCIDENCE(8)
     }
 
     abstract fun requireValidity()
@@ -63,6 +65,23 @@ data class IncidenceStats(
     override val updatedAt: Instant,
     override val keyFigures: List<KeyFigure>
 ) : StatsItem(cardType = Type.INCIDENCE) {
+
+    val sevenDayIncidence: KeyFigure
+        get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }
+
+    override fun requireValidity() {
+        require(keyFigures.size == 1)
+        requireNotNull(keyFigures.singleOrNull { it.rank == KeyFigure.Rank.PRIMARY }) {
+            Timber.w("IncidenceStats is missing primary value")
+        }
+    }
+}
+
+data class LocalIncidenceStats(
+    override val updatedAt: Instant,
+    override val keyFigures: List<KeyFigure>,
+    val federalState: LocalStatisticsOuterClass.FederalStateData.FederalState
+) : StatsItem(cardType = Type.LOCAL_INCIDENCE) {
 
     val sevenDayIncidence: KeyFigure
         get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }

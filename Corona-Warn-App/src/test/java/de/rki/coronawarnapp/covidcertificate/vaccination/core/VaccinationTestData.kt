@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.Vaccination
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
 import org.joda.time.Instant
-import org.joda.time.LocalDate
 import javax.inject.Inject
 
 @Suppress("MaxLineLength")
@@ -30,7 +29,7 @@ class VaccinationTestData @Inject constructor(
             familyName = "Astrá Eins",
             familyNameStandardized = "ASTRA<EINS",
         ),
-        dateOfBirth = LocalDate.parse("1966-11-11"),
+        dateOfBirthFormatted = "1966-11-11",
         vaccination =
         DccV1.VaccinationData(
             targetId = "840539006",
@@ -45,7 +44,7 @@ class VaccinationTestData @Inject constructor(
             uniqueCertificateIdentifier = "01DE/00001/1119305005/7T1UG87G61Y7NRXIBQJDTYQ9#S",
         ),
         personIdentifier = CertificatePersonIdentifier(
-            dateOfBirth = LocalDate.parse("1966-11-11"),
+            dateOfBirthFormatted = "1966-11-11",
             lastNameStandardized = "ASTRA<EINS",
             firstNameStandardized = "ANDREAS"
         )
@@ -59,7 +58,8 @@ class VaccinationTestData @Inject constructor(
 
     val personAVac1CertificateData = DccData(
         certificate = personAVac1Certificate,
-        header = personAVac1CertificateHeader
+        header = personAVac1CertificateHeader,
+        certificateJson = "{\"v\":[{\"ci\":\"01DE/00001/1119305005/7T1UG87G61Y7NRXIBQJDTYQ9#S\",\"co\":\"DE\",\"dn\":1,\"dt\":\"2021-03-01\",\"is\":\"Bundesministerium für Gesundheit - Test01\",\"ma\":\"ORG-100001699\",\"mp\":\"EU/1/21/1529\",\"sd\":2,\"tg\":\"840539006\",\"vp\":\"1119305005\"}],\"dob\":\"1966-11-11\",\"nam\":{\"fn\":\"Astrá Eins\",\"gn\":\"Andreas\",\"fnt\":\"ASTRA<EINS\",\"gnt\":\"ANDREAS\"},\"ver\":\"1.0.0\"}",
     )
 
     val personAVac1QRCode = VaccinationCertificateQRCode(
@@ -86,7 +86,7 @@ class VaccinationTestData @Inject constructor(
             familyName = "Astrá Eins",
             familyNameStandardized = "ASTRA<EINS",
         ),
-        dateOfBirth = LocalDate.parse("1966-11-11"),
+        dateOfBirthFormatted = "1966-11-11",
         vaccination = DccV1.VaccinationData(
             targetId = "840539006",
             vaccineId = "1119305005",
@@ -100,7 +100,7 @@ class VaccinationTestData @Inject constructor(
             uniqueCertificateIdentifier = "01DE/00001/1119305005/6IPYBAIDWEWRWW73QEP92FQSN#S",
         ),
         personIdentifier = CertificatePersonIdentifier(
-            dateOfBirth = LocalDate.parse("1966-11-11"),
+            dateOfBirthFormatted = "1966-11-11",
             lastNameStandardized = "ASTRA<EINS",
             firstNameStandardized = "ANDREAS"
         )
@@ -114,7 +114,8 @@ class VaccinationTestData @Inject constructor(
 
     val personAVac2CertificateData = DccData(
         certificate = personAVac2Certificate,
-        header = personAVac2CertificateHeader
+        header = personAVac2CertificateHeader,
+        certificateJson = "",
     )
 
     val personAVac2QRCode = VaccinationCertificateQRCode(
@@ -145,7 +146,7 @@ class VaccinationTestData @Inject constructor(
             familyName = "Johnson Gültig",
             familyNameStandardized = "JOHNSON<GUELTIG",
         ),
-        dateOfBirth = LocalDate.parse("1966-11-11"),
+        dateOfBirthFormatted = "1966-11-11",
         vaccination = DccV1.VaccinationData(
             targetId = "840539006",
             vaccineId = "1119305005",
@@ -159,7 +160,7 @@ class VaccinationTestData @Inject constructor(
             uniqueCertificateIdentifier = "01DE/00001/1119305005/3H24U2KVOTPCSINK7N64F2OB9#S",
         ),
         personIdentifier = CertificatePersonIdentifier(
-            dateOfBirth = LocalDate.parse("1966-11-11"),
+            dateOfBirthFormatted = "1966-11-11",
             lastNameStandardized = "JOHNSON<GUELTIG",
             firstNameStandardized = "BORIS"
         )
@@ -173,7 +174,8 @@ class VaccinationTestData @Inject constructor(
 
     val personBVac1CertificateData = DccData(
         certificate = personBVac1Certificate,
-        header = personBVac1CertificateHeader
+        header = personBVac1CertificateHeader,
+        certificateJson = "{\"v\":[{\"ci\":\"01DE/00001/1119305005/3H24U2KVOTPCSINK7N64F2OB9#S\",\"co\":\"DE\",\"dn\":1,\"dt\":\"2021-04-20\",\"is\":\"Bundesministerium für Gesundheit - Test01\",\"ma\":\"ORG-100001417\",\"mp\":\"EU/1/20/1525\",\"sd\":1,\"tg\":\"840539006\",\"vp\":\"1119305005\"}],\"dob\":\"1966-11-11\",\"nam\":{\"fn\":\"Johnson Gültig\",\"gn\":\"Boris\",\"fnt\":\"JOHNSON<GUELTIG\",\"gnt\":\"BORIS\"},\"ver\":\"1.0.0\"}",
     )
 
     val personBVac1QRCode = VaccinationCertificateQRCode(

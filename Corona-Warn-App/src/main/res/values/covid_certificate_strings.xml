@@ -1,68 +1,69 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <!-- ####################################
-        Special string files for the strings
-        that should always keep the german / english
-        version independent from the selected system language
-    ###################################### -->
+       Special string files for the strings
+       that should always keep the german / english
+       version independent from the selected system language
+   ###################################### -->
 
     <!-- #####################################################
          COMMON STRINGS FOR ALL TYPES OF CERTIFICATES BELOW
          ##################################################### -->
 
     <!-- XTXT: Person overview no certificates title-->
-    <string name="person_overview_no_certificates_title">Noch keine Zertifikate vorhanden</string>
+    <string name="person_overview_no_certificates_title">"No certificates available yet"</string>
     <!-- XTXT: Person overview no certificates subtitle-->
-    <string name="person_overview_no_certificates_subtitle">Hier werden die gespeicherten digitalen Impfzertifikate, Genesenenzertifikate und Testzertifikate angezeigt.</string>
+    <string name="person_overview_no_certificates_subtitle">"The saved digital vaccination certificates, certificates of recovery, and test certificates are displayed here."</string>
     <!-- XBUT: Person overview certificates scan button-->
-    <string name="person_overview_scan_button">Zertifikat hinzufügen</string>
+    <string name="person_overview_scan_button">"Add Certificate"</string>
     <!-- XTXT: Person overview no certificates image content description-->
-    <string name="person_overview_no_certificates_image_description">A certificate with a QR code symbol on it.</string>
+    <string name="person_overview_no_certificates_image_description">"A certificate with a QR code symbol on it."</string>
     <!-- XTXT: Person card title-->
-    <string name="person_card_title">EU Digitales</string>
+    <string name="person_card_title">"EU"</string>
     <!-- XTXT: Person card subtitle-->
-    <string name="person_card_subtitle">COVID-Zertifikat</string>
+    <string name="person_card_subtitle">"Digital COVID Certificate"</string>
 
     <!-- XTXT: Vaccination Consent title-->
-    <string name="vaccination_consent_title">Ihr Einverständnis</string>
+    <string name="vaccination_consent_title">"Your Consent"</string>
     <!-- XTXT: Vaccination Consent subtitle-->
-    <string name="vaccination_consent_headline">"Zertifikate hinzufügen"</string>
+    <string name="vaccination_consent_headline">"Add Certificates"</string>
     <!-- XTXT: Vaccination Consent subtitle of qr info -->
-    <string name="vaccination_consent_info_subtitle_text">"Fügen Sie EU digitale COVID-Zertifikate in der App hinzu, um mit der App den Impfschutz, ein negatives Testergebnis oder eine überstandene Infektion nachweisen zu können."</string>
+    <string name="vaccination_consent_info_subtitle_text">"Add your EU digital COVID certificates in the app. This will enable you to prove your vaccination protection, a negative test result, or your recovery from an infection with the app."</string>
     <!-- XTXT: Vaccination Consent text of qr info -->
-    <string name="vaccination_consent_qr_info_text">"Sie können EU digitale COVID-Impfzertifikate, COVID-Testzertifikate und COVID-Genesenenzertifikate in der App hinzufügen."</string>
+    <string name="vaccination_consent_qr_info_text">"You can add EU digital COVID vaccination certificates, COVID test certificates, and COVID certificates of recovery in the app."</string>
     <!-- XTXT: Vaccination Consent qr code text -->
-    <string name="vaccination_consent_qr_info_qr_code_text">"Die Zertifikate gelten innerhalb der EU als gültiger Nachweis (z.B. für Reisen)."</string>
+    <string name="vaccination_consent_qr_info_qr_code_text">"These certificates are considered to be valid proof within the EU (e.g. for travel)."</string>
     <!-- XTXT: Vaccination Consent time text  -->
-    <string name="vaccination_consent_qr_info_time_text">"Nach dem Hinzufügen bleiben die Zertifikate auf Ihrem Smartphone. Andere Personen können Ihre Daten nur einsehen, wenn Sie diesen ein Zertifikat zur Überprüfung vorzeigen."</string>
+    <string name="vaccination_consent_qr_info_time_text">"After you add a certificate, it will remain on your smartphone. It will only be shared with others if you present a certificate for verification."</string>
     <!-- XTXT: Vaccination Consent family certificates text  -->
-    <string name="vaccination_consent_family_certificates_text">"Fügen Sie existierende Zertifikate für sich und Ihre Familienmitglieder hinzu."</string>
+    <string name="vaccination_consent_family_certificates_text">"Add existing certificates for yourself and your family members."</string>
     <!-- XTXT: Text for vaccination consent legal information button -->
-    <string name="vaccination_consent_onboarding_legal_information">"Ausführliche Informationen zur Datenverarbeitung finden Sie in der Datenschutzerklärung."</string>
+    <string name="vaccination_consent_onboarding_legal_information">"For more detailed information about data processing, please refer to the privacy notice."</string>
     <!-- XBUT: Text for vaccination consent accept button -->
-    <string name="vaccination_consent_accept_button">"Weiter"</string>
+    <string name="vaccination_consent_accept_button">"Continue"</string>
+
 
     <!-- XTXT: Current priority certificate info -->
-    <string name="certificate_card_bookmark_info">Aktuell verwendetes Zertifikat</string>
+    <string name="certificate_card_bookmark_info">"Currently used certificate"</string>
     <!-- XHED: Person certificate details title -->
-    <string name="person_details_certificate_title">"EU Digitales COVID-Zertifikat"</string>
+    <string name="person_details_certificate_title">"EU Digital COVID Certificate"</string>
     <!-- XTXT: Test Certificate CWA User card description -->
-    <string name="person_details_cwa_user_description">"Mein Smartphone, meine App. Zertifikate für mich erscheinen in der Liste an erster Stelle."</string>
+    <string name="person_details_cwa_user_description">"My smartphone, my app. Certificates for me appear at the top of the list."</string>
     <!-- XTXT: Test Certificate CWA User card birthdate -->
-    <string name="person_details_cwa_user_birthdate">"geboren %1$s"</string>
+    <string name="person_details_cwa_user_birthdate">"Born %1$s"</string>
     <!-- #####################################################
          VACCINATION CERTIFICATE STRINGS BELOW
          ##################################################### -->
     <!-- XTXT: Vaccination certificate vaccinated on -->
-    <string name="vaccination_certificate_vaccinated_on">"geimpft am %s"</string>
+    <string name="vaccination_certificate_vaccinated_on">"vaccinated on %s"</string>
     <!-- XTXT: Vaccination  card doses-->
-    <string name="vaccination_certificate_doses">Impfung %1$d von %2$d</string>
+    <string name="vaccination_certificate_doses">"Vaccination %1$d of %2$d"</string>
     <!-- XTXT: Vaccination card name-->
-    <string name="vaccination_certificate_name">Impfzertifikat</string>
+    <string name="vaccination_certificate_name">"Vaccination Certificate"</string>
 
     <!-- XTXT: Vaccination card immunity information card body-->
-    <plurals name="vaccination_certificate_days_unti_immunity">
+    <plurals name="vaccination_certificate_days_unti_immunity" tools:ignore="UnusedQuantity">
         <item quantity="one">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete for another %1$d day."</item>
         <item quantity="other">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
         <item quantity="zero">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
@@ -72,28 +73,33 @@
     </plurals>
 
     <!-- XTXT: Vaccination is not complete information card body-->
-    <string name="vaccination_certificate_incomplete_vaccination">"Sie haben noch nicht alle derzeit geplanten Impfungen erhalten. Daher ist ihr Impfschutz noch nicht vollständig."</string>
+    <string name="vaccination_certificate_incomplete_vaccination">"You have not yet received all the currently planned vaccinations. As such, your vaccination protection is not complete yet."</string>
 
     <!-- #####################################################
          RECOVERY CERTIFICATE STRINGS BELOW
          ##################################################### -->
 
     <!-- XTXT: Recovery certificate detail title -->
-    <string name="recovery_certificate_details_title">"Genesenenzertifikat"</string>
+    <string name="recovery_certificate_details_title">"Certificate of Recovery"</string>
     <!-- XTXT: Recovery certificate detail subtitle -->
-    <string name="recovery_certificate_details_subtitle">"EU Digitales COVID-Zertifikat"</string>
+    <string name="recovery_certificate_details_subtitle">"EU Digital COVID Certificate"</string>
     <!-- XTXT: Recovery certificate card name  -->
-    <string name="recovery_certificate_name">Genesenzertifikat</string>
+    <string name="recovery_certificate_name">"Certificate of Recovery"</string>
     <!-- XTXT: Recovery certificate valid until -->
-    <string name="recovery_certificate_valid_until">"gültig bis %s"</string>
+    <string name="recovery_certificate_valid_until">"valid to %s"</string>
+
+    <!-- XTXT: Detail green certificate diaglog title -->
+    <string name="recovery_certificate_details_dialog_remove_test_title">"Do you want to remove the certificate of recovery?"</string>
+    <!-- XTXT: Detail green certificate diaglog message -->
+    <string name="recovery_certificate_details_dialog_remove_test_message">"If you remove the certificate of recovery, you can no longer use it as proof in the app."</string>
 
     <!-- #####################################################
          TEST CERTIFICATE STRINGS BELOW
          ##################################################### -->
     <!-- XTXT: Test certificate sampled on -->
-    <string name="test_certificate_sampled_on">"Probenahme am %s"</string>
+    <string name="test_certificate_sampled_on">"Sample taken %s"</string>
     <!-- XTXT: Test certificate sampled on date and time -->
-    <string name="test_certificate_qrcode_card_sampled_on">"Probenahme am %s Uhr"</string>
+    <string name="test_certificate_qrcode_card_sampled_on">"Sample taken %s"</string>
     <!-- XTXT: Test certificate card name  -->
     <string name="test_certificate_name">Testzertifikat</string>
 
