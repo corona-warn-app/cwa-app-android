@@ -58,6 +58,7 @@ class DccCountryRepository @Inject constructor(
     /**
      * Refreshes via server request, throws exception if the server request fails.
      */
+    @Throws(Exception::class)
     suspend fun refresh(): List<DccCountry> = internalData.updateBlocking {
         val newCountryData = server.dccCountryJson()
         localCache.saveJson(newCountryData)

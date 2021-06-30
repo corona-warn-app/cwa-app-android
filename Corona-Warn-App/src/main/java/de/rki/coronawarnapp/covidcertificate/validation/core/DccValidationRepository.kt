@@ -20,6 +20,7 @@ class DccValidationRepository @Inject constructor(
      * The UI calls this before entering the validation flow.
      * Either we have a cached valid data to work with, or this throws an error for the UI to display.
      */
+    @Throws(Exception::class)
     suspend fun refresh() {
         dccCountryRepository.refresh()
         validationRulesRepository.refresh()
