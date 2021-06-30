@@ -17,24 +17,28 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"COVID Test Certificate"</item>
-        <item>"Contact Journal Enhancement"</item>
+        <item>"COVID Certificate of Recovery"</item>
+        <item>"Family Certificates"</item>
+        <item>"Extended Statistics"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"You can now request an official digital test certificate through the app and then add it in the app. You can use this test certificate (QR code) within the EU to prove a negative test result (for international travel, for example)."</item>
-        <item>"As soon as your test result is available, it is now also added to your contact journal."</item>
+        <item>"You can now also request digital certificates of recovery through the app and then add them in the app. You can use these certificates within the EU to prove recovery from a previous infection (for international travel, for example)."</item>
+        <item>"You can now add digital COVID certificates of family members in the app and manage them, to submit certificates when needed (for international travel, for example)."</item>
+        <item>"The following vaccination statistics are now available in the app:\n\t- Number of people who have received at least one vaccine dose\n\t- Number of people who are fully vaccinated\n\t- Number of administered vaccine doses"</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item />
         <item />
+        <item />
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item />
         <item />
         <item />
     </string-array>

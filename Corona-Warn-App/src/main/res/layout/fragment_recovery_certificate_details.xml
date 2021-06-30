@@ -132,8 +132,9 @@
                     android:layout_marginHorizontal="24dp"
                     android:layout_marginBottom="6dp" />
 
-                <LinearLayout
-                    style="@style/Card.GreenCertificate"
+                <TextView
+                    android:id="@+id/fullname"
+                    style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="24dp"

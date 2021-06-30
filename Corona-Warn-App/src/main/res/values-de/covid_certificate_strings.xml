@@ -20,18 +20,18 @@
     <!-- XTXT: Person overview no certificates image content description-->
     <string name="person_overview_no_certificates_image_description">A certificate with a QR code symbol on it.</string>
     <!-- XTXT: Person card title-->
-    <string name="person_card_title">EU Digitales</string>
+    <string name="person_card_title">Digitales</string>
     <!-- XTXT: Person card subtitle-->
-    <string name="person_card_subtitle">COVID-Zertifikat</string>
+    <string name="person_card_subtitle">COVID-Zertifikat der EU</string>
 
     <!-- XTXT: Vaccination Consent title-->
     <string name="vaccination_consent_title">Ihr Einverständnis</string>
     <!-- XTXT: Vaccination Consent subtitle-->
     <string name="vaccination_consent_headline">"Zertifikate hinzufügen"</string>
     <!-- XTXT: Vaccination Consent subtitle of qr info -->
-    <string name="vaccination_consent_info_subtitle_text">"Fügen Sie EU digitale COVID-Zertifikate in der App hinzu, um mit der App den Impfschutz, ein negatives Testergebnis oder eine überstandene Infektion nachweisen zu können."</string>
+    <string name="vaccination_consent_info_subtitle_text">"Fügen Sie digitale COVID-Zertifikate der EU in der App hinzu, um mit der App den Impfschutz, ein negatives Testergebnis oder eine überstandene Infektion nachweisen zu können."</string>
     <!-- XTXT: Vaccination Consent text of qr info -->
-    <string name="vaccination_consent_qr_info_text">"Sie können EU digitale COVID-Impfzertifikate, COVID-Testzertifikate und COVID-Genesenenzertifikate in der App hinzufügen."</string>
+    <string name="vaccination_consent_qr_info_text">"Sie können digitale COVID-Impfzertifikate, COVID-Testzertifikate und COVID-Genesenenzertifikate der EU in der App hinzufügen."</string>
     <!-- XTXT: Vaccination Consent qr code text -->
     <string name="vaccination_consent_qr_info_qr_code_text">"Die Zertifikate gelten innerhalb der EU als gültiger Nachweis (z.B. für Reisen)."</string>
     <!-- XTXT: Vaccination Consent time text  -->
@@ -47,7 +47,7 @@
     <!-- XTXT: Current priority certificate info -->
     <string name="certificate_card_bookmark_info">Aktuell verwendetes Zertifikat</string>
     <!-- XHED: Person certificate details title -->
-    <string name="person_details_certificate_title">"EU Digitales COVID-Zertifikat"</string>
+    <string name="person_details_certificate_title">"Digitales COVID-Zertifikat der EU"</string>
     <!-- XTXT: Test Certificate CWA User card description -->
     <string name="person_details_cwa_user_description">"Mein Smartphone, meine App. Zertifikate für mich erscheinen in der Liste an erster Stelle."</string>
     <!-- XTXT: Test Certificate CWA User card birthdate -->
@@ -73,7 +73,7 @@
     </plurals>
 
     <!-- XTXT: Vaccination is not complete information card body-->
-    <string name="vaccination_certificate_incomplete_vaccination">"Sie haben noch nicht alle derzeit geplanten Impfungen erhalten. Daher ist ihr Impfschutz noch nicht vollständig."</string>
+    <string name="vaccination_certificate_incomplete_vaccination">"Sie haben noch nicht alle derzeit geplanten Impfungen erhalten. Daher ist Ihr Impfschutz noch nicht vollständig."</string>
 
     <!-- #####################################################
          RECOVERY CERTIFICATE STRINGS BELOW
@@ -82,11 +82,16 @@
     <!-- XTXT: Recovery certificate detail title -->
     <string name="recovery_certificate_details_title">"Genesenenzertifikat"</string>
     <!-- XTXT: Recovery certificate detail subtitle -->
-    <string name="recovery_certificate_details_subtitle">"EU Digitales COVID-Zertifikat"</string>
+    <string name="recovery_certificate_details_subtitle">"Digitales COVID-Zertifikat der EU"</string>
     <!-- XTXT: Recovery certificate card name  -->
     <string name="recovery_certificate_name">Genesenzertifikat</string>
     <!-- XTXT: Recovery certificate valid until -->
     <string name="recovery_certificate_valid_until">"gültig bis %s"</string>
+
+    <!-- XTXT: Detail green certificate diaglog title -->
+    <string name="recovery_certificate_details_dialog_remove_test_title">"Wollen Sie das Zertifikat entfernen?"</string>
+    <!-- XTXT: Detail green certificate diaglog message -->
+    <string name="recovery_certificate_details_dialog_remove_test_message">"Wenn Sie das Genesenenzertifikat entfernen, können Sie es nicht mehr als Nachweis in der App verwenden."</string>
 
     <!-- #####################################################
          TEST CERTIFICATE STRINGS BELOW

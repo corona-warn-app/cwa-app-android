@@ -23,6 +23,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
+import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.TracingSettings
@@ -50,6 +51,7 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var traceLocationPreferences: TraceLocationPreferences
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var statisticsProvider: StatisticsProvider
+    @MockK lateinit var localStatisticsProvider: LocalStatisticsProvider
     @MockK lateinit var surveySettings: SurveySettings
     @MockK lateinit var analyticsSettings: AnalyticsSettings
     @MockK lateinit var analytics: Analytics
@@ -86,6 +88,7 @@ internal class DataResetTest : BaseTest() {
         contactDiaryPreferences = contactDiaryPreferences,
         cwaSettings = cwaSettings,
         statisticsProvider = statisticsProvider,
+        localStatisticsProvider = localStatisticsProvider,
         surveySettings = surveySettings,
         analyticsSettings = analyticsSettings,
         analytics = analytics,
@@ -129,6 +132,7 @@ internal class DataResetTest : BaseTest() {
             traceLocationSettings.clear()
             contactDiaryRepository.clear()
             statisticsProvider.clear()
+            localStatisticsProvider.clear()
             bugReportingSettings.clear()
             traceWarningRepository.clear()
             traceLocationRepository.deleteAllTraceLocations()
