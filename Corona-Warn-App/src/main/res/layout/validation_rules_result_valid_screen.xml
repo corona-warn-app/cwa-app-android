@@ -5,16 +5,16 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
-        android:contentDescription="@string/validation_rules_result_valid_header"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:contentDescription="@string/validation_rules_result_valid_header">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             style="@style/CWAToolbar.Close"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/colorSurface"
+            android:background="@color/colorTransparent"
             android:translationZ="90dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -25,86 +25,79 @@
             android:id="@+id/scrollview"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toTopOf="@+id/validate_results_check_country_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/scrollable_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <androidx.constraintlayout.helper.widget.Flow
+                    android:id="@+id/flow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/spacing_small"
+                    app:constraint_referenced_ids="new_validation_result_info_illustration,date_details_tv,headline,certificate_note_view,new_release_info_bottom"
+                    app:flow_maxElementsWrap="1"
+                    app:flow_verticalGap="@dimen/spacing_small"
+                    app:flow_wrapMode="chain"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <ImageView
                     android:id="@+id/new_validation_result_info_illustration"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/release_info_header"
                     android:focusable="true"
-                    app:srcCompat="@drawable/ic_valid_cert_new"
                     android:importantForAccessibility="no"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_valid_cert_new"
                     tools:src="@drawable/ic_valid_cert_new" />
 
                 <TextView
-                    style="@style/StatisticsCardTitleCaption"
                     android:id="@+id/date_details_tv"
+                    style="@style/StatisticsCardTitleCaption"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/spacing_normal"
-                    android:layout_marginTop="16dp"
                     android:focusable="true"
-                    android:text="Lorem Ipsum Traveldate"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/new_validation_result_info_illustration" />
+                    android:text="Lorem Ipsum Traveldate" />
 
                 <TextView
-                    style="@style/headline5"
                     android:id="@+id/headline"
+                    style="@style/headline5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/spacing_normal"
-                    android:layout_marginTop="16dp"
                     android:focusable="true"
-                    android:text="@string/validation_rules_result_valid_result_title"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/date_details_tv" />
+                    android:text="@string/validation_rules_result_valid_result_title" />
 
-
-                <include layout="@layout/validation_rules_result_valid_note_card"
+                <include
                     android:id="@+id/certificate_note_view"
-                    android:layout_width="0dp"
+                    layout="@layout/validation_rules_result_valid_note_card"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginStart="12dp"
-                    android:nestedScrollingEnabled="false"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/headline"/>
+                    android:nestedScrollingEnabled="false" />
 
                 <TextView
-                    style="@style/subtitle"
                     android:id="@+id/new_release_info_bottom"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/spacing_normal"
                     android:focusable="true"
-                    android:text="@string/validation_rules_result_valid_result_faq"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/certificate_note_view" />
+                    android:text="@string/validation_rules_result_valid_result_faq" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
 
         <Button
-            style="@style/buttonPrimary"
             android:id="@+id/validate_results_check_country_btn"
+            style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_normal"
