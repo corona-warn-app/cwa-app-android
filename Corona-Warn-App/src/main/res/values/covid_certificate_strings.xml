@@ -98,14 +98,14 @@
     <string name="test_certificate_name">Testzertifikat</string>
 
     <!-- #####################################################
-        VALIDATION RULES INFO SCREEN STRINGS BELOW
-        ##################################################### -->
+     VALIDATION RULES INFO SCREEN STRINGS BELOW
+     ##################################################### -->
     <!-- XTXT: Validation Rule Info Screen: Car Text  -->
-    <string name="validation_rules_info_car">Geben Sie die geplante lokale Ankunftszeit an der Grenze zu Ihrem Einreiseland ein. Bitte beachten Sie die mögliche Zeitverschiebung.</string>
+    <string name="validation_rules_info_car">"Geben Sie die geplante lokale Ankunftszeit an der Grenze zu Ihrem Einreiseland ein."</string>
     <!-- XTXT: Validation Rule Info Screen: Flight Text  -->
-    <string name="validation_rules_info_flight">Geben Sie die geplante lokale Ankunftszeit an der Grenze zu Ihrem Einreiseland ein. Bitte beachten Sie die mögliche Zeitverschiebung.</string>
+    <string name="validation_rules_info_flight">"Wenn Sie auf dem Luftweg einreisen, geben Sie die geplante Uhrzeit Ihres Abflugs ein."</string>
     <!-- XTXT: Validation Rule Info Screen Title -->
-    <string name="validation_rules_info_title">Informationen</string>
+    <string name="validation_rules_info_title">"Informationen"</string>
     <!-- XTXT: Accessibility: Validation Rule Info Screen Image Description -->
-    <string name="validation_rules_info_image">Karte von Europa</string>
+    <string name="validation_rules_info_image">"Karte von Europa"</string>
 </resources>
