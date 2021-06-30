@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/validation_rules_result_valid_card"
-    style="@style/GreyCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -53,7 +53,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_normal"
-
         android:text="@string/validation_rules_result_valid_result_note_2"
         app:layout_constraintEnd_toEndOf="@id/first_bulletpoint_text"
         app:layout_constraintStart_toStartOf="@id/first_bulletpoint_text"

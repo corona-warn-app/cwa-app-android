@@ -60,19 +60,17 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/new_validation_result_info_illustration" />
 
-                <include
-                    android:id="@+id/recycler_view"
+
+                <include layout="@layout/validation_rules_result_valid_note_card"
+                    android:id="@+id/certificate_note_view"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:layout_marginStart="12dp"
                     android:nestedScrollingEnabled="false"
-                    android:orientation="vertical"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/headline"
-                    app:layout="@layout/validation_rules_result_valid_note_card" />
+                    app:layout_constraintTop_toBottomOf="@id/headline"/>
 
                 <TextView
                     style="@style/subtitle"
@@ -85,7 +83,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/recycler_view" />
+                    app:layout_constraintTop_toBottomOf="@id/certificate_note_view" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
