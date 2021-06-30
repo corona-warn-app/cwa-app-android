@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     android:background="@color/colorSurface"
     android:contentDescription="@string/tracelocation_organizer_category_title"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context=".ui.presencetracing.organizer.qrinfo.TraceLocationQRInfoFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -58,8 +60,8 @@
                 app:layout_constraintTop_toBottomOf="@id/body" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/land"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:id="@+id/country_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="26dp"
@@ -67,36 +69,43 @@
                 android:layout_marginEnd="22dp"
                 android:layout_marginBottom="@dimen/spacing_tiny"
                 android:hint="@string/validation_start_land_hint"
-                app:boxBackgroundColor="#F5F5F5"
+                android:textColorHint="@color/colorTextPrimary3"
+                app:boxBackgroundColor="@color/colorContactDiaryListItem"
                 app:layout_constraintStart_toStartOf="@+id/body"
                 app:layout_constraintTop_toBottomOf="@+id/subtitle">
 
                 <AutoCompleteTextView
+                    android:id="@+id/country_picker"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:inputType="none" />
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:textColor="@color/colorOnPrimary"
+                    tools:text="Deutschland" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/date"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:id="@+id/date_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="26dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="22dp"
                 android:layout_marginBottom="@dimen/spacing_tiny"
+                android:focusable="false"
                 android:hint="@string/validation_start_date_hint"
-                app:boxBackgroundColor="#F5F5F5"
+                android:textColorHint="@color/colorTextPrimary3"
+                app:boxBackgroundColor="@color/colorContactDiaryListItem"
                 app:layout_constraintStart_toStartOf="@+id/body"
-                app:layout_constraintTop_toBottomOf="@+id/land">
+                app:layout_constraintTop_toBottomOf="@+id/country_layout">
 
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/date_picker"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:enabled="false"
+                    android:clickable="true"
+                    android:focusable="false"
                     android:inputType="none" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -111,13 +120,14 @@
                 android:text="@string/validation_start_date_info"
                 app:layout_constraintEnd_toEndOf="@id/body"
                 app:layout_constraintStart_toStartOf="@id/body"
-                app:layout_constraintTop_toBottomOf="@id/date" />
+                app:layout_constraintTop_toBottomOf="@id/date_layout" />
 
             <ImageView
                 android:id="@+id/date_info_icon"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="10dp"
+                android:layout_marginEnd="14dp"
                 android:importantForAccessibility="no"
                 app:layout_constraintEnd_toEndOf="@id/body"
                 app:layout_constraintStart_toEndOf="@id/date_info"
@@ -227,7 +237,7 @@
                 android:focusable="true"
                 app:layout_constraintEnd_toEndOf="@id/body"
                 app:layout_constraintStart_toStartOf="@id/body"
-                app:layout_constraintTop_toBottomOf="@id/faq" >
+                app:layout_constraintTop_toBottomOf="@id/faq">
 
                 <TextView
                     android:id="@+id/privacy_card_title"

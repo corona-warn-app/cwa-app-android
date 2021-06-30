@@ -321,7 +321,7 @@
                 android:focusable="true" />
 
             <Button
-                android:id="@+id/trace_location_qr_info_understand_button"
+                android:id="@+id/validation_start_button"
                 style="@style/buttonPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

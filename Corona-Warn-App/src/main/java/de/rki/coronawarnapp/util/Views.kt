@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.util
 
+import android.content.Context
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.Spanned
@@ -40,6 +41,79 @@ fun TextView.setUrl(content: String, label: String, url: String) {
         movementMethod = LinkMovementMethod.getInstance()
     } else {
         text = content
+    }
+}
+
+fun TextView.setDoubleUrl(
+    content: String,
+    labelOne: String,
+    urlOne: String,
+    labelTwo: String,
+    urlTwo: String)
+{
+    val indexOfOne = content.indexOf(labelOne)
+    val indexOfTwo = content.indexOf(labelTwo)
+    if(indexOfOne > 0 && indexOfTwo > 0)
+    {
+        setText(
+            SpannableStringBuilder(content)
+                .urlSpan(indexOfOne, indexOfOne + labelOne.length, urlOne)
+                .urlSpan(indexOfTwo, indexOfTwo + labelTwo.length, urlTwo),
+            TextView.BufferType.SPANNABLE
+        )
+        movementMethod = LinkMovementMethod.getInstance()
+    } else {
+        text = content
+    }
+}
+
+fun TextView.setUrls(
+    content: String,
+    urls: List<TextViewUrlSet>
+) {
+    val clean = urls
+        .filter { (it.label != null || it.labelResource != null) && (it.url != null || it.urlResource != null) }
+        .map { it.copy().apply { index = content.indexOf(getLabel(context)!!) } }
+        .filter { it.index > 0 }
+
+    if (clean.isEmpty()) {
+        text = content
+        return
+    }
+
+    val stringBuilder = SpannableStringBuilder(content)
+    for (set in clean) {
+        with(set) {
+            stringBuilder.urlSpan(index, index + label!!.length, getUrl(context)!!)
+        }
+    }
+    setText(
+        stringBuilder,
+        TextView.BufferType.SPANNABLE
+    )
+    movementMethod = LinkMovementMethod.getInstance()
+}
+
+data class TextViewUrlSet (
+    var label: String? = null,
+    var url: String? = null,
+    var index: Int = 0,
+    @StringRes val labelResource: Int? = null,
+    @StringRes val urlResource: Int? = null,
+    ) {
+
+    fun getLabel(context: Context?): String? {
+        if (label == null && labelResource != null) {
+            label = context?.getString(labelResource)
+        }
+        return label
+    }
+
+    fun getUrl(context: Context?): String? {
+        if (url == null && urlResource != null) {
+            url = context?.getString(urlResource)
+        }
+        return url
     }
 }
 
