@@ -60,7 +60,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         testCertificate: TestCertificate
     ) {
         name.text = testCertificate.fullName
-        dateOfBirth.text = testCertificate.dateOfBirthFormatted
+        birthDate.text = testCertificate.dateOfBirthFormatted
         diseaseType.text = testCertificate.targetName
         testType.text = testCertificate.testType
         testName.text = testCertificate.testName

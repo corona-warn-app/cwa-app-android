@@ -59,7 +59,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
 
         fullname.text = certificate.fullName
         dateOfBirth.text = certificate.dateOfBirthFormatted
-        recoveredFromDisease.text = certificate.targetDisease
+        recoveredFromDesease.text = certificate.targetDisease
         dateOfFirstPositiveTestResult.text = certificate.testedPositiveOnFormatted
         certificateCountry.text = certificate.certificateCountry
         certificateIssuer.text = certificate.certificateIssuer
