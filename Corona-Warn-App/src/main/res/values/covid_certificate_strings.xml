@@ -101,7 +101,7 @@
     <!-- XTXT: Test certificate sampled on date and time -->
     <string name="test_certificate_qrcode_card_sampled_on">"Sample taken %s"</string>
     <!-- XTXT: Test certificate card name  -->
-    <string name="test_certificate_name">Testzertifikat</string>
+    <string name="test_certificate_name">Test Certificate</string>
 
     <!-- #####################################################
       VALIDATION RULES RESULT SCREEN (VALID) STRINGS BELOW
