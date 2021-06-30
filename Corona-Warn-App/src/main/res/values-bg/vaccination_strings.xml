@@ -43,6 +43,9 @@
         <item quantity="few">"Получихте всички планирани за момента ваксинации, но ваксинационната Ви защита ще е пълна едва след %1$d дни."</item>
         <item quantity="many">"Получихте всички планирани за момента ваксинации, но ваксинационната Ви защита ще е пълна едва след %1$d дни."</item>
     </plurals>
+    <!-- XTXT: Vaccination card immunity information card body when <1 day is left till immunity -->
+    <string name="vaccination_list_immunity_tomorrow_card_body">"Получихте всички планирани за момента ваксинации, но ваксинационната Ви защита ще се счита за пълна от утре."</string>
+
     <!-- XBUT: Vaccination List register additional vaccination button -->
     <string name="vaccination_list_register_new_vaccination_button">"Добавяне на друга ваксинация"</string>
     <!-- XBUT: Vaccination List delete button -->
@@ -79,13 +82,14 @@
     <string name="vaccination_card_status_vaccination_incomplete">"Ваксинирането не е пълно"</string>
     <!-- XTXT: Homescreen card complete vaccination status label -->
     <plurals name="vaccination_card_status_vaccination_complete" tools:ignore="UnusedQuantity">
-        <item quantity="one">"Пълна защита от ваксиниране след %1$d ден"</item>
-        <item quantity="other">"Пълна защита от ваксиниране след %1$d дни"</item>
-        <item quantity="zero">"Пълна защита от ваксиниране след %1$d дни"</item>
-        <item quantity="two">"Пълна защита от ваксиниране след %1$d дни"</item>
-        <item quantity="few">"Пълна защита от ваксиниране след %1$d дни"</item>
-        <item quantity="many">"Пълна защита от ваксиниране след %1$d дни"</item>
+        <item quantity="one">"Пълна ваксинационна защита след %1$d ден"</item>
+        <item quantity="other">"Пълна ваксинационна защита след %1$d дни"</item>
+        <item quantity="zero">"Пълна ваксинационна защита след %1$d дни"</item>
+        <item quantity="two">"Пълна ваксинационна защита след %1$d дни"</item>
+        <item quantity="few">"Пълна ваксинационна защита след %1$d дни"</item>
+        <item quantity="many">"Пълна ваксинационна защита след %1$d дни"</item>
     </plurals>
+    <string name="vaccination_card_status_vaccination_complete_tomorrow">"Пълна ваксинационна защита от утре"</string>
     <!-- XTXT: Homescreen card complete vaccination status label -->
     <string name="vaccination_card_status_vaccination_complete">"Валидно до %s"</string>
 
