@@ -43,6 +43,9 @@
         <item quantity="few">"Şu anda planlanan tüm aşıları aldınız ancak aşı korumanız %1$d gün daha tamamlanmayacaktır."</item>
         <item quantity="many">"Şu anda planlanan tüm aşıları aldınız ancak aşı korumanız %1$d gün daha tamamlanmayacaktır."</item>
     </plurals>
+    <!-- XTXT: Vaccination card immunity information card body when <1 day is left till immunity -->
+    <string name="vaccination_list_immunity_tomorrow_card_body">"Şu anda planlanan tüm aşıları aldınız ancak aşı korumanız yarına kadar tamamlanmayacaktır."</string>
+
     <!-- XBUT: Vaccination List register additional vaccination button -->
     <string name="vaccination_list_register_new_vaccination_button">"Başka Aşı Ekle"</string>
     <!-- XBUT: Vaccination List delete button -->
@@ -86,6 +89,7 @@
         <item quantity="few">"%1$d gün içinde tam aşı koruması"</item>
         <item quantity="many">"%1$d gün içinde tam aşı koruması"</item>
     </plurals>
+    <string name="vaccination_card_status_vaccination_complete_tomorrow">"Yarından itibaren tam aşı koruması"</string>
     <!-- XTXT: Homescreen card complete vaccination status label -->
     <string name="vaccination_card_status_vaccination_complete">"Son geçerlilik tarihi: %s"</string>
 
