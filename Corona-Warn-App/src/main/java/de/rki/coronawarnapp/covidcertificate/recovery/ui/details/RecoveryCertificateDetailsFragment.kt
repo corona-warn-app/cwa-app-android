@@ -38,11 +38,20 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
     )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
+
+        with(binding) {
+            startValidationCheck.setOnClickListener {
+                validationProgressBar.show()
+                // viewModel...()
+            }
+        }
+
         appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
             title.alpha = titleAlpha
             subtitle.alpha = subtitleAlpha
             europaImage.alpha = subtitleAlpha
         }
+
 
         bindToolbar()
         setToolbarOverlay()

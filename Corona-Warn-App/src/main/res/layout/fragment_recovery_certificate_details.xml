@@ -283,7 +283,6 @@
 
             </LinearLayout>
 
-
         </androidx.core.widget.NestedScrollView>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -310,4 +309,13 @@
             tools:text="@string/start_validation_rule_check_button" />
 
     </LinearLayout>
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/validation_progress_bar"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:indeterminate="true"
+        android:visibility="invisible"
+        app:hideAnimationBehavior="inward" />
+
 </RelativeLayout>
