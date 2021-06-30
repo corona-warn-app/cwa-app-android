@@ -13,7 +13,7 @@ internal fun String.formatDate(): String {
 }
 
 internal fun String.formatDateTime(tz: DateTimeZone = DateTimeZone.getDefault()): String = try {
-    val pattern = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm 'GMT' ZZ")
+    val pattern = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm 'UTC' ZZ")
     DateTime.parse(
         this,
         DateTimeFormatterBuilder()
