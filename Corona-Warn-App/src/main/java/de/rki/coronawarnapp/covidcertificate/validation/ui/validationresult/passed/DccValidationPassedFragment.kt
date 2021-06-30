@@ -19,7 +19,6 @@ class DccValidationPassedFragment : Fragment(R.layout.validation_rules_result_va
     private val viewModel: DccValidationPassedViewmodel by cwaViewModels { viewModelFactory }
     private val binding: ValidationRulesResultValidScreenBinding by viewBinding()
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(binding) {
             toolbar.setNavigationOnClickListener {

@@ -16,5 +16,4 @@ abstract class DccValidationPassedFragmentModule {
     abstract fun dccValidationPassedFragment(
         factory: DccValidationPassedViewmodel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
-
 }
