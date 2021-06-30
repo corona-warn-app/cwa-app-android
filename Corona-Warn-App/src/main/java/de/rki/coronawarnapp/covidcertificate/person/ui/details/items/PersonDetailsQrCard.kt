@@ -34,6 +34,7 @@ class PersonDetailsQrCard(parent: ViewGroup) :
             qrCodeBitmap?.let { progressBar.hide() }
             qrTitle.isVisible = true
             qrSubtitle.isVisible = true
+            startValidationCheckButton.isVisible = true
             when (certificate) {
                 is TestCertificate -> {
                     val dateTime = certificate.sampleCollectedAt.toUserTimeZone().run {

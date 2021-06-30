@@ -52,4 +52,20 @@
         app:layout_constraintTop_toBottomOf="@id/qr_title"
         tools:text="Perobenahme am 31.05.21, 18:01 Uhr" />
 
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/start_validation_check_button"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/qr_subtitle"
+        android:layout_marginTop="4dp"
+        android:text="@string/start_validation_rule_check_button"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/qr_subtitle"
+        app:strokeColor="@color/colorPrimary" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
