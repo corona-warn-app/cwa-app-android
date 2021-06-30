@@ -21,13 +21,7 @@ class DccCountryRepositoryTest : BaseTest() {
     @MockK lateinit var server: DccCountryServer
     @MockK lateinit var localCache: DccCountryLocalCache
 
-    private val testCountryData = """
-            [
-                "de",
-                "nl"
-            ]
-        """.trimIndent()
-
+    private val testCountryData = "[\"DE\",\"NL\"]"
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
