@@ -12,8 +12,9 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             style="@style/CWAToolbar.Close"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="@color/colorTransparent"
             android:translationZ="90dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +41,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/spacing_small"
-                    app:constraint_referenced_ids="new_validation_result_info_illustration,date_details_tv,headline,certificate_note_view,new_release_info_bottom"
+                    app:constraint_referenced_ids="new_validation_result_info_illustration,date_details_tv,headline,certificate_note_view,validation_result_faq_tv"
                     app:flow_maxElementsWrap="1"
                     app:flow_verticalGap="@dimen/spacing_small"
                     app:flow_wrapMode="chain"
@@ -83,7 +84,7 @@
                     android:nestedScrollingEnabled="false" />
 
                 <TextView
-                    android:id="@+id/new_release_info_bottom"
+                    android:id="@+id/validation_result_faq_tv"
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

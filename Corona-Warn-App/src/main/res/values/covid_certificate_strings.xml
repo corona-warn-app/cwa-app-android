@@ -121,7 +121,11 @@
     <!-- XTXT: Validation Rule Result Valid - note point 4 -->
     <string name="validation_rules_result_valid_result_note_4">Ob die im Zertifikat eingetragenen Daten richtig sind, wird nicht geprüft.</string>
     <!-- XTXT: Validation Rule Result Valid - faq & infos -->
-    <string name="validation_rules_result_valid_result_faq">Mehr Informationen finden Sie in den FAQ und unter https://reopen.europa.eu/de</string>
+    <string name="validation_rules_result_valid_result_faq">Mehr Informationen finden Sie in den %1$s und unter %2$s</string>
+    <!-- XTXT: Validation Rule Result Valid faq link label - Replaces %1$s in text above -->
+    <string name="validation_rules_result_valid_result_faq_link_label">FAQ</string>
+    <!-- XTXT: Validation Rule Result Valid reopen link label - Replaces %2$s in text above -->
+    <string name="validation_rules_result_valid_result_reopen_link_label">https://reopen.europa.eu/de</string>
     <!-- XTXT: Validation Rule Result Valid - reopen link -->
     <string name="validation_rules_result_valid_result_reopen_link">https://reopen.europa.eu/de</string>
     <!-- XTXT: Validation Rule Result Valid - faq link -->

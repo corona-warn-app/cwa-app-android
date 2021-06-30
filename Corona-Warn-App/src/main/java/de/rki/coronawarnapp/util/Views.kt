@@ -30,7 +30,11 @@ fun TextView.setUrl(@StringRes textRes: Int, label: String, url: String) {
     setUrl(context.getString(textRes), label, url)
 }
 
-fun TextView.setUrl(content: String, label: String, url: String) {
+fun TextView.setUrl(label: String, url: String) {
+    setUrl(text, label, url)
+}
+
+fun TextView.setUrl(content: CharSequence, label: String, url: String) {
     val indexOf = content.indexOf(label)
     if (indexOf > 0) {
         setText(
