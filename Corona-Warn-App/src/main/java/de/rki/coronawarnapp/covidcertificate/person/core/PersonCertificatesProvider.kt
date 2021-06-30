@@ -29,7 +29,7 @@ class PersonCertificatesProvider @Inject constructor(
             testWrappers.mapNotNull { it.testCertificate }
         },
         recoveryCertificateRepository.certificates.map { recoveryWrappers ->
-            recoveryWrappers.mapNotNull { it.testCertificate }
+            recoveryWrappers.mapNotNull { it.recoveryCertificate }
         },
         personCertificatesSettings.currentCwaUser.flow,
     ) { vaccs, tests, recos, cwaUser ->
@@ -56,7 +56,7 @@ class PersonCertificatesProvider @Inject constructor(
      * After calling this [personCertificates] will emit new values.
      * Setting it to null deletes it.
      */
-    suspend fun setCurrentCwaUser(personIdentifier: CertificatePersonIdentifier?) {
+    fun setCurrentCwaUser(personIdentifier: CertificatePersonIdentifier?) {
         Timber.d("setCurrentCwaUser(personIdentifier=%s)", personIdentifier)
         personCertificatesSettings.currentCwaUser.update { personIdentifier }
     }

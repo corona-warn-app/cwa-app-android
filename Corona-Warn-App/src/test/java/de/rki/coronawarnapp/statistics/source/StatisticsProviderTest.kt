@@ -87,7 +87,7 @@ class StatisticsProviderTest : BaseTest() {
         val instance = createInstance(this)
         val testCollector = instance.current.test(startOnScope = this)
 
-        testCollector.latestValue shouldBe statisticsData
+        testCollector.latestValues shouldBe listOf(StatisticsData(), statisticsData)
 
         val newRawStatisticsData = "Bernd".encodeToByteArray()
         coEvery { server.getRawStatistics() } returns newRawStatisticsData
@@ -97,7 +97,7 @@ class StatisticsProviderTest : BaseTest() {
         testForegroundState.value = false
         testForegroundState.value = true
 
-        testCollector.latestValues shouldBe listOf(statisticsData, newStatisticsData)
+        testCollector.latestValues shouldBe listOf(StatisticsData(), statisticsData, newStatisticsData)
         verify { localCache.save(newRawStatisticsData) }
     }
 
@@ -106,13 +106,13 @@ class StatisticsProviderTest : BaseTest() {
         val instance = createInstance(this)
         val testCollector = instance.current.test(startOnScope = this)
 
-        testCollector.latestValue shouldBe statisticsData
+        testCollector.latestValues shouldBe listOf(StatisticsData(), statisticsData)
 
         coEvery { server.getRawStatistics() } throws IOException()
 
         instance.triggerUpdate()
 
-        testCollector.latestValues shouldBe listOf(statisticsData)
+        testCollector.latestValues shouldBe listOf(StatisticsData(), statisticsData)
         verify(exactly = 0) { localCache.save(null) }
     }
 

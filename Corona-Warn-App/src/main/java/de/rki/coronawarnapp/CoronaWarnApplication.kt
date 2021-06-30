@@ -34,6 +34,7 @@ import de.rki.coronawarnapp.presencetracing.storage.retention.TraceLocationDbCle
 import de.rki.coronawarnapp.risk.changedetection.CombinedRiskLevelChangeDetector
 import de.rki.coronawarnapp.risk.changedetection.EwRiskLevelChangeDetector
 import de.rki.coronawarnapp.risk.execution.ExposureWindowRiskWorkScheduler
+import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsRetrievalScheduler
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.BuildVersionWrap
@@ -85,6 +86,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var raTestResultAvailableNotificationService: RATTestResultAvailableNotificationService
     @Inject lateinit var vaccinationUpdateScheduler: VaccinationUpdateScheduler
     @Inject lateinit var testCertificateRetrievalScheduler: TestCertificateRetrievalScheduler
+    @Inject lateinit var localStatisticsRetrievalScheduler: LocalStatisticsRetrievalScheduler
 
     @AppScope
     @Inject lateinit var appScope: CoroutineScope
@@ -144,6 +146,9 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
 
         Timber.v("Setting up vaccination data update scheduler.")
         vaccinationUpdateScheduler.setup()
+
+        Timber.v("Setting up local statistics update scheduler")
+        localStatisticsRetrievalScheduler.setup()
 
         deviceTimeHandler.launch()
         configChangeDetector.launch()

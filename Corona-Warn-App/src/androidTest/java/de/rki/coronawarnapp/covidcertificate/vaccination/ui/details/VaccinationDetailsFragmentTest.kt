@@ -92,8 +92,9 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
         val formatter = DateTimeFormat.forPattern("dd.MM.yyyy")
         val mockCertificate = mockk<VaccinationCertificate>().apply {
             every { fullName } returns "Max Mustermann"
-            every { dateOfBirth } returns LocalDate.parse("01.02.1976", formatter)
-            every { vaccinatedAt } returns LocalDate.parse("18.02.2021", formatter)
+            every { dateOfBirthFormatted } returns "01.02.1976"
+            every { vaccinatedOnFormatted } returns "18.02.2021"
+            every { vaccinatedOn } returns LocalDate.parse("18.02.2021", formatter)
             every { targetDisease } returns "COVID-19"
             every { medicalProductName } returns "Comirnaty"
             every { vaccineTypeName } returns "mRNA"

@@ -12,11 +12,12 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateCo
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CameraPermissionCard
-import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificatesItem
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificatesItem
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.permission.CameraPermissionProvider
@@ -51,11 +52,12 @@ class PersonOverviewViewModel @AssistedInject constructor(
     val personCertificates: LiveData<List<PersonCertificatesItem>> = combine(
         cameraPermissionProvider.deniedPermanently,
         certificatesProvider.personCertificates,
+        testCertificateRepository.certificates,
         certificatesProvider.qrCodesFlow
-    ) { denied, persons, qrCodesMap ->
+    ) { denied, persons, tcWrappers, qrCodesMap ->
         mutableListOf<PersonCertificatesItem>().apply {
             if (denied) add(CameraPermissionCard.Item { events.postValue(OpenAppDeviceSettings) })
-            addPersonItems(persons, qrCodesMap)
+            addPersonItems(persons, tcWrappers, qrCodesMap)
         }
     }.asLiveData(dispatcherProvider.Default)
 
@@ -81,9 +83,10 @@ class PersonOverviewViewModel @AssistedInject constructor(
 
     private fun MutableList<PersonCertificatesItem>.addPersonItems(
         persons: Set<PersonCertificates>,
+        tcWrappers: Set<TestCertificateWrapper>,
         qrCodesMap: Map<String, Bitmap?>
     ) {
-        addPendingCards(persons)
+        addPendingCards(tcWrappers)
         addCertificateCards(persons, qrCodesMap)
     }
 
@@ -94,30 +97,30 @@ class PersonOverviewViewModel @AssistedInject constructor(
         persons.filterNotPending()
             .forEachIndexed { index, person ->
                 val certificate = person.highestPriorityCertificate
+                val color = PersonColorShade.shadeFor(index)
                 add(
                     PersonCertificateCard.Item(
                         certificate = certificate,
                         qrcodeBitmap = qrCodes[certificate.qrCode],
-                        color = PersonOverviewItemColor.colorFor(index)
+                        colorShade = color
                     ) { _, position ->
-                        events.postValue(OpenPersonDetailsFragment(person.personIdentifier.codeSHA256, position))
+                        events.postValue(OpenPersonDetailsFragment(person.personIdentifier.codeSHA256, position, color))
                     }
                 )
             }
     }
 
-    private fun MutableList<PersonCertificatesItem>.addPendingCards(persons: Set<PersonCertificates>) {
-        persons.forEach {
-            val certificate = it.highestPriorityCertificate
-            if (certificate is TestCertificate && certificate.isCertificateRetrievalPending) {
-                add(
-                    CovidTestCertificatePendingCard.Item(
-                        certificate = certificate,
-                        onRetryAction = { refreshCertificate(certificate.containerId) },
-                        onDeleteAction = { events.postValue(ShowDeleteDialog(certificate.containerId)) }
-                    )
+    private fun MutableList<PersonCertificatesItem>.addPendingCards(tcWrappers: Set<TestCertificateWrapper>) {
+        tcWrappers.filter {
+            it.isCertificateRetrievalPending
+        }.forEach { certificateWrapper ->
+            add(
+                CovidTestCertificatePendingCard.Item(
+                    certificate = certificateWrapper,
+                    onRetryAction = { refreshCertificate(certificateWrapper.containerId) },
+                    onDeleteAction = { events.postValue(ShowDeleteDialog(certificateWrapper.containerId)) }
                 )
-            }
+            )
         }
     }
 

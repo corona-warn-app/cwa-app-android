@@ -15,10 +15,14 @@ import javax.inject.Inject
 class DccV1Parser @Inject constructor(
     @BaseGson private val gson: Gson
 ) {
-    fun parse(map: CBORObject, mode: Mode): DccV1 = try {
+    fun parse(map: CBORObject, mode: Mode): Body = try {
         map[keyHCert]?.run {
             this[keyEuDgcV1]?.run {
-                this.toCertificate().toValidated(mode)
+                val (rawBody, dcc) = this.toCertificate()
+                Body(
+                    raw = rawBody,
+                    parsed = dcc.toValidated(mode)
+                )
             } ?: throw InvalidVaccinationCertificateException(ErrorCode.HC_CWT_NO_DGC)
         } ?: throw InvalidVaccinationCertificateException(ErrorCode.HC_CWT_NO_HCERT)
     } catch (e: InvalidHealthCertificateException) {
@@ -27,9 +31,9 @@ class DccV1Parser @Inject constructor(
         throw InvalidHealthCertificateException(ErrorCode.HC_CBOR_DECODING_FAILED, cause = e)
     }
 
-    private fun CBORObject.toCertificate(): DccV1 = try {
+    private fun CBORObject.toCertificate(): Pair<String, DccV1> = try {
         val json = ToJSONString()
-        gson.fromJson(json)
+        json to gson.fromJson(json)
     } catch (e: InvalidHealthCertificateException) {
         throw e
     } catch (e: Throwable) {
@@ -61,7 +65,7 @@ class DccV1Parser @Inject constructor(
             if (vaccinations.isNullOrEmpty())
                 throw InvalidVaccinationCertificateException(ErrorCode.NO_VACCINATION_ENTRY)
             Timber.w("Lenient: Vaccination data contained multiple entries.")
-            copy(vaccinations = listOf(vaccinations.maxByOrNull { it.vaccinatedAt }!!))
+            copy(vaccinations = listOf(vaccinations.maxByOrNull { it.vaccinatedOn }!!))
         }
         Mode.CERT_REC_STRICT ->
             if (recoveries?.size != 1)
@@ -88,9 +92,10 @@ class DccV1Parser @Inject constructor(
         // check for non null (Gson does not enforce it) + not blank & force date parsing
         require(version.isNotBlank())
         require(nameData.familyNameStandardized.isNotBlank())
-        dateOfBirth
+        dateOfBirthFormatted
         vaccinations?.forEach {
-            it.vaccinatedAt
+            it.vaccinatedOnFormatted
+            it.vaccinatedOn
             require(it.certificateIssuer.isNotBlank())
             require(it.certificateCountry.isNotBlank())
             require(it.marketAuthorizationHolderId.isNotBlank())
@@ -108,7 +113,9 @@ class DccV1Parser @Inject constructor(
             require(it.testType.isNotBlank())
         }
         recoveries?.forEach {
-            it.testedPositiveOn
+            it.testedPositiveOnFormatted
+            it.validFromFormatted
+            it.validUntilFormatted
             it.validFrom
             it.validUntil
             require(it.certificateIssuer.isNotBlank())
@@ -124,6 +131,11 @@ class DccV1Parser @Inject constructor(
         CERT_TEST_STRICT, // exactly one test certificate allowed
         CERT_SINGLE_STRICT; // exactly one certificate allowed
     }
+
+    data class Body(
+        val raw: String,
+        val parsed: DccV1,
+    )
 
     companion object {
         private val keyEuDgcV1 = CBORObject.FromObject(1)

@@ -67,18 +67,15 @@ class RATestProcessor @Inject constructor(
 
         val testResult = registrationData.testResultResponse.coronaTestResult.let {
             Timber.tag(TAG).v("Raw test result was %s", it)
-            // This saves received at
-            analyticsTestResultCollector.reportTestResultAtRegistration(it, type)
-            analyticsTestResultCollector.reportTestResultReceived(it, type)
             it.toValidatedResult()
         }
 
+        analyticsKeySubmissionCollector.reportTestRegistered(type)
         if (testResult == RAT_POSITIVE) {
             analyticsKeySubmissionCollector.reportPositiveTestResultReceived(type)
         }
-
-        analyticsKeySubmissionCollector.reportTestRegistered(type)
         analyticsTestResultCollector.reportTestRegistered(type)
+        analyticsTestResultCollector.reportTestResultReceived(testResult, type)
 
         val sampleCollectedAt = registrationData.testResultResponse.sampleCollectedAt
 
@@ -146,6 +143,7 @@ class RATestProcessor @Inject constructor(
             if (response.coronaTestResult == RAT_POSITIVE) {
                 analyticsKeySubmissionCollector.reportPositiveTestResultReceived(type)
             }
+            analyticsTestResultCollector.reportTestResultReceived(response.coronaTestResult, type)
 
             test.copy(
                 testResult = check60Days(test, response.coronaTestResult),

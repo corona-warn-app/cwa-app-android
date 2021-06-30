@@ -12,13 +12,13 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCerti
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidRecoveryCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
+import de.rki.coronawarnapp.covidcertificate.recovery.RecoveryQrCodeTestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.DaggerVaccinationTestComponent
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeTestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import org.joda.time.Instant
-import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -64,7 +64,7 @@ class DccQrCodeExtractorTest : BaseTest() {
                 givenName shouldBe "Gabriele"
                 givenNameStandardized shouldBe "GABRIELE"
             }
-            dateOfBirth shouldBe LocalDate.parse("1998-02-26")
+            dateOfBirthFormatted shouldBe "1998-02-26"
             version shouldBe "1.0.0"
 
             with(vaccination) {
@@ -78,7 +78,7 @@ class DccQrCodeExtractorTest : BaseTest() {
                 totalSeriesOfDoses shouldBe 2
                 targetId shouldBe "840539006"
                 vaccineId shouldBe "1119305005"
-                vaccinatedAt shouldBe LocalDate.parse("2021-02-18")
+                vaccinatedOnFormatted shouldBe "2021-02-18"
             }
         }
     }
@@ -188,7 +188,7 @@ class DccQrCodeExtractorTest : BaseTest() {
                 givenName shouldBe "СТАМО ГЕОРГИЕВ"
                 givenNameStandardized shouldBe "STAMO<GEORGIEV"
             }
-            dateOfBirth shouldBe LocalDate.parse("1978-01-26")
+            dateOfBirthFormatted shouldBe "1978-01-26"
             version shouldBe "1.0.0"
 
             vaccination.apply {
@@ -202,7 +202,7 @@ class DccQrCodeExtractorTest : BaseTest() {
                 totalSeriesOfDoses shouldBe 2
                 targetId shouldBe "840539006"
                 vaccineId shouldBe "J07BX03"
-                vaccinatedAt shouldBe LocalDate.parse("2021-03-09")
+                vaccinatedOnFormatted shouldBe "2021-03-09"
             }
         }
     }
@@ -250,8 +250,8 @@ class DccQrCodeExtractorTest : BaseTest() {
             mode = Mode.CERT_VAC_STRICT
         ).apply {
             this as VaccinationCertificateQRCode
-            data.certificate.dateOfBirth shouldBe LocalDate.parse("1964-08-12")
-            data.certificate.vaccination.vaccinatedAt shouldBe LocalDate.parse("2021-05-29")
+            data.certificate.dateOfBirthFormatted shouldBe "1964-08-12"
+            data.certificate.vaccination.vaccinatedOnFormatted shouldBe "2021-05-29"
         }
     }
 
@@ -262,8 +262,8 @@ class DccQrCodeExtractorTest : BaseTest() {
             mode = Mode.CERT_VAC_STRICT
         ).apply {
             this as VaccinationCertificateQRCode
-            data.certificate.dateOfBirth shouldBe LocalDate.parse("1978-01-26")
-            data.certificate.vaccination.vaccinatedAt shouldBe LocalDate.parse("2021-03-09")
+            data.certificate.dateOfBirthFormatted shouldBe "1978-01-26"
+            data.certificate.vaccination.vaccinatedOnFormatted shouldBe "2021-03-09"
         }
     }
 
@@ -274,8 +274,8 @@ class DccQrCodeExtractorTest : BaseTest() {
             mode = Mode.CERT_VAC_STRICT
         ).apply {
             this as VaccinationCertificateQRCode
-            data.certificate.dateOfBirth shouldBe LocalDate.parse("1958-11-11")
-            data.certificate.vaccination.vaccinatedAt shouldBe LocalDate.parse("2021-03-18")
+            data.certificate.dateOfBirthFormatted shouldBe "1958-11-11"
+            data.certificate.vaccination.vaccinatedOnFormatted shouldBe "2021-03-18"
         }
     }
 

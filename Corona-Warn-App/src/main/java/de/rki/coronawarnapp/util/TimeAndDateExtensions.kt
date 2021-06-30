@@ -13,7 +13,6 @@ import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
 import java.math.RoundingMode
 import java.util.Date
-import java.util.TimeZone
 import java.util.concurrent.TimeUnit
 
 @Suppress("TooManyFunctions")
@@ -103,11 +102,11 @@ object TimeAndDateExtensions {
 
     fun Instant.toLocalDateUtc(): LocalDate = this.toDateTime(DateTimeZone.UTC).toLocalDate()
 
-    fun Instant.toLocalTime(): LocalTime = this.toDateTime(DateTimeZone.UTC).toLocalTime()
+    fun Instant.toLocalTimeUtc(): LocalTime = this.toDateTime(DateTimeZone.UTC).toLocalTime()
 
     val Instant.seconds get() = TimeUnit.MILLISECONDS.toSeconds(millis)
 
-    fun Instant.toUserTimeZone(): DateTime = this.toDateTime(DateTimeZone.forTimeZone(TimeZone.getDefault()))
+    fun Instant.toUserTimeZone(): DateTime = this.toDateTime(DateTimeZone.getDefault())
 
     fun Instant.toLocalDateUserTz(): LocalDate = this.toUserTimeZone().toLocalDate()
 
@@ -155,11 +154,6 @@ object TimeAndDateExtensions {
      * Returns a readable date String with the format "dd.MM.yy" like 23.05.89 of an LocalDate
      */
     fun LocalDate.toShortDayFormat(): String = toString(dayFormatter2DigitYear)
-
-    /**
-     * Returns a readable date String with the format "yyy.MM.dd" like 1983-05-23 of an LocalDate
-     */
-    fun LocalDate.toHyphenSeparatedDate(): String = toString(dateFormatterWithHyphenSeparator)
 }
 
 typealias HourInterval = Long

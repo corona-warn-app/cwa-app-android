@@ -75,31 +75,17 @@ class DccQrCodeScanFragment :
 
         viewModel.event.observe(viewLifecycleOwner) { event ->
             when (event) {
-                is DccQrCodeScanViewModel.Event.VaccinationQrCodeScanSucceeded -> {
+                is DccQrCodeScanViewModel.Event.PersonDetailsScreen -> {
                     binding.qrCodeScanSpinner.hide()
                     doNavigate(
                         DccQrCodeScanFragmentDirections
-                            .actionDccQrCodeScanFragmentToVaccinationDetailsFragment(
-                                event.containerId
+                            .actionDccQrCodeScanFragmentToPersonDetailsFragment(
+                                personCode = event.codeSHA256,
+                                containerId = event.containerId
                             )
                     )
                 }
-                is DccQrCodeScanViewModel.Event.RecoveryQrCodeScanSucceeded -> {
-                    binding.qrCodeScanSpinner.hide()
-                    doNavigate(
-                        DccQrCodeScanFragmentDirections
-                            .actionDccQrCodeScanFragmentToRecoveryCertificateDetailsFragment(event.containerId)
-                    )
-                }
-                is DccQrCodeScanViewModel.Event.TestQrCodeScanSucceeded -> {
-                    binding.qrCodeScanSpinner.hide()
-                    doNavigate(
-                        DccQrCodeScanFragmentDirections
-                            .actionDccQrCodeScanFragmentToTestCertificateDetailsFragment(
-                                event.containerId
-                            )
-                    )
-                }
+
                 DccQrCodeScanViewModel.Event.QrCodeScanInProgress -> {
                     binding.qrCodeScanSpinner.show()
                 }
