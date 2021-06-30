@@ -132,156 +132,156 @@
                     android:layout_marginHorizontal="24dp"
                     android:layout_marginBottom="6dp" />
 
-                <TextView
-                    android:id="@+id/fullname"
-                    style="@style/body1"
+                <LinearLayout
+                    style="@style/Card.GreenCertificate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="24dp"
                     android:orientation="vertical"
-                    android:padding="16dp" />
+                    android:padding="16dp">
 
-                <TextView
-                    style="@style/body1Medium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/covid_certificate_attribute_name" />
+                    <TextView
+                        style="@style/body1Medium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/covid_certificate_attribute_name" />
 
-                <TextView
-                    android:id="@+id/name"
-                    style="@style/body1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:text="Andrea Schneider" />
+                    <TextView
+                        android:id="@+id/fullname"
+                        style="@style/body1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="Andrea Schneider" />
 
-                <TextView
-                    style="@style/body1Medium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="@string/covid_certificate_attribute_date_of_birth" />
+                    <TextView
+                        style="@style/body1Medium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:text="@string/covid_certificate_attribute_date_of_birth" />
 
-                <TextView
-                    android:id="@+id/date_of_birth"
-                    style="@style/body1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    tools:text="1943-02-23" />
+                    <TextView
+                        android:id="@+id/date_of_birth"
+                        style="@style/body1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        tools:text="1943-02-23" />
 
-                <TextView
-                    style="@style/body1Medium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="@string/recovery_certificate_attribute_recovered_from" />
+                    <TextView
+                        style="@style/body1Medium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:text="@string/recovery_certificate_attribute_recovered_from" />
 
-                <TextView
-                    android:id="@+id/recovered_from_desease"
-                    style="@style/body1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    tools:text="COVID-19" />
+                    <TextView
+                        android:id="@+id/recovered_from_desease"
+                        style="@style/body1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        tools:text="COVID-19" />
 
-                <TextView
-                    style="@style/body1Medium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="@string/recovery_certificate_attribute_first_positive_test_result" />
+                    <TextView
+                        style="@style/body1Medium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:text="@string/recovery_certificate_attribute_first_positive_test_result" />
 
-                <TextView
-                    android:id="@+id/date_of_first_positive_test_result"
-                    style="@style/body1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    tools:text="2021-05-23" />
+                    <TextView
+                        android:id="@+id/date_of_first_positive_test_result"
+                        style="@style/body1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        tools:text="2021-05-23" />
 
-                <TextView
-                    style="@style/body1Medium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="@string/test_certificate_attribute_state_of_testing" />
+                    <TextView
+                        style="@style/body1Medium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:text="@string/test_certificate_attribute_state_of_testing" />
 
-                <TextView
-                    android:id="@+id/certificate_country"
-                    style="@style/body1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    tools:text="Germany" />
+                    <TextView
+                        android:id="@+id/certificate_country"
+                        style="@style/body1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        tools:text="Germany" />
 
-                <TextView
-                    style="@style/body1Medium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="@string/covid_certificate_attribute_certificate_issuer" />
+                    <TextView
+                        style="@style/body1Medium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:text="@string/covid_certificate_attribute_certificate_issuer" />
 
-                <TextView
-                    android:id="@+id/certificate_issuer"
-                    style="@style/body1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    tools:text="G05930482748454836478695764787840" />
+                    <TextView
+                        android:id="@+id/certificate_issuer"
+                        style="@style/body1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        tools:text="G05930482748454836478695764787840" />
 
 
-                <TextView
-                    style="@style/body1Medium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="@string/recovery_certificate_attribute_certificate_certification_period_start" />
+                    <TextView
+                        style="@style/body1Medium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:text="@string/recovery_certificate_attribute_certificate_certification_period_start" />
 
-                <TextView
-                    android:id="@+id/certification_period_start"
-                    style="@style/body1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    tools:text="2021-05-23" />
+                    <TextView
+                        android:id="@+id/certification_period_start"
+                        style="@style/body1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        tools:text="2021-05-23" />
 
-                <TextView
-                    style="@style/body1Medium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="@string/recovery_certificate_attribute_certificate_certification_period_end" />
+                    <TextView
+                        style="@style/body1Medium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:text="@string/recovery_certificate_attribute_certificate_certification_period_end" />
 
-                <TextView
-                    android:id="@+id/certification_period_end"
-                    style="@style/body1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    tools:text="2021-11-23" />
+                    <TextView
+                        android:id="@+id/certification_period_end"
+                        style="@style/body1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        tools:text="2021-11-23" />
 
-                <TextView
-                    style="@style/body1Medium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="@string/covid_certificate_attribute_certificate_id" />
+                    <TextView
+                        style="@style/body1Medium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:text="@string/covid_certificate_attribute_certificate_id" />
 
-                <TextView
-                    android:id="@+id/certificate_id"
-                    style="@style/body1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    tools:text="05930482748454836478695764787840" />
-
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/certificate_id"
+                        style="@style/body1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        tools:text="05930482748454836478695764787840" />
+                </LinearLayout>
 
             <de.rki.coronawarnapp.covidcertificate.common.certificate.TravelNoticeView
                 android:id="@+id/travel_notice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="true" />
+
+            </LinearLayout>
 
 
         </androidx.core.widget.NestedScrollView>
