@@ -1,11 +1,16 @@
 package de.rki.coronawarnapp.ui.main.overview
 
 import android.os.Bundle
+import android.util.Log
+import android.util.Log.DEBUG
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentMainOverviewBinding
+import de.rki.coronawarnapp.environment.BuildConfigWrap.DEBUG
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 
@@ -16,23 +21,21 @@ import de.rki.coronawarnapp.util.ui.viewBinding
  *
  */
 
-class MainOverviewFragment : Fragment(R.layout.fragment_main_overview) {
+class MainOverviewFragment : Fragment() {
 
-    private val binding: FragmentMainOverviewBinding by viewBinding()
+    //2
+    companion object {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setButtonOnClickListener()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        binding.mainOverviewContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-    }
-
-    private fun setButtonOnClickListener() {
-        binding.mainOverviewHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            popBackStack()
+        fun newInstance(): MainOverviewFragment {
+            return MainOverviewFragment()
         }
     }
-}
+
+    //3
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.validation_rules_result_valid_screen, container, false)
+    }
+    }
+

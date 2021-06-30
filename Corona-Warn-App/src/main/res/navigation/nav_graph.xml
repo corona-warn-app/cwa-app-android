@@ -87,8 +87,8 @@
     <fragment
         android:id="@+id/mainOverviewFragment"
         android:name="de.rki.coronawarnapp.ui.main.overview.MainOverviewFragment"
-        android:label="@layout/fragment_main_overview"
-        tools:layout="@layout/fragment_main_overview" />
+        android:label="@layout/validation_rules_result_valid_screen"
+        tools:layout="@layout/validation_rules_result_valid_screen" />
 
     <!-- Settings -->
     <fragment
