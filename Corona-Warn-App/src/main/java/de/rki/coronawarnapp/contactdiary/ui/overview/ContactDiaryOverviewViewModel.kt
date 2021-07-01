@@ -154,7 +154,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             val visitsForDate = visits.filter { it.date == date }
             val encountersForDate = encounters.filter { it.date == date }
             val traceLocationCheckInRisksForDate = traceLocationCheckInRiskList.filter { it.localDateUtc == date }
-            val testResultForDate = coronaTests.filter { it.time.toLocalDateUtc() == date }
+            val testResultForDate = coronaTests.filter { it.time.toUserTimeZone().toLocalDate()  == date }
 
             val coreItemData =
                 encountersForDate.map { it.toContactItemData() } + visitsForDate.map { it.toContactItemData() }
