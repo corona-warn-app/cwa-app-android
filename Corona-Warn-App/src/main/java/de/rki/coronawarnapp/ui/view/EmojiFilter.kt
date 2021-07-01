@@ -14,16 +14,16 @@ fun TextInputEditText.addEmojiFilter(): TextInputEditText {
     return this
 }
 
-private class EmojiFilter : InputFilter {
+class EmojiFilter : InputFilter {
     override fun filter(
         source: CharSequence,
-        start: Int,
-        end: Int,
-        dest: Spanned,
-        dstart: Int,
-        dend: Int
+        sStart: Int,
+        sEnd: Int,
+        destination: Spanned,
+        dStart: Int,
+        dEnd: Int
     ): CharSequence? {
-        for (index in start until end) {
+        for (index in sStart until sEnd) {
             val type = Character.getType(source[index]).toByte()
             if (type in listOf(SURROGATE, OTHER_SYMBOL)) return ""
         }
