@@ -289,7 +289,7 @@ class HomeFragmentTest : BaseUITest() {
                 addAll(submissionTestResultItems)
 
                 Statistics.statisticsData?.let {
-                    add(StatisticsHomeCard.Item(data = it, onHelpAction = { }))
+                    add(StatisticsHomeCard.Item(data = it, onClickListener = { }))
                 }
                 add(FAQCard.Item {})
             }

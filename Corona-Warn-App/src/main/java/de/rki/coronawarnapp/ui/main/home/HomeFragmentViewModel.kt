@@ -23,6 +23,7 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.toSubmissionState
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.main.CWASettings
+import de.rki.coronawarnapp.statistics.AddStatsItem
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
 import de.rki.coronawarnapp.storage.TracingRepository
@@ -186,9 +187,15 @@ class HomeFragmentViewModel @AssistedInject constructor(
             if (statsData.isDataAvailable) {
                 add(
                     StatisticsHomeCard.Item(
-                        data = statsData,
-                        onHelpAction = {
-                            events.postValue(HomeFragmentEvents.GoToStatisticsExplanation)
+                        // TODO: improve in future PRs
+                        data = statsData.copy(items = mutableListOf(AddStatsItem(true)).plus(statsData.items)),
+                        onClickListener = {
+                            when (it) {
+                                is AddStatsItem -> {
+                                    // TODO: implement me!
+                                }
+                                else -> events.postValue(HomeFragmentEvents.GoToStatisticsExplanation)
+                            }
                         }
                     )
                 )
