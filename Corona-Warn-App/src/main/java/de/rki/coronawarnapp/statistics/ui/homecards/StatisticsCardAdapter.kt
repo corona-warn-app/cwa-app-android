@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.statistics.AppliedVaccinationRatesStats
 import de.rki.coronawarnapp.statistics.IncidenceStats
 import de.rki.coronawarnapp.statistics.InfectionStats
 import de.rki.coronawarnapp.statistics.KeySubmissionsStats
+import de.rki.coronawarnapp.statistics.LocalIncidenceStats
 import de.rki.coronawarnapp.statistics.PersonsVaccinatedCompletelyStats
 import de.rki.coronawarnapp.statistics.PersonsVaccinatedOnceStats
 import de.rki.coronawarnapp.statistics.SevenDayRValue
@@ -17,6 +18,7 @@ import de.rki.coronawarnapp.statistics.ui.homecards.cards.AppliedVaccinationRate
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.IncidenceCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.InfectionsCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.KeySubmissionsCard
+import de.rki.coronawarnapp.statistics.ui.homecards.cards.LocalIncidenceCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.PersonsVaccinatedCompletelyCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.PersonsVaccinatedOnceCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.SevenDayRValueCard
@@ -41,6 +43,7 @@ class StatisticsCardAdapter :
             DataBinderMod<StatisticsCardItem, ItemVH<StatisticsCardItem, ViewBinding>>(data),
             TypedVHCreatorMod({ data[it].stats is InfectionStats }) { InfectionsCard(it) },
             TypedVHCreatorMod({ data[it].stats is IncidenceStats }) { IncidenceCard(it) },
+            TypedVHCreatorMod({ data[it].stats is LocalIncidenceStats }) { LocalIncidenceCard(it) },
             TypedVHCreatorMod({ data[it].stats is KeySubmissionsStats }) { KeySubmissionsCard(it) },
             TypedVHCreatorMod({ data[it].stats is SevenDayRValue }) { SevenDayRValueCard(it) },
             TypedVHCreatorMod({ data[it].stats is PersonsVaccinatedOnceStats }) { PersonsVaccinatedOnceCard(it) },

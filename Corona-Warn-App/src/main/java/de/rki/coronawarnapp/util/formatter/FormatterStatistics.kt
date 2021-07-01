@@ -33,7 +33,7 @@ fun StatsItem.getPrimaryLabel(context: Context): String {
             yesterday -> context.getString(R.string.statistics_primary_value_yesterday)
             else -> dateTimeFormatter.print(updatedAtDate)
         }
-        is IncidenceStats -> when (updatedAtDate) {
+        is IncidenceStats, is LocalIncidenceStats -> when (updatedAtDate) {
             today -> context.getString(R.string.statistics_primary_value_until_today)
             yesterday -> context.getString(R.string.statistics_primary_value_until_yesterday)
             else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.print(updatedAtDate))
@@ -58,6 +58,5 @@ fun StatsItem.getPrimaryLabel(context: Context): String {
             yesterday -> context.getString(R.string.statistics_primary_value_yesterday)
             else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.print(updatedAtDate))
         }
-        is LocalIncidenceStats -> "" // TODO No ui code done yet
     }
 }

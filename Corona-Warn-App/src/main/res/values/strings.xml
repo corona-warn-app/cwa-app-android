@@ -1515,6 +1515,17 @@
     <!-- XTXT: Description in statistics card that is displayed below the incidence value-->
     <string name="statistics_card_incidence_value_description">"confirmed new infections per 100,000 residents"</string>
 
+    <!-- Local Incidence statistics card -->
+    <!-- XHED: Title for local incident statistics card -->
+    <string name="statistics_card_local_incidence_title"></string>
+    <!-- XTXT: Description in statistics card that is displayed below the local incidence value-->
+    <string name="statistics_card_local_incidence_value_description"></string>
+    <!-- XBUT: Text for local incidence statistics card overflow menu info button -->
+    <string name="statistics_card_local_incidence_menu_info"></string>
+    <!-- XBUT: Text for local incidence statistics card overflow menu delete button -->
+    <string name="statistics_card_local_incidence_menu_delete"></string>
+
+
     <!-- Infections statistics card -->
     <!-- XHED: Title for infections statistics card -->
     <string name="statistics_card_infections_title">"Confirmed New Infections"</string>
