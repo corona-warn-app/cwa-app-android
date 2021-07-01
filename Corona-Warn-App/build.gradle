@@ -305,8 +305,8 @@ configurations.all {
 
 dependencies {
     // TODO reevaluate better dependency inclusion
-    debugImplementation files('libs/engine-release-bc467afcd8375ff5f579f9cac5bcfba74b55fcd7.aar')
-    releaseImplementation files('libs/engine-debug-bc467afcd8375ff5f579f9cac5bcfba74b55fcd7.aar')
+    releaseImplementation files('libs/engine-release-bc467afcd8375ff5f579f9cac5bcfba74b55fcd7.aar')
+    debugImplementation files('libs/engine-debug-bc467afcd8375ff5f579f9cac5bcfba74b55fcd7.aar')
     implementation("com.fasterxml.jackson.core:jackson-databind:2.12.3")
 
     // KOTLIN
