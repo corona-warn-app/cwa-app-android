@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.ui.onboarding.validationrules.info
+package de.rki.coronawarnapp.covidcertificate.validation.ui.datetimeinfo
 
 import dagger.Binds
 import dagger.Module
@@ -8,12 +8,12 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class ValidationRulesInfoFragmentModule {
+abstract class ValidationTimeInfoFragmentModule {
 
     @Binds
     @IntoMap
-    @CWAViewModelKey(ValidationRulesInfoViewModel::class)
-    abstract fun validationRulesInfoFragment(
-        factory: ValidationRulesInfoViewModel.Factory
+    @CWAViewModelKey(ValidationTimeInfoViewModel::class)
+    abstract fun validationTimeInfoFragment(
+        factory: ValidationTimeInfoViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }
