@@ -19,7 +19,7 @@ internal class StatisticsHomeCardItemTest {
         }
 
         // Check if click listeners are actually different
-        if (itemWithClickListener1.onHelpAction == itemWithClickListener2.onHelpAction) {
+        if (itemWithClickListener1.onClickListener == itemWithClickListener2.onClickListener) {
             fail("Different Click Listeners should be set to StatisticsHomeCard.Item")
         }
 

@@ -33,7 +33,7 @@ class AppliedVaccinationRatesCard(parent: ViewGroup) :
     ) -> Unit = { item, _ ->
 
         infoStatistics.setOnClickListener {
-            item.onHelpAction.invoke(item.stats)
+            item.onClickListener(item.stats)
         }
 
         with(item.stats as AppliedVaccinationRatesStats) {

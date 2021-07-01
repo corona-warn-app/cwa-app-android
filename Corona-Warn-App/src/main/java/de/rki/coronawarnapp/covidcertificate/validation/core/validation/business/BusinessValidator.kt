@@ -4,6 +4,8 @@ import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRuleRepository
+import dgca.verifier.app.engine.DefaultCertLogicEngine
+import dgca.verifier.app.engine.DefaultJsonLogicValidator
 import org.joda.time.Instant
 import javax.inject.Inject
 
@@ -21,6 +23,9 @@ class BusinessValidator @Inject constructor(
     ): BusinessValidation {
         // TODO Update repository?
         val country = arrivalCountries.first()
+
+        val jsonLogicValidator = DefaultJsonLogicValidator()
+        val engine = DefaultCertLogicEngine(jsonLogicValidator)
 
         val acceptanceResults = acceptanceProcessor.process(
             acceptanceRules = ruleRepository.acceptanceRules(country),
