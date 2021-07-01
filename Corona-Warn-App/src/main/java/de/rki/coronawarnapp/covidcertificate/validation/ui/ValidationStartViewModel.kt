@@ -40,7 +40,7 @@ class ValidationStartViewModel @AssistedInject constructor(
         }
     }
 
-    fun dateChanged(date:DateTime) {
+    fun dateChanged(date: DateTime) {
         uiState.apply {
             value = value?.copy(date = date)
         }
