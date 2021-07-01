@@ -56,7 +56,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/description">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <de.rki.coronawarnapp.ui.view.NoEmojisInputField
                     android:id="@+id/first_name_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/first_name_input_layout">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <de.rki.coronawarnapp.ui.view.NoEmojisInputField
                     android:id="@+id/last_name_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/last_name_input_layout">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <de.rki.coronawarnapp.ui.view.NoEmojisInputField
                     android:id="@+id/birth_date_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -128,7 +128,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/birth_date_input_layout">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <de.rki.coronawarnapp.ui.view.NoEmojisInputField
                     android:id="@+id/street_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -150,7 +150,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/street_input_layout">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <de.rki.coronawarnapp.ui.view.NoEmojisInputField
                     android:id="@+id/zip_code_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -175,7 +175,7 @@
                 app:layout_constraintStart_toEndOf="@id/zip_code_input_layout"
                 app:layout_constraintTop_toBottomOf="@id/street_input_layout">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <de.rki.coronawarnapp.ui.view.NoEmojisInputField
                     android:id="@+id/city_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -198,7 +198,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/zip_code_input_layout">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <de.rki.coronawarnapp.ui.view.NoEmojisInputField
                     android:id="@+id/phone_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -221,7 +221,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/phone_input_layout">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <de.rki.coronawarnapp.ui.view.NoEmojisInputField
                     android:id="@+id/email_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
