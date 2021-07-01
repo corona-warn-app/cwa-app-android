@@ -1,19 +1,20 @@
 package de.rki.coronawarnapp.ui.view
 
-import android.content.Context
 import android.text.InputFilter
 import android.text.Spanned
-import android.util.AttributeSet
 import com.google.android.material.textfield.TextInputEditText
+import java.lang.Character.OTHER_SYMBOL
+import java.lang.Character.SURROGATE
 
-class NoEmojisInputField @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
-) : TextInputEditText(context, attrs, defStyleAttr)
+/**
+ * Adds [InputFilter] of emojis ,returns same [TextInputEditText]
+ */
+fun TextInputEditText.addEmojiFilter(): TextInputEditText {
+    filters += EmojiFilter()
+    return this
+}
 
-
-class EmojiFilter : InputFilter {
+private class EmojiFilter : InputFilter {
     override fun filter(
         source: CharSequence,
         start: Int,
@@ -24,9 +25,7 @@ class EmojiFilter : InputFilter {
     ): CharSequence? {
         for (index in start until end) {
             val type = Character.getType(source[index]).toByte()
-            if (type == Character.SURROGATE || type == Character.OTHER_SYMBOL) {
-                return ""
-            }
+            if (type in listOf(SURROGATE, OTHER_SYMBOL)) return ""
         }
         return null
     }
