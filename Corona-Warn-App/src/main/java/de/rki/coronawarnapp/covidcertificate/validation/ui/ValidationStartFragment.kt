@@ -15,6 +15,7 @@ import com.google.android.material.timepicker.TimeFormat
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
+import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.databinding.ValidationStartFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
@@ -35,8 +36,14 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
     private val binding by viewBinding<ValidationStartFragmentBinding>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.landList.observe2(this) {
-            val landAdapter = ArrayAdapter(requireContext(), R.layout.validation_start_land_list_item, it)
+
+        viewModel.countryList.observe2(this) {
+            val countryList = it.toMutableList()
+            if (countryList.isEmpty()) {
+                countryList.add(DccCountry("DE"))
+            }
+            val countriesReadable = countryList.map { it.getCountryDisplayName(requireContext().getLocale()) }
+            val landAdapter = ArrayAdapter(requireContext(), R.layout.validation_start_land_list_item, countriesReadable)
             (binding.countryPicker as? AutoCompleteTextView)?.setAdapter(landAdapter)
             (binding.countryPicker as? AutoCompleteTextView)?.setText(landAdapter.getItem(0).toString(), false)
         }
