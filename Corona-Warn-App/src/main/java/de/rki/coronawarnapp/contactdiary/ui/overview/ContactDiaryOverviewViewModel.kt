@@ -95,7 +95,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         checkInsWithinRetentionFlow,
         testResultsFlow
     ) { dateList,
-        locationVisists,
+        locationVisits,
         personEncounters,
         riskLevelPerDateList,
         traceLocationCheckInRiskList,
@@ -105,7 +105,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             add(OverviewSubHeaderItem)
             addAll(
                 dateList.createListItemList(
-                    locationVisists,
+                    locationVisits,
                     personEncounters,
                     riskLevelPerDateList,
                     traceLocationCheckInRiskList,
