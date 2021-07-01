@@ -102,4 +102,6 @@
     <string name="test_certificate_qrcode_card_sampled_on">"Probenahme am %s Uhr"</string>
     <!-- XTXT: Test certificate card name  -->
     <string name="test_certificate_name">Testzertifikat</string>
+    <string name="dcc_validation_error_no_network">"Ihre Internetverbindung wurde unterbrochen. Um die Gültigkeitsprüfung des Zertifikates abzuschließen, prüfen Sie die Verbindung und versuchen Sie es erneut."</string>
+    <string name="dcc_validation_error_try_again">"Ein Fehler ist aufgetreten. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline."</string>
 </resources>
