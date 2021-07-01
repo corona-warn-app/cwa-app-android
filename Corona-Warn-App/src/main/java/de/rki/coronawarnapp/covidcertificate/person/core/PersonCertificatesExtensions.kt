@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import org.joda.time.Days
 import org.joda.time.Duration
@@ -21,7 +22,7 @@ fun Collection<CwaCovidCertificate>.toCertificateSortOrder(): List<CwaCovidCerti
     return this.sortedByDescending {
         when (it) {
             is VaccinationCertificate -> it.vaccinatedOn
-            is TestCertificate -> it.sampleCollectedAt.toLocalDateUtc()
+            is TestCertificate -> it.sampleCollectedAt.toLocalDateUserTz()
             is RecoveryCertificate -> it.validFrom
             else -> throw IllegalStateException("Can't sort $it")
         }
