@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.statistics.ui.stateselection
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.datadonation.analytics.common.Districts
 import de.rki.coronawarnapp.datadonation.analytics.common.federalStateShortName
 import de.rki.coronawarnapp.datadonation.analytics.common.labelStringRes
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
-import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.ui.toLazyString
@@ -24,11 +23,11 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
+@SuppressLint("StaticFieldLeak")
 class FederalStateSelectionViewModel @AssistedInject constructor(
     @Assisted val selectedFederalStateShortName: String?,
     @AppContext private val context: Context,
-    private val districtsSource: Districts,
-    dispatcherProvider: DispatcherProvider
+    private val districtsSource: Districts
 ) : CWAViewModel() {
 
     private val federalStateSource: Flow<List<ListItem>> = flowOf(PpaData.PPAFederalState.values())
@@ -63,7 +62,7 @@ class FederalStateSelectionViewModel @AssistedInject constructor(
     } else {
         federalStateSource
     }.catch { Timber.e(it, "Error sourcing list items.") }
-        .asLiveData(context = dispatcherProvider.Default)
+        .asLiveData2()
 
     val event = SingleLiveEvent<Events>()
 

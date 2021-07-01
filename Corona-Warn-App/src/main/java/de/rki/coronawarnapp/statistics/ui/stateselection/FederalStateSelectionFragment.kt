@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 class FederalStateSelectionFragment : Fragment(R.layout.federal_state_selection_fragment), AutoInject {
 
-    val navArgs by navArgs<FederalStateSelectionFragmentArgs>()
+    private val navArgs by navArgs<FederalStateSelectionFragmentArgs>()
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: FederalStateSelectionViewModel by cwaViewModelsAssisted(
@@ -30,7 +30,7 @@ class FederalStateSelectionFragment : Fragment(R.layout.federal_state_selection_
 
     private val binding: FederalStateSelectionFragmentBinding by viewBinding()
 
-    val itemAdapter = FederalStateAdapter { viewModel.selectUserInfoItem(it) }
+    private val itemAdapter = FederalStateAdapter { viewModel.selectUserInfoItem(it) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
