@@ -63,7 +63,7 @@ class DccCountryRepositoryTest : BaseTest() {
         createInstance(this).apply {
             refresh()
             dccCountries.first() shouldBe listOf(
-                DccCountry("de"), DccCountry("nl")
+                DccCountry("DE"), DccCountry("NL")
             )
         }
 

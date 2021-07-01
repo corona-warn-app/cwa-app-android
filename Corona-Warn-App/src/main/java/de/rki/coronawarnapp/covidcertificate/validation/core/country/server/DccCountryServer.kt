@@ -23,7 +23,7 @@ class DccCountryServer @Inject constructor(
 ) {
 
     suspend fun dccCountryJson(): String {
-        Timber.tag(TAG).d("Fetching statistics.")
+        Timber.tag(TAG).d("Fetching dcc countries.")
 
         val response = api.get().onboardedCountries()
         if (!response.isSuccessful) throw HttpException(response)
@@ -31,7 +31,11 @@ class DccCountryServer @Inject constructor(
         val binary = with(
             requireNotNull(response.body()) { "Response was successful but body was null" }
         ) {
-            val fileMap = byteStream().unzip().readIntoMap()
+            val fileMap = try {
+                byteStream().unzip().readIntoMap()
+            } catch (e: Exception) {
+                throw DccValidationException(ErrorCode.ONBOARDED_COUNTRIES_JSON_EXTRACTION_FAILED, e)
+            }
 
             val exportBinary = fileMap[EXPORT_BINARY_FILE_NAME]
             val exportSignature = fileMap[EXPORT_SIGNATURE_FILE_NAME]
@@ -59,7 +63,7 @@ class DccCountryServer @Inject constructor(
             CBORObject.DecodeFromBytes(binary).ToJSONString()
         } catch (e: Exception) {
             Timber.tag(TAG).e(e, "CBOR decoding binary to json failed.")
-            throw DccValidationException(ErrorCode.ONBOARDED_COUNTRIES_JSON_EXTRACTION_FAILED)
+            throw DccValidationException(ErrorCode.ONBOARDED_COUNTRIES_JSON_DECODING_FAILED, e)
         }
     }
 
