@@ -36,6 +36,7 @@ import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -155,7 +156,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             val visitsForDate = visits.filter { it.date == date }
             val encountersForDate = encounters.filter { it.date == date }
             val traceLocationCheckInRisksForDate = traceLocationCheckInRiskList.filter { it.localDateUtc == date }
-            val testResultForDate = coronaTests.filter { it.time.toUserTimeZone().toLocalDate() == date }
+            val testResultForDate = coronaTests.filter { it.time.toLocalDateUserTz() == date }
 
             val coreItemData =
                 encountersForDate.map { it.toContactItemData() } + visitsForDate.map { it.toContactItemData() }
