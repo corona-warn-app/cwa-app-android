@@ -33,7 +33,7 @@ class AppliedVaccinationRatesCard(parent: ViewGroup) :
     ) -> Unit = { item, _ ->
 
         infoStatistics.setOnClickListener {
-            item.onHelpAction.invoke(item.stats)
+            item.onClickListener(item.stats)
         }
 
         with(item.stats as AppliedVaccinationRatesStats) {
@@ -77,7 +77,7 @@ class AppliedVaccinationRatesCard(parent: ViewGroup) :
                 .appendWithTrailingSpace(formatStatisticalValue(context, total.value, total.decimals))
                 .append(context.getString(R.string.statistics_vaccinated_once_card_title))
 
-            trendArrow.setTrend(sevenDayAverage.trend, sevenDayAverage.trendSemantic, true)
+            trendArrow.setTrend(sevenDayAverage.trend, sevenDayAverage.trendSemantic)
         }
     }
 

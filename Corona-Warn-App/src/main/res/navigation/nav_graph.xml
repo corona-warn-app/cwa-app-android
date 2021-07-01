@@ -809,7 +809,7 @@
             app:argType="string" />
         <argument
             android:name="correctionLevel"
-            android:defaultValue="Q"
+            android:defaultValue="M"
             app:argType="com.google.zxing.qrcode.decoder.ErrorCorrectionLevel" />
     </fragment>
     <action

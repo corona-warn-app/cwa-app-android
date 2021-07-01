@@ -92,7 +92,6 @@ class RAProcessorTest : BaseTest() {
         }
 
         analyticsTestResultCollector.apply {
-            coEvery { reportTestResultAtRegistration(any(), RAPID_ANTIGEN) } just Runs
             coEvery { reportTestResultReceived(any(), RAPID_ANTIGEN) } just Runs
             coEvery { reportTestRegistered(RAPID_ANTIGEN) } just Runs
             coEvery { clear(RAPID_ANTIGEN) } just Runs

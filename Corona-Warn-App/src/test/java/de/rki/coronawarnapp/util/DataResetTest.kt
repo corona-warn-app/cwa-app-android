@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSetti
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificatePreferences
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
@@ -23,6 +24,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
+import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.TracingSettings
@@ -50,6 +52,7 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var traceLocationPreferences: TraceLocationPreferences
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var statisticsProvider: StatisticsProvider
+    @MockK lateinit var localStatisticsProvider: LocalStatisticsProvider
     @MockK lateinit var surveySettings: SurveySettings
     @MockK lateinit var analyticsSettings: AnalyticsSettings
     @MockK lateinit var analytics: Analytics
@@ -68,6 +71,7 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var testCertificateRepository: TestCertificateRepository
     @MockK lateinit var personCertificatesSettings: PersonCertificatesSettings
+    @MockK lateinit var validationRepository: DccValidationRepository
 
     @BeforeEach
     fun setUp() {
@@ -86,6 +90,7 @@ internal class DataResetTest : BaseTest() {
         contactDiaryPreferences = contactDiaryPreferences,
         cwaSettings = cwaSettings,
         statisticsProvider = statisticsProvider,
+        localStatisticsProvider = localStatisticsProvider,
         surveySettings = surveySettings,
         analyticsSettings = analyticsSettings,
         analytics = analytics,
@@ -104,6 +109,7 @@ internal class DataResetTest : BaseTest() {
         valueSetsRepository = valueSetsRepository,
         testCertificateRepository = testCertificateRepository,
         personCertificatesSettings = personCertificatesSettings,
+        validationRepository = validationRepository,
     )
 
     @Test
@@ -129,6 +135,7 @@ internal class DataResetTest : BaseTest() {
             traceLocationSettings.clear()
             contactDiaryRepository.clear()
             statisticsProvider.clear()
+            localStatisticsProvider.clear()
             bugReportingSettings.clear()
             traceWarningRepository.clear()
             traceLocationRepository.deleteAllTraceLocations()
@@ -139,6 +146,7 @@ internal class DataResetTest : BaseTest() {
             covidCertificatePreferences.clear()
             valueSetsRepository.clear()
             personCertificatesSettings.clear()
+            validationRepository.clear()
         }
     }
 }

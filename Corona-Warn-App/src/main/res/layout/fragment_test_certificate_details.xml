@@ -155,7 +155,7 @@
                     android:text="@string/covid_certificate_attribute_date_of_birth" />
 
                 <TextView
-                    android:id="@+id/birth_date"
+                    android:id="@+id/date_of_birth"
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -208,6 +208,7 @@
                     tools:text="Xep" />
 
                 <TextView
+                    android:id="@+id/test_manufacturer_title"
                     style="@style/body1Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -253,6 +254,7 @@
                     tools:text="negative" />
 
                 <TextView
+                    android:id="@+id/test_center_title"
                     style="@style/body1Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

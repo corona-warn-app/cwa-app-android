@@ -8,7 +8,8 @@ import org.joda.time.LocalDate
 interface VaccinationCertificate : CwaCovidCertificate {
     override val containerId: VaccinationCertificateContainerId
 
-    val vaccinatedAt: LocalDate
+    val vaccinatedOn: LocalDate
+    val vaccinatedOnFormatted: String
     val targetDisease: String
     val vaccineTypeName: String
     val vaccineManufacturer: String

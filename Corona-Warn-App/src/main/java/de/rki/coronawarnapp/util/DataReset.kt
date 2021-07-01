@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSetti
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificatePreferences
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
@@ -24,6 +25,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
+import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.TracingSettings
@@ -53,6 +55,7 @@ class DataReset @Inject constructor(
     private var traceLocationPreferences: TraceLocationPreferences,
     private val cwaSettings: CWASettings,
     private val statisticsProvider: StatisticsProvider,
+    private val localStatisticsProvider: LocalStatisticsProvider,
     private val surveySettings: SurveySettings,
     private val analyticsSettings: AnalyticsSettings,
     private val analytics: Analytics,
@@ -71,6 +74,7 @@ class DataReset @Inject constructor(
     private val vaccinationRepository: VaccinationRepository,
     private val testCertificateRepository: TestCertificateRepository,
     private val personCertificatesSettings: PersonCertificatesSettings,
+    private val validationRepository: DccValidationRepository,
 ) {
 
     private val mutex = Mutex()
@@ -106,6 +110,7 @@ class DataReset @Inject constructor(
         contactDiaryRepository.clear()
 
         statisticsProvider.clear()
+        localStatisticsProvider.clear()
 
         bugReportingSettings.clear()
 
@@ -121,6 +126,8 @@ class DataReset @Inject constructor(
         covidCertificatePreferences.clear()
 
         personCertificatesSettings.clear()
+
+        validationRepository.clear()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }
