@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.contactdiary.ui.overview
 
+import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.asLiveData
@@ -124,6 +125,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         )
     }
 
+    @SuppressLint("BinaryOperationInTimber")
     private fun List<LocalDate>.createListItemList(
         visits: List<ContactDiaryLocationVisit>,
         encounters: List<ContactDiaryPersonEncounter>,
