@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsScrollcontainerBinding
+import de.rki.coronawarnapp.statistics.GenericStatsItem
 import de.rki.coronawarnapp.statistics.StatisticsData
-import de.rki.coronawarnapp.statistics.StatsItem
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.StatisticsCardItem
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
@@ -59,7 +59,7 @@ class StatisticsHomeCard(
         savedStateKey = "stats:${item.stableId}"
 
         item.data.items.map {
-            StatisticsCardItem(it, item.onHelpAction)
+            StatisticsCardItem(it, item.onClickListener)
         }.let {
             statisticsCardAdapter.update(it)
         }
@@ -67,11 +67,17 @@ class StatisticsHomeCard(
 
     override fun onSaveState(): Parcelable? = statisticsLayoutManager.onSaveInstanceState()
 
-    override fun restoreState(state: Parcelable) = statisticsLayoutManager.onRestoreInstanceState(state)
+    override fun restoreState(state: Parcelable?) {
+        if (state != null) {
+            statisticsLayoutManager.onRestoreInstanceState(state)
+        } else {
+            viewBinding.value.statisticsRecyclerview.smoothScrollToPosition(1)
+        }
+    }
 
     data class Item(
         val data: StatisticsData,
-        val onHelpAction: (StatsItem) -> Unit
+        val onClickListener: (GenericStatsItem) -> Unit
     ) : HomeItem {
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
 
