@@ -52,7 +52,6 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
             europaImage.alpha = subtitleAlpha
         }
 
-
         bindToolbar()
         setToolbarOverlay()
 
