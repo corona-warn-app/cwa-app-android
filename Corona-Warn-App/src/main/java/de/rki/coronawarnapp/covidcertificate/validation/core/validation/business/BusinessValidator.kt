@@ -4,42 +4,36 @@ import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRuleRepository
-import dgca.verifier.app.engine.DefaultCertLogicEngine
-import dgca.verifier.app.engine.DefaultJsonLogicValidator
+import de.rki.coronawarnapp.covidcertificate.validation.core.validation.EvaluatedDccRule
+import de.rki.coronawarnapp.covidcertificate.validation.core.validation.wrapper.CertLogicEngineWrapper
 import org.joda.time.Instant
 import javax.inject.Inject
 
 @Reusable
 class BusinessValidator @Inject constructor(
-    private val acceptanceProcessor: AcceptanceProcessor,
-    private val invalidationProcessor: InvalidationProcessor,
+    private val certLogicEngineWrapper: CertLogicEngineWrapper,
     private val ruleRepository: DccValidationRuleRepository,
 ) {
 
     suspend fun validate(
-        arrivalCountries: Set<DccCountry>,
+        arrivalCountry: DccCountry,
         validationClock: Instant,
         certificate: DccData<*>,
     ): BusinessValidation {
-        // TODO Update repository?
-        val country = arrivalCountries.first()
+        // TODO Update country repository?
 
-        val jsonLogicValidator = DefaultJsonLogicValidator()
-        val engine = DefaultCertLogicEngine(jsonLogicValidator)
-
-        val acceptanceResults = acceptanceProcessor.process(
-            acceptanceRules = ruleRepository.acceptanceRules(country),
+        val acceptanceResults = certLogicEngineWrapper.process(
+            rules = ruleRepository.acceptanceRules(arrivalCountry),
             validationClock = validationClock,
             certificate = certificate,
         )
-        val invalidationResults = invalidationProcessor.process(
-            invalidationRules = ruleRepository.invalidationRules(country),
+        val invalidationResults = certLogicEngineWrapper.process(
+            rules = ruleRepository.invalidationRules(arrivalCountry),
             validationClock = validationClock,
             certificate = certificate,
         )
 
         return object : BusinessValidation {
-            // TODO
             override val acceptanceRules: Set<EvaluatedDccRule> = acceptanceResults
             override val invalidationRules: Set<EvaluatedDccRule> = invalidationResults
         }

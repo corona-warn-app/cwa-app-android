@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.validation.core.validation.business
+package de.rki.coronawarnapp.covidcertificate.validation.core.validation
 
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 

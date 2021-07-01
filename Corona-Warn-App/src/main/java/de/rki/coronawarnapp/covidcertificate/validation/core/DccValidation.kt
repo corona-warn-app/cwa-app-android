@@ -1,13 +1,13 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core
 
-import de.rki.coronawarnapp.covidcertificate.validation.core.validation.business.BusinessValidation
-import de.rki.coronawarnapp.covidcertificate.validation.core.validation.technical.TechnicalValidation
+import de.rki.coronawarnapp.covidcertificate.validation.core.validation.EvaluatedDccRule
 
 data class DccValidation(
-    val technicalValidation: TechnicalValidation,
-    val businessValidation: BusinessValidation,
-) : TechnicalValidation by technicalValidation,
-    BusinessValidation by businessValidation {
+    val expirationCheckPassed: Boolean,
+    val jsonSchemaCheckPassed: Boolean,
+    val acceptanceRules: Set<EvaluatedDccRule>,
+    val invalidationRules: Set<EvaluatedDccRule>,
+) {
 
     val state: State
         get() = State.PASSED // TODO
