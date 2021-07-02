@@ -124,6 +124,8 @@
     <string name="validation_rules_result_valid_result_note_3">Um die Echtheit eines Zertifikats sicherzustellen, wird jedes Zertifikat mit einer digitalen Signatur ausgestellt. Diese Signatur wird in einer Prüf-Anwendung validiert.</string>
     <!-- XTXT: Validation Rule Result Valid - note point 4 -->
     <string name="validation_rules_result_valid_result_note_4">Ob die im Zertifikat eingetragenen Daten richtig sind, wird nicht geprüft.</string>
+    <!-- XTXT: Validation Rule Result Valid - Infos about country, date and check date -->
+    <string name="validation_rules_result_valid_result_country_and_time">Einreise nach %1$s am %2$s, geprüft am %3$s</string>
     <!-- XTXT: Validation Rule Result Valid - faq & infos -->
     <string name="validation_rules_result_valid_result_faq">Mehr Informationen finden Sie in den %1$s und unter %2$s</string>
     <!-- XTXT: Validation Rule Result Valid faq link label - Replaces %1$s in text above -->

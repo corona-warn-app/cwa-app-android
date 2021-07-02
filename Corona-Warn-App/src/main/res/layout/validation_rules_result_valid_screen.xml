@@ -66,7 +66,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:focusable="true"
-                    android:text="Lorem Ipsum Traveldate" />
+                    android:text="@string/validation_rules_result_valid_result_country_and_time" />
 
                 <TextView
                     android:id="@+id/headline"

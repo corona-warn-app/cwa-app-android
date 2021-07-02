@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.ValidationRulesResultValidScreenBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.setUrl
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -20,7 +21,7 @@ class DccValidationPassedFragment : Fragment(R.layout.validation_rules_result_va
     private val binding: ValidationRulesResultValidScreenBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        with(binding) {
+        binding.apply {
             toolbar.setNavigationOnClickListener {
                 popBackStack()
             }
@@ -35,6 +36,12 @@ class DccValidationPassedFragment : Fragment(R.layout.validation_rules_result_va
                 it.text = getString(R.string.validation_rules_result_valid_result_faq, faqLinkLabel, reopenLinkLabel)
                 it.setUrl(faqLinkLabel, faqLink)
                 it.setUrl(reopenLinkLabel, reopenLink)
+            }
+        }
+
+        viewModel.dateCountryInfo.observe2(this) {
+            binding.dateDetailsTv.apply {
+                text = it.get(context)
             }
         }
     }

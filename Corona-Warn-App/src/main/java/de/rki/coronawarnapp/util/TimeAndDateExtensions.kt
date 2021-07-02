@@ -10,6 +10,7 @@ import org.joda.time.LocalDate
 import org.joda.time.LocalTime
 import org.joda.time.chrono.GJChronology
 import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.DateTimeFormatter
 import timber.log.Timber
 import java.math.RoundingMode
 import java.util.Date
@@ -26,6 +27,7 @@ object TimeAndDateExtensions {
     private val dayFormatter2DigitYear = DateTimeFormat.forPattern("dd.MM.yy")
     private val shortTime = DateTimeFormat.shortTime()
     private val dateFormatterWithHyphenSeparator = DateTimeFormat.forPattern("yyyy-MM-dd")
+    private val shortDateTime: DateTimeFormatter by lazy { DateTimeFormat.shortDateTime() }
 
     fun getCurrentHourUTC(): Int = DateTime(Instant.now(), DateTimeZone.UTC).hourOfDay().get()
 
@@ -129,6 +131,11 @@ object TimeAndDateExtensions {
      * Returns a readable date String with the format "dd.MM.yy" like 23.05.89 of a DateTime
      */
     fun DateTime.toShortDayFormat(): String = toString(dayFormatter2DigitYear)
+
+    /**
+     * Returns a readable date String with the format "dd.MM.yy hh:mm" like 23.05.89 12:30 of an DateTime
+     */
+    fun DateTime.toShortDayTimeFormat(): String = toString(shortDateTime)
 
     /**
      * Returns a readable time String with the format "hh:mm" like 12:00 of a LocalDate
