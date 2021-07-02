@@ -116,7 +116,7 @@
     <!-- XHED: Validation start header -->
     <string name="validation_start_header">"Gültigkeit des Zertifikates"</string>
     <!-- XTXT: Validation start body -->
-    <string name="validation_start_body">"Prüfen Sie vorab, ob Ihr Zertifikat im Reiseland zum Zeitpunkt der Reise gültig ist. Hierfür werden die geltenden Einreiseregeln des gewählten Reiselandes berücksichtigt"</string>
+    <string name="validation_start_body">"Prüfen Sie vorab, ob Ihr Zertifikat im Reiseland zum Zeitpunkt der Reise gültig ist. Hierfür werden die geltenden Einreiseregeln des gewählten Reiselandes berücksichtigt."</string>
     <!-- XTXT: Validation start subtitle -->
     <string name="validation_start_subtitle">"Prüfen für"</string>
     <!-- XTXT: Validation start land dropdown hint -->
