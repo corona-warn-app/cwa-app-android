@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.validation.core.country.server
+package de.rki.coronawarnapp.covidcertificate.validation.core.country
 
 import okhttp3.ResponseBody
 import retrofit2.Response

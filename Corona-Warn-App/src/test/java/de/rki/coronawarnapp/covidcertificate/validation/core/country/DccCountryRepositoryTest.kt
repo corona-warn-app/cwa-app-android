@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.country
 
-import de.rki.coronawarnapp.covidcertificate.validation.core.country.server.DccCountryServer
+import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationCache
+import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidationServer
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -16,7 +17,7 @@ import testhelpers.TestDispatcherProvider
 import testhelpers.coroutines.runBlockingTest2
 
 class DccCountryRepositoryTest : BaseTest() {
-    @MockK lateinit var server: DccCountryServer
+    @MockK lateinit var server: DccValidationServer
     @MockK lateinit var localCache: DccValidationCache
 
     private val testCountryData = "[\"DE\",\"NL\"]"

@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.country.server
 
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
+import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountryApi
+import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidationServer
 import de.rki.coronawarnapp.util.security.SignatureValidation
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -36,7 +38,7 @@ class DccCountryServerTest : BaseIOTest() {
         coEvery { api.onboardedCountries() } returns Response.success(COUNTRY_ARCHIVE.toResponseBody())
     }
 
-    private fun createInstance() = DccCountryServer(
+    private fun createInstance() = DccValidationServer(
         api = { api },
         signatureValidation = signatureValidation,
         cache = cache

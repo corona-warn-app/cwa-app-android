@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.country
 
+import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationCache
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.Test

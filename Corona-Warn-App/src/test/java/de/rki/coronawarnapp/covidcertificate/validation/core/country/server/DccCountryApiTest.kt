@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.country.server
 
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationModule
+import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountryApi
 import de.rki.coronawarnapp.environment.download.DownloadCDNModule
 import de.rki.coronawarnapp.http.HttpModule
 import de.rki.coronawarnapp.statistics.StatisticsModule

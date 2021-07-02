@@ -1,6 +1,5 @@
-package de.rki.coronawarnapp.covidcertificate.validation.core.country
+package de.rki.coronawarnapp.covidcertificate.validation.core
 
-import de.rki.coronawarnapp.covidcertificate.validation.core.CertificateValidation
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber

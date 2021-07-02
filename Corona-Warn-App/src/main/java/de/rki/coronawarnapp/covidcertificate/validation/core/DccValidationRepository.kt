@@ -2,8 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.validation.core
 
 import com.google.gson.Gson
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
-import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccValidationCache
-import de.rki.coronawarnapp.covidcertificate.validation.core.country.server.DccCountryServer
+import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidationServer
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.server.DccValidationRulesServer
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -34,7 +33,7 @@ class DccValidationRepository @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val dispatcherProvider: DispatcherProvider,
     @BaseGson private val gson: Gson,
-    private val countryServer: DccCountryServer,
+    private val countryServer: DccValidationServer,
     private val localCache: DccValidationCache,
     private val rulesServer: DccValidationRulesServer,
 ) {
