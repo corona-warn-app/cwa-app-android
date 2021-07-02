@@ -9,8 +9,8 @@ import javax.inject.Inject
 @Reusable
 class TraceLocationVerifier @Inject constructor() {
     @Suppress("ReturnCount")
-    fun verifyTraceLocation(protoQrCodePayload: TraceLocationOuterClass.QRCodePayload): VerificationResult {
-        val traceLocation = protoQrCodePayload.traceLocation()
+    fun verifyTraceLocation(payload: TraceLocationOuterClass.QRCodePayload): VerificationResult {
+        val traceLocation = payload.traceLocation()
 
         if (traceLocation.description.isEmpty()) {
             return VerificationResult.Invalid.Description
@@ -37,14 +37,11 @@ class TraceLocationVerifier @Inject constructor() {
         }
 
         // If both are 0 do nothing else check start is smaller than end or return error
-        if (!(
-            protoQrCodePayload.locationData.startTimestamp == 0L &&
-                protoQrCodePayload.locationData.endTimestamp == 0L
-            )
+        if (
+            !(payload.locationData.startTimestamp == 0L && payload.locationData.endTimestamp == 0L) &&
+            payload.locationData.startTimestamp > payload.locationData.endTimestamp
         ) {
-            if (protoQrCodePayload.locationData.startTimestamp > protoQrCodePayload.locationData.endTimestamp) {
-                return VerificationResult.Invalid.StartEndTime
-            }
+            return VerificationResult.Invalid.StartEndTime
         }
 
         if (traceLocation.cryptographicSeed.size != CROWD_NOTIFIER_CRYPTO_SEED_LENGTH) {
@@ -52,7 +49,7 @@ class TraceLocationVerifier @Inject constructor() {
         }
 
         return VerificationResult.Valid(
-            VerifiedTraceLocation(protoQrCodePayload)
+            VerifiedTraceLocation(payload)
         )
     }
 
