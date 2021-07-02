@@ -6,9 +6,10 @@ import javax.inject.Inject
 /**
  * DCC validation rules server
  */
-class DccValidationRulesServer @Inject constructor(
-    private val dccValidationRuleApi: DccValidationRuleApi,
-) {
+class DccValidationRulesServer @Inject constructor() {
+    private val dccValidationRuleApi: DccValidationRuleApi
+        get() = throw NotImplementedError()
+
     suspend fun ruleSet(ruleTypeDcc: DccValidationRule.Type): Set<DccValidationRule> {
         return when (ruleTypeDcc) {
             DccValidationRule.Type.ACCEPTANCE -> dccValidationRuleApi.acceptanceRules()

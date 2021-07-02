@@ -4,6 +4,7 @@ import dagger.Module
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateModule
 import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateServerModule
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificateModule
+import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationModule
 import de.rki.coronawarnapp.covidcertificate.valueset.CertificateValueSetModule
 
 @Module(
@@ -12,6 +13,7 @@ import de.rki.coronawarnapp.covidcertificate.valueset.CertificateValueSetModule
         VaccinationCertificateModule::class,
         TestCertificateServerModule::class,
         RecoveryCertificateModule::class,
+        DccValidationModule::class,
     ]
 )
 abstract class DigitalCovidCertificateModule
