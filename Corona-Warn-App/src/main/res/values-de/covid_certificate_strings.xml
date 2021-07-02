@@ -109,7 +109,7 @@
     <!-- XTXT: Validation Rule Result Valid - Header  -->
     <string name="validation_rules_result_valid_header">Gültiges Zertifikat</string>
     <!-- XTXT: Validation Rule Result Valid - Result  -->
-    <string name="validation_rules_result_valid_result_title">Ihr Zertifikat ist im gewählten Reiseland gültig.</string>
+    <string name="validation_rules_result_valid_result_title">Ihr Zertifikat ist im gewählten Land gültig.</string>
     <!-- XTXT: Validation Rule Result Valid - Remark -->
     <string name="validation_rules_result_valid_result_remark">Hinweis</string>
     <!-- XTXT: Validation Rule Result Valid - note point 1 -->
