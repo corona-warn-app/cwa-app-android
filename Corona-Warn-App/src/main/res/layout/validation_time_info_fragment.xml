@@ -38,6 +38,8 @@
                 android:contentDescription="@string/validation_rules_info_image"
                 android:importantForAccessibility="yes"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_map_of_europe" />
