@@ -17,7 +17,7 @@ class DccValidationPassedViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    //TODO: Use real data, once available
+    // TODO: Use real data, once available
     val dateCountryInfo: LiveData<LazyString> = flowOf(
         R.string.validation_rules_result_valid_result_country_and_time.toResolvingString(
             "Italien",
