@@ -49,4 +49,13 @@ class TestCertificateContainerTest : BaseTest() {
             toTestCertificate(mockk(), mockk()) shouldBe null
         }
     }
+
+    @Test
+    fun `check test certificate field mapping`() {
+        val rawData = certificateTestData.personATest1CertQRCode.data
+        certificateTestData.personATest1Container.toTestCertificate()!!.apply {
+            headerIssuer shouldBe rawData.header.issuer
+            certificateIssuer shouldBe rawData.certificate.test.certificateIssuer
+        }
+    }
 }
