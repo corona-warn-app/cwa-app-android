@@ -5,8 +5,8 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
-class DccValidationPassedViewmodel @AssistedInject constructor() : CWAViewModel() {
+class DccValidationPassedViewModel @AssistedInject constructor() : CWAViewModel() {
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<DccValidationPassedViewmodel>
+    interface Factory : SimpleCWAViewModelFactory<DccValidationPassedViewModel>
 }

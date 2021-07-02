@@ -16,7 +16,7 @@ import javax.inject.Inject
 class DccValidationPassedFragment : Fragment(R.layout.validation_rules_result_valid_screen), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: DccValidationPassedViewmodel by cwaViewModels { viewModelFactory }
+    private val viewModel: DccValidationPassedViewModel by cwaViewModels { viewModelFactory }
     private val binding: ValidationRulesResultValidScreenBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

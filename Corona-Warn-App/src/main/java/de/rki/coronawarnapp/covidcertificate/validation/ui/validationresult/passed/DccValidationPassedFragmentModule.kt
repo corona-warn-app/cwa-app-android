@@ -12,8 +12,8 @@ abstract class DccValidationPassedFragmentModule {
 
     @Binds
     @IntoMap
-    @CWAViewModelKey(DccValidationPassedViewmodel::class)
+    @CWAViewModelKey(DccValidationPassedViewModel::class)
     abstract fun dccValidationPassedFragment(
-        factory: DccValidationPassedViewmodel.Factory
+        factory: DccValidationPassedViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }
