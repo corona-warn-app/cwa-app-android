@@ -9,11 +9,11 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DccCountryLocalCache @Inject constructor(
+class DccValidationCache @Inject constructor(
     @CertificateValidation private val cacheDir: File,
 ) {
     private val mutex = Mutex()
-    private val cacheFile = File(cacheDir, "dcc_country_cache_raw")
+    private val cacheFile = File(cacheDir, "dcc_validation_cache_raw")
 
     suspend fun loadJson(): String? = mutex.withLock {
         try {
@@ -22,6 +22,7 @@ class DccCountryLocalCache @Inject constructor(
             Timber.tag(TAG).e(e, "Failed to load raw dcc countries from cache.")
             null
         }
+        // TODO load rules
     }
 
     suspend fun saveJson(data: String?) = mutex.withLock {
@@ -36,9 +37,10 @@ class DccCountryLocalCache @Inject constructor(
         }
         cacheFile.parentFile?.mkdirs()
         cacheFile.writeText(data)
+        // TODO write rules
     }
 
     companion object {
-        const val TAG = "DccCountryLocalCache"
+        const val TAG = "DccValidationLocalCache"
     }
 }

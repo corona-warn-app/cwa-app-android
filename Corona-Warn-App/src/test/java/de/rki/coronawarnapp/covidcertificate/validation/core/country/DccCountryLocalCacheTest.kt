@@ -10,7 +10,7 @@ class DccCountryLocalCacheTest : BaseIOTest() {
 
     private val cacheDir = File(IO_TEST_BASEDIR, "cache")
 
-    private fun createInstance(): DccCountryLocalCache = DccCountryLocalCache(
+    private fun createInstance(): DccValidationCache = DccValidationCache(
         cacheDir = cacheDir
     )
 
