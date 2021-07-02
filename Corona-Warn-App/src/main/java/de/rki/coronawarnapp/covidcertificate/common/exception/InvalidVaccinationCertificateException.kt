@@ -12,7 +12,7 @@ class InvalidVaccinationCertificateException(
 ) : InvalidHealthCertificateException(errorCode, cause) {
     override fun toHumanReadableError(context: Context): HumanReadableError {
         return HumanReadableError(
-            description = errorMessage.get(context) + " ($PREFIX$errorCode)"
+            description = errorMessage.get(context) + " ($errorCode)"
         )
     }
 
@@ -56,8 +56,6 @@ class InvalidVaccinationCertificateException(
             else -> super.errorMessage
         }
 }
-
-private const val PREFIX = "VC_"
 
 private const val ERROR_MESSAGE_VC_INVALID = R.string.error_vc_invalid
 private const val ERROR_MESSAGE_VC_NOT_YET_SUPPORTED = R.string.error_vc_not_yet_supported
