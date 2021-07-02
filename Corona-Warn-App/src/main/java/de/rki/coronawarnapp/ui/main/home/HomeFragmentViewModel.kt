@@ -187,12 +187,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
             if (statsData.isDataAvailable) {
                 add(
                     StatisticsHomeCard.Item(
-                        // TODO: improve in future PRs
+                        // TODO: improve in future PRs (EXPOSUREAPP-7446) isEnable depends on number of Local Cards
                         data = statsData.copy(items = mutableListOf(AddStatsItem(true)).plus(statsData.items)),
                         onClickListener = {
                             when (it) {
                                 is AddStatsItem -> {
-                                    // TODO: implement me!
+                                    events.postValue(HomeFragmentEvents.GoToFederalStateSelection)
                                 }
                                 else -> events.postValue(HomeFragmentEvents.GoToStatisticsExplanation)
                             }
