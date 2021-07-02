@@ -88,7 +88,7 @@
     <string name="recovery_certificate_valid_until">"valid to %s"</string>
 
     <!-- XTXT: Detail green certificate diaglog title -->
-    <string name="recovery_certificate_details_dialog_remove_test_title">"Do you want to remove the certificate of recovery?"</string>
+    <string name="recovery_certificate_details_dialog_remove_test_title">"Do you want to remove the certificate?"</string>
     <!-- XTXT: Detail green certificate diaglog message -->
     <string name="recovery_certificate_details_dialog_remove_test_message">"If you remove the certificate of recovery, you can no longer use it as proof in the app."</string>
 
