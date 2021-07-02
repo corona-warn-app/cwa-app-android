@@ -112,18 +112,18 @@ data class TestCertificateContainer(
                 get() = testCertificate.testCenter
 
             override val certificateIssuer: String
-                get() = header.issuer
+                get() = testCertificate.certificateIssuer
             override val certificateCountry: String
                 get() = Locale(userLocale.language, testCertificate.certificateCountry.uppercase())
                     .getDisplayCountry(userLocale)
             override val certificateId: String
                 get() = testCertificate.uniqueCertificateIdentifier
 
-            override val issuer: String
+            override val headerIssuer: String
                 get() = header.issuer
-            override val issuedAt: Instant
+            override val headerIssuedAt: Instant
                 get() = header.issuedAt
-            override val expiresAt: Instant
+            override val headerExpiresAt: Instant
                 get() = header.expiresAt
 
             override val qrCode: QrCodeString
