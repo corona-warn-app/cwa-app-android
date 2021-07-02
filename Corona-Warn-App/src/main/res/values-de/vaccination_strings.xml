@@ -68,14 +68,10 @@
     <string name="vaccination_card_registration_title_line_2">"Impfnachweis hinzufügen"</string>
     <!-- YTXT: Body text for Vaccination Certificate Registration Home Card -->
     <string name="vaccination_card_registration_body">"Fügen Sie Ihre Impfzertifikate in die App hinzu, um sie immer bei sich zu haben. Scannen Sie dafür den QR-Code Ihres Dokuments."</string>
-    <!-- XBUT: button for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_register">"Hinzufügen"</string>
     <!-- XHED: Homescreen vaccination status card title -->
     <string name="vaccination_card_status_title_line_1">"Digitaler"</string>
     <!-- XHED: Homescreen vaccination status card title -->
     <string name="vaccination_card_status_title_line_2">"Impfnachweis"</string>
-    <!-- XHED: Homescreen vaccination status card vaccination name -->
-    <string name="vaccination_card_status_vaccination_name">SARS-CoV-2 Impfschutz</string>
     <!-- XTXT: Homescreen card incomplete vaccination status label -->
     <string name="vaccination_card_status_vaccination_incomplete">Unvollständiger Impfschutz</string>
     <!-- XTXT: Homescreen card complete vaccination status label -->
@@ -101,8 +97,6 @@
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_different_person">Die persönlichen Daten dieses Impfzertifikats stimmen nicht mit denen der bereits registrierten Zertifikate überein. Sie können in der App nur Zertifikate einer Person registrieren.</string>
 
-    <!-- XTXT: Vaccination Consent title-->
-    <string name="vaccination_consent_title">Ihr Einverständnis</string>
     <!-- XTXT: Vaccination Consent subtitle-->
     <string name="vaccination_consent_headline">"Zertifikate hinzufügen"</string>
     <!-- XTXT: Vaccination Consent subtitle of qr info -->

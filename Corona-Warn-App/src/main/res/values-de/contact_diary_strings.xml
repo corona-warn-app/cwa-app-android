@@ -63,9 +63,6 @@
     <string name="contact_diary_overview_title">"Kontakt-Tagebuch"</string>
     <!-- XTXT: Subtitle for contact diary overview screen -->
     <string name="contact_diary_overview_subtitle">"Tragen Sie ein, mit wem Sie sich getroffen haben und wo Sie gewesen sind. Sollte ein Risiko an einem Tag angezeigt werden, können Sie damit Personen warnen, die Sie an diesen Tagen begleitet haben, wenn diese die Corona-Warn-App nicht nutzen."</string>
-    <!-- XTXT: Header for contact diary overview screen -->
-    <string name="contact_diary_overview_header">"Startseite"</string>
-
 
     <!-- XTXT: Title for contact diary overview screen high risk information -->
     <string name="contact_diary_high_risk_title">"Erhöhtes Risiko"</string>
@@ -84,8 +81,6 @@
     <!-- XTXT: Indicates this trace location caused a lows risk -->
     <string name="contact_diary_trace_location_risk_low">"niedriges Risiko"</string>
 
-
-
     <!-- XTXT: content description of contact journal image on home screen -->
     <string name="contact_diary_homescreen_card_image_content_description">"Ein zugeklapptes Buch mit Lesezeichen"</string>
     <!-- XTXT: content description of contact journal header image on onboarding screen -->
@@ -94,7 +89,6 @@
     <string name="contact_diary_edit_persons_image_content_description">"Die Silhouette einer Frau, die über eine Wiese läuft."</string>
     <!-- XTXT: content description of contact journal background image on edit locations screen -->
     <string name="contact_diary_edit_locations_image_content_description">"Eine Standortmarkierung markiert ein Gebäude."</string>
-
 
     <!-- XHED: Title for the contact diary edit locations -->
     <string name="contact_diary_edit_locations_title">"Orte bearbeiten"</string>
@@ -181,8 +175,6 @@
     <string name="contact_diary_location_visit_duration_label">Dauer</string>
     <!-- XTXT: Option - location encounter - duration in hours label-->
     <string name="contact_diary_location_visit_duration_hour">"Std."</string>
-    <!-- XTXT: Option - person encounter - circumstances hint-->
-    <string name="contact_diary_location_visit_circumstances_hint">Notiz (z.B. sehr voll)</string>
 
     <!-- XTXT: PCR test title in the day overview -->
     <string name="contact_diary_corona_test_pcr_title">PCR-Test registriert</string>
