@@ -130,8 +130,11 @@
     </fragment>
     <fragment
         android:id="@+id/validationStartFragment"
-        android:name="de.rki.coronawarnapp.covidcertificate.validation.ui.ValidationStartFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.validation.ui.validationstart.ValidationStartFragment"
         android:label="ValidationStartFragment"
         tools:layout="@layout/validation_start_fragment">
+        <action
+            android:id="@+id/action_validationStartFragment_to_privacyFragment"
+            app:destination="@id/privacyFragment" />
     </fragment>
 </navigation>

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.validation.ui
+package de.rki.coronawarnapp.covidcertificate.validation.ui.validationstart
 
 import TextViewUrlSet
 import android.os.Bundle
@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.databinding.ValidationStartFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -39,11 +40,16 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
 
         viewModel.countryList.observe2(this) {
             val countryList = it.toMutableList()
+            // If list is empty - add Germany (default value)
             if (countryList.isEmpty()) {
                 countryList.add(DccCountry("DE"))
             }
             val countriesReadable = countryList.map { it.getCountryDisplayName(requireContext().getLocale()) }
-            val landAdapter = ArrayAdapter(requireContext(), R.layout.validation_start_land_list_item, countriesReadable)
+            val landAdapter = ArrayAdapter(
+                requireContext(),
+                R.layout.validation_start_land_list_item,
+                countriesReadable
+            )
             (binding.countryPicker as? AutoCompleteTextView)?.setAdapter(landAdapter)
             (binding.countryPicker as? AutoCompleteTextView)?.setText(landAdapter.getItem(0).toString(), false)
         }
@@ -54,6 +60,19 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
                     datePicker.setText(state.getDate(requireContext().getLocale()))
                 }
             }
+        }
+
+        binding.dateInfoIcon.setOnClickListener {
+            viewModel.onInfoClick()
+        }
+
+        binding.privacyInformation.setOnClickListener {
+            viewModel.onPrivacyClick()
+        }
+
+        binding.checkButton.setOnClickListener {
+            // TODO: some check magic here
+            viewModel.onCheckClick()
         }
 
         binding.datePicker.setOnClickListener {
@@ -80,6 +99,22 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
                     urlResource = R.string.validation_start_reopen_europe_link
                 )
             )
+        }
+
+        viewModel.routeToScreen.observe2(this) {
+            when (it) {
+                ValidationStartNavigationEvents.NavigateToValidationInfoFragment -> {
+                    // TODO: navigation to info fragment
+                }
+                ValidationStartNavigationEvents.NavigateToPrivacyFragment -> {
+                    doNavigate(
+                        ValidationStartFragmentDirections.actionValidationStartFragmentToPrivacyFragment()
+                    )
+                }
+                ValidationStartNavigationEvents.NavigateToNewFunctionFragment -> {
+                    // TODO: navigation to next screen (new functions)
+                }
+            }
         }
     }
 

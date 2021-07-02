@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.validation.ui
+package de.rki.coronawarnapp.covidcertificate.validation.ui.validationstart
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.contactdiary.util.CWADateTimeFormatPatternFactory.sh
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import org.joda.time.DateTime
@@ -24,17 +25,21 @@ class ValidationStartViewModel @AssistedInject constructor(
     private val uiState = MutableLiveData(UIState())
     val state: LiveData<UIState?> = uiState
 
-    // TODO: replace with server list
-//    val landList: LiveData<List<String>> = flowOf(
-//        listOf(
-//            "Deutschland",
-//            "Frankreich",
-//            "Italien",
-//            "Österreich"
-//        )
-//    ).asLiveData(context = dispatcherProvider.Default)
-
+    val routeToScreen: SingleLiveEvent<ValidationStartNavigationEvents> = SingleLiveEvent()
     val countryList = dccValidationRepository.dccCountries.asLiveData2()
+
+    fun onInfoClick() {
+        routeToScreen.postValue(ValidationStartNavigationEvents.NavigateToValidationInfoFragment)
+    }
+
+    fun onPrivacyClick() {
+        routeToScreen.postValue(ValidationStartNavigationEvents.NavigateToPrivacyFragment)
+    }
+
+    fun onCheckClick() {
+        // TODO: place some check magic here
+        routeToScreen.postValue(ValidationStartNavigationEvents.NavigateToNewFunctionFragment)
+    }
 
     fun countryChanged(country: String, userLocale: Locale = Locale.getDefault()) {
         val countryCode = Locale.getISOCountries().find { userLocale.displayCountry == country }

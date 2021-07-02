@@ -7,8 +7,7 @@
     android:background="@color/colorSurface"
     android:contentDescription="@string/tracelocation_organizer_category_title"
     android:focusable="true"
-    android:focusableInTouchMode="true"
-    tools:context=".ui.presencetracing.organizer.qrinfo.TraceLocationQRInfoFragment">
+    android:focusableInTouchMode="true">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -24,7 +23,7 @@
         android:id="@+id/scrollview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/trace_location_qr_info_understand_button"
+        app:layout_constraintBottom_toTopOf="@id/check_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
@@ -290,7 +289,7 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/trace_location_qr_info_understand_button"
+        android:id="@+id/check_button"
         style="@style/buttonPrimary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

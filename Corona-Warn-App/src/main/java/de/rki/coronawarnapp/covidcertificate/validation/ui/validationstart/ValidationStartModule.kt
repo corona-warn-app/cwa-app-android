@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.validation.ui
+package de.rki.coronawarnapp.covidcertificate.validation.ui.validationstart
 
 import dagger.Binds
 import dagger.Module

@@ -16,8 +16,8 @@ import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboa
 import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragmentModule
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragment
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragmentModule
-import de.rki.coronawarnapp.covidcertificate.validation.ui.ValidationStartFragment
-import de.rki.coronawarnapp.covidcertificate.validation.ui.ValidationStartModule
+import de.rki.coronawarnapp.covidcertificate.validation.ui.validationstart.ValidationStartFragment
+import de.rki.coronawarnapp.covidcertificate.validation.ui.validationstart.ValidationStartModule
 
 @Module
 abstract class DigitalCovidCertificateUIModule {
