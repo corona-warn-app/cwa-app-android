@@ -33,7 +33,7 @@
     <!-- XTXT: Vaccination Consent text of qr info -->
     <string name="vaccination_consent_qr_info_text">"Sie können digitale COVID-Impfzertifikate, COVID-Testzertifikate und COVID-Genesenenzertifikate der EU in der App hinzufügen."</string>
     <!-- XTXT: Vaccination Consent qr code text -->
-    <string name="vaccination_consent_qr_info_qr_code_text">"Die Zertifikate gelten innerhalb der EU als gültiger Nachweis (z.B. für Reisen)."</string>
+    <string name="vaccination_consent_qr_info_qr_code_text">"Die Zertifikate gelten innerhalb der EU als gültiger Nachweis (z.\u00A0B. für Reisen)."</string>
     <!-- XTXT: Vaccination Consent time text  -->
     <string name="vaccination_consent_qr_info_time_text">"Nach dem Hinzufügen bleiben die Zertifikate auf Ihrem Smartphone. Andere Personen können Ihre Daten nur einsehen, wenn Sie diesen ein Zertifikat zur Überprüfung vorzeigen."</string>
     <!-- XTXT: Vaccination Consent family certificates text  -->
