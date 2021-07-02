@@ -412,7 +412,7 @@
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_3">"Lassen Sie sich Ihre Testergebnisse (PCR-Test oder Antigen-Schnelltest) in der App anzeigen und warnen Sie andere, wenn Sie ein positives Testergebnis erhalten."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
-    <string name="onboarding_body_4">"Auf Wunsch können Sie mit der App Ihren persönlichen Infektionsstatus nachweisen (z.B. negativer Schnelltest). Bitte beachten Sie, dass Sie grundsätzlich nicht zum Nachweis Ihres Infektionsstatus per App verpflichtet sind. Sie können Ihren Infektionsstatus im Rahmen der rechtlichen Bestimmungen an Ihrem Aufenthaltsort auch auf andere Weise nachweisen."</string>
+    <string name="onboarding_body_4">"Auf Wunsch können Sie mit der App Ihren persönlichen Infektionsstatus nachweisen (z.\u00A0B. negativer Schnelltest). Bitte beachten Sie, dass Sie grundsätzlich nicht zum Nachweis Ihres Infektionsstatus per App verpflichtet sind. Sie können Ihren Infektionsstatus im Rahmen der rechtlichen Bestimmungen an Ihrem Aufenthaltsort auch auf andere Weise nachweisen."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_5">"Ebenso können Sie Ihren persönlichen Impfstatus nachweisen."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
@@ -868,7 +868,7 @@
     <!-- YTXT: Description of ID History -->
     <string name="debugging_debuglog_id_history_body">"IDs der bisher geteilten Fehleranalysen"</string>
     <!-- YTXT: Warning regarding downsides of recording a log file -->
-    <string name="debugging_debuglog_intro_warning">"Bitte beachten Sie, dass in Fehlerberichten sensible Daten (z.B. Testergebnis oder Kontakt-Tagebuch-Einträge) enthalten sein können. Aus diesem Grund sollten Sie Fehlerberichte nicht öffentlich teilen."</string>
+    <string name="debugging_debuglog_intro_warning">"Bitte beachten Sie, dass in Fehlerberichten sensible Daten (z.\u00A0B. Testergebnis oder Kontakt-Tagebuch-Einträge) enthalten sein können. Aus diesem Grund sollten Sie Fehlerberichte nicht öffentlich teilen."</string>
     <!-- XBUT: Button text to start the log recording -->
     <string name="debugging_debuglog_action_start_recording">"Starten"</string>
     <!-- XBUT: Button text to stop the log recording -->
@@ -916,7 +916,7 @@
     <!-- YTXT: First body section for bugreporting share log screen -->
     <string name="debugging_debuglog_share_log_section_one">"Bevor Sie den aufgezeichneten Fehlerbericht an den technischen Support des RKI übersenden können, ist Ihr Einverständnis erforderlich."</string>
     <!-- YTXT: Second body section for bugreporting share log screen -->
-    <string name="debugging_debuglog_share_log_section_two">"Nach der Übersendung erhalten Sie eine Fehlerbericht-ID. Diese können Sie angeben, um dem technischen Support z.B. weitere Informationen zukommen zu lassen und dabei eine Zuordnung zu Ihrem Fehlerbericht zu ermöglichen. Wenn Sie die Fehlerbericht-ID nicht mitteilen, ist dem RKI eine Zuordnung zu Ihrer Person nicht möglich."</string>
+    <string name="debugging_debuglog_share_log_section_two">"Nach der Übersendung erhalten Sie eine Fehlerbericht-ID. Diese können Sie angeben, um dem technischen Support z.\u00A0B. weitere Informationen zukommen zu lassen und dabei eine Zuordnung zu Ihrem Fehlerbericht zu ermöglichen. Wenn Sie die Fehlerbericht-ID nicht mitteilen, ist dem RKI eine Zuordnung zu Ihrer Person nicht möglich."</string>
     <!-- YTXT: Privacy Information section for bugreporting share log screen -->
     <string name="debugging_debuglog_share_log_privacy_information">"Ausführliche Informationen zu dieser Datenverarbeitung und den Datenschutzrisiken in den USA und anderen Drittländern"</string>
     <!-- XBUT: Button for bugreporting share log screen -->
@@ -1945,7 +1945,7 @@
     <!-- XTXT: Title for the information below the box in the survey consent detail screen -->
     <string name="datadonation_survey_consent_details_title_below">"<b>Zur Befragung durch das RKI</b>"</string>
     <!-- XHED: Text for the information below the box in the survey consent detail screen -->
-    <string name="datadonation_survey_consent_details_text_below">"Nachdem die Echtheit Ihrer App geprüft wurde, werden Sie auf eine Internetseite des RKI mit einem für Sie generierten Teilnahmelink zur Befragung weitergeleitet. Die Internetseite wird im Browser Ihres Smartphones geöffnet. Der Teilnahmelink enthält ein vorab durch die Corona-Warn-App generiertes Einmal-Passwort. Wenn Sie den Teilnahmelink antippen und die Internetseite mit der Befragung aufrufen, wird das Einmal-Passwort in Ihrem Browser zwischengespeichert. Auf dieser Seite werden weiterführenden Informationen zur Befragung und Handlungshinweise, z.B. wie die Befragung gestartet werden kann, dargestellt. Zum Start der Befragung wird das Einmal-Passwort an Server der Corona-Warn-App übermittelt und dort als verbraucht markiert. Durch den Server wird geprüft, ob Sie an der Befragung teilnehmen können oder nicht. So wird sichergestellt, dass jede Person nur einmal an der Befragung teilnehmen kann."</string>
+    <string name="datadonation_survey_consent_details_text_below">"Nachdem die Echtheit Ihrer App geprüft wurde, werden Sie auf eine Internetseite des RKI mit einem für Sie generierten Teilnahmelink zur Befragung weitergeleitet. Die Internetseite wird im Browser Ihres Smartphones geöffnet. Der Teilnahmelink enthält ein vorab durch die Corona-Warn-App generiertes Einmal-Passwort. Wenn Sie den Teilnahmelink antippen und die Internetseite mit der Befragung aufrufen, wird das Einmal-Passwort in Ihrem Browser zwischengespeichert. Auf dieser Seite werden weiterführenden Informationen zur Befragung und Handlungshinweise, z.\u00A0B. wie die Befragung gestartet werden kann, dargestellt. Zum Start der Befragung wird das Einmal-Passwort an Server der Corona-Warn-App übermittelt und dort als verbraucht markiert. Durch den Server wird geprüft, ob Sie an der Befragung teilnehmen können oder nicht. So wird sichergestellt, dass jede Person nur einmal an der Befragung teilnehmen kann."</string>
 
     <!-- XHED: Analytics voluntary user input, age group toolbar title -->
     <string name="analytics_userinput_agegroup_title">Ihre Altersgruppe</string>
