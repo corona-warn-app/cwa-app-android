@@ -1609,7 +1609,7 @@
 
     <!-- Persons Vaccinated Once Statistics Card -->
     <!-- XHED: Title for vaccinated once statistics card -->
-    <string name="statistics_vaccinated_once_card_title">"people who have received at least one vaccine dose"</string>
+    <string name="statistics_vaccinated_once_card_title">"People who have received at least one vaccine dose"</string>
     <!-- XTXT: Nationwide text -->
     <string name="statistics_vaccinated_nationwide_text">"Nationwide"</string>
     <!-- XTXT: Vaccination primary value footnote text -->
@@ -1617,11 +1617,11 @@
 
     <!-- Persons Vaccinated Completely Statistics Card -->
     <!-- XHED: Title for vaccinated completely statistics card -->
-    <string name="statistics_vaccinated_completely_card_title">"people who are fully vaccinated"</string>
+    <string name="statistics_vaccinated_completely_card_title">"People who are fully vaccinated"</string>
 
     <!-- Applied Vaccination Dose Rates Statistics Card -->
     <!-- XHED: Title for applied vaccination dose rates -->
-    <string name="statistics_applied_vaccination_dose_rates_card_title">"vaccine doses administered"</string>
+    <string name="statistics_applied_vaccination_dose_rates_card_title">"Vaccine doses administered"</string>
     <!-- XTXT: Statistics local 7 days title -->
     <string name="statistics_explanation_local_seven_day_incidence_title">"Local 7-day incidence"</string>
     <!-- XTXT: Statistics local 7 days text -->

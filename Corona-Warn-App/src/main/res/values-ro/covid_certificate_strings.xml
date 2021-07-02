@@ -88,7 +88,7 @@
     <string name="recovery_certificate_valid_until">"valabil până la %s"</string>
 
     <!-- XTXT: Detail green certificate diaglog title -->
-    <string name="recovery_certificate_details_dialog_remove_test_title">"Doriți să eliminați certificatul de recuperare?"</string>
+    <string name="recovery_certificate_details_dialog_remove_test_title">"Doriți să eliminați certificatul?"</string>
     <!-- XTXT: Detail green certificate diaglog message -->
     <string name="recovery_certificate_details_dialog_remove_test_message">"Dacă eliminați certificatul de recuperare, nu îl mai puteți utiliza ca dovadă în aplicație."</string>
 
