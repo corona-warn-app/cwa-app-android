@@ -32,6 +32,7 @@ import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.launchFragment2
 import testhelpers.launchInMainActivity
+import testhelpers.recyclerScrollTo
 import testhelpers.selectBottomNavTab
 import testhelpers.takeScreenshot
 
@@ -88,9 +89,22 @@ class PersonOverviewFragmentTest : BaseUITest() {
 
     @Test
     @Screenshot
-    fun capture_fragment_persons() {
+    fun capture_fragment_one_person() {
+        every { viewModel.personCertificates } returns MutableLiveData(onePersonItem())
+        takeSelfie("one_person")
+    }
+
+    @Test
+    @Screenshot
+    fun capture_fragment_many_persons() {
         every { viewModel.personCertificates } returns MutableLiveData(personsItems())
-        takeSelfie("persons")
+        takeSelfie("many_persons")
+
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(1))
+        takeScreenshot<PersonOverviewFragment>("many_persons_1")
+
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2))
+        takeScreenshot<PersonOverviewFragment>("many_persons_2")
     }
 
     @After
@@ -169,6 +183,18 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     certificate = mockTestCertificate("Thomas Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_3,
+                    qrcodeBitmap = bitmap
+                )
+            )
+        }
+
+    private fun onePersonItem() = mutableListOf<PersonCertificatesItem>()
+        .apply {
+            add(
+                PersonCertificateCard.Item(
+                    certificate = mockTestCertificate("Andrea Schneider"),
+                    onClickAction = { _, _ -> },
+                    colorShade = PersonColorShade.COLOR_1,
                     qrcodeBitmap = bitmap
                 )
             )
