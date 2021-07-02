@@ -56,11 +56,9 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
         .filterNotNull()
         .map { test ->
             tokenErrorMutex.withLock {
-                if (!wasRedeemedTokenErrorShown) {
-                    if (test.testResult.toDeviceUIState() == DeviceUIState.PAIRED_REDEEMED) {
-                        wasRedeemedTokenErrorShown = true
-                        showRedeemedTokenWarning.postValue(Unit)
-                    }
+                if (!wasRedeemedTokenErrorShown && test.testResult.toDeviceUIState() == DeviceUIState.PAIRED_REDEEMED) {
+                    wasRedeemedTokenErrorShown = true
+                    showRedeemedTokenWarning.postValue(Unit)
                 }
             }
             TestResultUIState(coronaTest = test)
