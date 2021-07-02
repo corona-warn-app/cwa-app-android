@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDeta
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsModule
 import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment
 import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragmentModule
-import de.rki.coronawarnapp.covidcertificate.validation.ui.datetimeinfo.ValidationTimeInfoFragment
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragment
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragmentModule
 
