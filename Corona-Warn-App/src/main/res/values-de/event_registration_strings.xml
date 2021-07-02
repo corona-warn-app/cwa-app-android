@@ -160,7 +160,7 @@
     <!-- XHED: Title of the notification channel for event registration related notifications. -->
     <string name="tracelocation_notification_channel_title">"Check-ins"</string>
     <!-- XTXT: Description of the notification channel for event registration related notifications. -->
-    <string name="tracelocation_notification_channel_description">"Benachrichtungen zu Ihren Check-ins, z.B. automatischer Check-out."</string>
+    <string name="tracelocation_notification_channel_description">"Benachrichtungen zu Ihren Check-ins, z.\u00A0B. automatischer Check-out."</string>
     <!-- XHED: Title of the automatic check-out notification. -->
     <string name="tracelocation_notification_autocheckout_title">"Sie wurden automatisch ausgecheckt."</string>
     <!-- XTXT: Description of the automatic check-out notification. -->
