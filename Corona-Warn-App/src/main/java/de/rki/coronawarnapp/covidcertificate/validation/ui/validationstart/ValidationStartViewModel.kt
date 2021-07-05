@@ -6,7 +6,11 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.util.CWADateTimeFormatPatternFactory.shortDatePattern
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
+import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidator
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -17,7 +21,8 @@ import java.util.Locale
 
 class ValidationStartViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val dccValidationRepository: DccValidationRepository,
+    dccValidationRepository: DccValidationRepository,
+    private val dccValidator: DccValidator,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     @AssistedFactory
@@ -25,7 +30,7 @@ class ValidationStartViewModel @AssistedInject constructor(
 
     private val uiState = MutableLiveData(UIState())
     val state: LiveData<UIState?> = uiState
-
+    val currentDateTime: DateTime = uiState.value?.dateTime ?: DateTime.now()
     val routeToScreen: SingleLiveEvent<ValidationStartNavigationEvents> = SingleLiveEvent()
     val countryList = dccValidationRepository.dccCountries.map { countryList ->
         // If list is empty - Return Germany as (default value)
@@ -46,25 +51,22 @@ class ValidationStartViewModel @AssistedInject constructor(
     }
 
     fun countryChanged(country: String, userLocale: Locale = Locale.getDefault()) {
-        val countryCode = Locale.getISOCountries().find { userLocale.displayCountry == country }
+        val countryCode = Locale.getISOCountries().find { userLocale.displayCountry == country }!! //TODO check that
         uiState.apply {
-            value = value?.copy(dccCountry = countryCode?.let { DccCountry(it) })
+            value = value?.copy(dccCountry = DccCountry(countryCode))
         }
     }
 
     fun dateChanged(date: DateTime) {
         uiState.apply {
-            value = value?.copy(date = date)
+            value = value?.copy(dateTime = date)
         }
     }
 
     data class UIState(
-        val dccCountry: DccCountry? = null,
-        val date: DateTime = DateTime.now(),
+        val dccCountry: DccCountry = DccCountry("DE"),
+        val dateTime: DateTime = DateTime.now(),
     ) {
-        fun getDate(locale: Locale) = getFormattedTime(date, locale)
-
-        private fun getFormattedTime(value: DateTime?, locale: Locale) =
-            value?.toString("${locale.shortDatePattern()} HH:mm", locale)
+        fun formattedDateTime() = dateTime.run { "${toDayFormat()} ${toShortTimeFormat()}" }
     }
 }

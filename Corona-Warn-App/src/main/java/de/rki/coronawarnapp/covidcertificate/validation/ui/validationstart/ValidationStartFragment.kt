@@ -43,14 +43,14 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
         }
 
         viewModel.state.observe(viewLifecycleOwner) { state ->
-            state?.let { datePicker.setText(it.getDate(requireContext().getLocale())) }
+            state?.let { datePicker.setText(it.formattedDateTime()) }
         }
 
         dateInfoIcon.setOnClickListener { viewModel.onInfoClick() }
         privacyInformation.setOnClickListener { viewModel.onPrivacyClick() }
         checkButton.setOnClickListener { viewModel.onCheckClick() }
         datePicker.setOnClickListener {
-            showDatePicker(viewModel.state.value?.date) { value -> viewModel.dateChanged(value) }
+            showDatePicker(viewModel.currentDateTime) { value -> viewModel.dateChanged(value) }
         }
 
         countryPicker.setOnItemClickListener { parent, _, position, _ ->
@@ -71,14 +71,13 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
 
         viewModel.routeToScreen.observe(viewLifecycleOwner) {
             when (it) {
-                ValidationStartNavigationEvents.NavigateToValidationInfoFragment -> {
-                    // TODO: navigation to info fragment
-                }
-                ValidationStartNavigationEvents.NavigateToPrivacyFragment -> {
-                    doNavigate(
-                        ValidationStartFragmentDirections.actionValidationStartFragmentToPrivacyFragment()
-                    )
-                }
+                ValidationStartNavigationEvents.NavigateToValidationInfoFragment -> doNavigate(
+                    ValidationStartFragmentDirections.actionValidationStartFragmentToValidationTimeInfoFragment()
+                )
+                ValidationStartNavigationEvents.NavigateToPrivacyFragment -> doNavigate(
+                    ValidationStartFragmentDirections.actionValidationStartFragmentToPrivacyFragment()
+                )
+
                 ValidationStartNavigationEvents.NavigateToNewFunctionFragment -> {
                     // TODO: navigation to next screen (new functions)
                 }
@@ -87,30 +86,25 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
     }
 
     private fun showDatePicker(
-        defaultValue: DateTime?,
-        minConstraint: DateTime? = null,
+        defaultValue: DateTime,
+        minConstraint: DateTime = DateTime.now().minusDays(1), // Allow selection from today on
         callback: (DateTime) -> Unit
     ) {
         MaterialDatePicker
             .Builder
             .datePicker()
-            .setSelection(defaultValue?.toDateTime()?.millis)
+            .setSelection(defaultValue.millis)
             .apply {
-                if (minConstraint != null) {
-                    setCalendarConstraints(
-                        CalendarConstraints.Builder()
-                            .setValidator(
-                                DateValidatorPointForward
-                                    .from(minConstraint.withMillisOfDay(0).toDateTime().millis)
-                            )
-                            .build()
-                    )
-                }
+                setCalendarConstraints(
+                    CalendarConstraints.Builder()
+                        .setValidator(DateValidatorPointForward.from(minConstraint.withSecondOfMinute(0).millis))
+                        .build()
+                )
             }
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
-                    showTimePicker(LocalDate(it), defaultValue?.hourOfDay, defaultValue?.minuteOfHour, callback)
+                    showTimePicker(LocalDate(it), defaultValue.hourOfDay, defaultValue.minuteOfHour, callback)
                 }
             }
             .show(childFragmentManager, DATE_PICKER_TAG)

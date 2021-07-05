@@ -136,5 +136,13 @@
         <action
             android:id="@+id/action_validationStartFragment_to_privacyFragment"
             app:destination="@id/privacyFragment" />
+        <action
+            android:id="@+id/action_validationStartFragment_to_validationTimeInfoFragment"
+            app:destination="@id/validationTimeInfoFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/validationTimeInfoFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.validation.ui.datetimeinfo.ValidationTimeInfoFragment"
+        android:label="validation_time_info_fragment"
+        tools:layout="@layout/validation_time_info_fragment" />
 </navigation>
