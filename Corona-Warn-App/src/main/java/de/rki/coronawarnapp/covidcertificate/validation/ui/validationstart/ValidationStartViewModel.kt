@@ -49,7 +49,7 @@ class ValidationStartViewModel @AssistedInject constructor(
     }
 
     fun countryChanged(country: String, userLocale: Locale = Locale.getDefault()) {
-        val countryCode = Locale.getISOCountries().find { userLocale.displayCountry == country }!! //TODO check that
+        val countryCode = Locale.getISOCountries().find { userLocale.displayCountry == country }!! // TODO check that
         uiState.apply {
             value = value?.copy(dccCountry = DccCountry(countryCode))
         }
