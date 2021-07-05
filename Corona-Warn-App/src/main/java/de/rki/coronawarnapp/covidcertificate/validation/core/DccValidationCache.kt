@@ -12,7 +12,7 @@ class DccValidationCache @Inject constructor(
     @CertificateValidation private val cacheDir: File,
 ) {
     private val mutex = Mutex()
-    private val cacheFile = File(cacheDir, "dcc_validation_cache_raw")
+    private val cacheFile = File(cacheDir, "dcc_validation_cache_countries_raw")
 
     suspend fun loadJson(): String? = mutex.withLock {
         try {
