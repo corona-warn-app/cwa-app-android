@@ -188,6 +188,9 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                     event.forceUpdate
                 )
             )
+            HomeFragmentEvents.GoToFederalStateSelection -> doNavigate(
+                HomeFragmentDirections.actionMainFragmentToFederalStateSelectionFragment()
+            )
         }
     }
 
