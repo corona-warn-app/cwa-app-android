@@ -15,9 +15,9 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCerti
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_BASE45_ENCODING_FAILED
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_CBOR_DECODING_FAILED
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_COSE_MESSAGE_INVALID
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_JSON_SCHEMA_INVALID
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_COMPRESSION_FAILED
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
-import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.JSON_SCHEMA_INVALID
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.NO_RECOVERY_ENTRY
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.NO_TEST_ENTRY
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.NO_VACCINATION_ENTRY
@@ -149,7 +149,7 @@ class DccQrCodeExtractor @Inject constructor(
                     parsedData.certificate
                 ),
             )
-            else -> throw InvalidHealthCertificateException(JSON_SCHEMA_INVALID)
+            else -> throw InvalidHealthCertificateException(HC_JSON_SCHEMA_INVALID)
         }
 
     private fun String.decodeBase45(): ByteArray = try {
@@ -189,7 +189,7 @@ class DccQrCodeExtractor @Inject constructor(
             isVaccinationCertificate -> asVaccinationCertificate!!
             isTestCertificate -> asTestCertificate!!
             isRecoveryCertificate -> asRecoveryCertificate!!
-            else -> throw InvalidHealthCertificateException(JSON_SCHEMA_INVALID)
+            else -> throw InvalidHealthCertificateException(HC_JSON_SCHEMA_INVALID)
         }
 }
 

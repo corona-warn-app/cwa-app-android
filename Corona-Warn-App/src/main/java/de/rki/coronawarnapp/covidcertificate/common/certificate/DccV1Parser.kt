@@ -33,7 +33,7 @@ class DccV1Parser @Inject constructor(
     } catch (e: InvalidHealthCertificateException) {
         throw e
     } catch (e: Throwable) {
-        throw InvalidHealthCertificateException(ErrorCode.JSON_SCHEMA_INVALID)
+        throw InvalidHealthCertificateException(ErrorCode.HC_JSON_SCHEMA_INVALID)
     }
 
     private fun DccV1.toValidated(mode: Mode): DccV1 = try {
@@ -46,7 +46,7 @@ class DccV1Parser @Inject constructor(
     } catch (e: InvalidHealthCertificateException) {
         throw e
     } catch (e: Throwable) {
-        throw InvalidHealthCertificateException(ErrorCode.JSON_SCHEMA_INVALID)
+        throw InvalidHealthCertificateException(ErrorCode.HC_JSON_SCHEMA_INVALID)
     }
 
     private fun DccV1.checkModeRestrictions(mode: Mode) = when (mode) {
