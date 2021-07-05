@@ -6,6 +6,7 @@ sealed class ValidationStartNavigationEvents {
 
     object NavigateToPrivacyFragment : ValidationStartNavigationEvents()
     object NavigateToValidationInfoFragment : ValidationStartNavigationEvents()
+    data class ShowTimeMessage(val invalidTime: Boolean) : ValidationStartNavigationEvents()
     data class NavigateToValidationResultFragment(
         val validationResult: DccValidation
     ) : ValidationStartNavigationEvents()

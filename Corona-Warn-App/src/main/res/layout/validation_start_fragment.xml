@@ -92,10 +92,11 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="22dp"
                 android:layout_marginBottom="@dimen/spacing_tiny"
-                android:focusable="false"
                 android:hint="@string/validation_start_date_hint"
                 android:textColorHint="@color/colorTextPrimary3"
                 app:boxBackgroundColor="@color/colorContactDiaryListItem"
+                app:errorIconDrawable="@null"
+                app:errorTextColor="@color/colorTextSemanticRed"
                 app:layout_constraintStart_toStartOf="@+id/body"
                 app:layout_constraintTop_toBottomOf="@+id/country_layout">
 

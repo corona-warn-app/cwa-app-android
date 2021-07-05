@@ -17,8 +17,10 @@ import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.databinding.ValidationStartFragmentBinding
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -44,7 +46,7 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
-
+            toolbar.setNavigationOnClickListener { popBackStack() }
             dateInfoIcon.setOnClickListener { viewModel.onInfoClick() }
             privacyInformation.setOnClickListener { viewModel.onPrivacyClick() }
             checkButton.setOnClickListener { viewModel.onCheckClick() }
@@ -74,7 +76,12 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
             viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
         }
 
-    private fun onNavEvent(event: ValidationStartNavigationEvents?) {
+    override fun onResume() {
+        super.onResume()
+        viewModel.refreshTimeCheck()
+    }
+
+    private fun ValidationStartFragmentBinding.onNavEvent(event: ValidationStartNavigationEvents?) {
         when (event) {
             ValidationStartNavigationEvents.NavigateToValidationInfoFragment ->
                 doNavigate(
@@ -86,6 +93,19 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
                 )
             is ValidationStartNavigationEvents.NavigateToValidationResultFragment ->
                 navigateToResultScreen(event.validationResult)
+
+            is ValidationStartNavigationEvents.ShowTimeMessage ->
+                if (event.invalidTime) {
+                    dateInfo.setText(R.string.validation_start_time_error)
+                    dateInfo.setTextColor(requireContext().getColorCompat(R.color.colorTextSemanticRed))
+                    dateLayout.error = " "
+                } else {
+                    dateInfo.setText(R.string.validation_start_date_info)
+                    dateInfo.setTextColor(
+                        requireContext().getColorCompat(R.color.colorOnPrimary)
+                    )
+                    dateLayout.error = null
+                }
         }
     }
 

@@ -36,7 +36,7 @@ class ValidationStartViewModel @AssistedInject constructor(
 
     private val uiState = MutableLiveData(UIState())
     val state: LiveData<UIState> = uiState
-    val currentDateTime: DateTime = uiState.value?.dateTime ?: DateTime.now()
+    val currentDateTime: DateTime get() = uiState.value?.dateTime ?: DateTime.now()
     val events = SingleLiveEvent<ValidationStartNavigationEvents>()
     val countryList = dccValidationRepository.dccCountries.map { countryList ->
         // If list is empty - Return Germany as (default value)
@@ -72,11 +72,16 @@ class ValidationStartViewModel @AssistedInject constructor(
         }
     }
 
-    fun dateChanged(date: DateTime) {
-        uiState.apply {
-            value = value?.copy(dateTime = date)
-        }
+    fun dateChanged(dateTime: DateTime) {
+        events.postValue(
+            ValidationStartNavigationEvents.ShowTimeMessage(
+                dateTime.isBefore(DateTime.now().withSecondOfMinute(0))
+            )
+        )
+        uiState.apply { value = value?.copy(dateTime = dateTime) }
     }
+
+    fun refreshTimeCheck() = dateChanged(currentDateTime)
 
     data class UIState(
         val dccCountry: DccCountry = DccCountry("DE"),
