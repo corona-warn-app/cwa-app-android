@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.recovery.ui.details
 
 import android.graphics.Bitmap
+import android.os.Debug
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
@@ -43,6 +44,10 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
         Timber.d("Removing Recovery Certificate=$containerId")
         recoveryCertificateRepository.deleteCertificate(containerId)
         events.postValue(RecoveryCertificateDetailsNavigation.Back)
+    }
+
+    fun startValidation() {
+
     }
 
     private fun generateQrCode(recoveryCertificate: RecoveryCertificate?) = launch {

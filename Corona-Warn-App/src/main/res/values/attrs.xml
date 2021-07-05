@@ -51,6 +51,12 @@
         <attr name="android:checked" />
     </declare-styleable>
 
+    <declare-styleable name="ProgressLoadingButton">
+        <attr name="textWhileNotLoading" format="string" />
+        <attr name="isLoading" format="boolean" />
+        <attr name="textWhileLoading" format="string" />
+    </declare-styleable>
+
     <declare-styleable name="TraceLocationHighlightView">
         <attr name="android:text" />
     </declare-styleable>

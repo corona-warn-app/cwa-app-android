@@ -296,27 +296,16 @@
         android:background="@drawable/trace_location_gradient_background"
         android:orientation="horizontal">
 
-        <Button
+        <de.rki.coronawarnapp.ui.view.ProgressLoadingButton
             android:id="@+id/start_validation_check"
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/spacing_tiny"
-            android:layout_marginStart="@dimen/spacing_normal"
-            android:layout_marginEnd="@dimen/spacing_normal"
             android:layout_weight="1"
-            android:text="@string/start_validation_rule_check_button"
-            tools:text="@string/start_validation_rule_check_button" />
+            app:textWhileNotLoading="Gültigkeit prüfen"
+            app:textWhileLoading="Prüfe Gültigkeit ..."
+            app:isLoading="false" />
 
     </LinearLayout>
-
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/validation_progress_bar"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_centerInParent="true"
-        android:indeterminate="true"
-        android:visibility="invisible"
-        app:hideAnimationBehavior="inward" />
 
 </RelativeLayout>
