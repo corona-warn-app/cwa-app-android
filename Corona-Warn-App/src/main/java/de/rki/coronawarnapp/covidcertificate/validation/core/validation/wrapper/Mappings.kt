@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.validation.core.validation.wrapper
 
 import android.annotation.SuppressLint
 import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.validation.EvaluatedDccRule
 import dgca.verifier.app.engine.Result
@@ -103,7 +104,8 @@ private val String.asCertificateType: CertificateType
 
 private val JSONObject.asJsonNode: JsonNode
     get() {
-        TODO()
+        //TODO
+        return ObjectMapper().createObjectNode()
     }
 
 private val JsonNode.asJSONObject: JSONObject
