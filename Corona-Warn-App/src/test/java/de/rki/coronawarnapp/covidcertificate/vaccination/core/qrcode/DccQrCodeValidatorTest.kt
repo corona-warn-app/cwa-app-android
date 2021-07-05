@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
-import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.DaggerVaccinationTestComponent
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import io.kotest.assertions.throwables.shouldThrow
@@ -39,7 +38,7 @@ class DccQrCodeValidatorTest : BaseTest() {
     @Test
     fun `validator throws invalid vaccination exception for pcr test qr code`() {
         val instance = DccQrCodeValidator(vacExtractorSpy)
-        shouldThrow<InvalidVaccinationCertificateException> {
+        shouldThrow<InvalidHealthCertificateException> {
             instance.validate("HTTPS://LOCALHOST/?123456-12345678-1234-4DA7-B166-B86D85475064")
         }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.HC_PREFIX_INVALID
     }
