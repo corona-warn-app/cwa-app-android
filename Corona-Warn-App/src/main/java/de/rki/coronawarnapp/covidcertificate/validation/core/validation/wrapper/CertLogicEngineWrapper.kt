@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.validation.core.validation.wrapper
 
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
+import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.validation.EvaluatedDccRule
 import dgca.verifier.app.engine.DefaultCertLogicEngine
@@ -10,7 +11,9 @@ import org.joda.time.Instant
 import javax.inject.Inject
 
 @Reusable
-class CertLogicEngineWrapper @Inject constructor() {
+class CertLogicEngineWrapper @Inject constructor(
+
+) {
     private val engine: DefaultCertLogicEngine by lazy {
         DefaultCertLogicEngine(DefaultJsonLogicValidator())
     }
@@ -19,11 +22,12 @@ class CertLogicEngineWrapper @Inject constructor() {
         rules: List<DccValidationRule>,
         validationClock: Instant,
         certificate: DccData<*>,
+        arrivalCountry: DccCountry,
     ): Set<EvaluatedDccRule> = engine.validate(
         hcertVersionString = certificate.certificate.version,
         schemaJson = "obsolete",
         rules = rules.map { it.asExternalRule },
-        externalParameter = assembleExternalParameter(validationClock),
+        externalParameter = assembleExternalParameter(certificate, validationClock, arrivalCountry),
         payload = certificate.certificateJson
     ).map { it.asEvaluatedDccRule }.toSet()
 }

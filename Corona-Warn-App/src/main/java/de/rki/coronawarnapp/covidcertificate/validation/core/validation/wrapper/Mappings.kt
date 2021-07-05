@@ -3,18 +3,33 @@ package de.rki.coronawarnapp.covidcertificate.validation.core.validation.wrapper
 import android.annotation.SuppressLint
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
+import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.validation.EvaluatedDccRule
 import dgca.verifier.app.engine.Result
+import dgca.verifier.app.engine.UTC_ZONE_ID
 import dgca.verifier.app.engine.data.CertificateType
+import dgca.verifier.app.engine.data.ExternalParameter
 import dgca.verifier.app.engine.data.Rule
 import dgca.verifier.app.engine.data.Type
 import org.joda.time.Instant
 import org.json.JSONObject
 import java.time.ZonedDateTime
 
-internal fun assembleExternalParameter(validationClock: Instant): dgca.verifier.app.engine.data.ExternalParameter {
-    TODO()
+internal fun assembleExternalParameter(
+    certificate: DccData<*>,
+    validationClock: Instant,
+    arrivalCountry: DccCountry
+): ExternalParameter {
+    return ExternalParameter(
+        kid = "what is this?",
+        validationClock = validationClock.toZonedDateTime(),
+        valueSets = emptyMap(),
+        countryCode = arrivalCountry.countryCode,
+        exp = certificate.header.expiresAt.toZonedDateTime(),
+        iat = certificate.header.issuedAt.toZonedDateTime()
+    )
 }
 
 val dgca.verifier.app.engine.ValidationResult.asEvaluatedDccRule: EvaluatedDccRule
@@ -110,3 +125,8 @@ private val JsonNode.asJSONObject: JSONObject
     get() {
         return JSONObject(this.toString())
     }
+
+@SuppressLint("NewApi")
+private fun Instant.toZonedDateTime(): ZonedDateTime {
+    return ZonedDateTime.ofInstant(java.time.Instant.ofEpochMilli(this.millis), UTC_ZONE_ID)
+}
