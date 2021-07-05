@@ -160,5 +160,7 @@
     <string name="validation_start_data_protection">"Ausführliche Hinweise zur Datenverarbeitung finden Sie in der Datenschutzerklärung"</string>
     <!-- XBUT: Validation start check button -->
     <string name="validation_start_check_button">"Prüfen"</string>
+    <!-- XTXT: Validation start time error message -->
+    <string name="validation_start_time_error">"Die angegebene Uhrzeit liegt in der Vergangenheit. Ihre lokale Einreisezeit muss in der Zukunft liegen."</string>
 
 </resources>
