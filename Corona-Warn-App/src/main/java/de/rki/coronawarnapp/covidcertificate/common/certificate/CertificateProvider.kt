@@ -1,7 +1,6 @@
-package de.rki.coronawarnapp.covidcertificate.validation.ui.validationstart
+package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import dagger.Reusable
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId

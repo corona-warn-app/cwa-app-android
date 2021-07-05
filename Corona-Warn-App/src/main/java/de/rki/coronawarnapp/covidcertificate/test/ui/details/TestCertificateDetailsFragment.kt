@@ -117,7 +117,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
             )
             is TestCertificateDetailsNavigation.ValidationStart -> doNavigate(
                 TestCertificateDetailsFragmentDirections
-                    .actionTestCertificateDetailsFragmentToValidationStartFragment()
+                    .actionTestCertificateDetailsFragmentToValidationStartFragment(event.containerId)
             )
         }
     }
