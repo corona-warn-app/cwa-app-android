@@ -139,6 +139,9 @@
         <action
             android:id="@+id/action_validationStartFragment_to_validationTimeInfoFragment"
             app:destination="@id/validationTimeInfoFragment" />
+        <argument
+            android:name="containerId"
+            app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId" />
     </fragment>
     <fragment
         android:id="@+id/validationTimeInfoFragment"

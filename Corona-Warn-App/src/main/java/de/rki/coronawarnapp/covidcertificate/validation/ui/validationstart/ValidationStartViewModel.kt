@@ -2,8 +2,10 @@ package de.rki.coronawarnapp.covidcertificate.validation.ui.validationstart
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidator
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
@@ -12,44 +14,58 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.map
 import org.joda.time.DateTime
+import timber.log.Timber
 import java.util.Locale
 
 class ValidationStartViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     dccValidationRepository: DccValidationRepository,
     private val dccValidator: DccValidator,
+    private val certificateProvider: CertificateProvider,
+    @Assisted private val containerId: CertificateContainerId
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<ValidationStartViewModel>
+    interface Factory : CWAViewModelFactory<ValidationStartViewModel> {
+        fun create(containerId: CertificateContainerId): ValidationStartViewModel
+    }
 
     private val uiState = MutableLiveData(UIState())
     val state: LiveData<UIState> = uiState
     val currentDateTime: DateTime = uiState.value?.dateTime ?: DateTime.now()
-    val routeToScreen: SingleLiveEvent<ValidationStartNavigationEvents> = SingleLiveEvent()
+    val events = SingleLiveEvent<ValidationStartNavigationEvents>()
     val countryList = dccValidationRepository.dccCountries.map { countryList ->
         // If list is empty - Return Germany as (default value)
         if (countryList.isEmpty()) listOf(DccCountry("DE")) else countryList
     }.asLiveData2()
 
     fun onInfoClick() {
-        routeToScreen.postValue(ValidationStartNavigationEvents.NavigateToValidationInfoFragment)
+        events.postValue(ValidationStartNavigationEvents.NavigateToValidationInfoFragment)
     }
 
     fun onPrivacyClick() {
-        routeToScreen.postValue(ValidationStartNavigationEvents.NavigateToPrivacyFragment)
+        events.postValue(ValidationStartNavigationEvents.NavigateToPrivacyFragment)
     }
 
-    fun onCheckClick() {
-        // TODO: place some check magic here
-        routeToScreen.postValue(ValidationStartNavigationEvents.NavigateToValidationResultFragment)
+    fun onCheckClick() = launch {
+        try {
+            val state = uiState.value!!
+            val country = state.dccCountry
+            val time = state.dateTime.toInstant()
+            val certificateData = certificateProvider.findCertificate(containerId).dccData
+            dccValidator.validateDcc(setOf(country), time, certificateData)
+
+            events.postValue(ValidationStartNavigationEvents.NavigateToValidationResultFragment)
+        } catch (e: Exception) {
+            Timber.d(e, "validating Dcc failed")
+        }
     }
 
     fun countryChanged(country: String, userLocale: Locale = Locale.getDefault()) {
-        val countryCode = Locale.getISOCountries().find { userLocale.displayCountry == country }!! // TODO check that
+        val countryCode = Locale.getISOCountries().find { userLocale.displayCountry == country }!! // Must be a country
         uiState.apply {
             value = value?.copy(dccCountry = DccCountry(countryCode))
         }

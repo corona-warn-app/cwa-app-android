@@ -107,6 +107,9 @@ data class RecoveryCertificateContainer(
 
             override val qrCode: QrCodeString
                 get() = data.recoveryCertificateQrCode
+
+            override val dccData: DccData<*>
+                get() = certificateData
         }
     }
 }

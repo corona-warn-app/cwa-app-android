@@ -6,6 +6,7 @@ import android.text.format.DateFormat
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -20,7 +21,7 @@ import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
@@ -30,7 +31,14 @@ import javax.inject.Inject
 class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel by cwaViewModels<ValidationStartViewModel> { viewModelFactory }
+    private val args by navArgs<ValidationStartFragmentArgs>()
+    private val viewModel by cwaViewModelsAssisted<ValidationStartViewModel>(
+        factoryProducer = { viewModelFactory },
+        constructorCall = { factory, _ ->
+            factory as ValidationStartViewModel.Factory
+            factory.create(args.containerId)
+        }
+    )
     private val binding by viewBinding<ValidationStartFragmentBinding>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
@@ -62,7 +70,7 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
 
             viewModel.state.observe(viewLifecycleOwner) { datePicker.setText(it.formattedDateTime()) }
             viewModel.countryList.observe(viewLifecycleOwner) { onCountiesAvailable(it) }
-            viewModel.routeToScreen.observe(viewLifecycleOwner) { onNavEvent(it) }
+            viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
         }
 
     private fun onNavEvent(event: ValidationStartNavigationEvents?) {
