@@ -2,9 +2,6 @@ package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
@@ -13,32 +10,20 @@ import javax.inject.Inject
 
 @Reusable
 class CertificateProvider @Inject constructor(
-    private val testCertificateRepository: TestCertificateRepository,
-    private val vaccinationRepository: VaccinationRepository,
-    private val recoveryCertificateRepository: RecoveryCertificateRepository
+    private val vcRepo: VaccinationRepository,
+    private val tcRepo: TestCertificateRepository,
+    private val rcRepo: RecoveryCertificateRepository,
 ) {
 
     /**
-     * Throws an [Exception] if certificate not found
+     * Finds a [CwaCovidCertificate] by [CertificateContainerId]
+     * @throws [Exception] if certificate not found
      */
-    suspend fun findCertificate(containerId: CertificateContainerId): CwaCovidCertificate =
-        when (containerId) {
-            is RecoveryCertificateContainerId ->
-                recoveryCertificateRepository
-                    .certificates.first()
-                    .mapNotNull { it.recoveryCertificate }
-                    .find { it.containerId == containerId }!!
+    suspend fun findCertificate(containerId: CertificateContainerId): CwaCovidCertificate {
+        val certificates = rcRepo.certificates.first().mapNotNull { it.recoveryCertificate } +
+            tcRepo.certificates.first().mapNotNull { it.testCertificate } +
+            vcRepo.vaccinationInfos.first().flatMap { person -> person.vaccinationCertificates }
 
-            is TestCertificateContainerId ->
-                testCertificateRepository
-                    .certificates.first()
-                    .mapNotNull { it.testCertificate }
-                    .find { it.containerId == containerId }!!
-
-            is VaccinationCertificateContainerId ->
-                vaccinationRepository
-                    .vaccinationInfos.first()
-                    .flatMap { person -> person.vaccinationCertificates }
-                    .find { it.containerId == containerId }!!
-        }
+        return certificates.find { it.containerId == containerId }!! // Must be a certificate
+    }
 }

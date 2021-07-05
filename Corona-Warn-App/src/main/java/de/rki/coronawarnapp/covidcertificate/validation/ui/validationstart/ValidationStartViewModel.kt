@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.validation.ui.validationstart
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -16,6 +15,7 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import org.joda.time.DateTime
 import timber.log.Timber
@@ -34,9 +34,9 @@ class ValidationStartViewModel @AssistedInject constructor(
         fun create(containerId: CertificateContainerId): ValidationStartViewModel
     }
 
-    private val uiState = MutableLiveData(UIState())
-    val state: LiveData<UIState> = uiState
-    val currentDateTime: DateTime get() = uiState.value?.dateTime ?: DateTime.now()
+    private val uiState = MutableStateFlow(UIState())
+    val state: LiveData<UIState> = uiState.asLiveData2()
+    val currentDateTime: DateTime get() = uiState.value.dateTime
     val events = SingleLiveEvent<ValidationStartNavigationEvents>()
     val countryList = dccValidationRepository.dccCountries.map { countryList ->
         // If list is empty - Return Germany as (default value)
@@ -53,7 +53,7 @@ class ValidationStartViewModel @AssistedInject constructor(
 
     fun onCheckClick() = launch {
         try {
-            val state = uiState.value!!
+            val state = uiState.value
             val country = state.dccCountry
             val time = state.dateTime.toInstant()
             val certificateData = certificateProvider.findCertificate(containerId).dccData
@@ -69,7 +69,7 @@ class ValidationStartViewModel @AssistedInject constructor(
     fun countryChanged(country: String, userLocale: Locale = Locale.getDefault()) {
         val countryCode = Locale.getISOCountries().find { userLocale.displayCountry == country }!! // Must be a country
         uiState.apply {
-            value = value?.copy(dccCountry = DccCountry(countryCode))
+            value = value.copy(dccCountry = DccCountry(countryCode))
         }
     }
 
@@ -79,7 +79,7 @@ class ValidationStartViewModel @AssistedInject constructor(
                 dateTime.isBefore(DateTime.now().withSecondOfMinute(0))
             )
         )
-        uiState.apply { value = value?.copy(dateTime = dateTime) }
+        uiState.apply { value = value.copy(dateTime = dateTime) }
     }
 
     fun refreshTimeCheck() = dateChanged(currentDateTime)
