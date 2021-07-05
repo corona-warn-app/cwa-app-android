@@ -99,20 +99,18 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
 
     private fun showDatePicker(
         defaultValue: DateTime,
-        minConstraint: DateTime = DateTime.now().minusDays(1), // Allow selection from today on
         callback: (DateTime) -> Unit
     ) {
+        val minConstraint: DateTime = DateTime.now().minusDays(1) // Allow selection from today on only
+        val constraints = CalendarConstraints.Builder()
+            .setValidator(DateValidatorPointForward.from(minConstraint.withSecondOfMinute(0).millis))
+            .build()
+
         MaterialDatePicker
             .Builder
             .datePicker()
             .setSelection(defaultValue.millis)
-            .apply {
-                setCalendarConstraints(
-                    CalendarConstraints.Builder()
-                        .setValidator(DateValidatorPointForward.from(minConstraint.withSecondOfMinute(0).millis))
-                        .build()
-                )
-            }
+            .setCalendarConstraints(constraints)
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
@@ -122,22 +120,21 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
             .show(childFragmentManager, DATE_PICKER_TAG)
     }
 
-    private fun showTimePicker(date: LocalDate, hours: Int?, minutes: Int?, callback: (DateTime) -> Unit) {
+    private fun showTimePicker(date: LocalDate, hours: Int, minutes: Int, callback: (DateTime) -> Unit) {
+        val timeFormat = when {
+            DateFormat.is24HourFormat(requireContext()) -> TimeFormat.CLOCK_24H
+            else -> TimeFormat.CLOCK_12H
+        }
         MaterialTimePicker
             .Builder()
-            .setTimeFormat(
-                if (DateFormat.is24HourFormat(requireContext())) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
-            )
-            .apply {
-                if (hours != null && minutes != null) {
-                    setHour(hours)
-                    setMinute(minutes)
-                }
-            }
+            .setTimeFormat(timeFormat)
+            .setHour(hours)
+            .setMinute(minutes)
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
-                    callback(date.toDateTime(LocalTime(this.hour, this.minute)))
+                    // TODO validate time
+                    callback(date.toDateTime(LocalTime(hour, minute)))
                 }
             }
             .show(childFragmentManager, TIME_PICKER_TAG)
