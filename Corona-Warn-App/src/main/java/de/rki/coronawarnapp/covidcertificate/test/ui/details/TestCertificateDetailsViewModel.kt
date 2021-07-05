@@ -10,6 +10,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRuleRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -22,8 +23,9 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     @Assisted private val containerId: TestCertificateContainerId,
     private val qrCodeGenerator: QrCodeGenerator,
-    private val testCertificateRepository: TestCertificateRepository
-) : CWAViewModel(dispatcherProvider) {
+    private val testCertificateRepository: TestCertificateRepository,
+    private val dccValidationRuleRepository: DccValidationRuleRepository,
+    ) : CWAViewModel(dispatcherProvider) {
 
     private var qrCodeText: String? = null
     private val bitmapStateData = MutableLiveData<Bitmap>()
@@ -56,6 +58,16 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
             Timber.d(e, "generateQrCode failed for covidCertificate=%s", containerId)
             bitmapStateData.postValue(null)
             errors.postValue(e)
+        }
+    }
+
+    fun startValidationRulesDownload() = launch {
+        try {
+            dccValidationRuleRepository.refresh()
+            // TODO Update UI accordingly
+        } catch (e: Exception) {
+            Timber.d(e, "validation rule download failed for covidCertificate=%s", containerId)
+            // TODO Add error messages
         }
     }
 

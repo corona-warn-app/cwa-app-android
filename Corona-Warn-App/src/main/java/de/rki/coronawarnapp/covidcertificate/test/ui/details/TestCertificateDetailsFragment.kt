@@ -41,6 +41,12 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
+
+        startValidationCheck.defaultButton.setOnClickListener {
+            startValidationCheck.isLoading(true)
+            viewModel.startValidationRulesDownload()
+        }
+
         appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
             title.alpha = titleAlpha
             subtitle.alpha = subtitleAlpha
