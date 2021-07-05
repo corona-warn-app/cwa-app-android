@@ -5,8 +5,8 @@ import dagger.Component
 import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.bugreporting.censors.dcc.DccQrCodeCensorTest
-import de.rki.coronawarnapp.coronatest.type.TestCertificateContainerTest
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepositoryTest
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainerTest
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorageTest
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.mockk.every

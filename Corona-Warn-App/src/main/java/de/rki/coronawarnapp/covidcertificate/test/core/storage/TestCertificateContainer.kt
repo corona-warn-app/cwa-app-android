@@ -27,7 +27,7 @@ data class TestCertificateContainer(
         data.testCertificateQrCode!!.let {
             qrCodeExtractor.extract(
                 it,
-                DccV1Parser.Mode.CERT_TEST_STRICT
+                DccV1Parser.Mode.CERT_TEST_LENIENT
             ) as TestCertificateQRCode
         }
     }

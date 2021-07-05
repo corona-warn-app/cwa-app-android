@@ -1,9 +1,12 @@
-package de.rki.coronawarnapp.covidcertificate.vaccination.core
+package de.rki.coronawarnapp.covidcertificate
 
 import android.content.res.AssetManager
 import dagger.Component
 import dagger.Module
 import dagger.Provides
+import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateContainerTest
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainerTest
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPersonTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.DccQrCodeExtractorTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.DccQrCodeValidatorTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepositoryTest
@@ -21,7 +24,7 @@ import javax.inject.Singleton
         SerializationModule::class
     ]
 )
-interface VaccinationTestComponent {
+interface CovidCertificateTestComponent {
 
     fun inject(testClass: VaccinationStorageTest)
     fun inject(testClass: VaccinationContainerTest)
@@ -29,10 +32,12 @@ interface VaccinationTestComponent {
     fun inject(testClass: VaccinatedPersonTest)
     fun inject(testClass: VaccinationRepositoryTest)
     fun inject(testClass: DccQrCodeValidatorTest)
+    fun inject(testClass: TestCertificateContainerTest)
+    fun inject(testClass: RecoveryCertificateContainerTest)
 
     @Component.Factory
     interface Factory {
-        fun create(): VaccinationTestComponent
+        fun create(): CovidCertificateTestComponent
     }
 }
 
