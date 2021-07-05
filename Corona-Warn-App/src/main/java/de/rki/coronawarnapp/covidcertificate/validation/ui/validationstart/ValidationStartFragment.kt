@@ -13,6 +13,7 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.getLocale
+import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.databinding.ValidationStartFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -32,56 +33,58 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
     private val viewModel by cwaViewModels<ValidationStartViewModel> { viewModelFactory }
     private val binding by viewBinding<ValidationStartFragmentBinding>()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
-        viewModel.countryList.observe(viewLifecycleOwner) { countries ->
-            val countriesReadable = countries.map { it.getCountryDisplayName(requireContext().getLocale()) }
-            val adapter = ArrayAdapter(requireContext(), R.layout.validation_start_land_list_item, countriesReadable)
-            countryPicker.apply {
-                setAdapter(adapter)
-                setText(adapter.getItem(0), false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
+        with(binding) {
+
+            dateInfoIcon.setOnClickListener { viewModel.onInfoClick() }
+            privacyInformation.setOnClickListener { viewModel.onPrivacyClick() }
+            checkButton.setOnClickListener { viewModel.onCheckClick() }
+            datePicker.setOnClickListener {
+                showDatePicker(viewModel.currentDateTime) { value -> viewModel.dateChanged(value) }
             }
-        }
 
-        viewModel.state.observe(viewLifecycleOwner) { state ->
-            state?.let { datePicker.setText(it.formattedDateTime()) }
-        }
+            countryPicker.setOnItemClickListener { parent, _, position, _ ->
+                viewModel.countryChanged(parent.adapter.getItem(position).toString())
+            }
 
-        dateInfoIcon.setOnClickListener { viewModel.onInfoClick() }
-        privacyInformation.setOnClickListener { viewModel.onPrivacyClick() }
-        checkButton.setOnClickListener { viewModel.onCheckClick() }
-        datePicker.setOnClickListener {
-            showDatePicker(viewModel.currentDateTime) { value -> viewModel.dateChanged(value) }
-        }
-
-        countryPicker.setOnItemClickListener { parent, _, position, _ ->
-            viewModel.countryChanged(parent.adapter.getItem(position).toString())
-        }
-
-        faq.setTextWithUrls(
-            R.string.validation_start_faq.toResolvingString(),
-            TextViewUrlSet(
-                labelResource = R.string.validation_start_faq_label,
-                urlResource = R.string.validation_start_faq_link
-            ),
-            TextViewUrlSet(
-                labelResource = R.string.validation_start_reopen_europe_label,
-                urlResource = R.string.validation_start_reopen_europe_link
+            faq.setTextWithUrls(
+                R.string.validation_start_faq.toResolvingString(),
+                TextViewUrlSet(
+                    labelResource = R.string.validation_start_faq_label,
+                    urlResource = R.string.validation_start_faq_link
+                ),
+                TextViewUrlSet(
+                    labelResource = R.string.validation_start_reopen_europe_label,
+                    urlResource = R.string.validation_start_reopen_europe_link
+                )
             )
-        )
 
-        viewModel.routeToScreen.observe(viewLifecycleOwner) {
-            when (it) {
-                ValidationStartNavigationEvents.NavigateToValidationInfoFragment -> doNavigate(
-                    ValidationStartFragmentDirections.actionValidationStartFragmentToValidationTimeInfoFragment()
-                )
-                ValidationStartNavigationEvents.NavigateToPrivacyFragment -> doNavigate(
-                    ValidationStartFragmentDirections.actionValidationStartFragmentToPrivacyFragment()
-                )
+            viewModel.state.observe(viewLifecycleOwner) { datePicker.setText(it.formattedDateTime()) }
+            viewModel.countryList.observe(viewLifecycleOwner) { onCountiesAvailable(it) }
+            viewModel.routeToScreen.observe(viewLifecycleOwner) { onNavEvent(it) }
+        }
 
-                ValidationStartNavigationEvents.NavigateToNewFunctionFragment -> {
-                    // TODO: navigation to next screen (new functions)
-                }
+    private fun onNavEvent(event: ValidationStartNavigationEvents?) {
+        when (event) {
+            ValidationStartNavigationEvents.NavigateToValidationInfoFragment -> doNavigate(
+                ValidationStartFragmentDirections.actionValidationStartFragmentToValidationTimeInfoFragment()
+            )
+            ValidationStartNavigationEvents.NavigateToPrivacyFragment -> doNavigate(
+                ValidationStartFragmentDirections.actionValidationStartFragmentToPrivacyFragment()
+            )
+
+            ValidationStartNavigationEvents.NavigateToValidationResultFragment -> {
+                // TODO: navigation to next screen (new functions)
             }
+        }
+    }
+
+    private fun ValidationStartFragmentBinding.onCountiesAvailable(countries: List<DccCountry>) {
+        val countriesReadable = countries.map { it.getCountryDisplayName(requireContext().getLocale()) }
+        val adapter = ArrayAdapter(requireContext(), R.layout.validation_start_land_list_item, countriesReadable)
+        countryPicker.apply {
+            setAdapter(adapter)
+            setText(adapter.getItem(0), false)
         }
     }
 

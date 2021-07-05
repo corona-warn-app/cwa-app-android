@@ -4,12 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.contactdiary.util.CWADateTimeFormatPatternFactory.shortDatePattern
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidator
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -29,7 +27,7 @@ class ValidationStartViewModel @AssistedInject constructor(
     interface Factory : SimpleCWAViewModelFactory<ValidationStartViewModel>
 
     private val uiState = MutableLiveData(UIState())
-    val state: LiveData<UIState?> = uiState
+    val state: LiveData<UIState> = uiState
     val currentDateTime: DateTime = uiState.value?.dateTime ?: DateTime.now()
     val routeToScreen: SingleLiveEvent<ValidationStartNavigationEvents> = SingleLiveEvent()
     val countryList = dccValidationRepository.dccCountries.map { countryList ->
@@ -47,7 +45,7 @@ class ValidationStartViewModel @AssistedInject constructor(
 
     fun onCheckClick() {
         // TODO: place some check magic here
-        routeToScreen.postValue(ValidationStartNavigationEvents.NavigateToNewFunctionFragment)
+        routeToScreen.postValue(ValidationStartNavigationEvents.NavigateToValidationResultFragment)
     }
 
     fun countryChanged(country: String, userLocale: Locale = Locale.getDefault()) {

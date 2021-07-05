@@ -4,5 +4,5 @@ sealed class ValidationStartNavigationEvents {
 
     object NavigateToPrivacyFragment : ValidationStartNavigationEvents()
     object NavigateToValidationInfoFragment : ValidationStartNavigationEvents()
-    object NavigateToNewFunctionFragment : ValidationStartNavigationEvents()
+    object NavigateToValidationResultFragment : ValidationStartNavigationEvents()
 }
