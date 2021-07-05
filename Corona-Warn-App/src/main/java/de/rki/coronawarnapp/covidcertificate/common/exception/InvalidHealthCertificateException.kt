@@ -69,7 +69,6 @@ open class InvalidHealthCertificateException(
             ErrorCode.STORING_FAILED -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_SCAN_AGAIN)
             }
-
             ErrorCode.ALREADY_REGISTERED -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_ALREADY_REGISTERED)
             }
@@ -88,6 +87,6 @@ open class InvalidHealthCertificateException(
     }
 }
 
-private const val ERROR_MESSAGE_CERTIFICATE_INVALID = R.string.error_certificate_invalid
+private const val ERROR_MESSAGE_CERTIFICATE_INVALID = R.string.error_dcc_invalid
 private const val ERROR_MESSAGE_SCAN_AGAIN = R.string.error_dcc_scan_again
 private const val ERROR_MESSAGE_ALREADY_REGISTERED = R.string.error_dcc_already_registered

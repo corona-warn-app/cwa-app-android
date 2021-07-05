@@ -95,7 +95,7 @@
     <string name="vaccination_card_status_vaccination_complete">"Son geçerlilik tarihi: %s"</string>
 
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_certificate_invalid">"Bu QR kodu geçerli bir aşı sertifikası değildir.\n\nAşı sertifikanızı nasıl alacağınız hakkında daha fazla bilgi için lütfen SSS sayfamıza bakın."</string>
+    <string name="error_dcc_invalid">"Bu QR kodu geçerli bir aşı sertifikası değildir.\n\nAşı sertifikanızı nasıl alacağınız hakkında daha fazla bilgi için lütfen SSS sayfamıza bakın."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_not_yet_supported">"Bu aşı sertifikası henüz uygulamanızın sürümünde desteklenmiyor. Lütfen uygulamanızı güncelleyin veya “Uygulama Bilgileri” bölümünde belirtilen teknik yardım hattı ile iletişime geçin."</string>
     <!-- XTXT: Vaccination QR code scan error message-->

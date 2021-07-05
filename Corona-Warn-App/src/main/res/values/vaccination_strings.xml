@@ -95,7 +95,7 @@
     <string name="vaccination_card_status_vaccination_complete">"Valid through %s"</string>
 
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_certificate_invalid">"This QR code is not a valid vaccination certificate.\n\nFor more information about how to receive your vaccination certificate, please see our FAQ page."</string>
+    <string name="error_dcc_invalid">"This QR code is not a valid vaccination certificate.\n\nFor more information about how to receive your vaccination certificate, please see our FAQ page."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_not_yet_supported">"This vaccination certificate is not supported in your app version yet. Please update your app or contact the technical hotline under “App Information”."</string>
     <!-- XTXT: Vaccination QR code scan error message-->

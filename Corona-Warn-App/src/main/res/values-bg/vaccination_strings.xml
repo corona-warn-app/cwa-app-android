@@ -95,7 +95,7 @@
     <string name="vaccination_card_status_vaccination_complete">"Валидно до %s"</string>
 
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_certificate_invalid">"Този QR не е валиден сертификат за ваксинация.\n\nЗа да разберете как можете да се сдобиете със сертификат за извършена ваксинация, вижте страницата ни с често задавани въпроси (ЧЗВ)."</string>
+    <string name="error_dcc_invalid">"Този QR не е валиден сертификат за ваксинация.\n\nЗа да разберете как можете да се сдобиете със сертификат за извършена ваксинация, вижте страницата ни с често задавани въпроси (ЧЗВ)."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_not_yet_supported">"Този сертификат за ваксинация все още не се поддържа във версията на вашето приложение. Моля, актуализирайте приложението си или се свържете с горещата линия за технически проблеми от “Информация за приложението”."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
