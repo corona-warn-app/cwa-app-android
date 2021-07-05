@@ -126,21 +126,22 @@ class DccV1Parser @Inject constructor(
         }
     }
 
-    private fun String.checkSchema(mode: Mode) = also {
-        when (mode) {
-            Mode.CERT_VAC_STRICT,
-            Mode.CERT_SINGLE_STRICT,
-            Mode.CERT_REC_STRICT,
-            Mode.CERT_TEST_STRICT -> dccJsonSchemaValidator.isValid(this).let {
-                if (it.isValid) return@let
-                throw InvalidHealthCertificateException(
-                    errorCode = ErrorCode.JSON_SCHEMA_INVALID,
-                    IllegalArgumentException("Schema Validation did not pass:\n${it.invalidityReason}")
-                )
-            }
-            Mode.CERT_VAC_LENIENT -> {
-                // We don't check schema in lenient mode, it may affect already stored certificates.
-            }
+    private fun String.checkSchema(mode: Mode) = when (mode) {
+        Mode.CERT_VAC_STRICT,
+        Mode.CERT_SINGLE_STRICT,
+        Mode.CERT_REC_STRICT,
+        Mode.CERT_TEST_STRICT -> dccJsonSchemaValidator.isValid(this).let {
+            if (it.isValid) return@let this
+            throw InvalidHealthCertificateException(
+                errorCode = ErrorCode.JSON_SCHEMA_INVALID,
+                IllegalArgumentException("Schema Validation did not pass:\n${it.invalidityReason}")
+            )
+        }
+        Mode.CERT_REC_LENIENT,
+        Mode.CERT_TEST_LENIENT,
+        Mode.CERT_VAC_LENIENT -> {
+            // We don't check schema in lenient mode, it may affect already stored certificates.
+            this
         }
     }
 
