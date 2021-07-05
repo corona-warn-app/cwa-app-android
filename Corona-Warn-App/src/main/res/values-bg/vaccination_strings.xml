@@ -95,7 +95,7 @@
     <string name="vaccination_card_status_vaccination_complete">"Валидно до %s"</string>
 
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_dcc_invalid">"Този QR не е валиден сертификат за ваксинация.\n\nЗа да разберете как можете да се сдобиете със сертификат за извършена ваксинация, вижте страницата ни с често задавани въпроси (ЧЗВ)."</string>
+    <string name="error_vc_invalid">"Този QR не е валиден сертификат за ваксинация.\n\nЗа да разберете как можете да се сдобиете със сертификат за извършена ваксинация, вижте страницата ни с често задавани въпроси (ЧЗВ)."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_not_yet_supported">"Този сертификат за ваксинация все още не се поддържа във версията на вашето приложение. Моля, актуализирайте приложението си или се свържете с горещата линия за технически проблеми от “Информация за приложението”."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
@@ -106,9 +106,9 @@
     <string name="error_vc_different_person">"Личната информация в този сертификат за ваксинация не съответства на тази във вече регистрираните сертификати. В приложението можете да регистрирате сертификати само за едно лице."</string>
 
     <!-- XBUT: Text for invalid vaccination certificate error button, linking to FAQ-->
-    <string name="error_button_certificate_faq">"ЧЗВ за ваксинационни сертификати"</string>
+    <string name="error_button_vc_faq">"ЧЗВ за ваксинационни сертификати"</string>
     <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
-    <string name="error_button_certificate_faq_link">"https://www.coronawarn.app/en/faq/#vac_cert_invalid"</string>
+    <string name="error_button_vc_faq_link">"https://www.coronawarn.app/en/faq/#vac_cert_invalid"</string>
 
     <!-- XTXT: Vaccination certificate Detail title -->
     <string name="vaccination_certificate_title">"Сертификат за ваксинация"</string>

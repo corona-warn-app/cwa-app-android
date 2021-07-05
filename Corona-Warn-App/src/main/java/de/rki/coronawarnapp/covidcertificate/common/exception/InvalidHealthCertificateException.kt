@@ -47,8 +47,8 @@ open class InvalidHealthCertificateException(
 
     open val showFaqButton: Boolean
         get() = errorCode in codesCertificateInvalid
-    open val faqButtonText: Int = R.string.error_button_certificate_faq
-    open val faqLink: Int = R.string.error_button_certificate_faq_link
+    open val faqButtonText: Int = R.string.error_button_dcc_faq
+    open val faqLink: Int = R.string.error_button_dcc_faq_link
 
     private val codesCertificateInvalid = listOf(
         ErrorCode.HC_BASE45_DECODING_FAILED,
