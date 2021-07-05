@@ -53,6 +53,7 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
             // TODO Update UI accordingly
         } catch (e: Exception) {
             Timber.d(e, "validation rule download failed for covidCertificate=%s", containerId)
+            // TODO Add error messages
         }
     }
 

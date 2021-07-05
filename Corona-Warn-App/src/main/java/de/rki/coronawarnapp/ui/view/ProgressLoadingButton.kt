@@ -46,11 +46,9 @@ class ProgressLoadingButton @JvmOverloads constructor(
             if (isLoading) {
                 defaultButton.visibility = GONE
                 loadingButtonContainer.visibility = VISIBLE
-                isClickable = false
             } else {
                 defaultButton.visibility = VISIBLE
                 loadingButtonContainer.visibility = GONE
-                isClickable = true
             }
         }
     }
