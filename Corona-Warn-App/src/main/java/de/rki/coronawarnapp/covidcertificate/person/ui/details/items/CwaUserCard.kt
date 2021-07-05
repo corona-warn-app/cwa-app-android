@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.details.items
 
+import android.provider.Settings.Global.getString
+import android.text.format.Formatter
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
@@ -28,9 +30,15 @@ class CwaUserCard(parent: ViewGroup) :
                 R.string.person_details_cwa_user_birthdate,
                 certificate.dateOfBirthFormatted
             )
+            descriptionText.text = context.getString(
+                R.string.person_details_cwa_user_description,
+                certificate.fullName
+            )
+
             cwaUserSwitch.setOnCheckedChangeListener(null)
             cwaUserSwitch.isChecked = curItem.personCertificates.isCwaUser
             cwaUserSwitch.setOnCheckedChangeListener { _, isChecked -> onSwitch(isChecked) }
+
         }
     }
 

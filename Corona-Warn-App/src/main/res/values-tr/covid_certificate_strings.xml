@@ -48,7 +48,7 @@
     <!-- XHED: Person certificate details title -->
     <string name="person_details_certificate_title">"AB Dijital COVID Sertifikası"</string>
     <!-- XTXT: Test Certificate CWA User card description -->
-    <string name="person_details_cwa_user_description">"Akıllı telefonum, uygulamam. Sertifikalarım listenin üstünde görünür."</string>
+    <string name="person_details_cwa_user_description">""</string>
     <!-- XTXT: Test Certificate CWA User card birthdate -->
     <string name="person_details_cwa_user_birthdate">"Doğum tarihi: %1$s"</string>
     <!-- #####################################################

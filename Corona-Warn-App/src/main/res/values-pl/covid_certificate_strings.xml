@@ -48,7 +48,7 @@
     <!-- XHED: Person certificate details title -->
     <string name="person_details_certificate_title">"Unijny cyfrowy certyfikat COVID"</string>
     <!-- XTXT: Test Certificate CWA User card description -->
-    <string name="person_details_cwa_user_description">"Mój smartfon, moja aplikacja. Certyfikaty dla mnie pojawiają się na górze listy."</string>
+    <string name="person_details_cwa_user_description">""</string>
     <!-- XTXT: Test Certificate CWA User card birthdate -->
     <string name="person_details_cwa_user_birthdate">"Data urodzenia %1$s"</string>
     <!-- #####################################################
