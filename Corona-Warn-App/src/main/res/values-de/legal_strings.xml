@@ -112,8 +112,7 @@
     <!-- YTXT: First bullet point for Bugreporting share log Privacy Card -->
     <string name="debugging_debuglog_share_privacy_card_bullet_point_1">"Der von Ihnen erstellte Fehlerbericht wird zu Zwecken der Fehleranalyse an das RKI übermittelt. Das RKI wird den Fehlerbericht auswerten, um mögliche Ursachen der in Ihrer App auftretenden Fehler erkennen und beheben zu können. Wenn Sie dem technischen Support die Fehlerbericht-ID mitteilen, kann das RKI den Fehlerbericht Ihrer Person zuordnen."</string>
     <!-- YTXT: Second bullet point for Bugreporting share log Privacy Card -->
-    <string name="debugging_debuglog_share_privacy_card_bullet_point_2">"Bevor der Bericht an das RKI übersendet wird, wird die Echtheit Ihrer App einmalig geprüft. Dazu wird durch Ihr Smartphone eine eindeutige Kennung erzeugt und an Google in die USA oder andere Drittländer übermittelt, damit Google die Echtheit Ihrer App gegenüber dem RKI bestätigen kann. Die Kennung enthält Informationen über die Version Ihres Smartphones und der App. Google kann damit möglicherweise auf Ihre Identität schließen und nachvollziehen, dass die Echtheitsprüfung Ihres Smartphones stattgefunden hat. Weitere Angaben aus der App oder dem Fehlerbericht erhält Google hierbei nicht.
-"</string>
+    <string name="debugging_debuglog_share_privacy_card_bullet_point_2">"Bevor der Bericht an das RKI übersendet wird, wird die Echtheit Ihrer App einmalig geprüft. Dazu wird durch Ihr Smartphone eine eindeutige Kennung erzeugt und an Google in die USA oder andere Drittländer übermittelt, damit Google die Echtheit Ihrer App gegenüber dem RKI bestätigen kann. Die Kennung enthält Informationen über die Version Ihres Smartphones und der App. Google kann damit möglicherweise auf Ihre Identität schließen und nachvollziehen, dass die Echtheitsprüfung Ihres Smartphones stattgefunden hat. Weitere Angaben aus der App oder dem Fehlerbericht erhält Google hierbei nicht."</string>
     <!-- YTXT: Second body section for Bugreporting share log Privacy Card -->
     <string name="debugging_debuglog_share_privacy_card_body_2">"Sollten Sie dem technischen Support nach der Übersendung Ihre Fehlerbericht-ID mitgeteilt haben, können Sie auch jederzeit die Löschung der weiteren mitgeteilten Informationen, der Fehlerbericht-ID und des Fehlerberichtes verlangen. Andernfalls wird der Fehlerbericht automatisch nach 14 Tagen gelöscht."</string>
 
@@ -128,7 +127,7 @@
     <string name="trace_location_privacy_card_fist_bulletpoint_subtitle_text">"Ihre Gäste können den QR-Code dann mit der App scannen."</string>
     <!-- XTXT: Second bulleptoint title for privacy card -->
     <string name="trace_location_privacy_card_second_bulletpoint_title_text">"Bitte achten Sie darauf, dass Sie möglichst präzise Angaben zur Bezeichnung, Kategorie und Uhrzeit Ihres Events oder Orts und zur typischen Aufenthaltsdauer machen."</string>
-    <!-- XTXT: Second vulletpoint subtitle for privacy card -->
+    <!-- XTXT: Second bulletpoint subtitle for privacy card -->
     <string name="trace_location_pricacy_card_second_bulletpoint_subtitle_text">"Je genauer Ihre Angaben sind, desto zuverlässiger können Ihre Gäste gewarnt werden."</string>
     <!-- XTXT: Third bulletpoint text for privacy card -->
     <string name="trace_location_privacy_card_third_bulletpoint_text">"Bitte stellen Sie den QR-Code so zur Verfügung, dass alle Ihre Gäste ihn unter Einhaltung der Abstands- und Hygieneregeln (mindestens 1,5 Meter) scannen können."</string>
@@ -186,7 +185,7 @@
     <string name="request_green_certificate_privacy_title">Datenschutz und Datensicherheit</string>
     <!-- XTXT: Request GC bullet point 1 for privacy card -->
     <string name="request_green_certificate_privacy_section_1" translatable="false">Die Anforderung und Verwendung des digitalen COVID-Testzertifikats ist freiwillig. Der Nachweis eines negativen Testergebnisses kann auch auf andere Weise erbracht werden.</string>
-    <!-- XTXT: Request GC bullet point 3 for privacy card -->
+    <!-- XTXT: Request GC bullet point 2 for privacy card -->
     <string name="request_green_certificate_privacy_section_2" translatable="false">Zur Erstellung Ihres Testzertifikats werden Daten einmalig verschlüsselt an das RKI übermittelt. Das RKI signiert die Daten elektronisch, um die Gültigkeit zu bestätigen. Die Daten werden beim RKI nicht gespeichert.</string>
     <!-- XTXT: Request GC extra bullet point PCR test  for privacy card -->
     <string name="request_green_certificate_privacy_pcr_extra_section" translatable="false">Um sicherzustellen, dass niemand mit Ihrem QR-Code Ihr Testergebnis abrufen kann, wird es mit Ihrem Geburtsdatum geschützt. Ihr Geburtsdatum wird verschlüsselt an das Labor übermittelt, um das Testergebnis abzurufen.</string>

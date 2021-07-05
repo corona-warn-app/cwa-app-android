@@ -165,6 +165,8 @@ android {
     }
 
     compileOptions {
+        // Required for rdgca.verifier.app:dgc-certlogic-android-light API 26 Time API
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -303,11 +305,17 @@ configurations.all {
     }
 }
 
+repositories {
+    maven { url "../local-maven-repo" }
+}
+
 dependencies {
-    // TODO reevaluate better dependency inclusion
-    releaseImplementation files('libs/engine-release-bc467afcd8375ff5f579f9cac5bcfba74b55fcd7.aar')
-    debugImplementation files('libs/engine-debug-bc467afcd8375ff5f579f9cac5bcfba74b55fcd7.aar')
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.12.3")
+    // Comes from `local-maven-repo`
+    // See https://github.com/corona-warn-app/dgc-certlogic-android
+    implementation ('dgca.verifier.app:dgc-certlogic-android-light:+')
+
+    // Required for rdgca.verifier.app:dgc-certlogic-android-light API 26 Time API
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 
     // KOTLIN
     def coroutineVersion = "1.5.0"
@@ -315,7 +323,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutineVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
-    testImplementation "org.jetbrains.kotlin:kotlin-reflect:1.5.0"
+    testImplementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
 
     // ANDROID STANDARD
