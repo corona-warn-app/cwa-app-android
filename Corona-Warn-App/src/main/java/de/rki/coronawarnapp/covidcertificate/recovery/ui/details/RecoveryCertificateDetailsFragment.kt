@@ -39,7 +39,6 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
 
-
         startValidationCheck.defaultButton.setOnClickListener {
             startValidationCheck.isLoading(true)
             viewModel.startValidationRulesDownload()

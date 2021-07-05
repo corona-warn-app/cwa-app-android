@@ -44,11 +44,11 @@ class ProgressLoadingButton @JvmOverloads constructor(
     fun isLoading(isLoading: Boolean) {
         binding.apply {
             if (isLoading) {
-                defaultButton.visibility = GONE;
+                defaultButton.visibility = GONE
                 loadingButtonContainer.visibility = VISIBLE
                 isClickable = false
             } else {
-                defaultButton.visibility = VISIBLE;
+                defaultButton.visibility = VISIBLE
                 loadingButtonContainer.visibility = GONE
                 isClickable = true
             }

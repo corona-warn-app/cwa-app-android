@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.recovery.ui.details
 
 import android.graphics.Bitmap
-import android.os.Debug
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
