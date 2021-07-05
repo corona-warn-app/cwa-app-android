@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.validation.business
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
