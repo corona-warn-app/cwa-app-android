@@ -119,19 +119,16 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
 
     private fun navigateToResultScreen(validationResult: DccValidation) {
         when (validationResult.state) {
-            DccValidation.State.PASSED -> {
-                // TODO
-            }
-            DccValidation.State.OPEN -> {
-                // TODO
-            }
-            DccValidation.State.TECHNICAL_FAILURE -> {
-                // TODO
-            }
-            DccValidation.State.FAILURE -> {
-                // TODO
-            }
-        }
+            DccValidation.State.PASSED ->
+                ValidationStartFragmentDirections.actionValidationStartFragmentToDccValidationPassedFragment()
+
+            DccValidation.State.OPEN ->
+                ValidationStartFragmentDirections.actionValidationStartFragmentToDccValidationOpenFragment()
+
+            DccValidation.State.TECHNICAL_FAILURE,
+            DccValidation.State.FAILURE ->
+                ValidationStartFragmentDirections.actionValidationStartFragmentToDccValidationFailedFragment()
+        }.also { doNavigate(it) }
     }
 
     private fun ValidationStartFragmentBinding.onCountiesAvailable(countries: List<DccCountry>) {
