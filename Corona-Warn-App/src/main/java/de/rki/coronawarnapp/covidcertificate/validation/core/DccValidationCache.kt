@@ -12,11 +12,12 @@ class DccValidationCache @Inject constructor(
     @CertificateValidation private val cacheDir: File,
 ) {
     private val mutex = Mutex()
-    private val cacheFile = File(cacheDir, "dcc_validation_cache_countries_raw")
+    private val countryCacheFile = File(cacheDir, "dcc_validation_cache_countries_raw")
+    private val rulesCacheFile = File(cacheDir, "dcc_validation_cache_rules_raw")
 
     suspend fun loadJson(): String? = mutex.withLock {
         try {
-            if (cacheFile.exists()) cacheFile.readText() else null
+            if (countryCacheFile.exists()) countryCacheFile.readText() else null
         } catch (e: Exception) {
             Timber.tag(TAG).e(e, "Failed to load raw dcc countries from cache.")
             null
@@ -26,16 +27,16 @@ class DccValidationCache @Inject constructor(
 
     suspend fun saveJson(data: String?) = mutex.withLock {
         if (data == null) {
-            if (cacheFile.exists() && cacheFile.delete()) {
+            if (countryCacheFile.exists() && countryCacheFile.delete()) {
                 Timber.tag(TAG).d("Cache file was deleted.")
             }
             return
         }
-        if (cacheFile.exists()) {
+        if (countryCacheFile.exists()) {
             Timber.tag(TAG).d("Overwriting with new data (size=%d)", data.length)
         }
-        cacheFile.parentFile?.mkdirs()
-        cacheFile.writeText(data)
+        countryCacheFile.parentFile?.mkdirs()
+        countryCacheFile.writeText(data)
         // TODO write rules
     }
 
