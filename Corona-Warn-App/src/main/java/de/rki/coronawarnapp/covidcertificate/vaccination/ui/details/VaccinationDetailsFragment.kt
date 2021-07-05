@@ -61,6 +61,11 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 europaImage.setImageResource(europaIcon)
             }
 
+            startValidationCheck.defaultButton.setOnClickListener {
+                startValidationCheck.isLoading(true)
+                viewModel.startValidationRulesDownload()
+            }
+
             appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
                 title.alpha = titleAlpha
                 subtitle.alpha = subtitleAlpha
