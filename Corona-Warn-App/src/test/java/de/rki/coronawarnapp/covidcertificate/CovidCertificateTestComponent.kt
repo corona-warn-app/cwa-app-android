@@ -4,8 +4,11 @@ import android.content.res.AssetManager
 import dagger.Component
 import dagger.Module
 import dagger.Provides
+import de.rki.coronawarnapp.bugreporting.censors.dcc.DccQrCodeCensorTest
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateContainerTest
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepositoryTest
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainerTest
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorageTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPersonTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.DccQrCodeExtractorTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.DccQrCodeValidatorTest
@@ -20,7 +23,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [
-        VaccinationMockProvider::class,
+        CovidCertificateMockProvider::class,
         SerializationModule::class
     ]
 )
@@ -34,6 +37,9 @@ interface CovidCertificateTestComponent {
     fun inject(testClass: DccQrCodeValidatorTest)
     fun inject(testClass: TestCertificateContainerTest)
     fun inject(testClass: RecoveryCertificateContainerTest)
+    fun inject(testClass: DccQrCodeCensorTest)
+    fun inject(testClass: TestCertificateRepositoryTest)
+    fun inject(testClass: TestCertificateStorageTest)
 
     @Component.Factory
     interface Factory {
@@ -42,7 +48,7 @@ interface CovidCertificateTestComponent {
 }
 
 @Module
-class VaccinationMockProvider {
+class CovidCertificateMockProvider {
     @Singleton
     @Provides
     fun assetManager(): AssetManager = mockk<AssetManager>().apply {
