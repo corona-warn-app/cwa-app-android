@@ -95,7 +95,7 @@
     <string name="vaccination_card_status_vaccination_complete">"Son geçerlilik tarihi: %s"</string>
 
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_invalid">"Bu QR kodu geçerli bir aşı sertifikası değildir.\n\nAşı sertifikanızı nasıl alacağınız hakkında daha fazla bilgi için lütfen SSS sayfamıza bakın."</string>
+    <string name="error_certificate_invalid">"Bu QR kodu geçerli bir aşı sertifikası değildir.\n\nAşı sertifikanızı nasıl alacağınız hakkında daha fazla bilgi için lütfen SSS sayfamıza bakın."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_not_yet_supported">"Bu aşı sertifikası henüz uygulamanızın sürümünde desteklenmiyor. Lütfen uygulamanızı güncelleyin veya “Uygulama Bilgileri” bölümünde belirtilen teknik yardım hattı ile iletişime geçin."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
@@ -106,9 +106,9 @@
     <string name="error_vc_different_person">"Bu aşı sertifikasındaki kişisel bilgiler, kaydedilmiş sertifikalardaki bilgilerle eşleşmiyor. Uygulamaya yalnızca bir kişiye ait sertifikalar kaydedebilirsiniz."</string>
 
     <!-- XBUT: Text for invalid vaccination certificate error button, linking to FAQ-->
-    <string name="error_button_vc_faq">"Aşı Sertifikaları için SSS"</string>
+    <string name="error_button_certificate_faq">"Aşı Sertifikaları için SSS"</string>
     <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
-    <string name="error_button_vc_faq_link">"https://www.coronawarn.app/en/faq/#vac_cert_invalid"</string>
+    <string name="error_button_certificate_faq_link">"https://www.coronawarn.app/en/faq/#vac_cert_invalid"</string>
 
     <!-- XTXT: Vaccination certificate Detail title -->
     <string name="vaccination_certificate_title">"Aşı Sertifikası"</string>

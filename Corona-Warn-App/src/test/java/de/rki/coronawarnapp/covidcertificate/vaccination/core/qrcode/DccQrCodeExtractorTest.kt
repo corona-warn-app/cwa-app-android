@@ -156,7 +156,7 @@ class DccQrCodeExtractorTest : BaseTest() {
                 VaccinationQrCodeTestData.qrCodeWithNullValues,
                 mode = Mode.CERT_VAC_STRICT
             )
-        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.JSON_SCHEMA_INVALID
+        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.HC_JSON_SCHEMA_INVALID
     }
 
     @Test
@@ -166,7 +166,7 @@ class DccQrCodeExtractorTest : BaseTest() {
                 VaccinationQrCodeTestData.qrCodeBlankLastNameStandardized,
                 mode = Mode.CERT_VAC_STRICT
             )
-        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.JSON_SCHEMA_INVALID
+        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.HC_JSON_SCHEMA_INVALID
     }
 
     @Test
@@ -230,7 +230,7 @@ class DccQrCodeExtractorTest : BaseTest() {
                 VaccinationQrCodeTestData.failVaccinatedAtWithoutDay1,
                 mode = Mode.CERT_VAC_STRICT
             )
-        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.JSON_SCHEMA_INVALID
+        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.HC_JSON_SCHEMA_INVALID
     }
 
     @Test
@@ -240,7 +240,7 @@ class DccQrCodeExtractorTest : BaseTest() {
                 VaccinationQrCodeTestData.failVaccinatedAtWithoutDayAndMonth,
                 mode = Mode.CERT_VAC_STRICT
             )
-        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.JSON_SCHEMA_INVALID
+        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.HC_JSON_SCHEMA_INVALID
     }
 
     @Test

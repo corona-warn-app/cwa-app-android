@@ -41,6 +41,6 @@ class DccQrCodeValidatorTest : BaseTest() {
         val instance = DccQrCodeValidator(vacExtractorSpy)
         shouldThrow<InvalidVaccinationCertificateException> {
             instance.validate("HTTPS://LOCALHOST/?123456-12345678-1234-4DA7-B166-B86D85475064")
-        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.PREFIX_INVALID
+        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.HC_PREFIX_INVALID
     }
 }

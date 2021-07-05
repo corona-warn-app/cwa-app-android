@@ -12,35 +12,12 @@ class InvalidVaccinationCertificateException(
 ) : InvalidHealthCertificateException(errorCode, cause) {
     override fun toHumanReadableError(context: Context): HumanReadableError {
         return HumanReadableError(
-            description = errorMessage.get(context) + " ($errorCode)"
+            description = errorMessage.get(context) + " ($PREFIX$errorCode)"
         )
     }
 
-    override val showFaqButton: Boolean
-        get() = errorCode in codesVcInvalid
-    override val faqButtonText: Int = R.string.error_button_vc_faq
-    override val faqLink: Int = R.string.error_button_vc_faq_link
-
-    private val codesVcInvalid = listOf(
-        ErrorCode.HC_BASE45_DECODING_FAILED,
-        ErrorCode.HC_CBOR_DECODING_FAILED,
-        ErrorCode.HC_COSE_MESSAGE_INVALID,
-        ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED,
-        ErrorCode.HC_COSE_TAG_INVALID,
-        ErrorCode.PREFIX_INVALID,
-        ErrorCode.HC_CWT_NO_DGC,
-        ErrorCode.HC_CWT_NO_EXP,
-        ErrorCode.HC_CWT_NO_HCERT,
-        ErrorCode.HC_CWT_NO_ISS,
-        ErrorCode.JSON_SCHEMA_INVALID
-    )
-
     override val errorMessage: LazyString
         get() = when (errorCode) {
-            in codesVcInvalid -> CachedString { context ->
-                context.getString(ERROR_MESSAGE_VC_INVALID)
-            }
-
             ErrorCode.NO_VACCINATION_ENTRY -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_VC_NOT_YET_SUPPORTED)
             }
@@ -57,6 +34,7 @@ class InvalidVaccinationCertificateException(
         }
 }
 
-private const val ERROR_MESSAGE_VC_INVALID = R.string.error_vc_invalid
+private const val PREFIX = "VC_"
+
 private const val ERROR_MESSAGE_VC_NOT_YET_SUPPORTED = R.string.error_vc_not_yet_supported
 private const val ERROR_MESSAGE_VC_DIFFERENT_PERSON = R.string.error_vc_different_person

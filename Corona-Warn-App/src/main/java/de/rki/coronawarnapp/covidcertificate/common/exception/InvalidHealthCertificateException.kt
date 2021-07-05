@@ -29,9 +29,9 @@ open class InvalidHealthCertificateException(
         MULTIPLE_RECOVERY_ENTRIES("Multiple recovery certificates."),
         NO_TEST_ENTRY("Test certificate missing."),
         NO_RECOVERY_ENTRY("Recovery certificate missing."),
-        PREFIX_INVALID("Prefix invalid."),
+        HC_PREFIX_INVALID("Prefix invalid."),
         STORING_FAILED("Storing failed."),
-        JSON_SCHEMA_INVALID("Json schema invalid."),
+        HC_JSON_SCHEMA_INVALID("Json schema invalid."),
         NAME_MISMATCH("Name does not match."),
         ALREADY_REGISTERED("Certificate already registered."),
         DOB_MISMATCH("Date of birth does not match."),
@@ -45,9 +45,24 @@ open class InvalidHealthCertificateException(
         RSA_KP_GENERATION_FAILED("RSA key pair generation failed."),
     }
 
-    open val showFaqButton: Boolean = false
-    open val faqButtonText: Int = 0
-    open val faqLink: Int = 0
+    open val showFaqButton: Boolean
+        get() = errorCode in codesCertificateInvalid
+    open val faqButtonText: Int = R.string.error_button_certificate_faq
+    open val faqLink: Int = R.string.error_button_certificate_faq_link
+
+    private val codesCertificateInvalid = listOf(
+        ErrorCode.HC_BASE45_DECODING_FAILED,
+        ErrorCode.HC_CBOR_DECODING_FAILED,
+        ErrorCode.HC_COSE_MESSAGE_INVALID,
+        ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED,
+        ErrorCode.HC_COSE_TAG_INVALID,
+        ErrorCode.HC_PREFIX_INVALID,
+        ErrorCode.HC_CWT_NO_DGC,
+        ErrorCode.HC_CWT_NO_EXP,
+        ErrorCode.HC_CWT_NO_HCERT,
+        ErrorCode.HC_CWT_NO_ISS,
+        ErrorCode.HC_JSON_SCHEMA_INVALID
+    )
 
     open val errorMessage: LazyString
         get() = when (errorCode) {
@@ -57,6 +72,9 @@ open class InvalidHealthCertificateException(
 
             ErrorCode.ALREADY_REGISTERED -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_ALREADY_REGISTERED)
+            }
+            in codesCertificateInvalid -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_CERTIFICATE_INVALID)
             }
             else -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_GENERIC)
@@ -70,5 +88,6 @@ open class InvalidHealthCertificateException(
     }
 }
 
+private const val ERROR_MESSAGE_CERTIFICATE_INVALID = R.string.error_certificate_invalid
 private const val ERROR_MESSAGE_SCAN_AGAIN = R.string.error_dcc_scan_again
 private const val ERROR_MESSAGE_ALREADY_REGISTERED = R.string.error_dcc_already_registered
