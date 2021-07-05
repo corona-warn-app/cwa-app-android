@@ -96,6 +96,8 @@
     <string name="vaccination_card_status_vaccination_complete">"Gültig bis einschließlich %s"</string>
 
     <!-- XTXT: Vaccination QR code scan error message-->
+    <string name="error_vc_invalid">Dieser QR-Code ist kein gültiges Zertifikat.\n\nWeitere Informationen zum Erhalt Ihres Zertifikats finden Sie in den FAQ.</string>
+    <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_dcc_invalid">Dieser QR-Code ist kein gültiges Zertifikat.\n\nWeitere Informationen zum Erhalt Ihres Zertifikats finden Sie in den FAQ.</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_not_yet_supported">Dieses Impfzertifikat wird in Ihrer App-Version noch nicht unterstützt. Bitte aktualisieren Sie Ihre App oder wenden Sie sich an die technische Hotline unter „App-Informationen“.</string>
@@ -105,6 +107,11 @@
     <string name="error_dcc_already_registered">Das Zertifikat ist bereits in Ihrer App registriert.</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_different_person">Die persönlichen Daten dieses Impfzertifikats stimmen nicht mit denen der bereits registrierten Zertifikate überein. Sie können in der App nur Zertifikate einer Person registrieren.</string>
+
+    <!-- XBUT: Text for invalid certificate error button, linking to FAQ-->
+    <string name="error_button_vc_faq">FAQ zu Zertifikaten</string>
+    <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
+    <string name="error_button_vc_faq_link">https://www.coronawarn.app/en/faq/#vac_cert_invalid</string>
 
     <!-- XBUT: Text for invalid certificate error button, linking to FAQ-->
     <string name="error_button_dcc_faq">FAQ zu Zertifikaten</string>
