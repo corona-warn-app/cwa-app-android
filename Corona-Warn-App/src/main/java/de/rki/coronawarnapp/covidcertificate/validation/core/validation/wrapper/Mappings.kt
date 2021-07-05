@@ -49,9 +49,11 @@ internal val DccValidationRule.asRule: Rule
 
 @SuppressLint("NewApi")
 fun String.toZonedDateTime(): ZonedDateTime {
-    // TODO
     return ZonedDateTime.parse(this)
 }
+
+val ZonedDateTime.asString: String
+    get() = this.toString()
 
 fun Rule.asDccValidationRule() = DccValidationRule(
     identifier = identifier,

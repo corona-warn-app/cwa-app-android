@@ -29,7 +29,7 @@ class DccValidator @Inject constructor(
 
         return DccValidation(
             expirationCheckPassed = certificate.expiresAfter(arrivalTime),
-            jsonSchemaCheckPassed = true, // certificate is already checked while decoding
+            jsonSchemaCheckPassed = true, // use DccJsonSchemaValidator
             acceptanceRules = businessValidation.acceptanceRules,
             invalidationRules = businessValidation.invalidationRules
         )
