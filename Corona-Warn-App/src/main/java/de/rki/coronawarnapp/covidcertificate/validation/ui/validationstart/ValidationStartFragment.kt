@@ -40,6 +40,7 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
             privacyInformation.setOnClickListener { viewModel.onPrivacyClick() }
             checkButton.setOnClickListener { viewModel.onCheckClick() }
             datePicker.setOnClickListener {
+                countryPicker.clearFocus()
                 showDatePicker(viewModel.currentDateTime) { value -> viewModel.dateChanged(value) }
             }
 
