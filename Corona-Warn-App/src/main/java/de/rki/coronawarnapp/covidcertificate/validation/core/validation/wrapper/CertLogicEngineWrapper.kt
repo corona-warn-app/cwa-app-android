@@ -22,7 +22,7 @@ class CertLogicEngineWrapper @Inject constructor() {
     ): Set<EvaluatedDccRule> = engine.validate(
         hcertVersionString = certificate.certificate.version,
         schemaJson = "obsolete",
-        rules = rules.map { it.asRule },
+        rules = rules.map { it.asExternalRule },
         externalParameter = assembleExternalParameter(validationClock),
         payload = certificate.certificateJson
     ).map { it.asEvaluatedDccRule }.toSet()

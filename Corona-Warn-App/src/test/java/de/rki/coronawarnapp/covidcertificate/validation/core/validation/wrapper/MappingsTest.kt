@@ -22,6 +22,6 @@ class MappingsTest : BaseTest() {
             0,
             UTC_ZONE_ID
         )
-        zoned.asString shouldBe original
+        zoned.asExternalString shouldBe original
     }
 }

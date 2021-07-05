@@ -30,15 +30,15 @@ private val Result.asDccValidationRuleResult: DccValidationRule.Result
         Result.OPEN -> DccValidationRule.Result.OPEN
     }
 
-internal val DccValidationRule.asRule: Rule
+internal val DccValidationRule.asExternalRule: Rule
     get() = Rule(
         identifier = identifier,
-        type = typeDcc.asType,
+        type = typeDcc.asExternalType,
         version = version,
         schemaVersion = schemaVersion,
         engine = engine,
         engineVersion = engineVersion,
-        certificateType = certificateType.asCertificateType,
+        certificateType = certificateType.asExternalCertificateType,
         descriptions = description.first(), // TODO
         validFrom = validFrom.toZonedDateTime(),
         validTo = validTo.toZonedDateTime(),
@@ -53,7 +53,7 @@ fun String.toZonedDateTime(): ZonedDateTime {
     return ZonedDateTime.parse(this)
 }
 
-val ZonedDateTime.asString: String
+val ZonedDateTime.asExternalString: String
     get() = this.toString()
 
 fun Rule.asDccValidationRule() = DccValidationRule(
@@ -63,11 +63,10 @@ fun Rule.asDccValidationRule() = DccValidationRule(
     schemaVersion = schemaVersion,
     engine = engine,
     engineVersion = engineVersion,
-    certificateType = certificateType.asString,
+    certificateType = certificateType.asInternalString,
     description = listOf(descriptions),
-    // TODO formatting
-    validFrom = validFrom.toString(),
-    validTo = validTo.toString(),
+    validFrom = validFrom.asExternalString,
+    validTo = validTo.asExternalString,
     affectedFields = affectedString,
     logic = logic.asJSONObject,
     country = countryCode,
@@ -79,13 +78,13 @@ private val Type.asDccType: DccValidationRule.Type
         Type.INVALIDATION -> DccValidationRule.Type.INVALIDATION
     }
 
-private val DccValidationRule.Type.asType: Type
+private val DccValidationRule.Type.asExternalType: Type
     get() = when (this) {
         DccValidationRule.Type.ACCEPTANCE -> Type.ACCEPTANCE
         DccValidationRule.Type.INVALIDATION -> Type.INVALIDATION
     }
 
-private val CertificateType.asString: String
+private val CertificateType.asInternalString: String
     get() = when (this) {
         CertificateType.GENERAL -> "General"
         CertificateType.TEST -> "Test"
@@ -93,7 +92,7 @@ private val CertificateType.asString: String
         CertificateType.RECOVERY -> "Recovery"
     }
 
-private val String.asCertificateType: CertificateType
+private val String.asExternalCertificateType: CertificateType
     get() = when (this) {
         "General" -> CertificateType.GENERAL
         "Test" -> CertificateType.TEST
@@ -104,11 +103,10 @@ private val String.asCertificateType: CertificateType
 
 private val JSONObject.asJsonNode: JsonNode
     get() {
-        //TODO
         return ObjectMapper().createObjectNode()
     }
 
 private val JsonNode.asJSONObject: JSONObject
     get() {
-        TODO()
+        return JSONObject(this.toString())
     }
