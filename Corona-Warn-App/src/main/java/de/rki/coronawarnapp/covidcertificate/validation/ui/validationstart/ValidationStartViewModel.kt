@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.map
 import org.joda.time.DateTime
 import java.util.Locale
 
@@ -26,7 +27,10 @@ class ValidationStartViewModel @AssistedInject constructor(
     val state: LiveData<UIState?> = uiState
 
     val routeToScreen: SingleLiveEvent<ValidationStartNavigationEvents> = SingleLiveEvent()
-    val countryList = dccValidationRepository.dccCountries.asLiveData2()
+    val countryList = dccValidationRepository.dccCountries.map { countryList ->
+        // If list is empty - Return Germany as (default value)
+        if (countryList.isEmpty()) listOf(DccCountry("DE")) else countryList
+    }.asLiveData2()
 
     fun onInfoClick() {
         routeToScreen.postValue(ValidationStartNavigationEvents.NavigateToValidationInfoFragment)

@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.text.format.DateFormat
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
@@ -14,12 +13,9 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.getLocale
-import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
-import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.databinding.ValidationStartFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -33,75 +29,47 @@ import javax.inject.Inject
 class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: ValidationStartViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel by cwaViewModels<ValidationStartViewModel> { viewModelFactory }
     private val binding by viewBinding<ValidationStartFragmentBinding>()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        viewModel.countryList.observe2(this) {
-            val countryList = it.toMutableList()
-            // If list is empty - add Germany (default value)
-            if (countryList.isEmpty()) {
-                countryList.add(DccCountry("DE"))
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
+        viewModel.countryList.observe(viewLifecycleOwner) { countries ->
+            val countriesReadable = countries.map { it.getCountryDisplayName(requireContext().getLocale()) }
+            val adapter = ArrayAdapter(requireContext(), R.layout.validation_start_land_list_item, countriesReadable)
+            countryPicker.apply {
+                setAdapter(adapter)
+                setText(adapter.getItem(0), false)
             }
-            val countriesReadable = countryList.map { it.getCountryDisplayName(requireContext().getLocale()) }
-            val landAdapter = ArrayAdapter(
-                requireContext(),
-                R.layout.validation_start_land_list_item,
-                countriesReadable
+        }
+
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            state?.let { datePicker.setText(it.getDate(requireContext().getLocale())) }
+        }
+
+        dateInfoIcon.setOnClickListener { viewModel.onInfoClick() }
+        privacyInformation.setOnClickListener { viewModel.onPrivacyClick() }
+        checkButton.setOnClickListener { viewModel.onCheckClick() }
+        datePicker.setOnClickListener {
+            showDatePicker(viewModel.state.value?.date) { value -> viewModel.dateChanged(value) }
+        }
+
+        countryPicker.setOnItemClickListener { parent, _, position, _ ->
+            viewModel.countryChanged(parent.adapter.getItem(position).toString())
+        }
+
+        faq.setTextWithUrls(
+            R.string.validation_start_faq.toResolvingString(),
+            TextViewUrlSet(
+                labelResource = R.string.validation_start_faq_label,
+                urlResource = R.string.validation_start_faq_link
+            ),
+            TextViewUrlSet(
+                labelResource = R.string.validation_start_reopen_europe_label,
+                urlResource = R.string.validation_start_reopen_europe_link
             )
-            (binding.countryPicker as? AutoCompleteTextView)?.setAdapter(landAdapter)
-            (binding.countryPicker as? AutoCompleteTextView)?.setText(landAdapter.getItem(0).toString(), false)
-        }
+        )
 
-        viewModel.state.observe2(this) { state ->
-            binding.apply {
-                if (state != null) {
-                    datePicker.setText(state.getDate(requireContext().getLocale()))
-                }
-            }
-        }
-
-        binding.dateInfoIcon.setOnClickListener {
-            viewModel.onInfoClick()
-        }
-
-        binding.privacyInformation.setOnClickListener {
-            viewModel.onPrivacyClick()
-        }
-
-        binding.checkButton.setOnClickListener {
-            // TODO: some check magic here
-            viewModel.onCheckClick()
-        }
-
-        binding.datePicker.setOnClickListener {
-            it.hideKeyboard()
-            binding.datePicker.clearFocus()
-            showDatePicker(viewModel.state.value?.date) { value ->
-                viewModel.dateChanged(value)
-            }
-        }
-
-        binding.countryPicker.setOnItemClickListener { parent, _, position, _ ->
-            viewModel.countryChanged(parent.adapter.getItem(position) as String)
-        }
-
-        with(binding.faq) {
-            setTextWithUrls(
-                R.string.validation_start_faq.toResolvingString(),
-                TextViewUrlSet(
-                    labelResource = R.string.validation_start_faq_label,
-                    urlResource = R.string.validation_start_faq_link
-                ),
-                TextViewUrlSet(
-                    labelResource = R.string.validation_start_reopen_europe_label,
-                    urlResource = R.string.validation_start_reopen_europe_link
-                )
-            )
-        }
-
-        viewModel.routeToScreen.observe2(this) {
+        viewModel.routeToScreen.observe(viewLifecycleOwner) {
             when (it) {
                 ValidationStartNavigationEvents.NavigateToValidationInfoFragment -> {
                     // TODO: navigation to info fragment

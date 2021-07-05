@@ -73,12 +73,12 @@
                 app:layout_constraintStart_toStartOf="@+id/body"
                 app:layout_constraintTop_toBottomOf="@+id/subtitle">
 
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/country_picker"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none"
                     android:focusable="false"
+                    android:inputType="none"
                     android:textColor="@color/colorOnPrimary"
                     tools:text="Deutschland" />
 
@@ -104,8 +104,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
-                    android:focusable="false"
-                    android:inputType="none" />
+                    android:cursorVisible="false"
+                    android:focusable="true"
+                    android:focusableInTouchMode="false"
+                    android:inputType="datetime" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -113,11 +115,11 @@
                 android:id="@+id/date_info"
                 style="@style/TextAppearance.MaterialComponents.Caption"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:layout_marginEnd="@dimen/spacing_normal"
+                android:layout_height="31dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
                 android:text="@string/validation_start_date_info"
-                app:layout_constraintEnd_toEndOf="@id/body"
+                app:layout_constraintEnd_toStartOf="@+id/date_info_icon"
                 app:layout_constraintStart_toStartOf="@id/body"
                 app:layout_constraintTop_toBottomOf="@id/date_layout" />
 
@@ -125,12 +127,11 @@
                 android:id="@+id/date_info_icon"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="14dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
                 android:importantForAccessibility="no"
-                app:layout_constraintEnd_toEndOf="@id/body"
-                app:layout_constraintStart_toEndOf="@id/date_info"
-                app:layout_constraintTop_toTopOf="@id/date_info"
+                app:layout_constraintEnd_toEndOf="@+id/date_layout"
+                app:layout_constraintTop_toBottomOf="@+id/date_layout"
                 app:srcCompat="@drawable/ic_info"
                 app:tint="@color/colorPrimary" />
 
