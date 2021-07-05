@@ -29,8 +29,8 @@ class ProgressLoadingButton @JvmOverloads constructor(
 
         context.withStyledAttributes(attrs, R.styleable.ProgressLoadingButton) {
 
-            val defaultText = getText(R.styleable.ProgressLoadingButton_textWhileNotLoading) ?: ""
-            val loadingText = getText(R.styleable.ProgressLoadingButton_textWhileLoading) ?: ""
+            val defaultText = getText(R.styleable.ProgressLoadingButton_buttonText) ?: ""
+            val loadingText = getText(R.styleable.ProgressLoadingButton_loadingText) ?: ""
             val isLoading = getBoolean(R.styleable.ProgressLoadingButton_isLoading, false)
 
             binding.apply {
