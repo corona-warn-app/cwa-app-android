@@ -47,6 +47,7 @@
     </plurals>
     <!-- XTXT: Vaccination card immunity information card body when <1 day is left till immunity -->
     <string name="vaccination_list_immunity_tomorrow_card_body">"Şu anda planlanan tüm aşıları aldınız ancak aşı korumanız yarına kadar tamamlanmayacaktır."</string>
+
     <!-- XBUT: Vaccination List register additional vaccination button -->
     <string name="vaccination_list_register_new_vaccination_button">"Başka Aşı Ekle"</string>
     <!-- XBUT: Vaccination List delete button -->
