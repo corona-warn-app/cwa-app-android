@@ -160,7 +160,11 @@
     <fragment
         android:id="@+id/dccValidationFailedFragment"
         android:name="de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.failed.DccValidationFailedFragment"
-        android:label="DccValidationFailedFragment" />
+        android:label="DccValidationFailedFragment">
+        <argument
+            android:name="validation"
+            app:argType="de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation" />
+    </fragment>
     <fragment
         android:id="@+id/dccValidationOpenFragment"
         android:name="de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.open.DccValidationOpenFragment"
