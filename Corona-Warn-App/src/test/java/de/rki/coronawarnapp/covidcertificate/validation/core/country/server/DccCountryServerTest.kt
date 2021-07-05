@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.validation.core.country.server
 
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountryApi
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRuleApi
 import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidationServer
 import de.rki.coronawarnapp.util.security.SignatureValidation
 import io.kotest.assertions.throwables.shouldThrow
@@ -25,7 +26,8 @@ import testhelpers.BaseIOTest
 
 @Suppress("MaxLineLength")
 class DccCountryServerTest : BaseIOTest() {
-    @MockK lateinit var api: DccCountryApi
+    @MockK lateinit var countryApi: DccCountryApi
+    @MockK lateinit var rulesApi: DccValidationRuleApi
     @MockK lateinit var signatureValidation: SignatureValidation
     @MockK lateinit var cache: Cache
 
@@ -35,11 +37,12 @@ class DccCountryServerTest : BaseIOTest() {
 
         every { signatureValidation.hasValidSignature(any(), any()) } returns true
         every { cache.evictAll() } just Runs
-        coEvery { api.onboardedCountries() } returns Response.success(COUNTRY_ARCHIVE.toResponseBody())
+        coEvery { countryApi.onboardedCountries() } returns Response.success(COUNTRY_ARCHIVE.toResponseBody())
     }
 
     private fun createInstance() = DccValidationServer(
-        api = { api },
+        countryApi = { countryApi },
+        rulesApi = { rulesApi },
         signatureValidation = signatureValidation,
         cache = cache
     )
@@ -57,7 +60,7 @@ class DccCountryServerTest : BaseIOTest() {
 
     @Test
     fun `data is faulty`() = runBlockingTest {
-        coEvery { api.onboardedCountries() } returns Response.success("123ABC".decodeHex().toResponseBody())
+        coEvery { countryApi.onboardedCountries() } returns Response.success("123ABC".decodeHex().toResponseBody())
 
         val server = createInstance()
 
