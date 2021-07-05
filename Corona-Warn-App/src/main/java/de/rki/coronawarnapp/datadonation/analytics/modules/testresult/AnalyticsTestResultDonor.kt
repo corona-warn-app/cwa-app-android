@@ -144,6 +144,7 @@ abstract class AnalyticsTestResultDonor(
             )
             .setTestResult(testResult.toPPATestResult())
             .setRiskLevelAtTestRegistration(testResultSettings.ewRiskLevelAtTestRegistration.value)
+            .setPtRiskLevelAtTestRegistration(testResultSettings.ptRiskLevelAtTestRegistration.value)
             .build()
 
         Timber.i("Final test result metadata:\n%s", formString(testResultMetaData))
