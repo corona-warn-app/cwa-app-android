@@ -31,7 +31,7 @@ data class DccValidationRule(
 
     // Description by language
     // [ {"lang": "en","desc": "The Field “Doses” MUST contain number 2 OR 2/2."} ]
-    val description: List<Map<String, String>>,
+    val description: Map<String, String>,
 
     // Start and end of validity period
     // ISO 8106 date-time  "2021-05-27T07:46:40Z"

@@ -23,9 +23,9 @@ internal fun assembleExternalParameter(
     arrivalCountry: DccCountry
 ): ExternalParameter {
     return ExternalParameter(
-        kid = "what is this?",
+        kid = "", // leave empty
         validationClock = validationClock.toZonedDateTime(),
-        valueSets = emptyMap(),
+        valueSets = emptyMap(), // todo mapping
         countryCode = arrivalCountry.countryCode,
         exp = certificate.header.expiresAt.toZonedDateTime(),
         iat = certificate.header.issuedAt.toZonedDateTime()
@@ -54,10 +54,10 @@ internal val DccValidationRule.asExternalRule: Rule
         engine = engine,
         engineVersion = engineVersion,
         certificateType = certificateType.asExternalCertificateType,
-        descriptions = description.first(), // TODO
+        descriptions = description,
         validFrom = validFrom.toZonedDateTime(),
         validTo = validTo.toZonedDateTime(),
-        affectedString = affectedFields, // ??
+        affectedString = affectedFields,
         logic = logic.asJsonNode,
         countryCode = country,
         region = null
@@ -79,7 +79,7 @@ fun Rule.asDccValidationRule() = DccValidationRule(
     engine = engine,
     engineVersion = engineVersion,
     certificateType = certificateType.asInternalString,
-    description = listOf(descriptions),
+    description = descriptions,
     validFrom = validFrom.asExternalString,
     validTo = validTo.asExternalString,
     affectedFields = affectedString,
@@ -117,14 +117,10 @@ private val String.asExternalCertificateType: CertificateType
     }
 
 private val JSONObject.asJsonNode: JsonNode
-    get() {
-        return ObjectMapper().createObjectNode()
-    }
+    get() = ObjectMapper().readTree(this.toString())
 
 private val JsonNode.asJSONObject: JSONObject
-    get() {
-        return JSONObject(this.toString())
-    }
+    get() = JSONObject(this.toString())
 
 @SuppressLint("NewApi")
 private fun Instant.toZonedDateTime(): ZonedDateTime {

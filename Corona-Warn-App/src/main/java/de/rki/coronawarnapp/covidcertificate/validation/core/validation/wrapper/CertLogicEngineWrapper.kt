@@ -12,7 +12,6 @@ import javax.inject.Inject
 
 @Reusable
 class CertLogicEngineWrapper @Inject constructor(
-
 ) {
     private val engine: DefaultCertLogicEngine by lazy {
         DefaultCertLogicEngine(DefaultJsonLogicValidator())
