@@ -24,8 +24,6 @@
     <!-- XTXT: Person card subtitle-->
     <string name="person_card_subtitle">COVID-Zertifikat der EU</string>
 
-    <!-- XTXT: Vaccination Consent title-->
-    <string name="vaccination_consent_title">Ihr Einverständnis</string>
     <!-- XTXT: Vaccination Consent subtitle-->
     <string name="vaccination_consent_headline">"Zertifikate hinzufügen"</string>
     <!-- XTXT: Vaccination Consent subtitle of qr info -->
