@@ -24,7 +24,6 @@ class StatisticsHomeCard(
     SavedStateMod.StateSavingVH {
 
     override var savedStateKey: String? = null
-    private val pagerSnapHelper = PagerSnapHelper()
 
     private val statisticsLayoutManager: StatisticsLayoutManager by lazy {
         StatisticsLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -48,7 +47,7 @@ class StatisticsHomeCard(
                 )
             }
             if (resources.isPhone()) {
-                pagerSnapHelper.attachToRecyclerView(statisticsRecyclerview)
+                PagerSnapHelper().attachToRecyclerView(statisticsRecyclerview)
             }
         }
     }
