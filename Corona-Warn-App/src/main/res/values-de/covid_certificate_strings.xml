@@ -72,6 +72,8 @@
         <item quantity="many">Sie haben nun alle derzeit geplanten Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
     </plurals>
 
+    <!-- XTXT: Vaccination only one shot required -->
+    <string name="vaccination_certificate_one_shot">Es handelt sich hier um einen Impfstoff, bei dem nur eine Impfdosis erforderlich ist, oder um eine Impfung für Genesene, die nur eine Impfdosis benötigt.</string>
     <!-- XTXT: Vaccination is not complete information card body-->
     <string name="vaccination_certificate_incomplete_vaccination">"Sie haben noch nicht alle derzeit geplanten Impfungen erhalten. Daher ist Ihr Impfschutz noch nicht vollständig."</string>
 
