@@ -1,13 +1,17 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core
 
+import android.content.res.AssetManager
 import dagger.Component
 import dagger.Module
+import dagger.Provides
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.DccQrCodeExtractorTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.DccQrCodeValidatorTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepositoryTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainerTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorageTest
 import de.rki.coronawarnapp.util.serialization.SerializationModule
+import io.mockk.every
+import io.mockk.mockk
 import javax.inject.Singleton
 
 @Singleton
@@ -33,4 +37,12 @@ interface VaccinationTestComponent {
 }
 
 @Module
-class VaccinationMockProvider
+class VaccinationMockProvider {
+    @Singleton
+    @Provides
+    fun assetManager(): AssetManager = mockk<AssetManager>().apply {
+        every { open(any()) } answers {
+            this.javaClass.classLoader!!.getResourceAsStream(arg<String>(0))
+        }
+    }
+}

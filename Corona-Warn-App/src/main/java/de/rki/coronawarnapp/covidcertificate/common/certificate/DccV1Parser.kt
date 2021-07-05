@@ -13,18 +13,21 @@ import javax.inject.Inject
 
 @Reusable
 class DccV1Parser @Inject constructor(
-    @BaseGson private val gson: Gson
+    @BaseGson private val gson: Gson,
+    private val dccJsonSchemaValidator: DccJsonSchemaValidator,
 ) {
     fun parse(map: CBORObject, mode: Mode): Body = try {
-        map[keyHCert]?.run {
-            this[keyEuDgcV1]?.run {
-                val (rawBody, dcc) = this.toCertificate()
-                Body(
-                    raw = rawBody,
-                    parsed = dcc.toValidated(mode)
-                )
-            } ?: throw InvalidVaccinationCertificateException(ErrorCode.HC_CWT_NO_DGC)
-        } ?: throw InvalidVaccinationCertificateException(ErrorCode.HC_CWT_NO_HCERT)
+        val dgcCbor = map[keyHCert].let {
+            if (it == null) throw InvalidVaccinationCertificateException(ErrorCode.HC_CWT_NO_HCERT)
+            it[keyEuDgcV1] ?: throw InvalidVaccinationCertificateException(ErrorCode.HC_CWT_NO_DGC)
+        }
+
+        val (rawBody, dcc) = dgcCbor.toCertificate()
+
+        Body(
+            parsed = dcc.toValidated(mode), // To get specific errors, run this before the raw check
+            raw = rawBody.checkSchema(mode)
+        )
     } catch (e: InvalidHealthCertificateException) {
         throw e
     } catch (e: Throwable) {
@@ -41,12 +44,11 @@ class DccV1Parser @Inject constructor(
     }
 
     private fun DccV1.toValidated(mode: Mode): DccV1 = try {
-        checkModeRestrictions(mode)
-            .apply {
-                // Apply otherwise we risk accidentally accessing the original obj in the outer scope
-                require(isSingleCertificate())
-                checkFields()
-            }
+        checkModeRestrictions(mode).apply {
+            // Apply otherwise we risk accidentally accessing the original obj in the outer scope
+            require(isSingleCertificate())
+            checkFields()
+        }
     } catch (e: InvalidHealthCertificateException) {
         throw e
     } catch (e: Throwable) {
@@ -121,6 +123,24 @@ class DccV1Parser @Inject constructor(
             require(it.certificateIssuer.isNotBlank())
             require(it.certificateCountry.isNotBlank())
             require(it.targetId.isNotBlank())
+        }
+    }
+
+    private fun String.checkSchema(mode: Mode) = also {
+        when (mode) {
+            Mode.CERT_VAC_STRICT,
+            Mode.CERT_SINGLE_STRICT,
+            Mode.CERT_REC_STRICT,
+            Mode.CERT_TEST_STRICT -> dccJsonSchemaValidator.isValid(this).let {
+                if (it.isValid) return@let
+                throw InvalidHealthCertificateException(
+                    errorCode = ErrorCode.JSON_SCHEMA_INVALID,
+                    IllegalArgumentException("Schema Validation did not pass:\n${it.invalidityReason}")
+                )
+            }
+            Mode.CERT_VAC_LENIENT -> {
+                // We don't check schema in lenient mode, it may affect already stored certificates.
+            }
         }
     }
 
