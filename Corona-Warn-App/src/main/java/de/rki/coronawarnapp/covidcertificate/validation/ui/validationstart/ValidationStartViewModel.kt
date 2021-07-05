@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import org.joda.time.DateTime
 import timber.log.Timber
-import java.util.Locale
 
 class ValidationStartViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
@@ -39,17 +38,16 @@ class ValidationStartViewModel @AssistedInject constructor(
     val currentDateTime: DateTime get() = uiState.value.dateTime
     val events = SingleLiveEvent<ValidationStartNavigationEvents>()
     val countryList = dccValidationRepository.dccCountries.map { countryList ->
-        // If list is empty - Return Germany as (default value)
         if (countryList.isEmpty()) listOf(DccCountry("DE")) else countryList
     }.asLiveData2()
 
-    fun onInfoClick() {
-        events.postValue(ValidationStartNavigationEvents.NavigateToValidationInfoFragment)
-    }
+    fun onInfoClick() = events.postValue(ValidationStartNavigationEvents.NavigateToValidationInfoFragment)
 
-    fun onPrivacyClick() {
-        events.postValue(ValidationStartNavigationEvents.NavigateToPrivacyFragment)
-    }
+    fun onPrivacyClick() = events.postValue(ValidationStartNavigationEvents.NavigateToPrivacyFragment)
+
+    fun countryChanged(country: DccCountry) = uiState.apply { value = value.copy(dccCountry = country) }
+
+    fun refreshTimeCheck() = dateChanged(currentDateTime)
 
     fun onCheckClick() = launch {
         try {
@@ -66,13 +64,6 @@ class ValidationStartViewModel @AssistedInject constructor(
         }
     }
 
-    fun countryChanged(country: String, userLocale: Locale = Locale.getDefault()) {
-        val countryCode = Locale.getISOCountries().find { userLocale.displayCountry == country }!! // Must be a country
-        uiState.apply {
-            value = value.copy(dccCountry = DccCountry(countryCode))
-        }
-    }
-
     fun dateChanged(dateTime: DateTime) {
         events.postValue(
             ValidationStartNavigationEvents.ShowTimeMessage(
@@ -81,8 +72,6 @@ class ValidationStartViewModel @AssistedInject constructor(
         )
         uiState.apply { value = value.copy(dateTime = dateTime) }
     }
-
-    fun refreshTimeCheck() = dateChanged(currentDateTime)
 
     data class UIState(
         val dccCountry: DccCountry = DccCountry("DE"),

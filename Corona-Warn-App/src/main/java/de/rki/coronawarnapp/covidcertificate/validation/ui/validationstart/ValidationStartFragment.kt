@@ -4,7 +4,6 @@ import TextViewUrlSet
 import android.os.Bundle
 import android.text.format.DateFormat
 import android.view.View
-import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.CalendarConstraints
@@ -14,7 +13,6 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
-import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.databinding.ValidationStartFragmentBinding
@@ -44,6 +42,7 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
         }
     )
     private val binding by viewBinding<ValidationStartFragmentBinding>()
+    private val dccCountryAdapter by lazy { DccCountryAdapter(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
@@ -56,9 +55,11 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
                 showDatePicker()
             }
 
-            countryPicker.setOnItemClickListener { parent, _, position, _ ->
-                viewModel.countryChanged(parent.adapter.getItem(position).toString())
+            countryPicker.setOnItemClickListener { _, _, position, _ ->
+                viewModel.countryChanged(dccCountryAdapter.getItem(position))
             }
+
+            countryPicker.setAdapter(dccCountryAdapter)
 
             faq.setTextWithUrls(
                 R.string.validation_start_faq.toResolvingString(),
@@ -132,12 +133,8 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
     }
 
     private fun ValidationStartFragmentBinding.onCountiesAvailable(countries: List<DccCountry>) {
-        val countriesReadable = countries.map { it.getCountryDisplayName(requireContext().getLocale()) }
-        val adapter = ArrayAdapter(requireContext(), R.layout.validation_start_land_list_item, countriesReadable)
-        countryPicker.apply {
-            setAdapter(adapter)
-            setText(adapter.getItem(0), false)
-        }
+        dccCountryAdapter.update(countries)
+        countryPicker.setText(countries[0].displayName(), false)
     }
 
     private fun showDatePicker() {
