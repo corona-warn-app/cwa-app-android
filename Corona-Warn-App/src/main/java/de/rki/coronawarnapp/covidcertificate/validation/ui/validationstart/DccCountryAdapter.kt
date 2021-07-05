@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.util.collections.replaceAll
 
 class DccCountryAdapter(context: Context) : ArrayAdapter<DccCountry>(
-    context, R.layout.validation_start_land_list_item
+    context, R.layout.dcc_country_list_item
 ) {
     private val countries = mutableListOf<DccCountry>()
 
@@ -20,11 +20,8 @@ class DccCountryAdapter(context: Context) : ArrayAdapter<DccCountry>(
     override fun getItem(position: Int): DccCountry = countries[position]
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val textView: TextView = (
-            convertView ?: LayoutInflater.from(parent.context).inflate(
-                R.layout.validation_start_land_list_item, parent, false
-            )
-            ) as TextView
+        val textView: TextView = (convertView ?: LayoutInflater.from(parent.context)
+            .inflate(R.layout.dcc_country_list_item, parent, false)) as TextView
 
         textView.text = getItem(position).displayName()
         return textView
