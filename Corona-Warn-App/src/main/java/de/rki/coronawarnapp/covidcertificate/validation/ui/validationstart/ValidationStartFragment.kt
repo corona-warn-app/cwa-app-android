@@ -53,7 +53,7 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
             checkButton.setOnClickListener { viewModel.onCheckClick() }
             datePicker.setOnClickListener {
                 countryPicker.clearFocus()
-                showDatePicker(viewModel.currentDateTime) { value -> viewModel.dateChanged(value) }
+                showDatePicker()
             }
 
             countryPicker.setOnItemClickListener { parent, _, position, _ ->
@@ -140,30 +140,28 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
         }
     }
 
-    private fun showDatePicker(
-        defaultValue: DateTime,
-        callback: (DateTime) -> Unit
-    ) {
+    private fun showDatePicker() {
         val minConstraint: DateTime = DateTime.now().minusDays(1) // Allow selection from today on only
         val constraints = CalendarConstraints.Builder()
             .setValidator(DateValidatorPointForward.from(minConstraint.withSecondOfMinute(0).millis))
             .build()
 
+        val dateTime = viewModel.currentDateTime
         MaterialDatePicker
             .Builder
             .datePicker()
-            .setSelection(defaultValue.millis)
+            .setSelection(dateTime.millis)
             .setCalendarConstraints(constraints)
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
-                    showTimePicker(LocalDate(it), defaultValue.hourOfDay, defaultValue.minuteOfHour, callback)
+                    showTimePicker(LocalDate(it), dateTime.hourOfDay, dateTime.minuteOfHour)
                 }
             }
             .show(childFragmentManager, DATE_PICKER_TAG)
     }
 
-    private fun showTimePicker(date: LocalDate, hours: Int, minutes: Int, callback: (DateTime) -> Unit) {
+    private fun showTimePicker(date: LocalDate, hours: Int, minutes: Int) {
         val timeFormat = when {
             DateFormat.is24HourFormat(requireContext()) -> TimeFormat.CLOCK_24H
             else -> TimeFormat.CLOCK_12H
@@ -176,8 +174,7 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
-                    // TODO validate time
-                    callback(date.toDateTime(LocalTime(hour, minute)))
+                    viewModel.dateChanged(date.toDateTime(LocalTime(hour, minute)))
                 }
             }
             .show(childFragmentManager, TIME_PICKER_TAG)
