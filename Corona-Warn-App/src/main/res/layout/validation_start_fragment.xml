@@ -50,7 +50,6 @@
                 android:id="@+id/subtitle"
                 style="@style/headline6"
                 android:layout_width="0dp"
-
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="@string/validation_start_subtitle"
@@ -131,7 +130,8 @@
                 android:layout_height="20dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
-                android:importantForAccessibility="no"
+                android:background="@drawable/circle_ripple"
+                android:contentDescription="@string/statistics_info_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/date_layout"
                 app:srcCompat="@drawable/ic_info"
