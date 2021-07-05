@@ -55,10 +55,10 @@ class DccValidationRepository @Inject constructor(
      */
     @Throws(Exception::class)
     suspend fun refresh() {
-        internalCountries.updateBlocking {
+        internalData.updateBlocking {
             val newCountryData = server.dccCountryJson()
             localCache.saveJson(newCountryData)
-            mapCountries(newCountryData)
+            DccValidationData(mapCountries(newCountryData))
         }
         // TODO refresh current rule data
     }
@@ -90,4 +90,3 @@ class DccValidationRepository @Inject constructor(
         private const val TAG = "DccCountryRepository"
     }
 }
-
