@@ -57,9 +57,9 @@ class ValidationStartViewModel @AssistedInject constructor(
             val country = state.dccCountry
             val time = state.dateTime.toInstant()
             val certificateData = certificateProvider.findCertificate(containerId).dccData
-            dccValidator.validateDcc(setOf(country), time, certificateData)
+            val validationResult = dccValidator.validateDcc(setOf(country), time, certificateData)
 
-            events.postValue(ValidationStartNavigationEvents.NavigateToValidationResultFragment)
+            events.postValue(ValidationStartNavigationEvents.NavigateToValidationResultFragment(validationResult))
         } catch (e: Exception) {
             Timber.d(e, "validating Dcc failed")
         }

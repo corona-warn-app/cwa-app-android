@@ -14,6 +14,7 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.getLocale
+import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.databinding.ValidationStartFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -75,15 +76,32 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
 
     private fun onNavEvent(event: ValidationStartNavigationEvents?) {
         when (event) {
-            ValidationStartNavigationEvents.NavigateToValidationInfoFragment -> doNavigate(
-                ValidationStartFragmentDirections.actionValidationStartFragmentToValidationTimeInfoFragment()
-            )
-            ValidationStartNavigationEvents.NavigateToPrivacyFragment -> doNavigate(
-                ValidationStartFragmentDirections.actionValidationStartFragmentToPrivacyFragment()
-            )
+            ValidationStartNavigationEvents.NavigateToValidationInfoFragment ->
+                doNavigate(
+                    ValidationStartFragmentDirections.actionValidationStartFragmentToValidationTimeInfoFragment()
+                )
+            ValidationStartNavigationEvents.NavigateToPrivacyFragment ->
+                doNavigate(
+                    ValidationStartFragmentDirections.actionValidationStartFragmentToPrivacyFragment()
+                )
+            is ValidationStartNavigationEvents.NavigateToValidationResultFragment ->
+                navigateToResultScreen(event.validationResult)
+        }
+    }
 
-            ValidationStartNavigationEvents.NavigateToValidationResultFragment -> {
-                // TODO: navigation to next screen (new functions)
+    private fun navigateToResultScreen(validationResult: DccValidation) {
+        when (validationResult.state) {
+            DccValidation.State.PASSED -> {
+                // TODO
+            }
+            DccValidation.State.OPEN -> {
+                // TODO
+            }
+            DccValidation.State.TECHNICAL_FAILURE -> {
+                // TODO
+            }
+            DccValidation.State.FAILURE -> {
+                // TODO
             }
         }
     }
