@@ -20,18 +20,21 @@ class BusinessValidator @Inject constructor(
         certificate: DccData<*>,
     ): BusinessValidation {
 
+        // accepted by arrival country
         val acceptanceResults = certLogicEngineWrapper.process(
             rules = ruleRepository.acceptanceRules(arrivalCountry),
             validationClock = validationClock,
             certificate = certificate,
-            arrivalCountry = arrivalCountry
+            countryCode = arrivalCountry.countryCode
         )
 
+        // valid as defined by the issuing country
+        val issuerCountry = DccCountry(certificate.header.issuer)
         val invalidationResults = certLogicEngineWrapper.process(
-            rules = ruleRepository.invalidationRules(arrivalCountry),
+            rules = ruleRepository.invalidationRules(issuerCountry),
             validationClock = validationClock,
             certificate = certificate,
-            arrivalCountry = arrivalCountry
+            countryCode = issuerCountry.countryCode
         )
 
         return object : BusinessValidation {

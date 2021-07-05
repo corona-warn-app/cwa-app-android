@@ -15,7 +15,7 @@ class DccValidationRuleRepository @Inject constructor(
         return emptyList() // TODO
     }
 
-    suspend fun invalidationRules(arrivalCountry: DccCountry): List<DccValidationRule> {
+    suspend fun invalidationRules(issuerCountry: DccCountry): List<DccValidationRule> {
         return emptyList() // TODO
     }
 
