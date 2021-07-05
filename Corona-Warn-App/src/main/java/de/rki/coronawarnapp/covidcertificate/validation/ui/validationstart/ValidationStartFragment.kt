@@ -13,6 +13,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
@@ -95,18 +96,24 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
                 navigateToResultScreen(event.validationResult)
 
             is ValidationStartNavigationEvents.ShowTimeMessage ->
-                if (event.invalidTime) {
-                    dateInfo.setText(R.string.validation_start_time_error)
-                    dateInfo.setTextColor(requireContext().getColorCompat(R.color.colorTextSemanticRed))
-                    dateLayout.isErrorEnabled = true
-                    dateLayout.error = " " // Just to highlight the field with red colour
-                } else {
-                    dateInfo.setText(R.string.validation_start_date_info)
-                    dateInfo.setTextColor(
-                        requireContext().getColorCompat(R.color.colorOnPrimary)
-                    )
-                    dateLayout.isErrorEnabled = false
-                }
+                showTimeMessage(event)
+            is ValidationStartNavigationEvents.ShowErrorDialog ->
+                event.error.toErrorDialogBuilder(requireContext()).show()
+        }
+    }
+
+    private fun ValidationStartFragmentBinding.showTimeMessage(event: ValidationStartNavigationEvents.ShowTimeMessage) {
+        if (event.invalidTime) {
+            dateInfo.setText(R.string.validation_start_time_error)
+            dateInfo.setTextColor(requireContext().getColorCompat(R.color.colorTextSemanticRed))
+            dateLayout.isErrorEnabled = true
+            dateLayout.error = " " // Just to highlight the field with red colour
+        } else {
+            dateInfo.setText(R.string.validation_start_date_info)
+            dateInfo.setTextColor(
+                requireContext().getColorCompat(R.color.colorOnPrimary)
+            )
+            dateLayout.isErrorEnabled = false
         }
     }
 

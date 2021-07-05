@@ -62,6 +62,7 @@ class ValidationStartViewModel @AssistedInject constructor(
             events.postValue(ValidationStartNavigationEvents.NavigateToValidationResultFragment(validationResult))
         } catch (e: Exception) {
             Timber.d(e, "validating Dcc failed")
+            events.postValue(ValidationStartNavigationEvents.ShowErrorDialog(e))
         }
     }
 
