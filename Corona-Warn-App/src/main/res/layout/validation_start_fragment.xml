@@ -96,6 +96,7 @@
                 android:textColorHint="@color/colorTextPrimary3"
                 app:boxBackgroundColor="@color/colorContactDiaryListItem"
                 app:errorIconDrawable="@null"
+                app:errorTextAppearance="@style/vanishedErrorAppearance"
                 app:errorTextColor="@color/colorTextSemanticRed"
                 app:layout_constraintStart_toStartOf="@+id/body"
                 app:layout_constraintTop_toBottomOf="@+id/country_layout">

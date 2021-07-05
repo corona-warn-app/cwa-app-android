@@ -556,4 +556,9 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">4dp</item>
     </style>
+
+    <style name="vanishedErrorAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textSize">0sp</item>
+    </style>
+
 </resources>

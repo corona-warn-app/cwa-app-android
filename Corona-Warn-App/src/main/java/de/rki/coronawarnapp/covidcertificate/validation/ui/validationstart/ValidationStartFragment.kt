@@ -98,13 +98,14 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
                 if (event.invalidTime) {
                     dateInfo.setText(R.string.validation_start_time_error)
                     dateInfo.setTextColor(requireContext().getColorCompat(R.color.colorTextSemanticRed))
-                    dateLayout.error = " "
+                    dateLayout.isErrorEnabled = true
+                    dateLayout.error = " " // Just to highlight the field with red colour
                 } else {
                     dateInfo.setText(R.string.validation_start_date_info)
                     dateInfo.setTextColor(
                         requireContext().getColorCompat(R.color.colorOnPrimary)
                     )
-                    dateLayout.error = null
+                    dateLayout.isErrorEnabled = false
                 }
         }
     }
