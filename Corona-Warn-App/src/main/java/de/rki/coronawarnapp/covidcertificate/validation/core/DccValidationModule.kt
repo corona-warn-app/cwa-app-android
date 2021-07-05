@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountryApi
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRuleApi
 import de.rki.coronawarnapp.covidcertificate.valueset.server.CertificateValueSet
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
@@ -51,6 +52,22 @@ class DccValidationModule {
             .build()
             .create(DccCountryApi::class.java)
     }
+
+    @Reusable
+    @Provides
+    fun rulesApi(
+        @DownloadCDNHttpClient httpClient: OkHttpClient,
+        @DownloadCDNServerUrl url: String,
+        @CertificateValueSet cache: Cache
+    ): DccValidationRuleApi = Retrofit.Builder()
+        .client(
+            httpClient.newBuilder()
+                .cache(cache)
+                .build()
+        )
+        .baseUrl(url)
+        .build()
+        .create(DccValidationRuleApi::class.java)
 
     companion object {
         private const val DEFAULT_CACHE_SIZE = 5 * 1024 * 1024L // 5MB
