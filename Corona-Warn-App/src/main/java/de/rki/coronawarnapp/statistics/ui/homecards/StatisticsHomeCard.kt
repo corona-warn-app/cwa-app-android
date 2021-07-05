@@ -24,6 +24,7 @@ class StatisticsHomeCard(
     SavedStateMod.StateSavingVH {
 
     override var savedStateKey: String? = null
+    private val pagerSnapHelper = PagerSnapHelper()
 
     private val statisticsLayoutManager: StatisticsLayoutManager by lazy {
         StatisticsLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -47,7 +48,7 @@ class StatisticsHomeCard(
                 )
             }
             if (resources.isPhone()) {
-                PagerSnapHelper().attachToRecyclerView(statisticsRecyclerview)
+                pagerSnapHelper.attachToRecyclerView(statisticsRecyclerview)
             }
         }
     }
@@ -71,7 +72,11 @@ class StatisticsHomeCard(
         if (state != null) {
             statisticsLayoutManager.onRestoreInstanceState(state)
         } else {
-            viewBinding.value.statisticsRecyclerview.smoothScrollToPosition(1)
+            with (viewBinding.value.root.context.resources) {
+                val screenWidth = displayMetrics.widthPixels
+                val cardWidth = getDimensionPixelSize(R.dimen.statistics_card_width)
+                statisticsLayoutManager.scrollToPositionWithOffset(1, (screenWidth - cardWidth) / 2)
+            }
         }
     }
 
