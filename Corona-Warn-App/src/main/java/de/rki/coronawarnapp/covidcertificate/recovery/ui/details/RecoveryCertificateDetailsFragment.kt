@@ -22,7 +22,6 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import timber.log.Timber
 import javax.inject.Inject
 
 class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_certificate_details), AutoInject {
@@ -43,7 +42,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
 
         startValidationCheck.defaultButton.setOnClickListener {
             startValidationCheck.isLoading(true)
-            viewModel.startValidation()
+            viewModel.startValidationRulesDownload()
         }
 
         appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
