@@ -62,7 +62,7 @@ fun Rule.asDccValidationRule() = DccValidationRule(
     engineVersion = engineVersion,
     certificateType = certificateType.asString,
     description = listOf(descriptions),
-    // TODO
+    // TODO formatting
     validFrom = validFrom.toString(),
     validTo = validTo.toString(),
     affectedFields = affectedString,
@@ -83,7 +83,12 @@ private val DccValidationRule.Type.asType: Type
     }
 
 private val CertificateType.asString: String
-    get() = toString()
+    get() = when (this) {
+        CertificateType.GENERAL -> "General"
+        CertificateType.TEST -> "Test"
+        CertificateType.VACCINATION -> "Vaccination"
+        CertificateType.RECOVERY -> "Recovery"
+    }
 
 private val String.asCertificateType: CertificateType
     get() = when (this) {

@@ -27,4 +27,3 @@ class CertLogicEngineWrapper @Inject constructor() {
         payload = certificate.certificateJson
     ).map { it.asEvaluatedDccRule }.toSet()
 }
-
