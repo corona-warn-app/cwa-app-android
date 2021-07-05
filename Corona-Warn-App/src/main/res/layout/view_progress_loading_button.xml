@@ -16,6 +16,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="visible"
+        tools:text="@string/start_validation_rule_check_button"
         app:layout_constraintStart_toStartOf="parent">
     </Button>
 
@@ -50,7 +51,7 @@
                 android:layout_height="wrap_content"
                 style="@style/body1"
                 android:layout_gravity="center"
-                tools:text="Lade Daten..." />
+                tools:text="@string/start_validation_rule_check_loading_text" />
 
         </LinearLayout>
     </RelativeLayout>

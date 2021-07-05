@@ -302,8 +302,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:buttonText="Gültigkeit prüfen"
-            app:loadingText="Prüfe Gültigkeit ..."
+            app:buttonText="@string/start_validation_rule_check_button"
+            app:loadingText="@string/start_validation_rule_check_loading_text"
             app:isLoading="false" />
 
     </LinearLayout>

@@ -116,7 +116,9 @@
     <string name="validation_rules_info_image">"Karte von Europa"</string>
 
     <!-- XTXT: Start Validation Rule Check Button -->
-    <string name="start_validation_rule_check_button">Gültigkeit prüfen</string>
+    <string name="start_validation_rule_check_button">"Gültigkeit prüfen"</string>
+    <!-- XTXT: Start Validation Rule Check Loading Text -->
+    <string name="start_validation_rule_check_loading_text">"Bitte warten…"</string>
 
     <!-- XTXT: Digital covid certificate validation error message - no network -->
     <string name="dcc_validation_error_no_network">"Ihre Internetverbindung wurde unterbrochen. Um die Gültigkeitsprüfung des Zertifikates abzuschließen, prüfen Sie die Verbindung und versuchen Sie es erneut."</string>
