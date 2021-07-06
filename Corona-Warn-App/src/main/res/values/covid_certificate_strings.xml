@@ -48,7 +48,7 @@
     <!-- XHED: Person certificate details title -->
     <string name="person_details_certificate_title">"EU Digital COVID Certificate"</string>
     <!-- XTXT: Test Certificate CWA User card description -->
-    <string name="person_details_cwa_user_description">"Bitte aktivieren Sie diesen Schalter, wenn Sie selbst %1$s sind und die App hauptsächlich nutzen. Ihre Zertifikate erscheinen in der Liste an erster Stelle."</string>
+    <string name="person_details_cwa_user_description">"Please turn on this switch if you are %1$s and are the main user of the app. Your certificates will appear at the top of the list."</string>
     <!-- XTXT: Test Certificate CWA User card birthdate -->
     <string name="person_details_cwa_user_birthdate">"Born %1$s"</string>
     <!-- #####################################################
@@ -72,8 +72,7 @@
     </plurals>
 
     <!-- XTXT: Vaccination only one shot required -->
-    <string name="vaccination_certificate_one_shot">Es handelt sich hier um einen Impfstoff, bei dem nur eine Impfdosis erforderlich ist, oder um eine Impfung für Genesene, die nur eine Impfdosis benötigt.</string>
-
+    <string name="vaccination_certificate_one_shot">"This is a vaccine that only requires one dose or a vaccine for a recovered person who only needs one dose."</string>
     <!-- XTXT: Vaccination is not complete information card body-->
     <string name="vaccination_certificate_incomplete_vaccination">"You have not yet received all the currently planned vaccinations. As such, your vaccination protection is not complete yet."</string>
 
@@ -106,14 +105,15 @@
     <string name="test_certificate_name">"Test Certificate"</string>
 
     <!-- XTXT: DCC QR code scan error message-->
-    <string name="error_dcc_invalid">Dieser QR-Code ist kein gültiges Zertifikat.\n\nWeitere Informationen zum Erhalt Ihres Zertifikats finden Sie in den FAQ.</string>
+    <string name="error_dcc_invalid">"This QR code is not a valid certificate.\n\nFor more information about how to receive your certificate, please see our FAQ page."</string>
     <!-- XBUT: Text for invalid certificate error button, linking to FAQ-->
-    <string name="error_button_dcc_faq">FAQ zu Zertifikaten</string>
+    <string name="error_button_dcc_faq">"FAQ for Certificates"</string>
     <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
-    <string name="error_button_dcc_faq_link">https://www.coronawarn.app/en/faq/#hc_prefix_invalid</string>
+    <string name="error_button_dcc_faq_link">"https://www.coronawarn.app/en/faq/#hc_prefix_invalid"</string>
 
     <!-- XTXT: DCC QR code scan error message-->
-    <string name="error_dcc_scan_again">Das Zertifikat konnte nicht auf Ihrem Smartphone gespeichert werden. Bitte versuchen Sie es später noch einmal oder wenden Sie sich an die technische Hotline unter „App-Informationen“.</string>
+    <string name="error_dcc_scan_again">"The certificate could not be saved on your smartphone. Please try again later or contact the technical hotline under “App Information”."</string>
     <!-- XTXT: DCC QR code scan error message-->
-    <string name="error_dcc_already_registered">Das Zertifikat ist bereits in Ihrer App registriert.</string>
+    <string name="error_dcc_already_registered">"The certificate is already registered in your app."</string>
+
 </resources>
