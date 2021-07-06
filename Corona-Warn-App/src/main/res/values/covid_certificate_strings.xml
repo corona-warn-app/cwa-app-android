@@ -153,4 +153,17 @@
     <!-- XTXT: Validation Rule Result Not Valid - Result  -->
     <string name="validation_rules_result_not_valid_result_title">Ihr Zertifikat ist im gewählten Land nicht gültig.</string>
 
+    <!-- XTXT: Validation Rule Open Header Title  -->
+    <string name="validation_rules_open_header_title">Prüfung nicht möglich</string>
+    <!-- XTXT: Validation Rule Open Header Subtitle  -->
+    <string name="validation_rules_open_header_subtitle">Nachfolgende Regeln konnten nicht geprüft werden. Vergewissern Sie sich, dass das Zertifikat den Regeln Ihres Reiselandes entspricht.</string>
+    <!-- XTXT: Validation Rule Failure Header Title  -->
+    <string name="validation_rules_failure_header_title">Prüfung abgeschlossen</string>
+    <!-- XTXT: Validation Rule Failure Header Subtitle  -->
+    <string name="validation_rules_failure_header_subtitle">Folgende Regeln sind nicht erfüllt:</string>
+    <!-- XTXT: Validation Rule Technical Failure Header Title  -->
+    <string name="validation_rules_technical_failure_header_title">Technische Prüfung</string>
+    <!-- XTXT: Validation Rule Technical Failure Header Subtitle  -->
+    <string name="validation_rules_technical_failure_header_subtitle">Folgende Regeln sind nicht erfüllt:</string>
+
 </resources>

@@ -39,7 +39,6 @@ class ValidationInputVH(
             arrivalDateString,
             validatedAtString
         )
-
     }
 
     data class Item(

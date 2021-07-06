@@ -21,9 +21,22 @@ class RuleHeaderVH(
         item: Item,
         payloads: List<Any>,
     ) -> Unit = { item, payloads ->
-        // TODO e.g.
-        // Prüfung abgeschlossen
-        // Folgende Regeln sind nicht erfüllt:
+        when (item.type) {
+            DccValidation.State.PASSED -> {
+            }
+            DccValidation.State.OPEN -> {
+                titleText.setText(R.string.validation_rules_open_header_title)
+                subtitleText.setText(R.string.validation_rules_open_header_subtitle)
+            }
+            DccValidation.State.TECHNICAL_FAILURE -> {
+                titleText.setText(R.string.validation_rules_technical_failure_header_title)
+                subtitleText.setText(R.string.validation_rules_technical_failure_header_subtitle)
+            }
+            DccValidation.State.FAILURE -> {
+                titleText.setText(R.string.validation_rules_failure_header_title)
+                subtitleText.setText(R.string.validation_rules_failure_header_subtitle)
+            }
+        }
     }
 
     data class Item(
