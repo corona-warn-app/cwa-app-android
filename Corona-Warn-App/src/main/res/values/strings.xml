@@ -1613,7 +1613,7 @@
     <!-- XTXT: Nationwide text -->
     <string name="statistics_vaccinated_nationwide_text">"Nationwide"</string>
     <!-- XTXT: Vaccination primary value footnote text -->
-    <string name="statistics_vaccination_primary_value_footnote">"of the total population"</string>
+    <string name="statistics_vaccination_primary_value_footnote">"of the population"</string>
 
     <!-- Persons Vaccinated Completely Statistics Card -->
     <!-- XHED: Title for vaccinated completely statistics card -->
