@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
 import de.rki.coronawarnapp.util.flow.HotDataFlow
 import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.mutate
@@ -44,6 +45,7 @@ class TestCertificateRepository @Inject constructor(
     private val processor: TestCertificateProcessor,
     private val timeStamper: TimeStamper,
     valueSetsRepository: ValueSetsRepository,
+    private val rsaKeyPairGenerator: RSAKeyPairGenerator,
 ) {
 
     private val internalData: HotDataFlow<Map<TestCertificateContainerId, TestCertificateContainer>> = HotDataFlow(
@@ -121,18 +123,28 @@ class TestCertificateRepository @Inject constructor(
 
             val identifier = UUID.randomUUID().toString()
 
+            val rsaKeyPair = try {
+                rsaKeyPairGenerator.generate()
+            } catch (e: Throwable) {
+                throw InvalidTestCertificateException(InvalidHealthCertificateException.ErrorCode.RSA_KP_GENERATION_FAILED)
+            }
+
             val data = when (test.type) {
                 CoronaTest.Type.PCR -> PCRCertificateData(
                     identifier = identifier,
                     registeredAt = test.registeredAt,
                     registrationToken = test.registrationToken,
-                    labId = test.labId
+                    labId = test.labId,
+                    rsaPublicKey = rsaKeyPair.publicKey,
+                    rsaPrivateKey = rsaKeyPair.privateKey,
                 )
                 CoronaTest.Type.RAPID_ANTIGEN -> RACertificateData(
                     identifier = identifier,
                     registeredAt = test.registeredAt,
                     registrationToken = test.registrationToken,
-                    labId = test.labId
+                    labId = test.labId,
+                    rsaPublicKey = rsaKeyPair.publicKey,
+                    rsaPrivateKey = rsaKeyPair.privateKey,
                 )
             }
             val container = TestCertificateContainer(
@@ -165,7 +177,7 @@ class TestCertificateRepository @Inject constructor(
             val data = GenericTestCertificateData(
                 identifier = UUID.randomUUID().toString(),
                 registeredAt = nowUtc,
-                certificateReceivedAt = nowUtc,
+                certificateReceivedAt = nowUtc, // Set this as we don't need to retrieve one
                 testCertificateQrCode = qrCode.qrCode
             )
             val container = TestCertificateContainer(
