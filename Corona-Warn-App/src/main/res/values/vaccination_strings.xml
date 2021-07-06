@@ -47,7 +47,6 @@
     </plurals>
     <!-- XTXT: Vaccination card immunity information card body when <1 day is left till immunity -->
     <string name="vaccination_list_immunity_tomorrow_card_body">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete until tomorrow."</string>
-
     <!-- XBUT: Vaccination List register additional vaccination button -->
     <string name="vaccination_list_register_new_vaccination_button">"Add Another Vaccination"</string>
     <!-- XBUT: Vaccination List delete button -->
@@ -94,7 +93,6 @@
     <string name="vaccination_card_status_vaccination_complete_tomorrow">"Full vaccination protection starting tomorrow"</string>
     <!-- XTXT: Homescreen card complete vaccination status label -->
     <string name="vaccination_card_status_vaccination_complete">"Valid through %s"</string>
-
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_invalid">"This QR code is not a valid certificate.\n\nFor more information about how to receive your certificate, please see our FAQ page."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
@@ -105,7 +103,7 @@
     <!-- XBUT: Text for invalid certificate error button, linking to FAQ-->
     <string name="error_button_vc_faq">"FAQ for Certificates"</string>
     <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
-    <string name="error_button_vc_faq_link">"https://www.coronawarn.app/en/faq/#hc_prefix_invalid"</string>
+    <string name="error_button_vc_faq_link">"https://www.coronawarn.app/en/faq/#vac_cert_invalid"</string>
 
     <!-- XTXT: Vaccination certificate Detail title -->
     <string name="vaccination_certificate_title">"Vaccination Certificate"</string>
