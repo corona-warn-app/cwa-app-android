@@ -36,14 +36,14 @@ class ValidationStartViewModel @AssistedInject constructor(
     private val uiState = MutableStateFlow(UIState())
     val state: LiveData<UIState> = uiState.asLiveData2()
     val currentDateTime: DateTime get() = uiState.value.dateTime
-    val events = SingleLiveEvent<ValidationStartNavigationEvents>()
+    val events = SingleLiveEvent<StartValidationNavEvent>()
     val countryList = dccValidationRepository.dccCountries.map { countryList ->
         if (countryList.isEmpty()) listOf(DccCountry("DE")) else countryList
     }.asLiveData2()
 
-    fun onInfoClick() = events.postValue(ValidationStartNavigationEvents.NavigateToValidationInfoFragment)
+    fun onInfoClick() = events.postValue(NavigateToValidationInfoFragment)
 
-    fun onPrivacyClick() = events.postValue(ValidationStartNavigationEvents.NavigateToPrivacyFragment)
+    fun onPrivacyClick() = events.postValue(NavigateToPrivacyFragment)
 
     fun countryChanged(country: DccCountry) = uiState.apply { value = value.copy(dccCountry = country) }
 
@@ -57,19 +57,16 @@ class ValidationStartViewModel @AssistedInject constructor(
             val certificateData = certificateProvider.findCertificate(containerId).dccData
             val validationResult = dccValidator.validateDcc(setOf(country), time, certificateData)
 
-            events.postValue(ValidationStartNavigationEvents.NavigateToValidationResultFragment(validationResult))
+            events.postValue(NavigateToValidationResultFragment(validationResult))
         } catch (e: Exception) {
             Timber.d(e, "validating Dcc failed")
-            events.postValue(ValidationStartNavigationEvents.ShowErrorDialog(e))
+            events.postValue(ShowErrorDialog(e))
         }
     }
 
     fun dateChanged(dateTime: DateTime) {
-        events.postValue(
-            ValidationStartNavigationEvents.ShowTimeMessage(
-                dateTime.isBefore(DateTime.now().withSecondOfMinute(0))
-            )
-        )
+        val invalidTime = dateTime.isBefore(DateTime.now().withSecondOfMinute(0))
+        events.postValue(ShowTimeMessage(invalidTime))
         uiState.apply { value = value.copy(dateTime = dateTime) }
     }
 

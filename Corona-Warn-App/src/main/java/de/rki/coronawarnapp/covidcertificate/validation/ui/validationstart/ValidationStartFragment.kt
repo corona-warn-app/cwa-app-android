@@ -83,27 +83,22 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
         viewModel.refreshTimeCheck()
     }
 
-    private fun ValidationStartFragmentBinding.onNavEvent(event: ValidationStartNavigationEvents?) {
+    private fun ValidationStartFragmentBinding.onNavEvent(event: StartValidationNavEvent?) {
         when (event) {
-            ValidationStartNavigationEvents.NavigateToValidationInfoFragment ->
-                doNavigate(
-                    ValidationStartFragmentDirections.actionValidationStartFragmentToValidationTimeInfoFragment()
-                )
-            ValidationStartNavigationEvents.NavigateToPrivacyFragment ->
-                doNavigate(
-                    ValidationStartFragmentDirections.actionValidationStartFragmentToPrivacyFragment()
-                )
-            is ValidationStartNavigationEvents.NavigateToValidationResultFragment ->
-                navigateToResultScreen(event.validationResult)
+            NavigateToValidationInfoFragment -> doNavigate(
+                ValidationStartFragmentDirections.actionValidationStartFragmentToValidationTimeInfoFragment()
+            )
+            NavigateToPrivacyFragment -> doNavigate(
+                ValidationStartFragmentDirections.actionValidationStartFragmentToPrivacyFragment()
+            )
+            is NavigateToValidationResultFragment -> navigateToResultScreen(event.validationResult)
 
-            is ValidationStartNavigationEvents.ShowTimeMessage ->
-                showTimeMessage(event)
-            is ValidationStartNavigationEvents.ShowErrorDialog ->
-                event.error.toErrorDialogBuilder(requireContext()).show()
+            is ShowTimeMessage -> showTimeMessage(event)
+            is ShowErrorDialog -> event.error.toErrorDialogBuilder(requireContext()).show()
         }
     }
 
-    private fun ValidationStartFragmentBinding.showTimeMessage(event: ValidationStartNavigationEvents.ShowTimeMessage) {
+    private fun ValidationStartFragmentBinding.showTimeMessage(event: ShowTimeMessage) {
         if (event.invalidTime) {
             dateInfo.setText(R.string.validation_start_time_error)
             dateInfo.setTextColor(requireContext().getColorCompat(R.color.colorTextSemanticRed))
