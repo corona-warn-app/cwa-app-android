@@ -40,7 +40,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
             description = mapOf("en" to "Vaccination must be complete"),
             validFrom = "2021-05-27T07:46:40Z",
             validTo = "2022-08-01T07:46:40Z",
-            affectedFields = listOf("dn", "sd"),
+            affectedFields = listOf("v.0.dn", "v.0.sd"),
             logic = logic
         )
         val certificate = extractor.extract(VaccinationQrCodeTestData.passGermanReferenceCase)

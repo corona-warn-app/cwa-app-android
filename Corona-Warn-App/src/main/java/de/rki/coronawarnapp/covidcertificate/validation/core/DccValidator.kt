@@ -24,6 +24,11 @@ class DccValidator @Inject constructor(
     ): DccValidation {
         Timber.tag(TAG).v("validateDcc(country=%s)", arrivalCountry)
 
+        // TODO update value sets, acceptance rules, and invalidation rules
+
+        val expirationCheckPassed = certificate.expiresAfter(arrivalTime)
+        val jsonSchemaCheckPassed = dccJsonSchemaValidator.isValid(certificate.certificateJson).isValid
+
         val businessValidation = businessValidator.validate(
             arrivalCountry,
             arrivalTime,
@@ -31,8 +36,8 @@ class DccValidator @Inject constructor(
         )
 
         return DccValidation(
-            expirationCheckPassed = certificate.expiresAfter(arrivalTime),
-            jsonSchemaCheckPassed = dccJsonSchemaValidator.isValid(certificate.certificateJson).isValid,
+            expirationCheckPassed = expirationCheckPassed,
+            jsonSchemaCheckPassed = jsonSchemaCheckPassed,
             acceptanceRules = businessValidation.acceptanceRules,
             invalidationRules = businessValidation.invalidationRules
         )
