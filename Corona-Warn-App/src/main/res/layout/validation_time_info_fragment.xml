@@ -7,24 +7,13 @@
     android:background="@color/colorSurface"
     tools:context=".covidcertificate.validation.ui.datetimeinfo.ValidationTimeInfoFragment">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        style="@style/CWAToolbar.Close"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/validation_rules_info_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/validation_rules_info_title" />
-
     <ScrollView
         android:id="@+id/scrollview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -34,16 +23,17 @@
             <ImageView
                 android:id="@+id/validation_rule_map"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:adjustViewBounds="true"
                 android:contentDescription="@string/validation_rules_info_image"
                 android:importantForAccessibility="yes"
+                android:scaleType="fitXY"
+                app:layout_constraintDimensionRatio="360:248"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_map_of_europe" />
-
             <ImageView
                 android:id="@+id/first_row_icon"
                 android:layout_width="wrap_content"
@@ -91,5 +81,16 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAToolbar.Close.Transparent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/validation_rules_info_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/validation_rules_info_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
