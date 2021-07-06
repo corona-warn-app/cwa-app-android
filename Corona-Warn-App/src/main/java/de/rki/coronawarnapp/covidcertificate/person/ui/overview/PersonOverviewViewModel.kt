@@ -12,20 +12,22 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateCo
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CameraPermissionCard
-import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificatesItem
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificatesItem
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.permission.CameraPermissionProvider
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
@@ -41,6 +43,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
     valueSetsRepository: ValueSetsRepository,
     @AppContext context: Context,
     private val cameraPermissionProvider: CameraPermissionProvider,
+    @AppScope private val appScope: CoroutineScope
 ) : CWAViewModel(dispatcherProvider) {
 
     init {
@@ -152,11 +155,10 @@ class PersonOverviewViewModel @AssistedInject constructor(
         null
     }
 
-    fun refreshCertificate(containerId: TestCertificateContainerId) =
-        launch {
-            val error = testCertificateRepository.refresh(containerId).mapNotNull { it.error }.singleOrNull()
-            error?.let { events.postValue(ShowRefreshErrorDialog(error)) }
-        }
+    fun refreshCertificate(containerId: TestCertificateContainerId) = launch(scope = appScope) {
+        val error = testCertificateRepository.refresh(containerId).mapNotNull { it.error }.singleOrNull()
+        error?.let { events.postValue(ShowRefreshErrorDialog(error)) }
+    }
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<PersonOverviewViewModel>

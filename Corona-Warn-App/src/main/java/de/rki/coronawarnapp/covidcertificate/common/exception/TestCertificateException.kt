@@ -2,26 +2,25 @@ package de.rki.coronawarnapp.covidcertificate.common.exception
 
 import android.content.Context
 import androidx.annotation.StringRes
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.HasHumanReadableError
 import de.rki.coronawarnapp.util.HumanReadableError
 import de.rki.coronawarnapp.util.ui.CachedString
 import de.rki.coronawarnapp.util.ui.LazyString
 
-class TestCertificateServerException(
+class TestCertificateException(
     val errorCode: ErrorCode,
     cause: Throwable? = null
 ) : HasHumanReadableError, Exception(errorCode.message, cause) {
 
-    override fun toHumanReadableError(context: Context): HumanReadableError {
-        return HumanReadableError(
-            description = errorMessage.get(context)
-        )
-    }
+    override fun toHumanReadableError(context: Context): HumanReadableError = HumanReadableError(
+        title = context.getString(R.string.test_certificate_refresh_dialog_title),
+        description = errorMessage.get(context)
+    )
 
-    val errorMessage: LazyString
-        get() = CachedString { context ->
-            context.getString(errorCode.stringRes)
-        }
+    private val errorMessage: LazyString = CachedString { context ->
+        context.getString(errorCode.stringRes)
+    }
 
     enum class ErrorCode(
         val message: String,
@@ -100,5 +99,9 @@ class TestCertificateServerException(
             "Private key request failed due to no network connection.",
             ERROR_MESSAGE_NO_NETWORK
         ),
+        BUG_3638_KEYPAIR_LOST(
+            "Registered RSA key-pair has been lost (bug #3638?). Test certificate can't be obtained",
+            ERROR_MESSAGE_CERTIFICATE_LOST_SORRY
+        )
     }
 }

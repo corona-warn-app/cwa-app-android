@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.CovidCertificateConfig
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
-import de.rki.coronawarnapp.covidcertificate.common.exception.TestCertificateServerException
+import de.rki.coronawarnapp.covidcertificate.common.exception.TestCertificateException
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateComponents
 import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateServer
@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.util.encryption.rsa.RSACryptography
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -25,6 +26,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runBlockingTest
 import okio.ByteString
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -120,6 +122,7 @@ class TestCertificateProcessorTest : BaseTest() {
         certificateServer = certificateServer,
         rsaCryptography = rsaCryptography,
         appConfigProvider = appConfigProvider,
+        rsaKeyPairGenerator = RSAKeyPairGenerator(),
     )
 
     @Test
@@ -133,6 +136,22 @@ class TestCertificateProcessorTest : BaseTest() {
                 pcrCertificateData.registrationToken,
                 pcrCertificateData.rsaPublicKey!!
             )
+        }
+    }
+
+    @Test
+    fun `public key registration - requires valid labId only if PCR`() = runBlockingTest2(ignoreActive = true) {
+        val instance = createInstance()
+        shouldThrow<TestCertificateException> {
+            instance.registerPublicKey(pcrCertificateData.copy(labId = null))
+        }.errorCode shouldBe TestCertificateException.ErrorCode.DCC_NOT_SUPPORTED_BY_LAB
+
+        coVerify { certificateServer wasNot Called }
+
+        instance.registerPublicKey(raCertificateData)
+
+        coVerify(exactly = 1) {
+            certificateServer.registerPublicKeyForTest(any(), any())
         }
     }
 
@@ -161,25 +180,9 @@ class TestCertificateProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `public key registration - requires valid labId only if PCR`() = runBlockingTest2(ignoreActive = true) {
-        val instance = createInstance()
-        shouldThrow<TestCertificateServerException> {
-            instance.registerPublicKey(pcrCertificateData.copy(labId = null))
-        }.errorCode shouldBe TestCertificateServerException.ErrorCode.DCC_NOT_SUPPORTED_BY_LAB
-
-        coVerify { certificateServer wasNot Called }
-
-        instance.registerPublicKey(raCertificateData)
-
-        coVerify(exactly = 1) {
-            certificateServer.registerPublicKeyForTest(any(), any())
-        }
-    }
-
-    @Test
-    fun `public key registration - assumes success on HTTP 409`() = runBlockingTest2(ignoreActive = true) {
-        coEvery { certificateServer.registerPublicKeyForTest(any(), any()) } throws TestCertificateServerException(
-            TestCertificateServerException.ErrorCode.PKR_409
+    fun `public key registration - no edgecase means assume success on HTTP 409`() = runBlockingTest {
+        coEvery { certificateServer.registerPublicKeyForTest(any(), any()) } throws TestCertificateException(
+            TestCertificateException.ErrorCode.PKR_409
         )
 
         val instance = createInstance()
@@ -197,16 +200,89 @@ class TestCertificateProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `public key registration - forwards errors`() = runBlockingTest2(ignoreActive = true) {
-        coEvery { certificateServer.registerPublicKeyForTest(any(), any()) } throws TestCertificateServerException(
-            TestCertificateServerException.ErrorCode.PKR_500
+    fun `public key registration - missing keypair edgecase and HTTP 409`() = runBlockingTest {
+        coEvery { certificateServer.registerPublicKeyForTest(any(), any()) } throws TestCertificateException(
+            TestCertificateException.ErrorCode.PKR_409
+        )
+
+        val edgeCaseData = raCertificateData.copy(
+            rsaPublicKey = null,
+            rsaPrivateKey = null,
+            publicKeyRegisteredAt = null,
         )
 
         val instance = createInstance()
 
-        shouldThrow<TestCertificateServerException> {
+        shouldThrow<TestCertificateException> {
+            instance.registerPublicKey(edgeCaseData)
+        }.errorCode shouldBe TestCertificateException.ErrorCode.BUG_3638_KEYPAIR_LOST
+
+        coVerify(exactly = 1) {
+            certificateServer.registerPublicKeyForTest(edgeCaseData.registrationToken, any())
+        }
+    }
+
+    @Test
+    fun `public key registration - missing keypair edgecase generic error`() = runBlockingTest {
+        coEvery { certificateServer.registerPublicKeyForTest(any(), any()) } throws TestCertificateException(
+            TestCertificateException.ErrorCode.PKR_FAILED,
+        )
+
+        val edgeCaseData = raCertificateData.copy(
+            rsaPublicKey = null,
+            rsaPrivateKey = null,
+            publicKeyRegisteredAt = null,
+        )
+
+        val instance = createInstance()
+
+        val newData = instance.registerPublicKey(edgeCaseData)
+
+        newData.apply {
+            publicKeyRegisteredAt shouldBe null
+            rsaPublicKey shouldNotBe null
+            rsaPrivateKey shouldNotBe null
+        }
+
+        coVerify(exactly = 1) {
+            certificateServer.registerPublicKeyForTest(edgeCaseData.registrationToken, newData.rsaPublicKey!!)
+        }
+    }
+
+    @Test
+    fun `public key registration - missing keypair edgecase and success`() = runBlockingTest {
+        val edgeCaseData = raCertificateData.copy(
+            rsaPublicKey = null,
+            rsaPrivateKey = null,
+            publicKeyRegisteredAt = null,
+        )
+
+        val instance = createInstance()
+
+        val newData = instance.registerPublicKey(edgeCaseData)
+
+        newData.apply {
+            publicKeyRegisteredAt shouldNotBe null
+            rsaPublicKey shouldNotBe null
+            rsaPrivateKey shouldNotBe null
+        }
+
+        coVerify(exactly = 1) {
+            certificateServer.registerPublicKeyForTest(edgeCaseData.registrationToken, newData.rsaPublicKey!!)
+        }
+    }
+
+    @Test
+    fun `public key registration - forwards errors`() = runBlockingTest2(ignoreActive = true) {
+        coEvery { certificateServer.registerPublicKeyForTest(any(), any()) } throws TestCertificateException(
+            TestCertificateException.ErrorCode.PKR_500
+        )
+
+        val instance = createInstance()
+
+        shouldThrow<TestCertificateException> {
             instance.registerPublicKey(raCertificateData)
-        }.errorCode shouldBe TestCertificateServerException.ErrorCode.PKR_500
+        }.errorCode shouldBe TestCertificateException.ErrorCode.PKR_500
 
         coVerify(exactly = 1) {
             certificateServer.registerPublicKeyForTest(any(), any())
@@ -229,9 +305,9 @@ class TestCertificateProcessorTest : BaseTest() {
     fun `obtain certificate components - requires valid labId only if PCR`() = runBlockingTest2(ignoreActive = true) {
         val instance = createInstance()
 
-        shouldThrow<TestCertificateServerException> {
+        shouldThrow<TestCertificateException> {
             instance.obtainCertificate(pcrCertificateDataRegistered.copy(labId = null))
-        }.errorCode shouldBe TestCertificateServerException.ErrorCode.DCC_NOT_SUPPORTED_BY_LAB
+        }.errorCode shouldBe TestCertificateException.ErrorCode.DCC_NOT_SUPPORTED_BY_LAB
 
         coVerify { certificateServer wasNot Called }
 
