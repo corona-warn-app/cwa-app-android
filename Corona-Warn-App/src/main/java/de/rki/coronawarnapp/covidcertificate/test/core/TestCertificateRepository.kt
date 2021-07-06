@@ -126,7 +126,10 @@ class TestCertificateRepository @Inject constructor(
             val rsaKeyPair = try {
                 rsaKeyPairGenerator.generate()
             } catch (e: Throwable) {
-                throw InvalidTestCertificateException(InvalidHealthCertificateException.ErrorCode.RSA_KP_GENERATION_FAILED)
+                throw InvalidTestCertificateException(
+                    errorCode = InvalidHealthCertificateException.ErrorCode.RSA_KP_GENERATION_FAILED,
+                    cause = e
+                )
             }
 
             val data = when (test.type) {

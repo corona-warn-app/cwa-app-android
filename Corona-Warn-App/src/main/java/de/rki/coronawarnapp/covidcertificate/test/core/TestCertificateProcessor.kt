@@ -140,7 +140,7 @@ class TestCertificateProcessor @Inject constructor(
             )
         } catch (e: Throwable) {
             Timber.tag(TAG).e(e, "RSA_DECRYPTION_FAILED")
-            throw InvalidTestCertificateException(InvalidHealthCertificateException.ErrorCode.RSA_DECRYPTION_FAILED)
+            throw InvalidTestCertificateException(InvalidHealthCertificateException.ErrorCode.RSA_DECRYPTION_FAILED, e)
         }
 
         val extractedData = qrCodeExtractor.extractEncrypted(

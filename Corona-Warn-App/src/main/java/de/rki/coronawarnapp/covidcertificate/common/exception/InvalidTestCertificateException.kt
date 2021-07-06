@@ -5,7 +5,10 @@ import de.rki.coronawarnapp.util.HumanReadableError
 import de.rki.coronawarnapp.util.ui.CachedString
 import de.rki.coronawarnapp.util.ui.LazyString
 
-class InvalidTestCertificateException(errorCode: ErrorCode) : InvalidHealthCertificateException(errorCode) {
+class InvalidTestCertificateException(
+    errorCode: ErrorCode,
+    cause: Throwable? = null
+) : InvalidHealthCertificateException(errorCode, cause) {
     override fun toHumanReadableError(context: Context): HumanReadableError {
         return HumanReadableError(
             description = errorMessage.get(context) + " ($PREFIX$errorCode)"
