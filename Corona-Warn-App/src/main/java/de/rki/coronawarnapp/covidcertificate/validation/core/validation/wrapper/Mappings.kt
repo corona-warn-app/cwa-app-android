@@ -24,12 +24,13 @@ import java.time.ZonedDateTime
 internal fun assembleExternalParameter(
     certificate: DccData<*>,
     validationClock: Instant,
-    countryCode: String
+    countryCode: String,
+    valueSets: Map<String, List<String>> = emptyMap(),
 ): ExternalParameter {
     return ExternalParameter(
         kid = "", // leave empty
         validationClock = validationClock.toZonedDateTime(),
-        valueSets = emptyMap(), // todo mapping
+        valueSets = valueSets,
         countryCode = countryCode,
         exp = certificate.header.expiresAt.toZonedDateTime(),
         iat = certificate.header.issuedAt.toZonedDateTime()

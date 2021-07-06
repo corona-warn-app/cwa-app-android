@@ -25,11 +25,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
     @Test
     fun `process valid certificate`() {
         val logic = ObjectMapper().readTree(
-            """{
-                "and": [
-                {">=":[ {"var":"dn"}, 0 ]}
-                ]
-            }"""
+            """{"and":[{">":[{"var":"hcert.v.0.dn"},0]},{">=":[{"var":"hcert.v.0.dn"},{"var":"hcert.v.0.sd"}]}]}"""
         )
         val rule = DccValidationRule(
             identifier = "VR-DE-1",
@@ -40,10 +36,10 @@ class CertLogicEngineWrapperTest : BaseTest() {
             typeDcc = DccValidationRule.Type.ACCEPTANCE,
             country = "DE",
             certificateType = "Vaccination",
-            description = mapOf("en" to "Doses must be >= 2"),
+            description = mapOf("en" to "Vaccination must be complete"),
             validFrom = "2021-05-27T07:46:40Z",
             validTo = "2022-08-01T07:46:40Z",
-            affectedFields = listOf("dn"),
+            affectedFields = listOf("dn", "sd"),
             logic = logic
         )
         val certificate = extractor.extract(VaccinationQrCodeTestData.passGermanReferenceCase)

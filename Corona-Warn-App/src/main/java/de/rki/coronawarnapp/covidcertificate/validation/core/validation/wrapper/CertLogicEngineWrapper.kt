@@ -13,7 +13,8 @@ import javax.inject.Inject
 
 @Reusable
 class CertLogicEngineWrapper @Inject constructor(
-    private val dccJsonSchema: DccJsonSchema
+    private val dccJsonSchema: DccJsonSchema,
+    //private val valueSetsRepository: ValueSetsRepository
 ) {
 
     private val engine: DefaultCertLogicEngine by lazy {
