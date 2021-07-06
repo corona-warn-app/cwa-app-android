@@ -5,6 +5,8 @@ import com.upokecenter.cbor.CBORObject
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidRecoveryCertificateException
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
@@ -19,8 +21,8 @@ class DccV1Parser @Inject constructor(
         map[keyHCert]?.run {
             this[keyEuDgcV1]?.run {
                 this.toCertificate().toValidated(mode)
-            } ?: throw InvalidVaccinationCertificateException(ErrorCode.HC_CWT_NO_DGC)
-        } ?: throw InvalidVaccinationCertificateException(ErrorCode.HC_CWT_NO_HCERT)
+            } ?: throw InvalidHealthCertificateException(ErrorCode.HC_CWT_NO_DGC)
+        } ?: throw InvalidHealthCertificateException(ErrorCode.HC_CWT_NO_HCERT)
     } catch (e: InvalidHealthCertificateException) {
         throw e
     } catch (e: Throwable) {
@@ -65,14 +67,14 @@ class DccV1Parser @Inject constructor(
         }
         Mode.CERT_REC_STRICT ->
             if (recoveries?.size != 1)
-                throw InvalidVaccinationCertificateException(
+                throw InvalidRecoveryCertificateException(
                     if (recoveries.isNullOrEmpty()) ErrorCode.NO_RECOVERY_ENTRY
                     else ErrorCode.MULTIPLE_RECOVERY_ENTRIES
                 )
             else this
         Mode.CERT_TEST_STRICT ->
             if (tests?.size != 1)
-                throw InvalidVaccinationCertificateException(
+                throw InvalidTestCertificateException(
                     if (tests.isNullOrEmpty()) ErrorCode.NO_TEST_ENTRY
                     else ErrorCode.MULTIPLE_TEST_ENTRIES
                 )
