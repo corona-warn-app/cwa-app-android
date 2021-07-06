@@ -6,9 +6,9 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentStatisticsExplanationBinding
-import de.rki.coronawarnapp.util.setUrl
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
+import setTextWithUrl
 
 /**
  * The fragment displays static informative content to the user
@@ -24,7 +24,7 @@ class StatisticsExplanationFragment : Fragment(R.layout.fragment_statistics_expl
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
-        binding.statisticsFaqText.setUrl(
+        binding.statisticsFaqText.setTextWithUrl(
             R.string.statistics_faq_text,
             R.string.statistics_explanation_seven_day_r_link_label,
             R.string.statistics_explanation_faq_url
