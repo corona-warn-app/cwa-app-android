@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.validation.core.country.server
+package de.rki.coronawarnapp.covidcertificate.validation.core.server
 
 import com.upokecenter.cbor.CBORObject
 import dagger.Lazy
@@ -6,6 +6,9 @@ import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.validation.core.CertificateValidation
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException.ErrorCode
+import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountryApi
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRuleApi
 import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
 import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.security.SignatureValidation
@@ -16,16 +19,27 @@ import java.io.IOException
 import javax.inject.Inject
 
 @Reusable
-class DccCountryServer @Inject constructor(
-    private val api: Lazy<DccCountryApi>,
+class DccValidationServer @Inject constructor(
+    private val countryApi: Lazy<DccCountryApi>,
+    private val rulesApi: Lazy<DccValidationRuleApi>,
     @CertificateValidation private val cache: Cache,
     private val signatureValidation: SignatureValidation,
 ) {
 
+    private val dccValidationRuleApi: DccValidationRuleApi
+        get() = rulesApi.get()
+
+    suspend fun ruleSet(ruleTypeDcc: DccValidationRule.Type): Set<DccValidationRule> {
+        return when (ruleTypeDcc) {
+            DccValidationRule.Type.ACCEPTANCE -> dccValidationRuleApi.acceptanceRules()
+            DccValidationRule.Type.INVALIDATION -> dccValidationRuleApi.invalidationRules()
+        }
+    }
+
     suspend fun dccCountryJson(): String {
         Timber.tag(TAG).d("Fetching dcc countries.")
 
-        val response = api.get().onboardedCountries()
+        val response = countryApi.get().onboardedCountries()
         if (!response.isSuccessful) throw HttpException(response)
 
         val binary = with(
