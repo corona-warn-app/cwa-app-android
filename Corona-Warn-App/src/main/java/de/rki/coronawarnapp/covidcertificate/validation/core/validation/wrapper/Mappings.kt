@@ -2,8 +2,6 @@ package de.rki.coronawarnapp.covidcertificate.validation.core.validation.wrapper
 
 import android.annotation.SuppressLint
 import androidx.annotation.VisibleForTesting
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.ObjectMapper
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
@@ -18,7 +16,6 @@ import dgca.verifier.app.engine.data.ExternalParameter
 import dgca.verifier.app.engine.data.Rule
 import dgca.verifier.app.engine.data.Type
 import org.joda.time.Instant
-import org.json.JSONObject
 import java.time.ZonedDateTime
 
 internal fun assembleExternalParameter(
@@ -58,7 +55,7 @@ internal val DccValidationRule.asExternalRule: Rule
         affectedString = affectedFields,
         logic = logic,
         countryCode = country,
-        region = null //leave empty
+        region = null // leave empty
     )
 
 private val Result.asDccValidationRuleResult: DccValidationRule.Result
@@ -116,12 +113,6 @@ private val String.asExternalCertificateType: CertificateType
         RECOVERY -> CertificateType.RECOVERY
         else -> throw IllegalArgumentException()
     }
-
-private val JSONObject.asJsonNode: JsonNode
-    get() = ObjectMapper().readTree(toString())
-
-private val JsonNode.asJSONObject: JSONObject
-    get() = JSONObject(toString())
 
 @SuppressLint("NewApi")
 private fun Instant.toZonedDateTime(): ZonedDateTime {

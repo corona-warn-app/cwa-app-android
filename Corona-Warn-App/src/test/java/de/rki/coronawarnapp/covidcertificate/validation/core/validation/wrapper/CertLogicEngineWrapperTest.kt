@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import javax.inject.Inject
 
+@Suppress("MaxLineLength")
 class CertLogicEngineWrapperTest : BaseTest() {
 
     @Inject lateinit var wrapper: CertLogicEngineWrapper
@@ -25,7 +26,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
     @Test
     fun `process valid certificate`() {
         val logic = ObjectMapper().readTree(
-            """{"and":[{">":[{"var":"hcert.v.0.dn"},0]},{">=":[{"var":"hcert.v.0.dn"},{"var":"hcert.v.0.sd"}]}]}"""
+            """{"and":[{">":[{"var":"payload.v.0.dn"},0]},{">=":[{"var":"payload.v.0.dn"},{"var":"payload.v.0.sd"}]}]}"""
         )
         val rule = DccValidationRule(
             identifier = "VR-DE-1",
