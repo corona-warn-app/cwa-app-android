@@ -107,7 +107,7 @@
     <!-- XTXT: Dialog title for error 409 recovery-->
     <string name="test_certificate_error_409_recovery_title">Es gibt weiterhin Probleme bei der Zertifikatsabfrage</string>
     <!-- XTXT: Dialog description for error 409 recovery-->
-    <string name="test_certificate_error_409_recovery_description">Sie müssen Ihr Testzertifikat löschen und können es leider nicht noch einmal anfordern.</string>
+    <string name="test_certificate_error_409_recovery_description">Für diesen Test kann leider kein Zertifikat erstellt werden. Bitte fügen Sie einen neuen Test hinzu um ein Zertifikat zu erhalten.</string>
 
     <!-- XTXT: DCC QR code scan error message-->
     <string name="error_dcc_invalid">Dieser QR-Code ist kein gültiges Zertifikat.\n\nWeitere Informationen zum Erhalt Ihres Zertifikats finden Sie in den FAQ.</string>
