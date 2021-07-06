@@ -1,6 +1,7 @@
-package de.rki.coronawarnapp.covidcertificate.validation.core.country
+package de.rki.coronawarnapp.covidcertificate.validation.core
 
-import de.rki.coronawarnapp.covidcertificate.validation.core.country.server.DccCountryServer
+import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
+import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidationServer
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -17,11 +18,12 @@ import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.coroutines.runBlockingTest2
 
-class DccCountryRepositoryTest : BaseTest() {
-    @MockK lateinit var server: DccCountryServer
-    @MockK lateinit var localCache: DccCountryLocalCache
+class DccValidationRepositoryTest : BaseTest() {
+    @MockK lateinit var server: DccValidationServer
+    @MockK lateinit var localCache: DccValidationCache
 
     private val testCountryData = "[\"DE\",\"NL\"]"
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
@@ -36,7 +38,7 @@ class DccCountryRepositoryTest : BaseTest() {
         }
     }
 
-    private fun createInstance(scope: CoroutineScope) = DccCountryRepository(
+    private fun createInstance(scope: CoroutineScope) = DccValidationRepository(
         appScope = scope,
         dispatcherProvider = TestDispatcherProvider(),
         gson = SerializationModule().baseGson(),
