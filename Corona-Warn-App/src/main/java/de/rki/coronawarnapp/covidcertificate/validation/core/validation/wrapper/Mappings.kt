@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.validation.wrapper
 
 import android.annotation.SuppressLint
+import androidx.annotation.VisibleForTesting
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
@@ -52,7 +53,7 @@ internal val DccValidationRule.asExternalRule: Rule
         affectedString = affectedFields,
         logic = logic.asJsonNode,
         countryCode = country,
-        region = null
+        region = null //leave empty
     )
 
 private val Result.asDccValidationRuleResult: DccValidationRule.Result
@@ -62,7 +63,8 @@ private val Result.asDccValidationRuleResult: DccValidationRule.Result
         Result.OPEN -> DccValidationRule.Result.OPEN
     }
 
-private val ZonedDateTime.asExternalString: String
+@VisibleForTesting
+internal val ZonedDateTime.asExternalString: String
     get() = this.toString()
 
 private fun Rule.asDccValidationRule() = DccValidationRule(
@@ -121,6 +123,7 @@ private fun Instant.toZonedDateTime(): ZonedDateTime {
     return ZonedDateTime.ofInstant(java.time.Instant.ofEpochMilli(this.millis), UTC_ZONE_ID)
 }
 
+@VisibleForTesting
 @SuppressLint("NewApi")
 internal fun String.toZonedDateTime(): ZonedDateTime {
     return ZonedDateTime.parse(this)
