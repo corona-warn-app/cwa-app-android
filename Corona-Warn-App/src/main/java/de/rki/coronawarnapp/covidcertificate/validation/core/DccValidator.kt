@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchemaValidator
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.validation.business.BusinessValidator
@@ -10,6 +11,7 @@ import javax.inject.Inject
 
 class DccValidator @Inject constructor(
     private val businessValidator: BusinessValidator,
+    private val dccJsonSchemaValidator: DccJsonSchemaValidator
 ) {
 
     /**
@@ -30,7 +32,7 @@ class DccValidator @Inject constructor(
 
         return DccValidation(
             expirationCheckPassed = certificate.expiresAfter(arrivalTime),
-            jsonSchemaCheckPassed = true, // use DccJsonSchemaValidator
+            jsonSchemaCheckPassed = dccJsonSchemaValidator.isValid(certificate.certificateJson).isValid,
             acceptanceRules = businessValidation.acceptanceRules,
             invalidationRules = businessValidation.invalidationRules
         )
@@ -41,6 +43,6 @@ class DccValidator @Inject constructor(
     }
 }
 
-fun DccData<*>.expiresAfter(referenceDate: Instant): Boolean {
+private fun DccData<*>.expiresAfter(referenceDate: Instant): Boolean {
     return header.expiresAt.millis >= referenceDate.millis
 }

@@ -55,7 +55,7 @@ internal val DccValidationRule.asExternalRule: Rule
         validFrom = validFrom.toZonedDateTime(),
         validTo = validTo.toZonedDateTime(),
         affectedString = affectedFields,
-        logic = logic.asJsonNode,
+        logic = logic,
         countryCode = country,
         region = null //leave empty
     )
@@ -83,7 +83,7 @@ private fun Rule.asDccValidationRule() = DccValidationRule(
     validFrom = validFrom.asExternalString,
     validTo = validTo.asExternalString,
     affectedFields = affectedString,
-    logic = logic.asJSONObject,
+    logic = logic,
     country = countryCode,
 )
 

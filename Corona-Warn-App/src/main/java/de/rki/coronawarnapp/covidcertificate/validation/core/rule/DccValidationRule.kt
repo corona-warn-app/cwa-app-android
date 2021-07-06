@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.rule
 
+import com.fasterxml.jackson.databind.JsonNode
 import org.joda.time.Instant
-import org.json.JSONObject
 
 data class DccValidationRule(
     // Unique identifier of the rule "GR-CZ-0001"
@@ -44,7 +44,7 @@ data class DccValidationRule(
 
     // CertLogic rule as JSON object
     //  { "and":[{ ">":[{ "var":"hcert.v.0.dn" }, 0] },{ ">=":[{ "var":"hcert.v.0.dn" },{ "var":"hcert.v.0.sd" }] }]}
-    val logic: JSONObject
+    val logic: JsonNode
 ) {
     val validFromInstant: Instant
         get() = Instant.parse(validFrom)
