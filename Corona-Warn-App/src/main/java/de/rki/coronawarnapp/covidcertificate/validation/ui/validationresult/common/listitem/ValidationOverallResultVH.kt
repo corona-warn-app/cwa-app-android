@@ -21,10 +21,14 @@ class ValidationOverallResultVH(
         item: Item,
         payloads: List<Any>,
     ) -> Unit = { item, payloads ->
-        // TODO
-        // Ihr Zertifikat konnte nicht vollständig geprüft werden.
-        // Ihr Zertifikat ist im gewählten Land nicht gültig.
-        // Has subtitle if only validation open results
+        headline.setText(
+            when (item.state) {
+                DccValidation.State.PASSED -> R.string.validation_rules_result_valid_result_title
+                DccValidation.State.OPEN -> R.string.validation_rules_result_cannot_be_checked_result_title
+                DccValidation.State.TECHNICAL_FAILURE -> R.string.validation_rules_result_not_valid_result_title
+                DccValidation.State.FAILURE -> R.string.validation_rules_result_not_valid_result_title
+            }
+        )
     }
 
     data class Item(
