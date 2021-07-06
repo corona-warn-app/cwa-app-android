@@ -28,4 +28,6 @@ interface CwaCovidCertificate {
     val containerId: CertificateContainerId
 
     val rawCertificate: DccV1.MetaData
+
+    val dccData: DccData<*>
 }
