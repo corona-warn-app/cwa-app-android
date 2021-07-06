@@ -119,4 +119,20 @@
     <string name="dcc_validation_error_no_network">"Ihre Internetverbindung wurde unterbrochen. Um die Gültigkeitsprüfung des Zertifikates abzuschließen, prüfen Sie die Verbindung und versuchen Sie es erneut."</string>
     <!-- XTXT: Digital covid certificate validation error message - try again -->
     <string name="dcc_validation_error_try_again">"Ein Fehler ist aufgetreten. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline."</string>
+
+    <!-- XTXT: Validation Rule Result Valid - Infos about country, date and check date -->
+    <string name="validation_rules_result_valid_result_country_and_time">Einreise nach %1$s am %2$s, geprüft am %3$s</string>
+    <!-- XTXT: Validation Rule Result Valid - faq & infos -->
+    <string name="validation_rules_result_valid_result_faq">Mehr Informationen finden Sie in den %1$s und unter %2$s</string>
+    <!-- XTXT: Validation Rule Result Valid faq link label - Replaces %1$s in text above -->
+    <string name="validation_rules_result_valid_result_faq_link_label">FAQ</string>
+    <!-- XTXT: Validation Rule Result Valid reopen link label - Replaces %2$s in text above -->
+    <string name="validation_rules_result_valid_result_reopen_link_label">https://reopen.europa.eu/de</string>
+    <!-- XTXT: Validation Rule Result Valid - reopen link -->
+    <string name="validation_rules_result_valid_result_reopen_link">https://reopen.europa.eu/de</string>
+    <!-- XTXT: Validation Rule Result Valid - faq link -->
+    <string name="validation_rules_result_valid_result_faq_link">https://www.coronawarn.app/de/faq/</string>
+    <!-- XTXT: Validation Rule Result Valid - button text -->
+    <string name="validation_rules_result_valid_result_button">für weiteres Land prüfen</string>
+
 </resources>

@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultFaqItemBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
+import de.rki.coronawarnapp.util.setUrl
 
 class ValidationFaqVH(
     parent: ViewGroup
@@ -20,7 +21,18 @@ class ValidationFaqVH(
         item: Item,
         payloads: List<Any>,
     ) -> Unit = { item, payloads ->
-        // TODO
+
+        val faqLinkLabel = context.getString(R.string.validation_rules_result_valid_result_faq_link_label)
+        val faqLink = context.getString(R.string.validation_rules_result_valid_result_faq_link)
+        val reopenLinkLabel = context.getString(R.string.validation_rules_result_valid_result_reopen_link_label)
+        val reopenLink = context.getString(R.string.validation_rules_result_valid_result_reopen_link)
+        val urlString =
+            context.getString(R.string.validation_rules_result_valid_result_faq, faqLinkLabel, reopenLinkLabel)
+
+        validationResultFaqTv.apply {
+            setUrl(urlString, faqLinkLabel, faqLink)
+            setUrl(urlString, reopenLinkLabel, reopenLink)
+        }
     }
 
     object Item : ValidationResultItem, HasPayloadDiffer {
