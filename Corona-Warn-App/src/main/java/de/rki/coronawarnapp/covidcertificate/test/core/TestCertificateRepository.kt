@@ -90,7 +90,7 @@ class TestCertificateRepository @Inject constructor(
                 it.reportProblem(TAG, "Failed to snapshot TestCertificateContainer data to storage.")
                 throw it
             }
-            .launchIn(appScope + dispatcherProvider.Default)
+            .launchIn(appScope + dispatcherProvider.IO)
     }
 
     /**
