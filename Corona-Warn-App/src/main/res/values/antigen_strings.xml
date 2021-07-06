@@ -197,7 +197,11 @@
     <!-- XBUT: Create RAT Qr code profile next button-->
     <string name="rat_qr_code_profile_next_button">"Continue"</string>
     <!-- XTXT: Create RAT Qr code profile delete item-->
-    <string name="rat_qr_code_profile_delete_item">"Remove"</string>
+    <string name="rat_qr_code_profile_delete_item">Schnelltest-Profil entfernen</string>
+    <!-- XTXT: Create RAT Qr code profile edit item-->
+    <string name="rat_qr_code_profile_edit_item">Schnelltest-Profil bearbeiten</string>
+    <!-- XTXT: Create RAT Qr code profile information item-->
+    <string name="rat_qr_code_profile_information_item">Infomation</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog title-->
     <string name="rat_qr_code_profile_dialog_title">"Do you want to remove the rapid test profile?"</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog message-->

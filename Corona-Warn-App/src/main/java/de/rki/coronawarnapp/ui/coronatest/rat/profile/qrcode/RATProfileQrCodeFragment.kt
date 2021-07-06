@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.databinding.RatProfileQrCodeFragmentBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.joinToSpannable
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -44,7 +45,17 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
             nextButton.setOnClickListener { viewModel.onNext() }
             toolbar.setNavigationOnClickListener { viewModel.onClose() }
             toolbar.setOnMenuItemClickListener {
-                confirmDeletionDialog()
+                when (it.itemId) {
+                    R.id.rat_profile_information -> doNavigate(
+                        RATProfileQrCodeFragmentDirections
+                            .actionRatProfileQrCodeFragmentToRatProfileOnboardingFragment(false)
+                    )
+                    R.id.rat_profile_edit -> doNavigate(
+                        RATProfileQrCodeFragmentDirections
+                            .actionRatProfileQrCodeFragmentToRatProfileCreateFragment()
+                    )
+                    R.id.rat_profile_delete -> confirmDeletionDialog()
+                }
                 true
             }
 
