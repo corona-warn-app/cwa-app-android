@@ -9,6 +9,6 @@ class DccCountryTest : BaseTest() {
 
     @Test
     fun `human readable country name`() {
-        DccCountry("de").getCountryDisplayName(Locale.GERMAN) shouldBe "Deutschland"
+        DccCountry("de").displayName(Locale.GERMAN) shouldBe "Deutschland"
     }
 }
