@@ -19,10 +19,7 @@ class ValidationPassedHintVH(
     override val onBindData: CovidCertificateValidationResultPassedHintItemBinding.(
         item: Item,
         payloads: List<Any>,
-    ) -> Unit = { item, payloads ->
-        // TODO
-        // Both technical failure reasons, using `isGone`
-    }
+    ) -> Unit = { _, _ -> }
 
     object Item : ValidationResultItem, HasPayloadDiffer {
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
