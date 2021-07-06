@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode
 
+import android.content.res.AssetManager
+import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
@@ -13,11 +15,13 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidRecoveryCer
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.covidcertificate.recovery.RecoveryQrCodeTestData
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.DaggerVaccinationTestComponent
+import de.rki.coronawarnapp.covidcertificate.test.TestCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeTestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
+import io.mockk.Called
+import io.mockk.verify
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -28,10 +32,12 @@ class DccQrCodeExtractorTest : BaseTest() {
 
     @Inject lateinit var extractor: DccQrCodeExtractor
     @Inject lateinit var vaccinationTestData: VaccinationTestData
+    @Inject lateinit var testTestData: TestCertificateTestData
+    @Inject lateinit var assetManager: AssetManager
 
     @BeforeEach
     fun setup() {
-        DaggerVaccinationTestComponent.factory().create().inject(this)
+        DaggerCovidCertificateTestComponent.factory().create().inject(this)
     }
 
     @Test
@@ -322,5 +328,53 @@ class DccQrCodeExtractorTest : BaseTest() {
                 mode = Mode.CERT_REC_STRICT
             )
         }.errorCode shouldBe NO_RECOVERY_ENTRY
+    }
+
+    @Test
+    fun `vaccination lenient modes do not verify schema`() {
+        extractor.extract(
+            VaccinationQrCodeTestData.qrCodePoland,
+            mode = Mode.CERT_VAC_LENIENT
+        )
+        // Schema checking loads the schema from assets lazily
+        verify { assetManager.open(any()) wasNot Called }
+
+        extractor.extract(
+            VaccinationQrCodeTestData.qrCodePoland,
+            mode = Mode.CERT_VAC_STRICT
+        )
+        verify { assetManager.open(any()) }
+    }
+
+    @Test
+    fun `test lenient modes do not verify schema`() {
+        extractor.extract(
+            testTestData.personATest1CertQRCodeString,
+            mode = Mode.CERT_TEST_LENIENT
+        )
+        // Schema checking loads the schema from assets lazily
+        verify { assetManager.open(any()) wasNot Called }
+
+        extractor.extract(
+            testTestData.personATest1CertQRCodeString,
+            mode = Mode.CERT_TEST_STRICT
+        )
+        verify { assetManager.open(any()) }
+    }
+
+    @Test
+    fun `recovery lenient modes do not verify schema`() {
+        extractor.extract(
+            RecoveryQrCodeTestData.validRecovery,
+            mode = Mode.CERT_REC_LENIENT
+        )
+        // Schema checking loads the schema from assets lazily
+        verify { assetManager.open(any()) wasNot Called }
+
+        extractor.extract(
+            RecoveryQrCodeTestData.validRecovery,
+            mode = Mode.CERT_REC_STRICT
+        )
+        verify { assetManager.open(any()) }
     }
 }
