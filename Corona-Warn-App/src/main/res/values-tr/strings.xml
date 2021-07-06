@@ -1613,7 +1613,7 @@
     <!-- XTXT: Nationwide text -->
     <string name="statistics_vaccinated_nationwide_text">"Ülke genelinde"</string>
     <!-- XTXT: Vaccination primary value footnote text -->
-    <string name="statistics_vaccination_primary_value_footnote">"oran (toplam popülasyona göre)"</string>
+    <string name="statistics_vaccination_primary_value_footnote">"(popülasyona göre)"</string>
 
     <!-- Persons Vaccinated Completely Statistics Card -->
     <!-- XHED: Title for vaccinated completely statistics card -->

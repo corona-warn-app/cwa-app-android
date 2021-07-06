@@ -1613,7 +1613,7 @@
     <!-- XTXT: Nationwide text -->
     <string name="statistics_vaccinated_nationwide_text">"В национален мащаб"</string>
     <!-- XTXT: Vaccination primary value footnote text -->
-    <string name="statistics_vaccination_primary_value_footnote">"от общия брой на населението"</string>
+    <string name="statistics_vaccination_primary_value_footnote">"от населението"</string>
 
     <!-- Persons Vaccinated Completely Statistics Card -->
     <!-- XHED: Title for vaccinated completely statistics card -->

@@ -48,7 +48,7 @@
     <!-- XHED: Person certificate details title -->
     <string name="person_details_certificate_title">"AB Dijital COVID Sertifikası"</string>
     <!-- XTXT: Test Certificate CWA User card description -->
-    <string name="person_details_cwa_user_description">"Bitte aktivieren Sie diesen Schalter, wenn Sie selbst %1$s sind und die App hauptsächlich nutzen. Ihre Zertifikate erscheinen in der Liste an erster Stelle."</string>
+    <string name="person_details_cwa_user_description">"%1$s ve uygulamanın ana kullanıcısıysanız lütfen bu anahtarı açın. Sertifikalarınız listenin en üstünde görünecektir."</string>
     <!-- XTXT: Test Certificate CWA User card birthdate -->
     <string name="person_details_cwa_user_birthdate">"Doğum tarihi: %1$s"</string>
     <!-- #####################################################
@@ -71,6 +71,8 @@
         <item quantity="many">"Şu anda planlanan tüm aşıları aldınız ancak aşı korumanız %1$d gün daha tamamlanmayacaktır."</item>
     </plurals>
 
+    <!-- XTXT: Vaccination only one shot required -->
+    <string name="vaccination_certificate_one_shot">"Bu, yalnızca bir doz uygulanması gereken bir aşıdır ya da hastalığı geçirerek yalnızca bir doza ihtiyacı olan kişiye yönelik bir aşıdır."</string>
     <!-- XTXT: Vaccination is not complete information card body-->
     <string name="vaccination_certificate_incomplete_vaccination">"Henüz şu anda tüm planlanan aşıları olmadınız. Dolayısıyla aşı korumanız henüz tamamlanmadı."</string>
 
@@ -101,4 +103,17 @@
     <string name="test_certificate_qrcode_card_sampled_on">"Numune alma tarihi: %s"</string>
     <!-- XTXT: Test certificate card name  -->
     <string name="test_certificate_name">"Test Sertifikası"</string>
+
+    <!-- XTXT: DCC QR code scan error message-->
+    <string name="error_dcc_invalid">"Bu QR kod geçerli bir sertifika değildir.\n\nSertifikanızı nasıl alacağınız hakkında daha fazla bilgi için lütfen SSS sayfamıza bakın."</string>
+    <!-- XBUT: Text for invalid certificate error button, linking to FAQ-->
+    <string name="error_button_dcc_faq">"Sertifikalar için SSS"</string>
+    <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
+    <string name="error_button_dcc_faq_link">"https://www.coronawarn.app/en/faq/#hc_prefix_invalid"</string>
+
+    <!-- XTXT: DCC QR code scan error message-->
+    <string name="error_dcc_scan_again">"Sertifika akıllı telefonunuza kaydedilemedi. Lütfen daha sonra yeniden deneyin veya “Uygulama Bilgileri” bölümünde belirtilen teknik yardım hattı ile iletişime geçin."</string>
+    <!-- XTXT: DCC QR code scan error message-->
+    <string name="error_dcc_already_registered">"Sertifika zaten uygulamanıza kaydedilmiş."</string>
+
 </resources>

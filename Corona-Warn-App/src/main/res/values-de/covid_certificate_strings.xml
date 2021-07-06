@@ -86,7 +86,7 @@
     <!-- XTXT: Recovery certificate detail subtitle -->
     <string name="recovery_certificate_details_subtitle">"Digitales COVID-Zertifikat der EU"</string>
     <!-- XTXT: Recovery certificate card name  -->
-    <string name="recovery_certificate_name">Genesenzertifikat</string>
+    <string name="recovery_certificate_name">Genesenenzertifikat</string>
     <!-- XTXT: Recovery certificate valid until -->
     <string name="recovery_certificate_valid_until">"gültig bis %s"</string>
 

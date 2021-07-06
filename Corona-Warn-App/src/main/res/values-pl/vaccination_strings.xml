@@ -47,7 +47,6 @@
     </plurals>
     <!-- XTXT: Vaccination card immunity information card body when <1 day is left till immunity -->
     <string name="vaccination_list_immunity_tomorrow_card_body">"Otrzymałeś(-aś) już wszystkie zaplanowane dotychczas szczepienia, jednak pełną ochronę poszczepienną uzyskasz dopiero jutro."</string>
-
     <!-- XBUT: Vaccination List register additional vaccination button -->
     <string name="vaccination_list_register_new_vaccination_button">"Dodaj kolejne szczepienie"</string>
     <!-- XBUT: Vaccination List delete button -->
@@ -94,18 +93,17 @@
     <string name="vaccination_card_status_vaccination_complete_tomorrow">"Pełna ochrona poszczepienna od jutra"</string>
     <!-- XTXT: Homescreen card complete vaccination status label -->
     <string name="vaccination_card_status_vaccination_complete">"Ważne do %s"</string>
-
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_invalid">"Ten kod QR nie jest ważnym certyfikatem szczepienia.\n\nWięcej informacji na temat tego, jak otrzymać certyfikat szczepienia, znajduje się na naszej stronie „Często zadawane pytania”."</string>
+    <string name="error_vc_invalid">"Ten kod QR nie jest ważnym certyfikatem.\n\nWięcej informacji na temat tego, jak otrzymać certyfikat, znajduje się na naszej stronie „Często zadawane pytania”."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_not_yet_supported">"Ten certyfikat szczepienia nie jest jeszcze obsługiwany w Twojej wersji aplikacji. Zaktualizuj aplikację lub skontaktuj się z infolinią techniczną dostępną w sekcji „Informacje o aplikacji”."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_different_person">"Dane osobowe tego certyfikatu szczepienia nie są zgodne z danymi już zarejestrowanych certyfikatów. W aplikacji można rejestrować certyfikaty tylko dla jednej osoby."</string>
 
-    <!-- XBUT: Text for invalid vaccination certificate error button, linking to FAQ-->
-    <string name="error_button_vc_faq">"Często zadawane pytania na temat certyfikatów szczepienia"</string>
+    <!-- XBUT: Text for invalid certificate error button, linking to FAQ-->
+    <string name="error_button_vc_faq">"Często zadawane pytania na temat certyfikatów"</string>
     <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
-    <string name="error_button_vc_faq_link">"https://www.coronawarn.app/en/faq/#hc_prefix_invalid"</string>
+    <string name="error_button_vc_faq_link">"https://www.coronawarn.app/en/faq/#vac_cert_invalid"</string>
 
     <!-- XTXT: Vaccination certificate Detail title -->
     <string name="vaccination_certificate_title">"Certyfikat szczepienia"</string>
