@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.rule
 
+import org.joda.time.Instant
 import org.json.JSONObject
 
 data class DccValidationRule(
@@ -45,6 +46,12 @@ data class DccValidationRule(
     //  { "and":[{ ">":[{ "var":"hcert.v.0.dn" }, 0] },{ ">=":[{ "var":"hcert.v.0.dn" },{ "var":"hcert.v.0.sd" }] }]}
     val logic: JSONObject
 ) {
+    val validFromInstant: Instant
+        get() = Instant.parse(validFrom)
+
+    val validToInstant: Instant
+        get() = Instant.parse(validTo)
+
     enum class Type(val type: String) {
         ACCEPTANCE("Acceptance"),
         INVALIDATION("Invalidation")

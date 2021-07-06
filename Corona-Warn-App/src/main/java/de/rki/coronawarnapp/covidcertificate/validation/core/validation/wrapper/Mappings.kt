@@ -5,6 +5,10 @@ import androidx.annotation.VisibleForTesting
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
+import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
+import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
+import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.validation.EvaluatedDccRule
 import dgca.verifier.app.engine.Result
@@ -127,6 +131,26 @@ private fun Instant.toZonedDateTime(): ZonedDateTime {
 @SuppressLint("NewApi")
 internal fun String.toZonedDateTime(): ZonedDateTime {
     return ZonedDateTime.parse(this)
+}
+
+internal val DccData<DccV1.MetaData>.type: String
+    get() = when (certificate) {
+        is VaccinationDccV1 -> VACCINATION
+        is TestDccV1 -> TEST
+        is RecoveryDccV1 -> RECOVERY
+        else -> GENERAL
+    }
+
+internal fun List<DccValidationRule>.filterRelevantRules(
+    validationClock: Instant,
+    certificateType: String
+): List<DccValidationRule> {
+    return filter { rule ->
+        rule.certificateType.uppercase() == GENERAL.uppercase() ||
+            rule.certificateType.uppercase() == certificateType.uppercase()
+    }.filter { rule ->
+        rule.validFromInstant <= validationClock && rule.validToInstant >= validationClock
+    }
 }
 
 private const val GENERAL = "General"

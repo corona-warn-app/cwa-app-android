@@ -2,10 +2,13 @@ package de.rki.coronawarnapp.covidcertificate.validation.core.validation.busines
 
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRuleRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.validation.EvaluatedDccRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.validation.wrapper.CertLogicEngineWrapper
+import de.rki.coronawarnapp.covidcertificate.validation.core.validation.wrapper.filterRelevantRules
+import de.rki.coronawarnapp.covidcertificate.validation.core.validation.wrapper.type
 import org.joda.time.Instant
 import javax.inject.Inject
 
@@ -17,12 +20,15 @@ class BusinessValidator @Inject constructor(
     suspend fun validate(
         arrivalCountry: DccCountry,
         validationClock: Instant,
-        certificate: DccData<*>,
+        certificate: DccData<DccV1.MetaData>,
     ): BusinessValidation {
 
         // accepted by arrival country
         val acceptanceResults = certLogicEngineWrapper.process(
-            rules = ruleRepository.acceptanceRules(arrivalCountry),
+            rules = ruleRepository.acceptanceRules(arrivalCountry).filterRelevantRules(
+                validationClock = validationClock,
+                certificateType = certificate.type
+            ),
             validationClock = validationClock,
             certificate = certificate,
             countryCode = arrivalCountry.countryCode
@@ -31,7 +37,10 @@ class BusinessValidator @Inject constructor(
         // valid as defined by the issuing country
         val issuerCountry = DccCountry(certificate.header.issuer)
         val invalidationResults = certLogicEngineWrapper.process(
-            rules = ruleRepository.invalidationRules(issuerCountry),
+            rules = ruleRepository.invalidationRules(issuerCountry).filterRelevantRules(
+                validationClock = validationClock,
+                certificateType = certificate.type
+            ),
             validationClock = validationClock,
             certificate = certificate,
             countryCode = issuerCountry.countryCode

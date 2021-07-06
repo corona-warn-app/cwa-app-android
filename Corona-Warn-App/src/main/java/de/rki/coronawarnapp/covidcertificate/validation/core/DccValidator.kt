@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.validation.business.BusinessValidator
 import org.joda.time.Instant
@@ -17,7 +18,7 @@ class DccValidator @Inject constructor(
     suspend fun validateDcc(
         arrivalCountry: DccCountry,
         arrivalTime: Instant,
-        certificate: DccData<*>,
+        certificate: DccData<DccV1.MetaData>,
     ): DccValidation {
         Timber.tag(TAG).v("validateDcc(country=%s)", arrivalCountry)
 
