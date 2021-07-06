@@ -3,8 +3,8 @@ package de.rki.coronawarnapp.covidcertificate.validation.core.validation.busines
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
+import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
-import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRuleRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.validation.EvaluatedDccRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.validation.wrapper.CertLogicEngineWrapper
 import de.rki.coronawarnapp.covidcertificate.validation.core.validation.wrapper.filterRelevantRules
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @Reusable
 class BusinessValidator @Inject constructor(
     private val certLogicEngineWrapper: CertLogicEngineWrapper,
-    private val ruleRepository: DccValidationRuleRepository,
+    private val ruleRepository: DccValidationRepository,
 ) {
     suspend fun validate(
         arrivalCountry: DccCountry,
