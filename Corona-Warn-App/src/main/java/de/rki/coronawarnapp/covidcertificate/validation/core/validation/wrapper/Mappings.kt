@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.validation.wrapper
 
-import android.annotation.SuppressLint
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
@@ -65,10 +64,6 @@ private val Result.asDccValidationRuleResult: DccValidationRule.Result
         Result.OPEN -> DccValidationRule.Result.OPEN
     }
 
-@VisibleForTesting
-internal val ZonedDateTime.asExternalString: String
-    get() = this.toString()
-
 private fun Rule.asDccValidationRule() = DccValidationRule(
     identifier = identifier,
     typeDcc = type.asDccType,
@@ -114,18 +109,21 @@ private val String.asExternalCertificateType: CertificateType
         else -> throw IllegalArgumentException()
     }
 
-@SuppressLint("NewApi")
-private fun Instant.toZonedDateTime(): ZonedDateTime {
+@VisibleForTesting
+internal fun Instant.toZonedDateTime(): ZonedDateTime {
     return ZonedDateTime.ofInstant(java.time.Instant.ofEpochMilli(this.millis), UTC_ZONE_ID)
 }
 
 @VisibleForTesting
-@SuppressLint("NewApi")
 internal fun String.toZonedDateTime(): ZonedDateTime {
     return ZonedDateTime.parse(this)
 }
 
-internal val DccData<DccV1.MetaData>.type: String
+@VisibleForTesting
+internal val ZonedDateTime.asExternalString: String
+    get() = this.toString()
+
+internal val DccData<out DccV1.MetaData>.type: String
     get() = when (certificate) {
         is VaccinationDccV1 -> VACCINATION
         is TestDccV1 -> TEST

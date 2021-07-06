@@ -20,7 +20,7 @@ class BusinessValidator @Inject constructor(
     suspend fun validate(
         arrivalCountry: DccCountry,
         validationClock: Instant,
-        certificate: DccData<DccV1.MetaData>,
+        certificate: DccData<out DccV1.MetaData>,
     ): BusinessValidation {
 
         // accepted by arrival country

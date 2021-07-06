@@ -24,7 +24,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
     }
 
     @Test
-    fun `process valid certificate`() {
+    fun `valid certificate passes`() {
         val logic = ObjectMapper().readTree(
             """{"and":[{">":[{"var":"payload.v.0.dn"},0]},{">=":[{"var":"payload.v.0.dn"},{"var":"payload.v.0.sd"}]}]}"""
         )
