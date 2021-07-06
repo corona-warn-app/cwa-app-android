@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
+import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
 import de.rki.coronawarnapp.databinding.RatProfileCreateFragmentBinding
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -58,10 +59,8 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
             // E-mail
             emailInputEdit.doAfterTextChanged { viewModel.emailChanged(it.toString()) }
 
-            viewModel.profile.observe(viewLifecycleOwner) {
-                profileSaveButton.isEnabled = it?.isValid == true
-            }
-
+            viewModel.profile.observe(viewLifecycleOwner) { profileSaveButton.isEnabled = it.isValid }
+            viewModel.latestProfile.observe(viewLifecycleOwner) { it?.let { bindProfile(it) } }
             viewModel.events.observe(viewLifecycleOwner) {
                 when (it) {
                     CreateRATProfileNavigation.Back -> popBackStack()
@@ -72,6 +71,20 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
                 }
             }
         }
+
+    private fun RatProfileCreateFragmentBinding.bindProfile(data: RATProfile) {
+        firstNameInputEdit.setText(data.firstName)
+        lastNameInputEdit.setText(data.lastName)
+
+        data.birthDate?.let { birthDateInputEdit.setText(it.toDayFormat()) }
+
+        zipCodeInputEdit.setText(data.zipCode)
+        streetInputEdit.setText(data.street)
+        cityInputEdit.setText(data.city)
+
+        phoneInputEdit.setText(data.phone)
+        emailInputEdit.setText(data.email)
+    }
 
     private fun openDatePicker() {
         MaterialDatePicker.Builder

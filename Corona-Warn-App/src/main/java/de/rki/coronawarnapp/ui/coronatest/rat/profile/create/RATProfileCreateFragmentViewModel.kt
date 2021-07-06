@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -16,8 +17,12 @@ class RATProfileCreateFragmentViewModel @AssistedInject constructor(
 ) : CWAViewModel() {
 
     private val profileData = MutableLiveData(RATProfileData())
-    val profile: LiveData<RATProfileData?> = profileData
+    val profile: LiveData<RATProfileData> = profileData
     val events = SingleLiveEvent<CreateRATProfileNavigation>()
+    val latestProfile = SingleLiveEvent<RATProfile>()
+        .apply {
+            value = ratProfileSettings.profile.value
+        }
 
     fun createProfile() {
         val ratProfileData = profileData.value
