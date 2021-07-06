@@ -13,8 +13,10 @@ import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.GenericTest
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertificateData
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
@@ -93,6 +95,7 @@ class TestCertificateRepositoryTest : BaseTest() {
         valueSetsRepository = valueSetsRepository,
         timeStamper = timeStamper,
         processor = testCertificateProcessor,
+        rsaKeyPairGenerator = RSAKeyPairGenerator(),
     )
 
     @Test
@@ -129,6 +132,10 @@ class TestCertificateRepositoryTest : BaseTest() {
             registeredAt shouldBe Instant.ofEpochSecond(4555)
             certificateReceivedAt shouldBe null
             registrationToken shouldBe "token"
+
+            publicKeyRegisteredAt shouldBe null
+            rsaPublicKey shouldNotBe null
+            rsaPrivateKey shouldNotBe null
         }
     }
 

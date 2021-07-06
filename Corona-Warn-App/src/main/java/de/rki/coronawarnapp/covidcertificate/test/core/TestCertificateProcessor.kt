@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RACertifica
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RetrievedTestCertificate
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.encryption.rsa.RSACryptography
-import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import okio.ByteString.Companion.decodeBase64
@@ -26,7 +25,6 @@ import javax.inject.Inject
 class TestCertificateProcessor @Inject constructor(
     private val timeStamper: TimeStamper,
     private val certificateServer: TestCertificateServer,
-    private val rsaKeyPairGenerator: RSAKeyPairGenerator,
     private val rsaCryptography: RSACryptography,
     private val appConfigProvider: AppConfigProvider,
     private val qrCodeExtractor: DccQrCodeExtractor,
@@ -51,30 +49,31 @@ class TestCertificateProcessor @Inject constructor(
             return data
         }
 
-        val rsaKeyPair = try {
-            rsaKeyPairGenerator.generate()
-        } catch (e: Throwable) {
-            throw InvalidTestCertificateException(InvalidHealthCertificateException.ErrorCode.RSA_KP_GENERATION_FAILED)
-        }
+        val publicKey = data.rsaPublicKey ?: throw IllegalArgumentException("rsaPublicKey was null")
+        requireNotNull(data.rsaPrivateKey) { "We have a public key without private key?" }
 
-        certificateServer.registerPublicKeyForTest(
-            testRegistrationToken = data.registrationToken,
-            publicKey = rsaKeyPair.publicKey,
-        )
-        Timber.tag(TAG).i("Public key successfully registered for %s", data)
+        try {
+            certificateServer.registerPublicKeyForTest(
+                testRegistrationToken = data.registrationToken,
+                publicKey = publicKey,
+            )
+            Timber.tag(TAG).i("Public key successfully registered for %s", data)
+        } catch (e: TestCertificateServerException) {
+            if (e.errorCode == ErrorCode.PKR_409) {
+                Timber.tag(TAG).w("PublicKey already registered, assuming we can go ahead.")
+            } else {
+                throw e
+            }
+        }
 
         val nowUTC = timeStamper.nowUTC
 
         return when (data) {
             is PCRCertificateData -> data.copy(
                 publicKeyRegisteredAt = nowUTC,
-                rsaPublicKey = rsaKeyPair.publicKey,
-                rsaPrivateKey = rsaKeyPair.privateKey,
             )
             is RACertificateData -> data.copy(
                 publicKeyRegisteredAt = nowUTC,
-                rsaPublicKey = rsaKeyPair.publicKey,
-                rsaPrivateKey = rsaKeyPair.privateKey,
             )
         }
     }
@@ -141,7 +140,7 @@ class TestCertificateProcessor @Inject constructor(
             )
         } catch (e: Throwable) {
             Timber.tag(TAG).e(e, "RSA_DECRYPTION_FAILED")
-            throw InvalidTestCertificateException(InvalidHealthCertificateException.ErrorCode.RSA_DECRYPTION_FAILED)
+            throw InvalidTestCertificateException(InvalidHealthCertificateException.ErrorCode.RSA_DECRYPTION_FAILED, e)
         }
 
         val extractedData = qrCodeExtractor.extractEncrypted(

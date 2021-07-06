@@ -43,30 +43,36 @@ class TestCertificateProcessorTest : BaseTest() {
     @MockK lateinit var appConfigData: ConfigData
     @MockK lateinit var covidTestCertificateConfig: CovidCertificateConfig.TestCertificate
 
-    private val pcrCertificateData = PCRCertificateData(
-        identifier = "identifier1",
-        registrationToken = "regtoken1",
-        registeredAt = Instant.EPOCH,
-        labId = "labId"
+    private val pcrCertificateData = run {
+        val keyPair = RSAKeyPairGenerator().generate()
+        PCRCertificateData(
+            identifier = "identifier1",
+            registrationToken = "regtoken1",
+            registeredAt = Instant.EPOCH,
+            labId = "labId",
+            rsaPublicKey = keyPair.publicKey,
+            rsaPrivateKey = keyPair.privateKey,
+        )
+    }
+
+    private val pcrCertificateDataRegistered = pcrCertificateData.copy(
+        publicKeyRegisteredAt = Instant.EPOCH.plus(9000)
     )
 
-    private val pcrCertificateDataWithPubKey = pcrCertificateData.copy(
-        publicKeyRegisteredAt = Instant.EPOCH,
-        rsaPublicKey = mockk(),
-        rsaPrivateKey = mockk(),
-    )
+    private val raCertificateData = run {
+        val keyPair = RSAKeyPairGenerator().generate()
+        RACertificateData(
+            identifier = "identifier2",
+            registrationToken = "regtoken2",
+            registeredAt = Instant.EPOCH,
+            labId = null,
+            rsaPublicKey = keyPair.publicKey,
+            rsaPrivateKey = keyPair.privateKey,
+        )
+    }
 
-    private val raCertificateData = RACertificateData(
-        identifier = "identifier2",
-        registrationToken = "regtoken2",
-        registeredAt = Instant.EPOCH,
-        labId = null
-    )
-
-    private val raCertificateDataWithPubKey = raCertificateData.copy(
-        publicKeyRegisteredAt = Instant.EPOCH,
-        rsaPublicKey = mockk(),
-        rsaPrivateKey = mockk(),
+    private val raCertificateDataRegistered = raCertificateData.copy(
+        publicKeyRegisteredAt = Instant.EPOCH.plus(9000)
     )
 
     private val testCerticateComponents = mockk<TestCertificateComponents>().apply {
@@ -78,7 +84,7 @@ class TestCertificateProcessorTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowUTC } returns Instant.EPOCH
+        every { timeStamper.nowUTC } returns Instant.ofEpochSecond(1234567)
 
         every { appConfigProvider.currentConfig } returns flowOf(appConfigData)
         every { appConfigData.covidCertificateParameters } returns mockk<CovidCertificateConfig>().apply {
@@ -112,7 +118,6 @@ class TestCertificateProcessorTest : BaseTest() {
         qrCodeExtractor = qrCodeExtractor,
         timeStamper = timeStamper,
         certificateServer = certificateServer,
-        rsaKeyPairGenerator = RSAKeyPairGenerator(),
         rsaCryptography = rsaCryptography,
         appConfigProvider = appConfigProvider,
     )
@@ -120,10 +125,38 @@ class TestCertificateProcessorTest : BaseTest() {
     @Test
     fun `public key registration`() = runBlockingTest2(ignoreActive = true) {
         val instance = createInstance()
+
         instance.registerPublicKey(pcrCertificateData)
 
         coVerify {
-            certificateServer.registerPublicKeyForTest(pcrCertificateData.registrationToken, any())
+            certificateServer.registerPublicKeyForTest(
+                pcrCertificateData.registrationToken,
+                pcrCertificateData.rsaPublicKey!!
+            )
+        }
+    }
+
+    @Test
+    fun `public key registration - requires rsa key-pair`() = runBlockingTest2(ignoreActive = true) {
+        val instance = createInstance()
+
+        // No public key
+        shouldThrow<IllegalArgumentException> {
+            instance.registerPublicKey(raCertificateData.copy(rsaPublicKey = null))
+        }
+
+        // Missing private key, incomplete pair???
+        shouldThrow<IllegalArgumentException> {
+            instance.registerPublicKey(raCertificateData.copy(rsaPrivateKey = null))
+        }
+
+        instance.registerPublicKey(raCertificateData)
+
+        coVerify(exactly = 1) {
+            certificateServer.registerPublicKeyForTest(
+                raCertificateData.registrationToken,
+                raCertificateData.rsaPublicKey!!
+            )
         }
     }
 
@@ -144,13 +177,51 @@ class TestCertificateProcessorTest : BaseTest() {
     }
 
     @Test
+    fun `public key registration - assumes success on HTTP 409`() = runBlockingTest2(ignoreActive = true) {
+        coEvery { certificateServer.registerPublicKeyForTest(any(), any()) } throws TestCertificateServerException(
+            TestCertificateServerException.ErrorCode.PKR_409
+        )
+
+        val instance = createInstance()
+
+        raCertificateData.publicKeyRegisteredAt shouldBe null
+
+        instance.registerPublicKey(raCertificateData).publicKeyRegisteredAt shouldBe timeStamper.nowUTC
+
+        coVerify(exactly = 1) {
+            certificateServer.registerPublicKeyForTest(
+                raCertificateData.registrationToken,
+                raCertificateData.rsaPublicKey!!
+            )
+        }
+    }
+
+    @Test
+    fun `public key registration - forwards errors`() = runBlockingTest2(ignoreActive = true) {
+        coEvery { certificateServer.registerPublicKeyForTest(any(), any()) } throws TestCertificateServerException(
+            TestCertificateServerException.ErrorCode.PKR_500
+        )
+
+        val instance = createInstance()
+
+        shouldThrow<TestCertificateServerException> {
+            instance.registerPublicKey(raCertificateData)
+        }.errorCode shouldBe TestCertificateServerException.ErrorCode.PKR_500
+
+        coVerify(exactly = 1) {
+            certificateServer.registerPublicKeyForTest(any(), any())
+        }
+    }
+
+    @Test
     fun `obtain certificate components`() = runBlockingTest2(ignoreActive = true) {
         val instance = createInstance()
-        instance.obtainCertificate(pcrCertificateDataWithPubKey)
+
+        instance.obtainCertificate(pcrCertificateDataRegistered)
 
         coVerify {
             covidTestCertificateConfig.waitAfterPublicKeyRegistration
-            certificateServer.requestCertificateForTest(pcrCertificateData.registrationToken)
+            certificateServer.requestCertificateForTest(pcrCertificateDataRegistered.registrationToken)
         }
     }
 
@@ -159,12 +230,12 @@ class TestCertificateProcessorTest : BaseTest() {
         val instance = createInstance()
 
         shouldThrow<TestCertificateServerException> {
-            instance.obtainCertificate(pcrCertificateDataWithPubKey.copy(labId = null))
+            instance.obtainCertificate(pcrCertificateDataRegistered.copy(labId = null))
         }.errorCode shouldBe TestCertificateServerException.ErrorCode.DCC_NOT_SUPPORTED_BY_LAB
 
         coVerify { certificateServer wasNot Called }
 
-        instance.obtainCertificate(raCertificateDataWithPubKey)
+        instance.obtainCertificate(raCertificateDataRegistered)
 
         coVerify(exactly = 1) {
             certificateServer.requestCertificateForTest(any())
