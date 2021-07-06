@@ -5,7 +5,6 @@ import com.upokecenter.cbor.CBORObject
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode
-import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
 import timber.log.Timber
@@ -18,8 +17,8 @@ class DccV1Parser @Inject constructor(
 ) {
     fun parse(map: CBORObject, mode: Mode): Body = try {
         val dgcCbor = map[keyHCert].let {
-            if (it == null) throw InvalidVaccinationCertificateException(ErrorCode.HC_CWT_NO_HCERT)
-            it[keyEuDgcV1] ?: throw InvalidVaccinationCertificateException(ErrorCode.HC_CWT_NO_DGC)
+            if (it == null) throw InvalidHealthCertificateException(ErrorCode.HC_CWT_NO_HCERT)
+            it[keyEuDgcV1] ?: throw InvalidHealthCertificateException(ErrorCode.HC_CWT_NO_DGC)
         }
 
         val (rawBody, dcc) = dgcCbor.toCertificate()
@@ -58,27 +57,27 @@ class DccV1Parser @Inject constructor(
     private fun DccV1.checkModeRestrictions(mode: Mode) = when (mode) {
         Mode.CERT_VAC_STRICT ->
             if (vaccinations?.size != 1)
-                throw InvalidVaccinationCertificateException(
+                throw InvalidHealthCertificateException(
                     if (vaccinations.isNullOrEmpty()) ErrorCode.NO_VACCINATION_ENTRY
                     else ErrorCode.MULTIPLE_VACCINATION_ENTRIES
                 )
             else this
         Mode.CERT_VAC_LENIENT -> {
             if (vaccinations.isNullOrEmpty())
-                throw InvalidVaccinationCertificateException(ErrorCode.NO_VACCINATION_ENTRY)
+                throw InvalidHealthCertificateException(ErrorCode.NO_VACCINATION_ENTRY)
             Timber.w("Lenient: Vaccination data contained multiple entries.")
             copy(vaccinations = listOf(vaccinations.maxByOrNull { it.vaccinatedOn }!!))
         }
         Mode.CERT_REC_STRICT ->
             if (recoveries?.size != 1)
-                throw InvalidVaccinationCertificateException(
+                throw InvalidHealthCertificateException(
                     if (recoveries.isNullOrEmpty()) ErrorCode.NO_RECOVERY_ENTRY
                     else ErrorCode.MULTIPLE_RECOVERY_ENTRIES
                 )
             else this
         Mode.CERT_TEST_STRICT ->
             if (tests?.size != 1)
-                throw InvalidVaccinationCertificateException(
+                throw InvalidHealthCertificateException(
                     if (tests.isNullOrEmpty()) ErrorCode.NO_TEST_ENTRY
                     else ErrorCode.MULTIPLE_TEST_ENTRIES
                 )
