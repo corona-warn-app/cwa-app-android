@@ -20,8 +20,10 @@ class DccCountryAdapter(context: Context) : ArrayAdapter<DccCountry>(
     override fun getItem(position: Int): DccCountry = countries[position]
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val textView: TextView = (convertView ?: LayoutInflater.from(parent.context)
-            .inflate(R.layout.dcc_country_list_item, parent, false)) as TextView
+        val textView: TextView = (
+            convertView ?: LayoutInflater.from(parent.context)
+                .inflate(R.layout.dcc_country_list_item, parent, false)
+            ) as TextView
 
         textView.text = getItem(position).displayName()
         return textView
