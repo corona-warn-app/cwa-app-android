@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storag
 
 import android.content.Context
 import androidx.core.content.edit
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.DaggerVaccinationTestComponent
+import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
@@ -28,7 +28,7 @@ class VaccinationStorageTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        DaggerVaccinationTestComponent.factory().create().inject(this)
+        DaggerCovidCertificateTestComponent.factory().create().inject(this)
 
         mockPreferences = MockSharedPreferences()
 
