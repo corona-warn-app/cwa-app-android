@@ -104,6 +104,10 @@
     <string name="test_certificate_qrcode_card_sampled_on">"Probenahme am %s Uhr"</string>
     <!-- XTXT: Test certificate card name  -->
     <string name="test_certificate_name">Testzertifikat</string>
+    <!-- XTXT: Dialog title for error 409 recovery-->
+    <string name="test_certificate_error_409_recovery_title">Es gibt weiterhin Probleme bei der Zertifikatsabfrage</string>
+    <!-- XTXT: Dialog description for error 409 recovery-->
+    <string name="test_certificate_error_409_recovery_description">Sie müssen Ihr Testzertifikat löschen und können es leider nicht noch einmal anfordern.</string>
 
     <!-- XTXT: DCC QR code scan error message-->
     <string name="error_dcc_invalid">Dieser QR-Code ist kein gültiges Zertifikat.\n\nWeitere Informationen zum Erhalt Ihres Zertifikats finden Sie in den FAQ.</string>
