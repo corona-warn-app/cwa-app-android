@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="24dp"
     android:padding="16dp">
-    
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/image"
         android:layout_width="0dp"
@@ -58,14 +58,12 @@
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/qr_subtitle"
         android:layout_marginTop="4dp"
         android:text="@string/start_validation_rule_check_button"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorSecondary"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:visibility="gone"
-        tools:visibility="visible"
+        app:layout_constraintStart_toStartOf="@id/qr_subtitle"
         app:layout_constraintTop_toBottomOf="@+id/qr_subtitle"
-        app:strokeColor="@color/colorPrimary" />
+        app:strokeColor="@color/colorSecondary" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
