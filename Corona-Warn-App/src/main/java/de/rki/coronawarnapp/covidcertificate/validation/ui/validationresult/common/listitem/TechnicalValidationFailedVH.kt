@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem
 
 import android.view.ViewGroup
+import androidx.core.view.isGone
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.TechnicalValidationFailedVH.Item
@@ -25,9 +26,10 @@ class TechnicalValidationFailedVH(
     override val onBindData: CovidCertificateValidationResultTechnicalFailedItemBinding.(
         item: Item,
         payloads: List<Any>,
-    ) -> Unit = { item, payloads ->
-        // TODO
-        // Both technical failure reasons, using `isGone`
+    ) -> Unit = { item, _ ->
+        groupDateExpired.isGone = !item.dccValidation.expirationCheckPassed
+        groupDateFormat.isGone = !item.dccValidation.jsonSchemaCheckPassed
+        divider.isGone = !item.dccValidation.expirationCheckPassed || !item.dccValidation.jsonSchemaCheckPassed
     }
 
     data class Item(

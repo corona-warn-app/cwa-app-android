@@ -199,5 +199,9 @@
     <string name="validation_rules_technical_failure_header_title">Technische Prüfung</string>
     <!-- XTXT: Validation Rule Technical Failure Header Subtitle  -->
     <string name="validation_rules_technical_failure_header_subtitle">Folgende Regeln sind nicht erfüllt:</string>
+    <!-- XTXT: Validation Rule Technical Failure - Date Format  -->
+    <string name="validation_rule_technical_error_date_format">Das Zertifikat muss dem erwarteten Datenformat entsprechen.</string>
+    <!-- XTXT: Validation Rule Technical Failure - Date Expired  -->
+    <string name="validation_rule_technical_error_date_expired">Das Zertifikat darf nicht abgelaufen sein.</string>
 
 </resources>

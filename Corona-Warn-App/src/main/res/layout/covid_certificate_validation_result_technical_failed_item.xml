@@ -1,16 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <TextView
-        style="@style/headline4"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <View
+        android:id="@+id/border"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="@dimen/spacing_small"
+        android:background="@drawable/card_with_outline" />
+
+    <View
+        android:id="@+id/divider"
+        app:layout_constraintStart_toStartOf="@id/border"
+        app:layout_constraintEnd_toEndOf="@id/border"
+        android:layout_width="0dp"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_height="@dimen/card_divider"
+        android:background="@color/dividerColor"
+        app:layout_constraintTop_toBottomOf="@id/text_date_format" />
+
+    <ImageView
+        android:id="@+id/icon_date_format"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="24dp"
-        android:text="TODO: Technical Failed Item"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginHorizontal="@dimen/spacing_small"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:importantForAccessibility="no"
+        app:layout_constraintStart_toStartOf="@id/border"
+        app:layout_constraintTop_toTopOf="@id/border"
+        app:srcCompat="@drawable/ic_red_x" />
+
+    <TextView
+        android:id="@+id/text_date_format"
+        style="@style/subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        android:text="@string/validation_rule_technical_error_date_format"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/icon_date_format"
+        app:layout_constraintTop_toTopOf="@id/icon_date_format" />
+
+
+
+    <ImageView
+        android:id="@+id/icon_expired"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_small"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:importantForAccessibility="no"
+        app:layout_constraintStart_toStartOf="@id/border"
+        app:layout_constraintTop_toBottomOf="@id/divider"
+        app:srcCompat="@drawable/ic_red_x" />
+
+    <TextView
+        android:id="@+id/text_expired"
+        style="@style/subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        android:text="@string/validation_rule_technical_error_date_expired"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/icon_expired"
+        app:layout_constraintTop_toTopOf="@id/icon_expired" />
+
+    <androidx.constraintlayout.widget.Group
+        tools:visibility="visible"
+        android:id="@+id/group_date_format"
+        app:constraint_referenced_ids="icon_date_format, text_date_format"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <androidx.constraintlayout.widget.Group
+        tools:visibility="visible"
+        android:id="@+id/group_date_expired"
+        app:constraint_referenced_ids="icon_expired, text_expired"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </androidx.constraintlayout.widget.ConstraintLayout>
