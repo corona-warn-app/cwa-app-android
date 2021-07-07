@@ -148,77 +148,15 @@
                 app:layout_constraintStart_toStartOf="@id/body"
                 app:layout_constraintTop_toBottomOf="@id/date_info" />
 
-            <TextView
-                android:id="@+id/note_subtitle"
-                style="@style/headline6"
+            <include
+                android:id="@+id/validation_notes"
+                layout="@layout/validation_start_fragment_notes"
                 android:layout_width="0dp"
+                android:layout_marginTop="@dimen/spacing_normal"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="@string/validation_start_note_subtitle"
-                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@id/body"
                 app:layout_constraintStart_toStartOf="@id/body"
                 app:layout_constraintTop_toBottomOf="@id/certificate_proof" />
-
-            <include
-                android:id="@+id/note_bulletpoint_one"
-                layout="@layout/include_bullet_point"
-                android:layout_width="@dimen/bullet_point_size"
-                android:layout_height="@dimen/bullet_point_size"
-                app:layout_constraintBaseline_toBaselineOf="@id/note_text_one"
-                app:layout_constraintStart_toStartOf="@id/body" />
-
-            <TextView
-                android:id="@+id/note_text_one"
-                style="@style/subtitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_normal"
-                android:layout_marginTop="10dp"
-                android:text="@string/validation_start_note_point_1"
-                app:layout_constraintEnd_toEndOf="@id/body"
-                app:layout_constraintStart_toEndOf="@id/note_bulletpoint_one"
-                app:layout_constraintTop_toBottomOf="@id/note_subtitle" />
-
-            <include
-                android:id="@+id/note_bulletpoint_two"
-                layout="@layout/include_bullet_point"
-                android:layout_width="@dimen/bullet_point_size"
-                android:layout_height="@dimen/bullet_point_size"
-                app:layout_constraintBaseline_toBaselineOf="@id/note_text_two"
-                app:layout_constraintStart_toStartOf="@id/body" />
-
-            <TextView
-                android:id="@+id/note_text_two"
-                style="@style/subtitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_normal"
-                android:layout_marginTop="5dp"
-                android:text="@string/validation_start_note_point_2"
-                app:layout_constraintEnd_toEndOf="@id/body"
-                app:layout_constraintStart_toEndOf="@id/note_bulletpoint_two"
-                app:layout_constraintTop_toBottomOf="@id/note_text_one" />
-
-            <include
-                android:id="@+id/note_bulletpoint_three"
-                layout="@layout/include_bullet_point"
-                android:layout_width="@dimen/bullet_point_size"
-                android:layout_height="@dimen/bullet_point_size"
-                app:layout_constraintBaseline_toBaselineOf="@id/note_text_three"
-                app:layout_constraintStart_toStartOf="@id/body" />
-
-            <TextView
-                android:id="@+id/note_text_three"
-                style="@style/subtitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_normal"
-                android:layout_marginTop="5dp"
-                android:text="@string/validation_start_note_point_3"
-                app:layout_constraintEnd_toEndOf="@id/body"
-                app:layout_constraintStart_toEndOf="@id/note_bulletpoint_three"
-                app:layout_constraintTop_toBottomOf="@id/note_text_two" />
 
             <TextView
                 android:id="@+id/faq"
@@ -229,7 +167,7 @@
                 android:text="@string/validation_start_faq"
                 app:layout_constraintEnd_toEndOf="@id/body"
                 app:layout_constraintStart_toStartOf="@id/body"
-                app:layout_constraintTop_toBottomOf="@id/note_text_three" />
+                app:layout_constraintTop_toBottomOf="@id/validation_notes" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/privacy_card"
