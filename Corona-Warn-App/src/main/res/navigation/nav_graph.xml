@@ -79,6 +79,14 @@
         <action
             android:id="@+id/action_mainFragment_to_federalStateSelectionFragment"
             app:destination="@id/federalStateSelectionFragment" />
+        <!--        TODO remove-->
+        <action
+            android:id="@+id/action_mainFragment_to_dccValidationFailedFragment"
+            app:destination="@id/covid_certificates_graph">
+            <argument
+                android:name="validation"
+                app:argType="de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation" />
+        </action>
     </fragment>
 
     <fragment
