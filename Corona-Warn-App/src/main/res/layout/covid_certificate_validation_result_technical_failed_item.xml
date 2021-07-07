@@ -6,16 +6,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <View
-        android:id="@+id/border"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="@dimen/spacing_small"
-        android:background="@drawable/card_with_outline" />
-
-    <View
         android:id="@+id/divider"
-        app:layout_constraintStart_toStartOf="@id/border"
-        app:layout_constraintEnd_toEndOf="@id/border"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="0dp"
         android:layout_marginTop="@dimen/spacing_small"
         android:layout_height="@dimen/card_divider"
@@ -26,12 +19,11 @@
         android:id="@+id/icon_date_format"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/spacing_small"
-        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/spacing_small"
         android:importantForAccessibility="no"
-        app:layout_constraintStart_toStartOf="@id/border"
-        app:layout_constraintTop_toTopOf="@id/border"
-        app:srcCompat="@drawable/ic_red_x" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_high_risk_alert" />
 
     <TextView
         android:id="@+id/text_date_format"
@@ -39,7 +31,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_small"
-        android:layout_marginEnd="@dimen/spacing_normal"
         android:text="@string/validation_rule_technical_error_date_format"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_date_format"
@@ -51,12 +42,12 @@
         android:id="@+id/icon_expired"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/spacing_small"
         android:layout_marginTop="@dimen/spacing_small"
         android:importantForAccessibility="no"
-        app:layout_constraintStart_toStartOf="@id/border"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/divider"
-        app:srcCompat="@drawable/ic_red_x" />
+        app:srcCompat="@drawable/ic_high_risk_alert" />
 
     <TextView
         android:id="@+id/text_expired"
@@ -64,7 +55,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_small"
-        android:layout_marginEnd="@dimen/spacing_normal"
         android:text="@string/validation_rule_technical_error_date_expired"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_expired"

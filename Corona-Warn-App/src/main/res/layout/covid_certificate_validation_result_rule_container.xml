@@ -3,5 +3,5 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/button_red"
+    android:background="@drawable/card_with_outline"
     android:padding="16dp" />
