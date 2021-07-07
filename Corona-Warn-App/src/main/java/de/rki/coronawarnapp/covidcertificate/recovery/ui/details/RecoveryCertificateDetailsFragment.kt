@@ -98,10 +98,13 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
                 null,
                 FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
             )
-            is RecoveryCertificateDetailsNavigation.ValidationStart -> doNavigate(
-                RecoveryCertificateDetailsFragmentDirections
-                    .actionRecoveryCertificateDetailsFragmentToValidationStartFragment(event.containerId)
-            )
+            is RecoveryCertificateDetailsNavigation.ValidationStart -> {
+                startValidationCheck.isLoading = false
+                doNavigate(
+                    RecoveryCertificateDetailsFragmentDirections
+                        .actionRecoveryCertificateDetailsFragmentToValidationStartFragment(event.containerId)
+                )
+            }
         }
     }
 

@@ -120,10 +120,13 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
                 null,
                 FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
             )
-            is TestCertificateDetailsNavigation.ValidationStart -> doNavigate(
-                TestCertificateDetailsFragmentDirections
-                    .actionTestCertificateDetailsFragmentToValidationStartFragment(event.containerId)
-            )
+            is TestCertificateDetailsNavigation.ValidationStart -> {
+                startValidationCheck.isLoading = false
+                doNavigate(
+                    TestCertificateDetailsFragmentDirections
+                        .actionTestCertificateDetailsFragmentToValidationStartFragment(event.containerId)
+                )
+            }
         }
     }
 

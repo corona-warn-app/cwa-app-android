@@ -95,10 +95,13 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                         null,
                         FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
                     )
-                    is VaccinationDetailsNavigation.ValidationStart -> doNavigate(
-                        VaccinationDetailsFragmentDirections
-                            .actionVaccinationDetailsFragmentToValidationStartFragment(event.containerId)
-                    )
+                    is VaccinationDetailsNavigation.ValidationStart -> {
+                        startValidationCheck.isLoading = false
+                        doNavigate(
+                            VaccinationDetailsFragmentDirections
+                                .actionVaccinationDetailsFragmentToValidationStartFragment(event.containerId)
+                        )
+                    }
                 }
             }
         }
