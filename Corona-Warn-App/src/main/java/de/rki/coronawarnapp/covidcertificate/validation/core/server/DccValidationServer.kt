@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.server
 
+import androidx.annotation.VisibleForTesting
 import com.upokecenter.cbor.CBORObject
 import dagger.Lazy
 import dagger.Reusable
@@ -9,13 +10,18 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.Dc
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountryApi
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRuleApi
+import de.rki.coronawarnapp.covidcertificate.valueset.internal.ValueSetInvalidSignatureException
 import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
 import de.rki.coronawarnapp.util.ZipHelper.unzip
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.security.SignatureValidation
+import kotlinx.coroutines.withContext
 import okhttp3.Cache
+import okhttp3.ResponseBody
 import retrofit2.HttpException
 import timber.log.Timber
 import java.io.IOException
+import java.io.InputStream
 import javax.inject.Inject
 
 @Reusable
@@ -24,17 +30,27 @@ class DccValidationServer @Inject constructor(
     private val rulesApi: Lazy<DccValidationRuleApi>,
     @CertificateValidation private val cache: Cache,
     private val signatureValidation: SignatureValidation,
+    private val dispatcherProvider: DispatcherProvider,
 ) {
 
     private val dccValidationRuleApi: DccValidationRuleApi
         get() = rulesApi.get()
 
-    suspend fun ruleSet(ruleTypeDcc: DccValidationRule.Type): Set<DccValidationRule> {
-        return when (ruleTypeDcc) {
-            DccValidationRule.Type.ACCEPTANCE -> dccValidationRuleApi.acceptanceRules()
-            DccValidationRule.Type.INVALIDATION -> dccValidationRuleApi.invalidationRules()
+    suspend fun ruleSet(ruleTypeDcc: DccValidationRule.Type): Set<DccValidationRule> =
+        withContext(dispatcherProvider.Default) {
+            return@withContext try {
+                when (ruleTypeDcc) {
+                    DccValidationRule.Type.ACCEPTANCE -> dccValidationRuleApi.acceptanceRules()
+                    DccValidationRule.Type.INVALIDATION -> dccValidationRuleApi.invalidationRules()
+                }.let {
+                    if (!it.isSuccessful) throw HttpException(it)
+                    requireNotNull(it.body()) { "Body of response was null" }.parseBody()
+                }
+            } catch (e: Exception) {
+                Timber.e(e, "Getting rule set from server failed cause: ${e.message}")
+                emptySet()
+            }
         }
-    }
 
     suspend fun dccCountryJson(): String {
         Timber.tag(TAG).d("Fetching dcc countries.")
@@ -79,6 +95,29 @@ class DccValidationServer @Inject constructor(
             Timber.tag(TAG).e(e, "CBOR decoding binary to json failed.")
             throw DccValidationException(ErrorCode.ONBOARDED_COUNTRIES_JSON_DECODING_FAILED, e)
         }
+    }
+
+    private fun ResponseBody.parseBody() = parseBody(byteStream())
+
+    @VisibleForTesting
+    internal fun parseBody(inputStream: InputStream): Set<DccValidationRule> {
+        val fileMap = inputStream.unzip().readIntoMap()
+
+        val exportBinary = fileMap[EXPORT_BINARY_FILE_NAME]
+        val exportSignature = fileMap[EXPORT_SIGNATURE_FILE_NAME]
+
+        if (exportBinary == null || exportSignature == null)
+            throw ValueSetInvalidSignatureException(msg = "Unknown files ${fileMap.entries}")
+
+        if (!signatureValidation.hasValidSignature(
+                toVerify = exportBinary,
+                signatureList = SignatureValidation.parseTEKStyleSignature(exportSignature)
+            )
+        ) {
+            throw ValueSetInvalidSignatureException(msg = "Signature of rule set did not match")
+        }
+
+        // TODO parse binary to rules
     }
 
     fun clear() {
