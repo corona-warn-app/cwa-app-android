@@ -90,7 +90,7 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
     fun startValidationRulesDownload() = launch {
         try {
             dccValidationRepository.refresh()
-            // TODO Update UI accordingly
+            events.postValue(VaccinationDetailsNavigation.ValidationStart(containerId))
         } catch (e: Exception) {
             Timber.d(e, "validation rule download failed for covidCertificate=%s", containerId)
             // TODO Add error messages

@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -62,7 +63,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             }
 
             startValidationCheck.defaultButton.setOnClickListener {
-                startValidationCheck.isLoading(true)
+                startValidationCheck.isLoading = true
                 viewModel.startValidationRulesDownload()
             }
 
@@ -92,6 +93,10 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                         QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
                         null,
                         FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
+                    )
+                    is VaccinationDetailsNavigation.ValidationStart -> doNavigate(
+                        VaccinationDetailsFragmentDirections
+                            .actionVaccinationDetailsFragmentToValidationStartFragment(event.containerId)
                     )
                 }
             }

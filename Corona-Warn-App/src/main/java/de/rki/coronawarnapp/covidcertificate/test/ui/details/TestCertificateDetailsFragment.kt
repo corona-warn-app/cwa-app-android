@@ -44,7 +44,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
 
         startValidationCheck.defaultButton.setOnClickListener {
-            startValidationCheck.isLoading(true)
+            startValidationCheck.isLoading = true
             viewModel.startValidationRulesDownload()
         }
 
@@ -61,8 +61,6 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         viewModel.errors.observe(viewLifecycleOwner) { onError(it) }
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
         viewModel.covidCertificate.observe(viewLifecycleOwner) { it?.let { onCertificateReady(it) } }
-
-        validationStartButton.setOnClickListener { viewModel.onValidationStart() }
     }
 
     private fun FragmentTestCertificateDetailsBinding.onCertificateReady(

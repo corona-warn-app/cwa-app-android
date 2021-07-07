@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.databinding.FragmentRecoveryCertificateDetailsBindin
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -40,7 +41,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
 
         startValidationCheck.defaultButton.setOnClickListener {
-            startValidationCheck.isLoading(true)
+            startValidationCheck.isLoading = true
             viewModel.startValidationRulesDownload()
         }
 
@@ -95,6 +96,10 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
                 QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
                 null,
                 FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
+            )
+            is RecoveryCertificateDetailsNavigation.ValidationStart -> doNavigate(
+                RecoveryCertificateDetailsFragmentDirections
+                    .actionRecoveryCertificateDetailsFragmentToValidationStartFragment(event.containerId)
             )
         }
     }

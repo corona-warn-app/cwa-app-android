@@ -10,7 +10,7 @@
         android:id="@+id/coordinator_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/validation_start_button"
+        app:layout_constraintBottom_toTopOf="@id/button_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -334,15 +334,25 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
-    <Button
-        android:id="@+id/validation_start_button"
-        style="@style/buttonPrimary"
+    <LinearLayout
+        android:id="@+id/button_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:text="@string/test_certificate_validation_start_button"
+        android:background="@drawable/trace_location_gradient_background"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintStart_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <de.rki.coronawarnapp.ui.view.ProgressLoadingButton
+            android:id="@+id/start_validation_check"
+            style="@style/buttonPrimary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:buttonText="@string/start_validation_rule_check_button"
+            app:isLoading="false"
+            app:loadingText="@string/start_validation_rule_check_loading_text" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

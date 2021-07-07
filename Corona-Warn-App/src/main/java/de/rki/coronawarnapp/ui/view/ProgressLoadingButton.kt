@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.withStyledAttributes
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.ViewProgressLoadingButtonBinding
 
@@ -31,25 +33,22 @@ class ProgressLoadingButton @JvmOverloads constructor(
 
             val defaultText = getText(R.styleable.ProgressLoadingButton_buttonText) ?: ""
             val loadingText = getText(R.styleable.ProgressLoadingButton_loadingText) ?: ""
-            val isLoading = getBoolean(R.styleable.ProgressLoadingButton_isLoading, false)
+            val loading = getBoolean(R.styleable.ProgressLoadingButton_isLoading, false)
 
             binding.apply {
                 defaultButton.text = defaultText
                 loadingButton.text = loadingText
-                isLoading(isLoading)
+                isLoading = loading
             }
         }
     }
 
-    fun isLoading(isLoading: Boolean) {
-        binding.apply {
-            if (isLoading) {
-                defaultButton.visibility = GONE
-                loadingButtonContainer.visibility = VISIBLE
-            } else {
-                defaultButton.visibility = VISIBLE
-                loadingButtonContainer.visibility = GONE
+    var isLoading: Boolean = false
+        set(value) {
+            binding.apply {
+                defaultButton.isGone = value
+                loadingButtonContainer.isVisible = value
             }
+            field = value
         }
-    }
 }

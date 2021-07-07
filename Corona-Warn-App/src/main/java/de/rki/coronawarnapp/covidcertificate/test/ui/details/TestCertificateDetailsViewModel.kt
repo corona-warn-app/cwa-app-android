@@ -41,8 +41,6 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
 
     fun openFullScreen() = qrCodeText?.let { events.postValue(TestCertificateDetailsNavigation.FullQrCode(it)) }
 
-    fun onValidationStart() = events.postValue(TestCertificateDetailsNavigation.ValidationStart(containerId))
-
     fun onDeleteTestCertificateConfirmed() = launch {
         Timber.d("Removing Test Certificate=$containerId")
         testCertificateRepository.deleteCertificate(containerId)
@@ -66,7 +64,7 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
     fun startValidationRulesDownload() = launch {
         try {
             dccValidationRepository.refresh()
-            // TODO Update UI accordingly
+            events.postValue(TestCertificateDetailsNavigation.ValidationStart(containerId))
         } catch (e: Exception) {
             Timber.d(e, "validation rule download failed for covidCertificate=%s", containerId)
             // TODO Add error messages
