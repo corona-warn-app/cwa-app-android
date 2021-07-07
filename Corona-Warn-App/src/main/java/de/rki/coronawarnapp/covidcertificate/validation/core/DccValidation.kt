@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core
 
-import de.rki.coronawarnapp.covidcertificate.validation.core.validation.EvaluatedDccRule
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
 
 data class DccValidation(
     val expirationCheckPassed: Boolean,

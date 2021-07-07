@@ -1,7 +1,8 @@
-package de.rki.coronawarnapp.covidcertificate.validation.core.validation.wrapper
+package de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchema
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeTestData
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
@@ -17,6 +18,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
 
     @Inject lateinit var wrapper: CertLogicEngineWrapper
     @Inject lateinit var extractor: DccQrCodeExtractor
+    @Inject lateinit var dccJsonSchema: DccJsonSchema
 
     @BeforeEach
     fun setup() {
@@ -48,7 +50,8 @@ class CertLogicEngineWrapperTest : BaseTest() {
             rules = listOf(rule),
             validationClock = Instant.parse("2021-06-30T09:25:00.000Z"),
             certificate = certificate.data,
-            countryCode = "DE"
+            countryCode = "DE",
+            schemaJson = dccJsonSchema.rawSchema
         )
         evaluatedRules.forEach {
             it.result shouldBe DccValidationRule.Result.PASSED

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.validation.core.validation.wrapper
+package de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper
 
 import dgca.verifier.app.engine.UTC_ZONE_ID
 import io.kotest.matchers.shouldBe

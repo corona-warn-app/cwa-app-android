@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.validation.core.validation.wrapper
+package de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper
 
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
-import de.rki.coronawarnapp.covidcertificate.validation.core.validation.EvaluatedDccRule
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
 import dgca.verifier.app.engine.Result
 import dgca.verifier.app.engine.UTC_ZONE_ID
 import dgca.verifier.app.engine.data.CertificateType
@@ -101,11 +101,11 @@ private val CertificateType.asInternalString: String
     }
 
 private val String.asExternalCertificateType: CertificateType
-    get() = when (this) {
-        GENERAL -> CertificateType.GENERAL
-        TEST -> CertificateType.TEST
-        VACCINATION -> CertificateType.VACCINATION
-        RECOVERY -> CertificateType.RECOVERY
+    get() = when (this.uppercase()) {
+        GENERAL.uppercase() -> CertificateType.GENERAL
+        TEST.uppercase() -> CertificateType.TEST
+        VACCINATION.uppercase() -> CertificateType.VACCINATION
+        RECOVERY.uppercase() -> CertificateType.RECOVERY
         else -> throw IllegalArgumentException()
     }
 
