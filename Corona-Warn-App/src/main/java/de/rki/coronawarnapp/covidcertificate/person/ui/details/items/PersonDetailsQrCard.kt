@@ -18,7 +18,7 @@ import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class PersonDetailsQrCard(parent: ViewGroup) :
     PersonDetailsAdapter.PersonDetailsItemVH<PersonDetailsQrCard.Item, PersonDetailsQrCardItemBinding>(
-        layoutRes = R.layout.include_certificate_qrcode_card,
+        layoutRes = R.layout.person_details_qr_card_item,
         parent = parent
     ) {
     override val viewBinding: Lazy<PersonDetailsQrCardItemBinding> = lazy {
@@ -33,9 +33,6 @@ class PersonDetailsQrCard(parent: ViewGroup) :
         image.setImageBitmap(curItem.qrCodeBitmap)
         curItem.apply {
             qrCodeBitmap?.let { progressBar.hide() }
-            qrTitle.isVisible = true
-            qrSubtitle.isVisible = true
-            startValidationCheckButton.isVisible = true
             startValidationCheckButton.setOnClickListener { validateCertificate(certificate.containerId) }
             when (certificate) {
                 is TestCertificate -> {
