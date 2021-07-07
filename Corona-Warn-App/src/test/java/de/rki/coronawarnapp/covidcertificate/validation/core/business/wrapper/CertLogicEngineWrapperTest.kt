@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchema
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
@@ -27,23 +26,9 @@ class CertLogicEngineWrapperTest : BaseTest() {
 
     @Test
     fun `valid certificate passes`() {
-        val logic = ObjectMapper().readTree(
-            """{"and":[{">":[{"var":"payload.v.0.dn"},0]},{">=":[{"var":"payload.v.0.dn"},{"var":"payload.v.0.sd"}]}]}"""
-        )
-        val rule = DccValidationRule(
-            identifier = "VR-DE-1",
-            version = "1.0.0",
-            schemaVersion = "1.0.0",
-            engine = "CERTLOGIC",
-            engineVersion = "1.0.0",
-            typeDcc = DccValidationRule.Type.ACCEPTANCE,
-            country = "DE",
-            certificateType = "Vaccination",
-            description = mapOf("en" to "Vaccination must be complete"),
+        val rule = createVaccinationRule(
             validFrom = "2021-05-27T07:46:40Z",
             validTo = "2022-08-01T07:46:40Z",
-            affectedFields = listOf("v.0.dn", "v.0.sd"),
-            logic = logic
         )
         val certificate = extractor.extract(VaccinationQrCodeTestData.passGermanReferenceCase)
         val evaluatedRules = wrapper.process(
@@ -53,6 +38,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
             countryCode = "DE",
             schemaJson = dccJsonSchema.rawSchema
         )
+        evaluatedRules.size shouldBe 1
         evaluatedRules.forEach {
             it.result shouldBe DccValidationRule.Result.PASSED
         }

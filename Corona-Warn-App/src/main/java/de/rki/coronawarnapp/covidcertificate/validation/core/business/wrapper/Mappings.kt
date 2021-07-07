@@ -143,7 +143,7 @@ internal fun List<DccValidationRule>.filterRelevantRules(
     }
 }
 
-private const val GENERAL = "General"
-private const val TEST = "Test"
-private const val VACCINATION = "Vaccination"
-private const val RECOVERY = "Recovery"
+internal const val GENERAL = "General"
+internal const val TEST = "Test"
+internal const val VACCINATION = "Vaccination"
+internal const val RECOVERY = "Recovery"
