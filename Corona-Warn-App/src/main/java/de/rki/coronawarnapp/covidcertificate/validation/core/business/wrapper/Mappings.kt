@@ -21,7 +21,7 @@ internal fun assembleExternalParameter(
     certificate: DccData<*>,
     validationClock: Instant,
     countryCode: String,
-    valueSets: Map<String, List<String>> = emptyMap(),
+    valueSets: Map<String, List<String>>,
 ): ExternalParameter {
     return ExternalParameter(
         kid = "", // leave empty
