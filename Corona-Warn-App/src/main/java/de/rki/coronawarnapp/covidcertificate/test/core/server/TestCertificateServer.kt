@@ -25,6 +25,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateApi
 import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateApiV1.ComponentsResponse.Reason.LAB_INVALID_RESPONSE
 import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateApiV1.ComponentsResponse.Reason.SIGNING_CLIENT_ERROR
 import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateApiV1.ComponentsResponse.Reason.SIGNING_SERVER_ERROR
+import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKey
 import de.rki.coronawarnapp.util.network.NetworkStateProvider
@@ -53,23 +54,23 @@ class TestCertificateServer @Inject constructor(
             throw TestCertificateException(PKR_NO_NETWORK)
         }
         try {
-            val response = api.sendPublicKey(
+            api.sendPublicKey(
                 requestBody = TestCertificateApiV1.PublicKeyUploadRequest(
                     registrationToken = testRegistrationToken,
                     publicKey = publicKey.base64
                 )
             )
-            when (response.code()) {
-                400 -> throw TestCertificateException(PKR_400)
-                403 -> throw TestCertificateException(PKR_403)
-                404 -> throw TestCertificateException(PKR_404)
-                409 -> throw TestCertificateException(PKR_409)
-                500 -> throw TestCertificateException(PKR_500)
-            }
         } catch (e: Exception) {
             Timber.tag(TAG).w(e, "registerPublicKeyForTest failed")
             throw when (e) {
-                is TestCertificateException -> e
+                is CwaWebException -> when (e.statusCode) {
+                    400 -> TestCertificateException(PKR_400, e)
+                    403 -> TestCertificateException(PKR_403, e)
+                    404 -> TestCertificateException(PKR_404, e)
+                    409 -> TestCertificateException(PKR_409, e)
+                    500 -> TestCertificateException(PKR_500, e)
+                    else -> TestCertificateException(PKR_FAILED, e)
+                }
                 else -> TestCertificateException(PKR_FAILED, e)
             }
         }

@@ -100,7 +100,7 @@ class TestCertificateException(
             ERROR_MESSAGE_NO_NETWORK
         ),
         BUG_3638_KEYPAIR_LOST(
-            "Registered RSA key-pair has been lost (bug #3638?). Test certificate can't be obtained",
+            "Registered RSA key-pair was lost (GitHub #3638). Test certificate can't be obtained.",
             ERROR_MESSAGE_CERTIFICATE_LOST_SORRY
         )
     }
