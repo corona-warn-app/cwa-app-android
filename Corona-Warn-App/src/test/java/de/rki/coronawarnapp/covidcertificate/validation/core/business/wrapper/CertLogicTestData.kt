@@ -7,8 +7,45 @@ internal val logicVaccinationDosis = ObjectMapper().readTree(
     """{"and":[{">":[{"var":"payload.v.0.dn"},0]},{">=":[{"var":"payload.v.0.dn"},{"var":"payload.v.0.sd"}]}]}"""
 )
 
-internal val logicVersion = ObjectMapper().readTree(
-    """{"and":[{"EQ":[{"var":"payload.ver"},"1.0.0"]}]}"""
+internal val logicExactlyOne = ObjectMapper().readTree(
+    """{
+      "===": [
+        {
+          "reduce": [
+            [
+              {
+                "var": "payload.r"
+              },
+              {
+                "var": "payload.t"
+              },
+              {
+                "var": "payload.v"
+              }
+            ],
+            {
+              "+": [
+                {
+                  "var": "accumulator"
+                },
+                {
+                  "if": [
+                    {
+                      "var": "current.0"
+                    },
+                    1,
+                    0
+                  ]
+                }
+              ]
+            },
+            0
+          ]
+        },
+        1
+      ]
+    }
+  }""".trimIndent()
 )
 
 internal fun createVaccinationRule(
@@ -42,9 +79,9 @@ internal fun createGeneralRule(
     typeDcc = DccValidationRule.Type.ACCEPTANCE,
     country = "DE",
     certificateType = GENERAL,
-    description = mapOf("en" to "Version must be 1.0.0"),
+    description = mapOf("en" to "Exactly one type of event."),
     validFrom = validFrom,
     validTo = validTo,
     affectedFields = listOf("payload.ver"),
-    logic = logicVersion
+    logic = logicExactlyOne
 )
