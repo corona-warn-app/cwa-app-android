@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
-import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.validation.business.BusinessValidator
 import de.rki.coronawarnapp.covidcertificate.validation.core.validation.technical.TechnicalValidator
 import org.joda.time.Instant
@@ -17,23 +16,29 @@ class DccValidator @Inject constructor(
      * Validates DCC against country of arrival's rules and issuer country rules
      */
     suspend fun validateDcc(
-        arrivalCountries: Set<DccCountry>, // For future allow multiple country selection
-        validationClock: Instant,
+        userInput: ValidationUserInput,
         certificate: DccData<*>,
     ): DccValidation {
-        Timber.tag(TAG).v("validateDcc(countries=%s)", arrivalCountries)
+        Timber.tag(TAG).v("validateDcc(userInput=%s)", userInput)
 
         val technicalValidation = technicalValidator.validate(
-            validationClock, certificate
+            userInput.arrivalAt, certificate
         )
 
         val businessValidation = businessValidator.validate(
-            arrivalCountries,
-            validationClock,
+            setOf(userInput.arrivalCountry),
+            userInput.arrivalAt,
             certificate
         )
 
-        return DccValidation(technicalValidation, businessValidation)
+        return DccValidation(
+            validatedAt = Instant.now(),
+            userInput = userInput,
+            expirationCheckPassed = true, // TODO
+            jsonSchemaCheckPassed = true, // TODO use DccJsonSchemaValidator
+            acceptanceRules = businessValidation.acceptanceRules,
+            invalidationRules = businessValidation.invalidationRules
+        )
     }
 
     companion object {

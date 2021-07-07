@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.util.serialization
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -31,4 +32,13 @@ class SerializationModule {
         .registerTypeAdapter(RSAKey.Public::class.java, RSAKey.Public.GsonAdapter())
         .registerTypeAdapter(RSAKey.Private::class.java, RSAKey.Private.GsonAdapter())
         .create()
+
+    @Reusable
+    @Provides
+    fun jacksonObjectMapper() = jacksonBaseMapper
+
+    companion object {
+        // For access in parcelers, e.g. [DccValidationRule.LogicParceler]
+        val jacksonBaseMapper by lazy { ObjectMapper() }
+    }
 }
