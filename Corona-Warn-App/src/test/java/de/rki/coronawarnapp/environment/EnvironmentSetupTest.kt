@@ -1,11 +1,13 @@
 package de.rki.coronawarnapp.environment
 
 import android.content.Context
+import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.environment.EnvironmentSetup.Type.Companion.toEnvironmentType
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContain
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -14,6 +16,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.MockSharedPreferences
+import java.io.File
 
 class EnvironmentSetupTest : BaseTest() {
     @MockK lateinit var context: Context
@@ -42,7 +45,7 @@ class EnvironmentSetupTest : BaseTest() {
     )
 
     @Test
-    fun `parsing bad json throws an exception in debug builds`() {
+    fun `parsing bad json throws an exception`() {
         every { BuildConfigWrap.ENVIRONMENT_JSONDATA } returns BAD_JSON
         shouldThrow<IllegalStateException> {
             createEnvSetup().downloadCdnUrl
@@ -130,6 +133,70 @@ class EnvironmentSetupTest : BaseTest() {
         EnvironmentSetup.EnvKey.CROWD_NOTIFIER_PUBLIC_KEY.rawKey shouldBe "CROWD_NOTIFIER_PUBLIC_KEY"
         EnvironmentSetup.EnvKey.DCC.rawKey shouldBe "DCC_SERVER_URL"
         EnvironmentSetup.EnvKey.values().size shouldBe 10
+    }
+
+    @Test
+    fun `sanity check throws if key is missing`() {
+        createEnvSetup().sanityCheck()
+
+        every { BuildConfigWrap.ENVIRONMENT_JSONDATA } returns GOOD_JSON.replace("DCC_SERVER_URL", "?")
+
+        createEnvSetup().apply {
+            val errorMessage = shouldThrow<IllegalStateException> { sanityCheck() }.message
+            errorMessage shouldContain "DCC"
+            errorMessage shouldContain "Failed to retrieve"
+        }
+    }
+
+    @Test
+    fun `enums need to be fully mapped - prod build`() {
+        if (CWADebug.isDeviceForTestersBuild) return
+        every { BuildConfigWrap.ENVIRONMENT_JSONDATA } returns BuildConfig.ENVIRONMENT_JSONDATA
+
+        createEnvSetup().apply {
+            currentEnvironment = EnvironmentSetup.Type.PRODUCTION
+            sanityCheck()
+        }
+    }
+
+    @Test
+    fun `enums need to be fully mapped - test build`() {
+        if (!CWADebug.isDeviceForTestersBuild) return
+        every { BuildConfigWrap.ENVIRONMENT_JSONDATA } returns BuildConfig.ENVIRONMENT_JSONDATA
+
+        EnvironmentSetup.Type.values().forEach { type ->
+            createEnvSetup().apply {
+                currentEnvironment = type
+                sanityCheck()
+            }
+        }
+    }
+
+    @Test
+    fun `actual prod env is valid`() {
+        val prodEnv = File(File("").absoluteFile.parentFile, "prod_environments.json")
+        require(prodEnv.exists())
+        every { BuildConfigWrap.ENVIRONMENT_JSONDATA } returns prodEnv.readText()
+
+        createEnvSetup().apply {
+            currentEnvironment = EnvironmentSetup.Type.PRODUCTION
+            sanityCheck()
+        }
+    }
+
+    @Test
+    fun `actual test env is valid`() {
+        val textEnv = File(File("").absoluteFile.parentFile, "test_environments.json")
+        if (!textEnv.exists()) return
+
+        every { BuildConfigWrap.ENVIRONMENT_JSONDATA } returns textEnv.readText()
+
+        EnvironmentSetup.Type.values().forEach { type ->
+            createEnvSetup().apply {
+                currentEnvironment = type
+                sanityCheck()
+            }
+        }
     }
 
     companion object {
