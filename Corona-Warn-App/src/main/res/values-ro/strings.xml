@@ -1609,7 +1609,7 @@
 
     <!-- Persons Vaccinated Once Statistics Card -->
     <!-- XHED: Title for vaccinated once statistics card -->
-    <string name="statistics_vaccinated_once_card_title">"persoane care au primit cel puțin o doză de vaccin"</string>
+    <string name="statistics_vaccinated_once_card_title">"Persoane care au primit cel puțin o doză de vaccin"</string>
     <!-- XTXT: Nationwide text -->
     <string name="statistics_vaccinated_nationwide_text">"La nivel național"</string>
     <!-- XTXT: Vaccination primary value footnote text -->
@@ -1617,11 +1617,11 @@
 
     <!-- Persons Vaccinated Completely Statistics Card -->
     <!-- XHED: Title for vaccinated completely statistics card -->
-    <string name="statistics_vaccinated_completely_card_title">"persoane care sunt complet vaccinate"</string>
+    <string name="statistics_vaccinated_completely_card_title">"Persoane care sunt complet vaccinate"</string>
 
     <!-- Applied Vaccination Dose Rates Statistics Card -->
     <!-- XHED: Title for applied vaccination dose rates -->
-    <string name="statistics_applied_vaccination_dose_rates_card_title">"doze de vaccin administrate"</string>
+    <string name="statistics_applied_vaccination_dose_rates_card_title">"Doze de vaccin administrate"</string>
     <!-- XTXT: Statistics local 7 days title -->
     <string name="statistics_explanation_local_seven_day_incidence_title">"Incidența pe 7 zile la nivel local"</string>
     <!-- XTXT: Statistics local 7 days text -->

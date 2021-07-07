@@ -102,7 +102,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
             every { certificateIssuer } returns "Landratsamt Musterstadt"
             every { certificateCountry } returns "Deutschland"
             every { certificateId } returns "05930482748454836478695764787841"
-            every { expiresAt } returns Instant.parse("2021-05-16T00:00:00.000Z")
+            every { headerExpiresAt } returns Instant.parse("2021-05-16T00:00:00.000Z")
             every { totalSeriesOfDoses } returns 2
             if (complete) every { doseNumber } returns 2 else every { doseNumber } returns 1
         }

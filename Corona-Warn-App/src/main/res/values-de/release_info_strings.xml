@@ -24,8 +24,8 @@
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>Sie können nun in der App auch digitale Genesenenzertifikate hinzufügen. Sie können diese Zertifikate innerhalb der EU verwenden, um eine frühere Infektion nachzuweisen (z.B. für Auslandsreisen).</item>
-        <item>Sie können nun digitale COVID-Zertifikate von Familienmitgliedern in der App hinzufügen und verwalten, um die Zertifikate vorzeigen zu können (z.B. bei Auslandsreisen).</item>
+        <item>Sie können nun in der App auch digitale Genesenenzertifikate hinzufügen. Sie können diese Zertifikate innerhalb der EU verwenden, um eine frühere Infektion nachzuweisen (z.\u00A0B. für Auslandsreisen).</item>
+        <item>Sie können nun digitale COVID-Zertifikate von Familienmitgliedern in der App hinzufügen und verwalten, um die Zertifikate vorzeigen zu können (z.\u00A0B. bei Auslandsreisen).</item>
         <item>Es sind nun folgende Impfstatistiken in der App verfügbar:\n\t- Anzahl mindestens einmal geimpfter Personen\n\t- Anzahl vollständig geimpfter Personen\n\t- Anzahl verabreichter Impfdosen</item>
     </string-array>
 
