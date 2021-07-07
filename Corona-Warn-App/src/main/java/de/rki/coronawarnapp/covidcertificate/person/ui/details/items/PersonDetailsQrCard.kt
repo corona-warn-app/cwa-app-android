@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.details.items
 
 import android.graphics.Bitmap
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
