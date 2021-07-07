@@ -119,11 +119,11 @@ data class VaccinationContainer internal constructor(
         override val certificateId: String
             get() = vaccination.uniqueCertificateIdentifier
 
-        override val issuer: String
+        override val headerIssuer: String
             get() = header.issuer
-        override val issuedAt: Instant
+        override val headerIssuedAt: Instant
             get() = header.issuedAt
-        override val expiresAt: Instant
+        override val headerExpiresAt: Instant
             get() = header.expiresAt
 
         override val qrCode: QrCodeString

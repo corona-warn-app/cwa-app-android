@@ -1609,19 +1609,19 @@
 
     <!-- Persons Vaccinated Once Statistics Card -->
     <!-- XHED: Title for vaccinated once statistics card -->
-    <string name="statistics_vaccinated_once_card_title">"en az bir doz aşı olan kişiler"</string>
+    <string name="statistics_vaccinated_once_card_title">"En az bir doz aşı olan kişiler"</string>
     <!-- XTXT: Nationwide text -->
     <string name="statistics_vaccinated_nationwide_text">"Ülke genelinde"</string>
     <!-- XTXT: Vaccination primary value footnote text -->
-    <string name="statistics_vaccination_primary_value_footnote">"oran (toplam popülasyona göre)"</string>
+    <string name="statistics_vaccination_primary_value_footnote">"(popülasyona göre)"</string>
 
     <!-- Persons Vaccinated Completely Statistics Card -->
     <!-- XHED: Title for vaccinated completely statistics card -->
-    <string name="statistics_vaccinated_completely_card_title">"tüm aşıları olan kişiler"</string>
+    <string name="statistics_vaccinated_completely_card_title">"Tüm aşıları olan kişiler"</string>
 
     <!-- Applied Vaccination Dose Rates Statistics Card -->
     <!-- XHED: Title for applied vaccination dose rates -->
-    <string name="statistics_applied_vaccination_dose_rates_card_title">"uygulanan aşı dozu"</string>
+    <string name="statistics_applied_vaccination_dose_rates_card_title">"Uygulanan aşı dozları"</string>
     <!-- XTXT: Statistics local 7 days title -->
     <string name="statistics_explanation_local_seven_day_incidence_title">"Yerel 7 günlük olay"</string>
     <!-- XTXT: Statistics local 7 days text -->
