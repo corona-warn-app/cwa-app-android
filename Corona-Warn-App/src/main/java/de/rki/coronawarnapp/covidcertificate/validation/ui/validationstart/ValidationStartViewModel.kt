@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvi
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidator
+import de.rki.coronawarnapp.covidcertificate.validation.core.ValidationUserInput
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
@@ -55,7 +56,10 @@ class ValidationStartViewModel @AssistedInject constructor(
             val country = state.dccCountry
             val time = state.dateTime.toInstant()
             val certificateData = certificateProvider.findCertificate(containerId).dccData
-            val validationResult = dccValidator.validateDcc(country, time, certificateData)
+            val validationResult = dccValidator.validateDcc(
+                ValidationUserInput(country, time),
+                certificateData
+            )
 
             events.postValue(NavigateToValidationResultFragment(validationResult))
         } catch (e: Exception) {

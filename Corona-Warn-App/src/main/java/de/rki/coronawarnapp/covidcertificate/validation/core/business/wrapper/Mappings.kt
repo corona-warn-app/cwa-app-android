@@ -24,7 +24,7 @@ internal fun assembleExternalParameter(
     valueSets: Map<String, List<String>>,
 ): ExternalParameter {
     return ExternalParameter(
-        kid = "", // leave empty
+        kid = certificate.kid,
         validationClock = validationClock.toZonedDateTime(),
         valueSets = valueSets,
         countryCode = countryCode,

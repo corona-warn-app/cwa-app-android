@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper
 
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -14,6 +13,7 @@ class ValueSetWrapper @Inject constructor(
         .latestVaccinationValueSets.map { vaccinationValues ->
             mapOf(
                 countryCodes,
+                diseaseTargeted to vaccinationValues.tg.items.map { it.key },
                 "sct-vaccines-covid-19" to vaccinationValues.vp.items.map { it.key },
                 "vaccines-covid-19-auth-holders " to vaccinationValues.ma.items.map { it.key },
                 "vaccines-covid-19-names" to vaccinationValues.mp.items.map { it.key },
@@ -24,15 +24,20 @@ class ValueSetWrapper @Inject constructor(
         .latestTestCertificateValueSets.map { testValues ->
             mapOf(
                 countryCodes,
+                diseaseTargeted to testValues.tg.items.map { it.key },
                 "covid-19-lab-result" to testValues.tr.items.map { it.key },
                 "covid-19-lab-test-manufacturer-and-name" to testValues.ma.items.map { it.key },
                 "covid-19-lab-test-type" to testValues.tt.items.map { it.key },
-                "disease-agent-targeted" to testValues.tg.items.map { it.key },
-                "vaccines-covid-19-auth-holders " to testValues.ma.items.map { it.key },
             )
         }
 
-    val valueSetRecovery: Flow<Map<String, List<String>>> = emptyFlow()
+    val valueSetRecovery: Flow<Map<String, List<String>>> = valueSetsRepository
+        .latestVaccinationValueSets.map { vaccinationValues ->
+            mapOf(
+                countryCodes,
+                diseaseTargeted to vaccinationValues.tg.items.map { it.key },
+            )
+        }
 
     private val countryCodes = Pair(
         "country-2-codes",
@@ -289,3 +294,5 @@ class ValueSetWrapper @Inject constructor(
         )
     )
 }
+
+private const val diseaseTargeted = "disease-agent-targeted"
