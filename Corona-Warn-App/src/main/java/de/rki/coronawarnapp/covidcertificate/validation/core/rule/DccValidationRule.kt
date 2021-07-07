@@ -1,8 +1,12 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.rule
 
+import android.os.Parcelable
 import com.fasterxml.jackson.databind.JsonNode
+import kotlinx.android.parcel.Parcelize
+import kotlinx.android.parcel.RawValue
 import org.joda.time.Instant
 
+@Parcelize
 data class DccValidationRule(
     // Unique identifier of the rule "GR-CZ-0001"
     val identifier: String,
@@ -44,8 +48,8 @@ data class DccValidationRule(
 
     // CertLogic rule as JSON object
     //  { "and":[{ ">":[{ "var":"hcert.v.0.dn" }, 0] },{ ">=":[{ "var":"hcert.v.0.dn" },{ "var":"hcert.v.0.sd" }] }]}
-    val logic: JsonNode
-) {
+    val logic: @RawValue JsonNode
+) : Parcelable {
     val validFromInstant: Instant
         get() = Instant.parse(validFrom)
 
