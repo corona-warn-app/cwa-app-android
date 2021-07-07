@@ -25,7 +25,7 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
     private val qrCodeGenerator: QrCodeGenerator,
     private val testCertificateRepository: TestCertificateRepository,
     private val dccValidationRuleRepository: DccValidationRuleRepository,
-    ) : CWAViewModel(dispatcherProvider) {
+) : CWAViewModel(dispatcherProvider) {
 
     private var qrCodeText: String? = null
     private val bitmapStateData = MutableLiveData<Bitmap>()
