@@ -29,8 +29,8 @@ class DccValidationRepositoryTest : BaseTest() {
         MockKAnnotations.init(this)
 
         localCache.apply {
-            coEvery { loadJson() } returns null
-            coEvery { saveJson(any()) } just Runs
+            coEvery { loadCountryJson() } returns null
+            coEvery { saveCountryJson(any()) } just Runs
         }
 
         server.apply {
@@ -53,7 +53,7 @@ class DccValidationRepositoryTest : BaseTest() {
         }
 
         coVerify {
-            localCache.loadJson()
+            localCache.loadCountryJson()
         }
         coVerify(exactly = 0) {
             server.dccCountryJson()
@@ -71,7 +71,7 @@ class DccValidationRepositoryTest : BaseTest() {
 
         coVerify {
             server.dccCountryJson()
-            localCache.saveJson(testCountryData)
+            localCache.saveCountryJson(testCountryData)
         }
     }
 }

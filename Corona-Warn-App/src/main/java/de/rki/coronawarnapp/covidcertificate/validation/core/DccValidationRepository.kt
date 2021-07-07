@@ -44,7 +44,7 @@ class DccValidationRepository @Inject constructor(
             replayExpirationMillis = 0
         ),
     ) {
-        DccValidationData(localCache.loadJson()?.let { mapCountries(it) } ?: emptyList())
+        DccValidationData(localCache.loadCountryJson()?.let { mapCountries(it) } ?: emptyList())
     }
 
     val dccCountries: Flow<List<DccCountry>> = internalData.data.map { it.countries }
@@ -57,7 +57,7 @@ class DccValidationRepository @Inject constructor(
     suspend fun refresh() {
         internalData.updateBlocking {
             val newCountryData = server.dccCountryJson()
-            localCache.saveJson(newCountryData)
+            localCache.saveCountryJson(newCountryData)
             DccValidationData(mapCountries(newCountryData))
         }
         // TODO refresh current rule data
@@ -82,7 +82,7 @@ class DccValidationRepository @Inject constructor(
     suspend fun clear() {
         Timber.tag(TAG).i("clear()")
         server.clear()
-        localCache.saveJson(null)
+        localCache.saveCountryJson(null)
         // TODO clear rules
     }
 
