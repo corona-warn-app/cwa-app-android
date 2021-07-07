@@ -108,6 +108,9 @@
         <action
             android:id="@+id/action_personDetailsFragment_to_recoveryCertificateDetailsFragment"
             app:destination="@id/recoveryCertificateDetailsFragment" />
+        <action
+            android:id="@+id/action_personDetailsFragment_to_validationStartFragment"
+            app:destination="@id/validationStartFragment" />
     </fragment>
 
     <fragment

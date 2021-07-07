@@ -27,6 +27,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson.Status.IMMUNITY
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -46,6 +47,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private val personCertificatesProvider: PersonCertificatesProvider,
     private val qrCodeGenerator: QrCodeGenerator,
     private val vaccinationRepository: VaccinationRepository,
+    private val dccValidationRepository: DccValidationRepository,
     private val timeStamper: TimeStamper,
     @Assisted private val personIdentifierCode: String,
     @Assisted private val colorShade: PersonColorShade,
@@ -94,7 +96,9 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private suspend fun assembleList(personCertificates: PersonCertificates, qrCode: Bitmap?) =
         mutableListOf<CertificateItem>().apply {
             val priorityCertificate = personCertificates.highestPriorityCertificate
-            add(PersonDetailsQrCard.Item(priorityCertificate, qrCode))
+            add(
+                PersonDetailsQrCard.Item(priorityCertificate, qrCode) { onValidateCertificate(it) }
+            )
             add(cwaUserCard(personCertificates))
 
             // Find any vaccination certificate to determine the vaccination information
@@ -109,7 +113,18 @@ class PersonDetailsViewModel @AssistedInject constructor(
             personCertificates.certificates.forEach { addCardItem(it, personCertificates.highestPriorityCertificate) }
         }
 
-    private suspend fun cwaUserCard(
+    private fun onValidateCertificate(containerId: CertificateContainerId) =
+        launch {
+            try {
+                dccValidationRepository.refresh()
+                events.postValue(ValidationStart(containerId))
+            } catch (e: Exception) {
+                Timber.d(e, "Validation start failed for containerId=%s", containerId)
+                events.postValue(ShowErrorDialog(e))
+            }
+        }
+
+    private fun cwaUserCard(
         personCertificates: PersonCertificates
     ) = CwaUserCard.Item(personCertificates) { checked ->
         launch {

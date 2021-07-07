@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
@@ -35,6 +36,7 @@ class PersonDetailsQrCard(parent: ViewGroup) :
             qrTitle.isVisible = true
             qrSubtitle.isVisible = true
             startValidationCheckButton.isVisible = true
+            startValidationCheckButton.setOnClickListener { validateCertificate(certificate.containerId) }
             when (certificate) {
                 is TestCertificate -> {
                     val dateTime = certificate.sampleCollectedAt.toUserTimeZone().run {
@@ -64,7 +66,8 @@ class PersonDetailsQrCard(parent: ViewGroup) :
 
     data class Item(
         val certificate: CwaCovidCertificate,
-        val qrCodeBitmap: Bitmap?
+        val qrCodeBitmap: Bitmap?,
+        val validateCertificate: (CertificateContainerId) -> Unit
     ) : CertificateItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
         override val stableId = certificate.personIdentifier.codeSHA256.hashCode().toLong()
