@@ -93,7 +93,7 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
             events.postValue(VaccinationDetailsNavigation.ValidationStart(containerId))
         } catch (e: Exception) {
             Timber.d(e, "validation rule download failed for covidCertificate=%s", containerId)
-            // TODO Add error messages
+            errors.postValue(e)
         }
     }
 

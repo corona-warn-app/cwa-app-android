@@ -106,6 +106,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     }
 
     private fun FragmentTestCertificateDetailsBinding.onError(error: Throwable) {
+        startValidationCheck.isLoading = false
         qrCodeCard.progressBar.hide()
         error.toErrorDialogBuilder(requireContext()).show()
     }

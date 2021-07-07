@@ -74,6 +74,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             }
 
             viewModel.errors.observe(viewLifecycleOwner) {
+                startValidationCheck.isLoading = false
                 qrCodeCard.progressBar.hide()
                 it.toErrorDialogBuilder(requireContext()).show()
             }

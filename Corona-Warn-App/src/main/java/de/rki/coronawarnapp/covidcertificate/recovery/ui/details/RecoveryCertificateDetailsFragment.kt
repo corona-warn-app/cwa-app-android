@@ -84,6 +84,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
     }
 
     private fun FragmentRecoveryCertificateDetailsBinding.onError(error: Throwable) {
+        startValidationCheck.isLoading = false
         qrCodeCard.progressBar.hide()
         error.toErrorDialogBuilder(requireContext()).show()
     }
