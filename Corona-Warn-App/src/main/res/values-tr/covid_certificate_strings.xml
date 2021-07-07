@@ -103,6 +103,8 @@
     <string name="test_certificate_qrcode_card_sampled_on">"Numune alma tarihi: %s"</string>
     <!-- XTXT: Test certificate card name  -->
     <string name="test_certificate_name">"Test Sertifikası"</string>
+    <!-- XTXT: Dialog description for error 409 recovery-->
+    <string name="test_certificate_error_409_recovery_description">"Bu test için sertifika oluşturulamıyor. Sertifika almak için lütfen yeni bir test ekleyin."</string>
 
     <!-- XTXT: DCC QR code scan error message-->
     <string name="error_dcc_invalid">"Bu QR kod geçerli bir sertifika değildir.\n\nSertifikanızı nasıl alacağınız hakkında daha fazla bilgi için lütfen SSS sayfamıza bakın."</string>

@@ -103,6 +103,8 @@
     <string name="test_certificate_qrcode_card_sampled_on">"Взета проба %s"</string>
     <!-- XTXT: Test certificate card name  -->
     <string name="test_certificate_name">"Сертификат за тест"</string>
+    <!-- XTXT: Dialog description for error 409 recovery-->
+    <string name="test_certificate_error_409_recovery_description">"За този тест не може да бъде създаден сертификат. За да получите такъв, моля, добавете друг тест."</string>
 
     <!-- XTXT: DCC QR code scan error message-->
     <string name="error_dcc_invalid">"Този QR не е валиден сертификат.\n\nЗа да разберете как можете да се сдобиете със сертификат за извършена ваксинация, вижте страницата ни с често задавани въпроси (ЧЗВ)."</string>
