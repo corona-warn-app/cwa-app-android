@@ -17,15 +17,19 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.comm
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flow
 
 class DccValidationFailedViewModel @AssistedInject constructor(
     @Assisted private val validation: DccValidation,
     dispatcherProvider: DispatcherProvider,
 ) : CWAViewModel(dispatcherProvider) {
 
-    val listItems: LiveData<List<ValidationResultItem>> = flowOf(
-        listOf(
+    val listItems: LiveData<List<ValidationResultItem>> = flow {
+        emit(generateItems())
+    }.asLiveData2()
+
+    private suspend fun generateItems(): List<ValidationResultItem> {
+        return listOf(
             ValidationInputVH.Item(validation),
             ValidationOverallResultVH.Item(validation.state),
             TechnicalValidationFailedVH.Item(validation),
@@ -36,7 +40,7 @@ class DccValidationFailedViewModel @AssistedInject constructor(
             ValidationFaqVH.Item,
             ValidationPassedHintVH.Item,
         )
-    ).asLiveData2()
+    }
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<DccValidationFailedViewModel> {
