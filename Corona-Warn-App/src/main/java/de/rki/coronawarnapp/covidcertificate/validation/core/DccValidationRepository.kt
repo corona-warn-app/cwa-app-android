@@ -83,7 +83,7 @@ class DccValidationRepository @Inject constructor(
         Timber.tag(TAG).i("clear()")
         server.clear()
         localCache.saveCountryJson(null)
-        // TODO clear rules
+        localCache.saveRulesJson(null)
     }
 
     companion object {
