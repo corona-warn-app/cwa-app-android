@@ -3,8 +3,8 @@ package de.rki.coronawarnapp.covidcertificate.validation.core.validation.busines
 import com.fasterxml.jackson.databind.ObjectMapper
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
+import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
-import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRuleRepository
 import dgca.verifier.app.engine.DefaultCertLogicEngine
 import dgca.verifier.app.engine.DefaultJsonLogicValidator
 import dgca.verifier.app.engine.UTC_ZONE_ID
@@ -19,7 +19,7 @@ import javax.inject.Inject
 class BusinessValidator @Inject constructor(
     private val acceptanceProcessor: AcceptanceProcessor,
     private val invalidationProcessor: InvalidationProcessor,
-    private val ruleRepository: DccValidationRuleRepository,
+    private val ruleRepository: DccValidationRepository,
 ) {
 
     suspend fun validate(

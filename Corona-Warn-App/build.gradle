@@ -254,6 +254,7 @@ android {
         }
         test {
             java.srcDirs += "$projectDir/src/testShared/java"
+            resources.srcDirs += "src/main/assets"
         }
         androidTest {
             java.srcDirs += "$projectDir/src/testShared/java"
@@ -448,9 +449,10 @@ dependencies {
     implementation 'com.google.guava:guava:30.0-android'
     implementation 'joda-time:joda-time:2.10.6'
 
+    implementation 'com.networknt:json-schema-validator:1.0.56'
+
     // SECURITY
     implementation "androidx.security:security-crypto:1.0.0-rc03"
-    implementation 'net.zetetic:android-database-sqlcipher:4.4.0'
     implementation 'org.conscrypt:conscrypt-android:2.5.1'
 
     // LOGGING

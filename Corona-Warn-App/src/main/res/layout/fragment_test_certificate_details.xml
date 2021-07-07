@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@drawable/trace_location_gradient_background">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/button_container"
-        android:background="@drawable/trace_location_gradient_background"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/validation_start_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -327,29 +326,23 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="true" />
+
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-    <LinearLayout
-        android:id="@+id/button_container"
+
+
+    <Button
+        android:id="@+id/validation_start_button"
+        style="@style/buttonPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom"
-        android:background="@drawable/trace_location_gradient_background"
-        android:orientation="horizontal">
+        android:layout_marginHorizontal="24dp"
+        android:text="@string/test_certificate_validation_start_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="parent" />
 
-        <de.rki.coronawarnapp.ui.view.ProgressLoadingButton
-            android:id="@+id/start_validation_check"
-            style="@style/buttonPrimary"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:buttonText="@string/start_validation_rule_check_button"
-            app:loadingText="@string/start_validation_rule_check_loading_text"
-            app:isLoading="false" />
-
-    </LinearLayout>
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
