@@ -104,7 +104,7 @@
     <!-- XTXT: Test certificate card name  -->
     <string name="test_certificate_name">"Test Certificate"</string>
     <!-- XTXT: Dialog description for error 409 recovery-->
-    <string name="test_certificate_error_409_recovery_description">Für diesen Test kann leider kein Zertifikat erstellt werden. Bitte fügen Sie einen neuen Test hinzu um ein Zertifikat zu erhalten.</string>
+    <string name="test_certificate_error_409_recovery_description">"No certificate can be created for this test. Please add a new test to receive a certificate."</string>
 
     <!-- XTXT: DCC QR code scan error message-->
     <string name="error_dcc_invalid">"This QR code is not a valid certificate.\n\nFor more information about how to receive your certificate, please see our FAQ page."</string>
