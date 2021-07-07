@@ -5,14 +5,14 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/validation_result_faq_tv"
+        android:id="@+id/faq"
         style="@style/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:focusable="true"
         android:layout_marginVertical="@dimen/spacing_small"
         android:layout_marginHorizontal="@dimen/spacing_normal"
-        android:text="@string/validation_rules_result_valid_result_faq"
+        android:text="@string/validation_start_faq"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -1,10 +1,12 @@
 package de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem
 
+import TextViewUrlSet
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultFaqItemBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
-import de.rki.coronawarnapp.util.setUrl
+import de.rki.coronawarnapp.util.ui.toResolvingString
+import setTextWithUrls
 
 class ValidationFaqVH(
     parent: ViewGroup
@@ -20,19 +22,19 @@ class ValidationFaqVH(
     override val onBindData: CovidCertificateValidationResultFaqItemBinding.(
         item: Item,
         payloads: List<Any>,
-    ) -> Unit = { item, payloads ->
+    ) -> Unit = { _, _ ->
 
-        val faqLinkLabel = context.getString(R.string.validation_rules_result_valid_result_faq_link_label)
-        val faqLink = context.getString(R.string.validation_rules_result_valid_result_faq_link)
-        val reopenLinkLabel = context.getString(R.string.validation_rules_result_valid_result_reopen_link_label)
-        val reopenLink = context.getString(R.string.validation_rules_result_valid_result_reopen_link)
-        val urlString =
-            context.getString(R.string.validation_rules_result_valid_result_faq, faqLinkLabel, reopenLinkLabel)
-
-        validationResultFaqTv.apply {
-            setUrl(urlString, faqLinkLabel, faqLink)
-            setUrl(urlString, reopenLinkLabel, reopenLink)
-        }
+        faq.setTextWithUrls(
+            R.string.validation_start_faq.toResolvingString(),
+            TextViewUrlSet(
+                labelResource = R.string.validation_start_faq_label,
+                urlResource = R.string.validation_start_faq_link
+            ),
+            TextViewUrlSet(
+                labelResource = R.string.validation_start_reopen_europe_label,
+                urlResource = R.string.validation_start_reopen_europe_link
+            )
+        )
     }
 
     object Item : ValidationResultItem, HasPayloadDiffer {
