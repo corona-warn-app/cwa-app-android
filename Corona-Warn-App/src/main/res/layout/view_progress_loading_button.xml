@@ -1,58 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge
-    android:id="@+id/container"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:layout_height="wrap_content"
-    tools:layout_width="match_parent"
-    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="50dp">
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/defaultButton"
         style="@style/buttonPrimary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="visible"
-        tools:text="@string/start_validation_rule_check_button"
-        app:layout_constraintStart_toStartOf="parent">
-    </Button>
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="@string/start_validation_rule_check_button" />
 
-    <RelativeLayout
-        android:id="@+id/loading_button_container"
-        style="@style/buttonPrimary"
-        android:visibility="invisible"
-        tools:visibility="visible"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/loadingButtonContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progress_indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true">
+            android:indeterminate="true"
+            app:indicatorSize="22dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:trackThickness="2dp" />
 
-            <com.google.android.material.progressindicator.CircularProgressIndicator
-                android:id="@+id/progress_indicator"
-                android:layout_width="12dp"
-                app:indicatorSize="22dp"
-                app:trackThickness="2dp"
-                android:layout_height="wrap_content"
-                android:indeterminate="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/loading_button"
+            style="@style/body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="4dp"
+            tools:text="@string/start_validation_rule_check_loading_text" />
 
-            <TextView
-                android:id="@+id/loading_button"
-                android:layout_width="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_height="wrap_content"
-                style="@style/body1"
-                android:layout_gravity="center"
-                tools:text="@string/start_validation_rule_check_loading_text" />
-
-        </LinearLayout>
-    </RelativeLayout>
-</merge>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

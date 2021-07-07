@@ -19,7 +19,9 @@ class ProgressLoadingButton @JvmOverloads constructor(
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
     private val binding: ViewProgressLoadingButtonBinding
+    private var defaultText: String = ""
     var defaultButton: Button
+        private set
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_progress_loading_button, this, true)
@@ -31,10 +33,9 @@ class ProgressLoadingButton @JvmOverloads constructor(
 
         context.withStyledAttributes(attrs, R.styleable.ProgressLoadingButton) {
 
-            val defaultText = getText(R.styleable.ProgressLoadingButton_buttonText) ?: ""
             val loadingText = getText(R.styleable.ProgressLoadingButton_loadingText) ?: ""
             val loading = getBoolean(R.styleable.ProgressLoadingButton_isLoading, false)
-
+            defaultText = getText(R.styleable.ProgressLoadingButton_buttonText).toString()
             binding.apply {
                 defaultButton.text = defaultText
                 loadingButton.text = loadingText
@@ -46,8 +47,9 @@ class ProgressLoadingButton @JvmOverloads constructor(
     var isLoading: Boolean = false
         set(value) {
             binding.apply {
-                defaultButton.isGone = value
+                defaultButton.isEnabled = !value
                 loadingButtonContainer.isVisible = value
+                defaultButton.text = if (value) "" else defaultText
             }
             field = value
         }

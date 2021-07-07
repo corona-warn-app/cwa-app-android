@@ -44,8 +44,8 @@
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/image"
         app:layout_constraintTop_toBottomOf="@id/image"
-        tools:visibility="visible"
-        tools:text="@string/detail_green_certificate_card_title" />
+        tools:text="@string/detail_green_certificate_card_title"
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/qr_subtitle"
@@ -54,22 +54,22 @@
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/qr_title"
         app:layout_constraintTop_toBottomOf="@id/qr_title"
-        tools:visibility="visible"
-        tools:text="Perobenahme am 31.05.21, 18:01 Uhr" />
+        tools:text="Perobenahme am 31.05.21, 18:01 Uhr"
+        tools:visibility="visible" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/start_validation_check_button"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/qr_subtitle"
         android:layout_marginTop="4dp"
         android:text="@string/start_validation_rule_check_button"
         android:textColor="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:visibility="gone"
-        tools:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/qr_subtitle"
         app:layout_constraintTop_toBottomOf="@+id/qr_subtitle"
-        app:strokeColor="@color/colorPrimary" />
+        app:strokeColor="@color/colorPrimary"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
