@@ -103,6 +103,8 @@
     <string name="test_certificate_qrcode_card_sampled_on">"Próbka pobrana %s"</string>
     <!-- XTXT: Test certificate card name  -->
     <string name="test_certificate_name">"Certyfikat testu"</string>
+    <!-- XTXT: Dialog description for error 409 recovery-->
+    <string name="test_certificate_error_409_recovery_description">"Nie można utworzyć certyfikatu dla tego testu. Dodaj nowy test, aby otrzymać certyfikat."</string>
 
     <!-- XTXT: DCC QR code scan error message-->
     <string name="error_dcc_invalid">"Ten kod QR nie jest ważnym certyfikatem.\n\nWięcej informacji na temat tego, jak otrzymać certyfikat, znajduje się na naszej stronie „Często zadawane pytania”."</string>
