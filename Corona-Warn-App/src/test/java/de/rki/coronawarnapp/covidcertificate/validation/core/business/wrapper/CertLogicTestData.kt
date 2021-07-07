@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper
 import com.fasterxml.jackson.databind.ObjectMapper
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 
-internal val logicVaccinationDosis = ObjectMapper().readTree(
+internal val logicVaccinationDose = ObjectMapper().readTree(
     """{"and":[{">":[{"var":"payload.v.0.dn"},0]},{">=":[{"var":"payload.v.0.dn"},{"var":"payload.v.0.sd"}]}]}"""
 )
 
@@ -45,7 +45,8 @@ internal val logicExactlyOne = ObjectMapper().readTree(
         1
       ]
     }
-  }""".trimIndent()
+  }
+    """.trimIndent()
 )
 
 internal fun createVaccinationRule(
@@ -64,14 +65,14 @@ internal fun createVaccinationRule(
     validFrom = validFrom,
     validTo = validTo,
     affectedFields = listOf("v.0.dn", "v.0.sd"),
-    logic = logicVaccinationDosis
+    logic = logicVaccinationDose
 )
 
 internal fun createGeneralRule(
     validFrom: String = "2021-05-27T07:46:40Z",
     validTo: String = "2022-08-01T07:46:40Z",
 ) = DccValidationRule(
-    identifier = "GE-DE-1",
+    identifier = "GR-DE-1",
     version = "1.0.0",
     schemaVersion = "1.0.0",
     engine = "CERTLOGIC",
