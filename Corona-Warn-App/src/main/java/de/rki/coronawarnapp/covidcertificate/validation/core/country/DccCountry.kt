@@ -13,7 +13,9 @@ data class DccCountry(
     /**
      * User readable country name, returns country code as fallback.
      */
-    fun getCountryDisplayName(userLocale: Locale = Locale.getDefault()): String {
+    fun displayName(userLocale: Locale = Locale.getDefault()): String {
         return Locale(userLocale.language, countryCode.uppercase()).getDisplayCountry(userLocale)
     }
+
+    override fun toString(): String = displayName()
 }

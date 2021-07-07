@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.country
 
+import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationCache
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.Test
@@ -10,7 +11,7 @@ class DccCountryLocalCacheTest : BaseIOTest() {
 
     private val cacheDir = File(IO_TEST_BASEDIR, "cache")
 
-    private fun createInstance(): DccCountryLocalCache = DccCountryLocalCache(
+    private fun createInstance(): DccValidationCache = DccValidationCache(
         cacheDir = cacheDir
     )
 

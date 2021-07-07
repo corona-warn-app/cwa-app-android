@@ -1,6 +1,5 @@
-package de.rki.coronawarnapp.covidcertificate.validation.core.rule.server
+package de.rki.coronawarnapp.covidcertificate.validation.core.rule
 
-import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import retrofit2.http.GET
 
 interface DccValidationRuleApi {

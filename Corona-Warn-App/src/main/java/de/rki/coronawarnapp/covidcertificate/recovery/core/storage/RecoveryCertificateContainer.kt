@@ -27,7 +27,7 @@ data class RecoveryCertificateContainer(
             (
                 qrCodeExtractor.extract(
                     it,
-                    mode = Mode.CERT_REC_STRICT
+                    mode = Mode.CERT_REC_LENIENT
                 ) as RecoveryCertificateQRCode
                 ).data
         }
@@ -107,6 +107,9 @@ data class RecoveryCertificateContainer(
 
             override val qrCode: QrCodeString
                 get() = data.recoveryCertificateQrCode
+
+            override val dccData: DccData<*>
+                get() = certificateData
         }
     }
 }

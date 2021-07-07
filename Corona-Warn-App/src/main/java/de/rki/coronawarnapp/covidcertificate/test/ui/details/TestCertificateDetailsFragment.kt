@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.databinding.FragmentTestCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -54,6 +55,8 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         viewModel.errors.observe(viewLifecycleOwner) { onError(it) }
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
         viewModel.covidCertificate.observe(viewLifecycleOwner) { it?.let { onCertificateReady(it) } }
+
+        validationStartButton.setOnClickListener { viewModel.onValidationStart() }
     }
 
     private fun FragmentTestCertificateDetailsBinding.onCertificateReady(
@@ -111,6 +114,10 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
                 QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
                 null,
                 FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
+            )
+            is TestCertificateDetailsNavigation.ValidationStart -> doNavigate(
+                TestCertificateDetailsFragmentDirections
+                    .actionTestCertificateDetailsFragmentToValidationStartFragment(event.containerId)
             )
         }
     }
