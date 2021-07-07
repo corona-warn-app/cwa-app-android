@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview.items
 import android.graphics.Bitmap
 import android.view.ViewGroup
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.isInvisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
@@ -28,7 +29,13 @@ class PersonCertificateCard(parent: ViewGroup) :
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
         name.text = curItem.certificate.fullName
-        qrcodeImage.setImageBitmap(curItem.qrcodeBitmap)
+
+        qrCodeLoadingIndicator.isInvisible = curItem.qrcodeBitmap != null
+        qrcodeImage.apply {
+            setImageBitmap(curItem.qrcodeBitmap)
+            isInvisible = curItem.qrcodeBitmap == null
+        }
+
         backgroundImage.setImageResource(curItem.colorShade.background)
         starsImage.setImageDrawable(starsDrawable(curItem))
 
