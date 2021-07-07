@@ -42,6 +42,7 @@ import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.transform
 import timber.log.Timber
 
+@Suppress("LongParameterList")
 class PersonDetailsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val personCertificatesProvider: PersonCertificatesProvider,
