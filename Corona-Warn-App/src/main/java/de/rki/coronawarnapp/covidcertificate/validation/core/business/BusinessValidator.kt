@@ -24,10 +24,6 @@ class BusinessValidator @Inject constructor(
         certificate: DccData<out DccV1.MetaData>,
     ): BusinessValidation {
 
-        // TODO update value sets
-
-        ruleRepository.refresh()
-
         // accepted by arrival country
         val acceptanceResults = certLogicEngineWrapper.process(
             rules = ruleRepository.acceptanceRules(arrivalCountry).filterRelevantRules(
