@@ -113,6 +113,11 @@ class EnvironmentSetup @Inject constructor(
         }
     }
 
+    fun sanityCheck() {
+        EnvKey.values().forEach { getEnvironmentValue(it) }
+        Timber.i("sanityCheck() - passed")
+    }
+
     val submissionCdnUrl: String
         get() = getEnvironmentValue(SUBMISSION).asString
     val verificationCdnUrl: String
