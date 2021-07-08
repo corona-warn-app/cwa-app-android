@@ -116,7 +116,7 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
     private fun navigateToResultScreen(validationResult: DccValidation) {
         when (validationResult.state) {
             DccValidation.State.PASSED ->
-                ValidationStartFragmentDirections.actionValidationStartFragmentToDccValidationPassedFragment()
+                ValidationStartFragmentDirections.actionValidationStartFragmentToDccValidationPassedFragment(validationResult)
 
             DccValidation.State.OPEN ->
                 ValidationStartFragmentDirections.actionValidationStartFragmentToDccValidationOpenFragment(
