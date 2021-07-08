@@ -1,13 +1,13 @@
 package de.rki.coronawarnapp.covidcertificate.test.core.qrcode
 
 import android.content.res.AssetManager
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.gson.Gson
 import com.upokecenter.cbor.CBORObject
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchema
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchemaValidator
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.test.TestData
+import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.util.serialization.validation.JsonSchemaValidator
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
@@ -25,7 +25,7 @@ class TestCertificateDccParserTest {
                     every { open(any()) } answers { this.javaClass.classLoader!!.getResourceAsStream(arg<String>(0)) }
                 }
             ),
-            JsonSchemaValidator(ObjectMapper())
+            JsonSchemaValidator(SerializationModule().jacksonObjectMapper())
         )
     }
     private val bodyParser = DccV1Parser(Gson(), schemaValidator)

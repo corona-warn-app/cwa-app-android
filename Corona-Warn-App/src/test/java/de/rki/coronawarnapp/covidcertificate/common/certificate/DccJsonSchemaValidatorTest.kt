@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import android.content.res.AssetManager
-import com.fasterxml.jackson.databind.ObjectMapper
+import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.util.serialization.validation.JsonSchemaValidator
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
@@ -31,7 +31,7 @@ class DccJsonSchemaValidatorTest : BaseTest() {
 
     fun createInstance() = DccJsonSchemaValidator(
         dccJsonSchema = DccJsonSchema(assetManager),
-        schemaValidator = JsonSchemaValidator(ObjectMapper())
+        schemaValidator = JsonSchemaValidator(SerializationModule().jacksonObjectMapper())
     )
 
     @Test
