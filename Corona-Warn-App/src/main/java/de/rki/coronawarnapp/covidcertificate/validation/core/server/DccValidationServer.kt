@@ -36,7 +36,7 @@ class DccValidationServer @Inject constructor(
     private val dccValidationRuleApi: DccValidationRuleApi
         get() = rulesApi.get()
 
-    suspend fun ruleSet(ruleTypeDcc: DccValidationRule.Type): Set<DccValidationRule> =
+    suspend fun ruleSetJson(ruleTypeDcc: DccValidationRule.Type): String =
         withContext(dispatcherProvider.Default) {
             return@withContext try {
                 when (ruleTypeDcc) {
@@ -48,7 +48,7 @@ class DccValidationServer @Inject constructor(
                 }
             } catch (e: Exception) {
                 Timber.e(e, "Getting rule set from server failed cause: ${e.message}")
-                emptySet()
+                throw DccValidationException(ErrorCode.ACCEPTANCE_RULE_SERVER_ERROR, e)
             }
         }
 
@@ -100,7 +100,7 @@ class DccValidationServer @Inject constructor(
     private fun ResponseBody.parseBody() = parseBody(byteStream())
 
     @VisibleForTesting
-    internal fun parseBody(inputStream: InputStream): Set<DccValidationRule> {
+    internal fun parseBody(inputStream: InputStream): String {
         val fileMap = inputStream.unzip().readIntoMap()
 
         val exportBinary = fileMap[EXPORT_BINARY_FILE_NAME]
@@ -117,7 +117,7 @@ class DccValidationServer @Inject constructor(
             throw ValueSetInvalidSignatureException(msg = "Signature of rule set did not match")
         }
 
-        // TODO parse binary to rules
+        return exportBinary.decodeToString()
     }
 
     fun clear() {

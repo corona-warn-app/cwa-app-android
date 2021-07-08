@@ -60,7 +60,6 @@ class DccValidationRepository @Inject constructor(
             localCache.saveCountryJson(newCountryData)
             DccValidationData(mapCountries(newCountryData))
         }
-        // TODO refresh current rule data
     }
 
     private fun mapCountries(rawJson: String): List<DccCountry> {
@@ -72,11 +71,15 @@ class DccValidationRepository @Inject constructor(
     }
 
     suspend fun acceptanceRules(arrivalCountry: DccCountry): List<DccValidationRule> {
-        return emptyList() // TODO
+        val data = server.ruleSetJson(DccValidationRule.Type.ACCEPTANCE)
+        localCache.saveRulesJson(data)
+        return gson.fromJson(data)
     }
 
     suspend fun invalidationRules(arrivalCountry: DccCountry): List<DccValidationRule> {
-        return emptyList() // TODO
+        val data = server.ruleSetJson(DccValidationRule.Type.INVALIDATION)
+        localCache.saveRulesJson(data)
+        return gson.fromJson(data)
     }
 
     suspend fun clear() {
