@@ -173,7 +173,7 @@
                         android:text="@string/recovery_certificate_attribute_recovered_from" />
 
                     <TextView
-                        android:id="@+id/recovered_from_desease"
+                        android:id="@+id/recovered_from_disease"
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
