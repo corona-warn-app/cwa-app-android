@@ -5,11 +5,10 @@
     android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/trace_location_gradient_background"
     tools:context=".covidcertificate.validation.ui.validationresult.failed.DccValidationFailedFragment">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -23,13 +22,13 @@
             app:titleEnabled="false">
 
             <ImageView
-                android:id="@+id/expandedImage"
+                android:id="@+id/header_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:importantForAccessibility="no"
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"
-                app:srcCompat="@drawable/covid_certificate_validation_failed_header" />
+                tools:srcCompat="@drawable/covid_certificate_validation_failed_header" />
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
@@ -39,7 +38,7 @@
                 app:expandedTitleGravity="top"
                 app:layout_collapseMode="pin"
                 app:navigationIcon="@drawable/ic_close"
-                app:title="@string/validation_failed_title" />
+                tools:title="@string/validation_failed_title" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -50,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingTop="24dp"
+        android:paddingBottom="64dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/covid_certificate_validation_result_header_item" />
