@@ -15,8 +15,10 @@
     <string name="person_overview_no_certificates_title">Noch keine Zertifikate vorhanden</string>
     <!-- XTXT: Person overview no certificates subtitle-->
     <string name="person_overview_no_certificates_subtitle">Hier werden die gespeicherten digitalen Impfzertifikate, Genesenenzertifikate und Testzertifikate angezeigt.</string>
+     <!-- XTXT: Person overview no certificates subtitle 2-->
+    <string name="person_overview_no_certificates_subtitle_2">Um ein Zertifikat hinzuzufügen, scannen Sie bitte den dazugehörigen QR-Code.</string>
     <!-- XBUT: Person overview certificates scan button-->
-    <string name="person_overview_scan_button">Zertifikat hinzufügen</string>
+    <string name="person_overview_scan_button">Zertifikat</string>
     <!-- XTXT: Person overview no certificates image content description-->
     <string name="person_overview_no_certificates_image_description">A certificate with a QR code symbol on it.</string>
     <!-- XTXT: Person card title-->
