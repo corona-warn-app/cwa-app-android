@@ -56,7 +56,7 @@
     <de.rki.coronawarnapp.ui.view.ProgressLoadingButton
         android:id="@+id/start_validation_check_button"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:textColor="@color/colorSecondary"

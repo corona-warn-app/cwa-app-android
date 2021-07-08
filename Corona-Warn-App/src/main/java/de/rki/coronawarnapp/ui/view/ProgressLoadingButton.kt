@@ -39,6 +39,7 @@ class ProgressLoadingButton @JvmOverloads constructor(
                 parentLayout.addView(this, 0)
                 layoutParams = LayoutParams(LayoutParams.MATCH_CONSTRAINT, LayoutParams.WRAP_CONTENT)
                 textAlignment = TEXT_ALIGNMENT_CENTER
+                isAllCaps = true
             }
 
             ConstraintSet().apply {
