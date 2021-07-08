@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/icon_date_format"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_small"
+        android:layout_marginTop="@dimen/spacing_mega_tiny"
+        android:importantForAccessibility="no"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_high_risk_alert" />
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/icon_date_format"
+        app:layout_constraintTop_toTopOf="@id/icon_date_format"
+        tools:text="Ein Testzertifikat muss von einem zertifizierten Testzentrum ausgestellt werden." />
+
+    <TextView
+        android:id="@+id/subtitle"
+        style="@style/body1Medium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_small"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/icon_date_format"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        tools:text="Dies ist eine Regel des Ausstellerlandes. " />
+
+    <TextView
+        android:id="@+id/line1"
+        style="@style/body1Medium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_small"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/icon_date_format"
+        app:layout_constraintTop_toBottomOf="@id/subtitle"
+        tools:text="Testzentrum oder -einrichtung / Testing Center" />
+
+    <TextView
+        android:id="@+id/line2"
+        style="@style/body1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_small"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/icon_date_format"
+        app:layout_constraintTop_toBottomOf="@id/line1"
+        tools:text="P01 Potsdam" />
+
+    <TextView
+        android:id="@+id/line3"
+        style="@style/body1Medium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_small"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/icon_date_format"
+        app:layout_constraintTop_toBottomOf="@id/line2"
+        tools:text="Regel-ID / Rule ID" />
+
+    <TextView
+        android:id="@+id/line4"
+        style="@style/body1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_small"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/icon_date_format"
+        app:layout_constraintTop_toBottomOf="@id/line3"
+        tools:text="AR-001" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
