@@ -22,7 +22,6 @@ data class DccValidation(
             isTechnicalFailure -> State.TECHNICAL_FAILURE
             hasPassed -> State.PASSED
             hasFailed -> State.FAILURE
-            isOpen -> State.OPEN
             else -> State.OPEN
         }
 
@@ -33,15 +32,6 @@ data class DccValidation(
 
     private val isTechnicalFailure: Boolean
         get() = !expirationCheckPassed || !jsonSchemaCheckPassed
-
-    private val isOpen: Boolean
-        get() = expirationCheckPassed && jsonSchemaCheckPassed &&
-            !acceptanceRules.any { it.result == DccValidationRule.Result.FAILED } &&
-            !invalidationRules.any { it.result == DccValidationRule.Result.FAILED } &&
-            (
-                acceptanceRules.any { it.result == DccValidationRule.Result.OPEN } ||
-                    invalidationRules.any { it.result == DccValidationRule.Result.OPEN }
-                )
 
     private val hasFailed: Boolean
         get() = expirationCheckPassed && jsonSchemaCheckPassed &&
