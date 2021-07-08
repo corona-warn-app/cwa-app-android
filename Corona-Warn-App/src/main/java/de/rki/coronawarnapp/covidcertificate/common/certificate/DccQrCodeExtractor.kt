@@ -132,7 +132,12 @@ class DccQrCodeExtractor @Inject constructor(
         when (parsedData.certificate) {
             is VaccinationDccV1 -> VaccinationCertificateQRCode(
                 qrCode = rawString,
-                data = parsedData as DccData<VaccinationDccV1>,
+                data = DccData(
+                    header = parsedData.header,
+                    certificate = parsedData.certificate,
+                    certificateJson = parsedData.certificateJson,
+                    kid = parsedData.kid
+                ),
             )
             is TestDccV1 -> TestCertificateQRCode(
                 qrCode = rawString,
@@ -179,12 +184,11 @@ class DccQrCodeExtractor @Inject constructor(
             certificate = body.parsed.asCertificate,
             certificateJson = body.raw,
             kid = message.kid
-        )
-//            .also {
-//            DccQrCodeCensor.addCertificateToCensor(it)
-//        }.also {
-//            Timber.v("Parsed covid certificate for %s", it.certificate.nameData.familyNameStandardized)
-//        }
+        ).also {
+            DccQrCodeCensor.addCertificateToCensor(it)
+        }.also {
+            Timber.v("Parsed covid certificate for %s", it.certificate.nameData.familyNameStandardized)
+        }
     } catch (e: InvalidHealthCertificateException) {
         throw e
     } catch (e: Throwable) {
