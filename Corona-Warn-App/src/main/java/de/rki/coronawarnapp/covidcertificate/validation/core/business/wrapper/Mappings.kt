@@ -150,32 +150,25 @@ internal fun List<DccValidationRule>.takeHighestVersion(): DccValidationRule? {
 
 private val comparator = object : Comparator<DccValidationRule> {
     override fun compare(o1: DccValidationRule, o2: DccValidationRule): Int {
-        val v1 = o1.version.parseVersion()
-        val v2 = o2.version.parseVersion()
-        (0 until min(v1.size, v2.size)).forEach {
+        val version1 = o1.version.parseVersion()
+        val version2 = o2.version.parseVersion()
+        (0 until min(version1.size, version2.size)).forEach {
             try {
-                val order1 = Integer.parseInt(v1.get(it))
-                val order2 = Integer.parseInt(v2.get(it))
-                if (order1 < order2) {
-                    return -1
-                }
-                if (order1 > order2) {
-                    return 1
-                }
+                val diff = Integer.parseInt(version1[it]) - Integer.parseInt(version2[it])
+                if (diff != 0) return diff
             } catch (e: Exception) {
                 // compare as String
-                val order1 = v1.get(it)
-                val order2 = v2.get(it)
-                if (order1 < order2) {
+                val word1 = version1[it]
+                val word2 = version2[it]
+                if (word1 < word2) {
                     return -1
                 }
-                if (order1 > order2) {
+                if (word1 > word2) {
                     return 1
                 }
             }
         }
-
-        return v1.size - v2.size
+        return version1.size - version2.size
     }
 }
 
