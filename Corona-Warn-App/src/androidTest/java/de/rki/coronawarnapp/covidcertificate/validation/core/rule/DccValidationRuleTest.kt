@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.validation.core.rule
 
 import android.os.Bundle
 import android.os.Parcel
-import com.fasterxml.jackson.databind.ObjectMapper
+import de.rki.coronawarnapp.util.serialization.SerializationModule
 import dgca.verifier.app.engine.UTC_ZONE_ID
 import io.kotest.matchers.shouldBe
 import org.junit.Test
@@ -25,7 +25,7 @@ class DccValidationRuleTest : BaseUITest() {
             validFrom = ZonedDateTime.now().withZoneSameInstant(UTC_ZONE_ID).toString(),
             validTo = ZonedDateTime.now().withZoneSameInstant(UTC_ZONE_ID).toString(),
             affectedFields = listOf("aField"),
-            logic = ObjectMapper().readTree(
+            logic = SerializationModule.jacksonBaseMapper.readTree(
                 """
                     {
                         "and": [
