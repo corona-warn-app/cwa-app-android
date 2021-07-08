@@ -131,9 +131,9 @@ class VaccinationContainerTest : BaseTest() {
                 firstNameStandardized = "ANDREAS",
                 lastNameStandardized = "ASTRA<EINS"
             )
-            issuer shouldBe "DE"
-            issuedAt shouldBe Instant.parse("2021-05-11T09:25:00.000Z")
-            expiresAt shouldBe Instant.parse("2022-05-11T09:25:00.000Z")
+            headerIssuer shouldBe "DE"
+            headerIssuedAt shouldBe Instant.parse("2021-05-11T09:25:00.000Z")
+            headerExpiresAt shouldBe Instant.parse("2022-05-11T09:25:00.000Z")
         }
     }
 

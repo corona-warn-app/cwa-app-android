@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.recovery.core.storage
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode
 import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
@@ -98,17 +99,17 @@ data class RecoveryCertificateContainer(
             override val certificateId: String
                 get() = recoveryCertificate.uniqueCertificateIdentifier
 
-            override val issuer: String
+            override val headerIssuer: String
                 get() = header.issuer
-            override val issuedAt: Instant
+            override val headerIssuedAt: Instant
                 get() = header.issuedAt
-            override val expiresAt: Instant
+            override val headerExpiresAt: Instant
                 get() = header.expiresAt
 
             override val qrCode: QrCodeString
                 get() = data.recoveryCertificateQrCode
 
-            override val dccData: DccData<*>
+            override val dccData: DccData<out DccV1.MetaData>
                 get() = certificateData
         }
     }

@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.util.serialization.SerializationModule
 import kotlinx.parcelize.Parceler
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.TypeParceler
+import org.joda.time.Instant
 
 @Parcelize
 @TypeParceler<JsonNode, LogicParceler>()
@@ -40,7 +41,7 @@ data class DccValidationRule(
 
     // Description by language
     // [ {"lang": "en","desc": "The Field “Doses” MUST contain number 2 OR 2/2."} ]
-    val description: List<Map<String, String>>,
+    val description: Map<String, String>,
 
     // Start and end of validity period
     // ISO 8106 date-time  "2021-05-27T07:46:40Z"
@@ -54,6 +55,12 @@ data class DccValidationRule(
     //  { "and":[{ ">":[{ "var":"hcert.v.0.dn" }, 0] },{ ">=":[{ "var":"hcert.v.0.dn" },{ "var":"hcert.v.0.sd" }] }]}
     val logic: JsonNode
 ) : Parcelable {
+    val validFromInstant: Instant
+        get() = Instant.parse(validFrom)
+
+    val validToInstant: Instant
+        get() = Instant.parse(validTo)
+
     enum class Type(val type: String) {
         ACCEPTANCE("Acceptance"),
         INVALIDATION("Invalidation")

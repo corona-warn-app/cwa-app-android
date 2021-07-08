@@ -49,7 +49,7 @@
     <!-- XHED: Person certificate details title -->
     <string name="person_details_certificate_title">"Certificat COVID digital UE"</string>
     <!-- XTXT: Test Certificate CWA User card description -->
-    <string name="person_details_cwa_user_description">"Smartphone-ul meu, aplicația mea. Certificatele pentru mine apar în partea de sus a listei."</string>
+    <string name="person_details_cwa_user_description">"Activați acest comutator dacă sunteți %1$s și sunteți utilizatorul principal al aplicației. Certificatele dvs. vor apărea în partea de sus a listei."</string>
     <!-- XTXT: Test Certificate CWA User card birthdate -->
     <string name="person_details_cwa_user_birthdate">"Născut(ă) pe %1$s"</string>
     <!-- #####################################################
@@ -72,6 +72,8 @@
         <item quantity="many">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă timp de încă %1$d zile."</item>
     </plurals>
 
+    <!-- XTXT: Vaccination only one shot required -->
+    <string name="vaccination_certificate_one_shot">"Acesta este un vaccin care necesită o singură doză sau un vaccin pentru o persoană care s-a recuperat după boală și care are nevoie de o singură doză."</string>
     <!-- XTXT: Vaccination is not complete information card body-->
     <string name="vaccination_certificate_incomplete_vaccination">"Nu ați primit încă toate vaccinările planificate curente. Astfel, protecția dvs. prin vaccinare nu este completă încă."</string>
 
@@ -89,7 +91,7 @@
     <string name="recovery_certificate_valid_until">"valabil până la %s"</string>
 
     <!-- XTXT: Detail green certificate diaglog title -->
-    <string name="recovery_certificate_details_dialog_remove_test_title">"Doriți să eliminați certificatul de recuperare?"</string>
+    <string name="recovery_certificate_details_dialog_remove_test_title">"Doriți să eliminați certificatul?"</string>
     <!-- XTXT: Detail green certificate diaglog message -->
     <string name="recovery_certificate_details_dialog_remove_test_message">"Dacă eliminați certificatul de recuperare, nu îl mai puteți utiliza ca dovadă în aplicație."</string>
 
@@ -102,4 +104,19 @@
     <string name="test_certificate_qrcode_card_sampled_on">"Probă prelevată %s"</string>
     <!-- XTXT: Test certificate card name  -->
     <string name="test_certificate_name">"Certificat de test"</string>
+    <!-- XTXT: Dialog description for error 409 recovery-->
+    <string name="test_certificate_error_409_recovery_description">"Niciun certificat nu poate fi creat pentru acest test. Adăugați un test nou pentru a primi un certificat."</string>
+
+    <!-- XTXT: DCC QR code scan error message-->
+    <string name="error_dcc_invalid">"Acest cod QR nu este un certificat valabil.\n\nPentru mai multe informații despre modul în care puteți primi certificatul dvs., consultați pagina noastră de întrebări frecvente."</string>
+    <!-- XBUT: Text for invalid certificate error button, linking to FAQ-->
+    <string name="error_button_dcc_faq">"Întrebări frecvente privind certificatele"</string>
+    <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
+    <string name="error_button_dcc_faq_link">"https://www.coronawarn.app/en/faq/#hc_prefix_invalid"</string>
+
+    <!-- XTXT: DCC QR code scan error message-->
+    <string name="error_dcc_scan_again">"Certificatul nu a putut fi salvat pe smartphone-ul dvs. Încercați din nou mai târziu sau contactați hotline-ul tehnic din „Informații aplicație”."</string>
+    <!-- XTXT: DCC QR code scan error message-->
+    <string name="error_dcc_already_registered">"Certificatul este deja înregistrat în aplicația dvs."</string>
+
 </resources>

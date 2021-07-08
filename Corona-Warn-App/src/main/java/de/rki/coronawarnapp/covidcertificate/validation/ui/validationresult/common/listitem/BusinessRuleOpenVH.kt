@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.com
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.covidcertificate.validation.core.validation.business.EvaluatedDccRule
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultRuleOpenItemBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 

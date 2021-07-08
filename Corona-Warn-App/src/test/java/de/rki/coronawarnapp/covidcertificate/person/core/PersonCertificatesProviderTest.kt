@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -35,21 +36,21 @@ class PersonCertificatesProviderTest : BaseTest() {
 
     private val vaccinatedPersonACertificate1 = mockk<VaccinationCertificate>().apply {
         every { personIdentifier } returns identifierA
-        every { issuedAt } returns Instant.EPOCH
+        every { vaccinatedOn } returns Instant.EPOCH.toLocalDateUtc()
     }
     private val vaccinatedPersonA = mockk<VaccinatedPerson>().apply {
         every { vaccinationCertificates } returns setOf(vaccinatedPersonACertificate1)
     }
     private val testWrapperACertificate = mockk<TestCertificate>().apply {
         every { personIdentifier } returns identifierA
-        every { issuedAt } returns Instant.EPOCH
+        every { sampleCollectedAt } returns Instant.EPOCH
     }
     private val testWrapperA = mockk<TestCertificateWrapper>().apply {
         every { testCertificate } returns testWrapperACertificate
     }
     private val recoveryWrapperACertificate = mockk<RecoveryCertificate>().apply {
         every { personIdentifier } returns identifierA
-        every { issuedAt } returns Instant.EPOCH
+        every { validFrom } returns Instant.EPOCH.toLocalDateUtc()
     }
     private val recoveryWrapperA = mockk<RecoveryCertificateWrapper>().apply {
         every { recoveryCertificate } returns recoveryWrapperACertificate
