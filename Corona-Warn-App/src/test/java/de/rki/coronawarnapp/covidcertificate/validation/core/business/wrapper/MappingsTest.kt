@@ -60,4 +60,18 @@ class MappingsTest : BaseTest() {
             VACCINATION
         ).size shouldBe 4
     }
+
+    @Test
+    fun `highest version works`() {
+        val rules = listOf(
+            createVaccinationRule("2021-01-01T07:46:40Z", "2021-05-01T07:46:40Z", "0.1.21"),
+            createVaccinationRule("2021-05-27T07:46:40Z", "2022-08-01T07:46:40Z", "12.1.21"),
+            createVaccinationRule("2021-05-27T07:46:40Z", "2022-08-01T07:46:40Z", "12.1.21.1"),
+            createVaccinationRule("2021-05-01T07:46:40Z", "2021-05-27T07:46:40Z", "2.5.33"),
+            createVaccinationRule("2021-05-01T07:46:40Z", "2021-05-30T07:46:40Z", "1.0.21"),
+            createVaccinationRule("2021-05-28T07:46:40Z", "2022-08-01T07:46:40Z", "1.1.111"),
+            createGeneralRule("2021-05-01T07:46:40Z", "2021-05-30T07:46:40Z"),
+        )
+        rules.takeHighestVersion()!!.version shouldBe "12.1.21.1"
+    }
 }

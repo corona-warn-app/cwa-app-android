@@ -52,9 +52,10 @@ internal val logicExactlyOne = ObjectMapper().readTree(
 internal fun createVaccinationRule(
     validFrom: String,
     validTo: String,
+    version: String = "1.0.0"
 ) = DccValidationRule(
     identifier = "VR-DE-1",
-    version = "1.0.0",
+    version = version,
     schemaVersion = "1.0.0",
     engine = "CERTLOGIC",
     engineVersion = "1.0.0",

@@ -15,6 +15,7 @@ import dgca.verifier.app.engine.data.ExternalParameter
 import dgca.verifier.app.engine.data.Rule
 import dgca.verifier.app.engine.data.Type
 import org.joda.time.Instant
+import java.lang.Integer.min
 import java.time.ZonedDateTime
 
 internal fun assembleExternalParameter(
@@ -140,8 +141,45 @@ internal fun List<DccValidationRule>.filterRelevantRules(
             rule.certificateType.uppercase() == certificateType.uppercase()
     }.filter { rule ->
         rule.validFromInstant <= validationClock && rule.validToInstant >= validationClock
+    }.groupBy { it.identifier }.mapNotNull { it.value.takeHighestVersion() }
+}
+
+internal fun List<DccValidationRule>.takeHighestVersion(): DccValidationRule? {
+    return maxWithOrNull(comparator)
+}
+
+private val comparator = object : Comparator<DccValidationRule> {
+    override fun compare(o1: DccValidationRule, o2: DccValidationRule): Int {
+        val v1 = o1.version.parseVersion()
+        val v2 = o2.version.parseVersion()
+        (0 until min(v1.size, v2.size)).forEach {
+            try {
+                val order1 = Integer.parseInt(v1.get(it))
+                val order2 = Integer.parseInt(v2.get(it))
+                if (order1 < order2) {
+                    return -1
+                }
+                if (order1 > order2) {
+                    return 1
+                }
+            } catch (e: Exception) {
+                // compare as String
+                val order1 = v1.get(it)
+                val order2 = v2.get(it)
+                if (order1 < order2) {
+                    return -1
+                }
+                if (order1 > order2) {
+                    return 1
+                }
+            }
+        }
+
+        return v1.size - v2.size
     }
 }
+
+internal fun String.parseVersion(): List<String> = this.split('.')
 
 internal const val GENERAL = "General"
 internal const val TEST = "Test"
