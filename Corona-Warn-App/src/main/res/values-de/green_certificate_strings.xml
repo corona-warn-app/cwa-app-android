@@ -8,6 +8,8 @@
     <string name="request_green_certificate_body_1">Das Testzertifikat wird nur bei einem negativen Testergebnis ausgestellt.</string>
     <!-- XTXT: Request green certificate body section 2 -->
     <string name="request_green_certificate_body_2">Das Testzertifikat gilt innerhalb der EU als gültiger Nachweis eines negativen Testergebnisses (z.B. für Reisen).</string>
+    <!-- XTXT: Request green certificate body section 3 -->
+    <string name="request_green_certificate_body_3">Das Testzertifikat enthält Daten, die der Prüf-App die Validierung Ihres Zertifikats erlauben.</string>
     <!-- XBUT: Request green certificate agree button -->
     <string name="request_green_certificate_agree_button">Testzertifikat Anfordern</string>
     <!-- XBUT: Request green certificate disagree button -->

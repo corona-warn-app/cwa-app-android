@@ -141,6 +141,6 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
     fun `null values fail with JSON_SCHEMA_INVALID`() {
         shouldThrow<InvalidHealthCertificateException> {
             extractor.extract(TestData.qrCodeMssingValues)
-        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.JSON_SCHEMA_INVALID
+        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.HC_JSON_SCHEMA_INVALID
     }
 }

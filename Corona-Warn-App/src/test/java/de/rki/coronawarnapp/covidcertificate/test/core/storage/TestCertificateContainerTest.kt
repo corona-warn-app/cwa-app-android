@@ -59,6 +59,15 @@ class TestCertificateContainerTest : BaseTest() {
     }
 
     @Test
+    fun `check test certificate field mapping`() {
+        val rawData = certificateTestData.personATest1CertQRCode.data
+        certificateTestData.personATest1Container.toTestCertificate()!!.apply {
+            headerIssuer shouldBe rawData.header.issuer
+            certificateIssuer shouldBe rawData.certificate.test.certificateIssuer
+        }
+    }
+
+    @Test
     fun `default parsing mode for containers is lenient`() {
         val container = TestCertificateContainer(
             data = PCRCertificateData(

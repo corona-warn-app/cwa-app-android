@@ -35,6 +35,7 @@ class TestCertificateRetrievalScheduler @Inject constructor(
     workManager = workManager
 ) {
     private val processedNewCerts = mutableSetOf<TestCertificateContainerId>()
+    private var lastForegroundState = false
 
     private val creationTrigger = testRepo.coronaTests
         .map { tests ->
@@ -50,6 +51,9 @@ class TestCertificateRetrievalScheduler @Inject constructor(
         foregroundState.isInForeground,
     ) { certificates, isForeground ->
 
+        val foregroundChange = isForeground && !lastForegroundState
+        lastForegroundState = isForeground
+
         val hasNewCert = certificates.any {
             val isNew = !processedNewCerts.contains(it.containerId)
             if (isNew) processedNewCerts.add(it.containerId)
@@ -57,8 +61,10 @@ class TestCertificateRetrievalScheduler @Inject constructor(
         }
 
         val hasWorkToDo = certificates.any { it.isCertificateRetrievalPending && !it.isUpdatingData }
-        Timber.tag(TAG).v("shouldPollDcc? hasNewCert=$hasNewCert, hasWorkTodo=$hasWorkToDo, foreground=$isForeground")
-        (isForeground || hasNewCert) && hasWorkToDo
+        Timber.tag(TAG).v(
+            "shouldPollDcc? hasNewCert=$hasNewCert, hasWorkTodo=$hasWorkToDo, foregroundChange=$foregroundChange"
+        )
+        (foregroundChange || hasNewCert) && hasWorkToDo
     }
 
     fun setup() {
