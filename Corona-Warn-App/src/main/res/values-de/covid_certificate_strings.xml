@@ -182,18 +182,6 @@
     <!-- XTXT: Validation start time error message -->
     <string name="validation_start_time_error">"Die angegebene Uhrzeit liegt in der Vergangenheit. Ihre lokale Einreisezeit muss in der Zukunft liegen."</string>
 
-
-    <!-- XTXT: Validation Rule Result Valid - Remark -->
-    <string name="validation_rules_result_valid_result_remark">Hinweis</string>
-    <!-- XTXT: Validation Rule Result Valid - note point 1 -->
-    <string name="validation_rules_result_valid_result_note_1">Beachten Sie, dass sich die Einreiseregeln ändern können. Prüfen Sie daher das Zertifikat kurz vor der Einreise (max. 48 Stunden).</string>
-    <!-- XTXT: Validation Rule Result Valid - note point 2 -->
-    <string name="validation_rules_result_valid_result_note_2">Es können in einzelnen Regionen weitere Regeln oder Einschränkungen gelten.</string>
-    <!-- XTXT: Validation Rule Result Valid - note point 3 -->
-    <string name="validation_rules_result_valid_result_note_3">Um die Echtheit eines Zertifikats sicherzustellen, wird jedes Zertifikat mit einer digitalen Signatur ausgestellt. Diese Signatur wird in einer Prüf-Anwendung validiert.</string>
-    <!-- XTXT: Validation Rule Result Valid - note point 4 -->
-    <string name="validation_rules_result_valid_result_note_4">Ob die im Zertifikat eingetragenen Daten richtig sind, wird nicht geprüft.</string>
-
     <!-- XTXT: Validation Rule Result Valid - Infos about country, date and check date -->
     <string name="validation_rules_result_valid_result_country_and_time">Einreise nach %1$s am %2$s, geprüft am %3$s</string>
     <!-- XTXT: Validation Rule Result Valid - button text -->

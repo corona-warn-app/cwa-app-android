@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_small"
         android:layout_marginTop="@dimen/spacing_small"
-        android:text="@string/validation_rules_result_valid_result_note_1"
+        android:text="@string/validation_start_note_point_1"
         app:layout_constraintEnd_toEndOf="@id/validation_rules_result_valid_title"
         app:layout_constraintStart_toEndOf="@id/bulletpoint_one"
         app:layout_constraintTop_toBottomOf="@id/validation_rules_result_valid_title" />
@@ -50,7 +50,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_tiny"
-        android:text="@string/validation_rules_result_valid_result_note_2"
+        android:text="@string/validation_start_note_point_2"
         app:layout_constraintEnd_toEndOf="@id/first_bulletpoint_text"
         app:layout_constraintStart_toStartOf="@id/first_bulletpoint_text"
         app:layout_constraintTop_toBottomOf="@id/first_bulletpoint_text" />
@@ -69,7 +69,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_tiny"
-        android:text="@string/validation_rules_result_valid_result_note_3"
+        android:text="@string/validation_start_note_point_3"
         app:layout_constraintEnd_toEndOf="@id/second_bulletpoint_text"
         app:layout_constraintStart_toStartOf="@id/second_bulletpoint_text"
         app:layout_constraintTop_toBottomOf="@id/second_bulletpoint_text" />
@@ -89,7 +89,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_tiny"
         android:paddingBottom="@dimen/spacing_small"
-        android:text="@string/validation_rules_result_valid_result_note_4"
+        android:text="@string/validation_start_note_point_4"
         app:layout_constraintEnd_toEndOf="@id/third_bulletpoint_text"
         app:layout_constraintStart_toStartOf="@id/third_bulletpoint_text"
         app:layout_constraintTop_toBottomOf="@id/third_bulletpoint_text" />
