@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.ui.view
 
 import android.content.Context
+import android.os.Bundle
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -70,4 +72,24 @@ class ProgressLoadingButton @JvmOverloads constructor(
             }
             field = value
         }
+
+    override fun onSaveInstanceState(): Parcelable =
+        Bundle().apply {
+            putParcelable(SUPER_STATE, super.onSaveInstanceState())
+            putBoolean(LOADING_STATE, isLoading)
+        }
+
+    override fun onRestoreInstanceState(parcelable: Parcelable?) {
+        var state = parcelable
+        if (state is Bundle) {
+            isLoading = state.getBoolean(LOADING_STATE)
+            state = state.getParcelable(SUPER_STATE)
+        }
+        super.onRestoreInstanceState(state)
+    }
+
+    companion object {
+        private const val SUPER_STATE = "superState"
+        private const val LOADING_STATE = "superState"
+    }
 }
