@@ -21,8 +21,8 @@ data class DccValidation(
         get() = when {
             isTechnicalFailure -> State.TECHNICAL_FAILURE
             hasPassed -> State.PASSED
-            isOpen -> State.OPEN
             hasFailed -> State.FAILURE
+            isOpen -> State.OPEN
             else -> State.OPEN
         }
 
@@ -38,13 +38,17 @@ data class DccValidation(
         get() = expirationCheckPassed && jsonSchemaCheckPassed &&
             !acceptanceRules.any { it.result == DccValidationRule.Result.FAILED } &&
             !invalidationRules.any { it.result == DccValidationRule.Result.FAILED } &&
-            (acceptanceRules.any { it.result == DccValidationRule.Result.OPEN } ||
-                invalidationRules.any { it.result == DccValidationRule.Result.OPEN })
+            (
+                acceptanceRules.any { it.result == DccValidationRule.Result.OPEN } ||
+                    invalidationRules.any { it.result == DccValidationRule.Result.OPEN }
+                )
 
     private val hasFailed: Boolean
         get() = expirationCheckPassed && jsonSchemaCheckPassed &&
-            (acceptanceRules.any { it.result == DccValidationRule.Result.FAILED } ||
-                invalidationRules.any { it.result == DccValidationRule.Result.FAILED })
+            (
+                acceptanceRules.any { it.result == DccValidationRule.Result.FAILED } ||
+                    invalidationRules.any { it.result == DccValidationRule.Result.FAILED }
+                )
 
     enum class State {
         PASSED,
