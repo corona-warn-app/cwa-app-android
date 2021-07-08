@@ -1,12 +1,17 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.rule
 
+import android.os.Parcel
 import android.os.Parcelable
 import com.fasterxml.jackson.databind.JsonNode
-import kotlinx.android.parcel.Parcelize
-import kotlinx.android.parcel.RawValue
+import com.fasterxml.jackson.databind.ObjectMapper
+import de.rki.coronawarnapp.util.serialization.SerializationModule
+import kotlinx.parcelize.Parceler
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.TypeParceler
 import org.joda.time.Instant
 
 @Parcelize
+@TypeParceler<JsonNode, LogicParceler>()
 data class DccValidationRule(
     // Unique identifier of the rule "GR-CZ-0001"
     val identifier: String,
@@ -48,7 +53,7 @@ data class DccValidationRule(
 
     // CertLogic rule as JSON object
     //  { "and":[{ ">":[{ "var":"hcert.v.0.dn" }, 0] },{ ">=":[{ "var":"hcert.v.0.dn" },{ "var":"hcert.v.0.sd" }] }]}
-    val logic: @RawValue JsonNode
+    val logic: JsonNode
 ) : Parcelable {
     val validFromInstant: Instant
         get() = Instant.parse(validFrom)
@@ -65,5 +70,16 @@ data class DccValidationRule(
         PASSED,
         FAILED,
         OPEN,
+    }
+}
+
+private object LogicParceler : Parceler<JsonNode> {
+    private val mapper: ObjectMapper
+        get() = SerializationModule.jacksonBaseMapper
+
+    override fun create(parcel: Parcel): JsonNode = mapper.readTree(parcel.readString())
+
+    override fun JsonNode.write(parcel: Parcel, flags: Int) {
+        parcel.writeString(mapper.writeValueAsString(this))
     }
 }
