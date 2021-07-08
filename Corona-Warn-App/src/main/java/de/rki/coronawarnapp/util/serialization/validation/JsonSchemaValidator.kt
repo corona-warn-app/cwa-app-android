@@ -5,10 +5,13 @@ import com.networknt.schema.JsonSchemaFactory
 import com.networknt.schema.SpecVersion
 import com.networknt.schema.ValidationMessage
 import dagger.Reusable
+import de.rki.coronawarnapp.util.serialization.BaseJackson
 import javax.inject.Inject
 
 @Reusable
-class JsonSchemaValidator @Inject constructor() {
+class JsonSchemaValidator @Inject constructor(
+    @BaseJackson private val objectMapper: ObjectMapper,
+) {
 
     fun validate(
         schemaSource: JsonSchemaSource,
@@ -21,7 +24,7 @@ class JsonSchemaValidator @Inject constructor() {
             }
         }
 
-        val json = ObjectMapper().readTree(rawJson)
+        val json = objectMapper.readTree(rawJson)
 
         val errors = schema.validate(json)
 

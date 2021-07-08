@@ -186,4 +186,33 @@
     <!-- XTXT: Validation start time error message -->
     <string name="validation_start_time_error">"Die angegebene Uhrzeit liegt in der Vergangenheit. Ihre lokale Einreisezeit muss in der Zukunft liegen."</string>
 
+    <!-- XTXT: Validation Rule Result Valid - Infos about country, date and check date -->
+    <string name="validation_rules_result_valid_result_country_and_time">Einreise nach %1$s am %2$s, geprüft am %3$s</string>
+    <!-- XTXT: Validation Rule Result Valid - button text -->
+    <string name="validation_rules_result_valid_result_button">für weiteres Land prüfen</string>
+
+    <!-- XTXT: Validation Rule Result Valid - Result  -->
+    <string name="validation_rules_result_valid_result_title">Ihr Zertifikat ist im gewählten Land gültig.</string>
+    <!-- XTXT: Validation Rule Result Cannot be checked  - Result  -->
+    <string name="validation_rules_result_cannot_be_checked_result_title">Ihr Zertifikat konnte nicht vollständig geprüft werden.</string>
+    <!-- XTXT: Validation Rule Result Not Valid - Result  -->
+    <string name="validation_rules_result_not_valid_result_title">Ihr Zertifikat ist im gewählten Land nicht gültig.</string>
+
+    <!-- XTXT: Validation Rule Open Header Title  -->
+    <string name="validation_rules_open_header_title">Prüfung nicht möglich</string>
+    <!-- XTXT: Validation Rule Open Header Subtitle  -->
+    <string name="validation_rules_open_header_subtitle">Nachfolgende Regeln konnten nicht geprüft werden. Vergewissern Sie sich, dass das Zertifikat den Regeln Ihres Reiselandes entspricht.</string>
+    <!-- XTXT: Validation Rule Failure Header Title  -->
+    <string name="validation_rules_failure_header_title">Prüfung abgeschlossen</string>
+    <!-- XTXT: Validation Rule Failure Header Subtitle  -->
+    <string name="validation_rules_failure_header_subtitle">Folgende Regeln sind nicht erfüllt:</string>
+    <!-- XTXT: Validation Rule Technical Failure Header Title  -->
+    <string name="validation_rules_technical_failure_header_title">Technische Prüfung</string>
+    <!-- XTXT: Validation Rule Technical Failure Header Subtitle  -->
+    <string name="validation_rules_technical_failure_header_subtitle">Folgende Regeln sind nicht erfüllt:</string>
+    <!-- XTXT: Validation Rule Technical Failure - Date Format  -->
+    <string name="validation_rule_technical_error_date_format">Das Zertifikat muss dem erwarteten Datenformat entsprechen.</string>
+    <!-- XTXT: Validation Rule Technical Failure - Date Expired  -->
+    <string name="validation_rule_technical_error_date_expired">Das Zertifikat darf nicht abgelaufen sein.</string>
+
 </resources>
