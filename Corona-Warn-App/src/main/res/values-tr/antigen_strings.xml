@@ -4,7 +4,7 @@
         Homescreen cards - register test card
     ###################################### -->
     <!-- XHED: Register test homescreen card: title -->
-    <string name="ag_homescreen_card_test_register_title">"Testinizi Kaydedin"</string>
+    <string name="ag_homescreen_card_test_register_title">"Sonraki Adımlar"</string>
     <!-- XTXT: Register test homescreen card: body -->
     <string name="ag_homescreen_card_test_register_body">"Diğer kullanıcıları daha hızlı uyarmak için testlerinizi kaydetmek ve test sonuçlarınızı almak ya da COVID test sertifikanızı talep etmek üzere uygulamayı kullanın."</string>
     <!-- ####################################

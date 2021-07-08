@@ -45,7 +45,8 @@
         <item quantity="few">"Şu anda planlanan tüm aşıları aldınız ancak aşı korumanız %1$d gün daha tamamlanmayacaktır."</item>
         <item quantity="many">"Şu anda planlanan tüm aşıları aldınız ancak aşı korumanız %1$d gün daha tamamlanmayacaktır."</item>
     </plurals>
-
+    <!-- XTXT: Vaccination card immunity information card body when <1 day is left till immunity -->
+    <string name="vaccination_list_immunity_tomorrow_card_body">"Şu anda planlanan tüm aşıları aldınız ancak aşı korumanız yarına kadar tamamlanmayacaktır."</string>
     <!-- XBUT: Vaccination List register additional vaccination button -->
     <string name="vaccination_list_register_new_vaccination_button">"Başka Aşı Ekle"</string>
     <!-- XBUT: Vaccination List delete button -->
@@ -89,22 +90,18 @@
         <item quantity="few">"%1$d gün içinde tam aşı koruması"</item>
         <item quantity="many">"%1$d gün içinde tam aşı koruması"</item>
     </plurals>
+    <string name="vaccination_card_status_vaccination_complete_tomorrow">"Yarından itibaren tam aşı koruması"</string>
     <!-- XTXT: Homescreen card complete vaccination status label -->
     <string name="vaccination_card_status_vaccination_complete">"Son geçerlilik tarihi: %s"</string>
-
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_invalid">"Bu QR kodu geçerli bir aşı sertifikası değildir.\n\nAşı sertifikanızı nasıl alacağınız hakkında daha fazla bilgi için lütfen SSS sayfamıza bakın."</string>
+    <string name="error_vc_invalid">"Bu QR kodu geçerli bir sertifika değildir.\n\nSertifikanızı nasıl alacağınız hakkında daha fazla bilgi için lütfen SSS sayfamıza bakın."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_not_yet_supported">"Bu aşı sertifikası henüz uygulamanızın sürümünde desteklenmiyor. Lütfen uygulamanızı güncelleyin veya “Uygulama Bilgileri” bölümünde belirtilen teknik yardım hattı ile iletişime geçin."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_dcc_scan_again">"Sertifika akıllı telefonunuza kaydedilemedi. Lütfen daha sonra yeniden deneyin veya “Uygulama Bilgileri” bölümünde belirtilen teknik yardım hattı ile iletişime geçin."</string>
-    <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_dcc_already_registered">"Sertifika zaten uygulamanıza kaydedilmiş."</string>
-    <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_different_person">"Bu aşı sertifikasındaki kişisel bilgiler, kaydedilmiş sertifikalardaki bilgilerle eşleşmiyor. Uygulamaya yalnızca bir kişiye ait sertifikalar kaydedebilirsiniz."</string>
 
-    <!-- XBUT: Text for invalid vaccination certificate error button, linking to FAQ-->
-    <string name="error_button_vc_faq">"Aşı Sertifikaları için SSS"</string>
+    <!-- XBUT: Text for invalid certificate error button, linking to FAQ-->
+    <string name="error_button_vc_faq">"Sertifikalar için SSS"</string>
     <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
     <string name="error_button_vc_faq_link">"https://www.coronawarn.app/en/faq/#vac_cert_invalid"</string>
 

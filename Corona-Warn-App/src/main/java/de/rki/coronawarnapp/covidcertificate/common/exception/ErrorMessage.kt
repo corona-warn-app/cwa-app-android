@@ -10,3 +10,4 @@ const val ERROR_MESSAGE_E2E_ERROR_CALL_HOTLINE = R.string.error_tc_e2e_error_cal
 const val ERROR_MESSAGE_TRY_AGAIN_DCC_NOT_AVAILABLE_YET = R.string.error_tc_try_again_dcc_not_available_yet
 const val ERROR_MESSAGE_CLIENT_ERROR_CALL_HOTLINE = R.string.error_tc_client_error_call_hotline
 const val ERROR_MESSAGE_DCC_EXPIRED = R.string.error_tc_dcc_expired
+const val ERROR_MESSAGE_CERTIFICATE_LOST_SORRY = R.string.test_certificate_error_409_recovery_description

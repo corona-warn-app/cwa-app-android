@@ -117,11 +117,11 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
                     get() = false
                 override val isCertificateRetrievalPending: Boolean
                     get() = false
-                override val issuer: String
+                override val headerIssuer: String
                     get() = "G0593048274845483647869576478784"
-                override val issuedAt: Instant
+                override val headerIssuedAt: Instant
                     get() = testDate
-                override val expiresAt: Instant
+                override val headerExpiresAt: Instant
                     get() = testDate
                 override val qrCode: QrCodeString
                     get() = ""
