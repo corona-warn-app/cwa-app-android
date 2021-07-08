@@ -30,13 +30,12 @@ class ProgressLoadingButton @JvmOverloads constructor(
         getContext().theme.resolveAttribute(android.R.attr.selectableItemBackground, outValue, true)
         setBackgroundResource(outValue.resourceId)
         binding = ViewProgressLoadingButtonBinding.bind(this)
-
+        val parentLayout = this
         context.withStyledAttributes(attrs, R.styleable.ProgressLoadingButton) {
-            val parentLayout = binding.root
 
             defaultButton = MaterialButton(context, attrs, defStyleAttr).apply {
                 id = R.id.default_button
-                parentLayout.addView(this, 0)
+                addView(this, 0)
                 layoutParams = LayoutParams(LayoutParams.MATCH_CONSTRAINT, LayoutParams.WRAP_CONTENT)
                 textAlignment = TEXT_ALIGNMENT_CENTER
                 isAllCaps = true

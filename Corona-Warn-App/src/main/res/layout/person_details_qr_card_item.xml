@@ -59,6 +59,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
+        android:padding="0dp"
         android:textColor="@color/colorSecondary"
         app:buttonText="@string/start_validation_rule_check_button"
         app:isLoading="false"
