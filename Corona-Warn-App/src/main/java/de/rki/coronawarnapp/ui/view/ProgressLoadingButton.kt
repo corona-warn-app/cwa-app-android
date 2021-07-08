@@ -82,7 +82,7 @@ class ProgressLoadingButton @JvmOverloads constructor(
     override fun onRestoreInstanceState(parcelable: Parcelable?) {
         var state = parcelable
         if (state is Bundle) {
-            isLoading = state.getBoolean(LOADING_STATE)
+            isLoading = state.getBoolean(LOADING_STATE, false)
             state = state.getParcelable(SUPER_STATE)
         }
         super.onRestoreInstanceState(state)
@@ -90,6 +90,6 @@ class ProgressLoadingButton @JvmOverloads constructor(
 
     companion object {
         private const val SUPER_STATE = "superState"
-        private const val LOADING_STATE = "superState"
+        private const val LOADING_STATE = "loadingState"
     }
 }
