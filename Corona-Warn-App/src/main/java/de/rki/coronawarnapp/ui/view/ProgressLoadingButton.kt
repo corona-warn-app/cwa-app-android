@@ -9,7 +9,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.withStyledAttributes
 import androidx.core.view.isVisible
-import androidx.core.view.marginStart
 import com.google.android.material.button.MaterialButton
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.ViewProgressLoadingButtonBinding
