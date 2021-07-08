@@ -34,7 +34,7 @@
         android:layout_margin="48dp"
         android:gravity="center"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/scan_qrcode_fab"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
@@ -78,7 +78,7 @@
         android:layout_margin="@dimen/spacing_normal"
         android:text="@string/person_overview_scan_button"
         android:transitionName="shared_element_container"
-        app:icon="@android:drawable/ic_input_add"
+        app:icon="@drawable/ic_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
