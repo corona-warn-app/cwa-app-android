@@ -19,6 +19,7 @@ import javax.inject.Inject
 
 @Suppress("MaxLineLength")
 class CertLogicEngineWrapperTest : BaseTest() {
+
     @MockK lateinit var valueSetWrapper: ValueSetWrapper
 
     lateinit var wrapper: CertLogicEngineWrapper
