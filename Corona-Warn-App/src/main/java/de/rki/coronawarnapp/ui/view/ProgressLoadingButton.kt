@@ -6,8 +6,11 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.withStyledAttributes
 import androidx.core.view.isVisible
+import androidx.core.view.marginStart
+import com.google.android.material.button.MaterialButton
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.ViewProgressLoadingButtonBinding
 
@@ -19,7 +22,7 @@ class ProgressLoadingButton @JvmOverloads constructor(
 
     private val binding: ViewProgressLoadingButtonBinding
     private var defaultText: String = ""
-    var defaultButton: Button
+    lateinit var defaultButton: Button
         private set
 
     init {
@@ -28,9 +31,25 @@ class ProgressLoadingButton @JvmOverloads constructor(
         getContext().theme.resolveAttribute(android.R.attr.selectableItemBackground, outValue, true)
         setBackgroundResource(outValue.resourceId)
         binding = ViewProgressLoadingButtonBinding.bind(this)
-        defaultButton = binding.defaultButton
 
         context.withStyledAttributes(attrs, R.styleable.ProgressLoadingButton) {
+            val parentLayout = binding.root
+
+            defaultButton = MaterialButton(context, attrs, defStyleAttr).apply {
+                id = R.id.default_button
+                parentLayout.addView(this, 0)
+                layoutParams = LayoutParams(LayoutParams.MATCH_CONSTRAINT, LayoutParams.WRAP_CONTENT)
+                textAlignment = TEXT_ALIGNMENT_CENTER
+            }
+
+            ConstraintSet().apply {
+                clone(parentLayout)
+                connect(defaultButton.id, ConstraintSet.TOP, parentLayout.id, ConstraintSet.TOP)
+                connect(defaultButton.id, ConstraintSet.START, parentLayout.id, ConstraintSet.START)
+                connect(defaultButton.id, ConstraintSet.END, parentLayout.id, ConstraintSet.END)
+                connect(defaultButton.id, ConstraintSet.BOTTOM, parentLayout.id, ConstraintSet.BOTTOM)
+                applyTo(parentLayout)
+            }
 
             val loadingText = getText(R.styleable.ProgressLoadingButton_loadingText) ?: ""
             val loading = getBoolean(R.styleable.ProgressLoadingButton_isLoading, false)

@@ -32,7 +32,10 @@ class PersonDetailsQrCard(parent: ViewGroup) :
         image.setImageBitmap(curItem.qrCodeBitmap)
         curItem.apply {
             qrCodeBitmap?.let { progressBar.hide() }
-            startValidationCheckButton.setOnClickListener { validateCertificate(certificate.containerId) }
+            startValidationCheckButton.defaultButton.setOnClickListener {
+                validateCertificate(certificate.containerId)
+            }
+            startValidationCheckButton.isLoading = curItem.isLoading
             when (certificate) {
                 is TestCertificate -> {
                     val dateTime = certificate.sampleCollectedAt.toUserTimeZone().run {
@@ -63,6 +66,7 @@ class PersonDetailsQrCard(parent: ViewGroup) :
     data class Item(
         val certificate: CwaCovidCertificate,
         val qrCodeBitmap: Bitmap?,
+        val isLoading: Boolean,
         val validateCertificate: (CertificateContainerId) -> Unit
     ) : CertificateItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
