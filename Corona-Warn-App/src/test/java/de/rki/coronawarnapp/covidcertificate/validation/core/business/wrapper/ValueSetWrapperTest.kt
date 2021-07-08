@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper
 
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.ValueSetTestData
+import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
+import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -16,6 +18,7 @@ import testhelpers.BaseTest
 class ValueSetWrapperTest : BaseTest() {
 
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
+    @MockK lateinit var dccValidationRepository: DccValidationRepository
     private lateinit var valueSetWrapper: ValueSetWrapper
 
     @BeforeEach
@@ -25,13 +28,15 @@ class ValueSetWrapperTest : BaseTest() {
             flowOf(ValueSetTestData.vaccinationValueSetsEn)
         coEvery { valueSetsRepository.latestTestCertificateValueSets } returns
             flowOf(ValueSetTestData.testCertificateValueSetsEn)
-        valueSetWrapper = ValueSetWrapper(valueSetsRepository)
+        coEvery { dccValidationRepository.dccCountries } returns
+            flowOf(countryCodes.map { DccCountry(it) })
+        valueSetWrapper = ValueSetWrapper(valueSetsRepository, dccValidationRepository)
     }
 
     @Test
     fun `recovery value set`() = runBlockingTest {
         valueSetWrapper.valueSetRecovery.first() shouldBe mapOf(
-            countryCodes,
+            countryCodeMap,
             "disease-agent-targeted" to listOf(ValueSetTestData.tgItemEn.first),
         )
     }
@@ -39,7 +44,7 @@ class ValueSetWrapperTest : BaseTest() {
     @Test
     fun `vaccination value set`() = runBlockingTest {
         valueSetWrapper.valueSetVaccination.first() shouldBe mapOf(
-            countryCodes,
+            countryCodeMap,
             "disease-agent-targeted" to listOf(ValueSetTestData.tgItemEn.first),
             "sct-vaccines-covid-19" to listOf(ValueSetTestData.vpItemEn.first),
             "vaccines-covid-19-auth-holders " to listOf(ValueSetTestData.maItemEn.first),
@@ -50,7 +55,7 @@ class ValueSetWrapperTest : BaseTest() {
     @Test
     fun `test value set`() = runBlockingTest {
         valueSetWrapper.valueSetTest.first() shouldBe mapOf(
-            countryCodes,
+            countryCodeMap,
             "disease-agent-targeted" to listOf(ValueSetTestData.tgItemEn.first),
             "covid-19-lab-result" to listOf(ValueSetTestData.trItemEn.first),
             "covid-19-lab-test-manufacturer-and-name" to listOf(ValueSetTestData.tcMaItemEn.first),

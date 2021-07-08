@@ -25,7 +25,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
     @Inject lateinit var extractor: DccQrCodeExtractor
     @Inject lateinit var dccJsonSchema: DccJsonSchema
 
-    private val vaccinationValueMap = mapOf(countryCodes)
+    private val vaccinationValueMap = mapOf(countryCodeMap)
 
     @BeforeEach
     fun setup() {
