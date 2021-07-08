@@ -176,5 +176,9 @@
     <fragment
         android:id="@+id/dccValidationPassedFragment"
         android:name="de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.passed.DccValidationPassedFragment"
-        android:label="DccValidationPassedFragment" />
+        android:label="DccValidationPassedFragment" >
+        <argument
+            android:name="validation"
+            app:argType="de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation" />
+    </fragment>
 </navigation>
