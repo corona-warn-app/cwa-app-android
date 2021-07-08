@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.contactdiary.ui.overview
 
+import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.asLiveData
@@ -35,7 +36,7 @@ import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -94,7 +95,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         checkInsWithinRetentionFlow,
         testResultsFlow
     ) { dateList,
-        locationVisists,
+        locationVisits,
         personEncounters,
         riskLevelPerDateList,
         traceLocationCheckInRiskList,
@@ -104,7 +105,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             add(OverviewSubHeaderItem)
             addAll(
                 dateList.createListItemList(
-                    locationVisists,
+                    locationVisits,
                     personEncounters,
                     riskLevelPerDateList,
                     traceLocationCheckInRiskList,
@@ -124,6 +125,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         )
     }
 
+    @SuppressLint("BinaryOperationInTimber")
     private fun List<LocalDate>.createListItemList(
         visits: List<ContactDiaryLocationVisit>,
         encounters: List<ContactDiaryPersonEncounter>,
@@ -154,7 +156,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             val visitsForDate = visits.filter { it.date == date }
             val encountersForDate = encounters.filter { it.date == date }
             val traceLocationCheckInRisksForDate = traceLocationCheckInRiskList.filter { it.localDateUtc == date }
-            val testResultForDate = coronaTests.filter { it.time.toLocalDateUtc() == date }
+            val testResultForDate = coronaTests.filter { it.time.toLocalDateUserTz() == date }
 
             val coreItemData =
                 encountersForDate.map { it.toContactItemData() } + visitsForDate.map { it.toContactItemData() }

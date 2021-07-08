@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.person.core
 
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
@@ -18,20 +17,21 @@ import testhelpers.BaseTest
 class PersonCertificatesExtensionsTest : BaseTest() {
 
     private val time = Instant.parse("2021-06-24T14:00:00.000Z")
-    private val oneSecondDuration = Duration.standardSeconds(1)
+    private val oneDayDuration = Duration.standardDays(1)
 
     @Test
     fun `certificate sort order`() {
-        val certificateFirst = mockk<CwaCovidCertificate>().apply {
-            every { issuedAt } returns time.minus(oneSecondDuration)
+
+        val certificateFirst = mockk<VaccinationCertificate>().apply {
+            every { vaccinatedOn } returns time.plus(oneDayDuration).toLocalDateUtc()
         }
 
-        val certificateSecond = mockk<CwaCovidCertificate>().apply {
-            every { issuedAt } returns time
+        val certificateSecond = mockk<TestCertificate>().apply {
+            every { sampleCollectedAt } returns time
         }
 
-        val certificateThird = mockk<CwaCovidCertificate>().apply {
-            every { issuedAt } returns time.plus(oneSecondDuration)
+        val certificateThird = mockk<RecoveryCertificate>().apply {
+            every { validFrom } returns time.minus(oneDayDuration).toLocalDateUtc()
         }
 
         val expectedOrder = listOf(certificateFirst, certificateSecond, certificateThird)
