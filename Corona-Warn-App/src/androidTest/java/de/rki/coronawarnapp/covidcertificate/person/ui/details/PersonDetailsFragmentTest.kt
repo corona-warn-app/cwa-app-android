@@ -119,7 +119,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 listOf(testCertificate, vaccinationCertificate1, vaccinationCertificate2), isCwaUser = isCwa
             )
 
-            add(PersonDetailsQrCard.Item(testCertificate, bitmap) {})
+            add(PersonDetailsQrCard.Item(testCertificate, bitmap, false) {})
             add(CwaUserCard.Item(personCertificates) {})
             add(
                 VaccinationCertificateCard.Item(
