@@ -23,6 +23,7 @@ import io.mockk.mockkStatic
 import io.mockk.spyk
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.TestCoroutineScope
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -185,6 +186,7 @@ class PersonOverviewViewModelTest : BaseTest() {
             qrCodeGenerator = qrCodeGenerator,
             valueSetsRepository = valueSetsRepository,
             context = context,
-            cameraPermissionProvider = cameraPermissionProvider
+            cameraPermissionProvider = cameraPermissionProvider,
+            appScope = TestCoroutineScope()
         )
 }

@@ -98,6 +98,7 @@ class AnalyticsRATestResultDonorTest : BaseTest() {
                 testResultDonor.beginDonation(TestRequest) as AnalyticsTestResultDonor.TestResultMetadataContribution
             with(donation.testResultMetadata) {
                 riskLevelAtTestRegistration shouldBe PpaData.PPARiskLevel.RISK_LEVEL_LOW
+                ptRiskLevelAtTestRegistration shouldBe PpaData.PPARiskLevel.RISK_LEVEL_LOW
                 testResult shouldBe PpaData.PPATestResult.TEST_RESULT_RAT_PENDING
                 hoursSinceTestRegistration shouldBe 24
                 hoursSinceHighRiskWarningAtTestRegistration shouldBe 1

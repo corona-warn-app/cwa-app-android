@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.execution.VaccinationUpdateScheduler
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
+import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingRiskWorkScheduler
@@ -80,6 +81,7 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var raTestResultAvailableNotificationService: RATTestResultAvailableNotificationService
     @MockK lateinit var vaccinationUpdateScheduler: VaccinationUpdateScheduler
     @MockK lateinit var rollingLogHistory: Timber.Tree
+    @MockK lateinit var environmentSetup: EnvironmentSetup
 
     @BeforeEach
     fun setup() {
@@ -138,6 +140,7 @@ class CoronaWarnApplicationTest : BaseTest() {
                         // NOOP
                     }
                 }
+                app.environmentSetup = environmentSetup
             }
         }
     }

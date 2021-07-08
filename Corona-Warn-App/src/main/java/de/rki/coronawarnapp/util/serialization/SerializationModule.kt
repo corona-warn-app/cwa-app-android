@@ -35,6 +35,7 @@ class SerializationModule {
 
     @Reusable
     @Provides
+    @BaseJackson
     fun jacksonObjectMapper() = jacksonBaseMapper
 
     companion object {

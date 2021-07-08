@@ -1,10 +1,10 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.validation.business
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
+import de.rki.coronawarnapp.util.serialization.SerializationModule
 import dgca.verifier.app.engine.DefaultCertLogicEngine
 import dgca.verifier.app.engine.DefaultJsonLogicValidator
 import dgca.verifier.app.engine.UTC_ZONE_ID
@@ -44,7 +44,7 @@ class BusinessValidator @Inject constructor(
             validFrom = ZonedDateTime.now().withZoneSameInstant(UTC_ZONE_ID),
             validTo = ZonedDateTime.now().withZoneSameInstant(UTC_ZONE_ID),
             affectedString = emptyList(),
-            logic = ObjectMapper().createObjectNode(),
+            logic = SerializationModule.jacksonBaseMapper.createObjectNode(),
             countryCode = "de",
             region = null
         )
