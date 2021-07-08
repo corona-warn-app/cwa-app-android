@@ -127,11 +127,15 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
                 ValidationStartFragmentDirections.actionValidationStartFragmentToDccValidationPassedFragment()
 
             DccValidation.State.OPEN ->
-                ValidationStartFragmentDirections.actionValidationStartFragmentToDccValidationOpenFragment()
+                ValidationStartFragmentDirections.actionValidationStartFragmentToDccValidationOpenFragment(
+                    validationResult
+                )
 
             DccValidation.State.TECHNICAL_FAILURE,
             DccValidation.State.FAILURE ->
-                ValidationStartFragmentDirections.actionValidationStartFragmentToDccValidationFailedFragment()
+                ValidationStartFragmentDirections.actionValidationStartFragmentToDccValidationFailedFragment(
+                    validationResult
+                )
         }.also { doNavigate(it) }
     }
 
