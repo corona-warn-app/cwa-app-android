@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.covidcertificate.validation.core
 
 import android.os.Parcelable
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
-import de.rki.coronawarnapp.covidcertificate.validation.core.validation.business.EvaluatedDccRule
-import kotlinx.parcelize.Parcelize
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
+import kotlinx.android.parcel.Parcelize
 import org.joda.time.Instant
 
 @Parcelize
