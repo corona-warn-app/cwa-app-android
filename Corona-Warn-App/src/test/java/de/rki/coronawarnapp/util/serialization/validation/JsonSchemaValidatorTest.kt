@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.util.serialization.validation
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import io.kotest.matchers.shouldBe
 import okio.buffer
 import okio.source
@@ -70,7 +71,7 @@ class JsonSchemaValidatorTest : BaseTest() {
         }
     """.trimIndent()
 
-    fun createInstance() = JsonSchemaValidator()
+    fun createInstance() = JsonSchemaValidator(ObjectMapper())
 
     @Test
     fun `simple pass`() {

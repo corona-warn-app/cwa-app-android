@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.test.core.qrcode
 
 import android.content.res.AssetManager
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.gson.Gson
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchema
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchemaValidator
@@ -31,7 +32,7 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
                     every { open(any()) } answers { this.javaClass.classLoader!!.getResourceAsStream(arg<String>(0)) }
                 }
             ),
-            JsonSchemaValidator()
+            JsonSchemaValidator(ObjectMapper())
         )
     }
 
