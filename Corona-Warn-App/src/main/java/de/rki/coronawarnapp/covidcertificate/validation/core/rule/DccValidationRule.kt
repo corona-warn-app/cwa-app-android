@@ -1,50 +1,60 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.rule
 
+import android.os.Parcelable
+import com.fasterxml.jackson.databind.JsonNode
+import kotlinx.android.parcel.Parcelize
+import kotlinx.android.parcel.RawValue
 import org.joda.time.Instant
-import org.json.JSONObject
 
-interface DccValidationRule {
+@Parcelize
+data class DccValidationRule(
     // Unique identifier of the rule "GR-CZ-0001"
-    val identifier: String
+    val identifier: String,
 
     // Type of the rule ("Acceptance", "Invalidation")
-    val typeDcc: Type
+    val typeDcc: Type,
 
     // Country code of the country that created the rule
     // ISO 3166 two-letter country code "Country": "CZ",
-    val country: String
+    val country: String,
 
     // Version of the rule "Version": "1.0.0",
-    val version: String
+    val version: String,
 
     // Version of the DCC Schema that this rule applies to "SchemaVersion": "1.0.0",
-    val schemaVersion: String
+    val schemaVersion: String,
 
     // Rule engine "CERTLOGIC"
-    val engine: String
+    val engine: String,
 
     // Rule engine version "1.0.0"
-    val engineVersion: String
+    val engineVersion: String,
 
     // DCC type
     // (General, Test, Vaccination, Recovery)
-    val certificateType: String
+    val certificateType: String,
 
     // Description by language
     // [ {"lang": "en","desc": "The Field “Doses” MUST contain number 2 OR 2/2."} ]
-    val description: List<Map<String, String>>
+    val description: Map<String, String>,
 
     // Start and end of validity period
     // ISO 8106 date-time  "2021-05-27T07:46:40Z"
-    val validFrom: Instant
-    val validTo: Instant
+    val validFrom: String,
+    val validTo: String,
 
     // Fields affected by the rule [ "dn", "sd" ]
-    val affectedFields: List<String>
+    val affectedFields: List<String>,
 
     // CertLogic rule as JSON object
     //  { "and":[{ ">":[{ "var":"hcert.v.0.dn" }, 0] },{ ">=":[{ "var":"hcert.v.0.dn" },{ "var":"hcert.v.0.sd" }] }]}
-    val logic: JSONObject
+    val logic: @RawValue JsonNode
+) : Parcelable {
+    val validFromInstant: Instant
+        get() = Instant.parse(validFrom)
+
+    val validToInstant: Instant
+        get() = Instant.parse(validTo)
 
     enum class Type(val type: String) {
         ACCEPTANCE("Acceptance"),

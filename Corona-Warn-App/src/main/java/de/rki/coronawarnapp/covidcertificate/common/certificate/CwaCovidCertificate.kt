@@ -30,5 +30,5 @@ interface CwaCovidCertificate {
 
     val rawCertificate: DccV1.MetaData
 
-    val dccData: DccData<*>
+    val dccData: DccData<out DccV1.MetaData>
 }
