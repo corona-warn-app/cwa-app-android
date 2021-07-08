@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCerti
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.AES_DECRYPTION_FAILED
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_COSE_MESSAGE_INVALID
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_COSE_TAG_INVALID
+import de.rki.coronawarnapp.util.encoding.base64
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -15,15 +16,16 @@ class DccCoseDecoder @Inject constructor(
 
     fun decode(input: RawCOSEObject): Message = try {
         val messageObject = CBORObject.DecodeFromBytes(input).validate()
-        Message(
-            messageObject.extractPayload(),
-            messageObject.extractKid()
+        val message = Message(
+            payload = messageObject.extractPayload(),
+            kid = messageObject.extractKid()
         )
+        message
     } catch (e: InvalidHealthCertificateException) {
         throw e
     } catch (e: Throwable) {
         Timber.e(e)
-        throw InvalidHealthCertificateException(HC_COSE_MESSAGE_INVALID)
+        throw InvalidHealthCertificateException(HC_COSE_MESSAGE_INVALID, e)
     }
 
     fun decryptMessage(input: RawCOSEObject, decryptionKey: ByteArray): RawCOSEObject = try {
@@ -45,12 +47,13 @@ class DccCoseDecoder @Inject constructor(
     }
 
     private fun CBORObject.extractKid(): String {
-        val protectedHeader = CBORObject.DecodeFromBytes(this[0].GetByteString())
-        val unprotectedHeader = this[1].GetByteString()
-        val kid: CBORObject = if (protectedHeader.ContainsKey(4))
-            protectedHeader.get(4)
-        else unprotectedHeader.get(4)
-        return kid
+        val elementFour = try {
+            val protectedHeader = this[0]
+            CBORObject.DecodeFromBytes(protectedHeader?.GetByteString()).get(4)!!
+        } catch (e: Exception) {
+            this[1]?.get(4)
+        }
+        return elementFour?.GetByteString()?.base64() ?: ""
     }
 
     private fun ByteArray.decrypt(decryptionKey: ByteArray) = try {

@@ -60,6 +60,7 @@ class VaccinationTestData @Inject constructor(
         certificate = personAVac1Certificate,
         header = personAVac1CertificateHeader,
         certificateJson = "{\"v\":[{\"ci\":\"01DE/00001/1119305005/7T1UG87G61Y7NRXIBQJDTYQ9#S\",\"co\":\"DE\",\"dn\":1,\"dt\":\"2021-03-01\",\"is\":\"Bundesministerium für Gesundheit - Test01\",\"ma\":\"ORG-100001699\",\"mp\":\"EU/1/21/1529\",\"sd\":2,\"tg\":\"840539006\",\"vp\":\"1119305005\"}],\"dob\":\"1966-11-11\",\"nam\":{\"fn\":\"Astrá Eins\",\"gn\":\"Andreas\",\"fnt\":\"ASTRA<EINS\",\"gnt\":\"ANDREAS\"},\"ver\":\"1.0.0\"}",
+        kid = ""
     )
 
     val personAVac1QRCode = VaccinationCertificateQRCode(
@@ -116,6 +117,7 @@ class VaccinationTestData @Inject constructor(
         certificate = personAVac2Certificate,
         header = personAVac2CertificateHeader,
         certificateJson = "",
+        kid = "",
     )
 
     val personAVac2QRCode = VaccinationCertificateQRCode(
@@ -176,6 +178,7 @@ class VaccinationTestData @Inject constructor(
         certificate = personBVac1Certificate,
         header = personBVac1CertificateHeader,
         certificateJson = "{\"v\":[{\"ci\":\"01DE/00001/1119305005/3H24U2KVOTPCSINK7N64F2OB9#S\",\"co\":\"DE\",\"dn\":1,\"dt\":\"2021-04-20\",\"is\":\"Bundesministerium für Gesundheit - Test01\",\"ma\":\"ORG-100001417\",\"mp\":\"EU/1/20/1525\",\"sd\":1,\"tg\":\"840539006\",\"vp\":\"1119305005\"}],\"dob\":\"1966-11-11\",\"nam\":{\"fn\":\"Johnson Gültig\",\"gn\":\"Boris\",\"fnt\":\"JOHNSON<GUELTIG\",\"gnt\":\"BORIS\"},\"ver\":\"1.0.0\"}",
+        kid = "",
     )
 
     val personBVac1QRCode = VaccinationCertificateQRCode(
