@@ -21,7 +21,7 @@ class DccValidationRuleTest : BaseUITest() {
             engine = "engine",
             engineVersion = "1.0.0",
             certificateType = "general",
-            description = listOf(emptyMap()),
+            description = emptyMap(),
             validFrom = ZonedDateTime.now().withZoneSameInstant(UTC_ZONE_ID).toString(),
             validTo = ZonedDateTime.now().withZoneSameInstant(UTC_ZONE_ID).toString(),
             affectedFields = listOf("aField"),
