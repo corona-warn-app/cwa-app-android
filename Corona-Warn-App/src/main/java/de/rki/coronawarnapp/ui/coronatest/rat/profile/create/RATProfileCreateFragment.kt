@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
 import de.rki.coronawarnapp.databinding.RatProfileCreateFragmentBinding
+import de.rki.coronawarnapp.ui.view.addEmojiFilter
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -37,8 +38,8 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
             }
 
             // Full name
-            firstNameInputEdit.doAfterTextChanged { viewModel.firstNameChanged(it.toString()) }
-            lastNameInputEdit.doAfterTextChanged { viewModel.lastNameChanged(it.toString()) }
+            firstNameInputEdit.addEmojiFilter().doAfterTextChanged { viewModel.firstNameChanged(it.toString()) }
+            lastNameInputEdit.addEmojiFilter().doAfterTextChanged { viewModel.lastNameChanged(it.toString()) }
 
             // Birth date
             birthDateInputEdit.setOnClickListener { openDatePicker() }
@@ -49,15 +50,15 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
             }
 
             // Address
-            streetInputEdit.doAfterTextChanged { viewModel.streetChanged(it.toString()) }
+            streetInputEdit.addEmojiFilter().doAfterTextChanged { viewModel.streetChanged(it.toString()) }
+            cityInputEdit.addEmojiFilter().doAfterTextChanged { viewModel.cityChanged(it.toString()) }
             zipCodeInputEdit.doAfterTextChanged { viewModel.zipCodeChanged(it.toString()) }
-            cityInputEdit.doAfterTextChanged { viewModel.cityChanged(it.toString()) }
 
             // Phone
             phoneInputEdit.doAfterTextChanged { viewModel.phoneChanged(it.toString()) }
 
             // E-mail
-            emailInputEdit.doAfterTextChanged { viewModel.emailChanged(it.toString()) }
+            emailInputEdit.addEmojiFilter().doAfterTextChanged { viewModel.emailChanged(it.toString()) }
 
             viewModel.profile.observe(viewLifecycleOwner) { profileSaveButton.isEnabled = it.isValid }
             viewModel.latestProfile.observe(viewLifecycleOwner) { it?.let { bindProfile(it) } }

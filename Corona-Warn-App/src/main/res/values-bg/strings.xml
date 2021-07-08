@@ -1609,19 +1609,19 @@
 
     <!-- Persons Vaccinated Once Statistics Card -->
     <!-- XHED: Title for vaccinated once statistics card -->
-    <string name="statistics_vaccinated_once_card_title">"хора, получили поне една доза ваксина"</string>
+    <string name="statistics_vaccinated_once_card_title">"Лица, получили поне една доза ваксина"</string>
     <!-- XTXT: Nationwide text -->
     <string name="statistics_vaccinated_nationwide_text">"В национален мащаб"</string>
     <!-- XTXT: Vaccination primary value footnote text -->
-    <string name="statistics_vaccination_primary_value_footnote">"от общия брой на населението"</string>
+    <string name="statistics_vaccination_primary_value_footnote">"от населението"</string>
 
     <!-- Persons Vaccinated Completely Statistics Card -->
     <!-- XHED: Title for vaccinated completely statistics card -->
-    <string name="statistics_vaccinated_completely_card_title">"напълно ваксинирани лица"</string>
+    <string name="statistics_vaccinated_completely_card_title">"Напълно ваксинирани лица"</string>
 
     <!-- Applied Vaccination Dose Rates Statistics Card -->
     <!-- XHED: Title for applied vaccination dose rates -->
-    <string name="statistics_applied_vaccination_dose_rates_card_title">"поставени дози ваксини"</string>
+    <string name="statistics_applied_vaccination_dose_rates_card_title">"Поставени дози ваксини"</string>
     <!-- XTXT: Statistics local 7 days title -->
     <string name="statistics_explanation_local_seven_day_incidence_title">"7-дневна заболеваемост на местно ниво"</string>
     <!-- XTXT: Statistics local 7 days text -->

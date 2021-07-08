@@ -169,7 +169,7 @@
 
     <!-- Vaccination Consent Privacy Strings  -->
     <!-- XHED: Title for privacy card -->
-    <string name="vaccination_privacy_card_title_text" translatable="false">"Datenschutz und Datensicherheit"</string>
+    <string name="vaccination_privacy_card_title_text" translatable="false">"Data protection and data security"</string>
     <!-- XTXT: First bulletpoint title for privacy card -->
     <string name="vaccination_privacy_card_first_bulletpoint_title_text" translatable="false">"Using the digital COVID-19 certificates is voluntary. There are other ways to prove that you are fully vaccinated or have a negative test result."</string>
     <!-- XTXT: First bulletpoint title for privacy card -->

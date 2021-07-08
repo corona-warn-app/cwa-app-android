@@ -4,14 +4,29 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import org.joda.time.Days
 import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
+import java.lang.IllegalStateException
 
+/*
+    The list items shall be sorted descending by the following date attributes depending on the type of the DGC:
+    for Vaccination Certificates (i.e. DGC with v[0]): the date of the vaccination v[0].dt
+    for Test Certificates (i.e. DGC with t[0]): the date of the sample collection t[0].sc
+    for Recovery Certificates (i.e. DGC with r[0]): the date of begin of the validity r[0].df
+ */
 fun Collection<CwaCovidCertificate>.toCertificateSortOrder(): List<CwaCovidCertificate> {
-    return this.sortedBy { it.issuedAt }
+    return this.sortedByDescending {
+        when (it) {
+            is VaccinationCertificate -> it.vaccinatedOn
+            is TestCertificate -> it.sampleCollectedAt.toLocalDateUserTz()
+            is RecoveryCertificate -> it.validFrom
+            else -> throw IllegalStateException("Can't sort $it")
+        }
+    }
 }
 
 /**

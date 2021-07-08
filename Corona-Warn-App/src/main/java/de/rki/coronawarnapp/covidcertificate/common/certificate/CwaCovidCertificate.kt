@@ -9,9 +9,10 @@ import org.joda.time.Instant
  */
 interface CwaCovidCertificate {
     // Header
-    val issuer: String
-    val issuedAt: Instant
-    val expiresAt: Instant
+    val headerIssuer: String
+    val headerIssuedAt: Instant
+    val headerExpiresAt: Instant
+
     val qrCode: QrCodeString
     val firstName: String?
     val lastName: String

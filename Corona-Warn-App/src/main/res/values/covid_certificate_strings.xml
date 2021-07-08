@@ -49,7 +49,7 @@
     <!-- XHED: Person certificate details title -->
     <string name="person_details_certificate_title">"EU Digital COVID Certificate"</string>
     <!-- XTXT: Test Certificate CWA User card description -->
-    <string name="person_details_cwa_user_description">"My smartphone, my app. Certificates for me appear at the top of the list."</string>
+    <string name="person_details_cwa_user_description">"Please turn on this switch if you are %1$s and are the main user of the app. Your certificates will appear at the top of the list."</string>
     <!-- XTXT: Test Certificate CWA User card birthdate -->
     <string name="person_details_cwa_user_birthdate">"Born %1$s"</string>
     <!-- #####################################################
@@ -72,6 +72,8 @@
         <item quantity="many">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
     </plurals>
 
+    <!-- XTXT: Vaccination only one shot required -->
+    <string name="vaccination_certificate_one_shot">"This is a vaccine that only requires one dose or a vaccine for a recovered person who only needs one dose."</string>
     <!-- XTXT: Vaccination is not complete information card body-->
     <string name="vaccination_certificate_incomplete_vaccination">"You have not yet received all the currently planned vaccinations. As such, your vaccination protection is not complete yet."</string>
 
@@ -89,7 +91,7 @@
     <string name="recovery_certificate_valid_until">"valid to %s"</string>
 
     <!-- XTXT: Detail green certificate diaglog title -->
-    <string name="recovery_certificate_details_dialog_remove_test_title">"Do you want to remove the certificate of recovery?"</string>
+    <string name="recovery_certificate_details_dialog_remove_test_title">"Do you want to remove the certificate?"</string>
     <!-- XTXT: Detail green certificate diaglog message -->
     <string name="recovery_certificate_details_dialog_remove_test_message">"If you remove the certificate of recovery, you can no longer use it as proof in the app."</string>
 
@@ -101,7 +103,21 @@
     <!-- XTXT: Test certificate sampled on date and time -->
     <string name="test_certificate_qrcode_card_sampled_on">"Sample taken %s"</string>
     <!-- XTXT: Test certificate card name  -->
-    <string name="test_certificate_name">Testzertifikat</string>
+    <string name="test_certificate_name">"Test Certificate"</string>
+    <!-- XTXT: Dialog description for error 409 recovery-->
+    <string name="test_certificate_error_409_recovery_description">"No certificate can be created for this test. Please add a new test to receive a certificate."</string>
+
+    <!-- XTXT: DCC QR code scan error message-->
+    <string name="error_dcc_invalid">"This QR code is not a valid certificate.\n\nFor more information about how to receive your certificate, please see our FAQ page."</string>
+    <!-- XBUT: Text for invalid certificate error button, linking to FAQ-->
+    <string name="error_button_dcc_faq">"FAQ for Certificates"</string>
+    <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
+    <string name="error_button_dcc_faq_link">"https://www.coronawarn.app/en/faq/#hc_prefix_invalid"</string>
+
+    <!-- XTXT: DCC QR code scan error message-->
+    <string name="error_dcc_scan_again">"The certificate could not be saved on your smartphone. Please try again later or contact the technical hotline under “App Information”."</string>
+    <!-- XTXT: DCC QR code scan error message-->
+    <string name="error_dcc_already_registered">"The certificate is already registered in your app."</string>
 
     <!-- #####################################################
      VALIDATION RULES INFO SCREEN STRINGS BELOW
@@ -144,11 +160,13 @@
     <!-- XTXT: Validation start note subtitle -->
     <string name="validation_start_note_subtitle">"Hinweis"</string>
     <!-- XTXT: Validation start note point 1 -->
-    <string name="validation_start_note_point_1">"Beachten Sie, dass sich die Einreiseregeln ändern können. Prüfen Sie daher das Zertifikat kurz vor der Einreise (max. 48 Stunden). Es können in einzelnen Regionen weitere Regeln oder Einschränkungen gelten."</string>
+    <string name="validation_start_note_point_1">"Beachten Sie, dass sich die Einreiseregeln ändern können. Prüfen Sie daher das Zertifikat kurz vor der Einreise (max. 48 Stunden)."</string>
     <!-- XTXT: Validation start note point 2 -->
-    <string name="validation_start_note_point_2">"Um die Echtheit eines Zertifikats sicherzustellen, wird jedes Zertifikat mit einer digitalen Signatur ausgestellt. Diese Signatur wird nur in einer Prüf-Anwendung validiert."</string>
+    <string name="validation_start_note_point_2">"Es können in einzelnen Regionen weitere Regeln oder Einschränkungen gelten."</string>
     <!-- XTXT: Validation start note point 3 -->
-    <string name="validation_start_note_point_3">"Ob die im Zertifikat eingetragenen Daten richtig sind, wird nicht geprüft."</string>
+    <string name="validation_start_note_point_3">"Um die Echtheit eines Zertifikats sicherzustellen, wird jedes Zertifikat mit einer digitalen Signatur ausgestellt. Diese Signatur wird nur in einer Prüf-Anwendung validiert."</string>
+    <!-- XTXT: Validation start note point 4 -->
+    <string name="validation_start_note_point_4">"Ob die im Zertifikat eingetragenen Daten richtig sind, wird nicht geprüft."</string>
     <!-- XTXT: Validation start FAQ -->
     <string name="validation_start_faq">"Mehr Informationen finden Sie in den FAQ und unter https://reopen.europa.eu/de."</string>
     <!-- XTXT: Validation start FAQ link -->
