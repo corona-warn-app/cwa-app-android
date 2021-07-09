@@ -17,23 +17,25 @@
                 android:id="@+id/submission_done_hero_illustration"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:focusable="true"
-                app:srcCompat="@drawable/ic_illustration_together"
+                android:scaleType="fitXY"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_illustration_together"
                 bind:cwaContentDescription="@{@string/submission_done_illustration_description}"
                 tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/submission_done_headline"
                 style="@style/headline4"
-                android:accessibilityHeading="true"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:text="@string/submission_done_title"
+                android:accessibilityHeading="true"
                 android:focusable="true"
+                android:text="@string/submission_done_title"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/submission_done_hero_illustration" />

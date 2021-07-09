@@ -133,6 +133,11 @@
     <!-- XTXT: Accessibility: Validation Rule Info Screen Image Description -->
     <string name="validation_rules_info_image">"Karte von Europa"</string>
 
+    <!-- XTXT: Start Validation Rule Check Button -->
+    <string name="start_validation_rule_check_button">"Gültigkeit prüfen"</string>
+    <!-- XTXT: Start Validation Rule Check Loading Text -->
+    <string name="start_validation_rule_check_loading_text">"Bitte warten…"</string>
+
     <!-- XTXT: Digital covid certificate validation error message - no network -->
     <string name="dcc_validation_error_no_network">"Ihre Internetverbindung wurde unterbrochen. Um die Gültigkeitsprüfung des Zertifikates abzuschließen, prüfen Sie die Verbindung und versuchen Sie es erneut."</string>
     <!-- XTXT: Digital covid certificate validation error message - try again -->
@@ -215,4 +220,7 @@
     <!-- XTXT: Validation Rule Technical Failure - Date Expired  -->
     <string name="validation_rule_technical_error_date_expired">Das Zertifikat darf nicht abgelaufen sein.</string>
 
+    <!-- Validation Failed Screen-->
+    <!-- XHED: Toolbar title for the validation failed screen -->
+    <string name="validation_failed_title">Zertifikat nicht gültig</string>
 </resources>

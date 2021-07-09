@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationReposi
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidator
 import de.rki.coronawarnapp.covidcertificate.validation.core.ValidationUserInput
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
+import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry.Companion.DE
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -39,7 +40,7 @@ class ValidationStartViewModel @AssistedInject constructor(
     val currentDateTime: DateTime get() = uiState.value.dateTime
     val events = SingleLiveEvent<StartValidationNavEvent>()
     val countryList = dccValidationRepository.dccCountries.map { countryList ->
-        if (countryList.isEmpty()) listOf(DccCountry("DE")) else countryList
+        if (countryList.isEmpty()) listOf(DccCountry(DE)) else countryList
     }.asLiveData2()
 
     fun onInfoClick() = events.postValue(NavigateToValidationInfoFragment)
