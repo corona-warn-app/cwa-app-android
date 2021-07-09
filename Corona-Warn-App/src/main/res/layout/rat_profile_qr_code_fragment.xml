@@ -56,7 +56,7 @@
                         android:text="@string/rat_profile_create_title"
                         android:textColor="@android:color/white"
                         android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold" />cd
 
                 </LinearLayout>
 
@@ -69,7 +69,7 @@
                     app:layout_scrollFlags="scroll|enterAlways"
                     app:menu="@menu/menu_rat_qr_code_profile"
                     app:navigationIcon="@drawable/ic_close_white"
-                    app:popupTheme="@style/Theme.MaterialComponents.Light">
+                    app:popupTheme="@style/Theme.MaterialComponents.DayNight">
 
                     <FrameLayout
                         android:layout_width="match_parent"
