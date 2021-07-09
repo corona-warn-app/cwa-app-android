@@ -10,6 +10,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -22,7 +23,8 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     @Assisted private val containerId: RecoveryCertificateContainerId,
     private val qrCodeGenerator: QrCodeGenerator,
-    private val recoveryCertificateRepository: RecoveryCertificateRepository
+    private val recoveryCertificateRepository: RecoveryCertificateRepository,
+    private val dccValidationRepository: DccValidationRepository
 ) : CWAViewModel(dispatcherProvider) {
 
     private var qrCodeText: String? = null
@@ -43,6 +45,16 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
         Timber.d("Removing Recovery Certificate=$containerId")
         recoveryCertificateRepository.deleteCertificate(containerId)
         events.postValue(RecoveryCertificateDetailsNavigation.Back)
+    }
+
+    fun startValidationRulesDownload() = launch {
+        try {
+            dccValidationRepository.refresh()
+            events.postValue(RecoveryCertificateDetailsNavigation.ValidationStart(containerId))
+        } catch (e: Exception) {
+            Timber.d(e, "validation rule download failed for covidCertificate=%s", containerId)
+            errors.postValue(e)
+        }
     }
 
     private fun generateQrCode(recoveryCertificate: RecoveryCertificate?) = launch {
