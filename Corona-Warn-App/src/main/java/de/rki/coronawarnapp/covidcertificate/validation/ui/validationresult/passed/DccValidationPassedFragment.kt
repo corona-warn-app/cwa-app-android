@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.ValidationResultAdapter
+import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.setHeaderForState
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationPassedFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.lists.decorations.RecylerViewPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -32,12 +34,27 @@ class DccValidationPassedFragment : Fragment(R.layout.covid_certificate_validati
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        validationResultAdapter.also {
-            binding.list.adapter = it
-            viewModel.items.observe2(this) { items ->
-                validationResultAdapter.update(items)
+        binding.apply {
+            covidCertificateValidationResultFragments.apply {
+                setHeaderForState(args.validation.state)
+                list.apply {
+                    adapter = validationResultAdapter
+                    val padding = R.dimen.spacing_small
+                    addItemDecoration(
+                        RecylerViewPaddingDecorator(
+                            topPadding = padding,
+                            leftPadding = padding,
+                            rightPadding = padding
+                        )
+                    )
+                }
             }
+
+            checkAnotherCountryButton.setOnClickListener { viewModel.onCheckAnotherCountryClicked() }
+        }
+
+        viewModel.items.observe2(this) {
+            validationResultAdapter.update(it)
         }
     }
 }

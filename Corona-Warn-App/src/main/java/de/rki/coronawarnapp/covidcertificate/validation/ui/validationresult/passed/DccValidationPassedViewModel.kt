@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.flow
 class DccValidationPassedViewModel @AssistedInject constructor(
     @Assisted private val validation: DccValidation,
     dispatcherProvider: DispatcherProvider
-): CWAViewModel(dispatcherProvider = dispatcherProvider) {
+) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val items: LiveData<List<ValidationResultItem>> = flow {
         emit(generateItems())
@@ -31,8 +31,12 @@ class DccValidationPassedViewModel @AssistedInject constructor(
         ValidationFaqVH.Item
     )
 
+    fun onCheckAnotherCountryClicked() {
+        //TODO(Not yet implemented)
+    }
+
     @AssistedFactory
-    interface Factory: CWAViewModelFactory<DccValidationPassedViewModel> {
+    interface Factory : CWAViewModelFactory<DccValidationPassedViewModel> {
         fun create(validation: DccValidation): DccValidationPassedViewModel
     }
 }

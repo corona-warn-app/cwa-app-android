@@ -6,7 +6,8 @@ import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultFragment
 
 fun CovidCertificateValidationResultFragmentsBinding.setHeaderForState(state: DccValidation.State) = when (state) {
     DccValidation.State.PASSED -> {
-        // TODO
+        toolbar.setTitle(R.string.validation_rules_result_valid_header)
+        headerImage.setImageResource(R.drawable.ic_valid_cert_new)
     }
     DccValidation.State.OPEN -> {
         // TODO
