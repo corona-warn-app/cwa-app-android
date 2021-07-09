@@ -39,12 +39,12 @@ class CertLogicEngineWrapperTest : BaseTest() {
 
     @Test
     fun `valid certificate passes`() = runBlockingTest {
-        val rule = createRule(
+        val rule = createDccRule(
             certificateType = CertificateType.VACCINATION,
             validFrom = "2021-05-27T07:46:40Z",
             validTo = "2022-08-01T07:46:40Z",
         )
-        val ruleGeneral = createRule(
+        val ruleGeneral = createDccRule(
             certificateType = CertificateType.GENERAL,
             validFrom = "2021-05-27T07:46:40Z",
             validTo = "2022-08-01T07:46:40Z",

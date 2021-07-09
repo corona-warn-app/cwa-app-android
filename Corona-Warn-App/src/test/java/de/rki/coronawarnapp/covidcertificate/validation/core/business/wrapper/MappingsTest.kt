@@ -48,49 +48,49 @@ class MappingsTest : BaseTest() {
     fun `filter rules works`() {
         val validationClock = Instant.parse("2021-05-27T07:46:40Z")
 
-        val vacA1 = createRule(
+        val vacA1 = createDccRule(
             certificateType = CertificateType.VACCINATION,
             identifier = "VR-DE-1",
             version = "1.0.0",
             validFrom = validationClock.minus(100).toString(),
             validTo = validationClock.plus(100).toString(),
         ) // Has newer version
-        val vacA2 = createRule(
+        val vacA2 = createDccRule(
             certificateType = CertificateType.VACCINATION,
             identifier = "VR-DE-1",
             version = "1.0.1",
             validFrom = validationClock.minus(100).toString(),
             validTo = validationClock.plus(100).toString(),
         ) // :)
-        val vacB1 = createRule(
+        val vacB1 = createDccRule(
             certificateType = CertificateType.TEST,
             identifier = "TR-DE-2",
             version = "1.0.0",
             validFrom = validationClock.minus(100).toString(),
             validTo = validationClock.plus(100).toString(),
         ) // Wrong type
-        val genA1 = createRule(
+        val genA1 = createDccRule(
             certificateType = CertificateType.GENERAL,
             identifier = "GR-DE-1",
             version = "1.0.0",
             validFrom = validationClock.minus(100).toString(),
             validTo = validationClock.plus(100).toString(),
         ) // Has newer version
-        val genA2 = createRule(
+        val genA2 = createDccRule(
             certificateType = CertificateType.GENERAL,
             identifier = "GR-DE-1",
             version = "1.0.1",
             validFrom = validationClock.minus(100).toString(),
             validTo = validationClock.plus(100).toString(),
         ) // :) 
-        val genA3 = createRule(
+        val genA3 = createDccRule(
             certificateType = CertificateType.GENERAL,
             identifier = "GR-DE-1",
             version = "2.0.1",
             validFrom = validationClock.plus(1).toString(),
             validTo = validationClock.plus(100).toString(),
         ) // validFrom is in the future
-        val genA4 = createRule(
+        val genA4 = createDccRule(
             certificateType = CertificateType.GENERAL,
             identifier = "GR-DE-1",
             version = "2.0.1",
