@@ -44,7 +44,11 @@ class DccValidationRepository @Inject constructor(
             replayExpirationMillis = 0
         ),
     ) {
-        DccValidationData(localCache.loadCountryJson()?.let { mapCountries(it) } ?: emptyList())
+        DccValidationData(
+            countries = localCache.loadCountryJson()?.let { mapCountries(it) } ?: emptyList(),
+            acceptanceRules = localCache.loadAcceptanceRuleJson().toRuleSet(),
+            invalidationRules = localCache.loadInvalidationRuleJson().toRuleSet(),
+        )
     }
 
     val dccCountries: Flow<List<DccCountry>> = internalData.data.map { it.countries }
@@ -58,7 +62,15 @@ class DccValidationRepository @Inject constructor(
         internalData.updateBlocking {
             val newCountryData = server.dccCountryJson()
             localCache.saveCountryJson(newCountryData)
-            DccValidationData(mapCountries(newCountryData))
+            val newAcceptanceData = server.ruleSetJson(DccValidationRule.Type.ACCEPTANCE)
+            localCache.saveAcceptanceRulesJson(newAcceptanceData)
+            val newInvalidationData = server.ruleSetJson(DccValidationRule.Type.INVALIDATION)
+            localCache.saveInvalidationRulesJson(newInvalidationData)
+            DccValidationData(
+                countries = mapCountries(newCountryData),
+                acceptanceRules = newAcceptanceData.toRuleSet(),
+                invalidationRules = newInvalidationData.toRuleSet()
+            )
         }
     }
 
@@ -70,23 +82,17 @@ class DccValidationRepository @Inject constructor(
         }
     }
 
-    suspend fun acceptanceRules(arrivalCountry: DccCountry): List<DccValidationRule> {
-        val data = server.ruleSetJson(DccValidationRule.Type.ACCEPTANCE)
-        localCache.saveRulesJson(data)
-        return gson.fromJson(data)
-    }
-
-    suspend fun invalidationRules(arrivalCountry: DccCountry): List<DccValidationRule> {
-        val data = server.ruleSetJson(DccValidationRule.Type.INVALIDATION)
-        localCache.saveRulesJson(data)
-        return gson.fromJson(data)
+    private fun String?.toRuleSet(): List<DccValidationRule> {
+        if (this == null) return emptyList()
+        return gson.fromJson(this)
     }
 
     suspend fun clear() {
         Timber.tag(TAG).i("clear()")
         server.clear()
         localCache.saveCountryJson(null)
-        localCache.saveRulesJson(null)
+        localCache.saveAcceptanceRulesJson(null)
+        localCache.saveInvalidationRulesJson(null)
     }
 
     companion object {
