@@ -4,6 +4,7 @@ import android.os.Parcelable
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
 import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.IgnoredOnParcel
 import org.joda.time.Instant
 
 @Parcelize
@@ -16,8 +17,11 @@ data class DccValidation(
     val invalidationRules: Set<EvaluatedDccRule>,
 ) : Parcelable {
 
+    @IgnoredOnParcel
+    val rules: Set<EvaluatedDccRule> = acceptanceRules + invalidationRules
+
     val state: State
-        get() = State.PASSED // TODO
+        get() = State.FAILURE // TODO
 
     enum class State {
         PASSED,
