@@ -21,7 +21,7 @@ data class DccValidation(
     val rules: Set<EvaluatedDccRule> = acceptanceRules + invalidationRules
 
     val state: State
-        get() = State.FAILURE // TODO
+        get() = State.PASSED // TODO
 
     enum class State {
         PASSED,

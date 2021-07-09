@@ -216,6 +216,8 @@
     <!-- Validation Passed Screen-->
     <!-- XHED: Toolbar title for the validation passed screen  -->
     <string name="validation_rules_result_valid_header">Gültiges Zertifikat</string>
+    <!-- XHED: Rule validation text for the validation passed screen  -->
+    <string name="validation_rules_result_valid_rule_text">Es wurden %1$s Regeln des Reiselandes erfolgreich überprüft.</string>
     <!-- XTXT: Button text - Check another country -->
     <string name="validation_rules_result_valid_result_button">für weiteres Land prüfen</string>
     <!-- Validation Failed Screen-->
