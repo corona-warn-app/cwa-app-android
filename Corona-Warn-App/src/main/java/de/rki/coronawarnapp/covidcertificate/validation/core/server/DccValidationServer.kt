@@ -49,7 +49,8 @@ class DccValidationServer @Inject constructor(
                         parseAndValidate(
                             dccValidationRuleApi.invalidationRules(),
                             ErrorCode.INVALIDATION_RULE_JSON_ARCHIVE_FILE_MISSING,
-                            ErrorCode.INVALIDATION_RULE_JSON_ARCHIVE_SIGNATURE_INVALID)
+                            ErrorCode.INVALIDATION_RULE_JSON_ARCHIVE_SIGNATURE_INVALID
+                        )
                     }
                 }.decodeToString()
             } catch (e: Exception) {
@@ -63,11 +64,13 @@ class DccValidationServer @Inject constructor(
         Timber.tag(TAG).d("Fetching dcc countries.")
         return countryApi.get().onboardedCountries().let {
             try {
-                CBORObject.DecodeFromBytes(parseAndValidate(
-                    it,
-                    ErrorCode.ONBOARDED_COUNTRIES_JSON_ARCHIVE_FILE_MISSING,
-                    ErrorCode.ONBOARDED_COUNTRIES_JSON_ARCHIVE_SIGNATURE_INVALID
-                )).ToJSONString()
+                CBORObject.DecodeFromBytes(
+                    parseAndValidate(
+                        it,
+                        ErrorCode.ONBOARDED_COUNTRIES_JSON_ARCHIVE_FILE_MISSING,
+                        ErrorCode.ONBOARDED_COUNTRIES_JSON_ARCHIVE_SIGNATURE_INVALID
+                    )
+                ).ToJSONString()
             } catch (e: Exception) {
                 if (e is DccValidationException) throw e
                 Timber.tag(TAG).e(e, "CBOR decoding binary to json failed.")
