@@ -53,6 +53,10 @@ class DccValidationRepository @Inject constructor(
 
     val dccCountries: Flow<List<DccCountry>> = internalData.data.map { it.countries }
 
+    val acceptanceRules: Flow<List<DccValidationRule>> = internalData.data.map { it.acceptanceRules }
+
+    val invalidationRules: Flow<List<DccValidationRule>> = internalData.data.map { it.invalidationRules }
+
     /**
      * The UI calls this before entering the validation flow.
      * Either we have a cached valid data to work with, or this throws an error for the UI to display.
