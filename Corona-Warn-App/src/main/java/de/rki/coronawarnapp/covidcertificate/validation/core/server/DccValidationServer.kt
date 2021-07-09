@@ -19,9 +19,8 @@ import kotlinx.coroutines.withContext
 import okhttp3.Cache
 import okhttp3.ResponseBody
 import retrofit2.HttpException
+import retrofit2.Response
 import timber.log.Timber
-import java.io.IOException
-import java.io.InputStream
 import javax.inject.Inject
 
 @Reusable
@@ -42,10 +41,7 @@ class DccValidationServer @Inject constructor(
                 when (ruleTypeDcc) {
                     DccValidationRule.Type.ACCEPTANCE -> dccValidationRuleApi.acceptanceRules()
                     DccValidationRule.Type.INVALIDATION -> dccValidationRuleApi.invalidationRules()
-                }.let {
-                    if (!it.isSuccessful) throw HttpException(it)
-                    requireNotNull(it.body()) { "Body of response was null" }.parseBody()
-                }
+                }.let { parseAndValidate(it).decodeToString() }
             } catch (e: Exception) {
                 Timber.e(e, "Getting rule set from server failed cause: ${e.message}")
                 throw DccValidationException(ErrorCode.ACCEPTANCE_RULE_SERVER_ERROR, e)
@@ -54,54 +50,22 @@ class DccValidationServer @Inject constructor(
 
     suspend fun dccCountryJson(): String {
         Timber.tag(TAG).d("Fetching dcc countries.")
-
-        val response = countryApi.get().onboardedCountries()
-        if (!response.isSuccessful) throw HttpException(response)
-
-        val binary = with(
-            requireNotNull(response.body()) { "Response was successful but body was null" }
-        ) {
-            val fileMap = try {
-                byteStream().unzip().readIntoMap()
+        return countryApi.get().onboardedCountries().let {
+            try {
+                CBORObject.DecodeFromBytes(parseAndValidate(it)).ToJSONString()
             } catch (e: Exception) {
-                throw DccValidationException(ErrorCode.ONBOARDED_COUNTRIES_JSON_EXTRACTION_FAILED, e)
+                Timber.tag(TAG).e(e, "CBOR decoding binary to json failed.")
+                throw DccValidationException(ErrorCode.ONBOARDED_COUNTRIES_JSON_DECODING_FAILED, e)
             }
-
-            val exportBinary = fileMap[EXPORT_BINARY_FILE_NAME]
-            val exportSignature = fileMap[EXPORT_SIGNATURE_FILE_NAME]
-
-            if (exportBinary == null || exportSignature == null) {
-                throw DccValidationException(
-                    ErrorCode.ONBOARDED_COUNTRIES_JSON_ARCHIVE_FILE_MISSING,
-                    IOException("Unknown files: ${fileMap.keys}")
-                )
-            }
-
-            val hasValidSignature = signatureValidation.hasValidSignature(
-                exportBinary,
-                SignatureValidation.parseTEKStyleSignature(exportSignature)
-            )
-
-            if (!hasValidSignature) {
-                throw DccValidationException(ErrorCode.ONBOARDED_COUNTRIES_JSON_ARCHIVE_SIGNATURE_INVALID)
-            }
-
-            exportBinary
-        }
-
-        return try {
-            CBORObject.DecodeFromBytes(binary).ToJSONString()
-        } catch (e: Exception) {
-            Timber.tag(TAG).e(e, "CBOR decoding binary to json failed.")
-            throw DccValidationException(ErrorCode.ONBOARDED_COUNTRIES_JSON_DECODING_FAILED, e)
         }
     }
 
-    private fun ResponseBody.parseBody() = parseBody(byteStream())
-
     @VisibleForTesting
-    internal fun parseBody(inputStream: InputStream): String {
-        val fileMap = inputStream.unzip().readIntoMap()
+    internal fun parseAndValidate(response: Response<ResponseBody>): ByteArray {
+        if (!response.isSuccessful) throw HttpException(response)
+
+        val fileMap = requireNotNull(response.body()) { "Response was successful but body was null" }
+            .byteStream().unzip().readIntoMap()
 
         val exportBinary = fileMap[EXPORT_BINARY_FILE_NAME]
         val exportSignature = fileMap[EXPORT_SIGNATURE_FILE_NAME]
@@ -114,10 +78,10 @@ class DccValidationServer @Inject constructor(
                 signatureList = SignatureValidation.parseTEKStyleSignature(exportSignature)
             )
         ) {
-            throw ValueSetInvalidSignatureException(msg = "Signature of rule set did not match")
+            throw ValueSetInvalidSignatureException(msg = "Signature did not match")
         }
 
-        return exportBinary.decodeToString()
+        return exportBinary
     }
 
     fun clear() {
