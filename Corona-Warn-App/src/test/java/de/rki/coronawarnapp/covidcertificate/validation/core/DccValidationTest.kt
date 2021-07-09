@@ -11,9 +11,11 @@ import testhelpers.BaseTest
 
 class DccValidationTest : BaseTest() {
 
+    private val nowUTC = Instant.ofEpochSecond(1625827095)
+
     private val userInput = ValidationUserInput(
         DccCountry("PT"),
-        Instant.now()
+        nowUTC
     )
 
     @Test
@@ -24,7 +26,7 @@ class DccValidationTest : BaseTest() {
         val rule4 = getRule(DccValidationRule.Result.PASSED)
         DccValidation(
             userInput,
-            Instant.now(),
+            nowUTC,
             expirationCheckPassed = true,
             jsonSchemaCheckPassed = true,
             acceptanceRules = setOf(rule1, rule2),
@@ -40,7 +42,7 @@ class DccValidationTest : BaseTest() {
         val rule4 = getRule(DccValidationRule.Result.PASSED)
         DccValidation(
             userInput,
-            Instant.now(),
+            nowUTC,
             expirationCheckPassed = true,
             jsonSchemaCheckPassed = true,
             acceptanceRules = setOf(rule1),
@@ -54,7 +56,7 @@ class DccValidationTest : BaseTest() {
         val rule2 = getRule(DccValidationRule.Result.OPEN)
         DccValidation(
             userInput,
-            Instant.now(),
+            nowUTC,
             expirationCheckPassed = true,
             jsonSchemaCheckPassed = false,
             acceptanceRules = setOf(rule1),
@@ -70,7 +72,7 @@ class DccValidationTest : BaseTest() {
         val rule4 = getRule(DccValidationRule.Result.PASSED)
         DccValidation(
             userInput,
-            Instant.now(),
+            nowUTC,
             expirationCheckPassed = false,
             jsonSchemaCheckPassed = true,
             acceptanceRules = setOf(rule1, rule3),
@@ -86,7 +88,7 @@ class DccValidationTest : BaseTest() {
         val rule4 = getRule(DccValidationRule.Result.PASSED)
         DccValidation(
             userInput,
-            Instant.now(),
+            nowUTC,
             expirationCheckPassed = true,
             jsonSchemaCheckPassed = true,
             acceptanceRules = setOf(rule1, rule3),
