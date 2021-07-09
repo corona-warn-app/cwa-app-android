@@ -5,6 +5,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
+import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.RuleHeaderVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationFaqVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationInputVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationOverallResultVH
@@ -41,6 +42,7 @@ class DccValidationPassedViewModel @AssistedInject constructor(
         return listOf(
             ValidationInputVH.Item(validation),
             ValidationOverallResultVH.Item(validation.state),
+            RuleHeaderVH.Item(type = validation.state, validation.rules.size),
             ValidationPassedHintVH.Item,
             ValidationFaqVH.Item
         )
