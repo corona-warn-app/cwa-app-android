@@ -213,4 +213,7 @@
     <!-- XTXT: Validation Rule Technical Failure - Date Expired  -->
     <string name="validation_rule_technical_error_date_expired">Das Zertifikat darf nicht abgelaufen sein.</string>
 
+    <!-- Validation Failed Screen-->
+    <!-- XHED: Toolbar title for the validation failed screen -->
+    <string name="validation_failed_title">Zertifikat nicht gültig</string>
 </resources>
