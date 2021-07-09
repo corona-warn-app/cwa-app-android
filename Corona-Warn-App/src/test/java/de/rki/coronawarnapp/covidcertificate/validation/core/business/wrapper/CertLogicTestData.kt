@@ -50,7 +50,7 @@ internal val logicExactlyOne = ObjectMapper().readTree(
     """.trimIndent()
 )
 
-internal fun createDccRule(
+fun createDccRule(
     certificateType: CertificateType,
     identifier: String = when (certificateType) {
         CertificateType.GENERAL -> "GR-DE-1"
