@@ -4,7 +4,6 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.Dc
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountryApi
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRuleApi
-import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidationServer
 import de.rki.coronawarnapp.util.security.SignatureValidation
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
