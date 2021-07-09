@@ -18,4 +18,8 @@ data class DccCountry(
     }
 
     override fun toString(): String = displayName()
+
+    companion object {
+        const val DE = "DE"
+    }
 }
