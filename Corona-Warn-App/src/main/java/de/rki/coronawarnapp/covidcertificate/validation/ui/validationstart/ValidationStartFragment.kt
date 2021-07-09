@@ -49,7 +49,10 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
             toolbar.setNavigationOnClickListener { popBackStack() }
             dateInfoIcon.setOnClickListener { viewModel.onInfoClick() }
             privacyInformation.setOnClickListener { viewModel.onPrivacyClick() }
-            checkButton.setOnClickListener { viewModel.onCheckClick() }
+            startValidationCheck.defaultButton.setOnClickListener {
+                startValidationCheck.isLoading = true
+                viewModel.onCheckClick()
+            }
             datePicker.setOnClickListener {
                 countryPicker.clearFocus()
                 showDatePicker()
@@ -91,10 +94,15 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
             NavigateToPrivacyFragment -> doNavigate(
                 ValidationStartFragmentDirections.actionValidationStartFragmentToPrivacyFragment()
             )
-            is NavigateToValidationResultFragment -> navigateToResultScreen(event.validationResult)
-
             is ShowTimeMessage -> showTimeMessage(event)
-            is ShowErrorDialog -> event.error.toErrorDialogBuilder(requireContext()).show()
+            is NavigateToValidationResultFragment -> {
+                startValidationCheck.isLoading = false
+                navigateToResultScreen(event.validationResult)
+            }
+            is ShowErrorDialog -> {
+                startValidationCheck.isLoading = false
+                event.error.toErrorDialogBuilder(requireContext()).show()
+            }
         }
     }
 
@@ -135,7 +143,7 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
 
     private fun ValidationStartFragmentBinding.onCountiesAvailable(countries: List<DccCountry>) {
         dccCountryAdapter.update(countries)
-        countryPicker.setText(countries[0].displayName(), false)
+        countryPicker.setText(countries.find { it.countryCode == DccCountry.DE }?.displayName(), false)
     }
 
     private fun showDatePicker() {

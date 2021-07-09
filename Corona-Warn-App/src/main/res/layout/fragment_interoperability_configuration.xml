@@ -21,21 +21,21 @@
             layout="@layout/include_header"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:title="@{@string/interoperability_title}"
             app:icon="@{@drawable/ic_back}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@{@string/interoperability_title}" />
 
         <ScrollView
             android:id="@+id/interoperability_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:contentDescription="@string/interoperability_configuration_title"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/interoperability_configuration_header"
-            android:contentDescription="@string/interoperability_configuration_title">
+            app:layout_constraintTop_toBottomOf="@+id/interoperability_configuration_header">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -45,13 +45,15 @@
 
                 <ImageView
                     android:id="@+id/interoperability_illustration"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
                     android:contentDescription="@{@string/interoperability_eu_illustration_description}"
-                    app:srcCompat="@drawable/ic_illustration_interoperability"
+                    android:scaleType="fitXY"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_illustration_interoperability" />
 
                 <TextView
                     android:id="@+id/title"

@@ -108,6 +108,9 @@
         <action
             android:id="@+id/action_personDetailsFragment_to_recoveryCertificateDetailsFragment"
             app:destination="@id/recoveryCertificateDetailsFragment" />
+        <action
+            android:id="@+id/action_personDetailsFragment_to_validationStartFragment"
+            app:destination="@id/validationStartFragment" />
     </fragment>
 
     <fragment
@@ -118,6 +121,9 @@
         <argument
             android:name="containerId"
             app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId" />
+        <action
+            android:id="@+id/action_vaccinationDetailsFragment_to_validationStartFragment"
+            app:destination="@id/validationStartFragment" />
     </fragment>
     <fragment
         android:id="@+id/recoveryCertificateDetailsFragment"
@@ -127,6 +133,9 @@
         <argument
             android:name="containerId"
             app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId" />
+        <action
+            android:id="@+id/action_recoveryCertificateDetailsFragment_to_validationStartFragment"
+            app:destination="@id/validationStartFragment" />
     </fragment>
     <fragment
         android:id="@+id/validationStartFragment"
