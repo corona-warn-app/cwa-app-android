@@ -16,8 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/checkAnotherCountryButton"
-        android:layout_marginBottom="@dimen/spacing_normal"/>
+        app:layout_constraintBottom_toTopOf="@id/checkAnotherCountryButton" />
 
     <Button
         android:id="@+id/checkAnotherCountryButton"
