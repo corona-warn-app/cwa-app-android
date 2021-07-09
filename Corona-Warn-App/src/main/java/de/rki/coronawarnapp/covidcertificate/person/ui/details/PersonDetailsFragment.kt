@@ -10,6 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.PersonDetailsFragmentBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
@@ -100,6 +101,11 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                 PersonDetailsFragmentDirections
                     .actionPersonDetailsFragmentToVaccinationDetailsFragment(event.containerId)
             )
+            is ValidationStart -> doNavigate(
+                PersonDetailsFragmentDirections
+                    .actionPersonDetailsFragmentToValidationStartFragment(event.containerId)
+            )
+            is ShowErrorDialog -> event.error.toErrorDialogBuilder(requireContext()).show()
             Back -> popBackStack()
         }
     }

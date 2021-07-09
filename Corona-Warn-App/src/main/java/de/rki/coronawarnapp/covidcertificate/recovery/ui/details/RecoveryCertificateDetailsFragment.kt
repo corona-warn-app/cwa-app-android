@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.databinding.FragmentRecoveryCertificateDetailsBindin
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -38,6 +39,12 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
     )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
+
+        startValidationCheck.defaultButton.setOnClickListener {
+            startValidationCheck.isLoading = true
+            viewModel.startValidationRulesDownload()
+        }
+
         appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
             title.alpha = titleAlpha
             subtitle.alpha = subtitleAlpha
@@ -77,6 +84,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
     }
 
     private fun FragmentRecoveryCertificateDetailsBinding.onError(error: Throwable) {
+        startValidationCheck.isLoading = false
         qrCodeCard.progressBar.hide()
         error.toErrorDialogBuilder(requireContext()).show()
     }
@@ -90,6 +98,13 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
                 null,
                 FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
             )
+            is RecoveryCertificateDetailsNavigation.ValidationStart -> {
+                startValidationCheck.isLoading = false
+                doNavigate(
+                    RecoveryCertificateDetailsFragmentDirections
+                        .actionRecoveryCertificateDetailsFragmentToValidationStartFragment(event.containerId)
+                )
+            }
         }
     }
 
