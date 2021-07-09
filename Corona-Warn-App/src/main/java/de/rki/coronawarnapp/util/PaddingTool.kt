@@ -30,8 +30,6 @@ class PaddingTool @Inject constructor(
         .map { PADDING_ITEMS.random(sourceFast) }
         .joinToString("")
 
-    private val PADDING_ITEMS = ('A'..'Z') + ('a'..'z') + ('0'..'9')
-
     // ---------- Key padding ----------
 
     /**
@@ -102,6 +100,7 @@ class PaddingTool @Inject constructor(
     }
 
     companion object {
+        private val PADDING_ITEMS = ('A'..'Z') + ('a'..'z') + ('0'..'9')
         private const val MIN_KEY_COUNT_FOR_SUBMISSION = 15 // Increased from 14 to 15 in purpose for CheckIn submission
         private const val KEY_SIZE = 28 // 28 bytes per key
     }
