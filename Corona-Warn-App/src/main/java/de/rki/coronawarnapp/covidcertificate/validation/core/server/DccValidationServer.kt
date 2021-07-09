@@ -37,7 +37,7 @@ class DccValidationServer @Inject constructor(
         get() = rulesApi.get()
 
     suspend fun ruleSetJson(ruleTypeDcc: DccValidationRule.Type): String =
-        withContext(dispatcherProvider.Default) {
+        withContext(dispatcherProvider.IO) {
             return@withContext try {
                 when (ruleTypeDcc) {
                     DccValidationRule.Type.ACCEPTANCE -> dccValidationRuleApi.acceptanceRules()
