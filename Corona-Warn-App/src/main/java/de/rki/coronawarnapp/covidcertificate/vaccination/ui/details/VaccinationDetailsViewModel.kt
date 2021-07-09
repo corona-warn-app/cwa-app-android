@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertif
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -24,6 +25,7 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
     @Assisted private val containerId: VaccinationCertificateContainerId,
     private val qrCodeGenerator: QrCodeGenerator,
     private val vaccinationRepository: VaccinationRepository,
+    private val dccValidationRepository: DccValidationRepository,
     @AppScope private val appScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
 ) : CWAViewModel(dispatcherProvider) {
@@ -82,6 +84,16 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
                 errors.postValue(exception)
                 Timber.e(exception, "Something went wrong when trying to delete a vaccination certificate.")
             }
+        }
+    }
+
+    fun startValidationRulesDownload() = launch {
+        try {
+            dccValidationRepository.refresh()
+            events.postValue(VaccinationDetailsNavigation.ValidationStart(containerId))
+        } catch (e: Exception) {
+            Timber.d(e, "validation rule download failed for covidCertificate=%s", containerId)
+            errors.postValue(e)
         }
     }
 
