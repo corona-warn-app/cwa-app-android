@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.RecylerViewPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -48,6 +49,8 @@ class DccValidationPassedFragment : Fragment(R.layout.covid_certificate_validati
                         )
                     )
                 }
+
+                toolbar.setOnClickListener { viewModel.onCloseClicked() }
             }
 
             checkAnotherCountryButton.setOnClickListener { viewModel.onCheckAnotherCountryClicked() }
@@ -55,6 +58,16 @@ class DccValidationPassedFragment : Fragment(R.layout.covid_certificate_validati
 
         viewModel.items.observe2(this) {
             validationResultAdapter.update(it)
+        }
+
+        viewModel.navigation.observe2(this) {
+            handleNavigation(it)
+        }
+    }
+
+    private fun handleNavigation(navigation: DccValidationPassedNavigation) {
+        when (navigation) {
+            DccValidationPassedNavigation.Back -> popBackStack()
         }
     }
 }
