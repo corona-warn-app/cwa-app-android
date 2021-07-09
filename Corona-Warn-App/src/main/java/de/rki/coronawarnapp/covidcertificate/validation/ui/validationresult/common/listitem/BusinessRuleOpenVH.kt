@@ -31,7 +31,7 @@ class BusinessRuleOpenVH(
     data class Item(
         val evaluatedDccRule: EvaluatedDccRule,
     ) : ValidationResultItem, HasPayloadDiffer {
-        override val stableId: Long = Item::class.java.name.hashCode().toLong()
+        override val stableId: Long = evaluatedDccRule.rule.identifier.hashCode().toLong()
 
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }
