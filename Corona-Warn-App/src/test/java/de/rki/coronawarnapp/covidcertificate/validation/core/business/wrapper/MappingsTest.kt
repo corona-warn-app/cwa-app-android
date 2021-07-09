@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper
 
 import dgca.verifier.app.engine.UTC_ZONE_ID
+import dgca.verifier.app.engine.data.CertificateType
 import io.kotest.matchers.shouldBe
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
@@ -46,32 +47,64 @@ class MappingsTest : BaseTest() {
     @Test
     fun `filter rules works`() {
         val validationClock = Instant.parse("2021-05-27T07:46:40Z")
+
+        val vacA1 = createRule(
+            certificateType = CertificateType.VACCINATION,
+            identifier = "VR-DE-1",
+            version = "1.0.0",
+            validFrom = validationClock.minus(100).toString(),
+            validTo = validationClock.plus(100).toString(),
+        ) // Has newer version
+        val vacA2 = createRule(
+            certificateType = CertificateType.VACCINATION,
+            identifier = "VR-DE-1",
+            version = "1.0.1",
+            validFrom = validationClock.minus(100).toString(),
+            validTo = validationClock.plus(100).toString(),
+        ) // :)
+        val vacB1 = createRule(
+            certificateType = CertificateType.TEST,
+            identifier = "TR-DE-2",
+            version = "1.0.0",
+            validFrom = validationClock.minus(100).toString(),
+            validTo = validationClock.plus(100).toString(),
+        ) // Wrong type
+        val genA1 = createRule(
+            certificateType = CertificateType.GENERAL,
+            identifier = "GR-DE-1",
+            version = "1.0.0",
+            validFrom = validationClock.minus(100).toString(),
+            validTo = validationClock.plus(100).toString(),
+        ) // Has newer version
+        val genA2 = createRule(
+            certificateType = CertificateType.GENERAL,
+            identifier = "GR-DE-1",
+            version = "1.0.1",
+            validFrom = validationClock.minus(100).toString(),
+            validTo = validationClock.plus(100).toString(),
+        ) // :) 
+        val genA3 = createRule(
+            certificateType = CertificateType.GENERAL,
+            identifier = "GR-DE-1",
+            version = "2.0.1",
+            validFrom = validationClock.plus(1).toString(),
+            validTo = validationClock.plus(100).toString(),
+        ) // validFrom is in the future
+        val genA4 = createRule(
+            certificateType = CertificateType.GENERAL,
+            identifier = "GR-DE-1",
+            version = "2.0.1",
+            validFrom = validationClock.plus(1).toString(),
+            validTo = validationClock.minus(1).toString(),
+        ) // validTo is in the past
+
         val rules = listOf(
-            createVaccinationRule("2021-01-01T07:46:40Z", "2021-05-01T07:46:40Z"),
-            createVaccinationRule("2021-05-27T07:46:40Z", "2022-08-01T07:46:40Z"),
-            createVaccinationRule("2021-05-01T07:46:40Z", "2021-05-27T07:46:40Z"),
-            createVaccinationRule("2021-05-01T07:46:40Z", "2021-05-30T07:46:40Z"),
-            createVaccinationRule("2021-05-28T07:46:40Z", "2022-08-01T07:46:40Z"),
-            createGeneralRule("2021-05-01T07:46:40Z", "2021-05-30T07:46:40Z"),
+            vacA1, vacA2, vacB1, genA1, genA2, genA3, genA4
         )
 
         rules.filterRelevantRules(
             validationClock,
             VACCINATION
-        ).size shouldBe 4
-    }
-
-    @Test
-    fun `highest version works`() {
-        val rules = listOf(
-            createVaccinationRule("2021-01-01T07:46:40Z", "2021-05-01T07:46:40Z", "0.1.21"),
-            createVaccinationRule("2021-05-27T07:46:40Z", "2022-08-01T07:46:40Z", "12.1.21"),
-            createVaccinationRule("2021-05-27T07:46:40Z", "2022-08-01T07:46:40Z", "12.1.21.1"),
-            createVaccinationRule("2021-05-01T07:46:40Z", "2021-05-27T07:46:40Z", "2.5.33"),
-            createVaccinationRule("2021-05-01T07:46:40Z", "2021-05-30T07:46:40Z", "1.0.21"),
-            createVaccinationRule("2021-05-28T07:46:40Z", "2022-08-01T07:46:40Z", "1.1.111"),
-            createGeneralRule("2021-05-01T07:46:40Z", "2021-05-30T07:46:40Z"),
-        )
-        rules.takeHighestVersion()!!.version shouldBe "12.1.21.1"
+        ) shouldBe listOf(vacA2, genA2)
     }
 }

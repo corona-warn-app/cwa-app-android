@@ -15,7 +15,6 @@ import dgca.verifier.app.engine.data.ExternalParameter
 import dgca.verifier.app.engine.data.Rule
 import dgca.verifier.app.engine.data.Type
 import org.joda.time.Instant
-import java.lang.Integer.min
 import java.time.ZonedDateTime
 
 internal fun assembleExternalParameter(
@@ -135,44 +134,18 @@ internal val DccData<out DccV1.MetaData>.type: String
 internal fun List<DccValidationRule>.filterRelevantRules(
     validationClock: Instant,
     certificateType: String
-): List<DccValidationRule> {
-    return filter { rule ->
+): List<DccValidationRule> = this
+    .filter { rule ->
         rule.certificateType.uppercase() == GENERAL.uppercase() ||
             rule.certificateType.uppercase() == certificateType.uppercase()
-    }.filter { rule ->
-        rule.validFromInstant <= validationClock && rule.validToInstant >= validationClock
-    }.groupBy { it.identifier }.mapNotNull { it.value.takeHighestVersion() }
-}
-
-internal fun List<DccValidationRule>.takeHighestVersion(): DccValidationRule? {
-    return maxWithOrNull(comparator)
-}
-
-private val comparator = object : Comparator<DccValidationRule> {
-    override fun compare(o1: DccValidationRule, o2: DccValidationRule): Int {
-        val version1 = o1.version.parseVersion()
-        val version2 = o2.version.parseVersion()
-        (0 until min(version1.size, version2.size)).forEach {
-            try {
-                val diff = Integer.parseInt(version1[it]) - Integer.parseInt(version2[it])
-                if (diff != 0) return diff
-            } catch (e: Exception) {
-                // compare as String
-                val word1 = version1[it]
-                val word2 = version2[it]
-                if (word1 < word2) {
-                    return -1
-                }
-                if (word1 > word2) {
-                    return 1
-                }
-            }
-        }
-        return version1.size - version2.size
     }
-}
-
-internal fun String.parseVersion(): List<String> = this.split('.')
+    .filter { rule ->
+        rule.validFromInstant <= validationClock && rule.validToInstant >= validationClock
+    }
+    .groupBy { it.identifier }
+    .mapNotNull { entry ->
+        entry.value.maxByOrNull { it.versionSemVer }
+    }
 
 internal const val GENERAL = "General"
 internal const val TEST = "Test"
