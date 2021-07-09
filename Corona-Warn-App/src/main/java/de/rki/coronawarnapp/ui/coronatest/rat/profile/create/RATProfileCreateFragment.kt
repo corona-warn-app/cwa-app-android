@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
 import de.rki.coronawarnapp.databinding.RatProfileCreateFragmentBinding
+import de.rki.coronawarnapp.ui.coronatest.rat.profile.create.RATProfileCreateFragmentViewModel.Companion.format
 import de.rki.coronawarnapp.ui.view.addEmojiFilter
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -44,9 +45,8 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
             // Birth date
             birthDateInputEdit.setOnClickListener { openDatePicker() }
             birthDateInputEdit.doAfterTextChanged {
-                if (it.toString().isBlank()) {
-                    viewModel.birthDateChanged(null)
-                }
+                val dob = if (it.toString().isBlank()) null else it.toString()
+                viewModel.birthDateChanged(dob)
             }
 
             // Address
@@ -92,12 +92,8 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
             .datePicker()
             .build()
             .apply {
-                addOnPositiveButtonClickListener { timestamp ->
-                    val localDate = LocalDate(timestamp)
-                    binding.birthDateInputEdit.setText(
-                        localDate.toDayFormat()
-                    )
-                    viewModel.birthDateChanged(localDate)
+                addOnPositiveButtonClickListener {
+                    binding.birthDateInputEdit.setText(LocalDate(it).toString(format))
                 }
             }
             .show(childFragmentManager, "RATProfileCreateFragment.MaterialDatePicker")

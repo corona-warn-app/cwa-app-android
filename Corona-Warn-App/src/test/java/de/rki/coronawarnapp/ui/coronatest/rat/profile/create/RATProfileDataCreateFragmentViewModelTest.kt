@@ -61,7 +61,7 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
             // Fields updated
             firstNameChanged(savedProfile.firstName)
             lastNameChanged(savedProfile.lastName)
-            birthDateChanged(savedProfile.birthDate)
+            birthDateChanged(savedProfile.birthDate?.toString(formatter))
             streetChanged(savedProfile.street)
             zipCodeChanged(savedProfile.zipCode)
             cityChanged(savedProfile.city)
@@ -117,9 +117,8 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
 
     @Test
     fun birthDateChanged() {
-        val birthDate = formatter.parseLocalDate("01.01.2021")
         viewModel().apply {
-            birthDateChanged(birthDate)
+            birthDateChanged("01.01.2021")
             profile.getOrAwaitValue().apply {
                 birthDate shouldBe birthDate
                 isValid shouldBe true
@@ -187,7 +186,7 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
         viewModel().apply {
             firstNameChanged("First name")
             lastNameChanged("Last name")
-            birthDateChanged(birthDate)
+            birthDateChanged("01.01.1980")
             streetChanged("Main street")
             zipCodeChanged("12132")
             cityChanged("London")

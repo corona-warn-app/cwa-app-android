@@ -10,6 +10,8 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import org.joda.time.LocalDate
+import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.DateTimeFormatter
 import timber.log.Timber
 
 class RATProfileCreateFragmentViewModel @AssistedInject constructor(
@@ -46,9 +48,20 @@ class RATProfileCreateFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    fun birthDateChanged(birthDate: LocalDate?) {
+    fun birthDateChanged(birthDate: String?) {
         profileData.apply {
-            value = value?.copy(birthDate = birthDate)
+            value = value?.copy(birthDate = parseDate(birthDate))
+        }
+    }
+
+    private fun parseDate(birthDate: String?): LocalDate? {
+        return birthDate?.let {
+            try {
+                LocalDate.parse(birthDate, format)
+            } catch (e: Exception) {
+                Timber.d(e, "Malformed date")
+                null
+            }
         }
     }
 
@@ -88,4 +101,8 @@ class RATProfileCreateFragmentViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<RATProfileCreateFragmentViewModel>
+
+    companion object {
+        val format: DateTimeFormatter = DateTimeFormat.forPattern("dd.MM.yyyy")
+    }
 }
