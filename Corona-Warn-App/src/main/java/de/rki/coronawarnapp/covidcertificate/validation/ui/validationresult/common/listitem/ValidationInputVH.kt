@@ -23,14 +23,14 @@ class ValidationInputVH(
     override val onBindData: CovidCertificateValidationResultInputItemBinding.(
         item: Item,
         payloads: List<Any>,
-    ) -> Unit = { item, payloads ->
+    ) -> Unit = { item, _ ->
 
         val arrivalDateString = item.validation.userInput.arrivalAt.toUserTimeZone().run {
-            "${toShortDayFormat()}, ${toShortTimeFormat()}"
+            "${toShortDayFormat()} ${toShortTimeFormat()}"
         }
 
         val validatedAtString = item.validation.validatedAt.toUserTimeZone().run {
-            "${toShortDayFormat()}, ${toShortTimeFormat()}"
+            "${toShortDayFormat()} ${toShortTimeFormat()}"
         }
 
         dateDetailsTv.text = context.getString(

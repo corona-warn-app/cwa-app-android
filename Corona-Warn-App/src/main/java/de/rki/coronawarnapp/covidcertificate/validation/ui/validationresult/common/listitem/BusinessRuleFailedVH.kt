@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.com
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.covidcertificate.validation.core.validation.business.EvaluatedDccRule
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultRuleFailedItemBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
@@ -31,7 +31,7 @@ class BusinessRuleFailedVH(
     data class Item(
         val evaluatedDccRule: EvaluatedDccRule,
     ) : ValidationResultItem, HasPayloadDiffer {
-        override val stableId: Long = Item::class.java.name.hashCode().toLong()
+        override val stableId: Long = evaluatedDccRule.rule.identifier.hashCode().toLong()
 
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }

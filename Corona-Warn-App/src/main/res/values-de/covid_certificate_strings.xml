@@ -15,8 +15,10 @@
     <string name="person_overview_no_certificates_title">Noch keine Zertifikate vorhanden</string>
     <!-- XTXT: Person overview no certificates subtitle-->
     <string name="person_overview_no_certificates_subtitle">Hier werden die gespeicherten digitalen Impfzertifikate, Genesenenzertifikate und Testzertifikate angezeigt.</string>
+     <!-- XTXT: Person overview no certificates subtitle 2-->
+    <string name="person_overview_no_certificates_subtitle_2">Um ein Zertifikat hinzuzufügen, scannen Sie bitte den dazugehörigen QR-Code.</string>
     <!-- XBUT: Person overview certificates scan button-->
-    <string name="person_overview_scan_button">Zertifikat hinzufügen</string>
+    <string name="person_overview_scan_button">Zertifikat</string>
     <!-- XTXT: Person overview no certificates image content description-->
     <string name="person_overview_no_certificates_image_description">A certificate with a QR code symbol on it.</string>
     <!-- XTXT: Person card title-->
@@ -214,4 +216,7 @@
     <string name="validation_rules_result_valid_header">Gültiges Zertifikat</string>
     <!-- XTXT: Button text - Check another country -->
     <string name="validation_rules_result_valid_result_button">für weiteres Land prüfen</string>
+    <!-- Validation Failed Screen-->
+    <!-- XHED: Toolbar title for the validation failed screen -->
+    <string name="validation_failed_title">Zertifikat nicht gültig</string>
 </resources>
