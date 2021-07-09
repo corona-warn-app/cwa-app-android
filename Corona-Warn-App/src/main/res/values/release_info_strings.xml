@@ -17,30 +17,30 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"COVID Certificate of Recovery"</item>
-        <item>"Family Certificates"</item>
-        <item>"Extended Statistics"</item>
+        <item>EU-Zertifikatsprüfung</item>
+        <item>Erweiterung Statistiken</item>
+        <item>Schnelltest-Profil bearbeiten</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"You can now also request digital certificates of recovery through the app and then add them in the app. You can use these certificates within the EU to prove recovery from a previous infection (for international travel, for example)."</item>
-        <item>"You can now add digital COVID certificates of family members in the app and manage them, to submit certificates when needed (for international travel, for example)."</item>
-        <item>"The following vaccination statistics are now available in the app:\n\t- Number of people who have received at least one vaccine dose\n\t- Number of people who are fully vaccinated\n\t- Number of administered vaccine doses"</item>
+        <item>Sie können nun vor einer Reise Zertifikate für ein gewähltes Land auf Gültigkeit prüfen.</item>
+        <item>Sie können nun bis zu fünf lokale 7-Tage-Inzidenzen in der App hinzufügen.</item>
+        <item>Sie können nun Ihr Schnelltest-Profil in der App bearbeiten, um zum Beispiel Ihre Adresse zu ändern.</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
-        <item />
-        <item />
-        <item />
+        <item></item>
+        <item></item>
+        <item></item>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item />
-        <item />
-        <item />
+        <item></item>
+        <item></item>
+        <item></item>
     </string-array>
 
 </resources>
