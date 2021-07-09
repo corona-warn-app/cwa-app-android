@@ -23,9 +23,10 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import retrofit2.Response
 import testhelpers.BaseIOTest
+import testhelpers.TestDispatcherProvider
 
 @Suppress("MaxLineLength")
-class DccCountryServerTest : BaseIOTest() {
+class DccValidationServerTest : BaseIOTest() {
     @MockK lateinit var countryApi: DccCountryApi
     @MockK lateinit var rulesApi: DccValidationRuleApi
     @MockK lateinit var signatureValidation: SignatureValidation
@@ -44,7 +45,8 @@ class DccCountryServerTest : BaseIOTest() {
         countryApi = { countryApi },
         rulesApi = { rulesApi },
         signatureValidation = signatureValidation,
-        cache = cache
+        cache = cache,
+        dispatcherProvider = TestDispatcherProvider()
     )
 
     @Test
