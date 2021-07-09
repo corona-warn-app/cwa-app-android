@@ -50,7 +50,7 @@ class DccValidationPassedFragment : Fragment(R.layout.covid_certificate_validati
                     )
                 }
 
-                toolbar.setOnClickListener { viewModel.onCloseClicked() }
+                toolbar.setNavigationOnClickListener { viewModel.onCloseClicked() }
             }
 
             checkAnotherCountryButton.setOnClickListener { viewModel.onCheckAnotherCountryClicked() }
