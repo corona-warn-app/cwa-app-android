@@ -49,7 +49,7 @@ internal val logicExactlyOne = ObjectMapper().readTree(
     """.trimIndent()
 )
 
-internal fun createVaccinationRule(
+fun createVaccinationRule(
     validFrom: String,
     validTo: String,
 ) = DccValidationRule(
@@ -68,7 +68,7 @@ internal fun createVaccinationRule(
     logic = logicVaccinationDose
 )
 
-internal fun createGeneralRule(
+fun createGeneralRule(
     validFrom: String = "2021-05-27T07:46:40Z",
     validTo: String = "2022-08-01T07:46:40Z",
 ) = DccValidationRule(
