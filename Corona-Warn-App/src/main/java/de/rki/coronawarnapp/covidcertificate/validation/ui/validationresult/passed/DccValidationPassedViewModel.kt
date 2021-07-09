@@ -32,7 +32,10 @@ class DccValidationPassedViewModel @AssistedInject constructor(
         Timber.d("generateItems()")
 
         if (validation.state != DccValidation.State.PASSED) {
-            throw IllegalStateException("Expected validation state to be ${DccValidation.State.PASSED.name} but is ${validation.state.name}")
+            throw IllegalStateException(
+                "Expected validation state to be ${DccValidation.State.PASSED.name} " +
+                    "but is ${validation.state.name}"
+            )
         }
 
         return listOf(
