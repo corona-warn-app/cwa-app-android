@@ -8,6 +8,7 @@ val CheckIn.locationName: String
     get() {
         val nameParts = mutableListOf(description, address)
 
+        @Suppress("ComplexCondition")
         if (traceLocationStart != null &&
             traceLocationEnd != null &&
             traceLocationStart.millis > 0 &&
