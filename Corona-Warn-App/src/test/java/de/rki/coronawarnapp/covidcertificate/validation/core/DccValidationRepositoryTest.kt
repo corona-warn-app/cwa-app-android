@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core
 
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidationServer
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
@@ -23,6 +24,16 @@ class DccValidationRepositoryTest : BaseTest() {
     @MockK lateinit var localCache: DccValidationCache
 
     private val testCountryData = "[\"DE\",\"NL\"]"
+    private val testAcceptanceRulesData =
+        """
+            [
+            ]
+        """.trimIndent()
+    private val testInvalidationRulesData =
+        """
+            [
+            ]
+        """.trimIndent()
 
     @BeforeEach
     fun setup() {
@@ -31,10 +42,16 @@ class DccValidationRepositoryTest : BaseTest() {
         localCache.apply {
             coEvery { loadCountryJson() } returns null
             coEvery { saveCountryJson(any()) } just Runs
+            coEvery { loadAcceptanceRuleJson() } returns null
+            coEvery { saveAcceptanceRulesJson(any()) } just Runs
+            coEvery { loadInvalidationRuleJson() } returns null
+            coEvery { saveInvalidationRulesJson(any()) } just Runs
         }
 
         server.apply {
             coEvery { dccCountryJson() } returns testCountryData
+            coEvery { ruleSetJson(DccValidationRule.Type.ACCEPTANCE) } returns testAcceptanceRulesData
+            coEvery { ruleSetJson(DccValidationRule.Type.INVALIDATION) } returns testInvalidationRulesData
         }
     }
 
@@ -50,6 +67,8 @@ class DccValidationRepositoryTest : BaseTest() {
     fun `local cache is loaded on init - no server request`() = runBlockingTest2(ignoreActive = true) {
         createInstance(this).apply {
             dccCountries.first() shouldBe emptyList()
+            acceptanceRules.first() shouldBe emptyList()
+            invalidationRules.first() shouldBe emptyList()
         }
 
         coVerify {
@@ -57,6 +76,20 @@ class DccValidationRepositoryTest : BaseTest() {
         }
         coVerify(exactly = 0) {
             server.dccCountryJson()
+        }
+
+        coVerify {
+            localCache.loadAcceptanceRuleJson()
+        }
+        coVerify(exactly = 0) {
+            server.ruleSetJson(DccValidationRule.Type.ACCEPTANCE)
+        }
+
+        coVerify {
+            localCache.loadInvalidationRuleJson()
+        }
+        coVerify(exactly = 0) {
+            server.ruleSetJson(DccValidationRule.Type.INVALIDATION)
         }
     }
 
@@ -72,6 +105,10 @@ class DccValidationRepositoryTest : BaseTest() {
         coVerify {
             server.dccCountryJson()
             localCache.saveCountryJson(testCountryData)
+            server.ruleSetJson(DccValidationRule.Type.ACCEPTANCE)
+            localCache.saveAcceptanceRulesJson(testAcceptanceRulesData)
+            server.ruleSetJson(DccValidationRule.Type.INVALIDATION)
+            localCache.saveAcceptanceRulesJson(testInvalidationRulesData)
         }
     }
 }

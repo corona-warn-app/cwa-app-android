@@ -1,7 +1,8 @@
-package de.rki.coronawarnapp.covidcertificate.validation.core.country.server
+package de.rki.coronawarnapp.covidcertificate.validation.core.server
 
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountryApi
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRuleApi
 import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidationServer
 import de.rki.coronawarnapp.util.security.SignatureValidation
@@ -61,7 +62,7 @@ class DccValidationServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `data is faulty`() = runBlockingTest {
+    fun `country data is faulty`() = runBlockingTest {
         coEvery { countryApi.onboardedCountries() } returns Response.success("123ABC".decodeHex().toResponseBody())
 
         val server = createInstance()
@@ -69,6 +70,28 @@ class DccValidationServerTest : BaseIOTest() {
         shouldThrow<DccValidationException> {
             server.dccCountryJson()
         }.errorCode shouldBe DccValidationException.ErrorCode.ONBOARDED_COUNTRIES_JSON_ARCHIVE_FILE_MISSING
+    }
+
+    @Test
+    fun `acceptance rules data is faulty`() = runBlockingTest {
+        coEvery { rulesApi.acceptanceRules() } returns Response.success("123ABC".decodeHex().toResponseBody())
+
+        val server = createInstance()
+
+        shouldThrow<DccValidationException> {
+            server.ruleSetJson(DccValidationRule.Type.ACCEPTANCE)
+        }.errorCode shouldBe DccValidationException.ErrorCode.ACCEPTANCE_RULE_JSON_ARCHIVE_FILE_MISSING
+    }
+
+    @Test
+    fun `invalidation rules data is faulty`() = runBlockingTest {
+        coEvery { rulesApi.invalidationRules() } returns Response.success("123ABC".decodeHex().toResponseBody())
+
+        val server = createInstance()
+
+        shouldThrow<DccValidationException> {
+            server.ruleSetJson(DccValidationRule.Type.INVALIDATION)
+        }.errorCode shouldBe DccValidationException.ErrorCode.INVALIDATION_RULE_JSON_ARCHIVE_FILE_MISSING
     }
 
     @Test
