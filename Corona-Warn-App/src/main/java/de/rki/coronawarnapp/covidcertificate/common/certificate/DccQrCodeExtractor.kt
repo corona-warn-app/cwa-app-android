@@ -2,8 +2,10 @@ package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import de.rki.coronawarnapp.bugreporting.censors.dcc.DccQrCodeCensor
 import de.rki.coronawarnapp.coronatest.qrcode.QrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode.CERT_REC_LENIENT
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode.CERT_REC_STRICT
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode.CERT_SINGLE_STRICT
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode.CERT_TEST_LENIENT
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode.CERT_TEST_STRICT
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode.CERT_VAC_LENIENT
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode.CERT_VAC_STRICT
@@ -87,9 +89,9 @@ class DccQrCodeExtractor @Inject constructor(
             when (mode) {
                 CERT_VAC_STRICT, CERT_VAC_LENIENT ->
                     throw InvalidVaccinationCertificateException(e.errorCode)
-                CERT_REC_STRICT ->
+                CERT_REC_STRICT, CERT_REC_LENIENT ->
                     throw InvalidRecoveryCertificateException(e.errorCode)
-                CERT_TEST_STRICT ->
+                CERT_TEST_STRICT, CERT_TEST_LENIENT ->
                     throw InvalidTestCertificateException(e.errorCode)
                 CERT_SINGLE_STRICT -> throw e
             }
@@ -131,22 +133,28 @@ class DccQrCodeExtractor @Inject constructor(
             is VaccinationDccV1 -> VaccinationCertificateQRCode(
                 qrCode = rawString,
                 data = DccData(
-                    parsedData.header,
-                    parsedData.certificate
+                    header = parsedData.header,
+                    certificate = parsedData.certificate,
+                    certificateJson = parsedData.certificateJson,
+                    kid = parsedData.kid
                 ),
             )
             is TestDccV1 -> TestCertificateQRCode(
                 qrCode = rawString,
                 data = DccData(
-                    parsedData.header,
-                    parsedData.certificate
+                    header = parsedData.header,
+                    certificate = parsedData.certificate,
+                    certificateJson = parsedData.certificateJson,
+                    kid = parsedData.kid
                 ),
             )
             is RecoveryDccV1 -> RecoveryCertificateQRCode(
                 qrCode = rawString,
                 data = DccData(
                     parsedData.header,
-                    parsedData.certificate
+                    parsedData.certificate,
+                    certificateJson = parsedData.certificateJson,
+                    kid = parsedData.kid
                 ),
             )
             else -> throw InvalidHealthCertificateException(HC_JSON_SCHEMA_INVALID)
@@ -168,10 +176,14 @@ class DccQrCodeExtractor @Inject constructor(
 
     fun RawCOSEObject.parse(mode: DccV1Parser.Mode): DccData<DccV1.MetaData> = try {
         Timber.v("Parsing COSE for covid certificate.")
-        val cbor = coseDecoder.decode(this)
+        val message = coseDecoder.decode(this)
+        val header = headerParser.parse(message.payload)
+        val body = bodyParser.parse(message.payload, mode)
         DccData(
-            header = headerParser.parse(cbor),
-            certificate = bodyParser.parse(cbor, mode).asCertificate
+            header = header,
+            certificate = body.parsed.asCertificate,
+            certificateJson = body.raw,
+            kid = message.kid
         ).also {
             DccQrCodeCensor.addCertificateToCensor(it)
         }.also {
@@ -194,5 +206,6 @@ class DccQrCodeExtractor @Inject constructor(
 }
 
 private const val PREFIX = "HC1:"
+
 // Zip bomb
 private const val DEFAULT_SIZE_LIMIT = 1024L * 1024 * 10L // 10 MB

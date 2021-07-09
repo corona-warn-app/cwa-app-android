@@ -53,6 +53,9 @@
         <argument
             android:name="containerId"
             app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId" />
+        <action
+            android:id="@+id/action_testCertificateDetailsFragment_to_validationStartFragment"
+            app:destination="@id/validationStartFragment" />
     </fragment>
 
     <fragment
@@ -105,6 +108,9 @@
         <action
             android:id="@+id/action_personDetailsFragment_to_recoveryCertificateDetailsFragment"
             app:destination="@id/recoveryCertificateDetailsFragment" />
+        <action
+            android:id="@+id/action_personDetailsFragment_to_validationStartFragment"
+            app:destination="@id/validationStartFragment" />
     </fragment>
 
     <fragment
@@ -115,6 +121,9 @@
         <argument
             android:name="containerId"
             app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId" />
+        <action
+            android:id="@+id/action_vaccinationDetailsFragment_to_validationStartFragment"
+            app:destination="@id/validationStartFragment" />
     </fragment>
     <fragment
         android:id="@+id/recoveryCertificateDetailsFragment"
@@ -124,5 +133,58 @@
         <argument
             android:name="containerId"
             app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId" />
+        <action
+            android:id="@+id/action_recoveryCertificateDetailsFragment_to_validationStartFragment"
+            app:destination="@id/validationStartFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/validationStartFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.validation.ui.validationstart.ValidationStartFragment"
+        android:label="ValidationStartFragment"
+        tools:layout="@layout/validation_start_fragment">
+        <action
+            android:id="@+id/action_validationStartFragment_to_privacyFragment"
+            app:destination="@id/privacyFragment" />
+        <action
+            android:id="@+id/action_validationStartFragment_to_validationTimeInfoFragment"
+            app:destination="@id/validationTimeInfoFragment" />
+        <argument
+            android:name="containerId"
+            app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId" />
+        <action
+            android:id="@+id/action_validationStartFragment_to_dccValidationOpenFragment"
+            app:destination="@id/dccValidationOpenFragment" />
+        <action
+            android:id="@+id/action_validationStartFragment_to_dccValidationPassedFragment"
+            app:destination="@id/dccValidationPassedFragment" />
+        <action
+            android:id="@+id/action_validationStartFragment_to_dccValidationFailedFragment"
+            app:destination="@id/dccValidationFailedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/validationTimeInfoFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.validation.ui.datetimeinfo.ValidationTimeInfoFragment"
+        android:label="validation_time_info_fragment"
+        tools:layout="@layout/validation_time_info_fragment" />
+    <fragment
+        android:id="@+id/dccValidationFailedFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.failed.DccValidationFailedFragment"
+        android:label="DccValidationFailedFragment"
+        tools:layout="@layout/covid_certificate_validation_result_fragments">
+        <argument
+            android:name="validation"
+            app:argType="de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation" />
+    </fragment>
+    <fragment
+        android:id="@+id/dccValidationOpenFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.open.DccValidationOpenFragment"
+        android:label="DccValidationOpenFragment">
+        <argument
+            android:name="validation"
+            app:argType="de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation" />
+    </fragment>
+    <fragment
+        android:id="@+id/dccValidationPassedFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.passed.DccValidationPassedFragment"
+        android:label="DccValidationPassedFragment" />
 </navigation>

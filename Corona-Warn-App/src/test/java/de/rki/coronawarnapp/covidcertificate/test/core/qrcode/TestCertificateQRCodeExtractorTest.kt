@@ -1,6 +1,9 @@
 package de.rki.coronawarnapp.covidcertificate.test.core.qrcode
 
+import android.content.res.AssetManager
 import com.google.gson.Gson
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchema
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchemaValidator
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.common.cryptography.AesCryptography
@@ -10,17 +13,32 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCerti
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.test.TestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeTestData
+import de.rki.coronawarnapp.util.serialization.SerializationModule
+import de.rki.coronawarnapp.util.serialization.validation.JsonSchemaValidator
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
+import io.mockk.every
+import io.mockk.mockk
 import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
 class TestCertificateQRCodeExtractorTest : BaseTest() {
+    private val schemaValidator by lazy {
+        DccJsonSchemaValidator(
+            DccJsonSchema(
+                mockk<AssetManager>().apply {
+                    every { open(any()) } answers { this.javaClass.classLoader!!.getResourceAsStream(arg<String>(0)) }
+                }
+            ),
+            JsonSchemaValidator(SerializationModule().jacksonObjectMapper())
+        )
+    }
+
     private val coseDecoder = DccCoseDecoder(AesCryptography())
     private val headerParser = DccHeaderParser()
-    private val bodyParser = DccV1Parser(Gson())
+    private val bodyParser = DccV1Parser(Gson(), schemaValidator)
     private val extractor = DccQrCodeExtractor(coseDecoder, headerParser, bodyParser)
 
     @Test

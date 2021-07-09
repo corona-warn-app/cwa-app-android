@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <!-- ####################################
        Special string files for the strings
@@ -14,6 +15,8 @@
     <string name="person_overview_no_certificates_title">"No certificates available yet"</string>
     <!-- XTXT: Person overview no certificates subtitle-->
     <string name="person_overview_no_certificates_subtitle">"The saved digital vaccination certificates, certificates of recovery, and test certificates are displayed here."</string>
+    <!-- XTXT: Person overview no certificates subtitle 2-->
+    <string name="person_overview_no_certificates_subtitle_2">Um ein Zertifikat hinzuzufügen, scannen Sie bitte den dazugehörigen QR-Code.</string>
     <!-- XBUT: Person overview certificates scan button-->
     <string name="person_overview_scan_button">"Add Certificate"</string>
     <!-- XTXT: Person overview no certificates image content description-->
@@ -118,4 +121,106 @@
     <!-- XTXT: DCC QR code scan error message-->
     <string name="error_dcc_already_registered">"The certificate is already registered in your app."</string>
 
+    <!-- #####################################################
+     VALIDATION RULES INFO SCREEN STRINGS BELOW
+     ##################################################### -->
+    <!-- XTXT: Validation Rule Info Screen: Car Text  -->
+    <string name="validation_rules_info_car">"Geben Sie die geplante lokale Ankunftszeit an der Grenze zu Ihrem Einreiseland ein."</string>
+    <!-- XTXT: Validation Rule Info Screen: Flight Text  -->
+    <string name="validation_rules_info_flight">"Wenn Sie auf dem Luftweg einreisen, geben Sie die geplante Uhrzeit Ihres Abflugs ein."</string>
+    <!-- XTXT: Validation Rule Info Screen Title -->
+    <string name="validation_rules_info_title">"Informationen"</string>
+    <!-- XTXT: Accessibility: Validation Rule Info Screen Image Description -->
+    <string name="validation_rules_info_image">"Karte von Europa"</string>
+
+    <!-- XTXT: Start Validation Rule Check Button -->
+    <string name="start_validation_rule_check_button">"Gültigkeit prüfen"</string>
+    <!-- XTXT: Start Validation Rule Check Loading Text -->
+    <string name="start_validation_rule_check_loading_text">"Bitte warten…"</string>
+
+    <!-- XTXT: Digital covid certificate validation error message - no network -->
+    <string name="dcc_validation_error_no_network">"Ihre Internetverbindung wurde unterbrochen. Um die Gültigkeitsprüfung des Zertifikates abzuschließen, prüfen Sie die Verbindung und versuchen Sie es erneut."</string>
+    <!-- XTXT: Digital covid certificate validation error message - try again -->
+    <string name="dcc_validation_error_try_again">"Ein Fehler ist aufgetreten. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline."</string>
+
+    <!-- XBUT: Test certificate validation start button -->
+    <string name="test_certificate_validation_start_button">"Gültigkeit prüfen"</string>
+
+    <!-- #####################################################
+         VALIDATION START SCREEN
+         ##################################################### -->
+
+    <!-- XHED: Validation start header -->
+    <string name="validation_start_header">"Gültigkeit des Zertifikates"</string>
+    <!-- XTXT: Validation start body -->
+    <string name="validation_start_body">"Prüfen Sie vorab, ob Ihr Zertifikat im Reiseland zum Zeitpunkt der Reise gültig ist. Hierfür werden die geltenden Einreiseregeln des gewählten Reiselandes berücksichtigt."</string>
+    <!-- XTXT: Validation start subtitle -->
+    <string name="validation_start_subtitle">"Prüfen für"</string>
+    <!-- XTXT: Validation start land dropdown hint -->
+    <string name="validation_start_land_hint">"Land"</string>
+    <!-- XTXT: Validation start date and time dropdown hint -->
+    <string name="validation_start_date_hint">"Datum und Uhrzeit"</string>
+    <!-- XTXT: Validation start date and time info -->
+    <string name="validation_start_date_info">"Geben Sie Ihr Einreisedatum und die lokale Uhrzeit des Reiselandes ein."</string>
+    <!-- XTXT: Validation start certificate proof -->
+    <string name="validation_start_certificate_proof">"Ein COVID-Zertifikat gilt bei Reisen innerhalb der EU als Nachweis."</string>
+    <!-- XTXT: Validation start note subtitle -->
+    <string name="validation_start_note_subtitle">"Hinweis"</string>
+    <!-- XTXT: Validation start note point 1 -->
+    <string name="validation_start_note_point_1">"Beachten Sie, dass sich die Einreiseregeln ändern können. Prüfen Sie daher das Zertifikat kurz vor der Einreise (max. 48 Stunden)."</string>
+    <!-- XTXT: Validation start note point 2 -->
+    <string name="validation_start_note_point_2">"Es können in einzelnen Regionen weitere Regeln oder Einschränkungen gelten."</string>
+    <!-- XTXT: Validation start note point 3 -->
+    <string name="validation_start_note_point_3">"Um die Echtheit eines Zertifikats sicherzustellen, wird jedes Zertifikat mit einer digitalen Signatur ausgestellt. Diese Signatur wird nur in einer Prüf-Anwendung validiert."</string>
+    <!-- XTXT: Validation start note point 4 -->
+    <string name="validation_start_note_point_4">"Ob die im Zertifikat eingetragenen Daten richtig sind, wird nicht geprüft."</string>
+    <!-- XTXT: Validation start FAQ -->
+    <string name="validation_start_faq">"Mehr Informationen finden Sie in den FAQ und unter https://reopen.europa.eu/de."</string>
+    <!-- XTXT: Validation start FAQ link -->
+    <string name="validation_start_faq_link">"https://www.coronawarn.app/en/faq/#cert_eu_travel"</string>
+    <!-- XTXT: Validation start FAQ label -->
+    <string name="validation_start_faq_label">"FAQ"</string>
+    <!-- XTXT: Validation start reopen europe link -->
+    <string name="validation_start_reopen_europe_link">"https://reopen.europa.eu/en"</string>
+    <!-- XTXT: Validation start reopen europe label -->
+    <string name="validation_start_reopen_europe_label">"https://reopen.europa.eu/de"</string>
+    <!-- XTXT: Validation start data protection button -->
+    <string name="validation_start_data_protection">"Ausführliche Hinweise zur Datenverarbeitung finden Sie in der Datenschutzerklärung"</string>
+    <!-- XBUT: Validation start check button -->
+    <string name="validation_start_check_button">"Prüfen"</string>
+    <!-- XTXT: Validation start time error message -->
+    <string name="validation_start_time_error">"Die angegebene Uhrzeit liegt in der Vergangenheit. Ihre lokale Einreisezeit muss in der Zukunft liegen."</string>
+
+    <!-- XTXT: Validation Rule Result Valid - Infos about country, date and check date -->
+    <string name="validation_rules_result_valid_result_country_and_time">Einreise nach %1$s am %2$s, geprüft am %3$s</string>
+    <!-- XTXT: Validation Rule Result Valid - button text -->
+    <string name="validation_rules_result_valid_result_button">für weiteres Land prüfen</string>
+
+    <!-- XTXT: Validation Rule Result Valid - Result  -->
+    <string name="validation_rules_result_valid_result_title">Ihr Zertifikat ist im gewählten Land gültig.</string>
+    <!-- XTXT: Validation Rule Result Cannot be checked  - Result  -->
+    <string name="validation_rules_result_cannot_be_checked_result_title">Ihr Zertifikat konnte nicht vollständig geprüft werden.</string>
+    <!-- XTXT: Validation Rule Result Not Valid - Result  -->
+    <string name="validation_rules_result_not_valid_result_title">Ihr Zertifikat ist im gewählten Land nicht gültig.</string>
+
+    <!-- XTXT: Validation Rule Open Header Title  -->
+    <string name="validation_rules_open_header_title">Prüfung nicht möglich</string>
+    <!-- XTXT: Validation Rule Open Header Subtitle  -->
+    <string name="validation_rules_open_header_subtitle">Nachfolgende Regeln konnten nicht geprüft werden. Vergewissern Sie sich, dass das Zertifikat den Regeln Ihres Reiselandes entspricht.</string>
+    <!-- XTXT: Validation Rule Failure Header Title  -->
+    <string name="validation_rules_failure_header_title">Prüfung abgeschlossen</string>
+    <!-- XTXT: Validation Rule Failure Header Subtitle  -->
+    <string name="validation_rules_failure_header_subtitle">Folgende Regeln sind nicht erfüllt:</string>
+    <!-- XTXT: Validation Rule Technical Failure Header Title  -->
+    <string name="validation_rules_technical_failure_header_title">Technische Prüfung</string>
+    <!-- XTXT: Validation Rule Technical Failure Header Subtitle  -->
+    <string name="validation_rules_technical_failure_header_subtitle">Folgende Regeln sind nicht erfüllt:</string>
+    <!-- XTXT: Validation Rule Technical Failure - Date Format  -->
+    <string name="validation_rule_technical_error_date_format">Das Zertifikat muss dem erwarteten Datenformat entsprechen.</string>
+    <!-- XTXT: Validation Rule Technical Failure - Date Expired  -->
+    <string name="validation_rule_technical_error_date_expired">Das Zertifikat darf nicht abgelaufen sein.</string>
+
+    <!-- Validation Failed Screen-->
+    <!-- XHED: Toolbar title for the validation failed screen -->
+    <string name="validation_failed_title">Zertifikat nicht gültig</string>
 </resources>

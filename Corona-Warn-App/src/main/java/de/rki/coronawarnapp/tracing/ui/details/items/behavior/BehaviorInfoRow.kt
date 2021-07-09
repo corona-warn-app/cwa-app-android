@@ -18,7 +18,7 @@ import androidx.core.widget.ImageViewCompat
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.hasAPILevel
-import de.rki.coronawarnapp.util.setUrl
+import setTextWithUrl
 
 class BehaviorInfoRow @JvmOverloads constructor(
     context: Context,
@@ -52,7 +52,7 @@ class BehaviorInfoRow @JvmOverloads constructor(
         }
 
         if (body.text == context.getString(R.string.risk_details_increased_risk_faq_link_text)) {
-            body.setUrl(
+            body.setTextWithUrl(
                 R.string.risk_details_increased_risk_faq_link_text,
                 R.string.risk_details_increased_risk_faq_link_label,
                 R.string.risk_details_increased_risk_faq_url

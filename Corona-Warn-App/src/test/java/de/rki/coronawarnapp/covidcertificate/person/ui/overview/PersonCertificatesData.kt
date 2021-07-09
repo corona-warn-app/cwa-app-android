@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
@@ -79,5 +80,8 @@ fun testCertificate(
     override val certificateId: String = "certificateId"
 
     override val rawCertificate: TestDccV1
+        get() = mockk()
+
+    override val dccData: DccData<*>
         get() = mockk()
 }

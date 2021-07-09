@@ -1,10 +1,15 @@
-package de.rki.coronawarnapp.coronatest.type
+package de.rki.coronawarnapp.covidcertificate.test.core.storage
 
-import de.rki.coronawarnapp.coronatest.DaggerCoronaTestTestComponent
+import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateTestData
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertificateData
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.mockk
+import io.mockk.spyk
+import io.mockk.verify
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -14,10 +19,13 @@ import javax.inject.Inject
 class TestCertificateContainerTest : BaseTest() {
 
     @Inject lateinit var certificateTestData: TestCertificateTestData
+    @Inject lateinit var extractor: DccQrCodeExtractor
+    private lateinit var extractorSpy: DccQrCodeExtractor
 
     @BeforeEach
     fun setup() {
-        DaggerCoronaTestTestComponent.factory().create().inject(this)
+        DaggerCovidCertificateTestComponent.factory().create().inject(this)
+        extractorSpy = spyk(extractor)
     }
 
     @Test
@@ -56,6 +64,26 @@ class TestCertificateContainerTest : BaseTest() {
         certificateTestData.personATest1Container.toTestCertificate()!!.apply {
             headerIssuer shouldBe rawData.header.issuer
             certificateIssuer shouldBe rawData.certificate.test.certificateIssuer
+        }
+    }
+
+    @Test
+    fun `default parsing mode for containers is lenient`() {
+        val container = TestCertificateContainer(
+            data = PCRCertificateData(
+                identifier = "",
+                registrationToken = "",
+                registeredAt = Instant.EPOCH,
+                certificateReceivedAt = Instant.EPOCH,
+                testCertificateQrCode = certificateTestData.personATest1CertQRCodeString
+            ),
+            qrCodeExtractor = extractorSpy
+        )
+
+        container.certificateId shouldNotBe null
+
+        verify {
+            extractorSpy.extract(certificateTestData.personATest1CertQRCodeString, DccV1Parser.Mode.CERT_TEST_LENIENT)
         }
     }
 }

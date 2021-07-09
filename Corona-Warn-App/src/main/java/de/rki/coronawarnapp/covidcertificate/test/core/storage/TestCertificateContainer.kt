@@ -1,7 +1,9 @@
 package de.rki.coronawarnapp.covidcertificate.test.core.storage
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
@@ -27,7 +29,7 @@ data class TestCertificateContainer(
         data.testCertificateQrCode!!.let {
             qrCodeExtractor.extract(
                 it,
-                DccV1Parser.Mode.CERT_TEST_STRICT
+                DccV1Parser.Mode.CERT_TEST_LENIENT
             ) as TestCertificateQRCode
         }
     }
@@ -137,6 +139,9 @@ data class TestCertificateContainer(
 
             override val isCertificateRetrievalPending: Boolean
                 get() = this@TestCertificateContainer.isCertificateRetrievalPending
+
+            override val dccData: DccData<out DccV1.MetaData>
+                get() = testCertificateQRCode.data
         }
     }
 }

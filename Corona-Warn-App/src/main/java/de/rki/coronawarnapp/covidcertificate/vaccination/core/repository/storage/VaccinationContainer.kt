@@ -128,6 +128,9 @@ data class VaccinationContainer internal constructor(
 
         override val qrCode: QrCodeString
             get() = vaccinationQrCode
+
+        override val dccData: DccData<out DccV1.MetaData>
+            get() = certificateData
     }
 }
 

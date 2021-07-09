@@ -14,6 +14,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
@@ -140,6 +141,8 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
                     get() = "Germany"
                 override val certificateId: String
                     get() = "05930482748454836478695764787840"
+                override val dccData: DccData<*>
+                    get() = mockk()
             }
         )
     }

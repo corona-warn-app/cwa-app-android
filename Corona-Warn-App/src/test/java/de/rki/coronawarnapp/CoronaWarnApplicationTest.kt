@@ -23,6 +23,7 @@ import de.rki.coronawarnapp.presencetracing.storage.retention.TraceLocationDbCle
 import de.rki.coronawarnapp.risk.changedetection.CombinedRiskLevelChangeDetector
 import de.rki.coronawarnapp.risk.changedetection.EwRiskLevelChangeDetector
 import de.rki.coronawarnapp.risk.execution.ExposureWindowRiskWorkScheduler
+import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsRetrievalScheduler
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.CWADebug
@@ -73,6 +74,7 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var pcrTestResultScheduler: PCRResultScheduler
     @MockK lateinit var raTestResultScheduler: RAResultScheduler
     @MockK lateinit var testCertificateRetrievalScheduler: TestCertificateRetrievalScheduler
+    @MockK lateinit var localStatisticsRetrievalScheduler: LocalStatisticsRetrievalScheduler
 
     @MockK lateinit var pcrTestResultAvailableNotificationService: PCRTestResultAvailableNotificationService
 
@@ -131,6 +133,7 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.raTestResultAvailableNotificationService = raTestResultAvailableNotificationService
                 app.vaccinationUpdateScheduler = vaccinationUpdateScheduler
                 app.testCertificateRetrievalScheduler = testCertificateRetrievalScheduler
+                app.localStatisticsRetrievalScheduler = localStatisticsRetrievalScheduler
                 app.appScope = TestCoroutineScope()
                 app.rollingLogHistory = object : Timber.Tree() {
                     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
@@ -166,6 +169,8 @@ class CoronaWarnApplicationTest : BaseTest() {
             testCertificateRetrievalScheduler.setup()
 
             vaccinationUpdateScheduler.setup()
+
+            localStatisticsRetrievalScheduler.setup()
 
             deviceTimeHandler.launch()
             configChangeDetector.launch()
