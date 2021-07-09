@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.TimeStamper
@@ -50,6 +51,7 @@ class PersonDetailsViewModelTest : BaseTest() {
     @MockK lateinit var personCertificatesProvider: PersonCertificatesProvider
     @MockK lateinit var qrCodeGenerator: QrCodeGenerator
     @MockK lateinit var vaccinationRepository: VaccinationRepository
+    @MockK lateinit var dccValidationRepository: DccValidationRepository
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var viewModel: PersonDetailsViewModel
     private val vcContainerId = VaccinationCertificateContainerId("1")
@@ -147,6 +149,7 @@ class PersonDetailsViewModelTest : BaseTest() {
         dispatcherProvider = TestDispatcherProvider(),
         qrCodeGenerator = qrCodeGenerator,
         vaccinationRepository = vaccinationRepository,
+        dccValidationRepository = dccValidationRepository,
         timeStamper = timeStamper,
         personCertificatesProvider = personCertificatesProvider,
         personIdentifierCode = personCode,

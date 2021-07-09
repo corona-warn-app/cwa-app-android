@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/trace_location_gradient_background">
+    android:background="@drawable/trace_location_gradient_background"
+    android:orientation="vertical">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/validation_start_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_weight="1">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
@@ -333,16 +331,13 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-
-    <Button
-        android:id="@+id/validation_start_button"
+    <de.rki.coronawarnapp.ui.view.ProgressLoadingButton
+        android:id="@+id/start_validation_check"
         style="@style/buttonPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:text="@string/test_certificate_validation_start_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintStart_toEndOf="parent" />
+        app:buttonText="@string/start_validation_rule_check_button"
+        app:isLoading="false"
+        app:loadingText="@string/start_validation_rule_check_loading_text" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
