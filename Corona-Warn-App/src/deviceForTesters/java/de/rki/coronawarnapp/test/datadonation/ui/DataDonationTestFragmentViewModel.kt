@@ -17,18 +17,19 @@ import de.rki.coronawarnapp.datadonation.survey.SurveyException
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.security.RandomStrong
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
-import java.security.SecureRandom
+import kotlin.random.Random
 
 class DataDonationTestFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val safetyNetClientWrapper: SafetyNetClientWrapper,
-    private val secureRandom: SecureRandom,
+    @RandomStrong private val randomSource: Random,
     private val analytics: Analytics,
     private val lastAnalyticsSubmissionLogger: LastAnalyticsSubmissionLogger,
     private val cwaSafetyNet: CWASafetyNet,
@@ -75,7 +76,7 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
     fun createSafetyNetReport() {
         launch {
             val nonce = ByteArray(16)
-            secureRandom.nextBytes(nonce)
+            randomSource.nextBytes(nonce)
             try {
                 val report = safetyNetClientWrapper.attest(nonce)
                 currentReportInternal.value = report
@@ -104,7 +105,7 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
     private fun validateRequirements(requirements: SafetyNetRequirementsContainer) {
         launch {
             val payload = ByteArray(16)
-            secureRandom.nextBytes(payload)
+            randomSource.nextBytes(payload)
             try {
                 val result = cwaSafetyNet.attest(
                     object : DeviceAttestation.Request {
