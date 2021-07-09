@@ -4,11 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import org.joda.time.LocalDate
+import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.DateTimeFormatter
 import timber.log.Timber
 
 class RATProfileCreateFragmentViewModel @AssistedInject constructor(
@@ -16,8 +19,12 @@ class RATProfileCreateFragmentViewModel @AssistedInject constructor(
 ) : CWAViewModel() {
 
     private val profileData = MutableLiveData(RATProfileData())
-    val profile: LiveData<RATProfileData?> = profileData
+    val profile: LiveData<RATProfileData> = profileData
     val events = SingleLiveEvent<CreateRATProfileNavigation>()
+    val latestProfile = SingleLiveEvent<RATProfile>()
+        .apply {
+            value = ratProfileSettings.profile.value
+        }
 
     fun createProfile() {
         val ratProfileData = profileData.value
@@ -41,9 +48,20 @@ class RATProfileCreateFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    fun birthDateChanged(birthDate: LocalDate?) {
+    fun birthDateChanged(birthDate: String?) {
         profileData.apply {
-            value = value?.copy(birthDate = birthDate)
+            value = value?.copy(birthDate = parseDate(birthDate))
+        }
+    }
+
+    private fun parseDate(birthDate: String?): LocalDate? {
+        return birthDate?.let {
+            try {
+                LocalDate.parse(birthDate, format)
+            } catch (e: Exception) {
+                Timber.d(e, "Malformed date")
+                null
+            }
         }
     }
 
@@ -83,4 +101,8 @@ class RATProfileCreateFragmentViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<RATProfileCreateFragmentViewModel>
+
+    companion object {
+        val format: DateTimeFormatter = DateTimeFormat.forPattern("dd.MM.yyyy")
+    }
 }
