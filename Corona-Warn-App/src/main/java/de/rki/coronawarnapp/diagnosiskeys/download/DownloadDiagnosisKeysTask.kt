@@ -174,6 +174,12 @@ class DownloadDiagnosisKeysTask @Inject constructor(
 
         val hasRecentDetection = nextForcedDetectionAt != null && now.isBefore(nextForcedDetectionAt)
 
+        val lastSuccesfulDetectionInFuture = nextForcedDetectionAt?.isBefore(now)
+        if(lastSuccesfulDetectionInFuture!=null&&lastSuccesfulDetectionInFuture){
+            Timber.tag(TAG).w("Last detection is more than 24h in the future. Assuming system date was wrong during last update.")
+            return false;
+        }
+
         return (hasRecentDetection && keySyncResult.newKeys.isEmpty()).also {
             if (it) Timber.tag(TAG).w("Aborting. Last detection is recent (<24h) and no new keyfiles.")
         }
