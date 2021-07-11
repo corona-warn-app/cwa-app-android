@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.test.core.storage
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
@@ -113,18 +114,18 @@ data class TestCertificateContainer(
                 get() = testCertificate.testCenter
 
             override val certificateIssuer: String
-                get() = header.issuer
+                get() = testCertificate.certificateIssuer
             override val certificateCountry: String
                 get() = Locale(userLocale.language, testCertificate.certificateCountry.uppercase())
                     .getDisplayCountry(userLocale)
             override val certificateId: String
                 get() = testCertificate.uniqueCertificateIdentifier
 
-            override val issuer: String
+            override val headerIssuer: String
                 get() = header.issuer
-            override val issuedAt: Instant
+            override val headerIssuedAt: Instant
                 get() = header.issuedAt
-            override val expiresAt: Instant
+            override val headerExpiresAt: Instant
                 get() = header.expiresAt
 
             override val qrCode: QrCodeString
@@ -139,7 +140,7 @@ data class TestCertificateContainer(
             override val isCertificateRetrievalPending: Boolean
                 get() = this@TestCertificateContainer.isCertificateRetrievalPending
 
-            override val dccData: DccData<*>
+            override val dccData: DccData<out DccV1.MetaData>
                 get() = testCertificateQRCode.data
         }
     }

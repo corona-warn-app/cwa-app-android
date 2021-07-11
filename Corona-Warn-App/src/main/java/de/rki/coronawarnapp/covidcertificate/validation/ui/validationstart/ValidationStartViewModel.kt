@@ -8,7 +8,9 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvi
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidator
+import de.rki.coronawarnapp.covidcertificate.validation.core.ValidationUserInput
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
+import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry.Companion.DE
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -38,7 +40,7 @@ class ValidationStartViewModel @AssistedInject constructor(
     val currentDateTime: DateTime get() = uiState.value.dateTime
     val events = SingleLiveEvent<StartValidationNavEvent>()
     val countryList = dccValidationRepository.dccCountries.map { countryList ->
-        if (countryList.isEmpty()) listOf(DccCountry("DE")) else countryList
+        if (countryList.isEmpty()) listOf(DccCountry(DE)) else countryList
     }.asLiveData2()
 
     fun onInfoClick() = events.postValue(NavigateToValidationInfoFragment)
@@ -55,7 +57,10 @@ class ValidationStartViewModel @AssistedInject constructor(
             val country = state.dccCountry
             val time = state.dateTime.toInstant()
             val certificateData = certificateProvider.findCertificate(containerId).dccData
-            val validationResult = dccValidator.validateDcc(setOf(country), time, certificateData)
+            val validationResult = dccValidator.validateDcc(
+                ValidationUserInput(country, time),
+                certificateData
+            )
 
             events.postValue(NavigateToValidationResultFragment(validationResult))
         } catch (e: Exception) {

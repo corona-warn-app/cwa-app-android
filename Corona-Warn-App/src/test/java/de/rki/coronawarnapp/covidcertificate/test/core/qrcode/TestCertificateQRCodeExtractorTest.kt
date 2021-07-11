@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCerti
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.test.TestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeTestData
+import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.util.serialization.validation.JsonSchemaValidator
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -31,7 +32,7 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
                     every { open(any()) } answers { this.javaClass.classLoader!!.getResourceAsStream(arg<String>(0)) }
                 }
             ),
-            JsonSchemaValidator()
+            JsonSchemaValidator(SerializationModule().jacksonObjectMapper())
         )
     }
 
@@ -141,6 +142,6 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
     fun `null values fail with JSON_SCHEMA_INVALID`() {
         shouldThrow<InvalidHealthCertificateException> {
             extractor.extract(TestData.qrCodeMssingValues)
-        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.JSON_SCHEMA_INVALID
+        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.HC_JSON_SCHEMA_INVALID
     }
 }

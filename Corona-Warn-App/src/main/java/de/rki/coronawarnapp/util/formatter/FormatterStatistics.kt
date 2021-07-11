@@ -23,35 +23,20 @@ fun StatsItem.getPrimaryLabel(context: Context): String {
     val dateTimeFormatter = DateTimeFormat.mediumDate().withLocale(context.getLocale())
 
     return when (this) {
-        is InfectionStats -> when (updatedAtDate) {
-            today -> context.getString(R.string.statistics_primary_value_today)
-            yesterday -> context.getString(R.string.statistics_primary_value_yesterday)
-            else -> dateTimeFormatter.print(updatedAtDate)
-        }
-        is KeySubmissionsStats -> when (updatedAtDate) {
-            today -> context.getString(R.string.statistics_primary_value_today)
-            yesterday -> context.getString(R.string.statistics_primary_value_yesterday)
-            else -> dateTimeFormatter.print(updatedAtDate)
-        }
-        is IncidenceStats, is LocalIncidenceStats -> when (updatedAtDate) {
-            today -> context.getString(R.string.statistics_primary_value_until_today)
-            yesterday -> context.getString(R.string.statistics_primary_value_until_yesterday)
-            else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.print(updatedAtDate))
-        }
-        is PersonsVaccinatedOnceStats -> when (updatedAtDate) {
-            today -> context.getString(R.string.statistics_primary_value_until_today)
-            yesterday -> context.getString(R.string.statistics_primary_value_until_yesterday)
-            else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.print(updatedAtDate))
-        }
-        is PersonsVaccinatedCompletelyStats -> when (updatedAtDate) {
-            today -> context.getString(R.string.statistics_primary_value_until_today)
-            yesterday -> context.getString(R.string.statistics_primary_value_until_yesterday)
-            else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.print(updatedAtDate))
-        }
+        is InfectionStats,
+        is KeySubmissionsStats,
         is AppliedVaccinationRatesStats -> when (updatedAtDate) {
             today -> context.getString(R.string.statistics_primary_value_today)
             yesterday -> context.getString(R.string.statistics_primary_value_yesterday)
             else -> dateTimeFormatter.print(updatedAtDate)
+        }
+        is IncidenceStats,
+        is LocalIncidenceStats,
+        is PersonsVaccinatedOnceStats,
+        is PersonsVaccinatedCompletelyStats -> when (updatedAtDate) {
+            today -> context.getString(R.string.statistics_primary_value_until_today)
+            yesterday -> context.getString(R.string.statistics_primary_value_until_yesterday)
+            else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.print(updatedAtDate))
         }
         is SevenDayRValue -> when (updatedAtDate) {
             today -> context.getString(R.string.statistics_primary_value_current)

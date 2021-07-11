@@ -8,6 +8,7 @@
     "LOG_UPLOAD_SERVER_URL": "https://logupload.coronawarn.app",
     "SAFETYNET_API_KEY": "placeholder",
     "PUB_KEYS_SIGNATURE_VERIFICATION": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEc7DEstcUIRcyk35OYDJ95/hTg3UVhsaDXKT0zK7NhHPXoyzipEnOp3GyNXDVpaPi3cAfQmxeuFMZAIX2+6A5Xg==",
-    "CROWD_NOTIFIER_PUBLIC_KEY": "gwLMzE153tQwAOf2MZoUXXfzWTdlSpfS99iZffmcmxOG9njSK4RTimFOFwDh6t0Tyw8XR01ugDYjtuKwjjuK49Oh83FWct6XpefPi9Skjxvvz53i9gaMmUEc96pbtoaA"
+    "CROWD_NOTIFIER_PUBLIC_KEY": "gwLMzE153tQwAOf2MZoUXXfzWTdlSpfS99iZffmcmxOG9njSK4RTimFOFwDh6t0Tyw8XR01ugDYjtuKwjjuK49Oh83FWct6XpefPi9Skjxvvz53i9gaMmUEc96pbtoaA",
+    "DCC_SERVER_URL": "https://dcc.coronawarn.app"
   }
 }

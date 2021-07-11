@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -17,6 +18,7 @@ import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -61,6 +63,11 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 europaImage.setImageResource(europaIcon)
             }
 
+            startValidationCheck.defaultButton.setOnClickListener {
+                startValidationCheck.isLoading = true
+                viewModel.startValidationRulesDownload()
+            }
+
             appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
                 title.alpha = titleAlpha
                 subtitle.alpha = subtitleAlpha
@@ -68,6 +75,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             }
 
             viewModel.errors.observe(viewLifecycleOwner) {
+                startValidationCheck.isLoading = false
                 qrCodeCard.progressBar.hide()
                 it.toErrorDialogBuilder(requireContext()).show()
             }
@@ -88,6 +96,13 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                         null,
                         FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
                     )
+                    is VaccinationDetailsNavigation.ValidationStart -> {
+                        startValidationCheck.isLoading = false
+                        doNavigate(
+                            VaccinationDetailsFragmentDirections
+                                .actionVaccinationDetailsFragmentToValidationStartFragment(event.containerId)
+                        )
+                    }
                 }
             }
         }
@@ -123,6 +138,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         certificateCountry.text = certificate.certificateCountry
         certificateIssuer.text = certificate.certificateIssuer
         certificateId.text = certificate.certificateId
+        oneShotInfo.isVisible = certificate.totalSeriesOfDoses == 1
     }
 
     private fun setToolbarOverlay() {

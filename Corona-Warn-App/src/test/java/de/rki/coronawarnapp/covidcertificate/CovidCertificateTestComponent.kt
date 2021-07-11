@@ -5,16 +5,18 @@ import dagger.Component
 import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.bugreporting.censors.dcc.DccQrCodeCensorTest
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractorTest
+import de.rki.coronawarnapp.covidcertificate.common.certificate.KidExtractionTest
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateContainerTest
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepositoryTest
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainerTest
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorageTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPersonTest
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.DccQrCodeExtractorTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.DccQrCodeValidatorTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepositoryTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainerTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorageTest
+import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.CertLogicEngineWrapperTest
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.mockk.every
 import io.mockk.mockk
@@ -40,6 +42,8 @@ interface CovidCertificateTestComponent {
     fun inject(testClass: DccQrCodeCensorTest)
     fun inject(testClass: TestCertificateRepositoryTest)
     fun inject(testClass: TestCertificateStorageTest)
+    fun inject(testClass: CertLogicEngineWrapperTest)
+    fun inject(testClass: KidExtractionTest)
 
     @Component.Factory
     interface Factory {

@@ -17,16 +17,16 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>COVID-Genesenenzertifikate</item>
-        <item>Familienzertifikate</item>
+        <item>EU-Zertifikatsprüfung</item>
         <item>Erweiterung Statistiken</item>
+        <item>Schnelltest-Profil bearbeiten</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>Sie können nun in der App auch digitale Genesenenzertifikate hinzufügen. Sie können diese Zertifikate innerhalb der EU verwenden, um eine frühere Infektion nachzuweisen (z.B. für Auslandsreisen).</item>
-        <item>Sie können nun digitale COVID-Zertifikate von Familienmitgliedern in der App hinzufügen und verwalten, um die Zertifikate vorzeigen zu können (z.B. bei Auslandsreisen).</item>
-        <item>Es sind nun folgende Impfstatistiken in der App verfügbar:\n\t- Anzahl mindestens einmal geimpfter Personen\n\t- Anzahl vollständig geimpfter Personen\n\t- Anzahl verabreichter Impfdosen</item>
+        <item>Sie können nun vor einer Reise Zertifikate für ein gewähltes Land auf Gültigkeit prüfen.</item>
+        <item>Sie können nun bis zu fünf lokale 7-Tage-Inzidenzen in der App hinzufügen.</item>
+        <item>Sie können nun Ihr Schnelltest-Profil in der App bearbeiten, um zum Beispiel Ihre Adresse zu ändern.</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

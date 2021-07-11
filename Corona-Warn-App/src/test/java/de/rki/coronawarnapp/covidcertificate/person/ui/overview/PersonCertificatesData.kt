@@ -62,9 +62,9 @@ fun testCertificate(
     override val registeredAt: Instant = Instant.EPOCH
     override val isUpdatingData: Boolean = isUpdating
     override val isCertificateRetrievalPending: Boolean = isPending
-    override val issuer: String = "issuer"
-    override val issuedAt: Instant = Instant.EPOCH
-    override val expiresAt: Instant = Instant.EPOCH
+    override val headerIssuer: String = "issuer"
+    override val headerIssuedAt: Instant = Instant.EPOCH
+    override val headerExpiresAt: Instant = Instant.EPOCH
     override val qrCode: QrCodeString = "qrCode"
     override val firstName: String = "firstName"
     override val lastName: String = "lastName"
