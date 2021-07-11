@@ -6,10 +6,6 @@
 
     <!-- XACT: back description for screen readers -->
     <string name="accessibility_back">"Zurück"</string>
-    <!-- XACT: next description for screen readers -->
-    <string name="accessibility_next">"Weiter"</string>
-    <!-- XACT: menu description for screen readers -->
-    <string name="accessibility_menu">"Menü"</string>
     <!-- XACT: menu description for screen readers -->
     <string name="accessibility_close">"Schließen"</string>
     <!-- XACT: menu description for screen readers -->
@@ -69,16 +65,10 @@
     <string name="risk_card_body_installation_today">Seit heute installiert</string>
     <!-- XTXT: risk card - Days since installation if yesterday -->
     <string name="risk_card_body_installation_yesterday">Seit gestern installiert</string>
-    <!-- XTXT: risk card - tracing active for x out of 14 days -->
-    <string name="risk_card_body_saved_days">"Risiko-Ermittlung war für %1$s der letzten 14 Tage aktiv"</string>
-    <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
-    <string name="risk_card_body_saved_days_full">"Risiko-Ermittlung dauerhaft aktiv"</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"Begegnungen wurden noch nicht überprüft."</string>
     <!-- XTXT: risk card - last successful update -->
     <string name="risk_card_body_time_fetched">"Aktualisiert: %1$s"</string>
-    <!-- XTXT: risk card - hint to open the app daily -->
-    <string name="risk_card_body_open_daily">"Hinweis: Bitte öffnen Sie die App täglich, um den Risikostatus zu aktualisieren."</string>
     <!-- XBUT: risk card - update risk -->
     <string name="risk_card_button_update">"Aktualisieren"</string>
     <!-- XBUT: risk card - activate tracing -->
@@ -89,18 +79,10 @@
     <string name="risk_card_low_risk_headline">"Niedriges Risiko"</string>
     <!-- XHED: risk card - increased risk headline -->
     <string name="risk_card_increased_risk_headline">"Erhöhtes Risiko"</string>
-    <!-- XTXT: risk card - tracing isn't active long enough, so a new risk level can't be calculated -->
-    <string name="risk_card_unknown_risk_body">"Da Sie die Risiko-Ermittlung noch nicht lange genug aktiviert haben, konnten wir für Sie kein Infektionsrisiko berechnen."</string>
     <!-- XHED: risk card - tracing stopped headline, due to no possible calculation -->
     <string name="risk_card_no_calculation_possible_headline">"Risiko-Ermittlung gestoppt"</string>
     <!-- XTXT: risk card - last successfully calculated risk level -->
     <string name="risk_card_no_calculation_possible_body_saved_risk">"Letzte Risiko-Überprüfung:"<xliff:g id="line_break">"\n"</xliff:g>"%1$s"</string>
-    <!-- XHED: risk card -  outdated risk headline, calculation isn't possible -->
-    <string name="risk_card_outdated_risk_headline">"Risiko-Ermittlung nicht möglich"</string>
-    <!-- XTXT: risk card - outdated risk, calculation couldn't be updated in the last 24 hours -->
-    <string name="risk_card_outdated_risk_body">"Ihre Risiko-Ermittlung konnte seit mehr als 24 Stunden nicht aktualisiert werden."</string>
-    <!-- XTXT: risk card - outdated risk manual, calculation couldn't be updated in the last 48 hours -->
-    <string name="risk_card_outdated_manual_risk_body">"Ihr Risikostatus wurde seit mehr als 48 Stunden nicht aktualisiert. Bitte aktualisieren Sie Ihren Risikostatus."</string>
     <!-- XHED: risk card - risk check failed headline, no internet connection -->
     <string name="risk_card_check_failed_no_internet_headline">"Risiko-Überprüfung fehlgeschlagen"</string>
     <!-- XTXT: risk card - risk check failed, please check your internet connection -->
@@ -223,8 +205,6 @@
     <string name="main_overview_subtitle_increased_risk">"Erhöhtes Risiko"</string>
     <!-- XTXT: App overview low risk level -->
     <string name="main_overview_subtitle_low_risk">"Niedriges Risiko"</string>
-    <!-- XTXT: App overview unknown risk level -->
-    <string name="main_overview_subtitle_unknown_risk">"Unbekanntes Risiko"</string>
     <!-- XHED: App overview subtitle for test procedure explanation -->
     <string name="main_overview_headline_test">"Benachrichtigung anderer"</string>
     <!-- YTXT: App overview body text about rest procedure -->
@@ -317,14 +297,8 @@
     <string name="risk_details_information_body_period_logged_assessment_over_14_days">"Wenn die Risiko-Ermittlung zu Zeiten, in denen Sie andere Personen getroffen haben, aktiv war, kann die Berechnung des Infektionsrisikos für diesen Zeitraum erfolgen."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->        <!-- XTXT: risk details - infection period logged information body, under 14 days -->
     <string name="risk_details_information_body_period_logged_assessment">"Ältere Tage werden automatisch gelöscht, da sie aus Sicht des Infektionsschutzes nicht mehr relevant sind."</string>
-    <!-- XTXT: risk details - infection period days logged/14 -->
-    <string name="risk_details_information_active_tracing_days_circle_progress">"%s/14"</string>
-    <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
-    <string name="risk_details_subtitle_infection_risk_past">"So wurde Ihr Risiko ermittelt."</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk">"So wird Ihr Risiko ermittelt."</string>
-    <!-- XMSG: risk details - risk calculation wasn't possible for 24h, below behaviors -->
-    <string name="risk_details_information_body_outdated_risk">"Ihre Risiko-Ermittlung konnte seit mehr als 24 Stunden nicht aktualisiert werden."</string>
     <!-- YTXT: risk details - low risk explanation text -->
     <string name="risk_details_information_body_low_risk">"Sie haben ein niedriges Infektionsrisiko, da keine Begegnung mit nachweislich Corona-positiv getesteten Personen aufgezeichnet wurde oder sich Ihre Begegnung auf kurze Zeit und einen größeren Abstand beschränkt hat."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
@@ -333,15 +307,6 @@
     <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/de/faq/#encounter_but_green"</string>
     <!-- YTXT: risk details - increased risk explanation text with variable date since last contact -->
     <string name="risk_details_information_body_increased_risk_date">"Sie haben ein erhöhtes Infektionsrisiko, da Sie mindestens einer nachweislich Corona-positiv getesteten Person über einen längeren Zeitraum und mit einem geringeren Abstand begegnet sind."</string>
-    <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
-    <plurals name="risk_details_information_body_increased_risk">
-        <item quantity="one">"Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tag mindestens einer nachweislich Corona-positiv getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind."</item>
-        <item quantity="other">"Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tagen mindestens einer nachweislich Corona-positiv getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind."</item>
-        <item quantity="zero">"Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tagen mindestens einer nachweislich Corona-positiv getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind."</item>
-        <item quantity="two">"Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tagen mindestens einer nachweislich Corona-positiv getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind."</item>
-        <item quantity="few">"Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tagen mindestens einer nachweislich Corona-positiv getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind."</item>
-        <item quantity="many">"Sie haben ein erhöhtes Infektionsrisiko, da Sie zuletzt vor %1$s Tagen mindestens einer nachweislich Corona-positiv getesteten Person über einen längeren Zeitraum und mit einem geringen Abstand begegnet sind."</item>
-    </plurals>
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Das Infektionsrisiko wird anhand der Daten der Risiko-Ermittlung unter Berücksichtigung von Abstand und Dauer lokal auf Ihrem Smartphone berechnet. Ihr Infektionsrisiko ist für niemanden einsehbar und wird nicht weitergegeben."</string>
     <!-- YTXT: risk details - risk calculation explanation for increased risk -->
@@ -372,8 +337,6 @@
     <string name="risk_lowered_dialog_body">"Die Risiko-Begegnung, die zu einem erhöhten Risiko für Sie geführt hat, liegt mehr als 14 Tage zurück. Daher wird das Infektionsrisiko wieder als niedrig für Sie eingestuft.\n\nSo verhalten Sie sich richtig:\n1. Wenn Sie keine Symptome von COVID-19 aufweisen, halten Sie sich an die allgemein geltenden Verhaltensregeln zu Abstand und Hygiene.\n2. Wenn Sie Symptome von COVID-19 aufweisen, empfehlen wir, dass Sie Ihren Arzt aufsuchen und sich testen lassen."</string>
     <!-- XBUT: risk lowerd - dialog confirm -->
     <string name="risk_lowered_dialog_button_confirm">"OK"</string>
-    <!-- XBUT: risk lowered - dialog cancel -->
-    <string name="risk_lowered_dialog_button_cancel">"Mehr"</string>
 
     <!-- ####################################
            Outdated Device Time
@@ -399,8 +362,6 @@
     <string name="onboarding_button_next">"Weiter"</string>
     <!-- XBUT: onboarding - start -->
     <string name="onboarding_button_start">"Los geht’s"</string>
-    <!-- XTXT: onboarding - back description for screen reader -->
-    <string name="onboarding_button_back_description">"Zurück"</string>
     <!-- XACT: Onboarding (together) page title -->
     <string name="onboarding_onboarding_accessibility_title">"Einführung Seite 1 von 6: Gemeinsam Corona bekämpfen"</string>
     <!-- XHED: onboarding(together) - fight corona -->
@@ -478,8 +439,6 @@
     <string name="onboarding_tracing_location_headline">"Standort-Verwendung erlauben"</string>
     <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
     <string name="onboarding_tracing_location_body">"Auf Ihren Standort wird nicht zugegriffen. Die Standort-Erlaubnis wird benötigt, um die Verwendung von Bluetooth Low Energy in Android 10 und früheren Versionen zu ermöglichen."</string>
-    <!-- XBUT: onboarding(tracing) - button enable tracing -->
-    <string name="onboarding_tracing_location_button">"Geräte-Einstellungen öffnen"</string>
     <!-- XACT: Onboarding (test) page title -->
     <string name="onboarding_test_accessibility_title">"Einführung Seite 5 von 6: Falls Sie positiv getestet wurden"</string>
     <!-- XHED: onboarding(test) - about positive tests -->
@@ -513,8 +472,6 @@
     <string name="onboarding_ppa_state_title">"Ihr Bundesland (optional)"</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - district title -->
     <string name="onboarding_ppa_district_title">"Ihr Kreis/Bezirk (optional)"</string>
-    <!-- XTXT: onboarding privacy preserving analytics (ppa) - regional evaluation text -->
-    <string name="onboarding_ppa_regional_evaluation_text">"Wenn Sie zusätzlich Ihr Bundesland und Ihre Region angeben, können wir regionale Auswertungen durchführen."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - age title -->
     <string name="onboarding_ppa_age_title">"Ihre Altersgruppe (optional)"</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - consent title -->
@@ -526,8 +483,6 @@
 
     <!-- XHED: onboarding privacy preserving analytics (ppa) - more info - headline -->
     <string name="onboarding_ppa_more_info_headline">"Ausführliche Informationen zur Datenspende"</string>
-    <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - consent title -->
-    <string name="onboarding_ppa_more_info_decline_processing_text">"Wenn Sie mit der Drittlandsübermittlung nicht einverstanden sind, tippen Sie bitte nicht „Einverstanden" an. Sie können die App weiterhin nutzen, die Datenspende ist dann jedoch nicht möglich."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - title -->
     <string name="onboarding_ppa_more_info_data_processing_title">"Datenverarbeitung im Rahmen der Datenspende"</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing body -->
@@ -631,8 +586,6 @@
     <string name="settings_tracing_status_inactive">"Gestoppt"</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
     <string name="settings_tracing_status_restricted">"Eingeschränkt"</string>
-    <!-- XTXT: settings(tracing) - shows status under header in home, no internet -->
-    <string name="settings_tracing_body_connection_inactive">"Keine Internetverbindung"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, no bluetooth -->
     <string name="settings_tracing_body_bluetooth_inactive">"Bluetooth deaktiviert"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
@@ -649,21 +602,6 @@
     <string name="settings_tracing_status_location_body_url">https://www.coronawarn.app/de/faq/#android_location</string>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
     <string name="settings_tracing_status_location_button">"Geräte-Einstellungen öffnen"</string>
-    <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
-    <string name="settings_tracing_status_connection_headline">"Internetverbindung herstellen"</string>
-    <!-- XTXT: settings(tracing) - explains user what to do on card if connection is disabled -->
-    <string name="settings_tracing_status_connection_body">"Die Risiko-Ermittlung benötigt eine Internetverbindung, um Ihr Infektionsrisiko berechnen zu können. Bitte aktivieren Sie WLAN oder mobile Daten in Ihren Geräte-Einstellungen."</string>
-    <!-- XBUT: settings(tracing) - go to operating system settings button on card -->
-    <string name="settings_tracing_status_connection_button">"Geräte-Einstellungen öffnen"</string>
-    <!-- XTXT: settings(tracing) - explains the circle progress indicator to the right with the current value -->
-    <plurals name="settings_tracing_status_body_active">
-        <item quantity="one">"Die Risiko-Ermittlung ist seit insgesamt einem Tag aktiv. Eine verlässliche Risiko-Überprüfung kann nur mit einer dauerhaft aktivierten Risiko-Ermittlung erfolgen."</item>
-        <item quantity="other">"Die Risiko-Ermittlung ist seit insgesamt %1$s Tagen aktiv. Eine verlässliche Risiko-Überprüfung kann nur mit einer dauerhaft aktivierten Risiko-Ermittlung erfolgen."</item>
-        <item quantity="zero">"Die Risiko-Ermittlung ist seit insgesamt %1$s Tagen aktiv. Eine verlässliche Risiko-Überprüfung kann nur mit einer dauerhaft aktivierten Risiko-Ermittlung erfolgen."</item>
-        <item quantity="two">"Die Risiko-Ermittlung ist seit insgesamt %1$s Tagen aktiv. Eine verlässliche Risiko-Überprüfung kann nur mit einer dauerhaft aktivierten Risiko-Ermittlung erfolgen."</item>
-        <item quantity="few">"Die Risiko-Ermittlung ist seit insgesamt %1$s Tagen aktiv. Eine verlässliche Risiko-Überprüfung kann nur mit einer dauerhaft aktivierten Risiko-Ermittlung erfolgen."</item>
-        <item quantity="many">"Die Risiko-Ermittlung ist seit insgesamt %1$s Tagen aktiv. Eine verlässliche Risiko-Überprüfung kann nur mit einer dauerhaft aktivierten Risiko-Ermittlung erfolgen."</item>
-    </plurals>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_illustration_description_active">"Drei Personen haben die Risiko-Ermittlung auf ihren Smartphones aktiviert, ihre Begegnung wird daher aufgezeichnet."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
@@ -672,15 +610,11 @@
     <string name="settings_tracing_bluetooth_illustration_description_inactive">"Eine Person hat Bluetooth auf ihrem Smartphone ausgeschaltet, eine Begegnung mit zwei weiteren Personen wird daher nicht aufgezeichnet."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_location_illustration_description_inactive" />
-    <!-- XACT: settings(tracing) - describes illustration -->
-    <string name="settings_tracing_connection_illustration_description_inactive">"Eine Person hat die Internetverbindung auf ihrem Smartphone ausgeschaltet, eine Begegnung mit zwei weiteren Personen wird daher nicht aufgezeichnet."</string>
 
     <!-- XHED: settings(notification) - notification page title -->
     <string name="settings_notifications_title">"Mitteilungen"</string>
     <!-- XHED: settings(notification) - multiline headline below illustration, active -->
     <string name="settings_notifications_headline_active">"Möchten Sie Mitteilungen zu Ihrem COVID-19-Risikostatus aktivieren?"</string>
-    <!-- XHED: settings(notification) - multiline headline below illustration, inactive -->
-    <string name="settings_notifications_headline_inactive">"Mitteilungen sind deaktiviert"</string>
     <!-- XTXT: settings(notification) - text in row on settings overview -->
     <string name="settings_notifications_body_description">"Erlauben Sie automatische Benachrichtigungen zu Ihrem COVID-19-Risikostatus."</string>
     <!-- YTXT: settings(notification) - description text when it notifications are enabled -->
@@ -867,8 +801,6 @@
     <string name="debugging_debuglog_id_history_title">"ID-Historie"</string>
     <!-- YTXT: Description of ID History -->
     <string name="debugging_debuglog_id_history_body">"IDs der bisher geteilten Fehleranalysen"</string>
-    <!-- YTXT: Warning regarding downsides of recording a log file -->
-    <string name="debugging_debuglog_intro_warning">"Bitte beachten Sie, dass in Fehlerberichten sensible Daten (z.B. Testergebnis oder Kontakt-Tagebuch-Einträge) enthalten sein können. Aus diesem Grund sollten Sie Fehlerberichte nicht öffentlich teilen."</string>
     <!-- XBUT: Button text to start the log recording -->
     <string name="debugging_debuglog_action_start_recording">"Starten"</string>
     <!-- XBUT: Button text to stop the log recording -->
@@ -929,12 +861,6 @@
     <string name="debugging_debuglog_uploadhistory_description">"Hier sehen Sie die IDs Ihrer Fehleranalyse-Protokolle."</string>
 
     <!-- ####################################
-              Interoperability
-    ###################################### -->
-    <!-- XHED: headline for consent information  -->
-    <string name="interop_consent_headline">"Einwilligungserklärung"</string>
-
-    <!-- ####################################
              Submission
     ###################################### -->
 
@@ -947,10 +873,6 @@
     <!-- XBUT: Positive button for generic web request error -->
     <string name="submission_error_dialog_web_generic_error_button_positive">"Zurück"</string>
 
-    <!-- XHED: Dialog title for already paired test error: qr -->
-    <string name="submission_error_dialog_web_test_paired_title">"QR-Code ist ungültig"</string>
-    <!-- XMSG: Dialog body for already paired test error: qr -->
-    <string name="submission_error_dialog_web_test_paired_body">"Der QR-Code ist ungültig oder wurde bereits auf einem Smartphone registriert. Ihr Testergebnis bekommen Sie vom Testcenter oder Labor, unabhängig von der Gültigkeit des QR-Codes. Wenn Ihr Test positiv ausfällt, bekommen Sie vom Gesundheitsamt eine Mitteilung."</string>
     <!-- XHED: Dialog title for already paired test error: tan -->
     <string name="submission_error_dialog_web_test_paired_title_tan">"TAN ist ungültig"</string>
     <!-- XMSG: Dialog body for already paired test via tan - error: tan -->
@@ -962,15 +884,6 @@
     <string name="submission_error_dialog_web_paring_invalid_title">"Fehler"</string>
     <!-- XMSG: Dialog body for could not create submission tan -->
     <string name="submission_error_dialog_web_paring_invalid_body">"Es konnte keine Übermittlungs-TAN erstellt werden. Bitte kontaktieren Sie die technische Hotline über App-Informationen → Technische Hotline."</string>
-    <!-- XBUT: Positive button for could not create submission tan -->
-    <string name="submission_error_dialog_web_paring_invalid_button_positive">"Zurück"</string>
-
-    <!-- XHED: Dialog title for submission tan invalid -->
-    <string name="submission_error_dialog_web_tan_invalid_title">"Fehler"</string>
-    <!-- XMSG: Dialog body for submission tan invalid -->
-    <string name="submission_error_dialog_web_tan_invalid_body">"Die erzeugte Übermittlungs-TAN ist ungültig. Bitte kontaktieren Sie die technische Hotline über App-Informationen → Technische Hotline."</string>
-    <!-- XBUT: Positive button for submission tan invalid -->
-    <string name="submission_error_dialog_web_tan_invalid_button_positive">"Zurück"</string>
 
     <!-- XHED: Dialog title for submission tan redeemed -->
     <string name="submission_error_dialog_web_tan_redeemed_title">"QR-Code nicht mehr gültig"</string>
@@ -1076,10 +989,6 @@
     <!-- YTXT: Body text for for results next steps  -->
     <string name="submission_test_result_steps_added_body">"Ihr Test wurde in der Corona-Warn-App registriert."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_heading">"Ihr Testergebnis liegt noch nicht vor"</string>
-    <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_body">"Sobald Ihr Testergebnis vorliegt, wird es Ihnen in der App angezeigt.\n\nSie bekommen Ihr Testergebnis auch außerhalb der App mitgeteilt. Falls Ihr Test positiv ist, bekommen Sie vom Gesundheitsamt eine Mitteilung.\n\nWenn Ihnen außerhalb der App ein positives Testergebnis mitgeteilt wurde, entfernen Sie den aktuell in der App registrierten Test. Rufen Sie die unter "TAN anfragen" angegebene Nummer an, um eine TAN zu erhalten. Registrieren Sie dann Ihr Testergebnis mithilfe der TAN in der App."</string>
-    <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Ihr Testergebnis liegt noch nicht vor"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_pcr_body">"Sobald Ihr Testergebnis vorliegt, wird es Ihnen in der App angezeigt.\n\nSie bekommen Ihr Testergebnis auch außerhalb der App mitgeteilt. Falls Ihr Test positiv ist, bekommen Sie vom Gesundheitsamt eine Mitteilung.\n\nWenn Ihnen außerhalb der App ein positives Testergebnis mitgeteilt wurde, entfernen Sie den aktuell in der App registrierten Test. Rufen Sie die unter "TAN anfragen" angegebene Nummer an, um eine TAN zu erhalten. Registrieren Sie dann Ihr Testergebnis mithilfe der TAN in der App."</string>
@@ -1117,13 +1026,8 @@
     <string name="submission_test_result_positive_steps_warning_others_heading">"Andere warnen"</string>
     <!-- YTXT: Body text for for other warnings screen-->
     <string name="submission_test_result_positive_steps_warning_others_body">"Bitte teilen Sie Ihre Zufalls-IDs und warnen Sie andere.\nHelfen Sie, das Infektionsrisiko für andere genauer zu bestimmen, indem Sie auch angeben, wann eventuelle Corona-Symptome zum ersten Mal aufgetreten sind."</string>
-    <!-- XBUT: positive test result : continue button -->
-    <string name="submission_test_result_positive_continue_button">"Weiter"</string>
     <!-- XBUT: positive test result : continue button with symptoms-->
     <string name="submission_test_result_positive_continue_button_with_symptoms">"Weiter mit Symptom-Erfassung"</string>
-    <!-- XBUT: positive test result : continue button without symptoms -->
-    <string name="submission_test_result_positive_continue_button_wo_symptoms">"Weiter ohne Symptom-Erfassung"</string>
-
 
     <!-- XHED: Page headline for invalid test result screen  -->
     <string name="submission_test_result_invalid_steps_invalid_heading">"Test kann nicht ausgewertet werden"</string>
@@ -1266,8 +1170,6 @@
     <string name="submission_done_subtitle">"Bitte beachten Sie:"</string>
     <!-- YTXT: text after submission: pcr validation -->
     <string name="submission_done_pcr_validation">"Machen Sie einen PCR-Test, um dieses Test-Ergebnis zu verifizieren."</string>
-    <!-- YTXT: text after submission: pcr validation -->
-    <string name="submission_done_share_keys">"Teilen Sie Ihre Zufalls-IDs, damit andere gewarnt werden können."</string>
     <!-- YTXT: text after submission: contagious -->
     <string name="submission_done_contagious">"Das Gesundheitsamt wird sich möglicherweise in den nächsten Tagen bei Ihnen melden."</string>
     <!-- YTXT: text after submission: isolate -->
@@ -1290,8 +1192,6 @@
     <!-- Submission Done No Consent-->
     <!-- XHED: Page title for completed submission page -->
     <string name="submission_done_no_consent_title">"Vielen Dank!"</string>
-    <!-- YTXT: Page subtitle for completed submission page -->
-    <string name="submission_done_no_consent_subtitle">"Vielen Dank, dass Sie mithelfen, die Verbreitung von Corona zu bekämpfen."</string>
     <!-- YTXT: Page body for submission no consent page -->
     <string name="submission_done_no_consent_body_title">"Ihre Mitmenschen werden jetzt gewarnt."</string>
     <!-- YTXT: Page body for submission no consent page -->
@@ -1338,16 +1238,12 @@
     <string name="submission_contact_headline">"Info zum Ablauf:"</string>
     <!-- YTXT: Body text for contact page in submission flow-->
     <string name="submission_contact_body">"Bitte halten Sie zur TAN-Abfrage Ihren Befundbrief (sofern vorhanden) und Ihre Telefonnummer bereit.\n\nGehörlose, schwerhörige und spätertaubte Menschen können zur telefonischen Kontaktaufnahme die Tess-Relay-Dienste (Dolmetschen in Gebärdensprache und deutscher Schriftsprache) nutzen. Die Software können Sie im Google Play Store herunterladen."</string>
-    <!-- XBUT: submission contact call button -->
-    <string name="submission_contact_button_call">"Anrufen"</string>
     <!-- XBUT: submission contact enter tan button -->
     <string name="submission_contact_button_enter">"TAN eingeben"</string>
     <!-- YTXT: Body text for step 1 of contact page -->
     <string name="submission_contact_step_1_body">"Rufen Sie die bundesweite Hotline an und fragen Sie nach einer TAN."</string>
     <!-- XLNK: Button / hyperlink to phone call for TAN contact page -->
     <string name="submission_contact_number_display">"0800 7540002"</string>
-    <!-- XLNK: Technical number which is called when the user clicks on the display number -->
-    <string name="submission_contact_number_dial">"0800 7540002"</string>
     <!-- YTXT: Body text for step 2 of contact page-->
     <string name="submission_contact_step_2_body">"Geben Sie die TAN in der App ein, um Ihren PCR-Test zu registrieren."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
@@ -1372,7 +1268,7 @@
     <!-- XBUT: symptom calendar screen less than 7 days button -->
     <string name="submission_symptom_less_seven">"In den letzten 7 Tagen"</string>
     <!-- XBUT: symptom calendar screen 1-2 weeks button -->
-    <string name="submission_symptom_one_two_weeks">"Vor 1-2 Wochen"</string>
+    <string name="submission_symptom_one_two_weeks">"Vor 1–2 Wochen"</string>
     <!-- XBUT: symptom calendar screen more than 2 weeks button -->
     <string name="submission_symptom_more_two_weeks">"Vor mehr als 2 Wochen"</string>
     <!-- XBUT: symptom calendar screen verify button -->
@@ -1381,28 +1277,12 @@
     <!-- Submission Status Card -->
     <!-- XHED: Page title for the various submission status: fetching -->
     <string name="submission_status_card_title_fetching">"Datenabruf…"</string>
-    <!-- XHED: Page title for the various submission status: unregistered -->
-    <string name="submission_status_card_title_unregistered">"Wurden Sie getestet?"</string>
     <!-- XHED: Page title for the various submission status: pending -->
     <string name="submission_status_card_title_pending">"Testergebnis liegt noch nicht vor"</string>
     <!-- XHED: Page title for the various submission status: available -->
     <string name="submission_status_card_title_available">"Ihr Testergebnis liegt vor"</string>
-    <!-- XHED: Page title for the various submission status: positive -->
-    <string name="submission_status_card_title_positive">"Befund positiv"</string>
-    <!-- XHED: Page title for the various submission status fetch failed -->
-    <string name="submission_status_card_title_failed">"Test nicht mehr gültig"</string>
-    <!-- XHED: Page title for the various submission status fetch ready -->
-    <string name="submission_status_card_title_ready">"Ihr Testergebnis liegt vor"</string>
-    <!-- XHED: Subtitle for the submission status card: invalid -->
-    <string name="submission_status_card_subtitle_invalid">"Test kann nicht ausgewertet werden"</string>
-    <!-- XHED: Subtitle for the submission status card: negative -->
-    <string name="submission_status_card_subtitle_negative">"Befund negativ"</string>
-    <!-- XHED: Subtitle for the submission status card: ready -->
-    <string name="submission_status_card_subtitle_ready">"Sie können Ihr Testergebnis nun abrufen"</string>
     <!-- YTXT: Body text for submission status: fetching -->
     <string name="submission_status_card_body_fetching">"Das Ergebnis wird aktualisiert"</string>
-    <!-- YTXT: Body text for submission status: unregistered -->
-    <string name="submission_status_card_body_unregistered">"Schützen Sie sich und Ihre Mitmenschen!"</string>
     <!-- YTXT: Body text for submission status: pending -->
     <string name="submission_status_card_body_pending">"Die Auswertung Ihres Tests ist noch nicht abgeschlossen."</string>
     <!-- YTXT: Body text for submission status: invalid -->
@@ -1411,20 +1291,12 @@
     <string name="submission_status_card_body_positive">"Sie wurden positiv auf SARS-CoV-2 getestet."</string>
     <!-- YTXT: Body text for submission status: negative -->
     <string name="submission_status_card_body_negative">"Sie wurden negativ auf SARS-CoV-2 getestet."</string>
-    <!-- YTXT: Body text for submission status fetch failed -->
-    <string name="submission_status_card_body_failed">"Ihr Test liegt länger als 21 Tage zurück und ist daher nicht länger relevant. Bitte löschen Sie den Test. Danach können Sie einen neuen Test hinzufügen."</string>
-    <!-- YTXT: Body text for submission status fetch ready -->
-    <string name="submission_status_card_body_ready">"Warnen Sie Ihre Mitmenschen, wenn Sie positiv auf Corona getestet wurden."</string>
-    <!-- YTXT: Button text for submission status fetch ready -->
-    <string name="submission_status_card_retrieve_test_result">"Testergebnis abrufen"</string>
     <!-- XBUT: submission status card unregistered button -->
     <string name="submission_status_card_button_unregistered">"Test registrieren"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Test anzeigen"</string>
     <!-- XBUT: submission status card fetch failed button -->
     <string name="submission_status_card_button_failed">"Test löschen"</string>
-    <!-- XBUT: submission status card fetch ready button -->
-    <string name="submission_status_card_button_ready">"Test löschen"</string>
     <!-- XHED: submission status card positive result subtitle -->
     <string name="submission_status_card_positive_result_subtitle">"Bitte beachten Sie:"</string>
     <!-- YTXT: text for contagious card -->
@@ -1480,10 +1352,6 @@
     <string name="submission_test_result_available_close_dialog_body_consent_given">"Erst wenn Sie sich über Ihr Testergebnis informiert haben, können Sie bei Bedarf Ihre Mitmenschen warnen und so helfen, Infektionsketten zu unterbrechen."</string>
     <!-- YTXT: Text for consent NOT given -->
     <string name="submission_test_result_available_text_consent_not_given">"Sie haben sich entschieden, Ihr Testergebnis nicht zu teilen. Ihre Mitmenschen werden nicht gewarnt. \n\nSie können im Anschluss Ihr Testergebnis doch noch teilen und mithelfen, die Verbreitung von Corona zu bekämpfen und Ihre Mitmenschen zu schützen."</string>
-    <!-- XHED: Close screen popup title for consent NOT given -->
-    <string name="submission_test_result_available_close_dialog_title_consent_not_given">"Wollen Sie wirklich abbrechen?"</string>
-    <!-- XTXT: Close screen popup text for consent NOT given -->
-    <string name="submission_test_result_available_close_dialog_body_consent_not_given">"Ihre bisherigen Angaben werden nicht gespeichert."</string>
     <!-- XBUT: Close screen popup cancel button -->
     <string name="submission_test_result_available_close_dialog_cancel_button">"Nicht Anzeigen"</string>
     <!-- XBUT: Close screen popup continue button -->
@@ -1510,8 +1378,6 @@
     ###################################### -->
 
     <!-- Incidence statistics card -->
-    <!-- XHED: Title for incident statistics card -->
-    <string name="statistics_card_incidence_title">"7-Tage-Inzidenz"</string>
     <!-- XTXT: Description in statistics card that is displayed below the incidence value-->
     <string name="statistics_card_incidence_value_description">"bestätigte Neuinfektionen je 100.000 Einwohner"</string>
 
@@ -1644,7 +1510,7 @@
     <!-- XTXT: Statistics number of fully vaccinated people title -->
     <string name="statistics_fully_vaccinated_people_title">"Vollständig geimpfte Personen"</string>
     <!-- XTXT: Statistics number of fully vaccinated people text -->
-    <string name="statistics_fully_vaccinated_people_text">"Anzahl der an das RKI übermittelten Personen, die die alle notwendigen Impfdosen erhalten haben."</string>
+    <string name="statistics_fully_vaccinated_people_text">"Anzahl der an das RKI übermittelten Personen, die alle notwendigen Impfdosen erhalten haben."</string>
     <!-- XTXT: Statistics number of vaccinated people at least title -->
     <string name="statistics_people_vaccinated_at_least_once_title">"Mindestens einmal geimpfte Personen"</string>
     <!-- XTXT: Statistics number of vaccinated people at least text -->
@@ -1661,10 +1527,6 @@
     <!-- ####################################
           Button Tooltips for Accessibility
     ###################################### -->
-    <!-- XACT: back button-->
-    <string name="button_back">"Zurück zur vorherigen Seite"</string>
-    <!-- XACT: proceed button-->
-    <string name="button_proceed">"Fortfahren Button"</string>
     <!-- XACT: share button-->
     <string name="button_share">"Teilen"</string>
     <!-- XACT: menu button-->
@@ -1721,34 +1583,6 @@
     ###################################### -->
     <!-- NOTR -->
     <string name="lorem_ipsum">"Lorem Ipsum"</string>
-    <!-- NOTR -->
-    <string name="menu_test_notification">"Test Notification"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_api_launch">"Android API Test(Manual Test)"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_start">"Start (Broadcast/Receive Bluetooth)"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_get_exposure_keys">"Get Exposure keys (my keys history from api)"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_share_my_keys">"Share my keys via Email"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_enter_other_keys">"Submit Exposure Key"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_show_qr_code">"Show QR Code"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_scan_qr_code">"Scan Exposure Key"</string>
-    <!-- NOTR -->
-    <string name="test_api_switch_last_three_hours_from_server">"Last 3 Hours Mode"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_check_exposure">"Check Exposure Summary"</string>
-    <!-- NOTR -->
-    <string name="test_api_exposure_summary_headline">"Exposure Windows"</string>
-    <!-- NOTR -->
-    <string name="test_api_body_my_keys">"My keys (count: %1$d)"</string>
-    <!-- NOTR -->
-    <string name="test_api_body_other_keys">"Other key"</string>
-    <!-- NOTR -->
-    <string name="test_api_calculate_risk_level">"Calculate Risk Level"</string>
 
     <!-- XHED: Country Entry for Austria -->
     <string name="country_name_at">Österreich</string>
@@ -1855,10 +1689,6 @@
     <string name="interoperability_onboarding_delta_title">Länderübergreifende\nRisiko-Ermittlung</string>
     <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->
     <string name="interoperability_onboarding_delta_subtitle">Die Funktion der Corona-Warn-App wurde erweitert. Es arbeiten nun mehrere Länder zusammen, um über einen gemeinsam betriebenen Austausch-Server länderübergreifende Warnungen zu ermöglichen. So können bei der Risiko-Ermittlung jetzt auch die Kontakte mit Nutzern einer offiziellen Corona-App anderer teilnehmender Länder berücksichtigt werden.</string>
-    <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
-    <string name="interoperability_onboarding_delta_randomid">Hierfür lädt die App täglich aktuelle Listen mit den Zufalls-IDs aller Nutzer herunter, die ihr Testergebnis zur Warnung anderer über ihre App geteilt haben. Diese Liste wird dann mit den von Ihrem Android-Smartphone aufgezeichneten Zufalls-IDs verglichen.</string>
-    <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
-    <string name="interoperability_onboarding_delta_free_download">Die Downloads der Listen sind für Sie in der Regel kostenlos. Das heißt: Das von der App verursachte Datenvolumen wird von den Mobilfunk-Betreibern nicht angerechnet und im EU-Ausland werden Ihnen keine Roaming-Gebühren berechnet. Näheres erfahren Sie von Ihrem Mobilfunk-Betreiber.</string>
 
     <!-- XACT: interoperability (eu) - illustraction description, explanation image -->
     <string name="interoperability_eu_illustration_description">Eine Hand hält ein Smartphone. Im Hintergrund ist Europa und die europäische Flagge illustriert</string>
@@ -1893,8 +1723,6 @@
     <string name="statistics_info_button">"Weitere Informationen"</string>
     <!-- XHED: Title for statistics reproduction card -->
     <string name="statistics_title_reproduction">7-Tage-R-Wert</string>
-    <!-- XTXT: Label for statistics reproduction card -->
-    <string name="statistics_reproduction_title">Aktuell</string>
     <!-- XTXT: Caption for statistics reproduction card -->
     <string name="statistics_reproduction_average">durchschnittliche Ansteckungen pro infizierter Person</string>
     <!-- XTXT: Statistics trend increasing (Accessibilty) -->
@@ -1936,18 +1764,14 @@
     <!-- XHED: Dialog error title for survey request error informations 1 -->
     <string name="datadonation_details_survey_consent_error_CHANGE_DEVICE_TIME">"Die Uhrzeit Ihres Smartphones stimmt nicht mit der aktuellen Zeit überein. Bitte korrigieren Sie die Uhrzeit in den Einstellungen Ihres Smartphones (Fehlercode %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 2-->
-    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_SUPPORTED">"Die Befragung kann nicht aufgerufen werden (Fehlercode %1$s)."</string>
-    <!-- XHED: Dialog error title for survey request error informations 3-->
     <string name="datadonation_details_survey_consent_error_UPDATE_PLAY_SERVICES">"Die Befragung kann aktuell nicht aufgerufen werden. Bitte aktualisieren Sie die Google Play Services (Fehlercode %1$s)."</string>
-    <!-- XHED: Dialog error title for survey request error informations 4-->
+    <!-- XHED: Dialog error title for survey request error informations 3-->
     <string name="datadonation_details_survey_consent_error_TRY_AGAIN_LATER">"Die Befragung kann aktuell nicht aufgerufen werden. Bitte versuchen Sie es später noch mal (Fehlercode %1$s)."</string>
-    <!-- XHED: Dialog error title for survey request error informations 5-->
-    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_NEXT_MONTH">"Die Befragung konnte aus Sicherheitsgründen nicht aufgerufen werden. Sie können im nächsten Kalendermonat wieder teilnehmen (Fehlercode %1$s)."</string>
-    <!-- XHED: Dialog error title for survey request error informations 6-->
+    <!-- XHED: Dialog error title for survey request error informations 4-->
     <string name="datadonation_details_survey_consent_error_DEVICE_NOT_TRUSTED">"Danke, dass Sie mithelfen wollen. Leider verwenden Sie ein Smartphone, mit dem Sie aus technischen Gründen nicht an der Umfrage teilnehmen können. (Fehlercode %1$s)."</string>
-    <!-- XHED: Dialog error title for survey request error informations 7-->
+    <!-- XHED: Dialog error title for survey request error informations 5-->
     <string name="datadonation_details_survey_consent_error_TIME_SINCE_ONBOARDING_UNVERIFIED">"Aus Sicherheitsgründen können Sie erst 24 Stunden, nachdem Sie die App installiert oder aktualisiert haben, an der Befragung teilnehmen (Fehlercode %1$s)."</string>
-    <!-- XHED: Dialog error title for survey request error informations 8-->
+    <!-- XHED: Dialog error title for survey request error informations 6-->
     <string name="datadonation_details_survey_consent_error_ALREADY_PARTICIPATED">"Sie haben bereits an der Befragung teilgenommen. Sie können nur einmal im Monat an der Befragung teilnehmen (Fehlercode %1$s)."</string>
 
     <!-- XHED: Dialog error title for survey request error informations dialog-->
@@ -1970,7 +1794,7 @@
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_0_TO_29 -->
     <string name="analytics_userinput_agegroup_0_to_29">bis 29 Jahre</string>
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_30_TO_59 -->
-    <string name="analytics_userinput_agegroup_30_to_59">30-59 Jahre</string>
+    <string name="analytics_userinput_agegroup_30_to_59">30–59 Jahre</string>
     <!-- XTXT: Analytics voluntary user input, age group: AGE_GROUP_FROM_60 -->
     <string name="analytics_userinput_agegroup_from_60">60+ Jahre</string>
 
@@ -2032,10 +1856,6 @@
     <string name="duration_hours">"Stunden"</string>
     <!-- XTXT: Duration minutes text -->
     <string name="duration_minutes">"Minuten"</string>
-
-    <!-- Scan check in QR Code-->
-    <!-- XTXT: Scan check in QR-Code  FAB text-->
-    <string name="scan_check_in_qr_code">QR-Code scannen</string>
 
     <!-- ####################################
         Generic

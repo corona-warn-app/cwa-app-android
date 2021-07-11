@@ -72,7 +72,11 @@ class StatisticsHomeCard(
         if (state != null) {
             statisticsLayoutManager.onRestoreInstanceState(state)
         } else {
-            viewBinding.value.statisticsRecyclerview.smoothScrollToPosition(1)
+            with(viewBinding.value.root.context.resources) {
+                val screenWidth = displayMetrics.widthPixels
+                val cardWidth = getDimensionPixelSize(R.dimen.statistics_card_width)
+                statisticsLayoutManager.scrollToPositionWithOffset(1, (screenWidth - cardWidth) / 2)
+            }
         }
     }
 

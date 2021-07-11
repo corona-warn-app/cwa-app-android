@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.test.core.storage
 
 import android.content.Context
 import androidx.core.content.edit
-import de.rki.coronawarnapp.coronatest.DaggerCoronaTestTestComponent
+import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.ContainerPostProcessor
 import de.rki.coronawarnapp.util.serialization.SerializationModule
@@ -28,7 +28,7 @@ class TestCertificateStorageTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        DaggerCoronaTestTestComponent.factory().create().inject(this)
+        DaggerCovidCertificateTestComponent.factory().create().inject(this)
 
         mockPreferences = MockSharedPreferences()
 

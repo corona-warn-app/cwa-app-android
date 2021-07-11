@@ -2,8 +2,10 @@ package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import de.rki.coronawarnapp.bugreporting.censors.dcc.DccQrCodeCensor
 import de.rki.coronawarnapp.coronatest.qrcode.QrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode.CERT_REC_LENIENT
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode.CERT_REC_STRICT
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode.CERT_SINGLE_STRICT
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode.CERT_TEST_LENIENT
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode.CERT_TEST_STRICT
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode.CERT_VAC_LENIENT
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode.CERT_VAC_STRICT
@@ -87,9 +89,9 @@ class DccQrCodeExtractor @Inject constructor(
             when (mode) {
                 CERT_VAC_STRICT, CERT_VAC_LENIENT ->
                     throw InvalidVaccinationCertificateException(e.errorCode)
-                CERT_REC_STRICT ->
+                CERT_REC_STRICT, CERT_REC_LENIENT ->
                     throw InvalidRecoveryCertificateException(e.errorCode)
-                CERT_TEST_STRICT ->
+                CERT_TEST_STRICT, CERT_TEST_LENIENT ->
                     throw InvalidTestCertificateException(e.errorCode)
                 CERT_SINGLE_STRICT -> throw e
             }

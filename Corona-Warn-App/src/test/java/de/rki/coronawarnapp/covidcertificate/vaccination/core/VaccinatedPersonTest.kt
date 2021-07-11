@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core
 
+import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
 import io.kotest.matchers.shouldBe
@@ -23,7 +24,7 @@ class VaccinatedPersonTest : BaseTest() {
 
     @BeforeEach
     fun setup() {
-        DaggerVaccinationTestComponent.factory().create().inject(this)
+        DaggerCovidCertificateTestComponent.factory().create().inject(this)
         defaultTimezone = DateTimeZone.getDefault()
         DateTimeZone.setDefault(DateTimeZone.UTC)
     }

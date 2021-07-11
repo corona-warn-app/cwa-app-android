@@ -7,7 +7,7 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.IncludeTravelNoticeCardBinding
-import de.rki.coronawarnapp.util.setUrl
+import setTextWithUrl
 
 class TravelNoticeView @JvmOverloads constructor(
     context: Context,
@@ -29,7 +29,7 @@ class TravelNoticeView @JvmOverloads constructor(
             if (travelNoticeGerman.text ==
                 context.getString(R.string.covid_certificate_attribute_travel_notice_german)
             ) {
-                travelNoticeGerman.setUrl(
+                travelNoticeGerman.setTextWithUrl(
                     R.string.covid_certificate_attribute_travel_notice_german,
                     R.string.green_certificate_travel_notice_link_de,
                     R.string.green_certificate_travel_notice_link_de
@@ -39,7 +39,7 @@ class TravelNoticeView @JvmOverloads constructor(
             if (travelNoticeEnglish.text ==
                 context.getString(R.string.covid_certificate_attribute_travel_notice_english)
             ) {
-                travelNoticeEnglish.setUrl(
+                travelNoticeEnglish.setTextWithUrl(
                     R.string.covid_certificate_attribute_travel_notice_english,
                     R.string.green_certificate_travel_notice_link_en,
                     R.string.green_certificate_travel_notice_link_en

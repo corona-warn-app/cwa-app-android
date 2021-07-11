@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.censors.dcc
 
-import de.rki.coronawarnapp.coronatest.DaggerCoronaTestTestComponent
+import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
@@ -59,7 +59,7 @@ class DccQrCodeCensorTest : BaseTest() {
 
     @BeforeEach
     fun setUp() {
-        DaggerCoronaTestTestComponent.factory().create().inject(this)
+        DaggerCovidCertificateTestComponent.factory().create().inject(this)
         MockKAnnotations.init(this)
         DccQrCodeCensor.clearCertificateToCensor()
         DccQrCodeCensor.clearQRCodeStringToCensor()
