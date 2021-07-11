@@ -83,7 +83,7 @@ class StatisticsHomeCard(
     data class Item(
         val data: StatisticsData,
         val onClickListener: (GenericStatsItem) -> Unit,
-        val onRemoveListener: (LocalIncidenceStats) -> Unit,
+        val onRemoveListener: (LocalIncidenceStats) -> Unit = {},
     ) : HomeItem {
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
 
