@@ -12,12 +12,12 @@ data class StatisticsData(
 
     override fun toString(): String {
         return "StatisticsData(cards=${
-            items.map {
-                when (it) {
-                    is AddStatsItem -> "AddCard(${it.isEnabled})"
-                    is StatsItem -> it.cardType.name + " " + it.updatedAt
-                }
+        items.map {
+            when (it) {
+                is AddStatsItem -> "AddCard(${it.isEnabled})"
+                is StatsItem -> it.cardType.name + " " + it.updatedAt
             }
+        }
         })"
     }
 }
@@ -29,9 +29,9 @@ data class LocalStatisticsData(
 
     override fun toString(): String {
         return "StatisticsData(cards=${
-            items.map {
-                it.cardType.name + " " + it.updatedAt
-            }
+        items.map {
+            it.cardType.name + " " + it.updatedAt
+        }
         })"
     }
 }

@@ -34,7 +34,7 @@ class LocalStatisticsParser @Inject constructor(
                     .toString()
                     .padStart(5, '0')
 
-                val districtId = "110${leftPaddedShortId}".toInt()
+                val districtId = "110$leftPaddedShortId".toInt()
 
                 val districtName = getNameForId(districtId)
 
