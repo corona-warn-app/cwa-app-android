@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsScrollcontainerBinding
 import de.rki.coronawarnapp.statistics.GenericStatsItem
+import de.rki.coronawarnapp.statistics.LocalIncidenceStats
 import de.rki.coronawarnapp.statistics.StatisticsData
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.StatisticsCardItem
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
@@ -59,7 +60,7 @@ class StatisticsHomeCard(
         savedStateKey = "stats:${item.stableId}"
 
         item.data.items.map {
-            StatisticsCardItem(it, item.onClickListener)
+            StatisticsCardItem(it, item.onClickListener, item.onRemoveListener)
         }.let {
             statisticsCardAdapter.update(it)
         }
@@ -77,7 +78,8 @@ class StatisticsHomeCard(
 
     data class Item(
         val data: StatisticsData,
-        val onClickListener: (GenericStatsItem) -> Unit
+        val onClickListener: (GenericStatsItem) -> Unit,
+        val onRemoveListener: (LocalIncidenceStats) -> Unit,
     ) : HomeItem {
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
 

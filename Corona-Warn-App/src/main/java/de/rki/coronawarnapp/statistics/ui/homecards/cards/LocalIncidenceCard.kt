@@ -33,20 +33,20 @@ class LocalIncidenceCard(parent: ViewGroup) :
         item: StatisticsCardItem,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
-
-        overflowMenuButton.setupMenu(R.menu.menu_statistics_local_incidence) {
-            when (it.itemId) {
-                R.id.menu_information -> item.onClickListener(item.stats).let { true }
-                R.id.menu_remove_item -> item.onClickListener(item.stats).let { true }
-                else -> false
-            }
-        }
-
         with(item.stats as LocalIncidenceStats) {
+
+            overflowMenuButton.setupMenu(R.menu.menu_statistics_local_incidence) {
+                when (it.itemId) {
+                    R.id.menu_information -> item.onClickListener(item.stats).let { true }
+                    R.id.menu_remove_item -> item.onRemoveListener(item.stats).let { true }
+                    else -> false
+                }
+            }
+
             incidenceContainer.contentDescription =
                 buildAccessibilityStringForLocalIncidenceCard(item.stats, sevenDayIncidence)
 
-            locationLabel.text = federalState.name
+            locationLabel.text = districtName.get(context)
 
             primaryLabel.text = getPrimaryLabel(context)
             primaryValue.text = getLocalizedSpannableString(

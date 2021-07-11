@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.datadonation.analytics.common.Districts
 import de.rki.coronawarnapp.datadonation.analytics.common.federalStateShortName
 import de.rki.coronawarnapp.datadonation.analytics.common.labelStringRes
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
+import de.rki.coronawarnapp.statistics.local.storage.LocalStatisticsConfigStorage
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.ui.toLazyString
@@ -27,7 +28,8 @@ import timber.log.Timber
 class FederalStateSelectionViewModel @AssistedInject constructor(
     @Assisted val selectedFederalStateShortName: String?,
     @AppContext private val context: Context,
-    private val districtsSource: Districts
+    private val districtsSource: Districts,
+    private val localStatisticsConfigStorage: LocalStatisticsConfigStorage,
 ) : CWAViewModel() {
 
     private val federalStateSource: Flow<List<ListItem>> = flowOf(PpaData.PPAFederalState.values())
@@ -72,9 +74,9 @@ class FederalStateSelectionViewModel @AssistedInject constructor(
                 event.postValue(Events.OpenDistricts(item.data.federalStateShortName))
             }
             is Districts.District -> {
-
-                // TODO: use data in (EXPOSUREAPP-7446)
-
+                localStatisticsConfigStorage.activeDistricts.update { districts ->
+                    districts + item.data
+                }
                 event.postValue(Events.FinishEvent)
             }
             else -> throw IllegalArgumentException()

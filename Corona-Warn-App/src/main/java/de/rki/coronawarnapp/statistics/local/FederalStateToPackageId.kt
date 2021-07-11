@@ -16,5 +16,10 @@ enum class FederalStateToPackageId(val packageId: Int) {
     SN(6),
     ST(6),
     SH(4),
-    TH(6)
+    TH(6);
+
+    companion object {
+        fun getForName(name: String): FederalStateToPackageId? =
+            values().firstOrNull { it.name == name }
+    }
 }

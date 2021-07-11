@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.statistics
 
 import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass.KeyFigure
-import de.rki.coronawarnapp.server.protocols.internal.stats.LocalStatisticsOuterClass
+import de.rki.coronawarnapp.util.ui.LazyString
 import org.joda.time.Instant
 import timber.log.Timber
 
@@ -12,12 +12,26 @@ data class StatisticsData(
 
     override fun toString(): String {
         return "StatisticsData(cards=${
-        items.map {
-            when (it) {
-                is AddStatsItem -> "AddCard(${it.isEnabled})"
-                is StatsItem -> it.cardType.name + " " + it.updatedAt
+            items.map {
+                when (it) {
+                    is AddStatsItem -> "AddCard(${it.isEnabled})"
+                    is StatsItem -> it.cardType.name + " " + it.updatedAt
+                }
             }
-        }
+        })"
+    }
+}
+
+data class LocalStatisticsData(
+    val items: List<LocalIncidenceStats> = emptyList()
+) {
+    val isDataAvailable: Boolean = items.isNotEmpty()
+
+    override fun toString(): String {
+        return "StatisticsData(cards=${
+            items.map {
+                it.cardType.name + " " + it.updatedAt
+            }
         })"
     }
 }
@@ -91,7 +105,8 @@ data class IncidenceStats(
 data class LocalIncidenceStats(
     override val updatedAt: Instant,
     override val keyFigures: List<KeyFigure>,
-    val federalState: LocalStatisticsOuterClass.FederalStateData.FederalState
+    val districtId: Int,
+    val districtName: LazyString,
 ) : StatsItem(cardType = Type.LOCAL_INCIDENCE) {
 
     val sevenDayIncidence: KeyFigure

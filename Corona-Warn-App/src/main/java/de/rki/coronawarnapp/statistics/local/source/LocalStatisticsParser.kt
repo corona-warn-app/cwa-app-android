@@ -1,50 +1,48 @@
 package de.rki.coronawarnapp.statistics.local.source
 
 import dagger.Reusable
+import de.rki.coronawarnapp.datadonation.analytics.common.Districts
 import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.stats.LocalStatisticsOuterClass
 import de.rki.coronawarnapp.statistics.LocalIncidenceStats
-import de.rki.coronawarnapp.statistics.StatisticsData
+import de.rki.coronawarnapp.statistics.LocalStatisticsData
+import de.rki.coronawarnapp.util.ui.toLazyString
 import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class LocalStatisticsParser @Inject constructor() {
+class LocalStatisticsParser @Inject constructor(
+    private val districtSource: Districts
+) {
+    private val districts by lazy {
+        districtSource.loadDistricts()
+    }
 
-    fun parse(rawData: ByteArray): StatisticsData {
+    private fun getNameForId(districtId: Int) =
+        districts.first { it.districtId == districtId }.districtName.toLazyString()
+
+    fun parse(rawData: ByteArray): LocalStatisticsData {
         val parsed = LocalStatisticsOuterClass.LocalStatistics.parseFrom(rawData)
-
-        val mappedFederalStates = parsed.federalStateDataList.mapNotNull { rawState ->
-            try {
-                val updatedAt = Instant.ofEpochSecond(rawState.updatedAt)
-                val stateIncidenceKeyFigure = rawState.sevenDayIncidence.toKeyFigure()
-
-                LocalIncidenceStats(
-                    updatedAt = updatedAt,
-                    keyFigures = listOf(stateIncidenceKeyFigure),
-                    federalState = rawState.federalState
-                ).also {
-                    Timber.tag(TAG).v("Parsed %s", it.toString().replace("\n", ", "))
-                    it.requireValidity()
-                }
-            } catch (e: Exception) {
-                Timber.tag(TAG).e("Failed to parse raw federal state: %s", rawState)
-                null
-            }
-        }
 
         val mappedAdministrativeUnit = parsed.administrativeUnitDataList.mapNotNull { rawState ->
             try {
                 val updatedAt = Instant.ofEpochSecond(rawState.updatedAt)
                 val administrativeUnitIncidenceKeyFigure = rawState.sevenDayIncidence.toKeyFigure()
 
-                val federalStateId = rawState.administrativeUnitShortId.toString().dropLast(3).toInt()
+                val leftPaddedShortId = rawState.administrativeUnitShortId
+                    .toString()
+                    .padStart(5, '0')
+
+                val districtId = "110${leftPaddedShortId}".toInt()
+
+                val districtName = getNameForId(districtId)
 
                 LocalIncidenceStats(
                     updatedAt = updatedAt,
                     keyFigures = listOf(administrativeUnitIncidenceKeyFigure),
-                    federalState = LocalStatisticsOuterClass.FederalStateData.FederalState.forNumber(federalStateId)
+                    districtId = districtId,
+                    districtName = districtName,
                 ).also {
                     Timber.tag(TAG).v("Parsed %s", it.toString().replace("\n", ", "))
                     it.requireValidity()
@@ -55,9 +53,7 @@ class LocalStatisticsParser @Inject constructor() {
             }
         }
 
-        val mappedItems = mappedFederalStates + mappedAdministrativeUnit
-
-        return StatisticsData(items = mappedItems).also {
+        return LocalStatisticsData(items = mappedAdministrativeUnit).also {
             Timber.tag(TAG).d("Parsed local statistics data, %d cards.", it.items.size)
         }
     }
