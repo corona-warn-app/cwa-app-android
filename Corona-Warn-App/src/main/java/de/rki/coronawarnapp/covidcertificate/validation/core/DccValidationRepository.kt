@@ -1,6 +1,13 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core
 
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.gson.Gson
+import com.google.gson.JsonParser
+import com.google.gson.TypeAdapter
+import com.google.gson.stream.JsonReader
+import com.google.gson.stream.JsonWriter
+import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidationServer
@@ -32,7 +39,7 @@ import javax.inject.Singleton
 class DccValidationRepository @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val dispatcherProvider: DispatcherProvider,
-    @BaseGson private val gson: Gson,
+    @BaseGson private val baseGson: Gson,
     private val server: DccValidationServer,
     private val localCache: DccValidationCache,
 ) {
@@ -79,11 +86,45 @@ class DccValidationRepository @Inject constructor(
     }
 
     private fun mapCountries(rawJson: String): List<DccCountry> {
-        val countryCodes = gson.fromJson<List<String>>(rawJson)
+        val countryCodes = baseGson.fromJson<List<String>>(rawJson)
 
         return countryCodes.map { cc ->
             DccCountry(countryCode = cc)
         }
+    }
+
+    private val gson by lazy {
+        // Allow for custom type adapter.
+        baseGson.newBuilder().apply {
+            registerTypeAdapter(
+                DccValidationRule.Type::class.java,
+                object : TypeAdapter<DccValidationRule.Type>() {
+                    override fun write(out: JsonWriter?, value: DccValidationRule.Type?) {
+                        // no need
+                    }
+
+                    override fun read(`in`: JsonReader?) = when (`in`?.nextString()) {
+                        DccValidationRule.Type.ACCEPTANCE.type -> DccValidationRule.Type.ACCEPTANCE
+                        DccValidationRule.Type.INVALIDATION.type -> DccValidationRule.Type.INVALIDATION
+                        else -> throw DccValidationException(
+                            DccValidationException.ErrorCode.ACCEPTANCE_RULE_JSON_DECODING_FAILED
+                        )
+                    }
+                }
+            )
+
+            registerTypeAdapter(
+                JsonNode::class.java,
+                object : TypeAdapter<JsonNode>() {
+                    override fun write(out: JsonWriter?, value: JsonNode?) {
+                        // no need
+                    }
+
+                    override fun read(`in`: JsonReader?): JsonNode =
+                        ObjectMapper().readTree(JsonParser.parseReader(`in`).toString())
+                }
+            )
+        }.create()
     }
 
     private fun String?.toRuleSet(): List<DccValidationRule> {

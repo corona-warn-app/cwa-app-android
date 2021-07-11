@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core
 
+import com.fasterxml.jackson.databind.node.IntNode
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidationServer
@@ -27,11 +28,41 @@ class DccValidationRepositoryTest : BaseTest() {
     private val testAcceptanceRulesData =
         """
             [
+                {
+                    "identifier":"0815",
+                    "typeDcc":"Acceptance",
+                    "country":"DE",
+                    "version":"1.1",
+                    "schemaVersion":"1.2",
+                    "engine":"N74",
+                    "engineVersion":"B66TÜ",
+                    "certificateType":"X",
+                    "description":[],
+                    "validFrom":"",
+                    "validTo":"",
+                    "affectedFields":["a","b"],
+                    "logic": 4
+                }
             ]
         """.trimIndent()
     private val testInvalidationRulesData =
         """
             [
+                {
+                    "identifier":"4711",
+                    "typeDcc":"Invalidation",
+                    "country":"NL",
+                    "version":"1.1",
+                    "schemaVersion":"1.2",
+                    "engine":"source",
+                    "engineVersion":"6879",
+                    "certificateType":"Y",
+                    "description":[],
+                    "validFrom":"",
+                    "validTo":"",
+                    "affectedFields":["a","b"],
+                    "logic": 4
+                }
             ]
         """.trimIndent()
 
@@ -58,13 +89,13 @@ class DccValidationRepositoryTest : BaseTest() {
     private fun createInstance(scope: CoroutineScope) = DccValidationRepository(
         appScope = scope,
         dispatcherProvider = TestDispatcherProvider(),
-        gson = SerializationModule().baseGson(),
+        baseGson = SerializationModule().baseGson(),
         server = server,
         localCache = localCache,
     )
 
     @Test
-    fun `local cache is loaded on init - no server request`() = runBlockingTest2(ignoreActive = true) {
+    fun `local cache is loaded on init - no server requests`() = runBlockingTest2(ignoreActive = true) {
         createInstance(this).apply {
             dccCountries.first() shouldBe emptyList()
             acceptanceRules.first() shouldBe emptyList()
@@ -100,6 +131,40 @@ class DccValidationRepositoryTest : BaseTest() {
             dccCountries.first() shouldBe listOf(
                 DccCountry("DE"), DccCountry("NL")
             )
+            acceptanceRules.first() shouldBe listOf(
+                DccValidationRule(
+                    identifier = "0815",
+                    typeDcc = DccValidationRule.Type.ACCEPTANCE,
+                    country = "DE",
+                    version = "1.1",
+                    schemaVersion = "1.2",
+                    engine = "N74",
+                    engineVersion = "B66TÜ",
+                    certificateType = "X",
+                    description = emptyMap(),
+                    validFrom = "",
+                    validTo = "",
+                    affectedFields = listOf("a", "b"),
+                    logic = IntNode(4)
+                )
+            )
+            invalidationRules.first() shouldBe listOf(
+                DccValidationRule(
+                    identifier = "4711",
+                    typeDcc = DccValidationRule.Type.INVALIDATION,
+                    country = "NL",
+                    version = "1.1",
+                    schemaVersion = "1.2",
+                    engine = "source",
+                    engineVersion = "6879",
+                    certificateType = "Y",
+                    description = emptyMap(),
+                    validFrom = "",
+                    validTo = "",
+                    affectedFields = listOf("a", "b"),
+                    logic = IntNode(4)
+                )
+            )
         }
 
         coVerify {
@@ -108,7 +173,7 @@ class DccValidationRepositoryTest : BaseTest() {
             server.ruleSetJson(DccValidationRule.Type.ACCEPTANCE)
             localCache.saveAcceptanceRulesJson(testAcceptanceRulesData)
             server.ruleSetJson(DccValidationRule.Type.INVALIDATION)
-            localCache.saveAcceptanceRulesJson(testInvalidationRulesData)
+            localCache.saveInvalidationRulesJson(testInvalidationRulesData)
         }
     }
 }
