@@ -1640,7 +1640,7 @@
     <!-- XTXT: Statistics number of vaccinated people at least text -->
     <string name="statistics_people_vaccinated_at_least_once_text">"Number of persons reported to the RKI who have received the first dose of the vaccine."</string>
     <!-- XTXT: Statistics FAQ text -->
-    <string name="statistics_faq_text">"For further information, please see our FAQ page:\n\nFAQ for statistics"</string>
+    <string name="statistics_faq_text">"For further information, please see our FAQ page:"</string>
 
     <!-- Statistics Add new tile -->
     <!-- XTXT: Statistics add card title -->

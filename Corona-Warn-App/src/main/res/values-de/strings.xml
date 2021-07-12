@@ -1506,7 +1506,7 @@
     <!-- XTXT: Statistics number of vaccinated people at least text -->
     <string name="statistics_people_vaccinated_at_least_once_text">"Anzahl der an das RKI übermittelten Personen, die die erste Impfdosis erhalten haben."</string>
     <!-- XTXT: Statistics FAQ text -->
-    <string name="statistics_faq_text">"Weitere Informationen finden Sie in den FAQ:\n\nFAQ zu Statistiken"</string>
+    <string name="statistics_faq_text">"Weitere Informationen finden Sie in den FAQ:"</string>
 
     <!-- Statistics Add new tile -->
     <!-- XTXT: Statistics add card title -->
