@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.com
 
 import android.view.ViewGroup
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultRuleHeaderItemBinding
@@ -34,7 +35,12 @@ class RuleHeaderVH(
                 subtitleText.text = text
             }
             DccValidation.State.OPEN -> {
-                titleText.setText(R.string.validation_rules_open_header_title)
+                if (item.showTitle) {
+                    titleText.isVisible = true
+                    titleText.setText(R.string.validation_rules_open_header_title)
+                } else {
+                    titleText.isGone = true
+                }
                 subtitleText.setText(R.string.validation_rules_open_header_subtitle)
             }
             DccValidation.State.TECHNICAL_FAILURE -> {
@@ -50,6 +56,7 @@ class RuleHeaderVH(
 
     data class Item(
         val type: DccValidation.State,
+        val showTitle: Boolean = true,
         val ruleCount: Int = 0
     ) : ValidationResultItem, HasPayloadDiffer {
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
