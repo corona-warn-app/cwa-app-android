@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.statistics.local.storage
 
 import android.content.Context
 import com.google.gson.Gson
-import de.rki.coronawarnapp.datadonation.analytics.common.Districts
 import de.rki.coronawarnapp.statistics.local.FederalStateToPackageId
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.FlowPreference
@@ -23,13 +22,13 @@ class LocalStatisticsConfigStorage @Inject constructor(
 
     val activeDistricts = prefs.createFlowPreference(
         key = PKEY_ACTIVE_DISTRICTS,
-        reader = FlowPreference.gsonReader(gson, emptySet<Districts.District>()),
+        reader = FlowPreference.gsonReader(gson, emptySet<SelectedDistrict>()),
         writer = FlowPreference.gsonWriter(gson)
     )
 
     val activeStates = activeDistricts.flow
         .map {
-            it.map { district -> district.federalStateShortName }
+            it.map { district -> district.district.federalStateShortName }
                 .mapNotNull { stateId -> FederalStateToPackageId.getForName(stateId) }
                 .distinct()
         }

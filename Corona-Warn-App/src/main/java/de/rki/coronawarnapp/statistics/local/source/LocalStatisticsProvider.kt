@@ -50,10 +50,10 @@ class LocalStatisticsProvider @Inject constructor(
 
         groupedStats.copy(
             items = groupedStats.items.filter {
-                localStatisticsConfigStorage.activeDistricts.value.any { district ->
-                    district.districtId == it.districtId
+                localStatisticsConfigStorage.activeDistricts.value.any { selected ->
+                    selected.district.districtId == it.selectedDistrict?.district?.districtId
                 }
-            }
+            }.sortedBy { selected -> selected.selectedDistrict?.addedAt }.reversed()
         )
     }
 

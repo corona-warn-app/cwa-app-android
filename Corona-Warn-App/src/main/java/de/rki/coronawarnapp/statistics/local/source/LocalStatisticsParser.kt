@@ -1,27 +1,19 @@
 package de.rki.coronawarnapp.statistics.local.source
 
 import dagger.Reusable
-import de.rki.coronawarnapp.datadonation.analytics.common.Districts
 import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.stats.LocalStatisticsOuterClass
 import de.rki.coronawarnapp.statistics.LocalIncidenceStats
 import de.rki.coronawarnapp.statistics.LocalStatisticsData
-import de.rki.coronawarnapp.util.ui.toLazyString
+import de.rki.coronawarnapp.statistics.local.storage.LocalStatisticsConfigStorage
 import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
 class LocalStatisticsParser @Inject constructor(
-    private val districtSource: Districts
+    private val localStatisticsConfigStorage: LocalStatisticsConfigStorage,
 ) {
-    private val districts by lazy {
-        districtSource.loadDistricts()
-    }
-
-    private fun getNameForId(districtId: Int) =
-        districts.first { it.districtId == districtId }.districtName.toLazyString()
-
     fun parse(rawData: ByteArray): LocalStatisticsData {
         val parsed = LocalStatisticsOuterClass.LocalStatistics.parseFrom(rawData)
 
@@ -36,13 +28,14 @@ class LocalStatisticsParser @Inject constructor(
 
                 val districtId = "110$leftPaddedShortId".toInt()
 
-                val districtName = getNameForId(districtId)
+                val selectedDistrict = localStatisticsConfigStorage.activeDistricts.value.firstOrNull {
+                    it.district.districtId == districtId
+                }
 
                 LocalIncidenceStats(
                     updatedAt = updatedAt,
                     keyFigures = listOf(administrativeUnitIncidenceKeyFigure),
-                    districtId = districtId,
-                    districtName = districtName,
+                    selectedDistrict = selectedDistrict
                 ).also {
                     Timber.tag(TAG).v("Parsed %s", it.toString().replace("\n", ", "))
                     it.requireValidity()

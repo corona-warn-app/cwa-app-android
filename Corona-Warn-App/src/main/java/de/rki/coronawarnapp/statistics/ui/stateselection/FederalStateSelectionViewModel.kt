@@ -11,6 +11,8 @@ import de.rki.coronawarnapp.datadonation.analytics.common.federalStateShortName
 import de.rki.coronawarnapp.datadonation.analytics.common.labelStringRes
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.statistics.local.storage.LocalStatisticsConfigStorage
+import de.rki.coronawarnapp.statistics.local.storage.SelectedDistrict
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.ui.toLazyString
@@ -30,6 +32,7 @@ class FederalStateSelectionViewModel @AssistedInject constructor(
     @AppContext private val context: Context,
     private val districtsSource: Districts,
     private val localStatisticsConfigStorage: LocalStatisticsConfigStorage,
+    private val timeStamper: TimeStamper
 ) : CWAViewModel() {
 
     private val federalStateSource: Flow<List<ListItem>> = flowOf(PpaData.PPAFederalState.values())
@@ -75,7 +78,7 @@ class FederalStateSelectionViewModel @AssistedInject constructor(
             }
             is Districts.District -> {
                 localStatisticsConfigStorage.activeDistricts.update { districts ->
-                    districts + item.data
+                    districts + SelectedDistrict(item.data, timeStamper.nowUTC)
                 }
                 event.postValue(Events.FinishEvent)
             }

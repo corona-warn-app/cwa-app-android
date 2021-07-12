@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.statistics
 
 import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass.KeyFigure
-import de.rki.coronawarnapp.util.ui.LazyString
+import de.rki.coronawarnapp.statistics.local.storage.SelectedDistrict
 import org.joda.time.Instant
 import timber.log.Timber
 
@@ -105,8 +105,7 @@ data class IncidenceStats(
 data class LocalIncidenceStats(
     override val updatedAt: Instant,
     override val keyFigures: List<KeyFigure>,
-    val districtId: Int,
-    val districtName: LazyString,
+    val selectedDistrict: SelectedDistrict?,
 ) : StatsItem(cardType = Type.LOCAL_INCIDENCE) {
 
     val sevenDayIncidence: KeyFigure
