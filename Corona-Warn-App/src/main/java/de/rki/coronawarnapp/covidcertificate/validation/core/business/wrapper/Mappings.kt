@@ -134,14 +134,18 @@ internal val DccData<out DccV1.MetaData>.type: String
 internal fun List<DccValidationRule>.filterRelevantRules(
     validationClock: Instant,
     certificateType: String
-): List<DccValidationRule> {
-    return filter { rule ->
+): List<DccValidationRule> = this
+    .filter { rule ->
         rule.certificateType.uppercase() == GENERAL.uppercase() ||
             rule.certificateType.uppercase() == certificateType.uppercase()
-    }.filter { rule ->
+    }
+    .filter { rule ->
         rule.validFromInstant <= validationClock && rule.validToInstant >= validationClock
     }
-}
+    .groupBy { it.identifier }
+    .mapNotNull { entry ->
+        entry.value.maxByOrNull { it.versionSemVer }
+    }
 
 internal const val GENERAL = "General"
 internal const val TEST = "Test"
