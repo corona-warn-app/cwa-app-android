@@ -68,7 +68,7 @@
                     layout="@layout/include_dispatcher_card"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/spacing_small"
                     android:clickable="true"
                     android:focusable="true"
                     app:body="@{@string/submission_dispatcher_card_test_center_text}"
