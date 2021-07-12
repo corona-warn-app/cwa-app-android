@@ -21,6 +21,6 @@ class RACoronaTestTest : BaseTest() {
 
         instance.isFinal shouldBe true
         instance.copy(testResult = CoronaTestResult.RAT_POSITIVE).isFinal shouldBe false
-        instance.copy(testResult = CoronaTestResult.PCR_REDEEMED).isFinal shouldBe false
+        instance.copy(testResult = CoronaTestResult.PCR_OR_RAT_REDEEMED).isFinal shouldBe false
     }
 }
