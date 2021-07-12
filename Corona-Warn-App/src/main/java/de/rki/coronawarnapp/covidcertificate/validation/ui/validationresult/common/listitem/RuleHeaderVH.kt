@@ -34,7 +34,10 @@ class RuleHeaderVH(
                 subtitleText.text = text
             }
             DccValidation.State.OPEN -> {
-                titleText.setText(R.string.validation_rules_open_header_title)
+                titleText.apply {
+                    isGone = !item.showTitle
+                    setText(R.string.validation_rules_open_header_title)
+                }
                 subtitleText.setText(R.string.validation_rules_open_header_subtitle)
             }
             DccValidation.State.TECHNICAL_FAILURE -> {
@@ -50,6 +53,7 @@ class RuleHeaderVH(
 
     data class Item(
         val type: DccValidation.State,
+        val showTitle: Boolean = true,
         val ruleCount: Int = 0
     ) : ValidationResultItem, HasPayloadDiffer {
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
