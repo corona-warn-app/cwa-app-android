@@ -36,6 +36,8 @@ class DccValidationOpenFragment : Fragment(R.layout.covid_certificate_validation
     @Inject lateinit var validationResultAdapter: ValidationResultAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         binding.apply {
             setHeaderForState(args.validation.state)
             list.apply {
@@ -55,7 +57,5 @@ class DccValidationOpenFragment : Fragment(R.layout.covid_certificate_validation
         viewModel.listItems.observe2(this) {
             validationResultAdapter.update(it)
         }
-
-        super.onViewCreated(view, savedInstanceState)
     }
 }
