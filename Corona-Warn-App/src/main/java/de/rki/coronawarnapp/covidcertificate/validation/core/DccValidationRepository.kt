@@ -48,10 +48,28 @@ class DccValidationRepository @Inject constructor(
             replayExpirationMillis = 0
         ),
     ) {
+        val acceptanceRules = kotlin.run {
+            val rawJson = localCache.loadAcceptanceRuleJson()
+            try {
+                rawJson.toRuleSet()
+            } catch (e: Exception) {
+                Timber.tag(TAG).w("Failed to parse cached acceptanceRules: %s", rawJson)
+                emptyList()
+            }
+        }
+        val invalidationRules = kotlin.run {
+            val rawJson = localCache.loadInvalidationRuleJson()
+            try {
+                rawJson.toRuleSet()
+            } catch (e: Exception) {
+                Timber.tag(TAG).w("Failed to parse cached invalidationRules: %s", rawJson)
+                emptyList()
+            }
+        }
         DccValidationData(
             countries = localCache.loadCountryJson()?.let { mapCountries(it) } ?: emptyList(),
-            acceptanceRules = localCache.loadAcceptanceRuleJson().toRuleSet(),
-            invalidationRules = localCache.loadInvalidationRuleJson().toRuleSet(),
+            acceptanceRules = acceptanceRules,
+            invalidationRules = invalidationRules,
         )
     }
 
