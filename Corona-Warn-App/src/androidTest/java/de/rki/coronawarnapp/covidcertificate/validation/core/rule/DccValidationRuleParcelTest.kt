@@ -20,7 +20,7 @@ class DccValidationRuleParcelTest : BaseUITest() {
             engine = "engine",
             engineVersion = "1.0.0",
             certificateType = "general",
-            description = mapOf("a" to "b"),
+            description = listOf(DccValidationRule.Description(languageCode = "en", description = "text")),
             validFrom = ZonedDateTime.parse("2021-05-20T07:46:40Z").toString(),
             validTo = ZonedDateTime.parse("2021-05-27T07:46:40Z").toString(),
             affectedFields = listOf("aField"),
