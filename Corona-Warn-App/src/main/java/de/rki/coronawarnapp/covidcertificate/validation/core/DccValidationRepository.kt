@@ -1,9 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core
 
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.gson.Gson
-import com.google.gson.JsonParser
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
@@ -110,18 +107,6 @@ class DccValidationRepository @Inject constructor(
                             DccValidationException.ErrorCode.ACCEPTANCE_RULE_JSON_DECODING_FAILED
                         )
                     }
-                }
-            )
-
-            registerTypeAdapter(
-                JsonNode::class.java,
-                object : TypeAdapter<JsonNode>() {
-                    override fun write(out: JsonWriter?, value: JsonNode?) {
-                        // no need
-                    }
-
-                    override fun read(`in`: JsonReader?): JsonNode =
-                        ObjectMapper().readTree(JsonParser.parseReader(`in`).toString())
                 }
             )
         }.create()
