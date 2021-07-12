@@ -29,7 +29,8 @@ class BusinessValidator @Inject constructor(
         val acceptanceResults = certLogicEngineWrapper.process(
             rules = ruleRepository.acceptanceRules.first().filterRelevantRules(
                 validationClock = validationClock,
-                certificateType = certificate.type
+                certificateType = certificate.type,
+                arrivalCountry = arrivalCountry,
             ),
             validationClock = validationClock,
             certificate = certificate,
@@ -42,7 +43,8 @@ class BusinessValidator @Inject constructor(
         val invalidationResults = certLogicEngineWrapper.process(
             rules = ruleRepository.invalidationRules.first().filterRelevantRules(
                 validationClock = validationClock,
-                certificateType = certificate.type
+                certificateType = certificate.type,
+                arrivalCountry = arrivalCountry,
             ),
             validationClock = validationClock,
             certificate = certificate,

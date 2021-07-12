@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper
 
+import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import dgca.verifier.app.engine.UTC_ZONE_ID
 import dgca.verifier.app.engine.data.CertificateType
 import io.kotest.matchers.shouldBe
@@ -62,6 +63,14 @@ class MappingsTest : BaseTest() {
             validFrom = validationClock.minus(100).toString(),
             validTo = validationClock.plus(100).toString(),
         ) // :)
+        val vacA3 = createDccRule(
+            certificateType = CertificateType.VACCINATION,
+            identifier = "VR-DE-1",
+            version = "1.0.2",
+            validFrom = validationClock.minus(100).toString(),
+            validTo = validationClock.plus(100).toString(),
+            country = "NL"
+        ) // Wrong arrival country
         val vacB1 = createDccRule(
             certificateType = CertificateType.TEST,
             identifier = "TR-DE-2",
@@ -82,7 +91,7 @@ class MappingsTest : BaseTest() {
             version = "1.0.1",
             validFrom = validationClock.minus(100).toString(),
             validTo = validationClock.plus(100).toString(),
-        ) // :) 
+        ) // :)
         val genA3 = createDccRule(
             certificateType = CertificateType.GENERAL,
             identifier = "GR-DE-1",
@@ -99,12 +108,13 @@ class MappingsTest : BaseTest() {
         ) // validTo is in the past
 
         val rules = listOf(
-            vacA1, vacA2, vacB1, genA1, genA2, genA3, genA4
+            vacA1, vacA2, vacA3, vacB1, genA1, genA2, genA3, genA4
         )
 
         rules.filterRelevantRules(
-            validationClock,
-            VACCINATION
+            validationClock = validationClock,
+            certificateType = VACCINATION,
+            arrivalCountry = DccCountry("de")
         ) shouldBe listOf(vacA2, genA2)
     }
 }

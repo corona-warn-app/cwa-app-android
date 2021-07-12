@@ -60,7 +60,8 @@ fun createDccRule(
     },
     validFrom: String = "2021-05-27T07:46:40Z",
     validTo: String = "2022-08-01T07:46:40Z",
-    version: String = "1.0.0"
+    version: String = "1.0.0",
+    country: String = "DE",
 ) = DccValidationRule(
     identifier = identifier,
     version = version,
@@ -68,7 +69,7 @@ fun createDccRule(
     engine = "CERTLOGIC",
     engineVersion = "1.0.0",
     typeDcc = DccValidationRule.Type.ACCEPTANCE,
-    country = "DE",
+    country = country,
     certificateType = certificateType.name,
     description = when (certificateType) {
         CertificateType.GENERAL -> mapOf("en" to "Exactly one type of event.")
