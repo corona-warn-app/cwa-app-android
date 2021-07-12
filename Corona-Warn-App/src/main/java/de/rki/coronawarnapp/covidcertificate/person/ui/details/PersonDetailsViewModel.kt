@@ -144,7 +144,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
         certificate: CwaCovidCertificate,
         priorityCertificate: CwaCovidCertificate
     ) {
-        val isCurrentCertificate = certificate.certificateId == priorityCertificate.certificateId
+        val isCurrentCertificate = certificate.containerId == priorityCertificate.containerId
         when (certificate) {
             is TestCertificate -> add(
                 TestCertificateCard.Item(certificate, isCurrentCertificate, colorShade) {

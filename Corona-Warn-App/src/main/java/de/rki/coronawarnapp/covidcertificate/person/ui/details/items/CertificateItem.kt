@@ -5,9 +5,5 @@ import de.rki.coronawarnapp.util.lists.HasStableId
 
 interface CertificateItem : HasStableId {
 
-    fun CwaCovidCertificate.toStableListId(): Long = run {
-        var result = this::class.hashCode()
-        result = 31 * result + certificateId.hashCode()
-        result.toLong()
-    }
+    fun CwaCovidCertificate.toStableListId(): Long = containerId.hashCode().toLong()
 }
