@@ -1,12 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core
 
 import com.google.gson.Gson
-import com.google.gson.TypeAdapter
-import com.google.gson.stream.JsonReader
-import com.google.gson.stream.JsonWriter
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
+import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException.ErrorCode
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule.Type
 import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidationServer
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -36,7 +35,7 @@ import javax.inject.Singleton
 class DccValidationRepository @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val dispatcherProvider: DispatcherProvider,
-    @BaseGson private val baseGson: Gson,
+    @BaseGson private val gson: Gson,
     private val server: DccValidationServer,
     private val localCache: DccValidationCache,
 ) {
@@ -90,14 +89,18 @@ class DccValidationRepository @Inject constructor(
                 localCache.saveCountryJson(it)
                 mapCountries(it)
             }
-            val newAcceptanceData = server.ruleSetJson(DccValidationRule.Type.ACCEPTANCE).let { rawJson ->
-                rawJson.toRuleSet().also {
-                    localCache.saveAcceptanceRulesJson(rawJson)
+            val newAcceptanceData = server.ruleSetJson(Type.ACCEPTANCE).let { rawJson ->
+                try {
+                    rawJson.toRuleSet().also { localCache.saveAcceptanceRulesJson(rawJson) }
+                } catch (e: Exception) {
+                    throw DccValidationException(ErrorCode.ACCEPTANCE_RULE_JSON_DECODING_FAILED, e)
                 }
             }
-            val newInvalidationData = server.ruleSetJson(DccValidationRule.Type.INVALIDATION).let { rawJson ->
-                rawJson.toRuleSet().also {
-                    localCache.saveInvalidationRulesJson(rawJson)
+            val newInvalidationData = server.ruleSetJson(Type.INVALIDATION).let { rawJson ->
+                try {
+                    rawJson.toRuleSet().also { localCache.saveInvalidationRulesJson(rawJson) }
+                } catch (e: Exception) {
+                    throw DccValidationException(ErrorCode.INVALIDATION_RULE_JSON_DECODING_FAILED, e)
                 }
             }
             DccValidationData(
@@ -109,7 +112,7 @@ class DccValidationRepository @Inject constructor(
     }
 
     private fun mapCountries(rawJson: String): List<DccCountry> {
-        val countryCodes = baseGson.fromJson<List<String>>(rawJson)
+        val countryCodes = gson.fromJson<List<String>>(rawJson)
 
         return countryCodes.map { cc ->
             DccCountry(countryCode = cc)

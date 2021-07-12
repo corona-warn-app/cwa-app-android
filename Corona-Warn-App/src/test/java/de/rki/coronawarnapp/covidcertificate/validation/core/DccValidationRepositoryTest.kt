@@ -1,11 +1,13 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core
 
+import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule.Description
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule.Type
 import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidationServer
 import de.rki.coronawarnapp.util.serialization.SerializationModule
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -120,7 +122,7 @@ class DccValidationRepositoryTest : BaseTest() {
     private fun createInstance(scope: CoroutineScope) = DccValidationRepository(
         appScope = scope,
         dispatcherProvider = TestDispatcherProvider(),
-        baseGson = baseGson,
+        gson = baseGson,
         server = server,
         localCache = localCache,
     )
@@ -205,6 +207,73 @@ class DccValidationRepositoryTest : BaseTest() {
             localCache.saveAcceptanceRulesJson(testAcceptanceRulesData)
             server.ruleSetJson(Type.INVALIDATION)
             localCache.saveInvalidationRulesJson(testInvalidationRulesData)
+        }
+    }
+
+    @Test
+    fun `bad acceptance rules yields exception`() = runBlockingTest2(ignoreActive = true) {
+        // Missing attributes
+        coEvery { server.ruleSetJson(Type.ACCEPTANCE) } returns """
+            [
+                {
+                    "Type": "Acceptance",
+                    "Engine": "CERTLOGIC",
+                    "Country": "LT",
+                    "Version": "1.0.0",
+                    "Identifier": "VR-LT-0000",
+                    "EngineVersion": "1.0.0",
+                    "SchemaVersion": "1.0.0",
+                }
+            ]
+        """.trimIndent()
+
+        val instance = createInstance(this)
+
+        shouldThrow<DccValidationException> {
+            instance.refresh()
+        }.errorCode shouldBe DccValidationException.ErrorCode.ACCEPTANCE_RULE_JSON_DECODING_FAILED
+
+        coVerify {
+            server.dccCountryJson()
+            localCache.saveCountryJson(testCountryData)
+            server.ruleSetJson(Type.ACCEPTANCE)
+        }
+        coVerify(exactly = 0) {
+            localCache.saveAcceptanceRulesJson(any())
+            server.ruleSetJson(Type.INVALIDATION)
+            localCache.saveInvalidationRulesJson(any())
+        }
+    }
+
+    @Test
+    fun `bad invaldation rules yields exception`() = runBlockingTest2(ignoreActive = true) {
+        // Missing attributes
+        coEvery { server.ruleSetJson(Type.INVALIDATION) } returns """
+            [
+                {
+                    "Type": "Invalidation",
+                    "Engine": "CERTLOGIC",
+                    "Country": "LT",
+                    "Version": "1.0.0",
+                    "Identifier": "VR-LT-0000",
+                    "EngineVersion": "1.0.0",
+                    "SchemaVersion": "1.0.0",
+                }
+            ]
+        """.trimIndent()
+        shouldThrow<DccValidationException> {
+            createInstance(this).refresh()
+        }.errorCode shouldBe DccValidationException.ErrorCode.INVALIDATION_RULE_JSON_DECODING_FAILED
+
+        coVerify {
+            server.dccCountryJson()
+            localCache.saveCountryJson(testCountryData)
+            server.ruleSetJson(Type.ACCEPTANCE)
+            localCache.saveAcceptanceRulesJson(testAcceptanceRulesData)
+            server.ruleSetJson(Type.INVALIDATION)
+        }
+        coVerify(exactly = 0) {
+            localCache.saveInvalidationRulesJson(any())
         }
     }
 }

@@ -43,13 +43,15 @@ class DccValidationServer @Inject constructor(
                 DccValidationRule.Type.ACCEPTANCE -> {
                     rulesApi.acceptanceRules().parseAndValidate(
                         ErrorCode.ACCEPTANCE_RULE_JSON_ARCHIVE_FILE_MISSING,
-                        ErrorCode.ACCEPTANCE_RULE_JSON_ARCHIVE_SIGNATURE_INVALID
+                        ErrorCode.ACCEPTANCE_RULE_JSON_ARCHIVE_SIGNATURE_INVALID,
+                        ErrorCode.ACCEPTANCE_RULE_JSON_EXTRACTION_FAILED,
                     )
                 }
                 DccValidationRule.Type.INVALIDATION -> {
                     rulesApi.invalidationRules().parseAndValidate(
                         ErrorCode.INVALIDATION_RULE_JSON_ARCHIVE_FILE_MISSING,
-                        ErrorCode.INVALIDATION_RULE_JSON_ARCHIVE_SIGNATURE_INVALID
+                        ErrorCode.INVALIDATION_RULE_JSON_ARCHIVE_SIGNATURE_INVALID,
+                        ErrorCode.INVALIDATION_RULE_JSON_EXTRACTION_FAILED,
                     )
                 }
             }
@@ -65,7 +67,8 @@ class DccValidationServer @Inject constructor(
         try {
             countryApi.onboardedCountries().parseAndValidate(
                 ErrorCode.ONBOARDED_COUNTRIES_JSON_ARCHIVE_FILE_MISSING,
-                ErrorCode.ONBOARDED_COUNTRIES_JSON_ARCHIVE_SIGNATURE_INVALID
+                ErrorCode.ONBOARDED_COUNTRIES_JSON_ARCHIVE_SIGNATURE_INVALID,
+                ErrorCode.ONBOARDED_COUNTRIES_JSON_EXTRACTION_FAILED,
             )
         } catch (e: Exception) {
             if (e is DccValidationException) throw e
@@ -77,7 +80,8 @@ class DccValidationServer @Inject constructor(
     @VisibleForTesting
     internal fun Response<ResponseBody>.parseAndValidate(
         fileMissingErrorCode: ErrorCode,
-        invalidSignatureErrorCode: ErrorCode
+        invalidSignatureErrorCode: ErrorCode,
+        extractionFailedCode: ErrorCode
     ): String {
         if (!isSuccessful) throw HttpException(this)
 
@@ -95,7 +99,11 @@ class DccValidationServer @Inject constructor(
         )
         if (!isSignatureValid) throw DccValidationException(invalidSignatureErrorCode)
 
-        return CBORObject.DecodeFromBytes(exportBinary).ToJSONString()
+        try {
+            return CBORObject.DecodeFromBytes(exportBinary).ToJSONString()
+        } catch (e: Exception) {
+            throw DccValidationException(extractionFailedCode, e)
+        }
     }
 
     fun clear() {
