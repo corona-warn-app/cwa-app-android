@@ -4,8 +4,10 @@ import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.failed.DccValidationFailedFragment
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.failed.DccValidationFailedViewModel
+import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.passed.DccValidationPassedFragment
+import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.passed.DccValidationPassedViewModel
+import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.failed.DccValidationFailedFragment
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationstart.ValidationStartModule
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -23,4 +25,14 @@ abstract class DccValidationResultModule {
 
     @ContributesAndroidInjector(modules = [ValidationStartModule::class])
     abstract fun validationRersultFailedFragment(): DccValidationFailedFragment
+
+    @Binds
+    @IntoMap
+    @CWAViewModelKey(DccValidationPassedViewModel::class)
+    abstract fun dccValidationPassedFragmentVM(
+        factory: DccValidationPassedViewModel.Factory
+    ): CWAViewModelFactory<out CWAViewModel>
+
+    @ContributesAndroidInjector(modules = [ValidationStartModule::class])
+    abstract fun dccValidationPassedFragment(): DccValidationPassedFragment
 }
