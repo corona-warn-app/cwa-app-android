@@ -5,10 +5,6 @@
 
     <!-- XACT: back description for screen readers -->
     <string name="accessibility_back">"Geri"</string>
-    <!-- XACT: next description for screen readers -->
-    <string name="accessibility_next">"Sonraki"</string>
-    <!-- XACT: menu description for screen readers -->
-    <string name="accessibility_menu">"Menü"</string>
     <!-- XACT: menu description for screen readers -->
     <string name="accessibility_close">"Kapat"</string>
     <!-- XACT: menu description for screen readers -->
@@ -68,16 +64,10 @@
     <string name="risk_card_body_installation_today">"Bugün yüklendi"</string>
     <!-- XTXT: risk card - Days since installation if yesterday -->
     <string name="risk_card_body_installation_yesterday">"Dün yüklendi"</string>
-    <!-- XTXT: risk card - tracing active for x out of 14 days -->
-    <string name="risk_card_body_saved_days">"Maruz kalma günlüğü son 14 günde %1$s gün etkindi"</string>
-    <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
-    <string name="risk_card_body_saved_days_full">"Maruz kalma günlüğü sürekli etkin"</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"Karşılaşmalar henüz kontrol edilmedi."</string>
     <!-- XTXT: risk card - last successful update -->
     <string name="risk_card_body_time_fetched">"Güncelleme: %1$s"</string>
-    <!-- XTXT: risk card - hint to open the app daily -->
-    <string name="risk_card_body_open_daily">"Not: Risk durumunuzu güncellemek için lütfen uygulamayı her gün açın."</string>
     <!-- XBUT: risk card - update risk -->
     <string name="risk_card_button_update">"Güncelle"</string>
     <!-- XBUT: risk card - activate tracing -->
@@ -88,18 +78,10 @@
     <string name="risk_card_low_risk_headline">"Düşük Risk"</string>
     <!-- XHED: risk card - increased risk headline -->
     <string name="risk_card_increased_risk_headline">"Daha Yüksek Risk"</string>
-    <!-- XTXT: risk card - tracing isn't active long enough, so a new risk level can't be calculated -->
-    <string name="risk_card_unknown_risk_body">"Maruz kalma günlüğünü uzun süredir etkinleştirmediğiniz için enfeksiyon riskinizi hesaplayamadık."</string>
     <!-- XHED: risk card - tracing stopped headline, due to no possible calculation -->
     <string name="risk_card_no_calculation_possible_headline">"Maruz kalma günlüğü durduruldu"</string>
     <!-- XTXT: risk card - last successfully calculated risk level -->
     <string name="risk_card_no_calculation_possible_body_saved_risk">"Son maruz kalma denetimi:"<xliff:g id="line_break">"\n"</xliff:g>"%1$s"</string>
-    <!-- XHED: risk card -  outdated risk headline, calculation isn't possible -->
-    <string name="risk_card_outdated_risk_headline">"Maruz kalma günlüğü oluşturulamıyor"</string>
-    <!-- XTXT: risk card - outdated risk, calculation couldn't be updated in the last 24 hours -->
-    <string name="risk_card_outdated_risk_body">"Maruz kalma günlüğünüz 24 saatten uzun süre için güncellenemedi."</string>
-    <!-- XTXT: risk card - outdated risk manual, calculation couldn't be updated in the last 48 hours -->
-    <string name="risk_card_outdated_manual_risk_body">"Risk durumunuz 48 saatten uzun süredir güncellenmedi. Lütfen risk durumunuzu güncelleyin."</string>
     <!-- XHED: risk card - risk check failed headline, no internet connection -->
     <string name="risk_card_check_failed_no_internet_headline">"Maruz kalma denetimi başarısız oldu"</string>
     <!-- XTXT: risk card - risk check failed, please check your internet connection -->
@@ -222,8 +204,6 @@
     <string name="main_overview_subtitle_increased_risk">"Daha Yüksek Risk"</string>
     <!-- XTXT: App overview low risk level -->
     <string name="main_overview_subtitle_low_risk">"Düşük Risk"</string>
-    <!-- XTXT: App overview unknown risk level -->
-    <string name="main_overview_subtitle_unknown_risk">"Bilinmeyen Risk"</string>
     <!-- XHED: App overview subtitle for test procedure explanation -->
     <string name="main_overview_headline_test">"Diğer Kullanıcıları Bilgilendirme"</string>
     <!-- YTXT: App overview body text about rest procedure -->
@@ -316,14 +296,8 @@
     <string name="risk_details_information_body_period_logged_assessment_over_14_days">"Maruz kalma günlüğü başka insanlarla karşılaştığınız anlarda etkindiyse bu dönem için enfeksiyon riskiniz hesaplanabilir."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->        <!-- XTXT: risk details - infection period logged information body, under 14 days -->
     <string name="risk_details_information_body_period_logged_assessment">"Uygulama, enfeksiyondan korunma için artık ilgili olmadığından daha eski kayıtları otomatik olarak siler."</string>
-    <!-- XTXT: risk details - infection period days logged/14 -->
-    <string name="risk_details_information_active_tracing_days_circle_progress">"%s/14"</string>
-    <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
-    <string name="risk_details_subtitle_infection_risk_past">"Riskiniz bu şekilde hesaplandı."</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk">"Riskiniz bu şekilde hesaplanır."</string>
-    <!-- XMSG: risk details - risk calculation wasn't possible for 24h, below behaviors -->
-    <string name="risk_details_information_body_outdated_risk">"Maruz kalma günlüğünüz 24 saatten uzun süre için güncellenemedi."</string>
     <!-- YTXT: risk details - low risk explanation text -->
     <string name="risk_details_information_body_low_risk">"Daha sonra koronavirüs tanısı konan kişilere maruz kaldığınıza dair bir günlük kaydı oluşturulmadığı veya bu kişilerle yalnızca kısa süreyle ve uzak mesafeden karşılaştığınız için enfeksiyon riskiniz düşüktür."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
@@ -332,15 +306,6 @@
     <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/en/faq/#encounter_but_green"</string>
     <!-- YTXT: risk details - increased risk explanation text with variable date since last contact -->
     <string name="risk_details_information_body_increased_risk_date">"Koronavirüs tanısı konan en az bir kişiyle daha uzun süreyle ve yakın mesafeden maruz kalma yaşadığınız için enfeksiyon riskiniz daha yüksektir."</string>
-    <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
-    <plurals name="risk_details_information_body_increased_risk">
-        <item quantity="one">"En son %1$s gün önce, koronavirüs tanısı konan en az bir kişiyle daha uzun süreyle ve yakın mesafeden maruz kalma yaşadığınız için enfeksiyon riskiniz daha yüksektir."</item>
-        <item quantity="other">"En son %1$s gün önce, koronavirüs tanısı konan en az bir kişiyle daha uzun süreyle ve yakın mesafeden maruz kalma yaşadığınız için enfeksiyon riskiniz daha yüksektir."</item>
-        <item quantity="zero">"En son %1$s gün önce, koronavirüs tanısı konan en az bir kişiyle daha uzun süreyle ve yakın mesafeden maruz kalma yaşadığınız için enfeksiyon riskiniz daha yüksektir."</item>
-        <item quantity="two">"En son %1$s gün önce, koronavirüs tanısı konan en az bir kişiyle daha uzun süreyle ve yakın mesafeden maruz kalma yaşadığınız için enfeksiyon riskiniz daha yüksektir."</item>
-        <item quantity="few">"En son %1$s gün önce, koronavirüs tanısı konan en az bir kişiyle daha uzun süreyle ve yakın mesafeden maruz kalma yaşadığınız için enfeksiyon riskiniz daha yüksektir."</item>
-        <item quantity="many">"En son %1$s gün önce, koronavirüs tanısı konan en az bir kişiyle daha uzun süreyle ve yakın mesafeden maruz kalma yaşadığınız için enfeksiyon riskiniz daha yüksektir."</item>
-    </plurals>
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Enfeksiyon riskiniz, akıllı telefonunuzda yerel olarak bulunan maruz kalma günlüğü verileri (süre ve mesafe) kullanılarak hesaplanır. Enfeksiyon riskiniz başkaları tarafından görüntülenemez veya başkalarına aktarılmaz."</string>
     <!-- YTXT: risk details - risk calculation explanation for increased risk -->
@@ -371,8 +336,6 @@
     <string name="risk_lowered_dialog_body">"Risk durumunuzun artmasına neden olan son maruz kalma 14 günden uzun süre önce gerçekleşti. Bu nedenle enfeksiyon riskiniz yeniden düşük olarak derecelendirildi.\n\nYapmanız gerekenler:\n1. Herhangi bir COVID-19 belirtiniz yoksa mesafe ve hijyen konusunda belirlenen kurallara riayet etmenizi öneririz.\n2. COVID-19 belirtiniz varsa doktorunuzu ziyaret edip test yaptırmanızı öneririz."</string>
     <!-- XBUT: risk lowerd - dialog confirm -->
     <string name="risk_lowered_dialog_button_confirm">"Tamam"</string>
-    <!-- XBUT: risk lowered - dialog cancel -->
-    <string name="risk_lowered_dialog_button_cancel">"Daha Fazla"</string>
 
     <!-- ####################################
            Outdated Device Time
@@ -398,8 +361,6 @@
     <string name="onboarding_button_next">"Sonraki"</string>
     <!-- XBUT: onboarding - start -->
     <string name="onboarding_button_start">"Haydi Başlayalım"</string>
-    <!-- XTXT: onboarding - back description for screen reader -->
-    <string name="onboarding_button_back_description">"Geri"</string>
     <!-- XACT: Onboarding (together) page title -->
     <string name="onboarding_onboarding_accessibility_title">"Etkinleştirme sayfası 1/6: Koronavirüs ile birlikte mücadele edelim"</string>
     <!-- XHED: onboarding(together) - fight corona -->
@@ -477,8 +438,6 @@
     <string name="onboarding_tracing_location_headline">"Konum Ayarını Etkinleştir"</string>
     <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
     <string name="onboarding_tracing_location_body">"Uygulama, konumunuzu belirleyemiyor. Ancak bazı Android 10 ve daha önceki sürümlerde Bluetooth Düşük Enerji işlevinin kullanılması için cihazın konum ayarının etkinleştirilmesi gereklidir."</string>
-    <!-- XBUT: onboarding(tracing) - button enable tracing -->
-    <string name="onboarding_tracing_location_button">"Cihaz Ayarlarını Aç"</string>
     <!-- XACT: Onboarding (test) page title -->
     <string name="onboarding_test_accessibility_title">"Etkinleştirme sayfası 5/6: Koronavirüs Tanısı Aldıysanız"</string>
     <!-- XHED: onboarding(test) - about positive tests -->
@@ -512,8 +471,6 @@
     <string name="onboarding_ppa_state_title">"Federal eyaletiniz (isteğe bağlı)"</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - district title -->
     <string name="onboarding_ppa_district_title">"Bölgeniz (ilçe) (isteğe bağlı)"</string>
-    <!-- XTXT: onboarding privacy preserving analytics (ppa) - regional evaluation text -->
-    <string name="onboarding_ppa_regional_evaluation_text">"Federal eyalet ve bölge bilgilerinizi de paylaşırsanız bölgesel analizler yapabiliriz."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - age title -->
     <string name="onboarding_ppa_age_title">"Yaş grubunuz (isteğe bağlı)"</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - consent title -->
@@ -525,8 +482,6 @@
 
     <!-- XHED: onboarding privacy preserving analytics (ppa) - more info - headline -->
     <string name="onboarding_ppa_more_info_headline">"Veri Paylaşma Hakkında Ayrıntılı Bilgiler"</string>
-    <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - consent title -->
-    <string name="onboarding_ppa_more_info_decline_processing_text">"Verilerinizin üçüncü bir ülkeye aktarılmasına izin vermiyorsanız lütfen “Kabul Et” öğesine dokunmayın. Uygulamayı kullanmaya devam edebileceksiniz ancak veri paylaşma özelliğini kullanmayacaksınız."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - title -->
     <string name="onboarding_ppa_more_info_data_processing_title">"Veri Paylaşma Sürecinde Veri İşleme"</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing body -->
@@ -630,8 +585,6 @@
     <string name="settings_tracing_status_inactive">"Durduruldu"</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
     <string name="settings_tracing_status_restricted">"Sınırlı"</string>
-    <!-- XTXT: settings(tracing) - shows status under header in home, no internet -->
-    <string name="settings_tracing_body_connection_inactive">"İnternet bağlantısı yok"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, no bluetooth -->
     <string name="settings_tracing_body_bluetooth_inactive">"Bluetooth kapalı"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
@@ -648,21 +601,6 @@
     <string name="settings_tracing_status_location_body_url">"https://www.coronawarn.app/en/faq/#android_location"</string>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
     <string name="settings_tracing_status_location_button">"Cihaz Ayarlarını Aç"</string>
-    <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
-    <string name="settings_tracing_status_connection_headline">"İnternet bağlantısını aç"</string>
-    <!-- XTXT: settings(tracing) - explains user what to do on card if connection is disabled -->
-    <string name="settings_tracing_status_connection_body">"Maruz kalma günlüğü, enfeksiyon riskinizi hesaplamak için İnternet bağlantısı gerektirir. Lütfen cihazınızın ayarlarında Wi-Fi\'ı veya mobil veriyi açın."</string>
-    <!-- XBUT: settings(tracing) - go to operating system settings button on card -->
-    <string name="settings_tracing_status_connection_button">"Cihaz Ayarlarını Aç"</string>
-    <!-- XTXT: settings(tracing) - explains the circle progress indicator to the right with the current value -->
-    <plurals name="settings_tracing_status_body_active">
-        <item quantity="one">"Maruz kalma günlüğü bir gündür etkin.\nMaruz kalma denetimi yalnızca maruz kalma günlüğünün kalıcı olarak etkinleştirilmesi durumunda güvenilir olabilir."</item>
-        <item quantity="other">"Maruz kalma günlüğü %1$s gündür etkin.\nMaruz kalma denetimi yalnızca maruz kalma günlüğünün kalıcı olarak etkinleştirilmesi durumunda güvenilir olabilir."</item>
-        <item quantity="zero">"Maruz kalma günlüğü %1$s gündür etkin.\nMaruz kalma denetimi yalnızca maruz kalma günlüğünün kalıcı olarak etkinleştirilmesi durumunda güvenilir olabilir."</item>
-        <item quantity="two">"Maruz kalma günlüğü %1$s gündür etkin.\nMaruz kalma denetimi yalnızca maruz kalma günlüğünün kalıcı olarak etkinleştirilmesi durumunda güvenilir olabilir."</item>
-        <item quantity="few">"Maruz kalma günlüğü %1$s gündür etkin.\nMaruz kalma denetimi yalnızca maruz kalma günlüğünün kalıcı olarak etkinleştirilmesi durumunda güvenilir olabilir."</item>
-        <item quantity="many">"Maruz kalma günlüğü %1$s gündür etkin.\nMaruz kalma denetimi yalnızca maruz kalma günlüğünün kalıcı olarak etkinleştirilmesi durumunda güvenilir olabilir."</item>
-    </plurals>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_illustration_description_active">"Üç kişi akıllı telefonlarında maruz kalma günlüğünü etkinleştirdi ve birbirleri ile karşılaşmaları günlüğe kaydedilecektir."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
@@ -671,15 +609,11 @@
     <string name="settings_tracing_bluetooth_illustration_description_inactive">"Bir kişi akıllı telefonunda Bluetooth\'u kapattı. Bu nedenle iki diğer kişi ile karşılaşma günlüğe kaydedilmez."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_location_illustration_description_inactive"/>
-    <!-- XACT: settings(tracing) - describes illustration -->
-    <string name="settings_tracing_connection_illustration_description_inactive">"Bir kişi akıllı telefonunda İnternet bağlantısını kapattı. Bu nedenle iki diğer kişi ile karşılaşma günlüğe kaydedilmez."</string>
 
     <!-- XHED: settings(notification) - notification page title -->
     <string name="settings_notifications_title">"Bildirimler"</string>
     <!-- XHED: settings(notification) - multiline headline below illustration, active -->
     <string name="settings_notifications_headline_active">"COVID-19 risk durumunuz ile ilgili bildirimleri etkinleştirmek istiyor musunuz?"</string>
-    <!-- XHED: settings(notification) - multiline headline below illustration, inactive -->
-    <string name="settings_notifications_headline_inactive">"Bildirimler devre dışı bırakıldı"</string>
     <!-- XTXT: settings(notification) - text in row on settings overview -->
     <string name="settings_notifications_body_description">"COVID-19 risk durumunuz ile ilgili otomatik bildirimlere izin verin."</string>
     <!-- YTXT: settings(notification) - description text when it notifications are enabled -->
@@ -866,8 +800,6 @@
     <string name="debugging_debuglog_id_history_title">"Tanıtıcı Geçmişi"</string>
     <!-- YTXT: Description of ID History -->
     <string name="debugging_debuglog_id_history_body">"Şimdiye dek paylaşılan hata analizlerinin tanıtıcıları"</string>
-    <!-- YTXT: Warning regarding downsides of recording a log file -->
-    <string name="debugging_debuglog_intro_warning">"Lütfen hata raporlarının hassas veriler içerebileceğini unutmayın (örneğin, test sonucu ya da temas güncesi girişleri). Bu nedenle bu hata raporlarını herkese açık şekilde paylaşmamanız gerekir."</string>
     <!-- XBUT: Button text to start the log recording -->
     <string name="debugging_debuglog_action_start_recording">"Başlat"</string>
     <!-- XBUT: Button text to stop the log recording -->
@@ -928,12 +860,6 @@
     <string name="debugging_debuglog_uploadhistory_description">"Hata analizi günlüklerinizin tanıtıcıları burada görüntülenir."</string>
 
     <!-- ####################################
-              Interoperability
-    ###################################### -->
-    <!-- XHED: headline for consent information  -->
-    <string name="interop_consent_headline">"Onay"</string>
-
-    <!-- ####################################
              Submission
     ###################################### -->
 
@@ -946,10 +872,6 @@
     <!-- XBUT: Positive button for generic web request error -->
     <string name="submission_error_dialog_web_generic_error_button_positive">"Geri"</string>
 
-    <!-- XHED: Dialog title for already paired test error: qr -->
-    <string name="submission_error_dialog_web_test_paired_title">"QR kod geçersiz"</string>
-    <!-- XMSG: Dialog body for already paired test error: qr -->
-    <string name="submission_error_dialog_web_test_paired_body">"QR kod geçersiz veya başka bir akıllı telefona zaten kaydedilmiş. QR kod geçerli olsun veya olmasın test sonucunuzu test merkezinden veya laboratuvardan alacaksınız. Koronavirüs tanısı alırsanız kamu sağlığı yetkilisi tarafından bilgilendirileceksiniz."</string>
     <!-- XHED: Dialog title for already paired test error: tan -->
     <string name="submission_error_dialog_web_test_paired_title_tan">"TAN geçersiz"</string>
     <!-- XMSG: Dialog body for already paired test via tan - error: tan -->
@@ -961,15 +883,6 @@
     <string name="submission_error_dialog_web_paring_invalid_title">"Hata"</string>
     <!-- XMSG: Dialog body for could not create submission tan -->
     <string name="submission_error_dialog_web_paring_invalid_body">"Gönderme işlemi için TAN oluşturulamadı. Lütfen Uygulama Bilgileri → Teknik Yardım Hattı üzerinden teknik yardım hattı ile iletişime geçin."</string>
-    <!-- XBUT: Positive button for could not create submission tan -->
-    <string name="submission_error_dialog_web_paring_invalid_button_positive">"Geri"</string>
-
-    <!-- XHED: Dialog title for submission tan invalid -->
-    <string name="submission_error_dialog_web_tan_invalid_title">"Hata"</string>
-    <!-- XMSG: Dialog body for submission tan invalid -->
-    <string name="submission_error_dialog_web_tan_invalid_body">"Oluşturulan TAN, gönderme işlemi için geçersiz. Lütfen Uygulama Bilgileri → Teknik Yardım Hattı üzerinden teknik yardım hattı ile iletişime geçin."</string>
-    <!-- XBUT: Positive button for submission tan invalid -->
-    <string name="submission_error_dialog_web_tan_invalid_button_positive">"Geri"</string>
 
     <!-- XHED: Dialog title for submission tan redeemed -->
     <string name="submission_error_dialog_web_tan_redeemed_title">"QR kod artık geçerli değil"</string>
@@ -1075,10 +988,6 @@
     <!-- YTXT: Body text for for results next steps  -->
     <string name="submission_test_result_steps_added_body">"Testiniz Corona-Warn-App\'e kaydedildi."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_heading">"Test Sonucunuz Henüz Çıkmadı"</string>
-    <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_body">"Test sonucunuz çıkar çıkmaz uygulamada görüntülenecektir.\n\nTest sonucunuz uygulama dışından da tarafınıza iletilecektir. Testinizin pozitif sonuç vermesi halinde kamu sağlığı yetkilileri sizi bilgilendirecektir.\n\nUygulama dışından bir pozitif test sonucu aldıysanız lütfen uygulamaya kayıtlı testi silin. TAN almak için \"TAN Talebi\" başlığının altında gösterilen numarayı arayın. Ardından bu TAN\'yi kullanarak sonucunuzu uygulamaya kaydedin ve diğer kullanıcıları uyarın."</string>
-    <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Test Sonucunuz Henüz Çıkmadı"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_pcr_body">"Test sonucunuz çıkar çıkmaz uygulamada görüntülenecektir.\n\nTest sonucunuz uygulama dışından da tarafınıza iletilecektir. Testinizin pozitif sonuç vermesi halinde kamu sağlığı yetkilileri sizi bilgilendirecektir.\n\nUygulama dışından bir pozitif test sonucu aldıysanız lütfen uygulamaya kayıtlı testi silin. TAN almak için \"TAN Talebi\" başlığının altında gösterilen numarayı arayın. Ardından bu TAN\'yi kullanarak sonucunuzu uygulamaya kaydedin ve diğer kullanıcıları uyarın."</string>
@@ -1116,13 +1025,8 @@
     <string name="submission_test_result_positive_steps_warning_others_heading">"Diğer Kullanıcıları Uyarın"</string>
     <!-- YTXT: Body text for for other warnings screen-->
     <string name="submission_test_result_positive_steps_warning_others_body">"Lütfen rastgele kimliklerinizi paylaşın ve diğer kullanıcıları uyarın.\nHerhangi bir koronavirüs belirtisini ne zaman ilk kez fark ettiğinizi de belirterek diğer kullanıcıların enfeksiyon riskini daha doğru şekilde belirlemeye yardımcı olun."</string>
-    <!-- XBUT: positive test result : continue button -->
-    <string name="submission_test_result_positive_continue_button">"Sonraki"</string>
     <!-- XBUT: positive test result : continue button with symptoms-->
     <string name="submission_test_result_positive_continue_button_with_symptoms">"Belirtileri Gir"</string>
-    <!-- XBUT: positive test result : continue button without symptoms -->
-    <string name="submission_test_result_positive_continue_button_wo_symptoms">"Belirtileri Girme"</string>
-
 
     <!-- XHED: Page headline for invalid test result screen  -->
     <string name="submission_test_result_invalid_steps_invalid_heading">"Testiniz değerlendirilemiyor"</string>
@@ -1265,8 +1169,6 @@
     <string name="submission_done_subtitle">"Lütfen unutmayın:"</string>
     <!-- YTXT: text after submission: pcr validation -->
     <string name="submission_done_pcr_validation">"Bu test sonucunu doğrulamak için PCR testi yapın."</string>
-    <!-- YTXT: text after submission: pcr validation -->
-    <string name="submission_done_share_keys">"Diğer kullanıcıların uyarılabilmesi için rastgele kimliklerinizi paylaşın."</string>
     <!-- YTXT: text after submission: contagious -->
     <string name="submission_done_contagious">"Kamu sağlığı yetkiliniz önümüzdeki birkaç gün içinde size ulaşabilir."</string>
     <!-- YTXT: text after submission: isolate -->
@@ -1289,8 +1191,6 @@
     <!-- Submission Done No Consent-->
     <!-- XHED: Page title for completed submission page -->
     <string name="submission_done_no_consent_title">"Teşekkür ederiz"</string>
-    <!-- YTXT: Page subtitle for completed submission page -->
-    <string name="submission_done_no_consent_subtitle">"Koronavirüsün yayılmasını durdurmaya yardımcı olduğunuz için teşekkür ederiz."</string>
     <!-- YTXT: Page body for submission no consent page -->
     <string name="submission_done_no_consent_body_title">"Şimdi diğer kullanıcılar uyarılacak."</string>
     <!-- YTXT: Page body for submission no consent page -->
@@ -1337,16 +1237,12 @@
     <string name="submission_contact_headline">"Nasıl çalışır?"</string>
     <!-- YTXT: Body text for contact page in submission flow-->
     <string name="submission_contact_body">"TAN talebinde bulunmak için lütfen test sonucunuzu (varsa) ve telefon numaranızı hazır tutun.\n\nİşitme engeli bulunan kişiler yardım hattı ile iletişime geçmek için Tess Relay hizmetlerini (Almanca yazı dili ile işaret dili arasında tercüme) kullanabilir. Yazılımı Google Play\'den indirebilirsiniz."</string>
-    <!-- XBUT: submission contact call button -->
-    <string name="submission_contact_button_call">"Ara"</string>
     <!-- XBUT: submission contact enter tan button -->
     <string name="submission_contact_button_enter">"TAN gir"</string>
     <!-- YTXT: Body text for step 1 of contact page -->
     <string name="submission_contact_step_1_body">"Ulusal yardım hattını arayın ve TAN talep edin:"</string>
     <!-- XLNK: Button / hyperlink to phone call for TAN contact page -->
     <string name="submission_contact_number_display">"0800 7540002"</string>
-    <!-- XLNK: Technical number which is called when the user clicks on the display number -->
-    <string name="submission_contact_number_dial">"0800 7540002"</string>
     <!-- YTXT: Body text for step 2 of contact page-->
     <string name="submission_contact_step_2_body">"Uygulamaya TAN girerek PCR testinizi kaydedin."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
@@ -1380,28 +1276,12 @@
     <!-- Submission Status Card -->
     <!-- XHED: Page title for the various submission status: fetching -->
     <string name="submission_status_card_title_fetching">"Veriler alınıyor...."</string>
-    <!-- XHED: Page title for the various submission status: unregistered -->
-    <string name="submission_status_card_title_unregistered">"Test yaptırdınız mı?"</string>
     <!-- XHED: Page title for the various submission status: pending -->
     <string name="submission_status_card_title_pending">"Test sonucunuz henüz çıkmadı"</string>
     <!-- XHED: Page title for the various submission status: available -->
     <string name="submission_status_card_title_available">"Test sonucunuz çıktı"</string>
-    <!-- XHED: Page title for the various submission status: positive -->
-    <string name="submission_status_card_title_positive">"Pozitif Tanı"</string>
-    <!-- XHED: Page title for the various submission status fetch failed -->
-    <string name="submission_status_card_title_failed">"Test artık geçerli değil"</string>
-    <!-- XHED: Page title for the various submission status fetch ready -->
-    <string name="submission_status_card_title_ready">"Test Sonucunuz Çıktı"</string>
-    <!-- XHED: Subtitle for the submission status card: invalid -->
-    <string name="submission_status_card_subtitle_invalid">"Testiniz değerlendirilemiyor"</string>
-    <!-- XHED: Subtitle for the submission status card: negative -->
-    <string name="submission_status_card_subtitle_negative">"Negatif Tanı"</string>
-    <!-- XHED: Subtitle for the submission status card: ready -->
-    <string name="submission_status_card_subtitle_ready">"Şimdi test sonucunuzu alabilirsiniz"</string>
     <!-- YTXT: Body text for submission status: fetching -->
     <string name="submission_status_card_body_fetching">"Sonucunuz güncelleniyor"</string>
-    <!-- YTXT: Body text for submission status: unregistered -->
-    <string name="submission_status_card_body_unregistered">"Kendinizi ve diğer kullanıcıları korumaya yardımcı olun."</string>
     <!-- YTXT: Body text for submission status: pending -->
     <string name="submission_status_card_body_pending">"Testinize ilişkin değerlendirme henüz tamamlanmadı."</string>
     <!-- YTXT: Body text for submission status: invalid -->
@@ -1410,20 +1290,12 @@
     <string name="submission_status_card_body_positive">"SARS-CoV-2 için pozitif tanı kondu."</string>
     <!-- YTXT: Body text for submission status: negative -->
     <string name="submission_status_card_body_negative">"SARS-CoV-2 için negatif tanı aldınız."</string>
-    <!-- YTXT: Body text for submission status fetch failed -->
-    <string name="submission_status_card_body_failed">"Testiniz 21 günden eski ve bu nedenle artık geçerli değil. Lütfen testi silin. Ardından başka bir test ekleyebilirsiniz."</string>
-    <!-- YTXT: Body text for submission status fetch ready -->
-    <string name="submission_status_card_body_ready">"Koronavirüs testinizin sonucu pozitifse diğer kullanıcıları uyarabilirsiniz."</string>
-    <!-- YTXT: Button text for submission status fetch ready -->
-    <string name="submission_status_card_retrieve_test_result">"Test Sonucunu Al"</string>
     <!-- XBUT: submission status card unregistered button -->
     <string name="submission_status_card_button_unregistered">"Testi Kaydet"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Testi Göster"</string>
     <!-- XBUT: submission status card fetch failed button -->
     <string name="submission_status_card_button_failed">"Testi Sil"</string>
-    <!-- XBUT: submission status card fetch ready button -->
-    <string name="submission_status_card_button_ready">"Testi Sil"</string>
     <!-- XHED: submission status card positive result subtitle -->
     <string name="submission_status_card_positive_result_subtitle">"Lütfen unutmayın:"</string>
     <!-- YTXT: text for contagious card -->
@@ -1479,10 +1351,6 @@
     <string name="submission_test_result_available_close_dialog_body_consent_given">"Test sonucunuzu okuduktan sonra gerekli durumlarda diğer kullanıcı uyarabilir ve enfeksiyon zincirini kırabilirsiniz."</string>
     <!-- YTXT: Text for consent NOT given -->
     <string name="submission_test_result_available_text_consent_not_given">"Test sonucunuzu paylaşmamayı seçtiniz. Diğer kullanıcılar uyarılmayacak. \n\nSonraki adımda dilerseniz fikrinizi değiştirip test sonucunuzu paylaşarak koronavirüsün yayılmasını durdurmaya ve diğer kullanıcıların korunmasına yardımcı olabilirsiniz."</string>
-    <!-- XHED: Close screen popup title for consent NOT given -->
-    <string name="submission_test_result_available_close_dialog_title_consent_not_given">"İptal etmek istiyor musunuz?"</string>
-    <!-- XTXT: Close screen popup text for consent NOT given -->
-    <string name="submission_test_result_available_close_dialog_body_consent_not_given">"Girişleriniz kaydedilmeyecektir."</string>
     <!-- XBUT: Close screen popup cancel button -->
     <string name="submission_test_result_available_close_dialog_cancel_button">"Görüntüleme"</string>
     <!-- XBUT: Close screen popup continue button -->
@@ -1509,8 +1377,6 @@
     ###################################### -->
 
     <!-- Incidence statistics card -->
-    <!-- XHED: Title for incident statistics card -->
-    <string name="statistics_card_incidence_title">"7 Günlük Olay"</string>
     <!-- XTXT: Description in statistics card that is displayed below the incidence value-->
     <string name="statistics_card_incidence_value_description">"her 100.000 vatandaşta onaylanan yeni enfeksiyon sayısı"</string>
 
@@ -1641,13 +1507,15 @@
     <!-- XTXT: Statistics FAQ text -->
     <string name="statistics_faq_text">"Daha fazla bilgi için lütfen SSS sayfamıza bakın:\n\nİstatistikler için SSS"</string>
 
+    <!-- Statistics Add new tile -->
+    <!-- XTXT: Statistics add card title -->
+    <string name="statistics_add_card_title">"Yerel 7 günlük olay ekle"</string>
+    <!-- XTXT: Statistics add card warning -->
+    <string name="statistics_add_card_warning">"Maksimum yerel 7 günlük olay sayısına ulaşıldı."</string>
+
     <!-- ####################################
           Button Tooltips for Accessibility
     ###################################### -->
-    <!-- XACT: back button-->
-    <string name="button_back">"Önceki sayfaya geri dön"</string>
-    <!-- XACT: proceed button-->
-    <string name="button_proceed">"Devam Düğmesi"</string>
     <!-- XACT: share button-->
     <string name="button_share">"Paylaş"</string>
     <!-- XACT: menu button-->
@@ -1704,34 +1572,6 @@
     ###################################### -->
     <!-- NOTR -->
     <string name="lorem_ipsum">"Lorem Ipsum"</string>
-    <!-- NOTR -->
-    <string name="menu_test_notification">"Test Notification"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_api_launch">"Android API Test(Manual Test)"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_start">"Start (Broadcast/Receive Bluetooth)"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_get_exposure_keys">"Get Exposure keys (my keys history from api)"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_share_my_keys">"Share my keys via Email"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_enter_other_keys">"Submit Exposure Key"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_show_qr_code">"Show QR Code"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_scan_qr_code">"Scan Exposure Key"</string>
-    <!-- NOTR -->
-    <string name="test_api_switch_last_three_hours_from_server">"Last 3 Hours Mode"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_check_exposure">"Check Exposure Summary"</string>
-    <!-- NOTR -->
-    <string name="test_api_exposure_summary_headline">"Exposure Windows"</string>
-    <!-- NOTR -->
-    <string name="test_api_body_my_keys">"My keys (count: %1$d)"</string>
-    <!-- NOTR -->
-    <string name="test_api_body_other_keys">"Other key"</string>
-    <!-- NOTR -->
-    <string name="test_api_calculate_risk_level">"Calculate Risk Level"</string>
 
     <!-- XHED: Country Entry for Austria -->
     <string name="country_name_at">"Avusturya"</string>
@@ -1838,10 +1678,6 @@
     <string name="interoperability_onboarding_delta_title">"Ülkeler Arası\nMaruz Kalma Günlüğü"</string>
     <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->
     <string name="interoperability_onboarding_delta_subtitle">"Corona-Warn-App\'in özellikleri genişletildi. Çok sayıda ülke, ortak olarak işletilen bir exchange sunucusu bazında uluslararası uyarıları etkinleştirmek üzere iş birliği yapmıştır. Maruz kalma riskiniz hesaplanırken diğer katılımcı ülkelerdeki resmi koronavirüs uygulamalarının kullanıcılarına maruz kalıp kalmadığınız da artık hesaba katılabilir."</string>
-    <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
-    <string name="interoperability_onboarding_delta_randomid">"Bunun için uygulama, diğer kullanıcıları uyarmak üzere test sonuçlarını kendi uygulamaları üzerinden paylaşan tüm kullanıcıların rastgele kimliklerinden oluşan ve günlük olarak güncellenen listeleri indirir. Ardından bu liste Android akıllı telefonunuzun kaydettiği rastgele kimliklerle karşılaştırılır."</string>
-    <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
-    <string name="interoperability_onboarding_delta_free_download">"Liste indirmeleri genellikle ücretsizdir. Buna göre, mobil ağ operatörleri uygulamanın bu bağlamda kullandığı veriler için ücret almaz ve bu doğrultuda, diğer AB ülkelerindeki kullanımlar için dolaşım ücreti almaz. Daha fazla bilgi için lütfen mobil ağ operatörünüzle iletişime geçin."</string>
 
     <!-- XACT: interoperability (eu) - illustraction description, explanation image -->
     <string name="interoperability_eu_illustration_description">"Birinin elinde akıllı telefon tutuluyor. Arka planda Avrupa ve Avrupa bayrağı gösterilmektedir."</string>
@@ -1876,8 +1712,6 @@
     <string name="statistics_info_button">"Daha fazla bilgi"</string>
     <!-- XHED: Title for statistics reproduction card -->
     <string name="statistics_title_reproduction">"7 Günlük R Değeri"</string>
-    <!-- XTXT: Label for statistics reproduction card -->
-    <string name="statistics_reproduction_title">"Şu Anda"</string>
     <!-- XTXT: Caption for statistics reproduction card -->
     <string name="statistics_reproduction_average">"enfekte olan kişi başına ortalama enfeksiyon sayısı"</string>
     <!-- XTXT: Statistics trend increasing (Accessibilty) -->
@@ -1919,18 +1753,14 @@
     <!-- XHED: Dialog error title for survey request error informations 1 -->
     <string name="datadonation_details_survey_consent_error_CHANGE_DEVICE_TIME">"Akıllı telefonunuzun saati, geçerli saat ile eşleşmiyor. Lütfen akıllı telefonunuzun saatini düzeltin (hata kodu: %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 2-->
-    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_SUPPORTED">"Anket alınamıyor (hata kodu: %1$s)."</string>
-    <!-- XHED: Dialog error title for survey request error informations 3-->
     <string name="datadonation_details_survey_consent_error_UPDATE_PLAY_SERVICES">"Anket şu anda alınamıyor. Lütfen Google Plat Hizmetlerini güncelleyin (hata kodu: %1$s)."</string>
-    <!-- XHED: Dialog error title for survey request error informations 4-->
+    <!-- XHED: Dialog error title for survey request error informations 3-->
     <string name="datadonation_details_survey_consent_error_TRY_AGAIN_LATER">"Anket şu anda alınamıyor. Lütfen daha sonra tekrar deneyin (hata kodu: %1$s)."</string>
-    <!-- XHED: Dialog error title for survey request error informations 5-->
-    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_NEXT_MONTH">"Güvenlik nedenleriyle anket alınamıyor. Sonraki takvim ayında anketi yeniden yanıtlayabilirsiniz (hata kodu: %1$s)."</string>
-    <!-- XHED: Dialog error title for survey request error informations 6-->
+    <!-- XHED: Dialog error title for survey request error informations 4-->
     <string name="datadonation_details_survey_consent_error_DEVICE_NOT_TRUSTED">"Yardımcı olmak istediğiniz için teşekkür ederiz. Ne yazık ki teknik nedenlerle anketi desteklemeyen bir akıllı telefon kullanıyorsunuz (hata kodu %1$s)."</string>
-    <!-- XHED: Dialog error title for survey request error informations 7-->
+    <!-- XHED: Dialog error title for survey request error informations 5-->
     <string name="datadonation_details_survey_consent_error_TIME_SINCE_ONBOARDING_UNVERIFIED">"Güvenlik nedenleriyle uygulamayı yüklemenizin veya güncellemenizin üzerinden en az 24 saat geçmeden anketi yanıtlayamazsınız (hata kodu: %1$s)."</string>
-    <!-- XHED: Dialog error title for survey request error informations 8-->
+    <!-- XHED: Dialog error title for survey request error informations 6-->
     <string name="datadonation_details_survey_consent_error_ALREADY_PARTICIPATED">"Anketi zaten yanıtladınız. Anketi yalnızca ayda bir kez yanıtlayabilirsiniz (hata kodu: %1$s)."</string>
 
     <!-- XHED: Dialog error title for survey request error informations dialog-->
@@ -2015,10 +1845,6 @@
     <string name="duration_hours">"saat"</string>
     <!-- XTXT: Duration minutes text -->
     <string name="duration_minutes">"dakika"</string>
-
-    <!-- Scan check in QR Code-->
-    <!-- XTXT: Scan check in QR-Code  FAB text-->
-    <string name="scan_check_in_qr_code">"QR Kodu Tara"</string>
 
     <!-- ####################################
         Generic

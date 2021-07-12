@@ -7,13 +7,6 @@
     <string name="ag_homescreen_card_test_register_title">"Następne kroki"</string>
     <!-- XTXT: Register test homescreen card: body -->
     <string name="ag_homescreen_card_test_register_body">"Aplikacji możesz używać do rejestrowania testów i pobierania ich wyników, aby szybciej ostrzegać innych. Za jej pośrednictwem możesz także poprosić o wydanie certyfikatu testu na COVID."</string>
-    <!-- ####################################
-        Homescreen cards - common buttons
-    ###################################### -->
-    <!-- XBUT: Homescreen card: show test button -->
-    <string name="ag_homescreen_card_show_button">"Wyświetl test"</string>
-    <!-- XBUT: Homescreen card: warn others button -->
-    <string name="ag_homescreen_card_warn_others_button">"Ostrzegaj innych"</string>
 
     <!-- ####################################
         Homescreen cards - common status
@@ -74,8 +67,6 @@
     ###################################### -->
     <!-- XHED: PCR homescreen card: title -->
     <string name="ag_homescreen_card_pcr_title">"Test PCR"</string>
-    <!-- XBUT: PCR homescreen card: clear test button -->
-    <string name="ag_homescreen_card_pcr_clear_test_button">"USUŃ TEST"</string>
 
     <!-- Body -->
     <!-- XTXT: PCR homescreen card: body - no result -->
@@ -85,8 +76,6 @@
 
     <!-- XBUT: submission deletion warning button continue -->
     <string name="submission_deletion_warning_continue_button">"Kontynuuj"</string>
-    <!-- XBUT: submission deletion warning button cancel -->
-    <string name="submission_deletion_warning_cancel_button">"Anuluj"</string>
     <!-- XHED: submission deletion warning title -->
     <string name="submission_deletion_warning_title">"Uwaga"</string>
     <!-- YTXT: Headline for rapid test submission deletion warning -->
@@ -106,8 +95,6 @@
     <string name="submission_result_subtitle">"Wyniki"</string>
     <!-- XTXT: submission test result fragment negative diagnosis -->
     <string name="submission_test_result_negative">"Brak zakażenia"</string>
-    <!-- XTXT: submission test result fragment positive diagnosis -->
-    <string name="submission_test_result_positive">"Zakażenie"</string>
     <!-- XTXT: submission result antigen fragment card patient name placeholder -->
     <string name="submission_test_result_antigen_patient_name_placeholder">"%1$s %2$s"</string>
     <!-- XTXT: submission result antigen fragment card patient birth date placeholder -->

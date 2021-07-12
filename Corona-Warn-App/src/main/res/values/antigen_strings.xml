@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
 
     <!-- ####################################
         Homescreen cards - register test card
@@ -8,13 +7,6 @@
     <string name="ag_homescreen_card_test_register_title">"Next Steps"</string>
     <!-- XTXT: Register test homescreen card: body -->
     <string name="ag_homescreen_card_test_register_body">"Use the app to register your tests and retrieve your test results, so you can warn others more quickly, or to request your COVID test certificate."</string>
-    <!-- ####################################
-        Homescreen cards - common buttons
-    ###################################### -->
-    <!-- XBUT: Homescreen card: show test button -->
-    <string name="ag_homescreen_card_show_button">"Display Test"</string>
-    <!-- XBUT: Homescreen card: warn others button -->
-    <string name="ag_homescreen_card_warn_others_button">"Warn Others"</string>
 
     <!-- ####################################
         Homescreen cards - common status
@@ -75,8 +67,6 @@
     ###################################### -->
     <!-- XHED: PCR homescreen card: title -->
     <string name="ag_homescreen_card_pcr_title">"PCR Test"</string>
-    <!-- XBUT: PCR homescreen card: clear test button -->
-    <string name="ag_homescreen_card_pcr_clear_test_button">"DELETE TEST"</string>
 
     <!-- Body -->
     <!-- XTXT: PCR homescreen card: body - no result -->
@@ -86,8 +76,6 @@
 
     <!-- XBUT: submission deletion warning button continue -->
     <string name="submission_deletion_warning_continue_button">"Continue"</string>
-    <!-- XBUT: submission deletion warning button cancel -->
-    <string name="submission_deletion_warning_cancel_button">"Cancel"</string>
     <!-- XHED: submission deletion warning title -->
     <string name="submission_deletion_warning_title">"Note"</string>
     <!-- YTXT: Headline for rapid test submission deletion warning -->
@@ -107,8 +95,6 @@
     <string name="submission_result_subtitle">"Findings"</string>
     <!-- XTXT: submission test result fragment negative diagnosis -->
     <string name="submission_test_result_negative">"Negative"</string>
-    <!-- XTXT: submission test result fragment positive diagnosis -->
-    <string name="submission_test_result_positive">"Positive"</string>
     <!-- XTXT: submission result antigen fragment card patient name placeholder -->
     <string name="submission_test_result_antigen_patient_name_placeholder">"%1$s %2$s"</string>
     <!-- XTXT: submission result antigen fragment card patient birth date placeholder -->
@@ -197,11 +183,7 @@
     <!-- XBUT: Create RAT Qr code profile next button-->
     <string name="rat_qr_code_profile_next_button">"Continue"</string>
     <!-- XTXT: Create RAT Qr code profile delete item-->
-    <string name="rat_qr_code_profile_delete_item">Schnelltest-Profil entfernen</string>
-    <!-- XTXT: Create RAT Qr code profile edit item-->
-    <string name="rat_qr_code_profile_edit_item">Schnelltest-Profil bearbeiten</string>
-    <!-- XTXT: Create RAT Qr code profile information item-->
-    <string name="rat_qr_code_profile_information_item">Information</string>
+    <string name="rat_qr_code_profile_delete_item">"Remove"</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog title-->
     <string name="rat_qr_code_profile_dialog_title">"Do you want to remove the rapid test profile?"</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog message-->
