@@ -40,7 +40,7 @@
         tools:text="Dies ist eine Regel des Reiselandes Italien." />
 
     <TextView
-        android:id="@+id/line1"
+        android:id="@+id/date_of_sample_collection_title"
         style="@style/body1Medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
         tools:text="Datum und Uhrzeit der Probenahme / Date and Time of Sample Collection (YYYY-MM-DD hh:mm Z) " />
 
     <TextView
-        android:id="@+id/line2"
+        android:id="@+id/date_of_sample_collection"
         style="@style/body1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -61,11 +61,11 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_date_format"
-        app:layout_constraintTop_toBottomOf="@id/line1"
+        app:layout_constraintTop_toBottomOf="@id/date_of_sample_collection_title"
         tools:text="2021-05-12 19:00 UTC+2" />
 
     <TextView
-        android:id="@+id/line3"
+        android:id="@+id/rule_id_title"
         style="@style/body1Medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -74,11 +74,11 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_date_format"
-        app:layout_constraintTop_toBottomOf="@id/line2"
+        app:layout_constraintTop_toBottomOf="@id/date_of_sample_collection"
         tools:text="Regel-ID / Rule ID" />
 
     <TextView
-        android:id="@+id/line4"
+        android:id="@+id/rule_id"
         style="@style/body1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_date_format"
-        app:layout_constraintTop_toBottomOf="@id/line3"
+        app:layout_constraintTop_toBottomOf="@id/rule_id_title"
         tools:text="TR-002" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

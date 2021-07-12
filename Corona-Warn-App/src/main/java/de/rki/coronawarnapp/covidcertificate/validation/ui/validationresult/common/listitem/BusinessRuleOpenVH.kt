@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.com
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
+import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultRuleOpenItemBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
@@ -25,7 +26,13 @@ class BusinessRuleOpenVH(
         item: Item,
         payloads: List<Any>,
     ) -> Unit = { item, payloads ->
-        // TODO
+        item.evaluatedDccRule.rule.country
+        ruleId.text = item.evaluatedDccRule.rule.identifier
+        dateOfSampleCollection.text = item.evaluatedDccRule.rule.validFrom
+        subtitle.text = context.getString(
+            R.string.validation_rules_open_vh_subtitle,
+            item.evaluatedDccRule.rule.country
+        )
     }
 
     data class Item(

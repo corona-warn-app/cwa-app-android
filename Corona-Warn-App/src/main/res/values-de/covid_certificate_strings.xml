@@ -228,4 +228,8 @@
     <string name="validation_failed_title">Zertifikat nicht gültig</string>
     <!-- XHED: Toolbar title for the validation open screen -->
     <string name="validation_open_title">Zertifikat nicht prüfbar</string>
+
+    <!-- Validation Rule View Holder: Business Rule Open -->
+    <!-- XHED: subtitle for the validation open card  -->
+    <string name="validation_rules_open_vh_subtitle">"Dies ist eine Regel des Reiselandes %s."</string>
 </resources>
