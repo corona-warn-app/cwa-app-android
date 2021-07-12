@@ -40,7 +40,8 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                         SubmissionDispatcherFragmentDirections
                             .actionSubmissionDispatcherFragmentToSubmissionTanFragment()
                     )
-                is SubmissionNavigationEvents.OpenTestCenterUrl -> openUrl(getString(R.string.submission_dispatcher_card_test_center_link))
+                is SubmissionNavigationEvents.OpenTestCenterUrl ->
+                    openUrl(getString(R.string.submission_dispatcher_card_test_center_link))
                 is SubmissionNavigationEvents.NavigateToContact ->
                     doNavigate(
                         SubmissionDispatcherFragmentDirections
