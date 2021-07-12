@@ -1408,9 +1408,6 @@
     <!-- XTXT: Until [date] refers to statistics timestamp in the past -->
     <string name="statistics_primary_value_until">"Bis %s"</string>
 
-    <!-- XTXT: Suffix for very large statistics values - Abbreviation for "Million"  -->
-    <string name="statistics_value_suffix_million">"Mio."</string>
-
     <!-- Explanation screen -->
     <!-- XHED: Explanation screen title -->
     <string name="statistics_explanation_title">"Kennzahlen"</string>
