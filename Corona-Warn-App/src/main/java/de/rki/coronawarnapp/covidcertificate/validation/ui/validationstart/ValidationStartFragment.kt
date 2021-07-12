@@ -9,6 +9,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import de.rki.coronawarnapp.R
@@ -49,7 +50,10 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
             toolbar.setNavigationOnClickListener { popBackStack() }
             dateInfoIcon.setOnClickListener { viewModel.onInfoClick() }
             privacyInformation.setOnClickListener { viewModel.onPrivacyClick() }
-            checkButton.setOnClickListener { viewModel.onCheckClick() }
+            startValidationCheck.defaultButton.setOnClickListener {
+                startValidationCheck.isLoading = true
+                viewModel.onCheckClick()
+            }
             datePicker.setOnClickListener {
                 countryPicker.clearFocus()
                 showDatePicker()
@@ -91,10 +95,19 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
             NavigateToPrivacyFragment -> doNavigate(
                 ValidationStartFragmentDirections.actionValidationStartFragmentToPrivacyFragment()
             )
-            is NavigateToValidationResultFragment -> navigateToResultScreen(event.validationResult)
-
             is ShowTimeMessage -> showTimeMessage(event)
-            is ShowErrorDialog -> event.error.toErrorDialogBuilder(requireContext()).show()
+            is NavigateToValidationResultFragment -> {
+                startValidationCheck.isLoading = false
+                navigateToResultScreen(event.validationResult)
+            }
+            is ShowErrorDialog -> {
+                startValidationCheck.isLoading = false
+                event.error.toErrorDialogBuilder(requireContext()).show()
+            }
+            is ShowNoInternetDialog -> {
+                startValidationCheck.isLoading = false
+                showNoInternetDialog()
+            }
         }
     }
 
@@ -135,7 +148,7 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
 
     private fun ValidationStartFragmentBinding.onCountiesAvailable(countries: List<DccCountry>) {
         dccCountryAdapter.update(countries)
-        countryPicker.setText(countries[0].displayName(), false)
+        countryPicker.setText(countries.find { it.countryCode == DccCountry.DE }?.displayName(), false)
     }
 
     private fun showDatePicker() {
@@ -176,6 +189,14 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
                 }
             }
             .show(childFragmentManager, TIME_PICKER_TAG)
+    }
+
+    private fun showNoInternetDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.validation_start_no_internet_dialog_title)
+            .setMessage(R.string.validation_start_no_internet_dialog_msg)
+            .setPositiveButton(R.string.validation_start_no_internet_dialog_positive_button) { _, _ -> }
+            .show()
     }
 
     companion object {
