@@ -52,7 +52,7 @@ class DccValidationServer @Inject constructor(
                             ErrorCode.INVALIDATION_RULE_JSON_ARCHIVE_SIGNATURE_INVALID
                         )
                     }
-                }.decodeToString()
+                }
             } catch (e: Exception) {
                 if (e is DccValidationException) throw e
                 Timber.e(e, "Getting rule set from server failed cause: ${e.message}")
@@ -64,13 +64,11 @@ class DccValidationServer @Inject constructor(
         Timber.tag(TAG).d("Fetching dcc countries.")
         return countryApi.get().onboardedCountries().let {
             try {
-                CBORObject.DecodeFromBytes(
-                    parseAndValidate(
-                        it,
-                        ErrorCode.ONBOARDED_COUNTRIES_JSON_ARCHIVE_FILE_MISSING,
-                        ErrorCode.ONBOARDED_COUNTRIES_JSON_ARCHIVE_SIGNATURE_INVALID
-                    )
-                ).ToJSONString()
+                parseAndValidate(
+                    it,
+                    ErrorCode.ONBOARDED_COUNTRIES_JSON_ARCHIVE_FILE_MISSING,
+                    ErrorCode.ONBOARDED_COUNTRIES_JSON_ARCHIVE_SIGNATURE_INVALID
+                )
             } catch (e: Exception) {
                 if (e is DccValidationException) throw e
                 Timber.tag(TAG).e(e, "CBOR decoding binary to json failed.")
@@ -84,7 +82,7 @@ class DccValidationServer @Inject constructor(
         response: Response<ResponseBody>,
         fileMissingErrorCode: ErrorCode,
         invalidSignatureErrorCode: ErrorCode
-    ): ByteArray {
+    ): String {
         if (!response.isSuccessful) throw HttpException(response)
 
         val fileMap = requireNotNull(response.body()) { "Response was successful but body was null" }
@@ -95,13 +93,13 @@ class DccValidationServer @Inject constructor(
 
         if (exportBinary == null || exportSignature == null) throw DccValidationException(fileMissingErrorCode)
 
-        if (!signatureValidation.hasValidSignature(
-                toVerify = exportBinary,
-                signatureList = SignatureValidation.parseTEKStyleSignature(exportSignature)
-            )
-        ) throw DccValidationException(invalidSignatureErrorCode)
+        val isSignatureValid = signatureValidation.hasValidSignature(
+            toVerify = exportBinary,
+            signatureList = SignatureValidation.parseTEKStyleSignature(exportSignature)
+        )
+        if (!isSignatureValid) throw DccValidationException(invalidSignatureErrorCode)
 
-        return exportBinary
+        return CBORObject.DecodeFromBytes(exportBinary).ToJSONString()
     }
 
     fun clear() {

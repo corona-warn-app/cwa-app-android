@@ -50,8 +50,8 @@ class DccValidationRepository @Inject constructor(
     ) {
         DccValidationData(
             countries = localCache.loadCountryJson()?.let { mapCountries(it) } ?: emptyList(),
-            acceptanceRules = localCache.loadAcceptanceRuleJson().toRuleSet(),
-            invalidationRules = localCache.loadInvalidationRuleJson().toRuleSet(),
+            acceptanceRules = emptyList(),
+            invalidationRules = emptyList(),
         )
     }
 
@@ -68,16 +68,22 @@ class DccValidationRepository @Inject constructor(
     @Throws(Exception::class)
     suspend fun refresh() {
         internalData.updateBlocking {
-            val newCountryData = server.dccCountryJson()
-            localCache.saveCountryJson(newCountryData)
-            val newAcceptanceData = server.ruleSetJson(DccValidationRule.Type.ACCEPTANCE)
-            localCache.saveAcceptanceRulesJson(newAcceptanceData)
-            val newInvalidationData = server.ruleSetJson(DccValidationRule.Type.INVALIDATION)
-            localCache.saveInvalidationRulesJson(newInvalidationData)
+            val newCountryData = server.dccCountryJson().let {
+                localCache.saveCountryJson(it)
+                mapCountries(it)
+            }
+            val newAcceptanceData = server.ruleSetJson(DccValidationRule.Type.ACCEPTANCE).let {
+                localCache.saveAcceptanceRulesJson(it)
+                it.toRuleSet()
+            }
+            val newInvalidationData = server.ruleSetJson(DccValidationRule.Type.INVALIDATION).let {
+                localCache.saveInvalidationRulesJson(it)
+                it.toRuleSet()
+            }
             DccValidationData(
-                countries = mapCountries(newCountryData),
-                acceptanceRules = newAcceptanceData.toRuleSet(),
-                invalidationRules = newInvalidationData.toRuleSet()
+                countries = newCountryData,
+                acceptanceRules = newAcceptanceData,
+                invalidationRules = newInvalidationData
             )
         }
     }
