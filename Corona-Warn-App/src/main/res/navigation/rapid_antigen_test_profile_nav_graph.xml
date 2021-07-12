@@ -18,6 +18,10 @@
         <action
             android:id="@+id/action_ratProfileOnboardingFragment_to_privacyFragment"
             app:destination="@id/privacyFragment" />
+        <argument
+            android:name="showButton"
+            app:argType="boolean"
+            android:defaultValue="true" />
     </fragment>
     <fragment
         android:id="@+id/ratProfileCreateFragment"
@@ -34,7 +38,14 @@
         android:id="@+id/ratProfileQrCodeFragment"
         android:name="de.rki.coronawarnapp.ui.coronatest.rat.profile.qrcode.RATProfileQrCodeFragment"
         android:label="rat_profile_qr_code_fragment"
-        tools:layout="@layout/rat_profile_qr_code_fragment" />
+        tools:layout="@layout/rat_profile_qr_code_fragment" >
+        <action
+            android:id="@+id/action_ratProfileQrCodeFragment_to_ratProfileCreateFragment"
+            app:destination="@id/ratProfileCreateFragment" />
+        <action
+            android:id="@+id/action_ratProfileQrCodeFragment_to_ratProfileOnboardingFragment"
+            app:destination="@id/ratProfileOnboardingFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/privacyFragment"

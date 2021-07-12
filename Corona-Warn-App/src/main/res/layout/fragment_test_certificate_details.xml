@@ -85,7 +85,7 @@
                     app:menu="@menu/menu_covid_certificate_detail"
                     app:navigationIcon="@drawable/ic_back"
                     app:navigationIconTint="@android:color/white"
-                    app:popupTheme="@style/Theme.MaterialComponents.Light">
+                    app:popupTheme="@style/Theme.MaterialComponents.DayNight">
 
                     <LinearLayout
                         android:id="@+id/header_text_layout"
