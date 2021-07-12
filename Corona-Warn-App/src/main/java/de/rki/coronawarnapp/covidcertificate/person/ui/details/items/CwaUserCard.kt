@@ -5,7 +5,11 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
 import de.rki.coronawarnapp.databinding.CwaUserCardItemBinding
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
+import org.joda.time.LocalDate
+import org.joda.time.format.DateTimeFormat
+import timber.log.Timber
 
 class CwaUserCard(parent: ViewGroup) :
     PersonDetailsAdapter.PersonDetailsItemVH<CwaUserCard.Item, CwaUserCardItemBinding>(
@@ -26,7 +30,7 @@ class CwaUserCard(parent: ViewGroup) :
             userName.text = certificate.fullName
             dateOfBirth.text = context.getString(
                 R.string.person_details_cwa_user_birthdate,
-                certificate.dateOfBirthFormatted
+                formatBirthDate(certificate.dateOfBirthFormatted)
             )
             descriptionText.text = context.getString(
                 R.string.person_details_cwa_user_description,
@@ -38,11 +42,23 @@ class CwaUserCard(parent: ViewGroup) :
         }
     }
 
+    private fun formatBirthDate(dateOfBirthFormatted: String): String =
+        try {
+            LocalDate.parse(dateOfBirthFormatted, format).toDayFormat()
+        } catch (e: Exception) {
+            Timber.d(e, "Formatting to dd.MM.yyyy failed, falling back to $dateOfBirthFormatted")
+            dateOfBirthFormatted
+        }
+
     data class Item(
         val personCertificates: PersonCertificates,
         val onSwitch: (Boolean) -> Unit
     ) : CertificateItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
         override val stableId = Item::class.hashCode().toLong()
+    }
+
+    companion object {
+        private val format = DateTimeFormat.forPattern("yyyy-MM-dd")
     }
 }
