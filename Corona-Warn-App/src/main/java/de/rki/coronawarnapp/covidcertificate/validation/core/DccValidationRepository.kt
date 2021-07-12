@@ -84,6 +84,7 @@ class DccValidationRepository @Inject constructor(
      */
     @Throws(Exception::class)
     suspend fun refresh() {
+        Timber.tag(TAG).d("refresh()")
         internalData.updateBlocking {
             val newCountryData = server.dccCountryJson().let {
                 localCache.saveCountryJson(it)
