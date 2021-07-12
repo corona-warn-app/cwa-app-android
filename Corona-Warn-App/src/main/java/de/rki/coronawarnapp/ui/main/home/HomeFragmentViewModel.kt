@@ -139,9 +139,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
         localStatisticsProvider.current
     ) { statsData, localStatsData ->
         statsData.copy(
-            items = mutableListOf(AddStatsItem(localStatsData.items.size < 5))
-                + localStatsData.items
-                + statsData.items
+            items = mutableListOf(AddStatsItem(localStatsData.items.size < 5)) +
+                localStatsData.items +
+                statsData.items
         )
     }
 
