@@ -34,22 +34,17 @@ class DccValidationOpenViewModel @AssistedInject constructor(
         )
 
         Timber.d("Generating items for state ${validation.state}")
-        when (validation.state) {
-            DccValidation.State.OPEN -> {
-                val openRules = validation.rules.filter { it.result == DccValidationRule.Result.OPEN }
-                items.add(RuleHeaderVH.Item(type = DccValidation.State.OPEN, showTitle = false))
-                openRules.forEach { items.add(BusinessRuleOpenVH.Item(it)) }
-            }
-            DccValidation.State.PASSED -> {
-                Timber.e("State PASSED but we are on screen 'OPEN', wrong navigation?")
-            }
-            DccValidation.State.TECHNICAL_FAILURE -> {
-                Timber.e("State TECHNICAL_FAILURE but we are on screen 'OPEN', wrong navigation?")
-            }
-            DccValidation.State.FAILURE -> {
-                Timber.e("State FAILURE but we are on screen 'OPEN', wrong navigation?")
-            }
+
+        if (validation.state != DccValidation.State.OPEN) {
+            throw IllegalStateException(
+                "Expected validation state to be ${DccValidation.State.OPEN.name} " +
+                    "but is ${validation.state.name}"
+            )
         }
+
+        val openRules = validation.rules.filter { it.result == DccValidationRule.Result.OPEN }
+        items.add(RuleHeaderVH.Item(type = DccValidation.State.OPEN, showTitle = false))
+        openRules.forEach { items.add(BusinessRuleOpenVH.Item(it)) }
 
         items.add(ValidationFaqVH.Item)
 
