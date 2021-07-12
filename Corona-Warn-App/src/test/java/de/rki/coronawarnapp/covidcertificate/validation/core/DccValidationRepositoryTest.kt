@@ -1,8 +1,9 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core
 
-import com.fasterxml.jackson.databind.node.IntNode
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule.Description
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule.Type
 import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidationServer
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
@@ -29,19 +30,32 @@ class DccValidationRepositoryTest : BaseTest() {
         """
             [
                 {
-                    "identifier":"0815",
-                    "typeDcc":"Acceptance",
-                    "country":"DE",
-                    "version":"1.1",
-                    "schemaVersion":"1.2",
-                    "engine":"N74",
-                    "engineVersion":"B66TÜ",
-                    "certificateType":"X",
-                    "description":[],
-                    "validFrom":"",
-                    "validTo":"",
-                    "affectedFields":["a","b"],
-                    "logic": 4
+                    "Type": "Acceptance",
+                    "Logic": {
+                        "!": [
+                            {
+                                "var": "payload.v.1"
+                            }
+                        ]
+                    },
+                    "Engine": "CERTLOGIC",
+                    "Country": "LT",
+                    "ValidTo": "2023-07-04T00:00:00Z",
+                    "Version": "1.0.0",
+                    "ValidFrom": "2021-07-04T15:00:00Z",
+                    "Identifier": "VR-LT-0000",
+                    "Description": [
+                        {
+                            "desc": "One type of event of vaccination",
+                            "lang": "en"
+                        }
+                    ],
+                    "EngineVersion": "1.0.0",
+                    "SchemaVersion": "1.0.0",
+                    "AffectedFields": [
+                        "v.1"
+                    ],
+                    "CertificateType": "Vaccination"
                 }
             ]
         """.trimIndent()
@@ -49,19 +63,32 @@ class DccValidationRepositoryTest : BaseTest() {
         """
             [
                 {
-                    "identifier":"4711",
-                    "typeDcc":"Invalidation",
-                    "country":"NL",
-                    "version":"1.1",
-                    "schemaVersion":"1.2",
-                    "engine":"source",
-                    "engineVersion":"6879",
-                    "certificateType":"Y",
-                    "description":[],
-                    "validFrom":"",
-                    "validTo":"",
-                    "affectedFields":["a","b"],
-                    "logic": 4
+                    "Type": "Invalidation",
+                    "Logic": {
+                        "!": [
+                            {
+                                "var": "payload.v.1"
+                            }
+                        ]
+                    },
+                    "Engine": "CERTLOGIC",
+                    "Country": "LT",
+                    "ValidTo": "2023-07-04T00:00:00Z",
+                    "Version": "1.0.0",
+                    "ValidFrom": "2021-07-04T15:00:00Z",
+                    "Identifier": "IR-DE-0000",
+                    "Description": [
+                        {
+                            "desc": "One type of event of vaccination",
+                            "lang": "en"
+                        }
+                    ],
+                    "EngineVersion": "1.0.0",
+                    "SchemaVersion": "1.0.0",
+                    "AffectedFields": [
+                        "v.1"
+                    ],
+                    "CertificateType": "Vaccination"
                 }
             ]
         """.trimIndent()
@@ -81,15 +108,19 @@ class DccValidationRepositoryTest : BaseTest() {
 
         server.apply {
             coEvery { dccCountryJson() } returns testCountryData
-            coEvery { ruleSetJson(DccValidationRule.Type.ACCEPTANCE) } returns testAcceptanceRulesData
-            coEvery { ruleSetJson(DccValidationRule.Type.INVALIDATION) } returns testInvalidationRulesData
+            coEvery { ruleSetJson(Type.ACCEPTANCE) } returns testAcceptanceRulesData
+            coEvery { ruleSetJson(Type.INVALIDATION) } returns testInvalidationRulesData
         }
     }
+
+    private val serializationModule = SerializationModule()
+    private val baseGson = serializationModule.baseGson()
+    private val objectMapper = serializationModule.jacksonObjectMapper()
 
     private fun createInstance(scope: CoroutineScope) = DccValidationRepository(
         appScope = scope,
         dispatcherProvider = TestDispatcherProvider(),
-        baseGson = SerializationModule().baseGson(),
+        baseGson = baseGson,
         server = server,
         localCache = localCache,
     )
@@ -113,14 +144,14 @@ class DccValidationRepositoryTest : BaseTest() {
             localCache.loadAcceptanceRuleJson()
         }
         coVerify(exactly = 0) {
-            server.ruleSetJson(DccValidationRule.Type.ACCEPTANCE)
+            server.ruleSetJson(Type.ACCEPTANCE)
         }
 
         coVerify {
             localCache.loadInvalidationRuleJson()
         }
         coVerify(exactly = 0) {
-            server.ruleSetJson(DccValidationRule.Type.INVALIDATION)
+            server.ruleSetJson(Type.INVALIDATION)
         }
     }
 
@@ -133,36 +164,36 @@ class DccValidationRepositoryTest : BaseTest() {
             )
             acceptanceRules.first() shouldBe listOf(
                 DccValidationRule(
-                    identifier = "0815",
-                    typeDcc = DccValidationRule.Type.ACCEPTANCE,
-                    country = "DE",
-                    version = "1.1",
-                    schemaVersion = "1.2",
-                    engine = "N74",
-                    engineVersion = "B66TÜ",
-                    certificateType = "X",
-                    description = emptyMap(),
-                    validFrom = "",
-                    validTo = "",
-                    affectedFields = listOf("a", "b"),
-                    logic = IntNode(4)
+                    identifier = "VR-LT-0000",
+                    typeDcc = Type.ACCEPTANCE,
+                    country = "LT",
+                    version = "1.0.0",
+                    schemaVersion = "1.0.0",
+                    engine = "CERTLOGIC",
+                    engineVersion = "1.0.0",
+                    certificateType = "Vaccination",
+                    description = listOf(Description("en", "One type of event of vaccination")),
+                    validFrom = "2021-07-04T15:00:00Z",
+                    validTo = "2023-07-04T00:00:00Z",
+                    affectedFields = listOf("v.1"),
+                    logic = objectMapper.readTree("{\"!\":[{\"var\":\"payload.v.1\"}]}")
                 )
             )
             invalidationRules.first() shouldBe listOf(
                 DccValidationRule(
-                    identifier = "4711",
-                    typeDcc = DccValidationRule.Type.INVALIDATION,
-                    country = "NL",
-                    version = "1.1",
-                    schemaVersion = "1.2",
-                    engine = "source",
-                    engineVersion = "6879",
-                    certificateType = "Y",
-                    description = emptyMap(),
-                    validFrom = "",
-                    validTo = "",
-                    affectedFields = listOf("a", "b"),
-                    logic = IntNode(4)
+                    identifier = "IR-DE-0000",
+                    typeDcc = Type.INVALIDATION,
+                    country = "LT",
+                    version = "1.0.0",
+                    schemaVersion = "1.0.0",
+                    engine = "CERTLOGIC",
+                    engineVersion = "1.0.0",
+                    certificateType = "Vaccination",
+                    description = listOf(Description("en", "One type of event of vaccination")),
+                    validFrom = "2021-07-04T15:00:00Z",
+                    validTo = "2023-07-04T00:00:00Z",
+                    affectedFields = listOf("v.1"),
+                    logic = objectMapper.readTree("{\"!\":[{\"var\":\"payload.v.1\"}]}")
                 )
             )
         }
@@ -170,9 +201,9 @@ class DccValidationRepositoryTest : BaseTest() {
         coVerify {
             server.dccCountryJson()
             localCache.saveCountryJson(testCountryData)
-            server.ruleSetJson(DccValidationRule.Type.ACCEPTANCE)
+            server.ruleSetJson(Type.ACCEPTANCE)
             localCache.saveAcceptanceRulesJson(testAcceptanceRulesData)
-            server.ruleSetJson(DccValidationRule.Type.INVALIDATION)
+            server.ruleSetJson(Type.INVALIDATION)
             localCache.saveInvalidationRulesJson(testInvalidationRulesData)
         }
     }

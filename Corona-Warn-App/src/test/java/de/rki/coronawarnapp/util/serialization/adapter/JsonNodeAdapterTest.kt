@@ -18,24 +18,24 @@ class JsonNodeAdapterTest : BaseTest() {
         .create()
 
     private val innerJson = """
-            {
-                "and": [
-                    {
-                        "===": [
-                          {
-                            "var": "payload.t.0.tg"
-                          },
-                          "840539006"
-                        ]
-                    }
-                ]
-            }
-        """.trimIndent()
+        {
+            "and": [
+                {
+                    "===": [
+                      {
+                        "var": "payload.t.0.tg"
+                      },
+                      "840539006"
+                    ]
+                }
+            ]
+        }
+    """.trimIndent()
     private val outerJson = """
-            {
-                "innerJson": $innerJson
-            }
-        """.trimIndent()
+        {
+            "innerJson": $innerJson
+        }
+    """.trimIndent()
 
     @Test
     fun `serialize and deserialize`() {

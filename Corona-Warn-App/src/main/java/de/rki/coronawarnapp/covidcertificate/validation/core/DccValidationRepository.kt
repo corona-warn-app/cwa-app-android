@@ -50,8 +50,8 @@ class DccValidationRepository @Inject constructor(
     ) {
         DccValidationData(
             countries = localCache.loadCountryJson()?.let { mapCountries(it) } ?: emptyList(),
-            acceptanceRules = emptyList(),
-            invalidationRules = emptyList(),
+            acceptanceRules = localCache.loadAcceptanceRuleJson().toRuleSet(),
+            invalidationRules = localCache.loadInvalidationRuleJson().toRuleSet(),
         )
     }
 
