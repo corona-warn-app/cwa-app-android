@@ -4,6 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import kotlinx.parcelize.Parceler
 import kotlinx.parcelize.Parcelize
@@ -14,52 +15,61 @@ import org.joda.time.Instant
 @TypeParceler<JsonNode, LogicParceler>()
 data class DccValidationRule(
     // Unique identifier of the rule "GR-CZ-0001"
-    val identifier: String,
+    @SerializedName("Identifier") val identifier: String,
 
     // Type of the rule ("Acceptance", "Invalidation")
-    val typeDcc: Type,
+    @SerializedName("Type") val type: String,
 
     // Country code of the country that created the rule
     // ISO 3166 two-letter country code "Country": "CZ",
-    val country: String,
+    @SerializedName("Country") val country: String,
 
     // Version of the rule "Version": "1.0.0",
-    val version: String,
+    @SerializedName("Version") val version: String,
 
     // Version of the DCC Schema that this rule applies to "SchemaVersion": "1.0.0",
-    val schemaVersion: String,
+    @SerializedName("SchemaVersion") val schemaVersion: String,
 
     // Rule engine "CERTLOGIC"
-    val engine: String,
+    @SerializedName("Engine") val engine: String,
 
     // Rule engine version "1.0.0"
-    val engineVersion: String,
+    @SerializedName("EngineVersion") val engineVersion: String,
 
     // DCC type
     // (General, Test, Vaccination, Recovery)
-    val certificateType: String,
+    @SerializedName("CertificateType") val certificateType: String,
 
     // Description by language
     // [ {"lang": "en","desc": "The Field “Doses” MUST contain number 2 OR 2/2."} ]
-    val description: Map<String, String>,
+    @SerializedName("Description") val description: List<Description>,
 
     // Start and end of validity period
     // ISO 8106 date-time  "2021-05-27T07:46:40Z"
-    val validFrom: String,
-    val validTo: String,
+    @SerializedName("ValidFrom") val validFrom: String,
+    @SerializedName("ValidTo") val validTo: String,
 
     // Fields affected by the rule [ "dn", "sd" ]
-    val affectedFields: List<String>,
+    @SerializedName("AffectedFields") val affectedFields: List<String>,
 
     // CertLogic rule as JSON object
     //  { "and":[{ ">":[{ "var":"hcert.v.0.dn" }, 0] },{ ">=":[{ "var":"hcert.v.0.dn" },{ "var":"hcert.v.0.sd" }] }]}
-    val logic: JsonNode
+    @SerializedName("Logic") val logic: JsonNode
 ) : Parcelable {
     val validFromInstant: Instant
         get() = Instant.parse(validFrom)
 
     val validToInstant: Instant
         get() = Instant.parse(validTo)
+
+    val typeDcc: Type
+        get() = TODO()
+
+    @Parcelize
+    data class Description(
+        val lang: String,
+        val desc: String
+    ) : Parcelable
 
     enum class Type(val type: String) {
         ACCEPTANCE("Acceptance"),

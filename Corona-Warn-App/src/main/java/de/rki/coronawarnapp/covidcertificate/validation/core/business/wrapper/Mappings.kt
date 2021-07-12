@@ -42,13 +42,13 @@ internal val dgca.verifier.app.engine.ValidationResult.asEvaluatedDccRule: Evalu
 internal val DccValidationRule.asExternalRule: Rule
     get() = Rule(
         identifier = identifier,
-        type = typeDcc.asExternalType,
+        type = type.asExternalType,
         version = version,
         schemaVersion = schemaVersion,
         engine = engine,
         engineVersion = engineVersion,
         certificateType = certificateType.asExternalCertificateType,
-        descriptions = description,
+        descriptions = description.asMap,
         validFrom = validFrom.toZonedDateTime(),
         validTo = validTo.toZonedDateTime(),
         affectedString = affectedFields,
@@ -66,13 +66,13 @@ private val Result.asDccValidationRuleResult: DccValidationRule.Result
 
 private fun Rule.asDccValidationRule() = DccValidationRule(
     identifier = identifier,
-    typeDcc = type.asDccType,
+    type = type.asInternalType,
     version = version,
     schemaVersion = schemaVersion,
     engine = engine,
     engineVersion = engineVersion,
     certificateType = certificateType.asInternalString,
-    description = descriptions,
+    description = descriptions.asList,
     validFrom = validFrom.asExternalString,
     validTo = validTo.asExternalString,
     affectedFields = affectedString,
@@ -84,6 +84,19 @@ private val Type.asDccType: DccValidationRule.Type
     get() = when (this) {
         Type.ACCEPTANCE -> DccValidationRule.Type.ACCEPTANCE
         Type.INVALIDATION -> DccValidationRule.Type.INVALIDATION
+    }
+
+private val Type.asInternalType: String
+    get() = when (this) {
+        Type.ACCEPTANCE -> "Acceptance"
+        Type.INVALIDATION -> "Invalidation"
+    }
+
+private val String.asExternalType: Type
+    get() = when (this) {
+        "Acceptance" -> Type.ACCEPTANCE
+        "Invalidation" -> Type.INVALIDATION
+        else -> throw IllegalArgumentException("type not recognized $this")
     }
 
 private val DccValidationRule.Type.asExternalType: Type
@@ -142,6 +155,22 @@ internal fun List<DccValidationRule>.filterRelevantRules(
         rule.validFromInstant <= validationClock && rule.validToInstant >= validationClock
     }
 }
+
+internal val List<DccValidationRule.Description>.asMap: Map<String, String>
+    get() {
+        val map = mutableMapOf<String, String>()
+        this.forEach { map[it.lang] = it.desc }
+        return map
+    }
+
+internal val Map<String, String>.asList: List<DccValidationRule.Description>
+    get() {
+        val list = mutableListOf<DccValidationRule.Description>()
+        this.entries.forEach {
+            list.add(DccValidationRule.Description(lang = it.key, desc = it.value))
+        }
+        return list
+    }
 
 internal const val GENERAL = "General"
 internal const val TEST = "Test"
