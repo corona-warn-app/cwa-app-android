@@ -236,5 +236,10 @@
     <!-- Validation Rule View Holder: Business Rule Open -->
     <!-- XHED: subtitle for the validation open card  -->
     <string name="validation_rules_open_vh_subtitle">"Dies ist eine Regel des Reiselandes %s."</string>
-
+    <!-- XHED:validation start for the validation open card  -->
+    <string name="validation_rules_open_vh_start_date"> "Datum und Uhrzeit der Probenahme / Date and Time of Sample Collection (YYYY-MM-DD hh:mm Z)"</string>
+    <!-- XTXT: rule id for the validation open card  -->
+    <string name="validation_rules_open_vh_rule_id">"Regel-ID / Rule ID"</string>
+    <!-- XTXT: title for the validation open card  -->
+    <string name="validation_rules_open_vh_title">"Ein Antigentest ist maximal 48h gültig."</string>
 </resources>

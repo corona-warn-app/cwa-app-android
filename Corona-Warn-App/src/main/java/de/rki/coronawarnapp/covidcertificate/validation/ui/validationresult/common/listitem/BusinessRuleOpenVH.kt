@@ -26,7 +26,6 @@ class BusinessRuleOpenVH(
         item: Item,
         payloads: List<Any>,
     ) -> Unit = { item, payloads ->
-        item.evaluatedDccRule.rule.country
         ruleId.text = item.evaluatedDccRule.rule.identifier
         dateOfSampleCollection.text = item.evaluatedDccRule.rule.validFrom
         subtitle.text = context.getString(
