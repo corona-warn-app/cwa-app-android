@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.com
 
 import android.view.ViewGroup
 import androidx.core.view.isGone
-import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultRuleHeaderItemBinding
@@ -35,11 +34,9 @@ class RuleHeaderVH(
                 subtitleText.text = text
             }
             DccValidation.State.OPEN -> {
-                if (item.showTitle) {
-                    titleText.isVisible = true
-                    titleText.setText(R.string.validation_rules_open_header_title)
-                } else {
-                    titleText.isGone = true
+                titleText.apply {
+                    isGone = !item.showTitle
+                    setText(R.string.validation_rules_open_header_title)
                 }
                 subtitleText.setText(R.string.validation_rules_open_header_subtitle)
             }
