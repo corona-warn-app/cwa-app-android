@@ -1567,7 +1567,7 @@
     <!-- XTXT: Explanation screen seven day r-value text -->
     <string name="statistics_explanation_seven_day_r_value_text">"The reproduction figure, R, indicates how many people an average infected person has infected further. The current value takes data up to the last 5 days into account."</string>
     <!-- XTXT: Explanation screen seven day r-value link label  - the characters have to match the last part of the text label above -->
-    <string name="statistics_explanation_seven_day_r_link_label">"FAQ for the statistics"</string>
+    <string name="statistics_explanation_seven_day_r_link_label">"FAQ for statistics"</string>
     <!-- XHED: Explanation screen legend title -->
     <string name="statistics_explanation_legend_title">"Legend"</string>
     <!-- XHED: Explanation screen period title -->
