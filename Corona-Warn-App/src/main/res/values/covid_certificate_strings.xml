@@ -133,6 +133,11 @@
     <!-- XTXT: Accessibility: Validation Rule Info Screen Image Description -->
     <string name="validation_rules_info_image">"Karte von Europa"</string>
 
+    <!-- XTXT: Start Validation Rule Check Button -->
+    <string name="start_validation_rule_check_button">"Gültigkeit prüfen"</string>
+    <!-- XTXT: Start Validation Rule Check Loading Text -->
+    <string name="start_validation_rule_check_loading_text">"Bitte warten…"</string>
+
     <!-- XTXT: Digital covid certificate validation error message - no network -->
     <string name="dcc_validation_error_no_network">"Ihre Internetverbindung wurde unterbrochen. Um die Gültigkeitsprüfung des Zertifikates abzuschließen, prüfen Sie die Verbindung und versuchen Sie es erneut."</string>
     <!-- XTXT: Digital covid certificate validation error message - try again -->
@@ -188,8 +193,6 @@
 
     <!-- XTXT: Validation Rule Result Valid - Infos about country, date and check date -->
     <string name="validation_rules_result_valid_result_country_and_time">Einreise nach %1$s am %2$s, geprüft am %3$s</string>
-    <!-- XTXT: Validation Rule Result Valid - button text -->
-    <string name="validation_rules_result_valid_result_button">für weiteres Land prüfen</string>
 
     <!-- XTXT: Validation Rule Result Valid - Result  -->
     <string name="validation_rules_result_valid_result_title">Ihr Zertifikat ist im gewählten Land gültig.</string>
@@ -215,4 +218,16 @@
     <!-- XTXT: Validation Rule Technical Failure - Date Expired  -->
     <string name="validation_rule_technical_error_date_expired">Das Zertifikat darf nicht abgelaufen sein.</string>
 
+    <!-- Validation Passed Screen-->
+    <!-- XHED: Toolbar title for the validation passed screen  -->
+    <string name="validation_rules_result_valid_header">Gültiges Zertifikat</string>
+    <!-- XTXT: No rules available text for the validation passed screen  -->
+    <string name="validation_no_rules_available_valid_text">Für diesen Zertifikattyp sind derzeit keine Einreiseregeln für das gewählte Land und den gewählten Zeitpunkt vorhanden. Bitte beachten Sie die folgenden Hinweise:</string>
+    <!-- XTXT: Rule validation text for the validation passed screen  -->
+    <string name="validation_rules_result_valid_rule_text">Es wurden %1$d Regeln des Reiselandes erfolgreich überprüft.</string>
+    <!-- XTXT: Button text - Check another country -->
+    <string name="validation_rules_result_valid_result_button">für weiteres Land prüfen</string>
+    <!-- Validation Failed Screen-->
+    <!-- XHED: Toolbar title for the validation failed screen -->
+    <string name="validation_failed_title">Zertifikat nicht gültig</string>
 </resources>

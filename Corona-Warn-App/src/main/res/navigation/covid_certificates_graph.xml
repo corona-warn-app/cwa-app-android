@@ -108,6 +108,9 @@
         <action
             android:id="@+id/action_personDetailsFragment_to_recoveryCertificateDetailsFragment"
             app:destination="@id/recoveryCertificateDetailsFragment" />
+        <action
+            android:id="@+id/action_personDetailsFragment_to_validationStartFragment"
+            app:destination="@id/validationStartFragment" />
     </fragment>
 
     <fragment
@@ -118,6 +121,9 @@
         <argument
             android:name="containerId"
             app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId" />
+        <action
+            android:id="@+id/action_vaccinationDetailsFragment_to_validationStartFragment"
+            app:destination="@id/validationStartFragment" />
     </fragment>
     <fragment
         android:id="@+id/recoveryCertificateDetailsFragment"
@@ -127,6 +133,9 @@
         <argument
             android:name="containerId"
             app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId" />
+        <action
+            android:id="@+id/action_recoveryCertificateDetailsFragment_to_validationStartFragment"
+            app:destination="@id/validationStartFragment" />
     </fragment>
     <fragment
         android:id="@+id/validationStartFragment"
@@ -160,7 +169,8 @@
     <fragment
         android:id="@+id/dccValidationFailedFragment"
         android:name="de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.failed.DccValidationFailedFragment"
-        android:label="DccValidationFailedFragment">
+        android:label="DccValidationFailedFragment"
+        tools:layout="@layout/covid_certificate_validation_result_fragments">
         <argument
             android:name="validation"
             app:argType="de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation" />
@@ -176,5 +186,10 @@
     <fragment
         android:id="@+id/dccValidationPassedFragment"
         android:name="de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.passed.DccValidationPassedFragment"
-        android:label="DccValidationPassedFragment" />
+        android:label="DccValidationPassedFragment"
+        tools:layout="@layout/covid_certificate_validation_passed_fragment">
+        <argument
+            android:name="validation"
+            app:argType="de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation" />
+    </fragment>
 </navigation>

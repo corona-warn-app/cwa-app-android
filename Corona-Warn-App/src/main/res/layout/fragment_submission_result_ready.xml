@@ -37,18 +37,20 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/spacing_normal"
-                android:focusable="true">
+                android:focusable="true"
+                android:paddingBottom="@dimen/spacing_normal">
 
                 <ImageView
                     android:id="@+id/submission_done_hero_illustration"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
                     android:focusable="true"
-                    app:srcCompat="@drawable/ic_illustration_together"
+                    android:scaleType="fitXY"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_illustration_together"
                     bind:cwaContentDescription="@{@string/submission_done_no_consent_illustration_description}"
                     tools:ignore="ContentDescription" />
                 <TextView

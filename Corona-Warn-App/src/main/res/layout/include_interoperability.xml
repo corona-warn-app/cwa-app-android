@@ -85,12 +85,14 @@
                     android:id="@+id/interoperability_illustration"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
                     android:contentDescription="@{@string/interoperability_eu_illustration_description}"
-                    app:srcCompat="@drawable/ic_illustration_interoperability"
+                    android:scaleType="fitXY"
                     android:visibility="@{FormatterHelper.formatVisibility(!isOnboarding)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_illustration_interoperability" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/interoperability_title_container"
@@ -229,11 +231,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:padding="@dimen/card_padding"
-                tools:visibility="visible"
                 android:visibility="@{FormatterHelper.formatVisibility(showFooter)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/label_interoperability_subtitle4">
+                app:layout_constraintTop_toBottomOf="@+id/label_interoperability_subtitle4"
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/interoperability_footer_title"
