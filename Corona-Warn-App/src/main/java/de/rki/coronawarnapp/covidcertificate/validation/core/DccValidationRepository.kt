@@ -116,28 +116,6 @@ class DccValidationRepository @Inject constructor(
         }
     }
 
-    private val gson by lazy {
-        // Allow for custom type adapter.
-        baseGson.newBuilder().apply {
-            registerTypeAdapter(
-                DccValidationRule.Type::class.java,
-                object : TypeAdapter<DccValidationRule.Type>() {
-                    override fun write(out: JsonWriter?, value: DccValidationRule.Type?) {
-                        // no need
-                    }
-
-                    override fun read(`in`: JsonReader?) = when (`in`?.nextString()) {
-                        DccValidationRule.Type.ACCEPTANCE.type -> DccValidationRule.Type.ACCEPTANCE
-                        DccValidationRule.Type.INVALIDATION.type -> DccValidationRule.Type.INVALIDATION
-                        else -> throw DccValidationException(
-                            DccValidationException.ErrorCode.ACCEPTANCE_RULE_JSON_DECODING_FAILED
-                        )
-                    }
-                }
-            )
-        }.create()
-    }
-
     private fun String?.toRuleSet(): List<DccValidationRule> {
         if (this == null) return emptyList()
         return gson.fromJson(this)

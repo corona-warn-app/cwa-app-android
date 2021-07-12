@@ -72,12 +72,12 @@ data class DccValidationRule(
             SemVer(0, 0, 1)
         }
 
-    enum class Type(val type: String) {
+    enum class Type {
         @SerializedName("Acceptance")
-        ACCEPTANCE("Acceptance"),
+        ACCEPTANCE,
 
         @SerializedName("Invalidation")
-        INVALIDATION("Invalidation")
+        INVALIDATION
     }
 
     enum class Result {
