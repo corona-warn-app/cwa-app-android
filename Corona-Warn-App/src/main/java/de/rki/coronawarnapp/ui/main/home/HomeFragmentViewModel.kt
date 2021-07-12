@@ -139,7 +139,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
         localStatisticsProvider.current
     ) { statsData, localStatsData ->
         statsData.copy(
-            items = localStatsData.items + statsData.items
+            items = mutableListOf(AddStatsItem(localStatsData.items.size < 5))
+                + localStatsData.items
+                + statsData.items
         )
     }
 
@@ -200,7 +202,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
             if (statsData.isDataAvailable) {
                 add(
                     StatisticsHomeCard.Item(
-                        data = statsData.copy(items = mutableListOf(AddStatsItem(true)).plus(statsData.items)),
+                        data = statsData,
                         onClickListener = {
                             when (it) {
                                 is AddStatsItem -> {
