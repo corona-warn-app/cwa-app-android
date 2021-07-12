@@ -42,8 +42,8 @@ class DccValidationServerTest : BaseIOTest() {
     }
 
     private fun createInstance() = DccValidationServer(
-        countryApi = { countryApi },
-        rulesApi = { rulesApi },
+        countryApiLazy = { countryApi },
+        rulesApiLazy = { rulesApi },
         signatureValidation = signatureValidation,
         cache = cache,
         dispatcherProvider = TestDispatcherProvider()
