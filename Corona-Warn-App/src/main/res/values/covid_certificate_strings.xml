@@ -230,4 +230,6 @@
     <!-- Validation Failed Screen-->
     <!-- XHED: Toolbar title for the validation failed screen -->
     <string name="validation_failed_title">Zertifikat nicht gültig</string>
+    <!-- XHED: Toolbar title for the validation open screen -->
+    <string name="validation_open_title">Zertifikat nicht prüfbar</string>
 </resources>

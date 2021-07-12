@@ -10,7 +10,8 @@ fun CovidCertificateValidationResultFragmentsBinding.setHeaderForState(state: Dc
         headerImage.setImageResource(R.drawable.covid_certificate_validation_passed_header)
     }
     DccValidation.State.OPEN -> {
-        // TODO
+        toolbar.setTitle(R.string.validation_open_title)
+        headerImage.setImageResource(R.drawable.covid_certificate_validation_open_header)
     }
     DccValidation.State.TECHNICAL_FAILURE,
     DccValidation.State.FAILURE -> {
