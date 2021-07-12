@@ -9,15 +9,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.fasterxml.jackson.databind.ObjectMapper
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
-import de.rki.coronawarnapp.covidcertificate.validation.core.ValidationUserInput
-import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
-import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
-import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
 import de.rki.coronawarnapp.databinding.HomeFragmentLayoutBinding
 import de.rki.coronawarnapp.tracing.ui.TracingExplanationDialog
 import de.rki.coronawarnapp.ui.main.home.popups.DeviceTimeIncorrectDialog
@@ -35,8 +29,6 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import org.joda.time.Instant
-import java.time.ZonedDateTime
 import javax.inject.Inject
 
 /**
@@ -102,109 +94,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         viewModel.refreshRequiredData()
         viewModel.restoreAppShortcuts()
         binding.container.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-        // TODO remove
-        doNavigate(
-            HomeFragmentDirections.actionMainFragmentToDccValidationOpenFragment(
-                DccValidation(
-                    userInput = ValidationUserInput(
-                        arrivalCountry = DccCountry("de"),
-                        arrivalAt = Instant.EPOCH,
-                    ),
-                    validatedAt = Instant.now(),
-                    expirationCheckPassed = true,
-                    jsonSchemaCheckPassed = true,
-                    acceptanceRules = setOf(
-                        EvaluatedDccRule(
-                            rule = DccValidationRule(
-                                identifier = "identifier",
-                                typeDcc = DccValidationRule.Type.ACCEPTANCE,
-                                version = "1.0.0",
-                                schemaVersion = "1.0.0",
-                                engine = "engine",
-                                engineVersion = "1.0.0",
-                                certificateType = "general",
-                                description = emptyMap(),
-                                validFrom = ZonedDateTime.now().toString(),
-                                validTo = ZonedDateTime.now().toString(),
-                                affectedFields = listOf("aField"),
-                                logic = ObjectMapper().readTree(
-                                    """
-                                        {
-                                            "and": [
-                                                {
-                                                    ">": [
-                                                        {
-                                                            "var": "hcert.v.0.dn"
-                                                        },
-                                                        0
-                                                    ]
-                                                },
-                                                {
-                                                    ">=": [
-                                                        {
-                                                            "var": "hcert.v.0.dn"
-                                                        },
-                                                        {
-                                                            "var": "hcert.v.0.sd"
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        }
-                                    """.trimIndent()
-                                ),
-                                country = "de",
-                            ),
-                            result = DccValidationRule.Result.OPEN,
-                        ),
-                        EvaluatedDccRule(
-                            rule = DccValidationRule(
-                                identifier = "identifier",
-                                typeDcc = DccValidationRule.Type.ACCEPTANCE,
-                                version = "1.0.0",
-                                schemaVersion = "1.0.0",
-                                engine = "engine",
-                                engineVersion = "1.0.0",
-                                certificateType = "general",
-                                description = emptyMap(),
-                                validFrom = ZonedDateTime.now().toString(),
-                                validTo = ZonedDateTime.now().toString(),
-                                affectedFields = listOf("aField"),
-                                logic = ObjectMapper().readTree(
-                                    """
-                                        {
-                                            "and": [
-                                                {
-                                                    ">": [
-                                                        {
-                                                            "var": "hcert.v.0.dn"
-                                                        },
-                                                        0
-                                                    ]
-                                                },
-                                                {
-                                                    ">=": [
-                                                        {
-                                                            "var": "hcert.v.0.dn"
-                                                        },
-                                                        {
-                                                            "var": "hcert.v.0.sd"
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        }
-                                    """.trimIndent()
-                                ),
-                                country = "de",
-                            ),
-                            result = DccValidationRule.Result.OPEN,
-                        ),
-                    ),
-                    invalidationRules = setOf()
-                )
-            )
-        )
     }
 
     private fun showRemoveTestDialog(type: CoronaTest.Type, submission: Boolean) {

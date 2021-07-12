@@ -25,14 +25,6 @@
         android:name="de.rki.coronawarnapp.ui.main.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/home_fragment_layout">
-        <!--        TODO remove-->
-        <action
-            android:id="@+id/action_mainFragment_to_dccValidationOpenFragment"
-            app:destination="@id/covid_certificates_graph">
-            <argument
-                android:name="validation"
-                app:argType="de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation" />
-        </action>
         <action
             android:id="@+id/action_mainFragment_to_settingsTracingFragment"
             app:destination="@id/settingsTracingFragment" />
