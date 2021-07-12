@@ -90,13 +90,15 @@ class DccValidationRepository @Inject constructor(
                 localCache.saveCountryJson(it)
                 mapCountries(it)
             }
-            val newAcceptanceData = server.ruleSetJson(DccValidationRule.Type.ACCEPTANCE).let {
-                localCache.saveAcceptanceRulesJson(it)
-                it.toRuleSet()
+            val newAcceptanceData = server.ruleSetJson(DccValidationRule.Type.ACCEPTANCE).let { rawJson ->
+                rawJson.toRuleSet().also {
+                    localCache.saveAcceptanceRulesJson(rawJson)
+                }
             }
-            val newInvalidationData = server.ruleSetJson(DccValidationRule.Type.INVALIDATION).let {
-                localCache.saveInvalidationRulesJson(it)
-                it.toRuleSet()
+            val newInvalidationData = server.ruleSetJson(DccValidationRule.Type.INVALIDATION).let { rawJson ->
+                rawJson.toRuleSet().also {
+                    localCache.saveInvalidationRulesJson(rawJson)
+                }
             }
             DccValidationData(
                 countries = newCountryData,
