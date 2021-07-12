@@ -30,7 +30,7 @@ class DccValidationOpenViewModel @AssistedInject constructor(
     private suspend fun generateItems(): List<ValidationResultItem> {
         val items = mutableListOf(
             ValidationInputVH.Item(validation),
-            ValidationOverallResultVH.Item(DccValidation.State.FAILURE)
+            ValidationOverallResultVH.Item(DccValidation.State.OPEN)
         )
 
         Timber.d("Generating items for state ${validation.state}")
