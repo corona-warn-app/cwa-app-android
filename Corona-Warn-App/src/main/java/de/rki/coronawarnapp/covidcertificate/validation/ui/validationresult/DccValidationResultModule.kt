@@ -8,6 +8,8 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.fail
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.passed.DccValidationPassedFragment
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.passed.DccValidationPassedViewModel
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.failed.DccValidationFailedFragment
+import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.open.DccValidationOpenFragment
+import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.open.DccValidationOpenViewModel
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationstart.ValidationStartModule
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -24,7 +26,17 @@ abstract class DccValidationResultModule {
     ): CWAViewModelFactory<out CWAViewModel>
 
     @ContributesAndroidInjector(modules = [ValidationStartModule::class])
-    abstract fun validationRersultFailedFragment(): DccValidationFailedFragment
+    abstract fun validationResultOpenFragment(): DccValidationOpenFragment
+
+    @Binds
+    @IntoMap
+    @CWAViewModelKey(DccValidationOpenViewModel::class)
+    abstract fun dccValidationOpenFragment(
+        factory: DccValidationOpenViewModel.Factory
+    ): CWAViewModelFactory<out CWAViewModel>
+
+    @ContributesAndroidInjector(modules = [ValidationStartModule::class])
+    abstract fun validationResultFailedFragment(): DccValidationFailedFragment
 
     @Binds
     @IntoMap
