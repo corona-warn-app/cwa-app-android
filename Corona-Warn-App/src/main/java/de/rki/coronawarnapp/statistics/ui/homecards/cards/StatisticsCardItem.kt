@@ -14,7 +14,12 @@ data class StatisticsCardItem(
 
     override val stableId: Long = when (stats) {
         is AddStatsItem -> 0L
-        is StatsItem -> stats.cardType.id.toLong()
-        is LocalIncidenceStats -> stats.selectedDistrict?.district?.districtId?.toLong() ?: 0L
+        is StatsItem -> {
+            if (stats is LocalIncidenceStats) {
+                stats.selectedDistrict?.district?.districtId?.toLong() ?: 0L
+            } else {
+                stats.cardType.id.toLong()
+            }
+        }
     }
 }
