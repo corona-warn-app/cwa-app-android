@@ -5,9 +5,9 @@
         Homescreen cards - register test card
     ###################################### -->
     <!-- XHED: Register test homescreen card: title -->
-    <string name="ag_homescreen_card_test_register_title">"Nächste Schritte"</string>
+    <string name="ag_homescreen_card_test_register_title">"Weiter"</string>
     <!-- XTXT: Register test homescreen card: body -->
-    <string name="ag_homescreen_card_test_register_body">"Nutzen Sie die App, um Ihr Testergebnis abzurufen und andere schneller warnen zu können, oder um Ihr COVID-Testzertifikat anzufordern."</string>
+    <string name="ag_homescreen_card_test_register_body">"Finden sie Teststellen in ihrer Umgebung und registrieren sie einen Test, um andere schneller warnen zu können, oder ihr digitales COVID-Testzertifikat anzufordern."</string>
 
     <!-- ####################################
         Homescreen cards - common status

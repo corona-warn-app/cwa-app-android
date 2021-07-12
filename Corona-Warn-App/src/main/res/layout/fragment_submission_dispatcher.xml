@@ -63,6 +63,22 @@
                     app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                     app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_illustration" />
 
+                <include
+                    android:id="@+id/submission_dispatcher_test_center"
+                    layout="@layout/include_dispatcher_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:body="@{@string/submission_dispatcher_card_test_center_text}"
+                    app:headline="@{@string/submission_dispatcher_card_test_center}"
+                    app:icon="@{@drawable/ic_external_link}"
+                    app:illustration="@{@drawable/ic_submission_illustration_test_center_card}"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
+                    app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_qr" />
+
                 <!-- Card layout is inflated lazily based on the profile state-->
                 <ViewStub
                     android:id="@+id/rat_profile_card"
@@ -74,7 +90,7 @@
                     android:inflatedId="@+id/rat_profile_card"
                     app:layout_constraintEnd_toStartOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/submission_dispatcher_qr" />
+                    app:layout_constraintTop_toBottomOf="@id/submission_dispatcher_test_center" />
 
                 <TextView
                     android:id="@+id/submission_dispatcher_already_positive_text"

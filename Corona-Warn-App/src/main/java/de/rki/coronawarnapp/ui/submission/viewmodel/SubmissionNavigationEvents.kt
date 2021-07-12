@@ -10,11 +10,11 @@ sealed class SubmissionNavigationEvents {
     object NavigateToDispatcher : SubmissionNavigationEvents()
     object NavigateToQRCodeScan : SubmissionNavigationEvents()
     object NavigateToDataPrivacy : SubmissionNavigationEvents()
-
     object NavigateToSymptomIntroduction : SubmissionNavigationEvents()
     object NavigateToTAN : SubmissionNavigationEvents()
     object NavigateToConsent : SubmissionNavigationEvents()
     object NavigateToMainActivity : SubmissionNavigationEvents()
+    object OpenTestCenterUrl : SubmissionNavigationEvents()
     data class NavigateToResultPendingScreen(var coronaTestType: CoronaTest.Type) : SubmissionNavigationEvents()
     data class NavigateToDeletionWarningFragmentFromQrCode(
         val coronaTestQRCode: CoronaTestQRCode,

@@ -5,11 +5,11 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavGraph
-import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDispatcherBinding
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherViewModel
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
+import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.findNestedGraph
@@ -39,6 +39,7 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                         SubmissionDispatcherFragmentDirections
                             .actionSubmissionDispatcherFragmentToSubmissionTanFragment()
                     )
+                is SubmissionNavigationEvents.OpenTestCenterUrl -> openUrl(getString(R.string.submission_dispatcher_card_test_center_link))
                 is SubmissionNavigationEvents.NavigateToContact ->
                     doNavigate(
                         SubmissionDispatcherFragmentDirections
@@ -60,7 +61,6 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                             .actionSubmissionDispatcherFragmentToRapidTestProfileNavGraph()
                     )
                 }
-
                 is SubmissionNavigationEvents.NavigateToOpenProfile -> {
                     findNestedGraph(R.id.rapid_test_profile_nav_graph).startDestination = R.id.ratProfileQrCodeFragment
                     doNavigate(
@@ -100,6 +100,9 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
         }
         binding.submissionDispatcherTanTele.dispatcherCard.setOnClickListener {
             viewModel.onTeleTanPressed()
+        }
+        binding.submissionDispatcherTestCenter.dispatcherCard.setOnClickListener {
+            viewModel.onTestCenterPressed()
         }
     }
 }
