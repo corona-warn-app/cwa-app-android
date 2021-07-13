@@ -3,13 +3,12 @@ package de.rki.coronawarnapp.covidcertificate.validation.core.rule
 import android.os.Bundle
 import android.os.Parcel
 import de.rki.coronawarnapp.util.serialization.SerializationModule
-import dgca.verifier.app.engine.UTC_ZONE_ID
 import io.kotest.matchers.shouldBe
 import org.junit.Test
 import testhelpers.BaseUITest
 import java.time.ZonedDateTime
 
-class DccValidationRuleTest : BaseUITest() {
+class DccValidationRuleParcelTest : BaseUITest() {
 
     @Test
     fun parcelization() {
@@ -21,9 +20,9 @@ class DccValidationRuleTest : BaseUITest() {
             engine = "engine",
             engineVersion = "1.0.0",
             certificateType = "general",
-            description = emptyMap(),
-            validFrom = ZonedDateTime.now().withZoneSameInstant(UTC_ZONE_ID).toString(),
-            validTo = ZonedDateTime.now().withZoneSameInstant(UTC_ZONE_ID).toString(),
+            description = listOf(DccValidationRule.Description(languageCode = "en", description = "text")),
+            validFrom = ZonedDateTime.parse("2021-05-20T07:46:40Z").toString(),
+            validTo = ZonedDateTime.parse("2021-05-27T07:46:40Z").toString(),
             affectedFields = listOf("aField"),
             logic = SerializationModule.jacksonBaseMapper.readTree(
                 """
