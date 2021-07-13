@@ -91,7 +91,7 @@ class CoronaTestRepository @Inject constructor(
             true
         },
         postCondition: ((CoronaTest) -> Boolean) = { newTest ->
-        if (newTest.isRedeemed) {
+            if (newTest.isRedeemed) {
                 Timber.w("Replacement test was already redeemed, removing it, will not use.")
                 throw AlreadyRedeemedException(newTest)
             }
