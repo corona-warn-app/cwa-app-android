@@ -1,7 +1,10 @@
+@file:Suppress("LongParameterList")
 package de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule.Description
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule.Type
 import dgca.verifier.app.engine.data.CertificateType
 
 internal val logicVaccinationDose = ObjectMapper().readTree(
@@ -60,20 +63,21 @@ fun createDccRule(
     },
     validFrom: String = "2021-05-27T07:46:40Z",
     validTo: String = "2022-08-01T07:46:40Z",
-    version: String = "1.0.0"
+    version: String = "1.0.0",
+    country: String = "DE",
 ) = DccValidationRule(
     identifier = identifier,
     version = version,
     schemaVersion = "1.0.0",
     engine = "CERTLOGIC",
     engineVersion = "1.0.0",
-    typeDcc = DccValidationRule.Type.ACCEPTANCE,
-    country = "DE",
+    typeDcc = Type.ACCEPTANCE,
+    country = country,
     certificateType = certificateType.name,
     description = when (certificateType) {
-        CertificateType.GENERAL -> mapOf("en" to "Exactly one type of event.")
-        CertificateType.TEST -> mapOf("en" to "Test is outdated.")
-        CertificateType.VACCINATION -> mapOf("en" to "Vaccination must be complete.")
+        CertificateType.GENERAL -> listOf(Description("en", "Exactly one type of event."))
+        CertificateType.TEST -> listOf(Description("en", "Test is outdated."))
+        CertificateType.VACCINATION -> listOf(Description("en", "Vaccination must be complete."))
         CertificateType.RECOVERY -> throw NotImplementedError()
     },
     validFrom = validFrom,
