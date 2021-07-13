@@ -14,7 +14,7 @@ import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyValueSetsCo
 import de.rki.coronawarnapp.server.protocols.internal.dgc.ValueSetsOuterClass
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
-import dgca.verifier.app.engine.data.CertificateType
+import dgca.verifier.app.engine.data.RuleCertificateType
 import io.kotest.matchers.ints.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -35,7 +35,6 @@ import java.nio.file.Paths
 import java.util.Locale
 import javax.inject.Inject
 
-@Suppress("MaxLineLength")
 class CertLogicEngineWrapperTest : BaseTest() {
 
     lateinit var valueSetWrapper: ValueSetWrapper
@@ -65,14 +64,14 @@ class CertLogicEngineWrapperTest : BaseTest() {
     @Test
     fun `valid certificate passes`() = runBlockingTest {
         valueSetWrapper = ValueSetWrapper(valueSetsRepository, dccValidationRepository)
-        wrapper = CertLogicEngineWrapper(valueSetWrapper)
+        wrapper = CertLogicEngineWrapper(valueSetWrapper, dccJsonSchema)
         val rule = createDccRule(
-            certificateType = CertificateType.VACCINATION,
+            certificateType = RuleCertificateType.VACCINATION,
             validFrom = "2021-05-27T07:46:40Z",
             validTo = "2022-08-01T07:46:40Z",
         )
         val ruleGeneral = createDccRule(
-            certificateType = CertificateType.GENERAL,
+            certificateType = RuleCertificateType.GENERAL,
             validFrom = "2021-05-27T07:46:40Z",
             validTo = "2022-08-01T07:46:40Z",
         )
@@ -82,7 +81,6 @@ class CertLogicEngineWrapperTest : BaseTest() {
             validationClock = Instant.parse("2021-06-30T09:25:00.000Z"),
             certificate = certificate.data,
             countryCode = "DE",
-            schemaJson = dccJsonSchema.rawSchema
         )
         evaluatedRules.size shouldBe 2
         evaluatedRules.forEach {
@@ -108,11 +106,9 @@ class CertLogicEngineWrapperTest : BaseTest() {
         coEvery { valueSetsRepository.latestTestCertificateValueSets } returns
             flowOf(container.testCertificateValueSets)
         valueSetWrapper = ValueSetWrapper(valueSetsRepository, dccValidationRepository)
-        wrapper = CertLogicEngineWrapper(valueSetWrapper)
+        wrapper = CertLogicEngineWrapper(valueSetWrapper, dccJsonSchema)
 
         json.testCases.forEachIndexed { index, certLogicTestCase ->
-            if (certLogicTestCase.description == "EP: issuerCountryCode shall be retrieved CWT (sample TC)")
-                return@forEachIndexed // TODO skip for now, add again after CertLogicUpdate
             val certificate = extractor.extract(certLogicTestCase.dcc)
             val validationClock = Instant.ofEpochSecond(Integer.parseInt(certLogicTestCase.validationClock).toLong())
 
@@ -121,14 +117,13 @@ class CertLogicEngineWrapperTest : BaseTest() {
             }.filterRelevantRules(
                 validationClock = validationClock,
                 country = DccCountry(certLogicTestCase.countryOfArrival),
-                certificateType = certificate.data.type
+                certificateType = certificate.data.typeString
             )
             val evaluatedAcceptanceRules = wrapper.process(
                 rules = acceptanceRules,
                 validationClock = validationClock,
                 certificate = certificate.data,
                 countryCode = certLogicTestCase.countryOfArrival,
-                schemaJson = dccJsonSchema.rawSchema
             )
 
             val invalidationRules = certLogicTestCase.rules.filter {
@@ -136,7 +131,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
             }.filterRelevantRules(
                 validationClock = validationClock,
                 country = DccCountry(certificate.data.header.issuer),
-                certificateType = certificate.data.type
+                certificateType = certificate.data.typeString
             )
 
             val evaluatedInvalidationRules = wrapper.process(
@@ -144,7 +139,6 @@ class CertLogicEngineWrapperTest : BaseTest() {
                 validationClock = validationClock,
                 certificate = certificate.data,
                 countryCode = certificate.data.header.issuer,
-                schemaJson = dccJsonSchema.rawSchema
             )
 
             evaluatedAcceptanceRules.size shouldBe acceptanceRules.size

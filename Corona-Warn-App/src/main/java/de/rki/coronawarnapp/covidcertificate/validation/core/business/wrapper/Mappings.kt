@@ -14,6 +14,7 @@ import dgca.verifier.app.engine.UTC_ZONE_ID
 import dgca.verifier.app.engine.data.CertificateType
 import dgca.verifier.app.engine.data.ExternalParameter
 import dgca.verifier.app.engine.data.Rule
+import dgca.verifier.app.engine.data.RuleCertificateType
 import dgca.verifier.app.engine.data.Type
 import org.joda.time.Instant
 import java.time.ZonedDateTime
@@ -29,6 +30,7 @@ internal fun assembleExternalParameter(
         validationClock = validationClock.toZonedDateTime(),
         valueSets = valueSets,
         countryCode = countryCode,
+        issuerCountryCode = certificate.header.issuer,
         exp = certificate.header.expiresAt.toZonedDateTime(),
         iat = certificate.header.issuedAt.toZonedDateTime()
     )
@@ -48,7 +50,7 @@ internal val DccValidationRule.asExternalRule: Rule
         schemaVersion = schemaVersion,
         engine = engine,
         engineVersion = engineVersion,
-        certificateType = certificateType.asExternalCertificateType,
+        ruleCertificateType = certificateType.asExternalCertificateType,
         descriptions = description.map { it.languageCode to it.description }.toMap(),
         validFrom = validFrom.toZonedDateTime(),
         validTo = validTo.toZonedDateTime(),
@@ -72,7 +74,7 @@ private fun Rule.asDccValidationRule() = DccValidationRule(
     schemaVersion = schemaVersion,
     engine = engine,
     engineVersion = engineVersion,
-    certificateType = certificateType.asInternalString,
+    certificateType = ruleCertificateType.asInternalString,
     description = descriptions.map { DccValidationRule.Description(description = it.key, languageCode = it.value) },
     validFrom = validFrom.asExternalString,
     validTo = validTo.asExternalString,
@@ -93,20 +95,20 @@ private val DccValidationRule.Type.asExternalType: Type
         DccValidationRule.Type.INVALIDATION -> Type.INVALIDATION
     }
 
-private val CertificateType.asInternalString: String
+private val RuleCertificateType.asInternalString: String
     get() = when (this) {
-        CertificateType.GENERAL -> GENERAL
-        CertificateType.TEST -> TEST
-        CertificateType.VACCINATION -> VACCINATION
-        CertificateType.RECOVERY -> RECOVERY
+        RuleCertificateType.GENERAL -> GENERAL
+        RuleCertificateType.TEST -> TEST
+        RuleCertificateType.VACCINATION -> VACCINATION
+        RuleCertificateType.RECOVERY -> RECOVERY
     }
 
-private val String.asExternalCertificateType: CertificateType
+private val String.asExternalCertificateType: RuleCertificateType
     get() = when (this.uppercase()) {
-        GENERAL.uppercase() -> CertificateType.GENERAL
-        TEST.uppercase() -> CertificateType.TEST
-        VACCINATION.uppercase() -> CertificateType.VACCINATION
-        RECOVERY.uppercase() -> CertificateType.RECOVERY
+        GENERAL.uppercase() -> RuleCertificateType.GENERAL
+        TEST.uppercase() -> RuleCertificateType.TEST
+        VACCINATION.uppercase() -> RuleCertificateType.VACCINATION
+        RECOVERY.uppercase() -> RuleCertificateType.RECOVERY
         else -> throw IllegalArgumentException()
     }
 
@@ -124,12 +126,20 @@ internal fun String.toZonedDateTime(): ZonedDateTime {
 internal val ZonedDateTime.asExternalString: String
     get() = this.toString()
 
-internal val DccData<out DccV1.MetaData>.type: String
+internal val DccData<out DccV1.MetaData>.asExternalType: CertificateType
+    get() = when (certificate) {
+        is VaccinationDccV1 -> CertificateType.VACCINATION
+        is TestDccV1 -> CertificateType.TEST
+        is RecoveryDccV1 -> CertificateType.RECOVERY
+        else -> throw IllegalArgumentException("Unknown certificate type.")
+    }
+
+internal val DccData<out DccV1.MetaData>.typeString: String
     get() = when (certificate) {
         is VaccinationDccV1 -> VACCINATION
         is TestDccV1 -> TEST
         is RecoveryDccV1 -> RECOVERY
-        else -> GENERAL
+        else -> throw IllegalArgumentException("Unknown certificate type.")
     }
 
 internal fun List<DccValidationRule>.filterRelevantRules(
