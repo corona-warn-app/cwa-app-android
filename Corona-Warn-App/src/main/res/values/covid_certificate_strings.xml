@@ -245,11 +245,20 @@
 
     <!-- Validation Rule View Holder: Business Rule Validation Failed -->
     <!-- XHED: title for the validation failed card  -->
-    <string name="validation_rules_failed_vh_title">"Ein Testzertifikat muss von einem zertifizierten Testzentrum ausgestellt werden."</string>
+    <string name="validation_rules_failed_vh_title_uncertified_test_center">"Ein Testzertifikat muss von einem zertifizierten Testzentrum ausgestellt werden."</string>
     <!-- XTXT: subtitle for the validation failed card  -->
-    <string name="validation_rules_failed_vh_subtitle">"Dies ist eine Regel des Ausstellerlandes."</string>
+    <string name="validation_rules_failed_vh_subtitle_uncertified_test_center">"Dies ist eine Regel des Ausstellerlandes."</string>
     <!-- XTXT: test center title for the validation failed card  -->
     <string name="validation_rules_failed_vh_test_center_title">"Testzentrum oder -einrichtung / Testing Center"</string>
     <!-- XTXT: rule id for the validation failed card  -->
     <string name="validation_rules_failed_vh_rule_id">"Regel-ID / Rule ID"</string>
+
+    <!-- XHED: title for the validation failed card  -->
+    <string name="validation_rules_failed_vh_title_wrong_test_type">"Art des Tests muss Antigen-Test oder Nukleinsäureamplifikations-Test sein."</string>
+    <!-- XHED: subtitle for the validation failed card  -->
+    <string name="validation_rules_failed_vh_subtitle_wrong_test_type">"Ein Testzertifikat muss von einem zertifizierten Testzentrum ausgestellt werden."</string>
+    <!-- XTXT: rule id for the validation failed card  -->
+    <string name="validation_rules_failed_vh_test_type">"Art des Tests / Type of Test"</string>
+
+
 </resources>

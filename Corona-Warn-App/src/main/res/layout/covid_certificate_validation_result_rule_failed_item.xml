@@ -22,7 +22,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_small"
-        android:text="@string/validation_rules_failed_vh_title"
+        tools:text="@string/validation_rules_failed_vh_title_uncertified_test_center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_date_format"
         app:layout_constraintTop_toTopOf="@id/icon_date_format" />
@@ -37,23 +37,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_date_format"
         app:layout_constraintTop_toBottomOf="@id/title"
-        tools:text="@string/validation_rules_failed_vh_subtitle" />
+        tools:text="@string/validation_rules_failed_vh_subtitle_uncertified_test_center" />
 
     <TextView
-        android:id="@+id/test_center_title"
+        android:id="@+id/line1"
         style="@style/body1Medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_small"
         android:layout_marginTop="@dimen/spacing_small"
-        android:text="@string/validation_rules_failed_vh_test_center_title"
+        tools:text="@string/validation_rules_failed_vh_test_center_title"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_date_format"
         app:layout_constraintTop_toBottomOf="@id/subtitle" />
 
     <TextView
-        android:id="@+id/test_center_name"
+        android:id="@+id/line2"
         style="@style/body1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -61,24 +61,24 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_date_format"
-        app:layout_constraintTop_toBottomOf="@id/test_center_title"
+        app:layout_constraintTop_toBottomOf="@id/line1"
         tools:text="P01 Potsdam" />
 
     <TextView
-        android:id="@+id/rule_id_title"
+        android:id="@+id/line3"
         style="@style/body1Medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_small"
         android:layout_marginTop="@dimen/spacing_small"
-        android:text="@string/validation_rules_failed_vh_rule_id"
+        tools:text="@string/validation_rules_failed_vh_rule_id"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_date_format"
-        app:layout_constraintTop_toBottomOf="@id/test_center_name" />
+        app:layout_constraintTop_toBottomOf="@id/line2" />
 
     <TextView
-        android:id="@+id/rule_id"
+        android:id="@+id/line4"
         style="@style/body1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_date_format"
-        app:layout_constraintTop_toBottomOf="@id/rule_id_title"
+        app:layout_constraintTop_toBottomOf="@id/line3"
         tools:text="AR-001" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
