@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.util.network
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.LinkProperties
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
@@ -112,14 +111,6 @@ class NetworkStateProvider @Inject constructor(
                     null
                 }
             },
-            linkProperties = network?.let {
-                try {
-                    manager.getLinkProperties(it)
-                } catch (e: Exception) {
-                    Timber.tag(TAG).e(e, "Failed to determine link properties.")
-                    null
-                }
-            },
             assumeMeteredConnection = testSettings.fakeMeteredConnection.value
         )
     }
@@ -144,7 +135,6 @@ class NetworkStateProvider @Inject constructor(
     data class ModernState(
         val activeNetwork: Network?,
         val capabilities: NetworkCapabilities?,
-        val linkProperties: LinkProperties?,
         private val assumeMeteredConnection: Boolean = false
     ) : State {
         override val isInternetAvailable: Boolean
