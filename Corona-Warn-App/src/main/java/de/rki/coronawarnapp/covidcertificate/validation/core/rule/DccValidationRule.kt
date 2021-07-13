@@ -8,7 +8,9 @@ import de.rki.coronawarnapp.util.serialization.SerializationModule
 import kotlinx.parcelize.Parceler
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.TypeParceler
+import net.swiftzer.semver.SemVer
 import org.joda.time.Instant
+import timber.log.Timber
 
 @Parcelize
 @TypeParceler<JsonNode, LogicParceler>()
@@ -60,6 +62,14 @@ data class DccValidationRule(
 
     val validToInstant: Instant
         get() = Instant.parse(validTo)
+
+    val versionSemVer: SemVer
+        get() = try {
+            SemVer.parse(version)
+        } catch (e: Exception) {
+            Timber.w(e, "$version is not SemVer")
+            SemVer(0, 0, 1)
+        }
 
     enum class Type(val type: String) {
         ACCEPTANCE("Acceptance"),
