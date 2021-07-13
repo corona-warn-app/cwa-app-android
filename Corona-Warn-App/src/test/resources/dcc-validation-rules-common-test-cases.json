@@ -240,9 +240,9 @@
       "dcc": "HC1:6BFOXN*TS0BI$ZD8UHR+J+MR9-C R10IIG70 43JUB/EBSOI04PBOMOW44OQA M:UC*GP-S4FT5D75W9AV88E34L/5R3F9JAY-BD7A4KEYJDMIAO/BY1AWKEHFE6LFDC9$CIEVMPTLOKEH-B*NLWELVPC8KES/FP1JXGGYII-GGX2MMDBFF9%TT0QIRR97I2HOAXL92L0A KPLIO4KRK4WPE-L95*B7$KZ RIC944FWAU236J79ZBUDXUJ/1YGU6UK/22E2F35F*$KLZO.L87O40%KD$S3B9%H0AN8SJ0C24$965ZMII6RF6E9R176NF6B69W95ROIR11XT6NF6: 8Z/I7ZC/FJBAJULJJ9G0OPMB4O-OFE1%IHUGJAGJ*$I%*80OPI985:4N%2%R0O05L%2A550AT56D7OF$W2AWCDZISP4*2DJFTU53/GNKL3ICGMJKQJK6HM:DQ09TT3LK825$37NSF.DEGGD4LR+BC8272LS-DWIK7-DY 1LA7551DC2U.NVOTJOII:8DKEK%N92T9YQ$0MK%P6$G9K7QQUY9KI.EK*8XRS-DPA5W64SMVR1NF6D0 2S0.7R:ASENTI094PIDS:T32TN4UH",
       "rules": [
         {
-          "Identifier": "GR-DE-0001",
+          "Identifier": "GR-PL-0001",
           "Type": "Acceptance",
-          "Country": "DE",
+          "Country": "PL",
           "Version": "1.0.0",
           "SchemaVersion": "1.0.0",
           "Engine": "CERTLOGIC",
@@ -270,46 +270,6 @@
         }
       ],
       "countryOfArrival": "PL",
-      "validationClock": 1625731517,
-      "expPass": 1,
-      "expFail": 0,
-      "expOpen": 0
-    },
-    {
-      "description": "EP: issuerCountryCode shall be retrieved CWT (sample TC)",
-      "dcc": "HC1:6BFOXN*TS0BI$ZD8UHR+J+MR9-C R10IILCA 43$R7C9BSOI04PBOMOW44OQA M:UC*GP-S4FT5D75W9AV88E34L/5R3F9JA8/B52BA C5KDMIA+/BTEUF+I-FHWC59NT$W4-.B-FIU2M KPZ78G9MX6K*AI8KES/F-1J3.KXHG HG 3M0ECFF9%TT0QIRR97I2HOAXL92L0A KPLIO4KRK4WPE-L95*B7$KZ RIC9L7OKM9QWUE5GJ5K14A2BEW7C03G-2CNTOI05*$KLZO.L87O40%KD$S3B9%H0AN8SJ0C24$965ZM0%MRF6E9R176NF6B69W95ROIR11XT6NF6: 8Z/I7ZC/FJBAJULJJ9GWKPW7U5HFQZ8M97A70%IH+X4+X4/MVY2MUEEFLEUNIOPDZ.C3C9S/F$JDCHHZ4FNLE72M%+BX6A/DD1JAA/CY3O0JK1WL*50JFTMD3QHBZQJI.NF2MA9UPY2*V23HCLKDKJS.332ICF/SQE2G-DGT3U+3TIU5QC/FU+LMB V*2Q9MRSTCNEVSK37:HK2SKRNDS7BBF0UOABM+JN3:4VUE*4QHV7PBO3*D :P%/62KUM:LMK2TW2%J3H9E3/T1-FV50PWK:BI",
-      "rules": [
-        {
-          "Identifier": "GR-DE-0001",
-          "Type": "Acceptance",
-          "Country": "DE",
-          "Version": "1.0.0",
-          "SchemaVersion": "1.0.0",
-          "Engine": "CERTLOGIC",
-          "EngineVersion": "1.0.0",
-          "CertificateType": "General",
-          "Description": [
-            {
-              "lang": "en",
-              "desc": "Some description"
-            }
-          ],
-          "ValidFrom": "2021-07-01T00:00:00Z",
-          "ValidTo": "2030-06-01T00:00:00Z",
-          "AffectedFields": [
-            "r.0"
-          ],
-          "Logic": {
-            "===": [
-              {
-                "var": "external.issuerCountryCode"
-              },
-              "IT"
-            ]
-          }
-        }
-      ],
-      "countryOfArrival": "DE",
       "validationClock": 1625731517,
       "expPass": 1,
       "expFail": 0,
@@ -1122,7 +1082,6 @@
                   "R0QDE04N05RLD2CGDBIPUPJZU"
                 ]
               },
-              null,
               {
                 "===": [
                   {
@@ -1131,7 +1090,6 @@
                   "1223"
                 ]
               },
-              null,
               {
                 "===": [
                   {
@@ -1140,7 +1098,6 @@
                   "2021-07-07T07:33:21+02:00"
                 ]
               },
-              null,
               {
                 "===": [
                   {
@@ -1149,7 +1106,6 @@
                   "260415000"
                 ]
               },
-              null,
               {
                 "===": [
                   {
@@ -1158,7 +1114,6 @@
                   "Test Centre 1"
                 ]
               },
-              null,
               {
                 "===": [
                   {
@@ -1167,7 +1122,6 @@
                   "DE"
                 ]
               },
-              null,
               {
                 "===": [
                   {
@@ -1176,7 +1130,6 @@
                   "Robert Koch-Institut"
                 ]
               },
-              null,
               {
                 "===": [
                   {

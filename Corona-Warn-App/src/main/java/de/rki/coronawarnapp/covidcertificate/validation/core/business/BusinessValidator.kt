@@ -30,7 +30,7 @@ class BusinessValidator @Inject constructor(
             rules = ruleRepository.acceptanceRules.first().filterRelevantRules(
                 validationClock = validationClock,
                 certificateType = certificate.type,
-                arrivalCountry = arrivalCountry,
+                country = arrivalCountry,
             ),
             validationClock = validationClock,
             certificate = certificate,
@@ -44,7 +44,7 @@ class BusinessValidator @Inject constructor(
             rules = ruleRepository.invalidationRules.first().filterRelevantRules(
                 validationClock = validationClock,
                 certificateType = certificate.type,
-                arrivalCountry = arrivalCountry,
+                country = arrivalCountry,
             ),
             validationClock = validationClock,
             certificate = certificate,

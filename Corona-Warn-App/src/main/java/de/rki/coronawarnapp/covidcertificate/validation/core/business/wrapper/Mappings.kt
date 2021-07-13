@@ -135,10 +135,10 @@ internal val DccData<out DccV1.MetaData>.type: String
 internal fun List<DccValidationRule>.filterRelevantRules(
     validationClock: Instant,
     certificateType: String,
-    arrivalCountry: DccCountry,
+    country: DccCountry,
 ): List<DccValidationRule> = this
     .asSequence()
-    .filter { it.country.uppercase() == arrivalCountry.countryCode.uppercase() }
+    .filter { it.country.uppercase() == country.countryCode.uppercase() }
     .filter { rule ->
         rule.certificateType.uppercase() == GENERAL.uppercase() ||
             rule.certificateType.uppercase() == certificateType.uppercase()

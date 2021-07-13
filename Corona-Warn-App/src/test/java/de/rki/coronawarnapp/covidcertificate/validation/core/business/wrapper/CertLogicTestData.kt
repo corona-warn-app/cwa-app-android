@@ -71,7 +71,6 @@ fun createDccRule(
     schemaVersion = "1.0.0",
     engine = "CERTLOGIC",
     engineVersion = "1.0.0",
-    type = "Acceptance",
     typeDcc = Type.ACCEPTANCE,
     country = country,
     certificateType = certificateType.name,

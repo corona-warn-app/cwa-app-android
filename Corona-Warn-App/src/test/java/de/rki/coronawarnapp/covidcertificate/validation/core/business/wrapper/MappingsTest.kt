@@ -114,7 +114,7 @@ class MappingsTest : BaseTest() {
         rules.filterRelevantRules(
             validationClock = validationClock,
             certificateType = VACCINATION,
-            arrivalCountry = DccCountry("de")
+            country = DccCountry("de")
         ) shouldBe listOf(vacA2, genA2)
     }
 }
