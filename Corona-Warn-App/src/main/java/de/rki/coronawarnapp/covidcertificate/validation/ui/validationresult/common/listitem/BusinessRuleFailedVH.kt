@@ -25,7 +25,8 @@ class BusinessRuleFailedVH(
         item: Item,
         payloads: List<Any>,
     ) -> Unit = { item, payloads ->
-        // TODO
+        ruleId.text = item.evaluatedDccRule.rule.identifier
+        // TODO Add Test Center Name
     }
 
     data class Item(

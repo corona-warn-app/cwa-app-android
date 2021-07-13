@@ -30,7 +30,7 @@ class BusinessRuleOpenVH(
         dateOfSampleCollection.text = item.evaluatedDccRule.rule.validFrom
         subtitle.text = context.getString(
             R.string.validation_rules_open_vh_subtitle,
-            item.evaluatedDccRule.rule.country
+            item.evaluatedDccRule.rule.country // TODO: Add valueSet to country
         )
     }
 

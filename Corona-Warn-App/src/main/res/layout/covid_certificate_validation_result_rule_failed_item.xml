@@ -22,10 +22,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_small"
+        android:text="@string/validation_rules_failed_vh_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_date_format"
-        app:layout_constraintTop_toTopOf="@id/icon_date_format"
-        tools:text="Ein Testzertifikat muss von einem zertifizierten Testzentrum ausgestellt werden." />
+        app:layout_constraintTop_toTopOf="@id/icon_date_format" />
 
     <TextView
         android:id="@+id/subtitle"
@@ -37,23 +37,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_date_format"
         app:layout_constraintTop_toBottomOf="@id/title"
-        tools:text="Dies ist eine Regel des Ausstellerlandes. " />
+        tools:text="@string/validation_rules_failed_vh_subtitle" />
 
     <TextView
-        android:id="@+id/line1"
+        android:id="@+id/test_center_title"
         style="@style/body1Medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_small"
         android:layout_marginTop="@dimen/spacing_small"
+        android:text="@string/validation_rules_failed_vh_test_center_title"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_date_format"
-        app:layout_constraintTop_toBottomOf="@id/subtitle"
-        tools:text="Testzentrum oder -einrichtung / Testing Center" />
+        app:layout_constraintTop_toBottomOf="@id/subtitle" />
 
     <TextView
-        android:id="@+id/line2"
+        android:id="@+id/test_center_name"
         style="@style/body1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -61,24 +61,24 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_date_format"
-        app:layout_constraintTop_toBottomOf="@id/line1"
+        app:layout_constraintTop_toBottomOf="@id/test_center_title"
         tools:text="P01 Potsdam" />
 
     <TextView
-        android:id="@+id/line3"
+        android:id="@+id/rule_id_title"
         style="@style/body1Medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_small"
         android:layout_marginTop="@dimen/spacing_small"
+        android:text="@string/validation_rules_failed_vh_rule_id"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_date_format"
-        app:layout_constraintTop_toBottomOf="@id/line2"
-        tools:text="Regel-ID / Rule ID" />
+        app:layout_constraintTop_toBottomOf="@id/test_center_name" />
 
     <TextView
-        android:id="@+id/line4"
+        android:id="@+id/rule_id"
         style="@style/body1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_date_format"
-        app:layout_constraintTop_toBottomOf="@id/line3"
+        app:layout_constraintTop_toBottomOf="@id/rule_id_title"
         tools:text="AR-001" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
