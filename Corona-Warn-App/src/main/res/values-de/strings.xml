@@ -1097,13 +1097,19 @@
 
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
-    <string name="submission_dispatcher_headline">"Test registrieren"</string>
+    <string name="submission_dispatcher_headline">"Ihre Testverwaltung"</string>
     <!-- XHED: Page subheadline for dispatcher options asking if they already have a positive test: tele-TAN  -->
     <string name="submission_dispatcher_already_positive_subheadline">"Ihr PCR-Test ist positiv?"</string>
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"QR-Code scannen"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
     <string name="submission_dispatcher_qr_card_text">"Erhalten Sie Ihr Testergebnis in der App und warnen Sie andere oder fordern Sie Ihr COVID-Testzertifikat an."</string>
+    <!-- XHED: Dispatcher text for test center option -->
+    <string name="submission_dispatcher_card_test_center">"Testmöglichkeit finden"</string>
+    <!-- YTXT: Body text for test center dispatcher option -->
+    <string name="submission_dispatcher_card_test_center_text">"Finden Sie Teststellen in Ihrer Nähe."</string>
+    <!-- XTXT: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#where_can_i_get_tested -->
+    <string name="submission_dispatcher_card_test_center_link">"https://www.coronawarn.app/de/faq/#where_can_i_get_tested"</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"TAN für PCR-Test eingeben"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
@@ -1292,7 +1298,7 @@
     <!-- YTXT: Body text for submission status: negative -->
     <string name="submission_status_card_body_negative">"Sie wurden negativ auf SARS-CoV-2 getestet."</string>
     <!-- XBUT: submission status card unregistered button -->
-    <string name="submission_status_card_button_unregistered">"Test registrieren"</string>
+    <string name="submission_status_card_button_unregistered">"Sie lassen sich testen?"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Test anzeigen"</string>
     <!-- XBUT: submission status card fetch failed button -->
@@ -1506,7 +1512,7 @@
     <!-- XTXT: Statistics number of vaccinated people at least text -->
     <string name="statistics_people_vaccinated_at_least_once_text">"Anzahl der an das RKI übermittelten Personen, die die erste Impfdosis erhalten haben."</string>
     <!-- XTXT: Statistics FAQ text -->
-    <string name="statistics_faq_text">"Weitere Informationen finden Sie in den FAQ:\n\nFAQ zu Statistiken"</string>
+    <string name="statistics_faq_text">"Weitere Informationen finden Sie in den FAQ:"</string>
 
     <!-- Statistics Add new tile -->
     <!-- XTXT: Statistics add card title -->
