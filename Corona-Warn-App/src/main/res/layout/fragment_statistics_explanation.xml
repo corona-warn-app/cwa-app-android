@@ -312,6 +312,17 @@
                     android:focusable="true"
                     android:text="@string/statistics_faq_text" />
 
+                <TextView
+                    android:id="@+id/statistics_faq_link"
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_seven_day_r_link_label"
+                    android:focusable="true"
+                    android:text="@string/statistics_faq_text" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/card_divider"
