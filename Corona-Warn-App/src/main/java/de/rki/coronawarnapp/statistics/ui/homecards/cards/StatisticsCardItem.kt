@@ -1,25 +1,33 @@
 package de.rki.coronawarnapp.statistics.ui.homecards.cards
 
 import de.rki.coronawarnapp.statistics.AddStatsItem
-import de.rki.coronawarnapp.statistics.GenericStatsItem
+import de.rki.coronawarnapp.statistics.GlobalStatsItem
 import de.rki.coronawarnapp.statistics.LocalIncidenceStats
-import de.rki.coronawarnapp.statistics.StatsItem
+import de.rki.coronawarnapp.statistics.LocalStatsItem
 import de.rki.coronawarnapp.util.lists.HasStableId
 
-data class StatisticsCardItem(
-    val stats: GenericStatsItem,
-    val onClickListener: (GenericStatsItem) -> Unit,
-    val onRemoveListener: (LocalIncidenceStats) -> Unit,
-) : HasStableId {
+sealed class StatisticsCardItem : HasStableId
 
+data class GlobalStatisticsCardItem(
+    val stats: GlobalStatsItem,
+    val onClickListener: (GlobalStatsItem) -> Unit,
+) : StatisticsCardItem() {
+    override val stableId: Long = stats.cardType.id.toLong()
+}
+
+data class AddLocalStatisticsCardItem(
+    val stats: AddStatsItem,
+    val onClickListener: (AddStatsItem) -> Unit,
+) : StatisticsCardItem() {
+    override val stableId: Long = AddStatsItem::class.hashCode().toLong()
+}
+
+data class LocalStatisticsCardItem(
+    val stats: LocalStatsItem,
+    val onClickListener: (LocalIncidenceStats) -> Unit,
+    val onRemoveListener: (LocalIncidenceStats) -> Unit,
+) : StatisticsCardItem() {
     override val stableId: Long = when (stats) {
-        is AddStatsItem -> AddStatsItem::class.hashCode().toLong()
-        is StatsItem -> {
-            if (stats is LocalIncidenceStats) {
-                stats.selectedDistrict.district.districtId.toLong()
-            } else {
-                stats.cardType.id.toLong()
-            }
-        }
+        is LocalIncidenceStats -> stats.selectedDistrict.district.districtId.toLong()
     }
 }

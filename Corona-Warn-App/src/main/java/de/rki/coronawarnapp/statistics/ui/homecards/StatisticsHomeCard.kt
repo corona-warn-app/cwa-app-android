@@ -8,10 +8,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsScrollcontainerBinding
+import de.rki.coronawarnapp.statistics.AddStatsItem
 import de.rki.coronawarnapp.statistics.GenericStatsItem
-import de.rki.coronawarnapp.statistics.LocalIncidenceStats
+import de.rki.coronawarnapp.statistics.GlobalStatsItem
+import de.rki.coronawarnapp.statistics.LocalStatsItem
 import de.rki.coronawarnapp.statistics.StatisticsData
-import de.rki.coronawarnapp.statistics.ui.homecards.cards.StatisticsCardItem
+import de.rki.coronawarnapp.statistics.ui.homecards.cards.AddLocalStatisticsCardItem
+import de.rki.coronawarnapp.statistics.ui.homecards.cards.GlobalStatisticsCardItem
+import de.rki.coronawarnapp.statistics.ui.homecards.cards.LocalStatisticsCardItem
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.util.isPhone
@@ -60,7 +64,11 @@ class StatisticsHomeCard(
         savedStateKey = "stats:${item.stableId}"
 
         item.data.items.map {
-            StatisticsCardItem(it, item.onClickListener, item.onRemoveListener)
+            when (it) {
+                is GlobalStatsItem -> GlobalStatisticsCardItem(it, item.onClickListener)
+                is AddStatsItem -> AddLocalStatisticsCardItem(it, item.onClickListener)
+                is LocalStatsItem -> LocalStatisticsCardItem(it, item.onClickListener, item.onRemoveListener)
+            }
         }.let {
             statisticsCardAdapter.update(it)
         }
@@ -83,7 +91,7 @@ class StatisticsHomeCard(
     data class Item(
         val data: StatisticsData,
         val onClickListener: (GenericStatsItem) -> Unit,
-        val onRemoveListener: (LocalIncidenceStats) -> Unit = {},
+        val onRemoveListener: (LocalStatsItem) -> Unit = {},
     ) : HomeItem {
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
 

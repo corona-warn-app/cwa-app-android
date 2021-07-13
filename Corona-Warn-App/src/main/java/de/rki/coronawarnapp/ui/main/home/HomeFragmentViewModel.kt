@@ -24,6 +24,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSe
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.statistics.AddStatsItem
+import de.rki.coronawarnapp.statistics.LocalIncidenceStats
 import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
 import de.rki.coronawarnapp.statistics.local.storage.LocalStatisticsConfigStorage
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
@@ -211,11 +212,15 @@ class HomeFragmentViewModel @AssistedInject constructor(
                                 else -> events.postValue(HomeFragmentEvents.GoToStatisticsExplanation)
                             }
                         },
-                        onRemoveListener = {
-                            localStatisticsConfigStorage.activeDistricts.update { districts ->
-                                districts.filter { selected ->
-                                    selected.district.districtId != it.selectedDistrict.district.districtId
-                                }.toSet()
+                        onRemoveListener = { statsItem ->
+                            when (statsItem) {
+                                is LocalIncidenceStats -> {
+                                    localStatisticsConfigStorage.activeDistricts.update { districts ->
+                                        districts.filter {
+                                            it.district.districtId != statsItem.selectedDistrict.district.districtId
+                                        }.toSet()
+                                    }
+                                }
                             }
                         }
                     )

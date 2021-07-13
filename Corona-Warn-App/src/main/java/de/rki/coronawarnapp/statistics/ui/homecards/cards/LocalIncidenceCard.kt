@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsCardsLocalIncidenceLayoutBinding
 import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass
 import de.rki.coronawarnapp.statistics.LocalIncidenceStats
-import de.rki.coronawarnapp.statistics.StatsItem
+import de.rki.coronawarnapp.statistics.LocalStatsItem
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter
 import de.rki.coronawarnapp.statistics.util.formatStatisticalValue
 import de.rki.coronawarnapp.statistics.util.getContentDescriptionForTrends
@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithTrailingSpace
 import de.rki.coronawarnapp.util.formatter.getPrimaryLabel
 
 class LocalIncidenceCard(parent: ViewGroup) :
-    StatisticsCardAdapter.ItemVH<StatisticsCardItem, HomeStatisticsCardsLocalIncidenceLayoutBinding>(
+    StatisticsCardAdapter.ItemVH<LocalStatisticsCardItem, HomeStatisticsCardsLocalIncidenceLayoutBinding>(
         R.layout.home_statistics_cards_basecard_layout,
         parent
     ) {
@@ -30,10 +30,10 @@ class LocalIncidenceCard(parent: ViewGroup) :
     }
 
     override val onBindData: HomeStatisticsCardsLocalIncidenceLayoutBinding.(
-        item: StatisticsCardItem,
+        item: LocalStatisticsCardItem,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
-        val curItem = payloads.filterIsInstance<StatisticsCardItem>().singleOrNull() ?: item
+        val curItem = payloads.filterIsInstance<LocalStatisticsCardItem>().singleOrNull() ?: item
 
         with(curItem.stats as LocalIncidenceStats) {
 
@@ -73,7 +73,7 @@ class LocalIncidenceCard(parent: ViewGroup) :
     }
 
     private fun buildAccessibilityStringForLocalIncidenceCard(
-        item: StatsItem,
+        item: LocalStatsItem,
         sevenDayIncidence: KeyFigureCardOuterClass.KeyFigure
     ): StringBuilder {
 

@@ -5,11 +5,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsCardsAddLayoutBinding
-import de.rki.coronawarnapp.statistics.AddStatsItem
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter
 
 class AddCard(parent: ViewGroup) :
-    StatisticsCardAdapter.ItemVH<StatisticsCardItem, HomeStatisticsCardsAddLayoutBinding>(
+    StatisticsCardAdapter.ItemVH<AddLocalStatisticsCardItem, HomeStatisticsCardsAddLayoutBinding>(
         R.layout.home_statistics_cards_dashed_layout,
         parent
     ) {
@@ -23,11 +22,11 @@ class AddCard(parent: ViewGroup) :
     }
 
     override val onBindData: HomeStatisticsCardsAddLayoutBinding.(
-        item: StatisticsCardItem,
+        item: AddLocalStatisticsCardItem,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
 
-        with(item.stats as AddStatsItem) {
+        with(item.stats) {
             if (isEnabled) {
                 warningText.isGone = true
                 plusImage.clearColorFilter()

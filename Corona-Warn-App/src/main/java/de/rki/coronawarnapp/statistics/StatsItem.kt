@@ -15,7 +15,8 @@ data class StatisticsData(
         items.map {
             when (it) {
                 is AddStatsItem -> "AddCard(${it.isEnabled})"
-                is StatsItem -> it.cardType.name + " " + it.updatedAt
+                is GlobalStatsItem -> it.cardType.name + " " + it.updatedAt
+                is LocalStatsItem -> it.cardType.name + " " + it.updatedAt
             }
         }
         })"
@@ -40,7 +41,7 @@ sealed class GenericStatsItem
 
 data class AddStatsItem(val isEnabled: Boolean) : GenericStatsItem()
 
-sealed class StatsItem(val cardType: Type) : GenericStatsItem() {
+sealed class GlobalStatsItem(val cardType: Type) : GenericStatsItem() {
     abstract val updatedAt: Instant
     abstract val keyFigures: List<KeyFigure>
 
@@ -51,7 +52,17 @@ sealed class StatsItem(val cardType: Type) : GenericStatsItem() {
         SEVEN_DAY_RVALUE(4),
         PERSONS_VACCINATED_ONCE(5),
         PERSONS_VACCINATED_COMPLETELY(6),
-        APPLIED_VACCINATION_RATES(7),
+        APPLIED_VACCINATION_RATES(7)
+    }
+
+    abstract fun requireValidity()
+}
+
+sealed class LocalStatsItem(val cardType: Type) : GenericStatsItem() {
+    abstract val updatedAt: Instant
+    abstract val keyFigures: List<KeyFigure>
+
+    enum class Type(val id: Int) {
         LOCAL_INCIDENCE(8)
     }
 
@@ -61,7 +72,7 @@ sealed class StatsItem(val cardType: Type) : GenericStatsItem() {
 data class InfectionStats(
     override val updatedAt: Instant,
     override val keyFigures: List<KeyFigure>
-) : StatsItem(cardType = Type.INFECTION) {
+) : GlobalStatsItem(cardType = Type.INFECTION) {
 
     val newInfections: KeyFigure
         get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }
@@ -89,7 +100,7 @@ data class InfectionStats(
 data class IncidenceStats(
     override val updatedAt: Instant,
     override val keyFigures: List<KeyFigure>
-) : StatsItem(cardType = Type.INCIDENCE) {
+) : GlobalStatsItem(cardType = Type.INCIDENCE) {
 
     val sevenDayIncidence: KeyFigure
         get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }
@@ -106,7 +117,7 @@ data class LocalIncidenceStats(
     override val updatedAt: Instant,
     override val keyFigures: List<KeyFigure>,
     val selectedDistrict: SelectedDistrict,
-) : StatsItem(cardType = Type.LOCAL_INCIDENCE) {
+) : LocalStatsItem(cardType = Type.LOCAL_INCIDENCE) {
 
     val sevenDayIncidence: KeyFigure
         get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }
@@ -122,7 +133,7 @@ data class LocalIncidenceStats(
 data class KeySubmissionsStats(
     override val updatedAt: Instant,
     override val keyFigures: List<KeyFigure>
-) : StatsItem(cardType = Type.KEYSUBMISSION) {
+) : GlobalStatsItem(cardType = Type.KEYSUBMISSION) {
 
     val keySubmissions: KeyFigure
         get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }
@@ -150,7 +161,7 @@ data class KeySubmissionsStats(
 data class SevenDayRValue(
     override val updatedAt: Instant,
     override val keyFigures: List<KeyFigure>
-) : StatsItem(cardType = Type.SEVEN_DAY_RVALUE) {
+) : GlobalStatsItem(cardType = Type.SEVEN_DAY_RVALUE) {
 
     val reproductionNumber: KeyFigure
         get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }
@@ -166,7 +177,7 @@ data class SevenDayRValue(
 data class PersonsVaccinatedOnceStats(
     override val updatedAt: Instant,
     override val keyFigures: List<KeyFigure>
-) : StatsItem(cardType = Type.PERSONS_VACCINATED_ONCE) {
+) : GlobalStatsItem(cardType = Type.PERSONS_VACCINATED_ONCE) {
 
     val firstDose: KeyFigure
         get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }
@@ -188,7 +199,7 @@ data class PersonsVaccinatedOnceStats(
 data class PersonsVaccinatedCompletelyStats(
     override val updatedAt: Instant,
     override val keyFigures: List<KeyFigure>
-) : StatsItem(cardType = Type.PERSONS_VACCINATED_COMPLETELY) {
+) : GlobalStatsItem(cardType = Type.PERSONS_VACCINATED_COMPLETELY) {
 
     val allDoses: KeyFigure
         get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }
@@ -210,7 +221,7 @@ data class PersonsVaccinatedCompletelyStats(
 data class AppliedVaccinationRatesStats(
     override val updatedAt: Instant,
     override val keyFigures: List<KeyFigure>
-) : StatsItem(cardType = Type.APPLIED_VACCINATION_RATES) {
+) : GlobalStatsItem(cardType = Type.APPLIED_VACCINATION_RATES) {
 
     val administeredDoses: KeyFigure
         get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }
