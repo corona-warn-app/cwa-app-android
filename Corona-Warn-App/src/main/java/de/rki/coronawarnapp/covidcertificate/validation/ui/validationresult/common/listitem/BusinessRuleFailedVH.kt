@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.com
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultRuleFailedItemBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
@@ -25,12 +27,18 @@ class BusinessRuleFailedVH(
         item: Item,
         payloads: List<Any>,
     ) -> Unit = { item, payloads ->
-        ruleId.text = item.evaluatedDccRule.rule.identifier
-        // TODO Add Test Center Name
+        // TODO
+
+        when (item.certificate) {
+            is TestCertificate -> {
+                // TODO
+            }
+        }
     }
 
     data class Item(
         val evaluatedDccRule: EvaluatedDccRule,
+        val certificate: CwaCovidCertificate,
     ) : ValidationResultItem, HasPayloadDiffer {
         override val stableId: Long = evaluatedDccRule.rule.identifier.hashCode().toLong()
 

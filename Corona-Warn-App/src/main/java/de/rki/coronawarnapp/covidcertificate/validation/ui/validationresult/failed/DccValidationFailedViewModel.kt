@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
+import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.BusinessRuleFailedVH
@@ -22,6 +24,8 @@ import timber.log.Timber
 
 class DccValidationFailedViewModel @AssistedInject constructor(
     @Assisted private val validation: DccValidation,
+    @Assisted private val containerId: CertificateContainerId,
+    private val certificateProvider: CertificateProvider,
     dispatcherProvider: DispatcherProvider,
 ) : CWAViewModel(dispatcherProvider) {
 
@@ -51,7 +55,8 @@ class DccValidationFailedViewModel @AssistedInject constructor(
                 val failedRules = validation.rules.filter { it.result == DccValidationRule.Result.FAILED }
                 if (failedRules.isNotEmpty()) {
                     items.add(RuleHeaderVH.Item(DccValidation.State.FAILURE))
-                    failedRules.forEach { items.add(BusinessRuleFailedVH.Item(it)) }
+                    val certificate = certificateProvider.findCertificate(containerId)
+                    failedRules.forEach { items.add(BusinessRuleFailedVH.Item(it, certificate)) }
                 }
 
                 val openRules = validation.rules.filter { it.result == DccValidationRule.Result.OPEN }
@@ -69,6 +74,9 @@ class DccValidationFailedViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<DccValidationFailedViewModel> {
-        fun create(validation: DccValidation): DccValidationFailedViewModel
+        fun create(
+            validation: DccValidation,
+            containerId: CertificateContainerId
+        ): DccValidationFailedViewModel
     }
 }
