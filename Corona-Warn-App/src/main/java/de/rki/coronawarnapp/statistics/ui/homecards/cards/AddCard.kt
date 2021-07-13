@@ -27,15 +27,16 @@ class AddCard(parent: ViewGroup) :
     ) -> Unit = { item, _ ->
 
         with(item.stats) {
+            warningText.isGone = isEnabled
+            container.isEnabled = isEnabled
+
             if (isEnabled) {
-                warningText.isGone = true
                 plusImage.clearColorFilter()
                 titleText.setTextColor(ContextCompat.getColor(context, R.color.colorStatisticsPrimaryValue))
                 container.setOnClickListener {
                     item.onClickListener(item.stats)
                 }
             } else {
-                warningText.isGone = false
                 plusImage.setColorFilter(ContextCompat.getColor(context, R.color.colorStatisticsValueLabel))
                 titleText.setTextColor(ContextCompat.getColor(context, R.color.colorStatisticsValueLabel))
             }

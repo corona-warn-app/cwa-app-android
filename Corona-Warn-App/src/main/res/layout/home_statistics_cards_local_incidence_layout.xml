@@ -5,7 +5,6 @@
     android:id="@+id/incidence_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:ignore="MissingConstraints"
     tools:layout_height="wrap_content"
     tools:layout_width="@dimen/statistics_card_width">
 
@@ -80,6 +79,7 @@
         android:id="@+id/overflow_menu_button"
         style="@style/CardOverFlowButton"
         app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/button_menu"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
