@@ -14,10 +14,12 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry.
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.network.NetworkStateProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import org.joda.time.DateTime
 import timber.log.Timber
@@ -27,7 +29,8 @@ class ValidationStartViewModel @AssistedInject constructor(
     dccValidationRepository: DccValidationRepository,
     private val dccValidator: DccValidator,
     private val certificateProvider: CertificateProvider,
-    @Assisted private val containerId: CertificateContainerId
+    @Assisted private val containerId: CertificateContainerId,
+    private val networkStateProvider: NetworkStateProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     @AssistedFactory
@@ -53,21 +56,28 @@ class ValidationStartViewModel @AssistedInject constructor(
     fun refreshTimeCheck() = dateChanged(currentDateTime)
 
     fun onCheckClick() = launch {
-        try {
-            val state = uiState.value
-            val country = state.dccCountry
-            val time = state.dateTime.toInstant()
-            val certificateData = certificateProvider.findCertificate(containerId).dccData
-            val validationResult = dccValidator.validateDcc(
-                ValidationUserInput(country, time),
-                certificateData
-            )
+        val event = if (networkStateProvider.networkState.first().isInternetAvailable) {
+            try {
+                val state = uiState.value
+                val country = state.dccCountry
+                val time = state.dateTime.toInstant()
+                val certificateData = certificateProvider.findCertificate(containerId).dccData
+                val validationResult = dccValidator.validateDcc(
+                    ValidationUserInput(country, time),
+                    certificateData
+                )
 
-            events.postValue(NavigateToValidationResultFragment(validationResult))
-        } catch (e: Exception) {
-            Timber.d(e, "validating Dcc failed")
-            events.postValue(ShowErrorDialog(e))
+                NavigateToValidationResultFragment(validationResult)
+            } catch (e: Exception) {
+                Timber.d(e, "validating Dcc failed")
+                ShowErrorDialog(e)
+            }
+        } else {
+            Timber.d("No internet connection. Didn't start validation!")
+            ShowNoInternetDialog
         }
+
+        events.postValue(event)
     }
 
     fun dateChanged(dateTime: DateTime) {
