@@ -10,7 +10,7 @@ enum class FederalStateToPackageId(val packageId: Int) {
     HE(7),
     MV(3),
     NI(4),
-    NRW(5),
+    NW(5),
     RP(7),
     SL(7),
     SN(6),
