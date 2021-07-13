@@ -21,4 +21,3 @@ data class CertLogicTestCase(
     val expFail: Int,
     val expOpen: Int
 )
-

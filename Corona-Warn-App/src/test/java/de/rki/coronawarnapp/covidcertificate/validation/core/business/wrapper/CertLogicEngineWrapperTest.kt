@@ -58,8 +58,10 @@ class CertLogicEngineWrapperTest : BaseTest() {
         DaggerCovidCertificateTestComponent.factory().create().inject(this)
 
         coEvery { dccValidationRepository.dccCountries } returns flowOf(countryCodes.map { DccCountry(it) })
-        coEvery { valueSetsRepository.latestVaccinationValueSets } returns flowOf(emptyValueSetsContainer.vaccinationValueSets)
-        coEvery { valueSetsRepository.latestTestCertificateValueSets } returns flowOf(emptyValueSetsContainer.testCertificateValueSets)
+        coEvery { valueSetsRepository.latestVaccinationValueSets } returns
+            flowOf(emptyValueSetsContainer.vaccinationValueSets)
+        coEvery { valueSetsRepository.latestTestCertificateValueSets } returns
+            flowOf(emptyValueSetsContainer.testCertificateValueSets)
     }
 
     @Test
@@ -103,8 +105,10 @@ class CertLogicEngineWrapperTest : BaseTest() {
         val valueSets =
             ValueSetsOuterClass.ValueSets.parseFrom(json.general.valueSetProtocolBuffer.decodeBase64()!!.toByteArray())
         val container = valueSets.toValueSetsContainer(languageCode = Locale.GERMAN)
-        coEvery { valueSetsRepository.latestVaccinationValueSets } returns flowOf(container.vaccinationValueSets)
-        coEvery { valueSetsRepository.latestTestCertificateValueSets } returns flowOf(container.testCertificateValueSets)
+        coEvery { valueSetsRepository.latestVaccinationValueSets } returns
+            flowOf(container.vaccinationValueSets)
+        coEvery { valueSetsRepository.latestTestCertificateValueSets } returns
+            flowOf(container.testCertificateValueSets)
         valueSetWrapper = ValueSetWrapper(valueSetsRepository, dccValidationRepository)
         wrapper = CertLogicEngineWrapper(valueSetWrapper)
 
