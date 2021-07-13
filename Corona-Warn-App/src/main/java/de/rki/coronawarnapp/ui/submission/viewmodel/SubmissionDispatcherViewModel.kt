@@ -53,6 +53,10 @@ class SubmissionDispatcherViewModel @AssistedInject constructor(
         routeToScreen.postValue(event)
     }
 
+    fun onTestCenterPressed() {
+        routeToScreen.postValue(SubmissionNavigationEvents.OpenTestCenterUrl)
+    }
+
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<SubmissionDispatcherViewModel>
 }

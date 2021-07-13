@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
+import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
 import dgca.verifier.app.engine.Result
@@ -48,7 +49,7 @@ internal val DccValidationRule.asExternalRule: Rule
         engine = engine,
         engineVersion = engineVersion,
         certificateType = certificateType.asExternalCertificateType,
-        descriptions = description,
+        descriptions = description.map { it.languageCode to it.description }.toMap(),
         validFrom = validFrom.toZonedDateTime(),
         validTo = validTo.toZonedDateTime(),
         affectedString = affectedFields,
@@ -72,7 +73,7 @@ private fun Rule.asDccValidationRule() = DccValidationRule(
     engine = engine,
     engineVersion = engineVersion,
     certificateType = certificateType.asInternalString,
-    description = descriptions,
+    description = descriptions.map { DccValidationRule.Description(description = it.key, languageCode = it.value) },
     validFrom = validFrom.asExternalString,
     validTo = validTo.asExternalString,
     affectedFields = affectedString,
@@ -133,15 +134,23 @@ internal val DccData<out DccV1.MetaData>.type: String
 
 internal fun List<DccValidationRule>.filterRelevantRules(
     validationClock: Instant,
-    certificateType: String
-): List<DccValidationRule> {
-    return filter { rule ->
+    certificateType: String,
+    arrivalCountry: DccCountry,
+): List<DccValidationRule> = this
+    .asSequence()
+    .filter { it.country.uppercase() == arrivalCountry.countryCode.uppercase() }
+    .filter { rule ->
         rule.certificateType.uppercase() == GENERAL.uppercase() ||
             rule.certificateType.uppercase() == certificateType.uppercase()
-    }.filter { rule ->
+    }
+    .filter { rule ->
         rule.validFromInstant <= validationClock && rule.validToInstant >= validationClock
     }
-}
+    .groupBy { it.identifier }
+    .mapNotNull { entry ->
+        entry.value.maxByOrNull { it.versionSemVer }
+    }
+    .toList()
 
 internal const val GENERAL = "General"
 internal const val TEST = "Test"
