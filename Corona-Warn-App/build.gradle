@@ -450,6 +450,7 @@ dependencies {
     implementation 'joda-time:joda-time:2.10.6'
 
     implementation 'com.networknt:json-schema-validator:1.0.56'
+    implementation 'net.swiftzer.semver:semver:1.1.1'
 
     // SECURITY
     implementation "androidx.security:security-crypto:1.0.0-rc03"
