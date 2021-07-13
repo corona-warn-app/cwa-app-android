@@ -43,17 +43,15 @@ class LocalStatisticsProvider @Inject constructor(
         }
     }
 
-    val current: Flow<LocalStatisticsData> = localStatisticsData.data.map {
-        val groupedStats = it.reduceOrNull { acc, localStatisticsData ->
+    val current: Flow<LocalStatisticsData> = localStatisticsData.data.map { localStatsList ->
+        val groupedStats = localStatsList.reduceOrNull { acc, localStatisticsData ->
             LocalStatisticsData(acc.items + localStatisticsData.items)
         } ?: LocalStatisticsData()
 
         groupedStats.copy(
-            items = groupedStats.items.filter {
-                localStatisticsConfigStorage.activeDistricts.value.any { selected ->
-                    selected.district.districtId == it.selectedDistrict?.district?.districtId
-                }
-            }.sortedBy { selected -> selected.selectedDistrict?.addedAt }.reversed()
+            items = groupedStats.items
+                .sortedBy { selected -> selected.selectedDistrict.addedAt }
+                .reversed()
         )
     }
 

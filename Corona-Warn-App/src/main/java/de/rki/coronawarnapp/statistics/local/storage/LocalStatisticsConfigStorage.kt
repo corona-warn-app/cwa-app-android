@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.util.preferences.FlowPreference
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -27,9 +28,15 @@ class LocalStatisticsConfigStorage @Inject constructor(
     )
 
     val activeStates = activeDistricts.flow
-        .map {
-            it.map { district -> district.district.federalStateShortName }
-                .mapNotNull { stateId -> FederalStateToPackageId.getForName(stateId) }
+        .map { districtFlow ->
+            districtFlow.map { it.district.federalStateShortName }
+                .mapNotNull { stateName ->
+                    FederalStateToPackageId.getForName(stateName).also {
+                        if (it == null) {
+                            Timber.e("Failed to map federal state short name to id %s", stateName)
+                        }
+                    }
+                }
                 .distinct()
         }
 

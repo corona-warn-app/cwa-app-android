@@ -214,7 +214,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                         onRemoveListener = {
                             localStatisticsConfigStorage.activeDistricts.update { districts ->
                                 districts.filter { selected ->
-                                    selected.district.districtId != it.selectedDistrict?.district?.districtId
+                                    selected.district.districtId != it.selectedDistrict.district.districtId
                                 }.toSet()
                             }
                         }

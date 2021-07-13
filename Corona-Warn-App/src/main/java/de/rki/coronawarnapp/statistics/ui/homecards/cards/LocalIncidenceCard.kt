@@ -46,7 +46,7 @@ class LocalIncidenceCard(parent: ViewGroup) :
             incidenceContainer.contentDescription =
                 buildAccessibilityStringForLocalIncidenceCard(item.stats, sevenDayIncidence)
 
-            locationLabel.text = selectedDistrict?.district?.districtName
+            locationLabel.text = selectedDistrict.district.districtName
 
             primaryLabel.text = getPrimaryLabel(context)
             primaryValue.text = getLocalizedSpannableString(

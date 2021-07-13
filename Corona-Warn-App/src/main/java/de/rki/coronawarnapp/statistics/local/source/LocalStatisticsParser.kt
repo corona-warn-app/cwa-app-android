@@ -32,13 +32,21 @@ class LocalStatisticsParser @Inject constructor(
                     it.district.districtId == districtId
                 }
 
-                LocalIncidenceStats(
-                    updatedAt = updatedAt,
-                    keyFigures = listOf(administrativeUnitIncidenceKeyFigure),
-                    selectedDistrict = selectedDistrict
-                ).also {
-                    Timber.tag(TAG).v("Parsed %s", it.toString().replace("\n", ", "))
-                    it.requireValidity()
+                if (selectedDistrict != null) {
+                    LocalIncidenceStats(
+                        updatedAt = updatedAt,
+                        keyFigures = listOf(administrativeUnitIncidenceKeyFigure),
+                        selectedDistrict = selectedDistrict
+                    ).also {
+                        Timber.tag(TAG).v("Parsed %s", it.toString().replace("\n", ", "))
+                        it.requireValidity()
+                    }
+                } else {
+                    Timber.tag(TAG).v(
+                        "Failed to match au with id %s to user selected cards, this is probably not an error",
+                        rawState.administrativeUnitShortId
+                    )
+                    null
                 }
             } catch (e: Exception) {
                 Timber.tag(TAG).e("Failed to parse raw federal state: %s", rawState)

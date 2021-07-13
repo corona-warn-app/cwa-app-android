@@ -105,7 +105,7 @@ data class IncidenceStats(
 data class LocalIncidenceStats(
     override val updatedAt: Instant,
     override val keyFigures: List<KeyFigure>,
-    val selectedDistrict: SelectedDistrict?,
+    val selectedDistrict: SelectedDistrict,
 ) : StatsItem(cardType = Type.LOCAL_INCIDENCE) {
 
     val sevenDayIncidence: KeyFigure

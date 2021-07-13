@@ -13,10 +13,10 @@ data class StatisticsCardItem(
 ) : HasStableId {
 
     override val stableId: Long = when (stats) {
-        is AddStatsItem -> 0L
+        is AddStatsItem -> AddStatsItem::class.hashCode().toLong()
         is StatsItem -> {
             if (stats is LocalIncidenceStats) {
-                stats.selectedDistrict?.district?.districtId?.toLong() ?: 0L
+                stats.selectedDistrict.district.districtId.toLong()
             } else {
                 stats.cardType.id.toLong()
             }
