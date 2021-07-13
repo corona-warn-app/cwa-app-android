@@ -32,19 +32,21 @@ class LocalIncidenceCard(parent: ViewGroup) :
     override val onBindData: HomeStatisticsCardsLocalIncidenceLayoutBinding.(
         item: StatisticsCardItem,
         payloads: List<Any>
-    ) -> Unit = { item, _ ->
-        with(item.stats as LocalIncidenceStats) {
+    ) -> Unit = { item, payloads ->
+        val curItem = payloads.filterIsInstance<StatisticsCardItem>().singleOrNull() ?: item
+
+        with(curItem.stats as LocalIncidenceStats) {
 
             overflowMenuButton.setupMenu(R.menu.menu_statistics_local_incidence) {
                 when (it.itemId) {
-                    R.id.menu_information -> item.onClickListener(item.stats).let { true }
-                    R.id.menu_remove_item -> item.onRemoveListener(item.stats).let { true }
+                    R.id.menu_information -> curItem.onClickListener(curItem.stats).let { true }
+                    R.id.menu_remove_item -> curItem.onRemoveListener(curItem.stats).let { true }
                     else -> false
                 }
             }
 
             incidenceContainer.contentDescription =
-                buildAccessibilityStringForLocalIncidenceCard(item.stats, sevenDayIncidence)
+                buildAccessibilityStringForLocalIncidenceCard(curItem.stats, sevenDayIncidence)
 
             locationLabel.text = selectedDistrict.district.districtName
 

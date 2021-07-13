@@ -50,7 +50,8 @@ class LocalStatisticsProvider @Inject constructor(
 
         groupedStats.copy(
             items = groupedStats.items
-                .sortedBy { selected -> selected.selectedDistrict.addedAt }
+                .distinctBy { it.selectedDistrict.district.districtId }
+                .sortedBy { it.selectedDistrict.addedAt }
                 .reversed()
         )
     }
