@@ -1,8 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core
 
 import com.google.gson.Gson
+import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
+import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException.ErrorCode
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule.Type
 import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidationServer
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -44,10 +47,36 @@ class DccValidationRepository @Inject constructor(
             replayExpirationMillis = 0
         ),
     ) {
-        DccValidationData(localCache.loadJson()?.let { mapCountries(it) } ?: emptyList())
+        val acceptanceRules = kotlin.run {
+            val rawJson = localCache.loadAcceptanceRuleJson()
+            try {
+                rawJson.toRuleSet()
+            } catch (e: Exception) {
+                Timber.tag(TAG).w("Failed to parse cached acceptanceRules: %s", rawJson)
+                emptyList()
+            }
+        }
+        val invalidationRules = kotlin.run {
+            val rawJson = localCache.loadInvalidationRuleJson()
+            try {
+                rawJson.toRuleSet()
+            } catch (e: Exception) {
+                Timber.tag(TAG).w("Failed to parse cached invalidationRules: %s", rawJson)
+                emptyList()
+            }
+        }
+        DccValidationData(
+            countries = localCache.loadCountryJson()?.let { mapCountries(it) } ?: emptyList(),
+            acceptanceRules = acceptanceRules,
+            invalidationRules = invalidationRules,
+        )
     }
 
     val dccCountries: Flow<List<DccCountry>> = internalData.data.map { it.countries }
+
+    val acceptanceRules: Flow<List<DccValidationRule>> = internalData.data.map { it.acceptanceRules }
+
+    val invalidationRules: Flow<List<DccValidationRule>> = internalData.data.map { it.invalidationRules }
 
     /**
      * The UI calls this before entering the validation flow.
@@ -55,12 +84,32 @@ class DccValidationRepository @Inject constructor(
      */
     @Throws(Exception::class)
     suspend fun refresh() {
+        Timber.tag(TAG).d("refresh()")
         internalData.updateBlocking {
-            val newCountryData = server.dccCountryJson()
-            localCache.saveJson(newCountryData)
-            DccValidationData(mapCountries(newCountryData))
+            val newCountryData = server.dccCountryJson().let {
+                localCache.saveCountryJson(it)
+                mapCountries(it)
+            }
+            val newAcceptanceData = server.ruleSetJson(Type.ACCEPTANCE).let { rawJson ->
+                try {
+                    rawJson.toRuleSet().also { localCache.saveAcceptanceRulesJson(rawJson) }
+                } catch (e: Exception) {
+                    throw DccValidationException(ErrorCode.ACCEPTANCE_RULE_JSON_DECODING_FAILED, e)
+                }
+            }
+            val newInvalidationData = server.ruleSetJson(Type.INVALIDATION).let { rawJson ->
+                try {
+                    rawJson.toRuleSet().also { localCache.saveInvalidationRulesJson(rawJson) }
+                } catch (e: Exception) {
+                    throw DccValidationException(ErrorCode.INVALIDATION_RULE_JSON_DECODING_FAILED, e)
+                }
+            }
+            DccValidationData(
+                countries = newCountryData,
+                acceptanceRules = newAcceptanceData,
+                invalidationRules = newInvalidationData
+            )
         }
-        // TODO refresh current rule data
     }
 
     private fun mapCountries(rawJson: String): List<DccCountry> {
@@ -71,22 +120,20 @@ class DccValidationRepository @Inject constructor(
         }
     }
 
-    suspend fun acceptanceRules(arrivalCountry: DccCountry): List<DccValidationRule> {
-        return emptyList() // TODO
-    }
-
-    suspend fun invalidationRules(arrivalCountry: DccCountry): List<DccValidationRule> {
-        return emptyList() // TODO
+    private fun String?.toRuleSet(): List<DccValidationRule> {
+        if (this == null) return emptyList()
+        return gson.fromJson(this)
     }
 
     suspend fun clear() {
         Timber.tag(TAG).i("clear()")
         server.clear()
-        localCache.saveJson(null)
-        // TODO clear rules
+        localCache.saveCountryJson(null)
+        localCache.saveAcceptanceRulesJson(null)
+        localCache.saveInvalidationRulesJson(null)
     }
 
     companion object {
-        private const val TAG = "DccCountryRepository"
+        private const val TAG = "DccValidationRepository"
     }
 }
