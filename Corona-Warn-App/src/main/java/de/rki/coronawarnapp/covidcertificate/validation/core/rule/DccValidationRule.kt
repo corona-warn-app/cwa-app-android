@@ -9,7 +9,9 @@ import de.rki.coronawarnapp.util.serialization.SerializationModule
 import kotlinx.parcelize.Parceler
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.TypeParceler
+import net.swiftzer.semver.SemVer
 import org.joda.time.Instant
+import timber.log.Timber
 
 @Parcelize
 @TypeParceler<JsonNode, LogicParceler>()
@@ -18,7 +20,7 @@ data class DccValidationRule(
     @SerializedName("Identifier") val identifier: String,
 
     // Type of the rule ("Acceptance", "Invalidation")
-    @SerializedName("Type") val type: String,
+    @SerializedName("Type") val typeDcc: Type,
 
     // Country code of the country that created the rule
     // ISO 3166 two-letter country code "Country": "CZ",
@@ -62,18 +64,20 @@ data class DccValidationRule(
     val validToInstant: Instant
         get() = Instant.parse(validTo)
 
-    val typeDcc: Type
-        get() = TODO()
+    val versionSemVer: SemVer
+        get() = try {
+            SemVer.parse(version)
+        } catch (e: Exception) {
+            Timber.w(e, "$version is not SemVer")
+            SemVer(0, 0, 1)
+        }
 
-    @Parcelize
-    data class Description(
-        val lang: String,
-        val desc: String
-    ) : Parcelable
+    enum class Type {
+        @SerializedName("Acceptance")
+        ACCEPTANCE,
 
-    enum class Type(val type: String) {
-        ACCEPTANCE("Acceptance"),
-        INVALIDATION("Invalidation")
+        @SerializedName("Invalidation")
+        INVALIDATION
     }
 
     enum class Result {
@@ -81,6 +85,12 @@ data class DccValidationRule(
         FAILED,
         OPEN,
     }
+
+    @Parcelize
+    data class Description(
+        @SerializedName("lang") val languageCode: String,
+        @SerializedName("desc") val description: String,
+    ) : Parcelable
 }
 
 private object LogicParceler : Parceler<JsonNode> {

@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
+import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
 import dgca.verifier.app.engine.Result
@@ -42,13 +43,13 @@ internal val dgca.verifier.app.engine.ValidationResult.asEvaluatedDccRule: Evalu
 internal val DccValidationRule.asExternalRule: Rule
     get() = Rule(
         identifier = identifier,
-        type = type.asExternalType,
+        type = typeDcc.asExternalType,
         version = version,
         schemaVersion = schemaVersion,
         engine = engine,
         engineVersion = engineVersion,
         certificateType = certificateType.asExternalCertificateType,
-        descriptions = description.asMap,
+        descriptions = description.map { it.languageCode to it.description }.toMap(),
         validFrom = validFrom.toZonedDateTime(),
         validTo = validTo.toZonedDateTime(),
         affectedString = affectedFields,
@@ -66,13 +67,13 @@ private val Result.asDccValidationRuleResult: DccValidationRule.Result
 
 private fun Rule.asDccValidationRule() = DccValidationRule(
     identifier = identifier,
-    type = type.asInternalType,
+    typeDcc = type.asDccType,
     version = version,
     schemaVersion = schemaVersion,
     engine = engine,
     engineVersion = engineVersion,
     certificateType = certificateType.asInternalString,
-    description = descriptions.asList,
+    description = descriptions.map { DccValidationRule.Description(description = it.key, languageCode = it.value) },
     validFrom = validFrom.asExternalString,
     validTo = validTo.asExternalString,
     affectedFields = affectedString,
@@ -84,19 +85,6 @@ private val Type.asDccType: DccValidationRule.Type
     get() = when (this) {
         Type.ACCEPTANCE -> DccValidationRule.Type.ACCEPTANCE
         Type.INVALIDATION -> DccValidationRule.Type.INVALIDATION
-    }
-
-private val Type.asInternalType: String
-    get() = when (this) {
-        Type.ACCEPTANCE -> "Acceptance"
-        Type.INVALIDATION -> "Invalidation"
-    }
-
-private val String.asExternalType: Type
-    get() = when (this) {
-        "Acceptance" -> Type.ACCEPTANCE
-        "Invalidation" -> Type.INVALIDATION
-        else -> throw IllegalArgumentException("type not recognized $this")
     }
 
 private val DccValidationRule.Type.asExternalType: Type
@@ -146,31 +134,23 @@ internal val DccData<out DccV1.MetaData>.type: String
 
 internal fun List<DccValidationRule>.filterRelevantRules(
     validationClock: Instant,
-    certificateType: String
-): List<DccValidationRule> {
-    return filter { rule ->
+    certificateType: String,
+    arrivalCountry: DccCountry,
+): List<DccValidationRule> = this
+    .asSequence()
+    .filter { it.country.uppercase() == arrivalCountry.countryCode.uppercase() }
+    .filter { rule ->
         rule.certificateType.uppercase() == GENERAL.uppercase() ||
             rule.certificateType.uppercase() == certificateType.uppercase()
-    }.filter { rule ->
+    }
+    .filter { rule ->
         rule.validFromInstant <= validationClock && rule.validToInstant >= validationClock
     }
-}
-
-internal val List<DccValidationRule.Description>.asMap: Map<String, String>
-    get() {
-        val map = mutableMapOf<String, String>()
-        this.forEach { map[it.lang] = it.desc }
-        return map
+    .groupBy { it.identifier }
+    .mapNotNull { entry ->
+        entry.value.maxByOrNull { it.versionSemVer }
     }
-
-internal val Map<String, String>.asList: List<DccValidationRule.Description>
-    get() {
-        val list = mutableListOf<DccValidationRule.Description>()
-        this.entries.forEach {
-            list.add(DccValidationRule.Description(lang = it.key, desc = it.value))
-        }
-        return list
-    }
+    .toList()
 
 internal const val GENERAL = "General"
 internal const val TEST = "Test"

@@ -1,7 +1,11 @@
+@file:Suppress("LongParameterList")
 package de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule.Description
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule.Type
+import dgca.verifier.app.engine.data.CertificateType
 
 internal val logicVaccinationDose = ObjectMapper().readTree(
     """{"and":[{">":[{"var":"payload.v.0.dn"},0]},{">=":[{"var":"payload.v.0.dn"},{"var":"payload.v.0.sd"}]}]}"""
@@ -49,42 +53,48 @@ internal val logicExactlyOne = ObjectMapper().readTree(
     """.trimIndent()
 )
 
-fun createVaccinationRule(
-    validFrom: String,
-    validTo: String,
-) = DccValidationRule(
-    identifier = "VR-DE-1",
-    version = "1.0.0",
-    schemaVersion = "1.0.0",
-    engine = "CERTLOGIC",
-    engineVersion = "1.0.0",
-    type = "Acceptance",
-    country = "DE",
-    certificateType = VACCINATION,
-    description = listOf(DccValidationRule.Description("en", "Vaccination must be complete")),
-    validFrom = validFrom,
-    validTo = validTo,
-    affectedFields = listOf("v.0.dn", "v.0.sd"),
-    logic = logicVaccinationDose
-)
-
-fun createGeneralRule(
+fun createDccRule(
+    certificateType: CertificateType,
+    identifier: String = when (certificateType) {
+        CertificateType.GENERAL -> "GR-DE-1"
+        CertificateType.TEST -> "TR-DE-1"
+        CertificateType.VACCINATION -> "VR-DE-1"
+        CertificateType.RECOVERY -> "RR-DE-1"
+    },
     validFrom: String = "2021-05-27T07:46:40Z",
     validTo: String = "2022-08-01T07:46:40Z",
+    version: String = "1.0.0",
+    country: String = "DE",
 ) = DccValidationRule(
-    identifier = "GR-DE-1",
-    version = "1.0.0",
+    identifier = identifier,
+    version = version,
     schemaVersion = "1.0.0",
     engine = "CERTLOGIC",
     engineVersion = "1.0.0",
     type = "Acceptance",
-    country = "DE",
-    certificateType = GENERAL,
-    description = listOf(DccValidationRule.Description("en", "Exactly one type of event.")),
+    typeDcc = Type.ACCEPTANCE,
+    country = country,
+    certificateType = certificateType.name,
+    description = when (certificateType) {
+        CertificateType.GENERAL -> listOf(Description("en", "Exactly one type of event."))
+        CertificateType.TEST -> listOf(Description("en", "Test is outdated."))
+        CertificateType.VACCINATION -> listOf(Description("en", "Vaccination must be complete."))
+        CertificateType.RECOVERY -> throw NotImplementedError()
+    },
     validFrom = validFrom,
     validTo = validTo,
-    affectedFields = listOf("payload.ver"),
-    logic = logicExactlyOne
+    affectedFields = when (certificateType) {
+        CertificateType.GENERAL -> listOf("payload.ver")
+        CertificateType.TEST -> listOf("t.0.sc")
+        CertificateType.VACCINATION -> listOf("v.0.dn", "v.0.sd")
+        CertificateType.RECOVERY -> throw NotImplementedError()
+    },
+    logic = when (certificateType) {
+        CertificateType.GENERAL -> logicExactlyOne
+        CertificateType.TEST -> logicExactlyOne // TODO
+        CertificateType.VACCINATION -> logicVaccinationDose
+        CertificateType.RECOVERY -> throw NotImplementedError()
+    }
 )
 
 internal val countryCodes = listOf(

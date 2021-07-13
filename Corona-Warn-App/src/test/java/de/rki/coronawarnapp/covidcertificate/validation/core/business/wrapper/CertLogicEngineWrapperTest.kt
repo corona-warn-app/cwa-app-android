@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchema
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeTestData
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
+import dgca.verifier.app.engine.data.CertificateType
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
 import io.kotest.matchers.ints.shouldBeGreaterThan
@@ -53,11 +54,13 @@ class CertLogicEngineWrapperTest : BaseTest() {
 
     @Test
     fun `valid certificate passes`() = runBlockingTest {
-        val rule = createVaccinationRule(
+        val rule = createDccRule(
+            certificateType = CertificateType.VACCINATION,
             validFrom = "2021-05-27T07:46:40Z",
             validTo = "2022-08-01T07:46:40Z",
         )
-        val ruleGeneral = createGeneralRule(
+        val ruleGeneral = createDccRule(
+            certificateType = CertificateType.GENERAL,
             validFrom = "2021-05-27T07:46:40Z",
             validTo = "2022-08-01T07:46:40Z",
         )

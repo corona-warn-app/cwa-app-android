@@ -1,9 +1,9 @@
-package de.rki.coronawarnapp.covidcertificate.validation.core.country.server
+package de.rki.coronawarnapp.covidcertificate.validation.core.server
 
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountryApi
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRuleApi
-import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidationServer
 import de.rki.coronawarnapp.util.security.SignatureValidation
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -23,9 +23,10 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import retrofit2.Response
 import testhelpers.BaseIOTest
+import testhelpers.TestDispatcherProvider
 
 @Suppress("MaxLineLength")
-class DccCountryServerTest : BaseIOTest() {
+class DccValidationServerTest : BaseIOTest() {
     @MockK lateinit var countryApi: DccCountryApi
     @MockK lateinit var rulesApi: DccValidationRuleApi
     @MockK lateinit var signatureValidation: SignatureValidation
@@ -41,10 +42,11 @@ class DccCountryServerTest : BaseIOTest() {
     }
 
     private fun createInstance() = DccValidationServer(
-        countryApi = { countryApi },
-        rulesApi = { rulesApi },
+        countryApiLazy = { countryApi },
+        rulesApiLazy = { rulesApi },
         signatureValidation = signatureValidation,
-        cache = cache
+        cache = cache,
+        dispatcherProvider = TestDispatcherProvider()
     )
 
     @Test
@@ -59,7 +61,7 @@ class DccCountryServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `data is faulty`() = runBlockingTest {
+    fun `country data is faulty`() = runBlockingTest {
         coEvery { countryApi.onboardedCountries() } returns Response.success("123ABC".decodeHex().toResponseBody())
 
         val server = createInstance()
@@ -67,6 +69,28 @@ class DccCountryServerTest : BaseIOTest() {
         shouldThrow<DccValidationException> {
             server.dccCountryJson()
         }.errorCode shouldBe DccValidationException.ErrorCode.ONBOARDED_COUNTRIES_JSON_ARCHIVE_FILE_MISSING
+    }
+
+    @Test
+    fun `acceptance rules data is faulty`() = runBlockingTest {
+        coEvery { rulesApi.acceptanceRules() } returns Response.success("123ABC".decodeHex().toResponseBody())
+
+        val server = createInstance()
+
+        shouldThrow<DccValidationException> {
+            server.ruleSetJson(DccValidationRule.Type.ACCEPTANCE)
+        }.errorCode shouldBe DccValidationException.ErrorCode.ACCEPTANCE_RULE_JSON_ARCHIVE_FILE_MISSING
+    }
+
+    @Test
+    fun `invalidation rules data is faulty`() = runBlockingTest {
+        coEvery { rulesApi.invalidationRules() } returns Response.success("123ABC".decodeHex().toResponseBody())
+
+        val server = createInstance()
+
+        shouldThrow<DccValidationException> {
+            server.ruleSetJson(DccValidationRule.Type.INVALIDATION)
+        }.errorCode shouldBe DccValidationException.ErrorCode.INVALIDATION_RULE_JSON_ARCHIVE_FILE_MISSING
     }
 
     @Test
