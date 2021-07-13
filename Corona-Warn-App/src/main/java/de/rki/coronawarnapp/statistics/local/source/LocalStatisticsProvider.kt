@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.statistics.local.source
 
-import de.rki.coronawarnapp.statistics.StatisticsData
+import de.rki.coronawarnapp.statistics.LocalStatisticsData
 import de.rki.coronawarnapp.statistics.local.FederalStateToPackageId
 import de.rki.coronawarnapp.statistics.local.storage.LocalStatisticsConfigStorage
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -9,6 +9,8 @@ import de.rki.coronawarnapp.util.flow.HotDataFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import org.joda.time.Duration
 import timber.log.Timber
 import javax.inject.Inject
@@ -41,12 +43,23 @@ class LocalStatisticsProvider @Inject constructor(
         }
     }
 
-    val current: Flow<List<StatisticsData>> = localStatisticsData.data
+    val current: Flow<LocalStatisticsData> = localStatisticsData.data.map { localStatsList ->
+        val groupedStats = localStatsList.reduceOrNull { acc, localStatisticsData ->
+            LocalStatisticsData(acc.items + localStatisticsData.items)
+        } ?: LocalStatisticsData()
 
-    private fun fetchCacheFirst(): List<StatisticsData> {
+        groupedStats.copy(
+            items = groupedStats.items
+                .distinctBy { it.selectedDistrict.district.districtId }
+                .sortedBy { it.selectedDistrict.addedAt }
+                .reversed()
+        )
+    }
+
+    private suspend fun fetchCacheFirst(): List<LocalStatisticsData> {
         Timber.tag(TAG).d("fromCache()")
 
-        val targetedStates = localStatisticsConfigStorage.activeStates.value
+        val targetedStates = localStatisticsConfigStorage.activeStates.first()
 
         val cacheResults = targetedStates.map { fromCache(it) }
 
@@ -54,10 +67,10 @@ class LocalStatisticsProvider @Inject constructor(
             triggerUpdate()
         }
 
-        return cacheResults.map { it ?: StatisticsData() }
+        return cacheResults.map { it ?: LocalStatisticsData() }
     }
 
-    private fun fromCache(forState: FederalStateToPackageId): StatisticsData? = try {
+    private fun fromCache(forState: FederalStateToPackageId): LocalStatisticsData? = try {
         Timber.tag(TAG).d("fromCache(%s)", forState)
 
         localStatisticsCache.load(forState)?.let { localStatisticsParser.parse(it) }?.also {
@@ -68,15 +81,15 @@ class LocalStatisticsProvider @Inject constructor(
         null
     }
 
-    private suspend fun fromServer(): List<StatisticsData> {
+    private suspend fun fromServer(): List<LocalStatisticsData> {
         Timber.tag(TAG).d("fromServer()")
 
-        val targetedStates = localStatisticsConfigStorage.activeStates.value
+        val targetedStates = localStatisticsConfigStorage.activeStates.first()
 
         return targetedStates.map { fromServer(it) }
     }
 
-    private suspend fun fromServer(forState: FederalStateToPackageId): StatisticsData {
+    private suspend fun fromServer(forState: FederalStateToPackageId): LocalStatisticsData {
         Timber.tag(TAG).d("fromServer(%s)", forState)
 
         val rawData = server.getRawLocalStatistics(forState)
