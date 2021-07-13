@@ -173,10 +173,10 @@ class RAProcessorTest : BaseTest() {
             when (it) {
                 PCR_NEGATIVE,
                 PCR_POSITIVE,
-                PCR_INVALID,
-                PCR_OR_RAT_REDEEMED -> instance.create(request).testResult shouldBe RAT_INVALID
+                PCR_INVALID -> instance.create(request).testResult shouldBe RAT_INVALID
 
                 PCR_OR_RAT_PENDING,
+                PCR_OR_RAT_REDEEMED,
                 RAT_PENDING,
                 RAT_NEGATIVE,
                 RAT_POSITIVE,
@@ -208,10 +208,10 @@ class RAProcessorTest : BaseTest() {
             when (it) {
                 PCR_NEGATIVE,
                 PCR_POSITIVE,
-                PCR_INVALID,
-                PCR_OR_RAT_REDEEMED -> instance.pollServer(raTest).testResult shouldBe RAT_INVALID
+                PCR_INVALID -> instance.pollServer(raTest).testResult shouldBe RAT_INVALID
 
                 PCR_OR_RAT_PENDING,
+                PCR_OR_RAT_REDEEMED,
                 RAT_PENDING,
                 RAT_NEGATIVE,
                 RAT_POSITIVE,

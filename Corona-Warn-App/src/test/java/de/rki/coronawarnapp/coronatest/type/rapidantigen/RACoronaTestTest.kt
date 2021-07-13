@@ -15,12 +15,12 @@ class RACoronaTestTest : BaseTest() {
             lastUpdatedAt = Instant.EPOCH,
             registeredAt = Instant.EPOCH,
             registrationToken = "token",
-            testResult = CoronaTestResult.RAT_REDEEMED,
+            testResult = CoronaTestResult.PCR_OR_RAT_REDEEMED,
             testedAt = Instant.EPOCH,
         )
 
         instance.isFinal shouldBe true
         instance.copy(testResult = CoronaTestResult.RAT_POSITIVE).isFinal shouldBe false
-        instance.copy(testResult = CoronaTestResult.PCR_OR_RAT_REDEEMED).isFinal shouldBe false
+        instance.copy(testResult = CoronaTestResult.PCR_OR_RAT_REDEEMED).isFinal shouldBe true
     }
 }
