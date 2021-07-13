@@ -36,11 +36,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:focusable="true"
-                android:src="@drawable/ic_deletion_warning"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_deletion_warning" />
+                app:srcCompat="@drawable/ic_deletion_warning" />
 
             <TextView
                 android:id="@+id/headline"
