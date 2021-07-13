@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.statistics.local.source
 
 import dagger.Reusable
-import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass.KeyFigure
 import de.rki.coronawarnapp.server.protocols.internal.stats.LocalStatisticsOuterClass
 import de.rki.coronawarnapp.statistics.LocalIncidenceStats
 import de.rki.coronawarnapp.statistics.LocalStatisticsData
@@ -59,13 +59,27 @@ class LocalStatisticsParser @Inject constructor(
         }
     }
 
-    private fun LocalStatisticsOuterClass.SevenDayIncidenceData.toKeyFigure(): KeyFigureCardOuterClass.KeyFigure =
-        KeyFigureCardOuterClass.KeyFigure.newBuilder()
-            .setRank(KeyFigureCardOuterClass.KeyFigure.Rank.PRIMARY)
+    private fun matchTrendToSemantic(trend: KeyFigure.Trend) =
+        when (trend) {
+            KeyFigure.Trend.INCREASING ->
+                KeyFigure.TrendSemantic.NEGATIVE
+            KeyFigure.Trend.UNSPECIFIED_TREND ->
+                KeyFigure.TrendSemantic.UNSPECIFIED_TREND_SEMANTIC
+            KeyFigure.Trend.STABLE ->
+                KeyFigure.TrendSemantic.NEUTRAL
+            KeyFigure.Trend.DECREASING ->
+                KeyFigure.TrendSemantic.POSITIVE
+            KeyFigure.Trend.UNRECOGNIZED ->
+                KeyFigure.TrendSemantic.UNRECOGNIZED
+        }
+
+    private fun LocalStatisticsOuterClass.SevenDayIncidenceData.toKeyFigure(): KeyFigure =
+        KeyFigure.newBuilder()
+            .setRank(KeyFigure.Rank.PRIMARY)
             .setValue(value)
             .setDecimals(0)
             .setTrend(trend)
-            .setTrendSemantic(KeyFigureCardOuterClass.KeyFigure.TrendSemantic.UNSPECIFIED_TREND_SEMANTIC)
+            .setTrendSemantic(matchTrendToSemantic(trend))
             .build()
 
     companion object {
