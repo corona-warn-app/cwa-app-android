@@ -19,14 +19,14 @@ class DccCountryLocalCacheTest : BaseIOTest() {
     fun `write and read data`() = runBlockingTest {
 
         createInstance().apply {
-            loadJson() shouldBe null
-            saveJson("{äöü")
+            loadCountryJson() shouldBe null
+            saveCountryJson("{äöü")
         }
 
         createInstance().apply {
-            loadJson() shouldBe "{äöü"
-            saveJson(null)
-            loadJson() shouldBe null
+            loadCountryJson() shouldBe "{äöü"
+            saveCountryJson(null)
+            loadCountryJson() shouldBe null
         }
     }
 }
