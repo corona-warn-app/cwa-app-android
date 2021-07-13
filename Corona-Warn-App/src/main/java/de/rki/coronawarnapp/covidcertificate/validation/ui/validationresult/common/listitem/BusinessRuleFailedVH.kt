@@ -26,12 +26,12 @@ class BusinessRuleFailedVH(
     override val onBindData: CovidCertificateValidationResultRuleFailedItemBinding.(
         item: Item,
         payloads: List<Any>,
-    ) -> Unit = { item, payloads ->
-        // TODO
+    ) -> Unit = { item, _ ->
+        ruleId.text = item.evaluatedDccRule.rule.identifier
 
         when (item.certificate) {
             is TestCertificate -> {
-                // TODO
+                testCenterName.text = item.certificate.testCenter
             }
         }
     }
