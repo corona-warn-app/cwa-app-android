@@ -1387,6 +1387,16 @@
     <!-- XTXT: Description in statistics card that is displayed below the incidence value-->
     <string name="statistics_card_incidence_value_description">"bestätigte Neuinfektionen je 100.000 Einwohner"</string>
 
+    <!-- Local Incidence statistics card -->
+    <!-- XHED: Title for local incident statistics card -->
+    <string name="statistics_card_local_incidence_title">"Lokale 7-Tage-Inzidenz"</string>
+    <!-- XTXT: Description in statistics card that is displayed below the local incidence value-->
+    <string name="statistics_card_local_incidence_value_description">"bestätigte Neuinfektionen je 100.000 Einwohner"</string>
+    <!-- XBUT: Text for local incidence statistics card overflow menu info button -->
+    <string name="statistics_card_local_incidence_menu_info">"Information"</string>
+    <!-- XBUT: Text for local incidence statistics card overflow menu delete button -->
+    <string name="statistics_card_local_incidence_menu_delete">"Entfernen"</string>
+
     <!-- Infections statistics card -->
     <!-- XHED: Title for infections statistics card -->
     <string name="statistics_card_infections_title">"Bestätigte Neuinfektionen"</string>
@@ -1509,7 +1519,7 @@
     <!-- XTXT: Statistics number of vaccinated people at least text -->
     <string name="statistics_people_vaccinated_at_least_once_text">"Anzahl der an das RKI übermittelten Personen, die die erste Impfdosis erhalten haben."</string>
     <!-- XTXT: Statistics FAQ text -->
-    <string name="statistics_faq_text">"Weitere Informationen finden Sie in den FAQ:\n\nFAQ zu Statistiken"</string>
+    <string name="statistics_faq_text">"Weitere Informationen finden Sie in den FAQ:"</string>
 
     <!-- Statistics Add new tile -->
     <!-- XTXT: Statistics add card title -->

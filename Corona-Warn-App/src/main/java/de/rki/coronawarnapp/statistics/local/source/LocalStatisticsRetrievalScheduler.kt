@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
@@ -24,7 +23,7 @@ class LocalStatisticsRetrievalScheduler @Inject constructor(
 
     private val updateStatsTrigger = combine(
         foregroundState.isInForeground,
-        localStatisticsConfigStorage.activeStates.flow
+        localStatisticsConfigStorage.activeStates
     ) { isInForeground, activeStates ->
         val statsChanged = !lastActiveStates.containsAll(activeStates)
         lastActiveStates.clear()
@@ -36,7 +35,7 @@ class LocalStatisticsRetrievalScheduler @Inject constructor(
             statsChanged
         )
         isInForeground || statsChanged
-    }.distinctUntilChanged()
+    }
 
     fun setup() {
         Timber.tag(TAG).i("setup()")
