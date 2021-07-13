@@ -18,6 +18,10 @@
             name="illustration"
             type="android.graphics.drawable.Drawable" />
 
+        <variable
+            name="icon"
+            type="android.graphics.drawable.Drawable" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,11 +53,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:layout_marginEnd="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_normal"
             android:importantForAccessibility="no"
-            app:srcCompat="@drawable/ic_forward"
+            android:src="@{icon ?? @drawable/ic_forward}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/colorOnPrimary" />
+            app:tint="@color/colorTextPrimary2"
+            tools:src="@drawable/ic_forward" />
 
         <TextView
             android:id="@+id/submission_dispatcher_card_text"
@@ -76,15 +82,14 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/dispatcher_card_illustration"
             android:layout_width="wrap_content"
-            app:shapeAppearanceOverlay="@style/dispatcherImageStyle"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/button_icon_margin"
-            android:src="@{illustration}"
+            android:layout_marginTop="@dimen/spacing_normal"
             android:importantForAccessibility="no"
+            android:src="@{illustration}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="1.0"
             app:layout_constraintTop_toBottomOf="@+id/dispatcher_card_icon"
+            app:shapeAppearanceOverlay="@style/dispatcherImageStyle"
             tools:src="@drawable/ic_submission_illustration_qr_code_card" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
 import de.rki.coronawarnapp.databinding.CwaUserCardItemBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
+import timber.log.Timber
 
 class CwaUserCard(parent: ViewGroup) :
     PersonDetailsAdapter.PersonDetailsItemVH<CwaUserCard.Item, CwaUserCardItemBinding>(
@@ -26,7 +27,7 @@ class CwaUserCard(parent: ViewGroup) :
             userName.text = certificate.fullName
             dateOfBirth.text = context.getString(
                 R.string.person_details_cwa_user_birthdate,
-                certificate.dateOfBirthFormatted
+                formatBirthDate(certificate.dateOfBirthFormatted)
             )
             descriptionText.text = context.getString(
                 R.string.person_details_cwa_user_description,
@@ -37,6 +38,14 @@ class CwaUserCard(parent: ViewGroup) :
             cwaUserSwitch.setOnCheckedChangeListener { _, isChecked -> onSwitch(isChecked) }
         }
     }
+
+    private fun formatBirthDate(dateOfBirthFormatted: String): String =
+        try {
+            dateOfBirthFormatted.split("-").reversed().joinToString(separator = ".")
+        } catch (e: Exception) {
+            Timber.d(e, "Formatting to dd.MM.yyyy failed, falling back to $dateOfBirthFormatted")
+            dateOfBirthFormatted
+        }
 
     data class Item(
         val personCertificates: PersonCertificates,

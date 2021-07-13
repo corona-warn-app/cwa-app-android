@@ -1,9 +1,10 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core
 
-import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.createGeneralRule
+import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.createDccRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
+import dgca.verifier.app.engine.data.CertificateType
 import io.kotest.matchers.shouldBe
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
@@ -98,7 +99,7 @@ class DccValidationTest : BaseTest() {
 
     private fun getRule(result: DccValidationRule.Result) =
         EvaluatedDccRule(
-            createGeneralRule(),
+            createDccRule(certificateType = CertificateType.GENERAL),
             result
         )
 }
