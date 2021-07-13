@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.Ce
 import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.filterRelevantRules
 import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.type
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
+import kotlinx.coroutines.flow.first
 import org.joda.time.Instant
 import javax.inject.Inject
 
@@ -26,9 +27,10 @@ class BusinessValidator @Inject constructor(
 
         // accepted by arrival country
         val acceptanceResults = certLogicEngineWrapper.process(
-            rules = ruleRepository.acceptanceRules(arrivalCountry).filterRelevantRules(
+            rules = ruleRepository.acceptanceRules.first().filterRelevantRules(
                 validationClock = validationClock,
-                certificateType = certificate.type
+                certificateType = certificate.type,
+                arrivalCountry = arrivalCountry,
             ),
             validationClock = validationClock,
             certificate = certificate,
@@ -39,9 +41,10 @@ class BusinessValidator @Inject constructor(
         // valid as defined by the issuing country
         val issuerCountry = DccCountry(certificate.header.issuer)
         val invalidationResults = certLogicEngineWrapper.process(
-            rules = ruleRepository.invalidationRules(issuerCountry).filterRelevantRules(
+            rules = ruleRepository.invalidationRules.first().filterRelevantRules(
                 validationClock = validationClock,
-                certificateType = certificate.type
+                certificateType = certificate.type,
+                arrivalCountry = arrivalCountry,
             ),
             validationClock = validationClock,
             certificate = certificate,
