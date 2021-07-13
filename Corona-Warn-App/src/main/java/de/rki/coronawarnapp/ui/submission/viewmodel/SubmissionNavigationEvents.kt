@@ -7,15 +7,23 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest
 
 sealed class SubmissionNavigationEvents {
     object NavigateToContact : SubmissionNavigationEvents()
+
     object NavigateToDispatcher : SubmissionNavigationEvents()
+
     object NavigateToQRCodeScan : SubmissionNavigationEvents()
+
     object NavigateToDataPrivacy : SubmissionNavigationEvents()
 
     object NavigateToSymptomIntroduction : SubmissionNavigationEvents()
+
     object NavigateToTAN : SubmissionNavigationEvents()
+
     object NavigateToConsent : SubmissionNavigationEvents()
+
     object NavigateToMainActivity : SubmissionNavigationEvents()
+
     data class NavigateToResultPendingScreen(var coronaTestType: CoronaTest.Type) : SubmissionNavigationEvents()
+
     data class NavigateToDeletionWarningFragmentFromQrCode(
         val coronaTestQRCode: CoronaTestQRCode,
         val consentGiven: Boolean
@@ -30,6 +38,10 @@ sealed class SubmissionNavigationEvents {
         SubmissionNavigationEvents()
 
     data class NavigateToCreateProfile(val onboarded: Boolean = false) : SubmissionNavigationEvents()
+
     object NavigateToOpenProfile : SubmissionNavigationEvents()
+
     data class ResolvePlayServicesException(val exception: ApiException) : SubmissionNavigationEvents()
+
+    object OpenTestCenterUrl : SubmissionNavigationEvents()
 }
