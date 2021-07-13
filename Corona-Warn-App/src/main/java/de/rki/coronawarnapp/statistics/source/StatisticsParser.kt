@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.statistics.source
 import dagger.Reusable
 import de.rki.coronawarnapp.server.protocols.internal.stats.StatisticsOuterClass
 import de.rki.coronawarnapp.statistics.AppliedVaccinationRatesStats
+import de.rki.coronawarnapp.statistics.GlobalStatsItem
 import de.rki.coronawarnapp.statistics.IncidenceStats
 import de.rki.coronawarnapp.statistics.InfectionStats
 import de.rki.coronawarnapp.statistics.KeySubmissionsStats
@@ -10,7 +11,6 @@ import de.rki.coronawarnapp.statistics.PersonsVaccinatedCompletelyStats
 import de.rki.coronawarnapp.statistics.PersonsVaccinatedOnceStats
 import de.rki.coronawarnapp.statistics.SevenDayRValue
 import de.rki.coronawarnapp.statistics.StatisticsData
-import de.rki.coronawarnapp.statistics.StatsItem
 import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
@@ -29,30 +29,33 @@ class StatisticsParser @Inject constructor() {
             )
         }
 
-        val mappedItems: Set<StatsItem> = parsed.keyFigureCardsList.mapNotNull { rawCard ->
+        val mappedItems: Set<GlobalStatsItem> = parsed.keyFigureCardsList.mapNotNull { rawCard ->
             try {
                 val updatedAt = Instant.ofEpochSecond(rawCard.header.updatedAt)
                 val keyFigures = rawCard.keyFiguresList
-                when (StatsItem.Type.values().singleOrNull { it.id == rawCard.header.cardId }) {
-                    StatsItem.Type.INFECTION -> InfectionStats(updatedAt = updatedAt, keyFigures = keyFigures)
-                    StatsItem.Type.INCIDENCE -> IncidenceStats(updatedAt = updatedAt, keyFigures = keyFigures)
-                    StatsItem.Type.KEYSUBMISSION -> KeySubmissionsStats(updatedAt = updatedAt, keyFigures = keyFigures)
-                    StatsItem.Type.SEVEN_DAY_RVALUE -> SevenDayRValue(updatedAt = updatedAt, keyFigures = keyFigures)
-                    StatsItem.Type.PERSONS_VACCINATED_ONCE -> PersonsVaccinatedOnceStats(
+                when (GlobalStatsItem.Type.values().singleOrNull { it.id == rawCard.header.cardId }) {
+                    GlobalStatsItem.Type.INFECTION -> InfectionStats(updatedAt = updatedAt, keyFigures = keyFigures)
+                    GlobalStatsItem.Type.INCIDENCE -> IncidenceStats(updatedAt = updatedAt, keyFigures = keyFigures)
+                    GlobalStatsItem.Type.KEYSUBMISSION -> KeySubmissionsStats(
                         updatedAt = updatedAt,
                         keyFigures = keyFigures
                     )
-                    StatsItem.Type.PERSONS_VACCINATED_COMPLETELY -> PersonsVaccinatedCompletelyStats(
+                    GlobalStatsItem.Type.SEVEN_DAY_RVALUE -> SevenDayRValue(
                         updatedAt = updatedAt,
                         keyFigures = keyFigures
                     )
-                    StatsItem.Type.APPLIED_VACCINATION_RATES -> AppliedVaccinationRatesStats(
+                    GlobalStatsItem.Type.PERSONS_VACCINATED_ONCE -> PersonsVaccinatedOnceStats(
                         updatedAt = updatedAt,
                         keyFigures = keyFigures
                     )
-                    StatsItem.Type.LOCAL_INCIDENCE -> null.also {
-                        Timber.tag(TAG).e("Statistics card of type local in global stats: %s", rawCard)
-                    }
+                    GlobalStatsItem.Type.PERSONS_VACCINATED_COMPLETELY -> PersonsVaccinatedCompletelyStats(
+                        updatedAt = updatedAt,
+                        keyFigures = keyFigures
+                    )
+                    GlobalStatsItem.Type.APPLIED_VACCINATION_RATES -> AppliedVaccinationRatesStats(
+                        updatedAt = updatedAt,
+                        keyFigures = keyFigures
+                    )
                     null -> null.also { Timber.tag(TAG).e("Unknown statistics type: %s", rawCard) }
                 }.also {
                     Timber.tag(TAG).v("Parsed %s", it.toString().replace("\n", ", "))
