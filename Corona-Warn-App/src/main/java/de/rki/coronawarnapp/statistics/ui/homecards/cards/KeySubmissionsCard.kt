@@ -4,8 +4,8 @@ import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsCardsKeysubmissionsLayoutBinding
 import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass
+import de.rki.coronawarnapp.statistics.GlobalStatsItem
 import de.rki.coronawarnapp.statistics.KeySubmissionsStats
-import de.rki.coronawarnapp.statistics.StatsItem
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter
 import de.rki.coronawarnapp.statistics.util.formatStatisticalValue
 import de.rki.coronawarnapp.statistics.util.getContentDescriptionForTrends
@@ -14,7 +14,7 @@ import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithTrailingSpace
 import de.rki.coronawarnapp.util.formatter.getPrimaryLabel
 
 class KeySubmissionsCard(parent: ViewGroup) :
-    StatisticsCardAdapter.ItemVH<StatisticsCardItem, HomeStatisticsCardsKeysubmissionsLayoutBinding>(
+    StatisticsCardAdapter.ItemVH<GlobalStatisticsCardItem, HomeStatisticsCardsKeysubmissionsLayoutBinding>(
         R.layout.home_statistics_cards_basecard_layout,
         parent
     ) {
@@ -28,7 +28,7 @@ class KeySubmissionsCard(parent: ViewGroup) :
     }
 
     override val onBindData: HomeStatisticsCardsKeysubmissionsLayoutBinding.(
-        item: StatisticsCardItem,
+        item: GlobalStatisticsCardItem,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
 
@@ -72,7 +72,7 @@ class KeySubmissionsCard(parent: ViewGroup) :
     }
 
     private fun buildAccessibilityStringForKeySubmissionsCard(
-        item: StatsItem,
+        item: GlobalStatsItem,
         keySubmissions: KeyFigureCardOuterClass.KeyFigure,
         sevenDayAverage: KeyFigureCardOuterClass.KeyFigure,
         total: KeyFigureCardOuterClass.KeyFigure

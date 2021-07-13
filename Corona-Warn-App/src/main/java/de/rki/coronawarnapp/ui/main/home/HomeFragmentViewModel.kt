@@ -24,6 +24,9 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSe
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.statistics.AddStatsItem
+import de.rki.coronawarnapp.statistics.LocalIncidenceStats
+import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
+import de.rki.coronawarnapp.statistics.local.storage.LocalStatisticsConfigStorage
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
 import de.rki.coronawarnapp.storage.TracingRepository
@@ -89,6 +92,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     tracingStateProviderFactory: TracingStateProvider.Factory,
     coronaTestRepository: CoronaTestRepository,
     statisticsProvider: StatisticsProvider,
+    localStatisticsProvider: LocalStatisticsProvider,
     vaccinationRepository: VaccinationRepository,
     private val errorResetTool: EncryptionErrorResetTool,
     private val tracingRepository: TracingRepository,
@@ -101,6 +105,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val timeStamper: TimeStamper,
     private val bluetoothSupport: BluetoothSupport,
     private val covidCertificateSettings: CovidCertificateSettings,
+    private val localStatisticsConfigStorage: LocalStatisticsConfigStorage,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private var isLoweredRiskLevelDialogBeingShown = false
@@ -130,11 +135,22 @@ class HomeFragmentViewModel @AssistedInject constructor(
         }
     }
 
+    private val combinedStatistics = combine(
+        statisticsProvider.current,
+        localStatisticsProvider.current
+    ) { statsData, localStatsData ->
+        statsData.copy(
+            items = mutableListOf(AddStatsItem(localStatsData.items.size < 5)) +
+                localStatsData.items +
+                statsData.items
+        )
+    }
+
     val homeItems: LiveData<List<HomeItem>> = combine(
         tracingCardItems,
         coronaTestRepository.latestPCRT,
         coronaTestRepository.latestRAT,
-        statisticsProvider.current.distinctUntilChanged(),
+        combinedStatistics,
         appConfigProvider.currentConfig.map { it.coronaTestParameters }.distinctUntilChanged(),
         vaccinationRepository.vaccinationInfos
     ) { tracingItem, testPCR, testRAT, statsData, coronaTestParameters, vaccinatedPersons ->
@@ -187,14 +203,24 @@ class HomeFragmentViewModel @AssistedInject constructor(
             if (statsData.isDataAvailable) {
                 add(
                     StatisticsHomeCard.Item(
-                        // TODO: improve in future PRs (EXPOSUREAPP-7446) isEnable depends on number of Local Cards
-                        data = statsData.copy(items = mutableListOf(AddStatsItem(true)).plus(statsData.items)),
+                        data = statsData,
                         onClickListener = {
                             when (it) {
                                 is AddStatsItem -> {
                                     events.postValue(HomeFragmentEvents.GoToFederalStateSelection)
                                 }
                                 else -> events.postValue(HomeFragmentEvents.GoToStatisticsExplanation)
+                            }
+                        },
+                        onRemoveListener = { statsItem ->
+                            when (statsItem) {
+                                is LocalIncidenceStats -> {
+                                    localStatisticsConfigStorage.activeDistricts.update { districts ->
+                                        districts.filter {
+                                            it.district.districtId != statsItem.selectedDistrict.district.districtId
+                                        }.toSet()
+                                    }
+                                }
                             }
                         }
                     )
