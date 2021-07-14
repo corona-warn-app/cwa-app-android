@@ -13,6 +13,8 @@
         <item name="shapeAppearanceLargeComponent">@style/LargeComponent</item>
         <item name="extendedFloatingActionButtonStyle">@style/ExtendedFloatingActionButton</item>
         <item name="bottomNavigationStyle">@style/BottomNavigationViewStyle</item>
+        <item name="materialCalendarTheme">@style/DatePickerTheme</item>
+        <item name="materialTimePickerTheme">@style/TimePickerTheme</item>
     </style>
 
     <style name="AppTheme" parent="BaseTheme" />
@@ -26,6 +28,14 @@
         <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
 
+    <!-- Date Time pickers-->
+    <style name="DatePickerTheme" parent="@style/ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="colorOnPrimary">@android:color/white</item>
+    </style>
+
+    <style name="TimePickerTheme" parent="@style/ThemeOverlay.MaterialComponents.TimePicker">
+        <item name="colorOnPrimary">@android:color/white</item>
+    </style>
     <!-- Main Application -->
     <style name="AppTheme.Main" parent="AppTheme" />
 
