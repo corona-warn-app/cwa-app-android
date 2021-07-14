@@ -2,10 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.com
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
-import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.asExternalRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
@@ -69,7 +66,6 @@ class BusinessRuleFailedVH(
         }
 
         return rule.identifier
-
     }
 
     // Apply rules from tech spec to decide which rule description to display
