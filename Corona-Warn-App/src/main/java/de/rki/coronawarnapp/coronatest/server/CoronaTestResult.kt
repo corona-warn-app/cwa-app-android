@@ -45,7 +45,7 @@ enum class CoronaTestResult(val value: Int) {
     /**
      * Redeemed (PCR test; locally referred to as Expired)
      */
-    PCR_REDEEMED(4),
+    PCR_OR_RAT_REDEEMED(4),
 
     /**
      * 	Pending (rapid antigen test)

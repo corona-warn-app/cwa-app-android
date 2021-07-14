@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.appconfig.CoronaTestConfig
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_OR_RAT_PENDING
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_OR_RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_INVALID
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_NEGATIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_PENDING
@@ -91,6 +92,7 @@ data class RACoronaTest(
                 RAT_NEGATIVE -> State.NEGATIVE
                 RAT_POSITIVE -> State.POSITIVE
                 RAT_INVALID -> State.INVALID
+                PCR_OR_RAT_REDEEMED,
                 RAT_REDEEMED -> State.REDEEMED
                 else -> throw IllegalArgumentException("Invalid RAT test state $testResult")
             }
@@ -100,10 +102,10 @@ data class RACoronaTest(
         get() = sampleCollectedAt ?: testedAt
 
     override val isFinal: Boolean
-        get() = testResult == RAT_REDEEMED
+        get() = testResult == PCR_OR_RAT_REDEEMED || testResult == RAT_REDEEMED
 
     override val isRedeemed: Boolean
-        get() = testResult == RAT_REDEEMED
+        get() = testResult == PCR_OR_RAT_REDEEMED || testResult == RAT_REDEEMED
 
     override val isPositive: Boolean
         get() = testResult == RAT_POSITIVE

@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_INVALID
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_NEGATIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_OR_RAT_PENDING
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_POSITIVE
-import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_REDEEMED
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_OR_RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_INVALID
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_NEGATIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
@@ -141,7 +141,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
     fun `saveTestResultAnalyticsSettings does not save data when TestResult is REDEEMED`() =
         runBlockingTest {
             every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(false)
-            analyticsTestResultCollector.reportTestResultReceived(PCR_REDEEMED, PCR)
+            analyticsTestResultCollector.reportTestResultReceived(PCR_OR_RAT_REDEEMED, PCR)
             analyticsTestResultCollector.reportTestResultReceived(RAT_REDEEMED, RAPID_ANTIGEN)
             verify {
                 analyticsSettings.analyticsEnabled wasNot Called
@@ -155,7 +155,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
             every { pcrTestResultSettings.testResult } returns mockFlowPreference(
                 PCR_OR_RAT_PENDING
             )
-            for (testResult in listOf(PCR_REDEEMED, PCR_INVALID, PCR_OR_RAT_PENDING)) {
+            for (testResult in listOf(PCR_OR_RAT_REDEEMED, PCR_INVALID, PCR_OR_RAT_PENDING)) {
                 analyticsTestResultCollector.reportTestResultReceived(testResult, PCR)
 
                 verify {
