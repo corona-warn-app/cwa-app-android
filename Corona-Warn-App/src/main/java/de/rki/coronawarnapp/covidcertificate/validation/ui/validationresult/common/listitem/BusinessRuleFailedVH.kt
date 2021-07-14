@@ -34,10 +34,7 @@ class BusinessRuleFailedVH(
     ) -> Unit = { item, _ ->
         item.evaluatedDccRule.rule.description
         ruleDescription.text = getRuleDescription(item.evaluatedDccRule.rule)
-        countryInformation.text = context.getString(
-            R.string.validation_rules_open_vh_subtitle,
-            DccCountry(item.evaluatedDccRule.rule.country).displayName()
-        )
+        countryInformation.text = getCountryDescription(item.evaluatedDccRule.rule, item.certificate)
     }
 
     data class Item(
@@ -73,5 +70,25 @@ class BusinessRuleFailedVH(
 
         return rule.identifier
 
+    }
+
+    // Apply rules from tech spec to decide which rule description to display
+    fun getCountryDescription(rule: DccValidationRule, certificate: CwaCovidCertificate): String {
+
+        return when (rule.typeDcc) {
+            DccValidationRule.Type.ACCEPTANCE -> {
+                context.getString(
+                    R.string.validation_rules_failed_vh_travel_country,
+                    DccCountry(rule.country).displayName()
+                )
+            }
+
+            DccValidationRule.Type.INVALIDATION -> {
+                context.getString(
+                    R.string.validation_rules_open_vh_subtitle,
+                    DccCountry(certificate.certificateCountry).displayName()
+                )
+            }
+        }
     }
 }
