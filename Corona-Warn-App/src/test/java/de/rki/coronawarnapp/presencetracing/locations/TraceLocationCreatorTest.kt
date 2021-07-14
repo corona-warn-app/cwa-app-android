@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.security.SecureRandom
 import kotlin.random.Random
+import kotlin.random.asKotlinRandom
 
 internal class TraceLocationCreatorTest : BaseTest() {
 
@@ -37,7 +38,11 @@ internal class TraceLocationCreatorTest : BaseTest() {
         }
     }
 
-    private fun createInstance() = TraceLocationCreator(repository, secureRandom, environmentSetup)
+    private fun createInstance() = TraceLocationCreator(
+        repository = repository,
+        randomSource = secureRandom.asKotlinRandom(),
+        environmentSetup = environmentSetup
+    )
 
     @Test
     fun `createTraceLocation() should return traceLocation and store it in repository when everything works fine`() =
