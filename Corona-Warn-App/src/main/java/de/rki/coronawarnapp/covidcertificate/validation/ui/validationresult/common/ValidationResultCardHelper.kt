@@ -7,11 +7,10 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import java.util.Locale
 
-object ValidationResultCardHelper {
-
-    // Apply rules from tech spec to decide which rule description to display
-    fun getRuleDescription(rule: DccValidationRule): String {
-        val descArray = rule.description
+// Apply rules from tech spec to decide which rule description to display
+val DccValidationRule.descriptionDisplayText: String
+    get() {
+        val descArray = description
 
         val currentLocaleCode = Locale.getDefault().language
 
@@ -31,26 +30,24 @@ object ValidationResultCardHelper {
             return descArray.first().description
         }
 
-        return rule.identifier
+        return identifier
     }
 
-    // Apply rules from tech spec to decide which rule description to display
-    fun getCountryDescription(context: Context, rule: DccValidationRule, certificate: CwaCovidCertificate): String {
+// Apply rules from tech spec to decide which rule description to display
+fun DccValidationRule.getCountryDescription(context: Context, certificate: CwaCovidCertificate): String {
+    return when (typeDcc) {
+        DccValidationRule.Type.ACCEPTANCE -> {
+            context.getString(
+                R.string.validation_rules_failed_vh_travel_country,
+                DccCountry(country).displayName()
+            )
+        }
 
-        return when (rule.typeDcc) {
-            DccValidationRule.Type.ACCEPTANCE -> {
-                context.getString(
-                    R.string.validation_rules_failed_vh_travel_country,
-                    DccCountry(rule.country).displayName()
-                )
-            }
-
-            DccValidationRule.Type.INVALIDATION -> {
-                context.getString(
-                    R.string.validation_rules_open_vh_subtitle,
-                    DccCountry(certificate.certificateCountry).displayName()
-                )
-            }
+        DccValidationRule.Type.INVALIDATION -> {
+            context.getString(
+                R.string.validation_rules_open_vh_subtitle,
+                DccCountry(certificate.certificateCountry).displayName()
+            )
         }
     }
 }

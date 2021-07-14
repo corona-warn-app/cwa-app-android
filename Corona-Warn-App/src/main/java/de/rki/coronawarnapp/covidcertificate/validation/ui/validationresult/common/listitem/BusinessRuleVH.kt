@@ -5,7 +5,8 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.ValidationResultCardHelper
+import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.descriptionDisplayText
+import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.getCountryDescription
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultRuleItemBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
@@ -31,16 +32,17 @@ class BusinessRuleVH(
         }
         ruleIcon.setImageResource(iconRes)
 
-        ruleDescription.text = ValidationResultCardHelper.getRuleDescription(item.evaluatedDccRule.rule)
-        countryInformation.text = ValidationResultCardHelper.getCountryDescription(
-            context,
-            item.evaluatedDccRule.rule,
-            item.certificate
-        )
+        item.evaluatedDccRule.rule.run {
+            ruleDescription.text = descriptionDisplayText
+            countryInformation.text = getCountryDescription(
+                context,
+                item.certificate
+            )
 
-        //TODO: Show affected fields
+            //TODO: Show affected fields
 
-        ruleId.text = item.evaluatedDccRule.rule.identifier
+            ruleId.text = identifier
+        }
     }
 
     data class Item(
