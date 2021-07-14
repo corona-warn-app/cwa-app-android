@@ -17,17 +17,20 @@ import dgca.verifier.app.engine.data.Rule
 import dgca.verifier.app.engine.data.RuleCertificateType
 import dgca.verifier.app.engine.data.Type
 import org.joda.time.Instant
+import org.joda.time.LocalDate
+import org.joda.time.LocalTime
 import java.time.ZonedDateTime
 
 internal fun assembleExternalParameter(
     certificate: DccData<*>,
-    validationClock: Instant,
+    validationDate: LocalDate,
+    validationTime: LocalTime,
     countryCode: String,
     valueSets: Map<String, List<String>>,
 ): ExternalParameter {
     return ExternalParameter(
         kid = certificate.kid,
-        validationClock = validationClock.toZonedDateTime(),
+        validationClock = asZonedDateTime(validationDate, validationTime),
         valueSets = valueSets,
         countryCode = countryCode,
         issuerCountryCode = certificate.header.issuer,
@@ -114,7 +117,7 @@ private val String.asExternalCertificateType: RuleCertificateType
 
 @VisibleForTesting
 internal fun Instant.toZonedDateTime(): ZonedDateTime {
-    return ZonedDateTime.ofInstant(java.time.Instant.ofEpochMilli(this.millis), UTC_ZONE_ID)
+    return ZonedDateTime.ofInstant(java.time.Instant.ofEpochMilli(this.millis), zoneId)
 }
 
 @VisibleForTesting
@@ -143,7 +146,8 @@ internal val DccData<out DccV1.MetaData>.typeString: String
     }
 
 internal fun List<DccValidationRule>.filterRelevantRules(
-    validationClock: Instant,
+    validationDate: LocalDate,
+    validationTime: LocalTime,
     certificateType: String,
     country: DccCountry,
 ): List<DccValidationRule> = this
@@ -154,7 +158,11 @@ internal fun List<DccValidationRule>.filterRelevantRules(
             rule.certificateType.uppercase() == certificateType.uppercase()
     }
     .filter { rule ->
-        rule.validFromInstant <= validationClock && rule.validToInstant >= validationClock
+        (rule.validFromDate < validationDate ||
+            (rule.validFromDate == validationDate && rule.validFromTime <= validationTime)) &&
+            (rule.validToDate > validationDate ||
+                (rule.validToDate == validationDate && rule.validToTime >= validationTime))
+
     }
     .groupBy { it.identifier }
     .mapNotNull { entry ->
@@ -162,7 +170,20 @@ internal fun List<DccValidationRule>.filterRelevantRules(
     }
     .toList()
 
+internal fun asZonedDateTime(date: LocalDate, time: LocalTime): ZonedDateTime = ZonedDateTime.of(
+    date.year,
+    date.monthOfYear,
+    date.dayOfMonth,
+    time.hourOfDay,
+    time.minuteOfHour,
+    time.secondOfMinute,
+    0,
+    zoneId
+)
+
 internal const val GENERAL = "General"
 internal const val TEST = "Test"
 internal const val VACCINATION = "Vaccination"
 internal const val RECOVERY = "Recovery"
+
+internal val zoneId = UTC_ZONE_ID

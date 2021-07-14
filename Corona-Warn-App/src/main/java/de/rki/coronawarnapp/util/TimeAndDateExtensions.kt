@@ -25,7 +25,6 @@ object TimeAndDateExtensions {
     private val dayFormatter = DateTimeFormat.forPattern("dd.MM.yyyy")
     private val dayFormatter2DigitYear = DateTimeFormat.forPattern("dd.MM.yy")
     private val shortTime = DateTimeFormat.shortTime()
-    private val dateFormatterWithHyphenSeparator = DateTimeFormat.forPattern("yyyy-MM-dd")
 
     fun getCurrentHourUTC(): Int = DateTime(Instant.now(), DateTimeZone.UTC).hourOfDay().get()
 
@@ -144,6 +143,11 @@ object TimeAndDateExtensions {
      * Returns a readable time String with the format "hh:mm" like 12:00 of a DateTime
      */
     fun DateTime.toShortTimeFormat(): String = toString(shortTime)
+
+    /**
+     * Returns a readable time String with the format "hh:mm" like 12:00 of a DateTime
+     */
+    fun LocalTime.toShortTimeFormat(): String = toString(shortTime)
 
     /**
      * Returns a readable date String with the format "dd.MM.yy" like 23.05.89 of an Instant

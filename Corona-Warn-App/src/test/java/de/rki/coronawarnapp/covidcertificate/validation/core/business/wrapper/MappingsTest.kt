@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper
 
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalTimeUtc
 import dgca.verifier.app.engine.UTC_ZONE_ID
 import dgca.verifier.app.engine.data.RuleCertificateType
 import io.kotest.matchers.shouldBe
@@ -48,6 +50,8 @@ class MappingsTest : BaseTest() {
     @Test
     fun `filter rules works`() {
         val validationClock = Instant.parse("2021-05-27T07:46:40Z")
+        val validationDate = validationClock.toLocalDateUtc()
+        val validationTime = validationClock.toLocalTimeUtc()
 
         val vacA1 = createDccRule(
             certificateType = RuleCertificateType.VACCINATION,
@@ -112,7 +116,8 @@ class MappingsTest : BaseTest() {
         )
 
         rules.filterRelevantRules(
-            validationClock = validationClock,
+            validationTime = validationTime,
+            validationDate = validationDate,
             certificateType = VACCINATION,
             country = DccCountry("de")
         ) shouldBe listOf(vacA2, genA2)
