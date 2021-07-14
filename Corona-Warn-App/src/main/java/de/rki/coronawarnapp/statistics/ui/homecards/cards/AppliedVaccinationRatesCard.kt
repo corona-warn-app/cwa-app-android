@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsCardsAppliedVaccinationRatesLayoutBinding
 import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass
 import de.rki.coronawarnapp.statistics.AppliedVaccinationRatesStats
-import de.rki.coronawarnapp.statistics.StatsItem
+import de.rki.coronawarnapp.statistics.GlobalStatsItem
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter
 import de.rki.coronawarnapp.statistics.util.formatStatisticalValue
 import de.rki.coronawarnapp.statistics.util.getContentDescriptionForTrends
@@ -14,7 +14,7 @@ import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithTrailingSpace
 import de.rki.coronawarnapp.util.formatter.getPrimaryLabel
 
 class AppliedVaccinationRatesCard(parent: ViewGroup) :
-    StatisticsCardAdapter.ItemVH<StatisticsCardItem, HomeStatisticsCardsAppliedVaccinationRatesLayoutBinding>(
+    StatisticsCardAdapter.ItemVH<GlobalStatisticsCardItem, HomeStatisticsCardsAppliedVaccinationRatesLayoutBinding>(
         R.layout.home_statistics_cards_basecard_layout,
         parent
     ) {
@@ -28,9 +28,10 @@ class AppliedVaccinationRatesCard(parent: ViewGroup) :
     }
 
     override val onBindData: HomeStatisticsCardsAppliedVaccinationRatesLayoutBinding.(
-        item: StatisticsCardItem,
+        item: GlobalStatisticsCardItem,
         payloads: List<Any>
-    ) -> Unit = { item, _ ->
+    ) -> Unit = { orig, payloads ->
+        val item = payloads.filterIsInstance<GlobalStatisticsCardItem>().singleOrNull() ?: orig
 
         infoStatistics.setOnClickListener {
             item.onClickListener(item.stats)
@@ -82,7 +83,7 @@ class AppliedVaccinationRatesCard(parent: ViewGroup) :
     }
 
     private fun buildAccessibilityStringForPersonsVaccinatedOnceCard(
-        item: StatsItem,
+        item: GlobalStatsItem,
         administeredDoses: KeyFigureCardOuterClass.KeyFigure,
         sevenDayAverage: KeyFigureCardOuterClass.KeyFigure,
         total: KeyFigureCardOuterClass.KeyFigure

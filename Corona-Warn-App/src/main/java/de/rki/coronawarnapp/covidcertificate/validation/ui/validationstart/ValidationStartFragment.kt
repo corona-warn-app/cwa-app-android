@@ -9,6 +9,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import de.rki.coronawarnapp.R
@@ -103,6 +104,10 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
                 startValidationCheck.isLoading = false
                 event.error.toErrorDialogBuilder(requireContext()).show()
             }
+            is ShowNoInternetDialog -> {
+                startValidationCheck.isLoading = false
+                showNoInternetDialog()
+            }
         }
     }
 
@@ -142,8 +147,9 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
     }
 
     private fun ValidationStartFragmentBinding.onCountiesAvailable(countries: List<DccCountry>) {
+        val displayName = countries.find { it.countryCode == viewModel.currentCountryCode }?.displayName()
         dccCountryAdapter.update(countries)
-        countryPicker.setText(countries.find { it.countryCode == DccCountry.DE }?.displayName(), false)
+        countryPicker.setText(displayName, false)
     }
 
     private fun showDatePicker() {
@@ -184,6 +190,14 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
                 }
             }
             .show(childFragmentManager, TIME_PICKER_TAG)
+    }
+
+    private fun showNoInternetDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.validation_start_no_internet_dialog_title)
+            .setMessage(R.string.validation_start_no_internet_dialog_msg)
+            .setPositiveButton(R.string.validation_start_no_internet_dialog_positive_button) { _, _ -> }
+            .show()
     }
 
     companion object {

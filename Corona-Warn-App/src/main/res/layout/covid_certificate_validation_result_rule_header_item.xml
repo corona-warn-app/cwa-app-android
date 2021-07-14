@@ -21,6 +21,7 @@
         android:id="@+id/subtitle_text"
         style="@style/subtitle"
         android:layout_width="0dp"
+        app:layout_goneMarginTop="@dimen/spacing_tiny"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_tiny"
         app:layout_constraintEnd_toEndOf="parent"

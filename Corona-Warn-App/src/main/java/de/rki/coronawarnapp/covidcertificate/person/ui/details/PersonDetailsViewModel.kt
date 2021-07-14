@@ -25,6 +25,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson.Status.IMMUNITY
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson.Status.INCOMPLETE
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
@@ -108,7 +109,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
             // Find any vaccination certificate to determine the vaccination information
             personCertificates.certificates.find { it is VaccinationCertificate }?.let { certificate ->
                 val vaccinatedPerson = vaccinatedPerson(certificate)
-                if (vaccinatedPerson.getVaccinationStatus(timeStamper.nowUTC) != IMMUNITY) {
+                if (vaccinatedPerson != null && vaccinatedPerson.getVaccinationStatus(timeStamper.nowUTC) != IMMUNITY) {
                     val timeUntilImmunity = vaccinatedPerson.getDaysUntilImmunity()
                     add(VaccinationInfoCard.Item(timeUntilImmunity))
                 }
@@ -152,7 +153,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
                 }
             )
             is VaccinationCertificate -> {
-                val status = vaccinatedPerson(certificate).getVaccinationStatus(timeStamper.nowUTC)
+                val status = vaccinatedPerson(certificate)?.getVaccinationStatus(timeStamper.nowUTC) ?: INCOMPLETE
                 add(
                     VaccinationCertificateCard.Item(
                         certificate = certificate,
@@ -173,10 +174,10 @@ class PersonDetailsViewModel @AssistedInject constructor(
         }
     }
 
-    private suspend fun vaccinatedPerson(certificate: CwaCovidCertificate): VaccinatedPerson =
+    private suspend fun vaccinatedPerson(certificate: CwaCovidCertificate): VaccinatedPerson? =
         vaccinationRepository.vaccinationInfos.first().find {
             it.identifier == certificate.personIdentifier
-        }!! // Must be person
+        }
 
     private fun onOpenCertificateDetails(containerId: CertificateContainerId?) {
         when (containerId) {

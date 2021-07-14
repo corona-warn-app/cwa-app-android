@@ -12,21 +12,22 @@ import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.gplay.GoogleApiVersion
+import de.rki.coronawarnapp.util.security.RandomStrong
 import okio.ByteString
 import okio.ByteString.Companion.decodeHex
 import okio.ByteString.Companion.toByteString
 import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
-import java.security.SecureRandom
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.random.Random
 
 @Singleton
 class CWASafetyNet @Inject constructor(
     @AppContext private val context: Context,
     private val client: SafetyNetClientWrapper,
-    private val secureRandom: SecureRandom,
+    @RandomStrong private val randomSource: Random,
     private val appConfigProvider: AppConfigProvider,
     private val googleApiVersion: GoogleApiVersion,
     private val cwaSettings: CWASettings,
@@ -36,7 +37,7 @@ class CWASafetyNet @Inject constructor(
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun generateSalt(): ByteArray = ByteArray(16).apply {
-        secureRandom.nextBytes(this)
+        randomSource.nextBytes(this)
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

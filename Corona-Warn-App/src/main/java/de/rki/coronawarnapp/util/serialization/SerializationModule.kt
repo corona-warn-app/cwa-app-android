@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.util.serialization
 
+import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -11,6 +12,7 @@ import de.rki.coronawarnapp.util.serialization.adapter.ByteArrayAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.ByteStringBase64Adapter
 import de.rki.coronawarnapp.util.serialization.adapter.DurationAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.InstantAdapter
+import de.rki.coronawarnapp.util.serialization.adapter.JsonNodeAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.LocalDateAdapter
 import okio.ByteString
 import org.joda.time.Duration
@@ -31,6 +33,7 @@ class SerializationModule {
         .registerTypeAdapter(ByteString::class.java, ByteStringBase64Adapter())
         .registerTypeAdapter(RSAKey.Public::class.java, RSAKey.Public.GsonAdapter())
         .registerTypeAdapter(RSAKey.Private::class.java, RSAKey.Private.GsonAdapter())
+        .registerTypeAdapter(JsonNode::class.java, JsonNodeAdapter(jacksonObjectMapper()))
         .create()
 
     @Reusable
