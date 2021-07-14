@@ -52,17 +52,17 @@ class DccValidationFailedViewModel @AssistedInject constructor(
                 items.add(TechnicalValidationFailedVH.Item(validation))
             }
             DccValidation.State.FAILURE -> {
+                val certificate = certificateProvider.findCertificate(containerId)
                 val failedRules = validation.rules.filter { it.result == DccValidationRule.Result.FAILED }
                 if (failedRules.isNotEmpty()) {
                     items.add(RuleHeaderVH.Item(DccValidation.State.FAILURE))
-                    val certificate = certificateProvider.findCertificate(containerId)
                     failedRules.forEach { items.add(BusinessRuleFailedVH.Item(it, certificate)) }
                 }
 
                 val openRules = validation.rules.filter { it.result == DccValidationRule.Result.OPEN }
                 if (openRules.isNotEmpty()) {
                     items.add(RuleHeaderVH.Item(DccValidation.State.OPEN))
-                    openRules.forEach { items.add(BusinessRuleOpenVH.Item(it)) }
+                    openRules.forEach { items.add(BusinessRuleOpenVH.Item(it, certificate)) }
                 }
             }
         }

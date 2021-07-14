@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
+import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.BusinessRuleOpenVH
@@ -20,6 +22,8 @@ import timber.log.Timber
 
 class DccValidationOpenViewModel @AssistedInject constructor(
     @Assisted private val validation: DccValidation,
+    @Assisted private val containerId: CertificateContainerId,
+    private val certificateProvider: CertificateProvider,
     dispatcherProvider: DispatcherProvider,
 ) : CWAViewModel(dispatcherProvider) {
 
@@ -44,7 +48,8 @@ class DccValidationOpenViewModel @AssistedInject constructor(
 
         val openRules = validation.rules.filter { it.result == DccValidationRule.Result.OPEN }
         items.add(RuleHeaderVH.Item(type = DccValidation.State.OPEN, showTitle = false))
-        openRules.forEach { items.add(BusinessRuleOpenVH.Item(it)) }
+        val certificate = certificateProvider.findCertificate(containerId)
+        openRules.forEach { items.add(BusinessRuleOpenVH.Item(it, certificate)) }
 
         items.add(ValidationFaqVH.Item)
 
@@ -53,6 +58,9 @@ class DccValidationOpenViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<DccValidationOpenViewModel> {
-        fun create(validation: DccValidation): DccValidationOpenViewModel
+        fun create(
+            validation: DccValidation,
+            containerId: CertificateContainerId
+        ): DccValidationOpenViewModel
     }
 }

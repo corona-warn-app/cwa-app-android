@@ -135,7 +135,8 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
 
             DccValidation.State.OPEN ->
                 ValidationStartFragmentDirections.actionValidationStartFragmentToDccValidationOpenFragment(
-                    event.validationResult
+                    event.validationResult,
+                    event.containerId
                 )
 
             DccValidation.State.TECHNICAL_FAILURE,

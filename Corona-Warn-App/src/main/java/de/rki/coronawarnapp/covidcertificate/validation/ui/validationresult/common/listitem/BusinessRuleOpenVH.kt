@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.com
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultRuleOpenItemBinding
@@ -26,17 +27,14 @@ class BusinessRuleOpenVH(
         item: Item,
         payloads: List<Any>,
     ) -> Unit = { item, payloads ->
-        ruleId.text = item.evaluatedDccRule.rule.identifier
-        dateOfSampleCollection.text = item.evaluatedDccRule.rule.validFrom
-        subtitle.text = context.getString(
-            R.string.validation_rules_open_vh_subtitle,
-            DccCountry(item.evaluatedDccRule.rule.country).displayName()
-        )
+
+        // TODO Take over implementation from BusinessRuleFailedVH once finished
     }
 
     data class Item(
         val evaluatedDccRule: EvaluatedDccRule,
-    ) : ValidationResultItem, HasPayloadDiffer {
+        val certificate: CwaCovidCertificate,
+        ) : ValidationResultItem, HasPayloadDiffer {
         override val stableId: Long = evaluatedDccRule.rule.identifier.hashCode().toLong()
 
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
