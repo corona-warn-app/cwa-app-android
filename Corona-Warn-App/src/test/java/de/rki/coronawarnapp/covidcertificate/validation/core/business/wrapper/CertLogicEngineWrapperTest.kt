@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.gson.Gson
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchema
@@ -13,6 +14,7 @@ import de.rki.coronawarnapp.covidcertificate.valueset.internal.toValueSetsContai
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyValueSetsContainer
 import de.rki.coronawarnapp.server.protocols.internal.dgc.ValueSetsOuterClass
 import de.rki.coronawarnapp.util.serialization.BaseGson
+import de.rki.coronawarnapp.util.serialization.BaseJackson
 import de.rki.coronawarnapp.util.serialization.fromJson
 import dgca.verifier.app.engine.data.RuleCertificateType
 import io.kotest.matchers.ints.shouldBeGreaterThan
@@ -44,6 +46,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
     lateinit var wrapper: CertLogicEngineWrapper
     @Inject lateinit var extractor: DccQrCodeExtractor
     @Inject lateinit var dccJsonSchema: DccJsonSchema
+    @Inject @BaseJackson lateinit var objectMapper: ObjectMapper
     @Inject @BaseGson lateinit var gson: Gson
 
     // Json file (located in /test/resources/dcc-validation-rules-common-test-cases.json)
@@ -63,8 +66,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
 
     @Test
     fun `valid certificate passes`() = runBlockingTest {
-        valueSetWrapper = ValueSetWrapper(valueSetsRepository, dccValidationRepository)
-        wrapper = CertLogicEngineWrapper(valueSetWrapper, dccJsonSchema)
+        createWrapperInstance()
         val rule = createDccRule(
             certificateType = RuleCertificateType.VACCINATION,
             validFrom = "2021-05-27T07:46:40Z",
@@ -105,8 +107,8 @@ class CertLogicEngineWrapperTest : BaseTest() {
             flowOf(container.vaccinationValueSets)
         coEvery { valueSetsRepository.latestTestCertificateValueSets } returns
             flowOf(container.testCertificateValueSets)
-        valueSetWrapper = ValueSetWrapper(valueSetsRepository, dccValidationRepository)
-        wrapper = CertLogicEngineWrapper(valueSetWrapper, dccJsonSchema)
+
+        createWrapperInstance()
 
         json.testCases.forEachIndexed { index, certLogicTestCase ->
             val certificate = extractor.extract(certLogicTestCase.dcc)
@@ -157,5 +159,10 @@ class CertLogicEngineWrapperTest : BaseTest() {
             noPassed shouldBe certLogicTestCase.expPass
             noOpen shouldBe certLogicTestCase.expOpen
         }
+    }
+
+    private fun createWrapperInstance() {
+        valueSetWrapper = ValueSetWrapper(valueSetsRepository, dccValidationRepository)
+        wrapper = CertLogicEngineWrapper(valueSetWrapper, dccJsonSchema, objectMapper)
     }
 }
