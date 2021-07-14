@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_information"
+        android:title="@string/statistics_card_local_incidence_menu_info" />
+    <item
+        android:id="@+id/menu_remove_item"
+        android:title="@string/statistics_card_local_incidence_menu_delete" />
+</menu>

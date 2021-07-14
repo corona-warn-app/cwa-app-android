@@ -10,13 +10,19 @@ internal class StatisticsHomeCardItemTest {
     @Test
     fun `test equals() of statistics item should return true when onHelpAction click listener is different`() {
 
-        val itemWithClickListener1 = StatisticsHomeCard.Item(StatisticsData(emptyList())) {
-            // ClickListener1
-        }
+        val itemWithClickListener1 = StatisticsHomeCard.Item(
+            StatisticsData(emptyList()),
+            {
+                // ClickListener1
+            }
+        )
 
-        val itemWithClickListener2 = StatisticsHomeCard.Item(StatisticsData(emptyList())) {
-            // ClickListener2
-        }
+        val itemWithClickListener2 = StatisticsHomeCard.Item(
+            StatisticsData(emptyList()),
+            {
+                // ClickListener2
+            }
+        )
 
         // Check if click listeners are actually different
         if (itemWithClickListener1.onClickListener == itemWithClickListener2.onClickListener) {
