@@ -5,24 +5,24 @@
     tools:ignore="MissingConstraints">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/incidence_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:layout_height="wrap_content"
         tools:layout_width="@dimen/statistics_card_width"
-        android:id="@+id/incidence_container"
         tools:showIn="@layout/home_statistics_cards_basecard_layout">
 
-         <ImageView
+        <ImageView
             android:id="@+id/background_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:importantForAccessibility="no"
             android:contentDescription="@null"
-            app:srcCompat="@drawable/ic_statistics_incidence"
+            android:importantForAccessibility="no"
             android:paddingStart="0dp"
             android:paddingEnd="@dimen/spacing_small"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/flow_layout" />
+            app:layout_constraintTop_toTopOf="@id/flow_layout"
+            app:srcCompat="@drawable/ic_statistics_incidence" />
 
         <TextView
             android:id="@+id/title"
@@ -37,6 +37,19 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/subtitle"
+            style="@style/StatisticsCardValueLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/card_padding"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:text="@string/statistics_vaccinated_nationwide_text"
+            android:textSize="@dimen/font_small"
+            app:layout_constraintEnd_toStartOf="@id/info_statistics"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <TextView
             android:id="@+id/primary_label"
             style="@style/StatisticsCardValueLabel"
             android:layout_width="0dp"
@@ -48,8 +61,8 @@
             style="@style/StatisticsCardPrimaryValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:includeFontPadding="false"
             android:focusable="true"
+            android:includeFontPadding="false"
             tools:text="98,9" />
 
         <TextView
@@ -74,6 +87,7 @@
             style="@style/StatisticsCardInfoButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/statistics_info_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -89,13 +103,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="title,horizontal_guideline" />
+            app:constraint_referenced_ids="title,subtitle,horizontal_guideline" />
 
         <androidx.constraintlayout.helper.widget.Flow
             android:id="@+id/flow_layout"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/card_padding"
+            android:layout_marginTop="20dp"
             android:paddingBottom="@dimen/spacing_small"
             app:constraint_referenced_ids="primary_label,primary_value,secondary_label"
             app:flow_horizontalAlign="start"
