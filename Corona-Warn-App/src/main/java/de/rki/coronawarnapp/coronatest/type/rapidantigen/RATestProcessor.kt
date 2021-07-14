@@ -118,7 +118,7 @@ class RATestProcessor @Inject constructor(
             val nowUTC = timeStamper.nowUTC
             val isOlderThan21Days = test.isOlderThan21Days(nowUTC)
 
-            if (isOlderThan21Days && test.testResult == RAT_REDEEMED) {
+            if (isOlderThan21Days && (test.testResult == RAT_REDEEMED || test.testResult == PCR_OR_RAT_REDEEMED)) {
                 Timber.tag(TAG).w("Not polling, test is older than 21 days.")
                 return test
             }
@@ -225,7 +225,7 @@ class RATestProcessor @Inject constructor(
     }
 
     companion object {
-        private val FINAL_STATES = setOf(RAT_POSITIVE, RAT_NEGATIVE, RAT_REDEEMED)
+        private val FINAL_STATES = setOf(RAT_POSITIVE, RAT_NEGATIVE, RAT_REDEEMED, PCR_OR_RAT_REDEEMED)
         internal const val TAG = "RATestProcessor"
     }
 }
