@@ -5,10 +5,6 @@
 
     <!-- XACT: back description for screen readers -->
     <string name="accessibility_back">"Înapoi"</string>
-    <!-- XACT: next description for screen readers -->
-    <string name="accessibility_next">"Înainte"</string>
-    <!-- XACT: menu description for screen readers -->
-    <string name="accessibility_menu">"Meniu"</string>
     <!-- XACT: menu description for screen readers -->
     <string name="accessibility_close">"Închidere"</string>
     <!-- XACT: menu description for screen readers -->
@@ -68,16 +64,10 @@
     <string name="risk_card_body_installation_today">"Instalat astăzi"</string>
     <!-- XTXT: risk card - Days since installation if yesterday -->
     <string name="risk_card_body_installation_yesterday">"Instalat ieri"</string>
-    <!-- XTXT: risk card - tracing active for x out of 14 days -->
-    <string name="risk_card_body_saved_days">"În ultimele 14 zile, înregistrarea în jurnal a expunerilor a fost activă timp de %1$s zile"</string>
-    <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
-    <string name="risk_card_body_saved_days_full">"Înregistrarea în jurnal a expunerilor este permanent activă"</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"Întâlnirile nu au fost încă verificate."</string>
     <!-- XTXT: risk card - last successful update -->
     <string name="risk_card_body_time_fetched">"Actualizată: %1$s"</string>
-    <!-- XTXT: risk card - hint to open the app daily -->
-    <string name="risk_card_body_open_daily">"Rețineți: Deschideți aplicația zilnic pentru a actualiza starea riscului dvs."</string>
     <!-- XBUT: risk card - update risk -->
     <string name="risk_card_button_update">"Actualizare"</string>
     <!-- XBUT: risk card - activate tracing -->
@@ -88,18 +78,10 @@
     <string name="risk_card_low_risk_headline">"Risc redus"</string>
     <!-- XHED: risk card - increased risk headline -->
     <string name="risk_card_increased_risk_headline">"Risc crescut"</string>
-    <!-- XTXT: risk card - tracing isn't active long enough, so a new risk level can't be calculated -->
-    <string name="risk_card_unknown_risk_body">"Deoarece nu ați activat un timp suficient de lung înregistrarea în jurnal a expunerilor, nu am putut calcula riscul dvs. de infectare."</string>
     <!-- XHED: risk card - tracing stopped headline, due to no possible calculation -->
     <string name="risk_card_no_calculation_possible_headline">"Înregistrarea în jurnal a expunerilor a fost oprită"</string>
     <!-- XTXT: risk card - last successfully calculated risk level -->
     <string name="risk_card_no_calculation_possible_body_saved_risk">"Ultima verificare a expunerilor:"<xliff:g id="line_break">"\n"</xliff:g>"%1$s"</string>
-    <!-- XHED: risk card -  outdated risk headline, calculation isn't possible -->
-    <string name="risk_card_outdated_risk_headline">"Înregistrarea în jurnal a expunerilor nu este posibilă"</string>
-    <!-- XTXT: risk card - outdated risk, calculation couldn't be updated in the last 24 hours -->
-    <string name="risk_card_outdated_risk_body">"Înregistrarea în jurnal a expunerilor dvs. nu a putut fi actualizată timp de peste 24 de ore."</string>
-    <!-- XTXT: risk card - outdated risk manual, calculation couldn't be updated in the last 48 hours -->
-    <string name="risk_card_outdated_manual_risk_body">"Starea riscului dvs. nu a fost actualizată timp de peste 48 de ore. Vă rugăm să activați starea riscului dvs."</string>
     <!-- XHED: risk card - risk check failed headline, no internet connection -->
     <string name="risk_card_check_failed_no_internet_headline">"Verificarea expunerii a eșuat"</string>
     <!-- XTXT: risk card - risk check failed, please check your internet connection -->
@@ -222,8 +204,6 @@
     <string name="main_overview_subtitle_increased_risk">"Risc crescut"</string>
     <!-- XTXT: App overview low risk level -->
     <string name="main_overview_subtitle_low_risk">"Risc redus"</string>
-    <!-- XTXT: App overview unknown risk level -->
-    <string name="main_overview_subtitle_unknown_risk">"Risc necunoscut"</string>
     <!-- XHED: App overview subtitle for test procedure explanation -->
     <string name="main_overview_headline_test">"Notificarea altor utilizatori"</string>
     <!-- YTXT: App overview body text about rest procedure -->
@@ -316,14 +296,8 @@
     <string name="risk_details_information_body_period_logged_assessment_over_14_days">"Dacă înregistrarea în jurnal a expunerilor a fost activă pe durata în care v-ați întâlnit cu alte persoane, riscul dvs. de infectare poate fi calculat pentru această perioadă."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->        <!-- XTXT: risk details - infection period logged information body, under 14 days -->
     <string name="risk_details_information_body_period_logged_assessment">"Aplicația șterge automat înregistrările mai vechi din jurnal, întrucât acestea nu mai sunt relevante pentru prevenirea infectării."</string>
-    <!-- XTXT: risk details - infection period days logged/14 -->
-    <string name="risk_details_information_active_tracing_days_circle_progress">"%s/14"</string>
-    <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
-    <string name="risk_details_subtitle_infection_risk_past">"Modul în care a fost calculat riscul dvs."</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk">"Modul în care este calculat riscul dvs."</string>
-    <!-- XMSG: risk details - risk calculation wasn't possible for 24h, below behaviors -->
-    <string name="risk_details_information_body_outdated_risk">"Înregistrarea în jurnal a expunerilor dvs. nu a putut fi actualizată timp de peste 24 de ore."</string>
     <!-- YTXT: risk details - low risk explanation text -->
     <string name="risk_details_information_body_low_risk">"Aveți un risc redus de infectare deoarece nu a fost înregistrată nicio expunere la persoane diagnosticate ulterior cu coronavirus sau întâlnirile dvs. au fost limitate la o perioadă scurtă și la o distanță mai mare."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
@@ -332,15 +306,6 @@
     <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/en/faq/#encounter_but_green"</string>
     <!-- YTXT: risk details - increased risk explanation text with variable date since last contact -->
     <string name="risk_details_information_body_increased_risk_date">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu coronavirus."</string>
-    <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
-    <plurals name="risk_details_information_body_increased_risk">
-        <item quantity="one">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s zi pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu coronavirus."</item>
-        <item quantity="other">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s de zile pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu coronavirus."</item>
-        <item quantity="zero">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s de zile pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu coronavirus."</item>
-        <item quantity="two">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s de zile pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu coronavirus."</item>
-        <item quantity="few">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s zile pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu coronavirus."</item>
-        <item quantity="many">"Aveți un risc crescut de infectare deoarece ați fost expus ultima dată acum %1$s de zile pe o perioadă mai lungă de timp și în strânsă proximitate cu cel puțin o persoană diagnosticată cu coronavirus."</item>
-    </plurals>
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Riscul dvs. de infectare este calculat pe baza datelor de înregistrare în jurnal a expunerilor (durata și proximitatea) la nivel local pe smartphone-ul dvs. Riscul dvs. de infectare nu poate fi văzut de o altă persoană sau transmis unei alte persoane."</string>
     <!-- YTXT: risk details - risk calculation explanation for increased risk -->
@@ -371,8 +336,6 @@
     <string name="risk_lowered_dialog_body">"Ultima expunere care a generat riscul dvs. crescut a avut loc cu mai mult de 14 zile în urmă. Prin urmare, riscul dvs. de infectare a fost clasificat ca fiind din nou redus.\n\nIată ce trebuie să faceți:\n1. Dacă nu aveți simptome specifice COVID-19, continuați să respectați regulile generale privind distanțarea și igiena.\n2. Dacă aveți simptome specifice COVID-19, vă recomandăm să mergeți la medic și să vă testați."</string>
     <!-- XBUT: risk lowerd - dialog confirm -->
     <string name="risk_lowered_dialog_button_confirm">"OK"</string>
-    <!-- XBUT: risk lowered - dialog cancel -->
-    <string name="risk_lowered_dialog_button_cancel">"Mai mult"</string>
 
     <!-- ####################################
            Outdated Device Time
@@ -398,8 +361,6 @@
     <string name="onboarding_button_next">"Înainte"</string>
     <!-- XBUT: onboarding - start -->
     <string name="onboarding_button_start">"Să începem"</string>
-    <!-- XTXT: onboarding - back description for screen reader -->
-    <string name="onboarding_button_back_description">"Înapoi"</string>
     <!-- XACT: Onboarding (together) page title -->
     <string name="onboarding_onboarding_accessibility_title">"Pagina de înregistrare 1 din 6: Să combatem împreună COVID-19"</string>
     <!-- XHED: onboarding(together) - fight corona -->
@@ -477,8 +438,6 @@
     <string name="onboarding_tracing_location_headline">"Activați setarea locației"</string>
     <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
     <string name="onboarding_tracing_location_body">"Aplicația nu poate determina locația dvs. Totuși, setarea locației dispozitivului trebuie să fie activată pentru a utiliza Bluetooth Low Energy pe Android 10 și versiunile anterioare."</string>
-    <!-- XBUT: onboarding(tracing) - button enable tracing -->
-    <string name="onboarding_tracing_location_button">"Deschideți configurările dispozitivului"</string>
     <!-- XACT: Onboarding (test) page title -->
     <string name="onboarding_test_accessibility_title">"Pagina de înregistrare 5 din 6: Dacă sunteți diagnosticat cu coronavirus"</string>
     <!-- XHED: onboarding(test) - about positive tests -->
@@ -512,8 +471,6 @@
     <string name="onboarding_ppa_state_title">"Statul dvs. federal (opțional)"</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - district title -->
     <string name="onboarding_ppa_district_title">"Districtul dvs. (județul) (opțional)"</string>
-    <!-- XTXT: onboarding privacy preserving analytics (ppa) - regional evaluation text -->
-    <string name="onboarding_ppa_regional_evaluation_text">"Dacă specificați, de asemenea, statul federal și regiunea dvs., putem efectua analize regionale."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - age title -->
     <string name="onboarding_ppa_age_title">"Grupul dvs. de vârstă (opțional)"</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - consent title -->
@@ -525,8 +482,6 @@
 
     <!-- XHED: onboarding privacy preserving analytics (ppa) - more info - headline -->
     <string name="onboarding_ppa_more_info_headline">"Informații detaliate despre partajarea datelor"</string>
-    <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - consent title -->
-    <string name="onboarding_ppa_more_info_decline_processing_text">"Dacă nu sunteți de acord cu transferul datelor dvs. către o țară non-UE, nu apăsați pe „Accept”. Veți putea utiliza în continuare aplicația, dar nu și caracteristica de partajare a donării datelor."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - title -->
     <string name="onboarding_ppa_more_info_data_processing_title">"Prelucrarea datelor în procesul de partajare a datelor"</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing body -->
@@ -630,8 +585,6 @@
     <string name="settings_tracing_status_inactive">"Oprit"</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
     <string name="settings_tracing_status_restricted">"Restricționată"</string>
-    <!-- XTXT: settings(tracing) - shows status under header in home, no internet -->
-    <string name="settings_tracing_body_connection_inactive">"Fără conexiune la internet"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, no bluetooth -->
     <string name="settings_tracing_body_bluetooth_inactive">"Bluetooth oprit"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
@@ -648,21 +601,6 @@
     <string name="settings_tracing_status_location_body_url">"https://www.coronawarn.app/en/faq/#android_location"</string>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
     <string name="settings_tracing_status_location_button">"Deschideți configurările dispozitivului"</string>
-    <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
-    <string name="settings_tracing_status_connection_headline">"Deschideți conexiunea la internet"</string>
-    <!-- XTXT: settings(tracing) - explains user what to do on card if connection is disabled -->
-    <string name="settings_tracing_status_connection_body">"Înregistrarea în jurnal a expunerilor necesită conexiune la internet pentru a calcula riscul dvs. de infectare. Porniți rețeaua Wi-Fi sau datele mobile din setările dispozitivului dvs."</string>
-    <!-- XBUT: settings(tracing) - go to operating system settings button on card -->
-    <string name="settings_tracing_status_connection_button">"Deschideți configurările dispozitivului"</string>
-    <!-- XTXT: settings(tracing) - explains the circle progress indicator to the right with the current value -->
-    <plurals name="settings_tracing_status_body_active">
-        <item quantity="one">"Înregistrarea în jurnal a expunerilor a fost activă o zi.\nO verificare a expunerii poate fi de încredere doar dacă înregistrarea în jurnal a expunerilor este activată permanent."</item>
-        <item quantity="other">"Înregistrarea în jurnal a expunerilor a fost activă %1$s de zile.\nO verificare a expunerii poate fi de încredere doar dacă înregistrarea în jurnal a expunerilor este activată permanent."</item>
-        <item quantity="zero">"Înregistrarea în jurnal a expunerilor a fost activă %1$s de zile.\nO verificare a expunerii poate fi de încredere doar dacă înregistrarea în jurnal a expunerilor este activată permanent."</item>
-        <item quantity="two">"Înregistrarea în jurnal a expunerilor a fost activă %1$s de zile.\nO verificare a expunerii poate fi de încredere doar dacă înregistrarea în jurnal a expunerilor este activată permanent."</item>
-        <item quantity="few">"Înregistrarea în jurnal a expunerilor a fost activă %1$s zile.\nO verificare a expunerii poate fi de încredere doar dacă înregistrarea în jurnal a expunerilor este activată permanent."</item>
-        <item quantity="many">"Înregistrarea în jurnal a expunerilor a fost activă %1$s de zile.\nO verificare a expunerii poate fi de încredere doar dacă înregistrarea în jurnal a expunerilor este activată permanent."</item>
-    </plurals>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_illustration_description_active">"Trei persoane și-au activat pe smartphone înregistrarea în jurnal a expunerilor, ceea ce va duce la înregistrarea întâlnirilor lor."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
@@ -671,15 +609,11 @@
     <string name="settings_tracing_bluetooth_illustration_description_inactive">"O persoană și-a oprit Bluetooth-ul pe smartphone și, prin urmare, întâlnirea cu alte două persoane nu este înregistrată."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_location_illustration_description_inactive"/>
-    <!-- XACT: settings(tracing) - describes illustration -->
-    <string name="settings_tracing_connection_illustration_description_inactive">"O persoană și-a oprit Internetul pe smartphone și, prin urmare, întâlnirea cu alte două persoane nu este înregistrată."</string>
 
     <!-- XHED: settings(notification) - notification page title -->
     <string name="settings_notifications_title">"Notificări"</string>
     <!-- XHED: settings(notification) - multiline headline below illustration, active -->
     <string name="settings_notifications_headline_active">"Doriți să activați notificările privind starea riscului de infectare cu COVID-19?"</string>
-    <!-- XHED: settings(notification) - multiline headline below illustration, inactive -->
-    <string name="settings_notifications_headline_inactive">"Notificările sunt dezactivate"</string>
     <!-- XTXT: settings(notification) - text in row on settings overview -->
     <string name="settings_notifications_body_description">"Permiteți notificările automate privind starea riscului dvs. de infectare cu COVID-19."</string>
     <!-- YTXT: settings(notification) - description text when it notifications are enabled -->
@@ -866,8 +800,6 @@
     <string name="debugging_debuglog_id_history_title">"Istoric ID-uri"</string>
     <!-- YTXT: Description of ID History -->
     <string name="debugging_debuglog_id_history_body">"ID-urile analizelor de erori partajate până în prezent"</string>
-    <!-- YTXT: Warning regarding downsides of recording a log file -->
-    <string name="debugging_debuglog_intro_warning">"Rețineți că rapoartele de erori pot conține date sensibile (precum un rezultat al testului sau intrări în jurnal ale contactelor). În consecință, nu este recomandat să împărtășiți public aceste rapoarte de erori."</string>
     <!-- XBUT: Button text to start the log recording -->
     <string name="debugging_debuglog_action_start_recording">"Pornire"</string>
     <!-- XBUT: Button text to stop the log recording -->
@@ -928,12 +860,6 @@
     <string name="debugging_debuglog_uploadhistory_description">"Aici vedeți ID-urile jurnalelor de analiză a erorilor."</string>
 
     <!-- ####################################
-              Interoperability
-    ###################################### -->
-    <!-- XHED: headline for consent information  -->
-    <string name="interop_consent_headline">"Consimțământ"</string>
-
-    <!-- ####################################
              Submission
     ###################################### -->
 
@@ -946,10 +872,6 @@
     <!-- XBUT: Positive button for generic web request error -->
     <string name="submission_error_dialog_web_generic_error_button_positive">"Înapoi"</string>
 
-    <!-- XHED: Dialog title for already paired test error: qr -->
-    <string name="submission_error_dialog_web_test_paired_title">"Codul QR este nevalabil"</string>
-    <!-- XMSG: Dialog body for already paired test error: qr -->
-    <string name="submission_error_dialog_web_test_paired_body">"Codul QR este nevalabil sau a fost deja înregistrat pe un alt smartphone. Veți primi rezultatul testului dvs. de la centrul sau laboratorul de testare, indiferent de valabilitatea codului QR. Dacă sunteți diagnosticat cu coronavirus, veți fi notificat de autoritatea de sănătate publică."</string>
     <!-- XHED: Dialog title for already paired test error: tan -->
     <string name="submission_error_dialog_web_test_paired_title_tan">"TAN-ul este nevalabil"</string>
     <!-- XMSG: Dialog body for already paired test via tan - error: tan -->
@@ -961,15 +883,6 @@
     <string name="submission_error_dialog_web_paring_invalid_title">"Eroare"</string>
     <!-- XMSG: Dialog body for could not create submission tan -->
     <string name="submission_error_dialog_web_paring_invalid_body">"Un cod TAN de transmis nu a putut fi generat. Contactați hotline-ul tehnic accesând Informații aplicație -&gt; Hotline tehnic."</string>
-    <!-- XBUT: Positive button for could not create submission tan -->
-    <string name="submission_error_dialog_web_paring_invalid_button_positive">"Înapoi"</string>
-
-    <!-- XHED: Dialog title for submission tan invalid -->
-    <string name="submission_error_dialog_web_tan_invalid_title">"Eroare"</string>
-    <!-- XMSG: Dialog body for submission tan invalid -->
-    <string name="submission_error_dialog_web_tan_invalid_body">"Codul TAN generat este nevalabil pentru transmitere. Contactați hotline-ul tehnic accesând Informații aplicație → Hotline tehnic."</string>
-    <!-- XBUT: Positive button for submission tan invalid -->
-    <string name="submission_error_dialog_web_tan_invalid_button_positive">"Înapoi"</string>
 
     <!-- XHED: Dialog title for submission tan redeemed -->
     <string name="submission_error_dialog_web_tan_redeemed_title">"Codul QR nu mai este valabil"</string>
@@ -1075,10 +988,6 @@
     <!-- YTXT: Body text for for results next steps  -->
     <string name="submission_test_result_steps_added_body">"Testul dvs. a fost stocat în Corona-Warn-App."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_heading">"Rezultatul testului dvs. nu este încă disponibil"</string>
-    <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_body">"Imediat ce devine disponibil, rezultatul testului dvs. va fi afișat în aplicație.\n\nDe asemenea, veți primi rezultatul testului în afara aplicației. Autoritățile de sănătate publică vă vor anunța dacă testul dvs. este pozitiv.\n\nDacă sunteți notificat privind un rezultat pozitiv al testului în afara aplicației, ștergeți testul curent înregistrat în aplicație. Apelați numărul indicat la „Solicitare TAN” pentru a obține un număr TAN. Apoi, puteți utiliza acest TAN pentru a vă înregistra rezultatul în aplicație și pentru a-i avertiza pe ceilalți."</string>
-    <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Rezultatul testului dvs. nu este încă disponibil"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_pcr_body">"Imediat ce devine disponibil, rezultatul testului dvs. va fi afișat în aplicație.\n\nDe asemenea, veți primi rezultatul testului în afara aplicației. Autoritățile de sănătate publică vă vor anunța dacă testul dvs. este pozitiv.\n\nDacă sunteți notificat privind un rezultat pozitiv al testului în afara aplicației, ștergeți testul curent înregistrat în aplicație. Apelați numărul indicat la „Solicitare TAN” pentru a obține un număr TAN. Apoi, puteți utiliza acest TAN pentru a vă înregistra rezultatul în aplicație și pentru a-i avertiza pe ceilalți."</string>
@@ -1116,13 +1025,8 @@
     <string name="submission_test_result_positive_steps_warning_others_heading">"Avertizați-i pe ceilalți"</string>
     <!-- YTXT: Body text for for other warnings screen-->
     <string name="submission_test_result_positive_steps_warning_others_body">"Vă rugăm să partajați ID-urile dvs. aleatorii și să-i avertizați pe ceilalți.\nAjutați la stabilirea riscului de infectare pentru ceilalți cu mai multă acuratețe, indicând momentul în care ați observat prima dată simptomele de coronavirus."</string>
-    <!-- XBUT: positive test result : continue button -->
-    <string name="submission_test_result_positive_continue_button">"Înainte"</string>
     <!-- XBUT: positive test result : continue button with symptoms-->
     <string name="submission_test_result_positive_continue_button_with_symptoms">"Introducere simptome"</string>
-    <!-- XBUT: positive test result : continue button without symptoms -->
-    <string name="submission_test_result_positive_continue_button_wo_symptoms">"Nu se introduc simptome"</string>
-
 
     <!-- XHED: Page headline for invalid test result screen  -->
     <string name="submission_test_result_invalid_steps_invalid_heading">"Testul dvs. nu poate fi evaluat"</string>
@@ -1192,13 +1096,19 @@
 
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
-    <string name="submission_dispatcher_headline">"Înregistrarea testului dvs."</string>
+    <string name="submission_dispatcher_headline">"Gestionarea testelor dvs."</string>
     <!-- XHED: Page subheadline for dispatcher options asking if they already have a positive test: tele-TAN  -->
     <string name="submission_dispatcher_already_positive_subheadline">"Testul dvs. PCR a fost pozitiv?"</string>
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"Scanare cod QR"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
     <string name="submission_dispatcher_qr_card_text">"Primiți rezultatul testului dvs. în aplicație și avertizați-i pe ceilalți sau solicitați certificatul dvs. de test COVID."</string>
+    <!-- XHED: Dispatcher text for test center option -->
+    <string name="submission_dispatcher_card_test_center">"Găsire centru de testare"</string>
+    <!-- YTXT: Body text for test center dispatcher option -->
+    <string name="submission_dispatcher_card_test_center_text">"Găsiți centre de testare în aproprierea dvs."</string>
+    <!-- XTXT: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#where_can_i_get_tested -->
+    <string name="submission_dispatcher_card_test_center_link">"https://www.coronawarn.app/en/faq/#where_can_i_get_tested"</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"Introduceți codul TAN pentru testul PCR"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
@@ -1265,8 +1175,6 @@
     <string name="submission_done_subtitle">"Rețineți:"</string>
     <!-- YTXT: text after submission: pcr validation -->
     <string name="submission_done_pcr_validation">"Efectuați un test PCR pentru a verifica rezultatul acestui test."</string>
-    <!-- YTXT: text after submission: pcr validation -->
-    <string name="submission_done_share_keys">"Trimiteți ID-ul dvs. aleatoriu pentru a-i avertiza și pe alții."</string>
     <!-- YTXT: text after submission: contagious -->
     <string name="submission_done_contagious">"Autoritatea de sănătate publică vă poate contacta în următoarele zile."</string>
     <!-- YTXT: text after submission: isolate -->
@@ -1289,8 +1197,6 @@
     <!-- Submission Done No Consent-->
     <!-- XHED: Page title for completed submission page -->
     <string name="submission_done_no_consent_title">"Vă mulțumim"</string>
-    <!-- YTXT: Page subtitle for completed submission page -->
-    <string name="submission_done_no_consent_subtitle">"Vă mulțumim pentru ajutorul dat la oprirea răspândirii coronavirusului."</string>
     <!-- YTXT: Page body for submission no consent page -->
     <string name="submission_done_no_consent_body_title">"Ceilalți nu vor fi avertizați."</string>
     <!-- YTXT: Page body for submission no consent page -->
@@ -1337,16 +1243,12 @@
     <string name="submission_contact_headline">"Cum funcționează:"</string>
     <!-- YTXT: Body text for contact page in submission flow-->
     <string name="submission_contact_body">"Vă rugăm să aveți la îndemână rezultatul testului (dacă este disponibil) și numărul dvs. de telefon pentru a solicita un cod TAN.\n\nPersoanele cu deficiențe de auz pot utiliza serviciile Tess Relay (interpretare între limba germană scrisă și limbajul semnelor) pentru a contacta hotline-ul telefonic. Puteți descărca software-ul din Google Play."</string>
-    <!-- XBUT: submission contact call button -->
-    <string name="submission_contact_button_call">"Apelare"</string>
     <!-- XBUT: submission contact enter tan button -->
     <string name="submission_contact_button_enter">"Introduceți TAN"</string>
     <!-- YTXT: Body text for step 1 of contact page -->
     <string name="submission_contact_step_1_body">"Sunați la hotline-ul național și solicitați un TAN:"</string>
     <!-- XLNK: Button / hyperlink to phone call for TAN contact page -->
     <string name="submission_contact_number_display">"0800 7540002"</string>
-    <!-- XLNK: Technical number which is called when the user clicks on the display number -->
-    <string name="submission_contact_number_dial">"0800 7540002"</string>
     <!-- YTXT: Body text for step 2 of contact page-->
     <string name="submission_contact_step_2_body">"Înregistrați testul dvs. PCR introducând codul TAN în aplicație."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
@@ -1380,28 +1282,12 @@
     <!-- Submission Status Card -->
     <!-- XHED: Page title for the various submission status: fetching -->
     <string name="submission_status_card_title_fetching">"Datele sunt citite..."</string>
-    <!-- XHED: Page title for the various submission status: unregistered -->
-    <string name="submission_status_card_title_unregistered">"Ați fost testat?"</string>
     <!-- XHED: Page title for the various submission status: pending -->
     <string name="submission_status_card_title_pending">"Rezultatul testului dvs. nu este încă disponibil"</string>
     <!-- XHED: Page title for the various submission status: available -->
     <string name="submission_status_card_title_available">"Rezultatul testului dvs. este disponibil"</string>
-    <!-- XHED: Page title for the various submission status: positive -->
-    <string name="submission_status_card_title_positive">"Diagnostic pozitiv"</string>
-    <!-- XHED: Page title for the various submission status fetch failed -->
-    <string name="submission_status_card_title_failed">"Testul nu mai este valid"</string>
-    <!-- XHED: Page title for the various submission status fetch ready -->
-    <string name="submission_status_card_title_ready">"Rezultatul testului dvs. este disponibil"</string>
-    <!-- XHED: Subtitle for the submission status card: invalid -->
-    <string name="submission_status_card_subtitle_invalid">"Testul dvs. nu poate fi evaluat"</string>
-    <!-- XHED: Subtitle for the submission status card: negative -->
-    <string name="submission_status_card_subtitle_negative">"Diagnostic negativ"</string>
-    <!-- XHED: Subtitle for the submission status card: ready -->
-    <string name="submission_status_card_subtitle_ready">"Acum puteți afla rezultatul testului dvs."</string>
     <!-- YTXT: Body text for submission status: fetching -->
     <string name="submission_status_card_body_fetching">"Rezultatul dvs. este în curs de actualizare"</string>
-    <!-- YTXT: Body text for submission status: unregistered -->
-    <string name="submission_status_card_body_unregistered">"Ajutați la protejarea dvs. și a celorlalți."</string>
     <!-- YTXT: Body text for submission status: pending -->
     <string name="submission_status_card_body_pending">"Evaluarea testului dvs. nu este încă finalizată."</string>
     <!-- YTXT: Body text for submission status: invalid -->
@@ -1410,20 +1296,12 @@
     <string name="submission_status_card_body_positive">"Ați fost diagnosticat pozitiv la SARS-CoV-2."</string>
     <!-- YTXT: Body text for submission status: negative -->
     <string name="submission_status_card_body_negative">"Ați fost diagnosticat negativ la SARS-CoV-2."</string>
-    <!-- YTXT: Body text for submission status fetch failed -->
-    <string name="submission_status_card_body_failed">"Testul dvs. are o vechime de peste 21 de zile și, prin urmare, nu mai este relevant. Vă rugăm să ștergeți testul. Apoi puteți adăuga altul."</string>
-    <!-- YTXT: Body text for submission status fetch ready -->
-    <string name="submission_status_card_body_ready">"Dacă ați fost testat pozitiv la coronavirus, îi puteți avertiza pe ceilalți."</string>
-    <!-- YTXT: Button text for submission status fetch ready -->
-    <string name="submission_status_card_retrieve_test_result">"Aflați rezultatul testului"</string>
     <!-- XBUT: submission status card unregistered button -->
-    <string name="submission_status_card_button_unregistered">"Înregistrare test"</string>
+    <string name="submission_status_card_button_unregistered">"Gestionarea testelor dvs."</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Afișare test"</string>
     <!-- XBUT: submission status card fetch failed button -->
     <string name="submission_status_card_button_failed">"Ștergere test"</string>
-    <!-- XBUT: submission status card fetch ready button -->
-    <string name="submission_status_card_button_ready">"Ștergere test"</string>
     <!-- XHED: submission status card positive result subtitle -->
     <string name="submission_status_card_positive_result_subtitle">"Rețineți:"</string>
     <!-- YTXT: text for contagious card -->
@@ -1479,10 +1357,6 @@
     <string name="submission_test_result_available_close_dialog_body_consent_given">"După ce ați citit rezultatul testului dvs., îi puteți notifica pe ceilalți dacă este necesar și puteți întrerupe lanțul de infectare."</string>
     <!-- YTXT: Text for consent NOT given -->
     <string name="submission_test_result_available_text_consent_not_given">"Ați ales să nu partajați rezultatul testului dvs. Ceilalți nu vor fi avertizați. \n\nLa pasul următor, aveți ocazia să vă răzgândiți și să partajați totuși rezultatul testului dvs., pentru a ajuta la oprirea răspândirii coronavirusului și a-i proteja pe ceilalți."</string>
-    <!-- XHED: Close screen popup title for consent NOT given -->
-    <string name="submission_test_result_available_close_dialog_title_consent_not_given">"Doriți să anulați?"</string>
-    <!-- XTXT: Close screen popup text for consent NOT given -->
-    <string name="submission_test_result_available_close_dialog_body_consent_not_given">"Intrările dvs. nu vor fi salvate."</string>
     <!-- XBUT: Close screen popup cancel button -->
     <string name="submission_test_result_available_close_dialog_cancel_button">"Fără afișare"</string>
     <!-- XBUT: Close screen popup continue button -->
@@ -1509,10 +1383,18 @@
     ###################################### -->
 
     <!-- Incidence statistics card -->
-    <!-- XHED: Title for incident statistics card -->
-    <string name="statistics_card_incidence_title">"Incidența pe 7 zile"</string>
     <!-- XTXT: Description in statistics card that is displayed below the incidence value-->
     <string name="statistics_card_incidence_value_description">"infecții noi confirmate la 100.000 de locuitori"</string>
+
+    <!-- Local Incidence statistics card -->
+    <!-- XHED: Title for local incident statistics card -->
+    <string name="statistics_card_local_incidence_title">"Incidența pe 7 zile la nivel local"</string>
+    <!-- XTXT: Description in statistics card that is displayed below the local incidence value-->
+    <string name="statistics_card_local_incidence_value_description">"infecții noi confirmate la 100.000 de locuitori"</string>
+    <!-- XBUT: Text for local incidence statistics card overflow menu info button -->
+    <string name="statistics_card_local_incidence_menu_info">"Informații"</string>
+    <!-- XBUT: Text for local incidence statistics card overflow menu delete button -->
+    <string name="statistics_card_local_incidence_menu_delete">"Eliminare"</string>
 
     <!-- Infections statistics card -->
     <!-- XHED: Title for infections statistics card -->
@@ -1639,15 +1521,17 @@
     <!-- XTXT: Statistics number of vaccinated people at least text -->
     <string name="statistics_people_vaccinated_at_least_once_text">"Numărul de persoane raportat la RKI care au primit prima doză de vaccin."</string>
     <!-- XTXT: Statistics FAQ text -->
-    <string name="statistics_faq_text">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente:\n\nÎntrebări frecvente pentru statistică"</string>
+    <string name="statistics_faq_text">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente:"</string>
+
+    <!-- Statistics Add new tile -->
+    <!-- XTXT: Statistics add card title -->
+    <string name="statistics_add_card_title">"Adăugați incidența pe 7 zile la nivel local"</string>
+    <!-- XTXT: Statistics add card warning -->
+    <string name="statistics_add_card_warning">"Numărul maxim al incidenței pe 7 zile la nivel local a fost atins."</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility
     ###################################### -->
-    <!-- XACT: back button-->
-    <string name="button_back">"Înapoi la pagina anterioară"</string>
-    <!-- XACT: proceed button-->
-    <string name="button_proceed">"Butonul Continuare"</string>
     <!-- XACT: share button-->
     <string name="button_share">"Partajare"</string>
     <!-- XACT: menu button-->
@@ -1704,34 +1588,6 @@
     ###################################### -->
     <!-- NOTR -->
     <string name="lorem_ipsum">"Lorem Ipsum"</string>
-    <!-- NOTR -->
-    <string name="menu_test_notification">"Test Notification"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_api_launch">"Android API Test(Manual Test)"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_start">"Start (Broadcast/Receive Bluetooth)"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_get_exposure_keys">"Get Exposure keys (my keys history from api)"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_share_my_keys">"Share my keys via Email"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_enter_other_keys">"Submit Exposure Key"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_show_qr_code">"Show QR Code"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_scan_qr_code">"Scan Exposure Key"</string>
-    <!-- NOTR -->
-    <string name="test_api_switch_last_three_hours_from_server">"Last 3 Hours Mode"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_check_exposure">"Check Exposure Summary"</string>
-    <!-- NOTR -->
-    <string name="test_api_exposure_summary_headline">"Exposure Windows"</string>
-    <!-- NOTR -->
-    <string name="test_api_body_my_keys">"My keys (count: %1$d)"</string>
-    <!-- NOTR -->
-    <string name="test_api_body_other_keys">"Other key"</string>
-    <!-- NOTR -->
-    <string name="test_api_calculate_risk_level">"Calculate Risk Level"</string>
 
     <!-- XHED: Country Entry for Austria -->
     <string name="country_name_at">"Austria"</string>
@@ -1838,10 +1694,6 @@
     <string name="interoperability_onboarding_delta_title">"Înregistrare transnațională\na expunerilor în jurnal"</string>
     <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->
     <string name="interoperability_onboarding_delta_subtitle">"Caracteristicile aplicației Corona-Warn au fost extinse. Multe țări s-au asociat pentru a susține avertizarea la nivel internațional, pe baza unui server de schimb operat în comun. Acum poate fi luată în considerare posibila expunere la utilizatori ai aplicațiilor oficiale anticoronavirus din alte țări participante când se calculează riscul dvs. de expunere."</string>
-    <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
-    <string name="interoperability_onboarding_delta_randomid">"Pentru aceasta, aplicația descarcă liste, care sunt actualizate zilnic, de ID-uri aleatorii ale tuturor utilizatorilor care și-au partajat rezultatele testelor pentru a-i avertiza pe ceilalți prin intermediul propriei aplicații. Apoi, această listă este comparată cu ID-urile aleatorii înregistrate de smartphone-ul dvs. Android."</string>
-    <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
-    <string name="interoperability_onboarding_delta_free_download">"Descărcările listelor sunt, de obicei, gratuite pentru dvs. În mod specific, aceasta înseamnă că operatorii de rețele mobile nu percep costuri pentru datele utilizate de aplicație în acest context și nu aplică niciun fel de costuri de roaming pentru această opțiune în alte țări UE. Contactați operatorul rețelei mobile pentru mai multe informații."</string>
 
     <!-- XACT: interoperability (eu) - illustraction description, explanation image -->
     <string name="interoperability_eu_illustration_description">"O mână ține un smartphone. În fundal sunt ilustrate Europa și steagul european."</string>
@@ -1876,8 +1728,6 @@
     <string name="statistics_info_button">"Informații suplimentare"</string>
     <!-- XHED: Title for statistics reproduction card -->
     <string name="statistics_title_reproduction">"Valoarea R pe 7 zile"</string>
-    <!-- XTXT: Label for statistics reproduction card -->
-    <string name="statistics_reproduction_title">"Curentă"</string>
     <!-- XTXT: Caption for statistics reproduction card -->
     <string name="statistics_reproduction_average">"infecții medii de la fiecare persoană infectată"</string>
     <!-- XTXT: Statistics trend increasing (Accessibilty) -->
@@ -1919,18 +1769,14 @@
     <!-- XHED: Dialog error title for survey request error informations 1 -->
     <string name="datadonation_details_survey_consent_error_CHANGE_DEVICE_TIME">"Ora de pe smartphone-ul dvs. nu corespunde cu ora curentă. Vă rugăm să corectați ora în setările smartphone-ului dvs. (cod de eroare %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 2-->
-    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_SUPPORTED">"Nu se poate obține sondajul (cod de eroare %1$s)."</string>
-    <!-- XHED: Dialog error title for survey request error informations 3-->
     <string name="datadonation_details_survey_consent_error_UPDATE_PLAY_SERVICES">"Nu se poate obține sondajul chiar acum. Actualizați serviciile Google Play (cod de eroare %1$s)."</string>
-    <!-- XHED: Dialog error title for survey request error informations 4-->
+    <!-- XHED: Dialog error title for survey request error informations 3-->
     <string name="datadonation_details_survey_consent_error_TRY_AGAIN_LATER">"Nu se poate obține sondajul chiar acum. Încercați din nou mai târziu (cod de eroare %1$s)."</string>
-    <!-- XHED: Dialog error title for survey request error informations 5-->
-    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_NEXT_MONTH">"Nu se poate obține sondajul din cauza unor motive de securitate. Puteți participa din nou la sondaj în următoarea lună calendaristică (cod de eroare %1$s)."</string>
-    <!-- XHED: Dialog error title for survey request error informations 6-->
+    <!-- XHED: Dialog error title for survey request error informations 4-->
     <string name="datadonation_details_survey_consent_error_DEVICE_NOT_TRUSTED">"Vă mulțumim pentru că doriți să ajutați. Din păcate, utilizați un smartphone care nu acceptă sondajul, din motive tehnice (cod de eroare %1$s)."</string>
-    <!-- XHED: Dialog error title for survey request error informations 7-->
+    <!-- XHED: Dialog error title for survey request error informations 5-->
     <string name="datadonation_details_survey_consent_error_TIME_SINCE_ONBOARDING_UNVERIFIED">"Din motive de securitate, nu puteți participa la sondaj mai devreme de 24 de ore de la instalarea aplicației sau de la actualizarea aplicației (cod de eroare %1$s)."</string>
-    <!-- XHED: Dialog error title for survey request error informations 8-->
+    <!-- XHED: Dialog error title for survey request error informations 6-->
     <string name="datadonation_details_survey_consent_error_ALREADY_PARTICIPATED">"Ați participat deja la sondaj. Puteți participa la sondaj doar o dată pe lună (cod de eroare %1$s)."</string>
 
     <!-- XHED: Dialog error title for survey request error informations dialog-->
@@ -2015,10 +1861,6 @@
     <string name="duration_hours">"ore"</string>
     <!-- XTXT: Duration minutes text -->
     <string name="duration_minutes">"minute"</string>
-
-    <!-- Scan check in QR Code-->
-    <!-- XTXT: Scan check in QR-Code  FAB text-->
-    <string name="scan_check_in_qr_code">"Scanare cod QR"</string>
 
     <!-- ####################################
         Generic

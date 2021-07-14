@@ -29,10 +29,6 @@
     <string name="detail_green_certificate_title">"Цифров сертификат за тест за COVID на ЕС"</string>
     <!-- XTXT: Detail green certificate test type -->
     <string name="detail_green_certificate_test_type">"Тест за SARS-CoV-2"</string>
-    <!-- XTXT: Detail green certificate card title -->
-    <string name="detail_green_certificate_card_title">"Сертификат за тест"</string>
-    <!-- XTXT: Detail green certificate card subtitle -->
-    <string name="detail_green_certificate_card_subtitle">"Тестът е извършен на %1$s %2$s"</string>
     <!-- XTXT: Detail green certificate travel notice link en -->
     <string name="green_certificate_travel_notice_link_en">"https://reopen.europa.eu/en"</string>
     <!-- XTXT: Detail green certificate travel notice link de -->
@@ -87,8 +83,6 @@
     <string name="test_certificate_error_delete_button">"Изтриване на сертификата за тест"</string>
     <!-- XTXT: Test error refresh dialog title -->
     <string name="test_certificate_refresh_dialog_title">"Все още има проблем със заявката."</string>
-    <!-- XBUT: Test error refresh dialog confirm button -->
-    <string name="test_certificate_refresh_dialog_confirm_button">"OK"</string>
     <!-- XTXT: Test error delete dialog title -->
     <string name="test_certificate_delete_dialog_title">"Желаете ли да изтриете сертификата?"</string>
     <!-- XTXT: Test error delete dialog body -->

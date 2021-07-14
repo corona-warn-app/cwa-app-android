@@ -1,98 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <!-- XTXT: Vaccination Details birth date -->
-    <string name="vaccination_details_birth_date">"Дата на раждане %1$s"</string>
-    <!-- XTXT: Vaccination Details certificate date -->
-    <string name="vaccination_details_certificate_date">"Дата на ваксинация"</string>
-    <!-- XTXT: Vaccination Details vaccine name -->
-    <string name="vaccination_details_vaccine_name">"Ваксина"</string>
-    <!-- XTXT: Vaccination Details vaccine manufacturer -->
-    <string name="vaccination_details_vaccine_manufacturer">"Производител"</string>
-    <!-- XTXT: Vaccination Details vaccine type -->
-    <string name="vaccination_details_vaccine_medical_product_name">"Вид ваксина"</string>
-    <!-- XTXT: Vaccination Details certificate issuer -->
-    <string name="vaccination_details_certificate_issuer">"Издадено от"</string>
-    <!-- XTXT: Vaccination Details certificate country -->
-    <string name="vaccination_details_certificate_country">"Държава"</string>
-    <!-- XTXT: Vaccination Details certificate id -->
-    <string name="vaccination_details_certificate_id">"Сертификационен номер"</string>
     <!-- XTXT: Vaccination Details subtitle-->
     <string name="vaccination_details_subtitle">"Сертификат за ваксинация"</string>
-    <!-- XTXT: Vaccination Details title-->
-    <string name="vaccination_details_title">"Ваксинация %1$d от %2$d"</string>
-    <!-- XTXT: Vaccination Qr Code card title-->
-    <string name="vaccination_qrcode_card_title">"Сертификат за ваксинация %1$d от %2$d"</string>
-    <!-- XTXT: Vaccination Qr Code card subtitle-->
-    <string name="vaccination_qrcode_card_subtitle">"Ваксинация %1$s – валидност до %2$s"</string>
 
-    <!-- XTXT: Vaccination List title-->
-    <string name="vaccination_list_title">"Цифрово доказателство за ваксинация на ЕС"</string>
-    <!-- XTXT: Vaccination List complete vaccination subtitle-->
-    <string name="vaccination_list_complete_vaccination_subtitle">"Ваксинационна защита срещу SARS-CoV-2"</string>
-    <!-- XTXT: Vaccination card date-->
-    <string name="vaccination_list_name_card_subtitle">"Дата на раждане %1$s"</string>
-    <!-- XTXT: Vaccination  card title-->
-    <string name="vaccination_list_vaccination_card_title">"Ваксинация %1$d от %2$d"</string>
-    <!-- XTXT: Vaccination card headline-->
-    <string name="vaccination_list_vaccination_card_headline">"Сертификат за ваксинация"</string>
-    <!-- XTXT: Vaccination card subtitle-->
-    <string name="vaccination_list_vaccination_card_subtitle">"дата на ваксинация: %1$s"</string>
-    <!-- XTXT: Vaccination card immunity information card body-->
-    <plurals name="vaccination_list_immunity_card_body" tools:ignore="UnusedQuantity">
-        <item quantity="one">"Получихте всички планирани за момента ваксинации, но ваксинационната Ви защита ще е пълна след %1$d ден."</item>
-        <item quantity="other">"Получихте всички планирани за момента ваксинации, но ваксинационната Ви защита ще е пълна едва след %1$d дни."</item>
-        <item quantity="zero">"Получихте всички планирани за момента ваксинации, но ваксинационната Ви защита ще е пълна едва след %1$d дни."</item>
-        <item quantity="two">"Получихте всички планирани за момента ваксинации, но ваксинационната Ви защита ще е пълна едва след %1$d дни."</item>
-        <item quantity="few">"Получихте всички планирани за момента ваксинации, но ваксинационната Ви защита ще е пълна едва след %1$d дни."</item>
-        <item quantity="many">"Получихте всички планирани за момента ваксинации, но ваксинационната Ви защита ще е пълна едва след %1$d дни."</item>
-    </plurals>
     <!-- XTXT: Vaccination card immunity information card body when <1 day is left till immunity -->
     <string name="vaccination_list_immunity_tomorrow_card_body">"Получихте всички планирани за момента ваксинации, но ваксинационната Ви защита ще се счита за пълна от утре."</string>
-    <!-- XBUT: Vaccination List register additional vaccination button -->
-    <string name="vaccination_list_register_new_vaccination_button">"Добавяне на друга ваксинация"</string>
     <!-- XBUT: Vaccination List delete button -->
     <string name="vaccination_list_delete_button">"Изтриване"</string>
     <!-- XTXT: Vaccination List deletion dialog title-->
     <string name="vaccination_list_deletion_dialog_title">"Желаете ли да изтриете сертификата за ваксинация?"</string>
     <!-- XTXT: Vaccination List deletion dialog message-->
     <string name="vaccination_list_deletion_dialog_message">"Ако изтриете сертификата за ваксинация, приложението вече няма да може да използва ваксинацията за удостоверяване на вашия ваксинационен статус."</string>
-    <!-- XBUT: Vaccination List deletion dialog positive button-->
-    <string name="vaccination_list_deletion_dialog_positive_button">"Изтриване"</string>
-    <!-- XBUT: Vaccination List deletion dialog negative button-->
-    <string name="vaccination_list_deletion_dialog_negative_button">"Отказ"</string>
     <!-- XACT: Vaccination List Qr-Code for screen readers -->
     <string name="vaccination_list_qr_code_accessibility">"QR код"</string>
 
-    <!-- ####################################
-        Homescreen cards
-    ###################################### -->
-    <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_registration_title_line_1">"Добавете"</string>
-    <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_registration_title_line_2">"доказателство за ваксинация срещу COVID на ЕС"</string>
-    <!-- YTXT: Body text for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_registration_body">"Добавете ваксинационните си сертификати в приложението, за да са винаги с Вас. За целта сканирайте QR кода от Вашия документ."</string>
-    <!-- XBUT: button for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_register">"Добавяне"</string>
-    <!-- XHED: Homescreen vaccination status card title -->
-    <string name="vaccination_card_status_title_line_1">"Цифрово"</string>
-    <!-- XHED: Homescreen vaccination status card title -->
-    <string name="vaccination_card_status_title_line_2">"доказателство за ваксинация срещу COVID на ЕС"</string>
-    <!-- XHED: Homescreen vaccination status card vaccination name -->
-    <string name="vaccination_card_status_vaccination_name">"Ваксинация срещу SARS-CoV-2"</string>
-    <!-- XTXT: Homescreen card incomplete vaccination status label -->
-    <string name="vaccination_card_status_vaccination_incomplete">"Непълна ваксинация"</string>
-    <!-- XTXT: Homescreen card complete vaccination status label -->
-    <plurals name="vaccination_card_status_vaccination_complete" tools:ignore="UnusedQuantity">
-        <item quantity="one">"Пълна ваксинационна защита след %1$d ден"</item>
-        <item quantity="other">"Пълна ваксинационна защита след %1$d дни"</item>
-        <item quantity="zero">"Пълна ваксинационна защита след %1$d дни"</item>
-        <item quantity="two">"Пълна ваксинационна защита след %1$d дни"</item>
-        <item quantity="few">"Пълна ваксинационна защита след %1$d дни"</item>
-        <item quantity="many">"Пълна ваксинационна защита след %1$d дни"</item>
-    </plurals>
-    <string name="vaccination_card_status_vaccination_complete_tomorrow">"Пълна ваксинационна защита от утре"</string>
-    <!-- XTXT: Homescreen card complete vaccination status label -->
-    <string name="vaccination_card_status_vaccination_complete">"Валидно до %s"</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_invalid">"Този QR не е валиден сертификат.\n\nЗа да разберете как можете да се сдобиете със сертификат за извършена ваксинация, вижте страницата ни с често задавани въпроси (ЧЗВ)."</string>
     <!-- XTXT: Vaccination QR code scan error message-->

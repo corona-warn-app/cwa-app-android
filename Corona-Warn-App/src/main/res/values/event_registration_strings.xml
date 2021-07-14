@@ -20,13 +20,6 @@
     <!-- XBUT: My check-ins: menu entry to show information -->
     <string name="trace_location_checkins_menu_information">"Information"</string>
 
-    <!-- XHED: My checkin-ins: card title if camera permissions were permanently declined. -->
-    <string name="trace_location_checkins_camera_permission_title">"Allow Access to Camera"</string>
-    <!-- XTXT: My checkin-ins: card description if camera permissions were permanently declined. -->
-    <string name="trace_location_checkins_camera_permission_description">"To use your smartphone camera to scan QR codes, you have to allow access to the camera in the device settings for the app."</string>
-    <!-- XBUT: My checkin-ins: card description if camera permissions were permanently declined. -->
-    <string name="trace_location_checkins_camera_permission_action">"Open Settings"</string>
-
     <!-- XHED: My checkin-ins: Confirmation dialog title when removing all items -->
     <string name="trace_location_checkins_remove_all_title">"Do you really want to remove all entries?"</string>
     <!-- XHED: My checkin-ins: Confirmation dialog title when removing a single item -->
@@ -40,8 +33,6 @@
     <string name="trace_location_checkins_card_action_checkout">"Check Out Now"</string>
     <!-- XTXT: My check-ins card: Active event, duration label in highlight view -->
     <string name="trace_location_checkins_card_highlight_duration_label">"Duration"</string>
-    <!-- XTXT: My check-ins card: Active event, checkin information, automatic checkout info -->
-    <string name="trace_location_checkins_card_automatic_checkout_info">"%1$s - check out automatically after %2$s."</string>
     <!-- XTXT: My check-ins card: Active event, checkin information, automatic checkout info -->
     <string name="trace_location_checkins_card_automatic_checkout_info_format">"%1$s %2$s - check out automatically after %3$s."</string>
 
@@ -137,8 +128,6 @@
     <string name="create_trace_location_card_subtitle">"Are you planning an event or do you run a business? Create a QR code so your guests can check in when they arrive."</string>
     <!-- XTXT: Text for trace location creation card -->
     <string name="create_trace_location_card_button">"Create QR Code"</string>
-    <!-- XTXT: Text for content description of tile image -->
-    <string name="create_trace_location_card_content_description">"A person points to a flip chart."</string>
 
     <!--    Trace Location QR Code Info Screen-->
     <!-- XTXT: Text for content description of info screen image -->

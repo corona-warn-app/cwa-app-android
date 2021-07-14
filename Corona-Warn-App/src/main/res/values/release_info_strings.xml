@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
     <!-- ####################################
                  Release Info Screen
      ###################################### -->
@@ -17,30 +16,30 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>EU-Zertifikatsprüfung</item>
-        <item>Erweiterung Statistiken</item>
-        <item>Schnelltest-Profil bearbeiten</item>
+        <item>"EU Certificate Validation"</item>
+        <item>"Extended Statistics"</item>
+        <item>"Edit Rapid Test Profile"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>Sie können nun vor einer Reise Zertifikate für ein gewähltes Land auf Gültigkeit prüfen.</item>
-        <item>Sie können nun bis zu fünf lokale 7-Tage-Inzidenzen in der App hinzufügen.</item>
-        <item>Sie können nun Ihr Schnelltest-Profil in der App bearbeiten, um zum Beispiel Ihre Adresse zu ändern.</item>
+        <item>"You can now verify the validity of certificates for a selected country before you travel."</item>
+        <item>"You can now add up to five local 7-day incidence figures in the app."</item>
+        <item>"You can now edit your rapid test profile in the app, for example, to change your address."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
-        <item></item>
-        <item></item>
-        <item></item>
+        <item/>
+        <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item></item>
-        <item></item>
-        <item></item>
+        <item/>
+        <item/>
+        <item/>
     </string-array>
 
 </resources>
