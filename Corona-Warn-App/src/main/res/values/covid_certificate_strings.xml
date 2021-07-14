@@ -14,8 +14,10 @@
     <string name="person_overview_no_certificates_title">"No certificates available yet"</string>
     <!-- XTXT: Person overview no certificates subtitle-->
     <string name="person_overview_no_certificates_subtitle">"The saved digital vaccination certificates, certificates of recovery, and test certificates are displayed here."</string>
+    <!-- XTXT: Person overview no certificates subtitle 2-->
+    <string name="person_overview_no_certificates_subtitle_2">"To add a certificate, please scan the corresponding QR code."</string>
     <!-- XBUT: Person overview certificates scan button-->
-    <string name="person_overview_scan_button">"Add Certificate"</string>
+    <string name="person_overview_scan_button">"Certificate"</string>
     <!-- XTXT: Person overview no certificates image content description-->
     <string name="person_overview_no_certificates_image_description">"A certificate with a QR code symbol on it."</string>
     <!-- XTXT: Person card title-->
@@ -128,7 +130,10 @@
     <string name="validation_rules_info_title">"Information"</string>
     <!-- XTXT: Accessibility: Validation Rule Info Screen Image Description -->
     <string name="validation_rules_info_image">"Map of Europe"</string>
-
+    <!-- XTXT: Start Validation Rule Check Button -->
+    <string name="start_validation_rule_check_button">"Check Validity"</string>
+    <!-- XTXT: Start Validation Rule Check Loading Text -->
+    <string name="start_validation_rule_check_loading_text">"Please wait..."</string>
     <!-- XTXT: Digital covid certificate validation error message - no network -->
     <string name="dcc_validation_error_no_network">"Your Internet connection was lost. To complete the validity check for the certificate, please check the connection and try again."</string>
     <!-- XTXT: Digital covid certificate validation error message - try again -->
@@ -181,4 +186,52 @@
     <!-- XTXT: Validation start time error message -->
     <string name="validation_start_time_error">"The specified time has already passed. Enter a future time for your local time of entry."</string>
 
+    <!-- XHED: No Internet connection diaglog title -->
+    <string name="validation_start_no_internet_dialog_title">"Validation Failed"</string>
+    <!-- XTXT: No Internet connection diaglog message -->
+    <string name="validation_start_no_internet_dialog_msg">"Your Internet connection was lost. To complete the validity check for the certificate, please check the connection and try again."</string>
+    <!-- XBUT: No Internet connection diaglog positive button -->
+    <string name="validation_start_no_internet_dialog_positive_button">"OK"</string>
+
+    <!-- XTXT: Validation Rule Result Valid - Infos about country, date and check date -->
+    <string name="validation_rules_result_valid_result_country_and_time">"Entering %1$s on %2$s, validated on %3$s"</string>
+
+    <!-- XTXT: Validation Rule Result Valid - Result  -->
+    <string name="validation_rules_result_valid_result_title">"Your certificate is valid in the selected country"</string>
+    <!-- XTXT: Validation Rule Result Cannot be checked  - Result  -->
+    <string name="validation_rules_result_cannot_be_checked_result_title">"Your certificate could not be validated completely"</string>
+    <!-- XTXT: Validation Rule Result Not Valid - Result  -->
+    <string name="validation_rules_result_not_valid_result_title">"Your certificate is not valid in the selected country"</string>
+
+    <!-- XTXT: Validation Rule Open Header Title  -->
+    <string name="validation_rules_open_header_title">"Validation is not possible"</string>
+    <!-- XTXT: Validation Rule Open Header Subtitle  -->
+    <string name="validation_rules_open_header_subtitle">"The following rules could not be checked. Please make sure that the certificate satisfies the rules of your destination country."</string>
+    <!-- XTXT: Validation Rule Failure Header Title  -->
+    <string name="validation_rules_failure_header_title">"Validation complete"</string>
+    <!-- XTXT: Validation Rule Failure Header Subtitle  -->
+    <string name="validation_rules_failure_header_subtitle">"The following rules are not satisfied:"</string>
+    <!-- XTXT: Validation Rule Technical Failure Header Title  -->
+    <string name="validation_rules_technical_failure_header_title">"Technical check"</string>
+    <!-- XTXT: Validation Rule Technical Failure Header Subtitle  -->
+    <string name="validation_rules_technical_failure_header_subtitle">"The following rules are not satisfied:"</string>
+    <!-- XTXT: Validation Rule Technical Failure - Date Format  -->
+    <string name="validation_rule_technical_error_date_format">"The certificate must have the expected data format."</string>
+    <!-- XTXT: Validation Rule Technical Failure - Date Expired  -->
+    <string name="validation_rule_technical_error_date_expired">"The certificate must not be expired."</string>
+
+    <!-- Validation Passed Screen-->
+    <!-- XHED: Toolbar title for the validation passed screen  -->
+    <string name="validation_rules_result_valid_header">"Certificate Is Valid"</string>
+    <!-- XTXT: No rules available text for the validation passed screen  -->
+    <string name="validation_no_rules_available_valid_text">"There are currently no entry rules for the selected country and selected time for this certificate type. Please note the following:"</string>
+    <!-- XTXT: Rule validation text for the validation passed screen  -->
+    <string name="validation_rules_result_valid_rule_text">"%1$d rules of the destination country were reviewed successfully."</string>
+    <!-- XTXT: Button text - Check another country -->
+    <string name="validation_rules_result_valid_result_button">"Check for Another Country"</string>
+    <!-- Validation Failed Screen-->
+    <!-- XHED: Toolbar title for the validation failed screen -->
+    <string name="validation_failed_title">"Certificate Is Not Valid"</string>
+    <!-- XHED: Toolbar title for the validation open screen -->
+    <string name="validation_open_title">"Certificate Cannot Be Validated"</string>
 </resources>

@@ -4,9 +4,9 @@
         Homescreen cards - register test card
     ###################################### -->
     <!-- XHED: Register test homescreen card: title -->
-    <string name="ag_homescreen_card_test_register_title">"Następne kroki"</string>
+    <string name="ag_homescreen_card_test_register_title">"Kontynuuj"</string>
     <!-- XTXT: Register test homescreen card: body -->
-    <string name="ag_homescreen_card_test_register_body">"Aplikacji możesz używać do rejestrowania testów i pobierania ich wyników, aby szybciej ostrzegać innych. Za jej pośrednictwem możesz także poprosić o wydanie certyfikatu testu na COVID."</string>
+    <string name="ag_homescreen_card_test_register_body">"Znajdź ośrodki testujące w pobliżu i zarejestruj test, aby móc szybciej ostrzegać innych, lub poproś o wydanie cyfrowego certyfikatu testu na COVID."</string>
 
     <!-- ####################################
         Homescreen cards - common status
@@ -183,7 +183,11 @@
     <!-- XBUT: Create RAT Qr code profile next button-->
     <string name="rat_qr_code_profile_next_button">"Kontynuuj"</string>
     <!-- XTXT: Create RAT Qr code profile delete item-->
-    <string name="rat_qr_code_profile_delete_item">"Usuń"</string>
+    <string name="rat_qr_code_profile_delete_item">"Usuń profil szybkiego testu"</string>
+    <!-- XTXT: Create RAT Qr code profile edit item-->
+    <string name="rat_qr_code_profile_edit_item">"Edytuj profil szybkiego testu"</string>
+    <!-- XTXT: Create RAT Qr code profile information item-->
+    <string name="rat_qr_code_profile_information_item">"Informacje"</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog title-->
     <string name="rat_qr_code_profile_dialog_title">"Czy chcesz usunąć profil szybkiego testu?"</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog message-->

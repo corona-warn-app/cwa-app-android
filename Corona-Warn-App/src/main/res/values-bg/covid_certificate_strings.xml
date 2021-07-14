@@ -14,8 +14,10 @@
     <string name="person_overview_no_certificates_title">"Все още няма сертификати"</string>
     <!-- XTXT: Person overview no certificates subtitle-->
     <string name="person_overview_no_certificates_subtitle">"Тук се показват запазените цифрови сертификати за ваксинация, възстановяване и тест."</string>
+    <!-- XTXT: Person overview no certificates subtitle 2-->
+    <string name="person_overview_no_certificates_subtitle_2">"Моля, сканирайте съответния QR код, за да добавите сертификат."</string>
     <!-- XBUT: Person overview certificates scan button-->
-    <string name="person_overview_scan_button">"Добавяне на сертификат"</string>
+    <string name="person_overview_scan_button">"Сертификат"</string>
     <!-- XTXT: Person overview no certificates image content description-->
     <string name="person_overview_no_certificates_image_description">"Сертификат със символ за QR код."</string>
     <!-- XTXT: Person card title-->
@@ -128,7 +130,10 @@
     <string name="validation_rules_info_title">"Информация"</string>
     <!-- XTXT: Accessibility: Validation Rule Info Screen Image Description -->
     <string name="validation_rules_info_image">"Карта на Европа"</string>
-
+    <!-- XTXT: Start Validation Rule Check Button -->
+    <string name="start_validation_rule_check_button">"Проверка за валидност"</string>
+    <!-- XTXT: Start Validation Rule Check Loading Text -->
+    <string name="start_validation_rule_check_loading_text">"Моля, изчакайте..."</string>
     <!-- XTXT: Digital covid certificate validation error message - no network -->
     <string name="dcc_validation_error_no_network">"Изгубихте връзка с Интернет. За да завършите проверката за валидност на сертификата, проверете връзката си и опитайте отново."</string>
     <!-- XTXT: Digital covid certificate validation error message - try again -->
@@ -181,4 +186,52 @@
     <!-- XTXT: Validation start time error message -->
     <string name="validation_start_time_error">"Посоченият час вече е отминал. Въведете бъдещ час на пристигане по местно време."</string>
 
+    <!-- XHED: No Internet connection diaglog title -->
+    <string name="validation_start_no_internet_dialog_title">"Неуспешна проверка"</string>
+    <!-- XTXT: No Internet connection diaglog message -->
+    <string name="validation_start_no_internet_dialog_msg">"Изгубихте връзка с Интернет. За да завършите проверката за валидност на сертификата, проверете връзката си и опитайте отново."</string>
+    <!-- XBUT: No Internet connection diaglog positive button -->
+    <string name="validation_start_no_internet_dialog_positive_button">"OK"</string>
+
+    <!-- XTXT: Validation Rule Result Valid - Infos about country, date and check date -->
+    <string name="validation_rules_result_valid_result_country_and_time">"Влизане в %1$s на %2$s, валидирано на %3$s"</string>
+
+    <!-- XTXT: Validation Rule Result Valid - Result  -->
+    <string name="validation_rules_result_valid_result_title">"Сертификатът ви е валиден в избраната държава"</string>
+    <!-- XTXT: Validation Rule Result Cannot be checked  - Result  -->
+    <string name="validation_rules_result_cannot_be_checked_result_title">"Сертификатът ви не беше валидиран напълно"</string>
+    <!-- XTXT: Validation Rule Result Not Valid - Result  -->
+    <string name="validation_rules_result_not_valid_result_title">"Сертификатът ви не е валиден в избраната държава"</string>
+
+    <!-- XTXT: Validation Rule Open Header Title  -->
+    <string name="validation_rules_open_header_title">"Валидирането е невъзможно"</string>
+    <!-- XTXT: Validation Rule Open Header Subtitle  -->
+    <string name="validation_rules_open_header_subtitle">"Следните правила не бяха проверени. Моля, уверете се, че сертификатът съответства на правилата в държавата на местоназначение."</string>
+    <!-- XTXT: Validation Rule Failure Header Title  -->
+    <string name="validation_rules_failure_header_title">"Валидирането е успешно завършено"</string>
+    <!-- XTXT: Validation Rule Failure Header Subtitle  -->
+    <string name="validation_rules_failure_header_subtitle">"Следните изисквания не са изпълнени:"</string>
+    <!-- XTXT: Validation Rule Technical Failure Header Title  -->
+    <string name="validation_rules_technical_failure_header_title">"Техническа проверка"</string>
+    <!-- XTXT: Validation Rule Technical Failure Header Subtitle  -->
+    <string name="validation_rules_technical_failure_header_subtitle">"Следните изисквания не са изпълнени:"</string>
+    <!-- XTXT: Validation Rule Technical Failure - Date Format  -->
+    <string name="validation_rule_technical_error_date_format">"Форматът на данните в сертификата трябва да отговаря на изискванията."</string>
+    <!-- XTXT: Validation Rule Technical Failure - Date Expired  -->
+    <string name="validation_rule_technical_error_date_expired">"Валидността на сертификата не трябва да е изтекла."</string>
+
+    <!-- Validation Passed Screen-->
+    <!-- XHED: Toolbar title for the validation passed screen  -->
+    <string name="validation_rules_result_valid_header">"Сертификатът е валиден"</string>
+    <!-- XTXT: No rules available text for the validation passed screen  -->
+    <string name="validation_no_rules_available_valid_text">"В момента няма правила относно влизането в избраната държава в посоченото време за този вид сертификат. Моля, обърнете внимание на следното:"</string>
+    <!-- XTXT: Rule validation text for the validation passed screen  -->
+    <string name="validation_rules_result_valid_rule_text">"Успешно преразгледани правила за държавата на местоназначение: %1$d."</string>
+    <!-- XTXT: Button text - Check another country -->
+    <string name="validation_rules_result_valid_result_button">"Проверка за друга държава"</string>
+    <!-- Validation Failed Screen-->
+    <!-- XHED: Toolbar title for the validation failed screen -->
+    <string name="validation_failed_title">"Сертификатът не е валиден"</string>
+    <!-- XHED: Toolbar title for the validation open screen -->
+    <string name="validation_open_title">"Сертификатът не може да бъде валидиран"</string>
 </resources>

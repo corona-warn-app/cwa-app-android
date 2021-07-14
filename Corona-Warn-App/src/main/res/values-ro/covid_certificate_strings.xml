@@ -14,8 +14,10 @@
     <string name="person_overview_no_certificates_title">"Nu sunt încă disponibile certificate"</string>
     <!-- XTXT: Person overview no certificates subtitle-->
     <string name="person_overview_no_certificates_subtitle">"Certificatele de vaccinare digitale, certificatele de recuperare și certificatele de test salvate sunt afișate aici."</string>
+    <!-- XTXT: Person overview no certificates subtitle 2-->
+    <string name="person_overview_no_certificates_subtitle_2">"Pentru a adăuga un certificat, scanați codul QR corespunzător."</string>
     <!-- XBUT: Person overview certificates scan button-->
-    <string name="person_overview_scan_button">"Adăugare certificate"</string>
+    <string name="person_overview_scan_button">"Certificat"</string>
     <!-- XTXT: Person overview no certificates image content description-->
     <string name="person_overview_no_certificates_image_description">"Un certificat cu un simbol de cod QR aplicat pe el."</string>
     <!-- XTXT: Person card title-->
@@ -128,7 +130,10 @@
     <string name="validation_rules_info_title">"Informații"</string>
     <!-- XTXT: Accessibility: Validation Rule Info Screen Image Description -->
     <string name="validation_rules_info_image">"Harta Europei"</string>
-
+    <!-- XTXT: Start Validation Rule Check Button -->
+    <string name="start_validation_rule_check_button">"Verificare valabilitate"</string>
+    <!-- XTXT: Start Validation Rule Check Loading Text -->
+    <string name="start_validation_rule_check_loading_text">"Așteptați..."</string>
     <!-- XTXT: Digital covid certificate validation error message - no network -->
     <string name="dcc_validation_error_no_network">"Conexiunea dvs. la internet s-a pierdut. Pentru a finaliza verificarea valabilității certificatului, verificați conexiunea și reîncercați."</string>
     <!-- XTXT: Digital covid certificate validation error message - try again -->
@@ -181,4 +186,52 @@
     <!-- XTXT: Validation start time error message -->
     <string name="validation_start_time_error">"Ora specificată a trecut deja. Introduceți o oră în viitor pentru ora locală de intrare."</string>
 
+    <!-- XHED: No Internet connection diaglog title -->
+    <string name="validation_start_no_internet_dialog_title">"Validare nereușită"</string>
+    <!-- XTXT: No Internet connection diaglog message -->
+    <string name="validation_start_no_internet_dialog_msg">"Conexiunea dvs. la internet s-a pierdut. Pentru a finaliza verificarea valabilității certificatului, verificați conexiunea și reîncercați."</string>
+    <!-- XBUT: No Internet connection diaglog positive button -->
+    <string name="validation_start_no_internet_dialog_positive_button">"OK"</string>
+
+    <!-- XTXT: Validation Rule Result Valid - Infos about country, date and check date -->
+    <string name="validation_rules_result_valid_result_country_and_time">"Intrare în %1$s pe %2$s, validat pe %3$s"</string>
+
+    <!-- XTXT: Validation Rule Result Valid - Result  -->
+    <string name="validation_rules_result_valid_result_title">"Certificatul dvs. este valabil în țara selectată"</string>
+    <!-- XTXT: Validation Rule Result Cannot be checked  - Result  -->
+    <string name="validation_rules_result_cannot_be_checked_result_title">"Certificatul dvs. nu a putut fi validat complet"</string>
+    <!-- XTXT: Validation Rule Result Not Valid - Result  -->
+    <string name="validation_rules_result_not_valid_result_title">"Certificatul dvs. nu este valabil în țara selectată"</string>
+
+    <!-- XTXT: Validation Rule Open Header Title  -->
+    <string name="validation_rules_open_header_title">"Validarea nu este posibilă"</string>
+    <!-- XTXT: Validation Rule Open Header Subtitle  -->
+    <string name="validation_rules_open_header_subtitle">"Următoarele reguli nu au putut fi verificate. Asigurați-vă că certificatul îndeplinește regulile țării de destinație."</string>
+    <!-- XTXT: Validation Rule Failure Header Title  -->
+    <string name="validation_rules_failure_header_title">"Validare completă"</string>
+    <!-- XTXT: Validation Rule Failure Header Subtitle  -->
+    <string name="validation_rules_failure_header_subtitle">"Următoarele reguli nu sunt îndeplinite:"</string>
+    <!-- XTXT: Validation Rule Technical Failure Header Title  -->
+    <string name="validation_rules_technical_failure_header_title">"Verificare tehnică"</string>
+    <!-- XTXT: Validation Rule Technical Failure Header Subtitle  -->
+    <string name="validation_rules_technical_failure_header_subtitle">"Următoarele reguli nu sunt îndeplinite:"</string>
+    <!-- XTXT: Validation Rule Technical Failure - Date Format  -->
+    <string name="validation_rule_technical_error_date_format">"Certificatul trebuie să aibă formatul de date prevăzut."</string>
+    <!-- XTXT: Validation Rule Technical Failure - Date Expired  -->
+    <string name="validation_rule_technical_error_date_expired">"Certificatul nu trebuie să fie expirat."</string>
+
+    <!-- Validation Passed Screen-->
+    <!-- XHED: Toolbar title for the validation passed screen  -->
+    <string name="validation_rules_result_valid_header">"Certificatul este valabil"</string>
+    <!-- XTXT: No rules available text for the validation passed screen  -->
+    <string name="validation_no_rules_available_valid_text">"În prezent nu există reguli de intrare pentru țara selectată și ora selectată pentru acest tip de certificat. Rețineți următoarele:"</string>
+    <!-- XTXT: Rule validation text for the validation passed screen  -->
+    <string name="validation_rules_result_valid_rule_text">"%1$d reguli ale țării de destinație au fost revizuite cu succes."</string>
+    <!-- XTXT: Button text - Check another country -->
+    <string name="validation_rules_result_valid_result_button">"Verificare pentru o altă țară"</string>
+    <!-- Validation Failed Screen-->
+    <!-- XHED: Toolbar title for the validation failed screen -->
+    <string name="validation_failed_title">"Certificatul nu este valabil"</string>
+    <!-- XHED: Toolbar title for the validation open screen -->
+    <string name="validation_open_title">"Certificatul nu poate fi validat"</string>
 </resources>

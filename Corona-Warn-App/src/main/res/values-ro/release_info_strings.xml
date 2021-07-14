@@ -16,16 +16,16 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Certificat de recuperare COVID"</item>
-        <item>"Certificate de familie"</item>
+        <item>"Validare certificat UE"</item>
         <item>"Statistică extinsă"</item>
+        <item>"Editarea profilului de test rapid"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Acum puteți solicita și certificate digitale de recuperare prin aplicație și apoi le puteți adăuga în aplicație. Puteți utiliza aceste certificate în UE pentru a face dovada recuperării de la o infecție anterioară (de exemplu, pentru călătoria internațională)."</item>
-        <item>"Acum puteți adăuga și gestiona certificate COVID digitale ale membrilor familiei în aplicație, pe care le puteți transmite când este nevoie (pentru călătoria internațională, de exemplu)."</item>
-        <item>"Următoarele statistici privind vaccinarea sunt acum disponibile în aplicație:\n\t- Numărul de persoane care au primit cel puțin o doză de vaccin\n\t- Numărul de persoane care sunt complet vaccinate\n\t- Numărul de doze de vaccin administrate"</item>
+        <item>"Acum puteți verifica valabilitatea certificatelor pentru o țară selectată înainte de a călători."</item>
+        <item>"Acum puteți adăuga până la cinci cifre ale incidenței locale pe ultimele 7 zile în aplicație."</item>
+        <item>"Acum puteți edita profilul dvs. de test rapid în aplicație, de exemplu, pentru a vă modifica adresa."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

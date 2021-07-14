@@ -4,9 +4,9 @@
         Homescreen cards - register test card
     ###################################### -->
     <!-- XHED: Register test homescreen card: title -->
-    <string name="ag_homescreen_card_test_register_title">"Следващи стъпки"</string>
+    <string name="ag_homescreen_card_test_register_title">"Напред"</string>
     <!-- XTXT: Register test homescreen card: body -->
-    <string name="ag_homescreen_card_test_register_body">"Използвайте приложението, за да регистрирате тестовете си и да извлечете резултатите от тях, за да можете да предупредите останалите по-бързо или за да заявите своя сертификат за тестване за COVID."</string>
+    <string name="ag_homescreen_card_test_register_body">"Намерете центровете за тестване в близост до вас и регистрирайте теста си, за да можете да предупредите останалите по-бързо или за да заявите своя цифров сертификат за тест за COVID."</string>
 
     <!-- ####################################
         Homescreen cards - common status
@@ -183,9 +183,13 @@
     <!-- XBUT: Create RAT Qr code profile next button-->
     <string name="rat_qr_code_profile_next_button">"Напред"</string>
     <!-- XTXT: Create RAT Qr code profile delete item-->
-    <string name="rat_qr_code_profile_delete_item">"Премахване"</string>
+    <string name="rat_qr_code_profile_delete_item">"Изтриване на профил за бързи тестове"</string>
+    <!-- XTXT: Create RAT Qr code profile edit item-->
+    <string name="rat_qr_code_profile_edit_item">"Редактиране на профил за бързи тестове"</string>
+    <!-- XTXT: Create RAT Qr code profile information item-->
+    <string name="rat_qr_code_profile_information_item">"Информация"</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog title-->
-    <string name="rat_qr_code_profile_dialog_title">"Желаете ли да премахнете профила си за бързи тестове?"</string>
+    <string name="rat_qr_code_profile_dialog_title">"Желаете ли да изтриете профила за бързи тестове?"</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog message-->
     <string name="rat_qr_code_profile_dialog_message">"Моля, имайте предвид, че ако го направите, този код повече няма да може да се използва за регистрации."</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog positive button-->

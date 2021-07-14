@@ -4,9 +4,9 @@
         Homescreen cards - register test card
     ###################################### -->
     <!-- XHED: Register test homescreen card: title -->
-    <string name="ag_homescreen_card_test_register_title">"Sonraki Adımlar"</string>
+    <string name="ag_homescreen_card_test_register_title">"Devam Et"</string>
     <!-- XTXT: Register test homescreen card: body -->
-    <string name="ag_homescreen_card_test_register_body">"Diğer kullanıcıları daha hızlı uyarmak için testlerinizi kaydetmek ve test sonuçlarınızı almak ya da COVID test sertifikanızı talep etmek üzere uygulamayı kullanın."</string>
+    <string name="ag_homescreen_card_test_register_body">"Diğer kullanıcıları daha hızlı uyarmak veya dijital COVID test sertifikanızı talep etmek için yakınınızdaki test merkezlerini bulun ve bir testi kaydedin."</string>
 
     <!-- ####################################
         Homescreen cards - common status
@@ -183,9 +183,13 @@
     <!-- XBUT: Create RAT Qr code profile next button-->
     <string name="rat_qr_code_profile_next_button">"Devam Et"</string>
     <!-- XTXT: Create RAT Qr code profile delete item-->
-    <string name="rat_qr_code_profile_delete_item">"Kaldır"</string>
+    <string name="rat_qr_code_profile_delete_item">"Hızlı Test Profilini Sil"</string>
+    <!-- XTXT: Create RAT Qr code profile edit item-->
+    <string name="rat_qr_code_profile_edit_item">"Hızlı Test Profilini Düzenle"</string>
+    <!-- XTXT: Create RAT Qr code profile information item-->
+    <string name="rat_qr_code_profile_information_item">"Bilgi"</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog title-->
-    <string name="rat_qr_code_profile_dialog_title">"Hızlı test profilini kaldırmak istiyor musunuz?"</string>
+    <string name="rat_qr_code_profile_dialog_title">"Hızlı test profilini silmek istiyor musunuz?"</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog message-->
     <string name="rat_qr_code_profile_dialog_message">"Lütfen unutmayın; QR kodu silerseniz artık kayıt yaparken bunu kullanamazsınız."</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog positive button-->

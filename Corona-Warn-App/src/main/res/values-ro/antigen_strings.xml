@@ -4,9 +4,9 @@
         Homescreen cards - register test card
     ###################################### -->
     <!-- XHED: Register test homescreen card: title -->
-    <string name="ag_homescreen_card_test_register_title">"Pașii următori"</string>
+    <string name="ag_homescreen_card_test_register_title">"Continuare"</string>
     <!-- XTXT: Register test homescreen card: body -->
-    <string name="ag_homescreen_card_test_register_body">"Utilizați aplicația pentru a înregistra testele dvs. și a afla rezultatele testelor dvs. pentru a-i putea avertiza pe ceilalți mai rapid sau pentru a solicita certificatul dvs. de test COVID."</string>
+    <string name="ag_homescreen_card_test_register_body">"Găsiți centre de testare în aproprierea dvs. și înregistrați un test pentru a-i putea avertiza pe ceilalți mai rapid sau pentru a solicita certificatul dvs. de test COVID."</string>
 
     <!-- ####################################
         Homescreen cards - common status
@@ -183,9 +183,13 @@
     <!-- XBUT: Create RAT Qr code profile next button-->
     <string name="rat_qr_code_profile_next_button">"Continuare"</string>
     <!-- XTXT: Create RAT Qr code profile delete item-->
-    <string name="rat_qr_code_profile_delete_item">"Eliminare"</string>
+    <string name="rat_qr_code_profile_delete_item">"Ștergerea profilului de test rapid"</string>
+    <!-- XTXT: Create RAT Qr code profile edit item-->
+    <string name="rat_qr_code_profile_edit_item">"Editarea profilului de test rapid"</string>
+    <!-- XTXT: Create RAT Qr code profile information item-->
+    <string name="rat_qr_code_profile_information_item">"Informații"</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog title-->
-    <string name="rat_qr_code_profile_dialog_title">"Doriți să eliminați profilul de test rapid?"</string>
+    <string name="rat_qr_code_profile_dialog_title">"Doriți să ștergeți profilul de test rapid?"</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog message-->
     <string name="rat_qr_code_profile_dialog_message">"Luați în considerare că dacă îl ștergeți, codul QR nu mai poate fi utilizat pentru înregistrare."</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog positive button-->

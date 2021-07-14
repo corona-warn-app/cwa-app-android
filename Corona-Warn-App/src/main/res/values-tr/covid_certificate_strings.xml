@@ -14,8 +14,10 @@
     <string name="person_overview_no_certificates_title">"Henüz sertifika yok"</string>
     <!-- XTXT: Person overview no certificates subtitle-->
     <string name="person_overview_no_certificates_subtitle">"Kaydedilen dijital aşı sertifikaları, iyileşme sertifikaları ve test sertifikaları burada görüntülenir."</string>
+    <!-- XTXT: Person overview no certificates subtitle 2-->
+    <string name="person_overview_no_certificates_subtitle_2">"Sertifika eklemek için lütfen karşılık gelen QR kodu tarayın."</string>
     <!-- XBUT: Person overview certificates scan button-->
-    <string name="person_overview_scan_button">"Sertifika Ekle"</string>
+    <string name="person_overview_scan_button">"Sertifika"</string>
     <!-- XTXT: Person overview no certificates image content description-->
     <string name="person_overview_no_certificates_image_description">"Üzerinde QR kod sembolü olan bir sertifika."</string>
     <!-- XTXT: Person card title-->
@@ -128,7 +130,10 @@
     <string name="validation_rules_info_title">"Bilgi"</string>
     <!-- XTXT: Accessibility: Validation Rule Info Screen Image Description -->
     <string name="validation_rules_info_image">"Avrupa Haritası"</string>
-
+    <!-- XTXT: Start Validation Rule Check Button -->
+    <string name="start_validation_rule_check_button">"Geçerliliği Kontrol Et"</string>
+    <!-- XTXT: Start Validation Rule Check Loading Text -->
+    <string name="start_validation_rule_check_loading_text">"Lütfen bekleyin..."</string>
     <!-- XTXT: Digital covid certificate validation error message - no network -->
     <string name="dcc_validation_error_no_network">"İnternet bağlantınız kesildi. Sertifika geçerlilik kontrolünü tamamlamak için lütfen bağlantıyı kontrol edin ve yeniden deneyin."</string>
     <!-- XTXT: Digital covid certificate validation error message - try again -->
@@ -181,4 +186,52 @@
     <!-- XTXT: Validation start time error message -->
     <string name="validation_start_time_error">"Belirtilen saat zaten geçmiş. Yerel giriş saatiniz için gelecekteki bir saati girin."</string>
 
+    <!-- XHED: No Internet connection diaglog title -->
+    <string name="validation_start_no_internet_dialog_title">"Doğrulama Başarısız"</string>
+    <!-- XTXT: No Internet connection diaglog message -->
+    <string name="validation_start_no_internet_dialog_msg">"İnternet bağlantınız kesildi. Sertifika geçerlilik kontrolünü tamamlamak için lütfen bağlantıyı kontrol edin ve yeniden deneyin."</string>
+    <!-- XBUT: No Internet connection diaglog positive button -->
+    <string name="validation_start_no_internet_dialog_positive_button">"Tamam"</string>
+
+    <!-- XTXT: Validation Rule Result Valid - Infos about country, date and check date -->
+    <string name="validation_rules_result_valid_result_country_and_time">"%2$s tarihinde %1$s girişi, %3$s tarihinde doğrulandı"</string>
+
+    <!-- XTXT: Validation Rule Result Valid - Result  -->
+    <string name="validation_rules_result_valid_result_title">"Sertifikanız seçilen ülkede geçerli"</string>
+    <!-- XTXT: Validation Rule Result Cannot be checked  - Result  -->
+    <string name="validation_rules_result_cannot_be_checked_result_title">"Sertifikanız tamamen doğrulanamadı"</string>
+    <!-- XTXT: Validation Rule Result Not Valid - Result  -->
+    <string name="validation_rules_result_not_valid_result_title">"Sertifikanız seçilen ülkede geçerli değil"</string>
+
+    <!-- XTXT: Validation Rule Open Header Title  -->
+    <string name="validation_rules_open_header_title">"Doğrulama yapılamıyor"</string>
+    <!-- XTXT: Validation Rule Open Header Subtitle  -->
+    <string name="validation_rules_open_header_subtitle">"Aşağıdaki kurallar kontrol edilemedi. Lütfen sertifikanın, gideceğiniz ülkenin kurallarına uygun olduğundan emin olun."</string>
+    <!-- XTXT: Validation Rule Failure Header Title  -->
+    <string name="validation_rules_failure_header_title">"Doğrulama tamamlandı"</string>
+    <!-- XTXT: Validation Rule Failure Header Subtitle  -->
+    <string name="validation_rules_failure_header_subtitle">"Aşağıdaki kurallara uygun değil:"</string>
+    <!-- XTXT: Validation Rule Technical Failure Header Title  -->
+    <string name="validation_rules_technical_failure_header_title">"Teknik kontrol"</string>
+    <!-- XTXT: Validation Rule Technical Failure Header Subtitle  -->
+    <string name="validation_rules_technical_failure_header_subtitle">"Aşağıdaki kurallara uygun değil:"</string>
+    <!-- XTXT: Validation Rule Technical Failure - Date Format  -->
+    <string name="validation_rule_technical_error_date_format">"Sertifika, beklenen veri biçiminde olmalıdır."</string>
+    <!-- XTXT: Validation Rule Technical Failure - Date Expired  -->
+    <string name="validation_rule_technical_error_date_expired">"Sertifikanın süresi dolmuş olmamalıdır."</string>
+
+    <!-- Validation Passed Screen-->
+    <!-- XHED: Toolbar title for the validation passed screen  -->
+    <string name="validation_rules_result_valid_header">"Sertifika Geçerli"</string>
+    <!-- XTXT: No rules available text for the validation passed screen  -->
+    <string name="validation_no_rules_available_valid_text">"Bu sertifika türü için seçilen ülke ve seçilen zamana ilişkin herhangi bir giriş kuralı bulunmamaktadır. Lütfen unutmayın:"</string>
+    <!-- XTXT: Rule validation text for the validation passed screen  -->
+    <string name="validation_rules_result_valid_rule_text">"Gidilecek ülkenin %1$d kuralları başarıyla incelendi."</string>
+    <!-- XTXT: Button text - Check another country -->
+    <string name="validation_rules_result_valid_result_button">"Başka Ülke İçin Kontrol Et"</string>
+    <!-- Validation Failed Screen-->
+    <!-- XHED: Toolbar title for the validation failed screen -->
+    <string name="validation_failed_title">"Sertifika Geçerli Değil"</string>
+    <!-- XHED: Toolbar title for the validation open screen -->
+    <string name="validation_open_title">"Sertifika Doğrulanamıyor"</string>
 </resources>
