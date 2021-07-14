@@ -2,10 +2,19 @@ package de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.com
 
 import androidx.annotation.StringRes
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 
-fun mapAffectedFields(affectedFields: List<String>): Map<String, String> {
-
-    return emptyMap()
+/**
+ * Maps Affected fields to [EvaluatedField]
+ */
+fun mapAffectedFields(affectedFields: List<String>, certificate: CwaCovidCertificate): List<EvaluatedField> {
+    return affectedFields.mapNotNull { field ->
+        val stringResource = field.stringResource
+        if (stringResource != -1) EvaluatedField(stringResource, certificateValue(field, certificate)) else null
+    }
 }
 
 /**
@@ -44,3 +53,51 @@ private val String.stringResource: Int
         "r.0.ci" -> R.string.rule_unique_certificate_identifier
         else -> -1
     }
+
+private fun certificateValue(field: String, certificate: CwaCovidCertificate): String {
+    return when (certificate) {
+        is TestCertificate -> when (field) {
+            "t.0.tg" -> ""
+            "t.0.tt" -> ""
+            "t.0.nm" -> ""
+            "t.0.ma" -> ""
+            "t.0.sc" -> ""
+            "t.0.tr" -> ""
+            "t.0.tc" -> ""
+            "t.0.co" -> ""
+            "t.0.is" -> ""
+            "t.0.ci" -> ""
+            else -> ""
+        }
+        is VaccinationCertificate -> when (field) {
+            "v.0.tg" -> ""
+            "v.0.vp" -> ""
+            "v.0.mp" -> ""
+            "v.0.ma" -> ""
+            "v.0.dn" -> ""
+            "v.0.sd" -> ""
+            "v.0.dt" -> ""
+            "v.0.co" -> ""
+            "v.0.is" -> ""
+            "v.0.ci" -> ""
+            else -> ""
+        }
+
+        is RecoveryCertificate -> when (field) {
+            "r.0.tg" -> ""
+            "r.0.fr" -> ""
+            "r.0.co" -> ""
+            "r.0.is" -> ""
+            "r.0.df" -> ""
+            "r.0.du" -> ""
+            "r.0.ci" -> ""
+            else -> ""
+        }
+        else -> ""
+    }
+}
+
+data class EvaluatedField(
+    @StringRes val fieldResourceId: Int,
+    val certificateFieldValue: String
+)
