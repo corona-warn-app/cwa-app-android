@@ -214,8 +214,13 @@ class HomeFragmentTest : BaseUITest() {
         every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(HomeData.Tracing.LOW_RISK_ITEM_WITH_ENCOUNTERS)
         launchInMainActivity<HomeFragment>()
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(3))
-        Statistics.statisticsData?.items?.forEachIndexed { index, _ ->
-            onView(withId(R.id.statistics_recyclerview)).perform(recyclerScrollTo(index))
+        Statistics.statisticsData.items.forEachIndexed { index, _ ->
+            onView(withId(R.id.statistics_recyclerview)).perform(
+                recyclerScrollTo(
+                    position = index,
+                    additionalX = if (index > 0) 100 else 0
+                )
+            )
             takeScreenshot<HomeFragment>("statistics_card_$index")
         }
     }
@@ -287,10 +292,7 @@ class HomeFragmentTest : BaseUITest() {
                 }
 
                 addAll(submissionTestResultItems)
-
-                Statistics.statisticsData?.let {
-                    add(StatisticsHomeCard.Item(data = it, onClickListener = { }))
-                }
+                add(StatisticsHomeCard.Item(data = Statistics.statisticsData, onClickListener = { }))
                 add(FAQCard.Item {})
             }
         )
