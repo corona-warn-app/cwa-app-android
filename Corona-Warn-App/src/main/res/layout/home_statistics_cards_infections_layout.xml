@@ -5,22 +5,22 @@
     tools:ignore="MissingConstraints">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/infections_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:layout_height="wrap_content"
         tools:layout_width="@dimen/statistics_card_width"
-        android:id="@+id/infections_container"
         tools:showIn="@layout/home_statistics_cards_basecard_layout">
 
-         <ImageView
+        <ImageView
             android:id="@+id/background_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:importantForAccessibility="no"
             android:contentDescription="@null"
-            app:srcCompat="@drawable/ic_main_illustration_infection"
+            android:importantForAccessibility="no"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/flow_layout" />
+            app:layout_constraintTop_toTopOf="@id/flow_layout"
+            app:srcCompat="@drawable/ic_main_illustration_infection" />
 
         <TextView
             android:id="@+id/title"
@@ -35,6 +35,18 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/subtitle"
+            style="@style/StatisticsCardValueLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:text="@string/statistics_vaccinated_nationwide_text"
+            android:textSize="@dimen/font_small"
+            app:layout_constraintEnd_toStartOf="@id/info_statistics"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <TextView
             android:id="@+id/primary_label"
             style="@style/StatisticsCardValueLabel"
             android:layout_width="0dp"
@@ -44,9 +56,9 @@
         <TextView
             android:id="@+id/primary_value"
             style="@style/StatisticsCardPrimaryValue"
-            android:focusable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:focusable="true"
             android:includeFontPadding="false"
             tools:text="14.714" />
 
@@ -61,9 +73,9 @@
         <TextView
             android:id="@+id/secondary_value"
             style="@style/StatisticsCardSecondaryValue"
-            android:focusable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:focusable="true"
             tools:text="11.981" />
 
         <de.rki.coronawarnapp.statistics.ui.TrendArrowView
@@ -85,10 +97,10 @@
 
         <TextView
             android:id="@+id/tertiary_value"
-            android:focusable="true"
             style="@style/StatisticsCardSecondaryValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:focusable="true"
             tools:text="429.181" />
 
         <ImageButton
@@ -96,6 +108,7 @@
             style="@style/StatisticsCardInfoButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/statistics_info_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -111,13 +124,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="title,horizontal_guideline" />
+            app:constraint_referenced_ids="title,subtitle,horizontal_guideline" />
 
         <androidx.constraintlayout.helper.widget.Flow
             android:id="@+id/flow_layout"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/card_padding"
+            android:layout_marginTop="20dp"
             android:paddingBottom="@dimen/spacing_small"
             app:constraint_referenced_ids="primary_label,primary_value,secondary_label,secondary_value,tertiary_label,tertiary_value"
             app:flow_horizontalAlign="start"
