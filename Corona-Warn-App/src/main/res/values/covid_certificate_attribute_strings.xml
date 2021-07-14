@@ -99,8 +99,6 @@
     <string name="rule_vaccination_date" translatable="false">"Datum der Impfung / Date of Vaccination (YYYY-MM-DD)"</string>
     <!-- XTXT: Rule / Member State of Vaccination -->
     <string name="rule_vaccination_country" translatable="false">"Land der Impfung / Member State of Vaccination"</string>
-    <!-- XTXT: Rule / Unique Certificate Identifier -->
-    <string name="rule_certificate_identifier" translatable="false">"Zertifikatkennung / Unique Certificate Identifier"</string>
     <!-- XTXT: Rule / Disease or Agent Targeted -->
     <string name="rule_certificate_agent_targeted" translatable="false">"Zielkrankheit oder -erreger / Disease or Agent Targeted"</string>
     <!-- XTXT: Rule / Type of Test -->
