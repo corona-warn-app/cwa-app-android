@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertifi
 fun mapAffectedFields(affectedFields: List<String>, certificate: CwaCovidCertificate): List<EvaluatedField> {
     return affectedFields.mapNotNull { field ->
         val stringResource = field.stringResource
-        if (stringResource != -1) EvaluatedField(stringResource, certificateValue(field, certificate)) else null
+        if (stringResource != -1) EvaluatedField(field, stringResource, certificateValue(field, certificate)) else null
     }
 }
 
@@ -99,6 +99,7 @@ private fun certificateValue(field: String, certificate: CwaCovidCertificate): S
 }
 
 data class EvaluatedField(
+    val field: String,
     @StringRes val fieldResourceId: Int,
     val certificateFieldValue: String?
 )
