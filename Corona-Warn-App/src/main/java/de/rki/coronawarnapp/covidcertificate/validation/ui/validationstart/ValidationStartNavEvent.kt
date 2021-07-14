@@ -7,6 +7,7 @@ sealed class StartValidationNavEvent
 
 object NavigateToPrivacyFragment : StartValidationNavEvent()
 object NavigateToValidationInfoFragment : StartValidationNavEvent()
+object ShowNoInternetDialog : StartValidationNavEvent()
 data class ShowTimeMessage(val invalidTime: Boolean) : StartValidationNavEvent()
 data class ShowErrorDialog(val error: Throwable) : StartValidationNavEvent()
 data class NavigateToValidationResultFragment(

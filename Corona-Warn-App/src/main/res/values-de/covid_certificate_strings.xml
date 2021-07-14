@@ -15,7 +15,7 @@
     <string name="person_overview_no_certificates_title">Noch keine Zertifikate vorhanden</string>
     <!-- XTXT: Person overview no certificates subtitle-->
     <string name="person_overview_no_certificates_subtitle">Hier werden die gespeicherten digitalen Impfzertifikate, Genesenenzertifikate und Testzertifikate angezeigt.</string>
-     <!-- XTXT: Person overview no certificates subtitle 2-->
+    <!-- XTXT: Person overview no certificates subtitle 2-->
     <string name="person_overview_no_certificates_subtitle_2">Um ein Zertifikat hinzuzufügen, scannen Sie bitte den dazugehörigen QR-Code.</string>
     <!-- XBUT: Person overview certificates scan button-->
     <string name="person_overview_scan_button">Zertifikat</string>
@@ -186,6 +186,13 @@
     <string name="validation_start_check_button">"Prüfen"</string>
     <!-- XTXT: Validation start time error message -->
     <string name="validation_start_time_error">"Die angegebene Uhrzeit liegt in der Vergangenheit. Ihre lokale Einreisezeit muss in der Zukunft liegen."</string>
+
+    <!-- XHED: No Internet connection diaglog title -->
+    <string name="validation_start_no_internet_dialog_title">Überprüfung fehlgeschlagen</string>
+    <!-- XTXT: No Internet connection diaglog message -->
+    <string name="validation_start_no_internet_dialog_msg">Ihre Internetverbindung wurde unterbrochen. Um die Gültigkeit des Zertifikates abzuschließen, prüfen Sie die Verbindung und versuchen Sie es erneut.</string>
+    <!-- XBUT: No Internet connection diaglog positive button -->
+    <string name="validation_start_no_internet_dialog_positive_button">OK</string>
 
     <!-- XTXT: Validation Rule Result Valid - Infos about country, date and check date -->
     <string name="validation_rules_result_valid_result_country_and_time">"Einreise nach %1$s am %2$s, geprüft am %3$s"</string>
