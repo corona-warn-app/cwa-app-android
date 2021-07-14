@@ -17,7 +17,7 @@
         app:srcCompat="@drawable/ic_high_risk_alert" />
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/rule_description"
         style="@style/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -25,10 +25,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_date_format"
         app:layout_constraintTop_toTopOf="@id/icon_date_format"
-        tools:text="Ein Testzertifikat muss von einem zertifizierten Testzentrum ausgestellt werden." />
+        tools:text="@string/validation_rules_failed_vh_title_uncertified_test_center" />
 
     <TextView
-        android:id="@+id/subtitle"
+        android:id="@+id/country_information"
         style="@style/body1Medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -36,8 +36,8 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_date_format"
-        app:layout_constraintTop_toBottomOf="@id/title"
-        tools:text="Dies ist eine Regel des Ausstellerlandes. " />
+        app:layout_constraintTop_toBottomOf="@id/rule_description"
+        tools:text="@string/validation_rules_failed_vh_subtitle_uncertified_test_center" />
 
     <TextView
         android:id="@+id/line1"
@@ -49,8 +49,8 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_date_format"
-        app:layout_constraintTop_toBottomOf="@id/subtitle"
-        tools:text="Testzentrum oder -einrichtung / Testing Center" />
+        app:layout_constraintTop_toBottomOf="@id/country_information"
+        tools:text="@string/validation_rules_failed_vh_test_center_title" />
 
     <TextView
         android:id="@+id/line2"
@@ -75,7 +75,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_date_format"
         app:layout_constraintTop_toBottomOf="@id/line2"
-        tools:text="Regel-ID / Rule ID" />
+        tools:text="@string/validation_rules_failed_vh_rule_id" />
 
     <TextView
         android:id="@+id/line4"

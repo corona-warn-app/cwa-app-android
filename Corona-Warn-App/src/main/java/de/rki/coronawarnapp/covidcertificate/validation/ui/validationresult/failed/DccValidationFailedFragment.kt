@@ -28,7 +28,8 @@ class DccValidationFailedFragment : Fragment(R.layout.covid_certificate_validati
         constructorCall = { factory, _ ->
             factory as DccValidationFailedViewModel.Factory
             factory.create(
-                validation = args.validation
+                validation = args.validation,
+                containerId = args.containerId,
             )
         }
     )

@@ -98,7 +98,7 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
             is ShowTimeMessage -> showTimeMessage(event)
             is NavigateToValidationResultFragment -> {
                 startValidationCheck.isLoading = false
-                navigateToResultScreen(event.validationResult)
+                navigateToResultScreen(event)
             }
             is ShowErrorDialog -> {
                 startValidationCheck.isLoading = false
@@ -126,22 +126,24 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
         }
     }
 
-    private fun navigateToResultScreen(validationResult: DccValidation) {
-        when (validationResult.state) {
+    private fun navigateToResultScreen(event: NavigateToValidationResultFragment) {
+        when (event.validationResult.state) {
             DccValidation.State.PASSED ->
                 ValidationStartFragmentDirections.actionValidationStartFragmentToDccValidationPassedFragment(
-                    validationResult
+                    event.validationResult
                 )
 
             DccValidation.State.OPEN ->
                 ValidationStartFragmentDirections.actionValidationStartFragmentToDccValidationOpenFragment(
-                    validationResult
+                    event.validationResult,
+                    event.containerId
                 )
 
             DccValidation.State.TECHNICAL_FAILURE,
             DccValidation.State.FAILURE ->
                 ValidationStartFragmentDirections.actionValidationStartFragmentToDccValidationFailedFragment(
-                    validationResult
+                    event.validationResult,
+                    event.containerId
                 )
         }.also { doNavigate(it) }
     }
