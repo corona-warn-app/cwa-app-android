@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.ty
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import kotlinx.coroutines.flow.first
 import org.joda.time.Instant
+import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
@@ -23,7 +24,12 @@ class BusinessValidator @Inject constructor(
         certificate: DccData<out DccV1.MetaData>,
     ): BusinessValidation {
 
+        Timber.i("Start CertLogic validation for arrival in ${arrivalCountry.countryCode} at $validationClock.")
+        Timber.i("${certificate.typeString} certificate of ${certificate.certificate.nameData.fullName}.")
+        Timber.i("Certificate was issued by ${certificate.header.issuer} at ${certificate.header.issuedAt}.")
+
         // accepted by arrival country
+        Timber.i("Validating acceptance rules of ${arrivalCountry.countryCode} at $validationClock.")
         val acceptanceResults = certLogicEngineWrapper.process(
             rules = ruleRepository.acceptanceRules.first().filterRelevantRules(
                 validationClock = validationClock,
@@ -36,6 +42,7 @@ class BusinessValidator @Inject constructor(
         )
 
         // valid as defined by the issuing country
+        Timber.i("Validating invalidation rules of ${arrivalCountry.countryCode} at $validationClock.")
         val issuerCountry = DccCountry(certificate.header.issuer)
         val invalidationResults = certLogicEngineWrapper.process(
             rules = ruleRepository.invalidationRules.first().filterRelevantRules(

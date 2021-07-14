@@ -10,24 +10,27 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
+import de.rki.coronawarnapp.util.serialization.BaseJackson
 import dgca.verifier.app.engine.DefaultAffectedFieldsDataRetriever
 import dgca.verifier.app.engine.DefaultCertLogicEngine
 import dgca.verifier.app.engine.DefaultJsonLogicValidator
 import kotlinx.coroutines.flow.first
 import org.joda.time.Instant
+import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
 class CertLogicEngineWrapper @Inject constructor(
     private val valueSetWrapper: ValueSetWrapper,
     private val dccJsonSchema: DccJsonSchema,
+    @BaseJackson private val objectMapper: ObjectMapper,
 ) {
 
     private val engine: DefaultCertLogicEngine by lazy {
         DefaultCertLogicEngine(
             DefaultAffectedFieldsDataRetriever(
-                schemaJsonNode = ObjectMapper().readTree(dccJsonSchema.rawSchema),
-                objectMapper = ObjectMapper()
+                schemaJsonNode = objectMapper.readTree(dccJsonSchema.rawSchema),
+                objectMapper = objectMapper
             ),
             DefaultJsonLogicValidator()
         )
@@ -39,6 +42,11 @@ class CertLogicEngineWrapper @Inject constructor(
         certificate: DccData<out DccV1.MetaData>,
         countryCode: String,
     ): Set<EvaluatedDccRule> {
+
+        if (rules.isEmpty()) {
+            Timber.i("No rules to be validated. Abort.")
+            return emptySet()
+        }
 
         val valueMap = when (certificate.certificate) {
             is VaccinationDccV1 -> valueSetWrapper.valueSetVaccination.first()
@@ -52,12 +60,25 @@ class CertLogicEngineWrapper @Inject constructor(
             countryCode,
             valueMap
         )
+
+        Timber.i("Rules to be validated are:")
+        rules.forEach {
+            Timber.i("Rule ${it.identifier} ${it.version}.")
+        }
+
         return engine.validate(
             hcertVersionString = certificate.certificate.version,
             rules = rules.map { it.asExternalRule },
             externalParameter = externalParameter,
             payload = certificate.certificateJson,
             certificateType = certificate.asExternalType
-        ).map { it.asEvaluatedDccRule }.toSet()
+        ).map {
+            it.asEvaluatedDccRule
+        }.toSet().also {
+            Timber.i("Evaluated rules are:")
+            it.forEach {
+                Timber.i("Rule ${it.rule.identifier} ${it.rule.version} has resulted in ${it.result}.")
+            }
+        }
     }
 }
