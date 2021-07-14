@@ -7,9 +7,11 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.asExternalRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultRuleFailedItemBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
+import java.util.Locale
 
 class BusinessRuleFailedVH(
     parent: ViewGroup
@@ -30,7 +32,12 @@ class BusinessRuleFailedVH(
         item: Item,
         payloads: List<Any>,
     ) -> Unit = { item, _ ->
-        // TODO
+        item.evaluatedDccRule.rule.description
+        ruleDescription.text = getRuleDescription(item.evaluatedDccRule.rule)
+        countryInformation.text = context.getString(
+            R.string.validation_rules_open_vh_subtitle,
+            DccCountry(item.evaluatedDccRule.rule.country).displayName()
+        )
     }
 
     data class Item(
@@ -40,5 +47,31 @@ class BusinessRuleFailedVH(
         override val stableId: Long = evaluatedDccRule.rule.identifier.hashCode().toLong()
 
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
+    }
+
+    // Apply rules from tech spec to decide which rule description to display
+    fun getRuleDescription(rule: DccValidationRule): String {
+        val descArray = rule.description
+
+        val currentLocaleCode = Locale.getDefault().language
+
+        for (item in descArray) {
+            if (item.languageCode == currentLocaleCode) {
+                return item.description
+            }
+        }
+
+        for (item in descArray) {
+            if (item.languageCode == "en") {
+                return item.description
+            }
+        }
+
+        if (descArray.isNotEmpty()) {
+            return descArray.first().description
+        }
+
+        return rule.identifier
+
     }
 }
