@@ -22,10 +22,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_small"
-        tools:text="@string/validation_rules_failed_vh_title_uncertified_test_center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_date_format"
-        app:layout_constraintTop_toTopOf="@id/icon_date_format" />
+        app:layout_constraintTop_toTopOf="@id/icon_date_format"
+        tools:text="@string/validation_rules_failed_vh_title_uncertified_test_center" />
 
     <TextView
         android:id="@+id/country_information"
@@ -46,11 +46,11 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_small"
         android:layout_marginTop="@dimen/spacing_small"
-        tools:text="@string/validation_rules_failed_vh_test_center_title"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_date_format"
-        app:layout_constraintTop_toBottomOf="@id/country_information" />
+        app:layout_constraintTop_toBottomOf="@id/country_information"
+        tools:text="@string/validation_rules_failed_vh_test_center_title" />
 
     <TextView
         android:id="@+id/line2"
@@ -71,11 +71,11 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_small"
         android:layout_marginTop="@dimen/spacing_small"
-        tools:text="@string/validation_rules_failed_vh_rule_id"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_date_format"
-        app:layout_constraintTop_toBottomOf="@id/line2" />
+        app:layout_constraintTop_toBottomOf="@id/line2"
+        tools:text="@string/validation_rules_failed_vh_rule_id" />
 
     <TextView
         android:id="@+id/line4"

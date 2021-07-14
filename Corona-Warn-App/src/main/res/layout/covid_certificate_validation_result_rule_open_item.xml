@@ -22,10 +22,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_small"
-        android:text="@string/validation_rules_open_vh_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_date_format"
-        app:layout_constraintTop_toTopOf="@id/icon_date_format" />
+        app:layout_constraintTop_toTopOf="@id/icon_date_format"
+        tools:text="@string/validation_rules_open_vh_title" />
 
     <TextView
         android:id="@+id/subtitle"
@@ -46,11 +46,11 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_small"
         android:layout_marginTop="@dimen/spacing_small"
-        android:text="@string/validation_rules_open_vh_start_date"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_date_format"
-        app:layout_constraintTop_toBottomOf="@id/subtitle" />
+        app:layout_constraintTop_toBottomOf="@id/subtitle"
+        tools:text="@string/validation_rules_open_vh_start_date" />
 
     <TextView
         android:id="@+id/date_of_sample_collection"
@@ -71,11 +71,11 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_small"
         android:layout_marginTop="@dimen/spacing_small"
-        android:text="@string/validation_rules_open_vh_rule_id"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon_date_format"
-        app:layout_constraintTop_toBottomOf="@id/date_of_sample_collection" />
+        app:layout_constraintTop_toBottomOf="@id/date_of_sample_collection"
+        tools:text="@string/validation_rules_open_vh_rule_id" />
 
     <TextView
         android:id="@+id/rule_id"
