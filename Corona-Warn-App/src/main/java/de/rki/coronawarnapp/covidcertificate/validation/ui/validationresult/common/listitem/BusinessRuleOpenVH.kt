@@ -25,7 +25,8 @@ class BusinessRuleOpenVH(
     override val onBindData: CovidCertificateValidationResultRuleOpenItemBinding.(
         item: Item,
         payloads: List<Any>,
-    ) -> Unit = { item, payloads ->
+    ) -> Unit = { item, _ ->
+
         // TODO Take over implementation from BusinessRuleFailedVH once finished
     }
 

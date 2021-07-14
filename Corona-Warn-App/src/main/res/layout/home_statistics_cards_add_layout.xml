@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
-    android:foreground="?selectableItemBackground"
-    android:clickable="true"
-    android:focusable="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?selectableItemBackground"
     android:minHeight="@dimen/statistics_card_height"
     tools:layout_height="wrap_content"
     tools:layout_width="@dimen/statistics_card_width">
@@ -20,6 +20,7 @@
         android:layout_marginStart="@dimen/spacing_normal"
         android:layout_marginTop="@dimen/spacing_large"
         android:layout_marginEnd="@dimen/spacing_normal"
+        android:paddingBottom="@dimen/spacing_normal"
         android:text="@string/statistics_add_card_warning"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,12 +31,12 @@
         android:id="@+id/plus_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_tiny"
         android:contentDescription="@null"
         android:importantForAccessibility="no"
-        app:layout_constraintBottom_toBottomOf="@id/horizontal_barrier"
+        app:layout_constraintBottom_toTopOf="@id/title_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/horizontal_barrier"
         app:srcCompat="@drawable/ic_blue_plus" />
 
     <TextView
@@ -44,14 +45,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_normal"
-        android:layout_marginTop="@dimen/spacing_small"
         android:layout_marginEnd="@dimen/spacing_normal"
         android:text="@string/statistics_add_card_title"
         android:textAlignment="center"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/plus_image" />
+        app:layout_constraintTop_toBottomOf="@id/horizontal_barrier" />
 
 
     <androidx.constraintlayout.widget.Guideline

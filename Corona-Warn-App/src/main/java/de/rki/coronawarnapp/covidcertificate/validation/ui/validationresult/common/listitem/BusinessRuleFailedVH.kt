@@ -3,12 +3,10 @@ package de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.com
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
-import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
-import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
+import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.ValidationResultCardHelper
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultRuleFailedItemBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
-import java.util.Locale
 
 class BusinessRuleFailedVH(
     parent: ViewGroup
@@ -30,8 +28,12 @@ class BusinessRuleFailedVH(
         payloads: List<Any>,
     ) -> Unit = { item, _ ->
         item.evaluatedDccRule.rule.description
-        ruleDescription.text = getRuleDescription(item.evaluatedDccRule.rule)
-        countryInformation.text = getCountryDescription(item.evaluatedDccRule.rule, item.certificate)
+        ruleDescription.text = ValidationResultCardHelper.getRuleDescription(item.evaluatedDccRule.rule)
+        countryInformation.text = ValidationResultCardHelper.getCountryDescription(
+            context,
+            item.evaluatedDccRule.rule,
+            item.certificate
+        )
     }
 
     data class Item(
@@ -41,50 +43,5 @@ class BusinessRuleFailedVH(
         override val stableId: Long = evaluatedDccRule.rule.identifier.hashCode().toLong()
 
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
-    }
-
-    // Apply rules from tech spec to decide which rule description to display
-    fun getRuleDescription(rule: DccValidationRule): String {
-        val descArray = rule.description
-
-        val currentLocaleCode = Locale.getDefault().language
-
-        for (item in descArray) {
-            if (item.languageCode == currentLocaleCode) {
-                return item.description
-            }
-        }
-
-        for (item in descArray) {
-            if (item.languageCode == "en") {
-                return item.description
-            }
-        }
-
-        if (descArray.isNotEmpty()) {
-            return descArray.first().description
-        }
-
-        return rule.identifier
-    }
-
-    // Apply rules from tech spec to decide which rule description to display
-    fun getCountryDescription(rule: DccValidationRule, certificate: CwaCovidCertificate): String {
-
-        return when (rule.typeDcc) {
-            DccValidationRule.Type.ACCEPTANCE -> {
-                context.getString(
-                    R.string.validation_rules_failed_vh_travel_country,
-                    DccCountry(rule.country).displayName()
-                )
-            }
-
-            DccValidationRule.Type.INVALIDATION -> {
-                context.getString(
-                    R.string.validation_rules_open_vh_subtitle,
-                    DccCountry(certificate.certificateCountry).displayName()
-                )
-            }
-        }
     }
 }
