@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvi
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.BusinessRuleOpenVH
+import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.BusinessRuleVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.RuleHeaderVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationFaqVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationInputVH
@@ -50,7 +50,7 @@ class DccValidationOpenViewModel @AssistedInject constructor(
         if (openRules.isNotEmpty()) {
             items.add(RuleHeaderVH.Item(type = DccValidation.State.OPEN, showTitle = false))
             val certificate = certificateProvider.findCertificate(containerId)
-            openRules.forEach { items.add(BusinessRuleOpenVH.Item(it, certificate)) }
+            openRules.forEach { items.add(BusinessRuleVH.Item(it, certificate)) }
         }
 
         items.add(ValidationFaqVH.Item)

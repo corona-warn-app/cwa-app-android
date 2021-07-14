@@ -8,8 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvi
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.BusinessRuleFailedVH
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.BusinessRuleOpenVH
+import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.BusinessRuleVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.RuleHeaderVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.TechnicalValidationFailedVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationFaqVH
@@ -56,13 +55,13 @@ class DccValidationFailedViewModel @AssistedInject constructor(
                 val failedRules = validation.rules.filter { it.result == DccValidationRule.Result.FAILED }
                 if (failedRules.isNotEmpty()) {
                     items.add(RuleHeaderVH.Item(DccValidation.State.FAILURE))
-                    failedRules.forEach { items.add(BusinessRuleFailedVH.Item(it, certificate)) }
+                    failedRules.forEach { items.add(BusinessRuleVH.Item(it, certificate)) }
                 }
 
                 val openRules = validation.rules.filter { it.result == DccValidationRule.Result.OPEN }
                 if (openRules.isNotEmpty()) {
                     items.add(RuleHeaderVH.Item(DccValidation.State.OPEN))
-                    openRules.forEach { items.add(BusinessRuleOpenVH.Item(it, certificate)) }
+                    openRules.forEach { items.add(BusinessRuleVH.Item(it, certificate)) }
                 }
             }
         }

@@ -2,8 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.com
 
 import androidx.viewbinding.ViewBinding
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.BaseValidationResultVH
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.BusinessRuleFailedVH
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.BusinessRuleOpenVH
+import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.BusinessRuleVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.RuleHeaderVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.TechnicalValidationFailedVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationFaqVH
@@ -29,8 +28,7 @@ class ValidationResultAdapter @Inject constructor() :
         listOf(
             StableIdMod(data),
             DataBinderMod<ValidationResultItem, BaseValidationResultVH<ValidationResultItem, ViewBinding>>(data),
-            TypedVHCreatorMod({ data[it] is BusinessRuleFailedVH.Item }) { BusinessRuleFailedVH(it) },
-            TypedVHCreatorMod({ data[it] is BusinessRuleOpenVH.Item }) { BusinessRuleOpenVH(it) },
+            TypedVHCreatorMod({ data[it] is BusinessRuleVH.Item }) { BusinessRuleVH(it) },
             TypedVHCreatorMod({ data[it] is RuleHeaderVH.Item }) { RuleHeaderVH(it) },
             TypedVHCreatorMod({ data[it] is TechnicalValidationFailedVH.Item }) { TechnicalValidationFailedVH(it) },
             TypedVHCreatorMod({ data[it] is ValidationFaqVH.Item }) { ValidationFaqVH(it) },
