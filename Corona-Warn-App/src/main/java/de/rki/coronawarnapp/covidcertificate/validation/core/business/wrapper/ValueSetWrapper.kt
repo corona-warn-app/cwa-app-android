@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class ValueSetWrapper @Inject constructor(
     valueSetsRepository: ValueSetsRepository,
-    private val dccValidationRepository: DccValidationRepository
+    dccValidationRepository: DccValidationRepository
 ) {
 
     private val countryCodes = dccValidationRepository.dccCountries.map {
