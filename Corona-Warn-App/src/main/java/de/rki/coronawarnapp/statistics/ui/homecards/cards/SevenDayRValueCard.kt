@@ -4,8 +4,8 @@ import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsCardsSevendayrvalueLayoutBinding
 import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass
+import de.rki.coronawarnapp.statistics.GlobalStatsItem
 import de.rki.coronawarnapp.statistics.SevenDayRValue
-import de.rki.coronawarnapp.statistics.StatsItem
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter
 import de.rki.coronawarnapp.statistics.util.formatStatisticalValue
 import de.rki.coronawarnapp.statistics.util.getContentDescriptionForTrends
@@ -15,7 +15,8 @@ import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithTrailingSpace
 import de.rki.coronawarnapp.util.formatter.getPrimaryLabel
 
 class SevenDayRValueCard(parent: ViewGroup) :
-    StatisticsCardAdapter.ItemVH<StatisticsCardItem, HomeStatisticsCardsSevendayrvalueLayoutBinding>(
+
+    StatisticsCardAdapter.ItemVH<GlobalStatisticsCardItem, HomeStatisticsCardsSevendayrvalueLayoutBinding>(
         R.layout.home_statistics_cards_basecard_layout,
         parent
     ) {
@@ -29,7 +30,7 @@ class SevenDayRValueCard(parent: ViewGroup) :
     }
 
     override val onBindData: HomeStatisticsCardsSevendayrvalueLayoutBinding.(
-        item: StatisticsCardItem,
+        item: GlobalStatisticsCardItem,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
 
@@ -65,7 +66,7 @@ class SevenDayRValueCard(parent: ViewGroup) :
     }
 
     private fun buildAccessibilityStringForSevenDayRValueCard(
-        item: StatsItem,
+        item: GlobalStatsItem,
         reproductionNumber: KeyFigureCardOuterClass.KeyFigure
     ): StringBuilder {
 
