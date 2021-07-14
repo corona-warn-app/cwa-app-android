@@ -3,16 +3,17 @@ package de.rki.coronawarnapp.presencetracing.locations
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
+import de.rki.coronawarnapp.util.security.RandomStrong
 import okio.ByteString
 import okio.ByteString.Companion.toByteString
-import java.security.SecureRandom
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.random.Random
 
 @Singleton
 class TraceLocationCreator @Inject constructor(
     private val repository: TraceLocationRepository,
-    private val secureRandom: SecureRandom,
+    @RandomStrong private val randomSource: Random,
     private val environmentSetup: EnvironmentSetup
 ) {
 
@@ -20,7 +21,7 @@ class TraceLocationCreator @Inject constructor(
         val cnPublicKey = environmentSetup.crowdNotifierPublicKey
 
         // cryptographic seed is a sequence of 16 random bytes
-        val cryptographicSeed = ByteArray(16).apply { secureRandom.nextBytes(this) }.toByteString()
+        val cryptographicSeed = ByteArray(16).apply { randomSource.nextBytes(this) }.toByteString()
 
         val traceLocation = traceLocationUserInput.toTraceLocation(cryptographicSeed, cnPublicKey)
         return repository.addTraceLocation(traceLocation)

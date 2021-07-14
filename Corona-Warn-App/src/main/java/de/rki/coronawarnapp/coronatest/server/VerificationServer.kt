@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.coronatest.server
 
 import dagger.Lazy
 import de.rki.coronawarnapp.coronatest.type.RegistrationToken
-import de.rki.coronawarnapp.util.PaddingTool.requestPadding
+import de.rki.coronawarnapp.util.PaddingTool
 import de.rki.coronawarnapp.util.security.HashHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -13,7 +13,8 @@ import javax.inject.Singleton
 
 @Singleton
 class VerificationServer @Inject constructor(
-    private val verificationAPI: Lazy<VerificationApiV1>
+    private val verificationAPI: Lazy<VerificationApiV1>,
+    private val paddingTool: PaddingTool,
 ) {
 
     private val api: VerificationApiV1
@@ -60,7 +61,7 @@ class VerificationServer @Inject constructor(
 
         val response = api.getRegistrationToken(
             fake = "0",
-            headerPadding = requestPadding(requiredHeaderPadding),
+            headerPadding = paddingTool.requestPadding(requiredHeaderPadding),
             requestBody = VerificationApiV1.RegistrationTokenRequest(
                 keyType = request.type,
                 key = when (request.type) {
@@ -68,7 +69,7 @@ class VerificationServer @Inject constructor(
                     else -> request.key
                 },
                 dateOfBirthKey = request.dateOfBirthKey?.key,
-                requestPadding = requestPadding(requiredBodyPadding),
+                requestPadding = paddingTool.requestPadding(requiredBodyPadding),
             )
         )
 
@@ -102,10 +103,10 @@ class VerificationServer @Inject constructor(
 
         val response = api.getTestResult(
             fake = "0",
-            headerPadding = requestPadding(requiredHeaderPadding),
+            headerPadding = paddingTool.requestPadding(requiredHeaderPadding),
             request = VerificationApiV1.RegistrationRequest(
                 token,
-                requestPadding(requiredBodyPadding)
+                paddingTool.requestPadding(requiredBodyPadding)
             )
         )
 
@@ -139,10 +140,10 @@ class VerificationServer @Inject constructor(
 
         val response = api.getTAN(
             fake = "0",
-            headerPadding = requestPadding(requiredHeaderPadding),
+            headerPadding = paddingTool.requestPadding(requiredHeaderPadding),
             requestBody = VerificationApiV1.TanRequestBody(
                 registrationToken,
-                requestPadding(requiredBodyPadding)
+                paddingTool.requestPadding(requiredBodyPadding)
             )
         )
 
@@ -173,10 +174,10 @@ class VerificationServer @Inject constructor(
 
         val response = api.getTAN(
             fake = "1",
-            headerPadding = requestPadding(requiredHeaderPadding),
+            headerPadding = paddingTool.requestPadding(requiredHeaderPadding),
             requestBody = VerificationApiV1.TanRequestBody(
                 registrationToken = DUMMY_REGISTRATION_TOKEN,
-                requestPadding = requestPadding(requiredBodyPadding)
+                requestPadding = paddingTool.requestPadding(requiredBodyPadding)
             )
         )
         Timber.tag(TAG).v("retrieveTanFake() -> %s", response)
