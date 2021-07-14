@@ -29,7 +29,8 @@ class PersonsVaccinatedCompletelyCard(parent: ViewGroup) :
     override val onBindData: HomeStatisticsCardsVaccinatedCompletelyLayoutBinding.(
         item: GlobalStatisticsCardItem,
         payloads: List<Any>
-    ) -> Unit = { item, _ ->
+    ) -> Unit = { orig, payloads ->
+        val item = payloads.filterIsInstance<GlobalStatisticsCardItem>().singleOrNull() ?: orig
 
         infoStatistics.setOnClickListener {
             item.onClickListener(item.stats)
