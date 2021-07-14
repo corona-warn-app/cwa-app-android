@@ -25,9 +25,9 @@ class ValidationInputVH(
         payloads: List<Any>,
     ) -> Unit = { item, _ ->
 
-        val arrivalDateString = item.validation.userInput.arrivalAt.toUserTimeZone().run {
-            "${toShortDayFormat()} ${toShortTimeFormat()}"
-        }
+        val arrivalDateString =
+            item.validation.userInput.arrivalDate.toShortDayFormat() + " " +
+                item.validation.userInput.arrivalTime.toShortTimeFormat()
 
         val validatedAtString = item.validation.validatedAt.toUserTimeZone().run {
             "${toShortDayFormat()} ${toShortTimeFormat()}"

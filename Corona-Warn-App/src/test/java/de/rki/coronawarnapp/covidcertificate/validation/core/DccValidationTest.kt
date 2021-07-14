@@ -4,6 +4,8 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.cr
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalTimeUtc
 import dgca.verifier.app.engine.data.RuleCertificateType
 import io.kotest.matchers.shouldBe
 import org.joda.time.Instant
@@ -16,7 +18,8 @@ class DccValidationTest : BaseTest() {
 
     private val userInput = ValidationUserInput(
         DccCountry("PT"),
-        nowUTC
+        nowUTC.toLocalDateUtc(),
+        nowUTC.toLocalTimeUtc(),
     )
 
     @Test

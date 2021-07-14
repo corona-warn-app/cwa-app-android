@@ -13,6 +13,8 @@ import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.internal.toValueSetsContainer
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyValueSetsContainer
 import de.rki.coronawarnapp.server.protocols.internal.dgc.ValueSetsOuterClass
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalTimeUtc
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import de.rki.coronawarnapp.util.serialization.fromJson
@@ -28,6 +30,8 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant
+import org.joda.time.LocalDate
+import org.joda.time.LocalTime
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -77,10 +81,14 @@ class CertLogicEngineWrapperTest : BaseTest() {
             validFrom = "2021-05-27T07:46:40Z",
             validTo = "2022-08-01T07:46:40Z",
         )
+        // certificate valid until 2022-06-11T14:23:17.000Z
         val certificate = extractor.extract(VaccinationQrCodeTestData.passGermanReferenceCase)
+        val validationDate = LocalDate.parse("2022-06-11")
+        val validationTime = LocalTime.parse("14:23:00")
         val evaluatedRules = wrapper.process(
             rules = listOf(rule, ruleGeneral),
-            validationClock = Instant.parse("2021-06-30T09:25:00.000Z"),
+            validationDate = validationDate,
+            validationTime = validationTime,
             certificate = certificate.data,
             countryCode = "DE",
         )
@@ -113,17 +121,20 @@ class CertLogicEngineWrapperTest : BaseTest() {
         json.testCases.forEachIndexed { index, certLogicTestCase ->
             val certificate = extractor.extract(certLogicTestCase.dcc)
             val validationClock = Instant.ofEpochSecond(Integer.parseInt(certLogicTestCase.validationClock).toLong())
-
+            val validationDate = validationClock.toLocalDateUtc()
+            val validationTime = validationClock.toLocalTimeUtc()
             val acceptanceRules = certLogicTestCase.rules.filter {
                 it.typeDcc == DccValidationRule.Type.ACCEPTANCE
             }.filterRelevantRules(
-                validationClock = validationClock,
+                validationTime = validationTime,
+                validationDate = validationDate,
                 country = DccCountry(certLogicTestCase.countryOfArrival),
                 certificateType = certificate.data.typeString
             )
             val evaluatedAcceptanceRules = wrapper.process(
                 rules = acceptanceRules,
-                validationClock = validationClock,
+                validationTime = validationTime,
+                validationDate = validationDate,
                 certificate = certificate.data,
                 countryCode = certLogicTestCase.countryOfArrival,
             )
@@ -131,14 +142,16 @@ class CertLogicEngineWrapperTest : BaseTest() {
             val invalidationRules = certLogicTestCase.rules.filter {
                 it.typeDcc == DccValidationRule.Type.INVALIDATION
             }.filterRelevantRules(
-                validationClock = validationClock,
+                validationTime = validationTime,
+                validationDate = validationDate,
                 country = DccCountry(certificate.data.header.issuer),
                 certificateType = certificate.data.typeString
             )
 
             val evaluatedInvalidationRules = wrapper.process(
                 rules = invalidationRules,
-                validationClock = validationClock,
+                validationTime = validationTime,
+                validationDate = validationDate,
                 certificate = certificate.data,
                 countryCode = certificate.data.header.issuer,
             )
