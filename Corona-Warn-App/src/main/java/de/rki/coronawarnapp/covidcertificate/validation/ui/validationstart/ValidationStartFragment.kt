@@ -147,8 +147,9 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
     }
 
     private fun ValidationStartFragmentBinding.onCountiesAvailable(countries: List<DccCountry>) {
+        val displayName = countries.find { it.countryCode == viewModel.currentCountryCode }?.displayName()
         dccCountryAdapter.update(countries)
-        countryPicker.setText(countries.find { it.countryCode == DccCountry.DE }?.displayName(), false)
+        countryPicker.setText(displayName, false)
     }
 
     private fun showDatePicker() {
