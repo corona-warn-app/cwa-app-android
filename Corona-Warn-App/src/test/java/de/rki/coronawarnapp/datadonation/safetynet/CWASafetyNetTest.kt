@@ -34,7 +34,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.mockFlowPreference
-import java.security.SecureRandom
 import kotlin.random.Random
 
 class CWASafetyNetTest : BaseTest() {
@@ -44,7 +43,7 @@ class CWASafetyNetTest : BaseTest() {
     @MockK lateinit var safetyNetClientWrapper: SafetyNetClientWrapper
     @MockK lateinit var environmentSetup: EnvironmentSetup
     @MockK lateinit var clientReport: SafetyNetClientWrapper.Report
-    @MockK lateinit var secureRandom: SecureRandom
+    @MockK lateinit var secureRandom: Random
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var cwaSettings: CWASettings
 
@@ -64,7 +63,7 @@ class CWASafetyNetTest : BaseTest() {
 
         every { environmentSetup.safetyNetApiKey } returns "very safe"
         coEvery { safetyNetClientWrapper.attest(any()) } returns clientReport
-        every { secureRandom.nextBytes(any()) } answers {
+        every { secureRandom.nextBytes(any<ByteArray>()) } answers {
             val byteArray = arg<ByteArray>(0)
             Random(0).nextBytes(byteArray)
         }
@@ -92,7 +91,7 @@ class CWASafetyNetTest : BaseTest() {
     private fun createInstance() = CWASafetyNet(
         context = context,
         client = safetyNetClientWrapper,
-        secureRandom = secureRandom,
+        randomSource = secureRandom,
         appConfigProvider = appConfigProvider,
         googleApiVersion = googleApiVersion,
         timeStamper = timeStamper,
