@@ -54,7 +54,8 @@ object Statistics {
                         federalStateName = "Brandenburg",
                         federalStateShortName = "BB",
                         federalStateId = 13000012
-                    ), addedAt = Instant.EPOCH
+                    ),
+                    addedAt = Instant.EPOCH
                 )
             )
         )
