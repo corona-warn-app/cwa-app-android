@@ -43,6 +43,7 @@ class ValidationStartViewModel @AssistedInject constructor(
     private val uiState = MutableStateFlow(UIState())
     val state: LiveData<UIState> = uiState.asLiveData2()
     val currentDateTime: DateTime get() = uiState.value.dateTime
+    val currentCountryCode: String get() = uiState.value.dccCountry.countryCode
     val events = SingleLiveEvent<StartValidationNavEvent>()
     val countryList = dccValidationRepository.dccCountries.map { countryList ->
         val countries = if (countryList.isEmpty()) listOf(DccCountry(DE)) else countryList
@@ -89,7 +90,7 @@ class ValidationStartViewModel @AssistedInject constructor(
     }
 
     data class UIState(
-        val dccCountry: DccCountry = DccCountry("DE"),
+        val dccCountry: DccCountry = DccCountry(DE),
         val dateTime: DateTime = DateTime.now(),
     ) {
         fun formattedDateTime() = dateTime.run { "${toDayFormat()} ${toShortTimeFormat()}" }
