@@ -54,50 +54,51 @@ private val String.stringResource: Int
         else -> -1
     }
 
-private fun certificateValue(field: String, certificate: CwaCovidCertificate): String {
+private fun certificateValue(field: String, certificate: CwaCovidCertificate): String? {
     return when (certificate) {
-        is TestCertificate -> when (field) {
-            "t.0.tg" -> ""
-            "t.0.tt" -> ""
-            "t.0.nm" -> ""
-            "t.0.ma" -> ""
-            "t.0.sc" -> ""
-            "t.0.tr" -> ""
-            "t.0.tc" -> ""
-            "t.0.co" -> ""
-            "t.0.is" -> ""
-            "t.0.ci" -> ""
-            else -> ""
-        }
         is VaccinationCertificate -> when (field) {
-            "v.0.tg" -> ""
-            "v.0.vp" -> ""
-            "v.0.mp" -> ""
-            "v.0.ma" -> ""
-            "v.0.dn" -> ""
-            "v.0.sd" -> ""
-            "v.0.dt" -> ""
-            "v.0.co" -> ""
-            "v.0.is" -> ""
-            "v.0.ci" -> ""
-            else -> ""
+            "v.0.tg" -> certificate.targetDisease
+            "v.0.vp" -> certificate.medicalProductName
+            "v.0.mp" -> certificate.vaccineTypeName
+            "v.0.ma" -> certificate.vaccineManufacturer
+            "v.0.dn" -> certificate.doseNumber.toString()
+            "v.0.sd" -> certificate.totalSeriesOfDoses.toString()
+            "v.0.dt" -> certificate.vaccinatedOnFormatted
+            "v.0.co" -> certificate.certificateCountry
+            "v.0.is" -> certificate.certificateIssuer
+            "v.0.ci" -> certificate.certificateId
+            else -> null
+        }
+
+        is TestCertificate -> when (field) {
+            "t.0.tg" -> certificate.targetName
+            "t.0.tt" -> certificate.testType
+            "t.0.nm",
+            "t.0.ma" -> certificate.testName
+            "t.0.sc" -> certificate.sampleCollectedAtFormatted
+            "t.0.tr" -> certificate.testResult
+            "t.0.tc" -> certificate.testCenter
+            "t.0.co" -> certificate.certificateCountry
+            "t.0.is" -> certificate.certificateIssuer
+            "t.0.ci" -> certificate.certificateId
+            else -> null
         }
 
         is RecoveryCertificate -> when (field) {
-            "r.0.tg" -> ""
-            "r.0.fr" -> ""
-            "r.0.co" -> ""
-            "r.0.is" -> ""
-            "r.0.df" -> ""
-            "r.0.du" -> ""
-            "r.0.ci" -> ""
-            else -> ""
+            "r.0.tg" -> certificate.targetDisease
+            "r.0.fr" -> certificate.testedPositiveOnFormatted
+            "r.0.co" -> certificate.certificateCountry
+            "r.0.is" -> certificate.certificateIssuer
+            "r.0.df" -> certificate.validFromFormatted
+            "r.0.du" -> certificate.validUntilFormatted
+            "r.0.ci" -> certificate.certificateId
+            else -> null
         }
-        else -> ""
+        else -> null
     }
 }
 
 data class EvaluatedField(
     @StringRes val fieldResourceId: Int,
-    val certificateFieldValue: String
+    val certificateFieldValue: String?
 )
