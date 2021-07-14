@@ -47,9 +47,11 @@ class DccValidationOpenViewModel @AssistedInject constructor(
         }
 
         val openRules = validation.rules.filter { it.result == DccValidationRule.Result.OPEN }
-        items.add(RuleHeaderVH.Item(type = DccValidation.State.OPEN, showTitle = false))
-        val certificate = certificateProvider.findCertificate(containerId)
-        openRules.forEach { items.add(BusinessRuleOpenVH.Item(it, certificate)) }
+        if (openRules.isNotEmpty()) {
+            items.add(RuleHeaderVH.Item(type = DccValidation.State.OPEN, showTitle = false))
+            val certificate = certificateProvider.findCertificate(containerId)
+            openRules.forEach { items.add(BusinessRuleOpenVH.Item(it, certificate)) }
+        }
 
         items.add(ValidationFaqVH.Item)
 
