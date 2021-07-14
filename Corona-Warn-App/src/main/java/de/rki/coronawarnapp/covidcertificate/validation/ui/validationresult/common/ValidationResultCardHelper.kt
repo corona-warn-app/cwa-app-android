@@ -5,9 +5,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
-import de.rki.coronawarnapp.util.di.AppContext
 import java.util.Locale
-import javax.inject.Inject
 
 object ValidationResultCardHelper {
 
@@ -37,7 +35,7 @@ object ValidationResultCardHelper {
     }
 
     // Apply rules from tech spec to decide which rule description to display
-    fun getCountryDescription(context:Context, rule: DccValidationRule, certificate: CwaCovidCertificate): String {
+    fun getCountryDescription(context: Context, rule: DccValidationRule, certificate: CwaCovidCertificate): String {
 
         return when (rule.typeDcc) {
             DccValidationRule.Type.ACCEPTANCE -> {
@@ -55,5 +53,4 @@ object ValidationResultCardHelper {
             }
         }
     }
-
 }
