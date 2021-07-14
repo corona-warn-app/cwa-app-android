@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.statistics.ui.homecards.cards.LocalStatisticsCardIte
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.util.isPhone
+import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.lists.modular.mods.SavedStateMod
 
@@ -60,14 +61,16 @@ class StatisticsHomeCard(
     override val onBindData: HomeStatisticsScrollcontainerBinding.(
         item: Item,
         payloads: List<Any>
-    ) -> Unit = { item, _ ->
-        savedStateKey = "stats:${item.stableId}"
+    ) -> Unit = { item, payloads ->
+        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
 
-        item.data.items.map {
+        savedStateKey = "stats:${curItem.stableId}"
+
+        curItem.data.items.map {
             when (it) {
-                is GlobalStatsItem -> GlobalStatisticsCardItem(it, item.onClickListener)
-                is AddStatsItem -> AddLocalStatisticsCardItem(it, item.onClickListener)
-                is LocalStatsItem -> LocalStatisticsCardItem(it, item.onClickListener, item.onRemoveListener)
+                is GlobalStatsItem -> GlobalStatisticsCardItem(it, curItem.onClickListener)
+                is AddStatsItem -> AddLocalStatisticsCardItem(it, curItem.onClickListener)
+                is LocalStatsItem -> LocalStatisticsCardItem(it, curItem.onClickListener, curItem.onRemoveListener)
             }
         }.let {
             statisticsCardAdapter.update(it)
@@ -92,24 +95,9 @@ class StatisticsHomeCard(
         val data: StatisticsData,
         val onClickListener: (GenericStatsItem) -> Unit,
         val onRemoveListener: (LocalStatsItem) -> Unit = {},
-    ) : HomeItem {
+    ) : HomeItem, HasPayloadDiffer {
+        override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
+
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
-
-        // ignore onHelpAction so that view is not re-drawn when only the onHelpAction click listener is updated
-        override fun equals(other: Any?): Boolean {
-            if (this === other) return true
-            if (javaClass != other?.javaClass) return false
-
-            other as Item
-
-            if (data != other.data) return false
-            if (stableId != other.stableId) return false
-
-            return true
-        }
-
-        override fun hashCode(): Int {
-            return 31 * data.hashCode() + stableId.hashCode()
-        }
     }
 }
