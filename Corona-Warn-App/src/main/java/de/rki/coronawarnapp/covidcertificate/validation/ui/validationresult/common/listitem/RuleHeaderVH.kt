@@ -3,9 +3,9 @@ package de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.com
 import android.view.ViewGroup
 import androidx.core.view.isGone
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultRuleHeaderItemBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
+import de.rki.coronawarnapp.util.ui.LazyString
 
 class RuleHeaderVH(
     parent: ViewGroup
@@ -21,40 +21,18 @@ class RuleHeaderVH(
     override val onBindData: CovidCertificateValidationResultRuleHeaderItemBinding.(
         item: Item,
         payloads: List<Any>,
-    ) -> Unit = { item, payloads ->
-        titleText.isGone = item.type == DccValidation.State.PASSED
-
-        when (item.type) {
-            DccValidation.State.PASSED -> {
-                val text = if (item.ruleCount > 0) {
-                    context.getString(R.string.validation_rules_result_valid_rule_text, item.ruleCount)
-                } else {
-                    context.getString(R.string.validation_no_rules_available_valid_text)
-                }
-                subtitleText.text = text
-            }
-            DccValidation.State.OPEN -> {
-                titleText.apply {
-                    isGone = !item.showTitle
-                    setText(R.string.validation_rules_open_header_title)
-                }
-                subtitleText.setText(R.string.validation_rules_open_header_subtitle)
-            }
-            DccValidation.State.TECHNICAL_FAILURE -> {
-                titleText.setText(R.string.validation_rules_technical_failure_header_title)
-                subtitleText.setText(R.string.validation_rules_technical_failure_header_subtitle)
-            }
-            DccValidation.State.FAILURE -> {
-                titleText.setText(R.string.validation_rules_failure_header_title)
-                subtitleText.setText(R.string.validation_rules_failure_header_subtitle)
-            }
+    ) -> Unit = { item, _ ->
+        with(item) {
+            titleText.isGone = hideTitle
+            titleText.text = title.get(context)
+            subtitleText.text = subtitle.get(context)
         }
     }
 
     data class Item(
-        val type: DccValidation.State,
-        val showTitle: Boolean = true,
-        val ruleCount: Int = 0
+        val hideTitle: Boolean,
+        val title: LazyString,
+        val subtitle: LazyString
     ) : ValidationResultItem, HasPayloadDiffer {
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
 

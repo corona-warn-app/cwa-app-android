@@ -1,14 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem
 
 import android.view.ViewGroup
+import androidx.annotation.DrawableRes
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
-import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
-import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.descriptionDisplayText
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.getCountryDescription
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultRuleItemBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
+import de.rki.coronawarnapp.util.ui.LazyString
 
 class BusinessRuleVH(
     parent: ViewGroup
@@ -25,31 +22,23 @@ class BusinessRuleVH(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
-        val iconRes = when (item.evaluatedDccRule.result) {
-            DccValidationRule.Result.OPEN -> R.drawable.ic_grey_question_mark
-            DccValidationRule.Result.FAILED -> R.drawable.ic_high_risk_alert
-            else -> throw IllegalArgumentException("Expected result of rule to be OPEN or FAILED but was ${item.evaluatedDccRule.result.name}")
-        }
-        ruleIcon.setImageResource(iconRes)
-
-        item.evaluatedDccRule.rule.run {
-            ruleDescription.text = descriptionDisplayText
-            countryInformation.text = getCountryDescription(
-                context,
-                item.certificate
-            )
-
+        with(item) {
+            ruleIcon.setImageResource(ruleIconRes)
+            ruleDescription.text = ruleDescriptionText.get(context)
+            countryInformation.text = countryInformationText.get(context)
             //TODO: Show affected fields
-
             ruleId.text = identifier
         }
     }
 
     data class Item(
-        val evaluatedDccRule: EvaluatedDccRule,
-        val certificate: CwaCovidCertificate
+        @DrawableRes val ruleIconRes: Int,
+        val ruleDescriptionText: LazyString,
+        val countryInformationText: LazyString,
+        val affectedFields: List<EvaluatedField>,
+        val identifier: String
     ) : ValidationResultItem, HasPayloadDiffer {
-        override val stableId: Long = evaluatedDccRule.rule.identifier.hashCode().toLong()
+        override val stableId: Long = identifier.hashCode().toLong()
 
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }

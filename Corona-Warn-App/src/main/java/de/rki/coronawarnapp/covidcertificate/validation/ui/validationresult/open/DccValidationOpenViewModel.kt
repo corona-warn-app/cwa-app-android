@@ -8,11 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvi
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.BusinessRuleVH
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.RuleHeaderVH
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationFaqVH
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationInputVH
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationOverallResultVH
+import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.ValidationResultItemCreator
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationResultItem
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -24,6 +20,7 @@ class DccValidationOpenViewModel @AssistedInject constructor(
     @Assisted private val validation: DccValidation,
     @Assisted private val containerId: CertificateContainerId,
     private val certificateProvider: CertificateProvider,
+    private val creator: ValidationResultItemCreator,
     dispatcherProvider: DispatcherProvider,
 ) : CWAViewModel(dispatcherProvider) {
 
@@ -31,10 +28,10 @@ class DccValidationOpenViewModel @AssistedInject constructor(
         emit(generateItems())
     }.asLiveData2()
 
-    private suspend fun generateItems(): List<ValidationResultItem> {
+    private suspend fun generateItems(): List<ValidationResultItem> = with(creator) {
         val items = mutableListOf(
-            ValidationInputVH.Item(validation),
-            ValidationOverallResultVH.Item(DccValidation.State.OPEN)
+            validationInputVHItem(userInput = validation.userInput, validatedAt = validation.validatedAt),
+            validationOverallResultVHItem(state = DccValidation.State.OPEN)
         )
 
         Timber.d("Generating items for state ${validation.state}")
@@ -42,18 +39,26 @@ class DccValidationOpenViewModel @AssistedInject constructor(
         if (validation.state != DccValidation.State.OPEN) {
             throw IllegalStateException(
                 "Expected validation state to be ${DccValidation.State.OPEN.name} " +
-                    "but is ${validation.state.name}"
+                    "but was ${validation.state.name}"
             )
         }
 
-        val openRules = validation.rules.filter { it.result == DccValidationRule.Result.OPEN }
+        val certificate = certificateProvider.findCertificate(containerId)
+        val openRules = validation.rules
+            .filter { it.result == DccValidationRule.Result.OPEN }
+            .map {
+                businessRuleVHItem(
+                    rule = it.rule,
+                    result = it.result,
+                    certificate = certificate
+                )
+            }
         if (openRules.isNotEmpty()) {
-            items.add(RuleHeaderVH.Item(type = DccValidation.State.OPEN, showTitle = false))
-            val certificate = certificateProvider.findCertificate(containerId)
-            openRules.forEach { items.add(BusinessRuleVH.Item(it, certificate)) }
+            items.add(ruleHeaderVHItem(state = DccValidation.State.OPEN, hideTitle = true))
+            items.addAll(openRules)
         }
 
-        items.add(ValidationFaqVH.Item)
+        items.add(validationFaqVHItem())
 
         return items.toList()
     }

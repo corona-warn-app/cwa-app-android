@@ -8,12 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvi
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.BusinessRuleVH
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.RuleHeaderVH
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.TechnicalValidationFailedVH
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationFaqVH
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationInputVH
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationOverallResultVH
+import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.ValidationResultItemCreator
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationResultItem
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -25,6 +20,7 @@ class DccValidationFailedViewModel @AssistedInject constructor(
     @Assisted private val validation: DccValidation,
     @Assisted private val containerId: CertificateContainerId,
     private val certificateProvider: CertificateProvider,
+    private val itemCreator: ValidationResultItemCreator,
     dispatcherProvider: DispatcherProvider,
 ) : CWAViewModel(dispatcherProvider) {
 
@@ -32,41 +28,53 @@ class DccValidationFailedViewModel @AssistedInject constructor(
         emit(generateItems())
     }.asLiveData2()
 
-    private suspend fun generateItems(): List<ValidationResultItem> {
+    private suspend fun generateItems(): List<ValidationResultItem> = with(itemCreator) {
         val items = mutableListOf(
-            ValidationInputVH.Item(validation),
-            ValidationOverallResultVH.Item(DccValidation.State.FAILURE)
+            validationInputVHItem(userInput = validation.userInput, validatedAt = validation.validatedAt),
+            validationOverallResultVHItem(state = DccValidation.State.FAILURE)
         )
 
         Timber.d("Generating items for state ${validation.state}")
         when (validation.state) {
-            DccValidation.State.PASSED -> {
-                Timber.e("State PASSED but we are on screen 'FAILED', wrong navigation?")
-            }
-            DccValidation.State.OPEN -> {
-                Timber.e("State OPEN but we are on screen 'FAILED', wrong navigation?")
-            }
+            DccValidation.State.PASSED,
+            DccValidation.State.OPEN -> throw IllegalArgumentException("Expected state to be ${DccValidation.State.FAILURE.name} or ${DccValidation.State.TECHNICAL_FAILURE.name} but was ${validation.state.name}")
             DccValidation.State.TECHNICAL_FAILURE -> {
-                items.add(RuleHeaderVH.Item(DccValidation.State.TECHNICAL_FAILURE))
-                items.add(TechnicalValidationFailedVH.Item(validation))
+                items.add(ruleHeaderVHItem(state = DccValidation.State.TECHNICAL_FAILURE))
+                items.add(technicalValidationFailedVHItem(validation = validation))
             }
             DccValidation.State.FAILURE -> {
                 val certificate = certificateProvider.findCertificate(containerId)
-                val failedRules = validation.rules.filter { it.result == DccValidationRule.Result.FAILED }
+                val failedRules = validation.rules
+                    .filter { it.result == DccValidationRule.Result.FAILED }
+                    .map {
+                        businessRuleVHItem(
+                            rule = it.rule,
+                            result = it.result,
+                            certificate = certificate
+                        )
+                    }
                 if (failedRules.isNotEmpty()) {
-                    items.add(RuleHeaderVH.Item(DccValidation.State.FAILURE))
-                    failedRules.forEach { items.add(BusinessRuleVH.Item(it, certificate)) }
+                    items.add(ruleHeaderVHItem(state = DccValidation.State.FAILURE))
+                    items.addAll(failedRules)
                 }
 
-                val openRules = validation.rules.filter { it.result == DccValidationRule.Result.OPEN }
+                val openRules = validation.rules
+                    .filter { it.result == DccValidationRule.Result.OPEN }
+                    .map {
+                        businessRuleVHItem(
+                            rule = it.rule,
+                            result = it.result,
+                            certificate = certificate
+                        )
+                    }
                 if (openRules.isNotEmpty()) {
-                    items.add(RuleHeaderVH.Item(DccValidation.State.OPEN))
-                    openRules.forEach { items.add(BusinessRuleVH.Item(it, certificate)) }
+                    items.add(ruleHeaderVHItem(state = DccValidation.State.OPEN))
+                    items.addAll(openRules)
                 }
             }
         }
 
-        items.add(ValidationFaqVH.Item)
+        items.add(validationFaqVHItem())
 
         return items.toList()
     }

@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.com
 import android.view.ViewGroup
 import androidx.core.view.isGone
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.TechnicalValidationFailedVH.Item
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultTechnicalFailedItemBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
@@ -27,14 +26,19 @@ class TechnicalValidationFailedVH(
         item: Item,
         payloads: List<Any>,
     ) -> Unit = { item, _ ->
-        groupDateExpired.isGone = !item.dccValidation.expirationCheckPassed
-        groupDateFormat.isGone = !item.dccValidation.jsonSchemaCheckPassed
-        divider.isGone = !item.dccValidation.expirationCheckPassed || !item.dccValidation.jsonSchemaCheckPassed
+        with(item) {
+            groupDateExpired.isGone = hideGroupDateExpired
+            groupDateFormat.isGone = hideGroupDateFormat
+            divider.isGone = hideDivider
+        }
     }
 
     data class Item(
-        val dccValidation: DccValidation,
+        val hideGroupDateExpired: Boolean,
+        val hideGroupDateFormat: Boolean
     ) : ValidationResultItem, HasPayloadDiffer {
+        val hideDivider: Boolean get() = !hideGroupDateExpired && !hideGroupDateFormat
+
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
 
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
