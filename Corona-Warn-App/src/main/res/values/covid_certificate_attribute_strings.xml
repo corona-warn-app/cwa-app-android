@@ -83,8 +83,6 @@
     <string name="test_certificate_attribute_state_of_testing" translatable="false">"Land der Testung / Member State of Test"</string>
 
     <!--=================== Rule validation strings =============================-->
-    <!-- XTXT: Rule / Disease or Agent Targeted -->
-    <string name="rule_disease_or_agent_targeted" translatable="false">"Zielkrankheit oder -erreger / Disease or Agent Targeted"</string>
     <!-- XTXT: Rule / Vaccine -->
     <string name="rule_vaccine" translatable="false">"Impfstoff / Vaccine"</string>
     <!-- XTXT: Rule / Vaccine Type -->
@@ -124,6 +122,6 @@
     <!-- XTXT: Rule / Certificate valid until (YYYY-MM-DD) -->
     <string name="rule_certificate_valid_until" translatable="false">"Zertifikat gültig bis / Certificate valid until (YYYY-MM-DD)"</string>
     <!-- XTXT: Rule / Unique Certificate Identifier -->
-    <string name="rule_unique_certificate_identifier" translatable="false">"Zertifikatkennung / Unique Certificate Identifier"</string>
+    <string name="rule_certificate_unique_identifier" translatable="false">"Zertifikatkennung / Unique Certificate Identifier"</string>
 
 </resources>

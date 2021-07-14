@@ -24,7 +24,7 @@ fun mapAffectedFields(affectedFields: List<String>, certificate: CwaCovidCertifi
 @get:StringRes
 private val String.stringResource: Int
     get() = when (this) {
-        "v.0.tg" -> R.string.rule_disease_or_agent_targeted
+        // Vaccination certificate
         "v.0.vp" -> R.string.rule_vaccine
         "v.0.mp" -> R.string.rule_vaccine_type
         "v.0.ma" -> R.string.rule_vaccine_manufacturer
@@ -32,25 +32,39 @@ private val String.stringResource: Int
         "v.0.sd" -> R.string.rule_vaccination_total_number
         "v.0.dt" -> R.string.rule_vaccination_date
         "v.0.co" -> R.string.rule_vaccination_country
-        "v.0.is" -> R.string.rule_certificate_issuer
-        "v.0.ci" -> R.string.rule_unique_certificate_identifier
-        "t.0.tg" -> R.string.rule_certificate_agent_targeted
+
+        // Test certificate
         "t.0.tt" -> R.string.rule_test_type
-        "t.0.nm" -> R.string.rule_test_name
+        "t.0.nm",
         "t.0.ma" -> R.string.rule_test_name
         "t.0.sc" -> R.string.rule_sample_collected_at
         "t.0.tr" -> R.string.rule_test_result
         "t.0.tc" -> R.string.rule_test_center
-        "t.0.co" -> R.string.rule_test_country
-        "t.0.is" -> R.string.rule_certificate_issuer
-        "t.0.ci" -> R.string.rule_unique_certificate_identifier
-        "r.0.tg" -> R.string.rule_certificate_agent_targeted
+
+        // Recovery certificate
         "r.0.fr" -> R.string.rule_date_of_frist_positive_test_result
-        "r.0.co" -> R.string.rule_test_country
-        "r.0.is" -> R.string.rule_certificate_issuer
         "r.0.df" -> R.string.rule_certificate_valid_from
         "r.0.du" -> R.string.rule_certificate_valid_until
-        "r.0.ci" -> R.string.rule_unique_certificate_identifier
+
+        // Common fields labels
+        // Certificate issuer
+        "v.0.is",
+        "r.0.is",
+        "t.0.is" -> R.string.rule_certificate_issuer
+
+        // Certificate id
+        "t.0.ci",
+        "v.0.ci",
+        "r.0.ci" -> R.string.rule_certificate_unique_identifier
+
+        // Targeted Agent / Disease
+        "v.0.tg",
+        "t.0.tg",
+        "r.0.tg" -> R.string.rule_certificate_agent_targeted
+
+        // Test country
+        "t.0.co",
+        "r.0.co" -> R.string.rule_test_country
         else -> -1
     }
 
@@ -87,10 +101,10 @@ private fun certificateValue(field: String, certificate: CwaCovidCertificate): S
         is RecoveryCertificate -> when (field) {
             "r.0.tg" -> certificate.targetDisease
             "r.0.fr" -> certificate.testedPositiveOnFormatted
-            "r.0.co" -> certificate.certificateCountry
-            "r.0.is" -> certificate.certificateIssuer
             "r.0.df" -> certificate.validFromFormatted
             "r.0.du" -> certificate.validUntilFormatted
+            "r.0.co" -> certificate.certificateCountry
+            "r.0.is" -> certificate.certificateIssuer
             "r.0.ci" -> certificate.certificateId
             else -> null
         }
