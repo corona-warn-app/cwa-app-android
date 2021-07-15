@@ -1,8 +1,11 @@
-package de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem
+package de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.businessrule
 
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.BaseValidationResultVH
+import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.EvaluatedField
+import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationResultItem
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultRuleItemBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.util.ui.LazyString

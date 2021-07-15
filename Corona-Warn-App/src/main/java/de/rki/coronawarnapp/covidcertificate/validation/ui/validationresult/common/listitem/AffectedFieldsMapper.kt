@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.util.lists.HasStableId
 
 /**
  * Maps Affected fields to [EvaluatedField]
@@ -116,4 +117,7 @@ data class EvaluatedField(
     val field: String,
     @StringRes val fieldResourceId: Int,
     val certificateFieldValue: String?
-)
+) : HasStableId {
+    override val stableId: Long
+        get() = fieldResourceId.toLong()
+}
