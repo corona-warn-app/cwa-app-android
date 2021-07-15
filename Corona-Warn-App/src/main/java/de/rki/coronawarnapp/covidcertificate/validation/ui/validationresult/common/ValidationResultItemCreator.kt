@@ -125,27 +125,10 @@ class ValidationResultItemCreator @Inject constructor() {
 
     // Apply rules from tech spec to decide which rule description to display
     private fun DccValidationRule.getRuleDescription(): String {
-        val descArray = description
-
         val currentLocaleCode = Locale.getDefault().language
-
-        for (item in descArray) {
-            if (item.languageCode == currentLocaleCode) {
-                return item.description
-            }
-        }
-
-        for (item in descArray) {
-            if (item.languageCode == "en") {
-                return item.description
-            }
-        }
-
-        if (descArray.isNotEmpty()) {
-            return descArray.first().description
-        }
-
-        return identifier
+        val descItem = description.find { it.languageCode == currentLocaleCode }
+            ?: description.find { it.languageCode == "en" } ?: description.firstOrNull()
+        return descItem?.description ?: identifier
     }
 
     // Apply rules from tech spec to decide which rule description to display
