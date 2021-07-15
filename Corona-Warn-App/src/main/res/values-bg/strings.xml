@@ -5,10 +5,6 @@
 
     <!-- XACT: back description for screen readers -->
     <string name="accessibility_back">"Назад"</string>
-    <!-- XACT: next description for screen readers -->
-    <string name="accessibility_next">"Напред"</string>
-    <!-- XACT: menu description for screen readers -->
-    <string name="accessibility_menu">"Меню"</string>
     <!-- XACT: menu description for screen readers -->
     <string name="accessibility_close">"Затваряне"</string>
     <!-- XACT: menu description for screen readers -->
@@ -68,16 +64,10 @@
     <string name="risk_card_body_installation_today">"Инсталирано днес"</string>
     <!-- XTXT: risk card - Days since installation if yesterday -->
     <string name="risk_card_body_installation_yesterday">"Инсталирано вчера"</string>
-    <!-- XTXT: risk card - tracing active for x out of 14 days -->
-    <string name="risk_card_body_saved_days">"Регистрирането на излагания на риск е било активно през %1$s от изминалите 14 дни"</string>
-    <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
-    <string name="risk_card_body_saved_days_full">"Няма прекъсване на регистрирането на излагания на риск"</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"Все още не е извършвана проверка на контактите."</string>
     <!-- XTXT: risk card - last successful update -->
     <string name="risk_card_body_time_fetched">"Актуализирано: %1$s"</string>
-    <!-- XTXT: risk card - hint to open the app daily -->
-    <string name="risk_card_body_open_daily">"Бележка: Моля, отваряйте приложението всеки ден, за да актуализирате своя статус на риск."</string>
     <!-- XBUT: risk card - update risk -->
     <string name="risk_card_button_update">"Актуализиране"</string>
     <!-- XBUT: risk card - activate tracing -->
@@ -88,18 +78,10 @@
     <string name="risk_card_low_risk_headline">"Нисък риск"</string>
     <!-- XHED: risk card - increased risk headline -->
     <string name="risk_card_increased_risk_headline">"Повишен риск"</string>
-    <!-- XTXT: risk card - tracing isn't active long enough, so a new risk level can't be calculated -->
-    <string name="risk_card_unknown_risk_body">"Тъй като регистрирането на излагания на риск не е било активно достатъчно дълго, не можем да изчислим Вашия риск от заразяване."</string>
     <!-- XHED: risk card - tracing stopped headline, due to no possible calculation -->
     <string name="risk_card_no_calculation_possible_headline">"В момента не се извършва регистриране на излагания на риск"</string>
     <!-- XTXT: risk card - last successfully calculated risk level -->
     <string name="risk_card_no_calculation_possible_body_saved_risk">"Последна проверка за излагане на риск:"<xliff:g id="line_break">"\n"</xliff:g>"%1$s"</string>
-    <!-- XHED: risk card -  outdated risk headline, calculation isn't possible -->
-    <string name="risk_card_outdated_risk_headline">"Невъзможно регистриране на излагания на риск"</string>
-    <!-- XTXT: risk card - outdated risk, calculation couldn't be updated in the last 24 hours -->
-    <string name="risk_card_outdated_risk_body">"Регистърът на излаганията на риск не е обновяван повече от 24 часа."</string>
-    <!-- XTXT: risk card - outdated risk manual, calculation couldn't be updated in the last 48 hours -->
-    <string name="risk_card_outdated_manual_risk_body">"Вашият статус на риск не е обновяван от повече от 48 часа. Моля, актуализирайте го."</string>
     <!-- XHED: risk card - risk check failed headline, no internet connection -->
     <string name="risk_card_check_failed_no_internet_headline">"Проверката за излагане е риск е неуспешна"</string>
     <!-- XTXT: risk card - risk check failed, please check your internet connection -->
@@ -222,8 +204,6 @@
     <string name="main_overview_subtitle_increased_risk">"Повишен риск"</string>
     <!-- XTXT: App overview low risk level -->
     <string name="main_overview_subtitle_low_risk">"Нисък риск"</string>
-    <!-- XTXT: App overview unknown risk level -->
-    <string name="main_overview_subtitle_unknown_risk">"Неизвестен риск"</string>
     <!-- XHED: App overview subtitle for test procedure explanation -->
     <string name="main_overview_headline_test">"Уведомяване на други потребители"</string>
     <!-- YTXT: App overview body text about rest procedure -->
@@ -316,14 +296,8 @@
     <string name="risk_details_information_body_period_logged_assessment_over_14_days">"Ако регистрирането на контактите Ви е било активно, когато сте се срещали с други хора, рискът да сте се заразили през този период ще бъде изчислен."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->        <!-- XTXT: risk details - infection period logged information body, under 14 days -->
     <string name="risk_details_information_body_period_logged_assessment">"Приложението изтрива автоматично по-старите регистри, тъй като те вече не могат да служат за предотвратяване на заразяването."</string>
-    <!-- XTXT: risk details - infection period days logged/14 -->
-    <string name="risk_details_information_active_tracing_days_circle_progress">"%s/14"</string>
-    <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
-    <string name="risk_details_subtitle_infection_risk_past">"Ето как е изчислено Вашето ниво на риск."</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk">"Ето как се изчислява Вашето ниво на риск."</string>
-    <!-- XMSG: risk details - risk calculation wasn't possible for 24h, below behaviors -->
-    <string name="risk_details_information_body_outdated_risk">"Регистърът на излаганията на риск не е обновяван повече от 24 часа."</string>
     <!-- YTXT: risk details - low risk explanation text -->
     <string name="risk_details_information_body_low_risk">"Вашето ниво на риск от заразяване е ниско, защото нямате регистрирани контакти с лица, които впоследствие са били диагностицирани с коронавирус, или ако сте имали такива, те са били краткотрайни и от по-голямо разстояние."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
@@ -332,15 +306,6 @@
     <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/en/faq/#encounter_but_green"</string>
     <!-- YTXT: risk details - increased risk explanation text with variable date since last contact -->
     <string name="risk_details_information_body_increased_risk_date">"Нивото на риска Ви от заразяване е повишено, защото сте имали продължителен и близък контакт с поне едно лице, диагностицирано с коронавирус."</string>
-    <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
-    <plurals name="risk_details_information_body_increased_risk">
-        <item quantity="one">"Нивото на риска Ви от заразяване е повишено, защото преди %1$s дни сте имали продължителен и близък контакт с поне едно лице, диагностицирано с коронавирус."</item>
-        <item quantity="other">"Нивото на риска Ви от заразяване е повишено, защото преди %1$s дни сте имали продължителен и близък контакт с поне едно лице, диагностицирано с коронавирус."</item>
-        <item quantity="zero">"Нивото на риска Ви от заразяване е повишено, защото преди %1$s дни сте имали продължителен и близък контакт с поне едно лице, диагностицирано с коронавирус."</item>
-        <item quantity="two">"Нивото на риска Ви от заразяване е повишено, защото преди %1$s дни сте имали продължителен и близък контакт с поне едно лице, диагностицирано с коронавирус."</item>
-        <item quantity="few">"Нивото на риска Ви от заразяване е повишено, защото преди %1$s дни сте имали продължителен и близък контакт с поне едно лице, диагностицирано с коронавирус."</item>
-        <item quantity="many">"Нивото на риска Ви от заразяване е повишено, защото преди %1$s дни сте имали продължителен и близък контакт с поне едно лице, диагностицирано с коронавирус."</item>
-    </plurals>
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Рискът от заразяване се изчислява въз основа на данните за излагане (продължителност и близост на контакта), регистрирани във Вашия смартфон. Никой освен Вас не може да види или да получи данни за Вашето ниво на риск."</string>
     <!-- YTXT: risk details - risk calculation explanation for increased risk -->
@@ -371,8 +336,6 @@
     <string name="risk_lowered_dialog_body">"Изминаха повече от 14 дни от последния контакт, който предизвика повишаване на нивото на Вашия риск. Затова рискът Ви от заразяване отново е определен като нисък.\n\nЕто какво трябва да направите:\n1. Ако нямате симптоми за заразяване с COVID-19, продължете да следвате общоприетите правила за спазване на дистанция и хигиена.\n2. Ако имате симптоми за заразяване с COVID-19, препоръчваме Ви да посетите своя лекар и да се тествате."</string>
     <!-- XBUT: risk lowerd - dialog confirm -->
     <string name="risk_lowered_dialog_button_confirm">"OK"</string>
-    <!-- XBUT: risk lowered - dialog cancel -->
-    <string name="risk_lowered_dialog_button_cancel">"Повече"</string>
 
     <!-- ####################################
            Outdated Device Time
@@ -398,8 +361,6 @@
     <string name="onboarding_button_next">"Напред"</string>
     <!-- XBUT: onboarding - start -->
     <string name="onboarding_button_start">"Първи стъпки"</string>
-    <!-- XTXT: onboarding - back description for screen reader -->
-    <string name="onboarding_button_back_description">"Назад"</string>
     <!-- XACT: Onboarding (together) page title -->
     <string name="onboarding_onboarding_accessibility_title">"Въведение - страница 1 от 6 Да се преборим с коронавируса заедно"</string>
     <!-- XHED: onboarding(together) - fight corona -->
@@ -477,8 +438,6 @@
     <string name="onboarding_tracing_location_headline">"Активиране на настройките за местоположение"</string>
     <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
     <string name="onboarding_tracing_location_body">"Приложението не може да определи къде се намирате, но Android 10 и по-старите от него версии изискват настройката за местоположение да бъде активна, за да могат да използват режима на Bluetooth с ниска консумация на енергия."</string>
-    <!-- XBUT: onboarding(tracing) - button enable tracing -->
-    <string name="onboarding_tracing_location_button">"Към настройките на устройството"</string>
     <!-- XACT: Onboarding (test) page title -->
     <string name="onboarding_test_accessibility_title">"Въведение – страница 5 от 6: Ако имате поставена диагноза „коронавирус“"</string>
     <!-- XHED: onboarding(test) - about positive tests -->
@@ -512,8 +471,6 @@
     <string name="onboarding_ppa_state_title">"В коя федерална провинция се намирате (незадължително)"</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - district title -->
     <string name="onboarding_ppa_district_title">"В кой окръг се намирате (незадължително)"</string>
-    <!-- XTXT: onboarding privacy preserving analytics (ppa) - regional evaluation text -->
-    <string name="onboarding_ppa_regional_evaluation_text">"Ако посочите федерална провинция и регион, ще можем да правим и регионални анализи."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - age title -->
     <string name="onboarding_ppa_age_title">"Вашата възрастова група (незадължително)"</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - consent title -->
@@ -525,8 +482,6 @@
 
     <!-- XHED: onboarding privacy preserving analytics (ppa) - more info - headline -->
     <string name="onboarding_ppa_more_info_headline">"Подробна информация относно споделянето на данни"</string>
-    <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - consent title -->
-    <string name="onboarding_ppa_more_info_decline_processing_text">"Моля, ако не желаете да предоставите съгласие данните Ви да бъдат прехвърляни в трета държава, не натискайте „Приемам“. Така ще откажете да използвате функцията за споделяне на данни, без това да Ви попречи да използвате приложението."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - title -->
     <string name="onboarding_ppa_more_info_data_processing_title">"Обработка на данните в процеса на споделяне на данни"</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing body -->
@@ -630,8 +585,6 @@
     <string name="settings_tracing_status_inactive">"Спряно"</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
     <string name="settings_tracing_status_restricted">"Ограничено"</string>
-    <!-- XTXT: settings(tracing) - shows status under header in home, no internet -->
-    <string name="settings_tracing_body_connection_inactive">"Няма връзка с интернет"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, no bluetooth -->
     <string name="settings_tracing_body_bluetooth_inactive">"Функцията Bluetooth е изключена"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
@@ -648,21 +601,6 @@
     <string name="settings_tracing_status_location_body_url">"https://www.coronawarn.app/en/faq/#android_location"</string>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
     <string name="settings_tracing_status_location_button">"Към настройките на устройството"</string>
-    <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
-    <string name="settings_tracing_status_connection_headline">"Необходима е връзка с интернет"</string>
-    <!-- XTXT: settings(tracing) - explains user what to do on card if connection is disabled -->
-    <string name="settings_tracing_status_connection_body">"Необходима е връзка с интернет за изчисляване на Вашия риск от заразяване. Моля, свържете се с Wi-Fi или мобилна мрежа за данни от настройките на устройството си."</string>
-    <!-- XBUT: settings(tracing) - go to operating system settings button on card -->
-    <string name="settings_tracing_status_connection_button">"Към настройките на устройството"</string>
-    <!-- XTXT: settings(tracing) - explains the circle progress indicator to the right with the current value -->
-    <plurals name="settings_tracing_status_body_active">
-        <item quantity="one">"Регистрирането на излагания на риск е активно от един ден. Проверката за излагане на риск може да бъде надеждна само ако проследяването е постоянно активирано."</item>
-        <item quantity="other">"Регистрирането на излагания на риск е активно от %1$s дни. Проверката за излагане на риск може да бъде надеждна само ако проследяването е постоянно активирано."</item>
-        <item quantity="zero">"Регистрирането на излагания на риск е активно от %1$s дни. Проверката за излагане на риск може да бъде надеждна само ако проследяването е постоянно активирано."</item>
-        <item quantity="two">"Регистрирането на излагания на риск е активно от %1$s дни. Проверката за излагане на риск може да бъде надеждна само ако проследяването е постоянно активирано."</item>
-        <item quantity="few">"Регистрирането на излагания на риск е активно от %1$s дни. Проверката за излагане на риск може да бъде надеждна само ако проследяването е постоянно активирано."</item>
-        <item quantity="many">"Регистрирането на излагания на риск е активно от %1$s дни. Проверката за излагане на риск може да бъде надеждна само ако проследяването е постоянно активирано."</item>
-    </plurals>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_illustration_description_active">"Трима души са активирали регистрирането на излагания на риск и контактите им един с друг ще бъдат записани."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
@@ -671,15 +609,11 @@
     <string name="settings_tracing_bluetooth_illustration_description_inactive">"Контакт между трима души, един от които е с изключена функция Bluetooth."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_location_illustration_description_inactive"/>
-    <!-- XACT: settings(tracing) - describes illustration -->
-    <string name="settings_tracing_connection_illustration_description_inactive">"Контакт между трима души, един от които няма връзка с интернет."</string>
 
     <!-- XHED: settings(notification) - notification page title -->
     <string name="settings_notifications_title">"Известия"</string>
     <!-- XHED: settings(notification) - multiline headline below illustration, active -->
     <string name="settings_notifications_headline_active">"Желаете ли да активирате известията за Вашия статус на риск от заразяване с COVID-19?"</string>
-    <!-- XHED: settings(notification) - multiline headline below illustration, inactive -->
-    <string name="settings_notifications_headline_inactive">"Известията са дезактивирани"</string>
     <!-- XTXT: settings(notification) - text in row on settings overview -->
     <string name="settings_notifications_body_description">"Разрешаване на автоматични известия за Вашия статус на риск от заразяване с COVID-19."</string>
     <!-- YTXT: settings(notification) - description text when it notifications are enabled -->
@@ -866,8 +800,6 @@
     <string name="debugging_debuglog_id_history_title">"Хронология на ИД"</string>
     <!-- YTXT: Description of ID History -->
     <string name="debugging_debuglog_id_history_body">"ИД на анализите на грешки, споделени досега"</string>
-    <!-- YTXT: Warning regarding downsides of recording a log file -->
-    <string name="debugging_debuglog_intro_warning">"Моля, имайте предвид, че отчетите за грешки може да съдържат поверителни данни (например резултати от тестове или записи в дневника на контактите). Ето защо не бива да споделяте отчетите за грешки публично."</string>
     <!-- XBUT: Button text to start the log recording -->
     <string name="debugging_debuglog_action_start_recording">"Начало"</string>
     <!-- XBUT: Button text to stop the log recording -->
@@ -928,12 +860,6 @@
     <string name="debugging_debuglog_uploadhistory_description">"Тук ще намерите идентификаторите (ИД) на Вашите журнали за анализ на грешките."</string>
 
     <!-- ####################################
-              Interoperability
-    ###################################### -->
-    <!-- XHED: headline for consent information  -->
-    <string name="interop_consent_headline">"Съгласие"</string>
-
-    <!-- ####################################
              Submission
     ###################################### -->
 
@@ -946,10 +872,6 @@
     <!-- XBUT: Positive button for generic web request error -->
     <string name="submission_error_dialog_web_generic_error_button_positive">"Назад"</string>
 
-    <!-- XHED: Dialog title for already paired test error: qr -->
-    <string name="submission_error_dialog_web_test_paired_title">"Невалиден QR код"</string>
-    <!-- XMSG: Dialog body for already paired test error: qr -->
-    <string name="submission_error_dialog_web_test_paired_body">"QR кодът е невалиден или вече е регистриран на друг смартфон. Ще получите резултата си от център за тестване или лаборатория, независимо от валидността на QR кода. Ако Ви бъде поставена диагноза „коронавирус“, службата за обществено здравеопазване ще Ви уведоми за това."</string>
     <!-- XHED: Dialog title for already paired test error: tan -->
     <string name="submission_error_dialog_web_test_paired_title_tan">"ТАН кодът е невалиден"</string>
     <!-- XMSG: Dialog body for already paired test via tan - error: tan -->
@@ -961,15 +883,6 @@
     <string name="submission_error_dialog_web_paring_invalid_title">"Грешка"</string>
     <!-- XMSG: Dialog body for could not create submission tan -->
     <string name="submission_error_dialog_web_paring_invalid_body">"Не беше генериран ТАН код за изпращане. Моля, обадете се на горещата линия за технически въпроси, която можете да намерите в раздел „Информация за приложението“."</string>
-    <!-- XBUT: Positive button for could not create submission tan -->
-    <string name="submission_error_dialog_web_paring_invalid_button_positive">"Назад"</string>
-
-    <!-- XHED: Dialog title for submission tan invalid -->
-    <string name="submission_error_dialog_web_tan_invalid_title">"Грешка"</string>
-    <!-- XMSG: Dialog body for submission tan invalid -->
-    <string name="submission_error_dialog_web_tan_invalid_body">"Генерираният ТАН код е невалиден. Моля, обадете се на горещата линия за технически въпроси от раздел „Информация за приложението“."</string>
-    <!-- XBUT: Positive button for submission tan invalid -->
-    <string name="submission_error_dialog_web_tan_invalid_button_positive">"Назад"</string>
 
     <!-- XHED: Dialog title for submission tan redeemed -->
     <string name="submission_error_dialog_web_tan_redeemed_title">"QR кодът вече не е валиден"</string>
@@ -1075,10 +988,6 @@
     <!-- YTXT: Body text for for results next steps  -->
     <string name="submission_test_result_steps_added_body">"Вашият тест е запазен в приложението Corona-Warn-App."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_heading">"Все още няма резултат от теста Ви"</string>
-    <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_body">"Резултатът от Вашия тест ще се покаже в приложението веднага щом бъде готов.\n\nТой ще Ви бъде изпратен също и извън приложението. Службата за обществено здравеопазване ще Ви уведоми, ако е положителен.\n\nАко получите такова уведомление, моля изтрийте теста, който в момента е регистриран в приложението. Позвънете на номера, показан под „Заявка за ТАН код“, за да получите ТАН. Използвайте кода, за да регистрирате своя резултат в приложението и да предупредите останалите потребители."</string>
-    <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Все още няма резултат от теста Ви"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_pcr_body">"Резултатът от Вашия тест ще се покаже в приложението веднага щом бъде готов.\n\nТой ще Ви бъде изпратен също и извън приложението. Службата за обществено здравеопазване ще Ви уведоми, ако е положителен.\n\nАко получите такова уведомление, моля изтрийте теста, който в момента е регистриран в приложението. Позвънете на номера, показан под „Заявка за ТАН код“, за да получите ТАН. Използвайте кода, за да регистрирате своя резултат в приложението и да предупредите останалите потребители."</string>
@@ -1116,13 +1025,8 @@
     <string name="submission_test_result_positive_steps_warning_others_heading">"Предупредете другите"</string>
     <!-- YTXT: Body text for for other warnings screen-->
     <string name="submission_test_result_positive_steps_warning_others_body">"Моля, споделете своите случайни идентификатори и предупредете околните.\nПомогнете ни да определяме риска от заразяване за тях по-точно, като споделите и кога за пръв път сте забелязали симптомите на коронавирусната инфекция."</string>
-    <!-- XBUT: positive test result : continue button -->
-    <string name="submission_test_result_positive_continue_button">"Напред"</string>
     <!-- XBUT: positive test result : continue button with symptoms-->
     <string name="submission_test_result_positive_continue_button_with_symptoms">"Въведете симптоми"</string>
-    <!-- XBUT: positive test result : continue button without symptoms -->
-    <string name="submission_test_result_positive_continue_button_wo_symptoms">"Не въвеждайте симптоми"</string>
-
 
     <!-- XHED: Page headline for invalid test result screen  -->
     <string name="submission_test_result_invalid_steps_invalid_heading">"Не може да бъде определен резултат от теста Ви"</string>
@@ -1192,13 +1096,19 @@
 
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
-    <string name="submission_dispatcher_headline">"Регистрирайте своя тест"</string>
+    <string name="submission_dispatcher_headline">"Управлявайте тестовете си"</string>
     <!-- XHED: Page subheadline for dispatcher options asking if they already have a positive test: tele-TAN  -->
     <string name="submission_dispatcher_already_positive_subheadline">"Положителен ли е Вашият резултат от PCR теста?"</string>
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"Сканиране на QR код"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
     <string name="submission_dispatcher_qr_card_text">"Получете резултата си в приложението и предупредете останалите потребители или заявете своя сертификат за тест за COVID."</string>
+    <!-- XHED: Dispatcher text for test center option -->
+    <string name="submission_dispatcher_card_test_center">"Търсене на център за тестване"</string>
+    <!-- YTXT: Body text for test center dispatcher option -->
+    <string name="submission_dispatcher_card_test_center_text">"Намерете центровете за тестване в близост до вас."</string>
+    <!-- XTXT: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#where_can_i_get_tested -->
+    <string name="submission_dispatcher_card_test_center_link">"https://www.coronawarn.app/en/faq/#where_can_i_get_tested"</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"Въведете ТАН код за PCR тест"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
@@ -1265,8 +1175,6 @@
     <string name="submission_done_subtitle">"Моля, не забравяйте:"</string>
     <!-- YTXT: text after submission: pcr validation -->
     <string name="submission_done_pcr_validation">"Направете PCR тест, за да потвърдите този резултат от тест."</string>
-    <!-- YTXT: text after submission: pcr validation -->
-    <string name="submission_done_share_keys">"Споделете своите случайни ИД кодове, за да предупредите останалите потребители."</string>
     <!-- YTXT: text after submission: contagious -->
     <string name="submission_done_contagious">"От службата за обществено здравеопазване (Gesundheitsamt) може да се свържат с Вас през следващите няколко дни."</string>
     <!-- YTXT: text after submission: isolate -->
@@ -1289,8 +1197,6 @@
     <!-- Submission Done No Consent-->
     <!-- XHED: Page title for completed submission page -->
     <string name="submission_done_no_consent_title">"Благодарим Ви!"</string>
-    <!-- YTXT: Page subtitle for completed submission page -->
-    <string name="submission_done_no_consent_subtitle">"Благодарим Ви, че помагате да се спре разпространението на коронавируса."</string>
     <!-- YTXT: Page body for submission no consent page -->
     <string name="submission_done_no_consent_body_title">"Другите потребители ще бъдат предупредени."</string>
     <!-- YTXT: Page body for submission no consent page -->
@@ -1337,16 +1243,12 @@
     <string name="submission_contact_headline">"Как работи:"</string>
     <!-- YTXT: Body text for contact page in submission flow-->
     <string name="submission_contact_body">"За да заявите ТАН код, подгответе резултата от своя тест (ако е наличен) и телефонния си номер.\n\nЛицата със слухови затруднения могат да използват релейните услуги Tess (за превод между писмен немски и жестомимичен език), за да се обаждат на горещата телефонна линия. Може да изтеглите приложението от Google Play."</string>
-    <!-- XBUT: submission contact call button -->
-    <string name="submission_contact_button_call">"Обаждане"</string>
     <!-- XBUT: submission contact enter tan button -->
     <string name="submission_contact_button_enter">"Въведете ТАН код"</string>
     <!-- YTXT: Body text for step 1 of contact page -->
     <string name="submission_contact_step_1_body">"Обадете се на националната гореща линия и поискайте ТАН код:"</string>
     <!-- XLNK: Button / hyperlink to phone call for TAN contact page -->
     <string name="submission_contact_number_display">"0800 7540002"</string>
-    <!-- XLNK: Technical number which is called when the user clicks on the display number -->
-    <string name="submission_contact_number_dial">"0800 7540002"</string>
     <!-- YTXT: Body text for step 2 of contact page-->
     <string name="submission_contact_step_2_body">"Регистрирайте PCR теста си, като въведете ТАН кода в приложението."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
@@ -1380,28 +1282,12 @@
     <!-- Submission Status Card -->
     <!-- XHED: Page title for the various submission status: fetching -->
     <string name="submission_status_card_title_fetching">"Извършва се извличане на данни..."</string>
-    <!-- XHED: Page title for the various submission status: unregistered -->
-    <string name="submission_status_card_title_unregistered">"Правили ли сте си тест?"</string>
     <!-- XHED: Page title for the various submission status: pending -->
     <string name="submission_status_card_title_pending">"Все още няма резултат от теста Ви"</string>
     <!-- XHED: Page title for the various submission status: available -->
     <string name="submission_status_card_title_available">"Резултатът от теста Ви е готов"</string>
-    <!-- XHED: Page title for the various submission status: positive -->
-    <string name="submission_status_card_title_positive">"Положителен резултат"</string>
-    <!-- XHED: Page title for the various submission status fetch failed -->
-    <string name="submission_status_card_title_failed">"Тест с изтекла валидност"</string>
-    <!-- XHED: Page title for the various submission status fetch ready -->
-    <string name="submission_status_card_title_ready">"Резултатът от теста Ви е готов"</string>
-    <!-- XHED: Subtitle for the submission status card: invalid -->
-    <string name="submission_status_card_subtitle_invalid">"Не може да бъде определен резултат от теста Ви"</string>
-    <!-- XHED: Subtitle for the submission status card: negative -->
-    <string name="submission_status_card_subtitle_negative">"Отрицателен резултат"</string>
-    <!-- XHED: Subtitle for the submission status card: ready -->
-    <string name="submission_status_card_subtitle_ready">"Вече можете да получите резултата от Вашия тест"</string>
     <!-- YTXT: Body text for submission status: fetching -->
     <string name="submission_status_card_body_fetching">"Резултатът Ви се актуализира"</string>
-    <!-- YTXT: Body text for submission status: unregistered -->
-    <string name="submission_status_card_body_unregistered">"Пазете се и помогнете и на другите да се предпазят."</string>
     <!-- YTXT: Body text for submission status: pending -->
     <string name="submission_status_card_body_pending">"Резултатът от Вашия тест все още не е определен."</string>
     <!-- YTXT: Body text for submission status: invalid -->
@@ -1410,20 +1296,12 @@
     <string name="submission_status_card_body_positive">"Потвърден е положителен резултат от теста Ви за SARS-CoV-2."</string>
     <!-- YTXT: Body text for submission status: negative -->
     <string name="submission_status_card_body_negative">"Потвърден е отрицателен резултат от теста Ви за SARS-CoV-2."</string>
-    <!-- YTXT: Body text for submission status fetch failed -->
-    <string name="submission_status_card_body_failed">"Вашият тест е направен преди повече от 21 дни и вече не е валиден. Моля, изтрийте го, за да можете да добавите друг след това."</string>
-    <!-- YTXT: Body text for submission status fetch ready -->
-    <string name="submission_status_card_body_ready">"Ако резултатът от Вашия тест за коронавирус е положителен, можете да предупредите останалите."</string>
-    <!-- YTXT: Button text for submission status fetch ready -->
-    <string name="submission_status_card_retrieve_test_result">"Извличане на резултат от тест"</string>
     <!-- XBUT: submission status card unregistered button -->
-    <string name="submission_status_card_button_unregistered">"Регистриране на тест"</string>
+    <string name="submission_status_card_button_unregistered">"Управлявайте тестовете си"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Показване на тест"</string>
     <!-- XBUT: submission status card fetch failed button -->
     <string name="submission_status_card_button_failed">"Изтриване на тест"</string>
-    <!-- XBUT: submission status card fetch ready button -->
-    <string name="submission_status_card_button_ready">"Изтриване на тест"</string>
     <!-- XHED: submission status card positive result subtitle -->
     <string name="submission_status_card_positive_result_subtitle">"Моля, не забравяйте:"</string>
     <!-- YTXT: text for contagious card -->
@@ -1479,10 +1357,6 @@
     <string name="submission_test_result_available_close_dialog_body_consent_given">"Ако е необходимо, след като видите резултата от теста си, можете да уведомите останалите потребители, за да прекъснете веригата на заразяване."</string>
     <!-- YTXT: Text for consent NOT given -->
     <string name="submission_test_result_available_text_consent_not_given">"Избрали сте да не споделяте резултата от теста си. Останалите няма да бъдат предупредени. \n\nВ следващата стъпка можете да промените решението си и да споделите резултата от теста си, за да помогнете да се спре разпространението на коронавируса и да предпазите останалите."</string>
-    <!-- XHED: Close screen popup title for consent NOT given -->
-    <string name="submission_test_result_available_close_dialog_title_consent_not_given">"Желаете ли да отмените?"</string>
-    <!-- XTXT: Close screen popup text for consent NOT given -->
-    <string name="submission_test_result_available_close_dialog_body_consent_not_given">"Въведените от Вас данни няма да бъдат запазени."</string>
     <!-- XBUT: Close screen popup cancel button -->
     <string name="submission_test_result_available_close_dialog_cancel_button">"Не показвай"</string>
     <!-- XBUT: Close screen popup continue button -->
@@ -1509,10 +1383,18 @@
     ###################################### -->
 
     <!-- Incidence statistics card -->
-    <!-- XHED: Title for incident statistics card -->
-    <string name="statistics_card_incidence_title">"7-дневна заболеваемост"</string>
     <!-- XTXT: Description in statistics card that is displayed below the incidence value-->
     <string name="statistics_card_incidence_value_description">"Потвърдени нови случаи на заразяване на 100 000 души"</string>
+
+    <!-- Local Incidence statistics card -->
+    <!-- XHED: Title for local incident statistics card -->
+    <string name="statistics_card_local_incidence_title">"7-дневна заболеваемост на местно ниво"</string>
+    <!-- XTXT: Description in statistics card that is displayed below the local incidence value-->
+    <string name="statistics_card_local_incidence_value_description">"Потвърдени нови случаи на заразяване на 100 000 души"</string>
+    <!-- XBUT: Text for local incidence statistics card overflow menu info button -->
+    <string name="statistics_card_local_incidence_menu_info">"Информация"</string>
+    <!-- XBUT: Text for local incidence statistics card overflow menu delete button -->
+    <string name="statistics_card_local_incidence_menu_delete">"Изтриване"</string>
 
     <!-- Infections statistics card -->
     <!-- XHED: Title for infections statistics card -->
@@ -1639,15 +1521,17 @@
     <!-- XTXT: Statistics number of vaccinated people at least text -->
     <string name="statistics_people_vaccinated_at_least_once_text">"Брой на лицата, за които има предадени данни в института „Роберт Кох“, че са получили първа доза ваксина."</string>
     <!-- XTXT: Statistics FAQ text -->
-    <string name="statistics_faq_text">"За повече информация моля разгледайте нашата страница с ЧЗВ:\n\nFAQ за статистика"</string>
+    <string name="statistics_faq_text">"За повече информация вижте страницата „ЧЗВ“:"</string>
+
+    <!-- Statistics Add new tile -->
+    <!-- XTXT: Statistics add card title -->
+    <string name="statistics_add_card_title">"Добавяне на 7-дневна заболеваемост на местно ниво"</string>
+    <!-- XTXT: Statistics add card warning -->
+    <string name="statistics_add_card_warning">"Достигнато максимално ниво на заболеваемост на 7-дневна база на местно ниво."</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility
     ###################################### -->
-    <!-- XACT: back button-->
-    <string name="button_back">"Назад към предишната страница"</string>
-    <!-- XACT: proceed button-->
-    <string name="button_proceed">"Бутон „Напред“"</string>
     <!-- XACT: share button-->
     <string name="button_share">"Споделяне"</string>
     <!-- XACT: menu button-->
@@ -1704,34 +1588,6 @@
     ###################################### -->
     <!-- NOTR -->
     <string name="lorem_ipsum">"Lorem Ipsum"</string>
-    <!-- NOTR -->
-    <string name="menu_test_notification">"Test Notification"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_api_launch">"Android API Test(Manual Test)"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_start">"Start (Broadcast/Receive Bluetooth)"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_get_exposure_keys">"Get Exposure keys (my keys history from api)"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_share_my_keys">"Share my keys via Email"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_enter_other_keys">"Submit Exposure Key"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_show_qr_code">"Show QR Code"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_scan_qr_code">"Scan Exposure Key"</string>
-    <!-- NOTR -->
-    <string name="test_api_switch_last_three_hours_from_server">"Last 3 Hours Mode"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_check_exposure">"Check Exposure Summary"</string>
-    <!-- NOTR -->
-    <string name="test_api_exposure_summary_headline">"Exposure Windows"</string>
-    <!-- NOTR -->
-    <string name="test_api_body_my_keys">"My keys (count: %1$d)"</string>
-    <!-- NOTR -->
-    <string name="test_api_body_other_keys">"Other key"</string>
-    <!-- NOTR -->
-    <string name="test_api_calculate_risk_level">"Calculate Risk Level"</string>
 
     <!-- XHED: Country Entry for Austria -->
     <string name="country_name_at">"Австрия"</string>
@@ -1838,10 +1694,6 @@
     <string name="interoperability_onboarding_delta_title">"Международно\nрегистриране на излаганията"</string>
     <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->
     <string name="interoperability_onboarding_delta_subtitle">"Функциите на приложението Corona-Warn-App бяха разширени. Много държави се обединиха, за да направят възможни международните предупреждения посредством съвместно управляван сървър за обмен на данни. При изчисляването на риска от заразяване вече могат да бъдат взети предвид и контактите с потребители на официалните приложения за проследяване на коронавируса от други държави."</string>
-    <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
-    <string name="interoperability_onboarding_delta_randomid">"За тази цел приложението изтегля ежедневно актуализиран списък на случайните идентификатори на всички потребители, споделили резултатите от теста си чрез собственото си приложение, за да предупредят останалите. След това този списък се сравнява със случайните идентификатори, записани на Вашия смартфон с Android."</string>
-    <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
-    <string name="interoperability_onboarding_delta_free_download">"Изтеглянето на списъците обикновено е безплатно за Вас. Това означава, че мобилните оператори не таксуват използваните от приложението данни и не начисляват за тях такси за роуминг в други държави от ЕС. За повече подробности се обърнете към своя мобилен оператор."</string>
 
     <!-- XACT: interoperability (eu) - illustraction description, explanation image -->
     <string name="interoperability_eu_illustration_description">"Ръка държи смартфон на фона на Европа и знамето на ЕС."</string>
@@ -1876,8 +1728,6 @@
     <string name="statistics_info_button">"Още информация"</string>
     <!-- XHED: Title for statistics reproduction card -->
     <string name="statistics_title_reproduction">"7-дневно репродуктивно число R"</string>
-    <!-- XTXT: Label for statistics reproduction card -->
-    <string name="statistics_reproduction_title">"В момента"</string>
     <!-- XTXT: Caption for statistics reproduction card -->
     <string name="statistics_reproduction_average">"среден брой заразени от всяко заразено лице"</string>
     <!-- XTXT: Statistics trend increasing (Accessibilty) -->
@@ -1919,18 +1769,14 @@
     <!-- XHED: Dialog error title for survey request error informations 1 -->
     <string name="datadonation_details_survey_consent_error_CHANGE_DEVICE_TIME">"Часът, показван от Вашия смартфон, не съответства на текущия час. Моля, коригирайте това в настройките на устройството. Код на грешката: %1$s."</string>
     <!-- XHED: Dialog error title for survey request error informations 2-->
-    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_SUPPORTED">"Анкетата не може да бъде извлечена. Код на грешката: %1$s."</string>
-    <!-- XHED: Dialog error title for survey request error informations 3-->
     <string name="datadonation_details_survey_consent_error_UPDATE_PLAY_SERVICES">"Анкетата не може да бъде извлечена в момента. Моля, актуализирайте Google Play Services. Код на грешката: %1$s."</string>
-    <!-- XHED: Dialog error title for survey request error informations 4-->
+    <!-- XHED: Dialog error title for survey request error informations 3-->
     <string name="datadonation_details_survey_consent_error_TRY_AGAIN_LATER">"Анкетата не може да бъде извлечена в момента. Моля, опитайте по-късно. Код на грешката: %1$s."</string>
-    <!-- XHED: Dialog error title for survey request error informations 5-->
-    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_NEXT_MONTH">"Анкетата не може да бъде извлечена поради причини, свързани със сигурността. Може да попълните анкетата отново през следващия календарен месец. Код на грешката: %1$s."</string>
-    <!-- XHED: Dialog error title for survey request error informations 6-->
+    <!-- XHED: Dialog error title for survey request error informations 4-->
     <string name="datadonation_details_survey_consent_error_DEVICE_NOT_TRUSTED">"Благодарим Ви, че се опитахте да помогнете! За съжаление, използвате устройство, което по технически причини не поддържа анкетното проучване. Код на грешката: %1$s."</string>
-    <!-- XHED: Dialog error title for survey request error informations 7-->
+    <!-- XHED: Dialog error title for survey request error informations 5-->
     <string name="datadonation_details_survey_consent_error_TIME_SINCE_ONBOARDING_UNVERIFIED">"От съображения за сигурност можете да участвате в анкетата най-рано 24 часа, след като инсталирате или актуализирате приложението. Код на грешката: %1$s"</string>
-    <!-- XHED: Dialog error title for survey request error informations 8-->
+    <!-- XHED: Dialog error title for survey request error informations 6-->
     <string name="datadonation_details_survey_consent_error_ALREADY_PARTICIPATED">"Вече сте попълнили анкетата. Може да правите това само веднъж месечно. Код на грешката: %1$s."</string>
 
     <!-- XHED: Dialog error title for survey request error informations dialog-->
@@ -2015,10 +1861,6 @@
     <string name="duration_hours">"ч"</string>
     <!-- XTXT: Duration minutes text -->
     <string name="duration_minutes">"мин"</string>
-
-    <!-- Scan check in QR Code-->
-    <!-- XTXT: Scan check in QR-Code  FAB text-->
-    <string name="scan_check_in_qr_code">"Сканиране на QR код"</string>
 
     <!-- ####################################
         Generic
