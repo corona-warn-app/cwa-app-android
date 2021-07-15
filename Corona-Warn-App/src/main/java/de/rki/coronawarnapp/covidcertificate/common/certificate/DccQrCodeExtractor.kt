@@ -189,6 +189,7 @@ class DccQrCodeExtractor @Inject constructor(
             Timber.v("Parsed covid certificate for %s", it.certificate.nameData.familyNameStandardized)
         }
     } catch (e: InvalidHealthCertificateException) {
+        Timber.e(e)
         throw e
     } catch (e: Throwable) {
         Timber.e(e)
