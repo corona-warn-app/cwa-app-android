@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.comm
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.EvaluatedField
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationResultItem
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultRuleItemBinding
-import de.rki.coronawarnapp.util.lists.decorations.RecylerViewPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.LazyString
@@ -39,7 +38,6 @@ class BusinessRuleVH(
 
             if (evaluatedFieldList.adapter == null) {
                 evaluatedFieldList.adapter = adapter
-                evaluatedFieldList.addItemDecoration(RecylerViewPaddingDecorator(topPadding = R.dimen.spacing_small))
             }
         }
     }
