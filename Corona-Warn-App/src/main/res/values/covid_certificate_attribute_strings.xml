@@ -124,6 +124,6 @@
     <!-- XTXT: Rule / Unique Certificate Identifier -->
     <string name="rule_certificate_unique_identifier" translatable="false">"Zertifikatkennung / Unique Certificate Identifier"</string>
     <!-- XTXT: Rule / Rule ID  -->
-    <string name="rules_rule_id">"Regel-ID / Rule ID"</string>
+    <string name="rules_rule_id" translatable="false">"Regel-ID / Rule ID"</string>
 
 </resources>
