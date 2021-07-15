@@ -28,8 +28,9 @@ class BusinessRuleVH(
     override val onBindData: CovidCertificateValidationResultRuleItemBinding.(
         item: Item,
         payloads: List<Any>
-    ) -> Unit = { item, _ ->
-        with(item) {
+    ) -> Unit = { item, payloads ->
+        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        with(curItem) {
             ruleIcon.setImageResource(ruleIconRes)
             ruleDescription.text = ruleDescriptionText.get(context)
             countryInformation.text = countryInformationText.get(context)
