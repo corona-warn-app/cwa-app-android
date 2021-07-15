@@ -241,8 +241,6 @@
     <string name="validation_rules_open_vh_subtitle">"Dies ist eine Regel des Reiselandes %s."</string>
     <!-- XTXT: validation start for the validation open card  -->
     <string name="validation_rules_open_vh_start_date">"Datum und Uhrzeit der Probenahme / Date and Time of Sample Collection (YYYY-MM-DD hh:mm Z)"</string>
-    <!-- XTXT: rule id for the validation open card  -->
-    <string name="validation_rules_open_vh_rule_id">"Regel-ID / Rule ID"</string>
     <!-- XTXT: title for the validation open card  -->
     <string name="validation_rules_open_vh_title">"Ein Antigentest ist maximal 48h gültig."</string>
 
@@ -253,9 +251,6 @@
     <string name="validation_rules_failed_vh_subtitle_uncertified_test_center">"Dies ist eine Regel des Ausstellerlandes."</string>
     <!-- XTXT: test center title for the validation failed card  -->
     <string name="validation_rules_failed_vh_test_center_title">"Testzentrum oder -einrichtung / Testing Center"</string>
-    <!-- XTXT: rule id for the validation failed card  -->
-    <string name="validation_rules_failed_vh_rule_id">"Regel-ID / Rule ID"</string>
-
     <!-- XHED: title for the validation failed card  -->
     <string name="validation_rules_failed_vh_title_wrong_test_type">"Art des Tests muss Antigen-Test oder Nukleinsäureamplifikations-Test sein."</string>
     <!-- XHED: subtitle for the validation failed card  -->
