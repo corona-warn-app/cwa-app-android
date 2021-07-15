@@ -190,7 +190,7 @@
     <!-- XHED: No Internet connection diaglog title -->
     <string name="validation_start_no_internet_dialog_title">Überprüfung fehlgeschlagen</string>
     <!-- XTXT: No Internet connection diaglog message -->
-    <string name="validation_start_no_internet_dialog_msg">Ihre Internetverbindung wurde unterbrochen. Um die Gültigkeit des Zertifikates abzuschließen, prüfen Sie die Verbindung und versuchen Sie es erneut.</string>
+    <string name="validation_start_no_internet_dialog_msg">Ihre Internetverbindung wurde unterbrochen. Um die Gültigkeitsprüfung des Zertifikates abzuschließen, prüfen Sie die Verbindung und versuchen Sie es erneut.</string>
     <!-- XBUT: No Internet connection diaglog positive button -->
     <string name="validation_start_no_internet_dialog_positive_button">OK</string>
 
