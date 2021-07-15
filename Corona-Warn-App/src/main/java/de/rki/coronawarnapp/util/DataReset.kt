@@ -7,8 +7,9 @@ import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationPreferences
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificatePreferences
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
@@ -66,9 +67,10 @@ class DataReset @Inject constructor(
     private val coronaTestRepository: CoronaTestRepository,
     private val ratProfileSettings: RATProfileSettings,
     private val valueSetsRepository: ValueSetsRepository,
-    private val vaccinationPreferences: VaccinationPreferences,
+    private val covidCertificatePreferences: CovidCertificatePreferences,
     private val vaccinationRepository: VaccinationRepository,
     private val testCertificateRepository: TestCertificateRepository,
+    private val personCertificatesSettings: PersonCertificatesSettings,
 ) {
 
     private val mutex = Mutex()
@@ -116,7 +118,9 @@ class DataReset @Inject constructor(
 
         valueSetsRepository.clear()
         vaccinationRepository.clear()
-        vaccinationPreferences.clear()
+        covidCertificatePreferences.clear()
+
+        personCertificatesSettings.clear()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }

@@ -16,11 +16,8 @@
     <!--    Rapid antigen test profile graph-->
     <include app:graph="@navigation/rapid_antigen_test_profile_nav_graph" />
 
-    <!--    Vaccination graph-->
-    <include app:graph="@navigation/vaccination_nav_graph" />
-
-    <!--    Certificates graph-->
-    <include app:graph="@navigation/green_certificate_graph" />
+    <!--    Covid certificates graph-->
+    <include app:graph="@navigation/covid_certificates_graph" />
 
     <!-- Main -->
     <fragment
@@ -79,9 +76,6 @@
         <action
             android:id="@+id/action_mainFragment_to_submissionTestResultKeysSharedFragment"
             app:destination="@id/submissionTestResultKeysSharedFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_vaccinationNavGraph"
-            app:destination="@id/vaccination_nav_graph" />
     </fragment>
 
     <fragment

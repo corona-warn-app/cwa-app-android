@@ -23,33 +23,39 @@ class TestCertificateContainerTest : BaseTest() {
     @Test
     fun `ui facing test certificate creation and fallbacks`() {
         certificateTestData.personATest2CertContainer.apply {
-            isPublicKeyRegistered shouldBe true
             isCertificateRetrievalPending shouldBe false
             certificateId shouldBe "URN:UVCI:V1:DE:7WR8CE12Y8O2AN4NK320TPNKB1"
             data.testCertificateQrCode shouldBe certificateTestData.personATest2CertQRCodeString
             data.certificateReceivedAt shouldBe Instant.parse("1970-01-02T10:17:36.789Z")
-            toTestCertificate(null) shouldNotBe null
+            toTestCertificate(null, mockk()) shouldNotBe null
         }
     }
 
     @Test
     fun `pending check and nullability`() {
         certificateTestData.personATest3CertNokeyContainer.apply {
-            isPublicKeyRegistered shouldBe false
             isCertificateRetrievalPending shouldBe true
             certificateId shouldBe null
             data.testCertificateQrCode shouldBe null
             data.certificateReceivedAt shouldBe null
-            toTestCertificate(mockk()) shouldBe null
+            toTestCertificate(mockk(), mockk()) shouldBe null
         }
 
         certificateTestData.personATest4CertPendingContainer.apply {
-            isPublicKeyRegistered shouldBe true
             isCertificateRetrievalPending shouldBe true
             certificateId shouldBe null
             data.testCertificateQrCode shouldBe null
             data.certificateReceivedAt shouldBe null
-            toTestCertificate(mockk()) shouldBe null
+            toTestCertificate(mockk(), mockk()) shouldBe null
+        }
+    }
+
+    @Test
+    fun `check test certificate field mapping`() {
+        val rawData = certificateTestData.personATest1CertQRCode.data
+        certificateTestData.personATest1Container.toTestCertificate()!!.apply {
+            headerIssuer shouldBe rawData.header.issuer
+            certificateIssuer shouldBe rawData.certificate.test.certificateIssuer
         }
     }
 }

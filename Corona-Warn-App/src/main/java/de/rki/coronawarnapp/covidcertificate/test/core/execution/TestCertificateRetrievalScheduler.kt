@@ -8,6 +8,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.common.ResultScheduler
+import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
@@ -33,7 +34,8 @@ class TestCertificateRetrievalScheduler @Inject constructor(
 ) : ResultScheduler(
     workManager = workManager
 ) {
-    private val processedNewCerts = mutableSetOf<String>()
+    private val processedNewCerts = mutableSetOf<TestCertificateContainerId>()
+    private var lastForegroundState = false
 
     private val creationTrigger = testRepo.coronaTests
         .map { tests ->
@@ -49,15 +51,20 @@ class TestCertificateRetrievalScheduler @Inject constructor(
         foregroundState.isInForeground,
     ) { certificates, isForeground ->
 
+        val foregroundChange = isForeground && !lastForegroundState
+        lastForegroundState = isForeground
+
         val hasNewCert = certificates.any {
-            val isNew = !processedNewCerts.contains(it.identifier)
-            if (isNew) processedNewCerts.add(it.identifier)
+            val isNew = !processedNewCerts.contains(it.containerId)
+            if (isNew) processedNewCerts.add(it.containerId)
             isNew
         }
 
         val hasWorkToDo = certificates.any { it.isCertificateRetrievalPending && !it.isUpdatingData }
-        Timber.tag(TAG).v("shouldPollDcc? hasNewCert=$hasNewCert, hasWorkTodo=$hasWorkToDo, foreground=$isForeground")
-        (isForeground || hasNewCert) && hasWorkToDo
+        Timber.tag(TAG).v(
+            "shouldPollDcc? hasNewCert=$hasNewCert, hasWorkTodo=$hasWorkToDo, foregroundChange=$foregroundChange"
+        )
+        (foregroundChange || hasNewCert) && hasWorkToDo
     }
 
     fun setup() {

@@ -94,7 +94,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/card_divider"
                     android:layout_marginHorizontal="@dimen/spacing_normal"
-                    android:background="@color/colorHairline"
+                    android:background="@color/dividerColor"
                     app:layout_constraintTop_toBottomOf="@+id/switch_row" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -151,7 +151,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/card_divider"
                     android:layout_marginHorizontal="@dimen/spacing_normal"
-                    android:background="@color/colorHairline"
+                    android:background="@color/dividerColor"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/settingsInteroperabilityRow" />

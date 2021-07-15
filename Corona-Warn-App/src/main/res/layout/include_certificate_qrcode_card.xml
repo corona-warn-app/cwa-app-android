@@ -8,18 +8,6 @@
     android:layout_marginHorizontal="24dp"
     android:padding="16dp">
 
-    <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/progress_bar"
-        android:layout_width="140dp"
-        android:layout_height="24dp"
-        android:indeterminate="true"
-        app:hideAnimationBehavior="inward"
-        app:indicatorColor="@color/colorAccent"
-        app:layout_constraintBottom_toBottomOf="@id/image"
-        app:layout_constraintEnd_toEndOf="@id/image"
-        app:layout_constraintStart_toStartOf="@id/image"
-        app:layout_constraintTop_toTopOf="@id/image" />
-
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/image"
         android:layout_width="0dp"
@@ -34,28 +22,37 @@
         tools:src="@drawable/ic_qrcode"
         tools:tint="@android:color/black" />
 
-    <TextView
-        android:id="@+id/title"
-        style="@style/body2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/image"
-        tools:text="Impfzertifikat 2 von 2" />
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progress_bar"
+        android:layout_width="140dp"
+        android:layout_height="24dp"
+        android:indeterminate="true"
+        app:hideAnimationBehavior="inward"
+        app:layout_constraintBottom_toBottomOf="@id/image"
+        app:layout_constraintEnd_toEndOf="@id/image"
+        app:layout_constraintStart_toStartOf="@id/image"
+        app:layout_constraintTop_toTopOf="@id/image" />
 
     <TextView
-        android:id="@id/subtitle"
+        android:id="@+id/qr_title"
         style="@style/body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title"
-        tools:text="Geimpft 24.04.21 - gültig bis 24.04.22" />
+        android:layout_marginTop="@dimen/spacing_tiny"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/image"
+        app:layout_constraintTop_toBottomOf="@id/image"
+        tools:text="@string/detail_green_certificate_card_title" />
+
+    <TextView
+        android:id="@+id/qr_subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/qr_title"
+        app:layout_constraintTop_toBottomOf="@id/qr_title"
+        tools:text="Perobenahme am 31.05.21, 18:01 Uhr" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,13 +2,13 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
-import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.VC_ALREADY_REGISTERED
-import de.rki.coronawarnapp.covidcertificate.exception.InvalidVaccinationCertificateException
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
+import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationQRCodeExtractor
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.errors.VaccinationCertificateNotFoundException
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
@@ -38,7 +38,7 @@ class VaccinationRepository @Inject constructor(
     private val timeStamper: TimeStamper,
     private val storage: VaccinationStorage,
     valueSetsRepository: ValueSetsRepository,
-    private val vaccinationQRCodeExtractor: VaccinationQRCodeExtractor,
+    private val qrCodeExtractor: DccQrCodeExtractor,
 ) {
 
     private val internalData: HotDataFlow<Set<VaccinatedPerson>> = HotDataFlow(
@@ -80,43 +80,37 @@ class VaccinationRepository @Inject constructor(
         personDatas.map { it.copy(valueSet = currentValueSet) }.toSet()
     }
 
-    suspend fun registerVaccination(
+    suspend fun registerCertificate(
         qrCode: VaccinationCertificateQRCode
     ): VaccinationCertificate {
         Timber.tag(TAG).v("registerVaccination(qrCode=%s)", qrCode)
 
         val updatedData = internalData.updateBlocking {
-            val originalPerson = if (this.isNotEmpty()) {
-                Timber.tag(TAG).d("There is an existing person we must match.")
-                this.single().also {
-                    it.identifier.requireMatch(qrCode.personIdentifier)
-                    Timber.tag(TAG).i("New certificate matches existing person!")
-                }
-            } else {
-                VaccinatedPerson(
-                    data = VaccinatedPersonData(),
-                    valueSet = null,
-                )
-            }
+            val matchingPerson = this.singleOrNull {
+                it.identifier == qrCode.personIdentifier
+            } ?: VaccinatedPerson(
+                data = VaccinatedPersonData(),
+                valueSet = null,
+            ).also { Timber.tag(TAG).i("Creating new person for %s", qrCode) }
 
-            if (originalPerson.data.vaccinations.any { it.certificateId == qrCode.uniqueCertificateIdentifier }) {
+            if (matchingPerson.data.vaccinations.any { it.certificateId == qrCode.uniqueCertificateIdentifier }) {
                 Timber.tag(TAG).e("Certificate is already registered: %s", qrCode.uniqueCertificateIdentifier)
-                throw InvalidVaccinationCertificateException(VC_ALREADY_REGISTERED)
+                throw InvalidVaccinationCertificateException(ALREADY_REGISTERED)
             }
 
             val newCertificate = qrCode.toVaccinationContainer(
                 scannedAt = timeStamper.nowUTC,
-                qrCodeExtractor = vaccinationQRCodeExtractor,
+                qrCodeExtractor = qrCodeExtractor,
             )
 
-            val modifiedPerson = originalPerson.copy(
-                data = originalPerson.data.copy(
-                    vaccinations = originalPerson.data.vaccinations.plus(newCertificate)
+            val modifiedPerson = matchingPerson.copy(
+                data = matchingPerson.data.copy(
+                    vaccinations = matchingPerson.data.vaccinations.plus(newCertificate)
                 )
             )
 
             this.toMutableSet().apply {
-                remove(originalPerson)
+                remove(matchingPerson)
                 add(modifiedPerson)
             }
         }
@@ -146,19 +140,22 @@ class VaccinationRepository @Inject constructor(
         }
     }
 
-    suspend fun deleteVaccinationCertificate(vaccinationCertificateId: String) {
-        Timber.tag(TAG).w("deleteVaccinationCertificate(certificateId=%s)", vaccinationCertificateId)
+    suspend fun deleteCertificate(containerId: VaccinationCertificateContainerId): VaccinationContainer? {
+        Timber.tag(TAG).w("deleteCertificate(containerId=%s)", containerId)
         var deletedVaccination: VaccinationContainer? = null
 
         internalData.updateBlocking {
             val target = this.find { person ->
-                person.vaccinationCertificates.any { it.certificateId == vaccinationCertificateId }
-            } ?: throw VaccinationCertificateNotFoundException(
-                "No vaccination certificate found for $vaccinationCertificateId"
-            )
+                person.vaccinationContainers.any { it.containerId == containerId }
+            }
 
-            deletedVaccination = target.data.vaccinations.single {
-                it.certificateId == vaccinationCertificateId
+            if (target == null) {
+                Timber.tag(TAG).w("Can't find certificate, doesn't exist? (%s)", containerId)
+                return@updateBlocking this
+            }
+
+            deletedVaccination = target.vaccinationContainers.single {
+                it.containerId == containerId
             }
 
             val newTarget = if (target.data.vaccinations.size > 1) {
@@ -175,8 +172,8 @@ class VaccinationRepository @Inject constructor(
             this.mapNotNull { if (it == target) newTarget else it }.toSet()
         }
 
-        deletedVaccination?.let {
-            Timber.tag(TAG).i("Deleted vaccination certificate: %s", it.certificateId)
+        return deletedVaccination?.also {
+            Timber.tag(TAG).i("Deleted: %s", containerId)
         }
     }
 

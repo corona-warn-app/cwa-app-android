@@ -1,11 +1,12 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core
 
-import de.rki.coronawarnapp.covidcertificate.common.certificate.Dcc
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccHeader
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.certificate.VaccinationDccV1
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
+import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationQRCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
 import org.joda.time.Instant
@@ -13,7 +14,7 @@ import javax.inject.Inject
 
 @Suppress("MaxLineLength")
 class VaccinationTestData @Inject constructor(
-    private var qrCodeExtractor: VaccinationQRCodeExtractor,
+    private var qrCodeExtractor: DccQrCodeExtractor,
 ) {
 
     // AndreasAstra1.pdf
@@ -22,26 +23,30 @@ class VaccinationTestData @Inject constructor(
 
     val personAVac1Certificate = VaccinationDccV1(
         version = "1.0.0",
-        nameData = Dcc.NameData(
+        nameData = DccV1.NameData(
             givenName = "Andreas",
             givenNameStandardized = "ANDREAS",
             familyName = "Astrá Eins",
             familyNameStandardized = "ASTRA<EINS",
         ),
-        dob = "1966-11-11",
-        payloads = listOf(
-            VaccinationDccV1.VaccinationData(
-                targetId = "840539006",
-                vaccineId = "1119305005",
-                medicalProductId = "EU/1/21/1529",
-                marketAuthorizationHolderId = "ORG-100001699",
-                doseNumber = 1,
-                totalSeriesOfDoses = 2,
-                dt = "2021-03-01",
-                certificateCountry = "DE",
-                certificateIssuer = "Bundesministerium für Gesundheit - Test01",
-                uniqueCertificateIdentifier = "01DE/00001/1119305005/7T1UG87G61Y7NRXIBQJDTYQ9#S",
-            )
+        dateOfBirthFormatted = "1966-11-11",
+        vaccination =
+        DccV1.VaccinationData(
+            targetId = "840539006",
+            vaccineId = "1119305005",
+            medicalProductId = "EU/1/21/1529",
+            marketAuthorizationHolderId = "ORG-100001699",
+            doseNumber = 1,
+            totalSeriesOfDoses = 2,
+            dt = "2021-03-01",
+            certificateCountry = "DE",
+            certificateIssuer = "Bundesministerium für Gesundheit - Test01",
+            uniqueCertificateIdentifier = "01DE/00001/1119305005/7T1UG87G61Y7NRXIBQJDTYQ9#S",
+        ),
+        personIdentifier = CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1966-11-11",
+            lastNameStandardized = "ASTRA<EINS",
+            firstNameStandardized = "ANDREAS"
         )
     )
 
@@ -74,26 +79,29 @@ class VaccinationTestData @Inject constructor(
 
     val personAVac2Certificate = VaccinationDccV1(
         version = "1.0.0",
-        nameData = Dcc.NameData(
+        nameData = DccV1.NameData(
             givenName = "Andreas",
             givenNameStandardized = "ANDREAS",
             familyName = "Astrá Eins",
             familyNameStandardized = "ASTRA<EINS",
         ),
-        dob = "1966-11-11",
-        payloads = listOf(
-            VaccinationDccV1.VaccinationData(
-                targetId = "840539006",
-                vaccineId = "1119305005",
-                medicalProductId = "EU/1/21/1529",
-                marketAuthorizationHolderId = "ORG-100001699",
-                doseNumber = 2,
-                totalSeriesOfDoses = 2,
-                dt = "2021-04-27",
-                certificateCountry = "DE",
-                certificateIssuer = "Bundesministerium für Gesundheit - Test01",
-                uniqueCertificateIdentifier = "01DE/00001/1119305005/6IPYBAIDWEWRWW73QEP92FQSN#S",
-            )
+        dateOfBirthFormatted = "1966-11-11",
+        vaccination = DccV1.VaccinationData(
+            targetId = "840539006",
+            vaccineId = "1119305005",
+            medicalProductId = "EU/1/21/1529",
+            marketAuthorizationHolderId = "ORG-100001699",
+            doseNumber = 2,
+            totalSeriesOfDoses = 2,
+            dt = "2021-04-27",
+            certificateCountry = "DE",
+            certificateIssuer = "Bundesministerium für Gesundheit - Test01",
+            uniqueCertificateIdentifier = "01DE/00001/1119305005/6IPYBAIDWEWRWW73QEP92FQSN#S",
+        ),
+        personIdentifier = CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1966-11-11",
+            lastNameStandardized = "ASTRA<EINS",
+            firstNameStandardized = "ANDREAS"
         )
     )
 
@@ -130,26 +138,29 @@ class VaccinationTestData @Inject constructor(
 
     val personBVac1Certificate = VaccinationDccV1(
         version = "1.0.0",
-        nameData = Dcc.NameData(
+        nameData = DccV1.NameData(
             givenName = "Boris",
             givenNameStandardized = "BORIS",
             familyName = "Johnson Gültig",
             familyNameStandardized = "JOHNSON<GUELTIG",
         ),
-        dob = "1966-11-11",
-        payloads = listOf(
-            VaccinationDccV1.VaccinationData(
-                targetId = "840539006",
-                vaccineId = "1119305005",
-                medicalProductId = "EU/1/20/1525",
-                marketAuthorizationHolderId = "ORG-100001417",
-                doseNumber = 1,
-                totalSeriesOfDoses = 1,
-                dt = "2021-04-20",
-                certificateCountry = "DE",
-                certificateIssuer = "Bundesministerium für Gesundheit - Test01",
-                uniqueCertificateIdentifier = "01DE/00001/1119305005/3H24U2KVOTPCSINK7N64F2OB9#S",
-            )
+        dateOfBirthFormatted = "1966-11-11",
+        vaccination = DccV1.VaccinationData(
+            targetId = "840539006",
+            vaccineId = "1119305005",
+            medicalProductId = "EU/1/20/1525",
+            marketAuthorizationHolderId = "ORG-100001417",
+            doseNumber = 1,
+            totalSeriesOfDoses = 1,
+            dt = "2021-04-20",
+            certificateCountry = "DE",
+            certificateIssuer = "Bundesministerium für Gesundheit - Test01",
+            uniqueCertificateIdentifier = "01DE/00001/1119305005/3H24U2KVOTPCSINK7N64F2OB9#S",
+        ),
+        personIdentifier = CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1966-11-11",
+            lastNameStandardized = "JOHNSON<GUELTIG",
+            firstNameStandardized = "BORIS"
         )
     )
 

@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:textColor="@color/colorTextPrimary1"
+        android:textColor="@color/colorOnPrimary"
         android:textSize="@dimen/font_button" />
 
 </LinearLayout>

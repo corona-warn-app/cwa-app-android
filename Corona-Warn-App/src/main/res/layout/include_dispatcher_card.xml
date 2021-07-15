@@ -53,7 +53,7 @@
             app:srcCompat="@drawable/ic_forward"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/colorTextPrimary1" />
+            app:tint="@color/colorOnPrimary" />
 
         <TextView
             android:id="@+id/submission_dispatcher_card_text"

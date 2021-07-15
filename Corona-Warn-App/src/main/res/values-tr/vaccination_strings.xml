@@ -25,17 +25,19 @@
     <string name="vaccination_qrcode_card_subtitle">"%1$s için Aşı Yapıldı - Geçerlilik Sonu: %2$s"</string>
 
     <!-- XTXT: Vaccination List title-->
-    <string name="vaccination_list_title">"Dijital Aşı Kanıtı"</string>
+    <string name="vaccination_list_title">"AB Dijital Aşı Kanıtı"</string>
     <!-- XTXT: Vaccination List complete vaccination subtitle-->
     <string name="vaccination_list_complete_vaccination_subtitle">"SARS-CoV-2 Aşı Koruması"</string>
-    <!-- XTXT: Vaccination List top card subtitle-->
+    <!-- XTXT: Vaccination card date-->
     <string name="vaccination_list_name_card_subtitle">"Doğum tarihi: %1$s"</string>
-    <!-- XTXT: Vaccination List top card subtitle-->
+    <!-- XTXT: Vaccination  card title-->
     <string name="vaccination_list_vaccination_card_title">"Aşı %1$d / %2$d"</string>
-    <!-- XTXT: Vaccination List top card subtitle-->
-    <string name="vaccination_list_vaccination_card_subtitle">"Gerçekleştirilme tarihi: %1$s"</string>
-    <!-- XTXT: Vaccination List immunity information card body-->
-    <plurals name="vaccination_list_immunity_card_body">
+    <!-- XTXT: Vaccination card headline-->
+    <string name="vaccination_list_vaccination_card_headline">"Aşı Sertifikası"</string>
+    <!-- XTXT: Vaccination card subtitle-->
+    <string name="vaccination_list_vaccination_card_subtitle">"aşı tarihi: %1$s"</string>
+    <!-- XTXT: Vaccination card immunity information card body-->
+    <plurals name="vaccination_list_immunity_card_body" tools:ignore="UnusedQuantity">
         <item quantity="one">"Şu anda planlanan tüm aşıları aldınız ancak aşı korumanız %1$d gün daha tamamlanmayacaktır."</item>
         <item quantity="other">"Şu anda planlanan tüm aşıları aldınız ancak aşı korumanız %1$d gün daha tamamlanmayacaktır."</item>
         <item quantity="zero">"Şu anda planlanan tüm aşıları aldınız ancak aşı korumanız %1$d gün daha tamamlanmayacaktır."</item>
@@ -43,6 +45,8 @@
         <item quantity="few">"Şu anda planlanan tüm aşıları aldınız ancak aşı korumanız %1$d gün daha tamamlanmayacaktır."</item>
         <item quantity="many">"Şu anda planlanan tüm aşıları aldınız ancak aşı korumanız %1$d gün daha tamamlanmayacaktır."</item>
     </plurals>
+    <!-- XTXT: Vaccination card immunity information card body when <1 day is left till immunity -->
+    <string name="vaccination_list_immunity_tomorrow_card_body">"Şu anda planlanan tüm aşıları aldınız ancak aşı korumanız yarına kadar tamamlanmayacaktır."</string>
     <!-- XBUT: Vaccination List register additional vaccination button -->
     <string name="vaccination_list_register_new_vaccination_button">"Başka Aşı Ekle"</string>
     <!-- XBUT: Vaccination List delete button -->
@@ -62,7 +66,7 @@
         Homescreen cards
     ###################################### -->
     <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_registration_title_line_1">"Dijital Aşı Kanıtı"</string>
+    <string name="vaccination_card_registration_title_line_1">"AB COVID Aşısı Kanıtı"</string>
     <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
     <string name="vaccination_card_registration_title_line_2">"Ekle"</string>
     <!-- YTXT: Body text for Vaccination Certificate Registration Home Card -->
@@ -72,7 +76,7 @@
     <!-- XHED: Homescreen vaccination status card title -->
     <string name="vaccination_card_status_title_line_1">"Dijital"</string>
     <!-- XHED: Homescreen vaccination status card title -->
-    <string name="vaccination_card_status_title_line_2">"Aşı Kanıtı"</string>
+    <string name="vaccination_card_status_title_line_2">"AB COVID Aşısı Kanıtı"</string>
     <!-- XHED: Homescreen vaccination status card vaccination name -->
     <string name="vaccination_card_status_vaccination_name">"SARS-CoV-2 Aşısı"</string>
     <!-- XTXT: Homescreen card incomplete vaccination status label -->
@@ -86,39 +90,24 @@
         <item quantity="few">"%1$d gün içinde tam aşı koruması"</item>
         <item quantity="many">"%1$d gün içinde tam aşı koruması"</item>
     </plurals>
+    <string name="vaccination_card_status_vaccination_complete_tomorrow">"Yarından itibaren tam aşı koruması"</string>
     <!-- XTXT: Homescreen card complete vaccination status label -->
     <string name="vaccination_card_status_vaccination_complete">"Son geçerlilik tarihi: %s"</string>
-
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_invalid">"Bu QR kodu geçerli bir aşı sertifikası değildir.\n\nAşı sertifikanızı nasıl alacağınız hakkında daha fazla bilgi için lütfen SSS sayfamıza bakın."</string>
+    <string name="error_vc_invalid">"Bu QR kodu geçerli bir sertifika değildir.\n\nSertifikanızı nasıl alacağınız hakkında daha fazla bilgi için lütfen SSS sayfamıza bakın."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_not_yet_supported">"Bu aşı sertifikası henüz uygulamanızın sürümünde desteklenmiyor. Lütfen uygulamanızı güncelleyin veya “Uygulama Bilgileri” bölümünde belirtilen teknik yardım hattı ile iletişime geçin."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_scan_again">"Aşı sertifikası akıllı telefonunuza kaydedilemedi. Lütfen daha sonra yeniden deneyin veya “Uygulama Bilgileri” bölümünde belirtilen teknik yardım hattı ile iletişime geçin."</string>
-    <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_already_registered">"Aşı sertifikası zaten uygulamanıza kaydedilmiş."</string>
-    <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_different_person">"Bu aşı sertifikasındaki kişisel bilgiler, kaydedilmiş sertifikalardaki bilgilerle eşleşmiyor. Uygulamaya yalnızca bir kişiye ait sertifikalar kaydedebilirsiniz."</string>
 
-    <!-- XTXT: Vaccination Consent title-->
-    <string name="vaccination_consent_title">"İzniniz"</string>
-    <!-- XTXT: Vaccination Consent subtitle-->
-    <string name="vaccination_consent_headline">"Sertifikalar Ekle"</string>
-    <!-- XTXT: Vaccination Consent subtitle of qr info -->
-    <string name="vaccination_consent_info_subtitle_text">"Uygulamaya dijital COVID sertifikalarınızı ekleyin. Bu sayede uygulamada aşı korumanızı ya da negatif test sonucunu kanıtlayabilirsiniz."</string>
-    <!-- XTXT: Vaccination Consent text of qr info -->
-    <string name="vaccination_consent_qr_info_text">"Uygulamaya dijital COVID aşı sertifikaları ya da COVID test sertifikaları ekleyebilirsiniz."</string>
-    <!-- XTXT: Vaccination Consent qr code text -->
-    <string name="vaccination_consent_qr_info_qr_code_text">"Bu sertifikalar, AB’de geçerli bir kanıt olarak değerlendirilir (ör. seyahat için)."</string>
-    <!-- XTXT: Vaccination Consent time text  -->
-    <string name="vaccination_consent_qr_info_time_text">"Siz sertifikayı ekledikten sonra sertifika akıllı telefonunuzda kalır. Yalnızca doğrulama için bir aşı sunarsanız diğer kullanıcılarla paylaşılır."</string>
-    <!-- XTXT: Text for vaccination consent legal information button -->
-    <string name="vaccination_consent_onboarding_legal_information">"Veri işleme hakkında daha ayrıntılı bilgi için lütfen gizlilik bildirimine başvurun."</string>
-    <!-- XBUT: Text for vaccination consent accept button -->
-    <string name="vaccination_consent_accept_button">"Devam Et"</string>
-    <!-- XBUT: Text for invalid vaccination certificate error button, linking to FAQ-->
-    <string name="error_button_vc_faq">"Aşı Sertifikaları için SSS"</string>
+    <!-- XBUT: Text for invalid certificate error button, linking to FAQ-->
+    <string name="error_button_vc_faq">"Sertifikalar için SSS"</string>
     <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
     <string name="error_button_vc_faq_link">"https://www.coronawarn.app/en/faq/#vac_cert_invalid"</string>
+
+    <!-- XTXT: Vaccination certificate Detail title -->
+    <string name="vaccination_certificate_title">"Aşı Sertifikası"</string>
+    <!-- XTXT: Vaccination certificate Detail subtitle -->
+    <string name="vaccination_certificate_subtitle">"AB Dijital COVID Sertifikası"</string>
 
 </resources>

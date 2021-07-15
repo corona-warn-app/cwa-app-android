@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:contentDescription="@string/tracelocation_organizer_category_title"
-    android:background="@color/colorBackground"
+    android:background="@color/colorSurface"
     tools:context=".ui.presencetracing.organizer.qrinfo.TraceLocationQRInfoFragment">
 
     <com.google.android.material.appbar.MaterialToolbar

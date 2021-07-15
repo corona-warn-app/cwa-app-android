@@ -8,27 +8,27 @@
 
     <TextView
         android:id="@+id/card_title"
-        style="@style/headline5"
+        style="@style/headline6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/card_padding"
         android:layout_marginTop="@dimen/card_padding"
         android:layout_marginEnd="@dimen/card_padding"
         android:focusable="false"
-        android:text="@string/info_banner_title_1"
+        android:text="@string/person_card_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/vaccination_label"
-        style="@style/headline5"
+        style="@style/headline6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/card_padding"
         android:layout_marginEnd="@dimen/card_padding"
         android:focusable="false"
-        android:text="@string/info_banner_title_2"
+        android:text="@string/person_card_subtitle"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,10 +73,10 @@
         android:layout_marginBottom="@dimen/spacing_small"
         android:indeterminate="true"
         android:visibility="gone"
-        app:indicatorColor="@color/colorAccent"
+        app:indicatorColor="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/test_time"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:showAnimationBehavior="inward"
         app:trackColor="@android:color/transparent" />
 
@@ -88,11 +88,11 @@
         android:layout_marginStart="@dimen/spacing_small"
         android:layout_marginEnd="@dimen/card_padding"
         android:focusable="false"
-        android:visibility="gone"
         android:text="@string/test_certificate_error_refreshing_status"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/progress_bar"
         app:layout_constraintTop_toTopOf="@id/progress_bar"
-        app:layout_constraintEnd_toEndOf="parent"
         tools:text="@string/test_certificate_error_refreshing_status" />
 
     <com.google.android.material.button.MaterialButton
@@ -105,25 +105,25 @@
         android:layout_marginEnd="@dimen/card_padding"
         android:layout_marginBottom="@dimen/spacing_small"
         android:text="@string/test_certificate_error_retry_button"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/test_time"
-        app:strokeColor="@color/colorAccent" />
+        app:strokeColor="@color/colorPrimary" />
 
     <Button
         android:id="@+id/delete_button"
         style="@style/buttonLight"
-        android:backgroundTint="@color/button_main_tracing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/card_padding"
         android:layout_marginEnd="@dimen/card_padding"
         android:layout_marginBottom="@dimen/spacing_small"
+        android:backgroundTint="@color/button_main_tracing"
         android:text="@string/test_certificate_error_delete_button"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/retry_button"
-        app:strokeColor="@color/colorAccent" />
+        app:strokeColor="@color/colorPrimary" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

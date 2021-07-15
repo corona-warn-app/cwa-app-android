@@ -79,11 +79,17 @@ class AnalyticsTestResultCollector @Inject constructor(
                     }
                 }
         }
+
+        type.settings.ewRiskLevelAtTestRegistration.update {
+            lastResult.ewRiskLevelResult.riskState.toMetadataRiskLevel()
+        }
+        type.settings.ptRiskLevelAtTestRegistration.update {
+            lastResult.ptRiskLevelResult.riskState.toMetadataRiskLevel()
+        }
     }
 
-    suspend fun reportTestResultAtRegistration(testResult: CoronaTestResult, type: CoronaTest.Type) {
+    fun reportTestResultReceived(testResult: CoronaTestResult, type: CoronaTest.Type) {
         if (analyticsDisabled) return
-
         val validTestResults = when (type) {
             PCR -> listOf(
                 CoronaTestResult.PCR_POSITIVE,
@@ -99,31 +105,10 @@ class AnalyticsTestResultCollector @Inject constructor(
 
         if (testResult !in validTestResults) return // Not interested in other values
 
-        type.settings.testResultAtRegistration.update { testResult }
+        type.settings.testResult.update { testResult }
 
         if (testResult.isFinal) {
             type.settings.finalTestResultReceivedAt.update { timeStamper.nowUTC }
-        }
-
-        val lastRiskLevel = riskLevelStorage
-            .latestAndLastSuccessfulCombinedEwPtRiskLevelResult
-            .first()
-            .lastSuccessfullyCalculated
-
-        type.settings.ewRiskLevelAtTestRegistration.update {
-            lastRiskLevel.ewRiskLevelResult.riskState.toMetadataRiskLevel()
-        }
-        type.settings.ptRiskLevelAtTestRegistration.update {
-            lastRiskLevel.ptRiskLevelResult.riskState.toMetadataRiskLevel()
-        }
-    }
-
-    fun reportTestResultReceived(testResult: CoronaTestResult, type: CoronaTest.Type) {
-        if (analyticsDisabled) return
-        if (testResult.isFinal) {
-            val receivedAt = timeStamper.nowUTC
-            Timber.d("finalTestResultReceivedAt($testResult, $receivedAt")
-            type.settings.finalTestResultReceivedAt.update { receivedAt }
         }
     }
 

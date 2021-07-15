@@ -25,6 +25,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.execution.VaccinationUpdateScheduler
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
+import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.GeneralNotifications
@@ -85,6 +86,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var raTestResultAvailableNotificationService: RATTestResultAvailableNotificationService
     @Inject lateinit var vaccinationUpdateScheduler: VaccinationUpdateScheduler
     @Inject lateinit var testCertificateRetrievalScheduler: TestCertificateRetrievalScheduler
+    @Inject lateinit var environmentSetup: EnvironmentSetup
 
     @AppScope
     @Inject lateinit var appScope: CoroutineScope
@@ -122,6 +124,8 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         foregroundState.isInForeground
             .onEach { isAppInForeground = it }
             .launchIn(appScope)
+
+        environmentSetup.sanityCheck()
 
         Timber.v("Setting up contact diary work scheduler")
         contactDiaryWorkScheduler.setup()

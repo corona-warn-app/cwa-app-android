@@ -23,7 +23,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/duration_below_15"
             android:layout_width="match_parent"
-            app:backgroundTint="@color/colorBackground"
+            app:backgroundTint="@color/colorSurface"
             style="@style/contactDiaryPersonButton"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -38,7 +38,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/duration_above_15"
             style="@style/contactDiaryPersonButton"
-            app:backgroundTint="@color/colorBackground"
+            app:backgroundTint="@color/colorSurface"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -62,7 +62,7 @@
             android:id="@+id/mask_with"
             style="@style/contactDiaryPersonButton"
             android:layout_width="match_parent"
-            app:backgroundTint="@color/colorBackground"
+            app:backgroundTint="@color/colorSurface"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/contact_diary_person_encounter_mask_with" />
@@ -70,7 +70,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/mask_without"
             style="@style/contactDiaryPersonButton"
-            app:backgroundTint="@color/colorBackground"
+            app:backgroundTint="@color/colorSurface"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -95,7 +95,7 @@
             style="@style/contactDiaryPersonButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:backgroundTint="@color/colorBackground"
+            app:backgroundTint="@color/colorSurface"
             android:layout_weight="1"
             android:text="@string/contact_diary_person_encounter_environment_outside" />
 
@@ -104,7 +104,7 @@
             style="@style/contactDiaryPersonButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:backgroundTint="@color/colorBackground"
+            app:backgroundTint="@color/colorSurface"
             android:layout_weight="1"
             android:text="@string/contact_diary_person_encounter_environment_inside" />
 

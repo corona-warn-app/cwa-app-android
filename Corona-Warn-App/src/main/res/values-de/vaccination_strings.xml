@@ -26,17 +26,19 @@
     <string name="vaccination_qrcode_card_subtitle">Geimpft %1$s - gültig bis %2$s</string>
 
     <!-- XTXT: Vaccination List title-->
-    <string name="vaccination_list_title">Digitaler Impfnachweis</string>
+    <string name="vaccination_list_title">Digitaler COVID-Impfnachweis der EU</string>
     <!-- XTXT: Vaccination List complete vaccination subtitle-->
     <string name="vaccination_list_complete_vaccination_subtitle">SARS-CoV-2-Impfschutz</string>
-    <!-- XTXT: Vaccination List top card subtitle-->
+    <!-- XTXT: Vaccination card date-->
     <string name="vaccination_list_name_card_subtitle">geboren %1$s</string>
-    <!-- XTXT: Vaccination List top card subtitle-->
+    <!-- XTXT: Vaccination  card title-->
     <string name="vaccination_list_vaccination_card_title">Impfung %1$d von %2$d</string>
-    <!-- XTXT: Vaccination List top card subtitle-->
-    <string name="vaccination_list_vaccination_card_subtitle">durchgeführt am %1$s</string>
-    <!-- XTXT: Vaccination List immunity information card body-->
-    <plurals name="vaccination_list_immunity_card_body">
+    <!-- XTXT: Vaccination card headline-->
+    <string name="vaccination_list_vaccination_card_headline">Impfzertifikat</string>
+    <!-- XTXT: Vaccination card subtitle-->
+    <string name="vaccination_list_vaccination_card_subtitle">geimpft am %1$s</string>
+    <!-- XTXT: Vaccination card immunity information card body-->
+    <plurals name="vaccination_list_immunity_card_body" tools:ignore="UnusedQuantity">
         <item quantity="one">Sie haben nun alle derzeit geplanten Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tag vollständig.</item>
         <item quantity="other">Sie haben nun alle derzeit geplanten Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
         <item quantity="zero">Sie haben nun alle derzeit geplanten Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
@@ -44,6 +46,8 @@
         <item quantity="few">Sie haben nun alle derzeit geplanten Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
         <item quantity="many">Sie haben nun alle derzeit geplanten Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
     </plurals>
+    <!-- XTXT: Vaccination card immunity information card body when <1 day is left till immunity -->
+    <string name="vaccination_list_immunity_tomorrow_card_body">Sie haben nun alle derzeit geplanten Impfungen erhalten. Allerdings ist der Impfschutz erst morgen vollständig.</string>
     <!-- XBUT: Vaccination List register additional vaccination button -->
     <string name="vaccination_list_register_new_vaccination_button">Weitere Impfung hinzufügen</string>
     <!-- XBUT: Vaccination List delete button -->
@@ -65,7 +69,7 @@
     <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
     <string name="vaccination_card_registration_title_line_1">"Digitalen"</string>
     <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_registration_title_line_2">"Impfnachweis hinzufügen"</string>
+    <string name="vaccination_card_registration_title_line_2">"COVID-Impfnachweis der EU hinzufügen"</string>
     <!-- YTXT: Body text for Vaccination Certificate Registration Home Card -->
     <string name="vaccination_card_registration_body">"Fügen Sie Ihre Impfzertifikate in die App hinzu, um sie immer bei sich zu haben. Scannen Sie dafür den QR-Code Ihres Dokuments."</string>
     <!-- XBUT: button for Vaccination Certificate Registration Home Card -->
@@ -73,7 +77,7 @@
     <!-- XHED: Homescreen vaccination status card title -->
     <string name="vaccination_card_status_title_line_1">"Digitaler"</string>
     <!-- XHED: Homescreen vaccination status card title -->
-    <string name="vaccination_card_status_title_line_2">"Impfnachweis"</string>
+    <string name="vaccination_card_status_title_line_2">"COVID-Impfnachweis der EU"</string>
     <!-- XHED: Homescreen vaccination status card vaccination name -->
     <string name="vaccination_card_status_vaccination_name">SARS-CoV-2 Impfschutz</string>
     <!-- XTXT: Homescreen card incomplete vaccination status label -->
@@ -87,39 +91,24 @@
         <item quantity="few">Vollständiger Impfschutz in %1$d Tagen</item>
         <item quantity="many">Vollständiger Impfschutz in %1$d Tagen</item>
     </plurals>
+    <string name="vaccination_card_status_vaccination_complete_tomorrow">Vollständiger Impfschutz ab morgen</string>
     <!-- XTXT: Homescreen card complete vaccination status label -->
     <string name="vaccination_card_status_vaccination_complete">"Gültig bis einschließlich %s"</string>
-
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_invalid">Dieser QR-Code ist kein gültiges Impfzertifikat.\n\nWeitere Informationen zum Erhalt Ihres Impfzertifikats finden Sie in den FAQ.</string>
+    <string name="error_vc_invalid">Dieser QR-Code ist kein gültiges Zertifikat.\n\nWeitere Informationen zum Erhalt Ihres Zertifikats finden Sie in den FAQ.</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_not_yet_supported">Dieses Impfzertifikat wird in Ihrer App-Version noch nicht unterstützt. Bitte aktualisieren Sie Ihre App oder wenden Sie sich an die technische Hotline unter „App-Informationen“.</string>
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_scan_again">Das Impfzertifikat konnte nicht auf Ihrem Smartphone gespeichert werden. Bitte versuchen Sie es später noch einmal oder wenden Sie sich an die technische Hotline unter „App-Informationen“.</string>
-    <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_already_registered">Das Impfzertifikat ist bereits in Ihrer App registriert.</string>
-    <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_different_person">Die persönlichen Daten dieses Impfzertifikats stimmen nicht mit denen der bereits registrierten Zertifikate überein. Sie können in der App nur Zertifikate einer Person registrieren.</string>
 
-    <!-- XTXT: Vaccination Consent title-->
-    <string name="vaccination_consent_title">Ihr Einverständnis</string>
-    <!-- XTXT: Vaccination Consent subtitle-->
-    <string name="vaccination_consent_headline">"Zertifikate hinzufügen"</string>
-    <!-- XTXT: Vaccination Consent subtitle of qr info -->
-    <string name="vaccination_consent_info_subtitle_text">"Fügen Sie ihre digitalen COVID-Zertifikate in der App hinzu, um mit der App Ihren Impfschutz oder ein negatives Testergebnis nachweisen zu können."</string>
-    <!-- XTXT: Vaccination Consent text of qr info -->
-    <string name="vaccination_consent_qr_info_text">"Sie können digitale COVID-Impfzertifikate oder COVID-Testzertifikate in der App hinzufügen."</string>
-    <!-- XTXT: Vaccination Consent qr code text -->
-    <string name="vaccination_consent_qr_info_qr_code_text">"Die Zertifikate gelten innerhalb der EU als gültiger Nachweis (z.B. für Reisen)."</string>
-    <!-- XTXT: Vaccination Consent time text  -->
-    <string name="vaccination_consent_qr_info_time_text">"Nach dem Hinzufügen bleiben die Zertifikate auf Ihrem Smartphone. Andere Personen können Ihre Daten nur einsehen, wenn Sie diesen ein Zertifikat zur Überprüfung vorzeigen."</string>
-    <!-- XTXT: Text for vaccination consent legal information button -->
-    <string name="vaccination_consent_onboarding_legal_information">"Ausführliche Informationen zur Datenverarbeitung finden Sie in der Datenschutzerklärung."</string>
-    <!-- XBUT: Text for vaccination consent accept button -->
-    <string name="vaccination_consent_accept_button">"Weiter"</string>
-    <!-- XBUT: Text for invalid vaccination certificate error button, linking to FAQ-->
-    <string name="error_button_vc_faq">FAQ zu Impfzertifikaten</string>
+    <!-- XBUT: Text for invalid certificate error button, linking to FAQ-->
+    <string name="error_button_vc_faq">FAQ zu Zertifikaten</string>
     <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
     <string name="error_button_vc_faq_link">https://www.coronawarn.app/de/faq/#vac_cert_invalid</string>
+
+    <!-- XTXT: Vaccination certificate Detail title -->
+    <string name="vaccination_certificate_title">"Impfzertifikat"</string>
+    <!-- XTXT: Vaccination certificate Detail subtitle -->
+    <string name="vaccination_certificate_subtitle">"Digitales COVID-Zertifikat der EU"</string>
 
 </resources>

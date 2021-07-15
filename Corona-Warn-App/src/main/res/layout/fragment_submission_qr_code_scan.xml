@@ -49,7 +49,6 @@
         android:indeterminate="true"
         android:visibility="gone"
         app:hideAnimationBehavior="inward"
-        app:indicatorColor="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="@+id/submission_qr_code_scan_body"
         app:layout_constraintStart_toStartOf="@+id/submission_qr_code_scan_body"
         app:layout_constraintTop_toBottomOf="@+id/submission_qr_code_scan_body"

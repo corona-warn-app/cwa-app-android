@@ -65,20 +65,20 @@ class AnalyticsRATestResultDonorTest : BaseTest() {
 
     @Test
     fun `No donation when test result is INVALID`() = runBlockingTest {
-        every { testResultSettings.testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.RAT_INVALID)
+        every { testResultSettings.testResult } returns mockFlowPreference(CoronaTestResult.RAT_INVALID)
         testResultDonor.beginDonation(TestRequest) shouldBe AnalyticsTestResultDonor.TestResultMetadataNoContribution
     }
 
     @Test
     fun `No donation when test result is REDEEMED`() = runBlockingTest {
-        every { testResultSettings.testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.RAT_REDEEMED)
+        every { testResultSettings.testResult } returns mockFlowPreference(CoronaTestResult.RAT_REDEEMED)
         testResultDonor.beginDonation(TestRequest) shouldBe AnalyticsTestResultDonor.TestResultMetadataNoContribution
     }
 
     @Test
     fun `No donation when test result is PENDING and hours isn't greater or equal to config hours`() {
         runBlockingTest {
-            every { testResultSettings.testResultAtRegistration } returns
+            every { testResultSettings.testResult } returns
                 mockFlowPreference(CoronaTestResult.PCR_OR_RAT_PENDING)
 
             testResultDonor.beginDonation(TestRequest) shouldBe
@@ -89,7 +89,7 @@ class AnalyticsRATestResultDonorTest : BaseTest() {
     @Test
     fun `Donation is collected when test result is PENDING and hours is greater or equal to config hours`() {
         runBlockingTest {
-            every { testResultSettings.testResultAtRegistration } returns
+            every { testResultSettings.testResult } returns
                 mockFlowPreference(CoronaTestResult.PCR_OR_RAT_PENDING)
             val timeDayBefore = baseTime.minus(Duration.standardDays(1))
             every { testResultSettings.testRegisteredAt } returns mockFlowPreference(timeDayBefore)
@@ -98,6 +98,7 @@ class AnalyticsRATestResultDonorTest : BaseTest() {
                 testResultDonor.beginDonation(TestRequest) as AnalyticsTestResultDonor.TestResultMetadataContribution
             with(donation.testResultMetadata) {
                 riskLevelAtTestRegistration shouldBe PpaData.PPARiskLevel.RISK_LEVEL_LOW
+                ptRiskLevelAtTestRegistration shouldBe PpaData.PPARiskLevel.RISK_LEVEL_LOW
                 testResult shouldBe PpaData.PPATestResult.TEST_RESULT_RAT_PENDING
                 hoursSinceTestRegistration shouldBe 24
                 hoursSinceHighRiskWarningAtTestRegistration shouldBe 1
@@ -109,7 +110,7 @@ class AnalyticsRATestResultDonorTest : BaseTest() {
     @Test
     fun `Donation is collected when test result is POSITIVE`() {
         runBlockingTest {
-            every { testResultSettings.testResultAtRegistration } returns
+            every { testResultSettings.testResult } returns
                 mockFlowPreference(CoronaTestResult.RAT_POSITIVE)
             every { testResultSettings.finalTestResultReceivedAt } returns mockFlowPreference(baseTime)
 
@@ -128,7 +129,7 @@ class AnalyticsRATestResultDonorTest : BaseTest() {
     @Test
     fun `Donation is collected when test result is NEGATIVE`() {
         runBlockingTest {
-            every { testResultSettings.testResultAtRegistration } returns
+            every { testResultSettings.testResult } returns
                 mockFlowPreference(CoronaTestResult.RAT_NEGATIVE)
             every { testResultSettings.finalTestResultReceivedAt } returns mockFlowPreference(baseTime)
 
@@ -147,7 +148,7 @@ class AnalyticsRATestResultDonorTest : BaseTest() {
     @Test
     fun `Scenario 1 LowRisk`() = runBlockingTest {
         with(testResultSettings) {
-            every { testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.RAT_NEGATIVE)
+            every { testResult } returns mockFlowPreference(CoronaTestResult.RAT_NEGATIVE)
             every { finalTestResultReceivedAt } returns mockFlowPreference(
                 Instant.parse("2021-03-20T20:00:00Z")
             )
@@ -172,7 +173,7 @@ class AnalyticsRATestResultDonorTest : BaseTest() {
     @Test
     fun `Scenario 2 HighRisk`() = runBlockingTest {
         with(testResultSettings) {
-            every { testResultAtRegistration } returns mockFlowPreference(CoronaTestResult.RAT_POSITIVE)
+            every { testResult } returns mockFlowPreference(CoronaTestResult.RAT_POSITIVE)
             every { finalTestResultReceivedAt } returns mockFlowPreference(
                 Instant.parse("2021-03-20T20:00:00Z")
             )

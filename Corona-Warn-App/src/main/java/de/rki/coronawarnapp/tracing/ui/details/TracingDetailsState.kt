@@ -20,10 +20,10 @@ data class TracingDetailsState(
     }.let { c.getColorCompat(it) }
 
     fun getStableTextColor(c: Context): Int = when {
-        tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE -> R.color.colorTextPrimary1
+        tracingStatus == GeneralTracingStatus.Status.TRACING_INACTIVE -> R.color.colorOnPrimary
         riskState == RiskState.INCREASED_RISK ||
             riskState == RiskState.LOW_RISK -> R.color.colorTextPrimary1InvertedStable
-        else -> R.color.colorTextPrimary1
+        else -> R.color.colorOnPrimary
     }.let { c.getColorCompat(it) }
 
     fun isUpdateButtonEnabled(): Boolean = isManualKeyRetrievalEnabled

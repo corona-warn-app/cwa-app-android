@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 
-import de.rki.coronawarnapp.coronatest.qrcode.QrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.DaggerVaccinationTestComponent
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationQRCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.DefaultValueSet
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import io.kotest.matchers.shouldBe
@@ -14,7 +14,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.joda.time.Instant
-import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -33,7 +32,7 @@ class VaccinationContainerTest : BaseTest() {
     @Test
     fun `person identifier calculation`() {
         testData.personAVac1Container.personIdentifier shouldBe CertificatePersonIdentifier(
-            dateOfBirth = LocalDate.parse("1966-11-11"),
+            dateOfBirthFormatted = "1966-11-11",
             firstNameStandardized = "ANDREAS",
             lastNameStandardized = "ASTRA<EINS"
         )
@@ -70,8 +69,8 @@ class VaccinationContainerTest : BaseTest() {
             firstName shouldBe "Andreas"
             lastName shouldBe "Astrá Eins"
             fullName shouldBe "Andreas Astrá Eins"
-            dateOfBirth shouldBe LocalDate.parse("1966-11-11")
-            vaccinatedAt shouldBe LocalDate.parse("2021-03-01")
+            dateOfBirthFormatted shouldBe "1966-11-11"
+            vaccinatedOnFormatted shouldBe "2021-03-01"
             vaccineTypeName shouldBe "1119305005"
             vaccineManufacturer shouldBe "ORG-100001699"
             medicalProductName shouldBe "EU/1/21/1529"
@@ -81,7 +80,7 @@ class VaccinationContainerTest : BaseTest() {
             certificateCountry shouldBe "Deutschland"
             certificateId shouldBe "01DE/00001/1119305005/7T1UG87G61Y7NRXIBQJDTYQ9#S"
             personIdentifier shouldBe CertificatePersonIdentifier(
-                dateOfBirth = LocalDate.parse("1966-11-11"),
+                dateOfBirthFormatted = "1966-11-11",
                 firstNameStandardized = "ANDREAS",
                 lastNameStandardized = "ASTRA<EINS"
             )
@@ -117,8 +116,8 @@ class VaccinationContainerTest : BaseTest() {
             firstName shouldBe "Andreas"
             lastName shouldBe "Astrá Eins"
             fullName shouldBe "Andreas Astrá Eins"
-            dateOfBirth shouldBe LocalDate.parse("1966-11-11")
-            vaccinatedAt shouldBe LocalDate.parse("2021-03-01")
+            dateOfBirthFormatted shouldBe "1966-11-11"
+            vaccinatedOnFormatted shouldBe "2021-03-01"
             vaccineTypeName shouldBe "Vaccine-Name"
             vaccineManufacturer shouldBe "Manufactorer-Name"
             medicalProductName shouldBe "MedicalProduct-Name"
@@ -128,13 +127,13 @@ class VaccinationContainerTest : BaseTest() {
             certificateCountry shouldBe "Deutschland"
             certificateId shouldBe "01DE/00001/1119305005/7T1UG87G61Y7NRXIBQJDTYQ9#S"
             personIdentifier shouldBe CertificatePersonIdentifier(
-                dateOfBirth = LocalDate.parse("1966-11-11"),
+                dateOfBirthFormatted = "1966-11-11",
                 firstNameStandardized = "ANDREAS",
                 lastNameStandardized = "ASTRA<EINS"
             )
-            issuer shouldBe "DE"
-            issuedAt shouldBe Instant.parse("2021-05-11T09:25:00.000Z")
-            expiresAt shouldBe Instant.parse("2022-05-11T09:25:00.000Z")
+            headerIssuer shouldBe "DE"
+            headerIssuedAt shouldBe Instant.parse("2021-05-11T09:25:00.000Z")
+            headerExpiresAt shouldBe Instant.parse("2022-05-11T09:25:00.000Z")
         }
     }
 
@@ -151,8 +150,13 @@ class VaccinationContainerTest : BaseTest() {
             vaccinationQrCode = testData.personYVacTwoEntriesQrCode,
             scannedAt = Instant.EPOCH
         )
-        val extractor = mockk<VaccinationQRCodeExtractor>().apply {
-            every { extract(any(), any()) } returns mockk<VaccinationCertificateQRCode>().apply {
+        val extractor = mockk<DccQrCodeExtractor>().apply {
+            every {
+                extract(
+                    any(),
+                    DccV1Parser.Mode.CERT_VAC_LENIENT
+                )
+            } returns mockk<VaccinationCertificateQRCode>().apply {
                 every { data } returns mockk()
             }
         }
@@ -160,11 +164,11 @@ class VaccinationContainerTest : BaseTest() {
 
         container.certificateData shouldNotBe null
 
-        verify { extractor.extract(testData.personYVacTwoEntriesQrCode, QrCodeExtractor.Mode.CERT_VAC_LENIENT) }
+        verify { extractor.extract(testData.personYVacTwoEntriesQrCode, DccV1Parser.Mode.CERT_VAC_LENIENT) }
     }
 
     @Test
     fun `gracefully handle semi invalid data - multiple entries`() {
-        testData.personYVacTwoEntriesContainer.certificate.payloads.size shouldBe 1
+        testData.personYVacTwoEntriesContainer.certificate.vaccination
     }
 }

@@ -1,25 +1,24 @@
 package de.rki.coronawarnapp.covidcertificate.common
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
-import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.VC_DOB_MISMATCH
-import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException.ErrorCode.VC_NAME_MISMATCH
-import de.rki.coronawarnapp.covidcertificate.exception.InvalidVaccinationCertificateException
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.DOB_MISMATCH
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.NAME_MISMATCH
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
-import org.joda.time.LocalDate
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
 class CertificatePersonIdentifierTest : BaseTest() {
     private val testPersonMaxData = CertificatePersonIdentifier(
-        dateOfBirth = LocalDate.parse("1966-11-11"),
+        dateOfBirthFormatted = "1966-11-11",
         firstNameStandardized = "ANDREAS",
         lastNameStandardized = "ASTRA<EINS"
     )
 
     private val testPersonMin = CertificatePersonIdentifier(
-        dateOfBirth = LocalDate.parse("1900-01-01"),
+        dateOfBirthFormatted = "1900-01-01",
         lastNameStandardized = "#",
         firstNameStandardized = null
     )
@@ -40,7 +39,7 @@ class CertificatePersonIdentifierTest : BaseTest() {
     fun `person equality`() {
         val person1 = testPersonMaxData
         val person2 = CertificatePersonIdentifier(
-            dateOfBirth = LocalDate.parse("1966-11-11"),
+            dateOfBirthFormatted = "1966-11-11",
             firstNameStandardized = "ANDREAS",
             lastNameStandardized = "ASTRA<EINS"
         )
@@ -58,14 +57,14 @@ class CertificatePersonIdentifierTest : BaseTest() {
 
         shouldThrow<InvalidVaccinationCertificateException> {
             testPersonMaxData.requireMatch(testPersonMaxData.copy(firstNameStandardized = "nope"))
-        }.errorCode shouldBe VC_NAME_MISMATCH
+        }.errorCode shouldBe NAME_MISMATCH
 
         shouldThrow<InvalidVaccinationCertificateException> {
             testPersonMaxData.requireMatch(testPersonMaxData.copy(lastNameStandardized = "nope"))
-        }.errorCode shouldBe VC_NAME_MISMATCH
+        }.errorCode shouldBe NAME_MISMATCH
 
         shouldThrow<InvalidVaccinationCertificateException> {
-            testPersonMaxData.requireMatch(testPersonMaxData.copy(dateOfBirth = LocalDate.parse("1900-12-31")))
-        }.errorCode shouldBe VC_DOB_MISMATCH
+            testPersonMaxData.requireMatch(testPersonMaxData.copy(dateOfBirthFormatted = "1900-12-31"))
+        }.errorCode shouldBe DOB_MISMATCH
     }
 }

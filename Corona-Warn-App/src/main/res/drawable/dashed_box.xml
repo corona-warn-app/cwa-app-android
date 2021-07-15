@@ -5,7 +5,7 @@
             <solid android:color="@color/colorSurface2" />
             <stroke
                 android:width="2dp"
-                android:color="@color/colorHairline"
+                android:color="@color/dividerColor"
                 android:dashWidth="5dp"
                 android:dashGap="5dp" />
             <padding

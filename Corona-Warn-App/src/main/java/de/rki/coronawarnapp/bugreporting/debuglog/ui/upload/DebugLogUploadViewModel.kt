@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import timber.log.Timber
 
 class DebugLogUploadViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
@@ -16,7 +17,7 @@ class DebugLogUploadViewModel @AssistedInject constructor(
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
     val routeToScreen: SingleLiveEvent<NavDirections?> = SingleLiveEvent()
     val uploadInProgress = MutableLiveData(false)
-    val errorEvent = SingleLiveEvent<Throwable>()
+    val errorEvent = SingleLiveEvent<Unit>()
     val uploadSuccess = SingleLiveEvent<String>()
 
     fun onUploadLog() = launch {
@@ -26,7 +27,8 @@ class DebugLogUploadViewModel @AssistedInject constructor(
             uploadSuccess.postValue("\uD83D\uDC4D")
             routeToScreen.postValue(null)
         } catch (e: Throwable) {
-            errorEvent.postValue(e)
+            Timber.tag(TAG).e(e)
+            errorEvent.postValue(Unit)
         } finally {
             uploadInProgress.postValue(false)
         }
@@ -39,3 +41,5 @@ class DebugLogUploadViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<DebugLogUploadViewModel>
 }
+
+private const val TAG = "DebugLogUploadViewModel"

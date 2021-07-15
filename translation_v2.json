@@ -13,9 +13,9 @@
             "antigen_strings.xml",
             "vaccination_strings.xml",
             "green_certificate_strings.xml",
-            "green_certificate_attribute_strings.xml"
+            "covid_certificate_strings.xml"
           ],
-          "targetFolderPath": "../values-[langCode]"
+          "targetFolderPath": "../[langCode]"
         }
       ]
     }

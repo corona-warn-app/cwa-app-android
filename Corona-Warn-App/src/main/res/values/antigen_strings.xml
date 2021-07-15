@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
 
     <!-- ####################################
         Homescreen cards - register test card
     ###################################### -->
     <!-- XHED: Register test homescreen card: title -->
-    <string name="ag_homescreen_card_test_register_title">"Register Your Test"</string>
+    <string name="ag_homescreen_card_test_register_title">"Next Steps"</string>
     <!-- XTXT: Register test homescreen card: body -->
     <string name="ag_homescreen_card_test_register_body">"Use the app to register your tests and retrieve your test results, so you can warn others more quickly, or to request your COVID test certificate."</string>
     <!-- ####################################

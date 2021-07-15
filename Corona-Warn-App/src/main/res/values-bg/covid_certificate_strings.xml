@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <!-- ####################################
+       Special string files for the strings
+       that should always keep the german / english
+       version independent from the selected system language
+   ###################################### -->
+
+    <!-- #####################################################
+         COMMON STRINGS FOR ALL TYPES OF CERTIFICATES BELOW
+         ##################################################### -->
+
+    <!-- XTXT: Person overview no certificates title-->
+    <string name="person_overview_no_certificates_title">"Все още няма сертификати"</string>
+    <!-- XTXT: Person overview no certificates subtitle-->
+    <string name="person_overview_no_certificates_subtitle">"Тук се показват запазените цифрови сертификати за ваксинация, възстановяване и тест."</string>
+    <!-- XBUT: Person overview certificates scan button-->
+    <string name="person_overview_scan_button">"Добавяне на сертификат"</string>
+    <!-- XTXT: Person overview no certificates image content description-->
+    <string name="person_overview_no_certificates_image_description">"Сертификат със символ за QR код."</string>
+    <!-- XTXT: Person card title-->
+    <string name="person_card_title">"ЕС"</string>
+    <!-- XTXT: Person card subtitle-->
+    <string name="person_card_subtitle">"Цифров сертификат за COVID"</string>
+
+    <!-- XTXT: Vaccination Consent title-->
+    <string name="vaccination_consent_title">"Вашето съгласие"</string>
+    <!-- XTXT: Vaccination Consent subtitle-->
+    <string name="vaccination_consent_headline">"Добавете сертификати"</string>
+    <!-- XTXT: Vaccination Consent subtitle of qr info -->
+    <string name="vaccination_consent_info_subtitle_text">"Добавете в приложението Вашите цифрови сертификати за COVID на ЕС. Така ще можете да докажете, че имате ваксинационна защита и отрицателен резултат от тест или че сте се възстановили от инфекция."</string>
+    <!-- XTXT: Vaccination Consent text of qr info -->
+    <string name="vaccination_consent_qr_info_text">"В приложението можете да добавите цифрови сертификати на ЕС за ваксинация, тест или възстановяване от COVID."</string>
+    <!-- XTXT: Vaccination Consent qr code text -->
+    <string name="vaccination_consent_qr_info_qr_code_text">"Тези сертификати се считат за валидно доказателство в рамките на ЕС (например при пътуване)."</string>
+    <!-- XTXT: Vaccination Consent time text  -->
+    <string name="vaccination_consent_qr_info_time_text">"След като добавите сертификат, той ще се запази в смартфона Ви. Ще се споделя с останалите само ако представите сертификат за ваксинация."</string>
+    <!-- XTXT: Vaccination Consent family certificates text  -->
+    <string name="vaccination_consent_family_certificates_text">"Добавете сертификати за Вас и Вашето семейство."</string>
+    <!-- XTXT: Text for vaccination consent legal information button -->
+    <string name="vaccination_consent_onboarding_legal_information">"За повече информация относно обработката на данни, прочетете декларацията за поверителност."</string>
+    <!-- XBUT: Text for vaccination consent accept button -->
+    <string name="vaccination_consent_accept_button">"Напред"</string>
+
+
+    <!-- XTXT: Current priority certificate info -->
+    <string name="certificate_card_bookmark_info">"Текущо използван сертификат"</string>
+    <!-- XHED: Person certificate details title -->
+    <string name="person_details_certificate_title">"Цифров сертификат за тест за COVID на ЕС"</string>
+    <!-- XTXT: Test Certificate CWA User card description -->
+    <string name="person_details_cwa_user_description">"Включете тази функция, ако сте %1$s и основният потребител на приложението. Сертификатът Ви ще се появи най-горе в списъка."</string>
+    <!-- XTXT: Test Certificate CWA User card birthdate -->
+    <string name="person_details_cwa_user_birthdate">"Дата на раждане %1$s"</string>
+    <!-- #####################################################
+         VACCINATION CERTIFICATE STRINGS BELOW
+         ##################################################### -->
+    <!-- XTXT: Vaccination certificate vaccinated on -->
+    <string name="vaccination_certificate_vaccinated_on">"дата на ваксинация: %s"</string>
+    <!-- XTXT: Vaccination  card doses-->
+    <string name="vaccination_certificate_doses">"Ваксинация %1$d от %2$d"</string>
+    <!-- XTXT: Vaccination card name-->
+    <string name="vaccination_certificate_name">"Сертификат за ваксинация"</string>
+
+    <!-- XTXT: Vaccination card immunity information card body-->
+    <plurals name="vaccination_certificate_days_unti_immunity" tools:ignore="UnusedQuantity">
+        <item quantity="one">"Получихте всички планирани за момента ваксинации, но ваксинационната Ви защита ще е пълна след %1$d ден."</item>
+        <item quantity="other">"Получихте всички планирани за момента ваксинации, но ваксинационната Ви защита ще е пълна едва след %1$d дни."</item>
+        <item quantity="zero">"Получихте всички планирани за момента ваксинации, но ваксинационната Ви защита ще е пълна едва след %1$d дни."</item>
+        <item quantity="two">"Получихте всички планирани за момента ваксинации, но ваксинационната Ви защита ще е пълна едва след %1$d дни."</item>
+        <item quantity="few">"Получихте всички планирани за момента ваксинации, но ваксинационната Ви защита ще е пълна едва след %1$d дни."</item>
+        <item quantity="many">"Получихте всички планирани за момента ваксинации, но ваксинационната Ви защита ще е пълна едва след %1$d дни."</item>
+    </plurals>
+
+    <!-- XTXT: Vaccination only one shot required -->
+    <string name="vaccination_certificate_one_shot">"Тази ваксина осигурява защита с една доза или се поставя на преболедувало лице, което се нуждае само от една доза."</string>
+    <!-- XTXT: Vaccination is not complete information card body-->
+    <string name="vaccination_certificate_incomplete_vaccination">"Не сте получили всички планирани за момента ваксинации – Вашата ваксинационна защита все още не е пълна."</string>
+
+    <!-- #####################################################
+         RECOVERY CERTIFICATE STRINGS BELOW
+         ##################################################### -->
+
+    <!-- XTXT: Recovery certificate detail title -->
+    <string name="recovery_certificate_details_title">"Сертификат за възстановяване"</string>
+    <!-- XTXT: Recovery certificate detail subtitle -->
+    <string name="recovery_certificate_details_subtitle">"Цифров сертификат за тест за COVID на ЕС"</string>
+    <!-- XTXT: Recovery certificate card name  -->
+    <string name="recovery_certificate_name">"Сертификат за възстановяване"</string>
+    <!-- XTXT: Recovery certificate valid until -->
+    <string name="recovery_certificate_valid_until">"валиден до %s"</string>
+
+    <!-- XTXT: Detail green certificate diaglog title -->
+    <string name="recovery_certificate_details_dialog_remove_test_title">"Желаете ли да изтриете сертификата?"</string>
+    <!-- XTXT: Detail green certificate diaglog message -->
+    <string name="recovery_certificate_details_dialog_remove_test_message">"Ако изтриете сертификата за възстановяване, вече няма да можете да го използвате за доказателство чрез приложението."</string>
+
+    <!-- #####################################################
+         TEST CERTIFICATE STRINGS BELOW
+         ##################################################### -->
+    <!-- XTXT: Test certificate sampled on -->
+    <string name="test_certificate_sampled_on">"Взета проба %s"</string>
+    <!-- XTXT: Test certificate sampled on date and time -->
+    <string name="test_certificate_qrcode_card_sampled_on">"Взета проба %s"</string>
+    <!-- XTXT: Test certificate card name  -->
+    <string name="test_certificate_name">"Сертификат за тест"</string>
+    <!-- XTXT: Dialog description for error 409 recovery-->
+    <string name="test_certificate_error_409_recovery_description">"За този тест не може да бъде създаден сертификат. За да получите такъв, моля, добавете друг тест."</string>
+
+    <!-- XTXT: DCC QR code scan error message-->
+    <string name="error_dcc_invalid">"Този QR не е валиден сертификат.\n\nЗа да разберете как можете да се сдобиете със сертификат за извършена ваксинация, вижте страницата ни с често задавани въпроси (ЧЗВ)."</string>
+    <!-- XBUT: Text for invalid certificate error button, linking to FAQ-->
+    <string name="error_button_dcc_faq">"ЧЗВ за сертификати"</string>
+    <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
+    <string name="error_button_dcc_faq_link">"https://www.coronawarn.app/en/faq/#hc_prefix_invalid"</string>
+
+    <!-- XTXT: DCC QR code scan error message-->
+    <string name="error_dcc_scan_again">"Сертификатът не може да бъде запазен на смартфона Ви. Моля, опитайте отново по-късно или се свържете с горещата линия за технически проблеми, посочена в „Информация за приложението“."</string>
+    <!-- XTXT: DCC QR code scan error message-->
+    <string name="error_dcc_already_registered">"Сертификатът вече е регистриран в приложението Ви."</string>
+
+</resources>

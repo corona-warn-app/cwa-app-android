@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         }
 
         vm.newCertificates.observe(this) { count ->
-            binding.mainBottomNavigation.updateCountBadge(R.id.green_certificate_graph, count)
+            binding.mainBottomNavigation.updateCountBadge(R.id.covid_certificates_graph, count)
         }
 
         if (savedInstanceState == null) {
@@ -164,10 +164,10 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     }
 
     private fun startCertificatesNestedGraphDestination(navController: NavController, isConsentGiven: Boolean) {
-        navController.findNestedGraph(R.id.green_certificate_graph).startDestination = if (isConsentGiven) {
-            R.id.certificatesFragment
+        navController.findNestedGraph(R.id.covid_certificates_graph).startDestination = if (isConsentGiven) {
+            R.id.personOverviewFragment
         } else {
-            R.id.vaccinationConsentFragment
+            R.id.covidCertificateOnboardingFragment
         }
     }
 

@@ -25,17 +25,19 @@
     <string name="vaccination_qrcode_card_subtitle">"Vaccinat la %1$s - valabil până la %2$s"</string>
 
     <!-- XTXT: Vaccination List title-->
-    <string name="vaccination_list_title">"Dovada digitală a vaccinării"</string>
+    <string name="vaccination_list_title">"Dovada digitală UE a vaccinării"</string>
     <!-- XTXT: Vaccination List complete vaccination subtitle-->
     <string name="vaccination_list_complete_vaccination_subtitle">"Protecție prin vaccinare împotriva SARS-CoV-2"</string>
-    <!-- XTXT: Vaccination List top card subtitle-->
+    <!-- XTXT: Vaccination card date-->
     <string name="vaccination_list_name_card_subtitle">"Născut(ă) pe %1$s"</string>
-    <!-- XTXT: Vaccination List top card subtitle-->
+    <!-- XTXT: Vaccination  card title-->
     <string name="vaccination_list_vaccination_card_title">"Vaccinarea %1$d din %2$d"</string>
-    <!-- XTXT: Vaccination List top card subtitle-->
-    <string name="vaccination_list_vaccination_card_subtitle">"Efectuată pe %1$s"</string>
-    <!-- XTXT: Vaccination List immunity information card body-->
-    <plurals name="vaccination_list_immunity_card_body">
+    <!-- XTXT: Vaccination card headline-->
+    <string name="vaccination_list_vaccination_card_headline">"Certificat de vaccinare"</string>
+    <!-- XTXT: Vaccination card subtitle-->
+    <string name="vaccination_list_vaccination_card_subtitle">"vaccinat pe %1$s"</string>
+    <!-- XTXT: Vaccination card immunity information card body-->
+    <plurals name="vaccination_list_immunity_card_body" tools:ignore="UnusedQuantity">
         <item quantity="one">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă timp de încă %1$d zi."</item>
         <item quantity="other">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă timp de încă %1$d de zile."</item>
         <item quantity="zero">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă timp de încă %1$d zile."</item>
@@ -43,6 +45,8 @@
         <item quantity="few">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă timp de încă %1$d zile."</item>
         <item quantity="many">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă timp de încă %1$d zile."</item>
     </plurals>
+    <!-- XTXT: Vaccination card immunity information card body when <1 day is left till immunity -->
+    <string name="vaccination_list_immunity_tomorrow_card_body">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă până mâine."</string>
     <!-- XBUT: Vaccination List register additional vaccination button -->
     <string name="vaccination_list_register_new_vaccination_button">"Adăugare altă vaccinare"</string>
     <!-- XBUT: Vaccination List delete button -->
@@ -64,15 +68,15 @@
     <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
     <string name="vaccination_card_registration_title_line_1">"Adăugarea dovezii"</string>
     <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_registration_title_line_2">"vaccinării digitale"</string>
+    <string name="vaccination_card_registration_title_line_2">"vaccinării COVID UE"</string>
     <!-- YTXT: Body text for Vaccination Certificate Registration Home Card -->
     <string name="vaccination_card_registration_body">"Adăugați certificatele dvs. de vaccinare în aplicație pentru a le avea mereu cu dvs. Pentru aceasta, scanați codul QR din documentul dvs."</string>
     <!-- XBUT: button for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_register">"Adăugare"</string>
+    <string name="vaccination_card_register">"Adăugarea dovezii"</string>
     <!-- XHED: Homescreen vaccination status card title -->
-    <string name="vaccination_card_status_title_line_1">"Dovada vaccinării"</string>
+    <string name="vaccination_card_status_title_line_1">"digitale"</string>
     <!-- XHED: Homescreen vaccination status card title -->
-    <string name="vaccination_card_status_title_line_2">"digitale"</string>
+    <string name="vaccination_card_status_title_line_2">"a vaccinării COVID UE"</string>
     <!-- XHED: Homescreen vaccination status card vaccination name -->
     <string name="vaccination_card_status_vaccination_name">"Vaccinare SARS-CoV-2"</string>
     <!-- XTXT: Homescreen card incomplete vaccination status label -->
@@ -86,39 +90,24 @@
         <item quantity="few">"Protecția prin vaccinare este completă în %1$d zile"</item>
         <item quantity="many">"Protecția prin vaccinare este completă în %1$d zile"</item>
     </plurals>
+    <string name="vaccination_card_status_vaccination_complete_tomorrow">"Protecția prin vaccinare este completă începând de mâine"</string>
     <!-- XTXT: Homescreen card complete vaccination status label -->
     <string name="vaccination_card_status_vaccination_complete">"Valabil până la %s"</string>
-
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_invalid">"Acest cod QR nu este un certificat de vaccinare valabil.\n\nPentru mai multe informații despre modul în care puteți primi certificatul dvs. de vaccinare, consultați pagina noastră de întrebări frecvente."</string>
+    <string name="error_vc_invalid">"Acest cod QR nu este un certificat valabil.\n\nPentru mai multe informații despre modul în care puteți primi certificatul dvs., consultați pagina noastră de întrebări frecvente."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_not_yet_supported">"Acest certificat de vaccinare nu este încă acceptat de versiunea aplicației dvs. Actualizați-vă aplicația sau contactați hotline-ul tehnic din „Informații aplicație”."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_scan_again">"Certificatul de vaccinare nu a putut fi salvat pe smartphone-ul dvs. Încercați din nou mai târziu sau contactați hotline-ul tehnic din „Informații aplicație”."</string>
-    <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_already_registered">"Certificatul de vaccinare este deja înregistrat în aplicația dvs."</string>
-    <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_different_person">"Informațiile personale din acest certificat de vaccinare nu corespund cu cele din certificatele deja înregistrate. Puteți înregistra certificate pentru o singură persoană în aplicație."</string>
 
-    <!-- XTXT: Vaccination Consent title-->
-    <string name="vaccination_consent_title">"Consimțământul dvs."</string>
-    <!-- XTXT: Vaccination Consent subtitle-->
-    <string name="vaccination_consent_headline">"Adăugarea certificatelor"</string>
-    <!-- XTXT: Vaccination Consent subtitle of qr info -->
-    <string name="vaccination_consent_info_subtitle_text">"Adăugați certificatele dvs. de COVID digitale în aplicație. Acest lucru vă ajută să dovediți protecția dvs. prin vaccinare sau să arătați un rezultat de test negativ în aplicație."</string>
-    <!-- XTXT: Vaccination Consent text of qr info -->
-    <string name="vaccination_consent_qr_info_text">"Puteți adăuga certificate de vaccinare COVID digitale sau certificate de test COVID în aplicație."</string>
-    <!-- XTXT: Vaccination Consent qr code text -->
-    <string name="vaccination_consent_qr_info_qr_code_text">"Aceste certificate sunt considerate o dovadă valabilă în UE (de exemplu, în scop de călătorie)."</string>
-    <!-- XTXT: Vaccination Consent time text  -->
-    <string name="vaccination_consent_qr_info_time_text">"După ce adăugați un certificat, acesta rămâne pe smartphone-ul dvs. Va fi partajat cu alte persoane doar dacă prezentați un certificat pentru verificare."</string>
-    <!-- XTXT: Text for vaccination consent legal information button -->
-    <string name="vaccination_consent_onboarding_legal_information">"Pentru mai multe informații despre prelucrarea datelor, consultați înștiințarea de confidențialitate."</string>
-    <!-- XBUT: Text for vaccination consent accept button -->
-    <string name="vaccination_consent_accept_button">"Continuare"</string>
-    <!-- XBUT: Text for invalid vaccination certificate error button, linking to FAQ-->
-    <string name="error_button_vc_faq">"Întrebări frecvente privind certificatele de vaccinare"</string>
+    <!-- XBUT: Text for invalid certificate error button, linking to FAQ-->
+    <string name="error_button_vc_faq">"Întrebări frecvente privind certificatele"</string>
     <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
     <string name="error_button_vc_faq_link">"https://www.coronawarn.app/en/faq/#vac_cert_invalid"</string>
+
+    <!-- XTXT: Vaccination certificate Detail title -->
+    <string name="vaccination_certificate_title">"Certificat de vaccinare"</string>
+    <!-- XTXT: Vaccination certificate Detail subtitle -->
+    <string name="vaccination_certificate_subtitle">"Certificat COVID digital UE"</string>
 
 </resources>

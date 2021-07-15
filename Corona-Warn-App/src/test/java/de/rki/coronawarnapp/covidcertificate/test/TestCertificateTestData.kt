@@ -1,9 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.test
 
-import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCodeExtractor
-import de.rki.coronawarnapp.covidcertificate.test.core.storage.PCRCertificateData
-import de.rki.coronawarnapp.covidcertificate.test.core.storage.RACertificateData
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainer
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.GenericTestCertificateData
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertificateData
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RACertificateData
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKey
 import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant
@@ -11,11 +13,13 @@ import javax.inject.Inject
 
 @Suppress("MaxLineLength")
 class TestCertificateTestData @Inject constructor(
-    qrCodeExtractor: TestCertificateQRCodeExtractor
+    qrCodeExtractor: DccQrCodeExtractor
 ) {
 
     val personATest1CertQRCodeString =
         "HC1:6BFQ$9FY7$\$Q00019C-5HQ57WDQTLUMS256TUMP49JLZCX/N4VB14NRINX6J7+KF\$UB.N83CMMPVNPAHJ035FT88%AJ1R*UOGR3ZWLC24+F7DO276HB.O*BEVJODVSKNOP0T4\$FZ.R/03N6QK3A05EQVBONNHSJ9WJT+B15H NBEZ3VI8-V77AFL4NY9V*JM *KOPC2H8PR5OG9:VIG$969FJRV28N9PORZJQ43EOIHIJ+83XDDRB201N.L58EB7 8GS8. 9GPNGHFV/6\$I3R3R4930TC/ZGZESM929.D59GO13E\$H7LMUGS18ABF6YD955C C6VPNMZU+3FJR1RVLBZDR2F*8A4MKWIH+/JPU1*H6E2CTHGYHPPU6U*FYFJ6RJO*I8P1T59S:V3V1SA86L8Y8A5XB*10112G8GHK77CBOK9QEI960TTNC.I3A4P8BM6DO:MI/98PC/ZP2:JW3JB.J:R2.5GX0J$1J.OOCYSS8A*DS\$AFVJR9RT-L6N%PS%CV%B8KL0%EL SXLBSA6 %M6JEN+E0Q8A:RAGW16KGUA627-Y2:EDH\$VFVT:29FWUTJSANSYCV4PSKNP\$ZV-8T27SV4CC3CJIV20TKBS22O$/MT/V*0Q0IUE0DBPT+UP03IR1CRFOP3"
+
+    val personATest1CertQRCode = qrCodeExtractor.extract(personATest1CertQRCodeString) as TestCertificateQRCode
 
     val personATest1StoredData = run {
         val publicKey = RSAKey.Public(
@@ -65,6 +69,12 @@ class TestCertificateTestData @Inject constructor(
             certificateSeenByUser = true
         )
     }
+
+    val personATest2CertScannedStoredData = GenericTestCertificateData(
+        identifier = "identifier2",
+        registeredAt = Instant.ofEpochMilli(12345),
+        testCertificateQrCode = personATest2CertQRCodeString
+    )
 
     val personATest2CertContainer = TestCertificateContainer(
         data = personATest2CertStoredData,

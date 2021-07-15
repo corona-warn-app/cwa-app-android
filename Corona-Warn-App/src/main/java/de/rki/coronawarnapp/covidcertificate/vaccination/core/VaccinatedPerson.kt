@@ -1,12 +1,13 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
-import org.joda.time.Duration
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
+import org.joda.time.Days
 import org.joda.time.Instant
-import org.joda.time.LocalDate
 
 data class VaccinatedPerson(
     internal val data: VaccinatedPersonData,
@@ -17,8 +18,15 @@ data class VaccinatedPerson(
     val identifier: CertificatePersonIdentifier
         get() = data.identifier
 
+    val vaccinationContainers: Set<VaccinationContainer>
+        get() = data.vaccinations
+
     val vaccinationCertificates: Set<VaccinationCertificate> by lazy {
-        data.vaccinations.map { it.toVaccinationCertificate(valueSet) }.toSet()
+        vaccinationContainers.map { it.toVaccinationCertificate(valueSet) }.toSet()
+    }
+
+    fun findVaccination(containerId: VaccinationCertificateContainerId) = vaccinationContainers.find {
+        it.containerId == containerId
     }
 
     val vaccineName: String
@@ -27,32 +35,33 @@ data class VaccinatedPerson(
     val fullName: String
         get() = vaccinationCertificates.first().fullName
 
-    val dateOfBirth: LocalDate
-        get() = vaccinationCertificates.first().dateOfBirth
+    val dateOfBirthFormatted: String
+        get() = vaccinationCertificates.first().dateOfBirthFormatted
 
     val getMostRecentVaccinationCertificate: VaccinationCertificate
-        get() = vaccinationCertificates.maxByOrNull { it.vaccinatedAt } ?: throw IllegalStateException(
+        get() = vaccinationCertificates.maxByOrNull { it.vaccinatedOnFormatted } ?: throw IllegalStateException(
             "Every Vaccinated Person needs to have at least one vaccinationCertificate"
         )
 
     fun getVaccinationStatus(nowUTC: Instant = Instant.now()): Status {
-        val daysToImmunity = getTimeUntilImmunity(nowUTC)?.standardDays ?: return Status.INCOMPLETE
+        val daysToImmunity = getDaysUntilImmunity(nowUTC) ?: return Status.INCOMPLETE
 
         return when {
-            daysToImmunity < 0 -> Status.IMMUNITY
+            daysToImmunity <= 0 -> Status.IMMUNITY
             else -> Status.COMPLETE
         }
     }
 
-    fun getTimeUntilImmunity(nowUTC: Instant = Instant.now()): Duration? {
+    fun getDaysUntilImmunity(nowUTC: Instant = Instant.now()): Int? {
         val newestFullDose = vaccinationCertificates
             .filter { it.doseNumber == it.totalSeriesOfDoses }
-            .maxByOrNull { it.vaccinatedAt }
+            .maxByOrNull { it.vaccinatedOn }
             ?: return null
 
-        val immunityAt = newestFullDose.vaccinatedAt.toDateTimeAtStartOfDay().plus(IMMUNITY_WAITING_PERIOD)
+        val today = nowUTC
+            .toLocalDateUserTz()
 
-        return Duration(nowUTC.toLocalDateUtc().toDateTimeAtStartOfDay(), immunityAt)
+        return IMMUNITY_WAITING_DAYS - Days.daysBetween(newestFullDose.vaccinatedOn, today).days
     }
 
     enum class Status {
@@ -62,6 +71,6 @@ data class VaccinatedPerson(
     }
 
     companion object {
-        private val IMMUNITY_WAITING_PERIOD = Duration.standardDays(14)
+        private const val IMMUNITY_WAITING_DAYS = 15
     }
 }

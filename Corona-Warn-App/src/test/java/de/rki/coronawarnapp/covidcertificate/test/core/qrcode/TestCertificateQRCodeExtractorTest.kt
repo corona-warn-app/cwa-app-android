@@ -1,31 +1,31 @@
 package de.rki.coronawarnapp.covidcertificate.test.core.qrcode
 
 import com.google.gson.Gson
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
+import de.rki.coronawarnapp.covidcertificate.common.cryptography.AesCryptography
 import de.rki.coronawarnapp.covidcertificate.common.decoder.DccCoseDecoder
 import de.rki.coronawarnapp.covidcertificate.common.decoder.DccHeaderParser
-import de.rki.coronawarnapp.covidcertificate.cryptography.AesCryptography
-import de.rki.coronawarnapp.covidcertificate.exception.InvalidHealthCertificateException
-import de.rki.coronawarnapp.covidcertificate.exception.InvalidTestCertificateException
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.test.TestData
-import de.rki.coronawarnapp.covidcertificate.test.core.certificate.TestDccParser
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeTestData
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant
-import org.joda.time.LocalDate
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
 class TestCertificateQRCodeExtractorTest : BaseTest() {
     private val coseDecoder = DccCoseDecoder(AesCryptography())
     private val headerParser = DccHeaderParser()
-    private val bodyParser = TestDccParser(Gson())
-    private val extractor = TestCertificateQRCodeExtractor(coseDecoder, headerParser, bodyParser)
+    private val bodyParser = DccV1Parser(Gson())
+    private val extractor = DccQrCodeExtractor(coseDecoder, headerParser, bodyParser)
 
     @Test
     fun `happy path qr code`() {
-        val qrCode = extractor.extract(TestData.qrCodeTestCertificate)
+        val qrCode = extractor.extract(TestData.qrCodeTestCertificate) as TestCertificateQRCode
         with(qrCode.data.header) {
             issuer shouldBe "AT"
             issuedAt shouldBe Instant.parse("2021-06-01T10:12:48.000Z")
@@ -39,11 +39,10 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
                 givenName shouldBe "Gabriele"
                 givenNameStandardized shouldBe "GABRIELE"
             }
-            dob shouldBe "1998-02-26"
-            dateOfBirth shouldBe LocalDate.parse("1998-02-26")
+            dateOfBirthFormatted shouldBe "1998-02-26"
             version shouldBe "1.2.1"
 
-            with(payloads[0]) {
+            with(test) {
                 uniqueCertificateIdentifier shouldBe "URN:UVCI:01:AT:71EE2559DE38C6BF7304FB65A1A451EC#3"
                 certificateCountry shouldBe "AT"
                 certificateIssuer shouldBe "Ministry of Health, Austria"
@@ -51,7 +50,7 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
                 sampleCollectedAt shouldBe Instant.parse("2021-02-20T12:34:56+00:00")
                 testType shouldBe "LP217198-3"
                 testCenter shouldBe "Testing center Vienna 1"
-                testNameAndManufactor shouldBe "1232"
+                testNameAndManufacturer shouldBe "1232"
                 testResult shouldBe "260415000"
             }
         }
@@ -62,7 +61,7 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
         with(TestData.EllenCheng()) {
             val coseObject = coseWithEncryptedPayload.decodeBase64()!!.toByteArray()
             val dek = dek.decodeBase64()!!.toByteArray()
-            val result = extractor.extract(dek, coseObject)
+            val result = extractor.extractEncrypted(dek, coseObject)
             with(result.data.certificate.nameData) {
                 familyName shouldBe "Cheng"
                 givenName shouldBe "Ellen"
@@ -80,7 +79,7 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
         with(TestData.BrianCalamandrei()) {
             val coseObject = coseWithEncryptedPayload.decodeBase64()!!.toByteArray()
             val dek = dek.decodeBase64()!!.toByteArray()
-            val result = extractor.extract(dek, coseObject)
+            val result = extractor.extractEncrypted(dek, coseObject)
             with(result.data.certificate.nameData) {
                 familyName shouldBe "Calamandrei"
                 givenName shouldBe "Brian"
@@ -95,21 +94,21 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
 
     @Test
     fun `valid encoding but not a health certificate fails with HC_CWT_NO_ISS`() {
-        shouldThrow<InvalidTestCertificateException> {
+        shouldThrow<InvalidHealthCertificateException> {
             extractor.extract(VaccinationQrCodeTestData.validEncoded)
         }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.HC_CWT_NO_ISS
     }
 
     @Test
     fun `random string fails with HC_BASE45_DECODING_FAILED`() {
-        shouldThrow<InvalidTestCertificateException> {
+        shouldThrow<InvalidHealthCertificateException> {
             extractor.extract("nothing here to see")
         }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
     }
 
     @Test
     fun `uncompressed base45 string fails with HC_ZLIB_DECOMPRESSION_FAILED`() {
-        shouldThrow<InvalidTestCertificateException> {
+        shouldThrow<InvalidHealthCertificateException> {
             extractor.extract("6BFOABCDEFGHIJKLMNOPQRSTUVWXYZ %*+-./:")
         }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
     }
@@ -117,14 +116,14 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
     @Test
     fun `vaccination certificate fails with NO_TEST_ENTRY`() {
         shouldThrow<InvalidTestCertificateException> {
-            extractor.extract(VaccinationQrCodeTestData.certificateMissing)
+            extractor.extract(VaccinationQrCodeTestData.certificateMissing, mode = DccV1Parser.Mode.CERT_TEST_STRICT)
         }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.NO_TEST_ENTRY
     }
 
     @Test
     fun `null values fail with JSON_SCHEMA_INVALID`() {
-        shouldThrow<InvalidTestCertificateException> {
+        shouldThrow<InvalidHealthCertificateException> {
             extractor.extract(TestData.qrCodeMssingValues)
-        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.JSON_SCHEMA_INVALID
+        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.HC_JSON_SCHEMA_INVALID
     }
 }

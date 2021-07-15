@@ -183,7 +183,7 @@
     <!-- XTXT: Request GC title for privacy card -->
     <string name="request_green_certificate_privacy_title" translatable="false">Data protection and data security</string>
     <!-- XTXT: Request GC bullet point 1 for privacy card -->
-    <string name="request_green_certificate_privacy_section_1" translatable="false">Requesting and using a digital COVID-19 test certificate is voluntary. There are other ways to prove that you have a negative test certificate.</string>
+    <string name="request_green_certificate_privacy_section_1" translatable="false">Requesting and using a digital COVID-19 test certificate is voluntary. There are other ways to prove that you have a negative test result.</string>
     <!-- XTXT: Request GC bullet point 2 for privacy card -->
     <string name="request_green_certificate_privacy_section_2" translatable="false">To create your test certificate, data is transmitted once in encrypted form to the RKI. The RKI signs this data electronically to confirm its validity. The RKI will not store the data.</string>
     <!-- XTXT: Request GC extra bullet point PCR test  for privacy card -->

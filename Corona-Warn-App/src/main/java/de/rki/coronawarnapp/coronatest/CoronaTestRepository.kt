@@ -167,7 +167,7 @@ class CoronaTestRepository @Inject constructor(
 
         val toRefresh = internalData.data
             .first().values
-            .filter { if (type == null) true else it.type == type }
+            .filter { type == null || it.type == type }
             .map { it.identifier }
 
         Timber.tag(TAG).d("Will refresh %s", toRefresh)
@@ -180,7 +180,7 @@ class CoronaTestRepository @Inject constructor(
 
         val refreshedData = internalData.updateBlocking {
             val polling = values
-                .filter { if (type == null) true else it.type == type }
+                .filter { type == null || it.type == type }
                 .filter { toRefresh.contains(it.identifier) }
                 .map { coronaTest ->
 

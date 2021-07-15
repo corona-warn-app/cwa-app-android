@@ -43,8 +43,8 @@ abstract class AnalyticsTestResultDonor(
             return TestResultMetadataNoContribution
         }
 
-        val testResultAtRegistration = testResultSettings.testResultAtRegistration.value
-        if (testResultAtRegistration == null) {
+        val testResult = testResultSettings.testResult.value
+        if (testResult == null) {
             Timber.d("Skipping TestResultMetadata donation (testResultAtRegistration is missing)")
             return TestResultMetadataNoContribution
         }
@@ -61,10 +61,10 @@ abstract class AnalyticsTestResultDonor(
              * it is included in the next submission and removed afterwards.
              * That means if the test result turns POS or NEG afterwards, this will not submitted
              */
-            testResultAtRegistration.isPending && isDiffHoursMoreThanConfigHoursForPendingTest ->
+            testResult.isPending && isDiffHoursMoreThanConfigHoursForPendingTest ->
                 pendingTestMetadataDonation(
                     hoursSinceTestRegistrationTime = hoursSinceTestRegistrationTime,
-                    testResult = testResultAtRegistration,
+                    testResult = testResult,
                 )
 
             /**
@@ -72,10 +72,10 @@ abstract class AnalyticsTestResultDonor(
              * it is included in the next submission. Afterwards,
              * the collected metric data is removed.
              */
-            testResultAtRegistration.isFinal ->
+            testResult.isFinal ->
                 finalTestMetadataDonation(
                     timestampAtRegistration,
-                    testResultAtRegistration,
+                    testResult,
                 )
             else -> {
                 Timber.d("Skipping Data donation")
@@ -144,6 +144,7 @@ abstract class AnalyticsTestResultDonor(
             )
             .setTestResult(testResult.toPPATestResult())
             .setRiskLevelAtTestRegistration(testResultSettings.ewRiskLevelAtTestRegistration.value)
+            .setPtRiskLevelAtTestRegistration(testResultSettings.ptRiskLevelAtTestRegistration.value)
             .build()
 
         Timber.i("Final test result metadata:\n%s", formString(testResultMetaData))

@@ -314,7 +314,7 @@
     <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Приложението Corona-Warn-App е инсталирано преди %s дни. Рискът да сте се заразили се изчислява за периодите, през които е било активно регистрирането на контактите Ви. Ако сте били в близост до други хора и регистрирането на излаганията е било активно, рискът да сте се заразили ще бъде изчислен."</string>
     <!-- XTXT: risk details - infection period logged information body, over 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_over_14_days">"Ако регистрирането на контактите Ви е било активно, когато сте се срещали с други хора, рискът да сте се заразили през този период ще бъде изчислен."</string>
-    <!-- XHED: risk details - infection period logged information body, below behaviors -->	    <!-- XTXT: risk details - infection period logged information body, under 14 days -->
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->        <!-- XTXT: risk details - infection period logged information body, under 14 days -->
     <string name="risk_details_information_body_period_logged_assessment">"Приложението изтрива автоматично по-старите регистри, тъй като те вече не могат да служат за предотвратяване на заразяването."</string>
     <!-- XTXT: risk details - infection period days logged/14 -->
     <string name="risk_details_information_active_tracing_days_circle_progress">"%s/14"</string>
@@ -920,6 +920,8 @@
     <string name="debugging_debuglog_share_log_privacy_information">"Подробна информация относно обработката на тези данни и рисковете относно защитата на данните в САЩ и други държави"</string>
     <!-- XBUT: Button for bugreporting share log screen -->
     <string name="debugging_debuglog_share_log_button">"Приемане и изпращане"</string>
+    <!-- XMSG: Dialog body try again later -->
+    <string name="debugging_debuglog_share_try_again_later">"Отчетът за грешки не може да бъде изпратен в момента. Моля, опитайте по-късно."</string>
     <!-- XHED: Title for log upload history -->
     <string name="debugging_debuglog_uploadhistory_title">"Хронология на ИД"</string>
     <!-- YTXT: Description for log upload history -->
@@ -1030,7 +1032,7 @@
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_test_only_once">"Можете да сканирате Вашия тест само веднъж. Приложението може да обработва едновременно само един бърз тест и един PCR тест."</string>
     <!-- YTXT:  Body sub text 3 for Submission Consent call test result   -->
-    <string name="submission_consent_call_test_result_checkmark_text">"Ако резултатът от теста ви е отрицателен, може да го потвърдите с официален сертификат за тестване за COVID. За да направите това, заявете сертификата като следвате стъпките."</string>
+    <string name="submission_consent_call_test_result_checkmark_text">"Ако резултатът от Вашия тест е отрицателен, може да го потвърдите с официален сертификат за тест за COVID. За да направите това, заявете сертификата като следвате стъпките."</string>
     <!-- XHED: Page subheadline for consent help by warning others  -->
     <string name="submission_consent_help_by_warning_others_headline">"Моля, помогнете на хората, с които сте имали контакт, като ги предупредите!"</string>
     <!-- YTXT: Body for consent help by warning others -->
@@ -1069,36 +1071,36 @@
     <!-- XHED: Page subheadline for test result  -->
     <string name="submission_test_result_subtitle">"Как работи:"</string>
     <!-- XHED: Page headline for results next steps  -->
-    <string name="submission_test_result_steps_added_heading">"PCR тестът Ви е добавен успешно."</string>
+    <string name="submission_test_result_steps_added_heading">"Вашият PCR тест е добавен"</string>
     <!-- YTXT: Body text for for results next steps  -->
     <string name="submission_test_result_steps_added_body">"Вашият тест е запазен в приложението Corona-Warn-App."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_heading">"Все още няма резултат от теста Ви."</string>
+    <string name="submission_test_result_pending_steps_waiting_heading">"Все още няма резултат от теста Ви"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_body">"Резултатът от Вашия тест ще се покаже в приложението веднага щом бъде готов.\n\nТой ще Ви бъде изпратен също и извън приложението. Службата за обществено здравеопазване ще Ви уведоми, ако е положителен.\n\nАко получите такова уведомление, моля изтрийте теста, който в момента е регистриран в приложението. Позвънете на номера, показан под „Заявка за ТАН код“, за да получите ТАН. Използвайте кода, за да регистрирате своя резултат в приложението и да предупредите останалите потребители."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Все още няма резултат от теста Ви."</string>
+    <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Все още няма резултат от теста Ви"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_pcr_body">"Резултатът от Вашия тест ще се покаже в приложението веднага щом бъде готов.\n\nТой ще Ви бъде изпратен също и извън приложението. Службата за обществено здравеопазване ще Ви уведоми, ако е положителен.\n\nАко получите такова уведомление, моля изтрийте теста, който в момента е регистриран в приложението. Позвънете на номера, показан под „Заявка за ТАН код“, за да получите ТАН. Използвайте кода, за да регистрирате своя резултат в приложението и да предупредите останалите потребители."</string>
     <!-- XHED: Page headline for results next steps  -->
-    <string name="submission_test_result_steps_added_rat_heading">"Бързият Ви тест е добавен."</string>
+    <string name="submission_test_result_steps_added_rat_heading">"Вашият бърз тест е добавен"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_rat_heading">"Все още няма резултат от теста Ви."</string>
+    <string name="submission_test_result_pending_steps_waiting_rat_heading">"Все още няма резултат от теста Ви"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_rat_body">"Резултатът от Вашия тест ще се покаже в приложението веднага щом бъде готов."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_contact_diary_heading">"Резултатът от теста Ви ще бъде добавен и във Вашия дневник на контактите."</string>
+    <string name="submission_test_result_pending_steps_contact_diary_heading">"Резултатът от Вашия тест ще бъде добавен в дневника на контактите Ви"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_contact_diary_body">"Резултатът от Вашия тест ще се покаже в приложението веднага щом бъде готов."</string>
 
     <!-- XHED: Page headline for test result certifcate info title  -->
-    <string name="submission_test_result_pending_steps_test_certificate_heading">"Вашият сертификат за тестване"</string>
+    <string name="submission_test_result_pending_steps_test_certificate_heading">"Вашият сертификат за тест за COVID"</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not supported, RAT Test -->
-    <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"Не е наличен сертификат за тестване, защото този пункт за тестване не поддържа издаването на такива сертификати."</string>
+    <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"Не може да бъде издаден официален цифров сертификат за тест за COVID, тъй като този пункт не поддържа издаването на такива."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
-    <string name="submission_test_result_pending_steps_test_certificate_not_available_yet_body">"Сертификатът Ви за тестване все още не е наличен. Когато това се случи, той ще се покаже в приложението Ви."</string>
+    <string name="submission_test_result_pending_steps_test_certificate_not_available_yet_body">"Вашият официален цифров сертификат за тест за COVID все още не е наличен. Когато стане готов, той ще се появи в приложението Ви."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not desired by the user, PCR Test no consent given -->
-    <string name="submission_test_result_pending_steps_test_certificate_not_desired_by_user_body">"Не е издаден сертификат, отговарящ на искането Ви."</string>
+    <string name="submission_test_result_pending_steps_test_certificate_not_desired_by_user_body">"Съобразно Вашата заявка няма да бъде издаден официален цифров сертификат за тест за COVID."</string>
 
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Актуализиране"</string>
@@ -1107,7 +1109,7 @@
     <!-- XHED: Page headline for negative test result next steps  -->
     <string name="submission_test_result_negative_steps_negative_heading">"Отрицателен резултат"</string>
     <!-- YTXT: Body text for next steps section of test negative result -->
-    <string name="submission_test_result_negative_steps_negative_body">"Вашият лабораторен резултат не потвърждава заразяване с коронавирус SARS-CoV-2.\n\nМоля, изтрийте теста от приложението Corona-Warn-App, за да можете да запазите нов код на тест, ако е необходимо."</string>
+    <string name="submission_test_result_negative_steps_negative_body">"Вашият лабораторен резултат не потвърждава заразяване с коронавирус SARS-CoV-2.\n\nТрябва да изтриете последния тест, за да можете да регистрирате нов."</string>
     <!-- XBUT: negative test result : remove the test button -->
     <string name="submission_test_result_negative_remove_test_button">"Изтриване на тест"</string>
     <!-- XHED: Page headline for other warnings screen  -->
@@ -1131,7 +1133,7 @@
     <!-- YTXT: Body text for next steps section of invalid test result-->
     <string name="submission_test_result_invalid_steps_invalid_body">"Възникна проблем при определянето на резултата от Вашия тест. Моля, свържете се със съответния център за тестване или лаборатория, за да получите информация какво можете да направите."</string>
     <!-- YTXT: Body text for next steps section of invalid test result-->
-    <string name="submission_test_result_delete_steps_invalid_body">"Моля, изтрийте теста от приложението Corona-Warn-App, за да можете да запазите нов код на тест, ако е необходимо."</string>
+    <string name="submission_test_result_delete_steps_invalid_body">"Трябва да изтриете последния тест, за да можете да регистрирате нов."</string>
 
     <!-- XBUT: invalid test result : remove the test button -->
     <string name="submission_test_result_invalid_remove_test_button">"Изтриване на тест"</string>
@@ -1196,7 +1198,7 @@
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"Сканиране на QR код"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Получете резултата си в приложението и предупредете останалите или заявете своя сертификат за тестване за COVID."</string>
+    <string name="submission_dispatcher_qr_card_text">"Получете резултата си в приложението и предупредете останалите потребители или заявете своя сертификат за тест за COVID."</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"Въведете ТАН код за PCR тест"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
@@ -1415,7 +1417,7 @@
     <!-- YTXT: Button text for submission status fetch ready -->
     <string name="submission_status_card_retrieve_test_result">"Извличане на резултат от тест"</string>
     <!-- XBUT: submission status card unregistered button -->
-    <string name="submission_status_card_button_unregistered">"Следващи стъпки"</string>
+    <string name="submission_status_card_button_unregistered">"Регистриране на тест"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Показване на тест"</string>
     <!-- XBUT: submission status card fetch failed button -->
@@ -1546,7 +1548,7 @@
     <!-- XHED: Explanation screen title -->
     <string name="statistics_explanation_title">"Показатели"</string>
     <!-- XHED: Explanation screen subtitle -->
-    <string name="statistics_explanation_subtitle">"Разяснение на националната статистиката"</string>
+    <string name="statistics_explanation_subtitle">"Пояснение на статистиката"</string>
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"Потвърдени нови случаи на заразяване"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
@@ -1554,7 +1556,7 @@
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Лица, изпратили предупреждения"</string>
     <!-- XTXT: Explanation screen warned persons text -->
-    <string name="statistics_explanation_warned_persons_text">"Брой потребители, диагностицирани с коронавирус, които са предупредили другите потребители чрез приложението"</string>
+    <string name="statistics_explanation_warned_persons_text">"Брой потребители, диагностицирани с коронавирус на база на PCR тест, които са предупредили другите потребители чрез приложението"</string>
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7-дневна заболеваемост"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
@@ -1562,7 +1564,7 @@
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-дневно репродуктивно число R"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
-    <string name="statistics_explanation_seven_day_r_value_text">"Репродуктивното число R указва средно колко души заразява едно заразено лице. Текущата стойност взема предвид данните от последните 5 дни. \n\nПовече информация може да намерите в раздел ЧЗВ.\nЧЗВ относно статистиката."</string>
+    <string name="statistics_explanation_seven_day_r_value_text">"Репродуктивното число R указва средно колко души заразява от своя страна едно заразено лице. Текущата стойност взема предвид данните от последните 5 дни."</string>
     <!-- XTXT: Explanation screen seven day r-value link label  - the characters have to match the last part of the text label above -->
     <string name="statistics_explanation_seven_day_r_link_label">"ЧЗВ относно статистиката"</string>
     <!-- XHED: Explanation screen legend title -->
@@ -1604,6 +1606,40 @@
     <string name="accessibility_statistics_card_announcement">"Плочка „Статистика“"</string>
     <!-- XTXT: Statistics Card Navigation Announcement -->
     <string name="accessibility_statistics_card_navigation_information">"Плъзнете хоризонтално между плочките, за да покажете още статистически данни"</string>
+
+    <!-- Persons Vaccinated Once Statistics Card -->
+    <!-- XHED: Title for vaccinated once statistics card -->
+    <string name="statistics_vaccinated_once_card_title">"Лица, получили поне една доза ваксина"</string>
+    <!-- XTXT: Nationwide text -->
+    <string name="statistics_vaccinated_nationwide_text">"В национален мащаб"</string>
+    <!-- XTXT: Vaccination primary value footnote text -->
+    <string name="statistics_vaccination_primary_value_footnote">"от населението"</string>
+
+    <!-- Persons Vaccinated Completely Statistics Card -->
+    <!-- XHED: Title for vaccinated completely statistics card -->
+    <string name="statistics_vaccinated_completely_card_title">"Напълно ваксинирани лица"</string>
+
+    <!-- Applied Vaccination Dose Rates Statistics Card -->
+    <!-- XHED: Title for applied vaccination dose rates -->
+    <string name="statistics_applied_vaccination_dose_rates_card_title">"Поставени дози ваксини"</string>
+    <!-- XTXT: Statistics local 7 days title -->
+    <string name="statistics_explanation_local_seven_day_incidence_title">"7-дневна заболеваемост на местно ниво"</string>
+    <!-- XTXT: Statistics local 7 days text -->
+    <string name="statistics_explanation_local_seven_day_incidence_text">"Общ брой потвърдени нови случаи на заразяване за последните 7 дни (по дата на регистриране) на 100 000 души в посочения окръг или федерална провинция."</string>
+    <!-- XTXT: Statistics number of vaccine doses title -->
+    <string name="statistics_number_of_vaccine_doses_title">"Поставени дози ваксини"</string>
+    <!-- XTXT: Statistics number of vaccine doses text -->
+    <string name="statistics_number_of_vaccine_doses_text">"Брой на поставените дози ваксини в национален мащаб към настоящия момент."</string>
+    <!-- XTXT: Statistics number of fully vaccinated people title -->
+    <string name="statistics_fully_vaccinated_people_title">"Напълно ваксинирани лица"</string>
+    <!-- XTXT: Statistics number of fully vaccinated people text -->
+    <string name="statistics_fully_vaccinated_people_text">"Брой на лицата, за които има предадени данни в института „Роберт Кох“, че са получили всички необходими дози ваксини."</string>
+    <!-- XTXT: Statistics number of vaccinated people at least title -->
+    <string name="statistics_people_vaccinated_at_least_once_title">"Лица, получили поне една доза ваксина"</string>
+    <!-- XTXT: Statistics number of vaccinated people at least text -->
+    <string name="statistics_people_vaccinated_at_least_once_text">"Брой на лицата, за които има предадени данни в института „Роберт Кох“, че са получили първа доза ваксина."</string>
+    <!-- XTXT: Statistics FAQ text -->
+    <string name="statistics_faq_text">"За повече информация моля разгледайте нашата страница с ЧЗВ:\n\nFAQ за статистика"</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility

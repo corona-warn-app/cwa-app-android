@@ -4,24 +4,24 @@ import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import org.joda.time.format.DateTimeFormat
 import javax.inject.Inject
 
 class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_details), AutoInject {
@@ -35,29 +35,38 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         constructorCall = { factory, _ ->
             factory as VaccinationDetailsViewModel.Factory
             factory.create(
-                certificateId = args.vaccinationCertificateId,
+                containerId = args.containerId,
             )
         }
     )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
-            toolbar.setNavigationOnClickListener { popBackStack() }
+
+            bindToolbar()
+            setToolbarOverlay()
 
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
                 it.certificate?.let { certificate -> bindCertificateViews(certificate) }
                 val background = when {
-                    it.isImmune -> R.drawable.vaccination_compelete_gradient
+                    it.isImmune -> R.drawable.certificate_complete_gradient
                     else -> R.drawable.vaccination_incomplete
                 }
+
+                val europaIcon = when {
+                    it.isImmune -> R.drawable.ic_eu_stars_blue
+                    else -> R.drawable.ic_eu_stars_grey
+                }
+
                 expandedImage.setImageResource(background)
+                europaImage.setImageResource(europaIcon)
             }
 
             appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
                 title.alpha = titleAlpha
                 subtitle.alpha = subtitleAlpha
+                europaImage.alpha = subtitleAlpha
             }
-            setToolbarOverlay()
 
             viewModel.errors.observe(viewLifecycleOwner) {
                 qrCodeCard.progressBar.hide()
@@ -84,37 +93,38 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             }
         }
 
+    private fun FragmentVaccinationDetailsBinding.bindToolbar() = toolbar.apply {
+        setNavigationOnClickListener { popBackStack() }
+        setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_covid_certificate_delete -> {
+                    showCertificateDeletionRequest()
+                    true
+                }
+                else -> onOptionsItemSelected(it)
+            }
+        }
+    }
+
     private fun FragmentVaccinationDetailsBinding.bindCertificateViews(
         certificate: VaccinationCertificate
     ) {
-        name.text = certificate.fullName
-        birthDate.text = getString(
-            R.string.vaccination_details_birth_date,
-            certificate.dateOfBirth.toDayFormat()
-        )
-        vaccinatedAt.text = certificate.vaccinatedAt.toDayFormat()
-        vaccineName.text = certificate.medicalProductName
-        vaccineManufacturer.text = certificate.vaccineManufacturer
+        fullname.text = certificate.fullName
+        dateOfBirth.text = certificate.dateOfBirthFormatted
+        medialProductName.text = certificate.medicalProductName
         vaccineTypeName.text = certificate.vaccineTypeName
-        certificateIssuer.text = certificate.certificateIssuer
+        targetDisease.text = certificate.targetDisease
+        vaccineManufacturer.text = certificate.vaccineManufacturer
+        vaccinationNumber.text = getString(
+            R.string.vaccination_certificate_attribute_dose_number,
+            certificate.doseNumber,
+            certificate.totalSeriesOfDoses
+        )
+        vaccinatedAt.text = certificate.vaccinatedOnFormatted
         certificateCountry.text = certificate.certificateCountry
+        certificateIssuer.text = certificate.certificateIssuer
         certificateId.text = certificate.certificateId
-        title.text = getString(
-            R.string.vaccination_details_title,
-            certificate.doseNumber,
-            certificate.totalSeriesOfDoses
-        )
-        // QrCode details
-        qrCodeCard.title.text = getString(
-            R.string.vaccination_qrcode_card_title,
-            certificate.doseNumber,
-            certificate.totalSeriesOfDoses
-        )
-        qrCodeCard.subtitle.text = getString(
-            R.string.vaccination_qrcode_card_subtitle,
-            certificate.vaccinatedAt.toString(format),
-            certificate.expiresAt.toString(format)
-        )
+        oneShotInfo.isVisible = certificate.totalSeriesOfDoses == 1
     }
 
     private fun setToolbarOverlay() {
@@ -124,14 +134,21 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             as (CoordinatorLayout.LayoutParams)
 
         val textParams = binding.subtitle.layoutParams as (LinearLayout.LayoutParams)
-        textParams.bottomMargin = (width / 3) - 24 /* 24 is space between screen border and QrCode */
+        textParams.bottomMargin = (width / 2) - 24 /* 24 is space between screen border and QrCode */
         binding.subtitle.requestLayout() /* 24 is space between screen border and QrCode */
 
         val behavior: AppBarLayout.ScrollingViewBehavior = params.behavior as (AppBarLayout.ScrollingViewBehavior)
-        behavior.overlayTop = (width / 3) - 24
+        behavior.overlayTop = (width / 2) - 24
     }
 
-    companion object {
-        private val format = DateTimeFormat.forPattern("dd.MM.yy")
+    private fun showCertificateDeletionRequest() {
+        MaterialAlertDialogBuilder(requireContext()).apply {
+            setTitle(R.string.vaccination_list_deletion_dialog_title)
+            setMessage(R.string.vaccination_list_deletion_dialog_message)
+            setNegativeButton(R.string.green_certificate_details_dialog_remove_test_button_negative) { _, _ -> }
+            setPositiveButton(R.string.green_certificate_details_dialog_remove_test_button_positive) { _, _ ->
+                viewModel.onDeleteVaccinationCertificateConfirmed()
+            }
+        }.show()
     }
 }

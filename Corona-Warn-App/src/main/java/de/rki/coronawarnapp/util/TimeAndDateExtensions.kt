@@ -13,7 +13,6 @@ import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
 import java.math.RoundingMode
 import java.util.Date
-import java.util.TimeZone
 import java.util.concurrent.TimeUnit
 
 @Suppress("TooManyFunctions")
@@ -26,6 +25,7 @@ object TimeAndDateExtensions {
     private val dayFormatter = DateTimeFormat.forPattern("dd.MM.yyyy")
     private val dayFormatter2DigitYear = DateTimeFormat.forPattern("dd.MM.yy")
     private val shortTime = DateTimeFormat.shortTime()
+    private val dateFormatterWithHyphenSeparator = DateTimeFormat.forPattern("yyyy-MM-dd")
 
     fun getCurrentHourUTC(): Int = DateTime(Instant.now(), DateTimeZone.UTC).hourOfDay().get()
 
@@ -102,11 +102,11 @@ object TimeAndDateExtensions {
 
     fun Instant.toLocalDateUtc(): LocalDate = this.toDateTime(DateTimeZone.UTC).toLocalDate()
 
-    fun Instant.toLocalTime(): LocalTime = this.toDateTime(DateTimeZone.UTC).toLocalTime()
+    fun Instant.toLocalTimeUtc(): LocalTime = this.toDateTime(DateTimeZone.UTC).toLocalTime()
 
     val Instant.seconds get() = TimeUnit.MILLISECONDS.toSeconds(millis)
 
-    fun Instant.toUserTimeZone(): DateTime = this.toDateTime(DateTimeZone.forTimeZone(TimeZone.getDefault()))
+    fun Instant.toUserTimeZone(): DateTime = this.toDateTime(DateTimeZone.getDefault())
 
     fun Instant.toLocalDateUserTz(): LocalDate = this.toUserTimeZone().toLocalDate()
 
@@ -124,6 +124,11 @@ object TimeAndDateExtensions {
      * Returns a readable date String with the format "dd.MM.yyyy" like 23.05.1989 of a DateTime
      */
     fun DateTime.toDayFormat(): String = toString(dayFormatter)
+
+    /**
+     * Returns a readable date String with the format "dd.MM.yy" like 23.05.89 of a DateTime
+     */
+    fun DateTime.toShortDayFormat(): String = toString(dayFormatter2DigitYear)
 
     /**
      * Returns a readable time String with the format "hh:mm" like 12:00 of a LocalDate
