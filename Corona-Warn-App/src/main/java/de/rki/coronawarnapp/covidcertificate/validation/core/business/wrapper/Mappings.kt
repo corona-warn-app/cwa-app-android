@@ -78,7 +78,7 @@ private fun Rule.asDccValidationRule() = DccValidationRule(
     engine = engine,
     engineVersion = engineVersion,
     certificateType = ruleCertificateType.asInternalString,
-    description = descriptions.map { DccValidationRule.Description(description = it.key, languageCode = it.value) },
+    description = descriptions.map { DccValidationRule.Description(languageCode = it.key, description = it.value) },
     validFrom = validFrom.asExternalString,
     validTo = validTo.asExternalString,
     affectedFields = affectedString,
