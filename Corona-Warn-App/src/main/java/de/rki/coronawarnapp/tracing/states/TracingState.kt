@@ -108,7 +108,7 @@ data class LowRisk(
         context.getString(R.string.risk_card_body_not_yet_fetched)
     }
 
-    fun getRiskContactBody(context: Context): String = if (daysWithEncounters == 0) {
+    fun getRiskContactBody(context: Context): String = if (daysWithEncounters == 0 || lastEncounterAt == null) {
         // caution! is 0 after migration from 1.7.x -> 1.8.x
         // see RiskLevelResultMigrator.kt
         context.getString(R.string.risk_card_low_risk_no_encounters_body)
@@ -120,15 +120,16 @@ data class LowRisk(
         )
     }
 
-    fun getRiskContactBodyDescription(context: Context): String = if (daysWithEncounters == 0) {
-        context.getString(R.string.risk_card_low_risk_no_encounters_body)
-    } else {
-        context.resources.getQuantityString(
-            R.plurals.risk_card_low_risk_encounter_days_body_description,
-            daysWithEncounters,
-            daysWithEncounters
-        )
-    }
+    fun getRiskContactBodyDescription(context: Context): String =
+        if (daysWithEncounters == 0 || lastEncounterAt == null) {
+            context.getString(R.string.risk_card_low_risk_no_encounters_body)
+        } else {
+            context.resources.getQuantityString(
+                R.plurals.risk_card_low_risk_encounter_days_body_description,
+                daysWithEncounters,
+                daysWithEncounters
+            )
+        }
 
     fun getDaysSinceInstall(context: Context): String =
         when (daysSinceInstallation) {
