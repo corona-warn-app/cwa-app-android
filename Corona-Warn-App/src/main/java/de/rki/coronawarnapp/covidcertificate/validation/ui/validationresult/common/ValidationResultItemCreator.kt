@@ -45,7 +45,7 @@ class ValidationResultItemCreator @Inject constructor() {
 
         val affectedFields = mapAffectedFields(rule.affectedFields, certificate)
 
-        val identifier = rule.identifier
+        val identifier = "${rule.identifier} (${rule.version})"
 
         return BusinessRuleVH.Item(
             ruleIconRes = iconRes,
