@@ -160,10 +160,11 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
             .setValidator(DateValidatorPointForward.from(minConstraint.withSecondOfMinute(0).millis))
             .build()
 
+        val dateTime = viewModel.selectedDate.toDateTime(viewModel.selectedTime)
         MaterialDatePicker
             .Builder
             .datePicker()
-            .setSelection(viewModel.selectedDate.toDate().time)
+            .setSelection(dateTime.millis)
             .setCalendarConstraints(constraints)
             .build()
             .apply {
