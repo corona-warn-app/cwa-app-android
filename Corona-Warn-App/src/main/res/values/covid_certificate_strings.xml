@@ -233,4 +233,30 @@
     <string name="validation_failed_title">"Certificate Is Not Valid"</string>
     <!-- XHED: Toolbar title for the validation open screen -->
     <string name="validation_open_title">"Certificate Cannot Be Validated"</string>
+    <!-- Validation Rule View Holder: Business Rule Open -->
+    <!-- XHED: subtitle for the validation open card  -->
+    <string name="validation_rules_open_vh_subtitle">"Dies ist eine Regel des Reiselandes %s."</string>
+    <!-- XHED:validation start for the validation open card  -->
+    <string name="validation_rules_open_vh_start_date">"Datum und Uhrzeit der Probenahme / Date and Time of Sample Collection (YYYY-MM-DD hh:mm Z)"</string>
+    <!-- XTXT: title for the validation open card  -->
+    <string name="validation_rules_open_vh_title">"Ein Antigentest ist maximal 48h gültig."</string>
+
+    <!-- Validation Rule View Holder: Business Rule Validation Failed -->
+    <!-- XHED: title for the validation failed card  -->
+    <string name="validation_rules_failed_vh_title_uncertified_test_center">"Ein Testzertifikat muss von einem zertifizierten Testzentrum ausgestellt werden."</string>
+    <!-- XTXT: subtitle for the validation failed card  -->
+    <string name="validation_rules_failed_vh_subtitle_uncertified_test_center">"Dies ist eine Regel des Ausstellerlandes."</string>
+    <!-- XTXT: test center title for the validation failed card  -->
+    <string name="validation_rules_failed_vh_test_center_title">"Testzentrum oder -einrichtung / Testing Center"</string>
+    <!-- XHED: title for the validation failed card  -->
+    <string name="validation_rules_failed_vh_title_wrong_test_type">"Art des Tests muss Antigen-Test oder Nukleinsäureamplifikations-Test sein."</string>
+    <!-- XHED: subtitle for the validation failed card  -->
+    <string name="validation_rules_failed_vh_subtitle_wrong_test_type">"Ein Testzertifikat muss von einem zertifizierten Testzentrum ausgestellt werden."</string>
+    <!-- XTXT: rule id for the validation failed card  -->
+    <string name="validation_rules_failed_vh_test_type">"Art des Tests / Type of Test"</string>
+
+    <!-- XHED: travel country for the validation failed card  -->
+    <string name="validation_rules_failed_vh_travel_country">"Dies ist eine Regel des Reiselandes %s."</string>
+    <!-- XHED: issuer country for the validation failed card  -->
+    <string name="validation_rules_failed_vh_issuer_country">"Dies ist eine Regel des Ausstellerlandes %s."</string>
 </resources>

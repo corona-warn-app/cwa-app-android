@@ -28,7 +28,8 @@ class DccValidationOpenFragment : Fragment(R.layout.covid_certificate_validation
         constructorCall = { factory, _ ->
             factory as DccValidationOpenViewModel.Factory
             factory.create(
-                validation = args.validation
+                validation = args.validation,
+                containerId = args.containerId,
             )
         }
     )

@@ -2,9 +2,9 @@ package de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.com
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultHeaderItemBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
+import de.rki.coronawarnapp.util.ui.LazyString
 
 class ValidationOverallResultVH(
     parent: ViewGroup
@@ -21,18 +21,12 @@ class ValidationOverallResultVH(
         item: Item,
         payloads: List<Any>,
     ) -> Unit = { item, payloads ->
-        headline.setText(
-            when (item.state) {
-                DccValidation.State.PASSED -> R.string.validation_rules_result_valid_result_title
-                DccValidation.State.OPEN -> R.string.validation_rules_result_cannot_be_checked_result_title
-                DccValidation.State.TECHNICAL_FAILURE -> R.string.validation_rules_result_not_valid_result_title
-                DccValidation.State.FAILURE -> R.string.validation_rules_result_not_valid_result_title
-            }
-        )
+        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        headline.text = curItem.headlineText.get(context)
     }
 
     data class Item(
-        val state: DccValidation.State,
+        val headlineText: LazyString
     ) : ValidationResultItem, HasPayloadDiffer {
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
 
