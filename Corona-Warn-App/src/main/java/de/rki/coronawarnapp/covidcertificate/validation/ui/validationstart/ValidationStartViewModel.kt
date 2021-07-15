@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.map
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
 import timber.log.Timber
+import java.text.Collator
 
 class ValidationStartViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
@@ -41,6 +42,7 @@ class ValidationStartViewModel @AssistedInject constructor(
         fun create(containerId: CertificateContainerId): ValidationStartViewModel
     }
 
+    private val collator = Collator.getInstance()
     private val uiState = MutableStateFlow(UIState())
     val state: LiveData<UIState> = uiState.asLiveData2()
     val selectedDate: LocalDate get() = uiState.value.localDate
@@ -48,7 +50,8 @@ class ValidationStartViewModel @AssistedInject constructor(
     val selectedCountryCode: String get() = uiState.value.dccCountry.countryCode
     val events = SingleLiveEvent<StartValidationNavEvent>()
     val countryList = dccValidationRepository.dccCountries.map { countryList ->
-        if (countryList.isEmpty()) listOf(DccCountry(DE)) else countryList
+        val countries = if (countryList.isEmpty()) listOf(DccCountry(DE)) else countryList
+        countries.sortedWith(compareBy(collator) { it.displayName() })
     }.asLiveData2()
 
     fun onInfoClick() = events.postValue(NavigateToValidationInfoFragment)
