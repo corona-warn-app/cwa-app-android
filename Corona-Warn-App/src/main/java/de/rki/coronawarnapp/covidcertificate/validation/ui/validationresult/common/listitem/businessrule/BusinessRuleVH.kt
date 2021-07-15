@@ -29,7 +29,7 @@ class BusinessRuleVH(
             ruleIcon.setImageResource(ruleIconRes)
             ruleDescription.text = ruleDescriptionText.get(context)
             countryInformation.text = countryInformationText.get(context)
-            //TODO: Show affected fields
+            // TODO: Show affected fields
             ruleId.text = identifier
         }
     }

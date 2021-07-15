@@ -35,7 +35,9 @@ class ValidationResultItemCreator @Inject constructor() {
         val iconRes = when (result) {
             DccValidationRule.Result.OPEN -> R.drawable.ic_grey_question_mark
             DccValidationRule.Result.FAILED -> R.drawable.ic_high_risk_alert
-            else -> throw IllegalArgumentException("Expected result of rule to be OPEN or FAILED but was ${result.name}")
+            else -> throw IllegalArgumentException(
+                "Expected result of rule to be OPEN or FAILED but was ${result.name}"
+            )
         }
 
         val ruleDescription = rule.getRuleDescription().toLazyString()
@@ -54,7 +56,11 @@ class ValidationResultItemCreator @Inject constructor() {
         )
     }
 
-    fun ruleHeaderVHItem(state: DccValidation.State, hideTitle: Boolean = false, ruleCount: Int = 0): RuleHeaderVH.Item {
+    fun ruleHeaderVHItem(
+        state: DccValidation.State,
+        hideTitle: Boolean = false,
+        ruleCount: Int = 0
+    ): RuleHeaderVH.Item {
         val title: LazyString
         val subtitle: LazyString
 

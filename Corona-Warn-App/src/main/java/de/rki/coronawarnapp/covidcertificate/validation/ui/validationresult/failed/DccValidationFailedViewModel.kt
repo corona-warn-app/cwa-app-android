@@ -37,7 +37,10 @@ class DccValidationFailedViewModel @AssistedInject constructor(
         Timber.d("Generating items for state ${validation.state}")
         when (validation.state) {
             DccValidation.State.PASSED,
-            DccValidation.State.OPEN -> throw IllegalArgumentException("Expected state to be ${DccValidation.State.FAILURE.name} or ${DccValidation.State.TECHNICAL_FAILURE.name} but was ${validation.state.name}")
+            DccValidation.State.OPEN -> throw IllegalArgumentException(
+                "Expected state to be ${DccValidation.State.FAILURE.name} or" +
+                    " ${DccValidation.State.TECHNICAL_FAILURE.name} but was ${validation.state.name}"
+            )
             DccValidation.State.TECHNICAL_FAILURE -> {
                 items.add(ruleHeaderVHItem(state = DccValidation.State.TECHNICAL_FAILURE))
                 items.add(technicalValidationFailedVHItem(validation = validation))

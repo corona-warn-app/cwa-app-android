@@ -29,7 +29,8 @@ class EvaluatedFieldAdapter :
         override val viewBinding: Lazy<CovidCertificateValidationResultRuleItemEvaluatedFieldItemBinding> =
             lazy { CovidCertificateValidationResultRuleItemEvaluatedFieldItemBinding.bind(itemView) }
 
-        override val onBindData: CovidCertificateValidationResultRuleItemEvaluatedFieldItemBinding.(item: EvaluatedField, payloads: List<Any>) -> Unit =
+        override val onBindData: CovidCertificateValidationResultRuleItemEvaluatedFieldItemBinding
+        .(item: EvaluatedField, payloads: List<Any>) -> Unit =
             { item, _ ->
                 with(item) {
                     title.text = context.getString(fieldResourceId)
