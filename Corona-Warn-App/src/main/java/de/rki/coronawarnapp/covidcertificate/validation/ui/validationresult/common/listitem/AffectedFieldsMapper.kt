@@ -119,5 +119,5 @@ data class EvaluatedField(
     val certificateFieldValue: String?
 ) : HasStableId {
     override val stableId: Long
-        get() = fieldResourceId.toLong()
+        get() = this.field.hashCode().toLong()
 }

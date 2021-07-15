@@ -21,8 +21,9 @@ class RuleHeaderVH(
     override val onBindData: CovidCertificateValidationResultRuleHeaderItemBinding.(
         item: Item,
         payloads: List<Any>,
-    ) -> Unit = { item, _ ->
-        with(item) {
+    ) -> Unit = { item, payloads ->
+        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        with(curItem) {
             titleText.isGone = hideTitle
             titleText.text = title.get(context)
             subtitleText.text = subtitle.get(context)
