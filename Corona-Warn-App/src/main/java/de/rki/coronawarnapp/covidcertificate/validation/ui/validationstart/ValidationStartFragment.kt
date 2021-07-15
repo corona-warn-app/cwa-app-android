@@ -187,7 +187,7 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
-                    viewModel.dateChanged(date, time)
+                    viewModel.dateChanged(date, LocalTime(hour, minute))
                 }
             }
             .show(childFragmentManager, TIME_PICKER_TAG)
