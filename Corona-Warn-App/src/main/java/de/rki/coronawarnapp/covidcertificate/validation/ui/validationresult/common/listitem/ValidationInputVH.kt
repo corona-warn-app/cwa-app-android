@@ -20,8 +20,9 @@ class ValidationInputVH(
     override val onBindData: CovidCertificateValidationResultInputItemBinding.(
         item: Item,
         payloads: List<Any>,
-    ) -> Unit = { item, _ ->
-        dateDetailsTv.text = item.dateDetails.get(context)
+    ) -> Unit = { item, payloads ->
+        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        dateDetailsTv.text = curItem.dateDetails.get(context)
     }
 
     data class Item(

@@ -20,8 +20,9 @@ class ValidationOverallResultVH(
     override val onBindData: CovidCertificateValidationResultHeaderItemBinding.(
         item: Item,
         payloads: List<Any>,
-    ) -> Unit = { item, _ ->
-        headline.text = item.headlineText.get(context)
+    ) -> Unit = { item, payloads ->
+        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        headline.text = curItem.headlineText.get(context)
     }
 
     data class Item(

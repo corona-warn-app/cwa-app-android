@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.comm
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationResultItem
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultRuleItemBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
+import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.LazyString
 
 class BusinessRuleVH(
@@ -17,6 +18,8 @@ class BusinessRuleVH(
     parent
 ) {
 
+    private val evaluatedFieldAdapter by lazy { EvaluatedFieldAdapter() }
+
     override val viewBinding = lazy {
         CovidCertificateValidationResultRuleItemBinding.bind(itemView)
     }
@@ -24,12 +27,13 @@ class BusinessRuleVH(
     override val onBindData: CovidCertificateValidationResultRuleItemBinding.(
         item: Item,
         payloads: List<Any>
-    ) -> Unit = { item, _ ->
-        with(item) {
+    ) -> Unit = { item, payloads ->
+        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        with(curItem) {
             ruleIcon.setImageResource(ruleIconRes)
             ruleDescription.text = ruleDescriptionText.get(context)
             countryInformation.text = countryInformationText.get(context)
-            // TODO: Show affected fields
+            evaluatedFieldList.adapter = evaluatedFieldAdapter.apply { update(item.affectedFields) }
             ruleId.text = identifier
         }
     }

@@ -25,8 +25,9 @@ class TechnicalValidationFailedVH(
     override val onBindData: CovidCertificateValidationResultTechnicalFailedItemBinding.(
         item: Item,
         payloads: List<Any>,
-    ) -> Unit = { item, _ ->
-        with(item) {
+    ) -> Unit = { item, payloads ->
+        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        with(curItem) {
             groupDateExpired.isGone = hideGroupDateExpired
             groupDateFormat.isGone = hideGroupDateFormat
             divider.isGone = hideDivider
