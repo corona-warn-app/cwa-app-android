@@ -92,3 +92,6 @@
 -keepclassmembers class **.R$* {
        public static <fields>;
 }
+
+## json-schema-validator
+-keep class com.networknt.schema.** { *; }
