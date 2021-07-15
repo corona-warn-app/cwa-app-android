@@ -24,17 +24,18 @@ class AddCard(parent: ViewGroup) :
     override val onBindData: HomeStatisticsCardsAddLayoutBinding.(
         item: AddLocalStatisticsCardItem,
         payloads: List<Any>
-    ) -> Unit = { item, _ ->
+    ) -> Unit = { item, payloads ->
+        val curItem = payloads.filterIsInstance<AddLocalStatisticsCardItem>().singleOrNull() ?: item
 
-        with(item.stats) {
-            warningText.isGone = isEnabled
-            container.isEnabled = isEnabled
+        with(curItem) {
+            warningText.isGone = stats.isEnabled
+            container.isEnabled = stats.isEnabled
 
-            if (isEnabled) {
+            if (stats.isEnabled) {
                 plusImage.clearColorFilter()
                 titleText.setTextColor(ContextCompat.getColor(context, R.color.colorStatisticsPrimaryValue))
                 container.setOnClickListener {
-                    item.onClickListener(item.stats)
+                    onClickListener(stats)
                 }
             } else {
                 plusImage.setColorFilter(ContextCompat.getColor(context, R.color.colorStatisticsValueLabel))

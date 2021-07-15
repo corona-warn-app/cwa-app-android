@@ -49,6 +49,6 @@ class RecoveryCertificateCard(parent: ViewGroup) :
         val onClick: () -> Unit
     ) : CertificateItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
-        override val stableId = certificate.certificateId.hashCode().toLong()
+        override val stableId: Long = certificate.containerId.hashCode().toLong()
     }
 }

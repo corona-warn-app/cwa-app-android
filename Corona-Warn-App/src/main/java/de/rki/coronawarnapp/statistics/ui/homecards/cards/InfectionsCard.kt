@@ -30,7 +30,8 @@ class InfectionsCard(parent: ViewGroup) :
     override val onBindData: HomeStatisticsCardsInfectionsLayoutBinding.(
         item: GlobalStatisticsCardItem,
         payloads: List<Any>
-    ) -> Unit = { item, _ ->
+    ) -> Unit = { orig, payloads ->
+        val item = payloads.filterIsInstance<GlobalStatisticsCardItem>().singleOrNull() ?: orig
 
         infoStatistics.setOnClickListener {
             item.onClickListener(item.stats)

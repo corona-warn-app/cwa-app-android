@@ -1424,9 +1424,6 @@
     <!-- XTXT: Until [date] refers to statistics timestamp in the past -->
     <string name="statistics_primary_value_until">"Bis %s"</string>
 
-    <!-- XTXT: Suffix for very large statistics values - Abbreviation for "Million"  -->
-    <string name="statistics_value_suffix_million">"Mio."</string>
-
     <!-- Explanation screen -->
     <!-- XHED: Explanation screen title -->
     <string name="statistics_explanation_title">"Kennzahlen"</string>
@@ -1471,13 +1468,13 @@
     <!-- YTXT: Explanation screen trend text -->
     <string name="statistics_explanation_trend_text">"Die Pfeilrichtung zeigt an, ob der Trend nach oben oder nach unten geht oder relativ stabil ist, d.h. eine Abweichung von weniger als 1%% im Vortagesvergleich bzw. 5%% im Vorwochenvergleich aufweist. Die Farbe bewertet diesen Trend als positiv (grün), negativ (rot) oder neutral (grau). Der Trend vergleicht den Wert vom Vortag mit dem Wert von vor zwei Tagen bzw. für die 7-Tage-Trends den Mittelwert der letzten 7 Tage mit dem der vorausgegangenen 7 Tage."</string>
     <!-- XHED: Explanation screen trend icons title -->
-    <string name="statistics_explanation_trend_icons_title">"Folgende Trends können angezeigt werden:"</string>
+    <string name="statistics_explanation_trend_icons_title">"Beispiele für die angezeigten Trends:"</string>
     <!-- XHED: Explanation screen trend increasing title -->
-    <string name="statistics_explanation_trend_increasing_title">"Trend steigend"</string>
+    <string name="statistics_explanation_trend_increasing_title">"Trend steigend, negativ"</string>
     <!-- XHED: Explanation screen trend decreasing title -->
-    <string name="statistics_explanation_trend_decreasing_title">"Trend fallend"</string>
+    <string name="statistics_explanation_trend_decreasing_title">"Trend fallend, positiv"</string>
     <!-- XHED: Explanation screen trend stable title -->
-    <string name="statistics_explanation_trend_stable_title">"Trend stabil"</string>
+    <string name="statistics_explanation_trend_stable_title">"Trend stabil, neutral"</string>
     <!-- XHED: Explanation screen trend description -->
     <string name="statistics_explanation_trend_description">"Die Bewertung des Trends bei den warnenden Personen ändert sich je nach Infektionslage. Deshalb wird dieser Trend immer neutral dargestellt."</string>
     <!-- XTXT: Explains user about statistics: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
