@@ -51,6 +51,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/rule_icon"
         app:layout_constraintTop_toBottomOf="@id/country_information"
+        tools:itemCount="3"
         tools:listitem="@layout/covid_certificate_validation_result_rule_item_evaluated_field_item" />
 
     <TextView
@@ -59,7 +60,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_small"
-        android:layout_marginTop="@dimen/spacing_small"
         android:text="@string/validation_rules_failed_vh_rule_id"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
