@@ -45,6 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_small"
         android:layout_marginTop="@dimen/spacing_small"
+        android:nestedScrollingEnabled="false"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/rule_icon"
