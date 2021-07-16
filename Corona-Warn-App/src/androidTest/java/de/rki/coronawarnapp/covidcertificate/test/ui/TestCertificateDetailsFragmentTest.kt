@@ -145,7 +145,7 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
                 override val dccData: DccData<*>
                     get() = mockk()
 
-                override fun getState(): CwaCovidCertificate.State=  CwaCovidCertificate.State.Valid(Instant.now())
+                override fun getState(): CwaCovidCertificate.State = CwaCovidCertificate.State.Valid(Instant.now())
             }
         )
     }
