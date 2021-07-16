@@ -1439,6 +1439,10 @@
     <string name="statistics_explanation_warned_persons_title">"Warnings by App Users"</string>
     <!-- XTXT: Explanation screen warned persons text -->
     <string name="statistics_explanation_warned_persons_text">"Number of app users who have been diagnosed with coronavirus via PCR test and have warned others through the app"</string>
+    <!-- XHED: Explanation screen local incidence title -->
+    <string name="statistics_explanation_local_incidence_title">"Lokale 7-Tage-Inzidenz"</string>
+    <!-- XTXT: Explanation screen local incidence text -->
+    <string name="statistics_explanation_local_incidence_text">"Gesamtzahl der bestätigten Neuinfektionen der letzten 7 Tage (nach Meldedatum) pro 100.000 Einwohner im konfigurierten Kreis oder Bundesland."</string>
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7-Day Incidence"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
