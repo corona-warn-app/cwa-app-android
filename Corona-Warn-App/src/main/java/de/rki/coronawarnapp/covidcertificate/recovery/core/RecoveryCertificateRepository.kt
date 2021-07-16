@@ -41,7 +41,7 @@ class RecoveryCertificateRepository @Inject constructor(
         scope = appScope + dispatcherProvider.IO,
         sharingBehavior = SharingStarted.Lazily,
     ) {
-        storage.recoveryCertificates
+        storage.load()
             .map { recoveryCertificate ->
                 RecoveryCertificateContainer(
                     data = recoveryCertificate,
@@ -54,10 +54,10 @@ class RecoveryCertificateRepository @Inject constructor(
 
     init {
         internalData.data
-            .onStart { Timber.tag(TAG).d("Observing data.") }
+            .onStart { Timber.tag(TAG).d("Observing RecoveryCertificateContainer data.") }
             .onEach { recoveryCertificates ->
                 Timber.tag(TAG).v("Recovery Certificate data changed: %s", recoveryCertificates)
-                storage.recoveryCertificates = recoveryCertificates.map { it.data }.toSet()
+                storage.save(recoveryCertificates.map { it.data }.toSet())
             }
             .catch {
                 it.reportProblem(TAG, "Failed to snapshot recovery certificate data to storage.")

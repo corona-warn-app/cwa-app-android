@@ -53,7 +53,7 @@ class TestCertificateRepository @Inject constructor(
         scope = appScope + dispatcherProvider.Default,
         sharingBehavior = SharingStarted.Eagerly,
     ) {
-        storage.testCertificates
+        storage.load()
             .map {
                 TestCertificateContainer(
                     data = it,
@@ -84,7 +84,7 @@ class TestCertificateRepository @Inject constructor(
             .onEach { entrySets ->
                 val values = entrySets.values
                 Timber.tag(TAG).v("TestCertificateContainer data changed: %s", values)
-                storage.testCertificates = values.map { it.data }.toSet()
+                storage.save(values.map { it.data }.toSet())
             }
             .catch {
                 it.reportProblem(TAG, "Failed to snapshot TestCertificateContainer data to storage.")
