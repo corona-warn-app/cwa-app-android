@@ -70,11 +70,11 @@ class TestCertificateRepositoryTest : BaseTest() {
         }
 
         storage.apply {
-            every { storage.testCertificates = any() } answers {
+            coEvery { storage.save(any()) } answers {
                 storageSet.clear()
                 storageSet.addAll(arg(0))
             }
-            every { storage.testCertificates } answers { storageSet }
+            coEvery { storage.load() } answers { storageSet }
         }
 
         qrCodeExtractor.apply {

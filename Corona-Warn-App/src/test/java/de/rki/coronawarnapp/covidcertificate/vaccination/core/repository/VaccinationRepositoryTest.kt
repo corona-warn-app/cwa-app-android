@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.CoroutineScope
@@ -55,8 +56,8 @@ class VaccinationRepositoryTest : BaseTest() {
         every { valueSetsRepository.latestVaccinationValueSets } returns flowOf(vaccinationValueSet)
 
         storage.apply {
-            every { personContainers } answers { testStorage }
-            every { personContainers = any() } answers { testStorage = arg(0) }
+            coEvery { load() } answers { testStorage }
+            coEvery { save(any()) } answers { testStorage = arg(0) }
         }
     }
 
