@@ -69,8 +69,8 @@ class FederalStateSelectionFragment : Fragment(R.layout.federal_state_selection_
     }
 
     private fun getToolbarLabel() = if (navArgs.selectedFederalStateShortName != null) {
-        R.string.analytics_userinput_federalstate_title
-    } else {
         R.string.analytics_userinput_district_title
+    } else {
+        R.string.analytics_userinput_federalstate_title
     }
 }
