@@ -7,8 +7,8 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_INVALID
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_NEGATIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_OR_RAT_PENDING
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_OR_RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_POSITIVE
-import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_REDEEMED
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_INVALID
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_NEGATIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_PENDING
@@ -118,7 +118,7 @@ class RATestProcessor @Inject constructor(
             val nowUTC = timeStamper.nowUTC
             val isOlderThan21Days = test.isOlderThan21Days(nowUTC)
 
-            if (isOlderThan21Days && test.testResult == RAT_REDEEMED) {
+            if (isOlderThan21Days && (test.testResult == RAT_REDEEMED || test.testResult == PCR_OR_RAT_REDEEMED)) {
                 Timber.tag(TAG).w("Not polling, test is older than 21 days.")
                 return test
             }
@@ -225,7 +225,7 @@ class RATestProcessor @Inject constructor(
     }
 
     companion object {
-        private val FINAL_STATES = setOf(RAT_POSITIVE, RAT_NEGATIVE, RAT_REDEEMED)
+        private val FINAL_STATES = setOf(RAT_POSITIVE, RAT_NEGATIVE, RAT_REDEEMED, PCR_OR_RAT_REDEEMED)
         internal const val TAG = "RATestProcessor"
     }
 }
@@ -233,6 +233,7 @@ class RATestProcessor @Inject constructor(
 private fun CoronaTestResult.toValidatedResult(): CoronaTestResult {
     val isValid = when (this) {
         PCR_OR_RAT_PENDING,
+        PCR_OR_RAT_REDEEMED,
         RAT_PENDING,
         RAT_NEGATIVE,
         RAT_POSITIVE,
@@ -241,8 +242,7 @@ private fun CoronaTestResult.toValidatedResult(): CoronaTestResult {
 
         PCR_NEGATIVE,
         PCR_POSITIVE,
-        PCR_INVALID,
-        PCR_REDEEMED -> false
+        PCR_INVALID -> false
     }
 
     return if (isValid) {

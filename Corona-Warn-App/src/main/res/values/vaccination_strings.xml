@@ -1,99 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <!-- XTXT: Vaccination Details birth date -->
-    <string name="vaccination_details_birth_date">"Born %1$s"</string>
-    <!-- XTXT: Vaccination Details certificate date -->
-    <string name="vaccination_details_certificate_date">"Vaccination Date"</string>
-    <!-- XTXT: Vaccination Details vaccine name -->
-    <string name="vaccination_details_vaccine_name">"Vaccine"</string>
-    <!-- XTXT: Vaccination Details vaccine manufacturer -->
-    <string name="vaccination_details_vaccine_manufacturer">"Manufacturer"</string>
-    <!-- XTXT: Vaccination Details vaccine type -->
-    <string name="vaccination_details_vaccine_medical_product_name">"Vaccine Type"</string>
-    <!-- XTXT: Vaccination Details certificate issuer -->
-    <string name="vaccination_details_certificate_issuer">"Issuer"</string>
-    <!-- XTXT: Vaccination Details certificate country -->
-    <string name="vaccination_details_certificate_country">"Country"</string>
-    <!-- XTXT: Vaccination Details certificate id -->
-    <string name="vaccination_details_certificate_id">"Certification Number"</string>
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- XTXT: Vaccination Details subtitle-->
     <string name="vaccination_details_subtitle">"Vaccination Certificate"</string>
-    <!-- XTXT: Vaccination Details title-->
-    <string name="vaccination_details_title">"Vaccination %1$d of %2$d"</string>
-    <!-- XTXT: Vaccination Qr Code card title-->
-    <string name="vaccination_qrcode_card_title">"Vaccination Certificate %1$d of %2$d"</string>
-    <!-- XTXT: Vaccination Qr Code card subtitle-->
-    <string name="vaccination_qrcode_card_subtitle">"Vaccinated %1$s - Valid to %2$s"</string>
 
-    <!-- XTXT: Vaccination List title-->
-    <string name="vaccination_list_title">"EU Digital Proof of Vaccination"</string>
-    <!-- XTXT: Vaccination List complete vaccination subtitle-->
-    <string name="vaccination_list_complete_vaccination_subtitle">"SARS-CoV-2 Vaccination Protection"</string>
-    <!-- XTXT: Vaccination card date-->
-    <string name="vaccination_list_name_card_subtitle">"Born %1$s"</string>
-    <!-- XTXT: Vaccination  card title-->
-    <string name="vaccination_list_vaccination_card_title">"Vaccination %1$d of %2$d"</string>
-    <!-- XTXT: Vaccination card headline-->
-    <string name="vaccination_list_vaccination_card_headline">"Vaccination Certificate"</string>
-    <!-- XTXT: Vaccination card subtitle-->
-    <string name="vaccination_list_vaccination_card_subtitle">"vaccinated on %1$s"</string>
-    <!-- XTXT: Vaccination card immunity information card body-->
-    <plurals name="vaccination_list_immunity_card_body" tools:ignore="UnusedQuantity">
-        <item quantity="one">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete for another %1$d day."</item>
-        <item quantity="other">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
-        <item quantity="zero">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
-        <item quantity="two">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
-        <item quantity="few">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
-        <item quantity="many">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
-    </plurals>
     <!-- XTXT: Vaccination card immunity information card body when <1 day is left till immunity -->
     <string name="vaccination_list_immunity_tomorrow_card_body">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete until tomorrow."</string>
-    <!-- XBUT: Vaccination List register additional vaccination button -->
-    <string name="vaccination_list_register_new_vaccination_button">"Add Another Vaccination"</string>
     <!-- XBUT: Vaccination List delete button -->
     <string name="vaccination_list_delete_button">"Delete"</string>
     <!-- XTXT: Vaccination List deletion dialog title-->
     <string name="vaccination_list_deletion_dialog_title">"Do you want to delete the vaccination certificate?"</string>
     <!-- XTXT: Vaccination List deletion dialog message-->
     <string name="vaccination_list_deletion_dialog_message">"If you delete the vaccination certificate, the app can no longer use the vaccination for the verification of your vaccination status."</string>
-    <!-- XBUT: Vaccination List deletion dialog positive button-->
-    <string name="vaccination_list_deletion_dialog_positive_button">"Delete"</string>
-    <!-- XBUT: Vaccination List deletion dialog negative button-->
-    <string name="vaccination_list_deletion_dialog_negative_button">"Cancel"</string>
     <!-- XACT: Vaccination List Qr-Code for screen readers -->
     <string name="vaccination_list_qr_code_accessibility">"QR Code"</string>
 
-    <!-- ####################################
-        Homescreen cards
-    ###################################### -->
-    <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_registration_title_line_1">"Add EU"</string>
-    <!-- XHED: Title for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_registration_title_line_2">"COVID Proof of Vaccination"</string>
-    <!-- YTXT: Body text for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_registration_body">"Add your vaccination certificates in the app so you always have them with you. To do so, scan the QR code on your document."</string>
-    <!-- XBUT: button for Vaccination Certificate Registration Home Card -->
-    <string name="vaccination_card_register">"Add"</string>
-    <!-- XHED: Homescreen vaccination status card title -->
-    <string name="vaccination_card_status_title_line_1">"Digital"</string>
-    <!-- XHED: Homescreen vaccination status card title -->
-    <string name="vaccination_card_status_title_line_2">"EU COVID Proof of Vaccination"</string>
-    <!-- XHED: Homescreen vaccination status card vaccination name -->
-    <string name="vaccination_card_status_vaccination_name">"SARS-CoV-2 Vaccination"</string>
-    <!-- XTXT: Homescreen card incomplete vaccination status label -->
-    <string name="vaccination_card_status_vaccination_incomplete">"Vaccination incomplete"</string>
-    <!-- XTXT: Homescreen card complete vaccination status label -->
-    <plurals name="vaccination_card_status_vaccination_complete" tools:ignore="UnusedQuantity">
-        <item quantity="one">"Full vaccination protection in %1$d day"</item>
-        <item quantity="other">"Full vaccination protection in %1$d days"</item>
-        <item quantity="zero">"Full vaccination protection in %1$d days"</item>
-        <item quantity="two">"Full vaccination protection in %1$d days"</item>
-        <item quantity="few">"Full vaccination protection in %1$d days"</item>
-        <item quantity="many">"Full vaccination protection in %1$d days"</item>
-    </plurals>
-    <string name="vaccination_card_status_vaccination_complete_tomorrow">"Full vaccination protection starting tomorrow"</string>
-    <!-- XTXT: Homescreen card complete vaccination status label -->
-    <string name="vaccination_card_status_vaccination_complete">"Valid through %s"</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_invalid">"This QR code is not a valid certificate.\n\nFor more information about how to receive your certificate, please see our FAQ page."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
