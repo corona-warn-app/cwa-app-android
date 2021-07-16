@@ -1423,9 +1423,6 @@
     <!-- XTXT: Until [date] refers to statistics timestamp in the past -->
     <string name="statistics_primary_value_until">"Până %s"</string>
 
-    <!-- XTXT: Suffix for very large statistics values - Abbreviation for "Million"  -->
-    <string name="statistics_value_suffix_million">"milion(e)"</string>
-
     <!-- Explanation screen -->
     <!-- XHED: Explanation screen title -->
     <string name="statistics_explanation_title">"Indicatori"</string>
@@ -1472,11 +1469,11 @@
     <!-- XHED: Explanation screen trend icons title -->
     <string name="statistics_explanation_trend_icons_title">"Pot fi afișate următoarele tendințe:"</string>
     <!-- XHED: Explanation screen trend increasing title -->
-    <string name="statistics_explanation_trend_increasing_title">"Tendință: ascendentă"</string>
+    <string name="statistics_explanation_trend_increasing_title">"Tendință: ascendentă (negativă)"</string>
     <!-- XHED: Explanation screen trend decreasing title -->
-    <string name="statistics_explanation_trend_decreasing_title">"Tendință: descendentă"</string>
+    <string name="statistics_explanation_trend_decreasing_title">"Tendință: descendentă (pozitivă)"</string>
     <!-- XHED: Explanation screen trend stable title -->
-    <string name="statistics_explanation_trend_stable_title">"Tendință: constantă"</string>
+    <string name="statistics_explanation_trend_stable_title">"Tendință: constantă (neutră)"</string>
     <!-- XHED: Explanation screen trend description -->
     <string name="statistics_explanation_trend_description">"Evaluarea tendinței pentru avertizările de către utilizatorii aplicației se modifică în funcție de nivelul de infectare curent, de aceea această tendință este afișată întotdeauna ca neutră."</string>
     <!-- XTXT: Explains user about statistics: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
