@@ -40,6 +40,10 @@ class LocalStatisticsConfigStorage @Inject constructor(
                 .distinct()
         }
 
+    fun clear() {
+        activeDistricts.update { emptySet() }
+    }
+
     companion object {
         private const val PKEY_ACTIVE_DISTRICTS = "statistics.local.districts"
     }

@@ -110,7 +110,7 @@ class LocalStatisticsProvider @Inject constructor(
     fun clear() {
         Timber.d("clear()")
 
-        localStatisticsConfigStorage.activeDistricts.update { emptySet() }
+        localStatisticsConfigStorage.clear()
         server.clear()
         localStatisticsCache.clearAll()
     }
