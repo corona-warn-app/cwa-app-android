@@ -38,7 +38,7 @@ class RecoveryCertificateRepository @Inject constructor(
 
     private val internalData: HotDataFlow<Set<RecoveryCertificateContainer>> = HotDataFlow(
         loggingTag = TAG,
-        scope = appScope + dispatcherProvider.IO,
+        scope = appScope + dispatcherProvider.Default,
         sharingBehavior = SharingStarted.Lazily,
     ) {
         storage.load()

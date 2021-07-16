@@ -43,7 +43,7 @@ class VaccinationRepository @Inject constructor(
 
     private val internalData: HotDataFlow<Set<VaccinatedPerson>> = HotDataFlow(
         loggingTag = TAG,
-        scope = appScope + dispatcherProvider.IO,
+        scope = appScope + dispatcherProvider.Default,
         sharingBehavior = SharingStarted.Lazily,
     ) {
         storage.load()
