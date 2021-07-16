@@ -139,9 +139,12 @@ class VaccinatedPersonTest : BaseTest() {
         val personData = mockk<VaccinatedPersonData>().apply {
             every { vaccinations } returns setOf(testData.personAVac1Container, immunityContainer)
         }
-        VaccinatedPerson(data = personData, valueSet = null, certificateStates = personData.vaccinations
-            .map { it.containerId to CwaCovidCertificate.State.Invalid }
-            .toMap()).apply {
+        VaccinatedPerson(
+            data = personData, valueSet = null,
+            certificateStates = personData.vaccinations
+                .map { it.containerId to CwaCovidCertificate.State.Invalid }
+                .toMap()
+        ).apply {
 
             Instant.parse("2021-04-27T12:00:00.000Z").let { now ->
                 getDaysUntilImmunity(now)!!.apply {
