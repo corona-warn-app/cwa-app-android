@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.notification.RATTestResultAvailableNotificationService
+import de.rki.coronawarnapp.covidcertificate.signature.core.execution.DccStateCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalScheduler
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.execution.VaccinationUpdateScheduler
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
@@ -89,6 +90,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var testCertificateRetrievalScheduler: TestCertificateRetrievalScheduler
     @Inject lateinit var environmentSetup: EnvironmentSetup
     @Inject lateinit var localStatisticsRetrievalScheduler: LocalStatisticsRetrievalScheduler
+    @Inject lateinit var dccStateCheckScheduler: DccStateCheckScheduler
 
     @AppScope
     @Inject lateinit var appScope: CoroutineScope
@@ -162,6 +164,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         autoCheckOut.setupMonitor()
         traceLocationDbCleanupScheduler.scheduleDaily()
         shareTestResultNotificationService.setup()
+        dccStateCheckScheduler.setup()
     }
 
     private val activityLifecycleCallback = object : ActivityLifecycleCallbacks {
