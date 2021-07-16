@@ -1423,9 +1423,6 @@
     <!-- XTXT: Until [date] refers to statistics timestamp in the past -->
     <string name="statistics_primary_value_until">"%s tarihine kadar"</string>
 
-    <!-- XTXT: Suffix for very large statistics values - Abbreviation for "Million"  -->
-    <string name="statistics_value_suffix_million">"milyon"</string>
-
     <!-- Explanation screen -->
     <!-- XHED: Explanation screen title -->
     <string name="statistics_explanation_title">"Önemli Değerler"</string>
@@ -1472,11 +1469,11 @@
     <!-- XHED: Explanation screen trend icons title -->
     <string name="statistics_explanation_trend_icons_title">"Şu trendler gösterilebilir:"</string>
     <!-- XHED: Explanation screen trend increasing title -->
-    <string name="statistics_explanation_trend_increasing_title">"Trend: Yukarı"</string>
+    <string name="statistics_explanation_trend_increasing_title">"Trend: yukarı (negatif)"</string>
     <!-- XHED: Explanation screen trend decreasing title -->
-    <string name="statistics_explanation_trend_decreasing_title">"Trend: Aşağı"</string>
+    <string name="statistics_explanation_trend_decreasing_title">"Trend: aşağı (pozitif)"</string>
     <!-- XHED: Explanation screen trend stable title -->
-    <string name="statistics_explanation_trend_stable_title">"Trend: Sabit"</string>
+    <string name="statistics_explanation_trend_stable_title">"Trend: sabit (nötr)"</string>
     <!-- XHED: Explanation screen trend description -->
     <string name="statistics_explanation_trend_description">"Uygulama kullanıcıları tarafından yapılan uyarılara ilişkin trend değerlendirmesi geçerli enfeksiyon seviyesine göre değişiklik gösterir. Bu nedenle trend her zaman nötr olarak görüntülenir."</string>
     <!-- XTXT: Explains user about statistics: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
