@@ -243,7 +243,7 @@
     <!-- XHED: Vaccination Detail expiration Date title -->
     <string name="expiration_date_title">Technisches Ablaufdatum</string>
     <!-- XHED: Vaccination Detail expiration Date -->
-    <string name="expiration_date">Gültig bis 31.08.2021</string>
+    <string name="expiration_date">Gültig bis %1$s</string>
     <!-- XHED: Vaccination Detail expiration info -->
     <string name="expiration_info">Bitte bemühen Sie sich rechtzeitig darum, einen neuen digitalen Nachweis ausstellen zu lassen.</string>
 </resources>
