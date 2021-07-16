@@ -3,9 +3,11 @@ package de.rki.coronawarnapp.covidcertificate.test.core
 import de.rki.coronawarnapp.appconfig.CovidCertificateConfig
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
+import de.rki.coronawarnapp.covidcertificate.signature.core.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.BaseTestCertificateData
@@ -24,6 +26,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flow
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -41,6 +44,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var testCertificateProcessor: TestCertificateProcessor
     @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var dccStateChecker: DccStateChecker
 
     @Inject lateinit var testData: TestCertificateTestData
 
@@ -63,6 +67,8 @@ class TestCertificateRepositoryTest : BaseTest() {
         MockKAnnotations.init(this)
 
         DaggerCovidCertificateTestComponent.factory().create().inject(this)
+
+        coEvery { dccStateChecker.checkState(any()) } returns flow { emit(CwaCovidCertificate.State.Invalid) }
 
         covidTestCertificateConfig.apply {
             every { waitForRetry } returns Duration.standardSeconds(10)
@@ -96,6 +102,7 @@ class TestCertificateRepositoryTest : BaseTest() {
         timeStamper = timeStamper,
         processor = testCertificateProcessor,
         rsaKeyPairGenerator = RSAKeyPairGenerator(),
+        dccStateChecker = dccStateChecker,
     )
 
     @Test
