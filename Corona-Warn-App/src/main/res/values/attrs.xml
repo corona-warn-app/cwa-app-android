@@ -51,6 +51,10 @@
         <attr name="android:checked" />
     </declare-styleable>
 
+    <declare-styleable name="ExpirationNoticeView">
+        <attr name="expirationTitle" format="string" />
+    </declare-styleable>
+
     <item name="default_button" type="id" />
 
     <declare-styleable name="ProgressLoadingButton">
