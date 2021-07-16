@@ -6,12 +6,10 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class DscSignatureValidator @Inject constructor(
-    private val dscRepository: DscRepository,
-) {
+class DscSignatureValidator @Inject constructor() {
 
-    suspend fun isSignatureValid(data: DccData<*>): Boolean {
-        Timber.tag(TAG).d("isSignatureValid(data=%s)", data.header)
+    suspend fun isSignatureValid(dscData: DscData, certificateData: DccData<*>): Boolean {
+        Timber.tag(TAG).d("isSignatureValid(certificateData=%s)", certificateData.header)
         // TODO
         return true
     }
