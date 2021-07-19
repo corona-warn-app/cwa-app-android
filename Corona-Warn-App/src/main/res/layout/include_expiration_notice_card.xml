@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/Card.GreenCertificate"
+    android:layout_marginHorizontal="24dp"
+    android:layout_marginTop="8dp"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/expiration_date_title"
+        style="@style/body2"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/expiration_date_title"/>
+
+    <TextView
+        android:id="@+id/expiration_date"
+        style="@style/body2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        tools:text="Gültig bis 31.08.21" />
+
+    <TextView
+        android:id="@+id/expiration_info_text"
+        style="@style/body2Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/expiration_info" />
+
+</LinearLayout>

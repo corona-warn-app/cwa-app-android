@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtract
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.signature.core.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage
@@ -25,6 +26,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -46,6 +48,7 @@ class TestCertificateRepository @Inject constructor(
     private val timeStamper: TimeStamper,
     valueSetsRepository: ValueSetsRepository,
     private val rsaKeyPairGenerator: RSAKeyPairGenerator,
+    private val dccStateChecker: DccStateChecker,
 ) {
 
     private val internalData: HotDataFlow<Map<TestCertificateContainerId, TestCertificateContainer>> = HotDataFlow(
@@ -71,9 +74,11 @@ class TestCertificateRepository @Inject constructor(
         valueSetsRepository.latestTestCertificateValueSets
     ) { certMap, valueSets ->
         certMap.values.map { container ->
+            val state = dccStateChecker.checkState(container.testCertificateQRCode.data).first()
             TestCertificateWrapper(
                 valueSets = valueSets,
                 container = container,
+                certificateState = state,
             )
         }.toSet()
     }

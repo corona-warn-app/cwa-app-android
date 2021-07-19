@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.test.core.storage
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
@@ -25,7 +26,7 @@ data class TestCertificateContainer(
 ) : CertificateRepoContainer {
 
     @delegate:Transient
-    private val testCertificateQRCode: TestCertificateQRCode by lazy {
+    internal val testCertificateQRCode: TestCertificateQRCode by lazy {
         data.testCertificateQrCode!!.let {
             qrCodeExtractor.extract(
                 it,
@@ -66,6 +67,7 @@ data class TestCertificateContainer(
 
     fun toTestCertificate(
         valueSet: TestCertificateValueSets? = null,
+        certificateState: CwaCovidCertificate.State,
         userLocale: Locale = Locale.getDefault(),
     ): TestCertificate? {
         if (isCertificateRetrievalPending) return null
@@ -75,6 +77,8 @@ data class TestCertificateContainer(
         val testCertificate = certificate.test
 
         return object : TestCertificate {
+            override fun getState(): CwaCovidCertificate.State = certificateState
+
             override val containerId: TestCertificateContainerId
                 get() = this@TestCertificateContainer.containerId
 

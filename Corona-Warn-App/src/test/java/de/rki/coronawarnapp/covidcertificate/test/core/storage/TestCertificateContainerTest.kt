@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.test.core.storage
 
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateTestData
@@ -61,7 +62,9 @@ class TestCertificateContainerTest : BaseTest() {
     @Test
     fun `check test certificate field mapping`() {
         val rawData = certificateTestData.personATest1CertQRCode.data
-        certificateTestData.personATest1Container.toTestCertificate()!!.apply {
+        certificateTestData.personATest1Container.toTestCertificate(
+            certificateState = CwaCovidCertificate.State.Invalid
+        )!!.apply {
             headerIssuer shouldBe rawData.header.issuer
             certificateIssuer shouldBe rawData.certificate.test.certificateIssuer
         }
