@@ -136,7 +136,8 @@ class DccQrCodeExtractor @Inject constructor(
                     header = parsedData.header,
                     certificate = parsedData.certificate,
                     certificateJson = parsedData.certificateJson,
-                    kid = parsedData.kid
+                    kid = parsedData.kid,
+                    rawCOSEObject = parsedData.rawCOSEObject
                 ),
             )
             is TestDccV1 -> TestCertificateQRCode(
@@ -145,7 +146,8 @@ class DccQrCodeExtractor @Inject constructor(
                     header = parsedData.header,
                     certificate = parsedData.certificate,
                     certificateJson = parsedData.certificateJson,
-                    kid = parsedData.kid
+                    kid = parsedData.kid,
+                    rawCOSEObject = parsedData.rawCOSEObject
                 ),
             )
             is RecoveryDccV1 -> RecoveryCertificateQRCode(
@@ -154,7 +156,8 @@ class DccQrCodeExtractor @Inject constructor(
                     parsedData.header,
                     parsedData.certificate,
                     certificateJson = parsedData.certificateJson,
-                    kid = parsedData.kid
+                    kid = parsedData.kid,
+                    rawCOSEObject = parsedData.rawCOSEObject
                 ),
             )
             else -> throw InvalidHealthCertificateException(HC_JSON_SCHEMA_INVALID)
@@ -183,7 +186,8 @@ class DccQrCodeExtractor @Inject constructor(
             header = header,
             certificate = body.parsed.asCertificate,
             certificateJson = body.raw,
-            kid = message.kid
+            kid = message.kid,
+            rawCOSEObject = this
         ).also {
             DccQrCodeCensor.addCertificateToCensor(it)
         }.also {
