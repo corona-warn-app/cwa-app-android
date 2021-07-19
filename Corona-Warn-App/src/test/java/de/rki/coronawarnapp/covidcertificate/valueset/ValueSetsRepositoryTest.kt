@@ -52,8 +52,10 @@ class ValueSetsRepositoryTest : BaseTest() {
             valueSetsContainerDe
         every { certificateValueSetServer.clear() } just runs
 
-        every { valueSetsStorage.valueSetsContainer = any() } just runs
-        every { valueSetsStorage.valueSetsContainer } returns emptyValueSetsContainer
+        valueSetsStorage.apply {
+            coEvery { save(any()) } just runs
+            coEvery { load() } returns emptyValueSetsContainer
+        }
     }
 
     @Test
@@ -66,12 +68,12 @@ class ValueSetsRepositoryTest : BaseTest() {
 
         coVerify {
             certificateValueSetServer.getVaccinationValueSets(languageCode = Locale.GERMAN)
-            valueSetsStorage.valueSetsContainer = valueSetsContainerDe
+            valueSetsStorage.save(valueSetsContainerDe)
         }
 
         coVerify(exactly = 0) {
             certificateValueSetServer.getVaccinationValueSets(languageCode = Locale.ENGLISH)
-            valueSetsStorage.valueSetsContainer = valueSetsContainerEn
+            valueSetsStorage.save(valueSetsContainerEn)
         }
     }
 
@@ -86,7 +88,7 @@ class ValueSetsRepositoryTest : BaseTest() {
         coVerify(ordering = Ordering.ORDERED) {
             certificateValueSetServer.getVaccinationValueSets(languageCode = Locale.FRENCH)
             certificateValueSetServer.getVaccinationValueSets(languageCode = Locale.ENGLISH)
-            valueSetsStorage.valueSetsContainer = valueSetsContainerEn
+            valueSetsStorage.save(valueSetsContainerEn)
         }
     }
 
@@ -121,8 +123,17 @@ class ValueSetsRepositoryTest : BaseTest() {
 
             coVerify {
                 certificateValueSetServer.clear()
-                valueSetsStorage.valueSetsContainer = emptyValueSetsContainer
+                valueSetsStorage.save(emptyValueSetsContainer)
             }
         }
+    }
+
+    @Test
+    fun `storage is not written again on init`() = runBlockingTest2(ignoreActive = true) {
+        createInstance(this)
+        advanceUntilIdle()
+
+        coVerify { valueSetsStorage.load() }
+        coVerify(exactly = 0) { valueSetsStorage.save(valueSetsContainerEn) }
     }
 }
