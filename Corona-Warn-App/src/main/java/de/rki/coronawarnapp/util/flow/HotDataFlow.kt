@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.plus
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
@@ -115,12 +116,12 @@ class HotDataFlow<T : Any>(
     fun updateAsync(
         onError: (suspend (Exception) -> Unit) = { throw it },
         onUpdate: suspend T.() -> T,
-    ): Boolean {
+    ) {
         val update: Update<T> = Update(
             onModify = onUpdate,
             onError = onError
         )
-        return updateActions.tryEmit(update)
+        runBlocking { updateActions.emit(update) }
     }
 
     /**
@@ -132,7 +133,7 @@ class HotDataFlow<T : Any>(
      */
     suspend fun updateBlocking(action: suspend T.() -> T): T {
         val update: Update<T> = Update(onModify = action)
-        updateActions.tryEmit(update)
+        updateActions.emit(update)
 
         Timber.tag(tag).v("Waiting for update.")
         val ourUpdate = internalFlow.first { it.updatedBy == update }
