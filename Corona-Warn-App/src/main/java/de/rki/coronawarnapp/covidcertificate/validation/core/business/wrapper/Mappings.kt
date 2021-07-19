@@ -18,6 +18,7 @@ import dgca.verifier.app.engine.data.RuleCertificateType
 import dgca.verifier.app.engine.data.Type
 import org.joda.time.Instant
 import org.joda.time.LocalDateTime
+import java.time.ZoneId
 import java.time.ZonedDateTime
 
 internal fun assembleExternalParameter(
@@ -28,12 +29,12 @@ internal fun assembleExternalParameter(
 ): ExternalParameter {
     return ExternalParameter(
         kid = certificate.kid,
-        validationClock = validationDateTime.asZonedDateTime(),
+        validationClock = validationDateTime.asZonedDateTime(ZoneId.systemDefault()),
         valueSets = valueSets,
         countryCode = countryCode,
         issuerCountryCode = certificate.header.issuer,
-        exp = certificate.header.expiresAt.toZonedDateTime(),
-        iat = certificate.header.issuedAt.toZonedDateTime()
+        exp = certificate.header.expiresAt.toZonedDateTime(UTC_ZONE_ID),
+        iat = certificate.header.issuedAt.toZonedDateTime(UTC_ZONE_ID)
     )
 }
 
@@ -114,7 +115,7 @@ private val String.asExternalCertificateType: RuleCertificateType
     }
 
 @VisibleForTesting
-internal fun Instant.toZonedDateTime(): ZonedDateTime {
+internal fun Instant.toZonedDateTime(zoneId: ZoneId): ZonedDateTime {
     return ZonedDateTime.ofInstant(java.time.Instant.ofEpochMilli(this.millis), zoneId)
 }
 
@@ -163,7 +164,7 @@ internal fun List<DccValidationRule>.filterRelevantRules(
     }
     .toList()
 
-internal fun LocalDateTime.asZonedDateTime(): ZonedDateTime = ZonedDateTime.of(
+internal fun LocalDateTime.asZonedDateTime(zoneId: ZoneId): ZonedDateTime = ZonedDateTime.of(
     year,
     monthOfYear,
     dayOfMonth,
@@ -178,5 +179,3 @@ internal const val GENERAL = "General"
 internal const val TEST = "Test"
 internal const val VACCINATION = "Vaccination"
 internal const val RECOVERY = "Recovery"
-
-internal val zoneId = UTC_ZONE_ID
