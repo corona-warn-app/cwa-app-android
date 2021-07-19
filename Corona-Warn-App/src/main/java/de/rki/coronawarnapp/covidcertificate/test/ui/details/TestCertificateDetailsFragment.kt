@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.databinding.FragmentTestCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -64,34 +65,38 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     }
 
     private fun FragmentTestCertificateDetailsBinding.onCertificateReady(
-        testCertificate: TestCertificate
+        certificate: TestCertificate
     ) {
-        name.text = testCertificate.fullName
-        dateOfBirth.text = testCertificate.dateOfBirthFormatted
-        diseaseType.text = testCertificate.targetName
-        testType.text = testCertificate.testType
-        testName.text = testCertificate.testName
-        testManufacturer.text = testCertificate.testNameAndManufacturer
-        testDate.text = testCertificate.sampleCollectedAtFormatted
-        testResult.text = testCertificate.testResult
-        certificateCountry.text = testCertificate.certificateCountry
-        certificateIssuer.text = testCertificate.certificateIssuer
-        certificateId.text = testCertificate.certificateId
+        name.text = certificate.fullName
+        dateOfBirth.text = certificate.dateOfBirthFormatted
+        diseaseType.text = certificate.targetName
+        testType.text = certificate.testType
+        testName.text = certificate.testName
+        testManufacturer.text = certificate.testNameAndManufacturer
+        testDate.text = certificate.sampleCollectedAtFormatted
+        testResult.text = certificate.testResult
+        certificateCountry.text = certificate.certificateCountry
+        certificateIssuer.text = certificate.certificateIssuer
+        certificateId.text = certificate.certificateId
+        expirationNotice.expirationDate.text = getString(
+            R.string.expiration_date,
+            certificate.headerExpiresAt.toShortDayFormat()
+        )
 
-        if (testCertificate.testCenter.isNullOrBlank()) {
+        if (certificate.testCenter.isNullOrBlank()) {
             testCenterTitle.isGone = true
             testCenter.isGone = true
         } else {
-            testCenter.text = testCertificate.testCenter
+            testCenter.text = certificate.testCenter
             testCenter.isGone = false
             testCenterTitle.isGone = false
         }
 
-        if (testCertificate.testNameAndManufacturer.isNullOrBlank()) {
+        if (certificate.testNameAndManufacturer.isNullOrBlank()) {
             testManufacturer.isGone = true
             testManufacturerTitle.isGone = true
         } else {
-            testManufacturer.text = testCertificate.testNameAndManufacturer
+            testManufacturer.text = certificate.testNameAndManufacturer
             testManufacturer.isGone = false
             testManufacturerTitle.isGone = false
         }

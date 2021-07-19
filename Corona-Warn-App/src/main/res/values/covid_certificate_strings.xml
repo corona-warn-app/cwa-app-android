@@ -239,4 +239,11 @@
     <string name="validation_failed_title">Zertifikat nicht gültig</string>
     <!-- XHED: Toolbar title for the validation open screen -->
     <string name="validation_open_title">Zertifikat nicht prüfbar</string>
+
+    <!-- XHED: Vaccination Detail expiration Date title -->
+    <string name="expiration_date_title">Technisches Ablaufdatum</string>
+    <!-- XHED: Vaccination Detail expiration Date -->
+    <string name="expiration_date">Gültig bis %1$s</string>
+    <!-- XHED: Vaccination Detail expiration info -->
+    <string name="expiration_info">Bitte bemühen Sie sich rechtzeitig darum, einen neuen digitalen Nachweis ausstellen zu lassen.</string>
 </resources>
