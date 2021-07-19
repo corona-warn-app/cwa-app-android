@@ -5,9 +5,6 @@ import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchema
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
-import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
-import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
-import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
 import de.rki.coronawarnapp.util.serialization.BaseJackson
@@ -48,17 +45,11 @@ class CertLogicEngineWrapper @Inject constructor(
             return emptySet()
         }
 
-        val valueMap = when (certificate.certificate) {
-            is VaccinationDccV1 -> valueSetWrapper.valueSetVaccination.first()
-            is TestDccV1 -> valueSetWrapper.valueSetTest.first()
-            is RecoveryDccV1 -> valueSetWrapper.valueSetRecovery.first()
-            else -> emptyMap()
-        }
         val externalParameter = assembleExternalParameter(
             certificate,
             validationDateTime,
             countryCode,
-            valueMap
+            valueSetWrapper.valueMap.first()
         )
 
         Timber.i("Rules to be validated are:")
