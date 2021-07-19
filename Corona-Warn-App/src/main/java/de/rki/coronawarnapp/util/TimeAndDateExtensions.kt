@@ -7,6 +7,7 @@ import org.joda.time.DateTimeZone
 import org.joda.time.Days
 import org.joda.time.Instant
 import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
 import org.joda.time.LocalTime
 import org.joda.time.chrono.GJChronology
 import org.joda.time.format.DateTimeFormat
@@ -100,6 +101,8 @@ object TimeAndDateExtensions {
     fun LocalDate.ageInDays(now: LocalDate) = Days.daysBetween(this, now).days
 
     fun Instant.toLocalDateUtc(): LocalDate = this.toDateTime(DateTimeZone.UTC).toLocalDate()
+
+    fun Instant.toLocalDateTime(timeZone: DateTimeZone): LocalDateTime = this.toDateTime(timeZone).toLocalDateTime()
 
     fun Instant.toLocalTimeUtc(): LocalTime = this.toDateTime(DateTimeZone.UTC).toLocalTime()
 

@@ -50,8 +50,7 @@ class MappingsTest : BaseTest() {
     @Test
     fun `filter rules works`() {
         val validationClock = Instant.parse("2021-05-27T07:46:40Z")
-        val validationDate = validationClock.toLocalDateUtc()
-        val validationTime = validationClock.toLocalTimeUtc()
+        val validationDate = validationClock.toLocalDateUtc().toLocalDateTime(validationClock.toLocalTimeUtc())
 
         val vacA1 = createDccRule(
             certificateType = RuleCertificateType.VACCINATION,
@@ -116,8 +115,7 @@ class MappingsTest : BaseTest() {
         )
 
         rules.filterRelevantRules(
-            validationTime = validationTime,
-            validationDate = validationDate,
+            validationDateTime = validationDate,
             certificateType = VACCINATION,
             country = DccCountry("de")
         ) shouldBe listOf(vacA2, genA2)

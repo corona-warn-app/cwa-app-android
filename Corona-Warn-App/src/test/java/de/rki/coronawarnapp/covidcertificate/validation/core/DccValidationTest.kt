@@ -18,8 +18,7 @@ class DccValidationTest : BaseTest() {
 
     private val userInput = ValidationUserInput(
         DccCountry("PT"),
-        nowUTC.toLocalDateUtc(),
-        nowUTC.toLocalTimeUtc(),
+        nowUTC.toLocalDateUtc().toLocalDateTime(nowUTC.toLocalTimeUtc()),
     )
 
     @Test

@@ -30,8 +30,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
+import org.joda.time.LocalDateTime
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -83,12 +82,10 @@ class CertLogicEngineWrapperTest : BaseTest() {
         )
         // certificate valid until 2022-06-11T14:23:17.000Z
         val certificate = extractor.extract(VaccinationQrCodeTestData.passGermanReferenceCase)
-        val validationDate = LocalDate.parse("2022-06-11")
-        val validationTime = LocalTime.parse("14:23:00")
+        val validationDateTime = LocalDateTime.parse("2022-06-11T14:23:00")
         val evaluatedRules = wrapper.process(
             rules = listOf(rule, ruleGeneral),
-            validationDate = validationDate,
-            validationTime = validationTime,
+            validationDateTime = validationDateTime,
             certificate = certificate.data,
             countryCode = "DE",
         )
@@ -121,20 +118,17 @@ class CertLogicEngineWrapperTest : BaseTest() {
         json.testCases.forEachIndexed { index, certLogicTestCase ->
             val certificate = extractor.extract(certLogicTestCase.dcc)
             val validationClock = Instant.ofEpochSecond(Integer.parseInt(certLogicTestCase.validationClock).toLong())
-            val validationDate = validationClock.toLocalDateUtc()
-            val validationTime = validationClock.toLocalTimeUtc()
+            val validationDateTime = validationClock.toLocalDateUtc().toLocalDateTime(validationClock.toLocalTimeUtc())
             val acceptanceRules = certLogicTestCase.rules.filter {
                 it.typeDcc == DccValidationRule.Type.ACCEPTANCE
             }.filterRelevantRules(
-                validationTime = validationTime,
-                validationDate = validationDate,
+                validationDateTime = validationDateTime,
                 country = DccCountry(certLogicTestCase.countryOfArrival),
                 certificateType = certificate.data.typeString
             )
             val evaluatedAcceptanceRules = wrapper.process(
                 rules = acceptanceRules,
-                validationTime = validationTime,
-                validationDate = validationDate,
+                validationDateTime = validationDateTime,
                 certificate = certificate.data,
                 countryCode = certLogicTestCase.countryOfArrival,
             )
@@ -142,16 +136,14 @@ class CertLogicEngineWrapperTest : BaseTest() {
             val invalidationRules = certLogicTestCase.rules.filter {
                 it.typeDcc == DccValidationRule.Type.INVALIDATION
             }.filterRelevantRules(
-                validationTime = validationTime,
-                validationDate = validationDate,
+                validationDateTime = validationDateTime,
                 country = DccCountry(certificate.data.header.issuer),
                 certificateType = certificate.data.typeString
             )
 
             val evaluatedInvalidationRules = wrapper.process(
                 rules = invalidationRules,
-                validationTime = validationTime,
-                validationDate = validationDate,
+                validationDateTime = validationDateTime,
                 certificate = certificate.data,
                 countryCode = certificate.data.header.issuer,
             )

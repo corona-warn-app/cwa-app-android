@@ -9,8 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.fi
 import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.typeString
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import kotlinx.coroutines.flow.first
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
+import org.joda.time.LocalDateTime
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -21,42 +20,37 @@ class BusinessValidator @Inject constructor(
 ) {
     suspend fun validate(
         arrivalCountry: DccCountry,
-        validationDate: LocalDate,
-        validationTime: LocalTime,
+        validationDateTime: LocalDateTime,
         certificate: DccData<out DccV1.MetaData>,
     ): BusinessValidation {
 
-        Timber.i("Start CertLogic validation for arrival in ${arrivalCountry.countryCode} on $validationDate.")
+        Timber.i("Start CertLogic validation for arrival in ${arrivalCountry.countryCode} on $validationDateTime.")
         Timber.i("${certificate.typeString} certificate of ${certificate.certificate.nameData.fullName}.")
         Timber.i("Certificate was issued by ${certificate.header.issuer} at ${certificate.header.issuedAt}.")
 
         // accepted by arrival country
-        Timber.i("Validating acceptance rules of ${arrivalCountry.countryCode} on $validationDate.")
+        Timber.i("Validating acceptance rules of ${arrivalCountry.countryCode} on $validationDateTime.")
         val acceptanceResults = certLogicEngineWrapper.process(
             rules = ruleRepository.acceptanceRules.first().filterRelevantRules(
-                validationDate = validationDate,
-                validationTime = validationTime,
+                validationDateTime = validationDateTime,
                 certificateType = certificate.typeString,
                 country = arrivalCountry,
             ),
-            validationDate = validationDate,
-            validationTime = validationTime,
+            validationDateTime = validationDateTime,
             certificate = certificate,
             countryCode = arrivalCountry.countryCode,
         )
 
         // valid as defined by the issuing country
-        Timber.i("Validating invalidation rules of ${arrivalCountry.countryCode} on $validationDate.")
+        Timber.i("Validating invalidation rules of ${arrivalCountry.countryCode} on $validationDateTime.")
         val issuerCountry = DccCountry(certificate.header.issuer)
         val invalidationResults = certLogicEngineWrapper.process(
             rules = ruleRepository.invalidationRules.first().filterRelevantRules(
-                validationDate = validationDate,
-                validationTime = validationTime,
+                validationDateTime = validationDateTime,
                 certificateType = certificate.typeString,
                 country = issuerCountry,
             ),
-            validationDate = validationDate,
-            validationTime = validationTime,
+            validationDateTime = validationDateTime,
             certificate = certificate,
             countryCode = issuerCountry.countryCode,
         )

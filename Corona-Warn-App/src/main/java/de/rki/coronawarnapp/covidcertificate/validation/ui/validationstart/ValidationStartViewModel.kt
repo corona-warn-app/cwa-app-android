@@ -68,7 +68,7 @@ class ValidationStartViewModel @AssistedInject constructor(
                 val country = state.dccCountry
                 val certificateData = certificateProvider.findCertificate(containerId).dccData
                 val validationResult = dccValidator.validateDcc(
-                    ValidationUserInput(country, state.localDate, state.localTime),
+                    ValidationUserInput(country, state.localDate.toLocalDateTime(state.localTime)),
                     certificateData
                 )
 

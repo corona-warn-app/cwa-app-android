@@ -11,8 +11,7 @@ import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.TypeParceler
 import net.swiftzer.semver.SemVer
 import org.joda.time.DateTime
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
+import org.joda.time.LocalDateTime
 import timber.log.Timber
 
 @Parcelize
@@ -60,17 +59,11 @@ data class DccValidationRule(
     //  { "and":[{ ">":[{ "var":"hcert.v.0.dn" }, 0] },{ ">=":[{ "var":"hcert.v.0.dn" },{ "var":"hcert.v.0.sd" }] }]}
     @SerializedName("Logic") val logic: JsonNode
 ) : Parcelable {
-    val validFromDate: LocalDate
-        get() = DateTime.parse(validFrom).toLocalDate()
+    val validFromDateTime: LocalDateTime
+        get() = DateTime.parse(validFrom).toLocalDateTime()
 
-    val validFromTime: LocalTime
-        get() = DateTime.parse(validFrom).toLocalTime()
-
-    val validToDate: LocalDate
-        get() = DateTime.parse(validTo).toLocalDate()
-
-    val validToTime: LocalTime
-        get() = DateTime.parse(validTo).toLocalTime()
+    val validToDateTime: LocalDateTime
+        get() = DateTime.parse(validTo).toLocalDateTime()
 
     val versionSemVer: SemVer
         get() = try {

@@ -17,20 +17,18 @@ import dgca.verifier.app.engine.data.Rule
 import dgca.verifier.app.engine.data.RuleCertificateType
 import dgca.verifier.app.engine.data.Type
 import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
+import org.joda.time.LocalDateTime
 import java.time.ZonedDateTime
 
 internal fun assembleExternalParameter(
     certificate: DccData<*>,
-    validationDate: LocalDate,
-    validationTime: LocalTime,
+    validationDateTime: LocalDateTime,
     countryCode: String,
     valueSets: Map<String, List<String>>,
 ): ExternalParameter {
     return ExternalParameter(
         kid = certificate.kid,
-        validationClock = asZonedDateTime(validationDate, validationTime),
+        validationClock = validationDateTime.asZonedDateTime(),
         valueSets = valueSets,
         countryCode = countryCode,
         issuerCountryCode = certificate.header.issuer,
@@ -146,8 +144,7 @@ internal val DccData<out DccV1.MetaData>.typeString: String
     }
 
 internal fun List<DccValidationRule>.filterRelevantRules(
-    validationDate: LocalDate,
-    validationTime: LocalTime,
+    validationDateTime: LocalDateTime,
     certificateType: String,
     country: DccCountry,
 ): List<DccValidationRule> = this
@@ -158,14 +155,7 @@ internal fun List<DccValidationRule>.filterRelevantRules(
             rule.certificateType.uppercase() == certificateType.uppercase()
     }
     .filter { rule ->
-        (
-            rule.validFromDate < validationDate ||
-                (rule.validFromDate == validationDate && rule.validFromTime <= validationTime)
-            ) &&
-            (
-                rule.validToDate > validationDate ||
-                    (rule.validToDate == validationDate && rule.validToTime >= validationTime)
-                )
+        rule.validFromDateTime <= validationDateTime && rule.validToDateTime > validationDateTime
     }
     .groupBy { it.identifier }
     .mapNotNull { entry ->
@@ -173,13 +163,13 @@ internal fun List<DccValidationRule>.filterRelevantRules(
     }
     .toList()
 
-internal fun asZonedDateTime(date: LocalDate, time: LocalTime): ZonedDateTime = ZonedDateTime.of(
-    date.year,
-    date.monthOfYear,
-    date.dayOfMonth,
-    time.hourOfDay,
-    time.minuteOfHour,
-    time.secondOfMinute,
+internal fun LocalDateTime.asZonedDateTime(): ZonedDateTime = ZonedDateTime.of(
+    year,
+    monthOfYear,
+    dayOfMonth,
+    hourOfDay,
+    minuteOfHour,
+    secondOfMinute,
     0,
     zoneId
 )

@@ -16,8 +16,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
+import org.joda.time.LocalDateTime
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -38,7 +37,7 @@ class DccValidatorTest : BaseTest() {
         MockKAnnotations.init(this)
         DaggerCovidCertificateTestComponent.factory().create().inject(this)
         every { dccJsonSchemaValidator.isValid(any()) } returns JsonSchemaValidator.Result(emptySet())
-        coEvery { businessValidator.validate(any(), any(), any(), any()) } returns
+        coEvery { businessValidator.validate(any(), any(), any()) } returns
             BusinessValidation(emptySet(), emptySet())
         every { timeStamper.nowUTC } returns Instant.ofEpochSecond(1625827095)
         dccValidator = DccValidator(businessValidator, dccJsonSchemaValidator, timeStamper)
@@ -48,12 +47,10 @@ class DccValidatorTest : BaseTest() {
     fun `expired certificate fails`() = runBlockingTest {
         // certificate valid until 2022-06-11T14:23:17.000Z
         val certificate = extractor.extract(VaccinationQrCodeTestData.passGermanReferenceCase)
-        val validationDate = LocalDate.parse("2022-06-11")
-        val validationTime = LocalTime.parse("15:00:00")
+        val validationDateTime = LocalDateTime.parse("2022-06-11T15:00:00")
         val userInput = ValidationUserInput(
             DccCountry("PT"),
-            validationDate,
-            validationTime,
+            validationDateTime,
         )
         dccValidator.validateDcc(
             userInput,
@@ -65,12 +62,10 @@ class DccValidatorTest : BaseTest() {
     fun `expired certificate fails 2`() = runBlockingTest {
         // certificate valid until 2022-06-11T14:23:17.000Z
         val certificate = extractor.extract(VaccinationQrCodeTestData.passGermanReferenceCase)
-        val validationDate = LocalDate.parse("2022-06-12")
-        val validationTime = LocalTime.parse("11:00:00")
+        val validationDateTime = LocalDateTime.parse("2022-06-12T11:00:00")
         val userInput = ValidationUserInput(
             DccCountry("PT"),
-            validationDate,
-            validationTime,
+            validationDateTime,
         )
         dccValidator.validateDcc(
             userInput,
@@ -82,12 +77,10 @@ class DccValidatorTest : BaseTest() {
     fun `valid certificate passes expiration check`() = runBlockingTest {
         // certificate valid until 2022-06-11T14:23:17.000Z
         val certificate = extractor.extract(VaccinationQrCodeTestData.passGermanReferenceCase)
-        val validationDate = LocalDate.parse("2022-06-11")
-        val validationTime = LocalTime.parse("14:00:00")
+        val validationDateTime = LocalDateTime.parse("2022-06-11T14:00:00")
         val userInput = ValidationUserInput(
             DccCountry("PT"),
-            validationDate,
-            validationTime,
+            validationDateTime,
         )
         dccValidator.validateDcc(
             userInput,
@@ -99,12 +92,10 @@ class DccValidatorTest : BaseTest() {
     fun `valid certificate passes expiration check 2`() = runBlockingTest {
         // certificate valid until 2022-06-11T14:23:17.000Z
         val certificate = extractor.extract(VaccinationQrCodeTestData.passGermanReferenceCase)
-        val validationDate = LocalDate.parse("2022-06-10")
-        val validationTime = LocalTime.parse("15:00:00")
+        val validationDateTime = LocalDateTime.parse("2022-06-10T15:00:00")
         val userInput = ValidationUserInput(
             DccCountry("PT"),
-            validationDate,
-            validationTime,
+            validationDateTime,
         )
         dccValidator.validateDcc(
             userInput,
