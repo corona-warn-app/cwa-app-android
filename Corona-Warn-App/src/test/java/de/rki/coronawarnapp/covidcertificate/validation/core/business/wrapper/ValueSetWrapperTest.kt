@@ -34,29 +34,13 @@ class ValueSetWrapperTest : BaseTest() {
     }
 
     @Test
-    fun `recovery value set`() = runBlockingTest {
-        valueSetWrapper.valueSetRecovery.first() shouldBe mapOf(
-            countryCodeMap,
-            "disease-agent-targeted" to listOf(ValueSetTestData.tgItemEn.first),
-        )
-    }
-
-    @Test
-    fun `vaccination value set`() = runBlockingTest {
-        valueSetWrapper.valueSetVaccination.first() shouldBe mapOf(
+    fun `value set mapping`() = runBlockingTest {
+        valueSetWrapper.valueMap.first() shouldBe mapOf(
             countryCodeMap,
             "disease-agent-targeted" to listOf(ValueSetTestData.tgItemEn.first),
             "sct-vaccines-covid-19" to listOf(ValueSetTestData.vpItemEn.first),
             "vaccines-covid-19-auth-holders " to listOf(ValueSetTestData.maItemEn.first),
             "vaccines-covid-19-names" to listOf(ValueSetTestData.mpItemEn.first),
-        )
-    }
-
-    @Test
-    fun `test value set`() = runBlockingTest {
-        valueSetWrapper.valueSetTest.first() shouldBe mapOf(
-            countryCodeMap,
-            "disease-agent-targeted" to listOf(ValueSetTestData.tgItemEn.first),
             "covid-19-lab-result" to listOf(ValueSetTestData.trItemEn.first),
             "covid-19-lab-test-manufacturer-and-name" to listOf(ValueSetTestData.tcMaItemEn.first),
             "covid-19-lab-test-type" to listOf(ValueSetTestData.ttItemEn.first),
