@@ -76,6 +76,7 @@ import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.flow.combine
+import de.rki.coronawarnapp.util.network.NetworkStateProvider
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -94,6 +95,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     statisticsProvider: StatisticsProvider,
     localStatisticsProvider: LocalStatisticsProvider,
     vaccinationRepository: VaccinationRepository,
+    networkStateProvider: NetworkStateProvider,
     private val errorResetTool: EncryptionErrorResetTool,
     private val tracingRepository: TracingRepository,
     private val submissionRepository: SubmissionRepository,
@@ -152,8 +154,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
         coronaTestRepository.latestRAT,
         combinedStatistics,
         appConfigProvider.currentConfig.map { it.coronaTestParameters }.distinctUntilChanged(),
-        vaccinationRepository.vaccinationInfos
-    ) { tracingItem, testPCR, testRAT, statsData, coronaTestParameters, vaccinatedPersons ->
+        vaccinationRepository.vaccinationInfos,
+        networkStateProvider.networkState
+    ) { tracingItem, testPCR, testRAT, statsData, coronaTestParameters, vaccinatedPersons, networkState ->
         val statePCR = testPCR.toSubmissionState()
         val stateRAT = testRAT.toSubmissionState(timeStamper.nowUTC, coronaTestParameters)
         mutableListOf<HomeItem>().apply {
@@ -200,7 +203,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 }
             }
 
-            if (statsData.isDataAvailable) {
+            if (statsData.isDataAvailable || networkState.isInternetAvailable) {
                 add(
                     StatisticsHomeCard.Item(
                         data = statsData,

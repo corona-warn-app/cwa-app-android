@@ -8,7 +8,9 @@ import timber.log.Timber
 data class StatisticsData(
     val items: List<GenericStatsItem> = emptyList()
 ) {
-    val isDataAvailable: Boolean = items.isNotEmpty()
+    val isDataAvailable: Boolean = items
+        .filterNot { it is AddStatsItem } // AddStatsItem isn't data actually ¯\_(ツ)_/¯
+        .isNotEmpty()
 
     override fun toString(): String {
         return "StatisticsData(cards=${
