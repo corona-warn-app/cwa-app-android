@@ -14,4 +14,3 @@ data class PersonCertificates(
         certificates.findHighestPriorityCertificate()
     }
 }
-
