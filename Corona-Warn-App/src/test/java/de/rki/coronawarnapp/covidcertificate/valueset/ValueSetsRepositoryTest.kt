@@ -12,12 +12,12 @@ import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyValueSetsCo
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Ordering
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import io.mockk.runs
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import org.junit.jupiter.api.BeforeEach
@@ -32,31 +32,29 @@ class ValueSetsRepositoryTest : BaseTest() {
     @MockK lateinit var certificateValueSetServer: CertificateValueSetServer
     @MockK lateinit var valueSetsStorage: ValueSetsStorage
 
-    private val testDispatcherProvider = TestDispatcherProvider()
+    @BeforeEach
+    fun setUp() {
+        MockKAnnotations.init(this)
+
+        certificateValueSetServer.apply {
+            coEvery { getVaccinationValueSets(any()) } returns null
+            coEvery { getVaccinationValueSets(languageCode = Locale.ENGLISH) } returns valueSetsContainerEn
+            coEvery { getVaccinationValueSets(languageCode = Locale.GERMAN) } returns valueSetsContainerDe
+            every { clear() } just Runs
+        }
+
+        valueSetsStorage.apply {
+            coEvery { save(any()) } just Runs
+            coEvery { load() } returns emptyValueSetsContainer
+        }
+    }
 
     private fun createInstance(scope: CoroutineScope) = ValueSetsRepository(
         certificateValueSetServer = certificateValueSetServer,
         valueSetsStorage = valueSetsStorage,
         scope = scope,
-        dispatcherProvider = testDispatcherProvider
+        dispatcherProvider = TestDispatcherProvider()
     )
-
-    @BeforeEach
-    fun setUp() {
-        MockKAnnotations.init(this)
-        coEvery { certificateValueSetServer.getVaccinationValueSets(any()) } returns
-            null
-        coEvery { certificateValueSetServer.getVaccinationValueSets(languageCode = Locale.ENGLISH) } returns
-            valueSetsContainerEn
-        coEvery { certificateValueSetServer.getVaccinationValueSets(languageCode = Locale.GERMAN) } returns
-            valueSetsContainerDe
-        every { certificateValueSetServer.clear() } just runs
-
-        valueSetsStorage.apply {
-            coEvery { save(any()) } just runs
-            coEvery { load() } returns emptyValueSetsContainer
-        }
-    }
 
     @Test
     fun `successful update for de`() = runBlockingTest2(ignoreActive = true) {
@@ -114,17 +112,20 @@ class ValueSetsRepositoryTest : BaseTest() {
     @Test
     fun `clear data of server and local storage`() = runBlockingTest2(ignoreActive = true) {
         createInstance(this).run {
+            triggerUpdateValueSet(languageCode = Locale.GERMAN)
+            advanceUntilIdle()
+            latestVaccinationValueSets.first() shouldBe vaccinationValueSetsDe
+            latestTestCertificateValueSets.first() shouldBe testCertificateValueSetsDe
+
             clear()
+            advanceUntilIdle()
+            latestVaccinationValueSets.first() shouldBe emptyValueSetsContainer.vaccinationValueSets
+            latestTestCertificateValueSets.first() shouldBe emptyValueSetsContainer.testCertificateValueSets
+        }
 
-            emptyValueSetsContainer.also {
-                latestVaccinationValueSets.first() shouldBe it.vaccinationValueSets
-                latestTestCertificateValueSets.first() shouldBe it.testCertificateValueSets
-            }
-
-            coVerify {
-                certificateValueSetServer.clear()
-                valueSetsStorage.save(emptyValueSetsContainer)
-            }
+        coVerify {
+            certificateValueSetServer.clear()
+            valueSetsStorage.save(emptyValueSetsContainer)
         }
     }
 

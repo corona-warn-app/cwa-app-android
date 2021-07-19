@@ -46,7 +46,10 @@ class ValueSetsRepository @Inject constructor(
         internalData.data
             .onStart { Timber.d("Observing value set") }
             .drop(1) // Initial emission that ways restored from storage anyways.
-            .onEach { valueSetsStorage.save(it) }
+            .onEach {
+                Timber.v("Storing new valueset data.")
+                valueSetsStorage.save(it)
+            }
             .catch {
                 Timber.e(it, "Storing new value sets failed.")
                 throw it
