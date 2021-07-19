@@ -34,7 +34,7 @@ class ValueSetWrapperTest : BaseTest() {
     }
 
     @Test
-    fun `vaccination value set`() = runBlockingTest {
+    fun `value set mapping`() = runBlockingTest {
         valueSetWrapper.valueMap.first() shouldBe mapOf(
             countryCodeMap,
             "disease-agent-targeted" to listOf(ValueSetTestData.tgItemEn.first),
