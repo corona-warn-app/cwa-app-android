@@ -31,7 +31,7 @@ class VaccinationStorage @Inject constructor(
     }
 
     suspend fun load(): Set<VaccinatedPersonData> = mutex.withLock {
-        Timber.tag(TAG).d("vaccinatedPersons - load()")
+        Timber.tag(TAG).d("load()")
         val persons = prefs.all.mapNotNull { (key, value) ->
             if (!key.startsWith(PKEY_PERSON_PREFIX)) {
                 return@mapNotNull null
@@ -46,7 +46,7 @@ class VaccinationStorage @Inject constructor(
     }
 
     suspend fun save(persons: Set<VaccinatedPersonData>) = mutex.withLock {
-        Timber.tag(TAG).d("vaccinatedPersons - save(%s)", persons)
+        Timber.tag(TAG).d("save(%s)", persons)
 
         prefs.edit(commit = true) {
             prefs.all.keys.filter { it.startsWith(PKEY_PERSON_PREFIX) }.forEach {

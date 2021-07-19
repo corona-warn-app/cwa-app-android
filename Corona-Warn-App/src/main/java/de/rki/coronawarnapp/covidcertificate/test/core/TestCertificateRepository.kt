@@ -25,6 +25,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -81,6 +82,7 @@ class TestCertificateRepository @Inject constructor(
     init {
         internalData.data
             .onStart { Timber.tag(TAG).d("Observing TestCertificateContainer data.") }
+            .drop(1) // Initial emission, restored from storage.
             .onEach { entrySets ->
                 val values = entrySets.values
                 Timber.tag(TAG).v("TestCertificateContainer data changed: %s", values)
