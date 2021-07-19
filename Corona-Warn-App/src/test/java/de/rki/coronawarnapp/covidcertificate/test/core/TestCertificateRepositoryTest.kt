@@ -19,11 +19,13 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.first
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -168,5 +170,15 @@ class TestCertificateRepositoryTest : BaseTest() {
                 qrCode = testData.personATest1CertQRCode
             )
         }.errorCode shouldBe ErrorCode.ALREADY_REGISTERED
+    }
+
+    @Test
+    fun `storage is not written on init`() = runBlockingTest2(ignoreActive = true) {
+        val instance = createInstance(this)
+        instance.certificates.first()
+        advanceUntilIdle()
+
+        coVerify { storage.load() }
+        coVerify(exactly = 0) { storage.save(any()) }
     }
 }

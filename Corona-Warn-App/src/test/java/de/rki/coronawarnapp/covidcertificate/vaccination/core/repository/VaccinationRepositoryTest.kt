@@ -15,6 +15,7 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.CoroutineScope
@@ -79,6 +80,10 @@ class VaccinationRepositoryTest : BaseTest() {
             Timber.i("Returned cert is %s", this)
             this.personIdentifier shouldBe vaccinationTestData.personAVac1Container.personIdentifier
         }
+
+        advanceUntilIdle()
+
+        coVerify { storage.save(any()) }
     }
 
     @Test
@@ -209,5 +214,15 @@ class VaccinationRepositoryTest : BaseTest() {
 
         instance.vaccinationInfos.first() shouldBe emptySet()
         testStorage shouldBe emptySet()
+    }
+
+    @Test
+    fun `storage is not written on init`() = runBlockingTest2(ignoreActive = true) {
+        val instance = createInstance(this)
+        instance.vaccinationInfos.first()
+        advanceUntilIdle()
+
+        coVerify { storage.load() }
+        coVerify(exactly = 0) { storage.save(any()) }
     }
 }
