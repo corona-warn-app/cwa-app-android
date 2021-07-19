@@ -54,7 +54,7 @@ class HotDataFlow<T : Any>(
         var currentValue = valueGuard.withLock {
             Timber.tag(tag).v("Providing startValue...")
             startValueProvider().also {
-                Timber.tag(tag).v("...startValue provide, emitting...")
+                Timber.tag(tag).v("...startValue provided, emitting...")
                 val initializer = Update<T>(onError = null, onModify = { it })
 
                 send(State(value = it, updatedBy = initializer))
