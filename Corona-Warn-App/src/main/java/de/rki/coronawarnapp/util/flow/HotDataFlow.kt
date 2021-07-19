@@ -52,15 +52,15 @@ class HotDataFlow<T : Any>(
 
     private val internalProducer: Flow<State<T>> = channelFlow {
         var currentValue = valueGuard.withLock {
+            Timber.tag(tag).v("Providing startValue...")
             startValueProvider().also {
-                Timber.tag(tag).v("startValue=%s", it)
-
+                Timber.tag(tag).v("...startValue provide, emitting...")
                 val initializer = Update<T>(onError = null, onModify = { it })
 
                 send(State(value = it, updatedBy = initializer))
             }
         }
-        Timber.tag(tag).v("startValue=%s", currentValue)
+        Timber.tag(tag).v("...startValue provided and emitted.")
 
         updateActions
             .onCompletion {
