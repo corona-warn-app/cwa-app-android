@@ -17,13 +17,14 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.coroutines.runBlockingTest2
 import testhelpers.preferences.mockFlowPreference
 
 class PersonCertificatesProviderTest : BaseTest() {
@@ -73,20 +74,20 @@ class PersonCertificatesProviderTest : BaseTest() {
         }
     }
 
-    private fun createInstance() = PersonCertificatesProvider(
+    private fun createInstance(scope: CoroutineScope) = PersonCertificatesProvider(
         recoveryCertificateRepository = recoveryRepo,
         testCertificateRepository = testRepo,
         vaccinationRepository = vaccinationRepo,
-        personCertificatesSettings = personCertificatesSettings,
+        personCertificatesSettings = personCertificatesSettings
     )
 
     @Test
-    fun `empty data`() = runBlockingTest {
+    fun `empty data`() = runBlockingTest2(ignoreActive = true) {
         vaccinationPersons.value = emptySet()
         testWrappers.value = emptySet()
         recoveryWrappers.value = emptySet()
 
-        val instance = createInstance()
+        val instance = createInstance(this)
 
         instance.personCertificates.first() shouldBe emptyList()
 
@@ -98,8 +99,8 @@ class PersonCertificatesProviderTest : BaseTest() {
     }
 
     @Test
-    fun `data combination`() = runBlockingTest {
-        val instance = createInstance()
+    fun `data combination`() = runBlockingTest2(ignoreActive = true) {
+        val instance = createInstance(this)
 
         instance.personCertificates.first() shouldBe listOf(
             PersonCertificates(
@@ -111,6 +112,7 @@ class PersonCertificatesProviderTest : BaseTest() {
                 isCwaUser = true,
             )
         )
+
 
         verify {
             recoveryRepo.certificates
