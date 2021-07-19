@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.recovery.core.storage
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
@@ -23,7 +24,7 @@ data class RecoveryCertificateContainer(
 ) : StoredRecoveryCertificate by data, CertificateRepoContainer {
 
     @delegate:Transient
-    private val certificateData: DccData<RecoveryDccV1> by lazy {
+    internal val certificateData: DccData<RecoveryDccV1> by lazy {
         data.recoveryCertificateQrCode.let {
             (
                 qrCodeExtractor.extract(
@@ -45,6 +46,7 @@ data class RecoveryCertificateContainer(
 
     fun toRecoveryCertificate(
         valueSet: VaccinationValueSets? = null,
+        certificateState: CwaCovidCertificate.State,
         userLocale: Locale = Locale.getDefault(),
     ): RecoveryCertificate {
         val header = certificateData.header
@@ -52,6 +54,8 @@ data class RecoveryCertificateContainer(
         val recoveryCertificate = certificate.recovery
 
         return object : RecoveryCertificate {
+            override fun getState(): CwaCovidCertificate.State = certificateState
+
             override val containerId: RecoveryCertificateContainerId
                 get() = this@RecoveryCertificateContainer.containerId
 

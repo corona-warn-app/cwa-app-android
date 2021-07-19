@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewFr
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewFragmentModule
 import de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertificateDetailsFragment
 import de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertificateDetailsModule
+import de.rki.coronawarnapp.covidcertificate.signature.ui.DigitalSignatureCertificateUIModule
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsModule
 import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment
@@ -21,7 +22,10 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.validationstart.Valid
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationstart.ValidationStartModule
 
 @Module(
-    includes = [DccValidationResultModule::class]
+    includes = [
+        DccValidationResultModule::class,
+        DigitalSignatureCertificateUIModule::class,
+    ]
 )
 abstract class DigitalCovidCertificateUIModule {
 

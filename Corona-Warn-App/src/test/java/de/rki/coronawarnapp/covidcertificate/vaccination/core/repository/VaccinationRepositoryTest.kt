@@ -1,10 +1,12 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository
 
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.signature.core.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
@@ -14,10 +16,12 @@ import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -36,6 +40,7 @@ class VaccinationRepositoryTest : BaseTest() {
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var vaccinationValueSet: VaccinationValueSets
     @MockK lateinit var qrCodeExtractor: DccQrCodeExtractor
+    @MockK lateinit var dccStateChecker: DccStateChecker
 
     private var testStorage: Set<VaccinatedPersonData> = emptySet()
 
@@ -49,6 +54,8 @@ class VaccinationRepositoryTest : BaseTest() {
         MockKAnnotations.init(this)
 
         DaggerCovidCertificateTestComponent.factory().create().inject(this)
+
+        coEvery { dccStateChecker.checkState(any()) } returns flow { emit(CwaCovidCertificate.State.Invalid) }
 
         every { timeStamper.nowUTC } returns nowUTC
 
@@ -67,6 +74,7 @@ class VaccinationRepositoryTest : BaseTest() {
         storage = storage,
         valueSetsRepository = valueSetsRepository,
         qrCodeExtractor = qrCodeExtractor,
+        dccStateChecker = dccStateChecker,
     )
 
     @Test

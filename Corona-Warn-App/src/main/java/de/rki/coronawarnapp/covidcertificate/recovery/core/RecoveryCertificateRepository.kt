@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertif
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateStorage
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.StoredRecoveryCertificateData
+import de.rki.coronawarnapp.covidcertificate.signature.core.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -34,6 +35,7 @@ class RecoveryCertificateRepository @Inject constructor(
     private val qrCodeExtractor: DccQrCodeExtractor,
     valueSetsRepository: ValueSetsRepository,
     private val storage: RecoveryCertificateStorage,
+    private val dccStateChecker: DccStateChecker,
 ) {
 
     private val internalData: HotDataFlow<Set<RecoveryCertificateContainer>> = HotDataFlow(
@@ -66,9 +68,16 @@ class RecoveryCertificateRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
-    val certificates: Flow<Set<RecoveryCertificateWrapper>> =
-        internalData.data.map { set ->
-            set.map { RecoveryCertificateWrapper(valueSetsRepository.latestVaccinationValueSets.first(), it) }.toSet()
+    val certificates: Flow<Set<RecoveryCertificateWrapper>> = internalData.data
+        .map { set ->
+            set.map { container ->
+                val state = dccStateChecker.checkState(container.certificateData).first()
+                RecoveryCertificateWrapper(
+                    valueSets = valueSetsRepository.latestVaccinationValueSets.first(),
+                    container = container,
+                    certificateState = state
+                )
+            }.toSet()
         }
 
     @Throws(InvalidRecoveryCertificateException::class)
