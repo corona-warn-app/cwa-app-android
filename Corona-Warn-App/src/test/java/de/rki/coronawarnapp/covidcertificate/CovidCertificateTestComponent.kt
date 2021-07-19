@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.DccQrCodeVa
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepositoryTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainerTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorageTest
+import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidatorTest
 import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.CertLogicEngineWrapperTest
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.mockk.every
@@ -45,6 +46,7 @@ interface CovidCertificateTestComponent {
     fun inject(testClass: TestCertificateStorageTest)
     fun inject(testClass: CertLogicEngineWrapperTest)
     fun inject(testClass: KidExtractionTest)
+    fun inject(testClass: DccValidatorTest)
     fun inject(testClass: RecoveryCertificateRepositoryTest)
 
     @Component.Factory
