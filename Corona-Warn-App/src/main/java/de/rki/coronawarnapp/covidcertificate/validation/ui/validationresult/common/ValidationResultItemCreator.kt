@@ -137,7 +137,7 @@ class ValidationResultItemCreator @Inject constructor() {
             DccCountry(country).displayName()
         )
         DccValidationRule.Type.INVALIDATION -> R.string.validation_rules_invalidation_country.toResolvingString(
-            DccCountry(certificate.certificateCountry).displayName()
+            certificate.certificateCountry
         )
     }
 }
