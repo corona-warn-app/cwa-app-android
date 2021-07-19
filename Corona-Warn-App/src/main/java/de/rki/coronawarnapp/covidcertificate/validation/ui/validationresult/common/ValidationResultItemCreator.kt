@@ -133,7 +133,7 @@ class ValidationResultItemCreator @Inject constructor() {
 
     // Apply rules from tech spec to decide which rule description to display
     private fun DccValidationRule.getCountryDescription(certificate: CwaCovidCertificate): LazyString = when (typeDcc) {
-        DccValidationRule.Type.ACCEPTANCE -> R.string.validation_rules_failed_vh_travel_country.toResolvingString(
+        DccValidationRule.Type.ACCEPTANCE -> R.string.validation_rules_failed_vh_issuer_country.toResolvingString(
             DccCountry(country).displayName()
         )
         DccValidationRule.Type.INVALIDATION -> R.string.validation_rules_open_vh_subtitle.toResolvingString(
