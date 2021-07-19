@@ -236,8 +236,6 @@
     <string name="validation_open_title">"Sertifika Doğrulanamıyor"</string>
 
     <!-- Validation Rule View Holder: Business Rule Validation Open -->
-    <!-- XHED: subtitle for the validation open card  -->
-    <string name="validation_rules_open_vh_subtitle">"Bu, gideceğiniz ülke olan %s için geçerli bir kural."</string>
     <!-- XTXT: validation start for the validation open card  -->
     <string name="validation_rules_open_vh_start_date">"Numune Alma Tarihi ve Saati (YYYY-AA-GG ss:dd)"</string>
     <!-- XTXT: title for the validation open card  -->
@@ -246,8 +244,6 @@
     <!-- Validation Rule View Holder: Business Rule Validation Failed -->
     <!-- XHED: title for the validation failed card  -->
     <string name="validation_rules_failed_vh_title_uncertified_test_center">"Test sertifikası, onaylanmış bir test merkezi tarafından düzenlenmelidir."</string>
-    <!-- XTXT: subtitle for the validation failed card  -->
-    <string name="validation_rules_failed_vh_subtitle_uncertified_test_center">"Bu, düzenleyen ülke için geçerli bir kural."</string>
     <!-- XTXT: test center title for the validation failed card  -->
     <string name="validation_rules_failed_vh_test_center_title">"Test Merkezi"</string>
     <!-- XHED: title for the validation failed card  -->

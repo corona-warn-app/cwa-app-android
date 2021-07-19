@@ -236,8 +236,6 @@
     <string name="validation_open_title">"Certificate Cannot Be Validated"</string>
 
     <!-- Validation Rule View Holder: Business Rule Validation Open -->
-    <!-- XHED: subtitle for the validation open card  -->
-    <string name="validation_rules_open_vh_subtitle">"This is a rule of your destination country, %s."</string>
     <!-- XTXT: validation start for the validation open card  -->
     <string name="validation_rules_open_vh_start_date">"Datum und Uhrzeit der Probenahme / Date and Time of Sample Collection (YYYY-MM-DD hh:mm Z)"</string>
     <!-- XTXT: title for the validation open card  -->
@@ -246,8 +244,6 @@
     <!-- Validation Rule View Holder: Business Rule Validation Failed -->
     <!-- XHED: title for the validation failed card  -->
     <string name="validation_rules_failed_vh_title_uncertified_test_center">"A test certificate must be issued by a certified testing center."</string>
-    <!-- XTXT: subtitle for the validation failed card  -->
-    <string name="validation_rules_failed_vh_subtitle_uncertified_test_center">"This is a rule of the issuing country."</string>
     <!-- XTXT: test center title for the validation failed card  -->
     <string name="validation_rules_failed_vh_test_center_title">"Testzentrum oder -einrichtung / Testing Center"</string>
     <!-- XHED: title for the validation failed card  -->
