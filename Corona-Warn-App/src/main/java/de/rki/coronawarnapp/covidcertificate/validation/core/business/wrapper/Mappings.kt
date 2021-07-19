@@ -155,7 +155,7 @@ internal fun List<DccValidationRule>.filterRelevantRules(
             rule.certificateType.uppercase() == certificateType.uppercase()
     }
     .filter { rule ->
-        rule.validFromDateTime <= validationDateTime && rule.validToDateTime > validationDateTime
+        rule.validFromDateTime <= validationDateTime && rule.validToDateTime >= validationDateTime
     }
     .groupBy { it.identifier }
     .mapNotNull { entry ->

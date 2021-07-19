@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper
 
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalTimeUtc
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTime
 import dgca.verifier.app.engine.UTC_ZONE_ID
 import dgca.verifier.app.engine.data.RuleCertificateType
 import io.kotest.matchers.shouldBe
+import org.joda.time.DateTimeZone
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -50,7 +50,7 @@ class MappingsTest : BaseTest() {
     @Test
     fun `filter rules works`() {
         val validationClock = Instant.parse("2021-05-27T07:46:40Z")
-        val validationDate = validationClock.toLocalDateUtc().toLocalDateTime(validationClock.toLocalTimeUtc())
+        val validationDate = validationClock.toLocalDateTime(DateTimeZone.UTC)
 
         val vacA1 = createDccRule(
             certificateType = RuleCertificateType.VACCINATION,

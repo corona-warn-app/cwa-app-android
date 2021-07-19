@@ -53,5 +53,5 @@ class DccValidator @Inject constructor(
 
 @VisibleForTesting
 internal fun DccData<*>.expiresAfter(referenceDate: LocalDateTime): Boolean {
-    return header.expiresAt.toLocalDateTime(DateTimeZone.UTC) >= referenceDate
+    return header.expiresAt.toLocalDateTime(DateTimeZone.UTC) > referenceDate
 }
