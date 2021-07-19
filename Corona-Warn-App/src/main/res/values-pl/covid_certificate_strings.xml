@@ -258,8 +258,8 @@
     <string name="validation_rules_failed_vh_test_type">"Typ testu"</string>
 
     <!-- XHED: travel country for the validation failed card  -->
-    <string name="validation_rules_failed_vh_travel_country">"To jest zasada obowiązująca w kraju docelowym, %s."</string>
+    <string name="validation_rules_acceptance_country">"To jest zasada obowiązująca w kraju docelowym, %s."</string>
     <!-- XHED: issuer country for the validation failed card  -->
-    <string name="validation_rules_failed_vh_issuer_country">"To jest zasada obowiązująca w kraju wydającym, %s."</string>
+    <string name="validation_rules_invalidation_country">"To jest zasada obowiązująca w kraju wydającym, %s."</string>
 
 </resources>

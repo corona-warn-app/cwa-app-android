@@ -258,8 +258,8 @@
     <string name="validation_rules_failed_vh_test_type">"Test Türü"</string>
 
     <!-- XHED: travel country for the validation failed card  -->
-    <string name="validation_rules_failed_vh_travel_country">"Bu, gideceğiniz ülke olan %s için geçerli bir kural."</string>
+    <string name="validation_rules_acceptance_country">"Bu, gideceğiniz ülke olan %s için geçerli bir kural."</string>
     <!-- XHED: issuer country for the validation failed card  -->
-    <string name="validation_rules_failed_vh_issuer_country">"Bu, düzenleyen ülke olan %s için geçerli bir kural."</string>
+    <string name="validation_rules_invalidation_country">"Bu, düzenleyen ülke olan %s için geçerli bir kural."</string>
 
 </resources>
