@@ -3,12 +3,12 @@ syntax = "proto3";
 package de.rki.coronawarnapp.server.protocols.internal.dgc;
 
 
-message DSCList {
+message DscList {
 
-  repeated DSCListItem certificates = 1;
+  repeated DscListItem certificates = 1;
 }
 
-message DSCListItem {
+message DscListItem {
   bytes kid = 1;
   bytes data = 2;
 }
