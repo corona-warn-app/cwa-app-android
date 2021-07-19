@@ -23,4 +23,5 @@ object NotificationConstants {
     const val INCORRECT_DEVICE_TIME_NOTIFICATION_ID: NotificationId = 140
     const val RAT_TEST_RESULT_AVAILABLE_NOTIFICATION_ID: NotificationId = 150
     const val TRACELOCATION_AUTOCHECKOUT_NOTIFICATION_ID: NotificationId = 1001
+    const val DSC_STATE_CHECK_NOTIFICATION_ID: NotificationId = 2001
 }
