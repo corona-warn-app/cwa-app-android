@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
-import de.rki.coronawarnapp.covidcertificate.common.decoder.RawCOSEObject
-
 data class DccData<CertT : DccV1.MetaData>(
     val header: DccHeader,
     val certificate: CertT,

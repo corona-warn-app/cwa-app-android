@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
+import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant
 import javax.inject.Inject
 
@@ -61,7 +62,8 @@ class VaccinationTestData @Inject constructor(
         header = personAVac1CertificateHeader,
         certificateJson = "{\"v\":[{\"ci\":\"01DE/00001/1119305005/7T1UG87G61Y7NRXIBQJDTYQ9#S\",\"co\":\"DE\",\"dn\":1,\"dt\":\"2021-03-01\",\"is\":\"Bundesministerium für Gesundheit - Test01\",\"ma\":\"ORG-100001699\",\"mp\":\"EU/1/21/1529\",\"sd\":2,\"tg\":\"840539006\",\"vp\":\"1119305005\"}],\"dob\":\"1966-11-11\",\"nam\":{\"fn\":\"Astrá Eins\",\"gn\":\"Andreas\",\"fnt\":\"ASTRA<EINS\",\"gnt\":\"ANDREAS\"},\"ver\":\"1.0.0\"}",
         kid = "qs76QaMRQrC+bjTS2a3mSA==",
-        signature = byteArrayOf()
+        signature = "0oRDoQEmoQRQqs76QaMRQrC+bjTS2a3mSFkBKqQBYkRFBBpie4DsBhpgmk1sOQEDoQGkYXaBqmJjaXgwMDFERS8wMDAwMS8xMTE5MzA1MDA1LzdUMVVHODdHNjFZN05SWElCUUpEVFlROSNTYmNvYkRFYmRuAWJkdGoyMDIxLTAzLTAxYmlzeCpCdW5kZXNtaW5pc3Rlcml1bSBmw7xyIEdlc3VuZGhlaXQgLSBUZXN0MDFibWFtT1JHLTEwMDAwMTY5OWJtcGxFVS8xLzIxLzE1Mjlic2QCYnRnaTg0MDUzOTAwNmJ2cGoxMTE5MzA1MDA1Y2RvYmoxOTY2LTExLTExY25hbaRiZm5rQXN0csOhIEVpbnNiZ25nQW5kcmVhc2NmbnRqQVNUUkE8RUlOU2NnbnRnQU5EUkVBU2N2ZXJlMS4wLjBYQJRxLNAUGPJcqLh7Y1LH3pFSSA48DJv+n/NFx8SnBQL9QCll2FMtwrWNySlamxGTnXJq7DZakDuKpfd9O4vcbZI=".decodeBase64()!!
+            .toByteArray()
     )
 
     val personAVac1QRCode = VaccinationCertificateQRCode(
@@ -181,7 +183,8 @@ class VaccinationTestData @Inject constructor(
         header = personBVac1CertificateHeader,
         certificateJson = "{\"v\":[{\"ci\":\"01DE/00001/1119305005/3H24U2KVOTPCSINK7N64F2OB9#S\",\"co\":\"DE\",\"dn\":1,\"dt\":\"2021-04-20\",\"is\":\"Bundesministerium für Gesundheit - Test01\",\"ma\":\"ORG-100001417\",\"mp\":\"EU/1/20/1525\",\"sd\":1,\"tg\":\"840539006\",\"vp\":\"1119305005\"}],\"dob\":\"1966-11-11\",\"nam\":{\"fn\":\"Johnson Gültig\",\"gn\":\"Boris\",\"fnt\":\"JOHNSON<GUELTIG\",\"gnt\":\"BORIS\"},\"ver\":\"1.0.0\"}",
         kid = "qs76QaMRQrC+bjTS2a3mSA==",
-        signature = byteArrayOf()
+        signature = "0oRDoQEmoQRQqs76QaMRQrC+bjTS2a3mSFkBMKQBYkRFBBpie4B3Bhpgmkz3OQEDoQGkYXaBqmJjaXgxMDFERS8wMDAwMS8xMTE5MzA1MDA1LzNIMjRVMktWT1RQQ1NJTks3TjY0RjJPQjkjU2Jjb2JERWJkbgFiZHRqMjAyMS0wNC0yMGJpc3gqQnVuZGVzbWluaXN0ZXJpdW0gZsO8ciBHZXN1bmRoZWl0IC0gVGVzdDAxYm1hbU9SRy0xMDAwMDE0MTdibXBsRVUvMS8yMC8xNTI1YnNkAWJ0Z2k4NDA1MzkwMDZidnBqMTExOTMwNTAwNWNkb2JqMTk2Ni0xMS0xMWNuYW2kYmZub0pvaG5zb24gR8O8bHRpZ2JnbmVCb3Jpc2NmbnRvSk9ITlNPTjxHVUVMVElHY2dudGVCT1JJU2N2ZXJlMS4wLjBYQOgXc+vV3T4CtIM+ve7A5ZHLBBDrGO96DqmFMi2AlCxaxl7LKhiCQcYAXvsu3OOapLK/0GFOqEnMj+iiSLmQyMw=".decodeBase64()!!
+            .toByteArray()
     )
 
     val personBVac1QRCode = VaccinationCertificateQRCode(
