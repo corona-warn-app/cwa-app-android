@@ -24,6 +24,7 @@ import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerS
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
+import de.rki.coronawarnapp.util.network.NetworkStateProvider
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -70,6 +71,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var covidCertificateSettings: CovidCertificateSettings
     @MockK lateinit var vaccinationRepository: VaccinationRepository
     @MockK lateinit var localStatisticsConfigStorage: LocalStatisticsConfigStorage
+    @MockK lateinit var networkStateProvider: NetworkStateProvider
 
     @BeforeEach
     fun setup() {
@@ -95,6 +97,8 @@ class HomeFragmentViewModelTest : BaseTest() {
             every { isAdvertisingSupported } returns true
             every { isScanningSupported } returns true
         }
+
+        coEvery { networkStateProvider.networkState } returns emptyFlow()
     }
 
     private fun createInstance(): HomeFragmentViewModel = HomeFragmentViewModel(
@@ -116,7 +120,8 @@ class HomeFragmentViewModelTest : BaseTest() {
         bluetoothSupport = bluetoothSupport,
         vaccinationRepository = vaccinationRepository,
         covidCertificateSettings = covidCertificateSettings,
-        localStatisticsConfigStorage = localStatisticsConfigStorage
+        localStatisticsConfigStorage = localStatisticsConfigStorage,
+        networkStateProvider = networkStateProvider
     )
 
     @Test
