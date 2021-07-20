@@ -169,7 +169,7 @@
     <!-- XTXT: Validation start note point 3 -->
     <string name="validation_start_note_point_3">"Um die Echtheit eines Zertifikats sicherzustellen, wird jedes Zertifikat mit einer digitalen Signatur ausgestellt. Diese Signatur wird nur in einer Prüf-Anwendung validiert."</string>
     <!-- XTXT: Validation start note point 4 -->
-    <string name="validation_start_note_point_4">"Ob die im Zertifikat eingetragenen Daten richtig sind, wird nicht geprüft."</string>
+    <string name="validation_start_note_point_4">"Ob die im Zertifikat eingetragenen Daten richtig sind, wird in der Corona-Warn-App nicht geprüft."</string>
     <!-- XTXT: Validation start FAQ -->
     <string name="validation_start_faq">"Mehr Informationen finden Sie in den FAQ und unter https://reopen.europa.eu/de."</string>
     <!-- XTXT: Validation start FAQ link -->
