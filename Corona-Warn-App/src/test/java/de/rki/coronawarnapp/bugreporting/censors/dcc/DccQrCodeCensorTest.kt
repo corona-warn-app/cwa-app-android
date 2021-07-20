@@ -56,7 +56,7 @@ class DccQrCodeCensorTest : BaseTest() {
         ),
         certificateJson = "",
         kid = "",
-        signature = byteArrayOf()
+        coseObject = byteArrayOf()
     )
 
     @BeforeEach
@@ -132,7 +132,7 @@ class DccQrCodeCensorTest : BaseTest() {
             recoveryCertificate1.asRecoveryCertificate!!,
             certificateJson = "",
             kid = "",
-            signature = byteArrayOf()
+            coseObject = byteArrayOf()
         )
         DccQrCodeCensor.addCertificateToCensor(data)
         val censor = createInstance()
