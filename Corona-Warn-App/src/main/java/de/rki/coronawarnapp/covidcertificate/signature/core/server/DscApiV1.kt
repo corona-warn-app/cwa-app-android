@@ -7,5 +7,8 @@ import retrofit2.http.GET
 interface DscApiV1 {
 
     @GET("/version/v1/ehn-dgc/dscs")
+    suspend fun dscListCDN(): Response<ResponseBody>
+
+    @GET("/trustList/DSC/")
     suspend fun dscList(): Response<ResponseBody>
 }

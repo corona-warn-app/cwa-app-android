@@ -1,43 +1,49 @@
 package de.rki.coronawarnapp.covidcertificate.signature.core.server
 
 import androidx.annotation.VisibleForTesting
-import dagger.Lazy
 import de.rki.coronawarnapp.covidcertificate.signature.core.common.exception.DscValidationException
 import de.rki.coronawarnapp.covidcertificate.signature.core.common.exception.DscValidationException.ErrorCode
-import de.rki.coronawarnapp.covidcertificate.validation.core.CertificateValidation
-import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountryApi
-import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRuleApi
+import de.rki.coronawarnapp.server.protocols.internal.dgc.DscListOuterClass.DscList
 import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
 import de.rki.coronawarnapp.util.ZipHelper.unzip
-import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.security.SignatureValidation
-import okhttp3.Cache
 import okhttp3.ResponseBody
+import okio.ByteString.Companion.decodeBase64
 import retrofit2.HttpException
 import retrofit2.Response
 import timber.log.Timber
+import java.security.KeyFactory
+import java.security.PublicKey
+import java.security.spec.EncodedKeySpec
+import java.security.spec.X509EncodedKeySpec
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class DscServer @Inject constructor(
-    @CertificateValidation private val cache: Cache, // TODO: use right cache
     private val signatureValidation: SignatureValidation,
     private val dscApi: DscApiV1
 ) {
 
-    // TODO: check app config DefaultAppConfigSource
-    // update DscData
-    suspend fun getDccList() {
-        try {
-            val result = dscApi.dscList().parseAndValidate(
+    suspend fun getDscList(): String? {
+        return try {
+            dscApi.dscList().parseAndValidate()
+        } catch (e: Exception) {
+            Timber.e(e, "Can't get DSC list")
+            null
+        }
+    }
+
+    suspend fun getDscCDN(): DscList? {
+        return try {
+            dscApi.dscListCDN().parseAndValidate(
                 ErrorCode.FILE_MISSING,
                 ErrorCode.SIGNATURE_INVALID,
                 ErrorCode.EXTRACTION_FAILED
             )
-            Timber.d("DSC LIST: $result")
         } catch (e: Exception) {
-            Timber.e(e, "DSC LIST: error")
+            Timber.e(e, "Can't get DSC list")
+            null
         }
     }
 
@@ -46,7 +52,7 @@ class DscServer @Inject constructor(
         fileMissingErrorCode: ErrorCode,
         invalidSignatureErrorCode: ErrorCode,
         extractionFailedCode: ErrorCode
-    ): String {
+    ): DscList {
         if (!isSuccessful) throw HttpException(this)
 
         val fileMap = requireNotNull(body()) { "Response was successful but body was null" }
@@ -64,16 +70,53 @@ class DscServer @Inject constructor(
         if (!isSignatureValid) throw DscValidationException(invalidSignatureErrorCode)
 
         try {
-//            return DscList.DSCList.parseFrom(exportBinary)
-            throw NotImplementedError()
+            return DscList.parseFrom(exportBinary)
         } catch (e: Exception) {
             throw DscValidationException(extractionFailedCode, e)
         }
     }
 
-    fun clear() {
-        Timber.d("clear()")
-        cache.evictAll()
+    @VisibleForTesting
+    internal fun Response<ResponseBody>.parseAndValidate(): String? {
+        if (!isSuccessful) throw HttpException(this)
+
+        val data = requireNotNull(body()) { "Response was successful but body was null" }.string()
+
+        val encodedSignature = data.substringBefore("{")
+        val signature = encodedSignature.decodeBase64()?.toByteArray() ?: return null
+        val trustedList = data.substring(encodedSignature.length).trim()
+
+        // TODO: move somewhere else
+        // v1:
+        val keyProd = readPemKeys(
+            """-----BEGIN PUBLIC KEY-----
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAETHfi8foQF4UtSNVxSFxeu7W+gMxd
+SGElhdo7825SD3Lyb+Sqh4G6Kra0ro1BdrM6Qx+hsUx4Qwdby7QY0pzxyA==
+-----END PUBLIC KEY-----""".trimIndent()
+        )
+
+        val keyDev = readPemKeys(
+            """-----BEGIN PUBLIC KEY-----
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEIxHvrv8jQx9OEzTZbsx1prQVQn/3
+ex0gMYf6GyaNBW0QKLMjrSDeN6HwSPM0QzhvhmyQUixl6l88A7Zpu5OWSw==
+-----END PUBLIC KEY-----""".trimIndent()
+        )
+
+        // v2:
+        val publicKeyString =
+            "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEIxHvrv8jQx9OEzTZbsx1prQVQn/3ex0gMYf6GyaNBW0QKLMjrSDeN6HwSPM0QzhvhmyQUixl6l88A7Zpu5OWSw=="
+        val publicKeySpec: EncodedKeySpec = X509EncodedKeySpec(publicKeyString.decodeBase64()?.toByteArray())
+        val keyFactory: KeyFactory = KeyFactory.getInstance("EC")
+        val publicKey: PublicKey = keyFactory.generatePublic(publicKeySpec)
+
+        return try {
+            validateSignature(publicKey,trustedList.toByteArray(),signature,"SHA256withECDSA")
+            Timber.d("Signature OK")
+            trustedList
+        } catch (exception:Exception) {
+            Timber.e(exception,"Signature FAIL")
+            null
+        }
     }
 
     companion object {

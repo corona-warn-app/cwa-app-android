@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.coronatest.type.pcr.toSubmissionState
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.toSubmissionState
+import de.rki.coronawarnapp.covidcertificate.signature.core.server.DscServer
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.main.CWASettings
@@ -106,7 +107,15 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val bluetoothSupport: BluetoothSupport,
     private val covidCertificateSettings: CovidCertificateSettings,
     private val localStatisticsConfigStorage: LocalStatisticsConfigStorage,
+    private val dscServer: DscServer
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
+
+    init {
+        launch {
+            val result = dscServer.getDscList()
+            Timber.d("DSC JSON: $result")
+        }
+    }
 
     private var isLoweredRiskLevelDialogBeingShown = false
     private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
