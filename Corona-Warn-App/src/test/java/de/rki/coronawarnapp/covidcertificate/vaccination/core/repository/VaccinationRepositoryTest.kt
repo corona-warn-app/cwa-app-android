@@ -149,6 +149,7 @@ class VaccinationRepositoryTest : BaseTest() {
         instance.vaccinationInfos.first().single().data shouldBe vaccinationTestData.personAData2Vac
 
         instance.clear()
+        advanceUntilIdle()
 
         testStorage shouldBe emptySet()
         instance.vaccinationInfos.first() shouldBe emptySet()

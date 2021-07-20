@@ -50,11 +50,17 @@ class ValueSetsRepository @Inject constructor(
             .launchIn(scope + dispatcherProvider.IO)
     }
 
-    val latestVaccinationValueSets: Flow<VaccinationValueSets> = internalData.data
-        .map { it.vaccinationValueSets }
+    val latestVaccinationValueSets: Flow<VaccinationValueSets>
+        get() {
+            return internalData.data
+                .map { it.vaccinationValueSets }
+        }
 
-    val latestTestCertificateValueSets: Flow<TestCertificateValueSets> = internalData.data
-        .map { it.testCertificateValueSets }
+    val latestTestCertificateValueSets: Flow<TestCertificateValueSets>
+        get() {
+            return internalData.data
+                .map { it.testCertificateValueSets }
+        }
 
     fun triggerUpdateValueSet(languageCode: Locale) {
         Timber.d("triggerUpdateValueSet(languageCode=%s)", languageCode)
