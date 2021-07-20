@@ -27,8 +27,7 @@ internal fun assembleExternalParameter(
     validationDateTime: DateTime,
     countryCode: String,
     valueSets: Map<String, List<String>>,
-
-    ): ExternalParameter {
+): ExternalParameter {
     // convert to utc - engine does not like other tz
     val validationClock = validationDateTime
         .toDateTime(DateTimeZone.UTC)

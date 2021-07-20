@@ -113,7 +113,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
         )
         // certificate valid until 2022-06-11T14:23:17.000Z
         val certificate = extractor.extract(TestData.qrCodePcrTest)
-        val validationDateTime = LocalDateTime.parse("2021-07-20T19:10:00")// should be valid
+        val validationDateTime = LocalDateTime.parse("2021-07-20T19:10:00") // should be valid
         val evaluatedRules = wrapper.process(
             rules = listOf(rule, ruleGeneral),
             validationDateTime = validationDateTime.toDateTime(DateTimeZone.forOffsetHours(timeZoneOffsetBerlin)),
@@ -125,7 +125,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
             it.result shouldBe DccValidationRule.Result.PASSED
         }
 
-        val invalidationDateTime = LocalDateTime.parse("2021-07-20T19:20:00")// should be invalid
+        val invalidationDateTime = LocalDateTime.parse("2021-07-20T19:20:00") // should be invalid
 
         val evaluatedRules2 = wrapper.process(
             rules = listOf(rule, ruleGeneral),

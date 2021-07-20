@@ -11,6 +11,7 @@ internal val logicVaccinationDose = ObjectMapper().readTree(
     """{"and":[{">":[{"var":"payload.v.0.dn"},0]},{">=":[{"var":"payload.v.0.dn"},{"var":"payload.v.0.sd"}]}]}"""
 )
 
+@Suppress("MaxLineLength")
 internal val logicPcr72hoursValid = ObjectMapper().readTree(
     """{"if":[{"var":"payload.t.0"},{"if":[{"===":[{"var":"payload.t.0.tt"},"LP6464-4"]},{"not-after":[{"plusTime":[{"var":"external.validationClock"},0,"day"]},{"plusTime":[{"var":"payload.t.0.sc"},72,"hour"]}]},true]},true]}"""
 )
