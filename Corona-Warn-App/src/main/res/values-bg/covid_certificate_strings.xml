@@ -236,8 +236,6 @@
     <string name="validation_open_title">"Сертификатът не може да бъде валидиран"</string>
 
     <!-- Validation Rule View Holder: Business Rule Validation Open -->
-    <!-- XHED: subtitle for the validation open card  -->
-    <string name="validation_rules_open_vh_subtitle">"Това е правило в държавата, където отивате: %s."</string>
     <!-- XTXT: validation start for the validation open card  -->
     <string name="validation_rules_open_vh_start_date">"Datum und Uhrzeit der Probenahme/Дата и час на вземане на пробата (ГГГГ-ММ-ДД чч:мм Ч)"</string>
     <!-- XTXT: title for the validation open card  -->
@@ -246,8 +244,6 @@
     <!-- Validation Rule View Holder: Business Rule Validation Failed -->
     <!-- XHED: title for the validation failed card  -->
     <string name="validation_rules_failed_vh_title_uncertified_test_center">"Сертификатът за тест трябва да бъде издаден от сертифициран център за тестване."</string>
-    <!-- XTXT: subtitle for the validation failed card  -->
-    <string name="validation_rules_failed_vh_subtitle_uncertified_test_center">"Това е правило в държавата, където е издаден сертификатът."</string>
     <!-- XTXT: test center title for the validation failed card  -->
     <string name="validation_rules_failed_vh_test_center_title">"Testzentrum oder -einrichtung/Център за тестване"</string>
     <!-- XHED: title for the validation failed card  -->
@@ -258,8 +254,8 @@
     <string name="validation_rules_failed_vh_test_type">"Art des Tests/Вид на теста"</string>
 
     <!-- XHED: travel country for the validation failed card  -->
-    <string name="validation_rules_failed_vh_travel_country">"Това е правило в държавата, където отивате: %s."</string>
+    <string name="validation_rules_acceptance_country">"Това е правило в държавата, където отивате: %s."</string>
     <!-- XHED: issuer country for the validation failed card  -->
-    <string name="validation_rules_failed_vh_issuer_country">"Това е правило в държавата, където е издаден сертификатът: %s."</string>
+    <string name="validation_rules_invalidation_country">"Това е правило в държавата, където е издаден сертификатът: %s."</string>
 
 </resources>
