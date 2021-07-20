@@ -236,8 +236,6 @@
     <string name="validation_open_title">"Certificatul nu poate fi validat"</string>
 
     <!-- Validation Rule View Holder: Business Rule Validation Open -->
-    <!-- XHED: subtitle for the validation open card  -->
-    <string name="validation_rules_open_vh_subtitle">"Aceasta este o regulă pentru țara dvs. de destinație, %s."</string>
     <!-- XTXT: validation start for the validation open card  -->
     <string name="validation_rules_open_vh_start_date">"Data și ora prelevării probei (AAAA-LL-ZZ hh:mm Z)"</string>
     <!-- XTXT: title for the validation open card  -->
@@ -246,8 +244,6 @@
     <!-- Validation Rule View Holder: Business Rule Validation Failed -->
     <!-- XHED: title for the validation failed card  -->
     <string name="validation_rules_failed_vh_title_uncertified_test_center">"Trebuie emis un certificat de test de către un centru de testare certificat."</string>
-    <!-- XTXT: subtitle for the validation failed card  -->
-    <string name="validation_rules_failed_vh_subtitle_uncertified_test_center">"Aceasta este o regulă a țării emitente."</string>
     <!-- XTXT: test center title for the validation failed card  -->
     <string name="validation_rules_failed_vh_test_center_title">"Centru de testare"</string>
     <!-- XHED: title for the validation failed card  -->
@@ -258,8 +254,8 @@
     <string name="validation_rules_failed_vh_test_type">"Tip de test"</string>
 
     <!-- XHED: travel country for the validation failed card  -->
-    <string name="validation_rules_failed_vh_travel_country">"Aceasta este o regulă pentru țara dvs. de destinație, %s."</string>
+    <string name="validation_rules_acceptance_country">"Aceasta este o regulă pentru țara dvs. de destinație, %s."</string>
     <!-- XHED: issuer country for the validation failed card  -->
-    <string name="validation_rules_failed_vh_issuer_country">"Aceasta este o regulă a țării emitente, %s."</string>
+    <string name="validation_rules_invalidation_country">"Aceasta este o regulă a țării emitente, %s."</string>
 
 </resources>
