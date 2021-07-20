@@ -43,6 +43,11 @@ open class InvalidHealthCertificateException(
         AES_DECRYPTION_FAILED("AES decryption failed"),
         RSA_DECRYPTION_FAILED("RSA decryption failed."),
         RSA_KP_GENERATION_FAILED("RSA key pair generation failed."),
+
+        HC_COSE_NO_SIGN1("Signature is not a byte sequence."),
+        HC_COSE_PH_INVALID("Parsing of the protected header fails."),
+        HC_COSE_NO_ALG("No algorithm key."),
+        HC_COSE_UNKNOWN_ALG("Unknown algorithm."),
     }
 
     open val showFaqButton: Boolean

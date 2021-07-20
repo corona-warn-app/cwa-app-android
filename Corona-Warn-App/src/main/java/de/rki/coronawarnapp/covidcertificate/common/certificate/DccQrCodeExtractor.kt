@@ -67,11 +67,7 @@ class DccQrCodeExtractor @Inject constructor(
         DccQrCodeCensor.addQRCodeStringToCensor(rawString)
 
         return try {
-            val parsedData = rawString
-                .removePrefix(PREFIX)
-                .decodeBase45()
-                .decompress()
-                .parse(mode)
+            val parsedData = extractCoseObject(rawString).parse(mode)
 
             toDccQrCode(rawString, parsedData).also {
                 when (mode) {
@@ -97,6 +93,11 @@ class DccQrCodeExtractor @Inject constructor(
             }
         }
     }
+
+    fun extractCoseObject(qrCodeString: String) = qrCodeString
+        .removePrefix(PREFIX)
+        .decodeBase45()
+        .decompress()
 
     private fun RawCOSEObject.decrypt(decryptionKey: ByteArray): RawCOSEObject = try {
         coseDecoder.decryptMessage(
