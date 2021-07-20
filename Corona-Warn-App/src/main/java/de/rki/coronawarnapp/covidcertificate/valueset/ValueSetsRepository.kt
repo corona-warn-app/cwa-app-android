@@ -15,6 +15,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -36,17 +37,23 @@ class ValueSetsRepository @Inject constructor(
         loggingTag = TAG,
         scope = scope,
         coroutineContext = dispatcherProvider.IO,
-        sharingBehavior = SharingStarted.Lazily,
-        startValueProvider = {
-            valueSetsStorage.valueSetsContainer.also { Timber.v("Loaded initial value sets %s", it) }
-        }
-    )
+        sharingBehavior = SharingStarted.Lazily
+    ) {
+        valueSetsStorage.load().also { Timber.v("Loaded initial value sets %s", it) }
+    }
 
     init {
         internalData.data
             .onStart { Timber.d("Observing value set") }
-            .onEach { valueSetsStorage.valueSetsContainer = it }
-            .catch { Timber.e(it, "Storing new value sets failed.") }
+            .drop(1) // Initial emission that ways restored from storage anyways.
+            .onEach {
+                Timber.v("Storing new valueset data.")
+                valueSetsStorage.save(it)
+            }
+            .catch {
+                Timber.e(it, "Storing new value sets failed.")
+                throw it
+            }
             .launchIn(scope + dispatcherProvider.IO)
     }
 
@@ -76,8 +83,7 @@ class ValueSetsRepository @Inject constructor(
             container = certificateValueSetServer.getVaccinationValueSets(languageCode = Locale.ENGLISH)
         }
 
-        return container
-            .also { Timber.v("New value sets %s", it) }
+        return container.also { Timber.v("New value sets %s", it) }
     }
 
     suspend fun clear() {
