@@ -41,7 +41,6 @@ class CoilModule {
             add(qrCodeBitMatrixFetcher)
             add(bitMatrixDecoder)
         }
-
     }.build()
 
     @Singleton
@@ -49,6 +48,5 @@ class CoilModule {
     fun imageLoaderFactory(imageLoaderSource: Provider<ImageLoader>): ImageLoaderFactory = ImageLoaderFactory {
         Timber.i("Creating ImageLoader...")
         imageLoaderSource.get()
-
     }
 }
