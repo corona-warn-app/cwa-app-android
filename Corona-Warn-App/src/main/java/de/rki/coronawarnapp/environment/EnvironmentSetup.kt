@@ -8,6 +8,7 @@ import com.google.gson.JsonPrimitive
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.CROWD_NOTIFIER_PUBLIC_KEY
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.DATA_DONATION
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.DCC
+import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.DSC
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.DOWNLOAD
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.LOG_UPLOAD
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.SAFETYNET_API_KEY
@@ -40,6 +41,7 @@ class EnvironmentSetup @Inject constructor(
         SAFETYNET_API_KEY("SAFETYNET_API_KEY"),
         CROWD_NOTIFIER_PUBLIC_KEY("CROWD_NOTIFIER_PUBLIC_KEY"),
         DCC("DCC_SERVER_URL"),
+        DSC("DSC_SERVER_URL"),
     }
 
     enum class Type(val rawKey: String) {
@@ -75,14 +77,14 @@ class EnvironmentSetup @Inject constructor(
     var currentEnvironment: Type
         get() {
             return prefs
-                .getString(PKEY_CURRENT_ENVINROMENT, null)
+                .getString(PKEY_CURRENT_ENVIRONMENT, null)
                 ?.toEnvironmentType() ?: defaultEnvironment
         }
         set(value) {
             if (CWADebug.buildFlavor == CWADebug.BuildFlavor.DEVICE_FOR_TESTERS) {
                 Timber.i("Changing currentEnvironment to $value")
                 prefs.edit {
-                    putString(PKEY_CURRENT_ENVINROMENT, value.rawKey)
+                    putString(PKEY_CURRENT_ENVIRONMENT, value.rawKey)
                 }
             } else {
                 Timber.w("Tried to change currentEnvironment in PRODUCTION mode.")
@@ -145,7 +147,10 @@ class EnvironmentSetup @Inject constructor(
     val dccServerUrl: String
         get() = getEnvironmentValue(DCC).asString
 
+    val dscServerUrl: String
+        get() = getEnvironmentValue(DSC).asString
+
     companion object {
-        private const val PKEY_CURRENT_ENVINROMENT = "environment.current"
+        private const val PKEY_CURRENT_ENVIRONMENT = "environment.current"
     }
 }

@@ -1,10 +1,10 @@
-package de.rki.coronawarnapp.covidcertificate.test.core.server
+package de.rki.coronawarnapp.covidcertificate.signature.core.server
 
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
-import de.rki.coronawarnapp.environment.covidcertificate.test.DCCHttpClient
-import de.rki.coronawarnapp.environment.covidcertificate.test.DCCServerUrl
+import de.rki.coronawarnapp.environment.covidcertificate.signature.DSCHttpClient
+import de.rki.coronawarnapp.environment.covidcertificate.signature.DSCServerUrl
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import retrofit2.Converter
@@ -13,10 +13,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.reflect.Type
 
 @Module
-class TestCertificateServerModule {
+class DscServerModule {
 
     /**
-     * Handles DCC server 202 "retry later" response with 0-byte bodies.
+     * TODO: is this necessary?
+     * Handles DSC server 202 "retry later" response with 0-byte bodies.
      */
     private val nullConverter = object : Converter.Factory() {
         fun factoryRef() = this
@@ -36,14 +37,14 @@ class TestCertificateServerModule {
     @Reusable
     @Provides
     fun apiV1(
-        @DCCHttpClient httpClient: OkHttpClient,
-        @DCCServerUrl url: String,
+        @DSCHttpClient httpClient: OkHttpClient,
+        @DSCServerUrl url: String,
         gsonConverterFactory: GsonConverterFactory
-    ): TestCertificateApiV1 = Retrofit.Builder()
+    ): DscApiV1 = Retrofit.Builder()
         .client(httpClient)
         .baseUrl(url)
         .addConverterFactory(nullConverter)
         .addConverterFactory(gsonConverterFactory)
         .build()
-        .create(TestCertificateApiV1::class.java)
+        .create(DscApiV1::class.java)
 }

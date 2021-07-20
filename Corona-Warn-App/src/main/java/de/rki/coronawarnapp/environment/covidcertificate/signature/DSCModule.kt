@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.environment.covidcertificate
+package de.rki.coronawarnapp.environment.covidcertificate.signature
 
 import dagger.Module
 import dagger.Provides
@@ -10,19 +10,19 @@ import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
 @Module
-class DCCModule : BaseEnvironmentModule() {
+class DSCModule : BaseEnvironmentModule() {
 
     @Reusable
-    @DCCHttpClient
+    @DSCHttpClient
     @Provides
     fun dccHttpClient(@HttpClientDefault defaultHttpClient: OkHttpClient): OkHttpClient =
         defaultHttpClient.newBuilder().build()
 
     @Singleton
-    @DCCServerUrl
+    @DSCServerUrl
     @Provides
     fun dccServerUrl(environment: EnvironmentSetup): String {
-        val url = environment.dccServerUrl
+        val url = environment.dscServerUrl
         return requireValidUrl(url)
     }
 }
