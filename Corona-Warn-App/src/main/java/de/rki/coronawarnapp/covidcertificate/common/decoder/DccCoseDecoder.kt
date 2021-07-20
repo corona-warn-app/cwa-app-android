@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.covidcertificate.common.cryptography.AesCryptography
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.AES_DECRYPTION_FAILED
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_COSE_MESSAGE_INVALID
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_COSE_NO_SIGN1
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_COSE_TAG_INVALID
 import de.rki.coronawarnapp.util.encoding.base64
 import timber.log.Timber
@@ -18,7 +19,8 @@ class DccCoseDecoder @Inject constructor(
         val messageObject = CBORObject.DecodeFromBytes(input).validate()
         val message = Message(
             payload = messageObject.extractPayload(),
-            kid = messageObject.extractKid()
+            kid = messageObject.extractKid(),
+            signature = messageObject.extractSignature()
         )
         message
     } catch (e: InvalidHealthCertificateException) {
@@ -76,8 +78,35 @@ class DccCoseDecoder @Inject constructor(
         return this
     }
 
+    private fun CBORObject.extractSignature(): ByteArray = try {
+        this[3].GetByteString()
+    } catch (e: Exception) {
+        throw InvalidHealthCertificateException(HC_COSE_NO_SIGN1)
+    }
+
     data class Message(
         val payload: CBORObject,
-        val kid: String
-    )
+        val kid: String,
+        val signature: ByteArray,
+    ) {
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as Message
+
+            if (payload != other.payload) return false
+            if (kid != other.kid) return false
+            if (!signature.contentEquals(other.signature)) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = payload.hashCode()
+            result = 31 * result + kid.hashCode()
+            result = 31 * result + signature.contentHashCode()
+            return result
+        }
+    }
 }

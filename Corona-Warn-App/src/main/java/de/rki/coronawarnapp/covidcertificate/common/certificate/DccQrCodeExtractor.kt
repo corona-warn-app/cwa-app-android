@@ -187,7 +187,7 @@ class DccQrCodeExtractor @Inject constructor(
             certificate = body.parsed.asCertificate,
             certificateJson = body.raw,
             kid = message.kid,
-            signature = this
+            signature = message.signature
         ).also {
             DccQrCodeCensor.addCertificateToCensor(it)
         }.also {
