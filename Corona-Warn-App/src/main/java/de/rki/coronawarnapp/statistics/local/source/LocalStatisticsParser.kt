@@ -42,7 +42,7 @@ class LocalStatisticsParser @Inject constructor(
                     }
                 } else {
                     Timber.tag(TAG).v(
-                        "Failed to match federal state with id %s to user selected cards, this is probably not an error",
+                        "Federal State %s was in package but not selected by user",
                         rawState.federalState.number
                     )
                     null
@@ -81,7 +81,7 @@ class LocalStatisticsParser @Inject constructor(
                     }
                 } else {
                     Timber.tag(TAG).v(
-                        "Failed to match au with id %s to user selected cards, this is probably not an error",
+                        "Administrative Unit %s was in package but not selected by user",
                         rawState.administrativeUnitShortId
                     )
                     null
