@@ -78,7 +78,8 @@ class PersonCertificatesProviderTest : BaseTest() {
         recoveryCertificateRepository = recoveryRepo,
         testCertificateRepository = testRepo,
         vaccinationRepository = vaccinationRepo,
-        personCertificatesSettings = personCertificatesSettings
+        personCertificatesSettings = personCertificatesSettings,
+        appScope = scope,
     )
 
     @Test
@@ -112,7 +113,6 @@ class PersonCertificatesProviderTest : BaseTest() {
                 isCwaUser = true,
             )
         )
-
 
         verify {
             recoveryRepo.certificates
