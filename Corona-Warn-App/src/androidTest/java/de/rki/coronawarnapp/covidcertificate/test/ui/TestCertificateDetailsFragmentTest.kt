@@ -1,11 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.test.ui
 
-import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -53,8 +48,6 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
 
-        every { vaccinationDetailsViewModel.qrCode } returns bitmapLiveDate()
-
         setupMockViewModel(
             object : TestCertificateDetailsViewModel.Factory {
                 override fun create(containerId: TestCertificateContainerId):
@@ -76,13 +69,6 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
         takeScreenshot<TestCertificateDetailsFragment>()
         onView(withId(R.id.coordinator_layout)).perform(swipeUp())
         takeScreenshot<TestCertificateDetailsFragment>("_2")
-    }
-
-    private fun bitmapLiveDate(): LiveData<Bitmap> {
-        val applicationContext = ApplicationProvider.getApplicationContext<Context>()
-        return MutableLiveData(
-            BitmapFactory.decodeResource(applicationContext.resources, R.drawable.test_qr_code)
-        )
     }
 
     private fun vaccinationDetailsData(): MutableLiveData<TestCertificate> {

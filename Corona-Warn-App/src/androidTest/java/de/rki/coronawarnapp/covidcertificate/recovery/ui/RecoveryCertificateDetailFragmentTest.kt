@@ -1,11 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.recovery.ui
 
-import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -45,8 +40,6 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
 
-        every { recoveryDetailsViewModel.qrCode } returns bitmapLiveDate()
-
         setupMockViewModel(
             object : RecoveryCertificateDetailsViewModel.Factory {
                 override fun create(
@@ -69,13 +62,6 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
         takeScreenshot<RecoveryCertificateDetailsFragment>("recovered")
         onView(withId(R.id.coordinator_layout)).perform(swipeUp())
         takeScreenshot<RecoveryCertificateDetailsFragment>("recovered_2")
-    }
-
-    private fun bitmapLiveDate(): LiveData<Bitmap> {
-        val applicationContext = ApplicationProvider.getApplicationContext<Context>()
-        return MutableLiveData(
-            BitmapFactory.decodeResource(applicationContext.resources, R.drawable.test_qr_code)
-        )
     }
 
     private fun mockCertificate(): MutableLiveData<RecoveryCertificate> {

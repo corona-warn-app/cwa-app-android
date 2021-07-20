@@ -1,10 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
-import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import androidx.lifecycle.MutableLiveData
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -41,8 +37,6 @@ class PersonOverviewFragmentTest : BaseUITest() {
 
     @MockK lateinit var viewModel: PersonOverviewViewModel
 
-    private lateinit var bitmap: Bitmap
-
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
@@ -51,11 +45,6 @@ class PersonOverviewFragmentTest : BaseUITest() {
             every { personCertificates } returns MutableLiveData()
             every { markNewCertsAsSeen } returns MutableLiveData()
         }
-
-        bitmap = BitmapFactory.decodeResource(
-            ApplicationProvider.getApplicationContext<Context>().resources,
-            R.drawable.test_qr_code
-        )
 
         setupMockViewModel(
             object : PersonOverviewViewModel.Factory {
@@ -133,7 +122,6 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     certificate = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_1,
-                    qrcodeBitmap = bitmap
                 )
             )
         }
@@ -153,7 +141,6 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     certificate = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_1,
-                    qrcodeBitmap = bitmap
                 )
             )
         }
@@ -165,7 +152,6 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     certificate = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_1,
-                    qrcodeBitmap = bitmap
                 )
             )
 
@@ -174,7 +160,6 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     certificate = mockTestCertificate("Mia Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_2,
-                    qrcodeBitmap = bitmap
                 )
             )
 
@@ -183,7 +168,6 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     certificate = mockTestCertificate("Thomas Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_3,
-                    qrcodeBitmap = bitmap
                 )
             )
         }
@@ -195,7 +179,6 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     certificate = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_1,
-                    qrcodeBitmap = bitmap
                 )
             )
         }

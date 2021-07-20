@@ -11,14 +11,16 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import coil.loadAny
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerQrCodeDetailFragmentBinding
-import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
+import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
+import de.rki.coronawarnapp.util.coil.placeHolderView
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -147,8 +149,10 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
                     eventDate.isGone = true
                 }
 
-                binding.progressBar.hide()
-                binding.qrCodeImage.setImageBitmap(uiState.bitmap)
+                qrCodeImage.loadAny(uiState.qrCode) {
+                    crossfade(true)
+                    placeHolderView(qrCodeImage, progressBar)
+                }
             }
         }
     }

@@ -1,12 +1,8 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.details
 
-import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -54,7 +50,6 @@ import testhelpers.takeScreenshot
 @RunWith(AndroidJUnit4::class)
 class PersonDetailsFragmentTest : BaseUITest() {
     @MockK lateinit var viewModel: PersonDetailsViewModel
-    private lateinit var bitmap: Bitmap
     private val args = PersonDetailsFragmentArgs("code").toBundle()
     private val vcContainerId = VaccinationCertificateContainerId("1")
     private val tcsContainerId = TestCertificateContainerId("2")
@@ -68,10 +63,6 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { uiState } returns MutableLiveData()
         }
 
-        bitmap = BitmapFactory.decodeResource(
-            ApplicationProvider.getApplicationContext<Context>().resources,
-            R.drawable.test_qr_code
-        )
         setupMockViewModel(
             object : PersonDetailsViewModel.Factory {
                 override fun create(
@@ -119,7 +110,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 listOf(testCertificate, vaccinationCertificate1, vaccinationCertificate2), isCwaUser = isCwa
             )
 
-            add(PersonDetailsQrCard.Item(testCertificate, bitmap, false) {})
+            add(PersonDetailsQrCard.Item(testCertificate, false) {})
             add(CwaUserCard.Item(personCertificates) {})
             add(
                 VaccinationCertificateCard.Item(
