@@ -98,8 +98,8 @@ class ValidationResultItemCreator @Inject constructor() {
 
     fun technicalValidationFailedVHItem(validation: DccValidation): TechnicalValidationFailedVH.Item =
         TechnicalValidationFailedVH.Item(
-            hideGroupDateExpired = !validation.expirationCheckPassed,
-            hideGroupDateFormat = !validation.jsonSchemaCheckPassed
+            hideGroupDateExpired = validation.expirationCheckPassed,
+            hideGroupDateFormat = validation.jsonSchemaCheckPassed
         )
 
     fun validationFaqVHItem(): ValidationFaqVH.Item = ValidationFaqVH.Item
