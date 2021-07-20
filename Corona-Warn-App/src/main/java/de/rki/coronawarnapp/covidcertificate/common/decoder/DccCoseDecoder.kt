@@ -142,6 +142,6 @@ class DccCoseDecoder @Inject constructor(
         val payload: CBORObject,
         val kid: String,
         val signature: ByteArray,
-        val alg: Int,
+        val alg: String,
     )
 }
