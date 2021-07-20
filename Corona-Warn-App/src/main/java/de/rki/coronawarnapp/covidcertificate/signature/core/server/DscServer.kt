@@ -20,6 +20,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
+@Suppress("MaxLineLength")
 class DscServer @Inject constructor(
     private val signatureValidation: SignatureValidation,
     private val dscApi: DscApiV1
@@ -92,14 +93,16 @@ class DscServer @Inject constructor(
             """-----BEGIN PUBLIC KEY-----
 MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAETHfi8foQF4UtSNVxSFxeu7W+gMxd
 SGElhdo7825SD3Lyb+Sqh4G6Kra0ro1BdrM6Qx+hsUx4Qwdby7QY0pzxyA==
------END PUBLIC KEY-----""".trimIndent()
+-----END PUBLIC KEY-----
+            """.trimIndent()
         )
 
         val keyDev = readPemKeys(
             """-----BEGIN PUBLIC KEY-----
 MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEIxHvrv8jQx9OEzTZbsx1prQVQn/3
 ex0gMYf6GyaNBW0QKLMjrSDeN6HwSPM0QzhvhmyQUixl6l88A7Zpu5OWSw==
------END PUBLIC KEY-----""".trimIndent()
+-----END PUBLIC KEY-----
+            """.trimIndent()
         )
 
         // v2:
@@ -110,11 +113,11 @@ ex0gMYf6GyaNBW0QKLMjrSDeN6HwSPM0QzhvhmyQUixl6l88A7Zpu5OWSw==
         val publicKey: PublicKey = keyFactory.generatePublic(publicKeySpec)
 
         return try {
-            validateSignature(publicKey,trustedList.toByteArray(),signature,"SHA256withECDSA")
+            validateSignature(publicKey, trustedList.toByteArray(), signature, "SHA256withECDSA")
             Timber.d("Signature OK")
             trustedList
-        } catch (exception:Exception) {
-            Timber.e(exception,"Signature FAIL")
+        } catch (exception: Exception) {
+            Timber.e(exception, "Signature FAIL")
             null
         }
     }
