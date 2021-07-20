@@ -7,6 +7,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FederalStateSelectionFragmentBinding
+import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -24,7 +25,9 @@ class FederalStateSelectionFragment : Fragment(R.layout.federal_state_selection_
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as FederalStateSelectionViewModel.Factory
-            factory.create(navArgs.selectedFederalStateShortName)
+
+            val mappedFederalState = PpaData.PPAFederalState.forNumber(navArgs.selectedFederalState)
+            factory.create(mappedFederalState)
         }
     )
 
@@ -39,7 +42,7 @@ class FederalStateSelectionFragment : Fragment(R.layout.federal_state_selection_
             toolbar.apply {
                 setTitle(getToolbarLabel())
                 setNavigationOnClickListener { popBackStack() }
-                if (navArgs.selectedFederalStateShortName != null) {
+                if (navArgs.selectedFederalState != -1) {
                     setNavigationIcon(R.drawable.ic_back)
                 } else {
                     setNavigationIcon(R.drawable.ic_close)
@@ -60,7 +63,7 @@ class FederalStateSelectionFragment : Fragment(R.layout.federal_state_selection_
                     is FederalStateSelectionViewModel.Events.OpenDistricts -> findNavController().navigate(
                         FederalStateSelectionFragmentDirections
                             .actionFederalStateSelectionFragmentToFederalStateSelectionFragment(
-                                it.selectedFederalStateShortName
+                                it.selectedFederalState.number
                             )
                     )
                 }
@@ -68,7 +71,7 @@ class FederalStateSelectionFragment : Fragment(R.layout.federal_state_selection_
         }
     }
 
-    private fun getToolbarLabel() = if (navArgs.selectedFederalStateShortName != null) {
+    private fun getToolbarLabel() = if (navArgs.selectedFederalState != -1) {
         R.string.analytics_userinput_district_title
     } else {
         R.string.analytics_userinput_federalstate_title
