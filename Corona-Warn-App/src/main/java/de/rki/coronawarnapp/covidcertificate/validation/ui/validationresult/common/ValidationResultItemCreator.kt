@@ -7,15 +7,17 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
 import de.rki.coronawarnapp.covidcertificate.validation.core.ValidationUserInput
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.businessrule.BusinessRuleVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.RuleHeaderVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.TechnicalValidationFailedVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationFaqVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationInputVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationOverallResultVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationPassedHintVH
+import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.businessrule.BusinessRuleVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.mapAffectedFields
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDateTimeFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.toLazyString
@@ -106,7 +108,8 @@ class ValidationResultItemCreator @Inject constructor() {
         ValidationInputVH.Item(
             dateDetails = R.string.validation_rules_result_valid_result_country_and_time.toResolvingString(
                 userInput.arrivalCountry,
-                userInput.arrivalAt.toUserTimeZone().toShortDateTimeFormat(),
+                "${userInput.arrivalDateTime.toLocalDate().toShortDayFormat()} " +
+                    userInput.arrivalDateTime.toLocalTime().toShortTimeFormat(),
                 validatedAt.toUserTimeZone().toShortDateTimeFormat()
             )
         )
@@ -133,11 +136,11 @@ class ValidationResultItemCreator @Inject constructor() {
 
     // Apply rules from tech spec to decide which rule description to display
     private fun DccValidationRule.getCountryDescription(certificate: CwaCovidCertificate): LazyString = when (typeDcc) {
-        DccValidationRule.Type.ACCEPTANCE -> R.string.validation_rules_failed_vh_travel_country.toResolvingString(
+        DccValidationRule.Type.ACCEPTANCE -> R.string.validation_rules_acceptance_country.toResolvingString(
             DccCountry(country).displayName()
         )
-        DccValidationRule.Type.INVALIDATION -> R.string.validation_rules_open_vh_subtitle.toResolvingString(
-            DccCountry(certificate.certificateCountry).displayName()
+        DccValidationRule.Type.INVALIDATION -> R.string.validation_rules_invalidation_country.toResolvingString(
+            certificate.certificateCountry
         )
     }
 }
