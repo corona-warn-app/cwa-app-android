@@ -16,6 +16,8 @@ import javax.inject.Inject
 
 @Reusable
 class QrCodeBitMatrixFetcher @Inject constructor() : Fetcher<CoilQrCode> {
+
+    @Suppress("BlockingMethodInNonBlockingContext")
     override suspend fun fetch(pool: BitmapPool, data: CoilQrCode, size: Size, options: Options): FetchResult {
 
         val hints = mapOf(

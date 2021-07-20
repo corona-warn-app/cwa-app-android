@@ -31,6 +31,7 @@ class BitMatrixDecoder @Inject constructor(
 
     override fun handles(source: BufferedSource, mimeType: String?): Boolean = mimeType == MIME_TYPE
 
+    @Suppress("BlockingMethodInNonBlockingContext")
     override suspend fun decode(pool: BitmapPool, source: BufferedSource, size: Size, options: Options): DecodeResult {
         val bitmapStart = System.currentTimeMillis()
 
