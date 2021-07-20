@@ -197,28 +197,6 @@
                     android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="36dp"
                     android:layout_marginEnd="@dimen/guideline_end"
-                    android:contentDescription="@string/statistics_explanation_seven_day_r_value_title"
-                    android:focusable="true"
-                    android:text="@string/statistics_explanation_seven_day_r_value_title" />
-
-                <TextView
-                    style="@style/body2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="@dimen/guideline_end"
-                    android:contentDescription="@string/statistics_explanation_seven_day_r_value_text"
-                    android:focusable="true"
-                    android:text="@string/statistics_explanation_seven_day_r_value_text" />
-
-                <TextView
-                    style="@style/headline5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="36dp"
-                    android:layout_marginEnd="@dimen/guideline_end"
                     android:contentDescription="@string/statistics_explanation_warned_persons_title"
                     android:focusable="true"
                     android:text="@string/statistics_explanation_warned_persons_title" />
@@ -233,6 +211,28 @@
                     android:contentDescription="@string/statistics_explanation_warned_persons_text"
                     android:focusable="true"
                     android:text="@string/statistics_explanation_warned_persons_text" />
+
+                <TextView
+                    style="@style/headline5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="36dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_seven_day_r_value_title"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_seven_day_r_value_title" />
+
+                <TextView
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_seven_day_r_value_text"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_seven_day_r_value_text" />
 
                 <TextView
                     style="@style/headline5"
