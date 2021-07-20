@@ -11,6 +11,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -37,13 +38,13 @@ class ValueSetsStorageTest : BaseTest() {
     )
 
     @Test
-    fun `Updates values`() {
+    fun `Updates values`() = runBlockingTest {
         createInstance().run {
-            valueSetsContainer = valueSetsContainerDe
-            valueSetsContainer shouldBe valueSetsContainerDe
+            save(valueSetsContainerDe)
+            load() shouldBe valueSetsContainerDe
 
-            valueSetsContainer = valueSetsContainerEn
-            valueSetsContainer shouldBe valueSetsContainerEn
+            save(valueSetsContainerEn)
+            load() shouldBe valueSetsContainerEn
         }
     }
 
@@ -54,8 +55,8 @@ class ValueSetsStorageTest : BaseTest() {
     }
 
     @Test
-    fun `storage format`() {
-        createInstance().valueSetsContainer = valueSetsContainerDe
+    fun `storage format`() = runBlockingTest {
+        createInstance().save(valueSetsContainerDe)
         (prefs.dataMapPeek["valuesets_container"] as String).toComparableJsonPretty() shouldBe """
             {
               "vaccinationValueSets": {
@@ -132,8 +133,8 @@ class ValueSetsStorageTest : BaseTest() {
         """.toComparableJsonPretty()
 
         createInstance().apply {
-            valueSetsContainer shouldBe valueSetsContainerDe
-            valueSetsContainer = emptyValueSetsContainer
+            load() shouldBe valueSetsContainerDe
+            save(emptyValueSetsContainer)
         }
         (prefs.dataMapPeek["valuesets_container"] as String).toComparableJsonPretty() shouldBe """
             {
@@ -170,11 +171,11 @@ class ValueSetsStorageTest : BaseTest() {
             }
         """.toComparableJsonPretty()
 
-        createInstance().valueSetsContainer shouldBe emptyValueSetsContainer
+        createInstance().load() shouldBe emptyValueSetsContainer
     }
 
     @Test
-    fun `removes leftover`() {
+    fun `removes leftover`() = runBlockingTest {
         val leftover = "I'm a malicious leftover"
         val valueSet = "valueset"
         prefs.edit(commit = true) {
@@ -182,7 +183,7 @@ class ValueSetsStorageTest : BaseTest() {
         }
 
         prefs.dataMapPeek[valueSet] shouldBe leftover
-        createInstance().valueSetsContainer shouldBe emptyValueSetsContainer
+        createInstance().load() shouldBe emptyValueSetsContainer
         prefs.dataMapPeek.isEmpty() shouldBe true
     }
 }
