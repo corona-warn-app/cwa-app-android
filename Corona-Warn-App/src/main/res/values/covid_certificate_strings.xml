@@ -25,6 +25,12 @@
     <string name="person_card_title">"EU"</string>
     <!-- XTXT: Person card subtitle-->
     <string name="person_card_subtitle">"Digital COVID Certificate"</string>
+    <!-- XTXT: Certificate QR code expiration text-->
+    <string name="certificate_qr_expiration">"Zertifikat läuft am %s um %s Uhr ab"</string>
+    <!-- XTXT: Certificate QR code expired text-->
+    <string name="certificate_qr_expired">"Zertifikat abgelaufen"</string>
+    <!-- XTXT: Certificate QR code invalid signature-->
+    <string name="certificate_qr_invalid_signature">"Zertifikat (Signatur) ungültig"</string>
 
     <!-- XTXT: Vaccination Consent title-->
     <string name="vaccination_consent_title">"Your Consent"</string>
