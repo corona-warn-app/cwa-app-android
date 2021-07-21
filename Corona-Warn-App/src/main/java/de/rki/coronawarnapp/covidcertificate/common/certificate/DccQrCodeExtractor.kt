@@ -176,7 +176,6 @@ class DccQrCodeExtractor @Inject constructor(
     }
 
     fun RawCOSEObject.parse(mode: DccV1Parser.Mode): DccData<DccV1.MetaData> = try {
-        Timber.v("Parsing COSE for covid certificate.")
         val message = coseDecoder.decode(this)
         val header = headerParser.parse(message.payload)
         val body = bodyParser.parse(message.payload, mode)
@@ -191,6 +190,7 @@ class DccQrCodeExtractor @Inject constructor(
             Timber.v("Parsed covid certificate for %s", it.certificate.nameData.familyNameStandardized)
         }
     } catch (e: InvalidHealthCertificateException) {
+        Timber.e(e)
         throw e
     } catch (e: Throwable) {
         Timber.e(e)

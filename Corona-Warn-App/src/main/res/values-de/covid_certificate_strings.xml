@@ -157,7 +157,7 @@
     <!-- XTXT: Validation start date and time dropdown hint -->
     <string name="validation_start_date_hint">"Datum und Uhrzeit"</string>
     <!-- XTXT: Validation start date and time info -->
-    <string name="validation_start_date_info">"Geben Sie Ihr Einreisedatum und die lokale Uhrzeit des Reiselandes ein."</string>
+    <string name="validation_start_date_info">"Geben Sie Ihr Einreisedatum und Ihre lokale Uhrzeit ein."</string>
     <!-- XTXT: Validation start certificate proof -->
     <string name="validation_start_certificate_proof">"Ein COVID-Zertifikat gilt bei Reisen innerhalb der EU als Nachweis."</string>
     <!-- XTXT: Validation start note subtitle -->
@@ -169,7 +169,7 @@
     <!-- XTXT: Validation start note point 3 -->
     <string name="validation_start_note_point_3">"Um die Echtheit eines Zertifikats sicherzustellen, wird jedes Zertifikat mit einer digitalen Signatur ausgestellt. Diese Signatur wird nur in einer Prüf-Anwendung validiert."</string>
     <!-- XTXT: Validation start note point 4 -->
-    <string name="validation_start_note_point_4">"Ob die im Zertifikat eingetragenen Daten richtig sind, wird nicht geprüft."</string>
+    <string name="validation_start_note_point_4">"Ob die im Zertifikat eingetragenen Daten richtig sind, wird in der Corona-Warn-App nicht geprüft."</string>
     <!-- XTXT: Validation start FAQ -->
     <string name="validation_start_faq">"Mehr Informationen finden Sie in den FAQ und unter https://reopen.europa.eu/de."</string>
     <!-- XTXT: Validation start FAQ link -->
@@ -190,7 +190,7 @@
     <!-- XHED: No Internet connection diaglog title -->
     <string name="validation_start_no_internet_dialog_title">Überprüfung fehlgeschlagen</string>
     <!-- XTXT: No Internet connection diaglog message -->
-    <string name="validation_start_no_internet_dialog_msg">Ihre Internetverbindung wurde unterbrochen. Um die Gültigkeit des Zertifikates abzuschließen, prüfen Sie die Verbindung und versuchen Sie es erneut.</string>
+    <string name="validation_start_no_internet_dialog_msg">Ihre Internetverbindung wurde unterbrochen. Um die Gültigkeitsprüfung des Zertifikates abzuschließen, prüfen Sie die Verbindung und versuchen Sie es erneut.</string>
     <!-- XBUT: No Internet connection diaglog positive button -->
     <string name="validation_start_no_internet_dialog_positive_button">OK</string>
 
@@ -235,4 +235,39 @@
     <string name="validation_failed_title">Zertifikat nicht gültig</string>
     <!-- XHED: Toolbar title for the validation open screen -->
     <string name="validation_open_title">Zertifikat nicht prüfbar</string>
+
+    <!-- Validation Rule View Holder: Business Rule Validation Open -->
+    <!-- XHED: subtitle for the validation open card  -->
+    <string name="validation_rules_open_vh_subtitle">"Dies ist eine Regel des Reiselandes %s."</string>
+    <!-- XTXT: validation start for the validation open card  -->
+    <string name="validation_rules_open_vh_start_date">"Datum und Uhrzeit der Probenahme / Date and Time of Sample Collection (YYYY-MM-DD hh:mm Z)"</string>
+    <!-- XTXT: title for the validation open card  -->
+    <string name="validation_rules_open_vh_title">"Ein Antigentest ist maximal 48h gültig."</string>
+
+    <!-- Validation Rule View Holder: Business Rule Validation Failed -->
+    <!-- XHED: title for the validation failed card  -->
+    <string name="validation_rules_failed_vh_title_uncertified_test_center">"Ein Testzertifikat muss von einem zertifizierten Testzentrum ausgestellt werden."</string>
+    <!-- XTXT: subtitle for the validation failed card  -->
+    <string name="validation_rules_failed_vh_subtitle_uncertified_test_center">"Dies ist eine Regel des Ausstellerlandes."</string>
+    <!-- XTXT: test center title for the validation failed card  -->
+    <string name="validation_rules_failed_vh_test_center_title">"Testzentrum oder -einrichtung / Testing Center"</string>
+    <!-- XHED: title for the validation failed card  -->
+    <string name="validation_rules_failed_vh_title_wrong_test_type">"Art des Tests muss Antigen-Test oder Nukleinsäureamplifikations-Test sein."</string>
+    <!-- XHED: subtitle for the validation failed card  -->
+    <string name="validation_rules_failed_vh_subtitle_wrong_test_type">"Ein Testzertifikat muss von einem zertifizierten Testzentrum ausgestellt werden."</string>
+    <!-- XTXT: rule id for the validation failed card  -->
+    <string name="validation_rules_failed_vh_test_type">"Art des Tests / Type of Test"</string>
+
+    <!-- XHED: travel country for the validation failed card  -->
+    <string name="validation_rules_failed_vh_travel_country">"Dies ist eine Regel des Reiselandes %s."</string>
+    <!-- XHED: issuer country for the validation failed card  -->
+    <string name="validation_rules_failed_vh_issuer_country">"Dies ist eine Regel des Ausstellerlandes %s."</string>
+
+
+    <!-- XHED: Vaccination Detail expiration Date title -->
+    <string name="expiration_date_title">Technisches Ablaufdatum</string>
+    <!-- XHED: Vaccination Detail expiration Date -->
+    <string name="expiration_date">Gültig bis %1$s</string>
+    <!-- XHED: Vaccination Detail expiration info -->
+    <string name="expiration_info">Bitte bemühen Sie sich rechtzeitig darum, einen neuen digitalen Nachweis ausstellen zu lassen.</string>
 </resources>

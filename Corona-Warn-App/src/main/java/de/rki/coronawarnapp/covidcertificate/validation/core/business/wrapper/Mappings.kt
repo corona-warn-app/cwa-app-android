@@ -14,23 +14,27 @@ import dgca.verifier.app.engine.UTC_ZONE_ID
 import dgca.verifier.app.engine.data.CertificateType
 import dgca.verifier.app.engine.data.ExternalParameter
 import dgca.verifier.app.engine.data.Rule
+import dgca.verifier.app.engine.data.RuleCertificateType
 import dgca.verifier.app.engine.data.Type
 import org.joda.time.Instant
+import org.joda.time.LocalDateTime
+import java.time.ZoneId
 import java.time.ZonedDateTime
 
 internal fun assembleExternalParameter(
     certificate: DccData<*>,
-    validationClock: Instant,
+    validationDateTime: LocalDateTime,
     countryCode: String,
     valueSets: Map<String, List<String>>,
 ): ExternalParameter {
     return ExternalParameter(
         kid = certificate.kid,
-        validationClock = validationClock.toZonedDateTime(),
+        validationClock = validationDateTime.asZonedDateTime(ZoneId.systemDefault()),
         valueSets = valueSets,
         countryCode = countryCode,
-        exp = certificate.header.expiresAt.toZonedDateTime(),
-        iat = certificate.header.issuedAt.toZonedDateTime()
+        issuerCountryCode = certificate.header.issuer,
+        exp = certificate.header.expiresAt.toZonedDateTime(UTC_ZONE_ID),
+        iat = certificate.header.issuedAt.toZonedDateTime(UTC_ZONE_ID)
     )
 }
 
@@ -48,7 +52,7 @@ internal val DccValidationRule.asExternalRule: Rule
         schemaVersion = schemaVersion,
         engine = engine,
         engineVersion = engineVersion,
-        certificateType = certificateType.asExternalCertificateType,
+        ruleCertificateType = certificateType.asExternalCertificateType,
         descriptions = description.map { it.languageCode to it.description }.toMap(),
         validFrom = validFrom.toZonedDateTime(),
         validTo = validTo.toZonedDateTime(),
@@ -72,8 +76,8 @@ private fun Rule.asDccValidationRule() = DccValidationRule(
     schemaVersion = schemaVersion,
     engine = engine,
     engineVersion = engineVersion,
-    certificateType = certificateType.asInternalString,
-    description = descriptions.map { DccValidationRule.Description(description = it.key, languageCode = it.value) },
+    certificateType = ruleCertificateType.asInternalString,
+    description = descriptions.map { DccValidationRule.Description(languageCode = it.key, description = it.value) },
     validFrom = validFrom.asExternalString,
     validTo = validTo.asExternalString,
     affectedFields = affectedString,
@@ -93,26 +97,26 @@ private val DccValidationRule.Type.asExternalType: Type
         DccValidationRule.Type.INVALIDATION -> Type.INVALIDATION
     }
 
-private val CertificateType.asInternalString: String
+private val RuleCertificateType.asInternalString: String
     get() = when (this) {
-        CertificateType.GENERAL -> GENERAL
-        CertificateType.TEST -> TEST
-        CertificateType.VACCINATION -> VACCINATION
-        CertificateType.RECOVERY -> RECOVERY
+        RuleCertificateType.GENERAL -> GENERAL
+        RuleCertificateType.TEST -> TEST
+        RuleCertificateType.VACCINATION -> VACCINATION
+        RuleCertificateType.RECOVERY -> RECOVERY
     }
 
-private val String.asExternalCertificateType: CertificateType
+private val String.asExternalCertificateType: RuleCertificateType
     get() = when (this.uppercase()) {
-        GENERAL.uppercase() -> CertificateType.GENERAL
-        TEST.uppercase() -> CertificateType.TEST
-        VACCINATION.uppercase() -> CertificateType.VACCINATION
-        RECOVERY.uppercase() -> CertificateType.RECOVERY
+        GENERAL.uppercase() -> RuleCertificateType.GENERAL
+        TEST.uppercase() -> RuleCertificateType.TEST
+        VACCINATION.uppercase() -> RuleCertificateType.VACCINATION
+        RECOVERY.uppercase() -> RuleCertificateType.RECOVERY
         else -> throw IllegalArgumentException()
     }
 
 @VisibleForTesting
-internal fun Instant.toZonedDateTime(): ZonedDateTime {
-    return ZonedDateTime.ofInstant(java.time.Instant.ofEpochMilli(this.millis), UTC_ZONE_ID)
+internal fun Instant.toZonedDateTime(zoneId: ZoneId): ZonedDateTime {
+    return ZonedDateTime.ofInstant(java.time.Instant.ofEpochMilli(this.millis), zoneId)
 }
 
 @VisibleForTesting
@@ -124,33 +128,52 @@ internal fun String.toZonedDateTime(): ZonedDateTime {
 internal val ZonedDateTime.asExternalString: String
     get() = this.toString()
 
-internal val DccData<out DccV1.MetaData>.type: String
+internal val DccData<out DccV1.MetaData>.asExternalType: CertificateType
+    get() = when (certificate) {
+        is VaccinationDccV1 -> CertificateType.VACCINATION
+        is TestDccV1 -> CertificateType.TEST
+        is RecoveryDccV1 -> CertificateType.RECOVERY
+        else -> throw IllegalArgumentException("Unknown certificate type.")
+    }
+
+internal val DccData<out DccV1.MetaData>.typeString: String
     get() = when (certificate) {
         is VaccinationDccV1 -> VACCINATION
         is TestDccV1 -> TEST
         is RecoveryDccV1 -> RECOVERY
-        else -> GENERAL
+        else -> throw IllegalArgumentException("Unknown certificate type.")
     }
 
 internal fun List<DccValidationRule>.filterRelevantRules(
-    validationClock: Instant,
+    validationDateTime: LocalDateTime,
     certificateType: String,
-    arrivalCountry: DccCountry,
+    country: DccCountry,
 ): List<DccValidationRule> = this
     .asSequence()
-    .filter { it.country.uppercase() == arrivalCountry.countryCode.uppercase() }
+    .filter { it.country.uppercase() == country.countryCode.uppercase() }
     .filter { rule ->
         rule.certificateType.uppercase() == GENERAL.uppercase() ||
             rule.certificateType.uppercase() == certificateType.uppercase()
     }
     .filter { rule ->
-        rule.validFromInstant <= validationClock && rule.validToInstant >= validationClock
+        rule.validFromDateTime <= validationDateTime && rule.validToDateTime >= validationDateTime
     }
     .groupBy { it.identifier }
     .mapNotNull { entry ->
         entry.value.maxByOrNull { it.versionSemVer }
     }
     .toList()
+
+internal fun LocalDateTime.asZonedDateTime(zoneId: ZoneId): ZonedDateTime = ZonedDateTime.of(
+    year,
+    monthOfYear,
+    dayOfMonth,
+    hourOfDay,
+    minuteOfHour,
+    secondOfMinute,
+    0,
+    zoneId
+)
 
 internal const val GENERAL = "General"
 internal const val TEST = "Test"

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule.Description
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule.Type
-import dgca.verifier.app.engine.data.CertificateType
+import dgca.verifier.app.engine.data.RuleCertificateType
 
 internal val logicVaccinationDose = ObjectMapper().readTree(
     """{"and":[{">":[{"var":"payload.v.0.dn"},0]},{">=":[{"var":"payload.v.0.dn"},{"var":"payload.v.0.sd"}]}]}"""
@@ -54,12 +54,12 @@ internal val logicExactlyOne = ObjectMapper().readTree(
 )
 
 fun createDccRule(
-    certificateType: CertificateType,
+    certificateType: RuleCertificateType,
     identifier: String = when (certificateType) {
-        CertificateType.GENERAL -> "GR-DE-1"
-        CertificateType.TEST -> "TR-DE-1"
-        CertificateType.VACCINATION -> "VR-DE-1"
-        CertificateType.RECOVERY -> "RR-DE-1"
+        RuleCertificateType.GENERAL -> "GR-DE-1"
+        RuleCertificateType.TEST -> "TR-DE-1"
+        RuleCertificateType.VACCINATION -> "VR-DE-1"
+        RuleCertificateType.RECOVERY -> "RR-DE-1"
     },
     validFrom: String = "2021-05-27T07:46:40Z",
     validTo: String = "2022-08-01T07:46:40Z",
@@ -75,24 +75,24 @@ fun createDccRule(
     country = country,
     certificateType = certificateType.name,
     description = when (certificateType) {
-        CertificateType.GENERAL -> listOf(Description("en", "Exactly one type of event."))
-        CertificateType.TEST -> listOf(Description("en", "Test is outdated."))
-        CertificateType.VACCINATION -> listOf(Description("en", "Vaccination must be complete."))
-        CertificateType.RECOVERY -> throw NotImplementedError()
+        RuleCertificateType.GENERAL -> listOf(Description("en", "Exactly one type of event."))
+        RuleCertificateType.TEST -> listOf(Description("en", "Test is outdated."))
+        RuleCertificateType.VACCINATION -> listOf(Description("en", "Vaccination must be complete."))
+        RuleCertificateType.RECOVERY -> throw NotImplementedError()
     },
     validFrom = validFrom,
     validTo = validTo,
     affectedFields = when (certificateType) {
-        CertificateType.GENERAL -> listOf("payload.ver")
-        CertificateType.TEST -> listOf("t.0.sc")
-        CertificateType.VACCINATION -> listOf("v.0.dn", "v.0.sd")
-        CertificateType.RECOVERY -> throw NotImplementedError()
+        RuleCertificateType.GENERAL -> listOf("payload.ver")
+        RuleCertificateType.TEST -> listOf("t.0.sc")
+        RuleCertificateType.VACCINATION -> listOf("v.0.dn", "v.0.sd")
+        RuleCertificateType.RECOVERY -> throw NotImplementedError()
     },
     logic = when (certificateType) {
-        CertificateType.GENERAL -> logicExactlyOne
-        CertificateType.TEST -> logicExactlyOne // TODO
-        CertificateType.VACCINATION -> logicVaccinationDose
-        CertificateType.RECOVERY -> throw NotImplementedError()
+        RuleCertificateType.GENERAL -> logicExactlyOne
+        RuleCertificateType.TEST -> logicExactlyOne // TODO
+        RuleCertificateType.VACCINATION -> logicVaccinationDose
+        RuleCertificateType.RECOVERY -> throw NotImplementedError()
     }
 )
 

@@ -300,6 +300,14 @@
 
                 </LinearLayout>
 
+                <include
+                    android:id="@+id/expiration_notice"
+                    layout="@layout/include_expiration_notice_card"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp" />
+
                 <LinearLayout
                     android:id="@+id/one_shot_info"
                     style="@style/Card.Vaccination"

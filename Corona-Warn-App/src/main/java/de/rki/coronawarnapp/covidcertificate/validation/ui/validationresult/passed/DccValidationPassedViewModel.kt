@@ -5,11 +5,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.RuleHeaderVH
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationFaqVH
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationInputVH
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationOverallResultVH
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationPassedHintVH
+import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.ValidationResultItemCreator
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationResultItem
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -20,6 +16,7 @@ import timber.log.Timber
 
 class DccValidationPassedViewModel @AssistedInject constructor(
     @Assisted private val validation: DccValidation,
+    val itemCreator: ValidationResultItemCreator,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -35,17 +32,23 @@ class DccValidationPassedViewModel @AssistedInject constructor(
         if (validation.state != DccValidation.State.PASSED) {
             throw IllegalStateException(
                 "Expected validation state to be ${DccValidation.State.PASSED.name} " +
-                    "but is ${validation.state.name}"
+                    "but was ${validation.state.name}"
             )
         }
 
-        return listOf(
-            ValidationInputVH.Item(validation),
-            ValidationOverallResultVH.Item(validation.state),
-            RuleHeaderVH.Item(type = validation.state, ruleCount = validation.rules.size),
-            ValidationPassedHintVH.Item,
-            ValidationFaqVH.Item
-        )
+        return with(itemCreator) {
+            listOf(
+                validationInputVHItem(userInput = validation.userInput, validatedAt = validation.validatedAt),
+                validationOverallResultVHItem(state = validation.state),
+                ruleHeaderVHItem(
+                    state = validation.state,
+                    hideTitle = true,
+                    ruleCount = validation.acceptanceRules.size
+                ),
+                validationPassedHintVHItem(),
+                validationFaqVHItem()
+            )
+        }
     }
 
     fun onCheckAnotherCountryClicked() {

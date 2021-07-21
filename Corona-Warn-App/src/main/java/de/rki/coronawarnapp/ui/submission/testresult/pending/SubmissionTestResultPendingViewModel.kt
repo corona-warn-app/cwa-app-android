@@ -76,7 +76,7 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
                 CoronaTestResult.RAT_NEGATIVE ->
                     SubmissionTestResultPendingFragmentDirections
                         .actionSubmissionTestResultPendingFragmentToSubmissionNegativeAntigenTestResultFragment()
-                CoronaTestResult.PCR_REDEEMED,
+                CoronaTestResult.PCR_OR_RAT_REDEEMED,
                 CoronaTestResult.PCR_INVALID,
                 CoronaTestResult.RAT_REDEEMED,
                 CoronaTestResult.RAT_INVALID ->
