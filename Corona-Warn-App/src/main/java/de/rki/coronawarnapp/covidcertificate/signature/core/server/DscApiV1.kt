@@ -8,5 +8,4 @@ interface DscApiV1 {
 
     @GET("/version/v1/ehn-dgc/dscs")
     suspend fun dscList(): Response<ResponseBody>
-
 }
