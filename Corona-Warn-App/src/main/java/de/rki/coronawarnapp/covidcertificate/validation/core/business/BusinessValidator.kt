@@ -34,7 +34,7 @@ class BusinessValidator @Inject constructor(
         val validationDateTime = localValidationDateTime.toDateTime(timeZone)
 
         // accepted by arrival country
-        Timber.i("Validating acceptance rules of ${arrivalCountry.countryCode} on $localValidationDateTime.")
+        Timber.i("Validating acceptance rules of ${arrivalCountry.countryCode} at $validationDateTime.")
         val acceptanceResults = certLogicEngineWrapper.process(
             rules = ruleRepository.acceptanceRules.first().filterRelevantRules(
                 validationDateTime = validationDateTime,
@@ -47,7 +47,7 @@ class BusinessValidator @Inject constructor(
         )
 
         // valid as defined by the issuing country
-        Timber.i("Validating invalidation rules of ${arrivalCountry.countryCode} on $localValidationDateTime.")
+        Timber.i("Validating invalidation rules of ${arrivalCountry.countryCode} at $validationDateTime.")
         val issuerCountry = DccCountry(certificate.header.issuer)
         val invalidationResults = certLogicEngineWrapper.process(
             rules = ruleRepository.invalidationRules.first().filterRelevantRules(
