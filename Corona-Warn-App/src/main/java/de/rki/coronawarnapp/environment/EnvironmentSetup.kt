@@ -8,7 +8,6 @@ import com.google.gson.JsonPrimitive
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.CROWD_NOTIFIER_PUBLIC_KEY
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.DATA_DONATION
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.DCC
-import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.DSC
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.DOWNLOAD
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.LOG_UPLOAD
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.SAFETYNET_API_KEY
@@ -41,7 +40,6 @@ class EnvironmentSetup @Inject constructor(
         SAFETYNET_API_KEY("SAFETYNET_API_KEY"),
         CROWD_NOTIFIER_PUBLIC_KEY("CROWD_NOTIFIER_PUBLIC_KEY"),
         DCC("DCC_SERVER_URL"),
-        DSC("DSC_SERVER_URL"),
     }
 
     enum class Type(val rawKey: String) {
@@ -146,9 +144,6 @@ class EnvironmentSetup @Inject constructor(
 
     val dccServerUrl: String
         get() = getEnvironmentValue(DCC).asString
-
-    val dscServerUrl: String
-        get() = getEnvironmentValue(DSC).asString
 
     companion object {
         private const val PKEY_CURRENT_ENVIRONMENT = "environment.current"

@@ -1,8 +1,8 @@
-package de.rki.coronawarnapp.environment.covidcertificate.signature
+package de.rki.coronawarnapp.environment.covidcertificate
 
 import javax.inject.Qualifier
 
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
-annotation class DSCHttpClient
+annotation class DCCHttpClient

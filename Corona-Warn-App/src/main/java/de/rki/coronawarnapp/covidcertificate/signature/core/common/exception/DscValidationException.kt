@@ -20,6 +20,7 @@ open class DscValidationException(
         SIGNATURE_INVALID("Acceptance rules archive has an invalid signature."),
         EXTRACTION_FAILED("Acceptance rules could not be extracted from archive."),
         NO_NETWORK("No or poor network when downloading value sets, acceptance rules, or invalidation rules."),
+        SERVER_ERROR("Update of DSCs failed with server error."),
     }
 
     open val errorMessage: LazyString

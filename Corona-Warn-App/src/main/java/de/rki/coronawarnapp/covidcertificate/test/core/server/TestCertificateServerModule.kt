@@ -3,8 +3,8 @@ package de.rki.coronawarnapp.covidcertificate.test.core.server
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
-import de.rki.coronawarnapp.environment.covidcertificate.test.DCCHttpClient
-import de.rki.coronawarnapp.environment.covidcertificate.test.DCCServerUrl
+import de.rki.coronawarnapp.environment.covidcertificate.DCCHttpClient
+import de.rki.coronawarnapp.environment.covidcertificate.DCCServerUrl
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import retrofit2.Converter

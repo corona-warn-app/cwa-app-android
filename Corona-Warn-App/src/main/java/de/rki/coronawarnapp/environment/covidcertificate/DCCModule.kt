@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.environment.covidcertificate.test
+package de.rki.coronawarnapp.environment.covidcertificate
 
 import dagger.Module
 import dagger.Provides
