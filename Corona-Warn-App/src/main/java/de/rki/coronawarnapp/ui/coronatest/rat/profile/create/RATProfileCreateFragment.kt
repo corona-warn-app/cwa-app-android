@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ui.coronatest.rat.profile.create
 
 import android.os.Bundle
 import android.telephony.PhoneNumberFormattingTextWatcher
-import android.telephony.PhoneNumberUtils
 import android.util.Patterns
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
