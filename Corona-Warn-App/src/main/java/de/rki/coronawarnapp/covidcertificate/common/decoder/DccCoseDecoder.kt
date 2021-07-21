@@ -144,9 +144,9 @@ class DccCoseDecoder @Inject constructor(
         val signature: ByteArray,
         val alg: Algorithm,
     ) {
-        enum class Algorithm {
-            ES256,
-            PS256
+        enum class Algorithm(algoName: String) {
+            ES256("SHA256withECDSA"),
+            PS256("SHA256WithRSA")
         }
     }
 }
