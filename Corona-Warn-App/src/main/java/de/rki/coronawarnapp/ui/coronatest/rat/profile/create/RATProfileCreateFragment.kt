@@ -1,6 +1,9 @@
 package de.rki.coronawarnapp.ui.coronatest.rat.profile.create
 
 import android.os.Bundle
+import android.telephony.PhoneNumberFormattingTextWatcher
+import android.telephony.PhoneNumberUtils
+import android.util.Patterns
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -55,10 +58,41 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
             zipCodeInputEdit.doAfterTextChanged { viewModel.zipCodeChanged(it.toString()) }
 
             // Phone
-            phoneInputEdit.doAfterTextChanged { viewModel.phoneChanged(it.toString()) }
+            phoneInputEdit.doAfterTextChanged {
+                // Propagate phone number to view model if it matches the pattern
+                if (Patterns.PHONE.matcher(it.toString()).matches()) {
+                    viewModel.phoneChanged(it.toString())
+                } else {
+                    viewModel.phoneChanged("")
+                }
+            }
+            phoneInputEdit.setOnFocusChangeListener { _, hasFocus ->
+                // Validate phone number
+                if (!hasFocus && !Patterns.PHONE.matcher(phoneInputEdit.text.toString()).matches()) {
+                    phoneInputLayout.error = "Invalid phone number"
+                } else {
+                    phoneInputLayout.error = null
+                }
+            }
+            phoneInputEdit.addTextChangedListener(PhoneNumberFormattingTextWatcher())
 
             // E-mail
-            emailInputEdit.addEmojiFilter().doAfterTextChanged { viewModel.emailChanged(it.toString()) }
+            emailInputEdit.addEmojiFilter().doAfterTextChanged {
+                // Propagate email to view model if it matches the pattern
+                if (Patterns.EMAIL_ADDRESS.matcher(it.toString()).matches()) {
+                    viewModel.emailChanged(it.toString())
+                } else {
+                    viewModel.phoneChanged("")
+                }
+            }
+            emailInputEdit.setOnFocusChangeListener { _, hasFocus ->
+                // Validate email
+                if (!hasFocus && !Patterns.EMAIL_ADDRESS.matcher(emailInputEdit.text.toString()).matches()) {
+                    emailInputLayout.error = "Invalid email address"
+                } else {
+                    emailInputLayout.error = null
+                }
+            }
 
             viewModel.profile.observe(viewLifecycleOwner) { profileSaveButton.isEnabled = it.isValid }
             viewModel.latestProfile.observe(viewLifecycleOwner) { it?.let { bindProfile(it) } }
