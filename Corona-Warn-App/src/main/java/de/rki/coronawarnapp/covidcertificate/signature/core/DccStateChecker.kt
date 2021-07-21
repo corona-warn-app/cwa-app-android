@@ -6,8 +6,10 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
-import org.joda.time.Duration
+import org.joda.time.DateTimeZone
+import org.joda.time.Days
 import org.joda.time.Instant
 import javax.inject.Inject
 
@@ -22,10 +24,28 @@ class DccStateChecker @Inject constructor(
     suspend fun checkState(
         dccData: DccData<*>
     ): Flow<CwaCovidCertificate.State> = flow {
-        // TODO
-        val state = CwaCovidCertificate.State.Valid(
-            expiresAt = Instant.now().plus(Duration.standardDays(21))
-        )
+        // TODO signature check
+
+        val expirationThresholdInDays = appConfigProvider.currentConfig.first()
+            .covidCertificateParameters.expirationThresholdInDays
+        val daysUntilExpiration = dccData.daysUntilExpiration(timeStamper.nowUTC)
+        val diff = daysUntilExpiration - expirationThresholdInDays
+        val expiresAt = dccData.header.expiresAt
+        val state: CwaCovidCertificate.State = when {
+            daysUntilExpiration <= 0 -> CwaCovidCertificate.State.Expired(expiresAt)
+            diff > 0 -> CwaCovidCertificate.State.Valid(expiresAt)
+            diff <= 0 -> CwaCovidCertificate.State.ExpiringSoon(expiresAt)
+            else -> throw IllegalArgumentException()// impossible!
+        }
         emit(state)
+    }
+
+    private fun DccData<*>.daysUntilExpiration(
+        now: Instant,
+        timeZone: DateTimeZone = DateTimeZone.getDefault()
+    ): Int {
+        val expirationDate = header.expiresAt.toDateTime(timeZone).toLocalDate()
+        val today = now.toDateTime(timeZone).toLocalDate()
+        return Days.daysBetween(today, expirationDate).days
     }
 }
