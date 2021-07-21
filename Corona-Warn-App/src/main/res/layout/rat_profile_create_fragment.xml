@@ -150,6 +150,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="true"
+                    android:maxLength="5"
                     android:imeOptions="actionNext|flagNoPersonalizedLearning"
                     android:inputType="number" />
 
