@@ -53,7 +53,7 @@ class DscSignatureValidator @Inject constructor(
     /**
      * @throws InvalidHealthCertificateException if validation fail, otherwise it is OK!
      */
-    suspend fun validateSignature(dscData: DscData, dccData: DccData<*>, qrCodeString: QrCodeString): Boolean {
+    suspend fun validateSignature(dscData: DscData, dccData: DccData<*>, qrCodeString: QrCodeString) {
         Timber.tag(TAG).d("isSignatureValid(dscData=%s,certificateData=%s)", dscData, qrCodeString)
         val coseObject = dccQrCodeExtractor.extractCoseObject(qrCodeString)
         val dscMessage = dccCoseDecoder.decodeDscMessage(coseObject)
@@ -82,10 +82,7 @@ class DscSignatureValidator @Inject constructor(
 
         val dsc = findDscForDgc(dscData, dscMessage, verifier, signedPayloadHash)
         // TODO validate Dsc against Validation Clock
-
         x509certificate(dsc).checkCertOid(dccData)
-
-        return false
     }
 
     private fun findDscForDgc(
