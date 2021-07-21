@@ -156,7 +156,7 @@
     <!-- XTXT: Validation start date and time dropdown hint -->
     <string name="validation_start_date_hint">"Tarih ve saat"</string>
     <!-- XTXT: Validation start date and time info -->
-    <string name="validation_start_date_info">"Gideceğiniz ülkeye giriş tarihinizi ve bu ülkenin yerel saatini girin."</string>
+    <string name="validation_start_date_info">"Giriş tarihinizi ve yerel saatinizi girin."</string>
     <!-- XTXT: Validation start certificate proof -->
     <string name="validation_start_certificate_proof">"COVID sertifikası, AB\'de seyahat için geçerli bir kanıttır."</string>
     <!-- XTXT: Validation start note subtitle -->
