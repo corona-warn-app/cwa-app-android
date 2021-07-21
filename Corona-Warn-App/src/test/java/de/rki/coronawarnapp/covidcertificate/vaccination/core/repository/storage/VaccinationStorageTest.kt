@@ -10,6 +10,7 @@ import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -49,20 +50,20 @@ class VaccinationStorageTest : BaseTest() {
     }
 
     @Test
-    fun `storing empty set deletes data`() {
+    fun `storing empty set deletes data`() = runBlockingTest {
         mockPreferences.edit {
             putString("dontdeleteme", "test")
             putString("vaccination.person.test", "test")
         }
-        createInstance().personContainers = emptySet()
+        createInstance().save(emptySet())
 
         mockPreferences.dataMapPeek.keys.single() shouldBe "dontdeleteme"
     }
 
     @Test
-    fun `store one person`() {
+    fun `store one person`() = runBlockingTest {
         val instance = createInstance()
-        instance.personContainers = setOf(testData.personAData2Vac)
+        instance.save(setOf(testData.personAData2Vac))
 
         val json =
             (mockPreferences.dataMapPeek["vaccination.person.1966-11-11#ASTRA<EINS#ANDREAS"] as String)
@@ -81,7 +82,7 @@ class VaccinationStorageTest : BaseTest() {
             }
         """.toComparableJsonPretty()
 
-        instance.personContainers.single().apply {
+        instance.load().single().apply {
             this shouldBe testData.personAData2Vac
             this.vaccinations shouldBe setOf(
                 testData.personAVac1Container,
@@ -91,9 +92,9 @@ class VaccinationStorageTest : BaseTest() {
     }
 
     @Test
-    fun `post processor injects data extractors`() {
-        createInstance().personContainers = setOf(testData.personAData2Vac)
+    fun `post processor injects data extractors`() = runBlockingTest {
+        createInstance().save(setOf(testData.personAData2Vac))
 
-        createInstance().personContainers.single().vaccinations.first().qrCodeExtractor shouldNotBe null
+        createInstance().load().single().vaccinations.first().qrCodeExtractor shouldNotBe null
     }
 }
