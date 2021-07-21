@@ -12,7 +12,7 @@ import dgca.verifier.app.engine.DefaultAffectedFieldsDataRetriever
 import dgca.verifier.app.engine.DefaultCertLogicEngine
 import dgca.verifier.app.engine.DefaultJsonLogicValidator
 import kotlinx.coroutines.flow.first
-import org.joda.time.LocalDateTime
+import org.joda.time.DateTime
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -35,7 +35,7 @@ class CertLogicEngineWrapper @Inject constructor(
 
     suspend fun process(
         rules: List<DccValidationRule>,
-        validationDateTime: LocalDateTime,
+        validationDateTime: DateTime,
         certificate: DccData<out DccV1.MetaData>,
         countryCode: String,
     ): Set<EvaluatedDccRule> {

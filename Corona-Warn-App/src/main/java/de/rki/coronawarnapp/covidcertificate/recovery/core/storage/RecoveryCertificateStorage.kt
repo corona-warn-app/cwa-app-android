@@ -6,6 +6,8 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -16,37 +18,31 @@ class RecoveryCertificateStorage @Inject constructor(
     @BaseGson val gson: Gson,
 ) {
 
+    private val mutex = Mutex()
     private val prefs by lazy {
         context.getSharedPreferences("recovery_localdata", Context.MODE_PRIVATE)
     }
 
-    var recoveryCertificates: Set<StoredRecoveryCertificateData>
-        get() {
-            Timber.tag(TAG).d("recoveryCertificates - load()")
-            return gson.fromJson<Set<StoredRecoveryCertificateData>>(
+    suspend fun load(): Set<StoredRecoveryCertificateData> = mutex.withLock {
+        Timber.tag(TAG).d("recoveryCertificates - load()")
+        return gson
+            .fromJson<Set<StoredRecoveryCertificateData>>(
                 prefs.getString(PKEY_RECOVERY_CERT, null) ?: return emptySet(), TYPE_TOKEN
-            ).onEach {
-                Timber.tag(TAG).v("recovery certificate loaded: %s", it)
+            )
+            .onEach { Timber.tag(TAG).v("StoredRecoveryCertificateData loaded: %s", it) }
+    }
+
+    suspend fun save(certificates: Set<StoredRecoveryCertificateData>) = mutex.withLock {
+        Timber.tag(TAG).d("recoveryCertificates - save(%s)", certificates)
+        prefs.edit(commit = true) {
+            if (certificates.isEmpty()) {
+                remove(PKEY_RECOVERY_CERT)
+            } else {
+                val rawJson = gson.toJson(certificates, TYPE_TOKEN)
+                putString(PKEY_RECOVERY_CERT, rawJson)
             }
         }
-        set(value) {
-            Timber.tag(TAG).d("recoveryCertificates - save(%s)", value)
-            prefs.edit {
-                if (value.isEmpty()) {
-                    remove(PKEY_RECOVERY_CERT)
-                } else {
-                    putString(
-                        PKEY_RECOVERY_CERT,
-                        gson.toJson(
-                            value.onEach { data ->
-                                Timber.tag(TAG).v("Storing recovery certificate %s", data.recoveryCertificateQrCode)
-                            },
-                            TYPE_TOKEN
-                        )
-                    )
-                }
-            }
-        }
+    }
 
     companion object {
         private const val TAG = "RecoveryCertStorage"
