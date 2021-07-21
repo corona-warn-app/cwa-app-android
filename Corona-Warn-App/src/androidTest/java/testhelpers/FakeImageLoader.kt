@@ -54,11 +54,11 @@ fun createFakeImageLoaderForQrCodes(forcedQrCode: CoilQrCode? = null): suspend (
     }
 }
 
-fun createFakeDrawableProvider(@DrawableRes drawableRes: Int): suspend (ImageRequest) -> Drawable? {
+fun createFakeDrawableProvider(@DrawableRes forcedDrawableRes: Int? = null): suspend (ImageRequest) -> Drawable? {
     val context: Context = ApplicationProvider.getApplicationContext()
     return provider@{
         if (it.data !is Int) return@provider null
-        ContextCompat.getDrawable(context, drawableRes)!!
+        ContextCompat.getDrawable(context, forcedDrawableRes ?: it.data as Int)!!
     }
 }
 
