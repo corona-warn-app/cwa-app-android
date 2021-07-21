@@ -1,7 +1,9 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.details.items
 
 import android.graphics.Bitmap
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
@@ -59,6 +61,36 @@ class PersonDetailsQrCard(parent: ViewGroup) :
                         R.string.recovery_certificate_valid_until,
                         certificate.validUntil.toShortDayFormat()
                     )
+                }
+            }
+
+            when (certificate.getState()) {
+                is CwaCovidCertificate.State.ExpiringSoon -> {
+                    expirationStatusIcon.visibility = View.VISIBLE
+                    expirationStatusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_av_timer))
+                    expirationStatusText.visibility = View.VISIBLE
+                    expirationStatusText.text = context.getString(
+                        R.string.certificate_qr_expiration,
+                        curItem.certificate.headerExpiresAt.toShortDayFormat(),
+                        curItem.certificate.headerExpiresAt.toShortTimeFormat()
+                    )
+                }
+
+                is CwaCovidCertificate.State.Expired -> {
+                    expirationStatusIcon.visibility = View.VISIBLE
+                    expirationStatusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_error_outline))
+                    expirationStatusText.visibility = View.VISIBLE
+                    expirationStatusText.text = context.getText(R.string.certificate_qr_expired)
+                }
+
+                is CwaCovidCertificate.State.Invalid -> {
+                    expirationStatusIcon.visibility = View.VISIBLE
+                    expirationStatusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_error_outline))
+                    expirationStatusText.visibility = View.VISIBLE
+                    expirationStatusText.text = context.getText(R.string.certificate_qr_invalid_signature)
+                }
+
+                else -> {
                 }
             }
         }

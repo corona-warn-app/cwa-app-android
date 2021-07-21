@@ -33,4 +33,58 @@
         app:layout_constraintStart_toStartOf="@id/image"
         app:layout_constraintTop_toTopOf="@id/image" />
 
+    <TextView
+        android:id="@+id/qr_title"
+        style="@style/body2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_tiny"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/image"
+        app:layout_constraintTop_toBottomOf="@id/image"
+        tools:text="@string/detail_green_certificate_card_title" />
+
+    <TextView
+        android:id="@+id/qr_subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/qr_title"
+        app:layout_constraintTop_toBottomOf="@id/qr_title"
+        tools:text="Perobenahme am 31.05.21, 18:01 Uhr" />
+
+    <ImageView
+        android:id="@+id/expiration_status_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_tiny"
+        android:importantForAccessibility="no"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/qr_subtitle"
+        app:layout_constraintTop_toBottomOf="@id/qr_subtitle"
+        app:srcCompat="@drawable/ic_av_timer" />
+
+    <TextView
+        android:id="@+id/expiration_status_text"
+        style="@style/body2Medium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_tiny"
+        android:layout_marginEnd="@dimen/spacing_huge"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/image"
+        app:layout_constraintStart_toEndOf="@id/expiration_status_icon"
+        app:layout_constraintTop_toTopOf="@id/expiration_status_icon"
+        tools:text="Zertifikat läuft am 21.08.21 um 14:12 Uhr ab" />
+
+    <TextView
+        android:id="@+id/expiration_status_body"
+        style="@style/body2Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_tiny"
+        android:text="@string/expiration_info"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/expiration_status_icon"
+        app:layout_constraintTop_toBottomOf="@id/expiration_status_text" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

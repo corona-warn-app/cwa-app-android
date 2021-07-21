@@ -66,7 +66,7 @@ class PersonCertificateCard(parent: ViewGroup) :
                 expirationStatusText.text = context.getText(R.string.certificate_qr_expired)
             }
 
-            is CwaCovidCertificate.State.Valid -> {
+            is CwaCovidCertificate.State.Invalid -> {
                 expirationStatusIcon.visibility = View.VISIBLE
                 expirationStatusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_error_outline))
                 expirationStatusText.visibility = View.VISIBLE
