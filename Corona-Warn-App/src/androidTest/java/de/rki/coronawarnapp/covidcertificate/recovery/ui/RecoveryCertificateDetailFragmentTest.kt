@@ -8,6 +8,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.ScreenshotCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertificateDetailsFragment
@@ -23,8 +24,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
+import testhelpers.createFakeImageLoaderForQrCodes
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
+import testhelpers.setupFakeImageLoader
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
@@ -39,7 +42,9 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
-
+        setupFakeImageLoader(
+            createFakeImageLoaderForQrCodes()
+        )
         setupMockViewModel(
             object : RecoveryCertificateDetailsViewModel.Factory {
                 override fun create(
@@ -75,6 +80,7 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
             every { validFromFormatted } returns "2021-06-07"
             every { validUntilFormatted } returns "2021-11-10"
             every { certificateId } returns "05930482748454836478695764787841"
+            every { qrCode } returns ScreenshotCertificateTestData.recoveryCertificate
         }
 
         return MutableLiveData(mockCertificate)

@@ -8,6 +8,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.ScreenshotCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
@@ -30,8 +31,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
+import testhelpers.createFakeImageLoaderForQrCodes
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
+import testhelpers.setupFakeImageLoader
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
@@ -47,7 +50,9 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
-
+        setupFakeImageLoader(
+            createFakeImageLoaderForQrCodes()
+        )
         setupMockViewModel(
             object : TestCertificateDetailsViewModel.Factory {
                 override fun create(containerId: TestCertificateContainerId):
@@ -110,7 +115,7 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
                 override val headerExpiresAt: Instant
                     get() = testDate
                 override val qrCode: QrCodeString
-                    get() = ""
+                    get() = ScreenshotCertificateTestData.testCertificate
                 override val firstName: String
                     get() = "Andrea"
                 override val lastName: String

@@ -8,6 +8,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.ScreenshotCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import io.mockk.MockKAnnotations
@@ -23,8 +24,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
+import testhelpers.createFakeImageLoaderForQrCodes
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
+import testhelpers.setupFakeImageLoader
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
@@ -39,7 +42,9 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
-
+        setupFakeImageLoader(
+            createFakeImageLoaderForQrCodes()
+        )
         setupMockViewModel(
             object : VaccinationDetailsViewModel.Factory {
                 override fun create(
@@ -90,6 +95,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
             every { certificateId } returns "05930482748454836478695764787841"
             every { headerExpiresAt } returns Instant.parse("2021-05-16T00:00:00.000Z")
             every { totalSeriesOfDoses } returns 2
+            every { qrCode } returns ScreenshotCertificateTestData.vaccinationCertificate
             if (complete) every { doseNumber } returns 2 else every { doseNumber } returns 1
         }
 
