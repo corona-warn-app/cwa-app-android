@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ui.qrcode.fullscreen
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -12,6 +11,7 @@ import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import kotlinx.coroutines.flow.flow
 import timber.log.Timber
 
 class QrCodeFullScreenViewModel @AssistedInject constructor(
@@ -20,26 +20,19 @@ class QrCodeFullScreenViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider) {
 
-    private val qrCodeBitmap = MutableLiveData<CoilQrCode>()
-    val qrcode: LiveData<CoilQrCode> = qrCodeBitmap
-    val immersiveMode = SingleLiveEvent<Boolean>()
-
-    init {
-        generateQrCode()
-    }
-
-    private fun generateQrCode() = launch {
+    val qrcode: LiveData<CoilQrCode> = flow {
         try {
-            qrCodeBitmap.postValue(
-                CoilQrCode(
-                    content = qrcodeText,
-                    options = QrCodeOptions(correctionLevel = correctionLevel)
-                )
+            val qr = CoilQrCode(
+                content = qrcodeText,
+                options = QrCodeOptions(correctionLevel = correctionLevel)
             )
+            emit(qr)
         } catch (e: Exception) {
             Timber.d(e, "generateQrCode failed")
         }
-    }
+    }.asLiveData2()
+
+    val immersiveMode = SingleLiveEvent<Boolean>()
 
     fun switchImmersiveMode() = immersiveMode.run { value = !(value ?: false) }
 

@@ -57,9 +57,10 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
             postponeEnterTransition()
             viewModel.qrcode.observe(viewLifecycleOwner) {
                 qrCodeImage.loadAny(it) {
-                    crossfade(true)
+                    listener { _, _ ->
+                        startPostponedEnterTransition()
+                    }
                 }
-                startPostponedEnterTransition()
             }
             viewModel.immersiveMode.observe(viewLifecycleOwner) { immersive ->
                 if (immersive) enterImmersiveMode() else exitImmersiveMode()
