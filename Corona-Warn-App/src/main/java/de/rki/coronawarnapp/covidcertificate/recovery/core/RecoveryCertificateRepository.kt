@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
+import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -68,10 +69,13 @@ class RecoveryCertificateRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
-    val certificates: Flow<Set<RecoveryCertificateWrapper>> =
-        internalData.data.map { set ->
-            set.map { RecoveryCertificateWrapper(valueSetsRepository.latestVaccinationValueSets.first(), it) }.toSet()
-        }
+    val certificates: Flow<Set<RecoveryCertificateWrapper>> = internalData.data.map { set ->
+        set.map { RecoveryCertificateWrapper(valueSetsRepository.latestVaccinationValueSets.first(), it) }.toSet()
+    }
+        .shareLatest(
+            tag = TAG,
+            scope = appScope
+        )
 
     @Throws(InvalidRecoveryCertificateException::class)
     suspend fun registerCertificate(qrCode: RecoveryCertificateQRCode): RecoveryCertificateContainer {
