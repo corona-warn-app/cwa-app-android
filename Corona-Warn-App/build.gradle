@@ -455,6 +455,7 @@ dependencies {
     // SECURITY
     implementation "androidx.security:security-crypto:1.0.0-rc03"
     implementation 'org.conscrypt:conscrypt-android:2.5.1'
+    implementation 'org.bouncycastle:bcpkix-jdk15on:1.56'
 
     // LOGGING
     implementation 'com.jakewharton.timber:timber:4.7.1@aar'
