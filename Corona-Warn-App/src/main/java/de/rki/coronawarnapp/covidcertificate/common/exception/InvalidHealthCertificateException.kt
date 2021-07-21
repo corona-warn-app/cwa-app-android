@@ -48,6 +48,10 @@ open class InvalidHealthCertificateException(
         HC_COSE_PH_INVALID("Parsing of the protected header fails."),
         HC_COSE_NO_ALG("No algorithm key."),
         HC_COSE_UNKNOWN_ALG("Unknown algorithm."),
+        HC_DSC_NO_MATCH("No DSC match."),
+        HC_DSC_OID_MISMATCH_TC("Test certificate OID mismatch."),
+        HC_DSC_OID_MISMATCH_VC("Vaccination certificate OID mismatch."),
+        HC_DSC_OID_MISMATCH_RC("Recovery certificate OID mismatch."),
     }
 
     open val showFaqButton: Boolean

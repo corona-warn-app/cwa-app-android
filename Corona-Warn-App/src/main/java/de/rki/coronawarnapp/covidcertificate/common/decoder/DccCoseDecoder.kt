@@ -36,11 +36,10 @@ class DccCoseDecoder @Inject constructor(
         val dscMsgObject = CBORObject.DecodeFromBytes(input).validate()
         DscMessage(
             protectedHeader = dscMsgObject.extractProtectedHeader(),
-            unprotectedHeader = dscMsgObject.extractUnprotectedHeader(),
             payload = dscMsgObject.extractPayload().GetByteString(),
             signature = dscMsgObject.extractSignature(),
             kid = dscMsgObject.extractKid(),
-            alg = dscMsgObject.extractAlgorithm()
+            algorithm = dscMsgObject.extractAlgorithm()
         )
     } catch (e: InvalidHealthCertificateException) {
         throw e
@@ -138,13 +137,12 @@ class DccCoseDecoder @Inject constructor(
 
     data class DscMessage(
         val protectedHeader: ByteArray,
-        val unprotectedHeader: CBORObject?,
         val payload: ByteArray,
         val kid: String,
         val signature: ByteArray,
-        val alg: Algorithm,
+        val algorithm: Algorithm,
     ) {
-        enum class Algorithm(algoName: String) {
+        enum class Algorithm(val algName: String) {
             ES256("SHA256withECDSA"),
             PS256("SHA256WithRSA")
         }
