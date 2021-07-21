@@ -38,10 +38,10 @@ class BitMatrixDecoder @Inject constructor(
         val matrix = ObjectInputStream(source.inputStream()).use {
             it.readObject() as Array<ByteArray>
         }
-        val (matrixHeight, matrixWidth) = run {
-            //  The matrix is array[y][x], e.g. a list of columns
-            matrix.size to matrix.first().size
-        }
+
+        //  The matrix is array[y][x], e.g. a list of columns
+        val matrixHeight = matrix.size
+        val matrixWidth = matrix.first().size
 
         val (targetWidth, targetHeight) = when (size) {
             OriginalSize -> matrixWidth to matrixWidth
