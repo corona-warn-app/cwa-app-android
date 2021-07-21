@@ -7,6 +7,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.ScreenshotCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
@@ -26,10 +27,12 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
+import testhelpers.createFakeImageLoaderForQrCodes
 import testhelpers.launchFragment2
 import testhelpers.launchInMainActivity
 import testhelpers.recyclerScrollTo
 import testhelpers.selectBottomNavTab
+import testhelpers.setupFakeImageLoader
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
@@ -45,7 +48,9 @@ class PersonOverviewFragmentTest : BaseUITest() {
             every { personCertificates } returns MutableLiveData()
             every { markNewCertsAsSeen } returns MutableLiveData()
         }
-
+        setupFakeImageLoader(
+            createFakeImageLoaderForQrCodes()
+        )
         setupMockViewModel(
             object : PersonOverviewViewModel.Factory {
                 override fun create(): PersonOverviewViewModel = viewModel
@@ -197,6 +202,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
             lastNameStandardized = "lastNameStandardized",
             dateOfBirthFormatted = "1943-04-18"
         )
+        every { qrCode } returns ScreenshotCertificateTestData.testCertificate
     }
 
     fun mockTestCertificateWrapper(isUpdating: Boolean) = mockk<TestCertificateWrapper>().apply {

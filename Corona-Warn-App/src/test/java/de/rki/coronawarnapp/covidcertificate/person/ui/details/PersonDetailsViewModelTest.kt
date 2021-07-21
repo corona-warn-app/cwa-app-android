@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.details
 
 import androidx.lifecycle.SavedStateHandle
+import de.rki.coronawarnapp.covidcertificate.ScreenshotCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
@@ -171,7 +172,7 @@ class PersonDetailsViewModelTest : BaseTest() {
         every { sampleCollectedAt } returns Instant.parse("2021-05-31T11:35:00.000Z")
         every { registeredAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
         every { personIdentifier } returns certificatePersonIdentifier
-        every { qrCode } returns "qrCode"
+        every { qrCode } returns ScreenshotCertificateTestData.testCertificate
     }
 
     private fun mockVaccinationCertificate(number: Int = 1, final: Boolean = false): VaccinationCertificate =
@@ -191,7 +192,7 @@ class PersonDetailsViewModelTest : BaseTest() {
             every { doseNumber } returns number
             every { totalSeriesOfDoses } returns 2
             every { isFinalShot } returns final
-            every { qrCode } returns "qrCode"
+            every { qrCode } returns ScreenshotCertificateTestData.vaccinationCertificate
         }
 
     private fun mockRecoveryCertificate(): RecoveryCertificate =
@@ -199,7 +200,7 @@ class PersonDetailsViewModelTest : BaseTest() {
             every { certificateId } returns "recoveryCertificateId"
             every { validUntil } returns Instant.parse("2021-05-31T11:35:00.000Z").toLocalDateUserTz()
             every { personIdentifier } returns certificatePersonIdentifier
-            every { qrCode } returns "qrCode"
+            every { qrCode } returns ScreenshotCertificateTestData.recoveryCertificate
             every { containerId } returns rcContainerId
         }
 
