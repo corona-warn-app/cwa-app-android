@@ -4,8 +4,10 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.cr
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
-import dgca.verifier.app.engine.data.CertificateType
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTime
+import dgca.verifier.app.engine.data.RuleCertificateType
 import io.kotest.matchers.shouldBe
+import org.joda.time.DateTimeZone
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -16,7 +18,7 @@ class DccValidationTest : BaseTest() {
 
     private val userInput = ValidationUserInput(
         DccCountry("PT"),
-        nowUTC
+        nowUTC.toLocalDateTime(DateTimeZone.UTC),
     )
 
     @Test
@@ -99,7 +101,7 @@ class DccValidationTest : BaseTest() {
 
     private fun getRule(result: DccValidationRule.Result) =
         EvaluatedDccRule(
-            createDccRule(certificateType = CertificateType.GENERAL),
+            createDccRule(certificateType = RuleCertificateType.GENERAL),
             result
         )
 }

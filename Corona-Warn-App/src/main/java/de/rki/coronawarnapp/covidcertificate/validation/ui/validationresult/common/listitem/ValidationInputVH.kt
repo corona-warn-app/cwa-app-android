@@ -2,12 +2,9 @@ package de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.com
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultInputItemBinding
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
+import de.rki.coronawarnapp.util.ui.LazyString
 
 class ValidationInputVH(
     parent: ViewGroup
@@ -23,26 +20,13 @@ class ValidationInputVH(
     override val onBindData: CovidCertificateValidationResultInputItemBinding.(
         item: Item,
         payloads: List<Any>,
-    ) -> Unit = { item, _ ->
-
-        val arrivalDateString = item.validation.userInput.arrivalAt.toUserTimeZone().run {
-            "${toShortDayFormat()} ${toShortTimeFormat()}"
-        }
-
-        val validatedAtString = item.validation.validatedAt.toUserTimeZone().run {
-            "${toShortDayFormat()} ${toShortTimeFormat()}"
-        }
-
-        dateDetailsTv.text = context.getString(
-            R.string.validation_rules_result_valid_result_country_and_time,
-            item.validation.userInput.arrivalCountry,
-            arrivalDateString,
-            validatedAtString
-        )
+    ) -> Unit = { item, payloads ->
+        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        dateDetailsTv.text = curItem.dateDetails.get(context)
     }
 
     data class Item(
-        val validation: DccValidation,
+        val dateDetails: LazyString
     ) : ValidationResultItem, HasPayloadDiffer {
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
 

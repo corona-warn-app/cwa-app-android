@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ExternalActionHelper.shareText
 import de.rki.coronawarnapp.util.QrCodeHelper
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -157,6 +158,10 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         } else {
             qrCodeCard.invalidQrCodeSymbol.isVisible = false
         }
+        expirationNotice.expirationDate.text = getString(
+            R.string.expiration_date,
+            certificate.headerExpiresAt.toShortDayFormat()
+        )
     }
 
 

@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.databinding.FragmentTestCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.QrCodeHelper
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -86,6 +87,10 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         } else {
             qrCodeCard.invalidQrCodeSymbol.isVisible = false
         }
+        expirationNotice.expirationDate.text = getString(
+            R.string.expiration_date,
+            certificate.headerExpiresAt.toShortDayFormat()
+        )
 
         if (certificate.testCenter.isNullOrBlank()) {
             testCenterTitle.isGone = true

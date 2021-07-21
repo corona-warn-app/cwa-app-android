@@ -22,6 +22,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import org.joda.time.DateTime
+import org.joda.time.LocalDate
+import org.joda.time.LocalTime
 import timber.log.Timber
 import java.text.Collator
 
@@ -31,7 +33,7 @@ class ValidationStartViewModel @AssistedInject constructor(
     private val dccValidator: DccValidator,
     private val certificateProvider: CertificateProvider,
     @Assisted private val containerId: CertificateContainerId,
-    private val networkStateProvider: NetworkStateProvider
+    private val networkStateProvider: NetworkStateProvider,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     @AssistedFactory
@@ -42,8 +44,9 @@ class ValidationStartViewModel @AssistedInject constructor(
     private val collator = Collator.getInstance()
     private val uiState = MutableStateFlow(UIState())
     val state: LiveData<UIState> = uiState.asLiveData2()
-    val currentDateTime: DateTime get() = uiState.value.dateTime
-    val currentCountryCode: String get() = uiState.value.dccCountry.countryCode
+    val selectedDate: LocalDate get() = uiState.value.localDate
+    val selectedTime: LocalTime get() = uiState.value.localTime
+    val selectedCountryCode: String get() = uiState.value.dccCountry.countryCode
     val events = SingleLiveEvent<StartValidationNavEvent>()
     val countryList = dccValidationRepository.dccCountries.map { countryList ->
         val countries = if (countryList.isEmpty()) listOf(DccCountry(DE)) else countryList
@@ -56,21 +59,20 @@ class ValidationStartViewModel @AssistedInject constructor(
 
     fun countryChanged(country: DccCountry) = uiState.apply { value = value.copy(dccCountry = country) }
 
-    fun refreshTimeCheck() = dateChanged(currentDateTime)
+    fun refreshTimeCheck() = dateChanged(selectedDate, selectedTime)
 
     fun onCheckClick() = launch {
         val event = if (networkStateProvider.networkState.first().isInternetAvailable) {
             try {
                 val state = uiState.value
                 val country = state.dccCountry
-                val time = state.dateTime.toInstant()
                 val certificateData = certificateProvider.findCertificate(containerId).dccData
                 val validationResult = dccValidator.validateDcc(
-                    ValidationUserInput(country, time),
+                    ValidationUserInput(country, state.localDate.toLocalDateTime(state.localTime)),
                     certificateData
                 )
 
-                NavigateToValidationResultFragment(validationResult)
+                NavigateToValidationResultFragment(validationResult, containerId)
             } catch (e: Exception) {
                 Timber.d(e, "validating Dcc failed")
                 ShowErrorDialog(e)
@@ -83,16 +85,17 @@ class ValidationStartViewModel @AssistedInject constructor(
         events.postValue(event)
     }
 
-    fun dateChanged(dateTime: DateTime) {
-        val invalidTime = dateTime.isBefore(DateTime.now().withSecondOfMinute(0))
+    fun dateChanged(localDate: LocalDate, localTime: LocalTime) {
+        val invalidTime = localDate.toDateTime(localTime).isBefore(DateTime.now().withSecondOfMinute(0))
         events.postValue(ShowTimeMessage(invalidTime))
-        uiState.apply { value = value.copy(dateTime = dateTime) }
+        uiState.apply { value = value.copy(localDate = localDate, localTime = localTime) }
     }
 
     data class UIState(
         val dccCountry: DccCountry = DccCountry(DE),
-        val dateTime: DateTime = DateTime.now(),
+        val localDate: LocalDate = LocalDate.now(),
+        val localTime: LocalTime = LocalTime.now(),
     ) {
-        fun formattedDateTime() = dateTime.run { "${toDayFormat()} ${toShortTimeFormat()}" }
+        fun formattedDateTime() = "${localDate.toDayFormat()} ${localTime.toShortTimeFormat()}"
     }
 }
