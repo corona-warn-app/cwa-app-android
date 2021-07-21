@@ -28,8 +28,8 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
     private val qrCodeGenerator: QrCodeGenerator,
     private val recoveryCertificateRepository: RecoveryCertificateRepository,
     private val dccValidationRepository: DccValidationRepository,
-    private val certificateProvider: CertificateProvider) : CWAViewModel(dispatcherProvider)
-{
+    private val certificateProvider: CertificateProvider
+) : CWAViewModel(dispatcherProvider) {
     private var qrCodeText: String? = null
     private val bitmapStateData = MutableLiveData<Bitmap>()
     val qrCode: LiveData<Bitmap> = bitmapStateData
