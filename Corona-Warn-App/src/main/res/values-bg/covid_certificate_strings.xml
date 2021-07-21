@@ -156,7 +156,7 @@
     <!-- XTXT: Validation start date and time dropdown hint -->
     <string name="validation_start_date_hint">"Дата и час"</string>
     <!-- XTXT: Validation start date and time info -->
-    <string name="validation_start_date_info">"Въведете датата и часа на влизане по местното време на държавата на местоназначението."</string>
+    <string name="validation_start_date_info">"Въведете датата и часа на влизане във вашето местно време."</string>
     <!-- XTXT: Validation start certificate proof -->
     <string name="validation_start_certificate_proof">"Сертификатът за COVID е валиден документ при пътуване в рамките на ЕС."</string>
     <!-- XTXT: Validation start note subtitle -->

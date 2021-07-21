@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
 import de.rki.coronawarnapp.util.flow.combine
+import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -81,6 +82,10 @@ class VaccinationRepository @Inject constructor(
     ) { personDatas, currentValueSet ->
         personDatas.map { it.copy(valueSet = currentValueSet) }.toSet()
     }
+        .shareLatest(
+            tag = TAG,
+            scope = appScope
+        )
 
     suspend fun registerCertificate(
         qrCode: VaccinationCertificateQRCode
