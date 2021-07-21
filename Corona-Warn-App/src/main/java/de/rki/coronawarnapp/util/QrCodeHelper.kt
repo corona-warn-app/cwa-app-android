@@ -17,4 +17,3 @@ object QrCodeHelper {
         }
     }
 }
-
