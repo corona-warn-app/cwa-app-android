@@ -23,7 +23,8 @@ class BusinessValidator @Inject constructor(
         arrivalCountry: DccCountry,
         localValidationDateTime: LocalDateTime,
         certificate: DccData<out DccV1.MetaData>,
-        timeZone: DateTimeZone = DateTimeZone.getDefault(), // best guess tz of arrival country
+        // best guess for tz of validation date and time, needs to be selected by the user for correct results
+        timeZone: DateTimeZone = DateTimeZone.getDefault(),
     ): BusinessValidation {
 
         Timber.i("Start CertLogic validation for arrival in ${arrivalCountry.countryCode} on $localValidationDateTime.")
