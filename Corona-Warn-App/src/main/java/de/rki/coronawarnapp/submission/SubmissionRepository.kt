@@ -151,7 +151,7 @@ fun CoronaTestResult?.toDeviceUIState(): DeviceUIState = when (this) {
     CoronaTestResult.PCR_NEGATIVE -> DeviceUIState.PAIRED_NEGATIVE
     CoronaTestResult.PCR_POSITIVE -> DeviceUIState.PAIRED_POSITIVE
     CoronaTestResult.PCR_OR_RAT_PENDING -> DeviceUIState.PAIRED_NO_RESULT
-    CoronaTestResult.PCR_REDEEMED -> DeviceUIState.PAIRED_REDEEMED
+    CoronaTestResult.PCR_OR_RAT_REDEEMED -> DeviceUIState.PAIRED_REDEEMED
     CoronaTestResult.PCR_INVALID -> DeviceUIState.PAIRED_ERROR
     CoronaTestResult.RAT_PENDING -> DeviceUIState.PAIRED_NO_RESULT
     CoronaTestResult.RAT_NEGATIVE -> DeviceUIState.PAIRED_NEGATIVE
