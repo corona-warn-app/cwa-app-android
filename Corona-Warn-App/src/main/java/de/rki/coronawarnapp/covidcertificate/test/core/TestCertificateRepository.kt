@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
 import de.rki.coronawarnapp.util.flow.HotDataFlow
 import de.rki.coronawarnapp.util.flow.combine
+import de.rki.coronawarnapp.util.flow.shareLatest
 import de.rki.coronawarnapp.util.mutate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -78,6 +79,10 @@ class TestCertificateRepository @Inject constructor(
             )
         }.toSet()
     }
+        .shareLatest(
+            tag = TAG,
+            scope = appScope
+        )
 
     init {
         internalData.data
