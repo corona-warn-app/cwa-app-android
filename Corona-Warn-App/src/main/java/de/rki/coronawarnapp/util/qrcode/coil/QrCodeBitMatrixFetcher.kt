@@ -21,7 +21,6 @@ class QrCodeBitMatrixFetcher @Inject constructor() : Fetcher<CoilQrCode> {
     override suspend fun fetch(pool: BitmapPool, data: CoilQrCode, size: Size, options: Options): FetchResult {
 
         val hints = mapOf(
-            EncodeHintType.ERROR_CORRECTION to data.options.correctionLevel,
             /**
              * We cannot use Charsets.UTF_8 as zxing calls toString internally
              * and some android version return the class name and not the charset name
