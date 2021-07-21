@@ -13,16 +13,21 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
+import de.rki.coronawarnapp.util.ExternalActionHelper.shareText
+import de.rki.coronawarnapp.util.QrCodeHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import timber.log.Timber
 import javax.inject.Inject
 
 class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_details), AutoInject {
@@ -90,12 +95,19 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             viewModel.events.observe(viewLifecycleOwner) { event ->
                 when (event) {
                     VaccinationDetailsNavigation.Back -> popBackStack()
-                    is VaccinationDetailsNavigation.FullQrCode -> findNavController().navigate(
-                        R.id.action_global_qrCodeFullScreenFragment,
-                        QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
-                        null,
-                        FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
-                    )
+                    is VaccinationDetailsNavigation.FullQrCode -> {
+                        val certificate = viewModel.getCovidCertificate().getState()
+                        if (!QrCodeHelper.isInvalidOrExpiredQrCode(certificate)) {
+                            findNavController().navigate(
+                                R.id.action_global_qrCodeFullScreenFragment,
+                                QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
+                                null,
+                                FragmentNavigatorExtras(
+                                    qrCodeCard.image to qrCodeCard.image.transitionName
+                                )
+                            )
+                        }
+                    }
                     is VaccinationDetailsNavigation.ValidationStart -> {
                         startValidationCheck.isLoading = false
                         doNavigate(
@@ -139,7 +151,16 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         certificateIssuer.text = certificate.certificateIssuer
         certificateId.text = certificate.certificateId
         oneShotInfo.isVisible = certificate.totalSeriesOfDoses == 1
+        if (QrCodeHelper.isInvalidOrExpiredQrCode(certificate.getState())) {
+            qrCodeCard.image.alpha = 0.1f
+            qrCodeCard.invalidQrCodeSymbol.isVisible = true
+        } else {
+            qrCodeCard.invalidQrCodeSymbol.isVisible = false
+        }
     }
+
+
+
 
     private fun setToolbarOverlay() {
         val width = requireContext().resources.displayMetrics.widthPixels

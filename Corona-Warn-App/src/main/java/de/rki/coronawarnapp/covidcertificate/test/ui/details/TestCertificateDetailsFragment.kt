@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -14,10 +15,12 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.databinding.FragmentTestCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
+import de.rki.coronawarnapp.util.QrCodeHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -64,34 +67,40 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     }
 
     private fun FragmentTestCertificateDetailsBinding.onCertificateReady(
-        testCertificate: TestCertificate
+        certificate: TestCertificate
     ) {
-        name.text = testCertificate.fullName
-        dateOfBirth.text = testCertificate.dateOfBirthFormatted
-        diseaseType.text = testCertificate.targetName
-        testType.text = testCertificate.testType
-        testName.text = testCertificate.testName
-        testManufacturer.text = testCertificate.testNameAndManufacturer
-        testDate.text = testCertificate.sampleCollectedAtFormatted
-        testResult.text = testCertificate.testResult
-        certificateCountry.text = testCertificate.certificateCountry
-        certificateIssuer.text = testCertificate.certificateIssuer
-        certificateId.text = testCertificate.certificateId
+        name.text = certificate.fullName
+        dateOfBirth.text = certificate.dateOfBirthFormatted
+        diseaseType.text = certificate.targetName
+        testType.text = certificate.testType
+        testName.text = certificate.testName
+        testManufacturer.text = certificate.testNameAndManufacturer
+        testDate.text = certificate.sampleCollectedAtFormatted
+        testResult.text = certificate.testResult
+        certificateCountry.text = certificate.certificateCountry
+        certificateIssuer.text = certificate.certificateIssuer
+        certificateId.text = certificate.certificateId
+        if (QrCodeHelper.isInvalidOrExpiredQrCode(certificate.getState())) {
+            qrCodeCard.image.alpha = 0.1f
+            qrCodeCard.invalidQrCodeSymbol.isVisible = true
+        } else {
+            qrCodeCard.invalidQrCodeSymbol.isVisible = false
+        }
 
-        if (testCertificate.testCenter.isNullOrBlank()) {
+        if (certificate.testCenter.isNullOrBlank()) {
             testCenterTitle.isGone = true
             testCenter.isGone = true
         } else {
-            testCenter.text = testCertificate.testCenter
+            testCenter.text = certificate.testCenter
             testCenter.isGone = false
             testCenterTitle.isGone = false
         }
 
-        if (testCertificate.testNameAndManufacturer.isNullOrBlank()) {
+        if (certificate.testNameAndManufacturer.isNullOrBlank()) {
             testManufacturer.isGone = true
             testManufacturerTitle.isGone = true
         } else {
-            testManufacturer.text = testCertificate.testNameAndManufacturer
+            testManufacturer.text = certificate.testNameAndManufacturer
             testManufacturer.isGone = false
             testManufacturerTitle.isGone = false
         }
@@ -114,12 +123,17 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     private fun FragmentTestCertificateDetailsBinding.onNavEvent(event: TestCertificateDetailsNavigation) {
         when (event) {
             TestCertificateDetailsNavigation.Back -> popBackStack()
-            is TestCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
-                R.id.action_global_qrCodeFullScreenFragment,
-                QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
-                null,
-                FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
-            )
+            is TestCertificateDetailsNavigation.FullQrCode -> {
+                val certificate = viewModel.getCovidCertificate()
+                if (QrCodeHelper.isInvalidOrExpiredQrCode(certificate.getState())) {
+                    findNavController().navigate(
+                        R.id.action_global_qrCodeFullScreenFragment,
+                        QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
+                        null,
+                        FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
+                    )
+                }
+            }
             is TestCertificateDetailsNavigation.ValidationStart -> {
                 startValidationCheck.isLoading = false
                 doNavigate(

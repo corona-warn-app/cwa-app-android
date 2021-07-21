@@ -35,7 +35,9 @@ interface CwaCovidCertificate {
     /**
      * The current state of the certificate, see [State]
      */
-    fun getState(): State
+    fun getState(): State {
+        return State.Expired(Instant.now())
+    }
 
     sealed class State {
         data class Valid(

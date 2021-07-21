@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.view.ViewGroup
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
@@ -11,6 +12,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewAd
 import de.rki.coronawarnapp.databinding.PersonOverviewItemBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
+import de.rki.coronawarnapp.util.QrCodeHelper
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class PersonCertificateCard(parent: ViewGroup) :
@@ -42,6 +44,13 @@ class PersonCertificateCard(parent: ViewGroup) :
         itemView.apply {
             setOnClickListener { curItem.onClickAction(curItem, adapterPosition) }
             transitionName = curItem.certificate.personIdentifier.codeSHA256
+        }
+
+        if(QrCodeHelper.isInvalidOrExpiredQrCode(item.certificate.getState())) {
+            qrcodeImage.alpha = 0.1f
+            invalidQrCodeSymbol.isVisible = true
+        } else {
+            invalidQrCodeSymbol.isVisible = false
         }
     }
 

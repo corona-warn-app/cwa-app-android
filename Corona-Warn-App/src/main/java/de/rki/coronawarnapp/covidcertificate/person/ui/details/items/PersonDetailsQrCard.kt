@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.details.items
 
 import android.graphics.Bitmap
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
@@ -10,6 +11,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.databinding.PersonDetailsQrCardItemBinding
+import de.rki.coronawarnapp.util.QrCodeHelper
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
@@ -59,6 +61,13 @@ class PersonDetailsQrCard(parent: ViewGroup) :
                         certificate.validUntil.toShortDayFormat()
                     )
                 }
+            }
+
+            if(QrCodeHelper.isInvalidOrExpiredQrCode(certificate.getState())) {
+                image.alpha = 0.1f
+                invalidQrCodeSymbol.isVisible = true
+            } else {
+                invalidQrCodeSymbol.isVisible = false
             }
         }
     }

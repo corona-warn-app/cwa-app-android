@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -13,10 +14,12 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.databinding.FragmentRecoveryCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
+import de.rki.coronawarnapp.util.QrCodeHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -73,6 +76,12 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         certificationPeriodStart.text = certificate.validFromFormatted
         certificationPeriodEnd.text = certificate.validUntilFormatted
         certificateId.text = certificate.certificateId
+        if (QrCodeHelper.isInvalidOrExpiredQrCode(certificate.getState())) {
+            qrCodeCard.image.alpha = 0.1f
+            qrCodeCard.invalidQrCodeSymbol.isVisible = true
+        } else {
+            qrCodeCard.invalidQrCodeSymbol.isVisible = false
+        }
     }
 
     private fun FragmentRecoveryCertificateDetailsBinding.onQrCodeReady(bitmap: Bitmap?) {
@@ -92,12 +101,17 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
     private fun FragmentRecoveryCertificateDetailsBinding.onNavEvent(event: RecoveryCertificateDetailsNavigation) {
         when (event) {
             RecoveryCertificateDetailsNavigation.Back -> popBackStack()
-            is RecoveryCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
-                R.id.action_global_qrCodeFullScreenFragment,
-                QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
-                null,
-                FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
-            )
+            is RecoveryCertificateDetailsNavigation.FullQrCode -> {
+                val certificate = viewModel.getCovidCertificate()
+                if (!QrCodeHelper.isInvalidOrExpiredQrCode(certificate.getState())) {
+                    findNavController().navigate(
+                        R.id.action_global_qrCodeFullScreenFragment,
+                        QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
+                        null,
+                        FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
+                    )
+                }
+            }
             is RecoveryCertificateDetailsNavigation.ValidationStart -> {
                 startValidationCheck.isLoading = false
                 doNavigate(

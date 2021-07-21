@@ -7,6 +7,8 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
@@ -17,6 +19,7 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 
 class TestCertificateDetailsViewModel @AssistedInject constructor(
@@ -25,6 +28,7 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
     private val qrCodeGenerator: QrCodeGenerator,
     private val testCertificateRepository: TestCertificateRepository,
     private val dccValidationRepository: DccValidationRepository,
+    private val certificateProvider: CertificateProvider
 ) : CWAViewModel(dispatcherProvider) {
 
     private var qrCodeText: String? = null
@@ -45,6 +49,12 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
         Timber.d("Removing Test Certificate=$containerId")
         testCertificateRepository.deleteCertificate(containerId)
         events.postValue(TestCertificateDetailsNavigation.Back)
+    }
+
+    fun getCovidCertificate(): CwaCovidCertificate {
+        return runBlocking {
+            certificateProvider.findCertificate(containerId)
+        }
     }
 
     private fun generateQrCode(testCertificate: TestCertificate?) = launch {

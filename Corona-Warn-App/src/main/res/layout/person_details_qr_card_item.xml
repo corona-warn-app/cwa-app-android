@@ -22,6 +22,23 @@
         tools:src="@drawable/ic_qrcode"
         tools:tint="@android:color/black" />
 
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/invalid_qr_code_symbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/vaccination_list_qr_code_accessibility"
+        app:layout_constraintDimensionRatio="H,1:1"
+        app:layout_constraintLeft_toLeftOf="@id/image"
+        app:layout_constraintRight_toRightOf="@id/image"
+        app:layout_constraintTop_toTopOf="@id/image"
+        app:layout_constraintBottom_toBottomOf="@id/image"
+        android:visibility="invisible"
+        tools:visibility="visible"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay"
+        android:src="@drawable/ic_invalid_qr_code"
+        tools:tint="@android:color/black" />
+
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progress_bar"
         android:layout_width="140dp"
