@@ -55,7 +55,8 @@ class BitMatrixDecoder @Inject constructor(
         ).nextUp()
 
         // The rest of the space if the target size is not a multiple of the matrix size
-        val padding = (targetHeight - squareSize * matrixWidth) / 2f
+        val paddingHeight = (targetHeight - squareSize * matrixHeight) / 2f
+        val paddingWidth = (targetWidth - squareSize * matrixWidth) / 2f
 
         val bitmap = Bitmap.createBitmap(
             resources.displayMetrics,
@@ -73,8 +74,8 @@ class BitMatrixDecoder @Inject constructor(
             for (x in 0 until matrixWidth) {
                 if (matrix[y][x] != BLACK_SQUARE) continue
 
-                val left = (x) * squareSize + padding
-                val top = (y) * squareSize + padding
+                val left = (x) * squareSize + paddingWidth
+                val top = (y) * squareSize + paddingHeight
                 canvas.drawRect(
                     left,
                     top,
