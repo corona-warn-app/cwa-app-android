@@ -18,7 +18,7 @@ class CovidCertificateConfigMapper @Inject constructor() : CovidCertificateConfi
 
         return CovidCertificateConfigContainer(
             testCertificate = rawConfig.dgcParameters.mapCovidCertificateConfig(),
-            expirationThresholdInDays = rawConfig.dgcParameters.
+            expirationThresholdInDays = rawConfig.dgcParameters.expirationThresholdInDays
         )
     }
 
