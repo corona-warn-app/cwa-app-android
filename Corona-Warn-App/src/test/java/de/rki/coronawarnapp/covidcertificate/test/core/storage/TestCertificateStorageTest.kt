@@ -10,6 +10,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -48,24 +49,26 @@ class TestCertificateStorageTest : BaseTest() {
     }
 
     @Test
-    fun `storing empty set deletes data`() {
+    fun `storing empty set deletes data`() = runBlockingTest {
         mockPreferences.edit {
             putString("dontdeleteme", "test")
             putString("testcertificate.data.ra", "test")
             putString("testcertificate.data.pcr", "test")
             putString("testcertificate.data.scanned", "test")
         }
-        createInstance().testCertificates = emptySet()
+        createInstance().save(emptySet())
 
         mockPreferences.dataMapPeek.keys.single() shouldBe "dontdeleteme"
     }
 
     @Test
-    fun `store two containers, one for each type`() {
-        createInstance().testCertificates = setOf(
-            certificateTestData.personATest1StoredData,
-            certificateTestData.personATest2CertStoredData,
-            certificateTestData.personATest2CertScannedStoredData,
+    fun `store two containers, one for each type`() = runBlockingTest {
+        createInstance().save(
+            setOf(
+                certificateTestData.personATest1StoredData,
+                certificateTestData.personATest2CertStoredData,
+                certificateTestData.personATest2CertScannedStoredData,
+            )
         )
 
         (mockPreferences.dataMapPeek["testcertificate.data.pcr"] as String).toComparableJsonPretty() shouldBe """
@@ -112,7 +115,7 @@ class TestCertificateStorageTest : BaseTest() {
             ]
         """.toComparableJsonPretty()
 
-        createInstance().testCertificates shouldBe setOf(
+        createInstance().load() shouldBe setOf(
             certificateTestData.personATest1StoredData,
             certificateTestData.personATest2CertStoredData,
             certificateTestData.personATest2CertScannedStoredData,
