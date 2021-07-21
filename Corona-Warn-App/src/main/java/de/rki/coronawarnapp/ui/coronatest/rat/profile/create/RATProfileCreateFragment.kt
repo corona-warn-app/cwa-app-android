@@ -81,7 +81,7 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
                 if (Patterns.EMAIL_ADDRESS.matcher(it.toString()).matches()) {
                     viewModel.emailChanged(it.toString())
                 } else {
-                    viewModel.phoneChanged("")
+                    viewModel.emailChanged("")
                 }
             }
             emailInputEdit.setOnFocusChangeListener { _, hasFocus ->
