@@ -42,7 +42,7 @@ class FederalStateSelectionFragment : Fragment(R.layout.federal_state_selection_
             toolbar.apply {
                 setTitle(getToolbarLabel())
                 setNavigationOnClickListener { popBackStack() }
-                if (navArgs.selectedFederalState != -1) {
+                if (navArgs.selectedFederalState != NO_STATE_SELECTED) {
                     setNavigationIcon(R.drawable.ic_back)
                 } else {
                     setNavigationIcon(R.drawable.ic_close)
@@ -71,9 +71,13 @@ class FederalStateSelectionFragment : Fragment(R.layout.federal_state_selection_
         }
     }
 
-    private fun getToolbarLabel() = if (navArgs.selectedFederalState != -1) {
+    private fun getToolbarLabel() = if (navArgs.selectedFederalState != NO_STATE_SELECTED) {
         R.string.analytics_userinput_district_title
     } else {
         R.string.analytics_userinput_federalstate_title
+    }
+
+    companion object {
+        private const val NO_STATE_SELECTED = -1
     }
 }
