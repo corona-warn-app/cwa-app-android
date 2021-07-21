@@ -63,7 +63,7 @@ class PersonDetailsQrCard(parent: ViewGroup) :
                 }
             }
 
-            if(QrCodeHelper.isInvalidOrExpiredQrCode(certificate.getState())) {
+            if (QrCodeHelper.isInvalidOrExpiredQrCode(certificate.getState())) {
                 image.alpha = 0.1f
                 invalidQrCodeSymbol.isVisible = true
             } else {
