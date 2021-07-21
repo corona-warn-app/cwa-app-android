@@ -33,15 +33,14 @@ class DccCoseDecoder @Inject constructor(
     }
 
     fun decodeDscMessage(input: RawCOSEObject): DscMessage = try {
-        val messageObject = CBORObject.DecodeFromBytes(input).validate()
-        val protectedHeader = messageObject.extractProtectedHeader()
+        val dscMsgObject = CBORObject.DecodeFromBytes(input).validate()
         DscMessage(
-            protectedHeader = protectedHeader,
-            unprotectedHeader = messageObject.extractUnprotectedHeader(),
-            payload = messageObject.extractPayload(),
-            kid = messageObject.extractKid(),
-            signature = messageObject.extractSignature(),
-            alg = protectedHeader.extractAlgorithm()
+            protectedHeader = dscMsgObject.extractProtectedHeader(),
+            unprotectedHeader = dscMsgObject.extractUnprotectedHeader(),
+            payload = dscMsgObject.extractPayload().GetByteString(),
+            signature = dscMsgObject.extractSignature(),
+            kid = dscMsgObject.extractKid(),
+            alg = dscMsgObject.extractAlgorithm()
         )
     } catch (e: InvalidHealthCertificateException) {
         throw e
@@ -63,14 +62,14 @@ class DccCoseDecoder @Inject constructor(
         throw InvalidHealthCertificateException(HC_COSE_MESSAGE_INVALID)
     }
 
-    private fun CBORObject.extractProtectedHeader(): CBORObject = try {
-        this[1]
+    private fun CBORObject.extractProtectedHeader(): ByteArray = try {
+        this[0].GetByteString()
     } catch (e: Exception) {
         throw InvalidHealthCertificateException(HC_COSE_PH_INVALID)
     }
 
     private fun CBORObject.extractUnprotectedHeader(): CBORObject? = try {
-        this[2]
+        this[1]
     } catch (e: Exception) {
         Timber.e(e, "extractUnprotectedHeader failed")
         null
@@ -87,16 +86,17 @@ class DccCoseDecoder @Inject constructor(
         throw InvalidHealthCertificateException(HC_COSE_NO_SIGN1)
     }
 
-    private fun CBORObject.extractAlgorithm(): String {
+    private fun CBORObject.extractAlgorithm(): DscMessage.Algorithm {
         val algo = try {
-            this[1].AsInt32()
+            val protectedHeader = this[0]
+            CBORObject.DecodeFromBytes(protectedHeader.GetByteString()).get(1).AsInt32Value()
         } catch (e: Exception) {
             throw InvalidHealthCertificateException(HC_COSE_NO_ALG)
         }
 
         return when (algo) {
-            -7 -> "ES256"
-            -37 -> "PS256"
+            -7 -> DscMessage.Algorithm.ES256
+            -37 -> DscMessage.Algorithm.PS256
             else -> throw InvalidHealthCertificateException(HC_COSE_UNKNOWN_ALG)
         }
     }
@@ -137,11 +137,16 @@ class DccCoseDecoder @Inject constructor(
     )
 
     data class DscMessage(
-        val protectedHeader: CBORObject,
+        val protectedHeader: ByteArray,
         val unprotectedHeader: CBORObject?,
-        val payload: CBORObject,
+        val payload: ByteArray,
         val kid: String,
         val signature: ByteArray,
-        val alg: String,
-    )
+        val alg: Algorithm,
+    ) {
+        enum class Algorithm {
+            ES256,
+            PS256
+        }
+    }
 }
