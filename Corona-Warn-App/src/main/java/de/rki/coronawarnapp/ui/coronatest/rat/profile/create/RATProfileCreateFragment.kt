@@ -88,8 +88,13 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
     }
 
     private fun openDatePicker() {
+        // Only allow date selections in the past
+        val constraintsBuilder = CalendarConstraints.Builder()
+            .setValidator(DateValidatorPointBackward.now())
+
         MaterialDatePicker.Builder
             .datePicker()
+            .setCalendarConstraints(constraintsBuilder.build())
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
