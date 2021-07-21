@@ -6,8 +6,6 @@ import android.graphics.pdf.PdfDocument
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import coil.imageLoader
-import coil.request.ImageRequest
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -17,6 +15,7 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.PosterTemplateProvider
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.Template
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
+import de.rki.coronawarnapp.util.coil.loadQrCode
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.files.FileSharing
@@ -92,18 +91,13 @@ class QrCodePosterViewModel @AssistedInject constructor(
 
             Timber.d("template=$template")
 
-            val drawable = run {
-                val req = ImageRequest.Builder(context).apply {
-                    data(
-                        CoilQrCode(
-                            content = traceLocation.locationUrl,
-                            options = QrCodeOptions(correctionLevel = correctionLevel)
-                        )
-                    )
-                    size(template.qrCodeLength)
-                }.build()
-                context.imageLoader.execute(req).drawable
-            }
+            val drawable = context.loadQrCode(
+                qrCode = CoilQrCode(
+                    content = traceLocation.locationUrl,
+                    options = QrCodeOptions(correctionLevel = correctionLevel)
+                ),
+                size = template.qrCodeLength
+            ).drawable
 
             val textInfo = buildString {
                 append(traceLocation.description)
