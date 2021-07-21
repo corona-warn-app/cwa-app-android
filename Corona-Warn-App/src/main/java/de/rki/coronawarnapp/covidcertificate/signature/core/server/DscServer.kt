@@ -28,7 +28,8 @@ class DscServer @Inject constructor(
                 ErrorCode.EXTRACTION_FAILED
             )
         } catch (e: Exception) {
-            Timber.e(e, "Can't get DSC list")
+            if (e is DscValidationException) throw e
+            Timber.e(e, "Getting List of DSCs from server failed cause: ${e.message}")
             throw DscValidationException(ErrorCode.SERVER_ERROR)
         }
     }
