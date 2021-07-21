@@ -17,7 +17,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.databinding.FragmentRecoveryCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
-import de.rki.coronawarnapp.util.coil.placeHolderView
+import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -78,7 +78,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         qrCodeCard.apply {
             image.loadAny(CoilQrCode(content = certificate.qrCode)) {
                 crossfade(true)
-                placeHolderView(image, progressBar)
+                loadingView(image, progressBar)
             }
             image.setOnClickListener { viewModel.openFullScreen() }
         }

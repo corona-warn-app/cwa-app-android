@@ -4,18 +4,18 @@ import android.view.View
 import androidx.core.view.isInvisible
 import coil.request.ImageRequest
 
-fun ImageRequest.Builder.placeHolderView(
-    image: View,
-    placeholder: View
+fun ImageRequest.Builder.loadingView(
+    imageView: View,
+    loadingView: View
 ) {
     listener(
         onStart = {
-            placeholder.isInvisible = false
-            image.isInvisible = true
+            loadingView.isInvisible = false
+            imageView.isInvisible = true
         },
         onSuccess = { request, metadata ->
-            placeholder.isInvisible = true
-            image.isInvisible = false
+            loadingView.isInvisible = true
+            imageView.isInvisible = false
         }
     )
 }

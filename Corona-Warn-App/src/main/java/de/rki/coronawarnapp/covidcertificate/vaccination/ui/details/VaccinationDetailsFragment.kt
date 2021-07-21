@@ -18,7 +18,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertifi
 import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
-import de.rki.coronawarnapp.util.coil.placeHolderView
+import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -71,7 +71,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                     }
                     image.loadAny(request) {
                         crossfade(true)
-                        placeHolderView(image, progressBar)
+                        loadingView(image, progressBar)
                     }
                     image.setOnClickListener { viewModel.openFullScreen() }
                 }

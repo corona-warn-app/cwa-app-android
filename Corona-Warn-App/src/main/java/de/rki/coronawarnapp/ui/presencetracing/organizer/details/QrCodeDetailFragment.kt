@@ -20,7 +20,7 @@ import de.rki.coronawarnapp.databinding.TraceLocationOrganizerQrCodeDetailFragme
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
-import de.rki.coronawarnapp.util.coil.placeHolderView
+import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -151,7 +151,7 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
 
                 qrCodeImage.loadAny(uiState.qrCode) {
                     crossfade(true)
-                    placeHolderView(qrCodeImage, progressBar)
+                    loadingView(qrCodeImage, progressBar)
                 }
             }
         }

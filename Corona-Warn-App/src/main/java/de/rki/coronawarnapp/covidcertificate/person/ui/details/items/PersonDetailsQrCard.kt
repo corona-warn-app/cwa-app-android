@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.databinding.PersonDetailsQrCardItemBinding
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
-import de.rki.coronawarnapp.util.coil.placeHolderView
+import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 
@@ -37,7 +37,7 @@ class PersonDetailsQrCard(parent: ViewGroup) :
                 CoilQrCode(content = curItem.certificate.qrCode)
             ) {
                 crossfade(true)
-                placeHolderView(image, progressBar)
+                loadingView(image, progressBar)
             }
 
             startValidationCheckButton.defaultButton.setOnClickListener {

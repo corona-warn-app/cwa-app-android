@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
 import de.rki.coronawarnapp.databinding.RatProfileQrCodeFragmentBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
-import de.rki.coronawarnapp.util.coil.placeHolderView
+import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.joinToSpannable
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
@@ -73,7 +73,7 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
                 val request = personProfile?.qrCode?.let { CoilQrCode(content = it) }
                 qrCodeImage.loadAny(request) {
                     crossfade(true)
-                    placeHolderView(qrCodeImage, progressBar)
+                    loadingView(qrCodeImage, progressBar)
                 }
             }
         }

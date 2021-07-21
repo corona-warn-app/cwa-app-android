@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewAd
 import de.rki.coronawarnapp.databinding.PersonOverviewItemBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
-import de.rki.coronawarnapp.util.coil.placeHolderView
+import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 
@@ -35,7 +35,7 @@ class PersonCertificateCard(parent: ViewGroup) :
             CoilQrCode(content = curItem.certificate.qrCode)
         ) {
             crossfade(true)
-            placeHolderView(qrcodeImage, qrCodeLoadingIndicator)
+            loadingView(qrcodeImage, qrCodeLoadingIndicator)
         }
 
         backgroundImage.setImageResource(curItem.colorShade.background)

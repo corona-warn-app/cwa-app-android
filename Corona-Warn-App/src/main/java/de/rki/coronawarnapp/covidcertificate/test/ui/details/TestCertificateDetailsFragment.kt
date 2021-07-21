@@ -18,7 +18,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.databinding.FragmentTestCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
-import de.rki.coronawarnapp.util.coil.placeHolderView
+import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -100,7 +100,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         qrCodeCard.apply {
             image.loadAny(CoilQrCode(content = testCertificate.qrCode)) {
                 crossfade(true)
-                placeHolderView(image, progressBar)
+                loadingView(image, progressBar)
             }
             image.setOnClickListener { viewModel.openFullScreen() }
         }
