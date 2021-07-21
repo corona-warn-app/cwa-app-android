@@ -6,6 +6,9 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.flow.shareLatest
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
@@ -19,6 +22,7 @@ class PersonCertificatesProvider @Inject constructor(
     vaccinationRepository: VaccinationRepository,
     testCertificateRepository: TestCertificateRepository,
     recoveryCertificateRepository: RecoveryCertificateRepository,
+    @AppScope private val appScope: CoroutineScope,
 ) {
 
     val personCertificates: Flow<Set<PersonCertificates>> = combine(
@@ -49,7 +53,7 @@ class PersonCertificatesProvider @Inject constructor(
                 isCwaUser = personIdentifier == cwaUser,
             )
         }.toSet()
-    }
+    }.shareLatest(scope = appScope)
 
     /**
      * Set the current cwa user with regards to listed persons in the certificates tab.
