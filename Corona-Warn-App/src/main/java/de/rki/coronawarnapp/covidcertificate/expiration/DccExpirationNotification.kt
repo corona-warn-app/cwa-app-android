@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.signature.ui.notification
+package de.rki.coronawarnapp.covidcertificate.expiration
 
 import android.content.Context
 import dagger.Reusable
@@ -11,14 +11,14 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class DscCheckNotification @Inject constructor(
+class DccExpirationNotification @Inject constructor(
     @AppContext private val context: Context,
     private val foregroundState: ForegroundState,
     private val notificationHelper: DigitalCovidCertificateNotifications,
     private val deepLinkBuilderFactory: NavDeepLinkBuilderFactory,
 ) {
 
-    suspend fun showDscCheckNotification(containerId: CertificateContainerId) {
+    suspend fun showCheckNotification(containerId: CertificateContainerId) {
         Timber.d("showDscCheckNotification(containerId=$containerId)")
 
         // TODO
