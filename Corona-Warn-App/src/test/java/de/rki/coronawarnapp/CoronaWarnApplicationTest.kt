@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp
 
 import androidx.work.WorkManager
+import coil.ImageLoaderFactory
 import dagger.android.DispatchingAndroidInjector
 import de.rki.coronawarnapp.appconfig.ConfigChangeDetector
 import de.rki.coronawarnapp.appconfig.devicetime.DeviceTimeHandler
@@ -82,6 +83,7 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var vaccinationUpdateScheduler: VaccinationUpdateScheduler
     @MockK lateinit var rollingLogHistory: Timber.Tree
     @MockK lateinit var environmentSetup: EnvironmentSetup
+    @MockK lateinit var imageLoaderFactory: ImageLoaderFactory
 
     @BeforeEach
     fun setup() {
@@ -141,6 +143,7 @@ class CoronaWarnApplicationTest : BaseTest() {
                     }
                 }
                 app.environmentSetup = environmentSetup
+                app.imageLoaderFactory = imageLoaderFactory
             }
         }
     }
