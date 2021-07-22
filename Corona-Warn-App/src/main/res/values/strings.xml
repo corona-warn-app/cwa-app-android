@@ -1437,9 +1437,9 @@
     <!-- XTXT: Explanation screen warned persons text -->
     <string name="statistics_explanation_warned_persons_text">"Number of app users who have been diagnosed with coronavirus via PCR test and have warned others through the app"</string>
     <!-- XHED: Explanation screen local incidence title -->
-    <string name="statistics_explanation_local_incidence_title">"Lokale 7-Tage-Inzidenz"</string>
+    <string name="statistics_explanation_local_incidence_title">"Local 7-Day Incidence"</string>
     <!-- XTXT: Explanation screen local incidence text -->
-    <string name="statistics_explanation_local_incidence_text">"Gesamtzahl der bestätigten Neuinfektionen der letzten 7 Tage (nach Meldedatum) pro 100.000 Einwohner im konfigurierten Kreis oder Bundesland."</string>
+    <string name="statistics_explanation_local_incidence_text">"Total number of confirmed new infections in the last 7 days (by reporting date) per 100,000 residents in the configured district or federal state."</string>
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7-Day Incidence"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
@@ -1529,6 +1529,8 @@
     <string name="statistics_add_card_title">"Add local 7-day incidence"</string>
     <!-- XTXT: Statistics add card warning -->
     <string name="statistics_add_card_warning">"Maximum number of local 7-day incidence figures reached."</string>
+    <!-- XTXT: Statistics add screen whole state -->
+    <string name="statistics_local_incidence_whole_state_text"></string>
 
     <!-- ####################################
           Button Tooltips for Accessibility

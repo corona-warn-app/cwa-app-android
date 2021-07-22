@@ -1,10 +1,10 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview.items
 
-import android.graphics.Bitmap
 import android.view.ViewGroup
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import coil.loadAny
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
@@ -13,7 +13,9 @@ import de.rki.coronawarnapp.databinding.PersonOverviewItemBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.QrCodeHelper
+import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
+import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 
 class PersonCertificateCard(parent: ViewGroup) :
     PersonOverviewAdapter.PersonOverviewItemVH<PersonCertificateCard.Item, PersonOverviewItemBinding>(
@@ -32,10 +34,11 @@ class PersonCertificateCard(parent: ViewGroup) :
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
         name.text = curItem.certificate.fullName
 
-        qrCodeLoadingIndicator.isInvisible = curItem.qrcodeBitmap != null
-        qrcodeImage.apply {
-            setImageBitmap(curItem.qrcodeBitmap)
-            isInvisible = curItem.qrcodeBitmap == null
+        qrcodeImage.loadAny(
+            CoilQrCode(content = curItem.certificate.qrCode)
+        ) {
+            crossfade(true)
+            loadingView(qrcodeImage, qrCodeLoadingIndicator)
         }
 
         backgroundImage.setImageResource(curItem.colorShade.background)
@@ -65,7 +68,6 @@ class PersonCertificateCard(parent: ViewGroup) :
 
     data class Item(
         val certificate: CwaCovidCertificate,
-        val qrcodeBitmap: Bitmap?,
         val colorShade: PersonColorShade,
         val onClickAction: (Item, Int) -> Unit,
     ) : PersonCertificatesItem, HasPayloadDiffer {

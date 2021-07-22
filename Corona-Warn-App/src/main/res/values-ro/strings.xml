@@ -1436,6 +1436,10 @@
     <string name="statistics_explanation_warned_persons_title">"Avertizări de la utilizatorii aplicației"</string>
     <!-- XTXT: Explanation screen warned persons text -->
     <string name="statistics_explanation_warned_persons_text">"Numărul de utilizatori ai aplicației care au fost diagnosticați cu coronavirus prin test PCR și care i-au avertizat pe ceilalți prin aplicație"</string>
+    <!-- XHED: Explanation screen local incidence title -->
+    <string name="statistics_explanation_local_incidence_title">"Incidența pe 7 zile la nivel local"</string>
+    <!-- XTXT: Explanation screen local incidence text -->
+    <string name="statistics_explanation_local_incidence_text">"Numărul total de infecții noi confirmate în ultimele 7 zile (după data de raportare) la 100.000 de locuitori în districtul sau statul federal configurat."</string>
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"Incidența pe 7 zile"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->

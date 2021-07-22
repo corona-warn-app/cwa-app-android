@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import coil.loadAny
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
@@ -19,7 +20,9 @@ import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.QrCodeHelper
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
+import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -63,6 +66,17 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
                 expandedImage.setImageResource(background)
                 europaImage.setImageResource(europaIcon)
+
+                qrCodeCard.apply {
+                    val request = it.certificate?.let { cert ->
+                        CoilQrCode(content = cert.qrCode)
+                    }
+                    image.loadAny(request) {
+                        crossfade(true)
+                        loadingView(image, progressBar)
+                    }
+                    image.setOnClickListener { viewModel.openFullScreen() }
+                }
             }
 
             startValidationCheck.defaultButton.setOnClickListener {
@@ -80,13 +94,6 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 startValidationCheck.isLoading = false
                 qrCodeCard.progressBar.hide()
                 it.toErrorDialogBuilder(requireContext()).show()
-            }
-            viewModel.qrCode.observe(viewLifecycleOwner) {
-                qrCodeCard.image.setImageBitmap(it)
-                it?.let {
-                    qrCodeCard.image.setOnClickListener { viewModel.openFullScreen() }
-                    qrCodeCard.progressBar.hide()
-                }
             }
 
             viewModel.events.observe(viewLifecycleOwner) { event ->

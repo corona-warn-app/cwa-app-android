@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.ui.details
 
-import android.graphics.Bitmap
 import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -20,14 +19,12 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 
 class VaccinationDetailsViewModel @AssistedInject constructor(
     @Assisted private val containerId: VaccinationCertificateContainerId,
-    private val qrCodeGenerator: QrCodeGenerator,
     private val vaccinationRepository: VaccinationRepository,
     private val dccValidationRepository: DccValidationRepository,
     private val certificateProvider: CertificateProvider,
@@ -36,13 +33,11 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
 ) : CWAViewModel(dispatcherProvider) {
 
     private var qrCodeText: String? = null
-    private val mutableStateFlow = MutableStateFlow<Bitmap?>(null)
-    val qrCode = mutableStateFlow.asLiveData(dispatcherProvider.Default)
 
     val vaccinationCertificate = vaccinationRepository.vaccinationInfos
         .map { persons ->
             val findVaccinationDetails = findVaccinationDetails(persons)
-            generateQrCode(findVaccinationDetails.certificate)
+            qrCodeText = findVaccinationDetails.certificate?.qrCode
             findVaccinationDetails
         }
         .asLiveData(context = dispatcherProvider.Default)

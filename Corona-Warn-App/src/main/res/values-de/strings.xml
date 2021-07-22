@@ -1530,6 +1530,8 @@
     <string name="statistics_add_card_title">"Lokale 7-Tage-Inzidenz hinzufügen"</string>
     <!-- XTXT: Statistics add card warning -->
     <string name="statistics_add_card_warning">"Maximale Anzahl der lokalen 7-Tage Inzidenz erreicht."</string>
+    <!-- XTXT: Statistics add screen whole state -->
+    <string name="statistics_local_incidence_whole_state_text">"Gesamtes Bundesland"</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility
