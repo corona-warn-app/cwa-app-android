@@ -120,7 +120,6 @@ class TimeAndDateExtensionsTest : BaseTest() {
             timeZone = DateTimeZone.forOffsetHours(2)
         ) shouldBe -1
 
-
         Instant.parse("2021-02-15T00:00:05+02:00").daysUntil(
             date = Instant.parse("2021-02-14T00:52:05+00:00"),
             timeZone = DateTimeZone.forOffsetHours(0)
