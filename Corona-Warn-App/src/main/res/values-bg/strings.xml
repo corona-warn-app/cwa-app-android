@@ -1436,6 +1436,10 @@
     <string name="statistics_explanation_warned_persons_title">"Лица, изпратили предупреждения"</string>
     <!-- XTXT: Explanation screen warned persons text -->
     <string name="statistics_explanation_warned_persons_text">"Брой потребители, диагностицирани с коронавирус на база на PCR тест, които са предупредили другите потребители чрез приложението"</string>
+    <!-- XHED: Explanation screen local incidence title -->
+    <string name="statistics_explanation_local_incidence_title">"7-дневна заболеваемост на местно ниво"</string>
+    <!-- XTXT: Explanation screen local incidence text -->
+    <string name="statistics_explanation_local_incidence_text">"Общ брой потвърдени нови случаи на заразяване за последните 7 дни (по дата на регистриране) на 100 000 души в посочения окръг или федерална провинция."</string>
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7-дневна заболеваемост"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
