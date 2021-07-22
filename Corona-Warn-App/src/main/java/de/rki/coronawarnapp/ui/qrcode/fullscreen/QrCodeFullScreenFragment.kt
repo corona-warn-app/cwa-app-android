@@ -9,6 +9,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_BARS_BY_SWIPE
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import coil.loadAny
 import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentQrCodeFullScreenBinding
@@ -55,7 +56,9 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
 
             postponeEnterTransition()
             viewModel.qrcode.observe(viewLifecycleOwner) {
-                qrCodeImage.setImageBitmap(it)
+                qrCodeImage.loadAny(it) {
+                    crossfade(true)
+                }
                 startPostponedEnterTransition()
             }
             viewModel.immersiveMode.observe(viewLifecycleOwner) { immersive ->
