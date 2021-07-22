@@ -42,7 +42,7 @@
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/image"
         app:layout_constraintTop_toBottomOf="@id/image"
-        tools:text="@string/detail_green_certificate_card_title" />
+        tools:text="@string/test_certificate_name" />
 
     <TextView
         android:id="@+id/qr_subtitle"
