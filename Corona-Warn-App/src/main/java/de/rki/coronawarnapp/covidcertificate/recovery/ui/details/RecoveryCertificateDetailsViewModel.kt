@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
-import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.util.QrCodeHelper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -57,25 +56,6 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
             events.postValue(RecoveryCertificateDetailsNavigation.ValidationStart(containerId))
         } catch (e: Exception) {
             Timber.d(e, "validation rule download failed for covidCertificate=%s", containerId)
-            errors.postValue(e)
-        }
-    }
-
-    private fun generateQrCode(recoveryCertificate: RecoveryCertificate?) = launch {
-        try {
-            bitmapStateData.postValue(
-                recoveryCertificate?.let { certificate ->
-                    val state = certificateProvider.findCertificate(containerId).getState()
-                    if (QrCodeHelper.isInvalidOrExpired(state)) {
-                        qrCodeGenerator.createQrCode(QrCodeHelper.sampleQrCodeText)
-                    } else {
-                        qrCodeGenerator.createQrCode(certificate.qrCode.also { qrCodeText = it })
-                    }
-                }
-            )
-        } catch (e: Exception) {
-            Timber.d(e, "generateQrCode failed for covidCertificate=%s", containerId)
-            bitmapStateData.postValue(null)
             errors.postValue(e)
         }
     }

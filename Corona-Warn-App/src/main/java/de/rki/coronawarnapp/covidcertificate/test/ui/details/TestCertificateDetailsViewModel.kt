@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
-import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.util.QrCodeHelper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -49,25 +48,6 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
     fun getCovidCertificate(): CwaCovidCertificate {
         return runBlocking {
             certificateProvider.findCertificate(containerId)
-        }
-    }
-
-    private fun generateQrCode(testCertificate: TestCertificate?) = launch {
-        try {
-            bitmapStateData.postValue(
-                testCertificate?.let { certificate ->
-                    val state = certificateProvider.findCertificate(containerId).getState()
-                    if (QrCodeHelper.isInvalidOrExpired(state)) {
-                        qrCodeGenerator.createQrCode(QrCodeHelper.sampleQrCodeText)
-                    } else {
-                        qrCodeGenerator.createQrCode(certificate.qrCode.also { qrCodeText = it })
-                    }
-                }
-            )
-        } catch (e: Exception) {
-            Timber.d(e, "generateQrCode failed for covidCertificate=%s", containerId)
-            bitmapStateData.postValue(null)
-            errors.postValue(e)
         }
     }
 

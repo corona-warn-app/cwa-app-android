@@ -123,22 +123,6 @@ class PersonOverviewViewModel @AssistedInject constructor(
         return certificate is TestCertificate && certificate.isCertificateRetrievalPending
     }
 
-    private val PersonCertificatesProvider.qrCodesFlow
-        get() = personCertificates.transform { persons ->
-            emit(qrCodes) // Initial state
-            persons.filterNotPending()
-                .forEach {
-                    val qrCode = it.highestPriorityCertificate.qrCode
-
-                    if (QrCodeHelper.isInvalidOrExpired(it.highestPriorityCertificate.getState())) {
-                        qrCodes[qrCode] = generateQrCode(QrCodeHelper.sampleQrCodeText)
-                    } else {
-                        qrCodes[qrCode] = generateQrCode(qrCode)
-                    }
-                    emit(qrCodes)
-                }
-        }
-
     private fun Set<PersonCertificates>.filterNotPending() = this
         .filter { !it.hasPendingTestCertificate() }
         .sortedBy { it.highestPriorityCertificate.fullName }

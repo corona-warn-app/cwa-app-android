@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview.items
 
 import android.view.ViewGroup
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import coil.loadAny
 import de.rki.coronawarnapp.R
@@ -34,8 +33,13 @@ class PersonCertificateCard(parent: ViewGroup) :
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
         name.text = curItem.certificate.fullName
 
+        var qrCodeString = curItem.certificate.qrCode
+        if(QrCodeHelper.isInvalidOrExpired(curItem.certificate.getState())) {
+            qrCodeString = QrCodeHelper.sampleQrCodeText
+        }
+
         qrcodeImage.loadAny(
-            CoilQrCode(content = curItem.certificate.qrCode)
+            CoilQrCode(content = qrCodeString)
         ) {
             crossfade(true)
             loadingView(qrcodeImage, qrCodeLoadingIndicator)

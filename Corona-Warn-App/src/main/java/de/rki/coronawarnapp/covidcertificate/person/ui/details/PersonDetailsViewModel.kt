@@ -28,7 +28,6 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson.S
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
-import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.util.QrCodeHelper
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -74,21 +73,6 @@ class PersonDetailsViewModel @AssistedInject constructor(
     }.catch { error ->
         Timber.d(error, "No person found for $personIdentifierCode")
         events.postValue(Back)
-    }
-
-    private val qrcodeCache = mutableMapOf<String, Bitmap?>()
-
-    private val qrCodeFlow: Flow<Bitmap?> = personCertificatesFlow.transform {
-        var input = it.highestPriorityCertificate.qrCode
-        emit(qrcodeCache[input]) // Initial state
-
-        if (QrCodeHelper.isInvalidOrExpired(it.highestPriorityCertificate.getState())) {
-            input = QrCodeHelper.sampleQrCodeText
-        }
-
-        val qrcode = qrcodeCache[input] ?: qrCodeGenerator.createQrCode(input, margin = 0)
-        qrcodeCache[input] = qrcode
-        emit(qrcode)
     }
 
     val uiState: LiveData<List<CertificateItem>> = combine(
