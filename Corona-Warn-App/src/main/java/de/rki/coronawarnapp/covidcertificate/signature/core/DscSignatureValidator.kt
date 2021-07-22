@@ -22,11 +22,13 @@ import org.bouncycastle.asn1.ASN1Integer
 import org.bouncycastle.asn1.DERSequence
 import org.bouncycastle.asn1.pkcs.RSAPublicKey
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo
+import org.bouncycastle.jce.provider.BouncyCastleProvider
 import timber.log.Timber
 import java.io.ByteArrayInputStream
 import java.math.BigInteger
 import java.security.KeyFactory
 import java.security.PublicKey
+import java.security.Security
 import java.security.Signature
 import java.security.cert.CertificateExpiredException
 import java.security.cert.CertificateFactory
@@ -37,6 +39,10 @@ import javax.inject.Inject
 
 @Reusable
 class DscSignatureValidator @Inject constructor() {
+
+    init {
+        Security.addProvider(BouncyCastleProvider()) // for SHA256withRSA/PSS
+    }
 
     private val vcOids = setOf(
         "1.3.6.1.4.1.1847.2021.1.2",
