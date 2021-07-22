@@ -36,6 +36,7 @@ import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.internal.TaskModule
 import de.rki.coronawarnapp.test.DeviceForTestersModule
 import de.rki.coronawarnapp.ui.ActivityBinder
+import de.rki.coronawarnapp.util.coil.CoilModule
 import de.rki.coronawarnapp.util.coroutine.AppCoroutineScope
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.CoroutineModule
@@ -57,6 +58,7 @@ import javax.inject.Singleton
         ReceiverBinder::class,
         ServiceBinder::class,
         ActivityBinder::class,
+        CoilModule::class,
         RiskModule::class,
         DeviceModule::class,
         ENFModule::class,
