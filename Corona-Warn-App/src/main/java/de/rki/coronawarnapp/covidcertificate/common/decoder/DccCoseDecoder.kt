@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.common.decoder
 
 import com.upokecenter.cbor.CBORObject
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DscMessage
 import de.rki.coronawarnapp.covidcertificate.common.cryptography.AesCryptography
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.AES_DECRYPTION_FAILED
@@ -134,17 +135,4 @@ class DccCoseDecoder @Inject constructor(
         val payload: CBORObject,
         val kid: String
     )
-
-    data class DscMessage(
-        val protectedHeader: ByteArray,
-        val payload: ByteArray,
-        val kid: String,
-        val signature: ByteArray,
-        val algorithm: Algorithm,
-    ) {
-        enum class Algorithm(val algName: String) {
-            ES256("SHA256withECDSA"),
-            PS256("SHA256WithRSA")
-        }
-    }
 }

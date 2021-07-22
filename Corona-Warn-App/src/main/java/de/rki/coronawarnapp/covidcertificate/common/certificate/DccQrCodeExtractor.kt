@@ -67,7 +67,11 @@ class DccQrCodeExtractor @Inject constructor(
         DccQrCodeCensor.addQRCodeStringToCensor(rawString)
 
         return try {
-            val parsedData = extractCoseObject(rawString).parse(mode)
+            val parsedData = rawString
+                .removePrefix(PREFIX)
+                .decodeBase45()
+                .decompress()
+                .parse(mode)
 
             toDccQrCode(rawString, parsedData).also {
                 when (mode) {
@@ -93,11 +97,6 @@ class DccQrCodeExtractor @Inject constructor(
             }
         }
     }
-
-    fun extractCoseObject(qrCodeString: String) = qrCodeString
-        .removePrefix(PREFIX)
-        .decodeBase45()
-        .decompress()
 
     private fun RawCOSEObject.decrypt(decryptionKey: ByteArray): RawCOSEObject = try {
         coseDecoder.decryptMessage(
@@ -137,7 +136,8 @@ class DccQrCodeExtractor @Inject constructor(
                     header = parsedData.header,
                     certificate = parsedData.certificate,
                     certificateJson = parsedData.certificateJson,
-                    kid = parsedData.kid
+                    kid = parsedData.kid,
+                    dscMessage = parsedData.dscMessage,
                 ),
             )
             is TestDccV1 -> TestCertificateQRCode(
@@ -146,7 +146,8 @@ class DccQrCodeExtractor @Inject constructor(
                     header = parsedData.header,
                     certificate = parsedData.certificate,
                     certificateJson = parsedData.certificateJson,
-                    kid = parsedData.kid
+                    kid = parsedData.kid,
+                    dscMessage = parsedData.dscMessage,
                 ),
             )
             is RecoveryDccV1 -> RecoveryCertificateQRCode(
@@ -155,7 +156,8 @@ class DccQrCodeExtractor @Inject constructor(
                     parsedData.header,
                     parsedData.certificate,
                     certificateJson = parsedData.certificateJson,
-                    kid = parsedData.kid
+                    kid = parsedData.kid,
+                    dscMessage = parsedData.dscMessage,
                 ),
             )
             else -> throw InvalidHealthCertificateException(HC_JSON_SCHEMA_INVALID)
@@ -179,11 +181,14 @@ class DccQrCodeExtractor @Inject constructor(
         val message = coseDecoder.decode(this)
         val header = headerParser.parse(message.payload)
         val body = bodyParser.parse(message.payload, mode)
+
+        val dscMessage = coseDecoder.decodeDscMessage(this)
         DccData(
             header = header,
             certificate = body.parsed.asCertificate,
             certificateJson = body.raw,
-            kid = message.kid
+            kid = message.kid,
+            dscMessage = dscMessage
         ).also {
             DccQrCodeCensor.addCertificateToCensor(it)
         }.also {

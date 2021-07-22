@@ -3,20 +3,19 @@ package de.rki.coronawarnapp.covidcertificate.signature.core
 import com.upokecenter.cbor.CBORObject
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
-import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DscMessage
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DscMessage.Algorithm.ES256
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DscMessage.Algorithm.PS256
 import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
-import de.rki.coronawarnapp.covidcertificate.common.decoder.DccCoseDecoder
-import de.rki.coronawarnapp.covidcertificate.common.decoder.DccCoseDecoder.DscMessage.Algorithm.ES256
-import de.rki.coronawarnapp.covidcertificate.common.decoder.DccCoseDecoder.DscMessage.Algorithm.PS256
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_NO_MATCH
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_OID_MISMATCH_RC
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_OID_MISMATCH_TC
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_OID_MISMATCH_VC
-import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
+import de.rki.coronawarnapp.util.TimeStamper
 import okio.ByteString
 import org.bouncycastle.asn1.ASN1Integer
 import org.bouncycastle.asn1.DERSequence
@@ -31,8 +30,7 @@ import javax.inject.Inject
 
 @Reusable
 class DscSignatureValidator @Inject constructor(
-    private val dccCoseDecoder: DccCoseDecoder,
-    private val dccQrCodeExtractor: DccQrCodeExtractor
+    private val timeStamper: TimeStamper
 ) {
 
     private val vcOids = setOf(
@@ -53,10 +51,9 @@ class DscSignatureValidator @Inject constructor(
     /**
      * @throws InvalidHealthCertificateException if validation fail, otherwise it is OK!
      */
-    suspend fun validateSignature(dscData: DscData, dccData: DccData<*>, qrCodeString: QrCodeString) {
-        Timber.tag(TAG).d("isSignatureValid(dscData=%s,certificateData=%s)", dscData, qrCodeString)
-        val coseObject = dccQrCodeExtractor.extractCoseObject(qrCodeString)
-        val dscMessage = dccCoseDecoder.decodeDscMessage(coseObject)
+    suspend fun validateSignature(dscData: DscData, dccData: DccData<*>) {
+        Timber.tag(TAG).d("isSignatureValid(dscData=%s,dccData=%s)", dscData, dccData)
+        val dscMessage = dccData.dscMessage
 
         val signedPayload = CBORObject.NewArray().apply {
             Add("Signature1")
@@ -64,7 +61,6 @@ class DscSignatureValidator @Inject constructor(
             Add(ByteArray(0))
             Add(dscMessage.payload)
         }.EncodeToBytes()
-
         val signedPayloadHash = signedPayload.toSHA256().toByteArray()
         val signature = dscMessage.signature
         val verifier = when (dscMessage.algorithm) {
@@ -87,7 +83,7 @@ class DscSignatureValidator @Inject constructor(
 
     private fun findDscForDgc(
         dscData: DscData,
-        dscMessage: DccCoseDecoder.DscMessage,
+        dscMessage: DscMessage,
         verifier: ByteArray,
         signedPayloadHash: ByteArray
     ): Pair<ByteString, ByteString> {
