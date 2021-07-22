@@ -110,8 +110,6 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
             testManufacturerTitle.isGone = false
         }
 
-
-
         qrCodeCard.apply {
             var qrCodeString = certificate.qrCode
             if (QrCodeHelper.isInvalidOrExpired(viewModel.getCovidCertificate().getState())) {

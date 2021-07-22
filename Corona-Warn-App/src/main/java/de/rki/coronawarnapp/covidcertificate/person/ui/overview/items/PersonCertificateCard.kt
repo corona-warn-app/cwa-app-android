@@ -34,7 +34,7 @@ class PersonCertificateCard(parent: ViewGroup) :
         name.text = curItem.certificate.fullName
 
         var qrCodeString = curItem.certificate.qrCode
-        if(QrCodeHelper.isInvalidOrExpired(curItem.certificate.getState())) {
+        if (QrCodeHelper.isInvalidOrExpired(curItem.certificate.getState())) {
             qrCodeString = QrCodeHelper.sampleQrCodeText
         }
 

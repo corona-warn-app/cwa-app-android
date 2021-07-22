@@ -71,7 +71,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                     val request = it.certificate?.let { cert ->
 
                         var qrCodeString = cert.qrCode
-                        if ( QrCodeHelper.isInvalidOrExpired(viewModel.getCovidCertificate().getState())) {
+                        if (QrCodeHelper.isInvalidOrExpired(viewModel.getCovidCertificate().getState())) {
                             qrCodeString = QrCodeHelper.sampleQrCodeText
                         }
                         CoilQrCode(content = qrCodeString)
