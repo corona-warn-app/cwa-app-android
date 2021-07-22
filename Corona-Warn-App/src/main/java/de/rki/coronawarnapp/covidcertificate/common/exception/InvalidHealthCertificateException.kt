@@ -52,6 +52,8 @@ open class InvalidHealthCertificateException(
         HC_DSC_OID_MISMATCH_TC("Test certificate OID mismatch."),
         HC_DSC_OID_MISMATCH_VC("Vaccination certificate OID mismatch."),
         HC_DSC_OID_MISMATCH_RC("Recovery certificate OID mismatch."),
+        HC_DSC_NOT_YET_VALID("DSC is not valid yet."),
+        HC_DSC_EXPIRED("DSC expired."),
     }
 
     open val showFaqButton: Boolean

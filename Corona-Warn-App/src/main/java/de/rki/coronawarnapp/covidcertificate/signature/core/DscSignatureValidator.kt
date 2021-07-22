@@ -10,28 +10,32 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_EXPIRED
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_NOT_YET_VALID
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_NO_MATCH
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_OID_MISMATCH_RC
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_OID_MISMATCH_TC
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_OID_MISMATCH_VC
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
-import de.rki.coronawarnapp.util.TimeStamper
 import okio.ByteString
 import org.bouncycastle.asn1.ASN1Integer
 import org.bouncycastle.asn1.DERSequence
+import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo
 import timber.log.Timber
 import java.io.ByteArrayInputStream
 import java.math.BigInteger
+import java.security.KeyFactory
 import java.security.PublicKey
 import java.security.Signature
+import java.security.cert.CertificateExpiredException
 import java.security.cert.CertificateFactory
+import java.security.cert.CertificateNotYetValidException
 import java.security.cert.X509Certificate
+import java.security.spec.RSAPublicKeySpec
 import javax.inject.Inject
 
 @Reusable
-class DscSignatureValidator @Inject constructor(
-    private val timeStamper: TimeStamper
-) {
+class DscSignatureValidator @Inject constructor() {
 
     private val vcOids = setOf(
         "1.3.6.1.4.1.1847.2021.1.2",
@@ -76,40 +80,61 @@ class DscSignatureValidator @Inject constructor(
             }
         }
 
-        val dsc = findDscForDgc(dscData, dscMessage, verifier, signedPayloadHash)
-        // TODO validate Dsc against Validation Clock
-        x509certificate(dsc).checkCertOid(dccData)
+        findDscCertificate(dscData, dscMessage, verifier, signedPayloadHash).apply {
+            validate()
+            checkCertOid(dccData)
+        }
     }
 
-    private fun findDscForDgc(
+    private fun findDscCertificate(
         dscData: DscData,
         dscMessage: DscMessage,
         verifier: ByteArray,
         signedPayloadHash: ByteArray
-    ): Pair<ByteString, ByteString> {
+    ): X509Certificate {
         val filteredDscSet = dscData.dscList.filter { it.first.toString() == dscMessage.kid }
         val matchedDscSet = when {
             filteredDscSet.isEmpty() || dscMessage.kid.isEmpty() -> dscData.dscList
             else -> filteredDscSet
         }
 
-        val dsc = matchedDscSet.firstOrNull { dsc ->
-            val x509Certificate = x509certificate(dsc)
+        var x509Certificate: X509Certificate? = null
+        for (dsc in matchedDscSet) {
+            val dscCertificate = x509certificate(dsc)
+            val publicKey = when (dscMessage.algorithm) {
+                ES256 -> dscCertificate.publicKey
+                PS256 -> dscCertificate.publicKey.toRsaPublicKey()
+            }
 
-            Signature.getInstance(dscMessage.algorithm.algName).verify(
-                x509Certificate.publicKey, // TODO  Check Public key for different algorithms
+            val valid = Signature.getInstance(dscMessage.algorithm.algName).verify(
+                publicKey,
                 verifier,
                 signedPayloadHash
             )
+
+            if (valid) {
+                x509Certificate = dscCertificate
+                break
+            }
         }
 
-        return dsc ?: throw InvalidHealthCertificateException(HC_DSC_NO_MATCH)
+        return x509Certificate ?: throw InvalidHealthCertificateException(HC_DSC_NO_MATCH)
     }
 
     private fun x509certificate(dsc: Pair<ByteString, ByteString>): X509Certificate {
         return ByteArrayInputStream(dsc.second.toByteArray()).use {
             CertificateFactory.getInstance("X.509").generateCertificate(it)
         } as X509Certificate
+    }
+
+    private fun X509Certificate.validate() {
+        try {
+            checkValidity()
+        } catch (e: CertificateExpiredException) {
+            throw InvalidHealthCertificateException(HC_DSC_EXPIRED)
+        } catch (e: CertificateNotYetValidException) {
+            throw InvalidHealthCertificateException(HC_DSC_NOT_YET_VALID)
+        }
     }
 
     private fun X509Certificate.checkCertOid(dccData: DccData<*>) {
@@ -127,6 +152,13 @@ class DscSignatureValidator @Inject constructor(
         }
     }
 
+    private fun PublicKey.toRsaPublicKey(): PublicKey {
+        val bytes = SubjectPublicKeyInfo.getInstance(this.encoded).publicKeyData.bytes
+        val rsaPublicKey = org.bouncycastle.asn1.pkcs.RSAPublicKey.getInstance(bytes)
+        val spec = RSAPublicKeySpec(rsaPublicKey.modulus, rsaPublicKey.publicExponent)
+        return KeyFactory.getInstance("RSA").generatePublic(spec)
+    }
+
     private fun Signature.verify(
         publicKey: PublicKey,
         verifier: ByteArray,
@@ -134,7 +166,6 @@ class DscSignatureValidator @Inject constructor(
     ): Boolean {
         initVerify(publicKey)
         update(verifier)
-
         return verify(toVerify)
     }
 
