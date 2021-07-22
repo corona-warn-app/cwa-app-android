@@ -1,10 +1,9 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.details.items
 
-import android.graphics.Bitmap
 import android.view.View
 import android.view.ViewGroup
-import coil.loadAny
 import androidx.core.content.ContextCompat
+import coil.loadAny
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
@@ -18,7 +17,6 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
-import timber.log.Timber
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 
 class PersonDetailsQrCard(parent: ViewGroup) :
@@ -87,16 +85,28 @@ class PersonDetailsQrCard(parent: ViewGroup) :
 
                 is CwaCovidCertificate.State.Expired -> {
                     expirationStatusIcon.visibility = View.VISIBLE
-                    expirationStatusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_error_outline))
+                    expirationStatusIcon.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ic_error_outline
+                        )
+                    )
                     expirationStatusText.visibility = View.VISIBLE
                     expirationStatusText.text = context.getText(R.string.certificate_qr_expired)
+                    qrSubtitle.visibility = View.GONE
                 }
 
                 is CwaCovidCertificate.State.Invalid -> {
                     expirationStatusIcon.visibility = View.VISIBLE
-                    expirationStatusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_error_outline))
+                    expirationStatusIcon.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ic_error_outline
+                        )
+                    )
                     expirationStatusText.visibility = View.VISIBLE
                     expirationStatusText.text = context.getText(R.string.certificate_qr_invalid_signature)
+                    qrSubtitle.visibility = View.GONE
                 }
 
                 else -> {

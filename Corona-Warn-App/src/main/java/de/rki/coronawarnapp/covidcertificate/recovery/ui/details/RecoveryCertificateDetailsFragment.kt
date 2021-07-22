@@ -69,8 +69,8 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         certificate: RecoveryCertificate
     ) {
         qrCodeCard.apply {
-            qrCodeCard.qrTitle.text = getString(R.string.recovery_certificate_name)
-            qrCodeCard.qrSubtitle.text = getString(
+            qrTitle.text = getString(R.string.recovery_certificate_name)
+            qrSubtitle.text = getString(
                 R.string.recovery_certificate_valid_until,
                 certificate.validUntil.toShortDayFormat()
             )
@@ -105,6 +105,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
                     expirationStatusText.text = getText(R.string.certificate_qr_expired)
                     expirationStatusBody.visibility = View.VISIBLE
                     expirationStatusBody.text = getText(R.string.expired_certificate_info)
+                    qrSubtitle.visibility = View.GONE
                 }
 
                 is CwaCovidCertificate.State.Invalid -> {
@@ -119,6 +120,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
                     expirationStatusText.text = getText(R.string.certificate_qr_invalid_signature)
                     expirationStatusBody.visibility = View.VISIBLE
                     expirationStatusBody.text = getText(R.string.invalid_certificate_signature_info)
+                    qrSubtitle.visibility = View.GONE
                 }
 
                 else -> {

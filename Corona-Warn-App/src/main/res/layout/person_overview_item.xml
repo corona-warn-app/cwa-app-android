@@ -127,7 +127,7 @@
 
     <TextView
         android:id="@+id/expiration_status_text"
-        style="@style/body2Medium"
+        style="@style/body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_tiny"

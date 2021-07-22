@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -14,11 +15,14 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.databinding.FragmentTestCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
@@ -68,6 +72,65 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     private fun FragmentTestCertificateDetailsBinding.onCertificateReady(
         certificate: TestCertificate
     ) {
+        qrCodeCard.apply {
+            val dateTime = certificate.sampleCollectedAt.toUserTimeZone().run {
+                "${toShortDayFormat()}, ${toShortTimeFormat()}"
+            }
+            qrTitle.text = getString(R.string.test_certificate_name)
+            qrSubtitle.text = getString(R.string.test_certificate_qrcode_card_sampled_on, dateTime)
+            when (certificate.getState()) {
+                is CwaCovidCertificate.State.ExpiringSoon -> {
+                    expirationStatusIcon.visibility = View.VISIBLE
+                    expirationStatusIcon.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_av_timer
+                        )
+                    )
+                    expirationStatusText.visibility = View.VISIBLE
+                    expirationStatusText.text = getString(
+                        R.string.certificate_qr_expiration,
+                        certificate.headerExpiresAt.toShortDayFormat(),
+                        certificate.headerExpiresAt.toShortTimeFormat()
+                    )
+                    expirationStatusBody.visibility = View.VISIBLE
+                    expirationStatusBody.text = getText(R.string.expiration_info)
+                }
+
+                is CwaCovidCertificate.State.Expired -> {
+                    expirationStatusIcon.visibility = View.VISIBLE
+                    expirationStatusIcon.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_error_outline
+                        )
+                    )
+                    expirationStatusText.visibility = View.VISIBLE
+                    expirationStatusText.text = getText(R.string.certificate_qr_expired)
+                    expirationStatusBody.visibility = View.VISIBLE
+                    expirationStatusBody.text = getText(R.string.expired_certificate_info)
+                    qrSubtitle.visibility = View.GONE
+                }
+
+                is CwaCovidCertificate.State.Invalid -> {
+                    expirationStatusIcon.visibility = View.VISIBLE
+                    expirationStatusIcon.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_error_outline
+                        )
+                    )
+                    expirationStatusText.visibility = View.VISIBLE
+                    expirationStatusText.text = getText(R.string.certificate_qr_invalid_signature)
+                    expirationStatusBody.visibility = View.VISIBLE
+                    expirationStatusBody.text = getText(R.string.invalid_certificate_signature_info)
+                    qrSubtitle.visibility = View.GONE
+                }
+
+                else -> {
+                }
+            }
+        }
         name.text = certificate.fullName
         dateOfBirth.text = certificate.dateOfBirthFormatted
         diseaseType.text = certificate.targetName
