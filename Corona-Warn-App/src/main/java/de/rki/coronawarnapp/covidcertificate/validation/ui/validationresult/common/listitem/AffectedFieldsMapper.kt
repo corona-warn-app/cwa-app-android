@@ -73,8 +73,8 @@ private fun certificateValue(field: String, certificate: CwaCovidCertificate): S
     return when (certificate) {
         is VaccinationCertificate -> when (field) {
             "v.0.tg" -> certificate.targetDisease
-            "v.0.vp" -> certificate.medicalProductName
-            "v.0.mp" -> certificate.vaccineTypeName
+            "v.0.vp" -> certificate.vaccineTypeName
+            "v.0.mp" -> certificate.medicalProductName
             "v.0.ma" -> certificate.vaccineManufacturer
             "v.0.dn" -> certificate.doseNumber.toString()
             "v.0.sd" -> certificate.totalSeriesOfDoses.toString()
