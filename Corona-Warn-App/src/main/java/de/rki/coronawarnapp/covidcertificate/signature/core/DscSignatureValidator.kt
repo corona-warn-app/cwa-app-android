@@ -104,7 +104,7 @@ class DscSignatureValidator @Inject constructor() {
                     break
                 }
             } catch (ignored: Exception) {
-                continue
+                // Ignore errors
             }
         }
 
