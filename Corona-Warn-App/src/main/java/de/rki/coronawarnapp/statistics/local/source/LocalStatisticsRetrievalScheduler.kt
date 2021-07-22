@@ -19,15 +19,15 @@ class LocalStatisticsRetrievalScheduler @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val localStatisticsProvider: LocalStatisticsProvider
 ) {
-    private val lastActiveStates = mutableSetOf<FederalStateToPackageId>()
+    private val lastActivePackages = mutableSetOf<FederalStateToPackageId>()
 
     private val updateStatsTrigger = combine(
         foregroundState.isInForeground,
-        localStatisticsConfigStorage.activeStates
+        localStatisticsConfigStorage.activePackages
     ) { isInForeground, activeStates ->
-        val statsChanged = !lastActiveStates.containsAll(activeStates)
-        lastActiveStates.clear()
-        lastActiveStates.addAll(activeStates)
+        val statsChanged = !lastActivePackages.containsAll(activeStates)
+        lastActivePackages.clear()
+        lastActivePackages.addAll(activeStates)
 
         Timber.tag(TAG).v(
             "should stats update: isInForeground = %s || statsChanged = %s",

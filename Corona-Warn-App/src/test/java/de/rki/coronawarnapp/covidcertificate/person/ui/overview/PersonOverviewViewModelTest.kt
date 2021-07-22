@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestC
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
-import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.permission.CameraPermissionProvider
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -35,7 +34,6 @@ import java.util.Locale
 
 @ExtendWith(InstantExecutorExtension::class)
 class PersonOverviewViewModelTest : BaseTest() {
-    @MockK lateinit var qrCodeGenerator: QrCodeGenerator
     @MockK lateinit var personCertificatesProvider: PersonCertificatesProvider
     @MockK lateinit var testCertificateRepository: TestCertificateRepository
     @MockK lateinit var refreshResult: TestCertificateRepository.RefreshResult
@@ -49,7 +47,6 @@ class PersonOverviewViewModelTest : BaseTest() {
         mockkStatic("de.rki.coronawarnapp.contactdiary.util.ContactDiaryExtensionsKt")
 
         coEvery { testCertificateRepository.refresh(any()) } returns setOf(refreshResult)
-        coEvery { qrCodeGenerator.createQrCode(any(), any(), any(), any(), any()) } returns mockk()
         every { personCertificatesProvider.personCertificates } returns emptyFlow()
         every { refreshResult.error } returns null
         every { testCertificateRepository.certificates } returns flowOf(setOf())
@@ -183,7 +180,6 @@ class PersonOverviewViewModelTest : BaseTest() {
             dispatcherProvider = TestDispatcherProvider(),
             testCertificateRepository = testCertificateRepository,
             certificatesProvider = personCertificatesProvider,
-            qrCodeGenerator = qrCodeGenerator,
             valueSetsRepository = valueSetsRepository,
             context = context,
             cameraPermissionProvider = cameraPermissionProvider,

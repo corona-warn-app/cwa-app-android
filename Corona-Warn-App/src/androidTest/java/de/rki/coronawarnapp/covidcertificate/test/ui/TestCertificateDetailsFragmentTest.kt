@@ -1,11 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.test.ui
 
-import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -13,6 +8,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.ScreenshotCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
@@ -36,8 +32,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
+import testhelpers.createFakeImageLoaderForQrCodes
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
+import testhelpers.setupFakeImageLoader
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
@@ -53,9 +51,9 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
-
-        every { vaccinationDetailsViewModel.qrCode } returns bitmapLiveDate()
-
+        setupFakeImageLoader(
+            createFakeImageLoaderForQrCodes()
+        )
         setupMockViewModel(
             object : TestCertificateDetailsViewModel.Factory {
                 override fun create(containerId: TestCertificateContainerId):
@@ -77,13 +75,6 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
         takeScreenshot<TestCertificateDetailsFragment>()
         onView(withId(R.id.coordinator_layout)).perform(swipeUp())
         takeScreenshot<TestCertificateDetailsFragment>("_2")
-    }
-
-    private fun bitmapLiveDate(): LiveData<Bitmap> {
-        val applicationContext = ApplicationProvider.getApplicationContext<Context>()
-        return MutableLiveData(
-            BitmapFactory.decodeResource(applicationContext.resources, R.drawable.test_qr_code)
-        )
     }
 
     private fun vaccinationDetailsData(): MutableLiveData<TestCertificate> {
@@ -125,7 +116,7 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
                 override val headerExpiresAt: Instant
                     get() = testDate
                 override val qrCode: QrCodeString
-                    get() = ""
+                    get() = ScreenshotCertificateTestData.testCertificate
                 override val firstName: String
                     get() = "Andrea"
                 override val lastName: String
