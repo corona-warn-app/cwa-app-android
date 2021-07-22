@@ -82,6 +82,10 @@ class LocalStatisticsConfigStorageTest : BaseTest() {
 
     companion object {
         const val EXPECTED_JSON =
-            "{\"locations\":[{\"type\":\"SelectedDistrict\",\"district\":{\"districtName\":\"Hogwarts\",\"districtShortName\":\"HG\",\"districtId\":1,\"federalStateName\":\"Scotland\",\"federalStateShortName\":\"SL\",\"federalStateId\":1},\"addedAt\":{\"iMillis\":6969420000}},{\"type\":\"SelectedFederalState\",\"federalState\":\"FEDERAL_STATE_BB\",\"addedAt\":{\"iMillis\":4206969000}}]}"
+            "{\"locations\":[{\"type\":\"SelectedDistrict\",\"district\":{\"districtName\":\"Hogwarts\"," +
+                "\"districtShortName\":\"HG\",\"districtId\":1,\"federalStateName\":\"Scotland\"," +
+                "\"federalStateShortName\":\"SL\",\"federalStateId\":1},\"addedAt\":{\"iMillis\":6969420000}}," +
+                "{\"type\":\"SelectedFederalState\",\"federalState\":\"FEDERAL_STATE_BB\"," +
+                "\"addedAt\":{\"iMillis\":4206969000}}]}"
     }
 }
