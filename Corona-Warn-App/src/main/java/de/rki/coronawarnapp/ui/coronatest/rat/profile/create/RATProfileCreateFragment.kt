@@ -70,7 +70,7 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
             phoneInputEdit.setOnFocusChangeListener { _, hasFocus ->
                 // Validate phone number
                 if (!hasFocus && !Patterns.PHONE.matcher(phoneInputEdit.text.toString()).matches()) {
-                    phoneInputLayout.error = "Invalid phone number"
+                    phoneInputLayout.error = getString(R.string.rat_profile_create_phone_error);
                 } else {
                     phoneInputLayout.error = null
                 }
@@ -89,7 +89,7 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
             emailInputEdit.setOnFocusChangeListener { _, hasFocus ->
                 // Validate email
                 if (!hasFocus && !Patterns.EMAIL_ADDRESS.matcher(emailInputEdit.text.toString()).matches()) {
-                    emailInputLayout.error = "Invalid email address"
+                    emailInputLayout.error = getString(R.string.rat_profile_create_email_error)
                 } else {
                     emailInputLayout.error = null
                 }

@@ -165,6 +165,10 @@
     <string name="rat_profile_create_phone_hint">"Telefon Numarası"</string>
     <!-- XTXT: Create RAT profile email hint -->
     <string name="rat_profile_create_email_hint">"E-posta Adresi"</string>
+    <!-- XTXT: Create RAT profile phone error message -->
+    <string name="rat_profile_create_phone_error">"Invalid Phone Number"</string>
+    <!-- XTXT: Create RAT profile email error message -->
+    <string name="rat_profile_create_email_error">"Invalid E-Mail Address"</string>
 
     <!--RAT profile onboarding-->
     <string name="rat_profile_onboarding_image_content_description">"Elinde akıllı telefon tutan bir kadın bir binanın önünde duruyor. QR kod, taranacak hızlı test profilini sembolize ediyor."</string>
