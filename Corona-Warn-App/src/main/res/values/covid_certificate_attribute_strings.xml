@@ -103,6 +103,8 @@
     <string name="rule_test_type" translatable="false">"Art des Tests / Type of Test"</string>
     <!-- XTXT: Rule / Test Name -->
     <string name="rule_test_name" translatable="false">"Produktname / Test Name"</string>
+    <!-- XTXT: Rule / Test Name -->
+    <string name="rule_test_manufacturer" translatable="false">"Testhersteller / Test Manufacturer"</string>
     <!-- XTXT: Rule / Date and Time of Sample Collection (YYYY-MM-DD hh:mm Z) -->
     <string name="rule_sample_collected_at" translatable="false">"Datum und Uhrzeit der Probenahme / Date and Time of Sample Collection (YYYY-MM-DD hh:mm Z)"</string>
     <!-- XTXT: Rule / Test Result -->

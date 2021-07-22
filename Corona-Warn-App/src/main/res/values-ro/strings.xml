@@ -1529,6 +1529,8 @@
     <string name="statistics_add_card_title">"Adăugați incidența pe 7 zile la nivel local"</string>
     <!-- XTXT: Statistics add card warning -->
     <string name="statistics_add_card_warning">"Numărul maxim al incidenței pe 7 zile la nivel local a fost atins."</string>
+    <!-- XTXT: Statistics add screen whole state -->
+    <string name="statistics_local_incidence_whole_state_text">"Întregul stat"</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility
