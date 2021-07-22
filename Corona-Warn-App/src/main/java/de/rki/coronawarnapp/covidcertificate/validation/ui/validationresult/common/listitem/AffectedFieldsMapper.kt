@@ -36,8 +36,8 @@ private val String.stringResource: Int
 
         // Test certificate
         "t.0.tt" -> R.string.rule_test_type
-        "t.0.nm",
-        "t.0.ma" -> R.string.rule_test_name
+        "t.0.nm" -> R.string.rule_test_name
+        "t.0.ma" -> R.string.rule_test_manufacturer
         "t.0.sc" -> R.string.rule_sample_collected_at
         "t.0.tr" -> R.string.rule_test_result
         "t.0.tc" -> R.string.rule_test_center
@@ -88,8 +88,8 @@ private fun certificateValue(field: String, certificate: CwaCovidCertificate): S
         is TestCertificate -> when (field) {
             "t.0.tg" -> certificate.targetName
             "t.0.tt" -> certificate.testType
-            "t.0.nm",
-            "t.0.ma" -> certificate.testName
+            "t.0.nm" -> certificate.testName
+            "t.0.ma" -> certificate.testNameAndManufacturer
             "t.0.sc" -> certificate.sampleCollectedAtFormatted
             "t.0.tr" -> certificate.testResult
             "t.0.tc" -> certificate.testCenter
