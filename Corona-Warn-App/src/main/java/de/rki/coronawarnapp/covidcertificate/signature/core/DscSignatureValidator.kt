@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import okio.ByteString
 import org.bouncycastle.asn1.ASN1Integer
 import org.bouncycastle.asn1.DERSequence
+import org.bouncycastle.asn1.pkcs.RSAPublicKey
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo
 import timber.log.Timber
 import java.io.ByteArrayInputStream
@@ -77,7 +78,7 @@ class DscSignatureValidator @Inject constructor() {
         dscMessage: DscMessage,
         signedPayloadHash: ByteArray
     ): X509Certificate {
-        val filteredDscSet = dscData.dscList.filter { it.first.toString() == dscMessage.kid }
+        val filteredDscSet = dscData.dscList.filter { it.first.base64() == dscMessage.kid }
         val matchedDscSet = when {
             filteredDscSet.isEmpty() || dscMessage.kid.isEmpty() -> dscData.dscList
             else -> filteredDscSet
@@ -91,15 +92,19 @@ class DscSignatureValidator @Inject constructor() {
                 PS256 -> dscCertificate.publicKey.toRsaPublicKey() to dscMessage.signature.toByteArray()
             }
 
-            val valid = Signature.getInstance(dscMessage.algorithm.algName).verify(
-                publicKey,
-                verifier,
-                signedPayloadHash
-            )
+            try {
+                val valid = Signature.getInstance(dscMessage.algorithm.algName).verify(
+                    publicKey,
+                    verifier,
+                    signedPayloadHash
+                )
 
-            if (valid) {
-                x509Certificate = dscCertificate
-                break
+                if (valid) {
+                    x509Certificate = dscCertificate
+                    break
+                }
+            } catch (ignored: Exception) {
+                continue
             }
         }
 
@@ -133,23 +138,23 @@ class DscSignatureValidator @Inject constructor() {
     }
 
     private fun X509Certificate.checkCertOid(dccData: DccData<*>) {
-        val extendedKeys = extendedKeyUsage.orEmpty().toSet() intersect oidSet
-        if (extendedKeys.isEmpty()) return // OK!
+        val extendedKeysIntersect = extendedKeyUsage.orEmpty().toSet() intersect oidSet
+        if (extendedKeysIntersect.isEmpty()) return // OK!
         when (dccData.certificate) {
-            is VaccinationDccV1 -> if (vcOids.intersect(extendedKeys).isNotEmpty())
+            is VaccinationDccV1 -> if (vcOids.intersect(extendedKeysIntersect).isEmpty())
                 throw InvalidHealthCertificateException(HC_DSC_OID_MISMATCH_VC)
 
-            is TestDccV1 -> if (tcOids.intersect(extendedKeys).isNotEmpty())
+            is TestDccV1 -> if (tcOids.intersect(extendedKeysIntersect).isEmpty())
                 throw InvalidHealthCertificateException(HC_DSC_OID_MISMATCH_TC)
 
-            is RecoveryDccV1 -> if (rcOids.intersect(extendedKeys).isNotEmpty())
+            is RecoveryDccV1 -> if (rcOids.intersect(extendedKeysIntersect).isEmpty())
                 throw InvalidHealthCertificateException(HC_DSC_OID_MISMATCH_RC)
         }
     }
 
     private fun PublicKey.toRsaPublicKey(): PublicKey {
         val bytes = SubjectPublicKeyInfo.getInstance(this.encoded).publicKeyData.bytes
-        val rsaPublicKey = org.bouncycastle.asn1.pkcs.RSAPublicKey.getInstance(bytes)
+        val rsaPublicKey = RSAPublicKey.getInstance(bytes)
         val spec = RSAPublicKeySpec(rsaPublicKey.modulus, rsaPublicKey.publicExponent)
         return KeyFactory.getInstance("RSA").generatePublic(spec)
     }
