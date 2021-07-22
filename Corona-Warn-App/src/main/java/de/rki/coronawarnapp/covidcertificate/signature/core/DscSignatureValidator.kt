@@ -16,8 +16,9 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCerti
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_OID_MISMATCH_RC
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_OID_MISMATCH_TC
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_OID_MISMATCH_VC
+import de.rki.coronawarnapp.server.protocols.internal.dgc.DscListOuterClass
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
-import okio.ByteString
+import de.rki.coronawarnapp.util.encoding.base64
 import org.bouncycastle.asn1.ASN1Integer
 import org.bouncycastle.asn1.DERSequence
 import org.bouncycastle.asn1.pkcs.RSAPublicKey
@@ -62,7 +63,7 @@ class DscSignatureValidator @Inject constructor() {
     /**
      * @throws InvalidHealthCertificateException if validation fail, otherwise it is OK!
      */
-    suspend fun validateSignature(dscData: DscData, dccData: DccData<*>) {
+    fun validateSignature(dscData: DscData, dccData: DccData<*>) {
         Timber.tag(TAG).d("isSignatureValid(dscData=%s,dccData=%s)", dscData, dccData)
         val dscMessage = dccData.dscMessage
 
@@ -84,7 +85,7 @@ class DscSignatureValidator @Inject constructor() {
         dscMessage: DscMessage,
         signedPayloadHash: ByteArray
     ): X509Certificate {
-        val filteredDscSet = dscData.dscList.filter { it.first.base64() == dscMessage.kid }
+        val filteredDscSet = dscData.dscList.filter { it.kid.toByteArray().base64() == dscMessage.kid }
         val matchedDscSet = when {
             filteredDscSet.isEmpty() || dscMessage.kid.isEmpty() -> dscData.dscList
             else -> filteredDscSet
@@ -117,8 +118,8 @@ class DscSignatureValidator @Inject constructor() {
         return x509Certificate ?: throw InvalidHealthCertificateException(HC_DSC_NO_MATCH)
     }
 
-    private fun x509certificate(dsc: Pair<ByteString, ByteString>): X509Certificate {
-        return ByteArrayInputStream(dsc.second.toByteArray()).use {
+    private fun x509certificate(dscListItem: DscListOuterClass.DscListItem): X509Certificate {
+        return ByteArrayInputStream(dscListItem.data.toByteArray()).use {
             CertificateFactory.getInstance("X.509").generateCertificate(it)
         } as X509Certificate
     }
