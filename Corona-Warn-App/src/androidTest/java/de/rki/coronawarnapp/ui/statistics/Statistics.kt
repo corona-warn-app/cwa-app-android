@@ -14,7 +14,8 @@ import de.rki.coronawarnapp.statistics.local.FederalStateToPackageId
 import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsParser
 import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsServer
 import de.rki.coronawarnapp.statistics.local.storage.LocalStatisticsConfigStorage
-import de.rki.coronawarnapp.statistics.local.storage.SelectedDistrict
+import de.rki.coronawarnapp.statistics.local.storage.SelectedLocations
+import de.rki.coronawarnapp.statistics.local.storage.SelectedStatisticsLocation
 import de.rki.coronawarnapp.statistics.source.StatisticsParser
 import de.rki.coronawarnapp.statistics.source.StatisticsServer
 import de.rki.coronawarnapp.util.security.SignatureValidation
@@ -44,18 +45,20 @@ object Statistics {
 
         every { preferences.getString(any(), any()) } returns null
         every { context.getSharedPreferences(any(), any()) } returns preferences
-        every { localStatisticsConfigStorage.activeDistricts } returns mockFlowPreference(
-            setOf(
-                SelectedDistrict(
-                    district = Districts.District(
-                        districtName = "Potsdam",
-                        districtShortName = "P",
-                        districtId = 11012054,
-                        federalStateName = "Brandenburg",
-                        federalStateShortName = "BB",
-                        federalStateId = 13000012
-                    ),
-                    addedAt = Instant.EPOCH
+        every { localStatisticsConfigStorage.activeSelections } returns mockFlowPreference(
+            SelectedLocations(
+                setOf(
+                    SelectedStatisticsLocation.SelectedDistrict(
+                        district = Districts.District(
+                            districtName = "Potsdam",
+                            districtShortName = "P",
+                            districtId = 11012054,
+                            federalStateName = "Brandenburg",
+                            federalStateShortName = "BB",
+                            federalStateId = 13000012
+                        ),
+                        addedAt = Instant.EPOCH
+                    )
                 )
             )
         )
