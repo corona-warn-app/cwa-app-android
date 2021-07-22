@@ -12,6 +12,8 @@ import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertific
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RACertificateData
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -22,6 +24,7 @@ class TestCertificateStorage @Inject constructor(
     @BaseGson val baseGson: Gson,
 ) {
 
+    private val mutex = Mutex()
     private val prefs by lazy {
         context.getSharedPreferences("coronatest_certificate_localdata", Context.MODE_PRIVATE)
     }
@@ -42,27 +45,26 @@ class TestCertificateStorage @Inject constructor(
         object : TypeToken<Set<GenericTestCertificateData>>() {}
     }
 
-    var testCertificates: Collection<BaseTestCertificateData>
-        get() {
-            Timber.tag(TAG).d("load()")
+    suspend fun load(): Collection<BaseTestCertificateData> = mutex.withLock {
+        Timber.tag(TAG).d("load()")
 
-            val pcrCertContainers: Set<PCRCertificateData> = prefs.loadCerts(typeTokenPCR, PKEY_DATA_PCR)
-            val raCerts: Set<RACertificateData> = prefs.loadCerts(typeTokenRA, PKEY_DATA_RA)
-            val scannedCerts: Set<GenericTestCertificateData> = prefs.loadCerts(typeTokenGeneric, PKEY_DATA_SCANNED)
+        val pcrCertContainers: Set<PCRCertificateData> = prefs.loadCerts(typeTokenPCR, PKEY_DATA_PCR)
+        val raCerts: Set<RACertificateData> = prefs.loadCerts(typeTokenRA, PKEY_DATA_RA)
+        val scannedCerts: Set<GenericTestCertificateData> = prefs.loadCerts(typeTokenGeneric, PKEY_DATA_SCANNED)
 
-            return (pcrCertContainers + raCerts + scannedCerts).also {
-                Timber.tag(TAG).v("Loaded %d certificates.", it.size)
-            }
+        return (pcrCertContainers + raCerts + scannedCerts).also {
+            Timber.tag(TAG).v("Loaded %d certificates.", it.size)
         }
-        set(value) {
-            Timber.tag(TAG).d("save(testCertificates=%s)", value)
-            prefs.edit {
+    }
 
-                storeCerts(value.filterIsInstance<PCRCertificateData>(), typeTokenPCR, PKEY_DATA_PCR)
-                storeCerts(value.filterIsInstance<RACertificateData>(), typeTokenRA, PKEY_DATA_RA)
-                storeCerts(value.filterIsInstance<GenericTestCertificateData>(), typeTokenGeneric, PKEY_DATA_SCANNED)
-            }
+    suspend fun save(certs: Collection<BaseTestCertificateData>) = mutex.withLock {
+        Timber.tag(TAG).d("save(testCertificates=%s)", certs)
+        prefs.edit(commit = true) {
+            storeCerts(certs.filterIsInstance<PCRCertificateData>(), typeTokenPCR, PKEY_DATA_PCR)
+            storeCerts(certs.filterIsInstance<RACertificateData>(), typeTokenRA, PKEY_DATA_RA)
+            storeCerts(certs.filterIsInstance<GenericTestCertificateData>(), typeTokenGeneric, PKEY_DATA_SCANNED)
         }
+    }
 
     private fun <T : BaseTestCertificateData> SharedPreferences.Editor.storeCerts(
         certs: Collection<BaseTestCertificateData>,

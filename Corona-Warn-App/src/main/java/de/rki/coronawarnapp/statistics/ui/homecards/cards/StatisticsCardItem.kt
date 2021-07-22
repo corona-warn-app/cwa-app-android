@@ -31,6 +31,6 @@ data class LocalStatisticsCardItem(
     val onRemoveListener: (LocalIncidenceStats) -> Unit,
 ) : StatisticsCardItem() {
     override val stableId: Long = when (stats) {
-        is LocalIncidenceStats -> stats.selectedDistrict.district.districtId.toLong()
+        is LocalIncidenceStats -> stats.selectedLocation.uniqueID
     }
 }

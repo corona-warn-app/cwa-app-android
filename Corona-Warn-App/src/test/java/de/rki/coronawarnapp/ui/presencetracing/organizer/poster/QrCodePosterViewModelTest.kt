@@ -1,12 +1,16 @@
 package de.rki.coronawarnapp.ui.presencetracing.organizer.poster
 
+import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
+import coil.Coil
+import coil.ImageLoader
+import coil.request.ImageResult
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.PresenceTracingConfig
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.PosterTemplateProvider
-import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.Template
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
@@ -30,22 +34,29 @@ import testhelpers.extensions.getOrAwaitValue
 @ExtendWith(InstantExecutorExtension::class)
 class QrCodePosterViewModelTest : BaseTest() {
 
-    @MockK lateinit var qrCodeGenerator: QrCodeGenerator
     @MockK lateinit var posterTemplateProvider: PosterTemplateProvider
     @MockK lateinit var traceLocationRepository: TraceLocationRepository
     @MockK lateinit var fileSharing: FileSharing
-    @MockK lateinit var qrCodeBitmap: Bitmap
+    @MockK lateinit var qrCodeDrawable: Drawable
     @MockK lateinit var templateBitmap: Bitmap
     @MockK lateinit var textBox: QRCodeTextBoxAndroid
     @MockK lateinit var traceLocation: TraceLocation
     @MockK lateinit var appConfigProvider: AppConfigProvider
-    private lateinit var template: Template
+    @MockK lateinit var context: Context
+    @MockK lateinit var imageLoader: ImageLoader
+    private lateinit var mockTemplate: Template
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
-        template = Template(
+        Coil.setImageLoader(imageLoader)
+
+        coEvery { imageLoader.execute(any()) } returns mockk<ImageResult>().apply {
+            every { drawable } returns qrCodeDrawable
+        }
+
+        mockTemplate = Template(
             bitmap = templateBitmap,
             width = 500,
             height = 600,
@@ -55,8 +66,7 @@ class QrCodePosterViewModelTest : BaseTest() {
             textBox = textBox
         )
 
-        coEvery { qrCodeGenerator.createQrCode("locationUrl", any(), any(), any(), any()) } returns qrCodeBitmap
-        coEvery { posterTemplateProvider.template() } returns template
+        coEvery { posterTemplateProvider.template() } returns mockTemplate
         coEvery { traceLocationRepository.traceLocationForId(any()) } returns traceLocation.apply {
             every { description } returns "description"
             every { address } returns "address"
@@ -74,20 +84,20 @@ class QrCodePosterViewModelTest : BaseTest() {
 
     @Test
     fun `Poster is requested in init`() {
-        createInstance().poster.getOrAwaitValue() shouldBe Poster(
-            qrCode = qrCodeBitmap,
-            template = template,
-            infoText = "description\naddress"
-        )
+        createInstance().poster.getOrAwaitValue().apply {
+            qrCode shouldBe qrCodeDrawable
+            template shouldBe mockTemplate
+            infoText shouldBe "description\naddress"
+        }
     }
 
     private fun createInstance() = QrCodePosterViewModel(
         traceLocationId = 1,
         dispatcher = TestDispatcherProvider(),
-        qrCodeGenerator = qrCodeGenerator,
         posterTemplateProvider = posterTemplateProvider,
         traceLocationRepository = traceLocationRepository,
         fileSharing = fileSharing,
-        appConfigProvider = appConfigProvider
+        appConfigProvider = appConfigProvider,
+        context = context,
     )
 }
