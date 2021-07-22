@@ -14,10 +14,12 @@ import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
+import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -40,10 +42,10 @@ class RecoveryCertificateRepository @Inject constructor(
 
     private val internalData: HotDataFlow<Set<RecoveryCertificateContainer>> = HotDataFlow(
         loggingTag = TAG,
-        scope = appScope + dispatcherProvider.IO,
+        scope = appScope + dispatcherProvider.Default,
         sharingBehavior = SharingStarted.Lazily,
     ) {
-        storage.recoveryCertificates
+        storage.load()
             .map { recoveryCertificate ->
                 RecoveryCertificateContainer(
                     data = recoveryCertificate,
@@ -56,10 +58,11 @@ class RecoveryCertificateRepository @Inject constructor(
 
     init {
         internalData.data
-            .onStart { Timber.tag(TAG).d("Observing data.") }
+            .onStart { Timber.tag(TAG).d("Observing RecoveryCertificateContainer data.") }
+            .drop(1) // Initial emission, restored from storage.
             .onEach { recoveryCertificates ->
                 Timber.tag(TAG).v("Recovery Certificate data changed: %s", recoveryCertificates)
-                storage.recoveryCertificates = recoveryCertificates.map { it.data }.toSet()
+                storage.save(recoveryCertificates.map { it.data }.toSet())
             }
             .catch {
                 it.reportProblem(TAG, "Failed to snapshot recovery certificate data to storage.")
@@ -79,6 +82,10 @@ class RecoveryCertificateRepository @Inject constructor(
                 )
             }.toSet()
         }
+        .shareLatest(
+            tag = TAG,
+            scope = appScope
+        )
 
     @Throws(InvalidRecoveryCertificateException::class)
     suspend fun registerCertificate(qrCode: RecoveryCertificateQRCode): RecoveryCertificateContainer {

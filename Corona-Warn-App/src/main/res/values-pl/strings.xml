@@ -1436,6 +1436,10 @@
     <string name="statistics_explanation_warned_persons_title">"Ostrzeżenia od użytkowników aplikacji"</string>
     <!-- XTXT: Explanation screen warned persons text -->
     <string name="statistics_explanation_warned_persons_text">"Liczba użytkowników aplikacji ze zdiagnozowanym za pomocą testu PCR zakażeniem koronawirusem, którzy ostrzegli innych za pomocą aplikacji"</string>
+    <!-- XHED: Explanation screen local incidence title -->
+    <string name="statistics_explanation_local_incidence_title">"Lokalna 7-dniowa zapadalność"</string>
+    <!-- XTXT: Explanation screen local incidence text -->
+    <string name="statistics_explanation_local_incidence_text">"Łączna liczba potwierdzonych nowych zakażeń w ciągu ostatnich 7 dni (według daty zgłoszenia) na 100 000 mieszkańców w skonfigurowanym okręgu lub kraju związkowym."</string>
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7-dniowa zapadalność"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->

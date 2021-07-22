@@ -150,7 +150,7 @@
     <!-- XTXT: Description of the notification channel for event registration related notifications. -->
     <string name="tracelocation_notification_channel_description">"Известия за регистрациите Ви, като автоматично прекратяване на регистрацията."</string>
     <!-- XHED: Title of the automatic check-out notification. -->
-    <string name="tracelocation_notification_autocheckout_title">"Регистрацията Ви беше прекратена автоматично."</string>
+    <string name="tracelocation_notification_autocheckout_title">"Регистрацията Ви беше прекратена автоматично"</string>
     <!-- XTXT: Description of the automatic check-out notification. -->
     <string name="tracelocation_notification_autocheckout_description">"Моля, коригирайте продължителността на престоя си, ако е необходимо."</string>
 

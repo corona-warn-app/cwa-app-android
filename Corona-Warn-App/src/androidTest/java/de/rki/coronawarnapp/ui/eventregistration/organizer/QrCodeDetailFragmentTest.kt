@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.PresenceTracingConfig
-import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.ui.presencetracing.organizer.details.QrCodeDetailFragment
 import de.rki.coronawarnapp.ui.presencetracing.organizer.details.QrCodeDetailFragmentArgs
@@ -36,7 +35,6 @@ import java.util.TimeZone
 @RunWith(AndroidJUnit4::class)
 class QrCodeDetailFragmentTest : BaseUITest() {
 
-    @MockK private lateinit var qrCodeGenerator: QrCodeGenerator
     @MockK private lateinit var appConfigProvider: AppConfigProvider
     @MockK private lateinit var traceLocationRepository: TraceLocationRepository
 
@@ -100,7 +98,6 @@ class QrCodeDetailFragmentTest : BaseUITest() {
     private fun createViewModel(traceLocationId: Long) =
         QrCodeDetailViewModel(
             traceLocationId = traceLocationId,
-            qrCodeGenerator = qrCodeGenerator,
             traceLocationRepository = traceLocationRepository,
             dispatcher = TestDispatcherProvider(),
             appConfigProvider = appConfigProvider

@@ -21,10 +21,12 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
 import de.rki.coronawarnapp.util.flow.combine
+import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -47,10 +49,10 @@ class VaccinationRepository @Inject constructor(
 
     private val internalData: HotDataFlow<Set<VaccinatedPerson>> = HotDataFlow(
         loggingTag = TAG,
-        scope = appScope + dispatcherProvider.IO,
+        scope = appScope + dispatcherProvider.Default,
         sharingBehavior = SharingStarted.Lazily,
     ) {
-        storage.personContainers
+        storage.load()
             .map { personContainer ->
                 VaccinatedPerson(
                     data = personContainer,
@@ -66,10 +68,11 @@ class VaccinationRepository @Inject constructor(
 
     init {
         internalData.data
-            .onStart { Timber.tag(TAG).d("Observing test data.") }
+            .onStart { Timber.tag(TAG).d("Observing VaccinationContainer data.") }
+            .drop(1) // Initial emission, restored from storage.
             .onEach { vaccinatedPersons ->
                 Timber.tag(TAG).v("Vaccination data changed: %s", vaccinatedPersons)
-                storage.personContainers = vaccinatedPersons.map { it.data }.toSet()
+                storage.save(vaccinatedPersons.map { it.data }.toSet())
             }
             .catch {
                 it.reportProblem(TAG, "Failed to snapshot vaccination data to storage.")
@@ -87,6 +90,10 @@ class VaccinationRepository @Inject constructor(
             person.copy(valueSet = currentValueSet, certificateStates = stateMap)
         }.toSet()
     }
+        .shareLatest(
+            tag = TAG,
+            scope = appScope
+        )
 
     suspend fun registerCertificate(
         qrCode: VaccinationCertificateQRCode

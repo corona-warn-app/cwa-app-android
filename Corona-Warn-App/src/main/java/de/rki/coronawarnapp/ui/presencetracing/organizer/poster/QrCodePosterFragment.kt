@@ -83,7 +83,7 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
         posterLayoutParam.dimensionRatio = dimensionRatio
 
         // Display images
-        qrCodeImage.setImageBitmap(poster.qrCode)
+        qrCodeImage.setImageDrawable(poster.qrCode)
         posterImage.setImageBitmap(template.bitmap)
 
         // Position QR Code image based on data provided by server

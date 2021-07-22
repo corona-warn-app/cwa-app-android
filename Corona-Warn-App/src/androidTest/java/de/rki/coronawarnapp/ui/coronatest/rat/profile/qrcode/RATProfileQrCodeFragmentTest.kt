@@ -1,12 +1,8 @@
 package de.rki.coronawarnapp.ui.coronatest.rat.profile.qrcode
 
-import android.content.Context
-import android.graphics.BitmapFactory
 import androidx.lifecycle.MutableLiveData
-import androidx.test.core.app.ApplicationProvider
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
@@ -49,10 +45,18 @@ class RATProfileQrCodeFragmentTest : BaseUITest() {
                         phone = "0151123456789",
                         email = "maxmustermann@web.de"
                     ),
-                    bitmap = BitmapFactory.decodeResource(
-                        ApplicationProvider.getApplicationContext<Context>().resources,
-                        R.drawable.test_qr_code
-                    )
+                    qrCode = """
+                        BEGIN:VCARD
+                        VERSION:4.0
+                        N:Mustermann;Max;;;
+                        FN:Max Mustermann
+                        BDAY:19800625
+                        EMAIL;TYPE=home:max@mustermann.de
+                        TEL;TYPE="cell,home":0190 1234567
+                        ADR;TYPE=home:;;Musterstrasse 14;Musterstadt;;51466
+                        REV:19951031T222710Z
+                        END:VCARD
+                    """.trimIndent()
                 )
             )
         }
