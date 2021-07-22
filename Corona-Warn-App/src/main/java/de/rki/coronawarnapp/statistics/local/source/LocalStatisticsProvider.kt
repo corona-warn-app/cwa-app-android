@@ -50,8 +50,8 @@ class LocalStatisticsProvider @Inject constructor(
 
         groupedStats.copy(
             items = groupedStats.items
-                .distinctBy { it.selectedDistrict.district.districtId }
-                .sortedBy { it.selectedDistrict.addedAt }
+                .distinctBy { it.selectedLocation.uniqueID }
+                .sortedBy { it.selectedLocation.addedAt }
                 .reversed()
         )
     }
@@ -59,9 +59,9 @@ class LocalStatisticsProvider @Inject constructor(
     private suspend fun fetchCacheFirst(): List<LocalStatisticsData> {
         Timber.tag(TAG).d("fromCache()")
 
-        val targetedStates = localStatisticsConfigStorage.activeStates.first()
+        val activePackages = localStatisticsConfigStorage.activePackages.first()
 
-        val cacheResults = targetedStates.map { fromCache(it) }
+        val cacheResults = activePackages.map { fromCache(it) }
 
         if (cacheResults.contains(null)) {
             triggerUpdate()
@@ -84,9 +84,9 @@ class LocalStatisticsProvider @Inject constructor(
     private suspend fun fromServer(): List<LocalStatisticsData> {
         Timber.tag(TAG).d("fromServer()")
 
-        val targetedStates = localStatisticsConfigStorage.activeStates.first()
+        val activePackages = localStatisticsConfigStorage.activePackages.first()
 
-        return targetedStates.map { fromServer(it) }
+        return activePackages.map { fromServer(it) }
     }
 
     private suspend fun fromServer(forState: FederalStateToPackageId): LocalStatisticsData {

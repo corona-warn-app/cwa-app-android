@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.details
 
-import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import dagger.assisted.Assisted
@@ -29,26 +28,22 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson.S
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
-import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.mapNotNull
-import kotlinx.coroutines.flow.transform
 import timber.log.Timber
 
 @Suppress("LongParameterList")
 class PersonDetailsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val personCertificatesProvider: PersonCertificatesProvider,
-    private val qrCodeGenerator: QrCodeGenerator,
     private val vaccinationRepository: VaccinationRepository,
     private val dccValidationRepository: DccValidationRepository,
     private val timeStamper: TimeStamper,
@@ -79,30 +74,18 @@ class PersonDetailsViewModel @AssistedInject constructor(
         events.postValue(Back)
     }
 
-    private val qrcodeCache = mutableMapOf<String, Bitmap?>()
-
-    private val qrCodeFlow: Flow<Bitmap?> = personCertificatesFlow.transform {
-        val input = it.highestPriorityCertificate.qrCode
-        emit(qrcodeCache[input]) // Initial state
-
-        val qrcode = qrcodeCache[input] ?: qrCodeGenerator.createQrCode(input, margin = 0)
-        qrcodeCache[input] = qrcode
-        emit(qrcode)
-    }
-
     val uiState: LiveData<List<CertificateItem>> = combine(
         personCertificatesFlow,
-        qrCodeFlow,
         loadingButtonState
-    ) { personSpecificCertificates, qrCode, isLoading ->
-        assembleList(personSpecificCertificates, qrCode, isLoading)
+    ) { personSpecificCertificates, isLoading ->
+        assembleList(personSpecificCertificates, isLoading)
     }.asLiveData2()
 
-    private suspend fun assembleList(personCertificates: PersonCertificates, qrCode: Bitmap?, isLoading: Boolean) =
+    private suspend fun assembleList(personCertificates: PersonCertificates, isLoading: Boolean) =
         mutableListOf<CertificateItem>().apply {
             val priorityCertificate = personCertificates.highestPriorityCertificate
             add(
-                PersonDetailsQrCard.Item(priorityCertificate, qrCode, isLoading) { onValidateCertificate(it) }
+                PersonDetailsQrCard.Item(priorityCertificate, isLoading) { onValidateCertificate(it) }
             )
             add(cwaUserCard(personCertificates))
 
