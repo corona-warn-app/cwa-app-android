@@ -66,21 +66,7 @@ class DscSignatureValidator @Inject constructor() {
             Add(dscMessage.payload)
         }.EncodeToBytes()
         val signedPayloadHash = signedPayload.toSHA256().toByteArray()
-        val signature = dscMessage.signature
-        val verifier = when (dscMessage.algorithm) {
-            PS256 -> signature
-            ES256 -> {
-                val (r, s) = signature.splitHalves()
-                DERSequence(
-                    arrayOf(
-                        ASN1Integer(BigInteger(1, r)),
-                        ASN1Integer(BigInteger(1, s)),
-                    )
-                ).encoded
-            }
-        }
-
-        findDscCertificate(dscData, dscMessage, verifier, signedPayloadHash).apply {
+        findDscCertificate(dscData, dscMessage, signedPayloadHash).apply {
             validate()
             checkCertOid(dccData)
         }
@@ -89,7 +75,6 @@ class DscSignatureValidator @Inject constructor() {
     private fun findDscCertificate(
         dscData: DscData,
         dscMessage: DscMessage,
-        verifier: ByteArray,
         signedPayloadHash: ByteArray
     ): X509Certificate {
         val filteredDscSet = dscData.dscList.filter { it.first.toString() == dscMessage.kid }
@@ -101,9 +86,9 @@ class DscSignatureValidator @Inject constructor() {
         var x509Certificate: X509Certificate? = null
         for (dsc in matchedDscSet) {
             val dscCertificate = x509certificate(dsc)
-            val publicKey = when (dscMessage.algorithm) {
-                ES256 -> dscCertificate.publicKey
-                PS256 -> dscCertificate.publicKey.toRsaPublicKey()
+            val (publicKey, verifier) = when (dscMessage.algorithm) {
+                ES256 -> dscCertificate.publicKey to dscMessage.signature.toECDSAVerifier()
+                PS256 -> dscCertificate.publicKey.toRsaPublicKey() to dscMessage.signature
             }
 
             val valid = Signature.getInstance(dscMessage.algorithm.algName).verify(
@@ -125,6 +110,16 @@ class DscSignatureValidator @Inject constructor() {
         return ByteArrayInputStream(dsc.second.toByteArray()).use {
             CertificateFactory.getInstance("X.509").generateCertificate(it)
         } as X509Certificate
+    }
+
+    private fun ByteArray.toECDSAVerifier(): ByteArray {
+        val (r, s) = splitHalves()
+        return DERSequence(
+            arrayOf(
+                ASN1Integer(BigInteger(1, r)),
+                ASN1Integer(BigInteger(1, s)),
+            )
+        ).encoded
     }
 
     private fun X509Certificate.validate() {
