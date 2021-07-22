@@ -1529,6 +1529,8 @@
     <string name="statistics_add_card_title">"Add local 7-day incidence"</string>
     <!-- XTXT: Statistics add card warning -->
     <string name="statistics_add_card_warning">"Maximum number of local 7-day incidence figures reached."</string>
+    <!-- XTXT: Statistics add screen whole state -->
+    <string name="statistics_local_incidence_whole_state_text"></string>
 
     <!-- ####################################
           Button Tooltips for Accessibility
