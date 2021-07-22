@@ -9,14 +9,14 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class DccExpirationCheck @Inject constructor(
-    private val dscCheckNotification: DccExpirationNotification,
-    private val dscCheckNotificationRepository: DccExpirationNotificationRepository,
+    private val dccExpirationNotification: DccExpirationNotification,
+    private val dccExpirationNotificationRepository: DccExpirationNotificationRepository,
     private val vaccinationRepository: VaccinationRepository,
     private val recoveryCertificateRepository: RecoveryCertificateRepository,
 ) {
 
     suspend fun checkExpirationStates() {
-        if (dscCheckNotificationRepository.latestExecutionHasBeenToday()) {
+        if (dccExpirationNotificationRepository.latestExecutionHasBeenToday()) {
             Timber.i("Latest execution has been today. Abort.")
             return
         }
@@ -60,20 +60,20 @@ class DccExpirationCheck @Inject constructor(
     }
 
     private suspend fun CertificateContainerId.hasHadExpiredNotification(): Boolean {
-        return dscCheckNotificationRepository.hasExpiredNotificationBeenShownFor(this)
+        return dccExpirationNotificationRepository.hasExpiredNotificationBeenShownFor(this)
     }
 
     private suspend fun CertificateContainerId.hasHadExpiringSoonNotification(): Boolean {
-        return dscCheckNotificationRepository.hasExpiringSoonNotificationBeenShownFor(this)
+        return dccExpirationNotificationRepository.hasExpiringSoonNotificationBeenShownFor(this)
     }
 
     private suspend fun showNotificationExpired(containerId: CertificateContainerId) {
-        dscCheckNotification.showCheckNotification(containerId)
-        dscCheckNotificationRepository.reportExpiredNotificationShownFor(containerId)
+        dccExpirationNotification.showCheckNotification(containerId)
+        dccExpirationNotificationRepository.reportExpiredNotificationShownFor(containerId)
     }
 
     private suspend fun showNotificationExpiringSoon(containerId: CertificateContainerId) {
-        dscCheckNotification.showCheckNotification(containerId)
-        dscCheckNotificationRepository.reportExpiringSoonNotificationShownFor(containerId)
+        dccExpirationNotification.showCheckNotification(containerId)
+        dccExpirationNotificationRepository.reportExpiringSoonNotificationShownFor(containerId)
     }
 }

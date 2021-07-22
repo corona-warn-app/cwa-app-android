@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.signature.core.execution
+package de.rki.coronawarnapp.covidcertificate.common.statecheck
 
 import de.rki.coronawarnapp.util.device.ForegroundState
 import timber.log.Timber

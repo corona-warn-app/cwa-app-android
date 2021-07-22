@@ -1,8 +1,9 @@
 package de.rki.coronawarnapp.covidcertificate.expiration
 
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
+import javax.inject.Inject
 
-class DccExpirationNotificationRepository {
+class DccExpirationNotificationRepository @Inject constructor() {
 
     suspend fun reportExpiredNotificationShownFor(containerId: CertificateContainerId) {
         TODO()
