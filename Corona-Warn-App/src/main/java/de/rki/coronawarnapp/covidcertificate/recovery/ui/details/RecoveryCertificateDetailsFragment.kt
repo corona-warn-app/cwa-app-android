@@ -76,7 +76,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         certificationPeriodStart.text = certificate.validFromFormatted
         certificationPeriodEnd.text = certificate.validUntilFormatted
         certificateId.text = certificate.certificateId
-        if (QrCodeHelper.isInvalidOrExpiredQrCode(certificate.getState())) {
+        if (QrCodeHelper.isInvalidOrExpired(certificate.getState())) {
             qrCodeCard.image.alpha = 0.1f
             qrCodeCard.invalidQrCodeSymbol.isVisible = true
         } else {
@@ -107,7 +107,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
             RecoveryCertificateDetailsNavigation.Back -> popBackStack()
             is RecoveryCertificateDetailsNavigation.FullQrCode -> {
                 val certificate = viewModel.getCovidCertificate()
-                if (!QrCodeHelper.isInvalidOrExpiredQrCode(certificate.getState())) {
+                if (!QrCodeHelper.isInvalidOrExpired(certificate.getState())) {
                     findNavController().navigate(
                         R.id.action_global_qrCodeFullScreenFragment,
                         QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),

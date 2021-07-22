@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.permission.CameraPermissionProvider
+import de.rki.coronawarnapp.util.QrCodeHelper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
@@ -138,7 +139,12 @@ class PersonOverviewViewModel @AssistedInject constructor(
             persons.filterNotPending()
                 .forEach {
                     val qrCode = it.highestPriorityCertificate.qrCode
-                    qrCodes[qrCode] = generateQrCode(qrCode)
+
+                    if (QrCodeHelper.isInvalidOrExpired(it.highestPriorityCertificate.getState())) {
+                        qrCodes[qrCode] = generateQrCode(QrCodeHelper.sampleQrCodeText)
+                    } else {
+                        qrCodes[qrCode] = generateQrCode(qrCode)
+                    }
                     emit(qrCodes)
                 }
         }

@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertifi
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
+import de.rki.coronawarnapp.util.QrCodeHelper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -71,7 +72,12 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
         try {
             mutableStateFlow.value = certificate?.let {
                 qrCodeText = it.qrCode
-                qrCodeGenerator.createQrCode(it.qrCode)
+                val state = certificateProvider.findCertificate(containerId).getState()
+                if (QrCodeHelper.isInvalidOrExpired(state)) {
+                    qrCodeGenerator.createQrCode(QrCodeHelper.sampleQrCodeText)
+                } else {
+                    qrCodeGenerator.createQrCode(it.qrCode)
+                }
             }
         } catch (e: Exception) {
             Timber.d(e, "generateQrCode failed for vaccinationCertificate=%s", certificate)

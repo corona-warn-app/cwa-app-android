@@ -46,7 +46,7 @@ class PersonCertificateCard(parent: ViewGroup) :
             transitionName = curItem.certificate.personIdentifier.codeSHA256
         }
 
-        if (QrCodeHelper.isInvalidOrExpiredQrCode(item.certificate.getState())) {
+        if (QrCodeHelper.isInvalidOrExpired(item.certificate.getState())) {
             qrcodeImage.alpha = 0.1f
             invalidQrCodeSymbol.isVisible = true
         } else {

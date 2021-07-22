@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 
 object QrCodeHelper {
 
-    fun isInvalidOrExpiredQrCode(state: CwaCovidCertificate.State): Boolean {
+    fun isInvalidOrExpired(state: CwaCovidCertificate.State): Boolean {
         return when (state) {
             is CwaCovidCertificate.State.Invalid,
             is CwaCovidCertificate.State.Expired -> {
@@ -16,4 +16,7 @@ object QrCodeHelper {
             }
         }
     }
+
+    const val sampleQrCodeText =
+        "https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-faq-1758392"
 }

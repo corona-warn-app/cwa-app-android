@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
+import de.rki.coronawarnapp.util.QrCodeHelper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -61,7 +62,12 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
         try {
             bitmapStateData.postValue(
                 testCertificate?.let { certificate ->
-                    qrCodeGenerator.createQrCode(certificate.qrCode.also { qrCodeText = it })
+                    val state = certificateProvider.findCertificate(containerId).getState()
+                    if (QrCodeHelper.isInvalidOrExpired(state)) {
+                        qrCodeGenerator.createQrCode(QrCodeHelper.sampleQrCodeText)
+                    } else {
+                        qrCodeGenerator.createQrCode(certificate.qrCode.also { qrCodeText = it })
+                    }
                 }
             )
         } catch (e: Exception) {

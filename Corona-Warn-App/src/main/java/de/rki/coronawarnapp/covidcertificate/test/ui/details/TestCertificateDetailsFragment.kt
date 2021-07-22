@@ -80,7 +80,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         certificateCountry.text = certificate.certificateCountry
         certificateIssuer.text = certificate.certificateIssuer
         certificateId.text = certificate.certificateId
-        if (QrCodeHelper.isInvalidOrExpiredQrCode(certificate.getState())) {
+        if (QrCodeHelper.isInvalidOrExpired(certificate.getState())) {
             qrCodeCard.image.alpha = 0.1f
             qrCodeCard.invalidQrCodeSymbol.isVisible = true
         } else {
@@ -129,7 +129,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
             TestCertificateDetailsNavigation.Back -> popBackStack()
             is TestCertificateDetailsNavigation.FullQrCode -> {
                 val certificate = viewModel.getCovidCertificate()
-                if (QrCodeHelper.isInvalidOrExpiredQrCode(certificate.getState())) {
+                if (QrCodeHelper.isInvalidOrExpired(certificate.getState())) {
                     findNavController().navigate(
                         R.id.action_global_qrCodeFullScreenFragment,
                         QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),

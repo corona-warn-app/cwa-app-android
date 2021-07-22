@@ -94,7 +94,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                     VaccinationDetailsNavigation.Back -> popBackStack()
                     is VaccinationDetailsNavigation.FullQrCode -> {
                         val certificate = viewModel.getCovidCertificate().getState()
-                        if (!QrCodeHelper.isInvalidOrExpiredQrCode(certificate)) {
+                        if (!QrCodeHelper.isInvalidOrExpired(certificate)) {
                             findNavController().navigate(
                                 R.id.action_global_qrCodeFullScreenFragment,
                                 QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
@@ -148,7 +148,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         certificateIssuer.text = certificate.certificateIssuer
         certificateId.text = certificate.certificateId
         oneShotInfo.isVisible = certificate.totalSeriesOfDoses == 1
-        if (QrCodeHelper.isInvalidOrExpiredQrCode(certificate.getState())) {
+        if (QrCodeHelper.isInvalidOrExpired(certificate.getState())) {
             qrCodeCard.image.alpha = 0.1f
             qrCodeCard.invalidQrCodeSymbol.isVisible = true
         } else {

@@ -30,6 +30,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertifi
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
+import de.rki.coronawarnapp.util.QrCodeHelper
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -82,8 +83,12 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private val qrcodeCache = mutableMapOf<String, Bitmap?>()
 
     private val qrCodeFlow: Flow<Bitmap?> = personCertificatesFlow.transform {
-        val input = it.highestPriorityCertificate.qrCode
+        var input = it.highestPriorityCertificate.qrCode
         emit(qrcodeCache[input]) // Initial state
+
+        if (QrCodeHelper.isInvalidOrExpired(it.highestPriorityCertificate.getState())) {
+            input = QrCodeHelper.sampleQrCodeText
+        }
 
         val qrcode = qrcodeCache[input] ?: qrCodeGenerator.createQrCode(input, margin = 0)
         qrcodeCache[input] = qrcode
