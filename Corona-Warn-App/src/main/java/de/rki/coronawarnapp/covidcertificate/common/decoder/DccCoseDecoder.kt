@@ -37,7 +37,7 @@ class DccCoseDecoder @Inject constructor(
         val dscMsgObject = CBORObject.DecodeFromBytes(input).validate()
         DscMessage(
             protectedHeader = dscMsgObject.extractProtectedHeader(),
-            payload = dscMsgObject.extractPayload().GetByteString(),
+            payload = dscMsgObject.extractPayloadBytes(),
             signature = dscMsgObject.extractSignature(),
             kid = dscMsgObject.extractKid(),
             algorithm = dscMsgObject.extractAlgorithm()
@@ -68,11 +68,8 @@ class DccCoseDecoder @Inject constructor(
         throw InvalidHealthCertificateException(HC_COSE_PH_INVALID)
     }
 
-    private fun CBORObject.extractUnprotectedHeader(): CBORObject? = try {
-        this[1]
-    } catch (e: Exception) {
-        Timber.e(e, "extractUnprotectedHeader failed")
-        null
+    private fun CBORObject.extractPayloadBytes(): ByteArray {
+        return this[2].GetByteString()
     }
 
     private fun CBORObject.extractPayload(): CBORObject {
