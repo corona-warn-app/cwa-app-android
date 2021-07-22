@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.details.items
 
-import android.graphics.Bitmap
 import android.view.ViewGroup
+import coil.loadAny
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
@@ -13,7 +13,9 @@ import de.rki.coronawarnapp.databinding.PersonDetailsQrCardItemBinding
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
+import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
+import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 
 class PersonDetailsQrCard(parent: ViewGroup) :
     PersonDetailsAdapter.PersonDetailsItemVH<PersonDetailsQrCard.Item, PersonDetailsQrCardItemBinding>(
@@ -29,9 +31,15 @@ class PersonDetailsQrCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
-        image.setImageBitmap(curItem.qrCodeBitmap)
+
         curItem.apply {
-            qrCodeBitmap?.let { progressBar.hide() }
+            image.loadAny(
+                CoilQrCode(content = curItem.certificate.qrCode)
+            ) {
+                crossfade(true)
+                loadingView(image, progressBar)
+            }
+
             startValidationCheckButton.defaultButton.setOnClickListener {
                 validateCertificate(certificate.containerId)
             }
@@ -65,7 +73,6 @@ class PersonDetailsQrCard(parent: ViewGroup) :
 
     data class Item(
         val certificate: CwaCovidCertificate,
-        val qrCodeBitmap: Bitmap?,
         val isLoading: Boolean,
         val validateCertificate: (CertificateContainerId) -> Unit
     ) : CertificateItem, HasPayloadDiffer {
