@@ -3,11 +3,11 @@
     <groupId>dgca.verifier.app</groupId>
     <artifactId>dgc-certlogic-android-light</artifactId>
     <versioning>
-        <latest>1.0.0-43-683e8d2</latest>
-        <release>1.0.0-43-683e8d2</release>
+        <latest>1.0.0-49-98c9eff</latest>
+        <release>1.0.0-49-98c9eff</release>
         <versions>
-            <version>1.0.0-43-683e8d2</version>
+            <version>1.0.0-49-98c9eff</version>
         </versions>
-        <lastUpdated>20210721155411</lastUpdated>
+        <lastUpdated>20210722075147</lastUpdated>
     </versioning>
 </metadata>
