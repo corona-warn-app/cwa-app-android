@@ -72,13 +72,12 @@ object Base45Decoder {
 
     private fun fromThreeCharValue(list: String): Long {
         return list.foldIndexed(
-            0L,
-            { index, acc: Long, element ->
-                if (!alphabet.contains(element))
-                    throw IllegalArgumentException(element.toString())
-                pow(int45, index) * alphabet.indexOf(element) + acc
-            }
-        )
+            0L
+        ) { index, acc: Long, element ->
+            if (!alphabet.contains(element))
+                throw IllegalArgumentException(element.toString())
+            pow(int45, index) * alphabet.indexOf(element) + acc
+        }
     }
 
     private fun generateSequenceByDivRem(seed: Long, divisor: Int) =

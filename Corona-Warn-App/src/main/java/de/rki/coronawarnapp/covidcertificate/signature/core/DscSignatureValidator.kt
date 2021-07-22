@@ -112,6 +112,7 @@ class DscSignatureValidator @Inject constructor() {
                 }
             } catch (ignored: Exception) {
                 // Ignore errors
+                ignored.printStackTrace()
             }
         }
 
