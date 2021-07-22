@@ -12,7 +12,7 @@ import dgca.verifier.app.engine.DefaultAffectedFieldsDataRetriever
 import dgca.verifier.app.engine.DefaultCertLogicEngine
 import dgca.verifier.app.engine.DefaultJsonLogicValidator
 import kotlinx.coroutines.flow.first
-import org.joda.time.LocalDateTime
+import org.joda.time.DateTime
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -35,13 +35,13 @@ class CertLogicEngineWrapper @Inject constructor(
 
     suspend fun process(
         rules: List<DccValidationRule>,
-        validationDateTime: LocalDateTime,
+        validationDateTime: DateTime,
         certificate: DccData<out DccV1.MetaData>,
         countryCode: String,
     ): Set<EvaluatedDccRule> {
 
         if (rules.isEmpty()) {
-            Timber.i("No rules to be validated. Abort.")
+            Timber.tag(TAG).w("No rules to be validated. Abort.")
             return emptySet()
         }
 
@@ -52,24 +52,35 @@ class CertLogicEngineWrapper @Inject constructor(
             valueSetWrapper.valueMap.first()
         )
 
-        Timber.i("Rules to be validated are:")
+        Timber.tag(TAG).i("Rules to be validated are:")
         rules.forEach {
-            Timber.i("Rule ${it.identifier} ${it.version}.")
+            Timber.tag(TAG).i("Rule ${it.identifier} ${it.version}.")
         }
 
-        return engine.validate(
-            hcertVersionString = certificate.certificate.version,
-            rules = rules.map { it.asExternalRule },
-            externalParameter = externalParameter,
-            payload = certificate.certificateJson,
-            certificateType = certificate.asExternalType
-        ).map {
-            it.asEvaluatedDccRule
-        }.toSet().also {
-            Timber.i("Evaluated rules are:")
-            it.forEach {
-                Timber.i("Rule ${it.rule.identifier} ${it.rule.version} has resulted in ${it.result}.")
+        return engine
+            .validate(
+                hcertVersionString = certificate.certificate.version,
+                rules = rules.map { it.asExternalRule },
+                externalParameter = externalParameter,
+                payload = certificate.certificateJson,
+                certificateType = certificate.asExternalType
+            )
+            .map { result ->
+                result.validationErrors?.forEach {
+                    Timber.tag(TAG).e(it, "Errors during validation of %s", result.rule.identifier)
+                }
+                result.asEvaluatedDccRule
             }
-        }
+            .also { evaluated ->
+                Timber.tag(TAG).i("Evaluated rules are:")
+                evaluated.forEach {
+                    Timber.tag(TAG).i("Rule ${it.rule.identifier} ${it.rule.version} has resulted in ${it.result}.")
+                }
+            }
+            .toSet()
+    }
+
+    companion object {
+        private const val TAG = "CertLogicEngineWrapper"
     }
 }

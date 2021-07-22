@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.server.protocols.internal.stats.LocalStatisticsOuter
 import de.rki.coronawarnapp.statistics.LocalIncidenceStats
 import de.rki.coronawarnapp.statistics.LocalStatisticsData
 import de.rki.coronawarnapp.statistics.local.storage.LocalStatisticsConfigStorage
+import de.rki.coronawarnapp.statistics.local.storage.SelectedStatisticsLocation
 import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
@@ -16,6 +17,43 @@ class LocalStatisticsParser @Inject constructor(
 ) {
     fun parse(rawData: ByteArray): LocalStatisticsData {
         val parsed = LocalStatisticsOuterClass.LocalStatistics.parseFrom(rawData)
+
+        val activeSelections = localStatisticsConfigStorage.activeSelections.value.locations
+
+        val states = activeSelections.filterIsInstance<SelectedStatisticsLocation.SelectedFederalState>()
+
+        val mappedFederalState = parsed.federalStateDataList.mapNotNull { rawState ->
+            try {
+                val updatedAt = Instant.ofEpochSecond(rawState.updatedAt)
+                val federalStateKeyFigure = rawState.sevenDayIncidence.toKeyFigure()
+
+                val selectedFederalState = states.firstOrNull {
+                    it.federalState.name == rawState.federalState.name
+                }
+
+                if (selectedFederalState != null) {
+                    LocalIncidenceStats(
+                        updatedAt = updatedAt,
+                        keyFigures = listOf(federalStateKeyFigure),
+                        selectedLocation = selectedFederalState
+                    ).also {
+                        Timber.tag(TAG).v("Parsed %s", it.toString().replace("\n", ", "))
+                        it.requireValidity()
+                    }
+                } else {
+                    Timber.tag(TAG).v(
+                        "Federal State %s was in package but not selected by user",
+                        rawState.federalState.number
+                    )
+                    null
+                }
+            } catch (e: Exception) {
+                Timber.tag(TAG).e("Failed to parse raw federal state: %s", rawState)
+                null
+            }
+        }
+
+        val districts = activeSelections.filterIsInstance<SelectedStatisticsLocation.SelectedDistrict>()
 
         val mappedAdministrativeUnit = parsed.administrativeUnitDataList.mapNotNull { rawState ->
             try {
@@ -28,7 +66,7 @@ class LocalStatisticsParser @Inject constructor(
 
                 val districtId = "110$leftPaddedShortId".toInt()
 
-                val selectedDistrict = localStatisticsConfigStorage.activeDistricts.value.firstOrNull {
+                val selectedDistrict = districts.firstOrNull {
                     it.district.districtId == districtId
                 }
 
@@ -36,14 +74,14 @@ class LocalStatisticsParser @Inject constructor(
                     LocalIncidenceStats(
                         updatedAt = updatedAt,
                         keyFigures = listOf(administrativeUnitIncidenceKeyFigure),
-                        selectedDistrict = selectedDistrict
+                        selectedLocation = selectedDistrict
                     ).also {
                         Timber.tag(TAG).v("Parsed %s", it.toString().replace("\n", ", "))
                         it.requireValidity()
                     }
                 } else {
                     Timber.tag(TAG).v(
-                        "Failed to match au with id %s to user selected cards, this is probably not an error",
+                        "Administrative Unit %s was in package but not selected by user",
                         rawState.administrativeUnitShortId
                     )
                     null
@@ -54,7 +92,7 @@ class LocalStatisticsParser @Inject constructor(
             }
         }
 
-        return LocalStatisticsData(items = mappedAdministrativeUnit).also {
+        return LocalStatisticsData(items = mappedAdministrativeUnit + mappedFederalState).also {
             Timber.tag(TAG).d("Parsed local statistics data, %d cards.", it.items.size)
         }
     }

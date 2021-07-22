@@ -166,6 +166,18 @@ object TimeAndDateExtensions {
      * Returns a readable date String with the format "dd.MM.yy" like 23.05.89 of an LocalDate
      */
     fun LocalDate.toShortDayFormat(): String = toString(dayFormatter2DigitYear)
+
+    /*
+    * Returns date changes until
+    */
+    fun Instant.daysUntil(
+        date: Instant,
+        timeZone: DateTimeZone = DateTimeZone.getDefault()
+    ): Int {
+        val startDate = toDateTime(timeZone).toLocalDate()
+        val endDate = date.toDateTime(timeZone).toLocalDate()
+        return Days.daysBetween(startDate, endDate).days
+    }
 }
 
 typealias HourInterval = Long
