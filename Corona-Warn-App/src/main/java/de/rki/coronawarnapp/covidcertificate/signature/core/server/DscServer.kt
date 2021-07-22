@@ -22,11 +22,7 @@ class DscServer @Inject constructor(
 
     suspend fun getDscList(): DscList {
         return try {
-            dscApi.dscList().parseAndValidate(
-                ErrorCode.FILE_MISSING,
-                ErrorCode.SIGNATURE_INVALID,
-                ErrorCode.EXTRACTION_FAILED
-            )
+            dscApi.dscList().parseAndValidate()
         } catch (e: Exception) {
             if (e is DscValidationException) throw e
             Timber.e(e, "Getting List of DSCs from server failed cause: ${e.message}")
@@ -35,11 +31,7 @@ class DscServer @Inject constructor(
     }
 
     @VisibleForTesting
-    internal fun Response<ResponseBody>.parseAndValidate(
-        fileMissingErrorCode: ErrorCode,
-        invalidSignatureErrorCode: ErrorCode,
-        extractionFailedCode: ErrorCode
-    ): DscList {
+    internal fun Response<ResponseBody>.parseAndValidate(): DscList {
         if (!isSuccessful) throw HttpException(this)
 
         val fileMap = requireNotNull(body()) { "Response was successful but body was null" }
@@ -48,18 +40,18 @@ class DscServer @Inject constructor(
         val exportBinary = fileMap[EXPORT_BINARY_FILE_NAME]
         val exportSignature = fileMap[EXPORT_SIGNATURE_FILE_NAME]
 
-        if (exportBinary == null || exportSignature == null) throw DscValidationException(fileMissingErrorCode)
+        if (exportBinary == null || exportSignature == null) throw DscValidationException(ErrorCode.FILE_MISSING)
 
         val isSignatureValid = signatureValidation.hasValidSignature(
             toVerify = exportBinary,
             signatureList = SignatureValidation.parseTEKStyleSignature(exportSignature)
         )
-        if (!isSignatureValid) throw DscValidationException(invalidSignatureErrorCode)
+        if (!isSignatureValid) throw DscValidationException(ErrorCode.SIGNATURE_INVALID)
 
         try {
             return DscList.parseFrom(exportBinary)
         } catch (e: Exception) {
-            throw DscValidationException(extractionFailedCode, e)
+            throw DscValidationException(ErrorCode.EXTRACTION_FAILED, e)
         }
     }
 

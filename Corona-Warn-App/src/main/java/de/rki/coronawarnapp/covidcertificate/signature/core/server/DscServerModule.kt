@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.signature.core.server
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
-import de.rki.coronawarnapp.covidcertificate.valueset.server.CertificateValueSet
+import de.rki.coronawarnapp.covidcertificate.validation.core.CertificateValidation
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
 import okhttp3.Cache
@@ -19,7 +19,7 @@ class DscServerModule {
     fun apiV1(
         @DownloadCDNHttpClient httpClient: OkHttpClient,
         @DownloadCDNServerUrl url: String,
-        @CertificateValueSet cache: Cache,
+        @CertificateValidation cache: Cache,
         gsonConverterFactory: GsonConverterFactory
     ): DscApiV1 = Retrofit.Builder()
         .client(
