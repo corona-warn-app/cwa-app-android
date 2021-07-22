@@ -71,7 +71,7 @@ class AnalyticsPCRTestResultDonorTest : BaseTest() {
 
     @Test
     fun `No donation when test result is REDEEMED`() = runBlockingTest {
-        every { testResultSettings.testResult } returns mockFlowPreference(CoronaTestResult.PCR_REDEEMED)
+        every { testResultSettings.testResult } returns mockFlowPreference(CoronaTestResult.PCR_OR_RAT_REDEEMED)
         testResultDonor.beginDonation(TestRequest) shouldBe AnalyticsTestResultDonor.TestResultMetadataNoContribution
     }
 

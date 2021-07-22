@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.recovery.ui.details
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -10,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import coil.loadAny
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
@@ -20,8 +20,10 @@ import de.rki.coronawarnapp.databinding.FragmentRecoveryCertificateDetailsBindin
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
+import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -58,7 +60,6 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         bindToolbar()
         setToolbarOverlay()
 
-        viewModel.qrCode.observe(viewLifecycleOwner) { onQrCodeReady(it) }
         viewModel.errors.observe(viewLifecycleOwner) { onError(it) }
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
         viewModel.recoveryCertificate.observe(viewLifecycleOwner) { it?.let { onCertificateReady(it) } }
@@ -137,13 +138,13 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
             R.string.expiration_date,
             certificate.headerExpiresAt.toShortDayFormat()
         )
-    }
 
-    private fun FragmentRecoveryCertificateDetailsBinding.onQrCodeReady(bitmap: Bitmap?) {
         qrCodeCard.apply {
-            image.setImageBitmap(bitmap)
-            progressBar.hide()
-            bitmap?.let { image.setOnClickListener { viewModel.openFullScreen() } }
+            image.loadAny(CoilQrCode(content = certificate.qrCode)) {
+                crossfade(true)
+                loadingView(image, progressBar)
+            }
+            image.setOnClickListener { viewModel.openFullScreen() }
         }
     }
 

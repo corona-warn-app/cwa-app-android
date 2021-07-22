@@ -10,7 +10,7 @@ import kotlinx.parcelize.Parceler
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.TypeParceler
 import net.swiftzer.semver.SemVer
-import org.joda.time.Instant
+import org.joda.time.DateTime
 import timber.log.Timber
 
 @Parcelize
@@ -58,11 +58,11 @@ data class DccValidationRule(
     //  { "and":[{ ">":[{ "var":"hcert.v.0.dn" }, 0] },{ ">=":[{ "var":"hcert.v.0.dn" },{ "var":"hcert.v.0.sd" }] }]}
     @SerializedName("Logic") val logic: JsonNode
 ) : Parcelable {
-    val validFromInstant: Instant
-        get() = Instant.parse(validFrom)
+    val validFromDateTime: DateTime
+        get() = DateTime.parse(validFrom)
 
-    val validToInstant: Instant
-        get() = Instant.parse(validTo)
+    val validToDateTime: DateTime
+        get() = DateTime.parse(validTo)
 
     val versionSemVer: SemVer
         get() = try {

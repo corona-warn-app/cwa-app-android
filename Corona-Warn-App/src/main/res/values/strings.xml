@@ -1,15 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
     <!-- ####################################
                      Generics
     ###################################### -->
 
     <!-- XACT: back description for screen readers -->
     <string name="accessibility_back">"Back"</string>
-    <!-- XACT: next description for screen readers -->
-    <string name="accessibility_next">"Next"</string>
-    <!-- XACT: menu description for screen readers -->
-    <string name="accessibility_menu">"Menu"</string>
     <!-- XACT: menu description for screen readers -->
     <string name="accessibility_close">"Close"</string>
     <!-- XACT: menu description for screen readers -->
@@ -69,16 +64,10 @@
     <string name="risk_card_body_installation_today">"Installed today"</string>
     <!-- XTXT: risk card - Days since installation if yesterday -->
     <string name="risk_card_body_installation_yesterday">"Installed yesterday"</string>
-    <!-- XTXT: risk card - tracing active for x out of 14 days -->
-    <string name="risk_card_body_saved_days">"Exposure logging was active for %1$s of the past 14 days"</string>
-    <!-- XTXT: risk card- tracing active for 14 out of 14 days -->
-    <string name="risk_card_body_saved_days_full">"Exposure logging permanently active"</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"Encounters have not yet been checked."</string>
     <!-- XTXT: risk card - last successful update -->
     <string name="risk_card_body_time_fetched">"Updated: %1$s"</string>
-    <!-- XTXT: risk card - hint to open the app daily -->
-    <string name="risk_card_body_open_daily">"Note: Please open the app daily to update your risk status."</string>
     <!-- XBUT: risk card - update risk -->
     <string name="risk_card_button_update">"Update"</string>
     <!-- XBUT: risk card - activate tracing -->
@@ -89,18 +78,10 @@
     <string name="risk_card_low_risk_headline">"Low Risk"</string>
     <!-- XHED: risk card - increased risk headline -->
     <string name="risk_card_increased_risk_headline">"Increased Risk"</string>
-    <!-- XTXT: risk card - tracing isn't active long enough, so a new risk level can't be calculated -->
-    <string name="risk_card_unknown_risk_body">"Since you have not activated exposure logging for long enough, we could not calculate your risk of infection."</string>
     <!-- XHED: risk card - tracing stopped headline, due to no possible calculation -->
     <string name="risk_card_no_calculation_possible_headline">"Exposure logging stopped"</string>
     <!-- XTXT: risk card - last successfully calculated risk level -->
     <string name="risk_card_no_calculation_possible_body_saved_risk">"Last exposure check:"<xliff:g id="line_break">"\n"</xliff:g>"%1$s"</string>
-    <!-- XHED: risk card -  outdated risk headline, calculation isn't possible -->
-    <string name="risk_card_outdated_risk_headline">"Exposure logging is not possible"</string>
-    <!-- XTXT: risk card - outdated risk, calculation couldn't be updated in the last 24 hours -->
-    <string name="risk_card_outdated_risk_body">"Your exposure logging could not be updated for more than 24 hours."</string>
-    <!-- XTXT: risk card - outdated risk manual, calculation couldn't be updated in the last 48 hours -->
-    <string name="risk_card_outdated_manual_risk_body">"Your risk status has not been updated for more than 48 hours. Please update your risk status."</string>
     <!-- XHED: risk card - risk check failed headline, no internet connection -->
     <string name="risk_card_check_failed_no_internet_headline">"Exposure check failed"</string>
     <!-- XTXT: risk card - risk check failed, please check your internet connection -->
@@ -223,8 +204,6 @@
     <string name="main_overview_subtitle_increased_risk">"Increased Risk"</string>
     <!-- XTXT: App overview low risk level -->
     <string name="main_overview_subtitle_low_risk">"Low Risk"</string>
-    <!-- XTXT: App overview unknown risk level -->
-    <string name="main_overview_subtitle_unknown_risk">"Unknown Risk"</string>
     <!-- XHED: App overview subtitle for test procedure explanation -->
     <string name="main_overview_headline_test">"Notifying Other Users"</string>
     <!-- YTXT: App overview body text about rest procedure -->
@@ -317,14 +296,8 @@
     <string name="risk_details_information_body_period_logged_assessment_over_14_days">"If exposure logging was active at times during which you encountered other people, your risk of infection can be calculated for this period."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->        <!-- XTXT: risk details - infection period logged information body, under 14 days -->
     <string name="risk_details_information_body_period_logged_assessment">"The app automatically deletes older logs, as these are no longer relevant for infection prevention."</string>
-    <!-- XTXT: risk details - infection period days logged/14 -->
-    <string name="risk_details_information_active_tracing_days_circle_progress">"%s/14"</string>
-    <!-- XHED: risk details - how your risk level was calculated, below behaviors -->
-    <string name="risk_details_subtitle_infection_risk_past">"This is how your risk was calculated."</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk">"This is how your risk is calculated."</string>
-    <!-- XMSG: risk details - risk calculation wasn't possible for 24h, below behaviors -->
-    <string name="risk_details_information_body_outdated_risk">"Your exposure logging could not be updated for more than 24 hours."</string>
     <!-- YTXT: risk details - low risk explanation text -->
     <string name="risk_details_information_body_low_risk">"You have a low risk of infection because no exposure to people later diagnosed with coronavirus was logged, or because your encounters were only for a short time and at a greater distance."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
@@ -333,15 +306,6 @@
     <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/en/faq/#encounter_but_green"</string>
     <!-- YTXT: risk details - increased risk explanation text with variable date since last contact -->
     <string name="risk_details_information_body_increased_risk_date">"You have an increased risk of infection because you were exposed over a longer period of time and at close proximity to at least one person diagnosed with coronavirus."</string>
-    <!-- YTXT: risk details - increased risk explanation text with variable for day(s) since last contact -->
-    <plurals name="risk_details_information_body_increased_risk">
-        <item quantity="one">"You have an increased risk of infection because you were last exposed %1$s days ago over a longer period of time and at close proximity to at least one person diagnosed with coronavirus."</item>
-        <item quantity="other">"You have an increased risk of infection because you were last exposed %1$s days ago over a longer period of time and at close proximity to at least one person diagnosed with coronavirus."</item>
-        <item quantity="zero">"You have an increased risk of infection because you were last exposed %1$s days ago over a longer period of time and at close proximity to at least one person diagnosed with coronavirus."</item>
-        <item quantity="two">"You have an increased risk of infection because you were last exposed %1$s days ago over a longer period of time and at close proximity to at least one person diagnosed with coronavirus."</item>
-        <item quantity="few">"You have an increased risk of infection because you were last exposed %1$s days ago over a longer period of time and at close proximity to at least one person diagnosed with coronavirus."</item>
-        <item quantity="many">"You have an increased risk of infection because you were last exposed %1$s days ago over a longer period of time and at close proximity to at least one person diagnosed with coronavirus."</item>
-    </plurals>
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Your risk of infection is calculated from the exposure logging data (duration and proximity) locally on your smartphone. Your risk of infection cannot be seen by, or passed on to, anyone else."</string>
     <!-- YTXT: risk details - risk calculation explanation for increased risk -->
@@ -372,8 +336,6 @@
     <string name="risk_lowered_dialog_body">"The last exposure that resulted in your increased risk was more than 14 days ago. Therefore, your risk of infection has been ranked as low again.\n\nThis is what you should do:\n1. If you do not have any COVID-19 symptoms, continue to follow the prevailing rules regarding distancing and hygiene.\n2. If you have COVID-19 symptoms, we recommend that you visit your doctor and get tested."</string>
     <!-- XBUT: risk lowerd - dialog confirm -->
     <string name="risk_lowered_dialog_button_confirm">"OK"</string>
-    <!-- XBUT: risk lowered - dialog cancel -->
-    <string name="risk_lowered_dialog_button_cancel">"More"</string>
 
     <!-- ####################################
            Outdated Device Time
@@ -399,8 +361,6 @@
     <string name="onboarding_button_next">"Next"</string>
     <!-- XBUT: onboarding - start -->
     <string name="onboarding_button_start">"Let’s Get Started"</string>
-    <!-- XTXT: onboarding - back description for screen reader -->
-    <string name="onboarding_button_back_description">"Back"</string>
     <!-- XACT: Onboarding (together) page title -->
     <string name="onboarding_onboarding_accessibility_title">"Onboarding page 1 of 6: Fighting coronavirus together"</string>
     <!-- XHED: onboarding(together) - fight corona -->
@@ -478,8 +438,6 @@
     <string name="onboarding_tracing_location_headline">"Activate Location Setting"</string>
     <!-- XTXT: onboarding(tracing) - location explanation for bluetooth body text -->
     <string name="onboarding_tracing_location_body">"The app cannot determine your location. However, the device location setting must be activated to use Bluetooth Low Energy in Android 10 and earlier versions."</string>
-    <!-- XBUT: onboarding(tracing) - button enable tracing -->
-    <string name="onboarding_tracing_location_button">"Open Device Settings"</string>
     <!-- XACT: Onboarding (test) page title -->
     <string name="onboarding_test_accessibility_title">"Onboarding page 5 of 6: If You Are Diagnosed with Coronavirus"</string>
     <!-- XHED: onboarding(test) - about positive tests -->
@@ -513,8 +471,6 @@
     <string name="onboarding_ppa_state_title">"Your federal state (optional)"</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - district title -->
     <string name="onboarding_ppa_district_title">"Your district (county) (optional)"</string>
-    <!-- XTXT: onboarding privacy preserving analytics (ppa) - regional evaluation text -->
-    <string name="onboarding_ppa_regional_evaluation_text">"If you also specify your federal state and region, we can conduct regional analyses."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - age title -->
     <string name="onboarding_ppa_age_title">"Your age group (optional)"</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - consent title -->
@@ -526,8 +482,6 @@
 
     <!-- XHED: onboarding privacy preserving analytics (ppa) - more info - headline -->
     <string name="onboarding_ppa_more_info_headline">"Detailed Information about Data Sharing"</string>
-    <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - consent title -->
-    <string name="onboarding_ppa_more_info_decline_processing_text">"If you do not consent to this transfer of your data to a third country, please do not tap on “Accept”. You will still be able to use the app, but not the data donation sharing feature."</string>
     <!-- XTXT: onboarding privacy preserving analytics (ppa) - more info - title -->
     <string name="onboarding_ppa_more_info_data_processing_title">"Data Processing in the Data Sharing Process"</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing body -->
@@ -631,8 +585,6 @@
     <string name="settings_tracing_status_inactive">"Stopped"</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
     <string name="settings_tracing_status_restricted">"Restricted"</string>
-    <!-- XTXT: settings(tracing) - shows status under header in home, no internet -->
-    <string name="settings_tracing_body_connection_inactive">"No Internet connection"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, no bluetooth -->
     <string name="settings_tracing_body_bluetooth_inactive">"Bluetooth turned off"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
@@ -649,21 +601,6 @@
     <string name="settings_tracing_status_location_body_url">"https://www.coronawarn.app/en/faq/#android_location"</string>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
     <string name="settings_tracing_status_location_button">"Open Device Settings"</string>
-    <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
-    <string name="settings_tracing_status_connection_headline">"Open Internet connection"</string>
-    <!-- XTXT: settings(tracing) - explains user what to do on card if connection is disabled -->
-    <string name="settings_tracing_status_connection_body">"Exposure logging requires an Internet connection to calculate your risk of infection. Please turn on Wi-Fi or mobile data in your device settings."</string>
-    <!-- XBUT: settings(tracing) - go to operating system settings button on card -->
-    <string name="settings_tracing_status_connection_button">"Open Device Settings"</string>
-    <!-- XTXT: settings(tracing) - explains the circle progress indicator to the right with the current value -->
-    <plurals name="settings_tracing_status_body_active">
-        <item quantity="one">"Exposure logging has been active for one day.\nAn exposure check can only be reliable if exposure logging is permanently activated."</item>
-        <item quantity="other">"Exposure logging has been active for %1$s days.\nAn exposure check can only be reliable if exposure logging is permanently activated."</item>
-        <item quantity="zero">"Exposure logging has been active for %1$s days.\nAn exposure check can only be reliable if exposure logging is permanently activated."</item>
-        <item quantity="two">"Exposure logging has been active for %1$s days.\nAn exposure check can only be reliable if exposure logging is permanently activated."</item>
-        <item quantity="few">"Exposure logging has been active for %1$s days.\nAn exposure check can only be reliable if exposure logging is permanently activated."</item>
-        <item quantity="many">"Exposure logging has been active for %1$s days.\nAn exposure check can only be reliable if exposure logging is permanently activated."</item>
-    </plurals>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_illustration_description_active">"Three persons have activated exposure logging on their smartphones, which will log their encounters with each other."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
@@ -671,16 +608,12 @@
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_bluetooth_illustration_description_inactive">"A person has turned off Bluetooth on their smartphone, so an encounter with two other persons is not logged."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
-    <string name="settings_tracing_location_illustration_description_inactive" />
-    <!-- XACT: settings(tracing) - describes illustration -->
-    <string name="settings_tracing_connection_illustration_description_inactive">"A person has turned off the Internet connection on their smartphone, so an encounter with two other persons is not logged."</string>
+    <string name="settings_tracing_location_illustration_description_inactive"/>
 
     <!-- XHED: settings(notification) - notification page title -->
     <string name="settings_notifications_title">"Notifications"</string>
     <!-- XHED: settings(notification) - multiline headline below illustration, active -->
     <string name="settings_notifications_headline_active">"Do you want to activate notifications of your COVID-19 risk status?"</string>
-    <!-- XHED: settings(notification) - multiline headline below illustration, inactive -->
-    <string name="settings_notifications_headline_inactive">"Notifications are deactivated"</string>
     <!-- XTXT: settings(notification) - text in row on settings overview -->
     <string name="settings_notifications_body_description">"Allow automatic notifications of your COVID-19 risk status."</string>
     <!-- YTXT: settings(notification) - description text when it notifications are enabled -->
@@ -867,8 +800,6 @@
     <string name="debugging_debuglog_id_history_title">"ID History"</string>
     <!-- YTXT: Description of ID History -->
     <string name="debugging_debuglog_id_history_body">"IDs of the error analyses shared so far"</string>
-    <!-- YTXT: Warning regarding downsides of recording a log file -->
-    <string name="debugging_debuglog_intro_warning">"Please note that error reports may contain sensitive data (such as a test result or contact journal entries). Therefore, you should not share these error reports publicly."</string>
     <!-- XBUT: Button text to start the log recording -->
     <string name="debugging_debuglog_action_start_recording">"Start"</string>
     <!-- XBUT: Button text to stop the log recording -->
@@ -929,12 +860,6 @@
     <string name="debugging_debuglog_uploadhistory_description">"You see the IDs of your error analysis logs here."</string>
 
     <!-- ####################################
-              Interoperability
-    ###################################### -->
-    <!-- XHED: headline for consent information  -->
-    <string name="interop_consent_headline">"Consent"</string>
-
-    <!-- ####################################
              Submission
     ###################################### -->
 
@@ -947,10 +872,6 @@
     <!-- XBUT: Positive button for generic web request error -->
     <string name="submission_error_dialog_web_generic_error_button_positive">"Back"</string>
 
-    <!-- XHED: Dialog title for already paired test error: qr -->
-    <string name="submission_error_dialog_web_test_paired_title">"QR code is invalid"</string>
-    <!-- XMSG: Dialog body for already paired test error: qr -->
-    <string name="submission_error_dialog_web_test_paired_body">"The QR code is invalid or has been registered on another smartphone already. You will receive your test result from the test center or laboratory regardless of the validity of the QR code. If you are diagnosed with coronavirus, you will be notified by the public health authority."</string>
     <!-- XHED: Dialog title for already paired test error: tan -->
     <string name="submission_error_dialog_web_test_paired_title_tan">"TAN is invalid"</string>
     <!-- XMSG: Dialog body for already paired test via tan - error: tan -->
@@ -962,15 +883,6 @@
     <string name="submission_error_dialog_web_paring_invalid_title">"Error"</string>
     <!-- XMSG: Dialog body for could not create submission tan -->
     <string name="submission_error_dialog_web_paring_invalid_body">"A TAN for submission could not be generated. Please contact the technical hotline via App Information → Technical Hotline."</string>
-    <!-- XBUT: Positive button for could not create submission tan -->
-    <string name="submission_error_dialog_web_paring_invalid_button_positive">"Back"</string>
-
-    <!-- XHED: Dialog title for submission tan invalid -->
-    <string name="submission_error_dialog_web_tan_invalid_title">"Error"</string>
-    <!-- XMSG: Dialog body for submission tan invalid -->
-    <string name="submission_error_dialog_web_tan_invalid_body">"The generated TAN is invalid for submission. Please contact the technical hotline via App Information → Technical Hotline."</string>
-    <!-- XBUT: Positive button for submission tan invalid -->
-    <string name="submission_error_dialog_web_tan_invalid_button_positive">"Back"</string>
 
     <!-- XHED: Dialog title for submission tan redeemed -->
     <string name="submission_error_dialog_web_tan_redeemed_title">"QR code no longer valid"</string>
@@ -1076,10 +988,6 @@
     <!-- YTXT: Body text for for results next steps  -->
     <string name="submission_test_result_steps_added_body">"Your test has been stored in the Corona-Warn-App."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_heading">"Your Test Result Is Not Available Yet"</string>
-    <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_body">"As soon as your test result becomes available, it will be displayed in the app.\n\nYou will also receive your test result outside of the app. The public health authorities will notify you, should your test be positive.\n\nIf you are notified of a positive test result outside the app, please delete the test currently registered in the app. Call the number shown under “Request TAN” to get a TAN. You can then use this TAN to register your result in the app and warn others."</string>
-    <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Your Test Result Is Not Available Yet"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_pcr_body">"As soon as your test result becomes available, it will be displayed in the app.\n\nYou will also receive your test result outside of the app. The public health authorities will notify you, should your test be positive.\n\nIf you are notified of a positive test result outside the app, please delete the test currently registered in the app. Call the number shown under “Request TAN” to get a TAN. You can then use this TAN to register your result in the app and warn others."</string>
@@ -1117,13 +1025,8 @@
     <string name="submission_test_result_positive_steps_warning_others_heading">"Warn Others"</string>
     <!-- YTXT: Body text for for other warnings screen-->
     <string name="submission_test_result_positive_steps_warning_others_body">"Please share your random IDs and warn others.\nHelp determine the risk of infection for others more accurately by also indicating when you first noticed any coronavirus symptoms."</string>
-    <!-- XBUT: positive test result : continue button -->
-    <string name="submission_test_result_positive_continue_button">"Next"</string>
     <!-- XBUT: positive test result : continue button with symptoms-->
     <string name="submission_test_result_positive_continue_button_with_symptoms">"Enter Symptoms"</string>
-    <!-- XBUT: positive test result : continue button without symptoms -->
-    <string name="submission_test_result_positive_continue_button_wo_symptoms">"Don’t Enter Symptoms"</string>
-
 
     <!-- XHED: Page headline for invalid test result screen  -->
     <string name="submission_test_result_invalid_steps_invalid_heading">"Your test cannot be evaluated"</string>
@@ -1165,7 +1068,7 @@
     <!-- XHED: Subtitle text for test result card with consent given -->
     <string name="submission_test_result_consent_given_subtitle">"Thank you for helping to stop the spread of coronavirus."</string>
     <!-- YTXT: body text for test result card with consent given -->
-    <string name="submission_test_result_consent_given_body"><b>"Others you have had contact with will now be warned."</b>" "<br /><br />"You can now help to improve the accuracy of the warnings. To do so, in the next step, tell us when you first developed symptoms. You can cancel this step at any time."</string>
+    <string name="submission_test_result_consent_given_body"><b>"Others you have had contact with will now be warned."</b>" "<br/><br/>"You can now help to improve the accuracy of the warnings. To do so, in the next step, tell us when you first developed symptoms. You can cancel this step at any time."</string>
     <!-- XBUT: button text for the 'break up' button option on test result consent given page -->
     <string name="submission_test_result_consent_given_breakup_button">"Exit"</string>
 
@@ -1193,7 +1096,7 @@
 
     <!-- Dispatcher -->
     <!-- XHED: Page headline for dispatcher menu  -->
-    <string name="submission_dispatcher_headline">"Register Your Test"</string>
+    <string name="submission_dispatcher_headline">"Manage Your Tests"</string>
     <!-- XHED: Page subheadline for dispatcher options asking if they already have a positive test: tele-TAN  -->
     <string name="submission_dispatcher_already_positive_subheadline">"Was your PCR test positive?"</string>
     <!-- YTXT: Dispatcher text for QR code option -->
@@ -1201,11 +1104,11 @@
     <!-- YTXT: Body text for QR code dispatcher option -->
     <string name="submission_dispatcher_qr_card_text">"Receive your test result in the app and warn others or request your COVID test certificate."</string>
     <!-- XHED: Dispatcher text for test center option -->
-    <string name="submission_dispatcher_card_test_center">"Testmöglichkeit finden"</string>
+    <string name="submission_dispatcher_card_test_center">"Find Testing Center"</string>
     <!-- YTXT: Body text for test center dispatcher option -->
-    <string name="submission_dispatcher_card_test_center_text">"Finden Sie Teststellen in Ihrer Nähe."</string>
+    <string name="submission_dispatcher_card_test_center_text">"Find test centers near you."</string>
     <!-- XTXT: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#where_can_i_get_tested -->
-    <string name="submission_dispatcher_card_test_center_link">"https://www.coronawarn.app/de/faq/#where_can_i_get_tested"</string>
+    <string name="submission_dispatcher_card_test_center_link">"https://www.coronawarn.app/en/faq/#where_can_i_get_tested"</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"Enter TAN for PCR Test"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
@@ -1272,8 +1175,6 @@
     <string name="submission_done_subtitle">"Please note:"</string>
     <!-- YTXT: text after submission: pcr validation -->
     <string name="submission_done_pcr_validation">"Take a PCR test to verify this test result."</string>
-    <!-- YTXT: text after submission: pcr validation -->
-    <string name="submission_done_share_keys">"Share your random IDs so that others can be warned."</string>
     <!-- YTXT: text after submission: contagious -->
     <string name="submission_done_contagious">"The public health authority may contact you within the next few days."</string>
     <!-- YTXT: text after submission: isolate -->
@@ -1296,8 +1197,6 @@
     <!-- Submission Done No Consent-->
     <!-- XHED: Page title for completed submission page -->
     <string name="submission_done_no_consent_title">"Thank you"</string>
-    <!-- YTXT: Page subtitle for completed submission page -->
-    <string name="submission_done_no_consent_subtitle">"Thank you for helping to stop the spread of coronavirus."</string>
     <!-- YTXT: Page body for submission no consent page -->
     <string name="submission_done_no_consent_body_title">"Others will now be warned."</string>
     <!-- YTXT: Page body for submission no consent page -->
@@ -1344,16 +1243,12 @@
     <string name="submission_contact_headline">"How this works:"</string>
     <!-- YTXT: Body text for contact page in submission flow-->
     <string name="submission_contact_body">"Please keep your test result (if available) and your phone number ready to request a TAN.\n\nPeople with hearing impairments can use Tess Relay services (interpreting between German written language and sign language) to contact the phone hotline. You can download the software from Google Play."</string>
-    <!-- XBUT: submission contact call button -->
-    <string name="submission_contact_button_call">"Call"</string>
     <!-- XBUT: submission contact enter tan button -->
     <string name="submission_contact_button_enter">"Enter TAN"</string>
     <!-- YTXT: Body text for step 1 of contact page -->
     <string name="submission_contact_step_1_body">"Call the nationwide hotline and request a TAN:"</string>
     <!-- XLNK: Button / hyperlink to phone call for TAN contact page -->
     <string name="submission_contact_number_display">"0800 7540002"</string>
-    <!-- XLNK: Technical number which is called when the user clicks on the display number -->
-    <string name="submission_contact_number_dial">"0800 7540002"</string>
     <!-- YTXT: Body text for step 2 of contact page-->
     <string name="submission_contact_step_2_body">"Register your PCR test by entering the TAN in the app."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
@@ -1387,28 +1282,12 @@
     <!-- Submission Status Card -->
     <!-- XHED: Page title for the various submission status: fetching -->
     <string name="submission_status_card_title_fetching">"Data being retrieved..."</string>
-    <!-- XHED: Page title for the various submission status: unregistered -->
-    <string name="submission_status_card_title_unregistered">"Have you been tested?"</string>
     <!-- XHED: Page title for the various submission status: pending -->
     <string name="submission_status_card_title_pending">"Your test result is not available yet"</string>
     <!-- XHED: Page title for the various submission status: available -->
     <string name="submission_status_card_title_available">"Your test result is available"</string>
-    <!-- XHED: Page title for the various submission status: positive -->
-    <string name="submission_status_card_title_positive">"Positive Diagnosis"</string>
-    <!-- XHED: Page title for the various submission status fetch failed -->
-    <string name="submission_status_card_title_failed">"Test is no longer valid"</string>
-    <!-- XHED: Page title for the various submission status fetch ready -->
-    <string name="submission_status_card_title_ready">"Your Test Result Is Available"</string>
-    <!-- XHED: Subtitle for the submission status card: invalid -->
-    <string name="submission_status_card_subtitle_invalid">"Your test cannot be evaluated"</string>
-    <!-- XHED: Subtitle for the submission status card: negative -->
-    <string name="submission_status_card_subtitle_negative">"Negative Diagnosis"</string>
-    <!-- XHED: Subtitle for the submission status card: ready -->
-    <string name="submission_status_card_subtitle_ready">"You can now retrieve your test result"</string>
     <!-- YTXT: Body text for submission status: fetching -->
     <string name="submission_status_card_body_fetching">"Your result is being updated"</string>
-    <!-- YTXT: Body text for submission status: unregistered -->
-    <string name="submission_status_card_body_unregistered">"Help protect yourself and others."</string>
     <!-- YTXT: Body text for submission status: pending -->
     <string name="submission_status_card_body_pending">"The evaluation of your test is not yet done."</string>
     <!-- YTXT: Body text for submission status: invalid -->
@@ -1417,20 +1296,12 @@
     <string name="submission_status_card_body_positive">"You have been diagnosed positive for SARS-CoV-2."</string>
     <!-- YTXT: Body text for submission status: negative -->
     <string name="submission_status_card_body_negative">"You have been diagnosed negative for SARS-CoV-2."</string>
-    <!-- YTXT: Body text for submission status fetch failed -->
-    <string name="submission_status_card_body_failed">"Your test is more than 21 days old and is therefore no longer relevant. Please delete the test. You can then add another."</string>
-    <!-- YTXT: Body text for submission status fetch ready -->
-    <string name="submission_status_card_body_ready">"If you have tested positive for coronavirus, you can warn others."</string>
-    <!-- YTXT: Button text for submission status fetch ready -->
-    <string name="submission_status_card_retrieve_test_result">"Retrieve Test Result"</string>
     <!-- XBUT: submission status card unregistered button -->
-    <string name="submission_status_card_button_unregistered">"Register Test"</string>
+    <string name="submission_status_card_button_unregistered">"Manage Your Tests"</string>
     <!-- XBUT: submission status card show results button -->
     <string name="submission_status_card_button_show_results">"Display Test"</string>
     <!-- XBUT: submission status card fetch failed button -->
     <string name="submission_status_card_button_failed">"Delete Test"</string>
-    <!-- XBUT: submission status card fetch ready button -->
-    <string name="submission_status_card_button_ready">"Delete Test"</string>
     <!-- XHED: submission status card positive result subtitle -->
     <string name="submission_status_card_positive_result_subtitle">"Please note:"</string>
     <!-- YTXT: text for contagious card -->
@@ -1486,10 +1357,6 @@
     <string name="submission_test_result_available_close_dialog_body_consent_given">"After you have read your test result, you can notify others if necessary and break the chain of infection."</string>
     <!-- YTXT: Text for consent NOT given -->
     <string name="submission_test_result_available_text_consent_not_given">"You have chosen not to share your test result. Others will not be warned. \n\nIn the next step, you have the opportunity to change your mind and share your test result after all, to help stop the spread of coronavirus and protect others."</string>
-    <!-- XHED: Close screen popup title for consent NOT given -->
-    <string name="submission_test_result_available_close_dialog_title_consent_not_given">"Do you want to cancel?"</string>
-    <!-- XTXT: Close screen popup text for consent NOT given -->
-    <string name="submission_test_result_available_close_dialog_body_consent_not_given">"Your entries will not be saved."</string>
     <!-- XBUT: Close screen popup cancel button -->
     <string name="submission_test_result_available_close_dialog_cancel_button">"Do Not Display"</string>
     <!-- XBUT: Close screen popup continue button -->
@@ -1516,21 +1383,18 @@
     ###################################### -->
 
     <!-- Incidence statistics card -->
-    <!-- XHED: Title for incident statistics card -->
-    <string name="statistics_card_incidence_title">"7-Day Incidence"</string>
     <!-- XTXT: Description in statistics card that is displayed below the incidence value-->
     <string name="statistics_card_incidence_value_description">"confirmed new infections per 100,000 residents"</string>
 
     <!-- Local Incidence statistics card -->
     <!-- XHED: Title for local incident statistics card -->
-    <string name="statistics_card_local_incidence_title"></string>
+    <string name="statistics_card_local_incidence_title">"Local 7-Day Incidence"</string>
     <!-- XTXT: Description in statistics card that is displayed below the local incidence value-->
-    <string name="statistics_card_local_incidence_value_description"></string>
+    <string name="statistics_card_local_incidence_value_description">"confirmed new infections per 100,000 residents"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu info button -->
-    <string name="statistics_card_local_incidence_menu_info"></string>
+    <string name="statistics_card_local_incidence_menu_info">"Information"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu delete button -->
-    <string name="statistics_card_local_incidence_menu_delete"></string>
-
+    <string name="statistics_card_local_incidence_menu_delete">"Remove"</string>
 
     <!-- Infections statistics card -->
     <!-- XHED: Title for infections statistics card -->
@@ -1559,9 +1423,6 @@
     <!-- XTXT: Until [date] refers to statistics timestamp in the past -->
     <string name="statistics_primary_value_until">"Up to %s"</string>
 
-    <!-- XTXT: Suffix for very large statistics values - Abbreviation for "Million"  -->
-    <string name="statistics_value_suffix_million">"million"</string>
-
     <!-- Explanation screen -->
     <!-- XHED: Explanation screen title -->
     <string name="statistics_explanation_title">"Key Figures"</string>
@@ -1575,6 +1436,10 @@
     <string name="statistics_explanation_warned_persons_title">"Warnings by App Users"</string>
     <!-- XTXT: Explanation screen warned persons text -->
     <string name="statistics_explanation_warned_persons_text">"Number of app users who have been diagnosed with coronavirus via PCR test and have warned others through the app"</string>
+    <!-- XHED: Explanation screen local incidence title -->
+    <string name="statistics_explanation_local_incidence_title">"Local 7-Day Incidence"</string>
+    <!-- XTXT: Explanation screen local incidence text -->
+    <string name="statistics_explanation_local_incidence_text">"Total number of confirmed new infections in the last 7 days (by reporting date) per 100,000 residents in the configured district or federal state."</string>
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7-Day Incidence"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
@@ -1584,7 +1449,7 @@
     <!-- XTXT: Explanation screen seven day r-value text -->
     <string name="statistics_explanation_seven_day_r_value_text">"The reproduction figure, R, indicates how many people an average infected person has infected further. The current value takes data up to the last 5 days into account."</string>
     <!-- XTXT: Explanation screen seven day r-value link label  - the characters have to match the last part of the text label above -->
-    <string name="statistics_explanation_seven_day_r_link_label">"FAQ for statistics"</string>
+    <string name="statistics_explanation_seven_day_r_link_label">"FAQ for the statistics"</string>
     <!-- XHED: Explanation screen legend title -->
     <string name="statistics_explanation_legend_title">"Legend"</string>
     <!-- XHED: Explanation screen period title -->
@@ -1608,11 +1473,11 @@
     <!-- XHED: Explanation screen trend icons title -->
     <string name="statistics_explanation_trend_icons_title">"The following trends can be shown:"</string>
     <!-- XHED: Explanation screen trend increasing title -->
-    <string name="statistics_explanation_trend_increasing_title">"Trend: Upwards"</string>
+    <string name="statistics_explanation_trend_increasing_title">"Trend: upwards (negative)"</string>
     <!-- XHED: Explanation screen trend decreasing title -->
-    <string name="statistics_explanation_trend_decreasing_title">"Trend: Downwards"</string>
+    <string name="statistics_explanation_trend_decreasing_title">"Trend: downwards (positive)"</string>
     <!-- XHED: Explanation screen trend stable title -->
-    <string name="statistics_explanation_trend_stable_title">"Trend: Steady"</string>
+    <string name="statistics_explanation_trend_stable_title">"Trend: steady (neutral)"</string>
     <!-- XHED: Explanation screen trend description -->
     <string name="statistics_explanation_trend_description">"The assessment of the trend for warnings by app users changes depending on current infection levels, which is why this trend is always displayed as neutral."</string>
     <!-- XTXT: Explains user about statistics: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
@@ -1661,17 +1526,15 @@
 
     <!-- Statistics Add new tile -->
     <!-- XTXT: Statistics add card title -->
-    <string name="statistics_add_card_title">"Lokale 7-Tage-Inzidenz hinzufügen"</string>
+    <string name="statistics_add_card_title">"Add local 7-day incidence"</string>
     <!-- XTXT: Statistics add card warning -->
-    <string name="statistics_add_card_warning">"Maximale Anzahl der Lokalen 7-Tage Inzidenz erreicht."</string>
+    <string name="statistics_add_card_warning">"Maximum number of local 7-day incidence figures reached."</string>
+    <!-- XTXT: Statistics add screen whole state -->
+    <string name="statistics_local_incidence_whole_state_text"></string>
 
     <!-- ####################################
           Button Tooltips for Accessibility
     ###################################### -->
-    <!-- XACT: back button-->
-    <string name="button_back">"Back to previous page"</string>
-    <!-- XACT: proceed button-->
-    <string name="button_proceed">"Continue Button"</string>
     <!-- XACT: share button-->
     <string name="button_share">"Share"</string>
     <!-- XACT: menu button-->
@@ -1728,34 +1591,6 @@
     ###################################### -->
     <!-- NOTR -->
     <string name="lorem_ipsum">"Lorem Ipsum"</string>
-    <!-- NOTR -->
-    <string name="menu_test_notification">"Test Notification"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_api_launch">"Android API Test(Manual Test)"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_start">"Start (Broadcast/Receive Bluetooth)"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_get_exposure_keys">"Get Exposure keys (my keys history from api)"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_share_my_keys">"Share my keys via Email"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_enter_other_keys">"Submit Exposure Key"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_show_qr_code">"Show QR Code"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_scan_qr_code">"Scan Exposure Key"</string>
-    <!-- NOTR -->
-    <string name="test_api_switch_last_three_hours_from_server">"Last 3 Hours Mode"</string>
-    <!-- NOTR -->
-    <string name="test_api_button_check_exposure">"Check Exposure Summary"</string>
-    <!-- NOTR -->
-    <string name="test_api_exposure_summary_headline">"Exposure Windows"</string>
-    <!-- NOTR -->
-    <string name="test_api_body_my_keys">"My keys (count: %1$d)"</string>
-    <!-- NOTR -->
-    <string name="test_api_body_other_keys">"Other key"</string>
-    <!-- NOTR -->
-    <string name="test_api_calculate_risk_level">"Calculate Risk Level"</string>
 
     <!-- XHED: Country Entry for Austria -->
     <string name="country_name_at">"Austria"</string>
@@ -1862,10 +1697,6 @@
     <string name="interoperability_onboarding_delta_title">"Transnational\nExposure Logging"</string>
     <!-- XTXT: Description of the interoperability extension of the app. Below interoperability_onboarding_delta_title -->
     <string name="interoperability_onboarding_delta_subtitle">"The features of the Corona-Warn-App have been enhanced. Many countries have joined up to enable international warnings, based on a jointly-operated exchange server. Exposure to users of official coronavirus apps in other participating countries can now be taken into account when calculating your exposure risk."</string>
-    <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
-    <string name="interoperability_onboarding_delta_randomid">"To do this, the app downloads lists, which are updated daily, of the random IDs of all users who have shared their test results to warn others via their own app. This list is then compared with the random IDs recorded by your Android smartphone."</string>
-    <!-- YMSG: Onboarding tracing step third section in interoperability after the title. -->
-    <string name="interoperability_onboarding_delta_free_download">"The list downloads are usually free of charge for you. Specifically, this means that mobile network operators do not charge you for the data used by the app in this context, nor do they apply roaming charges for this in other EU countries. Please contact your mobile network operator for more information."</string>
 
     <!-- XACT: interoperability (eu) - illustraction description, explanation image -->
     <string name="interoperability_eu_illustration_description">"A hand holds a smartphone. Europe and the European flag are illustrated in the background."</string>
@@ -1900,8 +1731,6 @@
     <string name="statistics_info_button">"Further information"</string>
     <!-- XHED: Title for statistics reproduction card -->
     <string name="statistics_title_reproduction">"7-Day R Value"</string>
-    <!-- XTXT: Label for statistics reproduction card -->
-    <string name="statistics_reproduction_title">"Currently"</string>
     <!-- XTXT: Caption for statistics reproduction card -->
     <string name="statistics_reproduction_average">"average infections by each infected person"</string>
     <!-- XTXT: Statistics trend increasing (Accessibilty) -->
@@ -1943,18 +1772,14 @@
     <!-- XHED: Dialog error title for survey request error informations 1 -->
     <string name="datadonation_details_survey_consent_error_CHANGE_DEVICE_TIME">"The time on your smartphone does not match the current time. Please correct the time in your smartphone settings (error code %1$s)."</string>
     <!-- XHED: Dialog error title for survey request error informations 2-->
-    <string name="datadonation_details_survey_consent_error_DEVICE_NOT_SUPPORTED">"The survey cannot be retrieved (error code %1$s)."</string>
-    <!-- XHED: Dialog error title for survey request error informations 3-->
     <string name="datadonation_details_survey_consent_error_UPDATE_PLAY_SERVICES">"The survey cannot be retrieved right now. Please update the Google Play Services (error code %1$s)."</string>
-    <!-- XHED: Dialog error title for survey request error informations 4-->
+    <!-- XHED: Dialog error title for survey request error informations 3-->
     <string name="datadonation_details_survey_consent_error_TRY_AGAIN_LATER">"The survey cannot be retrieved right now. Please try again later (error code %1$s)."</string>
-    <!-- XHED: Dialog error title for survey request error informations 5-->
-    <string name="datadonation_details_survey_consent_error_TRY_AGAIN_NEXT_MONTH">"The survey cannot be retrieved due to security reasons. You can take the survey again in the next calendar month (error code %1$s)."</string>
-    <!-- XHED: Dialog error title for survey request error informations 6-->
+    <!-- XHED: Dialog error title for survey request error informations 4-->
     <string name="datadonation_details_survey_consent_error_DEVICE_NOT_TRUSTED">"Thank you for wanting to help. Unfortunately, you use a smartphone that does not support the survey for technical reasons (error code %1$s)."</string>
-    <!-- XHED: Dialog error title for survey request error informations 7-->
+    <!-- XHED: Dialog error title for survey request error informations 5-->
     <string name="datadonation_details_survey_consent_error_TIME_SINCE_ONBOARDING_UNVERIFIED">"For security reasons, you cannot take the survey less than 24 hours after you install or update the app (error code %1$s)."</string>
-    <!-- XHED: Dialog error title for survey request error informations 8-->
+    <!-- XHED: Dialog error title for survey request error informations 6-->
     <string name="datadonation_details_survey_consent_error_ALREADY_PARTICIPATED">"You have already taken the survey. You can only take the survey once per month (error code %1$s)."</string>
 
     <!-- XHED: Dialog error title for survey request error informations dialog-->
@@ -2039,10 +1864,6 @@
     <string name="duration_hours">"hours"</string>
     <!-- XTXT: Duration minutes text -->
     <string name="duration_minutes">"minutes"</string>
-
-    <!-- Scan check in QR Code-->
-    <!-- XTXT: Scan check in QR-Code  FAB text-->
-    <string name="scan_check_in_qr_code">"Scan QR Code"</string>
 
     <!-- ####################################
         Generic

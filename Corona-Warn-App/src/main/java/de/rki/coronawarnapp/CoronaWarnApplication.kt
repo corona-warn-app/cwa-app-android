@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.work.WorkManager
+import coil.Coil
+import coil.ImageLoaderFactory
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -90,6 +92,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var testCertificateRetrievalScheduler: TestCertificateRetrievalScheduler
     @Inject lateinit var environmentSetup: EnvironmentSetup
     @Inject lateinit var localStatisticsRetrievalScheduler: LocalStatisticsRetrievalScheduler
+    @Inject lateinit var imageLoaderFactory: ImageLoaderFactory
     @Inject lateinit var dccStateCheckScheduler: DccStateCheckScheduler
 
     @AppScope
@@ -120,6 +123,9 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
 
         // Enable Conscrypt for TLS1.3 Support below API Level 29
         Security.insertProviderAt(Conscrypt.newProvider(), 1)
+
+        // See de.rki.coronawarnapp.util.coil.CoilModule::class
+        Coil.setImageLoader(imageLoaderFactory)
 
         registerActivityLifecycleCallbacks(activityLifecycleCallback)
 

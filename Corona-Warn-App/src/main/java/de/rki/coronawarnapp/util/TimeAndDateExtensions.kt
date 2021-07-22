@@ -7,6 +7,7 @@ import org.joda.time.DateTimeZone
 import org.joda.time.Days
 import org.joda.time.Instant
 import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
 import org.joda.time.LocalTime
 import org.joda.time.chrono.GJChronology
 import org.joda.time.format.DateTimeFormat
@@ -25,7 +26,6 @@ object TimeAndDateExtensions {
     private val dayFormatter = DateTimeFormat.forPattern("dd.MM.yyyy")
     private val dayFormatter2DigitYear = DateTimeFormat.forPattern("dd.MM.yy")
     private val shortTime = DateTimeFormat.shortTime()
-    private val dateFormatterWithHyphenSeparator = DateTimeFormat.forPattern("yyyy-MM-dd")
 
     fun getCurrentHourUTC(): Int = DateTime(Instant.now(), DateTimeZone.UTC).hourOfDay().get()
 
@@ -102,6 +102,8 @@ object TimeAndDateExtensions {
 
     fun Instant.toLocalDateUtc(): LocalDate = this.toDateTime(DateTimeZone.UTC).toLocalDate()
 
+    fun Instant.toLocalDateTime(timeZone: DateTimeZone): LocalDateTime = this.toDateTime(timeZone).toLocalDateTime()
+
     fun Instant.toLocalTimeUtc(): LocalTime = this.toDateTime(DateTimeZone.UTC).toLocalTime()
 
     val Instant.seconds get() = TimeUnit.MILLISECONDS.toSeconds(millis)
@@ -131,6 +133,11 @@ object TimeAndDateExtensions {
     fun DateTime.toShortDayFormat(): String = toString(dayFormatter2DigitYear)
 
     /**
+     * Returns a readable date String with the format "dd.MM.yy hh:mm" like 23.05.89 12:00 of a DateTime
+     */
+    fun DateTime.toShortDateTimeFormat(): String = toString(DateTimeFormat.shortDateTime())
+
+    /**
      * Returns a readable time String with the format "hh:mm" like 12:00 of a LocalDate
      */
     fun LocalDate.toShortTimeFormat(): String = toString(shortTime)
@@ -146,6 +153,11 @@ object TimeAndDateExtensions {
     fun DateTime.toShortTimeFormat(): String = toString(shortTime)
 
     /**
+     * Returns a readable time String with the format "hh:mm" like 12:00 of a DateTime
+     */
+    fun LocalTime.toShortTimeFormat(): String = toString(shortTime)
+
+    /**
      * Returns a readable date String with the format "dd.MM.yy" like 23.05.89 of an Instant
      */
     fun Instant.toShortDayFormat(): String = toString(dayFormatter2DigitYear)
@@ -154,6 +166,18 @@ object TimeAndDateExtensions {
      * Returns a readable date String with the format "dd.MM.yy" like 23.05.89 of an LocalDate
      */
     fun LocalDate.toShortDayFormat(): String = toString(dayFormatter2DigitYear)
+
+    /*
+    * Returns date changes until
+    */
+    fun Instant.daysUntil(
+        date: Instant,
+        timeZone: DateTimeZone = DateTimeZone.getDefault()
+    ): Int {
+        val startDate = toDateTime(timeZone).toLocalDate()
+        val endDate = date.toDateTime(timeZone).toLocalDate()
+        return Days.daysBetween(startDate, endDate).days
+    }
 }
 
 typealias HourInterval = Long
