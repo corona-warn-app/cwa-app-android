@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
+import okio.ByteString.Companion.EMPTY
 import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant
 import javax.inject.Inject
@@ -64,13 +65,11 @@ class VaccinationTestData @Inject constructor(
         certificateJson = "{\"v\":[{\"ci\":\"01DE/00001/1119305005/7T1UG87G61Y7NRXIBQJDTYQ9#S\",\"co\":\"DE\",\"dn\":1,\"dt\":\"2021-03-01\",\"is\":\"Bundesministerium für Gesundheit - Test01\",\"ma\":\"ORG-100001699\",\"mp\":\"EU/1/21/1529\",\"sd\":2,\"tg\":\"840539006\",\"vp\":\"1119305005\"}],\"dob\":\"1966-11-11\",\"nam\":{\"fn\":\"Astrá Eins\",\"gn\":\"Andreas\",\"fnt\":\"ASTRA<EINS\",\"gnt\":\"ANDREAS\"},\"ver\":\"1.0.0\"}",
         kid = "qs76QaMRQrC+bjTS2a3mSA==",
         dscMessage = DscMessage(
-            protectedHeader = "oQEm".decodeBase64()!!.toByteArray(),
-            signature = "lHEs0BQY8lyouHtjUsfekVJIDjwMm/6f80XHxKcFAv1AKWXYUy3CtY3JKVqbEZOdcmrsNlqQO4ql9307i9xtkg==".decodeBase64()!!
-                .toByteArray(),
+            protectedHeader = "oQEm".decodeBase64()!!,
+            signature = "lHEs0BQY8lyouHtjUsfekVJIDjwMm/6f80XHxKcFAv1AKWXYUy3CtY3JKVqbEZOdcmrsNlqQO4ql9307i9xtkg==".decodeBase64()!!,
             kid = "qs76QaMRQrC+bjTS2a3mSA==",
             algorithm = DscMessage.Algorithm.ES256,
             payload = "pAFiREUEGmJ7gOwGGmCaTWw5AQOhAaRhdoGqYmNpeDAwMURFLzAwMDAxLzExMTkzMDUwMDUvN1QxVUc4N0c2MVk3TlJYSUJRSkRUWVE5I1NiY29iREViZG4BYmR0ajIwMjEtMDMtMDFiaXN4KkJ1bmRlc21pbmlzdGVyaXVtIGbDvHIgR2VzdW5kaGVpdCAtIFRlc3QwMWJtYW1PUkctMTAwMDAxNjk5Ym1wbEVVLzEvMjEvMTUyOWJzZAJidGdpODQwNTM5MDA2YnZwajExMTkzMDUwMDVjZG9iajE5NjYtMTEtMTFjbmFtpGJmbmtBc3Ryw6EgRWluc2JnbmdBbmRyZWFzY2ZudGpBU1RSQTxFSU5TY2dudGdBTkRSRUFTY3ZlcmUxLjAuMA==".decodeBase64()!!
-                .toByteArray()
         ),
     )
 
@@ -124,17 +123,17 @@ class VaccinationTestData @Inject constructor(
         expiresAt = Instant.parse("2022-05-11T09:26:08.000Z"),
     )
 
-    val personAVac2CertificateData = DccData(
+    private val personAVac2CertificateData = DccData(
         certificate = personAVac2Certificate,
         header = personAVac2CertificateHeader,
         certificateJson = "",
         kid = "qs76QaMRQrC+bjTS2a3mSA==",
         dscMessage = DscMessage(
-            protectedHeader = byteArrayOf(),
-            signature = byteArrayOf(),
+            protectedHeader = EMPTY,
+            signature = EMPTY,
             kid = "qs76QaMRQrC+bjTS2a3mSA==",
             algorithm = DscMessage.Algorithm.ES256,
-            payload = byteArrayOf()
+            payload = EMPTY
         ),
     )
 
@@ -198,13 +197,11 @@ class VaccinationTestData @Inject constructor(
         certificateJson = "{\"v\":[{\"ci\":\"01DE/00001/1119305005/3H24U2KVOTPCSINK7N64F2OB9#S\",\"co\":\"DE\",\"dn\":1,\"dt\":\"2021-04-20\",\"is\":\"Bundesministerium für Gesundheit - Test01\",\"ma\":\"ORG-100001417\",\"mp\":\"EU/1/20/1525\",\"sd\":1,\"tg\":\"840539006\",\"vp\":\"1119305005\"}],\"dob\":\"1966-11-11\",\"nam\":{\"fn\":\"Johnson Gültig\",\"gn\":\"Boris\",\"fnt\":\"JOHNSON<GUELTIG\",\"gnt\":\"BORIS\"},\"ver\":\"1.0.0\"}",
         kid = "qs76QaMRQrC+bjTS2a3mSA==",
         dscMessage = DscMessage(
-            protectedHeader = "oQEm".decodeBase64()!!.toByteArray(),
-            signature = "6Bdz69XdPgK0gz697sDlkcsEEOsY73oOqYUyLYCULFrGXssqGIJBxgBe+y7c45qksr/QYU6oScyP6KJIuZDIzA==".decodeBase64()!!
-                .toByteArray(),
+            protectedHeader = "oQEm".decodeBase64()!!,
+            signature = "6Bdz69XdPgK0gz697sDlkcsEEOsY73oOqYUyLYCULFrGXssqGIJBxgBe+y7c45qksr/QYU6oScyP6KJIuZDIzA==".decodeBase64()!!,
             kid = "qs76QaMRQrC+bjTS2a3mSA==",
             algorithm = DscMessage.Algorithm.ES256,
             payload = "pAFiREUEGmJ7gHcGGmCaTPc5AQOhAaRhdoGqYmNpeDEwMURFLzAwMDAxLzExMTkzMDUwMDUvM0gyNFUyS1ZPVFBDU0lOSzdONjRGMk9COSNTYmNvYkRFYmRuAWJkdGoyMDIxLTA0LTIwYmlzeCpCdW5kZXNtaW5pc3Rlcml1bSBmw7xyIEdlc3VuZGhlaXQgLSBUZXN0MDFibWFtT1JHLTEwMDAwMTQxN2JtcGxFVS8xLzIwLzE1MjVic2QBYnRnaTg0MDUzOTAwNmJ2cGoxMTE5MzA1MDA1Y2RvYmoxOTY2LTExLTExY25hbaRiZm5vSm9obnNvbiBHw7xsdGlnYmduZUJvcmlzY2ZudG9KT0hOU09OPEdVRUxUSUdjZ250ZUJPUklTY3ZlcmUxLjAuMA==".decodeBase64()!!
-                .toByteArray()
         ),
     )
 

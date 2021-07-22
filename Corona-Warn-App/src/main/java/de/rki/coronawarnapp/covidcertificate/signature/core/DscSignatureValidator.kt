@@ -87,8 +87,8 @@ class DscSignatureValidator @Inject constructor() {
         for (dsc in matchedDscSet) {
             val dscCertificate = x509certificate(dsc)
             val (publicKey, verifier) = when (dscMessage.algorithm) {
-                ES256 -> dscCertificate.publicKey to dscMessage.signature.toECDSAVerifier()
-                PS256 -> dscCertificate.publicKey.toRsaPublicKey() to dscMessage.signature
+                ES256 -> dscCertificate.publicKey to dscMessage.signature.toByteArray().toECDSAVerifier()
+                PS256 -> dscCertificate.publicKey.toRsaPublicKey() to dscMessage.signature.toByteArray()
             }
 
             val valid = Signature.getInstance(dscMessage.algorithm.algName).verify(

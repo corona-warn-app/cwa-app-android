@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCerti
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_COSE_TAG_INVALID
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_COSE_UNKNOWN_ALG
 import de.rki.coronawarnapp.util.encoding.base64
+import okio.ByteString.Companion.toByteString
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -36,9 +37,9 @@ class DccCoseDecoder @Inject constructor(
     fun decodeDscMessage(input: RawCOSEObject): DscMessage = try {
         val dscMsgObject = CBORObject.DecodeFromBytes(input).validate()
         DscMessage(
-            protectedHeader = dscMsgObject.extractProtectedHeader(),
-            payload = dscMsgObject.extractPayloadBytes(),
-            signature = dscMsgObject.extractSignature(),
+            protectedHeader = dscMsgObject.extractProtectedHeader().toByteString(),
+            payload = dscMsgObject.extractPayloadBytes().toByteString(),
+            signature = dscMsgObject.extractSignature().toByteString(),
             kid = dscMsgObject.extractKid(),
             algorithm = dscMsgObject.extractAlgorithm()
         )
