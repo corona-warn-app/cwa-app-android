@@ -54,14 +54,23 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
                 it.certificate?.let { certificate -> bindCertificateViews(certificate) }
-                val background = when {
+                var background = when {
                     it.isImmune -> R.drawable.certificate_complete_gradient
                     else -> R.drawable.vaccination_incomplete
                 }
 
-                val europaIcon = when {
+                var europaIcon = when {
                     it.isImmune -> R.drawable.ic_eu_stars_blue
                     else -> R.drawable.ic_eu_stars_grey
+                }
+
+                if (QrCodeHelper.isInvalidOrExpired(viewModel.getCovidCertificate().getState())) {
+                    qrCodeCard.image.alpha = 0.1f
+                    qrCodeCard.invalidQrCodeSymbol.isVisible = true
+                    europaIcon = R.drawable.ic_eu_stars_grey
+                    background = R.drawable.vaccination_incomplete
+                } else {
+                    qrCodeCard.invalidQrCodeSymbol.isVisible = false
                 }
 
                 expandedImage.setImageResource(background)
@@ -160,12 +169,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         certificateIssuer.text = certificate.certificateIssuer
         certificateId.text = certificate.certificateId
         oneShotInfo.isVisible = certificate.totalSeriesOfDoses == 1
-        if (QrCodeHelper.isInvalidOrExpired(certificate.getState())) {
-            qrCodeCard.image.alpha = 0.1f
-            qrCodeCard.invalidQrCodeSymbol.isVisible = true
-        } else {
-            qrCodeCard.invalidQrCodeSymbol.isVisible = false
-        }
+
         expirationNotice.expirationDate.text = getString(
             R.string.expiration_date,
             certificate.headerExpiresAt.toShortDayFormat()

@@ -84,8 +84,11 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         if (QrCodeHelper.isInvalidOrExpired(certificate.getState())) {
             qrCodeCard.image.alpha = 0.1f
             qrCodeCard.invalidQrCodeSymbol.isVisible = true
+            europaImage.setImageResource(R.drawable.ic_eu_stars_grey);
+            expandedImage.setImageResource(R.drawable.vaccination_incomplete)
         } else {
             qrCodeCard.invalidQrCodeSymbol.isVisible = false
+            expandedImage.setImageResource(R.drawable.certificate_complete_gradient)
         }
         expirationNotice.expirationDate.text = getString(
             R.string.expiration_date,

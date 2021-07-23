@@ -5,7 +5,8 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 object QrCodeHelper {
 
     fun isInvalidOrExpired(state: CwaCovidCertificate.State): Boolean {
-        return when (state) {
+        return true
+        /* return when (state) {
             is CwaCovidCertificate.State.Invalid,
             is CwaCovidCertificate.State.Expired -> {
                 true
@@ -14,7 +15,7 @@ object QrCodeHelper {
             is CwaCovidCertificate.State.Valid -> {
                 false
             }
-        }
+        } */
     }
 
     const val sampleQrCodeText =
