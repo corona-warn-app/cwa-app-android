@@ -34,9 +34,10 @@ class PersonDetailsQrCard(parent: ViewGroup) :
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
 
-        var qrCodeString = curItem.certificate.qrCode
-        if (QrCodeHelper.isInvalidOrExpired(curItem.certificate.getState())) {
-            qrCodeString = QrCodeHelper.sampleQrCodeText
+        val qrCodeString = if (QrCodeHelper.isInvalidOrExpired(curItem.certificate.getState())) {
+            QrCodeHelper.sampleQrCodeText
+        } else {
+            curItem.certificate.qrCode
         }
 
         curItem.apply {
