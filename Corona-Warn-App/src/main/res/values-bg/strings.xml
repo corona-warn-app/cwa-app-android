@@ -1529,6 +1529,8 @@
     <string name="statistics_add_card_title">"Добавяне на 7-дневна заболеваемост на местно ниво"</string>
     <!-- XTXT: Statistics add card warning -->
     <string name="statistics_add_card_warning">"Достигнато максимално ниво на заболеваемост на 7-дневна база на местно ниво."</string>
+    <!-- XTXT: Statistics add screen whole state -->
+    <string name="statistics_local_incidence_whole_state_text">"Национално ниво"</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility
