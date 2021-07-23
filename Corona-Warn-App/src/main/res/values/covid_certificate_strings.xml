@@ -256,6 +256,6 @@
     <!-- XHED: travel country for the validation failed card  -->
     <string name="validation_rules_acceptance_country">"This is a rule of your destination country, %s."</string>
     <!-- XHED: issuer country for the validation failed card  -->
-    <string name="validation_rules_invalidation_country">"This is a rule of the issuing country, %s."</string>
+    <string name="validation_rules_invalidation_country">"This is a rule of the issuing country."</string>
 
 </resources>

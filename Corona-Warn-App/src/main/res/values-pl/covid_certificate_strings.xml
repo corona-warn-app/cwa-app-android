@@ -256,6 +256,6 @@
     <!-- XHED: travel country for the validation failed card  -->
     <string name="validation_rules_acceptance_country">"To jest zasada obowiązująca w kraju docelowym, %s."</string>
     <!-- XHED: issuer country for the validation failed card  -->
-    <string name="validation_rules_invalidation_country">"To jest zasada obowiązująca w kraju wydającym, %s."</string>
+    <string name="validation_rules_invalidation_country">"To jest zasada obowiązująca w kraju wydającym."</string>
 
 </resources>
