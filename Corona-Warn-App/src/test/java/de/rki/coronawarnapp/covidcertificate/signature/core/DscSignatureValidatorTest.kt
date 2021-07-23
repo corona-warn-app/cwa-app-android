@@ -8,6 +8,7 @@ import okio.ByteString.Companion.decodeBase64
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import de.rki.coronawarnapp.util.toOkioByteString
 import timber.log.Timber
 import javax.inject.Inject
 
