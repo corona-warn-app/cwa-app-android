@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.notification.RATTestResultAvailableNotificationService
+import de.rki.coronawarnapp.covidcertificate.signature.core.execution.DccStateCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalScheduler
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.execution.VaccinationUpdateScheduler
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
@@ -84,6 +85,7 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var rollingLogHistory: Timber.Tree
     @MockK lateinit var environmentSetup: EnvironmentSetup
     @MockK lateinit var imageLoaderFactory: ImageLoaderFactory
+    @MockK lateinit var dscCheckScheduler: DccStateCheckScheduler
 
     @BeforeEach
     fun setup() {
@@ -144,6 +146,7 @@ class CoronaWarnApplicationTest : BaseTest() {
                 }
                 app.environmentSetup = environmentSetup
                 app.imageLoaderFactory = imageLoaderFactory
+                app.dccStateCheckScheduler = dscCheckScheduler
             }
         }
     }
@@ -183,6 +186,7 @@ class CoronaWarnApplicationTest : BaseTest() {
             autoCheckOut.setupMonitor()
             traceLocationDbCleanupScheduler.scheduleDaily()
             shareTestResultNotificationService.setup()
+            dscCheckScheduler.setup()
         }
     }
 }

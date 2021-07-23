@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.databinding.FragmentRecoveryCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
@@ -74,6 +75,10 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         certificationPeriodStart.text = certificate.validFromFormatted
         certificationPeriodEnd.text = certificate.validUntilFormatted
         certificateId.text = certificate.certificateId
+        expirationNotice.expirationDate.text = getString(
+            R.string.expiration_date,
+            certificate.headerExpiresAt.toShortDayFormat()
+        )
 
         qrCodeCard.apply {
             image.loadAny(CoilQrCode(content = certificate.qrCode)) {

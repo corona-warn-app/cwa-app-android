@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertifi
 import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
@@ -146,6 +147,10 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         certificateIssuer.text = certificate.certificateIssuer
         certificateId.text = certificate.certificateId
         oneShotInfo.isVisible = certificate.totalSeriesOfDoses == 1
+        expirationNotice.expirationDate.text = getString(
+            R.string.expiration_date,
+            certificate.headerExpiresAt.toShortDayFormat()
+        )
     }
 
     private fun setToolbarOverlay() {

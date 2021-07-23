@@ -75,14 +75,14 @@ class EnvironmentSetup @Inject constructor(
     var currentEnvironment: Type
         get() {
             return prefs
-                .getString(PKEY_CURRENT_ENVINROMENT, null)
+                .getString(PKEY_CURRENT_ENVIRONMENT, null)
                 ?.toEnvironmentType() ?: defaultEnvironment
         }
         set(value) {
             if (CWADebug.buildFlavor == CWADebug.BuildFlavor.DEVICE_FOR_TESTERS) {
                 Timber.i("Changing currentEnvironment to $value")
                 prefs.edit {
-                    putString(PKEY_CURRENT_ENVINROMENT, value.rawKey)
+                    putString(PKEY_CURRENT_ENVIRONMENT, value.rawKey)
                 }
             } else {
                 Timber.w("Tried to change currentEnvironment in PRODUCTION mode.")
@@ -146,6 +146,6 @@ class EnvironmentSetup @Inject constructor(
         get() = getEnvironmentValue(DCC).asString
 
     companion object {
-        private const val PKEY_CURRENT_ENVINROMENT = "environment.current"
+        private const val PKEY_CURRENT_ENVIRONMENT = "environment.current"
     }
 }

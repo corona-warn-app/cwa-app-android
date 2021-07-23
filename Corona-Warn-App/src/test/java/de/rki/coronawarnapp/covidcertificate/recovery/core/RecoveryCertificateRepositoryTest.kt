@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.RecoveryQrCodeTestData
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateStorage
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.StoredRecoveryCertificateData
+import de.rki.coronawarnapp.covidcertificate.signature.core.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyTestCertificateValueSets
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyVaccinationValueSets
@@ -32,6 +33,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var storage: RecoveryCertificateStorage
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
+    @MockK lateinit var dccStateChecker: DccStateChecker
 
     @Inject lateinit var qrCodeExtractor: DccQrCodeExtractor
 
@@ -63,6 +65,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
         storage = storage,
         valueSetsRepository = valueSetsRepository,
         qrCodeExtractor = qrCodeExtractor,
+        dccStateChecker = dccStateChecker,
     )
 
     @Test
