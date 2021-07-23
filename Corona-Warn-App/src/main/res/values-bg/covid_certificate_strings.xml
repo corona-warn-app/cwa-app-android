@@ -256,6 +256,6 @@
     <!-- XHED: travel country for the validation failed card  -->
     <string name="validation_rules_acceptance_country">"Това е правило в държавата, където отивате: %s."</string>
     <!-- XHED: issuer country for the validation failed card  -->
-    <string name="validation_rules_invalidation_country">"Това е правило в държавата, където е издаден сертификатът: %s."</string>
+    <string name="validation_rules_invalidation_country">"Това е правило в държавата, където е издаден сертификатът."</string>
 
 </resources>

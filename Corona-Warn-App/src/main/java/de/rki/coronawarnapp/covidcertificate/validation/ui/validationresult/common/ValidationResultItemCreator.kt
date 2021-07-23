@@ -43,7 +43,7 @@ class ValidationResultItemCreator @Inject constructor() {
         }
 
         val ruleDescription = rule.getRuleDescription().toLazyString()
-        val countryInformation = rule.getCountryDescription(certificate)
+        val countryInformation = rule.getCountryDescription()
 
         val affectedFields = mapAffectedFields(rule.affectedFields, certificate)
 
@@ -135,12 +135,10 @@ class ValidationResultItemCreator @Inject constructor() {
     }
 
     // Apply rules from tech spec to decide which rule description to display
-    private fun DccValidationRule.getCountryDescription(certificate: CwaCovidCertificate): LazyString = when (typeDcc) {
+    private fun DccValidationRule.getCountryDescription(): LazyString = when (typeDcc) {
         DccValidationRule.Type.ACCEPTANCE -> R.string.validation_rules_acceptance_country.toResolvingString(
             DccCountry(country).displayName()
         )
-        DccValidationRule.Type.INVALIDATION -> R.string.validation_rules_invalidation_country.toResolvingString(
-            certificate.certificateCountry
-        )
+        DccValidationRule.Type.INVALIDATION -> R.string.validation_rules_invalidation_country.toResolvingString()
     }
 }

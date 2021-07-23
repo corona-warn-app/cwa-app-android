@@ -257,7 +257,7 @@
     <!-- XHED: travel country for the validation failed card  -->
     <string name="validation_rules_acceptance_country">"Dies ist eine Regel des Reiselandes %s."</string>
     <!-- XHED: issuer country for the validation failed card  -->
-    <string name="validation_rules_invalidation_country">"Dies ist eine Regel des Ausstellerlandes %s."</string>
+    <string name="validation_rules_invalidation_country">"Dies ist eine Regel des Ausstellerlandes."</string>
 
 
     <!-- XHED: Vaccination Detail expiration Date title -->
