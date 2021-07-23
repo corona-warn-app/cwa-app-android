@@ -258,4 +258,9 @@
     <!-- XHED: issuer country for the validation failed card  -->
     <string name="validation_rules_invalidation_country">"Bu, düzenleyen ülke olan %s için geçerli bir kural."</string>
 
+    <!-- XTXT: Validation start privacy title -->
+    <string name="validation_start_privacy_title">"Gizlilik ve Veri Güvenliği"</string>
+    <!-- XTXT: Validation start privacy title -->
+    <string name="validation_start_privacy_body">"Güncel giriş kuralları RKI sunucularından indirilir. Bunun için internet bağlantısı gereklidir. Erişim verileri RKI\'ye aktarılır."</string>
+
 </resources>
