@@ -56,11 +56,7 @@ open class InvalidHealthCertificateException(
         HC_DSC_EXPIRED("DSC expired."),
     }
 
-    open val showFaqButton: Boolean
-        get() = errorCode in codesCertificateInvalid
-    open val faqButtonText: Int = R.string.error_button_dcc_faq
-    open val faqLink: Int = R.string.error_button_dcc_faq_link
-
+    val isCertificateInvalid: Boolean get() = errorCode in codesCertificateInvalid
     private val codesCertificateInvalid = listOf(
         ErrorCode.HC_BASE45_DECODING_FAILED,
         ErrorCode.HC_CBOR_DECODING_FAILED,
@@ -73,6 +69,11 @@ open class InvalidHealthCertificateException(
         ErrorCode.HC_CWT_NO_HCERT,
         ErrorCode.HC_CWT_NO_ISS,
         ErrorCode.HC_JSON_SCHEMA_INVALID
+    )
+
+    val isSignatureInvalid: Boolean get() = errorCode in signatureErrorCodes
+    private val signatureErrorCodes = listOf<ErrorCode>(
+        // TODO add from EXPOSUREAPP-8365
     )
 
     open val errorMessage: LazyString
