@@ -11,11 +11,15 @@ interface VaccinationCertificate : CwaCovidCertificate {
     val vaccinatedOn: LocalDate
     val vaccinatedOnFormatted: String
     val targetDisease: String
-    val vaccineTypeName: String
     val vaccineManufacturer: String
-    val medicalProductName: String
     val doseNumber: Int
     val totalSeriesOfDoses: Int
+
+    // To avoid further confusion:
+    // vp
+    val vaccineTypeName: String
+    // mp
+    val medicalProductName: String
 
     override val rawCertificate: VaccinationDccV1
 
