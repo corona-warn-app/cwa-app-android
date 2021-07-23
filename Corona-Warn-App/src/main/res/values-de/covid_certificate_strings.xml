@@ -274,6 +274,8 @@
     <string name="dcc_signature_validation_dialog_message">Die Signatur des Zertifikats ist ungültig. Das Zertifikat kann nicht als Nachweis verwendet werden und daher nicht importiert werden (%1$s).</string>
     <!-- XBUT: Signature validation dialog FAQ button-->
     <string name="dcc_signature_validation_dialog_faq_button">FAQ zur Signaturprüfung</string>
+    <!-- XTXT: Signature validation dialog FAQ lint-->
+    <string name="dcc_signature_validation_dialog_faq_link">https://www.coronawarn.app/de/faq/#hc_signature_invalid</string>
     <!-- XBUT: Signature validation dialog OK button-->
     <string name="dcc_signature_validation_dialog_ok_button">OK</string>
 </resources>
