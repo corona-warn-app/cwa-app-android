@@ -1,9 +1,13 @@
 package de.rki.coronawarnapp.ui.coronatest.rat.profile.create
 
 import android.os.Bundle
+import android.telephony.PhoneNumberFormattingTextWatcher
+import android.util.Patterns
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
@@ -55,10 +59,41 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
             zipCodeInputEdit.doAfterTextChanged { viewModel.zipCodeChanged(it.toString()) }
 
             // Phone
-            phoneInputEdit.doAfterTextChanged { viewModel.phoneChanged(it.toString()) }
+            phoneInputEdit.doAfterTextChanged {
+                // Propagate phone number to view model if it matches the pattern
+                if (Patterns.PHONE.matcher(it.toString()).matches()) {
+                    viewModel.phoneChanged(it.toString())
+                } else {
+                    viewModel.phoneChanged("")
+                }
+            }
+            phoneInputEdit.setOnFocusChangeListener { _, hasFocus ->
+                // Validate phone number
+                if (!hasFocus && !Patterns.PHONE.matcher(phoneInputEdit.text.toString()).matches()) {
+                    phoneInputLayout.error = getRoot().getResources().getString(R.string.rat_profile_create_phone_error)
+                } else {
+                    phoneInputLayout.error = null
+                }
+            }
+            phoneInputEdit.addTextChangedListener(PhoneNumberFormattingTextWatcher())
 
             // E-mail
-            emailInputEdit.addEmojiFilter().doAfterTextChanged { viewModel.emailChanged(it.toString()) }
+            emailInputEdit.addEmojiFilter().doAfterTextChanged {
+                // Propagate email to view model if it matches the pattern
+                if (Patterns.EMAIL_ADDRESS.matcher(it.toString()).matches()) {
+                    viewModel.emailChanged(it.toString())
+                } else {
+                    viewModel.emailChanged("")
+                }
+            }
+            emailInputEdit.setOnFocusChangeListener { _, hasFocus ->
+                // Validate email
+                if (!hasFocus && !Patterns.EMAIL_ADDRESS.matcher(emailInputEdit.text.toString()).matches()) {
+                    emailInputLayout.error = getRoot().getResources().getString(R.string.rat_profile_create_email_error)
+                } else {
+                    emailInputLayout.error = null
+                }
+            }
 
             viewModel.profile.observe(viewLifecycleOwner) { profileSaveButton.isEnabled = it.isValid }
             viewModel.latestProfile.observe(viewLifecycleOwner) { it?.let { bindProfile(it) } }
@@ -88,8 +123,13 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
     }
 
     private fun openDatePicker() {
+        // Only allow date selections in the past
+        val constraintsBuilder = CalendarConstraints.Builder()
+            .setValidator(DateValidatorPointBackward.now())
+
         MaterialDatePicker.Builder
             .datePicker()
+            .setCalendarConstraints(constraintsBuilder.build())
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
