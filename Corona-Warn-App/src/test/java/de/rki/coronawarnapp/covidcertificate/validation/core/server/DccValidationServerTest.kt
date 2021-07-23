@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.Dc
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountryApi
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRuleApi
+import de.rki.coronawarnapp.exception.http.CwaUnknownHostException
 import de.rki.coronawarnapp.util.security.SignatureValidation
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -19,6 +20,7 @@ import okhttp3.Cache
 import okhttp3.ResponseBody.Companion.toResponseBody
 import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.decodeHex
+import okio.IOException
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import retrofit2.Response
@@ -102,6 +104,33 @@ class DccValidationServerTest : BaseIOTest() {
         shouldThrow<DccValidationException> {
             server.dccCountryJson()
         }.errorCode shouldBe DccValidationException.ErrorCode.ONBOARDED_COUNTRIES_JSON_ARCHIVE_SIGNATURE_INVALID
+    }
+
+    @Test
+    fun `dcc countries maps network error`() = runBlockingTest {
+        coEvery { countryApi.onboardedCountries() } throws CwaUnknownHostException(cause = IOException())
+
+        shouldThrow<DccValidationException> {
+            createInstance().dccCountryJson()
+        }.errorCode shouldBe DccValidationException.ErrorCode.NO_NETWORK
+    }
+
+    @Test
+    fun `acceptance rules maps network error`() = runBlockingTest {
+        coEvery { rulesApi.acceptanceRules() } throws CwaUnknownHostException(cause = IOException())
+
+        shouldThrow<DccValidationException> {
+            createInstance().ruleSetJson(DccValidationRule.Type.ACCEPTANCE)
+        }.errorCode shouldBe DccValidationException.ErrorCode.NO_NETWORK
+    }
+
+    @Test
+    fun `invalidation rules maps network error`() = runBlockingTest {
+        coEvery { rulesApi.invalidationRules() } throws CwaUnknownHostException(cause = IOException())
+
+        shouldThrow<DccValidationException> {
+            createInstance().ruleSetJson(DccValidationRule.Type.INVALIDATION)
+        }.errorCode shouldBe DccValidationException.ErrorCode.NO_NETWORK
     }
 
     @Test
