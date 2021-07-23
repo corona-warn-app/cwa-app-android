@@ -9,6 +9,8 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.NavGraphDirections
@@ -123,15 +125,22 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
         .create()
         .show()
 
-    private fun openDatePicker() = MaterialDatePicker.Builder
-        .datePicker()
-        .build()
-        .apply {
-            addOnPositiveButtonClickListener { timestamp ->
-                val localDate = LocalDate(timestamp)
-                binding.dateInputEdit.setText(localDate.toDayFormat())
-                viewModel.birthDateChanged(localDate)
+    private fun openDatePicker() {
+        // Only allow date selections in the past
+        val constraintsBuilder = CalendarConstraints.Builder()
+            .setValidator(DateValidatorPointBackward.now())
+
+        MaterialDatePicker.Builder
+            .datePicker()
+            .setCalendarConstraints(constraintsBuilder.build())
+            .build()
+            .apply {
+                addOnPositiveButtonClickListener { timestamp ->
+                    val localDate = LocalDate(timestamp)
+                    binding.dateInputEdit.setText(localDate.toDayFormat())
+                    viewModel.birthDateChanged(localDate)
+                }
             }
-        }
-        .show(childFragmentManager, "RequestGreenCertificateFragment.MaterialDatePicker")
+            .show(childFragmentManager, "RequestGreenCertificateFragment.MaterialDatePicker")
+    }
 }
