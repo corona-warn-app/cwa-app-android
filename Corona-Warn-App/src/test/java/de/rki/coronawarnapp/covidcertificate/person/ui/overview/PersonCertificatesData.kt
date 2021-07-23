@@ -52,6 +52,11 @@ fun testCertificate(
 ) = object : TestCertificate {
     override fun getState(): CwaCovidCertificate.State = CwaCovidCertificate.State.Valid(expiresAt = Instant.EPOCH)
 
+    override val notifiedExpiredAt: Instant?
+        get() = null
+    override val notifiedExpiresSoonAt: Instant?
+        get() = null
+
     override val containerId: TestCertificateContainerId
         get() = TestCertificateContainerId(UUID.randomUUID().toString())
     override val targetName: String = "targetName"

@@ -99,7 +99,7 @@ class MainActivityViewModelTest : BaseTest() {
     @Test
     fun `User is not onboarded when settings returns NOT_ONBOARDED `() {
         every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.NOT_ONBOARDED
-        every { covidCertificateSettings.isOnboardingDone } returns true
+        every { covidCertificateSettings.isOnboarded } returns mockFlowPreference(true)
         val vm = createInstance()
         vm.onBottomNavSelected()
         vm.isContactDiaryOnboardingDone.value shouldBe false
@@ -108,7 +108,7 @@ class MainActivityViewModelTest : BaseTest() {
     @Test
     fun `User is onboarded when settings returns RISK_STATUS_1_12 `() {
         every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
-        every { covidCertificateSettings.isOnboardingDone } returns true
+        every { covidCertificateSettings.isOnboarded } returns mockFlowPreference(false)
         val vm = createInstance()
         vm.onBottomNavSelected()
         vm.isContactDiaryOnboardingDone.value shouldBe true
@@ -117,7 +117,7 @@ class MainActivityViewModelTest : BaseTest() {
     @Test
     fun `Vaccination is not acknowledged when settings returns false `() {
         every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
-        every { covidCertificateSettings.isOnboardingDone } returns false
+        every { covidCertificateSettings.isOnboarded } returns mockFlowPreference(false)
         val vm = createInstance()
         vm.onBottomNavSelected()
         vm.isVaccinationConsentGiven.value shouldBe false
@@ -126,7 +126,7 @@ class MainActivityViewModelTest : BaseTest() {
     @Test
     fun `Vaccination is acknowledged  when settings returns true `() {
         every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
-        every { covidCertificateSettings.isOnboardingDone } returns true
+        every { covidCertificateSettings.isOnboarded } returns mockFlowPreference(true)
         val vm = createInstance()
         vm.onBottomNavSelected()
         vm.isVaccinationConsentGiven.value shouldBe true

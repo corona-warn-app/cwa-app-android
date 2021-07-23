@@ -61,10 +61,10 @@ class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    fun isVaccinationRegistrationOnboardingDone() = covidCertificateSettings.isOnboardingDone
+    fun isVaccinationRegistrationOnboardingDone() = covidCertificateSettings.isOnboarded.value
 
     fun setVaccinationRegistrationOnboardingDone(value: Boolean) {
-        covidCertificateSettings.isOnboardingDone = value
+        covidCertificateSettings.isOnboarded.update { value }
     }
 
     @AssistedFactory

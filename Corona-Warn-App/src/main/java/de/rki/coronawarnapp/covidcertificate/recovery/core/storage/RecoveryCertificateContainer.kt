@@ -21,7 +21,7 @@ data class RecoveryCertificateContainer(
     internal val data: StoredRecoveryCertificateData,
     private val qrCodeExtractor: DccQrCodeExtractor,
     val isUpdatingData: Boolean = false,
-) : StoredRecoveryCertificate by data, CertificateRepoContainer {
+) : CertificateRepoContainer {
 
     @delegate:Transient
     internal val certificateData: DccData<RecoveryDccV1> by lazy {
@@ -55,6 +55,12 @@ data class RecoveryCertificateContainer(
 
         return object : RecoveryCertificate {
             override fun getState(): CwaCovidCertificate.State = certificateState
+
+            override val notifiedExpiresSoonAt: Instant?
+                get() = data.notifiedExpiresSoonAt
+
+            override val notifiedExpiredAt: Instant?
+                get() = data.notifiedExpiredAt
 
             override val containerId: RecoveryCertificateContainerId
                 get() = this@RecoveryCertificateContainer.containerId
@@ -115,6 +121,8 @@ data class RecoveryCertificateContainer(
 
             override val dccData: DccData<out DccV1.MetaData>
                 get() = certificateData
+
+            override fun toString(): String = "RecoveryCertificate($containerId)"
         }
     }
 }

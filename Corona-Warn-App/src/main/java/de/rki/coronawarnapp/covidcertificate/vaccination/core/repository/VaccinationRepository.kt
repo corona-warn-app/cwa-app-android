@@ -32,6 +32,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.plus
+import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -96,7 +97,7 @@ class VaccinationRepository @Inject constructor(
         )
 
     suspend fun registerCertificate(
-        qrCode: VaccinationCertificateQRCode
+        qrCode: VaccinationCertificateQRCode,
     ): VaccinationCertificate {
         Timber.tag(TAG).v("registerVaccination(qrCode=%s)", qrCode)
 
@@ -204,6 +205,40 @@ class VaccinationRepository @Inject constructor(
             val state = dccStateChecker.checkState(container.certificateData).first()
             container.containerId to state
         }.toMap()
+    }
+
+    suspend fun setNotifiedState(
+        containerId: VaccinationCertificateContainerId,
+        state: CwaCovidCertificate.State,
+        time: Instant?,
+    ) {
+        Timber.tag(TAG).d("setNotifiedAboutState(containerId=$containerId, time=$time)")
+        internalData.updateBlocking {
+            val toUpdatePerson = singleOrNull { it.findVaccination(containerId) != null }
+
+            if (toUpdatePerson == null) {
+                Timber.tag(TAG).w("Couldn't find %s", containerId)
+                return@updateBlocking this
+            }
+
+            val toUpdateVaccination = toUpdatePerson.findVaccination(containerId)!!
+
+            val newVaccination = when (state) {
+                is CwaCovidCertificate.State.Expired -> toUpdateVaccination.copy(notifiedExpiredAt = time)
+                is CwaCovidCertificate.State.ExpiringSoon -> toUpdateVaccination.copy(notifiedExpiresSoonAt = time)
+                else -> throw UnsupportedOperationException("$state is not supported.")
+            }
+
+            newVaccination.qrCodeExtractor = qrCodeExtractor
+
+            val newPerson = toUpdatePerson.copy(
+                data = toUpdatePerson.data.copy(
+                    vaccinations = toUpdatePerson.data.vaccinations.minus(toUpdateVaccination).plus(newVaccination)
+                )
+            )
+
+            this.minus(toUpdatePerson).plus(newPerson)
+        }
     }
 
     companion object {

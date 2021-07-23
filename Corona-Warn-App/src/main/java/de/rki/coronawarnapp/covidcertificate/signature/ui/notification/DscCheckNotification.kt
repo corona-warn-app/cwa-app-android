@@ -18,13 +18,19 @@ class DscCheckNotification @Inject constructor(
     private val deepLinkBuilderFactory: NavDeepLinkBuilderFactory,
 ) {
 
-    suspend fun showDscCheckNotification(containerId: CertificateContainerId) {
-        Timber.d("showDscCheckNotification(containerId=$containerId)")
+    suspend fun showExpiresSoonNotification(containerId: CertificateContainerId): Boolean {
+        Timber.d("showExpiresSoonNotification(containerId=$containerId)")
 
         // TODO
 //        notificationHelper.sendNotification(
 //            NotificationConstants.DSC_STATE_CHECK_NOTIFICATION_ID,
 //            notification
 //        )
+        return true
+    }
+
+    suspend fun showExpiredNotification(containerId: CertificateContainerId): Boolean {
+        Timber.d("showExpiredNotification(containerId=$containerId)")
+        return true
     }
 }

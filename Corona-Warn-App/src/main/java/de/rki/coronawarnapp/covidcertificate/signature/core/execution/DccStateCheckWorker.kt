@@ -6,28 +6,22 @@ import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.signature.core.DccStateChecker
-import de.rki.coronawarnapp.covidcertificate.signature.ui.notification.DscCheckNotification
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
+import timber.log.Timber
 
 class DccStateCheckWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
-    private val dccStateChecker: DccStateChecker,
-    private val dscCheckNotification: DscCheckNotification,
-    private val vaccinationRepository: VaccinationRepository,
-    private val testCertificateRepository: TestCertificateRepository,
-    private val recoveryCertificateRepository: RecoveryCertificateRepository,
+    private val dccStateCheckWork: DccStateCheckWork,
 ) : CoroutineWorker(context, workerParams) {
 
-    override suspend fun doWork(): Result {
-        // TODO
-        // Check certificate states
-        // Show notification if necessary
-        return Result.retry()
+    override suspend fun doWork(): Result = try {
+        dccStateCheckWork.checkStates()
+
+        Result.success()
+    } catch (e: Exception) {
+        Timber.tag(TAG).e(e, "DCC state check failed.")
+        Result.retry()
     }
 
     @AssistedFactory

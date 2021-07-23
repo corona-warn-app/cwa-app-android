@@ -63,10 +63,14 @@ class DccV1Parser @Inject constructor(
                 )
             else this
         Mode.CERT_VAC_LENIENT -> {
-            if (vaccinations.isNullOrEmpty())
-                throw InvalidHealthCertificateException(ErrorCode.NO_VACCINATION_ENTRY)
-            Timber.w("Lenient: Vaccination data contained multiple entries.")
-            copy(vaccinations = listOf(vaccinations.maxByOrNull { it.vaccinatedOn }!!))
+            when {
+                vaccinations.isNullOrEmpty() -> throw InvalidHealthCertificateException(ErrorCode.NO_VACCINATION_ENTRY)
+                vaccinations.size > 1 -> {
+                    Timber.w("Lenient: Vaccination data contained multiple entries.")
+                    copy(vaccinations = listOf(vaccinations.maxByOrNull { it.vaccinatedOn }!!))
+                }
+                else -> this
+            }
         }
         Mode.CERT_REC_STRICT ->
             if (recoveries?.size != 1)
@@ -129,7 +133,8 @@ class DccV1Parser @Inject constructor(
         Mode.CERT_VAC_STRICT,
         Mode.CERT_SINGLE_STRICT,
         Mode.CERT_REC_STRICT,
-        Mode.CERT_TEST_STRICT -> dccJsonSchemaValidator.isValid(this).let {
+        Mode.CERT_TEST_STRICT,
+        -> dccJsonSchemaValidator.isValid(this).let {
             if (it.isValid) return@let this
             throw InvalidHealthCertificateException(
                 errorCode = ErrorCode.HC_JSON_SCHEMA_INVALID,
@@ -138,7 +143,8 @@ class DccV1Parser @Inject constructor(
         }
         Mode.CERT_REC_LENIENT,
         Mode.CERT_TEST_LENIENT,
-        Mode.CERT_VAC_LENIENT -> {
+        Mode.CERT_VAC_LENIENT,
+        -> {
             // We don't check schema in lenient mode, it may affect already stored certificates.
             this
         }
