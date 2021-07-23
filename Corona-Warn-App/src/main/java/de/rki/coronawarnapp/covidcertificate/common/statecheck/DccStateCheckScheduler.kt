@@ -5,6 +5,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultRetrievalWorker
+import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationCheck
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.worker.BackgroundConstants
@@ -24,7 +25,7 @@ class DccStateCheckScheduler @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val foregroundState: ForegroundState,
     private val workManager: WorkManager,
-    private val dccStateCheckWork: DccStateCheckWork,
+    private val dccExpirationCheck: DccExpirationCheck,
 ) {
 
     fun setup() {
@@ -38,7 +39,7 @@ class DccStateCheckScheduler @Inject constructor(
             .distinctUntilChanged()
             .filter { it } // Only when going into foreground
             .onEach {
-                dccStateCheckWork.checkStates()
+                dccExpirationCheck.checkStates()
             }
             .launchIn(appScope)
     }

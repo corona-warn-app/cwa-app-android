@@ -8,6 +8,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationCheck
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
+import timber.log.Timber
 
 class DccStateCheckWorker @AssistedInject constructor(
     @Assisted val context: Context,
@@ -15,9 +16,13 @@ class DccStateCheckWorker @AssistedInject constructor(
     private val dccExpirationCheck: DccExpirationCheck,
 ) : CoroutineWorker(context, workerParams) {
 
-    override suspend fun doWork(): Result {
-        dccExpirationCheck.checkExpirationStates()
-        return Result.retry()
+    override suspend fun doWork(): Result = try {
+        dccExpirationCheck.checkStates()
+
+        Result.success()
+    } catch (e: Exception) {
+        Timber.tag(TAG).e(e, "DCC state check failed.")
+        Result.retry()
     }
 
     @AssistedFactory
