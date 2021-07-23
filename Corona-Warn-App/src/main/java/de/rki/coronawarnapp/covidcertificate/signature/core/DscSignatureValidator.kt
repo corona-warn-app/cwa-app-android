@@ -64,7 +64,7 @@ class DscSignatureValidator @Inject constructor() {
      * @throws InvalidHealthCertificateException if validation fail, otherwise it is OK!
      */
     fun validateSignature(dscData: DscData, dccData: DccData<*>) {
-        Timber.tag(TAG).d("isSignatureValid(dscData=%s,dccData=%s)", dscData, dccData)
+        Timber.tag(TAG).d("validateSignature(dscData=%s,dccData=%s)", dscData, dccData)
         val dscMessage = dccData.dscMessage
 
         val signedPayload = CBORObject.NewArray().apply {
@@ -83,7 +83,7 @@ class DscSignatureValidator @Inject constructor() {
     private fun findDscCertificate(
         dscData: DscData,
         dscMessage: DscMessage,
-        signedPayloadHash: ByteArray
+        dataToVerify: ByteArray
     ): X509Certificate {
         val filteredDscSet = dscData.dscList.filter { it.kid.toByteArray().base64() == dscMessage.kid }
         val matchedDscSet = when {
@@ -94,7 +94,7 @@ class DscSignatureValidator @Inject constructor() {
         var x509Certificate: X509Certificate? = null
         for (dsc in matchedDscSet) {
             val dscCertificate = x509certificate(dsc)
-            val (publicKey, verifier) = when (dscMessage.algorithm) {
+            val (publicKey, signature) = when (dscMessage.algorithm) {
                 ES256 -> dscCertificate.publicKey to dscMessage.signature.toByteArray().toECDSAVerifier()
                 PS256 -> dscCertificate.publicKey.toRsaPublicKey() to dscMessage.signature.toByteArray()
             }
@@ -102,9 +102,11 @@ class DscSignatureValidator @Inject constructor() {
             try {
                 val valid = Signature.getInstance(dscMessage.algorithm.algName).verify(
                     publicKey,
-                    verifier,
-                    signedPayloadHash
+                    dataToVerify,
+                    signature
                 )
+
+                Timber.d("valid=$valid")
 
                 if (valid) {
                     x509Certificate = dscCertificate
@@ -112,7 +114,7 @@ class DscSignatureValidator @Inject constructor() {
                 }
             } catch (ignored: Exception) {
                 // Ignore errors
-                ignored.printStackTrace()
+                ignored.printStackTrace() // TODO remove 
             }
         }
 
@@ -168,13 +170,13 @@ class DscSignatureValidator @Inject constructor() {
     }
 
     private fun Signature.verify(
-        publicKey: PublicKey,
-        verifier: ByteArray,
-        toVerify: ByteArray
+        verificationKey: PublicKey,
+        dataToBeVerify: ByteArray,
+        signature: ByteArray
     ): Boolean {
-        initVerify(publicKey)
-        update(verifier)
-        return verify(toVerify)
+        initVerify(verificationKey)
+        update(dataToBeVerify)
+        return verify(signature)
     }
 
     private fun ByteArray.splitHalves(): Pair<ByteArray, ByteArray> =
