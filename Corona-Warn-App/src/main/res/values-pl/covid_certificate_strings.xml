@@ -258,4 +258,9 @@
     <!-- XHED: issuer country for the validation failed card  -->
     <string name="validation_rules_invalidation_country">"To jest zasada obowiązująca w kraju wydającym."</string>
 
+    <!-- XTXT: Validation start privacy title -->
+    <string name="validation_start_privacy_title">"Prywatność i bezpieczeństwo danych"</string>
+    <!-- XTXT: Validation start privacy title -->
+    <string name="validation_start_privacy_body">"Aktualne zasady dotyczące wjazdu są pobierane z serwerów RKI. Wymaga to połączenia z Internetem. Dane dostępowe są przesyłane do RKI."</string>
+
 </resources>

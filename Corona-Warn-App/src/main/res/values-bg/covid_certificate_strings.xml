@@ -258,4 +258,9 @@
     <!-- XHED: issuer country for the validation failed card  -->
     <string name="validation_rules_invalidation_country">"Това е правило в държавата, където е издаден сертификатът."</string>
 
+    <!-- XTXT: Validation start privacy title -->
+    <string name="validation_start_privacy_title">"Защита на личните данни"</string>
+    <!-- XTXT: Validation start privacy title -->
+    <string name="validation_start_privacy_body">"Текущите правила за въвеждане са изтеглени от сървърите на RKI. Това изисква връзка с Интернет. Данните ви за достъп се изпращат до RKI."</string>
+
 </resources>

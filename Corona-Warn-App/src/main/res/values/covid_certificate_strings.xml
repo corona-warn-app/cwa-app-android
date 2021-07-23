@@ -258,4 +258,9 @@
     <!-- XHED: issuer country for the validation failed card  -->
     <string name="validation_rules_invalidation_country">"This is a rule of the issuing country."</string>
 
+    <!-- XTXT: Validation start privacy title -->
+    <string name="validation_start_privacy_title">"Privacy and Data Security"</string>
+    <!-- XTXT: Validation start privacy title -->
+    <string name="validation_start_privacy_body">"The current entry rules are downloaded from the RKI servers. This requires an internet connection. Access data is transmitted to the RKI."</string>
+
 </resources>
