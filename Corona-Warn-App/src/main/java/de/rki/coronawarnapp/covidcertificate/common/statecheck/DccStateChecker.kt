@@ -1,10 +1,12 @@
-package de.rki.coronawarnapp.covidcertificate.signature.core
+package de.rki.coronawarnapp.covidcertificate.common.statecheck
 
 import androidx.annotation.VisibleForTesting
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
+import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
+import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureValidator
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.daysUntil
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.Flow

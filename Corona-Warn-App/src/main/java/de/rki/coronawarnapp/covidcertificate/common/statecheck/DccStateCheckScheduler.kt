@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.signature.core.execution
+package de.rki.coronawarnapp.covidcertificate.common.statecheck
 
 import androidx.work.BackoffPolicy
 import androidx.work.ExistingPeriodicWorkPolicy

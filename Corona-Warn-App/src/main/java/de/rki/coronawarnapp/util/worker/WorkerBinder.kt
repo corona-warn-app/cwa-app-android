@@ -7,7 +7,7 @@ import dagger.multibindings.IntoMap
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryRetentionWorker
 import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultRetrievalWorker
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultRetrievalWorker
-import de.rki.coronawarnapp.covidcertificate.signature.core.execution.DccStateCheckWorker
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckWorker
 import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalWorker
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.execution.worker.VaccinationUpdateWorker
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsPeriodicWorker

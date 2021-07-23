@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.signature.ui.notification
+package de.rki.coronawarnapp.covidcertificate.expiration
 
 import android.content.Context
 import dagger.Reusable
@@ -11,7 +11,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class DscCheckNotification @Inject constructor(
+class DccExpirationNotification @Inject constructor(
     @AppContext private val context: Context,
     private val foregroundState: ForegroundState,
     private val notificationHelper: DigitalCovidCertificateNotifications,
