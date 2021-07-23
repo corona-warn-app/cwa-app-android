@@ -112,12 +112,12 @@ class DccValidationRepository @Inject constructor(
         }
     }
 
-    private fun mapCountries(rawJson: String): List<DccCountry> {
+    private fun mapCountries(rawJson: String): List<DccCountry> = try {
         val countryCodes = gson.fromJson<List<String>>(rawJson)
 
-        return countryCodes.map { cc ->
-            DccCountry(countryCode = cc)
-        }
+        countryCodes.map { cc -> DccCountry(countryCode = cc) }
+    } catch (e: Exception) {
+        throw DccValidationException(ErrorCode.ONBOARDED_COUNTRIES_JSON_DECODING_FAILED, e)
     }
 
     private fun String?.toRuleSet(): List<DccValidationRule> {
