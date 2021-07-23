@@ -107,8 +107,8 @@ class DscSignatureValidator @Inject constructor() {
                     dataToVerify,
                     signature
                 )
-                Timber.d("DSC with kid =${dsc.kid.toByteArray().base64()} valid=$valid")
 
+                Timber.d("DSC with kid =${dsc.kid} valid=$valid")
                 if (valid) {
                     x509Certificate = dscCertificate
                     break
