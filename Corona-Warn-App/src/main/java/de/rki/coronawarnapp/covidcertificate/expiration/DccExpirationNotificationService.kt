@@ -16,7 +16,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DccExpirationCheck @Inject constructor(
+class DccExpirationNotificationService @Inject constructor(
     private val dscCheckNotification: DccExpirationNotification,
     private val vaccinationRepository: VaccinationRepository,
     private val recoveryRepository: RecoveryCertificateRepository,
@@ -25,7 +25,7 @@ class DccExpirationCheck @Inject constructor(
 ) {
     private val mutex = Mutex()
 
-    suspend fun checkStates() = mutex.withLock {
+    suspend fun showNotificationIfExpired() = mutex.withLock {
         Timber.tag(TAG).v("checkStates()")
 
         val lastCheck = covidCertificateSettings.lastDccStateBackgroundCheck.value
@@ -83,6 +83,6 @@ class DccExpirationCheck @Inject constructor(
     }
 
     companion object {
-        private val TAG = DccExpirationCheck::class.java.simpleName
+        private val TAG = DccExpirationNotificationService::class.java.simpleName
     }
 }

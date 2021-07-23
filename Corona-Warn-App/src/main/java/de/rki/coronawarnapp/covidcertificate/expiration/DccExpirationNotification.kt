@@ -4,6 +4,7 @@ import android.content.Context
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.notification.DigitalCovidCertificateNotifications
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
+import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.notifications.NavDeepLinkBuilderFactory
@@ -16,6 +17,7 @@ class DccExpirationNotification @Inject constructor(
     private val foregroundState: ForegroundState,
     private val notificationHelper: DigitalCovidCertificateNotifications,
     private val deepLinkBuilderFactory: NavDeepLinkBuilderFactory,
+    private val cwaSettings: CWASettings,
 ) {
 
     suspend fun showExpiresSoonNotification(containerId: CertificateContainerId): Boolean {

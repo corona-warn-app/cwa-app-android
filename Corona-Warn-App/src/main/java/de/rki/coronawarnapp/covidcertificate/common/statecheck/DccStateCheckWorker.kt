@@ -6,18 +6,18 @@ import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationCheck
+import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import timber.log.Timber
 
 class DccStateCheckWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
-    private val dccExpirationCheck: DccExpirationCheck,
+    private val dccExpirationNotificationService: DccExpirationNotificationService,
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result = try {
-        dccExpirationCheck.checkStates()
+        dccExpirationNotificationService.showNotificationIfExpired()
 
         Result.success()
     } catch (e: Exception) {
