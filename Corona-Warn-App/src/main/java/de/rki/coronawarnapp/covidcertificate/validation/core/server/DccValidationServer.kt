@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.server
 
-import androidx.annotation.VisibleForTesting
 import com.upokecenter.cbor.CBORObject
 import dagger.Lazy
 import dagger.Reusable
@@ -10,6 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.Dc
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountryApi
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRuleApi
+import de.rki.coronawarnapp.exception.http.CwaUnknownHostException
 import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
 import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -39,46 +39,54 @@ class DccValidationServer @Inject constructor(
 
     suspend fun ruleSetJson(ruleTypeDcc: DccValidationRule.Type): String = withContext(dispatcherProvider.IO) {
         try {
+            Timber.tag(TAG).v("Fetching $ruleTypeDcc rule set...")
             when (ruleTypeDcc) {
-                DccValidationRule.Type.ACCEPTANCE -> {
-                    rulesApi.acceptanceRules().parseAndValidate(
-                        ErrorCode.ACCEPTANCE_RULE_JSON_ARCHIVE_FILE_MISSING,
-                        ErrorCode.ACCEPTANCE_RULE_JSON_ARCHIVE_SIGNATURE_INVALID,
-                        ErrorCode.ACCEPTANCE_RULE_JSON_EXTRACTION_FAILED,
-                    )
-                }
-                DccValidationRule.Type.INVALIDATION -> {
-                    rulesApi.invalidationRules().parseAndValidate(
-                        ErrorCode.INVALIDATION_RULE_JSON_ARCHIVE_FILE_MISSING,
-                        ErrorCode.INVALIDATION_RULE_JSON_ARCHIVE_SIGNATURE_INVALID,
-                        ErrorCode.INVALIDATION_RULE_JSON_EXTRACTION_FAILED,
-                    )
-                }
+                DccValidationRule.Type.ACCEPTANCE -> rulesApi.acceptanceRules().parseAndValidate(
+                    ErrorCode.ACCEPTANCE_RULE_JSON_ARCHIVE_FILE_MISSING,
+                    ErrorCode.ACCEPTANCE_RULE_JSON_ARCHIVE_SIGNATURE_INVALID,
+                    ErrorCode.ACCEPTANCE_RULE_JSON_EXTRACTION_FAILED,
+                )
+                DccValidationRule.Type.INVALIDATION -> rulesApi.invalidationRules().parseAndValidate(
+                    ErrorCode.INVALIDATION_RULE_JSON_ARCHIVE_FILE_MISSING,
+                    ErrorCode.INVALIDATION_RULE_JSON_ARCHIVE_SIGNATURE_INVALID,
+                    ErrorCode.INVALIDATION_RULE_JSON_EXTRACTION_FAILED,
+                )
             }
         } catch (e: Exception) {
-            if (e is DccValidationException) throw e
-            Timber.e(e, "Getting rule set from server failed cause: ${e.message}")
-            throw DccValidationException(ErrorCode.ACCEPTANCE_RULE_SERVER_ERROR, e)
+            Timber.e(e, "Getting $ruleTypeDcc rule set failed.")
+            throw when (e) {
+                is DccValidationException -> e
+                is CwaUnknownHostException -> DccValidationException(ErrorCode.NO_NETWORK, e)
+                else -> {
+                    val type = when (ruleTypeDcc) {
+                        DccValidationRule.Type.ACCEPTANCE -> ErrorCode.ACCEPTANCE_RULE_SERVER_ERROR
+                        DccValidationRule.Type.INVALIDATION -> ErrorCode.INVALIDATION_RULE_SERVER_ERROR
+                    }
+                    DccValidationException(type, e)
+                }
+            }
         }
     }
 
     suspend fun dccCountryJson(): String = withContext(dispatcherProvider.IO) {
-        Timber.tag(TAG).d("Fetching dcc countries.")
         try {
+            Timber.tag(TAG).v("Fetching dcc countries...")
             countryApi.onboardedCountries().parseAndValidate(
                 ErrorCode.ONBOARDED_COUNTRIES_JSON_ARCHIVE_FILE_MISSING,
                 ErrorCode.ONBOARDED_COUNTRIES_JSON_ARCHIVE_SIGNATURE_INVALID,
                 ErrorCode.ONBOARDED_COUNTRIES_JSON_EXTRACTION_FAILED,
             )
         } catch (e: Exception) {
-            if (e is DccValidationException) throw e
-            Timber.tag(TAG).e(e, "CBOR decoding binary to json failed.")
-            throw DccValidationException(ErrorCode.ONBOARDED_COUNTRIES_JSON_DECODING_FAILED, e)
+            Timber.tag(TAG).e(e, "Getting dcc countries failed.")
+            throw when (e) {
+                is DccValidationException -> e
+                is CwaUnknownHostException -> DccValidationException(ErrorCode.NO_NETWORK, e)
+                else -> DccValidationException(ErrorCode.ONBOARDED_COUNTRIES_SERVER_ERROR, e)
+            }
         }
     }
 
-    @VisibleForTesting
-    internal fun Response<ResponseBody>.parseAndValidate(
+    private fun Response<ResponseBody>.parseAndValidate(
         fileMissingErrorCode: ErrorCode,
         invalidSignatureErrorCode: ErrorCode,
         extractionFailedCode: ErrorCode
@@ -114,6 +122,6 @@ class DccValidationServer @Inject constructor(
     companion object {
         private const val EXPORT_BINARY_FILE_NAME = "export.bin"
         private const val EXPORT_SIGNATURE_FILE_NAME = "export.sig"
-        private const val TAG = "DccCountryServer"
+        private const val TAG = "DccValidationServer"
     }
 }
