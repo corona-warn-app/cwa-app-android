@@ -18,15 +18,17 @@ import javax.inject.Singleton
 class AppShortcutsHelper @Inject constructor(@AppContext private val context: Context) {
 
     suspend fun restoreAppShortcut() = withContext(Dispatchers.IO) {
-        if (ShortcutManagerCompat.getDynamicShortcuts(context).size == 0) {
-            val shortcut = ShortcutInfoCompat.Builder(context, CONTACT_DIARY_SHORTCUT_ID)
-                .setShortLabel(context.getString(R.string.app_shortcut_contact_diary_title))
-                .setLongLabel(context.getString(R.string.app_shortcut_contact_diary_title))
-                .setIcon(IconCompat.createWithResource(context, R.drawable.ic_contact_diary_shortcut_icon))
-                .setIntent(createContactDiaryIntent())
-                .build()
+        val shortcut = ShortcutInfoCompat.Builder(context, CONTACT_DIARY_SHORTCUT_ID)
+            .setShortLabel(context.getString(R.string.app_shortcut_contact_diary_title))
+            .setLongLabel(context.getString(R.string.app_shortcut_contact_diary_title))
+            .setIcon(IconCompat.createWithResource(context, R.drawable.ic_contact_diary_shortcut_icon))
+            .setIntent(createContactDiaryIntent())
+            .build()
 
+        if (ShortcutManagerCompat.getDynamicShortcuts(context).size == 0) {
             ShortcutManagerCompat.addDynamicShortcuts(context, listOf(shortcut))
+        } else {
+            ShortcutManagerCompat.updateShortcuts(context, listOf(shortcut))
         }
     }
 
