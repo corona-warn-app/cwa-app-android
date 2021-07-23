@@ -1,7 +1,12 @@
 package de.rki.coronawarnapp.covidcertificate.signature.core
 
-import de.rki.coronawarnapp.server.protocols.internal.dgc.DscListOuterClass.DscListItem
+import okio.ByteString
 
 data class DscData(
-    val dscList: List<DscListItem>
+    val dscList: List<DscItem>
+)
+
+data class DscItem(
+    val kid: String,
+    val data: ByteString
 )

@@ -2,11 +2,13 @@ package de.rki.coronawarnapp.covidcertificate.signature.core
 
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DscMessage
 import de.rki.coronawarnapp.server.protocols.internal.dgc.DscListOuterClass
 import okio.ByteString.Companion.decodeBase64
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import timber.log.Timber
 import javax.inject.Inject
 
 @Suppress("MaxLineLength")
@@ -24,16 +26,34 @@ class DscSignatureValidatorTest : BaseTest() {
 
     private val vaccinationCer =
         "HC1:6BF680-80T9WJWG.FKY*4GO0N4G7/3QHA2GUFBB853*70HS8FN0GMCGZSWY0UBCHCMD97TK0F90KECTHGWJC0FDQ%5AIA%G7X+AQB9746HS80:5%IBPB8646\$A8.BAG+97697:6WNAV+90Z9NH9I:6ZYA\$X9Y57UPC1JCWY8FVCBJ0LVC6JD846Y96C465W5EM6+EDXVET3E5\$CSUE6O9NPCSW5F/DBWENWE4WEB\$D% D3IA4W5646646E%6//6.JC\$9EU34..DZPC/EDIEC  C%W5RB88NASN8B+AKF6M-A0LEMW5: CQVDKQEBJ09WEQDD+Q6TW6FA7C466KCK9E2H9G:6V6BFM6GVC*JC1A6ZW63W5+/6846TPCBEC7ZKW.C3 C*ED*KE JC3/D0C8: CZEDZ CW.C7WEZM8EIAMC9I3D9WEDB8AY81C9XY8O/EZKEZ967L6156C68.97JME88KCNRJV9LL6JF01Q8+TMUDK6UK3DWBJA*/UINSZWD7WFIWIU/E5LK%QC\$:PMZE\$D94OTC7SE/LZXOUISZS6C57H8BB0HQ4"
-    private val testCert=
-        "HC1:6BFOXN*TS0BI\$ZDFRH5+FPWF9EIZ.0 AH9M9ESIGUBA K::D+ 1-RI/JV33WCV4*XUA2P-FHT-HNTI4L6Q*U%UG/YL WO*Z7ON15 B60V8UK2U3ON1XT3L-HHX75OGQ*FL-H3W73*NF\$R0 N1X79K0XWINTICZUC4TE.K6ZCY73JC3DG3LWT HB/-K6I8*/GVON./G*DDJ8EFK0N\$K.SS\$FKV\$K0MKYX0U/VFP1ZBQ.SSZ%P-RQA KZ*U0I1-I0*OC6H0HXMP\$I/XK\$M8 M96YBBOAVK0B-S-*O5W41FD+FB:A3S\$COA77JJ7Y89NT%HJQZ8\$HFZJJ0OP KP8EF+FBO*3:EC4*7W2KBE89NT+X4A.DS0IJ5QOMOK9WF%CD 810H54PNY0D 1.7QF8P6XBN1COFEK4KQ3O:NDCAU48GCHUBTISCDZ2D32G4AKRK3NLI7OEV1FTWIA\$DLLNIBNT.8S8UZ DP+JHJLOY0*Y0JMC :U030EBH+2"
+    private val rc =
+        "HC1:6BFOXN*TS0BI\$ZD8UHRTHZDE+VJG\$LM0IE3NAD61:OLX8:PT3G4/+62XGZHFPV5-FJLF6EB9UM97H98\$QJEQ8999Q9E\$BLZIA9JQ-JPEB8IIV1J2TS49BGIIZ0KZPIL3UBC3GIIC0JRPIU9T +TWZJ\$7K+ CUED:NK-9C5QDUBJ6+Q4U77Q4UYQD*O%+Q.SQBDO4C53752HPPEPHCR7XB3DON95U/3UEEZ.C3C9S/F\$JDCHHZ4FNLE72MC.BPC9SC95C9PG9AWBKHK6IA8B5C3DGZKCWCJZI+EBR3E%JTQOL2009UVD0HX2JR\$46N3:2V72SQ\$90:P2UK1\$PYZH-R3BU9JD09-N+\$RO0Q2E40TTKKVH*J+ VFUBCVC84WR-RC02BUCUETUSFEIESZGTLRD2TNJB0\$AKY8OWFB M6PUBMR+\$B+PPGQT24FSQCHBK.IFSEUR02I3K6ID-109-KY1"
 
     @Test
     fun validateSignature() {
         val dscList = DscListOuterClass.DscList.parseFrom(dscData.decodeBase64()!!.toByteArray())
         val dscData = DscData(
-            dscList.certificatesList
+            dscList.certificatesList.map {
+                DscItem(
+                    it.kid.toOkioByteString().base64(),
+                    it.data.toOkioByteString()
+                )
+            }
         )
+        val dccData = extractor.extract(rc).data
+        printBase64(dccData.dscMessage)
+        DscSignatureValidator().validateSignature(dscData, dccData)
+    }
 
-        DscSignatureValidator().validateSignature(dscData, extractor.extract(testCert).data)
+    private fun printBase64(dscMessage: DscMessage) {
+        Timber.d(
+            """ 
+                protectedHeader=${dscMessage.protectedHeader.base64()}
+                signature=${dscMessage.signature.base64()}
+                kid=${dscMessage.kid}
+                payload=${dscMessage.payload.base64()}
+                algorithm=${dscMessage.algorithm}
+            """.trimIndent()
+        )
     }
 }

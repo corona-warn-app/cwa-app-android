@@ -16,7 +16,6 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCerti
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_OID_MISMATCH_RC
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_OID_MISMATCH_TC
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_OID_MISMATCH_VC
-import de.rki.coronawarnapp.server.protocols.internal.dgc.DscListOuterClass
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.encoding.base64
 import org.bouncycastle.asn1.ASN1Integer
@@ -64,7 +63,7 @@ class DscSignatureValidator @Inject constructor() {
      * @throws InvalidHealthCertificateException if validation fail, otherwise it is OK!
      */
     fun validateSignature(dscData: DscData, dccData: DccData<*>) {
-        Timber.tag(TAG).d("validateSignature(dscData=%s,dccData=%s)", dscData, dccData)
+        Timber.tag(TAG).d("validateSignature(dscListSize=%s)", dscData.dscList.size)
         val dscMessage = dccData.dscMessage
 
         val signedPayload = CBORObject.NewArray().apply {
@@ -85,11 +84,14 @@ class DscSignatureValidator @Inject constructor() {
         dscMessage: DscMessage,
         dataToVerify: ByteArray
     ): X509Certificate {
-        val filteredDscSet = dscData.dscList.filter { it.kid.toByteArray().base64() == dscMessage.kid }
+        val filteredDscSet = dscData.dscList.filter { it.kid == dscMessage.kid }
+        Timber.d("filteredDscSetSize=${filteredDscSet.size}")
+
         val matchedDscSet = when {
             filteredDscSet.isEmpty() || dscMessage.kid.isEmpty() -> dscData.dscList
             else -> filteredDscSet
         }
+        Timber.d("matchedDscSetSize=${matchedDscSet.size}")
 
         var x509Certificate: X509Certificate? = null
         for (dsc in matchedDscSet) {
@@ -105,8 +107,7 @@ class DscSignatureValidator @Inject constructor() {
                     dataToVerify,
                     signature
                 )
-
-                Timber.d("valid=$valid")
+                Timber.d("DSC with kid =${dsc.kid.toByteArray().base64()} valid=$valid")
 
                 if (valid) {
                     x509Certificate = dscCertificate
@@ -114,15 +115,14 @@ class DscSignatureValidator @Inject constructor() {
                 }
             } catch (ignored: Exception) {
                 // Ignore errors
-                ignored.printStackTrace() // TODO remove 
             }
         }
 
         return x509Certificate ?: throw InvalidHealthCertificateException(HC_DSC_NO_MATCH)
     }
 
-    private fun x509certificate(dscListItem: DscListOuterClass.DscListItem): X509Certificate {
-        return ByteArrayInputStream(dscListItem.data.toByteArray()).use {
+    private fun x509certificate(dscItem: DscItem): X509Certificate {
+        return ByteArrayInputStream(dscItem.data.toByteArray()).use {
             CertificateFactory.getInstance("X.509").generateCertificate(it)
         } as X509Certificate
     }
