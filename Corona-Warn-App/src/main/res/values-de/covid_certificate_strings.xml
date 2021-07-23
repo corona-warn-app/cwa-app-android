@@ -266,4 +266,14 @@
     <string name="expiration_date">Gültig bis %1$s</string>
     <!-- XHED: Vaccination Detail expiration info -->
     <string name="expiration_info">Bitte bemühen Sie sich rechtzeitig darum, einen neuen digitalen Nachweis ausstellen zu lassen.</string>
+
+    <!--    Dcc Signature validation-->
+    <!-- XHED: Signature validation dialog title-->
+    <string name="dcc_signature_validation_dialog_title">Signatur ungültig</string>
+    <!-- XTXT: Signature validation dialog message-->
+    <string name="dcc_signature_validation_dialog_message">Die Signatur des Zertifikats ist ungültig. Das Zertifikat kann nicht als Nachweis verwendet werden und daher nicht importiert werden (%1$s).</string>
+    <!-- XBUT: Signature validation dialog FAQ button-->
+    <string name="dcc_signature_validation_dialog_faq_button">FAQ zur Signaturprüfung</string>
+    <!-- XBUT: Signature validation dialog OK button-->
+    <string name="dcc_signature_validation_dialog_ok_button">OK</string>
 </resources>
