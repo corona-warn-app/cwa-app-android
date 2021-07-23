@@ -36,7 +36,7 @@ interface CwaCovidCertificate {
      * The current state of the certificate, see [State]
      */
     fun getState(): State {
-        //TODO Only for testing - Needs to be updated in the future
+        // TODO Only for testing - Needs to be updated in the future
         return State.Expired(Instant.now())
     }
 
