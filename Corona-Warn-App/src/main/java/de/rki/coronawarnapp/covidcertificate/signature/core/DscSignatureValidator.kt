@@ -16,8 +16,6 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCerti
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_OID_MISMATCH_RC
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_OID_MISMATCH_TC
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_OID_MISMATCH_VC
-import de.rki.coronawarnapp.util.HashExtensions.toSHA256
-import de.rki.coronawarnapp.util.encoding.base64
 import org.bouncycastle.asn1.ASN1Integer
 import org.bouncycastle.asn1.DERSequence
 import org.bouncycastle.asn1.pkcs.RSAPublicKey
@@ -68,12 +66,11 @@ class DscSignatureValidator @Inject constructor() {
 
         val signedPayload = CBORObject.NewArray().apply {
             Add("Signature1")
-            Add(dscMessage.protectedHeader)
+            Add(dscMessage.protectedHeader.toByteArray())
             Add(ByteArray(0))
-            Add(dscMessage.payload)
+            Add(dscMessage.payload.toByteArray())
         }.EncodeToBytes()
-        val signedPayloadHash = signedPayload.toSHA256().toByteArray()
-        findDscCertificate(dscData, dscMessage, signedPayloadHash).apply {
+        findDscCertificate(dscData, dscMessage, signedPayload).apply {
             validate()
             checkCertOid(dccData)
         }
