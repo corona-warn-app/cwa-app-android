@@ -63,13 +63,13 @@ class DscSignatureValidator @Inject constructor() {
     fun validateSignature(dscData: DscData, dccData: DccData<*>) {
         Timber.tag(TAG).d("validateSignature(dscListSize=%s)", dscData.dscList.size)
         val dscMessage = dccData.dscMessage
-
         val signedPayload = CBORObject.NewArray().apply {
             Add("Signature1")
             Add(dscMessage.protectedHeader.toByteArray())
             Add(ByteArray(0))
             Add(dscMessage.payload.toByteArray())
         }.EncodeToBytes()
+
         findDscCertificate(dscData, dscMessage, signedPayload).apply {
             validate()
             checkCertOid(dccData)
@@ -79,7 +79,7 @@ class DscSignatureValidator @Inject constructor() {
     private fun findDscCertificate(
         dscData: DscData,
         dscMessage: DscMessage,
-        dataToVerify: ByteArray
+        toVerify: ByteArray
     ): X509Certificate {
         val filteredDscSet = dscData.dscList.filter { it.kid == dscMessage.kid }
         Timber.d("filteredDscSetSize=${filteredDscSet.size}")
@@ -99,13 +99,7 @@ class DscSignatureValidator @Inject constructor() {
             }
 
             try {
-                val valid = Signature.getInstance(dscMessage.algorithm.algName).verify(
-                    publicKey,
-                    dataToVerify,
-                    signature
-                )
-
-                Timber.d("DSC with kid =${dsc.kid} valid=$valid")
+                val valid = Signature.getInstance(dscMessage.algorithm.algName).verify(publicKey, toVerify, signature)
                 if (valid) {
                     x509Certificate = dscCertificate
                     break
@@ -168,11 +162,11 @@ class DscSignatureValidator @Inject constructor() {
 
     private fun Signature.verify(
         verificationKey: PublicKey,
-        dataToBeVerify: ByteArray,
+        toVerify: ByteArray,
         signature: ByteArray
     ): Boolean {
         initVerify(verificationKey)
-        update(dataToBeVerify)
+        update(toVerify)
         return verify(signature)
     }
 
