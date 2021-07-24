@@ -2,12 +2,14 @@ package de.rki.coronawarnapp.covidcertificate.signature.core
 
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.server.protocols.internal.dgc.DscListOuterClass
 import okio.ByteString.Companion.decodeBase64
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import de.rki.coronawarnapp.util.toOkioByteString
+import io.kotest.assertions.throwables.shouldNotThrow
 import javax.inject.Inject
 
 @Suppress("MaxLineLength")
@@ -21,10 +23,14 @@ class DscSignatureValidatorTest : BaseTest() {
     }
 
     @Test
-    fun validateSignature() {
-        val dccData = extractor.extract(R_CERTIFICATE).data
-        DscSignatureValidator().validateSignature(dscData, dccData)
+    fun `validating RC Signature should PASS!`() {
+        shouldNotThrow<InvalidHealthCertificateException> {
+            val dccData = extractor.extract(R_CERTIFICATE).data
+            validator().validateSignature(dssItems, dccData)
+        }
     }
+
+    private fun validator() = DscSignatureValidator()
 
     companion object {
 
@@ -39,7 +45,7 @@ class DscSignatureValidatorTest : BaseTest() {
 
         private val dscList: DscListOuterClass.DscList =
             DscListOuterClass.DscList.parseFrom(DSC_LIST_BASE64.decodeBase64()!!.toByteArray())
-        private val dscData = DscData(
+        private val dssItems = DscData(
             dscList.certificatesList.map {
                 DscItem(
                     it.kid.toOkioByteString().base64(),
