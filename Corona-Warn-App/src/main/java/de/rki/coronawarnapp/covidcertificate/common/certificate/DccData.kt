@@ -19,6 +19,6 @@ data class DscMessage(
 ) {
     enum class Algorithm(val algName: String) {
         ES256("SHA256withECDSA"),
-        PS256("SHA256WithRSA")
+        PS256("SHA256withRSA/PSS")
     }
 }
