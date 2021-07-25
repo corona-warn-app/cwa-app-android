@@ -100,12 +100,14 @@ class DscSignatureValidator @Inject constructor() {
 
             try {
                 val valid = Signature.getInstance(dscMessage.algorithm.algName).verify(publicKey, toVerify, signature)
+                Timber.d("Dsc certificate (${dsc.kid}) is valid=$valid")
+
                 if (valid) {
                     x509Certificate = dscCertificate
                     break
                 }
             } catch (ignored: Exception) {
-                // Ignore errors
+                // Ignore errors / continue
             }
         }
 
