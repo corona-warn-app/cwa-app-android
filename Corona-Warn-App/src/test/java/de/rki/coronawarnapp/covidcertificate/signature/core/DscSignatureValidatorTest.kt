@@ -235,6 +235,13 @@ class DscSignatureValidatorTest : BaseTest() {
             .errorCode shouldBe HC_DSC_NO_MATCH
     }
 
+    @Test
+    fun `No match for KID = abcdefjk`() {
+        val vc =
+            "HC1:6BFOXN*TS0BI\$ZDZRH36T:NR5/3:D4 V0-36OLNAOMIZ43UPLQCML9FQDL:PQHIZC4TPIFRMLNKNM8JI0EUG*%NH\$RLF95HF.3O2E9+A71FDFHD9FH/HL80P9NTBY424OR.98.71FD\$W47NSRB43E8HJP7NVDEBU1JG.85\$05QNG0HW\$C2VLTK96L6SR9MU9DV5 R13PIPG1L+N1*PVD4WYHZIEQKERQ8IY1I\$HH%U8 9PS5/IECN5U.RTOE2QE2K5N%EQJARMA0THWM6J\$7XLH5G6TH9YJA*LA 43-LH/CJ6IAXPMHQ1*P1MX1+ZE9W1:PI7JG-3AFQ5VA131A.V56GAM3Q/RQJZI+EBR3E%JTQOL2009UVD0HX2JR\$4H6HLXT+V063HDO0Y/8V53-Q0TONMOVM:87%GPFJ5\$0L*8HQ3S3W56424F7GA.ZAZUJQLBL7NN6DH38*52WAOQASC.C/DD/MPJ\$HATFKY14DU9AES/Q0IU+MR79R:LNH3BI61%28 HL5JBQCWX2FO50K%EN2"
+        shouldNotThrow<InvalidHealthCertificateException> { validator().validateSignature(dscData, dccData(vc)) }
+    }
+
     private fun validator() = DscSignatureValidator()
     private fun dccData(hc: String) = extractor.extract(hc).data
     private fun filterDscData(kid: String): DscData = DscData(dscData.dscList.filter { it.kid == kid })
