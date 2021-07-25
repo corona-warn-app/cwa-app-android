@@ -39,7 +39,7 @@ import javax.inject.Inject
 class DscSignatureValidator @Inject constructor() {
 
     init {
-        Security.addProvider(BouncyCastleProvider()) // for SHA256withRSA/PSS
+        Security.addProvider(BouncyCastleProvider()) // For SHA256withRSA/PSS
     }
 
     private val vcOids = setOf(
