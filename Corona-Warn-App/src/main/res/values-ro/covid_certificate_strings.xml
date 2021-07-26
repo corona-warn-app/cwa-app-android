@@ -256,6 +256,6 @@
     <!-- XHED: travel country for the validation failed card  -->
     <string name="validation_rules_acceptance_country">"Aceasta este o regulă pentru țara dvs. de destinație, %s."</string>
     <!-- XHED: issuer country for the validation failed card  -->
-    <string name="validation_rules_invalidation_country">"Aceasta este o regulă a țării emitente, %s."</string>
+    <string name="validation_rules_invalidation_country">"Aceasta este o regulă a țării emitente."</string>
 
 </resources>
