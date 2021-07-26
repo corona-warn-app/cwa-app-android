@@ -22,7 +22,14 @@ class DccExpirationChecker @Inject constructor() {
         val daysUntilExpiration = now.daysUntil(expiresAt, timeZone)
         val diff = daysUntilExpiration - expirationThreshold.standardDays
         return when {
-            daysUntilExpiration <= 0 -> CwaCovidCertificate.State.Expired(expiresAt)
+            daysUntilExpiration == 0 -> {
+                if (now.toDateTime(timeZone).isAfter(expiresAt)) {
+                    CwaCovidCertificate.State.Expired(expiresAt)
+                } else {
+                    CwaCovidCertificate.State.ExpiringSoon(expiresAt)
+                }
+            }
+            daysUntilExpiration < 0 -> CwaCovidCertificate.State.Expired(expiresAt)
             diff > 0 -> CwaCovidCertificate.State.Valid(expiresAt)
             diff <= 0 -> CwaCovidCertificate.State.ExpiringSoon(expiresAt)
             else -> throw IllegalArgumentException() // impossible!

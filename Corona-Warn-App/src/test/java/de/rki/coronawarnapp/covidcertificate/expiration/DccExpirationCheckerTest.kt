@@ -36,7 +36,7 @@ class DccExpirationCheckerTest : BaseTest() {
             expirationThreshold = Duration.standardDays(10),
             now = Instant.parse("2021-06-03T10:12:48.000+02:00"),
             timeZone = DateTimeZone.forOffsetHours(2)
-        ) shouldBe CwaCovidCertificate.State.Expired(exp)
+        ) shouldBe CwaCovidCertificate.State.ExpiringSoon(exp)
 
         instance.getExpirationState(
             dccData = dccData,
