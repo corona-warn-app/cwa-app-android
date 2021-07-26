@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCerti
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_OID_MISMATCH_RC
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_OID_MISMATCH_TC
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_OID_MISMATCH_VC
+import kotlinx.coroutines.flow.first
 import org.bouncycastle.asn1.ASN1Integer
 import org.bouncycastle.asn1.DERSequence
 import org.bouncycastle.asn1.pkcs.RSAPublicKey
@@ -36,7 +37,9 @@ import java.security.spec.RSAPublicKeySpec
 import javax.inject.Inject
 
 @Reusable
-class DscSignatureValidator @Inject constructor() {
+class DscSignatureValidator @Inject constructor(
+    private val dscRepository: DscRepository
+) {
 
     init {
         Security.addProvider(BouncyCastleProvider()) // For SHA256withRSA/PSS
@@ -60,7 +63,8 @@ class DscSignatureValidator @Inject constructor() {
     /**
      * @throws InvalidHealthCertificateException if validation fail, otherwise it is OK!
      */
-    fun validateSignature(dscData: DscData, dccData: DccData<*>) {
+    suspend fun validateSignature(dccData: DccData<*>) {
+        val dscData = dscRepository.dscData.first()
         Timber.tag(TAG).d("validateSignature(dscListSize=%s)", dscData.dscList.size)
         val dscMessage = dccData.dscMessage
         val signedPayload = CBORObject.NewArray().apply {
