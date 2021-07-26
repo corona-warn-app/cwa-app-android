@@ -10,7 +10,6 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.bugreporting.ui.setMessageView
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.databinding.FragmentScanQrCodeBinding
@@ -106,10 +105,6 @@ class DccQrCodeScanFragment :
 
                         it.isSignatureInvalid -> {
                             setTitle(R.string.dcc_signature_validation_dialog_title)
-                            setMessageView(
-                                getString(R.string.dcc_signature_validation_dialog_message, it.errorCode),
-                                false
-                            )
                             setPositiveButton(R.string.dcc_signature_validation_dialog_faq_button) { _, _ ->
                                 openUrl(R.string.dcc_signature_validation_dialog_faq_link)
                             }

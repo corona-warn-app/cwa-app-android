@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.util.ContextExtensions.getColorStateListCompat
 import de.rki.coronawarnapp.util.tryHumanReadableError
 import java.util.regex.Pattern
 
-fun MaterialAlertDialogBuilder.setMessageView(
+private fun MaterialAlertDialogBuilder.setMessageView(
     message: String,
     textHasLinks: Boolean,
 ) {

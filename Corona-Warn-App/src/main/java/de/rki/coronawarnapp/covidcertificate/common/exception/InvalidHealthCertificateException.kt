@@ -72,8 +72,17 @@ open class InvalidHealthCertificateException(
     )
 
     val isSignatureInvalid: Boolean get() = errorCode in signatureErrorCodes
-    private val signatureErrorCodes = listOf<ErrorCode>(
-        // TODO add from EXPOSUREAPP-8365
+    private val signatureErrorCodes = listOf(
+        ErrorCode.HC_COSE_NO_SIGN1,
+        ErrorCode.HC_COSE_PH_INVALID,
+        ErrorCode.HC_COSE_NO_ALG,
+        ErrorCode.HC_COSE_UNKNOWN_ALG,
+        ErrorCode.HC_DSC_NO_MATCH,
+        ErrorCode.HC_DSC_OID_MISMATCH_TC,
+        ErrorCode.HC_DSC_OID_MISMATCH_VC,
+        ErrorCode.HC_DSC_OID_MISMATCH_RC,
+        ErrorCode.HC_DSC_NOT_YET_VALID,
+        ErrorCode.HC_DSC_EXPIRED,
     )
 
     open val errorMessage: LazyString
@@ -87,6 +96,10 @@ open class InvalidHealthCertificateException(
             in codesCertificateInvalid -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_CERTIFICATE_INVALID)
             }
+
+            in signatureErrorCodes -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_SIGNATURE_INVALID)
+            }
             else -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_GENERIC)
             }
@@ -99,6 +112,7 @@ open class InvalidHealthCertificateException(
     }
 }
 
+private const val ERROR_MESSAGE_SIGNATURE_INVALID = R.string.dcc_signature_validation_dialog_message
 private const val ERROR_MESSAGE_CERTIFICATE_INVALID = R.string.error_dcc_invalid
 private const val ERROR_MESSAGE_SCAN_AGAIN = R.string.error_dcc_scan_again
 private const val ERROR_MESSAGE_ALREADY_REGISTERED = R.string.error_dcc_already_registered

@@ -35,7 +35,7 @@ class DccQrCodeScanViewModel @AssistedInject constructor(
         try {
             event.postValue(Event.QrCodeScanInProgress)
             val qrCode = qrCodeValidator.validate(barcodeResult.text)
-            dscSignatureValidator.isSignatureValid(qrCode.data)
+            dscSignatureValidator.validateSignature(qrCode.data)
             when (qrCode) {
                 is VaccinationCertificateQRCode -> registerVaccinationCertificate(qrCode)
                 is TestCertificateQRCode -> registerTestCertificate(qrCode)
