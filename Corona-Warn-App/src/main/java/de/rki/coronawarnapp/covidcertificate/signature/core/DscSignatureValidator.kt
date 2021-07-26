@@ -16,10 +16,8 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCerti
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_OID_MISMATCH_TC
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_OID_MISMATCH_VC
 import kotlinx.coroutines.flow.first
-import org.bouncycastle.jce.provider.BouncyCastleProvider
 import timber.log.Timber
 import java.security.PublicKey
-import java.security.Security
 import java.security.Signature
 import java.security.cert.CertificateExpiredException
 import java.security.cert.CertificateFactory

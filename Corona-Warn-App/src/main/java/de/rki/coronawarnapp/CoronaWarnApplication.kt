@@ -52,10 +52,7 @@ import de.rki.coronawarnapp.util.hasAPILevel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.bouncycastle.jce.provider.BouncyCastleProvider
-import org.conscrypt.Conscrypt
 import timber.log.Timber
-import java.security.Security
 import javax.inject.Inject
 
 class CoronaWarnApplication : Application(), HasAndroidInjector {
