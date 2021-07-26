@@ -41,7 +41,7 @@ class DccStateCheckerTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { configData.covidCertificateParameters } returns covidCertificateConfig
-        every { covidCertificateConfig.expirationThresholdInDays } returns Duration.standardDays(10)
+        every { covidCertificateConfig.expirationThreshold } returns Duration.standardDays(10)
         coEvery { appConfigProvider.currentConfig } returns flowOf(configData)
 
         every { dscRepository.dscData } returns flowOf(mockDscData)

@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureValidato
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
@@ -28,19 +29,21 @@ class DccStateChecker @Inject constructor(
         dscRepository.dscData
     ) { appConfig, dscData ->
         val isSignatureValid = dscSignatureValidator.isSignatureValid(dscData, dccData)
+        if (!isSignatureValid) {
+            Timber.tag(TAG).w("Certificate had invalid signature: %s (kid)", dccData)
+            return@combine CwaCovidCertificate.State.Invalid
+        }
 
         val nowUtc = timeStamper.nowUTC
 
-        // expiration check
-        val expirationState = expirationChecker.getExpirationState(
+        return@combine expirationChecker.getExpirationState(
             dccData = dccData,
-            expirationThreshold = appConfig.covidCertificateParameters.expirationThresholdInDays,
+            expirationThreshold = appConfig.covidCertificateParameters.expirationThreshold,
             now = nowUtc
         )
+    }
 
-        when {
-            !isSignatureValid -> CwaCovidCertificate.State.Invalid
-            else -> expirationState
-        }
+    companion object {
+        private const val TAG = "DccStateChecker"
     }
 }
