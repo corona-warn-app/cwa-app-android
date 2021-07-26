@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.common.scan
 
+import android.net.Uri
 import com.journeyapps.barcodescanner.BarcodeResult
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -72,6 +73,9 @@ class DccQrCodeScanViewModel @AssistedInject constructor(
     fun setCameraDeniedPermanently(denied: Boolean) {
         Timber.d("setCameraDeniedPermanently(denied=$denied)")
         cameraSettings.isCameraDeniedPermanently.update { denied }
+    }
+
+    fun onFileSelected(uri: Uri) {
     }
 
     sealed class Event {

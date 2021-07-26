@@ -18,6 +18,11 @@
         app:zxing_framing_rect_height="@dimen/scan_qr_code_viewfinder_size"
         app:zxing_framing_rect_width="@dimen/scan_qr_code_viewfinder_size">
 
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button" />
     </com.journeyapps.barcodescanner.BarcodeView>
 
     <com.journeyapps.barcodescanner.ViewfinderView
@@ -79,6 +84,14 @@
             android:backgroundTint="@color/colorQrCodeScanToolbar"
             android:textOff=""
             android:textOn="" />
+
+        <Button
+            android:id="@+id/qr_code_scan_from_file_button"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/icon_size_button"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/spacing_tiny"
+            android:text="Scan from file" />
 
     </com.google.android.material.appbar.MaterialToolbar>
 
