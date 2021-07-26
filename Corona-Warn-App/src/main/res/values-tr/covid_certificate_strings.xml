@@ -256,6 +256,6 @@
     <!-- XHED: travel country for the validation failed card  -->
     <string name="validation_rules_acceptance_country">"Bu, gideceğiniz ülke olan %s için geçerli bir kural."</string>
     <!-- XHED: issuer country for the validation failed card  -->
-    <string name="validation_rules_invalidation_country">"Bu, düzenleyen ülke olan %s için geçerli bir kural."</string>
+    <string name="validation_rules_invalidation_country">"Bu, düzenleyen ülke olan için geçerli bir kural."</string>
 
 </resources>
