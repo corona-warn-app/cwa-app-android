@@ -10,6 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.plus
 import org.joda.time.Duration
+import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -17,7 +18,7 @@ import javax.inject.Singleton
 @Singleton
 class DscRepository @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
-    private val dispatcherProvider: DispatcherProvider,
+    dispatcherProvider: DispatcherProvider,
     private val defaultDscData: DefaultDscSource,
     private val localStorage: LocalDscStorage,
     private val dscServer: DscServer,
@@ -31,17 +32,23 @@ class DscRepository @Inject constructor(
             replayExpirationMillis = 0
         ),
     ) {
-
-        // TODO
-        DscData(
-            dscList = emptyList()
-        )
+        localStorage.load() ?: defaultDscData.getDscData()
     }
 
     val dscData = internalData.data
 
     suspend fun refresh() {
         Timber.tag(TAG).d("refresh()")
+        internalData.updateBlocking {
+            dscServer.getDscList().let {
+                localStorage.save(it)
+                mapDscList(it)
+            }
+        }
+    }
+
+    private fun mapDscList(rawData: ByteArray): DscData {
+        return dscDataParser.parse(rawData, Instant.now())
     }
 
     companion object {

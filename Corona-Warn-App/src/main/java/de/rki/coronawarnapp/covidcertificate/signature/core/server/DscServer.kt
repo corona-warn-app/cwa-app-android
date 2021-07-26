@@ -20,7 +20,7 @@ class DscServer @Inject constructor(
     private val dscApi: DscApiV1
 ) {
 
-    suspend fun getDscList(): DscList {
+    suspend fun getDscList(): ByteArray {
         return try {
             dscApi.dscList().parseAndValidate()
         } catch (e: Exception) {
@@ -31,7 +31,7 @@ class DscServer @Inject constructor(
     }
 
     @VisibleForTesting
-    internal fun Response<ResponseBody>.parseAndValidate(): DscList {
+    internal fun Response<ResponseBody>.parseAndValidate(): ByteArray {
         if (!isSuccessful) throw HttpException(this)
 
         val fileMap = requireNotNull(body()) { "Response was successful but body was null" }
@@ -48,11 +48,7 @@ class DscServer @Inject constructor(
         )
         if (!isSignatureValid) throw DscValidationException(ErrorCode.SIGNATURE_INVALID)
 
-        try {
-            return DscList.parseFrom(exportBinary)
-        } catch (e: Exception) {
-            throw DscValidationException(ErrorCode.EXTRACTION_FAILED, e)
-        }
+        return exportBinary
     }
 
     companion object {
