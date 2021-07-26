@@ -32,7 +32,6 @@
     Modifications Copyright (c) 2021 SAP SE or an SAP affiliate company.
 */
 
-
 package de.rki.coronawarnapp.covidcertificate.signature.core
 
 import com.upokecenter.cbor.CBORObject
