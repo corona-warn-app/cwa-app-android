@@ -269,4 +269,12 @@
     <string name="expiration_date">Gültig bis %1$s</string>
     <!-- XHED: Vaccination Detail expiration info -->
     <string name="expiration_info">Bitte bemühen Sie sich rechtzeitig darum, einen neuen digitalen Nachweis ausstellen zu lassen.</string>
+
+    <!-- Expiration notification -->
+    <!-- XTXT: expiring soon notification -->
+    <string name="dcc_notification_expires_soon_text">Überprüfen Sie die Gültigkeit Ihrer Zertifikate.</string>
+    <!-- XTXT: expired notification -->
+    <string name="dcc_notification_expired_text">Überprüfen Sie die Gültigkeit Ihrer Zertifikate.</string>
+    <string name="dcc_notification_channel_title">Zertifikate</string>
+    <string name="dcc_notification_channel_description">tbd</string>
 </resources>
