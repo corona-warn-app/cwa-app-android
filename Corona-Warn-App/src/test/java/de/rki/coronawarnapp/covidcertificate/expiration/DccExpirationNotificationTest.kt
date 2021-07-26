@@ -6,21 +6,18 @@ import android.content.Context
 import androidx.navigation.NavDeepLinkBuilder
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.covidcertificate.common.notification.DigitalCovidCertificateNotifications
+import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.notifications.NavDeepLinkBuilderFactory
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
 class DccExpirationNotificationTest : BaseTest() {
@@ -33,6 +30,8 @@ class DccExpirationNotificationTest : BaseTest() {
     @MockK lateinit var notificationManager: NotificationManager
     @MockK lateinit var notificationHelper: DigitalCovidCertificateNotifications
     @MockK lateinit var cwaSettings: CWASettings
+
+    val containerId = VaccinationCertificateContainerId("Rollkuchen")
 
     @BeforeEach
     fun setUp() {
@@ -62,38 +61,13 @@ class DccExpirationNotificationTest : BaseTest() {
         cwaSettings = cwaSettings
     )
 
-    @Test
-    fun `test notification in foreground`() = runBlockingTest {
-        coEvery { foregroundState.isInForeground } returns flow { emit(true) }
-
-        // Desired behavior unclear?
-        TODO()
-    }
-
-    @Test
-    fun `test notification in background`() = runBlockingTest {
-        coEvery { foregroundState.isInForeground } returns flow { emit(false) }
-
-        val instance = createInstance()
-
-        TODO()
-    }
-
-    @Test
-    fun `test notification in background disabled`() = runBlockingTest {
-        coEvery { foregroundState.isInForeground } returns flow { emit(false) }
-        every { cwaSettings.isNotificationsTestEnabled.value } returns false
-
-        TODO()
-    }
-
-    @Test
-    fun `show expires soon notification`() {
-        TODO()
-    }
-
-    @Test
-    fun `show expired notification`() {
-        TODO()
-    }
+//    @Test
+//    fun `show expires soon notification`() = runBlockingTest {
+//        // TODO
+//    }
+//
+//    @Test
+//    fun `show expired notification`() = runBlockingTest {
+//       // TODO
+//    }
 }

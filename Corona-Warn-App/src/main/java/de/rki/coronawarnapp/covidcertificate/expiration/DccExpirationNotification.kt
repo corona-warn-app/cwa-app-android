@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.covidcertificate.expiration
 
 import android.content.Context
 import dagger.Reusable
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.notification.DigitalCovidCertificateNotifications
-import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
@@ -20,8 +20,8 @@ class DccExpirationNotification @Inject constructor(
     private val cwaSettings: CWASettings,
 ) {
 
-    suspend fun showExpiresSoonNotification(containerId: CertificateContainerId): Boolean {
-        Timber.d("showExpiresSoonNotification(containerId=$containerId)")
+    suspend fun showExpiresSoonNotification(certificate: CwaCovidCertificate): Boolean {
+        Timber.d("showExpiresSoonNotification(containerId=${certificate.containerId})")
 
         // TODO
 //        notificationHelper.sendNotification(
@@ -31,8 +31,8 @@ class DccExpirationNotification @Inject constructor(
         return true
     }
 
-    suspend fun showExpiredNotification(containerId: CertificateContainerId): Boolean {
-        Timber.d("showExpiredNotification(containerId=$containerId)")
+    suspend fun showExpiredNotification(certificate: CwaCovidCertificate): Boolean {
+        Timber.d("showExpiredNotification(containerId=${certificate.containerId})")
         return true
     }
 }

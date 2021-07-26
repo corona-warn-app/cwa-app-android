@@ -6,11 +6,11 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRe
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import org.joda.time.Duration
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -29,7 +29,8 @@ class DccExpirationNotificationService @Inject constructor(
         Timber.tag(TAG).v("checkStates()")
 
         val lastCheck = covidCertificateSettings.lastDccStateBackgroundCheck.value
-        if (Duration(lastCheck, timeStamper.nowUTC).abs().standardDays < 1) {
+
+        if (lastCheck.toLocalDateUserTz().dayOfYear == timeStamper.nowUTC.toLocalDateUserTz().dayOfYear) {
             Timber.tag(TAG).d("Last check was within 24h, skipping.")
             return
         }
@@ -43,7 +44,7 @@ class DccExpirationNotificationService @Inject constructor(
                 it.notifiedExpiredAt == null
             }
             ?.let {
-                if (dscCheckNotification.showExpiredNotification(it.containerId)) {
+                if (dscCheckNotification.showExpiredNotification(it)) {
                     setStateNotificationShown(it)
                 }
             }
@@ -55,7 +56,7 @@ class DccExpirationNotificationService @Inject constructor(
                 it.notifiedExpiresSoonAt == null && it.notifiedExpiredAt == null
             }
             ?.let {
-                if (dscCheckNotification.showExpiresSoonNotification(it.containerId)) {
+                if (dscCheckNotification.showExpiresSoonNotification(it)) {
                     setStateNotificationShown(it)
                 }
             }
