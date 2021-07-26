@@ -74,8 +74,7 @@ object Base45Decoder {
         return list.foldIndexed(
             0L
         ) { index, acc: Long, element ->
-            if (!alphabet.contains(element))
-                throw IllegalArgumentException(element.toString())
+            if (!alphabet.contains(element)) throw IllegalArgumentException(element.toString())
             pow(int45, index) * alphabet.indexOf(element) + acc
         }
     }
