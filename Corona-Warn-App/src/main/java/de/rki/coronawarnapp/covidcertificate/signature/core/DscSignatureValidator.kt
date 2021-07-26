@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.signature.core
 
 import dagger.Reusable
+import de.rki.coronawarnapp.SecurityProvider
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DscMessage
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DscMessage.Algorithm.ES256
@@ -25,10 +26,14 @@ import java.security.cert.CertificateNotYetValidException
 import java.security.cert.X509Certificate
 import javax.inject.Inject
 
+/**
+ * Security provider is added by [SecurityProvider] at app start
+ */
 @Reusable
 class DscSignatureValidator @Inject constructor(
     private val dscRepository: DscRepository
 ) {
+    private val certificateFactory by lazy { CertificateFactory.getInstance("X.509") }
 
     private val vcOids = setOf(
         "1.3.6.1.4.1.1847.2021.1.2",
@@ -137,7 +142,6 @@ class DscSignatureValidator @Inject constructor(
     }
 
     companion object {
-        private val certificateFactory = CertificateFactory.getInstance("X.509")
         private const val TAG = "DscSignatureValidator"
     }
 }
