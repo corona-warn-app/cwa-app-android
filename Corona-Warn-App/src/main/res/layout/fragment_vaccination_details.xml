@@ -186,7 +186,7 @@
                         android:text="@string/vaccination_certificate_attribute_vaccine_name" />
 
                     <TextView
-                        android:id="@+id/medial_product_name"
+                        android:id="@+id/vaccine_name"
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -201,7 +201,7 @@
                         android:text="@string/vaccination_certificate_attribute_vaccine_type" />
 
                     <TextView
-                        android:id="@+id/vaccine_type_name"
+                        android:id="@+id/medical_product_name"
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

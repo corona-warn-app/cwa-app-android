@@ -104,11 +104,15 @@ data class VaccinationContainer internal constructor(
         override val totalSeriesOfDoses: Int
             get() = vaccination.totalSeriesOfDoses
 
+        // vp
         override val vaccineTypeName: String
             get() = valueSet?.getDisplayText(vaccination.vaccineId) ?: vaccination.vaccineId
+
         override val vaccineManufacturer: String
             get() = valueSet?.getDisplayText(vaccination.marketAuthorizationHolderId)
                 ?: vaccination.marketAuthorizationHolderId
+
+        // mp
         override val medicalProductName: String
             get() = valueSet?.getDisplayText(vaccination.medicalProductId) ?: vaccination.medicalProductId
 
