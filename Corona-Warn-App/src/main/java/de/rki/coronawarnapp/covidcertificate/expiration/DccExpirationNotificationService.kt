@@ -45,7 +45,7 @@ class DccExpirationNotificationService @Inject constructor(
                 it.notifiedExpiredAt == null
             }
             ?.let {
-                if (dscCheckNotification.showExpiredNotification(it)) {
+                if (dscCheckNotification.showExpiredNotification(it.containerId)) {
                     setStateNotificationShown(it)
                 }
             }
@@ -57,7 +57,7 @@ class DccExpirationNotificationService @Inject constructor(
                 it.notifiedExpiresSoonAt == null && it.notifiedExpiredAt == null
             }
             ?.let {
-                if (dscCheckNotification.showExpiresSoonNotification(it)) {
+                if (dscCheckNotification.showExpiresSoonNotification(it.containerId)) {
                     setStateNotificationShown(it)
                 }
             }
