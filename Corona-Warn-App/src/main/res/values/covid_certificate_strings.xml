@@ -275,8 +275,10 @@
     <string name="dcc_notification_expires_soon_text">Überprüfen Sie die Gültigkeit Ihrer Zertifikate.</string>
     <!-- XTXT: expired notification -->
     <string name="dcc_notification_expired_text">Überprüfen Sie die Gültigkeit Ihrer Zertifikate.</string>
-    <!-- XTXT: expiration notification channel title -->
-    <string name="dcc_notification_channel_title">Zertifikate</string>
-    <!-- XTXT: expiration notification channel description -->
+
+    <!-- DCC notification channel-->
+    <!-- XTXT: certificate notification channel title -->
+    <string name="dcc_notification_channel_title">tbd</string>
+    <!-- XTXT: certificate notification channel description -->
     <string name="dcc_notification_channel_description">tbd</string>
 </resources>
