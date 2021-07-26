@@ -6,7 +6,8 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRe
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.isDifferentDay
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
@@ -30,7 +31,7 @@ class DccExpirationNotificationService @Inject constructor(
 
         val lastCheck = covidCertificateSettings.lastDccStateBackgroundCheck.value
 
-        if (lastCheck.toLocalDateUserTz().dayOfYear == timeStamper.nowUTC.toLocalDateUserTz().dayOfYear) {
+        if (!lastCheck.toLocalDateUtc().isDifferentDay(timeStamper.nowUTC.toLocalDateUtc())) {
             Timber.tag(TAG).d("Last check was within 24h, skipping.")
             return
         }

@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.mockFlowPreference
 
-class DccExpirationServiceTest : BaseTest() {
+class DccExpirationNotificationServiceTest : BaseTest() {
     @MockK lateinit var expirationNotification: DccExpirationNotification
     @MockK lateinit var vaccinationRepository: VaccinationRepository
     @MockK lateinit var recoveryRepository: RecoveryCertificateRepository
@@ -95,7 +95,7 @@ class DccExpirationServiceTest : BaseTest() {
 
     @Test
     fun `only once per day`() = runBlockingTest {
-        lastDccStateBackgroundCheck.update { timeStamper.nowUTC }
+        lastDccStateBackgroundCheck.update { timeStamper.nowUTC.plus(Duration.standardDays(365)) }
         createInstance().apply {
             verify {
                 vaccinationRepository wasNot Called

@@ -112,6 +112,10 @@ object TimeAndDateExtensions {
 
     fun Instant.toLocalDateUserTz(): LocalDate = this.toUserTimeZone().toLocalDate()
 
+    fun LocalDate.isDifferentDay(other: LocalDate): Boolean {
+        return this.dayOfYear != other.dayOfYear || this.year != other.year
+    }
+
     /**
      * Returns a readable date String with the format "dd.MM.yyyy" like 23.05.1989 of an Instant
      */
