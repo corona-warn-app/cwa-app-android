@@ -12,10 +12,12 @@ import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureValidato
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
@@ -48,7 +50,7 @@ class DccStateCheckerTest : BaseTest() {
 
         every { timeStamper.nowUTC } returns Instant.ofEpochSecond(1234567890)
 
-        coEvery { dscSignatureValidator.isSignatureValid(any(), any()) } returns true
+        coEvery { dscSignatureValidator.isSignatureValid(any(), any()) } just Runs
     }
 
     fun createInstance() = DccStateChecker(
@@ -98,7 +100,7 @@ class DccStateCheckerTest : BaseTest() {
 
     @Test
     fun `invalid signature and expires soon`() = runBlockingTest {
-        coEvery { dscSignatureValidator.isSignatureValid(any(), any()) } returns false
+        coEvery { dscSignatureValidator.isSignatureValid(any(), any()) } throws Exception()
         val state = CwaCovidCertificate.State.ExpiringSoon(expiresAt = Instant.EPOCH)
         coEvery { expirationChecker.getExpirationState(any(), any(), any()) } returns state
 
@@ -109,7 +111,7 @@ class DccStateCheckerTest : BaseTest() {
 
     @Test
     fun `invalid signature and expired`() = runBlockingTest {
-        coEvery { dscSignatureValidator.isSignatureValid(any(), any()) } returns false
+        coEvery { dscSignatureValidator.isSignatureValid(any(), any()) } throws Exception()
         val state = CwaCovidCertificate.State.Expired(expiredAt = Instant.EPOCH)
         coEvery { expirationChecker.getExpirationState(any(), any(), any()) } returns state
 

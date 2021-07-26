@@ -8,10 +8,9 @@ import javax.inject.Inject
 @Reusable
 class DscSignatureValidator @Inject constructor() {
 
-    suspend fun isSignatureValid(dscData: DscData, certificateData: DccData<*>): Boolean {
+    suspend fun isSignatureValid(dscData: DscData, certificateData: DccData<*>) {
         Timber.tag(TAG).d("isSignatureValid(certificateData=%s)", certificateData.header)
         // TODO
-        return true
     }
 
     companion object {

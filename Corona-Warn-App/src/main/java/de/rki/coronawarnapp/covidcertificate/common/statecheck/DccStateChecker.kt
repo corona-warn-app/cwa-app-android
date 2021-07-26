@@ -28,9 +28,10 @@ class DccStateChecker @Inject constructor(
         appConfigProvider.currentConfig,
         dscRepository.dscData
     ) { appConfig, dscData ->
-        val isSignatureValid = dscSignatureValidator.isSignatureValid(dscData, dccData)
-        if (!isSignatureValid) {
-            Timber.tag(TAG).w("Certificate had invalid signature: %s (kid)", dccData)
+        try {
+            dscSignatureValidator.isSignatureValid(dscData, dccData)
+        } catch (e: Exception) {
+            Timber.tag(TAG).w(e, "Certificate had invalid signature.")
             return@combine CwaCovidCertificate.State.Invalid
         }
 
