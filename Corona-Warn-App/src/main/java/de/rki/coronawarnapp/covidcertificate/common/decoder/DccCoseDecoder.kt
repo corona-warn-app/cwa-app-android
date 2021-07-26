@@ -69,8 +69,10 @@ class DccCoseDecoder @Inject constructor(
         throw InvalidHealthCertificateException(HC_COSE_PH_INVALID)
     }
 
-    private fun CBORObject.extractPayloadBytes(): ByteArray {
-        return this[2].GetByteString()
+    private fun CBORObject.extractPayloadBytes(): ByteArray = try {
+        this[2].GetByteString()
+    } catch (e: Exception) {
+        throw InvalidHealthCertificateException(HC_COSE_MESSAGE_INVALID)
     }
 
     private fun CBORObject.extractPayload(): CBORObject {
