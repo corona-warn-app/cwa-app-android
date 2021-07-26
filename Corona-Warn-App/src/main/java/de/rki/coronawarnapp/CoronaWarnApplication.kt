@@ -52,6 +52,7 @@ import de.rki.coronawarnapp.util.hasAPILevel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.conscrypt.Conscrypt
 import timber.log.Timber
 import java.security.Security
@@ -94,6 +95,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var localStatisticsRetrievalScheduler: LocalStatisticsRetrievalScheduler
     @Inject lateinit var imageLoaderFactory: ImageLoaderFactory
     @Inject lateinit var dccStateCheckScheduler: DccStateCheckScheduler
+    @Inject lateinit var securityProvider: SecurityProvider
 
     @AppScope
     @Inject lateinit var appScope: CoroutineScope
@@ -121,9 +123,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
 
         Timber.v("onCreate(): WorkManager setup done: $workManager")
 
-        // Enable Conscrypt for TLS1.3 Support below API Level 29
-        Security.insertProviderAt(Conscrypt.newProvider(), 1)
-
+        securityProvider.setup()
         // See de.rki.coronawarnapp.util.coil.CoilModule::class
         Coil.setImageLoader(imageLoaderFactory)
 

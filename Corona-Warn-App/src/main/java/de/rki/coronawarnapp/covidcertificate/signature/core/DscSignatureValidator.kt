@@ -32,10 +32,6 @@ class DscSignatureValidator @Inject constructor(
     private val dscRepository: DscRepository
 ) {
 
-    init {
-        Security.addProvider(BouncyCastleProvider()) // For SHA256withRSA/PSS
-    }
-
     private val vcOids = setOf(
         "1.3.6.1.4.1.1847.2021.1.2",
         "1.3.6.1.4.1.0.1847.2021.1.2"
@@ -70,13 +66,13 @@ class DscSignatureValidator @Inject constructor(
     ): X509Certificate {
         val toVerify = dscMessage.signedPayload()
         val filteredDscSet = dscData.dscList.filter { it.kid == dscMessage.kid }
-        Timber.d("filteredDscSetSize=${filteredDscSet.size}")
+        Timber.tag(TAG).d("filteredDscSetSize=${filteredDscSet.size}")
 
         val matchedDscSet = when {
             filteredDscSet.isEmpty() || dscMessage.kid.isEmpty() -> dscData.dscList
             else -> filteredDscSet
         }
-        Timber.d("matchedDscSetSize=${matchedDscSet.size}")
+        Timber.tag(TAG).d("matchedDscSetSize=${matchedDscSet.size}")
 
         var x509Certificate: X509Certificate? = null
         for (dsc in matchedDscSet) {
@@ -88,7 +84,7 @@ class DscSignatureValidator @Inject constructor(
 
             try {
                 val valid = Signature.getInstance(dscMessage.algorithm.algName).verify(publicKey, toVerify, signature)
-                Timber.d("Dsc certificate (${dsc.kid}) is valid=$valid")
+                Timber.tag(TAG).d("Dsc certificate (${dsc.kid}) is valid=$valid")
 
                 if (valid) {
                     x509Certificate = dscCertificate
@@ -102,10 +98,10 @@ class DscSignatureValidator @Inject constructor(
         return x509Certificate ?: throw InvalidHealthCertificateException(HC_DSC_NO_MATCH)
     }
 
-    private fun DscItem.toX509certificate(): X509Certificate = CertificateFactory
-        .getInstance("X.509")
-        .generateCertificate(data.toByteArray().inputStream())
-        as X509Certificate
+    private fun DscItem.toX509certificate(): X509Certificate =
+        data.toByteArray().inputStream().use {
+            certificateFactory.generateCertificate(it) as X509Certificate
+        }
 
     private fun X509Certificate.validate() {
         try {
@@ -143,6 +139,7 @@ class DscSignatureValidator @Inject constructor(
     }
 
     companion object {
+        private val certificateFactory = CertificateFactory.getInstance("X.509")
         private const val TAG = "DscSignatureValidator"
     }
 }
