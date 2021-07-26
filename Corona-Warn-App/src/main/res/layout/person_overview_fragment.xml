@@ -78,7 +78,7 @@
         android:layout_margin="@dimen/spacing_normal"
         android:text="@string/person_overview_scan_button"
         android:transitionName="shared_element_container"
-        app:icon="@drawable/ic_add"
+        app:icon="@drawable/ic_qr_code"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

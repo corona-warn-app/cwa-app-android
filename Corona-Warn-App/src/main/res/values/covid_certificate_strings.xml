@@ -17,7 +17,7 @@
     <!-- XTXT: Person overview no certificates subtitle 2-->
     <string name="person_overview_no_certificates_subtitle_2">"To add a certificate, please scan the corresponding QR code."</string>
     <!-- XBUT: Person overview certificates scan button-->
-    <string name="person_overview_scan_button">"Certificate"</string>
+    <string name="person_overview_scan_button">"Add Certificate"</string>
     <!-- XTXT: Person overview no certificates image content description-->
     <string name="person_overview_no_certificates_image_description">"A certificate with a QR code symbol on it."</string>
     <!-- XTXT: Person card title-->
