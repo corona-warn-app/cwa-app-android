@@ -45,7 +45,7 @@ internal fun DccData<*>.getExpirationState(
     val daysUntilExpiration = now.daysUntil(expiresAt, timeZone)
     val diff = daysUntilExpiration - expirationThresholdInDays
     return when {
-        daysUntilExpiration <= 0 -> CwaCovidCertificate.State.Expired(expiresAt)
+        daysUntilExpiration < 0 -> CwaCovidCertificate.State.Expired(expiresAt)
         diff > 0 -> CwaCovidCertificate.State.Valid(expiresAt)
         diff <= 0 -> CwaCovidCertificate.State.ExpiringSoon(expiresAt)
         else -> throw IllegalArgumentException() // impossible!
