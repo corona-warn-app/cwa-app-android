@@ -11,12 +11,16 @@ sealed class SelectedStatisticsLocation {
     data class SelectedDistrict(
         val district: Districts.District,
         override val addedAt: Instant,
-        override val uniqueID: Long = 1000000L + district.districtId,
-    ) : SelectedStatisticsLocation()
+    ) : SelectedStatisticsLocation() {
+        override val uniqueID: Long
+            get() = 1000000L + district.districtId
+    }
 
     data class SelectedFederalState(
         val federalState: PpaData.PPAFederalState,
         override val addedAt: Instant,
-        override val uniqueID: Long = 2000000L + federalState.number
-    ) : SelectedStatisticsLocation()
+    ) : SelectedStatisticsLocation() {
+        override val uniqueID: Long
+            get() = 2000000L + federalState.number
+    }
 }
