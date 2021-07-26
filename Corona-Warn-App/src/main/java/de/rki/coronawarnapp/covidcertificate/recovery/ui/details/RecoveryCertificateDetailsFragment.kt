@@ -80,7 +80,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         if (QrCodeHelper.isInvalidOrExpired(certificate.getState())) {
             qrCodeCard.image.alpha = 0.1f
             qrCodeCard.invalidQrCodeSymbol.isVisible = true
-            europaImage.setImageResource(R.drawable.ic_eu_stars_grey);
+            europaImage.setImageResource(R.drawable.ic_eu_stars_grey)
             expandedImage.setImageResource(R.drawable.vaccination_incomplete)
         } else {
             qrCodeCard.invalidQrCodeSymbol.isVisible = false

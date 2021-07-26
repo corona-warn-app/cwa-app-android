@@ -80,7 +80,8 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                     val request = it.certificate?.let { cert ->
 
                         val qrCodeString = if (QrCodeHelper.isInvalidOrExpired(
-                                viewModel.getCovidCertificate().getState())
+                                viewModel.getCovidCertificate().getState()
+                            )
                         ) {
                             QrCodeHelper.sampleQrCodeText
                         } else {
