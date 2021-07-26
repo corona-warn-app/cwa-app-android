@@ -61,7 +61,8 @@
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/qr_subtitle"
         app:layout_constraintTop_toBottomOf="@id/qr_subtitle"
-        app:srcCompat="@drawable/ic_av_timer" />
+        app:srcCompat="@drawable/ic_av_timer"
+        tools:visibility="visible"/>
 
     <TextView
         android:id="@+id/expiration_status_text"
@@ -74,7 +75,8 @@
         app:layout_constraintEnd_toEndOf="@id/image"
         app:layout_constraintStart_toEndOf="@id/expiration_status_icon"
         app:layout_constraintTop_toTopOf="@id/expiration_status_icon"
-        tools:text="Zertifikat läuft am 21.08.21 um 14:12 Uhr ab" />
+        tools:text="Zertifikat läuft am 21.08.21 um 14:12 Uhr ab"
+        tools:visibility="visible"/>
 
 
     <de.rki.coronawarnapp.ui.view.ProgressLoadingButton

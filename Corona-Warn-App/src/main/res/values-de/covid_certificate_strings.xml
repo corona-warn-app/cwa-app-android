@@ -27,6 +27,8 @@
     <string name="person_card_subtitle">COVID-Zertifikat der EU</string>
     <!-- XTXT: Certificate QR code expiration text-->
     <string name="certificate_qr_expiration">"Zertifikat läuft am %s um %s Uhr ab"</string>
+    <!-- XTXT: Certificate person details card expiration text -->
+    <string name="certificate_person_details_card_expiration">"läuft am %s um %s Uhr ab"</string>
     <!-- XTXT: Certificate QR code expired text-->
     <string name="certificate_qr_expired">"Zertifikat abgelaufen"</string>
     <!-- XTXT: Certificate QR code invalid signature-->

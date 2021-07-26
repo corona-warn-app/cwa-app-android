@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview.items
 
-import android.graphics.Bitmap
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -13,9 +12,9 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewAd
 import de.rki.coronawarnapp.databinding.PersonOverviewItemBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
-import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
+import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 
