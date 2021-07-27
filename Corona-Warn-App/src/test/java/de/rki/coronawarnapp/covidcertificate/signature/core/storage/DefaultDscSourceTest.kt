@@ -8,8 +8,6 @@ import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import io.mockk.MockKAnnotations
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -24,16 +22,11 @@ internal class DefaultDscSourceTest: BaseTest() {
     private val dscListName = "default_dsc_list.bin"
     private val checkSumName = "default_dsc_list.sha256"
 
-    @Before
-    fun setup() {
-        MockKAnnotations.init(this)
-    }
-
     val context: Context
         get() = ApplicationProvider.getApplicationContext()
 
     @Test
-    fun `current default matches checksum`() {
+    fun `current default data matches checksum`() {
         val dscList = context.assets.open(dscListName).readBytes()
         val sha256 = context.assets.open(checkSumName).readBytes().toString(Charsets.UTF_8)
         sha256 shouldBe "6fb4fd075aa5ed2f4f98640517b751dfdcb2b700a1069124449b64389087d441"
@@ -41,7 +34,7 @@ internal class DefaultDscSourceTest: BaseTest() {
     }
 
     @Test
-    fun `current default config can be parsed`() {
+    fun `current default data can be parsed`() {
         shouldNotThrowAny {
             val rawDscList = context.assets.open(dscListName).readBytes()
             val parsedDscList = DscDataParser().parse(rawDscList)
