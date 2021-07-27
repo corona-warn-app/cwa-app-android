@@ -21,7 +21,6 @@ import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -67,9 +66,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 europaImage.setImageResource(europaIcon)
 
                 qrCodeCard.apply {
-                    val request = it.certificate?.let { cert ->
-                        CoilQrCode(content = cert.qrCode)
-                    }
+                    val request = it.certificate?.qrCodeToDisplay
                     image.loadAny(request) {
                         crossfade(true)
                         loadingView(image, progressBar)
@@ -100,7 +97,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                     VaccinationDetailsNavigation.Back -> popBackStack()
                     is VaccinationDetailsNavigation.FullQrCode -> findNavController().navigate(
                         R.id.action_global_qrCodeFullScreenFragment,
-                        QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
+                        QrCodeFullScreenFragmentArgs(event.qrCode).toBundle(),
                         null,
                         FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
                     )

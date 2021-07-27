@@ -4,11 +4,11 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePerso
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
-import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
+import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import io.mockk.every
 import io.mockk.mockk
 import org.joda.time.Instant
@@ -68,7 +68,7 @@ fun testCertificate(
     override val headerIssuer: String = "issuer"
     override val headerIssuedAt: Instant = Instant.EPOCH
     override val headerExpiresAt: Instant = Instant.EPOCH
-    override val qrCode: QrCodeString = "qrCode"
+    override val qrCodeToDisplay: CoilQrCode = CoilQrCode("qrCode")
     override val firstName: String = "firstName"
     override val lastName: String = "lastName"
     override val fullName: String = fullName

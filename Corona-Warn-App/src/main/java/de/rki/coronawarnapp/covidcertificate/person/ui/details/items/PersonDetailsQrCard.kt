@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
-import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 
 class PersonDetailsQrCard(parent: ViewGroup) :
     PersonDetailsAdapter.PersonDetailsItemVH<PersonDetailsQrCard.Item, PersonDetailsQrCardItemBinding>(
@@ -34,7 +33,7 @@ class PersonDetailsQrCard(parent: ViewGroup) :
 
         curItem.apply {
             image.loadAny(
-                CoilQrCode(content = curItem.certificate.qrCode)
+                curItem.certificate.qrCodeToDisplay
             ) {
                 crossfade(true)
                 loadingView(image, progressBar)
