@@ -132,7 +132,7 @@ object CertificateStateHelper {
                 certificateExpiration.text = context.getText(R.string.certificate_qr_invalid_signature)
             }
 
-            else -> {
+            is CwaCovidCertificate.State.Valid -> {
                 certificateExpiration.visibility = View.GONE
             }
         }
