@@ -5,7 +5,6 @@ import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.text.util.Linkify
 import android.widget.TextView
-import androidx.core.widget.TextViewCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.ContextExtensions.getColorStateListCompat
@@ -24,7 +23,7 @@ private fun MaterialAlertDialogBuilder.setMessageView(
     val paddingStartEnd = context.resources.getDimension(R.dimen.spacing_normal).toInt()
     val paddingLeftRight = context.resources.getDimension(R.dimen.spacing_small).toInt()
 
-    val textView = TextView(context).apply {
+    val textView = TextView(context, null, R.style.TextAppearance_AppCompat_Subhead).apply {
         text = spannable
         linksClickable = true
         movementMethod = LinkMovementMethod.getInstance()
@@ -34,7 +33,6 @@ private fun MaterialAlertDialogBuilder.setMessageView(
             paddingStartEnd,
             paddingLeftRight
         )
-        TextViewCompat.setTextAppearance(this, R.style.body1)
         setLinkTextColor(context.getColorStateListCompat(R.color.button_primary))
         setTextIsSelectable(!textHasLinks)
     }

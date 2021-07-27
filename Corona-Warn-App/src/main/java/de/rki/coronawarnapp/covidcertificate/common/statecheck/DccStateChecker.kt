@@ -29,7 +29,7 @@ class DccStateChecker @Inject constructor(
         dscRepository.dscData
     ) { appConfig, dscData ->
         try {
-            dscSignatureValidator.isSignatureValid(dscData, dccData)
+            dscSignatureValidator.validateSignature(dccData = dccData, preFetchedDscData = dscData)
         } catch (e: Exception) {
             Timber.tag(TAG).w(e, "Certificate had invalid signature.")
             return@combine CwaCovidCertificate.State.Invalid

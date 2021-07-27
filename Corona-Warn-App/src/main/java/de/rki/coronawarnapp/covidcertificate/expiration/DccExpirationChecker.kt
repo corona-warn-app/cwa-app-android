@@ -24,7 +24,7 @@ class DccExpirationChecker @Inject constructor() {
         return when {
             daysUntilExpiration < 0 -> CwaCovidCertificate.State.Expired(expiresAt)
             daysUntilExpiration == 0 -> {
-                if (now.toDateTime(timeZone).isAfter(expiresAt)) {
+                if (now.isAfter(expiresAt)) {
                     CwaCovidCertificate.State.Expired(expiresAt)
                 } else {
                     CwaCovidCertificate.State.ExpiringSoon(expiresAt)

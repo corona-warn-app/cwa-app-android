@@ -31,7 +31,7 @@ class DccExpirationNotificationService @Inject constructor(
 
         val lastCheck = covidCertificateSettings.lastDccStateBackgroundCheck.value
 
-        if (!lastCheck.toLocalDateUtc().isDifferentDay(timeStamper.nowUTC.toLocalDateUtc())) {
+        if (lastCheck.toLocalDateUtc() == timeStamper.nowUTC.toLocalDateUtc()) {
             Timber.tag(TAG).d("Last check was within 24h, skipping.")
             return
         }
