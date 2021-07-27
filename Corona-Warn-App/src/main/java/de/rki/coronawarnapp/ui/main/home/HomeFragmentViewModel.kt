@@ -203,6 +203,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 }
             }
 
+            // Only show statistic cards if cached data or internet is available
             if (statsData.isDataAvailable || networkState.isInternetAvailable) {
                 add(
                     StatisticsHomeCard.Item(
@@ -211,6 +212,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
                             when (it) {
                                 is AddStatsItem -> {
                                     events.postValue(HomeFragmentEvents.GoToFederalStateSelection)
+                                    // Go to federal state selection if internet is available
+                                    if (networkState.isInternetAvailable) {
+                                        events.postValue(HomeFragmentEvents.GoToFederalStateSelection)
+                                    } else {
+                                        events.postValue(HomeFragmentEvents.ShowInternetNotAvailableDialog)
+                                    }
                                 }
                                 else -> events.postValue(HomeFragmentEvents.GoToStatisticsExplanation)
                             }

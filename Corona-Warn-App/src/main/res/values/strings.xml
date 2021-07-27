@@ -1944,4 +1944,11 @@
     <string name="incompatible_link_advertising_not_supported">"https://www.coronawarn.app/en/faq/#part_incompat"</string>
     <!-- XTXT: Incompitability faq link for full incompatibility -->
     <string name="incompatible_link_scanning_not_supported">"https://www.coronawarn.app/en/faq/#full_incompat"</string>
+
+    <!-- XHED: Dialog title for internet is not available dialog -->
+    <string name="statistics_add_card_internet_not_available_dialog_title">"Keine Internet-Verbindung"</string>
+    <!-- XMSG: Dialog message for internet is not available dialog -->
+    <string name="statistics_add_card_internet_not_available_dialog_msg">"Möglicherweise wurde Ihre Internet-Verbindung unterbrochen. Bitte stellen Sie sicher, dass Sie mit dem Internet verbunden sind."</string>
+    <!-- XBUT: Positive button for internet is not available dialog -->
+    <string name="statistics_add_card_internet_not_available_dialog_button">"OK"</string>
 </resources>
