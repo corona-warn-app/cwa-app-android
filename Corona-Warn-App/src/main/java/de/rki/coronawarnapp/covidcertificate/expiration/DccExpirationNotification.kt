@@ -74,7 +74,7 @@ class DccExpirationNotification @Inject constructor(
         }
 
         return deepLinkBuilderFactory.create(context)
-            .setGraph(R.navigation.covid_certificates_graph)
+            .setGraph(R.navigation.nav_graph)
             .setComponentName(LauncherActivity::class.java)
             .setDestination(destination)
             .setArguments(args)

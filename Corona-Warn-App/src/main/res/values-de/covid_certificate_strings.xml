@@ -279,7 +279,7 @@
 
     <!-- DCC notification channel-->
     <!-- XTXT: certificate notification channel title -->
-    <string name="dcc_notification_channel_title">tbd</string>
+    <string name="dcc_notification_channel_title">Zertifikate</string>
     <!-- XTXT: certificate notification channel description -->
-    <string name="dcc_notification_channel_description">tbd</string>
+    <string name="dcc_notification_channel_description">Benachrichtigungen für Zertifikate verwalten</string>
 </resources>
