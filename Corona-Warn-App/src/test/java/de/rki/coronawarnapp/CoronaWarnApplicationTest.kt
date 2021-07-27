@@ -42,6 +42,7 @@ import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.verifySequence
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineScope
 import org.conscrypt.Conscrypt
 import org.junit.jupiter.api.BeforeEach
@@ -77,16 +78,16 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var raTestResultScheduler: RAResultScheduler
     @MockK lateinit var testCertificateRetrievalScheduler: TestCertificateRetrievalScheduler
     @MockK lateinit var localStatisticsRetrievalScheduler: LocalStatisticsRetrievalScheduler
-
     @MockK lateinit var pcrTestResultAvailableNotificationService: PCRTestResultAvailableNotificationService
-
     @MockK lateinit var raTestResultAvailableNotificationService: RATTestResultAvailableNotificationService
     @MockK lateinit var vaccinationUpdateScheduler: VaccinationUpdateScheduler
     @MockK lateinit var rollingLogHistory: Timber.Tree
     @MockK lateinit var environmentSetup: EnvironmentSetup
     @MockK lateinit var imageLoaderFactory: ImageLoaderFactory
     @MockK lateinit var dscCheckScheduler: DccStateCheckScheduler
+    @MockK lateinit var securityProvider: SecurityProvider
 
+    @ExperimentalCoroutinesApi
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
@@ -138,6 +139,7 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.vaccinationUpdateScheduler = vaccinationUpdateScheduler
                 app.testCertificateRetrievalScheduler = testCertificateRetrievalScheduler
                 app.localStatisticsRetrievalScheduler = localStatisticsRetrievalScheduler
+                app.securityProvider = securityProvider
                 app.appScope = TestCoroutineScope()
                 app.rollingLogHistory = object : Timber.Tree() {
                     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
