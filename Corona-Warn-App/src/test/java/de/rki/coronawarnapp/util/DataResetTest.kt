@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
+import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificatePreferences
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
@@ -72,6 +73,7 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var testCertificateRepository: TestCertificateRepository
     @MockK lateinit var personCertificatesSettings: PersonCertificatesSettings
     @MockK lateinit var validationRepository: DccValidationRepository
+    @MockK lateinit var recoveryCertificateRepository: RecoveryCertificateRepository
 
     @BeforeEach
     fun setUp() {
@@ -110,6 +112,7 @@ internal class DataResetTest : BaseTest() {
         testCertificateRepository = testCertificateRepository,
         personCertificatesSettings = personCertificatesSettings,
         validationRepository = validationRepository,
+        recoveryCertificateRepository = recoveryCertificateRepository,
     )
 
     @Test
@@ -147,6 +150,7 @@ internal class DataResetTest : BaseTest() {
             valueSetsRepository.clear()
             personCertificatesSettings.clear()
             validationRepository.clear()
+            recoveryCertificateRepository.clear()
         }
     }
 }
