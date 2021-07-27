@@ -52,22 +52,6 @@ object CertificateStateHelper {
                 )
             }
         }
-        setState(context, certificate, isPersonDetails, isCertificateDetails)
-    }
-
-    private fun setVisibility(visibility: Boolean) =
-        if (visibility) {
-            View.VISIBLE
-        } else {
-            View.GONE
-        }
-
-    private fun IncludeCertificateQrcodeCardBinding.setState(
-        context: Context,
-        certificate: CwaCovidCertificate,
-        isPersonDetails: Boolean,
-        isCertificateDetails: Boolean
-    ) {
         when (certificate.getState()) {
             is CwaCovidCertificate.State.ExpiringSoon -> {
                 expirationStatusIcon.visibility = View.VISIBLE
@@ -115,6 +99,13 @@ object CertificateStateHelper {
             }
         }
     }
+
+    private fun setVisibility(visibility: Boolean) =
+        if (visibility) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
 
     fun displayIndividualCardsExpirationState(
         certificateExpiration: TextView,
