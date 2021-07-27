@@ -35,7 +35,7 @@ class DccQrCodeScanFragment :
     private val binding: FragmentScanQrCodeBinding by viewBinding()
     private var showsPermissionDialog = false
 
-    val requestPermissionLauncher =
+    private val requestPermissionLauncher =
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
@@ -51,11 +51,11 @@ class DccQrCodeScanFragment :
             }
         }
 
-    val filePickerLauncher =
+    private val filePickerLauncher =
         registerForActivityResult(
             ActivityResultContracts.OpenDocument()
         ) { contentURI: Uri ->
-
+            viewModel.onFileSelected(contentURI)
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
