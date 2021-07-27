@@ -114,7 +114,7 @@ internal class DscRepositoryTest {
                         dscDataParser.parse(any())
                     }
 
-                    coVerify (exactly = 0) {
+                    coVerify(exactly = 0) {
                         localStorage.save(any())
                     }
                 }
