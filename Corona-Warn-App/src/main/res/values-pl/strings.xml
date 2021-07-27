@@ -1529,6 +1529,8 @@
     <string name="statistics_add_card_title">"Dodaj lokalną 7-dniową zapadalność"</string>
     <!-- XTXT: Statistics add card warning -->
     <string name="statistics_add_card_warning">"Osiągnięto maksymalną liczbę wskaźników lokalnej 7-dniowej zapadalności."</string>
+    <!-- XTXT: Statistics add screen whole state -->
+    <string name="statistics_local_incidence_whole_state_text">"Cały kraj związkowy"</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility
