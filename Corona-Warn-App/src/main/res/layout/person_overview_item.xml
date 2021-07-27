@@ -73,70 +73,25 @@
         android:maxLines="1"
         android:textColor="@color/colorTextPrimary1InvertedStable"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/qr_code_image_container"
+        app:layout_constraintBottom_toTopOf="@+id/qr_code_card"
         app:layout_constraintEnd_toEndOf="@+id/certificate_subtitle"
         app:layout_constraintStart_toStartOf="@+id/certificate_subtitle"
         app:layout_constraintTop_toBottomOf="@+id/certificate_subtitle"
         app:layout_constraintVertical_bias="0.0"
         tools:text="Andrea Schneider" />
 
-    <FrameLayout
-        android:id="@+id/qr_code_image_container"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="16dp"
-        android:background="@drawable/rounded_white_background"
-        android:backgroundTint="@color/qrcodeCardColor"
-        android:contentDescription="@string/trace_location_event_detail_qr_code_accessibility"
-        android:elevation="1dp"
-        android:padding="12dp"
+    <include
+        android:id="@+id/qr_code_card"
+        layout="@layout/include_certificate_qrcode_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name">
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/qrcode_image"
-            style="@style/ShapeAppearanceOverlay"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible"
-            tools:srcCompat="@drawable/ic_qr_code"
-            tools:tint="@android:color/black"
-            tools:visibility="visible" />
-
-        <com.google.android.material.progressindicator.LinearProgressIndicator
-            android:id="@+id/qr_code_loading_indicator"
-            android:layout_width="140dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center"
-            android:indeterminate="true"
-            app:hideAnimationBehavior="inward" />
-    </FrameLayout>
-    <ImageView
-        android:id="@+id/expiration_status_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="@dimen/spacing_tiny"
-        android:importantForAccessibility="no"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="@id/qr_code_image_container"
-        app:layout_constraintTop_toBottomOf="@id/qr_code_image_container"
-        app:srcCompat="@drawable/ic_av_timer" />
-
-    <TextView
-        android:id="@+id/expiration_status_text"
-        style="@style/body2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_tiny"
-        android:layout_marginEnd="@dimen/spacing_huge"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@id/qr_code_image_container"
-        app:layout_constraintStart_toEndOf="@id/expiration_status_icon"
-        app:layout_constraintTop_toTopOf="@id/expiration_status_icon"
-        tools:text="Zertifikat läuft am 21.08.21 um 14:12 Uhr ab" />
+        app:layout_constraintTop_toBottomOf="@id/name" />
 
 
     <View
@@ -144,9 +99,9 @@
         android:layout_width="1dp"
         android:layout_height="1dp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@id/qr_code_image_container"
+        app:layout_constraintBottom_toBottomOf="@id/qr_code_card"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/qr_code_image_container" />
+        app:layout_constraintTop_toTopOf="@id/qr_code_card" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview.items
 
-import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import coil.loadAny
 import de.rki.coronawarnapp.R
@@ -10,10 +8,9 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewAdapter
 import de.rki.coronawarnapp.databinding.PersonOverviewItemBinding
+import de.rki.coronawarnapp.util.CertificateStateHelper.bindValidityViews
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
@@ -35,11 +32,11 @@ class PersonCertificateCard(parent: ViewGroup) :
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
         name.text = curItem.certificate.fullName
 
-        qrcodeImage.loadAny(
+        qrCodeCard.image.loadAny(
             CoilQrCode(content = curItem.certificate.qrCode)
         ) {
             crossfade(true)
-            loadingView(qrcodeImage, qrCodeLoadingIndicator)
+            loadingView(qrCodeCard.image, qrCodeCard.progressBar)
         }
 
         backgroundImage.setImageResource(curItem.colorShade.background)
@@ -49,35 +46,7 @@ class PersonCertificateCard(parent: ViewGroup) :
             setOnClickListener { curItem.onClickAction(curItem, adapterPosition) }
             transitionName = curItem.certificate.personIdentifier.codeSHA256
         }
-        when (curItem.certificate.getState()) {
-            is CwaCovidCertificate.State.ExpiringSoon -> {
-                expirationStatusIcon.visibility = View.VISIBLE
-                expirationStatusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_av_timer))
-                expirationStatusText.visibility = View.VISIBLE
-                expirationStatusText.text = context.getString(
-                    R.string.certificate_qr_expiration,
-                    curItem.certificate.headerExpiresAt.toShortDayFormat(),
-                    curItem.certificate.headerExpiresAt.toShortTimeFormat()
-                )
-            }
-
-            is CwaCovidCertificate.State.Expired -> {
-                expirationStatusIcon.visibility = View.VISIBLE
-                expirationStatusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_error_outline))
-                expirationStatusText.visibility = View.VISIBLE
-                expirationStatusText.text = context.getText(R.string.certificate_qr_expired)
-            }
-
-            is CwaCovidCertificate.State.Invalid -> {
-                expirationStatusIcon.visibility = View.VISIBLE
-                expirationStatusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_error_outline))
-                expirationStatusText.visibility = View.VISIBLE
-                expirationStatusText.text = context.getText(R.string.certificate_qr_invalid_signature)
-            }
-
-            else -> {
-            }
-        }
+        qrCodeCard.bindValidityViews(context, curItem.certificate, isPersonOverview = true)
     }
 
     private fun starsDrawable(item: Item) =
