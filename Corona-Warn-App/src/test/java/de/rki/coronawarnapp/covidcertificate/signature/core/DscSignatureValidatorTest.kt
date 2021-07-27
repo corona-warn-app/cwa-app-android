@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.signature.core
 
+import de.rki.coronawarnapp.SecurityProvider
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
@@ -10,20 +11,22 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCerti
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_OID_MISMATCH_TC
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_OID_MISMATCH_VC
 import de.rki.coronawarnapp.server.protocols.internal.dgc.DscListOuterClass.DscList
-import okio.ByteString.Companion.decodeBase64
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import testhelpers.BaseTest
 import de.rki.coronawarnapp.util.toOkioByteString
 import io.kotest.assertions.throwables.shouldNotThrow
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
+import okio.ByteString.Companion.decodeBase64
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import testhelpers.BaseTest
 import javax.inject.Inject
 
 @Suppress("MaxLineLength")
@@ -32,11 +35,13 @@ class DscSignatureValidatorTest : BaseTest() {
 
     @Inject lateinit var extractor: DccQrCodeExtractor
     @MockK lateinit var dscRepository: DscRepository
+    @MockK lateinit var securityProvider: SecurityProvider
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this, true)
         every { dscRepository.dscData } returns flowOf(dscData)
+        every { securityProvider.setup() } just Runs
 
         DaggerCovidCertificateTestComponent.factory().create().inject(this)
     }
@@ -261,7 +266,11 @@ class DscSignatureValidatorTest : BaseTest() {
         }
     }
 
-    private fun validator() = DscSignatureValidator(dscRepository)
+    private fun validator() = DscSignatureValidator(
+        securityProvider = securityProvider,
+        dscRepository = dscRepository
+    )
+
     private fun dccData(hc: String) = extractor.extract(hc).data
 
     companion object {

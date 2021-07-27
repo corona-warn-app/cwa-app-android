@@ -31,9 +31,16 @@ import javax.inject.Inject
  */
 @Reusable
 class DscSignatureValidator @Inject constructor(
+    securityProvider: SecurityProvider,
     private val dscRepository: DscRepository
 ) {
-    private val certificateFactory by lazy { CertificateFactory.getInstance("X.509") }
+    private val certificateFactory by lazy {
+        CertificateFactory.getInstance("X.509")
+    }
+
+    init {
+        securityProvider.setup()
+    }
 
     private val vcOids = setOf(
         "1.3.6.1.4.1.1847.2021.1.2",
