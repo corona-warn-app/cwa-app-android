@@ -21,11 +21,13 @@ class CovidCertificateConfigMapperTest : BaseTest() {
                             .setWaitForRetryInSeconds(60)
                             .setWaitAfterPublicKeyRegistrationInSeconds(60)
                     )
+                    .setExpirationThresholdInDays(13)
             )
             .build()
         createInstance().map(config).apply {
             testCertificate.waitAfterPublicKeyRegistration shouldBe Duration.standardSeconds(60)
             testCertificate.waitForRetry shouldBe Duration.standardSeconds(60)
+            expirationThreshold shouldBe Duration.standardDays(13)
         }
     }
 
@@ -34,6 +36,7 @@ class CovidCertificateConfigMapperTest : BaseTest() {
         createInstance().map(AppConfigAndroid.ApplicationConfigurationAndroid.getDefaultInstance()).apply {
             testCertificate.waitAfterPublicKeyRegistration shouldBe Duration.standardSeconds(10)
             testCertificate.waitForRetry shouldBe Duration.standardSeconds(10)
+            expirationThreshold shouldBe Duration.standardDays(14)
         }
     }
 
@@ -45,6 +48,7 @@ class CovidCertificateConfigMapperTest : BaseTest() {
         createInstance().map(config).apply {
             testCertificate.waitAfterPublicKeyRegistration shouldBe Duration.standardSeconds(10)
             testCertificate.waitForRetry shouldBe Duration.standardSeconds(10)
+            expirationThreshold shouldBe Duration.standardDays(14)
         }
     }
 
@@ -63,6 +67,7 @@ class CovidCertificateConfigMapperTest : BaseTest() {
         createInstance().map(config).apply {
             testCertificate.waitAfterPublicKeyRegistration shouldBe Duration.standardSeconds(10)
             testCertificate.waitForRetry shouldBe Duration.standardSeconds(10)
+            expirationThreshold shouldBe Duration.standardDays(14)
         }
     }
 }

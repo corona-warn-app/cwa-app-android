@@ -1,8 +1,9 @@
-package de.rki.coronawarnapp.presencetracing.common
+package de.rki.coronawarnapp.covidcertificate.common.common
 
 import android.content.Context
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationManagerCompat
+import de.rki.coronawarnapp.covidcertificate.common.notification.DigitalCovidCertificateNotifications
 import de.rki.coronawarnapp.util.BuildVersionWrap
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -18,7 +19,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class TraceLocationNotificationsTest : BaseTest() {
+class DigitalCovidCertificateNotificationsTest : BaseTest() {
 
     @MockK lateinit var context: Context
     @MockK lateinit var notificationManager: NotificationManagerCompat
@@ -43,7 +44,7 @@ class TraceLocationNotificationsTest : BaseTest() {
         }
     }
 
-    fun createInstance() = PresenceTracingNotifications(
+    fun createInstance() = DigitalCovidCertificateNotifications(
         context = context,
         notificationManagerCompat = notificationManager
     )
@@ -53,7 +54,7 @@ class TraceLocationNotificationsTest : BaseTest() {
         val instance = createInstance()
         instance.sendNotification(1, mockk())
 
-        channelSlot.captured.id shouldBe "packagename.notification.presenceTracingChannelId"
+        channelSlot.captured.id shouldBe "packagename.notification.digitalCovidCertificateChannelId"
 
         verify {
             notificationManager.createNotificationChannel(any<NotificationChannelCompat>())

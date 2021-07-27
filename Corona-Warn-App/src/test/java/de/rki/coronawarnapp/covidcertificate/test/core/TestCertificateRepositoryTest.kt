@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
-import de.rki.coronawarnapp.covidcertificate.signature.core.DccStateChecker
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.BaseTestCertificateData
