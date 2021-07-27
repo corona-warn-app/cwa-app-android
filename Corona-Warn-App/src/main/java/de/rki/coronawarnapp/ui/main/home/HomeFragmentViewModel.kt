@@ -147,7 +147,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 statsData.items
         )
     }
-    
+
     val homeItems: LiveData<List<HomeItem>> = combine(
         tracingCardItems,
         coronaTestRepository.latestPCRT,
@@ -202,10 +202,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     } else add(testRAT.toTestCardItem(coronaTestParameters))
                 }
             }
-//**************************************************************************
+            // **************************************************************************
             Timber.d("Test: is internet available? ${networkState.isInternetAvailable}")
-//**************************************************************************
-
+            // **************************************************************************
 
             if (statsData.isDataAvailable || networkState.isInternetAvailable) {
                 add(
