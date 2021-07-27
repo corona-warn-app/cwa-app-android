@@ -16,7 +16,7 @@ class CovidCertificateOnboardingViewModel @AssistedInject constructor(
     val events = SingleLiveEvent<Event>()
 
     fun onContinueClick() {
-        covidCertificateSettings.isOnboardingDone = true
+        covidCertificateSettings.isOnboarded.update { true }
         events.postValue(Event.NavigateToPersonOverview)
     }
 
