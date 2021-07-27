@@ -110,6 +110,11 @@ class DccQrCodeScanFragment :
                             }
                             setNeutralButton(R.string.dcc_signature_validation_dialog_ok_button) { _, _ -> }
                         }
+                        it.errorCode == InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED -> {
+                            setNeutralButton(R.string.error_button_dcc_faq) { _, _ ->
+                                openUrl(R.string.error_button_dcc_faq_link)
+                            }
+                        }
                     }
                 }
             }.show()
