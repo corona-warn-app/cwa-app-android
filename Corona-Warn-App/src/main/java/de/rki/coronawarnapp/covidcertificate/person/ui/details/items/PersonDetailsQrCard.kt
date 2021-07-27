@@ -41,7 +41,6 @@ class PersonDetailsQrCard(parent: ViewGroup) :
             startValidationCheckButton.isLoading = curItem.isLoading
             bindValidityViews(context, certificate, isPersonDetails = true)
         }
-
     }
 
     data class Item(
