@@ -18,7 +18,14 @@ data class DscMessage(
     val kid: String,
 ) {
     enum class Algorithm(val algName: String) {
+        /**
+         * Available since Android API 11+
+         */
         ES256("SHA256withECDSA"),
+
+        /**
+         * Available since Android API 23+
+         */
         PS256("SHA256withRSA/PSS")
     }
 }

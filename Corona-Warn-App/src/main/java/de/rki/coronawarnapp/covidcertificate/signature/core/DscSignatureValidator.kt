@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.signature.core
 
-import com.upokecenter.cbor.CBORObject
 import dagger.Reusable
+import de.rki.coronawarnapp.SecurityProvider
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DscMessage
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DscMessage.Algorithm.ES256
@@ -17,32 +17,29 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCerti
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_OID_MISMATCH_TC
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DSC_OID_MISMATCH_VC
 import kotlinx.coroutines.flow.first
-import org.bouncycastle.asn1.ASN1Integer
-import org.bouncycastle.asn1.DERSequence
-import org.bouncycastle.asn1.pkcs.RSAPublicKey
-import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo
-import org.bouncycastle.jce.provider.BouncyCastleProvider
 import timber.log.Timber
-import java.io.ByteArrayInputStream
-import java.math.BigInteger
-import java.security.KeyFactory
 import java.security.PublicKey
-import java.security.Security
 import java.security.Signature
 import java.security.cert.CertificateExpiredException
 import java.security.cert.CertificateFactory
 import java.security.cert.CertificateNotYetValidException
 import java.security.cert.X509Certificate
-import java.security.spec.RSAPublicKeySpec
 import javax.inject.Inject
 
+/**
+ * Security provider is added by [SecurityProvider] at app start
+ */
 @Reusable
 class DscSignatureValidator @Inject constructor(
+    securityProvider: SecurityProvider,
     private val dscRepository: DscRepository
 ) {
+    private val certificateFactory by lazy {
+        CertificateFactory.getInstance("X.509")
+    }
 
     init {
-        Security.addProvider(BouncyCastleProvider()) // For SHA256withRSA/PSS
+        securityProvider.setup()
     }
 
     private val vcOids = setOf(
@@ -66,37 +63,30 @@ class DscSignatureValidator @Inject constructor(
     suspend fun validateSignature(dccData: DccData<*>) {
         val dscData = dscRepository.dscData.first()
         Timber.tag(TAG).d("validateSignature(dscListSize=%s)", dscData.dscList.size)
-        val dscMessage = dccData.dscMessage
-        val signedPayload = CBORObject.NewArray().apply {
-            Add("Signature1")
-            Add(dscMessage.protectedHeader.toByteArray())
-            Add(ByteArray(0))
-            Add(dscMessage.payload.toByteArray())
-        }.EncodeToBytes()
 
-        findDscCertificate(dscData, dscMessage, signedPayload).apply {
+        findDscCertificate(dscData, dccData.dscMessage).apply {
             validate()
-            checkCertOid(dccData)
+            checkOidsIntersect(dccData)
         }
     }
 
     private fun findDscCertificate(
         dscData: DscData,
-        dscMessage: DscMessage,
-        toVerify: ByteArray
+        dscMessage: DscMessage
     ): X509Certificate {
+        val toVerify = dscMessage.signedPayload()
         val filteredDscSet = dscData.dscList.filter { it.kid == dscMessage.kid }
-        Timber.d("filteredDscSetSize=${filteredDscSet.size}")
+        Timber.tag(TAG).d("filteredDscSetSize=${filteredDscSet.size}")
 
         val matchedDscSet = when {
             filteredDscSet.isEmpty() || dscMessage.kid.isEmpty() -> dscData.dscList
             else -> filteredDscSet
         }
-        Timber.d("matchedDscSetSize=${matchedDscSet.size}")
+        Timber.tag(TAG).d("matchedDscSetSize=${matchedDscSet.size}")
 
         var x509Certificate: X509Certificate? = null
         for (dsc in matchedDscSet) {
-            val dscCertificate = x509certificate(dsc)
+            val dscCertificate = dsc.toX509certificate()
             val (publicKey, signature) = when (dscMessage.algorithm) {
                 ES256 -> dscCertificate.publicKey to dscMessage.signature.toByteArray().toECDSAVerifier()
                 PS256 -> dscCertificate.publicKey.toRsaPublicKey() to dscMessage.signature.toByteArray()
@@ -104,35 +94,24 @@ class DscSignatureValidator @Inject constructor(
 
             try {
                 val valid = Signature.getInstance(dscMessage.algorithm.algName).verify(publicKey, toVerify, signature)
-                Timber.d("Dsc certificate (${dsc.kid}) is valid=$valid")
+                Timber.tag(TAG).d("Dsc certificate (${dsc.kid}) is valid=$valid")
 
                 if (valid) {
                     x509Certificate = dscCertificate
                     break
                 }
-            } catch (ignored: Exception) {
-                // Ignore errors / continue
+            } catch (e: Exception) {
+                Timber.w(e, "Signature verification failed.") // Continue
             }
         }
 
         return x509Certificate ?: throw InvalidHealthCertificateException(HC_DSC_NO_MATCH)
     }
 
-    private fun x509certificate(dscItem: DscItem): X509Certificate {
-        return ByteArrayInputStream(dscItem.data.toByteArray()).use {
-            CertificateFactory.getInstance("X.509").generateCertificate(it)
-        } as X509Certificate
-    }
-
-    private fun ByteArray.toECDSAVerifier(): ByteArray {
-        val (r, s) = splitHalves()
-        return DERSequence(
-            arrayOf(
-                ASN1Integer(BigInteger(1, r)),
-                ASN1Integer(BigInteger(1, s)),
-            )
-        ).encoded
-    }
+    private fun DscItem.toX509certificate(): X509Certificate =
+        data.toByteArray().inputStream().use {
+            certificateFactory.generateCertificate(it) as X509Certificate
+        }
 
     private fun X509Certificate.validate() {
         try {
@@ -144,7 +123,7 @@ class DscSignatureValidator @Inject constructor(
         }
     }
 
-    private fun X509Certificate.checkCertOid(dccData: DccData<*>) {
+    private fun X509Certificate.checkOidsIntersect(dccData: DccData<*>) {
         val extendedKeysIntersect = extendedKeyUsage.orEmpty().toSet() intersect oidSet
         if (extendedKeysIntersect.isEmpty()) return // OK!
         when (dccData.certificate) {
@@ -159,13 +138,6 @@ class DscSignatureValidator @Inject constructor(
         }
     }
 
-    private fun PublicKey.toRsaPublicKey(): PublicKey {
-        val bytes = SubjectPublicKeyInfo.getInstance(this.encoded).publicKeyData.bytes
-        val rsaPublicKey = RSAPublicKey.getInstance(bytes)
-        val spec = RSAPublicKeySpec(rsaPublicKey.modulus, rsaPublicKey.publicExponent)
-        return KeyFactory.getInstance("RSA").generatePublic(spec)
-    }
-
     private fun Signature.verify(
         verificationKey: PublicKey,
         toVerify: ByteArray,
@@ -175,9 +147,6 @@ class DscSignatureValidator @Inject constructor(
         update(toVerify)
         return verify(signature)
     }
-
-    private fun ByteArray.splitHalves(): Pair<ByteArray, ByteArray> =
-        take(size / 2).toByteArray() to drop(size / 2).toByteArray()
 
     companion object {
         private const val TAG = "DscSignatureValidator"
