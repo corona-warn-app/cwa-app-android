@@ -39,8 +39,8 @@ class TechnicalValidationFailedVH(
 
             textExpiredDate.text = context.getString(
                 R.string.validation_rule_technical_error_date_expired_format,
-                expirationDateAt.toShortDayFormat(),
-                expirationDateAt.toShortTimeFormat(),
+                certificateExpiredAt.toShortDayFormat(),
+                certificateExpiredAt.toShortTimeFormat(),
             )
         }
     }

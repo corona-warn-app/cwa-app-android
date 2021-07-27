@@ -43,7 +43,7 @@ class DccValidator @Inject constructor(
             userInput = userInput,
             validatedAt = timeStamper.nowUTC,
             signatureCheckPassed = signatureCheckPassed,
-            expirationDateAt = certificate.header.expiresAt.toLocalDateTime(DateTimeZone.UTC),
+            certificateExpiredAt = certificate.header.expiresAt.toLocalDateTime(DateTimeZone.UTC),
             expirationCheckPassed = expirationCheckPassed,
             jsonSchemaCheckPassed = jsonSchemaCheckPassed,
             acceptanceRules = businessValidation.acceptanceRules,

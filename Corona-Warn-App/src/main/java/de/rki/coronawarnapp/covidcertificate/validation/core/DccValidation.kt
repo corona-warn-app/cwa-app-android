@@ -14,7 +14,7 @@ data class DccValidation(
     val userInput: ValidationUserInput,
     val validatedAt: Instant,
     val signatureCheckPassed: Boolean,
-    val expirationDateAt: LocalDateTime,
+    val certificateExpiredAt: LocalDateTime,
     val expirationCheckPassed: Boolean,
     val jsonSchemaCheckPassed: Boolean,
     val acceptanceRules: Set<EvaluatedDccRule>,
