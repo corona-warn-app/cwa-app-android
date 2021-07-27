@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.util
 
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.ageInDays
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.daysUntil
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.derive10MinutesInterval
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.deriveHourInterval
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.getCurrentHourUTC
@@ -100,5 +101,28 @@ class TimeAndDateExtensionsTest : BaseTest() {
     fun `derive 1 hour interval`() {
         Instant.parse("2021-02-15T13:52:05+00:00")
             .deriveHourInterval() shouldBe 448165
+    }
+
+    @Test
+    fun `days until`() {
+        Instant.parse("2021-02-15T13:52:05+00:00").daysUntil(
+            date = Instant.parse("2021-02-15T13:52:05+02:00"),
+            timeZone = DateTimeZone.forOffsetHours(2)
+        ) shouldBe 0
+
+        Instant.parse("2021-02-13T23:00:05+00:00").daysUntil(
+            date = Instant.parse("2021-02-15T00:52:05+02:00"),
+            timeZone = DateTimeZone.forOffsetHours(2)
+        ) shouldBe 1
+
+        Instant.parse("2021-02-15T00:00:05+00:00").daysUntil(
+            date = Instant.parse("2021-02-14T00:52:05+02:00"),
+            timeZone = DateTimeZone.forOffsetHours(2)
+        ) shouldBe -1
+
+        Instant.parse("2021-02-15T00:00:05+02:00").daysUntil(
+            date = Instant.parse("2021-02-14T00:52:05+00:00"),
+            timeZone = DateTimeZone.forOffsetHours(0)
+        ) shouldBe 0
     }
 }

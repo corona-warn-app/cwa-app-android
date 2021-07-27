@@ -11,6 +11,11 @@ internal val logicVaccinationDose = ObjectMapper().readTree(
     """{"and":[{">":[{"var":"payload.v.0.dn"},0]},{">=":[{"var":"payload.v.0.dn"},{"var":"payload.v.0.sd"}]}]}"""
 )
 
+@Suppress("MaxLineLength")
+internal val logicPcr72hoursValid = ObjectMapper().readTree(
+    """{"if":[{"var":"payload.t.0"},{"if":[{"===":[{"var":"payload.t.0.tt"},"LP6464-4"]},{"not-after":[{"plusTime":[{"var":"external.validationClock"},0,"day"]},{"plusTime":[{"var":"payload.t.0.sc"},72,"hour"]}]},true]},true]}"""
+)
+
 internal val logicExactlyOne = ObjectMapper().readTree(
     """{
       "===": [
@@ -76,7 +81,7 @@ fun createDccRule(
     certificateType = certificateType.name,
     description = when (certificateType) {
         RuleCertificateType.GENERAL -> listOf(Description("en", "Exactly one type of event."))
-        RuleCertificateType.TEST -> listOf(Description("en", "Test is outdated."))
+        RuleCertificateType.TEST -> listOf(Description("en", "PCR Test must not be older than 72h."))
         RuleCertificateType.VACCINATION -> listOf(Description("en", "Vaccination must be complete."))
         RuleCertificateType.RECOVERY -> throw NotImplementedError()
     },
@@ -90,7 +95,7 @@ fun createDccRule(
     },
     logic = when (certificateType) {
         RuleCertificateType.GENERAL -> logicExactlyOne
-        RuleCertificateType.TEST -> logicExactlyOne // TODO
+        RuleCertificateType.TEST -> logicPcr72hoursValid
         RuleCertificateType.VACCINATION -> logicVaccinationDose
         RuleCertificateType.RECOVERY -> throw NotImplementedError()
     }

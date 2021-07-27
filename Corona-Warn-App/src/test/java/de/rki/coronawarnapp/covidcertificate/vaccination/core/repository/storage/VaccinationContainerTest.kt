@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storag
 
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
@@ -65,7 +66,11 @@ class VaccinationContainerTest : BaseTest() {
 
     @Test
     fun `mapping to user facing data - valueset is null`() {
-        testData.personAVac1Container.toVaccinationCertificate(null, userLocale = Locale.GERMAN).apply {
+        testData.personAVac1Container.toVaccinationCertificate(
+            valueSet = null,
+            certificateState = CwaCovidCertificate.State.Invalid,
+            userLocale = Locale.GERMAN
+        ).apply {
             firstName shouldBe "Andreas"
             lastName shouldBe "Astrá Eins"
             fullName shouldBe "Andreas Astrá Eins"
@@ -112,7 +117,11 @@ class VaccinationContainerTest : BaseTest() {
             ma = DefaultValueSet(items = listOf(maItem))
         )
 
-        testData.personAVac1Container.toVaccinationCertificate(vaccinationValueSets, userLocale = Locale.GERMAN).apply {
+        testData.personAVac1Container.toVaccinationCertificate(
+            valueSet = vaccinationValueSets,
+            certificateState = CwaCovidCertificate.State.Invalid,
+            userLocale = Locale.GERMAN,
+        ).apply {
             firstName shouldBe "Andreas"
             lastName shouldBe "Astrá Eins"
             fullName shouldBe "Andreas Astrá Eins"
@@ -139,7 +148,10 @@ class VaccinationContainerTest : BaseTest() {
 
     @Test
     fun `nonsense country code appears unchanged`() {
-        testData.personXVac1ContainerBadCountryData.toVaccinationCertificate(null).apply {
+        testData.personXVac1ContainerBadCountryData.toVaccinationCertificate(
+            valueSet = null,
+            certificateState = CwaCovidCertificate.State.Invalid
+        ).apply {
             certificateCountry shouldBe "YY"
         }
     }

@@ -43,6 +43,17 @@ open class InvalidHealthCertificateException(
         AES_DECRYPTION_FAILED("AES decryption failed"),
         RSA_DECRYPTION_FAILED("RSA decryption failed."),
         RSA_KP_GENERATION_FAILED("RSA key pair generation failed."),
+
+        HC_COSE_NO_SIGN1("Signature is not a byte sequence."),
+        HC_COSE_PH_INVALID("Parsing of the protected header fails."),
+        HC_COSE_NO_ALG("No algorithm key."),
+        HC_COSE_UNKNOWN_ALG("Unknown algorithm."),
+        HC_DSC_NO_MATCH("No DSC match."),
+        HC_DSC_OID_MISMATCH_TC("Test certificate OID mismatch."),
+        HC_DSC_OID_MISMATCH_VC("Vaccination certificate OID mismatch."),
+        HC_DSC_OID_MISMATCH_RC("Recovery certificate OID mismatch."),
+        HC_DSC_NOT_YET_VALID("DSC is not valid yet."),
+        HC_DSC_EXPIRED("DSC expired."),
     }
 
     open val showFaqButton: Boolean

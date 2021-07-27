@@ -186,7 +186,7 @@
                         android:text="@string/vaccination_certificate_attribute_vaccine_name" />
 
                     <TextView
-                        android:id="@+id/medial_product_name"
+                        android:id="@+id/medical_product_name"
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -201,7 +201,7 @@
                         android:text="@string/vaccination_certificate_attribute_vaccine_type" />
 
                     <TextView
-                        android:id="@+id/vaccine_type_name"
+                        android:id="@+id/vaccine_name"
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -299,6 +299,14 @@
                         tools:text="05930482748454836478695764787840" />
 
                 </LinearLayout>
+
+                <include
+                    android:id="@+id/expiration_notice"
+                    layout="@layout/include_expiration_notice_card"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp" />
 
                 <LinearLayout
                     android:id="@+id/one_shot_info"

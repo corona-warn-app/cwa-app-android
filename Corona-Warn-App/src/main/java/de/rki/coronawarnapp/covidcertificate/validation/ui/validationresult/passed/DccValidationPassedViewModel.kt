@@ -40,7 +40,11 @@ class DccValidationPassedViewModel @AssistedInject constructor(
             listOf(
                 validationInputVHItem(userInput = validation.userInput, validatedAt = validation.validatedAt),
                 validationOverallResultVHItem(state = validation.state),
-                ruleHeaderVHItem(state = validation.state, hideTitle = true, ruleCount = validation.rules.size),
+                ruleHeaderVHItem(
+                    state = validation.state,
+                    hideTitle = true,
+                    ruleCount = validation.acceptanceRules.size
+                ),
                 validationPassedHintVHItem(),
                 validationFaqVHItem()
             )

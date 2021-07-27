@@ -7,25 +7,24 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
-import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
-import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.ui.presencetracing.organizer.category.adapter.category.traceLocationCategories
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.qrcode.QrCodeOptions
+import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.first
 import org.joda.time.Instant
 import timber.log.Timber
-import java.lang.Exception
 
 class QrCodeDetailViewModel @AssistedInject constructor(
     @Assisted private val traceLocationId: Long,
     private val dispatcher: DispatcherProvider,
-    private val qrCodeGenerator: QrCodeGenerator,
     private val appConfigProvider: AppConfigProvider,
     private val traceLocationRepository: TraceLocationRepository
 ) : CWAViewModel() {
@@ -65,9 +64,9 @@ class QrCodeDetailViewModel @AssistedInject constructor(
             mutableUiState.postValue(
                 UiState(
                     traceLocation,
-                    qrCodeGenerator.createQrCode(
-                        input = input,
-                        correctionLevel = correctionLevel
+                    qrCode = CoilQrCode(
+                        content = input,
+                        QrCodeOptions(correctionLevel = correctionLevel)
                     )
                 )
             )
@@ -112,7 +111,7 @@ class QrCodeDetailViewModel @AssistedInject constructor(
 
     data class UiState(
         private val traceLocation: TraceLocation,
-        val bitmap: Bitmap? = null
+        val qrCode: CoilQrCode? = null
     ) {
         val description: String get() = traceLocation.description
         val address: String get() = traceLocation.address

@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core
 
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
 import io.kotest.matchers.shouldBe
@@ -36,15 +38,18 @@ class VaccinatedPersonTest : BaseTest() {
 
     @Test
     fun `test name combinations`() {
+        val conId = VaccinationCertificateContainerId("VaccinationCertificateContainerId")
         val certificate = mockk<VaccinationCertificate>()
         val vaccinationContainer = mockk<VaccinationContainer>().apply {
-            every { toVaccinationCertificate(any()) } returns certificate
+            every { toVaccinationCertificate(any(), any()) } returns certificate
+            every { containerId } returns conId
         }
         val personData = mockk<VaccinatedPersonData>().apply {
             every { vaccinations } returns setOf(vaccinationContainer)
         }
         val vaccinatedPerson = VaccinatedPerson(
             data = personData,
+            certificateStates = mapOf(conId to CwaCovidCertificate.State.Invalid),
             valueSet = null
         )
 
@@ -66,6 +71,9 @@ class VaccinatedPersonTest : BaseTest() {
         }
         val vaccinatedPerson = VaccinatedPerson(
             data = personData,
+            certificateStates = personData.vaccinations
+                .map { it.containerId to CwaCovidCertificate.State.Invalid }
+                .toMap(),
             valueSet = null
         )
 
@@ -79,6 +87,9 @@ class VaccinatedPersonTest : BaseTest() {
         }
         val vaccinatedPerson = VaccinatedPerson(
             data = personData,
+            certificateStates = personData.vaccinations
+                .map { it.containerId to CwaCovidCertificate.State.Invalid }
+                .toMap(),
             valueSet = null
         )
 
@@ -94,6 +105,9 @@ class VaccinatedPersonTest : BaseTest() {
         }
         val vaccinatedPerson = VaccinatedPerson(
             data = personData,
+            certificateStates = personData.vaccinations
+                .map { it.containerId to CwaCovidCertificate.State.Invalid }
+                .toMap(),
             valueSet = null
         )
 
@@ -125,7 +139,12 @@ class VaccinatedPersonTest : BaseTest() {
         val personData = mockk<VaccinatedPersonData>().apply {
             every { vaccinations } returns setOf(testData.personAVac1Container, immunityContainer)
         }
-        VaccinatedPerson(data = personData, valueSet = null).apply {
+        VaccinatedPerson(
+            data = personData, valueSet = null,
+            certificateStates = personData.vaccinations
+                .map { it.containerId to CwaCovidCertificate.State.Invalid }
+                .toMap()
+        ).apply {
 
             Instant.parse("2021-04-27T12:00:00.000Z").let { now ->
                 getDaysUntilImmunity(now)!!.apply {
@@ -161,16 +180,23 @@ class VaccinatedPersonTest : BaseTest() {
         val personData = mockk<VaccinatedPersonData>().apply {
             every { vaccinations } returns setOf(
                 mockk<VaccinationContainer>().apply {
-                    every { toVaccinationCertificate(any()) } returns mockk<VaccinationCertificate>().apply {
+                    every { toVaccinationCertificate(any(), any()) } returns mockk<VaccinationCertificate>().apply {
                         every { vaccinatedOn } returns LocalDate.parse("2021-06-13")
                         every { doseNumber } returns 2
                         every { totalSeriesOfDoses } returns 2
                     }
+                    every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
                 }
             )
         }
 
-        VaccinatedPerson(data = personData, valueSet = null).apply {
+        VaccinatedPerson(
+            data = personData,
+            valueSet = null,
+            certificateStates = personData.vaccinations
+                .map { it.containerId to CwaCovidCertificate.State.Invalid }
+                .toMap()
+        ).apply {
             // User was in GMT+2 timezone (UTC+2) , we want their MIDNIGHT
             // Last day before immunity, UI shows 1 day until immunity
             Instant.parse("2021-06-27T12:00:00.000Z").let { now ->
@@ -196,16 +222,24 @@ class VaccinatedPersonTest : BaseTest() {
         val personData = mockk<VaccinatedPersonData>().apply {
             every { vaccinations } returns setOf(
                 mockk<VaccinationContainer>().apply {
-                    every { toVaccinationCertificate(any()) } returns mockk<VaccinationCertificate>().apply {
+                    every { toVaccinationCertificate(any(), any()) } returns mockk<VaccinationCertificate>().apply {
                         every { vaccinatedOn } returns LocalDate.parse("2021-01-01")
                         every { doseNumber } returns 2
                         every { totalSeriesOfDoses } returns 2
                     }
+
+                    every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
                 }
             )
         }
 
-        VaccinatedPerson(data = personData, valueSet = null).apply {
+        VaccinatedPerson(
+            data = personData,
+            valueSet = null,
+            certificateStates = personData.vaccinations
+                .map { it.containerId to CwaCovidCertificate.State.Invalid }
+                .toMap()
+        ).apply {
             Instant.parse("2021-01-14T0:00:00.000Z").let { now ->
                 getDaysUntilImmunity(now)!! shouldBe 2
                 getVaccinationStatus(now) shouldBe VaccinatedPerson.Status.COMPLETE

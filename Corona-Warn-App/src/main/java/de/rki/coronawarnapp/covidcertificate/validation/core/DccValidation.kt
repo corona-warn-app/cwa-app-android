@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRu
 import kotlinx.android.parcel.Parcelize
 import kotlinx.parcelize.IgnoredOnParcel
 import org.joda.time.Instant
+import org.joda.time.LocalDateTime
 
 @Parcelize
 data class DccValidation(
@@ -55,5 +56,5 @@ data class DccValidation(
 @Parcelize
 data class ValidationUserInput(
     val arrivalCountry: DccCountry,
-    val arrivalAt: Instant,
+    val arrivalDateTime: LocalDateTime,
 ) : Parcelable

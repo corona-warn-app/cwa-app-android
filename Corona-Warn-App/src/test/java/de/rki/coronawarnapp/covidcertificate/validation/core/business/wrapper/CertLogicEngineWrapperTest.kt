@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchema
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.test.TestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeTestData
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
@@ -27,7 +28,10 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
 import okio.ByteString.Companion.decodeBase64
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import org.joda.time.Instant
+import org.joda.time.LocalDateTime
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -51,6 +55,8 @@ class CertLogicEngineWrapperTest : BaseTest() {
 
     // Json file (located in /test/resources/dcc-validation-rules-common-test-cases.json)
     private val fileName = "dcc-validation-rules-common-test-cases.json"
+
+    val timeZoneOffsetBerlin = 2 // Berlin
 
     @BeforeEach
     fun setup() {
@@ -77,10 +83,12 @@ class CertLogicEngineWrapperTest : BaseTest() {
             validFrom = "2021-05-27T07:46:40Z",
             validTo = "2022-08-01T07:46:40Z",
         )
+        // certificate valid until 2022-06-11T14:23:17.000Z
         val certificate = extractor.extract(VaccinationQrCodeTestData.passGermanReferenceCase)
+        val validationDateTime = DateTime.parse("2022-06-11T14:23:00+02:00")
         val evaluatedRules = wrapper.process(
             rules = listOf(rule, ruleGeneral),
-            validationClock = Instant.parse("2021-06-30T09:25:00.000Z"),
+            validationDateTime = validationDateTime,
             certificate = certificate.data,
             countryCode = "DE",
         )
@@ -88,6 +96,50 @@ class CertLogicEngineWrapperTest : BaseTest() {
         evaluatedRules.forEach {
             it.result shouldBe DccValidationRule.Result.PASSED
         }
+    }
+
+    @Test
+    fun `PCR test certificate only valid for 72h`() = runBlockingTest {
+        createWrapperInstance()
+        val rule = createDccRule(
+            certificateType = RuleCertificateType.TEST,
+            validFrom = "2021-05-27T07:46:40Z",
+            validTo = "2022-08-01T07:46:40Z",
+        )
+        val ruleGeneral = createDccRule(
+            certificateType = RuleCertificateType.GENERAL,
+            validFrom = "2021-05-27T07:46:40Z",
+            validTo = "2022-08-01T07:46:40Z",
+        )
+        // certificate valid until 2022-06-11T14:23:17.000Z
+        val certificate = extractor.extract(TestData.qrCodePcrTest)
+        val validationDateTime = LocalDateTime.parse("2021-07-20T19:10:00") // should be valid
+        val evaluatedRules = wrapper.process(
+            rules = listOf(rule, ruleGeneral),
+            validationDateTime = validationDateTime.toDateTime(DateTimeZone.forOffsetHours(timeZoneOffsetBerlin)),
+            certificate = certificate.data,
+            countryCode = "DE",
+        )
+        evaluatedRules.size shouldBe 2
+        evaluatedRules.forEach {
+            it.result shouldBe DccValidationRule.Result.PASSED
+        }
+
+        val invalidationDateTime = LocalDateTime.parse("2021-07-20T19:20:00") // should be invalid
+
+        val evaluatedRules2 = wrapper.process(
+            rules = listOf(rule, ruleGeneral),
+            validationDateTime = invalidationDateTime.toDateTime(DateTimeZone.forOffsetHours(timeZoneOffsetBerlin)),
+            certificate = certificate.data,
+            countryCode = "DE",
+        )
+        evaluatedRules2.size shouldBe 2
+        evaluatedRules2.count {
+            it.result == DccValidationRule.Result.PASSED
+        } shouldBe 1
+        evaluatedRules2.count {
+            it.result == DccValidationRule.Result.FAILED
+        } shouldBe 1
     }
 
     @Test
@@ -113,17 +165,17 @@ class CertLogicEngineWrapperTest : BaseTest() {
         json.testCases.forEachIndexed { index, certLogicTestCase ->
             val certificate = extractor.extract(certLogicTestCase.dcc)
             val validationClock = Instant.ofEpochSecond(Integer.parseInt(certLogicTestCase.validationClock).toLong())
-
+            val validationDateTime = validationClock.toDateTime()
             val acceptanceRules = certLogicTestCase.rules.filter {
                 it.typeDcc == DccValidationRule.Type.ACCEPTANCE
             }.filterRelevantRules(
-                validationClock = validationClock,
+                validationDateTime = validationDateTime,
                 country = DccCountry(certLogicTestCase.countryOfArrival),
                 certificateType = certificate.data.typeString
             )
             val evaluatedAcceptanceRules = wrapper.process(
                 rules = acceptanceRules,
-                validationClock = validationClock,
+                validationDateTime = validationDateTime,
                 certificate = certificate.data,
                 countryCode = certLogicTestCase.countryOfArrival,
             )
@@ -131,14 +183,14 @@ class CertLogicEngineWrapperTest : BaseTest() {
             val invalidationRules = certLogicTestCase.rules.filter {
                 it.typeDcc == DccValidationRule.Type.INVALIDATION
             }.filterRelevantRules(
-                validationClock = validationClock,
+                validationDateTime = validationDateTime,
                 country = DccCountry(certificate.data.header.issuer),
                 certificateType = certificate.data.typeString
             )
 
             val evaluatedInvalidationRules = wrapper.process(
                 rules = invalidationRules,
-                validationClock = validationClock,
+                validationDateTime = validationDateTime,
                 certificate = certificate.data,
                 countryCode = certificate.data.header.issuer,
             )

@@ -7,6 +7,7 @@ import dagger.multibindings.IntoMap
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryRetentionWorker
 import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultRetrievalWorker
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultRetrievalWorker
+import de.rki.coronawarnapp.covidcertificate.signature.core.execution.DccStateCheckWorker
 import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalWorker
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.execution.worker.VaccinationUpdateWorker
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsPeriodicWorker
@@ -134,5 +135,12 @@ abstract class WorkerBinder {
     @WorkerKey(TestCertificateRetrievalWorker::class)
     abstract fun testCertificateRetrievalWorker(
         factory: TestCertificateRetrievalWorker.Factory
+    ): InjectedWorkerFactory<out ListenableWorker>
+
+    @Binds
+    @IntoMap
+    @WorkerKey(DccStateCheckWorker::class)
+    abstract fun dccStateCheckWorker(
+        factory: DccStateCheckWorker.Factory
     ): InjectedWorkerFactory<out ListenableWorker>
 }

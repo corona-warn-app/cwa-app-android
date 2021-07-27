@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
-  <groupId>dgca.verifier.app</groupId>
-  <artifactId>dgc-certlogic-android-light</artifactId>
-  <versioning>
-    <latest>1.0.0-32-d1632eb</latest>
-    <release>1.0.0-32-d1632eb</release>
-    <versions>
-      <version>1.0.0-32-d1632eb</version>
-    </versions>
-    <lastUpdated>20210713111450</lastUpdated>
-  </versioning>
+    <groupId>dgca.verifier.app</groupId>
+    <artifactId>dgc-certlogic-android-light</artifactId>
+    <versioning>
+        <latest>1.0.0-51-9ec94ba</latest>
+        <release>1.0.0-51-9ec94ba</release>
+        <versions>
+            <version>1.0.0-51-9ec94ba</version>
+        </versions>
+        <lastUpdated>20210722111043</lastUpdated>
+    </versioning>
 </metadata>

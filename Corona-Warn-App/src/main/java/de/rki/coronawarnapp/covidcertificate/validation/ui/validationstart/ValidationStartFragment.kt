@@ -149,7 +149,7 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
     }
 
     private fun ValidationStartFragmentBinding.onCountiesAvailable(countries: List<DccCountry>) {
-        val displayName = countries.find { it.countryCode == viewModel.currentCountryCode }?.displayName()
+        val displayName = countries.find { it.countryCode == viewModel.selectedCountryCode }?.displayName()
         dccCountryAdapter.update(countries)
         countryPicker.setText(displayName, false)
     }
@@ -160,7 +160,7 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
             .setValidator(DateValidatorPointForward.from(minConstraint.withSecondOfMinute(0).millis))
             .build()
 
-        val dateTime = viewModel.currentDateTime
+        val dateTime = viewModel.selectedDate.toDateTime(viewModel.selectedTime)
         MaterialDatePicker
             .Builder
             .datePicker()
@@ -169,13 +169,13 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
-                    showTimePicker(LocalDate(it), dateTime.hourOfDay, dateTime.minuteOfHour)
+                    showTimePicker(LocalDate(it), viewModel.selectedTime)
                 }
             }
             .show(childFragmentManager, DATE_PICKER_TAG)
     }
 
-    private fun showTimePicker(date: LocalDate, hours: Int, minutes: Int) {
+    private fun showTimePicker(date: LocalDate, time: LocalTime) {
         val timeFormat = when {
             DateFormat.is24HourFormat(requireContext()) -> TimeFormat.CLOCK_24H
             else -> TimeFormat.CLOCK_12H
@@ -183,12 +183,12 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
         MaterialTimePicker
             .Builder()
             .setTimeFormat(timeFormat)
-            .setHour(hours)
-            .setMinute(minutes)
+            .setHour(time.hourOfDay)
+            .setMinute(time.minuteOfHour)
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
-                    viewModel.dateChanged(date.toDateTime(LocalTime(hour, minute)))
+                    viewModel.dateChanged(date, LocalTime(hour, minute))
                 }
             }
             .show(childFragmentManager, TIME_PICKER_TAG)

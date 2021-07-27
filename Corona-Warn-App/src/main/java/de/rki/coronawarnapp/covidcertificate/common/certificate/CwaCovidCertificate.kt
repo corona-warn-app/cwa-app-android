@@ -31,4 +31,25 @@ interface CwaCovidCertificate {
     val rawCertificate: DccV1.MetaData
 
     val dccData: DccData<out DccV1.MetaData>
+
+    /**
+     * The current state of the certificate, see [State]
+     */
+    fun getState(): State
+
+    sealed class State {
+        data class Valid(
+            val expiresAt: Instant,
+        ) : State()
+
+        data class ExpiringSoon(
+            val expiresAt: Instant,
+        ) : State()
+
+        data class Expired(
+            val expiredAt: Instant
+        ) : State()
+
+        object Invalid : State()
+    }
 }

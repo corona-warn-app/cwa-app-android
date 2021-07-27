@@ -38,7 +38,7 @@ class TechnicalValidationFailedVH(
         val hideGroupDateExpired: Boolean,
         val hideGroupDateFormat: Boolean
     ) : ValidationResultItem, HasPayloadDiffer {
-        val hideDivider: Boolean get() = !hideGroupDateExpired && !hideGroupDateFormat
+        val hideDivider: Boolean get() = hideGroupDateExpired || hideGroupDateFormat
 
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
 

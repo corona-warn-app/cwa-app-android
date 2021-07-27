@@ -10,6 +10,7 @@ data class PersonCertificates(
     val personIdentifier: CertificatePersonIdentifier
         get() = certificates.first().personIdentifier
 
-    val highestPriorityCertificate: CwaCovidCertificate
-        get() = certificates.findHighestPriorityCertificate()
+    val highestPriorityCertificate: CwaCovidCertificate by lazy {
+        certificates.findHighestPriorityCertificate()
+    }
 }

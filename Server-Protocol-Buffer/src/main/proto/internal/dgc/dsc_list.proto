@@ -1,0 +1,14 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.dgc;
+
+
+message DscList {
+
+  repeated DscListItem certificates = 1;
+}
+
+message DscListItem {
+  bytes kid = 1;
+  bytes data = 2;
+}

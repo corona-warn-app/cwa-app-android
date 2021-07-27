@@ -7,6 +7,8 @@ interface CovidCertificateConfig {
 
     val testCertificate: TestCertificate
 
+    val expirationThresholdInDays: Int
+
     interface TestCertificate {
         val waitAfterPublicKeyRegistration: Duration
         val waitForRetry: Duration

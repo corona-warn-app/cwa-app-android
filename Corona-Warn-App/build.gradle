@@ -318,6 +318,7 @@ dependencies {
     // Required for rdgca.verifier.app:dgc-certlogic-android-light API 26 Time API
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 
+    implementation "org.bouncycastle:bcpkix-jdk15on:1.69"
     // KOTLIN
     def coroutineVersion = "1.5.0"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
@@ -369,6 +370,7 @@ dependencies {
     implementation('com.journeyapps:zxing-android-embedded:4.1.0') { transitive = false }
     // noinspection GradleDependency - needed for SDK 23 compatibility, in combination with com.journeyapps:zxing-android-embedded:4.1.0
     implementation 'com.google.zxing:core:3.3.0'
+    implementation("io.coil-kt:coil:1.3.0")
 
     //ENA
     implementation files('libs/play-services-nearby-exposurenotification-18.0.3.aar')

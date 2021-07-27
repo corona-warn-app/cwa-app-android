@@ -16,23 +16,31 @@ import dgca.verifier.app.engine.data.ExternalParameter
 import dgca.verifier.app.engine.data.Rule
 import dgca.verifier.app.engine.data.RuleCertificateType
 import dgca.verifier.app.engine.data.Type
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import org.joda.time.Instant
+import java.time.ZoneId
 import java.time.ZonedDateTime
 
 internal fun assembleExternalParameter(
     certificate: DccData<*>,
-    validationClock: Instant,
+    validationDateTime: DateTime,
     countryCode: String,
     valueSets: Map<String, List<String>>,
 ): ExternalParameter {
+    // convert to utc - engine does not like other tz
+    val validationClock = validationDateTime
+        .toDateTime(DateTimeZone.UTC)
+        .asZonedDateTime(UTC_ZONE_ID)
+
     return ExternalParameter(
         kid = certificate.kid,
-        validationClock = validationClock.toZonedDateTime(),
+        validationClock = validationClock,
         valueSets = valueSets,
         countryCode = countryCode,
         issuerCountryCode = certificate.header.issuer,
-        exp = certificate.header.expiresAt.toZonedDateTime(),
-        iat = certificate.header.issuedAt.toZonedDateTime()
+        exp = certificate.header.expiresAt.toZonedDateTime(UTC_ZONE_ID),
+        iat = certificate.header.issuedAt.toZonedDateTime(UTC_ZONE_ID)
     )
 }
 
@@ -113,8 +121,8 @@ private val String.asExternalCertificateType: RuleCertificateType
     }
 
 @VisibleForTesting
-internal fun Instant.toZonedDateTime(): ZonedDateTime {
-    return ZonedDateTime.ofInstant(java.time.Instant.ofEpochMilli(this.millis), UTC_ZONE_ID)
+internal fun Instant.toZonedDateTime(zoneId: ZoneId): ZonedDateTime {
+    return ZonedDateTime.ofInstant(java.time.Instant.ofEpochMilli(this.millis), zoneId)
 }
 
 @VisibleForTesting
@@ -143,7 +151,7 @@ internal val DccData<out DccV1.MetaData>.typeString: String
     }
 
 internal fun List<DccValidationRule>.filterRelevantRules(
-    validationClock: Instant,
+    validationDateTime: DateTime,
     certificateType: String,
     country: DccCountry,
 ): List<DccValidationRule> = this
@@ -154,13 +162,24 @@ internal fun List<DccValidationRule>.filterRelevantRules(
             rule.certificateType.uppercase() == certificateType.uppercase()
     }
     .filter { rule ->
-        rule.validFromInstant <= validationClock && rule.validToInstant >= validationClock
+        rule.validFromDateTime <= validationDateTime && rule.validToDateTime >= validationDateTime
     }
     .groupBy { it.identifier }
     .mapNotNull { entry ->
         entry.value.maxByOrNull { it.versionSemVer }
     }
     .toList()
+
+internal fun DateTime.asZonedDateTime(zoneId: ZoneId): ZonedDateTime = ZonedDateTime.of(
+    year,
+    monthOfYear,
+    dayOfMonth,
+    hourOfDay,
+    minuteOfHour,
+    secondOfMinute,
+    0,
+    zoneId
+)
 
 internal const val GENERAL = "General"
 internal const val TEST = "Test"

@@ -32,4 +32,5 @@
         app:layout_constraintEnd_toEndOf="@id/image"
         app:layout_constraintStart_toStartOf="@id/image"
         app:layout_constraintTop_toTopOf="@id/image" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

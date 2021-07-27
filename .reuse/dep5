@@ -63,3 +63,11 @@ License: Apache-2.0
 Files: Corona-Warn-App/src/main/java/de/rki/coronawarnapp/util/encoding/Base45Decoder.kt
 Copyright: Copyright 2021 A-SIT Plus GmbH
 License: Apache-2.0
+
+Files: Corona-Warn-App/src/main/java/de/rki/coronawarnapp/covidcertificate/signature/core/ECDSAVerifier.kt
+Copyright: Copyright (C) 2021 IBM Deutschland GmbH
+License: Apache-2.0
+
+Files: Corona-Warn-App/src/main/java/de/rki/coronawarnapp/covidcertificate/signature/core/CborEncoding.kt
+Copyright: Copyright (C) 2021 T-Systems International GmbH and all other contributors
+License: Apache-2.0

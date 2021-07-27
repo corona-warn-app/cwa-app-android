@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storag
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccHeader
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
@@ -64,8 +65,11 @@ data class VaccinationContainer internal constructor(
 
     fun toVaccinationCertificate(
         valueSet: VaccinationValueSets?,
+        certificateState: CwaCovidCertificate.State,
         userLocale: Locale = Locale.getDefault(),
     ) = object : VaccinationCertificate {
+        override fun getState(): CwaCovidCertificate.State = certificateState
+
         override val containerId: VaccinationCertificateContainerId
             get() = this@VaccinationContainer.containerId
 
@@ -100,11 +104,15 @@ data class VaccinationContainer internal constructor(
         override val totalSeriesOfDoses: Int
             get() = vaccination.totalSeriesOfDoses
 
+        // vp
         override val vaccineTypeName: String
             get() = valueSet?.getDisplayText(vaccination.vaccineId) ?: vaccination.vaccineId
+
         override val vaccineManufacturer: String
             get() = valueSet?.getDisplayText(vaccination.marketAuthorizationHolderId)
                 ?: vaccination.marketAuthorizationHolderId
+
+        // mp
         override val medicalProductName: String
             get() = valueSet?.getDisplayText(vaccination.medicalProductId) ?: vaccination.medicalProductId
 

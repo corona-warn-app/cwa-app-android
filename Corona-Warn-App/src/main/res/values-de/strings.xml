@@ -620,7 +620,7 @@
     <!-- YTXT: settings(notification) - description text when it notifications are enabled -->
     <string name="settings_notifications_body_active">"Legen Sie fest, zu welchen Themen Sie informiert bleiben möchten."</string>
     <!-- XTXT: settings(notification) - explains what the user has to do to activate settings -->
-    <string name="settings_notifications_body_inactive">"Um Mitteilungen zu aktivieren, müssen Sie Mitteilungen für die Corona-Warn-App in Ihren Telefoneinstellungen zulassen."</string>
+    <string name="settings_notifications_body_inactive">"Um Mitteilungen in der Corona-Warn-App zu aktivieren, müssen Sie Mitteilungen in Ihren Geräteeinstellungen zulassen."</string>
     <!-- XHED: settings(notification) - card headline -->
     <string name="settings_notifications_headline_card">"Mitteilungen aktivieren"</string>
     <!-- XHED: settings - notification headline on settings overview -->
@@ -630,7 +630,7 @@
     <!-- XTXT: settings(notification) - next to a switch -->
     <string name="settings_notifications_subtitle_update_test">"Status Ihres Coronavirus-Tests"</string>
     <!-- XBUT: settings(notification) - go to operating settings -->
-    <string name="settings_notifications_button_open_settings">"Geräte-Einstellungen öffnen"</string>
+    <string name="settings_notifications_button_open_settings">"Geräteeinstellungen öffnen"</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, active -->
     <string name="settings_notifications_illustration_description_active">"Eine Frau erhält eine Mitteilung von ihrer Corona-Warn-App."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, inactive -->
@@ -1432,7 +1432,7 @@
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"Bestätigte Neuinfektionen"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
-    <string name="statistics_explanation_confirmed_new_infection_text">"Anzahl der an das RKI übermittelten Corona-positiv getesteten Personen"</string>
+    <string name="statistics_explanation_confirmed_new_infection_text">"Anzahl der an das RKI übermittelten Corona-positiv getesteten Personen."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Warnende Personen"</string>
     <!-- XTXT: Explanation screen warned persons text -->
@@ -1444,7 +1444,7 @@
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7-Tage-Inzidenz"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
-    <string name="statistics_explanation_seven_day_incidence_text">"Gesamtzahl der bestätigten Neuinfektionen der letzten 7 Tage (nach Meldedatum) pro 100.000 Einwohner"</string>
+    <string name="statistics_explanation_seven_day_incidence_text">"Gesamtzahl der bestätigten Neuinfektionen der letzten 7 Tage (nach Meldedatum) pro 100.000 Einwohner."</string>
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-Tage-R-Wert"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
@@ -1530,6 +1530,8 @@
     <string name="statistics_add_card_title">"Lokale 7-Tage-Inzidenz hinzufügen"</string>
     <!-- XTXT: Statistics add card warning -->
     <string name="statistics_add_card_warning">"Maximale Anzahl der lokalen 7-Tage Inzidenz erreicht."</string>
+    <!-- XTXT: Statistics add screen whole state -->
+    <string name="statistics_local_incidence_whole_state_text">"Gesamtes Bundesland"</string>
 
     <!-- ####################################
           Button Tooltips for Accessibility

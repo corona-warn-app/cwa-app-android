@@ -859,9 +859,8 @@
             app:destination="@id/federalStateSelectionFragment" />
 
         <argument
-            android:name="selectedFederalStateShortName"
-            android:defaultValue="@null"
-            app:argType="string"
-            app:nullable="true" />
+            android:name="selectedFederalState"
+            android:defaultValue="-1"
+            app:argType="integer" />
     </fragment>
 </navigation>

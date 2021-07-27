@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.presencetracing.organizer.poster
 
-import android.graphics.Bitmap
+import android.content.Context
+import android.graphics.drawable.Drawable
 import android.graphics.pdf.PdfDocument
 import android.view.View
 import androidx.lifecycle.LiveData
@@ -9,14 +10,17 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.presencetracing.checkins.qrcode.PosterTemplateProvider
-import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
-import de.rki.coronawarnapp.presencetracing.checkins.qrcode.Template
-import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.PosterTemplateProvider
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.Template
+import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
+import de.rki.coronawarnapp.util.coil.loadQrCode
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.files.FileSharing
+import de.rki.coronawarnapp.util.qrcode.QrCodeOptions
+import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -29,11 +33,11 @@ import java.lang.ref.WeakReference
 class QrCodePosterViewModel @AssistedInject constructor(
     @Assisted private val traceLocationId: Long,
     private val dispatcher: DispatcherProvider,
-    private val qrCodeGenerator: QrCodeGenerator,
     private val posterTemplateProvider: PosterTemplateProvider,
     private val traceLocationRepository: TraceLocationRepository,
     private val appConfigProvider: AppConfigProvider,
-    private val fileSharing: FileSharing
+    private val fileSharing: FileSharing,
+    @AppContext private val context: Context,
 ) : CWAViewModel(dispatcher) {
 
     private val posterLiveData = MutableLiveData<Poster>()
@@ -84,22 +88,24 @@ class QrCodePosterViewModel @AssistedInject constructor(
             val traceLocation = traceLocation()
             val template = posterTemplateProvider.template()
             val correctionLevel = appConfigProvider.currentConfig.first().presenceTracing.qrCodeErrorCorrectionLevel
+
             Timber.d("template=$template")
-            val qrCode = qrCodeGenerator.createQrCode(
-                input = traceLocation.locationUrl,
-                length = template.qrCodeLength,
-                margin = 0,
-                correctionLevel = correctionLevel
-            )
+
+            val drawable = context.loadQrCode(
+                qrCode = CoilQrCode(
+                    content = traceLocation.locationUrl,
+                    options = QrCodeOptions(correctionLevel = correctionLevel)
+                ),
+                size = template.qrCodeLength
+            ).drawable
 
             val textInfo = buildString {
                 append(traceLocation.description)
                 appendLine()
                 append(traceLocation.address)
             }
-            posterLiveData.postValue(
-                Poster(qrCode, template, textInfo)
-            )
+
+            posterLiveData.postValue(Poster(drawable, template, textInfo))
         } catch (e: Exception) {
             Timber.d(e, "Generating poster failed")
             posterLiveData.postValue(Poster())
@@ -127,7 +133,7 @@ class QrCodePosterViewModel @AssistedInject constructor(
 }
 
 data class Poster(
-    val qrCode: Bitmap? = null,
+    val qrCode: Drawable? = null,
     val template: Template? = null,
     val infoText: String = ""
 ) {

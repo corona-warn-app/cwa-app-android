@@ -170,13 +170,13 @@
     <!-- XHED: Title for privacy card -->
     <string name="vaccination_privacy_card_title_text" translatable="false">"Veri gizliliği ve veri güvenliği"</string>
     <!-- XTXT: First bulletpoint title for privacy card -->
-    <string name="vaccination_privacy_card_first_bulletpoint_title_text" translatable="false">"Dijital COVID sertifikasının kullanımı isteğe bağlıdır. Tam aşı korumasının gerçekleştirildiğine veya test sonucunun negatif çıktığına ilişkin kanıt, diğer yöntemlerle de sağlanabilir."</string>
+    <string name="vaccination_privacy_card_first_bulletpoint_title_text" translatable="false">"Dijital Covid sertifikalarının kullanımı isteğe bağlıdır. Aşıların tamamlanmasına, test sonucunun negatif olmasına ya da Covid enfeksiyonunun atlatılmasına ilişkin kanıtlar başka şekilde de ibraz edilebilir."</string>
     <!-- XTXT: First bulletpoint title for privacy card -->
-    <string name="vaccination_privacy_card_second_bulletpoint_title_text" translatable="false">"COVID sertifikaları (aşılar veya test sonuçlarınıza ilişkin) kişisel verilerinizi içerir. Yasal açıdan zorunlu durumlarda, Uygulamadaki QR kodu göstermeniz yeterli olacaktır. Söz konusu verilerin okunmasını istemiyorsanız, sertifikalarınızı ve QR kodu hiç kimseye göstermeyin."</string>
+    <string name="vaccination_privacy_card_second_bulletpoint_title_text" translatable="false">"Covid sertifikaları kişisel bilgiler (aşılar, test sonuçları ya da enfeksiyonu atlatma) içerir. Yasal olarak öngörülen durumlarda kanıt olarak sertifikanın kare kodunun uygulamada gösterilmesi yeterlidir. Kontrol sırasında gerekirse kimlik belgesi de ibraz edilmelidir. Bilgilerinizi paylaşmak istemiyorsanız sertifikaları ve kare kodunu kimseye göstermeyin."</string>
     <!-- XTXT: First bulletpoint title for privacy card -->
-    <string name="vaccination_privacy_card_third_bulletpoint_title_text" translatable="false">"Bir kontrol sırasında Uygulamanızdaki bir sertifikanın QR kodunu gösterirseniz, orada bulunan diğer kişiler test sonucunuzu veya aşı korumanızın tamamlanıp tamamlanmadığını öğrenebilir. Kontrol işlemi sırasında adınız ve doğum tarihiniz de resmi kontrol uygulamasında görüntülenecektir."</string>
+    <string name="vaccination_privacy_card_third_bulletpoint_title_text" translatable="false">"Uygulamada bir sertifikanın kare kodunu kontrol için gösterirseniz, başka kişiler de test sonucunuzun negatif olduğunu, aşılarınızın tamamlandığını veya enfeksiyonu atlattığınıza ilişkin kanıtı görebilirler. Kontrol sırasında resmi test uygulamasında aa ve doğum tarihi de gösterilir. Test sertifikalarında ek olarak numune alma zamanı da gösterilir."</string>
     <!-- XTXT: First bulletpoint title for privacy card -->
-    <string name="vaccination_privacy_card_fourth_bulletpoint_title_text" translatable="false">"COVID sertifikalarınızı istediğiniz zaman Uygulamadan kaldırma seçeneğiniz vardır. Bunu yapıncaya kadar bu sertifikalar akıllı telefonunuzda kayıtlı kalacaktır."</string>
+    <string name="vaccination_privacy_card_fourth_bulletpoint_title_text" translatable="false">"Uygulamadaki Covid sertifikalarını istediğiniz zaman kaldırabilirsiniz. Sertifikalar siz kaldırana kadar akıllı telefonunuzda kayıtlı kalır."</string>
 
     <!--    Green Certificate -->
     <!-- XTXT: Request GC title for privacy card -->

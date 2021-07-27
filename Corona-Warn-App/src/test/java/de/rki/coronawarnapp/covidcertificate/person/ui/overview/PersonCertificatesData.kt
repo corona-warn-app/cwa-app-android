@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
@@ -49,6 +50,8 @@ fun testCertificate(
     isPending: Boolean = false,
     isUpdating: Boolean = false
 ) = object : TestCertificate {
+    override fun getState(): CwaCovidCertificate.State = CwaCovidCertificate.State.Valid(expiresAt = Instant.EPOCH)
+
     override val containerId: TestCertificateContainerId
         get() = TestCertificateContainerId(UUID.randomUUID().toString())
     override val targetName: String = "targetName"

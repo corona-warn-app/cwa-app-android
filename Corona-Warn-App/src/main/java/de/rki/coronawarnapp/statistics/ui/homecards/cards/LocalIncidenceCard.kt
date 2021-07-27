@@ -3,9 +3,11 @@ package de.rki.coronawarnapp.statistics.ui.homecards.cards
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsCardsLocalIncidenceLayoutBinding
+import de.rki.coronawarnapp.datadonation.analytics.common.labelStringRes
 import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass
 import de.rki.coronawarnapp.statistics.LocalIncidenceStats
 import de.rki.coronawarnapp.statistics.LocalStatsItem
+import de.rki.coronawarnapp.statistics.local.storage.SelectedStatisticsLocation
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter
 import de.rki.coronawarnapp.statistics.util.formatStatisticalValue
 import de.rki.coronawarnapp.statistics.util.getContentDescriptionForTrends
@@ -48,7 +50,12 @@ class LocalIncidenceCard(parent: ViewGroup) :
             incidenceContainer.contentDescription =
                 buildAccessibilityStringForLocalIncidenceCard(curItem.stats, sevenDayIncidence)
 
-            locationLabel.text = selectedDistrict.district.districtName
+            locationLabel.text = when (selectedLocation) {
+                is SelectedStatisticsLocation.SelectedDistrict ->
+                    selectedLocation.district.districtName
+                is SelectedStatisticsLocation.SelectedFederalState ->
+                    context.getString(selectedLocation.federalState.labelStringRes)
+            }
 
             primaryLabel.text = getPrimaryLabel(context)
             primaryValue.text = getLocalizedSpannableString(

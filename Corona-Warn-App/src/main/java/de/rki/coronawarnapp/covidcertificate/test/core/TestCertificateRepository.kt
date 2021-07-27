@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtract
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.signature.core.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage
@@ -20,11 +21,14 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
 import de.rki.coronawarnapp.util.flow.HotDataFlow
 import de.rki.coronawarnapp.util.flow.combine
+import de.rki.coronawarnapp.util.flow.shareLatest
 import de.rki.coronawarnapp.util.mutate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -46,6 +50,7 @@ class TestCertificateRepository @Inject constructor(
     private val timeStamper: TimeStamper,
     valueSetsRepository: ValueSetsRepository,
     private val rsaKeyPairGenerator: RSAKeyPairGenerator,
+    private val dccStateChecker: DccStateChecker,
 ) {
 
     private val internalData: HotDataFlow<Map<TestCertificateContainerId, TestCertificateContainer>> = HotDataFlow(
@@ -53,7 +58,7 @@ class TestCertificateRepository @Inject constructor(
         scope = appScope + dispatcherProvider.Default,
         sharingBehavior = SharingStarted.Eagerly,
     ) {
-        storage.testCertificates
+        storage.load()
             .map {
                 TestCertificateContainer(
                     data = it,
@@ -71,20 +76,27 @@ class TestCertificateRepository @Inject constructor(
         valueSetsRepository.latestTestCertificateValueSets
     ) { certMap, valueSets ->
         certMap.values.map { container ->
+            val state = dccStateChecker.checkState(container.testCertificateQRCode.data).first()
             TestCertificateWrapper(
                 valueSets = valueSets,
                 container = container,
+                certificateState = state,
             )
         }.toSet()
     }
+        .shareLatest(
+            tag = TAG,
+            scope = appScope
+        )
 
     init {
         internalData.data
             .onStart { Timber.tag(TAG).d("Observing TestCertificateContainer data.") }
+            .drop(1) // Initial emission, restored from storage.
             .onEach { entrySets ->
                 val values = entrySets.values
                 Timber.tag(TAG).v("TestCertificateContainer data changed: %s", values)
-                storage.testCertificates = values.map { it.data }.toSet()
+                storage.save(values.map { it.data }.toSet())
             }
             .catch {
                 it.reportProblem(TAG, "Failed to snapshot TestCertificateContainer data to storage.")

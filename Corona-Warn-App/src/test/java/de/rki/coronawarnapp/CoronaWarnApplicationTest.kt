@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp
 
 import androidx.work.WorkManager
+import coil.ImageLoaderFactory
 import dagger.android.DispatchingAndroidInjector
 import de.rki.coronawarnapp.appconfig.ConfigChangeDetector
 import de.rki.coronawarnapp.appconfig.devicetime.DeviceTimeHandler
@@ -11,6 +12,7 @@ import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.notification.RATTestResultAvailableNotificationService
+import de.rki.coronawarnapp.covidcertificate.signature.core.execution.DccStateCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalScheduler
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.execution.VaccinationUpdateScheduler
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
@@ -40,6 +42,7 @@ import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.verifySequence
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineScope
 import org.conscrypt.Conscrypt
 import org.junit.jupiter.api.BeforeEach
@@ -75,14 +78,16 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var raTestResultScheduler: RAResultScheduler
     @MockK lateinit var testCertificateRetrievalScheduler: TestCertificateRetrievalScheduler
     @MockK lateinit var localStatisticsRetrievalScheduler: LocalStatisticsRetrievalScheduler
-
     @MockK lateinit var pcrTestResultAvailableNotificationService: PCRTestResultAvailableNotificationService
-
     @MockK lateinit var raTestResultAvailableNotificationService: RATTestResultAvailableNotificationService
     @MockK lateinit var vaccinationUpdateScheduler: VaccinationUpdateScheduler
     @MockK lateinit var rollingLogHistory: Timber.Tree
     @MockK lateinit var environmentSetup: EnvironmentSetup
+    @MockK lateinit var imageLoaderFactory: ImageLoaderFactory
+    @MockK lateinit var dscCheckScheduler: DccStateCheckScheduler
+    @MockK lateinit var securityProvider: SecurityProvider
 
+    @ExperimentalCoroutinesApi
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
@@ -134,6 +139,7 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.vaccinationUpdateScheduler = vaccinationUpdateScheduler
                 app.testCertificateRetrievalScheduler = testCertificateRetrievalScheduler
                 app.localStatisticsRetrievalScheduler = localStatisticsRetrievalScheduler
+                app.securityProvider = securityProvider
                 app.appScope = TestCoroutineScope()
                 app.rollingLogHistory = object : Timber.Tree() {
                     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
@@ -141,6 +147,8 @@ class CoronaWarnApplicationTest : BaseTest() {
                     }
                 }
                 app.environmentSetup = environmentSetup
+                app.imageLoaderFactory = imageLoaderFactory
+                app.dccStateCheckScheduler = dscCheckScheduler
             }
         }
     }
@@ -180,6 +188,7 @@ class CoronaWarnApplicationTest : BaseTest() {
             autoCheckOut.setupMonitor()
             traceLocationDbCleanupScheduler.scheduleDaily()
             shareTestResultNotificationService.setup()
+            dscCheckScheduler.setup()
         }
     }
 }

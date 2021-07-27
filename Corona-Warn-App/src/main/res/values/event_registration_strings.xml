@@ -150,7 +150,7 @@
     <!-- XTXT: Description of the notification channel for event registration related notifications. -->
     <string name="tracelocation_notification_channel_description">"Notifications about your check-ins, such as automatic check-out."</string>
     <!-- XHED: Title of the automatic check-out notification. -->
-    <string name="tracelocation_notification_autocheckout_title">"You were checked out automatically."</string>
+    <string name="tracelocation_notification_autocheckout_title">"You were checked out automatically"</string>
     <!-- XTXT: Description of the automatic check-out notification. -->
     <string name="tracelocation_notification_autocheckout_description">"Please adjust the length of your stay if needed."</string>
 

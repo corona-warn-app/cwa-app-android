@@ -1,12 +1,8 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.details
 
-import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -14,6 +10,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.ScreenshotCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
@@ -47,14 +44,15 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
+import testhelpers.createFakeImageLoaderForQrCodes
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
+import testhelpers.setupFakeImageLoader
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
 class PersonDetailsFragmentTest : BaseUITest() {
     @MockK lateinit var viewModel: PersonDetailsViewModel
-    private lateinit var bitmap: Bitmap
     private val args = PersonDetailsFragmentArgs("code").toBundle()
     private val vcContainerId = VaccinationCertificateContainerId("1")
     private val tcsContainerId = TestCertificateContainerId("2")
@@ -67,10 +65,8 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { events } returns SingleLiveEvent()
             every { uiState } returns MutableLiveData()
         }
-
-        bitmap = BitmapFactory.decodeResource(
-            ApplicationProvider.getApplicationContext<Context>().resources,
-            R.drawable.test_qr_code
+        setupFakeImageLoader(
+            createFakeImageLoaderForQrCodes()
         )
         setupMockViewModel(
             object : PersonDetailsViewModel.Factory {
@@ -119,7 +115,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 listOf(testCertificate, vaccinationCertificate1, vaccinationCertificate2), isCwaUser = isCwa
             )
 
-            add(PersonDetailsQrCard.Item(testCertificate, bitmap, false) {})
+            add(PersonDetailsQrCard.Item(testCertificate, false) {})
             add(CwaUserCard.Item(personCertificates) {})
             add(
                 VaccinationCertificateCard.Item(
@@ -163,7 +159,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
         every { sampleCollectedAt } returns Instant.parse("2021-05-31T11:35:00.000Z")
         every { registeredAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
         every { personIdentifier } returns certificatePersonIdentifier
-        every { qrCode } returns "qrCode"
+        every { qrCode } returns ScreenshotCertificateTestData.testCertificate
         every { personIdentifier } returns CertificatePersonIdentifier(
             firstNameStandardized = "firstNameStandardized",
             lastNameStandardized = "lastNameStandardized",
@@ -196,7 +192,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { totalSeriesOfDoses } returns 2
             every { dateOfBirthFormatted } returns "1981-03-20"
             every { isFinalShot } returns final
-            every { qrCode } returns "qrCode"
+            every { qrCode } returns ScreenshotCertificateTestData.vaccinationCertificate
         }
 
     private fun mockRecoveryCertificate(): RecoveryCertificate =
@@ -206,7 +202,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { dateOfBirthFormatted } returns "1981-03-20"
             every { validUntil } returns Instant.parse("2021-05-31T11:35:00.000Z").toLocalDateUserTz()
             every { personIdentifier } returns certificatePersonIdentifier
-            every { qrCode } returns "qrCode"
+            every { qrCode } returns ScreenshotCertificateTestData.recoveryCertificate
             every { containerId } returns rcContainerId
         }
 

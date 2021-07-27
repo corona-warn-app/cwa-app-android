@@ -17,7 +17,8 @@ class CovidCertificateConfigMapper @Inject constructor() : CovidCertificateConfi
         }
 
         return CovidCertificateConfigContainer(
-            testCertificate = rawConfig.dgcParameters.mapCovidCertificateConfig()
+            testCertificate = rawConfig.dgcParameters.mapCovidCertificateConfig(),
+            expirationThresholdInDays = rawConfig.dgcParameters.expirationThresholdInDays
         )
     }
 
@@ -49,7 +50,8 @@ class CovidCertificateConfigMapper @Inject constructor() : CovidCertificateConfi
     }
 
     data class CovidCertificateConfigContainer(
-        override val testCertificate: CovidCertificateConfig.TestCertificate = TestCertificateConfigContainer()
+        override val testCertificate: CovidCertificateConfig.TestCertificate = TestCertificateConfigContainer(),
+        override val expirationThresholdInDays: Int = 1
     ) : CovidCertificateConfig
 
     data class TestCertificateConfigContainer(
