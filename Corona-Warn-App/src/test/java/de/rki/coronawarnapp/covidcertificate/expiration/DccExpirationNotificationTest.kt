@@ -33,8 +33,6 @@ class DccExpirationNotificationTest : BaseTest() {
     @MockK lateinit var notificationManager: NotificationManager
     @MockK lateinit var notificationHelper: DigitalCovidCertificateNotifications
 
-    val containerId = VaccinationCertificateContainerId("Rollkuchen")
-
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
@@ -74,13 +72,13 @@ class DccExpirationNotificationTest : BaseTest() {
 
     @Test
     fun `show expires soon notification for recovery`() = runBlockingTest {
-        createInstance().showExpiresSoonNotification(RecoveryCertificateContainerId("the vax-scene"))
+        createInstance().showExpiresSoonNotification(RecoveryCertificateContainerId("recovery"))
         verify { notificationHelper.sendNotification(any(), any()) }
     }
 
     @Test
     fun `show expired notification for recovery`() = runBlockingTest {
-        createInstance().showExpiredNotification(RecoveryCertificateContainerId("the vax-scene"))
+        createInstance().showExpiredNotification(RecoveryCertificateContainerId("recovery"))
         verify { notificationHelper.sendNotification(any(), any()) }
     }
 }
