@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <!-- ####################################
        Special string files for the strings
@@ -217,8 +218,12 @@
     <string name="validation_rules_technical_failure_header_subtitle">"The following rules are not satisfied:"</string>
     <!-- XTXT: Validation Rule Technical Failure - Date Format  -->
     <string name="validation_rule_technical_error_date_format">"The certificate must have the expected data format."</string>
+    <!-- XTXT: Validation Rule Technical Failure - Signature validation  -->
+    <string name="validation_rule_technical_error_signature">Die Signatur des Zertifikats muss gültig sein.</string>
     <!-- XTXT: Validation Rule Technical Failure - Date Expired  -->
     <string name="validation_rule_technical_error_date_expired">"The certificate must not be expired."</string>
+    <!-- XTXT: Validation Rule Technical Failure - Date Expired format -->
+    <string name="validation_rule_technical_error_date_expired_format">Gültig bis %1$s, %2$s Uhr</string>
 
     <!-- Validation Passed Screen-->
     <!-- XHED: Toolbar title for the validation passed screen  -->

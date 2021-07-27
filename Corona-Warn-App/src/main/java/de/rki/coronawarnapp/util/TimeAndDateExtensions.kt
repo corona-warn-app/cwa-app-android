@@ -133,6 +133,11 @@ object TimeAndDateExtensions {
     fun DateTime.toShortDayFormat(): String = toString(dayFormatter2DigitYear)
 
     /**
+     * Returns a readable date String with the format "dd.MM.yy" like 23.05.89 of a LocalDateTime
+     */
+    fun LocalDateTime.toShortDayFormat(): String = toString(dayFormatter2DigitYear)
+
+    /**
      * Returns a readable date String with the format "dd.MM.yy hh:mm" like 23.05.89 12:00 of a DateTime
      */
     fun DateTime.toShortDateTimeFormat(): String = toString(DateTimeFormat.shortDateTime())
@@ -156,6 +161,11 @@ object TimeAndDateExtensions {
      * Returns a readable time String with the format "hh:mm" like 12:00 of a DateTime
      */
     fun LocalTime.toShortTimeFormat(): String = toString(shortTime)
+
+    /**
+     * Returns a readable time String with the format "hh:mm" like 12:00 of a LocalDateTime
+     */
+    fun LocalDateTime.toShortTimeFormat(): String = toString(shortTime)
 
     /**
      * Returns a readable date String with the format "dd.MM.yy" like 23.05.89 of an Instant

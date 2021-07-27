@@ -9,6 +9,7 @@ import dgca.verifier.app.engine.data.RuleCertificateType
 import io.kotest.matchers.shouldBe
 import org.joda.time.DateTimeZone
 import org.joda.time.Instant
+import org.joda.time.LocalDateTime
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
@@ -33,6 +34,7 @@ class DccValidationTest : BaseTest() {
             signatureCheckPassed = true,
             expirationCheckPassed = true,
             jsonSchemaCheckPassed = true,
+            expirationDateAt = LocalDateTime.now(),
             acceptanceRules = setOf(rule1, rule2),
             invalidationRules = setOf(rule3, rule4),
         ).state shouldBe DccValidation.State.PASSED
@@ -50,6 +52,7 @@ class DccValidationTest : BaseTest() {
             signatureCheckPassed = true,
             expirationCheckPassed = true,
             jsonSchemaCheckPassed = true,
+            expirationDateAt = LocalDateTime.now(),
             acceptanceRules = setOf(rule1),
             invalidationRules = setOf(rule2, rule3, rule4),
         ).state shouldBe DccValidation.State.FAILURE
@@ -65,6 +68,7 @@ class DccValidationTest : BaseTest() {
             signatureCheckPassed = true,
             expirationCheckPassed = true,
             jsonSchemaCheckPassed = false,
+            expirationDateAt = LocalDateTime.now(),
             acceptanceRules = setOf(rule1),
             invalidationRules = setOf(rule2),
         ).state shouldBe DccValidation.State.TECHNICAL_FAILURE
@@ -82,6 +86,7 @@ class DccValidationTest : BaseTest() {
             signatureCheckPassed = true,
             expirationCheckPassed = false,
             jsonSchemaCheckPassed = true,
+            expirationDateAt = LocalDateTime.now(),
             acceptanceRules = setOf(rule1, rule3),
             invalidationRules = setOf(rule2, rule4),
         ).state shouldBe DccValidation.State.TECHNICAL_FAILURE
@@ -99,6 +104,7 @@ class DccValidationTest : BaseTest() {
             signatureCheckPassed = false,
             expirationCheckPassed = true,
             jsonSchemaCheckPassed = true,
+            expirationDateAt = LocalDateTime.now(),
             acceptanceRules = setOf(rule1, rule3),
             invalidationRules = setOf(rule2, rule4),
         ).state shouldBe DccValidation.State.TECHNICAL_FAILURE
@@ -116,6 +122,7 @@ class DccValidationTest : BaseTest() {
             signatureCheckPassed = true,
             expirationCheckPassed = true,
             jsonSchemaCheckPassed = true,
+            expirationDateAt = LocalDateTime.now(),
             acceptanceRules = setOf(rule1, rule3),
             invalidationRules = setOf(rule2, rule4),
         ).state shouldBe DccValidation.State.OPEN
