@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.KidExtractionTes
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepositoryTest
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateContainerTest
 import de.rki.coronawarnapp.covidcertificate.signature.core.DccStateCheckerTest
+import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureValidatorTest
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepositoryTest
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainerTest
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorageTest
@@ -50,6 +51,7 @@ interface CovidCertificateTestComponent {
     fun inject(testClass: DccValidatorTest)
     fun inject(testClass: RecoveryCertificateRepositoryTest)
     fun inject(testClass: DccStateCheckerTest)
+    fun inject(testClass: DscSignatureValidatorTest)
 
     @Component.Factory
     interface Factory {
