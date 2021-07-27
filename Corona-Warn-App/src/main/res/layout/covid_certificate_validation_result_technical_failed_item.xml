@@ -48,6 +48,7 @@
         android:importantForAccessibility="no"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/divider"
+        app:layout_goneMarginTop="0dp"
         app:srcCompat="@drawable/ic_high_risk_alert" />
 
     <TextView
@@ -110,8 +111,6 @@
         style="@style/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_small"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/text_expired_subtitle"
         app:layout_constraintStart_toStartOf="@id/text_expired_subtitle"
         app:layout_constraintTop_toBottomOf="@id/text_expired_subtitle"
