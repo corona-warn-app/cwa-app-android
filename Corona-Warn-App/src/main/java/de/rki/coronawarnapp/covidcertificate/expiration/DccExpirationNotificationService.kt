@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRe
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.isDifferentDay
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
