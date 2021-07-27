@@ -26,8 +26,8 @@ fun mapAffectedFields(affectedFields: List<String>, certificate: CwaCovidCertifi
 private val String.stringResource: Int
     get() = when (this) {
         // Vaccination certificate
-        "v.0.vp" -> R.string.rule_vaccine
-        "v.0.mp" -> R.string.rule_vaccine_type
+        "v.0.vp" -> R.string.rule_vaccine_type
+        "v.0.mp" -> R.string.rule_vaccine
         "v.0.ma" -> R.string.rule_vaccine_manufacturer
         "v.0.dn" -> R.string.rule_vaccination_number
         "v.0.sd" -> R.string.rule_vaccination_total_number

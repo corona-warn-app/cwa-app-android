@@ -258,4 +258,9 @@
     <!-- XHED: issuer country for the validation failed card  -->
     <string name="validation_rules_invalidation_country">"Aceasta este o regulă a țării emitente."</string>
 
+    <!-- XTXT: Validation start privacy title -->
+    <string name="validation_start_privacy_title">"Confidențialitate și securitatea datelor"</string>
+    <!-- XTXT: Validation start privacy title -->
+    <string name="validation_start_privacy_body">"Regulile de intrare curente sunt descărcate de pe serverele RKI. Acest lucru necesită o conexiune la internet. Datele de acces sunt transmise către RKI."</string>
+
 </resources>
