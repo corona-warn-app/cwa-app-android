@@ -133,6 +133,7 @@ object CertificateStateHelper {
             }
 
             else -> {
+                certificateExpiration.visibility = View.GONE
             }
         }
     }
