@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.covidcertificate.signature.core.server
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.covidcertificate.signature.core.common.exception.DscValidationException
 import de.rki.coronawarnapp.covidcertificate.signature.core.common.exception.DscValidationException.ErrorCode
-import de.rki.coronawarnapp.server.protocols.internal.dgc.DscListOuterClass.DscList
 import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
 import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.security.SignatureValidation

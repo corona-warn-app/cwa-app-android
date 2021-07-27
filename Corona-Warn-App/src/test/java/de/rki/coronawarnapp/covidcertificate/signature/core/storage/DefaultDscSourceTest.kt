@@ -17,7 +17,7 @@ import testhelpers.EmptyApplication
 
 @Config(sdk = [Build.VERSION_CODES.P], application = EmptyApplication::class)
 @RunWith(RobolectricTestRunner::class)
-internal class DefaultDscSourceTest: BaseTest() {
+internal class DefaultDscSourceTest : BaseTest() {
 
     private val dscListName = "default_dsc_list.bin"
     private val checkSumName = "default_dsc_list.sha256"
@@ -41,5 +41,4 @@ internal class DefaultDscSourceTest: BaseTest() {
             parsedDscList shouldNotBe null
         }
     }
-
 }

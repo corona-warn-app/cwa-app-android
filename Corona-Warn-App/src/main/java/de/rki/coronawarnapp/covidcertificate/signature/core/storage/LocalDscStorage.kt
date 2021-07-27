@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.covidcertificate.signature.core.storage
 import android.content.Context
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscData
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscDataParser
-import de.rki.coronawarnapp.presencetracing.warning.download.TraceWarningPackageDownloader
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
