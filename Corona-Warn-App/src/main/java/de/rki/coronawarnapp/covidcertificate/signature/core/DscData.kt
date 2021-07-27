@@ -9,6 +9,6 @@ data class DscData(
 )
 
 data class DscItem(
-    val kid: ByteString,
+    val kid: String,
     val data: ByteString
 )

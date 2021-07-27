@@ -24,6 +24,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import okio.ByteString.Companion.decodeBase64
+import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -283,7 +284,8 @@ class DscSignatureValidatorTest : BaseTest() {
                     it.kid.toOkioByteString().base64(),
                     it.data.toOkioByteString()
                 )
-            }
+            },
+            Instant.EPOCH
         )
     }
 }

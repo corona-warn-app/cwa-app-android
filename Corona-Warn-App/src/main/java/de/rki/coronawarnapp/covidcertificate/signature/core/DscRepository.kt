@@ -40,9 +40,10 @@ class DscRepository @Inject constructor(
     suspend fun refresh() {
         Timber.tag(TAG).d("refresh()")
         internalData.updateBlocking {
-            dscServer.getDscList().let {
-                localStorage.save(it)
-                mapDscList(it)
+            dscServer.getDscList().let { rawData ->
+                mapDscList(rawData).apply {
+                    localStorage.save(rawData)
+                }
             }
         }
     }

@@ -12,7 +12,7 @@ class DscDataParser @Inject constructor() {
     fun parse(rawData: ByteArray, updatedAt: Instant = Instant.EPOCH): DscData = DscData(
         dscList = DscListOuterClass.DscList.parseFrom(rawData).certificatesList.map {
             DscItem(
-                kid = it.kid.toOkioByteString(),
+                kid = it.kid.toOkioByteString().base64(),
                 data = it.data.toOkioByteString()
             )
         },

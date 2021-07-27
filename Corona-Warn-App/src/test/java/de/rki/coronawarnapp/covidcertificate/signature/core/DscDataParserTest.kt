@@ -16,8 +16,8 @@ internal class DscDataParserTest {
         shouldNotThrowAny {
             val dscList = parser.parse(DSC_RAW_DATA.decodeBase64()!!.toByteArray())
             dscList.dscList.size shouldBe 11
-            dscList.dscList[0].kid.toByteArray() shouldBe byteArrayOf(-24, -75, 94, 36, -78, -100, -85, 123)
-            dscList.dscList[9].kid.toByteArray() shouldBe byteArrayOf(-124, 7, -88, -67, 30, 21, -45, 32)
+            dscList.dscList[0].kid shouldBe "6LVeJLKcq3s="
+            dscList.dscList[9].kid shouldBe "hAeovR4V0yA="
         }
     }
 
