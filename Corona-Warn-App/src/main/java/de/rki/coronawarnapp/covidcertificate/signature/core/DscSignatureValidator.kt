@@ -93,8 +93,8 @@ class DscSignatureValidator @Inject constructor(
                     x509Certificate = dscCertificate
                     break
                 }
-            } catch (ignored: Exception) {
-                // Ignore errors / continue
+            } catch (e: Exception) {
+                Timber.w(e, "Signature verification failed.") // Continue
             }
         }
 
