@@ -10,8 +10,6 @@ sealed class HomeFragmentEvents {
 
     object ShowErrorResetDialog : HomeFragmentEvents()
 
-    object ShowInternetNotAvailableDialog : HomeFragmentEvents()
-
     object GoToStatisticsExplanation : HomeFragmentEvents()
 
     object GoToFederalStateSelection : HomeFragmentEvents()

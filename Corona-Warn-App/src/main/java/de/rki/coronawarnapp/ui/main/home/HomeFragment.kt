@@ -9,7 +9,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
@@ -192,17 +191,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             HomeFragmentEvents.GoToFederalStateSelection -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToFederalStateSelectionFragment()
             )
-            HomeFragmentEvents.ShowInternetNotAvailableDialog -> showInternetNotAvailableDialog()
-        }
-    }
-
-    private fun showInternetNotAvailableDialog() {
-        context?.let {
-            MaterialAlertDialogBuilder(it)
-                .setTitle(R.string.statistics_add_card_internet_not_available_dialog_title)
-                .setMessage(R.string.statistics_add_card_internet_not_available_dialog_msg)
-                .setPositiveButton(R.string.statistics_add_card_internet_not_available_dialog_button) { _, _ -> }
-                .show()
         }
     }
 

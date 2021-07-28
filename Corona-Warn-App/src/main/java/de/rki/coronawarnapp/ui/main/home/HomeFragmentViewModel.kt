@@ -139,12 +139,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     private val combinedStatistics = combine(
         statisticsProvider.current,
-        localStatisticsProvider.current
-    ) { statsData, localStatsData ->
+        localStatisticsProvider.current,
+        networkStateProvider.networkState.map { it.isInternetAvailable }.distinctUntilChanged()
+    ) { statsData, localStatsData, isInternetAvailable ->
         statsData.copy(
-            items = mutableListOf(AddStatsItem(localStatsData.items.size < 5)) +
-                localStatsData.items +
-                statsData.items
+            items = mutableListOf(AddStatsItem(localStatsData.items.size < 5 && isInternetAvailable)) +
+                localStatsData.items + statsData.items
         )
     }
 
@@ -154,9 +154,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
         coronaTestRepository.latestRAT,
         combinedStatistics,
         appConfigProvider.currentConfig.map { it.coronaTestParameters }.distinctUntilChanged(),
-        vaccinationRepository.vaccinationInfos,
-        networkStateProvider.networkState.map { it.isInternetAvailable }.distinctUntilChanged()
-    ) { tracingItem, testPCR, testRAT, statsData, coronaTestParameters, vaccinatedPersons, isInternetAvailable ->
+        vaccinationRepository.vaccinationInfos
+    ) { tracingItem, testPCR, testRAT, statsData, coronaTestParameters, vaccinatedPersons ->
         val statePCR = testPCR.toSubmissionState()
         val stateRAT = testRAT.toSubmissionState(timeStamper.nowUTC, coronaTestParameters)
         mutableListOf<HomeItem>().apply {
@@ -202,25 +201,14 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     } else add(testRAT.toTestCardItem(coronaTestParameters))
                 }
             }
-            // **************************************************************************
-            Timber.d("Test: is internet available? $isInternetAvailable")
-            // **************************************************************************
 
-            if (statsData.isDataAvailable || isInternetAvailable) {
+            if (statsData.isDataAvailable) {
                 add(
                     StatisticsHomeCard.Item(
                         data = statsData,
                         onClickListener = {
                             when (it) {
-                                is AddStatsItem -> {
-                                    events.postValue(HomeFragmentEvents.GoToFederalStateSelection)
-                                    // Go to federal state selection if internet is available
-                                    if (isInternetAvailable) {
-                                        events.postValue(HomeFragmentEvents.GoToFederalStateSelection)
-                                    } else {
-                                        events.postValue(HomeFragmentEvents.ShowInternetNotAvailableDialog)
-                                    }
-                                }
+                                is AddStatsItem -> events.postValue(HomeFragmentEvents.GoToFederalStateSelection)
                                 else -> events.postValue(HomeFragmentEvents.GoToStatisticsExplanation)
                             }
                         },

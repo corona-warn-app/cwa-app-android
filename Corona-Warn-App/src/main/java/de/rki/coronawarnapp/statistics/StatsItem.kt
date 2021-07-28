@@ -9,18 +9,17 @@ data class StatisticsData(
     val items: List<GenericStatsItem> = emptyList()
 ) {
     val isDataAvailable: Boolean = items
-        .filterNot { it is AddStatsItem } // AddStatsItem isn't data actually ¯\_(ツ)_/¯
         .isNotEmpty()
 
     override fun toString(): String {
         return "StatisticsData(cards=${
-        items.map {
-            when (it) {
-                is AddStatsItem -> "AddCard(${it.isEnabled})"
-                is GlobalStatsItem -> it.cardType.name + " " + it.updatedAt
-                is LocalStatsItem -> it.cardType.name + " " + it.updatedAt
+            items.map {
+                when (it) {
+                    is AddStatsItem -> "AddCard(${it.isEnabled})"
+                    is GlobalStatsItem -> it.cardType.name + " " + it.updatedAt
+                    is LocalStatsItem -> it.cardType.name + " " + it.updatedAt
+                }
             }
-        }
         })"
     }
 }
@@ -32,9 +31,9 @@ data class LocalStatisticsData(
 
     override fun toString(): String {
         return "StatisticsData(cards=${
-        items.map {
-            it.cardType.name + " " + it.updatedAt
-        }
+            items.map {
+                it.cardType.name + " " + it.updatedAt
+            }
         })"
     }
 }
