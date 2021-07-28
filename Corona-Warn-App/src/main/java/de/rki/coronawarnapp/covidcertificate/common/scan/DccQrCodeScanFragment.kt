@@ -96,9 +96,19 @@ class DccQrCodeScanFragment :
             binding.qrCodeScanSpinner.hide()
             it.toErrorDialogBuilder(requireContext()).apply {
                 setOnDismissListener { popBackStack() }
-                if (it is InvalidHealthCertificateException && it.showFaqButton) {
-                    setNeutralButton(it.faqButtonText) { _, _ ->
-                        openUrl(getString(it.faqLink))
+                if (it is InvalidHealthCertificateException) {
+                    when {
+                        it.isCertificateInvalid ->
+                            setNeutralButton(R.string.error_button_dcc_faq) { _, _ ->
+                                openUrl(R.string.error_button_dcc_faq_link)
+                            }
+
+                        it.isSignatureInvalid -> {
+                            setTitle(R.string.dcc_signature_validation_dialog_title)
+                            setNeutralButton(R.string.dcc_signature_validation_dialog_faq_button) { _, _ ->
+                                openUrl(R.string.dcc_signature_validation_dialog_faq_link)
+                            }
+                        }
                     }
                 }
             }.show()
