@@ -36,13 +36,12 @@ class DigitalCovidCertificateNotifications @Inject constructor(
     fun setupChannel() {
         Timber.d("setupChannel()")
 
-        // TODO channel messages
         val channel = NotificationChannelCompat.Builder(
             channelId,
             NotificationManagerCompat.IMPORTANCE_DEFAULT
         )
-            .setName(context.getString(R.string.tracelocation_notification_channel_title))
-            .setDescription(context.getString(R.string.tracelocation_notification_channel_description))
+            .setName(context.getString(R.string.dcc_notification_channel_title))
+            .setDescription(context.getString(R.string.dcc_notification_channel_description))
             .build()
 
         notificationManagerCompat.createNotificationChannel(channel)
@@ -63,7 +62,7 @@ class DigitalCovidCertificateNotifications @Inject constructor(
             setAutoCancel(true)
         }
 
-        // Generic notification that does not exposure any specifics
+        // Generic notification that does not expose any specifics
         val public = common.apply {
             setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             setContentTitle(context.getString(R.string.notification_headline))
