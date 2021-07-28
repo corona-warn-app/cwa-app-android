@@ -294,4 +294,15 @@
     <!-- XTXT: Signature validation dialog FAQ lint-->
     <string name="dcc_signature_validation_dialog_faq_link">https://www.coronawarn.app/en/faq/#hc_signature_invalid</string>
 
+    <!-- Expiration notification -->
+    <!-- XTXT: expiring soon notification -->
+    <string name="dcc_notification_expires_soon_text">Überprüfen Sie die Gültigkeit Ihrer Zertifikate.</string>
+    <!-- XTXT: expired notification -->
+    <string name="dcc_notification_expired_text">Überprüfen Sie die Gültigkeit Ihrer Zertifikate.</string>
+
+    <!-- DCC notification channel-->
+    <!-- XTXT: certificate notification channel title -->
+    <string name="dcc_notification_channel_title">tbd</string>
+    <!-- XTXT: certificate notification channel description -->
+    <string name="dcc_notification_channel_description">tbd</string>
 </resources>
