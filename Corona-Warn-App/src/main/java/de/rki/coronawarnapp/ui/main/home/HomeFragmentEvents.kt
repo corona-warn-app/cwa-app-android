@@ -12,6 +12,8 @@ sealed class HomeFragmentEvents {
 
     object GoToStatisticsExplanation : HomeFragmentEvents()
 
+    object GoToFederalStateSelection : HomeFragmentEvents()
+
     object GoToRiskDetailsFragment : HomeFragmentEvents()
 
     object GoToSettingsTracingFragment : HomeFragmentEvents()

@@ -8,6 +8,7 @@ import android.bluetooth.BluetoothAdapter
 import android.content.ContentResolver
 import android.content.Context
 import android.content.pm.ApplicationInfo
+import android.content.res.AssetManager
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.getSystemService
 import androidx.lifecycle.LifecycleOwner
@@ -82,4 +83,9 @@ class AndroidModule {
     fun alarmManager(
         @AppContext context: Context
     ): AlarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+    @Provides
+    fun assetManager(
+        @AppContext context: Context
+    ): AssetManager = context.assets
 }

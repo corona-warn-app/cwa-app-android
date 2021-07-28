@@ -2,9 +2,9 @@ package de.rki.coronawarnapp.util.serialization.adapter
 
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
+import com.google.gson.stream.JsonToken
 import com.google.gson.stream.JsonWriter
 import org.joda.time.Instant
-import org.json.JSONObject
 
 class InstantAdapter : TypeAdapter<Instant>() {
     override fun write(out: JsonWriter, value: Instant?) {
@@ -16,7 +16,7 @@ class InstantAdapter : TypeAdapter<Instant>() {
     }
 
     override fun read(reader: JsonReader): Instant? = when (reader.peek()) {
-        JSONObject.NULL -> {
+        JsonToken.NULL -> {
             reader.nextNull()
             null
         }

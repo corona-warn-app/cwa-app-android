@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.censors.dcc
 
-import de.rki.coronawarnapp.coronatest.DaggerCoronaTestTestComponent
+import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
@@ -53,12 +53,14 @@ class DccQrCodeCensorTest : BaseTest() {
                 lastNameStandardized = "KEVIN",
                 firstNameStandardized = "BOB"
             )
-        )
+        ),
+        certificateJson = "",
+        kid = ""
     )
 
     @BeforeEach
     fun setUp() {
-        DaggerCoronaTestTestComponent.factory().create().inject(this)
+        DaggerCovidCertificateTestComponent.factory().create().inject(this)
         MockKAnnotations.init(this)
         DccQrCodeCensor.clearCertificateToCensor()
         DccQrCodeCensor.clearQRCodeStringToCensor()
@@ -126,7 +128,9 @@ class DccQrCodeCensorTest : BaseTest() {
     fun `censoring of recovery certificate works`() = runBlockingTest {
         val data = DccData(
             header = mockk(),
-            recoveryCertificate1.asRecoveryCertificate!!
+            recoveryCertificate1.asRecoveryCertificate!!,
+            certificateJson = "",
+            kid = ""
         )
         DccQrCodeCensor.addCertificateToCensor(data)
         val censor = createInstance()

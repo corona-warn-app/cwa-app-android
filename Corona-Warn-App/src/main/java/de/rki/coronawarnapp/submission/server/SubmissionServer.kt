@@ -6,10 +6,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass.TemporaryExposureKey
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
-import de.rki.coronawarnapp.util.PaddingTool.checkInPadding
-import de.rki.coronawarnapp.util.PaddingTool.keyPadding
-
-import de.rki.coronawarnapp.util.PaddingTool.requestPadding
+import de.rki.coronawarnapp.util.PaddingTool
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -19,7 +16,8 @@ import javax.inject.Singleton
 @Singleton
 class SubmissionServer @Inject constructor(
     private val submissionApi: Lazy<SubmissionApiV1>,
-    private val appConfigProvider: AppConfigProvider
+    private val appConfigProvider: AppConfigProvider,
+    private val paddingTool: PaddingTool,
 ) {
 
     private val api: SubmissionApiV1
@@ -54,8 +52,8 @@ class SubmissionServer @Inject constructor(
             .presenceTracing
             .plausibleDeniabilityParameters
 
-        val keyPadding = keyPadding(keyList.size)
-        val checkInPadding = checkInPadding(plausibleParameters, checkInList.size)
+        val keyPadding = paddingTool.keyPadding(keyList.size)
+        val checkInPadding = paddingTool.checkInPadding(plausibleParameters, checkInList.size)
         val requestPadding = keyPadding + checkInPadding
         Timber.tag(TAG).d(
             "keyPadding=%s\ncheckInPadding=%s\nrequestPadding=%s",
@@ -89,8 +87,8 @@ class SubmissionServer @Inject constructor(
             .presenceTracing
             .plausibleDeniabilityParameters
 
-        val fakeKeyPadding = keyPadding(keyListSize = 0)
-        val fakeCheckInPadding = checkInPadding(plausibleParameters, checkInListSize = 0)
+        val fakeKeyPadding = paddingTool.keyPadding(keyListSize = 0)
+        val fakeCheckInPadding = paddingTool.checkInPadding(plausibleParameters, checkInListSize = 0)
         val fakeRequestPadding = fakeKeyPadding + fakeCheckInPadding
 
         Timber.tag(TAG).v(
@@ -107,7 +105,7 @@ class SubmissionServer @Inject constructor(
         api.submitPayload(
             authCode = EMPTY_STRING,
             fake = "1",
-            headerPadding = requestPadding(PADDING_LENGTH_HEADER_SUBMISSION_FAKE),
+            headerPadding = paddingTool.requestPadding(PADDING_LENGTH_HEADER_SUBMISSION_FAKE),
             requestBody = submissionPayload
         )
     }

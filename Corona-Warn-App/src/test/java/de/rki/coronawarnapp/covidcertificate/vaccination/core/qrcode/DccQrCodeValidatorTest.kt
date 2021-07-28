@@ -1,9 +1,9 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode
 
+import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.DaggerVaccinationTestComponent
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -21,7 +21,7 @@ class DccQrCodeValidatorTest : BaseTest() {
 
     @BeforeEach
     fun setup() {
-        DaggerVaccinationTestComponent.factory().create().inject(this)
+        DaggerCovidCertificateTestComponent.factory().create().inject(this)
 
         vacExtractorSpy = spyk(vacExtractor)
     }

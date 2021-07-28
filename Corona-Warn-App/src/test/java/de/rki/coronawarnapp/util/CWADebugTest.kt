@@ -12,7 +12,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
-import io.mockk.verifySequence
+import io.mockk.verifyOrder
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -56,7 +56,7 @@ class CWADebugTest : BaseTest() {
         CWADebug.debugLoggerFactory = { debugLogger }
         CWADebug.init(application)
         CWADebug.initAfterInjection(appComponent)
-        verifySequence {
+        verifyOrder {
             debugLogger.init()
             debugLogger.setInjectionIsReady(appComponent)
         }

@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParameters
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.submission.SubmissionModule
+import de.rki.coronawarnapp.util.PaddingTool
 import de.rki.coronawarnapp.util.headerSizeIgnoringContentLength
 import io.kotest.matchers.ints.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
@@ -33,6 +34,8 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import testhelpers.BaseTest
 import java.io.File
+import java.security.SecureRandom
+import kotlin.random.asKotlinRandom
 
 class SubmissionServerTest : BaseTest() {
     @MockK lateinit var submissionApi: SubmissionApiV1
@@ -70,7 +73,13 @@ class SubmissionServerTest : BaseTest() {
 
     private fun createServer(
         customApi: SubmissionApiV1 = submissionApi
-    ) = SubmissionServer(submissionApi = { customApi }, appConfigProvider)
+    ) = SubmissionServer(
+        submissionApi = { customApi },
+        appConfigProvider = appConfigProvider,
+        paddingTool = PaddingTool(
+            sourceFast = SecureRandom().asKotlinRandom(),
+        ),
+    )
 
     @Test
     fun `genuine submission - empty checkInPadding`(): Unit = runBlocking {

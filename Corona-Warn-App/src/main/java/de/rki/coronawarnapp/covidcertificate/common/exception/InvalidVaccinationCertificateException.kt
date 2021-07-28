@@ -18,14 +18,10 @@ class InvalidVaccinationCertificateException(
 
     override val errorMessage: LazyString
         get() = when (errorCode) {
-            ErrorCode.NO_VACCINATION_ENTRY -> CachedString { context ->
-                context.getString(ERROR_MESSAGE_VC_NOT_YET_SUPPORTED)
-            }
-
+            ErrorCode.NO_VACCINATION_ENTRY,
             ErrorCode.MULTIPLE_VACCINATION_ENTRIES -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_VC_NOT_YET_SUPPORTED)
             }
-
             ErrorCode.NAME_MISMATCH,
             ErrorCode.DOB_MISMATCH -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_VC_DIFFERENT_PERSON)

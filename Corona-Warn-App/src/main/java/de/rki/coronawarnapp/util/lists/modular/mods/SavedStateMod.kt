@@ -19,7 +19,7 @@ class SavedStateMod<T : ModularAdapter.VH> :
         if (vh !is StateSavingVH) return
         val key = vh.savedStateKey ?: return
 
-        savedStates.remove(key)?.let { vh.restoreState(it) }
+        vh.restoreState(savedStates.remove(key))
         super.onPostBind(adapter, vh, pos)
     }
 
@@ -55,6 +55,6 @@ class SavedStateMod<T : ModularAdapter.VH> :
     interface StateSavingVH {
         val savedStateKey: String?
         fun onSaveState(): Parcelable?
-        fun restoreState(state: Parcelable)
+        fun restoreState(state: Parcelable?)
     }
 }

@@ -16,7 +16,6 @@ import de.rki.coronawarnapp.databinding.BugreportingDebuglogFragmentBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.files.FileSharing
-import de.rki.coronawarnapp.util.setUrl
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -26,6 +25,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import org.joda.time.Duration
 import org.joda.time.Instant
+import setTextWithUrl
 import javax.inject.Inject
 
 class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), AutoInject {
@@ -47,7 +47,7 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
             if (explanationSectionTwo.text ==
                 getString(R.string.debugging_debuglog_intro_explanation_section_two)
             ) {
-                explanationSectionTwo.setUrl(
+                explanationSectionTwo.setTextWithUrl(
                     R.string.debugging_debuglog_intro_explanation_section_two,
                     R.string.debugging_debuglog_intro_explanation_section_two_link_label,
                     R.string.debugging_debuglog_intro_explanation_section_two_faq_link

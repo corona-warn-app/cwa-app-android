@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
+import com.google.gson.stream.JsonToken
 import com.google.gson.stream.JsonWriter
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeStamper
@@ -18,7 +19,6 @@ import kotlinx.coroutines.withContext
 import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.toByteString
 import org.joda.time.Instant
-import org.json.JSONObject
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
@@ -77,7 +77,7 @@ class DefaultLastAnalyticsSubmissionLogger @Inject constructor(
             }
 
             override fun read(reader: JsonReader): PpaData.PPADataAndroid? = when (reader.peek()) {
-                JSONObject.NULL -> reader.nextNull().let { null }
+                JsonToken.NULL -> reader.nextNull().let { null }
                 else -> {
                     val raw = reader.nextString().decodeBase64()?.toByteArray()
                     if (raw == null) {

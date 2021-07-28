@@ -1,15 +1,10 @@
 package de.rki.coronawarnapp.util
 
 import de.rki.coronawarnapp.appconfig.PlausibleDeniabilityParametersContainer
-import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass
-    .PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParametersOrBuilder
-import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass
-    .PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParameters
+import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParameters
+import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParametersOrBuilder
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.Range
-import de.rki.coronawarnapp.util.PaddingTool.checkInPadding
-import de.rki.coronawarnapp.util.PaddingTool.determineFakeCheckInsNumber
-import de.rki.coronawarnapp.util.PaddingTool.equation
-import io.kotest.matchers.doubles.shouldBeGreaterThan
+import io.kotest.matchers.comparables.shouldBeGreaterThan
 import io.kotest.matchers.ints.shouldBeGreaterThanOrEqual
 import io.kotest.matchers.ints.shouldBeLessThanOrEqual
 import io.kotest.matchers.shouldBe
@@ -18,8 +13,10 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ArgumentsSource
 import testhelpers.BaseTest
 import timber.log.Timber
+import java.security.SecureRandom
 import kotlin.math.abs
 import kotlin.random.Random
+import kotlin.random.asKotlinRandom
 
 class PaddingToolTest : BaseTest() {
 
@@ -57,11 +54,15 @@ class PaddingToolTest : BaseTest() {
             .setC(0.0)
             .build()
 
+    private fun createInstance() = PaddingTool(
+        sourceFast = SecureRandom().asKotlinRandom(),
+    )
+
     @Test
     fun `verify padding patterns`() {
         repeat(1000) {
             val randomLength = abs(Random.nextInt(1, 1024))
-            PaddingTool.requestPadding(randomLength).apply {
+            createInstance().requestPadding(randomLength).apply {
                 length shouldBe randomLength
                 Timber.v("RandomLength: %d, Padding: %s", randomLength, this)
                 validPattern.matches(this) shouldBe true
@@ -72,19 +73,19 @@ class PaddingToolTest : BaseTest() {
     @Test
     fun `keyPadding - fake requests with 0 keys`() {
         // keyPadding = 15 keys x 28 bytes per key = 392 bytes`
-        PaddingTool.keyPadding(keyListSize = 0).toByteArray().size shouldBe 420
+        createInstance().keyPadding(keyListSize = 0).toByteArray().size shouldBe 420
     }
 
     @Test
     fun `keyPadding - genuine request with 5 keys`() {
         // keyPadding = 10 keys x 28 bytes per key = 252 bytes`
-        PaddingTool.keyPadding(keyListSize = 5).toByteArray().size shouldBe 280
+        createInstance().keyPadding(keyListSize = 5).toByteArray().size shouldBe 280
     }
 
     @Test
     fun `keyPadding - genuine request with 16 keys`() {
         // keyPadding = 0 keys x 28 bytes per key = 0 bytes`
-        PaddingTool.keyPadding(keyListSize = 16).toByteArray().size shouldBe 0
+        createInstance().keyPadding(keyListSize = 16).toByteArray().size shouldBe 0
     }
 
     @Test
@@ -132,10 +133,10 @@ class PaddingToolTest : BaseTest() {
         val numberOfRuns = 1000
         val expMinAvgCheckInPadding = 550
         val expMaxAvgCheckInPadding = 650
-
+        val instance = createInstance()
         val byteAvg = (0 until numberOfRuns)
             .map {
-                checkInPadding(
+                instance.checkInPadding(
                     plausibleParameters,
                     checkInListSize = 0
                 ).length // Generated Random Padding (String)  length
@@ -151,7 +152,7 @@ class PaddingToolTest : BaseTest() {
     @ParameterizedTest
     @ArgumentsSource(EquationProvider::class)
     fun `f(x)`(x: Double, fx: Double) {
-        functionParam.equation(x) shouldBe fx
+        functionParam.fakeCheckinCountEquation(x) shouldBe fx
     }
 
     @ParameterizedTest
@@ -161,7 +162,7 @@ class PaddingToolTest : BaseTest() {
         numberOfCheckIns: Int,
         expected: Double
     ) {
-        plausibleParameters.determineFakeCheckInsNumber(numberOfCheckIns) shouldBe expected
+        createInstance().determineFakeCheckInsNumber(plausibleParameters, numberOfCheckIns) shouldBe expected
     }
 
     @ParameterizedTest
@@ -171,6 +172,9 @@ class PaddingToolTest : BaseTest() {
         numberOfCheckIns: Int,
         expected: Double
     ) {
-        plausibleParameters.determineFakeCheckInsNumber(numberOfCheckIns) shouldBeGreaterThan expected
+        createInstance().determineFakeCheckInsNumber(
+            plausibleParameters,
+            numberOfCheckIns
+        ) shouldBeGreaterThan expected
     }
 }

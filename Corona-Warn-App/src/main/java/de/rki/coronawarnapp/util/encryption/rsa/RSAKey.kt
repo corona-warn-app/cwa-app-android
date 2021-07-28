@@ -2,12 +2,12 @@ package de.rki.coronawarnapp.util.encryption.rsa
 
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
+import com.google.gson.stream.JsonToken
 import com.google.gson.stream.JsonWriter
 import de.rki.coronawarnapp.util.trimToLength
 import okio.ByteString
 import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.toByteString
-import org.json.JSONObject
 import java.security.Key
 import java.security.KeyFactory
 import java.security.PrivateKey
@@ -42,7 +42,7 @@ interface RSAKey {
             }
 
             override fun read(reader: JsonReader): Private? = when (reader.peek()) {
-                JSONObject.NULL -> reader.nextNull().let { null }
+                JsonToken.NULL -> reader.nextNull().let { null }
                 else -> Private(reader.nextString().decodeBase64()!!)
             }
         }
@@ -64,7 +64,7 @@ interface RSAKey {
             }
 
             override fun read(reader: JsonReader): Public? = when (reader.peek()) {
-                JSONObject.NULL -> reader.nextNull().let { null }
+                JsonToken.NULL -> reader.nextNull().let { null }
                 else -> Public(reader.nextString().decodeBase64()!!)
             }
         }

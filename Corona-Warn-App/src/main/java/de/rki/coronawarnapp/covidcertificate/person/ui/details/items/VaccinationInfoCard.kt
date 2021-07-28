@@ -39,6 +39,6 @@ class VaccinationInfoCard(parent: ViewGroup) :
         val daysUntilImmunity: Int?
     ) : CertificateItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
-        override val stableId = daysUntilImmunity.hashCode().toLong()
+        override val stableId = Item::class.hashCode().toLong()
     }
 }

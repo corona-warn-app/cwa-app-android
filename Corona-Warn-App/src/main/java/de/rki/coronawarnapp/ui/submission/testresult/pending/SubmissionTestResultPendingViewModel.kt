@@ -56,11 +56,9 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
         .filterNotNull()
         .map { test ->
             tokenErrorMutex.withLock {
-                if (!wasRedeemedTokenErrorShown) {
-                    if (test.testResult.toDeviceUIState() == DeviceUIState.PAIRED_REDEEMED) {
-                        wasRedeemedTokenErrorShown = true
-                        showRedeemedTokenWarning.postValue(Unit)
-                    }
+                if (!wasRedeemedTokenErrorShown && test.testResult.toDeviceUIState() == DeviceUIState.PAIRED_REDEEMED) {
+                    wasRedeemedTokenErrorShown = true
+                    showRedeemedTokenWarning.postValue(Unit)
                 }
             }
             TestResultUIState(coronaTest = test)
@@ -78,7 +76,7 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
                 CoronaTestResult.RAT_NEGATIVE ->
                     SubmissionTestResultPendingFragmentDirections
                         .actionSubmissionTestResultPendingFragmentToSubmissionNegativeAntigenTestResultFragment()
-                CoronaTestResult.PCR_REDEEMED,
+                CoronaTestResult.PCR_OR_RAT_REDEEMED,
                 CoronaTestResult.PCR_INVALID,
                 CoronaTestResult.RAT_REDEEMED,
                 CoronaTestResult.RAT_INVALID ->

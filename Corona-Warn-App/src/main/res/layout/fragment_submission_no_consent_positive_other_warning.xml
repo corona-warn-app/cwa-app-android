@@ -20,9 +20,9 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
+            style="@style/CWAToolbar.Close"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/CWAToolbar.Close"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -39,18 +39,20 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:paddingBottom="@dimen/spacing_normal"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/spacing_normal">
 
                 <ImageView
                     android:id="@+id/submission_positive_other_warning_hero_illustration"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_submission_illustration_other_warning"
+                    android:adjustViewBounds="true"
                     android:contentDescription="@string/submission_positive_other_illustration_description"
+                    android:scaleType="fitXY"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_submission_illustration_other_warning"
                     tools:ignore="ContentDescription" />
 
                 <TextView

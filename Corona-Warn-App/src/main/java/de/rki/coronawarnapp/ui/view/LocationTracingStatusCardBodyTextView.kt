@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.util.setUrl
+import setTextWithUrl
 
 class LocationTracingStatusCardBodyTextView @JvmOverloads constructor(
     context: Context,
@@ -13,7 +13,7 @@ class LocationTracingStatusCardBodyTextView @JvmOverloads constructor(
 ) : AppCompatTextView(context, attrs, defStyleAttr) {
 
     init {
-        setUrl(
+        setTextWithUrl(
             R.string.settings_tracing_status_location_body,
             "FAQ",
             context.getString(R.string.settings_tracing_status_location_body_url)

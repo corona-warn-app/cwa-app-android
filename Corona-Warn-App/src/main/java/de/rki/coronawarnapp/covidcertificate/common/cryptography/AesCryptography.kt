@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.common.cryptography
 
-import com.google.android.gms.common.util.Hex
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
@@ -18,7 +17,9 @@ class AesCryptography @Inject constructor() {
     }
 
     private val ivParameterSpec
-        get() = IvParameterSpec(Hex.stringToBytes("00000000000000000000000000000000"))
+        get() = IvParameterSpec(
+            ByteArray(16) { 0 }
+        )
 }
 
 private const val ALGORITHM = "AES"

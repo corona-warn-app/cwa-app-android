@@ -241,7 +241,7 @@
 
     <Button
         android:id="@+id/submission_status_card_positive_button_delete"
-        style="@style/button"
+        style="@style/buttonLight"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"

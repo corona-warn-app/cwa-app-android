@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_INVALID
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_NEGATIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_OR_RAT_PENDING
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_POSITIVE
-import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_REDEEMED
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_OR_RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_INVALID
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_NEGATIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_PENDING
@@ -146,7 +146,7 @@ class PCRTestProcessor @Inject constructor(
             val nowUTC = timeStamper.nowUTC
             val isOlderThan21Days = test.isOlderThan21Days(nowUTC)
 
-            if (isOlderThan21Days && test.testResult == PCR_REDEEMED) {
+            if (isOlderThan21Days && test.testResult == PCR_OR_RAT_REDEEMED) {
                 Timber.tag(TAG).w("Not polling, test is older than 21 days.")
                 return test
             }
@@ -161,8 +161,8 @@ class PCRTestProcessor @Inject constructor(
                     }
             } catch (e: BadRequestException) {
                 if (isOlderThan21Days) {
-                    Timber.tag(TAG).w("HTTP 400 error after 21 days, remapping to PCR_REDEEMED.")
-                    CoronaTestResultResponse(coronaTestResult = PCR_REDEEMED)
+                    Timber.tag(TAG).w("HTTP 400 error after 21 days, remapping to PCR_OR_RAT_REDEEMED.")
+                    CoronaTestResultResponse(coronaTestResult = PCR_OR_RAT_REDEEMED)
                 } else {
                     Timber.tag(TAG).v("Unexpected HTTP 400 error, rethrowing...")
                     throw e
@@ -197,7 +197,7 @@ class PCRTestProcessor @Inject constructor(
 
         return if (newResult == PCR_OR_RAT_PENDING && calculateDays > VerificationServer.TEST_AVAILABLBILITY) {
             Timber.tag(TAG).d("$calculateDays is exceeding the test availability.")
-            PCR_REDEEMED
+            PCR_OR_RAT_REDEEMED
         } else {
             newResult
         }
@@ -257,7 +257,7 @@ class PCRTestProcessor @Inject constructor(
     }
 
     companion object {
-        private val FINAL_STATES = setOf(PCR_POSITIVE, PCR_NEGATIVE, PCR_REDEEMED)
+        private val FINAL_STATES = setOf(PCR_POSITIVE, PCR_NEGATIVE, PCR_OR_RAT_REDEEMED)
         internal const val TAG = "PCRTestProcessor"
     }
 }
@@ -268,7 +268,7 @@ private fun CoronaTestResult.toValidatedResult(): CoronaTestResult {
         PCR_NEGATIVE,
         PCR_POSITIVE,
         PCR_INVALID,
-        PCR_REDEEMED -> true
+        PCR_OR_RAT_REDEEMED -> true
 
         RAT_PENDING,
         RAT_NEGATIVE,

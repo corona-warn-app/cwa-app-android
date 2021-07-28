@@ -1,10 +1,10 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.details.items
 
-import android.graphics.Bitmap
 import android.view.ViewGroup
-import androidx.core.view.isVisible
+import coil.loadAny
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
@@ -13,11 +13,13 @@ import de.rki.coronawarnapp.databinding.PersonDetailsQrCardItemBinding
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
+import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
+import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 
 class PersonDetailsQrCard(parent: ViewGroup) :
     PersonDetailsAdapter.PersonDetailsItemVH<PersonDetailsQrCard.Item, PersonDetailsQrCardItemBinding>(
-        layoutRes = R.layout.include_certificate_qrcode_card,
+        layoutRes = R.layout.person_details_qr_card_item,
         parent = parent
     ) {
     override val viewBinding: Lazy<PersonDetailsQrCardItemBinding> = lazy {
@@ -29,11 +31,19 @@ class PersonDetailsQrCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
-        image.setImageBitmap(curItem.qrCodeBitmap)
+
         curItem.apply {
-            qrCodeBitmap?.let { progressBar.hide() }
-            qrTitle.isVisible = true
-            qrSubtitle.isVisible = true
+            image.loadAny(
+                CoilQrCode(content = curItem.certificate.qrCode)
+            ) {
+                crossfade(true)
+                loadingView(image, progressBar)
+            }
+
+            startValidationCheckButton.defaultButton.setOnClickListener {
+                validateCertificate(certificate.containerId)
+            }
+            startValidationCheckButton.isLoading = curItem.isLoading
             when (certificate) {
                 is TestCertificate -> {
                     val dateTime = certificate.sampleCollectedAt.toUserTimeZone().run {
@@ -63,7 +73,8 @@ class PersonDetailsQrCard(parent: ViewGroup) :
 
     data class Item(
         val certificate: CwaCovidCertificate,
-        val qrCodeBitmap: Bitmap?
+        val isLoading: Boolean,
+        val validateCertificate: (CertificateContainerId) -> Unit
     ) : CertificateItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
         override val stableId = certificate.personIdentifier.codeSHA256.hashCode().toLong()

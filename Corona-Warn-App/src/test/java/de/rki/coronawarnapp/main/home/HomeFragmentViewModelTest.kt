@@ -7,6 +7,8 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSe
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
+import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
+import de.rki.coronawarnapp.statistics.local.storage.LocalStatisticsConfigStorage
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.storage.TracingSettings
@@ -59,6 +61,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var statisticsProvider: StatisticsProvider
+    @MockK lateinit var localStatisticsProvider: LocalStatisticsProvider
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
     @MockK lateinit var tracingSettings: TracingSettings
     @MockK lateinit var traceLocationOrganizerSettings: TraceLocationOrganizerSettings
@@ -66,6 +69,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var bluetoothSupport: BluetoothSupport
     @MockK lateinit var covidCertificateSettings: CovidCertificateSettings
     @MockK lateinit var vaccinationRepository: VaccinationRepository
+    @MockK lateinit var localStatisticsConfigStorage: LocalStatisticsConfigStorage
 
     @BeforeEach
     fun setup() {
@@ -82,6 +86,8 @@ class HomeFragmentViewModelTest : BaseTest() {
 
         coEvery { appConfigProvider.currentConfig } returns emptyFlow()
         coEvery { statisticsProvider.current } returns emptyFlow()
+
+        coEvery { localStatisticsProvider.current } returns emptyFlow()
 
         every { timeStamper.nowUTC } returns Instant.ofEpochMilli(100101010)
 
@@ -102,13 +108,15 @@ class HomeFragmentViewModelTest : BaseTest() {
         cwaSettings = cwaSettings,
         appConfigProvider = appConfigProvider,
         statisticsProvider = statisticsProvider,
+        localStatisticsProvider = localStatisticsProvider,
         appShortcutsHelper = appShortcutsHelper,
         tracingSettings = tracingSettings,
         traceLocationOrganizerSettings = traceLocationOrganizerSettings,
         timeStamper = timeStamper,
         bluetoothSupport = bluetoothSupport,
         vaccinationRepository = vaccinationRepository,
-        covidCertificateSettings = covidCertificateSettings
+        covidCertificateSettings = covidCertificateSettings,
+        localStatisticsConfigStorage = localStatisticsConfigStorage
     )
 
     @Test

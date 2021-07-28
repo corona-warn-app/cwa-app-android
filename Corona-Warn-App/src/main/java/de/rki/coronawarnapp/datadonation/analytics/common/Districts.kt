@@ -15,8 +15,7 @@ class Districts @Inject constructor(
     @AppContext private val context: Context,
     @BaseGson private val gson: Gson
 ) {
-
-    suspend fun loadDistricts(): List<District> {
+    fun loadDistricts(): List<District> {
         return try {
             val rawDistricts = context.assets.open(ASSET_NAME).bufferedReader().use { it.readText() }
             gson.fromJson(rawDistricts)

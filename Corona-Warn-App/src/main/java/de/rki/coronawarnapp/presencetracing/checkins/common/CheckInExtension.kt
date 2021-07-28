@@ -8,12 +8,15 @@ val CheckIn.locationName: String
     get() {
         val nameParts = mutableListOf(description, address)
 
-        if (traceLocationStart != null && traceLocationEnd != null) {
-            if (traceLocationStart.millis > 0 && traceLocationEnd.millis > 0) {
-                val formattedStartDate = traceLocationStart.toUserTimeZone().toString(DateTimeFormat.shortDateTime())
-                val formattedEndDate = traceLocationEnd.toUserTimeZone().toString(DateTimeFormat.shortDateTime())
-                nameParts.add("$formattedStartDate - $formattedEndDate")
-            }
+        @Suppress("ComplexCondition")
+        if (traceLocationStart != null &&
+            traceLocationEnd != null &&
+            traceLocationStart.millis > 0 &&
+            traceLocationEnd.millis > 0
+        ) {
+            val formattedStartDate = traceLocationStart.toUserTimeZone().toString(DateTimeFormat.shortDateTime())
+            val formattedEndDate = traceLocationEnd.toUserTimeZone().toString(DateTimeFormat.shortDateTime())
+            nameParts.add("$formattedStartDate - $formattedEndDate")
         }
 
         return nameParts.joinToString(separator = ", ")

@@ -62,9 +62,6 @@
     <string name="contact_diary_overview_title">"Дневник на контактите"</string>
     <!-- XTXT: Subtitle for contact diary overview screen -->
     <string name="contact_diary_overview_subtitle">"Отбелязвайте хората, които сте срещали, и местата, които сте посетили. Ако за даден ден се появи информация за риск, може да предупредите хората, с които сте контактували в този ден дори ако те самите на използват приложението Corona-Warn-App."</string>
-    <!-- XTXT: Header for contact diary overview screen -->
-    <string name="contact_diary_overview_header">"Начална страница"</string>
-
 
     <!-- XTXT: Title for contact diary overview screen high risk information -->
     <string name="contact_diary_high_risk_title">"Повишен риск"</string>
@@ -83,8 +80,6 @@
     <!-- XTXT: Indicates this trace location caused a lows risk -->
     <string name="contact_diary_trace_location_risk_low">"нисък риск"</string>
 
-
-
     <!-- XTXT: content description of contact journal image on home screen -->
     <string name="contact_diary_homescreen_card_image_content_description">"Затворена книга с отметка"</string>
     <!-- XTXT: content description of contact journal header image on onboarding screen -->
@@ -93,7 +88,6 @@
     <string name="contact_diary_edit_persons_image_content_description">"Силует на жена, която минава през поляна."</string>
     <!-- XTXT: content description of contact journal background image on edit locations screen -->
     <string name="contact_diary_edit_locations_image_content_description">"Сграда с маркер за местоположение."</string>
-
 
     <!-- XHED: Title for the contact diary edit locations -->
     <string name="contact_diary_edit_locations_title">"Редактиране на места"</string>
@@ -175,13 +169,10 @@
     <!-- XTXT: Option - person encounter - circumstances hint-->
     <string name="contact_diary_person_encounter_circumstances_hint">"Забележка (напр. близко разстояние)"</string>
 
-
     <!-- XBUT: Option - person encounter - inside-->
     <string name="contact_diary_location_visit_duration_label">"Продължителност"</string>
     <!-- XTXT: Option - location encounter - duration in hours label-->
     <string name="contact_diary_location_visit_duration_hour">"ч"</string>
-    <!-- XTXT: Option - person encounter - circumstances hint-->
-    <string name="contact_diary_location_visit_circumstances_hint">"Забележка (напр. препълнено)"</string>
 
     <!-- XTXT: PCR test title in the day overview -->
     <string name="contact_diary_corona_test_pcr_title">"PCR тестът е регистриран"</string>

@@ -13,8 +13,8 @@
             <corners android:radius="@dimen/radius_card" />
             <gradient
                 android:angle="135"
-                android:endColor="#599BC4"
-                android:startColor="#29689B" />
+                android:endColor="#27699D"
+                android:startColor="#00457C" />
         </shape>
     </item>
 </ripple>

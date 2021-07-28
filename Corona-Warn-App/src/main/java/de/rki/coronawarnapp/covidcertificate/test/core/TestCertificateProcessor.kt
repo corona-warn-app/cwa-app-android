@@ -74,7 +74,7 @@ class TestCertificateProcessor @Inject constructor(
             }
             !isMissingKeyPairEdgeCase -> {
                 // Shouldn't happen
-                throw IllegalArgumentException("Missing keypair")
+                throw IllegalArgumentException("Public or private key is null, but edge-case criteria are not met!")
             }
             else -> {
                 // Either affected by #3638 or was "unlucky user" that updated the app,

@@ -1,6 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.common.repository
 
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class TestCertificateContainerId(override val identifier: String) : CertificateContainerId()
+class TestCertificateContainerId(private val certUuid: String) : CertificateContainerId() {
+    @IgnoredOnParcel
+    override val identifier: String
+        get() = certUuid
+}

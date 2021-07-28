@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.test.ui.details
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -10,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import coil.loadAny
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
@@ -18,7 +18,10 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.databinding.FragmentTestCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
+import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -41,6 +44,12 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
+
+        startValidationCheck.defaultButton.setOnClickListener {
+            startValidationCheck.isLoading = true
+            viewModel.startValidationRulesDownload()
+        }
+
         appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
             title.alpha = titleAlpha
             subtitle.alpha = subtitleAlpha
@@ -50,7 +59,6 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         bindToolbar()
         setToolbarOverlay()
 
-        viewModel.qrCode.observe(viewLifecycleOwner) { onQrCodeReady(it) }
         viewModel.errors.observe(viewLifecycleOwner) { onError(it) }
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
         viewModel.covidCertificate.observe(viewLifecycleOwner) { it?.let { onCertificateReady(it) } }
@@ -88,17 +96,18 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
             testManufacturer.isGone = false
             testManufacturerTitle.isGone = false
         }
-    }
 
-    private fun FragmentTestCertificateDetailsBinding.onQrCodeReady(bitmap: Bitmap?) {
         qrCodeCard.apply {
-            image.setImageBitmap(bitmap)
-            progressBar.hide()
-            bitmap?.let { image.setOnClickListener { viewModel.openFullScreen() } }
+            image.loadAny(CoilQrCode(content = testCertificate.qrCode)) {
+                crossfade(true)
+                loadingView(image, progressBar)
+            }
+            image.setOnClickListener { viewModel.openFullScreen() }
         }
     }
 
     private fun FragmentTestCertificateDetailsBinding.onError(error: Throwable) {
+        startValidationCheck.isLoading = false
         qrCodeCard.progressBar.hide()
         error.toErrorDialogBuilder(requireContext()).show()
     }
@@ -112,6 +121,13 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
                 null,
                 FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
             )
+            is TestCertificateDetailsNavigation.ValidationStart -> {
+                startValidationCheck.isLoading = false
+                doNavigate(
+                    TestCertificateDetailsFragmentDirections
+                        .actionTestCertificateDetailsFragmentToValidationStartFragment(event.containerId)
+                )
+            }
         }
     }
 

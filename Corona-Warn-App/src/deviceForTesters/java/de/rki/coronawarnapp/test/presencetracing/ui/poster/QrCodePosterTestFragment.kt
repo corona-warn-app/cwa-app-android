@@ -71,8 +71,8 @@ class QrCodePosterTestFragment : Fragment(R.layout.fragment_test_qr_code_poster)
             }
         }
 
-        viewModel.qrCodeBitmap.observe(viewLifecycleOwner) {
-            binding.qrCodeImage.setImageBitmap(it)
+        viewModel.qrCodeImage.observe(viewLifecycleOwner) {
+            binding.qrCodeImage.setImageDrawable(it)
         }
     }
 
@@ -90,7 +90,7 @@ class QrCodePosterTestFragment : Fragment(R.layout.fragment_test_qr_code_poster)
         posterLayoutParam.dimensionRatio = dimensionRatio
 
         // Display images
-        qrCodeImage.setImageBitmap(poster.qrCode)
+        qrCodeImage.setImageDrawable(poster.qrCode)
         posterImage.setImageBitmap(template.bitmap)
 
         // Position QR Code image based on data provided by server

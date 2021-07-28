@@ -55,10 +55,10 @@ data class PCRCoronaTest(
         get() = CoronaTest.Type.PCR
 
     override val isFinal: Boolean
-        get() = testResult == CoronaTestResult.PCR_REDEEMED
+        get() = testResult == CoronaTestResult.PCR_OR_RAT_REDEEMED
 
     override val isRedeemed: Boolean
-        get() = testResult == CoronaTestResult.PCR_REDEEMED
+        get() = testResult == CoronaTestResult.PCR_OR_RAT_REDEEMED
 
     override val isPositive: Boolean
         get() = testResult == CoronaTestResult.PCR_POSITIVE
@@ -78,7 +78,7 @@ data class PCRCoronaTest(
             CoronaTestResult.PCR_NEGATIVE -> State.NEGATIVE
             CoronaTestResult.PCR_POSITIVE -> State.POSITIVE
             CoronaTestResult.PCR_INVALID -> State.INVALID
-            CoronaTestResult.PCR_REDEEMED -> State.REDEEMED
+            CoronaTestResult.PCR_OR_RAT_REDEEMED -> State.REDEEMED
             else -> throw IllegalArgumentException("Invalid PCR test state $testResult")
         }
 

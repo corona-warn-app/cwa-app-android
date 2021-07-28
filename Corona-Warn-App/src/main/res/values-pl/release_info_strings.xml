@@ -16,16 +16,16 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Zaświadczenie o statusie ozdrowieńca COVID"</item>
-        <item>"Certyfikaty rodzinne"</item>
+        <item>"Walidacja certyfikatu UE"</item>
         <item>"Rozszerzone statystyki"</item>
+        <item>"Edytuj profil szybkiego testu"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Za pośrednictwem aplikacji możesz teraz również poprosić o wydanie cyfrowych zaświadczeń o statusie ozdrowieńca, a następnie dodać je w aplikacji. Zaświadczeń tych można używać na terenie UE, aby udowodnić przejście infekcji (np. w przypadku podróży zagranicznych)."</item>
-        <item>"Aplikacja umożliwia teraz dodawanie cyfrowych certyfikatów COVID dla członków rodziny i zarządzanie nimi. Można je okazywać w razie potrzeby (np. w czasie podróży międzynarodowych)."</item>
-        <item>"W aplikacji dostępne są teraz następujące statystyki dotyczące szczepień:\n\t- Liczba osób, które otrzymały co najmniej jedną dawkę szczepionki\n\t- Liczba osób, które są w pełni zaszczepione\n\t- Liczba podanych dawek szczepionki"</item>
+        <item>"Możesz teraz przed podróżą zweryfikować ważność certyfikatów dla wybranego kraju."</item>
+        <item>"W aplikacji możesz teraz dodać maksymalnie pięć wskaźników lokalnej 7-dniowej zapadalności."</item>
+        <item>"Możesz teraz edytować profil szybkiego testu w aplikacji, na przykład, aby zmienić swój adres."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

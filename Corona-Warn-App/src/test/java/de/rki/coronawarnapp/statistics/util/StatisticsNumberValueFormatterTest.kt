@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.statistics.util
 
 import android.content.Context
-import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -26,7 +25,6 @@ internal class StatisticsNumberValueFormatterTest : BaseTest() {
     fun setUp() {
         MockKAnnotations.init(this)
         mockkStatic("de.rki.coronawarnapp.contactdiary.util.ContactDiaryExtensionsKt")
-        every { context.getString(R.string.statistics_value_suffix_million) } returns "Mio."
     }
 
     @ParameterizedTest
@@ -71,10 +69,10 @@ internal class StatisticsNumberValueFormatterTest : BaseTest() {
             Arguments.of(9_999_999, 0, Locale.GERMANY, "9.999.999"),
             Arguments.of(9_999_999, 0, Locale.UK, "9,999,999"),
 
-            Arguments.of(10_000_000, 0, Locale.GERMANY, "10,0 Mio."),
-            Arguments.of(12_345_678, 0, Locale.GERMANY, "12,3 Mio."),
-            Arguments.of(12_654_321, 0, Locale.GERMANY, "12,7 Mio."),
-            Arguments.of(12_654_321, 0, Locale.UK, "12.7 Mio.")
+            Arguments.of(10_000_000, 0, Locale.GERMANY, "10.000.000"),
+            Arguments.of(12_345_678, 0, Locale.GERMANY, "12.345.678"),
+            Arguments.of(12_654_321, 0, Locale.GERMANY, "12.654.321"),
+            Arguments.of(12_654_321, 0, Locale.UK, "12,654,321")
         )
     }
 }

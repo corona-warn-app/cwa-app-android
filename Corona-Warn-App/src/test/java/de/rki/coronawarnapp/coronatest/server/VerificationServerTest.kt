@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.coronatest.server
 import android.content.Context
 import de.rki.coronawarnapp.coronatest.type.common.DateOfBirthKey
 import de.rki.coronawarnapp.http.HttpModule
+import de.rki.coronawarnapp.util.PaddingTool
 import de.rki.coronawarnapp.util.headerSizeIgnoringContentLength
 import de.rki.coronawarnapp.util.requestHeaderWithoutContentLength
 import io.kotest.matchers.shouldBe
@@ -24,6 +25,8 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import timber.log.Timber
 import java.io.File
+import java.security.SecureRandom
+import kotlin.random.asKotlinRandom
 
 class VerificationServerTest : BaseIOTest() {
 
@@ -67,7 +70,12 @@ class VerificationServerTest : BaseIOTest() {
 
     private fun createServer(
         customApi: VerificationApiV1 = verificationApi
-    ) = VerificationServer(verificationAPI = { customApi })
+    ) = VerificationServer(
+        verificationAPI = { customApi },
+        paddingTool = PaddingTool(
+            sourceFast = SecureRandom().asKotlinRandom(),
+        )
+    )
 
     private fun createRealApi(): VerificationApiV1 {
         val httpModule = HttpModule()

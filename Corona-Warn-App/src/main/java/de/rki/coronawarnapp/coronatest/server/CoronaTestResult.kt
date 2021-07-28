@@ -2,9 +2,9 @@ package de.rki.coronawarnapp.coronatest.server
 
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
+import com.google.gson.stream.JsonToken
 import com.google.gson.stream.JsonWriter
 import org.joda.time.Instant
-import org.json.JSONObject
 
 data class CoronaTestResultResponse(
     val coronaTestResult: CoronaTestResult,
@@ -45,7 +45,7 @@ enum class CoronaTestResult(val value: Int) {
     /**
      * Redeemed (PCR test; locally referred to as Expired)
      */
-    PCR_REDEEMED(4),
+    PCR_OR_RAT_REDEEMED(4),
 
     /**
      * 	Pending (rapid antigen test)
@@ -85,7 +85,7 @@ enum class CoronaTestResult(val value: Int) {
         }
 
         override fun read(reader: JsonReader): CoronaTestResult? = when (reader.peek()) {
-            JSONObject.NULL -> reader.nextNull().let { null }
+            JsonToken.NULL -> reader.nextNull().let { null }
             else -> fromInt(reader.nextInt())
         }
     }

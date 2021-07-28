@@ -16,16 +16,16 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"COVID Certificate of Recovery"</item>
-        <item>"Family Certificates"</item>
+        <item>"EU Certificate Validation"</item>
         <item>"Extended Statistics"</item>
+        <item>"Edit Rapid Test Profile"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"You can now also request digital certificates of recovery through the app and then add them in the app. You can use these certificates within the EU to prove recovery from a previous infection (for international travel, for example)."</item>
-        <item>"You can now add digital COVID certificates of family members in the app and manage them, to submit certificates when needed (for international travel, for example)."</item>
-        <item>"The following vaccination statistics are now available in the app:\n\t- Number of people who have received at least one vaccine dose\n\t- Number of people who are fully vaccinated\n\t- Number of administered vaccine doses"</item>
+        <item>"You can now verify the validity of certificates for a selected country before you travel."</item>
+        <item>"You can now add up to five local 7-day incidence figures in the app."</item>
+        <item>"You can now edit your rapid test profile in the app, for example, to change your address."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

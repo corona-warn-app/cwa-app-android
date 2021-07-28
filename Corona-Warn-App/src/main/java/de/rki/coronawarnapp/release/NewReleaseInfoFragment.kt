@@ -14,13 +14,13 @@ import de.rki.coronawarnapp.databinding.NewReleaseInfoScreenFragmentBinding
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.BindableVH
-import de.rki.coronawarnapp.util.setUrl
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import setTextWithUrl
 import javax.inject.Inject
 
 class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragment), AutoInject {
@@ -102,7 +102,7 @@ private class ItemAdapter(
                 { item, _ ->
                     title.text = item.title
                     if (item is NewReleaseInfoItemLinked) {
-                        body.setUrl(item.body, item.linkifiedLabel, item.linkTarget)
+                        body.setTextWithUrl(item.body, item.linkifiedLabel, item.linkTarget)
                     } else {
                         body.text = item.body
                     }

@@ -35,6 +35,7 @@
                     android:id="@+id/expandedImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:importantForAccessibility="no"
                     app:layout_collapseMode="parallax"
                     app:srcCompat="@drawable/rat_profile_gradient" />
 
@@ -68,7 +69,7 @@
                     app:layout_scrollFlags="scroll|enterAlways"
                     app:menu="@menu/menu_rat_qr_code_profile"
                     app:navigationIcon="@drawable/ic_close_white"
-                    app:popupTheme="@style/Theme.MaterialComponents.Light">
+                    app:popupTheme="@style/Theme.MaterialComponents.DayNight">
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -93,8 +94,8 @@
             android:id="@+id/nested_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="12dp"
             android:clipToPadding="false"
+            android:paddingBottom="12dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -194,7 +195,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideline_action"/>
+        app:layout_constraintTop_toBottomOf="@id/guideline_action" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_action"

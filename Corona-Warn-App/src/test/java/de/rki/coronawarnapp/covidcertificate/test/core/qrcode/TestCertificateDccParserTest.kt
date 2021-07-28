@@ -1,22 +1,40 @@
 package de.rki.coronawarnapp.covidcertificate.test.core.qrcode
 
+import android.content.res.AssetManager
 import com.google.gson.Gson
 import com.upokecenter.cbor.CBORObject
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchema
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchemaValidator
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.test.TestData
+import de.rki.coronawarnapp.util.serialization.SerializationModule
+import de.rki.coronawarnapp.util.serialization.validation.JsonSchemaValidator
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContain
+import io.mockk.every
+import io.mockk.mockk
 import okio.ByteString.Companion.decodeHex
 import org.junit.jupiter.api.Test
 
 class TestCertificateDccParserTest {
 
-    private val bodyParser = DccV1Parser(Gson())
+    private val schemaValidator by lazy {
+        DccJsonSchemaValidator(
+            DccJsonSchema(
+                mockk<AssetManager>().apply {
+                    every { open(any()) } answers { this.javaClass.classLoader!!.getResourceAsStream(arg<String>(0)) }
+                }
+            ),
+            JsonSchemaValidator(SerializationModule().jacksonObjectMapper())
+        )
+    }
+    private val bodyParser = DccV1Parser(Gson(), schemaValidator)
 
     @Test
     fun `happy path cose decryption with Ellen Cheng`() {
         val coseObject = CBORObject.DecodeFromBytes(TestData.cborObject.decodeHex().toByteArray())
-        with(bodyParser.parse(coseObject, DccV1Parser.Mode.CERT_TEST_STRICT)) {
-
+        val body = bodyParser.parse(coseObject, DccV1Parser.Mode.CERT_TEST_STRICT)
+        with(body.parsed) {
             with(nameData) {
                 familyName shouldBe "Musterfrau-Gößinger"
                 familyNameStandardized shouldBe "MUSTERFRAU<GOESSINGER"
@@ -38,6 +56,10 @@ class TestCertificateDccParserTest {
                 testNameAndManufacturer shouldBe "1232"
                 testResult shouldBe "260415000"
             }
+        }
+        with(body.raw) {
+            this shouldContain "Musterfrau-Gößinger"
+            this shouldContain "URN:UVCI:01:AT:71EE2559DE38C6BF7304FB65A1A451EC#3"
         }
     }
 }

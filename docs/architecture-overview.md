@@ -55,13 +55,6 @@ Room is a persistence library that provides an abstraction layer over SQLite. In
 
 [Documentation](https://developer.android.com/topic/libraries/architecture/room)
 
-### SQLCipher
-Used to encrypt the Room database.
-
-Licensing: [BSD-3](https://github.com/sqlcipher/android-database-sqlcipher/blob/master/SQLCIPHER_LICENSE)
-
-[GitHub](https://github.com/sqlcipher/android-database-sqlcipher)
-
 ### detekt
 
 detekt is a static code analysis tool for the Kotlin programming language. It operates on the abstract syntax tree provided by the Kotlin compiler.
@@ -94,8 +87,6 @@ Databinding is the final component to connect the various view types and viewmod
 
 ### Database
 The [Room Persistence Library](https://developer.android.com/topic/libraries/architecture/room) is used to store Exposure Summaries retrieved from the Exposure Notification API. These are used to calculate risks levels in accordance to specifications provided by the Robert Koch-Institut. Also we use it as a local persistence library for various complex data structures, e.g. cached date intervals or a map to our downloaded key files. The Room Library uses SQLite by default.
-
-[SQLCipher](https://www.zetetic.net/sqlcipher/) is used to encrypt the database. Thus a key is initialised for the database access the first time we access it. The AppDatabase stores the key inside the shared preferences, which are themselves encrypted and bound to the master key from the android key store. On application reset (in the settings), the complete database is reinitialised. The password is randomly generated and is not used outside the storage package for accessing the data.
 
 Concrete Data Objects:
 * KeyCache

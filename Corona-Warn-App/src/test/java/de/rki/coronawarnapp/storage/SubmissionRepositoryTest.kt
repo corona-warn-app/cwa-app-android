@@ -40,7 +40,7 @@ class SubmissionRepositoryTest : BaseTest() {
         lastUpdatedAt = Instant.EPOCH,
         registeredAt = Instant.EPOCH,
         registrationToken = "token",
-        testResult = CoronaTestResult.PCR_REDEEMED,
+        testResult = CoronaTestResult.PCR_OR_RAT_REDEEMED,
     )
 
     @BeforeEach

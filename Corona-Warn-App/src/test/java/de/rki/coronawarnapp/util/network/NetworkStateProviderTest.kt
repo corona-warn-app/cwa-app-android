@@ -126,7 +126,6 @@ class NetworkStateProviderTest : BaseTest() {
         verifySequence {
             connectivityManager.activeNetwork
             connectivityManager.getNetworkCapabilities(network)
-            connectivityManager.getLinkProperties(network)
             connectivityManager.registerNetworkCallback(networkRequest, any<ConnectivityManager.NetworkCallback>())
             connectivityManager.unregisterNetworkCallback(lastCallback!!)
         }
@@ -169,13 +168,11 @@ class NetworkStateProviderTest : BaseTest() {
             // Start value
             connectivityManager.activeNetwork
             connectivityManager.getNetworkCapabilities(network)
-            connectivityManager.getLinkProperties(network)
             connectivityManager.registerNetworkCallback(networkRequest, any<ConnectivityManager.NetworkCallback>())
 
             // onAvailable
             connectivityManager.activeNetwork
             connectivityManager.getNetworkCapabilities(network)
-            connectivityManager.getLinkProperties(network)
 
             // onUnavailable
             connectivityManager.activeNetwork
@@ -183,8 +180,6 @@ class NetworkStateProviderTest : BaseTest() {
             // onAvailable
             connectivityManager.activeNetwork
             connectivityManager.getNetworkCapabilities(network)
-            connectivityManager.getLinkProperties(network)
-
             connectivityManager.unregisterNetworkCallback(lastCallback!!)
         }
     }
@@ -250,7 +245,6 @@ class NetworkStateProviderTest : BaseTest() {
             verifySequence {
                 connectivityManager.activeNetwork
                 connectivityManager.getNetworkCapabilities(network)
-                connectivityManager.getLinkProperties(network)
                 connectivityManager.registerNetworkCallback(networkRequest, any<ConnectivityManager.NetworkCallback>())
             }
             verify(exactly = 0) {

@@ -70,14 +70,16 @@
                 android:id="@+id/onboarding_illustration"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                bind:cwaContentDescription="@{illustrationDescription}"
+                android:adjustViewBounds="true"
                 android:focusable="true"
+                android:scaleType="fitXY"
                 android:src="@{illustration}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_illustration_together"
-                tools:ignore="ContentDescription" />
+                bind:cwaContentDescription="@{illustrationDescription}"
+                tools:ignore="ContentDescription"
+                tools:src="@drawable/ic_illustration_together" />
 
             <TextView
                 android:id="@+id/onboarding_headline"
@@ -179,11 +181,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:focusable="true"
-                tools:visibility="visible"
                 android:visibility="@{FormatterHelper.formatVisibilityText(locationHeadlineCard)}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@+id/onboarding_location_card" />
+                app:layout_constraintTop_toBottomOf="@+id/onboarding_location_card"
+                tools:visibility="visible" />
 
             <include
                 android:id="@+id/onboarding_card"

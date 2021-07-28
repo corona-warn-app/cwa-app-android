@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.covidcertificate.test.core
 
 import de.rki.coronawarnapp.appconfig.CovidCertificateConfig
-import de.rki.coronawarnapp.coronatest.DaggerCoronaTestTestComponent
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
@@ -19,11 +19,13 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.first
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -62,7 +64,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        DaggerCoronaTestTestComponent.factory().create().inject(this)
+        DaggerCovidCertificateTestComponent.factory().create().inject(this)
 
         covidTestCertificateConfig.apply {
             every { waitForRetry } returns Duration.standardSeconds(10)
@@ -70,11 +72,11 @@ class TestCertificateRepositoryTest : BaseTest() {
         }
 
         storage.apply {
-            every { storage.testCertificates = any() } answers {
+            coEvery { storage.save(any()) } answers {
                 storageSet.clear()
                 storageSet.addAll(arg(0))
             }
-            every { storage.testCertificates } answers { storageSet }
+            coEvery { storage.load() } answers { storageSet }
         }
 
         qrCodeExtractor.apply {
@@ -168,5 +170,15 @@ class TestCertificateRepositoryTest : BaseTest() {
                 qrCode = testData.personATest1CertQRCode
             )
         }.errorCode shouldBe ErrorCode.ALREADY_REGISTERED
+    }
+
+    @Test
+    fun `storage is not written on init`() = runBlockingTest2(ignoreActive = true) {
+        val instance = createInstance(this)
+        instance.certificates.first()
+        advanceUntilIdle()
+
+        coVerify { storage.load() }
+        coVerify(exactly = 0) { storage.save(any()) }
     }
 }

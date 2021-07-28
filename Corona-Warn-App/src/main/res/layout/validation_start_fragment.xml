@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSurface"
+    android:contentDescription="@string/tracelocation_organizer_category_title"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAToolbar.Close.Transparent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/validation_start_header" />
+
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/start_validation_check"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/body"
+                style="@style/subtitleMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="22dp"
+                android:text="@string/validation_start_body"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/subtitle"
+                style="@style/headline6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/validation_start_subtitle"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@id/body"
+                app:layout_constraintStart_toStartOf="@id/body"
+                app:layout_constraintTop_toBottomOf="@id/body" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/country_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="22dp"
+                android:layout_marginBottom="@dimen/spacing_tiny"
+                android:hint="@string/validation_start_land_hint"
+                android:textColorHint="@color/colorTextPrimary3"
+                app:boxBackgroundColor="@color/colorContactDiaryListItem"
+                app:layout_constraintStart_toStartOf="@+id/body"
+                app:layout_constraintTop_toBottomOf="@+id/subtitle">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/country_picker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:textColor="@color/colorOnPrimary"
+                    tools:text="Deutschland" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/date_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="22dp"
+                android:layout_marginBottom="@dimen/spacing_tiny"
+                android:hint="@string/validation_start_date_hint"
+                android:textColorHint="@color/colorTextPrimary3"
+                app:boxBackgroundColor="@color/colorContactDiaryListItem"
+                app:errorIconDrawable="@null"
+                app:errorTextAppearance="@style/vanishedErrorAppearance"
+                app:errorTextColor="@color/colorTextSemanticRed"
+                app:layout_constraintStart_toStartOf="@+id/body"
+                app:layout_constraintTop_toBottomOf="@+id/country_layout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/date_picker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:cursorVisible="false"
+                    android:focusable="true"
+                    android:focusableInTouchMode="false"
+                    android:inputType="datetime" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/date_info"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="0dp"
+                android:layout_height="31dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="10dp"
+                android:text="@string/validation_start_date_info"
+                app:layout_constraintEnd_toStartOf="@+id/date_info_icon"
+                app:layout_constraintStart_toStartOf="@id/body"
+                app:layout_constraintTop_toBottomOf="@id/date_layout" />
+
+            <ImageView
+                android:id="@+id/date_info_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/circle_ripple"
+                android:contentDescription="@string/statistics_info_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/date_layout"
+                app:srcCompat="@drawable/ic_info"
+                app:tint="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/certificate_proof"
+                style="@style/body1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:text="@string/validation_start_certificate_proof"
+                app:layout_constraintEnd_toEndOf="@id/body"
+                app:layout_constraintStart_toStartOf="@id/body"
+                app:layout_constraintTop_toBottomOf="@id/date_info" />
+
+            <include
+                android:id="@+id/validation_notes"
+                layout="@layout/validation_start_fragment_notes"
+                android:layout_width="0dp"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/body"
+                app:layout_constraintStart_toStartOf="@id/body"
+                app:layout_constraintTop_toBottomOf="@id/certificate_proof" />
+
+            <TextView
+                android:id="@+id/faq"
+                style="@style/body1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/validation_start_faq"
+                app:layout_constraintEnd_toEndOf="@id/body"
+                app:layout_constraintStart_toStartOf="@id/body"
+                app:layout_constraintTop_toBottomOf="@id/validation_notes" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/privacy_card"
+                style="@style/GreyCard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:focusable="true"
+                app:layout_constraintEnd_toEndOf="@id/body"
+                app:layout_constraintStart_toStartOf="@id/body"
+                app:layout_constraintTop_toBottomOf="@id/faq">
+
+                <TextView
+                    android:id="@+id/privacy_card_title"
+                    style="@style/headline6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:accessibilityHeading="true"
+                    android:focusable="true"
+                    android:text="@string/validation_start_privacy_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/privacy_card_text"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:focusable="true"
+                    android:paddingBottom="24dp"
+                    android:text="@string/validation_start_privacy_body"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/privacy_card_title" />
+
+                <include layout="@layout/merge_guidelines_side" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <de.rki.coronawarnapp.ui.view.MoreInformationView
+                android:id="@+id/privacy_information"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="15dp"
+                android:focusable="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/body"
+                app:layout_constraintStart_toStartOf="@id/body"
+                app:layout_constraintTop_toBottomOf="@id/privacy_card"
+                app:titleText="@string/validation_start_data_protection" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+
+    <de.rki.coronawarnapp.ui.view.ProgressLoadingButton
+        android:id="@+id/start_validation_check"
+        style="@style/buttonPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:buttonText="@string/validation_start_check_button"
+        app:isLoading="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scrollview"
+        app:loadingText="@string/start_validation_rule_check_loading_text" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,8 +17,6 @@
 }
 
 -keep class * extends com.google.crypto.tink.shaded.protobuf.GeneratedMessageLite { *; }
--keep class net.sqlcipher.** { *; }
--dontwarn net.sqlcipher.**
 
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
@@ -94,3 +92,7 @@
 -keepclassmembers class **.R$* {
        public static <fields>;
 }
+
+## json-schema-validator
+# Caused this error: https://jira-ibs.wbs.net.sap/browse/EXPOSUREAPP-8402
+-keep class com.networknt.schema.** { *; }

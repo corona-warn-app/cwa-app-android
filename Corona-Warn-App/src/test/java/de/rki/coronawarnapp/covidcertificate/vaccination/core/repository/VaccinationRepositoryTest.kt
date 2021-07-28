@@ -1,10 +1,10 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository
 
+import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.DaggerVaccinationTestComponent
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
@@ -14,6 +14,8 @@ import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.CoroutineScope
@@ -48,15 +50,15 @@ class VaccinationRepositoryTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        DaggerVaccinationTestComponent.factory().create().inject(this)
+        DaggerCovidCertificateTestComponent.factory().create().inject(this)
 
         every { timeStamper.nowUTC } returns nowUTC
 
         every { valueSetsRepository.latestVaccinationValueSets } returns flowOf(vaccinationValueSet)
 
         storage.apply {
-            every { personContainers } answers { testStorage }
-            every { personContainers = any() } answers { testStorage = arg(0) }
+            coEvery { load() } answers { testStorage }
+            coEvery { save(any()) } answers { testStorage = arg(0) }
         }
     }
 
@@ -78,6 +80,10 @@ class VaccinationRepositoryTest : BaseTest() {
             Timber.i("Returned cert is %s", this)
             this.personIdentifier shouldBe vaccinationTestData.personAVac1Container.personIdentifier
         }
+
+        advanceUntilIdle()
+
+        coVerify { storage.save(any()) }
     }
 
     @Test
@@ -149,6 +155,7 @@ class VaccinationRepositoryTest : BaseTest() {
         instance.vaccinationInfos.first().single().data shouldBe vaccinationTestData.personAData2Vac
 
         instance.clear()
+        advanceUntilIdle()
 
         testStorage shouldBe emptySet()
         instance.vaccinationInfos.first() shouldBe emptySet()
@@ -208,5 +215,15 @@ class VaccinationRepositoryTest : BaseTest() {
 
         instance.vaccinationInfos.first() shouldBe emptySet()
         testStorage shouldBe emptySet()
+    }
+
+    @Test
+    fun `storage is not written on init`() = runBlockingTest2(ignoreActive = true) {
+        val instance = createInstance(this)
+        instance.vaccinationInfos.first()
+        advanceUntilIdle()
+
+        coVerify { storage.load() }
+        coVerify(exactly = 0) { storage.save(any()) }
     }
 }

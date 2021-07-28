@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.details
 
-import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import dagger.assisted.Assisted
@@ -25,27 +24,28 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson.Status.IMMUNITY
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson.Status.INCOMPLETE
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
-import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QrCodeGenerator
+import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.mapNotNull
-import kotlinx.coroutines.flow.transform
 import timber.log.Timber
 
+@Suppress("LongParameterList")
 class PersonDetailsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val personCertificatesProvider: PersonCertificatesProvider,
-    private val qrCodeGenerator: QrCodeGenerator,
     private val vaccinationRepository: VaccinationRepository,
+    private val dccValidationRepository: DccValidationRepository,
     private val timeStamper: TimeStamper,
     @Assisted private val personIdentifierCode: String,
     @Assisted private val colorShade: PersonColorShade,
@@ -63,6 +63,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
             Timber.d("Stay on this screen containerId=%s", containerId)
         }
     }
+
+    private val loadingButtonState = MutableStateFlow(false)
     private val personCertificatesFlow = personCertificatesProvider.personCertificates.mapNotNull { certificateSet ->
         certificateSet.first {
             it.personIdentifier.codeSHA256 == personIdentifierCode
@@ -72,34 +74,25 @@ class PersonDetailsViewModel @AssistedInject constructor(
         events.postValue(Back)
     }
 
-    private val qrcodeCache = mutableMapOf<String, Bitmap?>()
-
-    private val qrCodeFlow: Flow<Bitmap?> = personCertificatesFlow.transform {
-        val input = it.highestPriorityCertificate.qrCode
-        emit(qrcodeCache[input]) // Initial state
-
-        val qrcode = qrcodeCache[input] ?: qrCodeGenerator.createQrCode(input, margin = 0)
-        qrcodeCache[input] = qrcode
-        emit(qrcode)
-    }
-
     val uiState: LiveData<List<CertificateItem>> = combine(
         personCertificatesFlow,
-        qrCodeFlow
-    ) { personSpecificCertificates, qrCode ->
-        assembleList(personSpecificCertificates, qrCode)
+        loadingButtonState
+    ) { personSpecificCertificates, isLoading ->
+        assembleList(personSpecificCertificates, isLoading)
     }.asLiveData2()
 
-    private suspend fun assembleList(personCertificates: PersonCertificates, qrCode: Bitmap?) =
+    private suspend fun assembleList(personCertificates: PersonCertificates, isLoading: Boolean) =
         mutableListOf<CertificateItem>().apply {
             val priorityCertificate = personCertificates.highestPriorityCertificate
-            add(PersonDetailsQrCard.Item(priorityCertificate, qrCode))
+            add(
+                PersonDetailsQrCard.Item(priorityCertificate, isLoading) { onValidateCertificate(it) }
+            )
             add(cwaUserCard(personCertificates))
 
             // Find any vaccination certificate to determine the vaccination information
             personCertificates.certificates.find { it is VaccinationCertificate }?.let { certificate ->
                 val vaccinatedPerson = vaccinatedPerson(certificate)
-                if (vaccinatedPerson.getVaccinationStatus(timeStamper.nowUTC) != IMMUNITY) {
+                if (vaccinatedPerson != null && vaccinatedPerson.getVaccinationStatus(timeStamper.nowUTC) != IMMUNITY) {
                     val timeUntilImmunity = vaccinatedPerson.getDaysUntilImmunity()
                     add(VaccinationInfoCard.Item(timeUntilImmunity))
                 }
@@ -108,7 +101,21 @@ class PersonDetailsViewModel @AssistedInject constructor(
             personCertificates.certificates.forEach { addCardItem(it, personCertificates.highestPriorityCertificate) }
         }
 
-    private suspend fun cwaUserCard(
+    private fun onValidateCertificate(containerId: CertificateContainerId) =
+        launch {
+            try {
+                loadingButtonState.value = true
+                dccValidationRepository.refresh()
+                events.postValue(ValidationStart(containerId))
+            } catch (e: Exception) {
+                Timber.d(e, "Validation start failed for containerId=%s", containerId)
+                events.postValue(ShowErrorDialog(e))
+            } finally {
+                loadingButtonState.value = false
+            }
+        }
+
+    private fun cwaUserCard(
         personCertificates: PersonCertificates
     ) = CwaUserCard.Item(personCertificates) { checked ->
         launch {
@@ -121,7 +128,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
         certificate: CwaCovidCertificate,
         priorityCertificate: CwaCovidCertificate
     ) {
-        val isCurrentCertificate = certificate.certificateId == priorityCertificate.certificateId
+        val isCurrentCertificate = certificate.containerId == priorityCertificate.containerId
         when (certificate) {
             is TestCertificate -> add(
                 TestCertificateCard.Item(certificate, isCurrentCertificate, colorShade) {
@@ -129,7 +136,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
                 }
             )
             is VaccinationCertificate -> {
-                val status = vaccinatedPerson(certificate).getVaccinationStatus(timeStamper.nowUTC)
+                val status = vaccinatedPerson(certificate)?.getVaccinationStatus(timeStamper.nowUTC) ?: INCOMPLETE
                 add(
                     VaccinationCertificateCard.Item(
                         certificate = certificate,
@@ -150,10 +157,10 @@ class PersonDetailsViewModel @AssistedInject constructor(
         }
     }
 
-    private suspend fun vaccinatedPerson(certificate: CwaCovidCertificate): VaccinatedPerson =
+    private suspend fun vaccinatedPerson(certificate: CwaCovidCertificate): VaccinatedPerson? =
         vaccinationRepository.vaccinationInfos.first().find {
             it.identifier == certificate.personIdentifier
-        }!! // Must be person
+        }
 
     private fun onOpenCertificateDetails(containerId: CertificateContainerId?) {
         when (containerId) {

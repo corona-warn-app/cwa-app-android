@@ -9,14 +9,18 @@ import androidx.core.text.buildSpannedString
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import coil.loadAny
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
 import de.rki.coronawarnapp.databinding.RatProfileQrCodeFragmentBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
+import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.joinToSpannable
+import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -44,7 +48,17 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
             nextButton.setOnClickListener { viewModel.onNext() }
             toolbar.setNavigationOnClickListener { viewModel.onClose() }
             toolbar.setOnMenuItemClickListener {
-                confirmDeletionDialog()
+                when (it.itemId) {
+                    R.id.rat_profile_information -> doNavigate(
+                        RATProfileQrCodeFragmentDirections
+                            .actionRatProfileQrCodeFragmentToRatProfileOnboardingFragment(false)
+                    )
+                    R.id.rat_profile_edit -> doNavigate(
+                        RATProfileQrCodeFragmentDirections
+                            .actionRatProfileQrCodeFragmentToRatProfileCreateFragment()
+                    )
+                    R.id.rat_profile_delete -> confirmDeletionDialog()
+                }
                 true
             }
 
@@ -54,9 +68,13 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
         }
         viewModel.profile.observe(viewLifecycleOwner) { personProfile ->
             with(binding) {
-                progressBar.hide()
                 personProfile.profile?.let { bindPersonInfo(it) }
-                qrCodeImage.setImageBitmap(personProfile.bitmap)
+
+                val request = personProfile?.qrCode?.let { CoilQrCode(content = it) }
+                qrCodeImage.loadAny(request) {
+                    crossfade(true)
+                    loadingView(qrCodeImage, progressBar)
+                }
             }
         }
 

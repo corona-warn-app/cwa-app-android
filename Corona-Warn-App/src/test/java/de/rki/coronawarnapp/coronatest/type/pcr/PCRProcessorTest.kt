@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_INVALID
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_NEGATIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_OR_RAT_PENDING
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_POSITIVE
-import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_REDEEMED
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_OR_RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_INVALID
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_NEGATIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_PENDING
@@ -122,7 +122,7 @@ class PCRProcessorTest : BaseTest() {
             registeredAt = nowUTC.minus(Duration.standardDays(61))
         )
 
-        instance.pollServer(past60DaysTest).testResult shouldBe PCR_REDEEMED
+        instance.pollServer(past60DaysTest).testResult shouldBe PCR_OR_RAT_REDEEMED
     }
 
     @Test
@@ -154,7 +154,7 @@ class PCRProcessorTest : BaseTest() {
                 PCR_NEGATIVE,
                 PCR_POSITIVE,
                 PCR_INVALID,
-                PCR_REDEEMED -> instance.create(request).testResult shouldBe it
+                PCR_OR_RAT_REDEEMED -> instance.create(request).testResult shouldBe it
 
                 RAT_PENDING,
                 RAT_NEGATIVE,
@@ -189,7 +189,7 @@ class PCRProcessorTest : BaseTest() {
                 PCR_NEGATIVE,
                 PCR_POSITIVE,
                 PCR_INVALID,
-                PCR_REDEEMED -> {
+                PCR_OR_RAT_REDEEMED -> {
                     Timber.v("Should NOT throw for $it")
                     instance.pollServer(pcrTest).testResult shouldBe it
                 }
@@ -233,7 +233,7 @@ class PCRProcessorTest : BaseTest() {
 
         val pcrTest = defaultTest.copy(
             registeredAt = nowUTC.minus(Duration.standardDays(22)),
-            testResult = PCR_REDEEMED,
+            testResult = PCR_OR_RAT_REDEEMED,
         )
 
         // Older than 21 days and already redeemed
@@ -264,7 +264,7 @@ class PCRProcessorTest : BaseTest() {
 
         // Test IS older than 21 days, we expected the error, and map it to REDEEMED (expired)
         instance.pollServer(pcrTest.copy(registeredAt = nowUTC.minus(Duration.standardDays(22)))).apply {
-            testResult shouldBe PCR_REDEEMED
+            testResult shouldBe PCR_OR_RAT_REDEEMED
             lastError shouldBe null
         }
     }
