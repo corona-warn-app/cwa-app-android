@@ -8,8 +8,9 @@ import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
+import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificatePreferences
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
@@ -70,11 +71,12 @@ class DataReset @Inject constructor(
     private val coronaTestRepository: CoronaTestRepository,
     private val ratProfileSettings: RATProfileSettings,
     private val valueSetsRepository: ValueSetsRepository,
-    private val covidCertificatePreferences: CovidCertificatePreferences,
+    private val covidCertificateSettings: CovidCertificateSettings,
     private val vaccinationRepository: VaccinationRepository,
     private val testCertificateRepository: TestCertificateRepository,
     private val personCertificatesSettings: PersonCertificatesSettings,
     private val validationRepository: DccValidationRepository,
+    private val recoveryCertificateRepository: RecoveryCertificateRepository,
 ) {
 
     private val mutex = Mutex()
@@ -118,13 +120,15 @@ class DataReset @Inject constructor(
         traceLocationRepository.deleteAllTraceLocations()
         checkInRepository.clear()
         coronaTestRepository.clear()
-        testCertificateRepository.clear()
         ratProfileSettings.deleteProfile()
 
         valueSetsRepository.clear()
-        vaccinationRepository.clear()
-        covidCertificatePreferences.clear()
 
+        vaccinationRepository.clear()
+        testCertificateRepository.clear()
+        recoveryCertificateRepository.clear()
+
+        covidCertificateSettings.clear()
         personCertificatesSettings.clear()
 
         validationRepository.clear()

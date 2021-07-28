@@ -10,6 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.plus
 import org.joda.time.Duration
+import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -34,7 +35,8 @@ class DscRepository @Inject constructor(
 
         // TODO
         DscData(
-            dscList = emptyList()
+            dscList = emptyList(),
+            updatedAt = Instant.EPOCH,
         )
     }
 

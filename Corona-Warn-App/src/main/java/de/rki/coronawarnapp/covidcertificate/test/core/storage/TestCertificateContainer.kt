@@ -79,6 +79,12 @@ data class TestCertificateContainer(
         return object : TestCertificate {
             override fun getState(): CwaCovidCertificate.State = certificateState
 
+            override val notifiedExpiresSoonAt: Instant?
+                get() = null
+
+            override val notifiedExpiredAt: Instant?
+                get() = null
+
             override val containerId: TestCertificateContainerId
                 get() = this@TestCertificateContainer.containerId
 
@@ -146,6 +152,8 @@ data class TestCertificateContainer(
 
             override val dccData: DccData<out DccV1.MetaData>
                 get() = testCertificateQRCode.data
+
+            override fun toString(): String = "TestCertificate($containerId)"
         }
     }
 }
