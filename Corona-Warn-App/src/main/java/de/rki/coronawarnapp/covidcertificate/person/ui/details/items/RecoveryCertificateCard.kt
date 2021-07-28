@@ -36,9 +36,14 @@ class RecoveryCertificateCard(parent: ViewGroup) :
 
         currentCertificate.isVisible = curItem.isCurrentCertificate
 
+        val color = when {
+            curItem.certificate.getState().isValid -> curItem.colorShade
+            else -> PersonColorShade.COLOR_INVALID
+        }
+
         val background = when {
-            curItem.isCurrentCertificate -> curItem.colorShade.currentCertificateBg
-            else -> curItem.colorShade.defaultCertificateBg
+            curItem.isCurrentCertificate -> color.currentCertificateBg
+            else -> color.defaultCertificateBg
         }
         certificateBg.setImageResource(background)
 

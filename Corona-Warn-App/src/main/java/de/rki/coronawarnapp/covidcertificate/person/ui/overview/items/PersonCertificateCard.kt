@@ -30,6 +30,11 @@ class PersonCertificateCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+
+        val color = when {
+            curItem.certificate.getState().isValid -> curItem.colorShade
+            else -> PersonColorShade.COLOR_INVALID
+        }
         name.text = curItem.certificate.fullName
 
         qrCodeCard.image.loadAny(
@@ -39,8 +44,8 @@ class PersonCertificateCard(parent: ViewGroup) :
             loadingView(qrCodeCard.image, qrCodeCard.progressBar)
         }
 
-        backgroundImage.setImageResource(curItem.colorShade.background)
-        starsImage.setImageDrawable(starsDrawable(curItem))
+        backgroundImage.setImageResource(color.background)
+        starsImage.setImageDrawable(starsDrawable(color))
 
         itemView.apply {
             setOnClickListener { curItem.onClickAction(curItem, adapterPosition) }
@@ -49,12 +54,12 @@ class PersonCertificateCard(parent: ViewGroup) :
         qrCodeCard.bindValidityViews(curItem.certificate, isPersonOverview = true)
     }
 
-    private fun starsDrawable(item: Item) =
+    private fun starsDrawable(colorShade: PersonColorShade) =
         context.getDrawableCompat(R.drawable.ic_eu_stars_blue)?.let {
             DrawableCompat.wrap(it)
                 .mutate()
                 .apply {
-                    setTint(context.getColorCompat(item.colorShade.starsTint))
+                    setTint(context.getColorCompat(colorShade.starsTint))
                 }
         }
 

@@ -36,9 +36,14 @@ class TestCertificateCard(parent: ViewGroup) :
         testCertificateType.text = certificate.testType
         currentCertificate.isVisible = curItem.isCurrentCertificate
 
+        val color = when {
+            curItem.certificate.getState().isValid -> curItem.colorShade
+            else -> PersonColorShade.COLOR_INVALID
+        }
+
         val background = when {
-            curItem.isCurrentCertificate -> curItem.colorShade.currentCertificateBg
-            else -> curItem.colorShade.defaultCertificateBg
+            curItem.isCurrentCertificate -> color.currentCertificateBg
+            else -> color.defaultCertificateBg
         }
         certificateBg.setImageResource(background)
 
@@ -47,8 +52,8 @@ class TestCertificateCard(parent: ViewGroup) :
 
     data class Item(
         val certificate: TestCertificate,
-        val isCurrentCertificate: Boolean,
         val colorShade: PersonColorShade,
+        val isCurrentCertificate: Boolean,
         val onClick: () -> Unit
     ) : CertificateItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null

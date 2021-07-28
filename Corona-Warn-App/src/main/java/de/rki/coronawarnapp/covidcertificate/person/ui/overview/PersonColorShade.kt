@@ -24,6 +24,11 @@ enum class PersonColorShade(
         R.color.starsColor3,
         R.drawable.bg_person_overview_3,
         R.drawable.bg_certificate_blue_3
+    ),
+    COLOR_INVALID(
+        R.color.starsColorInvalid,
+        R.drawable.bg_person_overview_invalid,
+        R.drawable.bg_certificate_grey
     );
 
     @DrawableRes val defaultCertificateBg: Int = R.drawable.bg_certificate_grey

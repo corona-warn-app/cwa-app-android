@@ -51,9 +51,14 @@ class VaccinationCertificateCard(parent: ViewGroup) :
             // Other shots
             else -> R.drawable.ic_vaccination_incomplete
         }
+
+        val color = when {
+            curItem.certificate.getState().isValid -> curItem.colorShade
+            else -> PersonColorShade.COLOR_INVALID
+        }
         val background = when {
-            curItem.isCurrentCertificate -> curItem.colorShade.currentCertificateBg
-            else -> curItem.colorShade.defaultCertificateBg
+            curItem.isCurrentCertificate -> color.currentCertificateBg
+            else -> color.defaultCertificateBg
         }
         certificateBg.setImageResource(background)
         certificateIcon.setImageResource(icon)
@@ -63,9 +68,9 @@ class VaccinationCertificateCard(parent: ViewGroup) :
 
     data class Item(
         val certificate: VaccinationCertificate,
+        val colorShade: PersonColorShade,
         val isCurrentCertificate: Boolean,
         val status: VaccinatedPerson.Status,
-        val colorShade: PersonColorShade,
         val onClick: () -> Unit
     ) : CertificateItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
