@@ -251,6 +251,18 @@
                     app:layout_constraintTop_toBottomOf="@id/settings_tracing_status">
 
                     <TextView
+                        android:id="@+id/settings_tracing_body_headline"
+                        style="@style/headline6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:accessibilityHeading="true"
+                        android:focusable="true"
+                        android:text="@string/settings_tracing_body_headline"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <TextView
                         android:id="@+id/settings_tracing_body"
                         style="@style/subtitle"
                         android:layout_width="0dp"
@@ -260,8 +272,9 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.0" />
+                        app:layout_constraintTop_toBottomOf="@id/settings_tracing_body_headline"
+                        app:layout_constraintVertical_bias="0.0"
+                        android:layout_marginTop="27dp" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
