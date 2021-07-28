@@ -9,13 +9,13 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
+import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationNoInternetErrorDialog
 import de.rki.coronawarnapp.databinding.ValidationStartFragmentBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -106,7 +106,7 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
             }
             is ShowNoInternetDialog -> {
                 startValidationCheck.isLoading = false
-                showNoInternetDialog()
+                DccValidationNoInternetErrorDialog(requireContext()).show()
             }
         }
     }
@@ -192,14 +192,6 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
                 }
             }
             .show(childFragmentManager, TIME_PICKER_TAG)
-    }
-
-    private fun showNoInternetDialog() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.validation_start_no_internet_dialog_title)
-            .setMessage(R.string.validation_start_no_internet_dialog_msg)
-            .setPositiveButton(R.string.validation_start_no_internet_dialog_positive_button) { _, _ -> }
-            .show()
     }
 
     companion object {

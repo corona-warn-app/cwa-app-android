@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <!-- ####################################
        Special string files for the strings
@@ -258,10 +259,28 @@
     <!-- XHED: issuer country for the validation failed card  -->
     <string name="validation_rules_invalidation_country">"This is a rule of the issuing country."</string>
 
+    <!-- XTXT: Validation start privacy title -->
+    <string name="validation_start_privacy_title">"Privacy and Data Security"</string>
+    <!-- XTXT: Validation start privacy title -->
+    <string name="validation_start_privacy_body">"The current entry rules are downloaded from the RKI servers. This requires an internet connection. Access data is transmitted to the RKI."</string>
+
     <!-- XHED: Vaccination Detail expiration Date title -->
     <string name="expiration_date_title">Technisches Ablaufdatum</string>
     <!-- XHED: Vaccination Detail expiration Date -->
     <string name="expiration_date">Gültig bis %1$s</string>
     <!-- XHED: Vaccination Detail expiration info -->
     <string name="expiration_info">Bitte bemühen Sie sich rechtzeitig darum, einen neuen digitalen Nachweis ausstellen zu lassen.</string>
+
+    <!--    Dcc Signature validation-->
+    <!-- XHED: Signature validation dialog title-->
+    <string name="dcc_signature_validation_dialog_title">Signatur ungültig</string>
+    <!-- XTXT: Signature validation dialog message-->
+    <string name="dcc_signature_validation_dialog_message">Die Signatur des Zertifikats ist ungültig. Das Zertifikat kann nicht als Nachweis verwendet werden und daher nicht importiert werden.</string>
+    <!-- XBUT: Signature validation dialog FAQ button-->
+    <string name="dcc_signature_validation_dialog_faq_button">FAQ zur Signaturprüfung</string>
+    <!-- XTXT: Signature validation dialog FAQ lint-->
+    <string name="dcc_signature_validation_dialog_faq_link">https://www.coronawarn.app/en/faq/#hc_signature_invalid</string>
+    <!-- XBUT: Signature validation dialog OK button-->
+    <string name="dcc_signature_validation_dialog_ok_button">OK</string>
+
 </resources>

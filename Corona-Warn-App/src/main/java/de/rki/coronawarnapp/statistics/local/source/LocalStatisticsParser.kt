@@ -115,7 +115,7 @@ class LocalStatisticsParser @Inject constructor(
         KeyFigure.newBuilder()
             .setRank(KeyFigure.Rank.PRIMARY)
             .setValue(value)
-            .setDecimals(0)
+            .setDecimals(1)
             .setTrend(trend)
             .setTrendSemantic(matchTrendToSemantic(trend))
             .build()

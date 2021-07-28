@@ -1,12 +1,18 @@
 package de.rki.coronawarnapp.covidcertificate.common.decoder
 
 import com.upokecenter.cbor.CBORObject
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DscMessage
 import de.rki.coronawarnapp.covidcertificate.common.cryptography.AesCryptography
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.AES_DECRYPTION_FAILED
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_COSE_MESSAGE_INVALID
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_COSE_NO_ALG
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_COSE_NO_SIGN1
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_COSE_PH_INVALID
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_COSE_TAG_INVALID
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_COSE_UNKNOWN_ALG
 import de.rki.coronawarnapp.util.encoding.base64
+import okio.ByteString.Companion.toByteString
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -28,6 +34,22 @@ class DccCoseDecoder @Inject constructor(
         throw InvalidHealthCertificateException(HC_COSE_MESSAGE_INVALID, e)
     }
 
+    fun decodeDscMessage(input: RawCOSEObject): DscMessage = try {
+        val dscMsgObject = CBORObject.DecodeFromBytes(input).validate()
+        DscMessage(
+            protectedHeader = dscMsgObject.extractProtectedHeader().toByteString(),
+            payload = dscMsgObject.extractPayloadBytes().toByteString(),
+            signature = dscMsgObject.extractSignature().toByteString(),
+            kid = dscMsgObject.extractKid(),
+            algorithm = dscMsgObject.extractAlgorithm()
+        )
+    } catch (e: InvalidHealthCertificateException) {
+        throw e
+    } catch (e: Throwable) {
+        Timber.e(e)
+        throw InvalidHealthCertificateException(HC_COSE_MESSAGE_INVALID, e)
+    }
+
     fun decryptMessage(input: RawCOSEObject, decryptionKey: ByteArray): RawCOSEObject = try {
         val messageObject = CBORObject.DecodeFromBytes(input).validate()
         val content = messageObject[2].GetByteString()
@@ -41,9 +63,42 @@ class DccCoseDecoder @Inject constructor(
         throw InvalidHealthCertificateException(HC_COSE_MESSAGE_INVALID)
     }
 
+    private fun CBORObject.extractProtectedHeader(): ByteArray = try {
+        this[0].GetByteString()
+    } catch (e: Exception) {
+        throw InvalidHealthCertificateException(HC_COSE_PH_INVALID)
+    }
+
+    private fun CBORObject.extractPayloadBytes(): ByteArray = try {
+        this[2].GetByteString()
+    } catch (e: Exception) {
+        throw InvalidHealthCertificateException(HC_COSE_MESSAGE_INVALID)
+    }
+
     private fun CBORObject.extractPayload(): CBORObject {
         val content = this[2].GetByteString()
         return CBORObject.DecodeFromBytes(content)
+    }
+
+    private fun CBORObject.extractSignature(): ByteArray = try {
+        this[3].GetByteString()
+    } catch (e: Exception) {
+        throw InvalidHealthCertificateException(HC_COSE_NO_SIGN1)
+    }
+
+    private fun CBORObject.extractAlgorithm(): DscMessage.Algorithm {
+        val algo = try {
+            val protectedHeader = this[0]
+            CBORObject.DecodeFromBytes(protectedHeader.GetByteString()).get(1).AsInt32Value()
+        } catch (e: Exception) {
+            throw InvalidHealthCertificateException(HC_COSE_NO_ALG)
+        }
+
+        return when (algo) {
+            -7 -> DscMessage.Algorithm.ES256
+            -37 -> DscMessage.Algorithm.PS256
+            else -> throw InvalidHealthCertificateException(HC_COSE_UNKNOWN_ALG)
+        }
     }
 
     private fun CBORObject.extractKid(): String {

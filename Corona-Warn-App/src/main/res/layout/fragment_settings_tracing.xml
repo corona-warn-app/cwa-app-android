@@ -196,6 +196,7 @@
                 <TextView
                     android:id="@+id/risk_details_period_logged_headline"
                     style="@style/headline5"
+                    gone="@{!settingsTracingState.isTracingStatusTextVisible()}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:focusable="false"
@@ -206,6 +207,7 @@
                 <TextView
                     android:id="@+id/risk_details_period_logged_subtitle"
                     style="@style/subtitle"
+                    gone="@{!settingsTracingState.isTracingStatusTextVisible()}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/spacing_normal"
@@ -217,6 +219,7 @@
                 <TextView
                     android:id="@id/risk_details_period_logged_body_notice"
                     style="@style/subtitle"
+                    gone="@{!settingsTracingState.isTracingStatusTextVisible()}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/spacing_normal"
@@ -228,6 +231,7 @@
                 <TextView
                     android:id="@+id/risk_details_period_logged_days"
                     style="@style/subtitle"
+                    gone="@{!settingsTracingState.isTracingStatusTextVisible()}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/spacing_normal"

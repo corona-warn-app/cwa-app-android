@@ -32,6 +32,10 @@ interface CwaCovidCertificate {
 
     val dccData: DccData<out DccV1.MetaData>
 
+    val notifiedExpiresSoonAt: Instant?
+
+    val notifiedExpiredAt: Instant?
+
     /**
      * The current state of the certificate, see [State]
      */
