@@ -94,11 +94,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         )
 
         qrCodeCard.apply {
-            var qrCodeString = certificate.qrCode
-            if (QrCodeHelper.isInvalidOrExpired(viewModel.getCovidCertificate().getState())) {
-                qrCodeString = QrCodeHelper.sampleQrCodeText
-            }
-            image.loadAny(CoilQrCode(content = qrCodeString)) {
+            image.loadAny(CoilQrCode(content = certificate.qrCode)) {
                 crossfade(true)
                 loadingView(image, progressBar)
             }

@@ -116,12 +116,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         }
 
         qrCodeCard.apply {
-            val qrCodeString = if (QrCodeHelper.isInvalidOrExpired(viewModel.getCovidCertificate().getState())) {
-                QrCodeHelper.sampleQrCodeText
-            } else {
-                certificate.qrCode
-            }
-            image.loadAny(CoilQrCode(content = qrCodeString)) {
+            image.loadAny(CoilQrCode(content = certificate.qrCode)) {
                 crossfade(true)
                 loadingView(image, progressBar)
             }

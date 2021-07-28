@@ -16,7 +16,4 @@ object QrCodeHelper {
             }
         }
     }
-
-    const val sampleQrCodeText =
-        "https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-faq-1758392"
 }

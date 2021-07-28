@@ -34,15 +34,9 @@ class PersonDetailsQrCard(parent: ViewGroup) :
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
 
-        val qrCodeString = if (QrCodeHelper.isInvalidOrExpired(curItem.certificate.getState())) {
-            QrCodeHelper.sampleQrCodeText
-        } else {
-            curItem.certificate.qrCode
-        }
-
         curItem.apply {
             image.loadAny(
-                CoilQrCode(content = qrCodeString)
+                CoilQrCode(content = curItem.certificate.qrCode)
             ) {
                 crossfade(true)
                 loadingView(image, progressBar)

@@ -80,16 +80,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
                 qrCodeCard.apply {
                     val request = it.certificate?.let { cert ->
-
-                        val qrCodeString = if (QrCodeHelper.isInvalidOrExpired(
-                                viewModel.getCovidCertificate().getState()
-                            )
-                        ) {
-                            QrCodeHelper.sampleQrCodeText
-                        } else {
-                            cert.qrCode
-                        }
-                        CoilQrCode(content = qrCodeString)
+                        CoilQrCode(content = cert.qrCode)
                     }
                     image.loadAny(request) {
                         crossfade(true)
