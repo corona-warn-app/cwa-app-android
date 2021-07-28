@@ -112,6 +112,8 @@ object TimeAndDateExtensions {
 
     fun Instant.toLocalDateUserTz(): LocalDate = this.toUserTimeZone().toLocalDate()
 
+    fun Instant.toLocalDateTimeUserTz(): LocalDateTime = this.toUserTimeZone().toLocalDateTime()
+
     /**
      * Returns a readable date String with the format "dd.MM.yyyy" like 23.05.1989 of an Instant
      */
