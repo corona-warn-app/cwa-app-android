@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultTechnica
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
+import org.joda.time.LocalDateTime
 
 class TechnicalValidationFailedVH(
     parent: ViewGroup
@@ -39,14 +40,15 @@ class TechnicalValidationFailedVH(
 
             textExpiredDate.text = context.getString(
                 R.string.validation_rule_technical_error_date_expired_format,
-                certificateExpiredAt.toShortDayFormat(),
-                certificateExpiredAt.toShortTimeFormat(),
+                curItem.certificateExpiresAt.toShortDayFormat(),
+                curItem.certificateExpiresAt.toShortTimeFormat(),
             )
         }
     }
 
     data class Item(
-        val validation: DccValidation
+        val validation: DccValidation,
+        val certificateExpiresAt: LocalDateTime
     ) : ValidationResultItem, HasPayloadDiffer {
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
 

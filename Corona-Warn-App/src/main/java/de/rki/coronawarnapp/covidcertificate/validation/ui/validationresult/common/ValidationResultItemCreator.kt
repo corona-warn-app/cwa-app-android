@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.comm
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationPassedHintVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.businessrule.BusinessRuleVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.mapAffectedFields
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDateTimeFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
@@ -96,9 +97,13 @@ class ValidationResultItemCreator @Inject constructor() {
         )
     }
 
-    fun technicalValidationFailedVHItem(validation: DccValidation): TechnicalValidationFailedVH.Item =
+    fun technicalValidationFailedVHItem(
+        validation: DccValidation,
+        certificate: CwaCovidCertificate
+    ): TechnicalValidationFailedVH.Item =
         TechnicalValidationFailedVH.Item(
-            validation = validation
+            validation = validation,
+            certificateExpiresAt = certificate.headerExpiresAt.toLocalDateTimeUserTz()
         )
 
     fun validationFaqVHItem(): ValidationFaqVH.Item = ValidationFaqVH.Item

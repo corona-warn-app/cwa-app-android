@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureValidator
 import de.rki.coronawarnapp.covidcertificate.validation.core.business.BusinessValidator
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTime
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.TimeStamper
 import org.joda.time.DateTimeZone
 import org.joda.time.LocalDateTime
@@ -44,7 +43,6 @@ class DccValidator @Inject constructor(
             userInput = userInput,
             validatedAt = timeStamper.nowUTC,
             signatureCheckPassed = signatureCheckPassed,
-            certificateExpiredAt = certificate.header.expiresAt.toLocalDateTimeUserTz(),
             expirationCheckPassed = expirationCheckPassed,
             jsonSchemaCheckPassed = jsonSchemaCheckPassed,
             acceptanceRules = businessValidation.acceptanceRules,
