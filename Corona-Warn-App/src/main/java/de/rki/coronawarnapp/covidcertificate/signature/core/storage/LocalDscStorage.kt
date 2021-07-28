@@ -54,4 +54,10 @@ class LocalDscStorage @Inject constructor(
             Timber.e(e, "Failed to write data to file")
         }
     }
+
+    suspend fun clear() = mutex.withLock {
+        if (dscFile.exists() && dscFile.delete()) {
+            Timber.v("Local dsc storage file deleted.")
+        }
+    }
 }
