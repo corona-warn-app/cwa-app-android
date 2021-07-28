@@ -4,8 +4,6 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
@@ -18,14 +16,12 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 
 class VaccinationDetailsViewModel @AssistedInject constructor(
     @Assisted private val containerId: VaccinationCertificateContainerId,
     private val vaccinationRepository: VaccinationRepository,
     private val dccValidationRepository: DccValidationRepository,
-    private val certificateProvider: CertificateProvider,
     @AppScope private val appScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
 ) : CWAViewModel(dispatcherProvider) {
@@ -59,12 +55,6 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
             certificate = certificate,
             isImmune = person?.getVaccinationStatus() == VaccinatedPerson.Status.IMMUNITY,
         )
-    }
-
-    fun loadCertificate(): CwaCovidCertificate {
-        return runBlocking {
-            certificateProvider.findCertificate(containerId)
-        }
     }
 
     fun onDeleteVaccinationCertificateConfirmed() {

@@ -1,13 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.details.items
 
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import coil.loadAny
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
-import de.rki.coronawarnapp.util.QrCodeHelper
 import de.rki.coronawarnapp.databinding.IncludeCertificateQrcodeCardBinding
 import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView
@@ -42,12 +40,6 @@ class PersonDetailsQrCard(parent: ViewGroup) :
             }
             startValidationCheckButton.isLoading = curItem.isLoading
 
-            if (QrCodeHelper.isInvalidOrExpired(certificate.getState())) {
-                image.alpha = 0.1f
-                invalidQrCodeSymbol.isVisible = true
-            } else {
-                invalidQrCodeSymbol.isVisible = false
-            }
             bindValidityViews(certificate, isPersonDetails = true)
         }
     }

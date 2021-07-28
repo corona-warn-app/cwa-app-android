@@ -39,12 +39,12 @@ interface CwaCovidCertificate {
     /**
      * The current state of the certificate, see [State]
      */
-    fun getState(): State {
-        // TODO Only for testing - Needs to be updated in the future
-        return State.Expired(Instant.now())
-    }
+    fun getState(): State
 
     sealed class State {
+
+        val isValid get() = this is Valid || this is ExpiringSoon
+
         data class Valid(
             val expiresAt: Instant,
         ) : State()

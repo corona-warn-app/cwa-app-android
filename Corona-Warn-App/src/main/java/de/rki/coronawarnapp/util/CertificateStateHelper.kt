@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.util
 
 import android.widget.TextView
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
@@ -19,7 +20,12 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     isPersonDetails: Boolean = false,
     isCertificateDetails: Boolean = false
 ) {
+    val valid = certificate.getState().isValid
     val context = root.context
+
+    invalidOverlay.isGone = valid
+    image.isEnabled = isCertificateDetails && valid // Disable Qr-Code image from opening full-screen mode
+
     when (certificate) {
         is TestCertificate -> {
             val dateTime = certificate.sampleCollectedAt.toUserTimeZone().run {
@@ -123,3 +129,15 @@ fun TextView.displayExpirationState(certificate: CwaCovidCertificate) {
         }
     }
 }
+
+val CwaCovidCertificate.europaStarsResource
+    get() = when {
+        getState().isValid -> R.drawable.ic_eu_stars_blue
+        else -> R.drawable.ic_eu_stars_grey
+    }
+
+val CwaCovidCertificate.expendedImageResource
+    get() = when {
+        getState().isValid -> R.drawable.certificate_complete_gradient
+        else -> R.drawable.vaccination_incomplete
+    }

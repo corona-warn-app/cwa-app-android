@@ -22,21 +22,36 @@
         tools:src="@drawable/ic_qrcode"
         tools:tint="@android:color/black" />
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/invalid_qr_code_symbol"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/vaccination_list_qr_code_accessibility"
+    <ImageView
+        android:id="@+id/invalid_qr_code_overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/invalid_certificate_overlay"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="@id/image"
         app:layout_constraintDimensionRatio="H,1:1"
         app:layout_constraintLeft_toLeftOf="@id/image"
         app:layout_constraintRight_toRightOf="@id/image"
-        app:layout_constraintTop_toTopOf="@id/image"
+        app:layout_constraintTop_toTopOf="@id/image" />
+
+    <ImageView
+        android:id="@+id/invalid_qr_code_symbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
         app:layout_constraintBottom_toBottomOf="@id/image"
-        android:visibility="invisible"
-        tools:visibility="visible"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay"
-        android:src="@drawable/ic_invalid_qr_code"
-        tools:tint="@android:color/black" />
+        app:layout_constraintLeft_toLeftOf="@id/image"
+        app:layout_constraintRight_toRightOf="@id/image"
+        app:layout_constraintTop_toTopOf="@id/image"
+        app:srcCompat="@drawable/ic_invalid_qr_code" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/invalid_overlay"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:constraint_referenced_ids="invalid_qr_code_overlay,invalid_qr_code_symbol"
+        tools:visibility="visible" />
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progress_bar"

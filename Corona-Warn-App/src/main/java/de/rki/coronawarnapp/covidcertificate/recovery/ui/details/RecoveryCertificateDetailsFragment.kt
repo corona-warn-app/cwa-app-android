@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -20,11 +19,12 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationN
 import de.rki.coronawarnapp.databinding.FragmentRecoveryCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
-import de.rki.coronawarnapp.util.QrCodeHelper
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.europaStarsResource
+import de.rki.coronawarnapp.util.expendedImageResource
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -87,15 +87,8 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         certificationPeriodStart.text = certificate.validFromFormatted
         certificationPeriodEnd.text = certificate.validUntilFormatted
         certificateId.text = certificate.certificateId
-        if (QrCodeHelper.isInvalidOrExpired(certificate.getState())) {
-            qrCodeCard.image.alpha = 0.1f
-            qrCodeCard.invalidQrCodeSymbol.isVisible = true
-            europaImage.setImageResource(R.drawable.ic_eu_stars_grey)
-            expandedImage.setImageResource(R.drawable.vaccination_incomplete)
-        } else {
-            qrCodeCard.invalidQrCodeSymbol.isVisible = false
-            expandedImage.setImageResource(R.drawable.certificate_complete_gradient)
-        }
+        expandedImage.setImageResource(certificate.expendedImageResource)
+        europaImage.setImageResource(certificate.europaStarsResource)
         expirationNotice.expirationDate.text = getString(
             R.string.expiration_date,
             certificate.headerExpiresAt.toShortDayFormat()
@@ -123,17 +116,12 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
     private fun FragmentRecoveryCertificateDetailsBinding.onNavEvent(event: RecoveryCertificateDetailsNavigation) {
         when (event) {
             RecoveryCertificateDetailsNavigation.Back -> popBackStack()
-            is RecoveryCertificateDetailsNavigation.FullQrCode -> {
-                val certificate = viewModel.getCovidCertificate()
-                if (!QrCodeHelper.isInvalidOrExpired(certificate.getState())) {
-                    findNavController().navigate(
-                        R.id.action_global_qrCodeFullScreenFragment,
-                        QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
-                        null,
-                        FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
-                    )
-                }
-            }
+            is RecoveryCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
+                R.id.action_global_qrCodeFullScreenFragment,
+                QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
+                null,
+                FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
+            )
             is RecoveryCertificateDetailsNavigation.ValidationStart -> {
                 startValidationCheck.isLoading = false
                 doNavigate(

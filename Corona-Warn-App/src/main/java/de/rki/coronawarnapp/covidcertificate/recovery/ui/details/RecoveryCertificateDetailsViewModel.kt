@@ -4,8 +4,6 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
@@ -14,7 +12,6 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 
 class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
@@ -22,7 +19,6 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
     @Assisted private val containerId: RecoveryCertificateContainerId,
     private val recoveryCertificateRepository: RecoveryCertificateRepository,
     private val dccValidationRepository: DccValidationRepository,
-    private val certificateProvider: CertificateProvider
 ) : CWAViewModel(dispatcherProvider) {
     private var qrCodeText: String? = null
     val events = SingleLiveEvent<RecoveryCertificateDetailsNavigation>()
@@ -41,13 +37,6 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
         Timber.d("Removing Recovery Certificate=$containerId")
         recoveryCertificateRepository.deleteCertificate(containerId)
         events.postValue(RecoveryCertificateDetailsNavigation.Back)
-    }
-
-    fun getCovidCertificate(): CwaCovidCertificate {
-
-        return runBlocking {
-            certificateProvider.findCertificate(containerId)
-        }
     }
 
     fun startValidationRulesDownload() = launch {

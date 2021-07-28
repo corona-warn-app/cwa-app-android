@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview.items
 
 import android.view.ViewGroup
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.view.isVisible
 import coil.loadAny
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
@@ -11,7 +10,6 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewAd
 import de.rki.coronawarnapp.databinding.PersonOverviewItemBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
-import de.rki.coronawarnapp.util.QrCodeHelper
 import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
@@ -47,16 +45,6 @@ class PersonCertificateCard(parent: ViewGroup) :
         itemView.apply {
             setOnClickListener { curItem.onClickAction(curItem, adapterPosition) }
             transitionName = curItem.certificate.personIdentifier.codeSHA256
-        }
-
-        if (QrCodeHelper.isInvalidOrExpired(item.certificate.getState())) {
-            qrCodeCard.image.alpha = 0.1f
-            qrCodeCard.invalidQrCodeSymbol.isVisible = true
-            starsImage.setImageResource(R.drawable.ic_eu_stars_grey)
-            backgroundImage.setImageResource(R.drawable.vaccination_incomplete)
-        } else {
-            qrCodeCard.invalidQrCodeSymbol.isVisible = false
-            backgroundImage.setImageResource(R.drawable.certificate_complete_gradient)
         }
         qrCodeCard.bindValidityViews(curItem.certificate, isPersonOverview = true)
     }

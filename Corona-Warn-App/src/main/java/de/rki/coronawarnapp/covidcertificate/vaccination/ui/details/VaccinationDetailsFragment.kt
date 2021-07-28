@@ -20,7 +20,6 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationN
 import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
-import de.rki.coronawarnapp.util.QrCodeHelper
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView
@@ -51,33 +50,20 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
-
             bindToolbar()
             setToolbarOverlay()
 
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
                 it.certificate?.let { certificate -> bindCertificateViews(certificate) }
-                var background = when {
-                    it.isImmune -> R.drawable.certificate_complete_gradient
-                    else -> R.drawable.vaccination_incomplete
-                }
-
-                var europaIcon = when {
-                    it.isImmune -> R.drawable.ic_eu_stars_blue
-                    else -> R.drawable.ic_eu_stars_grey
-                }
-
-                if (QrCodeHelper.isInvalidOrExpired(viewModel.loadCertificate().getState())) {
-                    qrCodeCard.image.alpha = 0.1f
-                    qrCodeCard.invalidQrCodeSymbol.isVisible = true
-                    europaIcon = R.drawable.ic_eu_stars_grey
-                    background = R.drawable.vaccination_incomplete
-                } else {
-                    qrCodeCard.invalidQrCodeSymbol.isVisible = false
+                val stateInValid = it.certificate?.getState()?.isValid == false
+                val (background, europaStars) = when {
+                    stateInValid -> R.drawable.vaccination_incomplete to R.drawable.ic_eu_stars_grey
+                    it.isImmune -> R.drawable.certificate_complete_gradient to R.drawable.ic_eu_stars_blue
+                    else -> R.drawable.vaccination_incomplete to R.drawable.ic_eu_stars_grey
                 }
 
                 expandedImage.setImageResource(background)
-                europaImage.setImageResource(europaIcon)
+                europaImage.setImageResource(europaStars)
 
                 qrCodeCard.apply {
                     val request = it.certificate?.let { cert ->
@@ -115,19 +101,12 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             viewModel.events.observe(viewLifecycleOwner) { event ->
                 when (event) {
                     VaccinationDetailsNavigation.Back -> popBackStack()
-                    is VaccinationDetailsNavigation.FullQrCode -> {
-                        val certificate = viewModel.loadCertificate().getState()
-                        if (!QrCodeHelper.isInvalidOrExpired(certificate)) {
-                            findNavController().navigate(
-                                R.id.action_global_qrCodeFullScreenFragment,
-                                QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
-                                null,
-                                FragmentNavigatorExtras(
-                                    qrCodeCard.image to qrCodeCard.image.transitionName
-                                )
-                            )
-                        }
-                    }
+                    is VaccinationDetailsNavigation.FullQrCode -> findNavController().navigate(
+                        R.id.action_global_qrCodeFullScreenFragment,
+                        QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
+                        null,
+                        FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
+                    )
                     is VaccinationDetailsNavigation.ValidationStart -> {
                         startValidationCheck.isLoading = false
                         doNavigate(
@@ -179,7 +158,6 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         certificateIssuer.text = certificate.certificateIssuer
         certificateId.text = certificate.certificateId
         oneShotInfo.isVisible = certificate.totalSeriesOfDoses == 1
-
         expirationNotice.expirationDate.text = getString(
             R.string.expiration_date,
             certificate.headerExpiresAt.toShortDayFormat()
