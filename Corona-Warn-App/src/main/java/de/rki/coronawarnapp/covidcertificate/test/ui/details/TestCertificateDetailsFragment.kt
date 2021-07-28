@@ -70,7 +70,14 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     private fun FragmentTestCertificateDetailsBinding.onCertificateReady(
         certificate: TestCertificate
     ) {
-        name.text = certificate.fullName
+        name.text = when {
+            certificate.firstName.isNullOrBlank() -> certificate.lastName
+            else -> getString(
+                R.string.covid_certificate_attribute_name_format,
+                certificate.lastName,
+                certificate.firstName
+            )
+        }
         dateOfBirth.text = certificate.dateOfBirthFormatted
         diseaseType.text = certificate.targetName
         testType.text = certificate.testType

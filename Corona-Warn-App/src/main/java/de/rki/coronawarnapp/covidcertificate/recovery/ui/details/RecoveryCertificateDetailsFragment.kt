@@ -68,7 +68,14 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         certificate: RecoveryCertificate
     ) {
 
-        fullname.text = certificate.fullName
+        fullname.text = when {
+            certificate.firstName.isNullOrBlank() -> certificate.lastName
+            else -> getString(
+                R.string.covid_certificate_attribute_name_format,
+                certificate.lastName,
+                certificate.firstName
+            )
+        }
         dateOfBirth.text = certificate.dateOfBirthFormatted
         recoveredFromDisease.text = certificate.targetDisease
         dateOfFirstPositiveTestResult.text = certificate.testedPositiveOnFormatted

@@ -137,7 +137,14 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     private fun FragmentVaccinationDetailsBinding.bindCertificateViews(
         certificate: VaccinationCertificate
     ) {
-        fullname.text = certificate.fullName
+        fullname.text = when {
+            certificate.firstName.isNullOrBlank() -> certificate.lastName
+            else -> getString(
+                R.string.covid_certificate_attribute_name_format,
+                certificate.lastName,
+                certificate.firstName
+            )
+        }
         dateOfBirth.text = certificate.dateOfBirthFormatted
         vaccineName.text = certificate.vaccineTypeName
         medicalProductName.text = certificate.medicalProductName
