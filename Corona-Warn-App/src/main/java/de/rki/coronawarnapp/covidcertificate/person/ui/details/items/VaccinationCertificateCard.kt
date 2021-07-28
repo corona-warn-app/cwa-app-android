@@ -45,6 +45,8 @@ class VaccinationCertificateCard(parent: ViewGroup) :
         bookmark.setImageResource(bookmarkIcon)
 
         val icon = when {
+            !certificate.isValid -> R.drawable.ic_certificate_invalid
+
             // Final shot
             certificate.isFinalShot -> when (curItem.status) {
                 IMMUNITY -> R.drawable.ic_vaccination_immune
