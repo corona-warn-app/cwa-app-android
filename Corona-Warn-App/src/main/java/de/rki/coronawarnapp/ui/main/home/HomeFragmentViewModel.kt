@@ -143,8 +143,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
         networkStateProvider.networkState.map { it.isInternetAvailable }.distinctUntilChanged()
     ) { statsData, localStatsData, isInternetAvailable ->
         statsData.copy(
-            items = mutableListOf(AddStatsItem(localStatsData.items.size < 5 && isInternetAvailable)) +
-                localStatsData.items + statsData.items
+            items = mutableListOf(
+                AddStatsItem(
+                    canAddItem = localStatsData.items.size < 5,
+                    isInternetAvailable = isInternetAvailable
+                )
+            ) + localStatsData.items + statsData.items
         )
     }
 

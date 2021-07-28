@@ -40,6 +40,10 @@ class AddCard(parent: ViewGroup) :
             } else {
                 plusImage.setColorFilter(ContextCompat.getColor(context, R.color.colorStatisticsValueLabel))
                 titleText.setTextColor(ContextCompat.getColor(context, R.color.colorStatisticsValueLabel))
+                warningText.text = when (!stats.canAddItem) {
+                    true -> R.string.statistics_add_card_warning
+                    else -> R.string.sstatistics_add_card_warning_no_internet
+                }.let { context.getString(it) }
             }
         }
     }
