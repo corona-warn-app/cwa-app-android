@@ -15,6 +15,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
+import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationNoInternetErrorDialog
 import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
@@ -92,7 +94,11 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             viewModel.errors.observe(viewLifecycleOwner) {
                 startValidationCheck.isLoading = false
                 qrCodeCard.progressBar.hide()
-                it.toErrorDialogBuilder(requireContext()).show()
+                if (it is DccValidationException && it.errorCode == DccValidationException.ErrorCode.NO_NETWORK) {
+                    DccValidationNoInternetErrorDialog(requireContext()).show()
+                } else {
+                    it.toErrorDialogBuilder(requireContext()).show()
+                }
             }
 
             viewModel.events.observe(viewLifecycleOwner) { event ->

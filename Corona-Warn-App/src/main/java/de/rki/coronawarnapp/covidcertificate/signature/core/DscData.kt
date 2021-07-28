@@ -5,7 +5,7 @@ import org.joda.time.Instant
 
 data class DscData(
     val dscList: List<DscItem>,
-    val updatedAt: Instant
+    val updatedAt: Instant,
 )
 
 data class DscItem(

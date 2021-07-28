@@ -284,7 +284,7 @@ class DscSignatureValidatorTest : BaseTest() {
                     it.data.toOkioByteString()
                 )
             },
-            Instant.EPOCH
+            updatedAt = Instant.EPOCH
         )
     }
 }
