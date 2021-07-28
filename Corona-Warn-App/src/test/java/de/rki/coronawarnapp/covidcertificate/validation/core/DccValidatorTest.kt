@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.validation.core
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchemaValidator
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureValidator
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeTestData
 import de.rki.coronawarnapp.covidcertificate.validation.core.business.BusinessValidation
 import de.rki.coronawarnapp.covidcertificate.validation.core.business.BusinessValidator
@@ -11,9 +12,12 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.serialization.validation.JsonSchemaValidator
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.joda.time.LocalDateTime
@@ -22,6 +26,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 class DccValidatorTest : BaseTest() {
 
     @Inject lateinit var extractor: DccQrCodeExtractor
@@ -29,6 +34,7 @@ class DccValidatorTest : BaseTest() {
     @MockK lateinit var businessValidator: BusinessValidator
     @MockK lateinit var dccJsonSchemaValidator: DccJsonSchemaValidator
     @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var dscSignatureValidator: DscSignatureValidator
 
     private lateinit var dccValidator: DccValidator
 
@@ -40,7 +46,13 @@ class DccValidatorTest : BaseTest() {
         coEvery { businessValidator.validate(any(), any(), any()) } returns
             BusinessValidation(emptySet(), emptySet())
         every { timeStamper.nowUTC } returns Instant.ofEpochSecond(1625827095)
-        dccValidator = DccValidator(businessValidator, dccJsonSchemaValidator, timeStamper)
+        coEvery { dscSignatureValidator.validateSignature(any()) } just Runs
+        dccValidator = DccValidator(
+            businessValidator = businessValidator,
+            dccJsonSchemaValidator = dccJsonSchemaValidator,
+            dscSignatureValidator = dscSignatureValidator,
+            timeStamper = timeStamper
+        )
     }
 
     @Test
