@@ -105,10 +105,9 @@ class DccQrCodeScanFragment :
 
                         it.isSignatureInvalid -> {
                             setTitle(R.string.dcc_signature_validation_dialog_title)
-                            setPositiveButton(R.string.dcc_signature_validation_dialog_faq_button) { _, _ ->
+                            setNeutralButton(R.string.dcc_signature_validation_dialog_faq_button) { _, _ ->
                                 openUrl(R.string.dcc_signature_validation_dialog_faq_link)
                             }
-                            setNeutralButton(R.string.dcc_signature_validation_dialog_ok_button) { _, _ -> }
                         }
                         it.errorCode == InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED -> {
                             setNeutralButton(R.string.error_button_dcc_faq) { _, _ ->
