@@ -71,9 +71,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_tiny"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/expiration_status_icon"
         app:layout_constraintEnd_toEndOf="@id/image"
         app:layout_constraintStart_toEndOf="@id/expiration_status_icon"
-        app:layout_constraintTop_toTopOf="@id/expiration_status_icon"
         tools:text="Zertifikat läuft am 21.08.21 um 14:12 Uhr ab"
         tools:visibility="visible" />
 
@@ -82,7 +82,7 @@
         style="@style/body2Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_tiny"
+        android:layout_marginTop="10dp"
         android:text="@string/expiration_info"
         app:layout_constraintStart_toStartOf="@id/expiration_status_icon"
         app:layout_constraintTop_toBottomOf="@id/expiration_status_text" />
