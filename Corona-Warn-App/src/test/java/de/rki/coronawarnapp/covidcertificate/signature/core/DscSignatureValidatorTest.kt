@@ -24,10 +24,12 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import okio.ByteString.Companion.decodeBase64
+import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.security.Security
 import javax.inject.Inject
 
 @Suppress("MaxLineLength")
@@ -43,6 +45,9 @@ class DscSignatureValidatorTest : BaseTest() {
         MockKAnnotations.init(this, true)
         every { dscRepository.dscData } returns flowOf(dscData)
         every { securityProvider.setup() } just Runs
+
+        // Add RSA algorithm in unit tests context.
+        Security.addProvider(BouncyCastleProvider())
 
         DaggerCovidCertificateTestComponent.factory().create().inject(this)
     }
