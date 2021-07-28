@@ -53,7 +53,7 @@ class VaccinationCertificateCard(parent: ViewGroup) :
         }
 
         val color = when {
-            curItem.certificate.getState().isValid -> curItem.colorShade
+            curItem.certificate.isValid -> curItem.colorShade
             else -> PersonColorShade.COLOR_INVALID
         }
         val background = when {

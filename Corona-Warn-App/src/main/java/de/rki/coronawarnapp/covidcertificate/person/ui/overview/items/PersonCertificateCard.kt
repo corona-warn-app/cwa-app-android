@@ -32,7 +32,7 @@ class PersonCertificateCard(parent: ViewGroup) :
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
 
         val color = when {
-            curItem.certificate.getState().isValid -> curItem.colorShade
+            curItem.certificate.isValid -> curItem.colorShade
             else -> PersonColorShade.COLOR_INVALID
         }
         name.text = curItem.certificate.fullName

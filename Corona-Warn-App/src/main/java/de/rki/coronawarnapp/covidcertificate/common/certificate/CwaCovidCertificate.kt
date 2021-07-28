@@ -41,9 +41,9 @@ interface CwaCovidCertificate {
      */
     fun getState(): State
 
-    sealed class State {
+    val isValid get() = getState() is State.Valid || getState() is State.ExpiringSoon
 
-        val isValid get() = this is Valid || this is ExpiringSoon
+    sealed class State {
 
         data class Valid(
             val expiresAt: Instant,

@@ -20,7 +20,7 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     isPersonDetails: Boolean = false,
     isCertificateDetails: Boolean = false
 ) {
-    val valid = certificate.getState().isValid
+    val valid = certificate.isValid
     val context = root.context
 
     invalidOverlay.isGone = valid
@@ -132,12 +132,12 @@ fun TextView.displayExpirationState(certificate: CwaCovidCertificate) {
 
 val CwaCovidCertificate.europaStarsResource
     get() = when {
-        getState().isValid -> R.drawable.ic_eu_stars_blue
+        isValid -> R.drawable.ic_eu_stars_blue
         else -> R.drawable.ic_eu_stars_grey
     }
 
 val CwaCovidCertificate.expendedImageResource
     get() = when {
-        getState().isValid -> R.drawable.certificate_complete_gradient
+        isValid -> R.drawable.certificate_complete_gradient
         else -> R.drawable.vaccination_incomplete
     }

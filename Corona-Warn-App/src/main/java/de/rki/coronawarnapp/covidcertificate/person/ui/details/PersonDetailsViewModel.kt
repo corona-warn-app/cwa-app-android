@@ -90,7 +90,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
             val priorityCertificate = personCertificates.highestPriorityCertificate
 
             val color = when {
-                priorityCertificate.getState().isValid -> colorShade
+                priorityCertificate.isValid -> colorShade
                 else -> PersonColorShade.COLOR_INVALID
             }
             colorShadeData.postValue(color)
