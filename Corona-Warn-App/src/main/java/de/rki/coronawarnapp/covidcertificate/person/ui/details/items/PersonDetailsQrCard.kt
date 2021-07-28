@@ -7,14 +7,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
-import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.databinding.PersonDetailsQrCardItemBinding
 import de.rki.coronawarnapp.util.QrCodeHelper
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.databinding.IncludeCertificateQrcodeCardBinding
 import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView

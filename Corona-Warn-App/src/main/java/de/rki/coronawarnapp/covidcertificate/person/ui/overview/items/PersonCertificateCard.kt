@@ -50,12 +50,12 @@ class PersonCertificateCard(parent: ViewGroup) :
         }
 
         if (QrCodeHelper.isInvalidOrExpired(item.certificate.getState())) {
-            qrcodeImage.alpha = 0.1f
-            invalidQrCodeSymbol.isVisible = true
+            qrCodeCard.image.alpha = 0.1f
+            qrCodeCard.invalidQrCodeSymbol.isVisible = true
             starsImage.setImageResource(R.drawable.ic_eu_stars_grey)
             backgroundImage.setImageResource(R.drawable.vaccination_incomplete)
         } else {
-            invalidQrCodeSymbol.isVisible = false
+            qrCodeCard.invalidQrCodeSymbol.isVisible = false
             backgroundImage.setImageResource(R.drawable.certificate_complete_gradient)
         }
         qrCodeCard.bindValidityViews(curItem.certificate, isPersonOverview = true)
