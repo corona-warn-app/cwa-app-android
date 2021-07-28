@@ -49,7 +49,7 @@ class DscRepository @Inject constructor(
     }
 
     private fun mapDscList(rawData: ByteArray): DscData {
-        return dscDataParser.parse(rawData, Instant.now())
+        return dscDataParser.parse(rawData)
     }
 
     companion object {
