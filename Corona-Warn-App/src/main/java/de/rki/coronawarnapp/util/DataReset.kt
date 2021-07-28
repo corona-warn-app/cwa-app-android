@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
+import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
@@ -75,6 +76,7 @@ class DataReset @Inject constructor(
     private val testCertificateRepository: TestCertificateRepository,
     private val personCertificatesSettings: PersonCertificatesSettings,
     private val validationRepository: DccValidationRepository,
+    private val recoveryCertificateRepository: RecoveryCertificateRepository,
 ) {
 
     private val mutex = Mutex()
@@ -118,13 +120,15 @@ class DataReset @Inject constructor(
         traceLocationRepository.deleteAllTraceLocations()
         checkInRepository.clear()
         coronaTestRepository.clear()
-        testCertificateRepository.clear()
         ratProfileSettings.deleteProfile()
 
         valueSetsRepository.clear()
-        vaccinationRepository.clear()
-        covidCertificateSettings.clear()
 
+        vaccinationRepository.clear()
+        testCertificateRepository.clear()
+        recoveryCertificateRepository.clear()
+
+        covidCertificateSettings.clear()
         personCertificatesSettings.clear()
 
         validationRepository.clear()
