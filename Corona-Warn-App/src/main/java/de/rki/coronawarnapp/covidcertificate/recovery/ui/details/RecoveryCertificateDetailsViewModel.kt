@@ -44,6 +44,7 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
     }
 
     fun getCovidCertificate(): CwaCovidCertificate {
+
         return runBlocking {
             certificateProvider.findCertificate(containerId)
         }

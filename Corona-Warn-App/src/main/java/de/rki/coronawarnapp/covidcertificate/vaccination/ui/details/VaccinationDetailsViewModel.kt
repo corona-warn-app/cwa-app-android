@@ -61,7 +61,7 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
         )
     }
 
-    fun getCovidCertificate(): CwaCovidCertificate {
+    fun loadCertificate(): CwaCovidCertificate {
         return runBlocking {
             certificateProvider.findCertificate(containerId)
         }

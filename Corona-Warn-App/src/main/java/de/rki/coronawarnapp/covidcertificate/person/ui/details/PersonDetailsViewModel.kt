@@ -38,7 +38,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.mapNotNull
-import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 
 @Suppress("LongParameterList")
@@ -48,7 +47,6 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private val vaccinationRepository: VaccinationRepository,
     private val dccValidationRepository: DccValidationRepository,
     private val timeStamper: TimeStamper,
-    private val certificatesProvider: PersonCertificatesProvider,
     @Assisted private val personIdentifierCode: String,
     @Assisted private val colorShade: PersonColorShade,
     @Assisted private val containerId: CertificateContainerId?,

@@ -66,7 +66,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                     else -> R.drawable.ic_eu_stars_grey
                 }
 
-                if (QrCodeHelper.isInvalidOrExpired(viewModel.getCovidCertificate().getState())) {
+                if (QrCodeHelper.isInvalidOrExpired(viewModel.loadCertificate().getState())) {
                     qrCodeCard.image.alpha = 0.1f
                     qrCodeCard.invalidQrCodeSymbol.isVisible = true
                     europaIcon = R.drawable.ic_eu_stars_grey
@@ -115,7 +115,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 when (event) {
                     VaccinationDetailsNavigation.Back -> popBackStack()
                     is VaccinationDetailsNavigation.FullQrCode -> {
-                        val certificate = viewModel.getCovidCertificate().getState()
+                        val certificate = viewModel.loadCertificate().getState()
                         if (!QrCodeHelper.isInvalidOrExpired(certificate)) {
                             findNavController().navigate(
                                 R.id.action_global_qrCodeFullScreenFragment,
