@@ -52,8 +52,8 @@ class TestCertificateCard(parent: ViewGroup) :
 
     data class Item(
         val certificate: TestCertificate,
-        val colorShade: PersonColorShade,
         val isCurrentCertificate: Boolean,
+        val colorShade: PersonColorShade,
         val onClick: () -> Unit
     ) : CertificateItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
