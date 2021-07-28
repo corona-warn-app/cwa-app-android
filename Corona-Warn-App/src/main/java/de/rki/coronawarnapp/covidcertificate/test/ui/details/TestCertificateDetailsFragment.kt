@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.databinding.FragmentTestCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
+import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
@@ -70,7 +71,15 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     private fun FragmentTestCertificateDetailsBinding.onCertificateReady(
         certificate: TestCertificate
     ) {
-        name.text = certificate.fullName
+        qrCodeCard.bindValidityViews(certificate, isCertificateDetails = true)
+        name.text = when {
+            certificate.firstName.isNullOrBlank() -> certificate.lastName
+            else -> getString(
+                R.string.covid_certificate_attribute_name_format,
+                certificate.lastName,
+                certificate.firstName
+            )
+        }
         dateOfBirth.text = certificate.dateOfBirthFormatted
         diseaseType.text = certificate.targetName
         testType.text = certificate.testType

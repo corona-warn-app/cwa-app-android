@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.databinding.FragmentRecoveryCertificateDetailsBindin
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
+import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
@@ -67,8 +68,15 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
     private fun FragmentRecoveryCertificateDetailsBinding.onCertificateReady(
         certificate: RecoveryCertificate
     ) {
-
-        fullname.text = certificate.fullName
+        qrCodeCard.bindValidityViews(certificate, isCertificateDetails = true)
+        fullname.text = when {
+            certificate.firstName.isNullOrBlank() -> certificate.lastName
+            else -> getString(
+                R.string.covid_certificate_attribute_name_format,
+                certificate.lastName,
+                certificate.firstName
+            )
+        }
         dateOfBirth.text = certificate.dateOfBirthFormatted
         recoveredFromDisease.text = certificate.targetDisease
         dateOfFirstPositiveTestResult.text = certificate.testedPositiveOnFormatted

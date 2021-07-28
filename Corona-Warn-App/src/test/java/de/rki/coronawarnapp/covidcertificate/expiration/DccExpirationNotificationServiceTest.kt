@@ -139,7 +139,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
         createInstance().showNotificationIfExpired()
 
         coVerify(exactly = 0) { expirationNotification.showExpiresSoonNotification(any()) }
-        coVerify(exactly = 1) { expirationNotification.showExpiredNotification(vaccinationCertificate) }
+        coVerify(exactly = 1) { expirationNotification.showExpiredNotification(any()) }
     }
 
     @Test
@@ -149,7 +149,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
 
         createInstance().showNotificationIfExpired()
 
-        coVerify(exactly = 1) { expirationNotification.showExpiresSoonNotification(vaccinationCertificate) }
+        coVerify(exactly = 1) { expirationNotification.showExpiresSoonNotification(any()) }
         coVerify(exactly = 0) { expirationNotification.showExpiredNotification(any()) }
     }
 
@@ -161,14 +161,14 @@ class DccExpirationNotificationServiceTest : BaseTest() {
         createInstance().showNotificationIfExpired()
 
         coVerify(exactly = 1) {
-            expirationNotification.showExpiresSoonNotification(vaccinationCertificate)
+            expirationNotification.showExpiresSoonNotification(any())
             vaccinationRepository.setNotifiedState(
                 containerId = vaccinationContainerId,
                 state = State.ExpiringSoon(expiresAt = Instant.EPOCH),
                 time = nowUtc,
             )
 
-            expirationNotification.showExpiredNotification(recoveryCertificate)
+            expirationNotification.showExpiredNotification(any())
             recoveryRepository.setNotifiedState(
                 containerId = recoverContainerId,
                 state = State.Expired(expiredAt = Instant.EPOCH),

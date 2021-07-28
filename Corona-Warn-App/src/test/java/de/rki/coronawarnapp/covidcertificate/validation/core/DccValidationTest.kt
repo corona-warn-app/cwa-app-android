@@ -30,6 +30,7 @@ class DccValidationTest : BaseTest() {
         DccValidation(
             userInput,
             nowUTC,
+            signatureCheckPassed = true,
             expirationCheckPassed = true,
             jsonSchemaCheckPassed = true,
             acceptanceRules = setOf(rule1, rule2),
@@ -46,6 +47,7 @@ class DccValidationTest : BaseTest() {
         DccValidation(
             userInput,
             nowUTC,
+            signatureCheckPassed = true,
             expirationCheckPassed = true,
             jsonSchemaCheckPassed = true,
             acceptanceRules = setOf(rule1),
@@ -60,6 +62,7 @@ class DccValidationTest : BaseTest() {
         DccValidation(
             userInput,
             nowUTC,
+            signatureCheckPassed = true,
             expirationCheckPassed = true,
             jsonSchemaCheckPassed = false,
             acceptanceRules = setOf(rule1),
@@ -76,7 +79,25 @@ class DccValidationTest : BaseTest() {
         DccValidation(
             userInput,
             nowUTC,
+            signatureCheckPassed = true,
             expirationCheckPassed = false,
+            jsonSchemaCheckPassed = true,
+            acceptanceRules = setOf(rule1, rule3),
+            invalidationRules = setOf(rule2, rule4),
+        ).state shouldBe DccValidation.State.TECHNICAL_FAILURE
+    }
+
+    @Test
+    fun `validation state technical failure 3`() {
+        val rule1 = getRule(DccValidationRule.Result.PASSED)
+        val rule2 = getRule(DccValidationRule.Result.FAILED)
+        val rule3 = getRule(DccValidationRule.Result.PASSED)
+        val rule4 = getRule(DccValidationRule.Result.PASSED)
+        DccValidation(
+            userInput,
+            nowUTC,
+            signatureCheckPassed = false,
+            expirationCheckPassed = true,
             jsonSchemaCheckPassed = true,
             acceptanceRules = setOf(rule1, rule3),
             invalidationRules = setOf(rule2, rule4),
@@ -92,6 +113,7 @@ class DccValidationTest : BaseTest() {
         DccValidation(
             userInput,
             nowUTC,
+            signatureCheckPassed = true,
             expirationCheckPassed = true,
             jsonSchemaCheckPassed = true,
             acceptanceRules = setOf(rule1, rule3),
