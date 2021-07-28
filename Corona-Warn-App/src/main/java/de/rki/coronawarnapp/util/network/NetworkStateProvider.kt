@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.util.network
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.LinkProperties
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
@@ -48,15 +49,50 @@ class NetworkStateProvider @Inject constructor(
         var registeredCallback: ConnectivityManager.NetworkCallback? = null
 
         try {
+            fun refreshState() {
+                appScope.launch { send(currentState) }
+            }
+
             val callback = object : ConnectivityManager.NetworkCallback() {
                 override fun onAvailable(network: Network) {
                     Timber.tag(TAG).v("onAvailable(network=%s)", network)
-                    appScope.launch { send(currentState) }
+                    refreshState()
                 }
 
+                override fun onLost(network: Network) {
+                    Timber.tag(TAG).v("onLost(network=%s)", network)
+                    refreshState()
+                }
+
+                /**
+                 * Not consistently called in all Android versions
+                 * https://issuetracker.google.com/issues/144891976
+                 */
                 override fun onUnavailable() {
                     Timber.tag(TAG).v("onUnavailable()")
-                    appScope.launch { send(currentState) }
+                    refreshState()
+                }
+
+                override fun onLosing(network: Network, maxMsToLive: Int) {
+                    Timber.tag(TAG).v("onLosing(network=%s, maxMsToLive=%s)", network, maxMsToLive)
+                    refreshState()
+                }
+
+                override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
+                    Timber.tag(TAG).v(
+                        "onCapabilitiesChanged(network=%s, capabilities=%s)", network, networkCapabilities
+                    )
+                    refreshState()
+                }
+
+                override fun onLinkPropertiesChanged(network: Network, linkProperties: LinkProperties) {
+                    Timber.tag(TAG).v("onLinkPropertiesChanged(network=%s, properties=...)", network)
+                    refreshState()
+                }
+
+                override fun onBlockedStatusChanged(network: Network, blocked: Boolean) {
+                    Timber.tag(TAG).v("onBlockedStatusChanged(network=%s, blocked=%s)", network, blocked)
+                    refreshState()
                 }
             }
 
