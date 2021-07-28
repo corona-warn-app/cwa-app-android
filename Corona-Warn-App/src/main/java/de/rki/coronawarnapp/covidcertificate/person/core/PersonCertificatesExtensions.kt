@@ -189,17 +189,25 @@ fun Collection<CwaCovidCertificate>.findHighestPriorityCertificate(
 ): CwaCovidCertificate = this
     .also { Timber.v("findHighestPriorityCertificate(nowUtc=%s): %s", nowUtc, this) }
     .run {
-        val valid = filter {
-            it.getState() is CwaCovidCertificate.State.Valid || it.getState() is CwaCovidCertificate.State.ExpiringSoon
+        val valid = mutableListOf<CwaCovidCertificate>()
+        val expired = mutableListOf<CwaCovidCertificate>()
+        val invalid = mutableListOf<CwaCovidCertificate>()
+
+        this.forEach {
+            when (it.getState()) {
+                is CwaCovidCertificate.State.Valid,
+                is CwaCovidCertificate.State.ExpiringSoon -> valid.add(it)
+                is CwaCovidCertificate.State.Expired -> expired.add(it)
+                CwaCovidCertificate.State.Invalid -> invalid.add(it)
+            }
         }
-        val expired = filter { it.getState() is CwaCovidCertificate.State.Expired }
-        val invalid = filter { it.getState() is CwaCovidCertificate.State.Invalid }
-        if (this.size != (valid.size + expired.size + invalid.size)) {
-            throw IllegalStateException("State grouping failure, certificate count does not match.")
-        }
+
         listOf(valid, expired, invalid)
     }
     .map { certsForState ->
+        // Correct rulefinding depends on the explicit list ordering generated in the previous step
+        // list(list(valid+expiring_soon), list(expired), list(invalid))
+
         certsForState.rule1FindRecentPcrCertificate(nowUtc)?.let {
             Timber.d("Rule 1 match (PCR Test Certificate <= 48 hours): %s", it)
             return@map it
