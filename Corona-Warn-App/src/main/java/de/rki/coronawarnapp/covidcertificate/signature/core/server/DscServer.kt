@@ -21,6 +21,7 @@ class DscServer @Inject constructor(
 
     suspend fun getDscList(): ByteArray {
         return try {
+            Timber.d("getDscList()")
             dscApi.dscList().parseAndValidate()
         } catch (e: Exception) {
             if (e is DscValidationException) throw e

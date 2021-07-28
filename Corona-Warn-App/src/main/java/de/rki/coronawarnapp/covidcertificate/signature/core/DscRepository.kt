@@ -31,7 +31,15 @@ class DscRepository @Inject constructor(
             replayExpirationMillis = 0
         ),
     ) {
-        localStorage.load() ?: defaultDscData.getDscData()
+        Timber.tag(TAG).d("internalData")
+        val localData = localStorage.load()
+        if (localData != null) {
+            Timber.tag(TAG).v("localStorage data exists")
+            localData
+        } else {
+            Timber.tag(TAG).v("Reading from defaultDscData")
+            defaultDscData.getDscData()
+        }
     }
 
     val dscData = internalData.data
