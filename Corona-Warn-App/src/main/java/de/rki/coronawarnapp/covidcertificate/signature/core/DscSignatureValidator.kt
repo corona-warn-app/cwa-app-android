@@ -60,8 +60,8 @@ class DscSignatureValidator @Inject constructor(
     /**
      * @throws InvalidHealthCertificateException if validation fail, otherwise it is OK!
      */
-    suspend fun validateSignature(dccData: DccData<*>) {
-        val dscData = dscRepository.dscData.first()
+    suspend fun validateSignature(dccData: DccData<*>, preFetchedDscData: DscData? = null) {
+        val dscData = preFetchedDscData ?: dscRepository.dscData.first()
         Timber.tag(TAG).d("validateSignature(dscListSize=%s)", dscData.dscList.size)
 
         findDscCertificate(dscData, dccData.dscMessage).apply {

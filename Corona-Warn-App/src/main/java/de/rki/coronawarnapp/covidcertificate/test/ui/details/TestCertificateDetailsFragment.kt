@@ -15,6 +15,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
+import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
+import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationNoInternetErrorDialog
 import de.rki.coronawarnapp.databinding.FragmentTestCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
@@ -116,7 +118,11 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     private fun FragmentTestCertificateDetailsBinding.onError(error: Throwable) {
         startValidationCheck.isLoading = false
         qrCodeCard.progressBar.hide()
-        error.toErrorDialogBuilder(requireContext()).show()
+        if (error is DccValidationException && error.errorCode == DccValidationException.ErrorCode.NO_NETWORK) {
+            DccValidationNoInternetErrorDialog(requireContext()).show()
+        } else {
+            error.toErrorDialogBuilder(requireContext()).show()
+        }
     }
 
     private fun FragmentTestCertificateDetailsBinding.onNavEvent(event: TestCertificateDetailsNavigation) {
