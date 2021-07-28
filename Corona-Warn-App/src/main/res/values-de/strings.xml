@@ -568,8 +568,8 @@
     <string name="settings_off">"Aus"</string>
     <!-- XHED: settings(tracing) - page title -->
     <string name="settings_tracing_title">"Risiko-Ermittlung"</string>
-    <!-- XHED: settings(tracing) - headline bellow illustration -->
-    <string name="settings_tracing_headline">"So funktioniert die Risiko-Ermittlung"</string>
+    <!-- XHED: settings(tracing) - headline below illustration -->
+    <string name="settings_tracing_headline">"So funktioniert die Begegnungs-Aufzeichnung"</string>
     <!-- XTXT: settings(tracing) - explain text in settings overview under headline -->
     <string name="settings_tracing_body_description">"Erlauben Sie Erfassung und Weitergabe von COVID-19-Zufalls-IDs."</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, active -->
@@ -578,6 +578,8 @@
     <string name="settings_tracing_body_inactive">"Risiko-Ermittlung gestoppt"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
     <string name="settings_tracing_body_inactive_location">"Standortdienste deaktiviert"</string>
+    <!-- XHED: settings(tracing) - headline of tracing explanation -->
+    <string name="settings_tracing_body_headline">"So funktioniert die Risiko-Ermittlung"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
     <string name="settings_tracing_body_text">"Um zu erkennen, ob für Sie ein Ansteckungsrisiko vorliegt, müssen Sie die Risiko-Ermittlung aktivieren. Die Risiko-Ermittlung funktioniert länderübergreifend, so dass auch Risiko-Begegnungen mit Nutzern von anderen offiziellen Corona-Apps erkannt werden.\n\nDie Risiko-Ermittlung funktioniert, indem Ihr Android-Smartphone per Bluetooth verschlüsselte Zufalls-IDs anderer App nutzenden Personen empfängt und Ihre eigenen Zufalls-IDs an deren Smartphone weitergibt. Die App lädt täglich Listen mit den Zufalls-IDs und eventuellen Angaben zum Symptombeginn aller Corona-positiv getesteten Nutzer herunter, die ihr Testergebnis (genauer gesagt: ihre Zufalls-IDs) freiwillig über ihre App geteilt haben. Diese Liste wird dann mit den von Ihrem Android-Smartphone aufgezeichneten Zufalls-IDs anderer Nutzer, denen Sie begegnet sind, verglichen, um Ihr Ansteckungsrisiko zu berechnen und Sie zu warnen. \n\nDie Risiko-Ermittlung lässt sich jederzeit über den Schieberegler deaktivieren.\n\nPersönliche Daten wie Ihr Name, Ihre Adresse oder Ihr Aufenthaltsort werden über die App zu keiner Zeit erfasst oder an andere Nutzer übermittelt. Rückschlüsse auf einzelne Personen sind anhand der Zufalls-IDs nicht möglich."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
