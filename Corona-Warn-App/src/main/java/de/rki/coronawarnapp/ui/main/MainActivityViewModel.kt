@@ -95,7 +95,7 @@ class MainActivityViewModel @AssistedInject constructor(
     fun onBottomNavSelected() {
         mutableIsContactDiaryOnboardingDone.value = contactDiarySettings.isOnboardingDone
         mutableIsTraceLocationOnboardingDone.value = traceLocationSettings.isOnboardingDone
-        mutableIsVaccinationOnboardingDone.value = covidCertificateSettings.isOnboardingDone
+        mutableIsVaccinationOnboardingDone.value = covidCertificateSettings.isOnboarded.value
     }
 
     private suspend fun checkForEnergyOptimizedEnabled() {

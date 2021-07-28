@@ -63,10 +63,14 @@ class DccV1Parser @Inject constructor(
                 )
             else this
         Mode.CERT_VAC_LENIENT -> {
-            if (vaccinations.isNullOrEmpty())
-                throw InvalidHealthCertificateException(ErrorCode.NO_VACCINATION_ENTRY)
-            Timber.w("Lenient: Vaccination data contained multiple entries.")
-            copy(vaccinations = listOf(vaccinations.maxByOrNull { it.vaccinatedOn }!!))
+            when {
+                vaccinations.isNullOrEmpty() -> throw InvalidHealthCertificateException(ErrorCode.NO_VACCINATION_ENTRY)
+                vaccinations.size > 1 -> {
+                    Timber.w("Lenient: Vaccination data contained multiple entries.")
+                    copy(vaccinations = listOf(vaccinations.maxByOrNull { it.vaccinatedOn }!!))
+                }
+                else -> this
+            }
         }
         Mode.CERT_REC_STRICT ->
             if (recoveries?.size != 1)

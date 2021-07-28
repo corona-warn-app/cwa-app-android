@@ -23,7 +23,7 @@ import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.notification.RATTestResultAvailableNotificationService
-import de.rki.coronawarnapp.covidcertificate.signature.core.execution.DccStateCheckScheduler
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalScheduler
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.execution.VaccinationUpdateScheduler
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
@@ -52,9 +52,7 @@ import de.rki.coronawarnapp.util.hasAPILevel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.conscrypt.Conscrypt
 import timber.log.Timber
-import java.security.Security
 import javax.inject.Inject
 
 class CoronaWarnApplication : Application(), HasAndroidInjector {
@@ -94,6 +92,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var localStatisticsRetrievalScheduler: LocalStatisticsRetrievalScheduler
     @Inject lateinit var imageLoaderFactory: ImageLoaderFactory
     @Inject lateinit var dccStateCheckScheduler: DccStateCheckScheduler
+    @Inject lateinit var securityProvider: SecurityProvider
 
     @AppScope
     @Inject lateinit var appScope: CoroutineScope
@@ -121,9 +120,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
 
         Timber.v("onCreate(): WorkManager setup done: $workManager")
 
-        // Enable Conscrypt for TLS1.3 Support below API Level 29
-        Security.insertProviderAt(Conscrypt.newProvider(), 1)
-
+        securityProvider.setup()
         // See de.rki.coronawarnapp.util.coil.CoilModule::class
         Coil.setImageLoader(imageLoaderFactory)
 

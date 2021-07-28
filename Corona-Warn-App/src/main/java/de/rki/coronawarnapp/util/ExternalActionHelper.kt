@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.R
@@ -63,6 +64,8 @@ object ExternalActionHelper {
             )
         }
     }
+
+    fun Fragment.openUrl(@StringRes urlRes: Int) = openUrl(getString(urlRes))
 
     /**
      * Opens a given url in the client default browser
