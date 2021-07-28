@@ -14,7 +14,7 @@ class DefaultDscSource @Inject constructor(
 ) {
 
     fun getDscData(): DscData {
-        val rawData = context.assets.open("default_dsc_list.bin").readBytes()
+        val rawData = context.assets.open("default_dsc_list.bin").use { it.readBytes() }
         return dscDataParser.parse(rawData)
     }
 }
