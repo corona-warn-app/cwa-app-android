@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson.Status.IMMUNITY
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.databinding.VaccinationCertificateCardBinding
-import de.rki.coronawarnapp.util.CertificateStateHelper
+import de.rki.coronawarnapp.util.CertificateStateHelper.displayIndividualCardsExpirationState
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
@@ -58,11 +58,7 @@ class VaccinationCertificateCard(parent: ViewGroup) :
         certificateBg.setImageResource(background)
         certificateIcon.setImageResource(icon)
 
-        CertificateStateHelper.displayIndividualCardsExpirationState(
-            certificateExpiration,
-            context,
-            curItem.certificate
-        )
+        certificateExpiration.displayIndividualCardsExpirationState(curItem.certificate)
     }
 
     data class Item(

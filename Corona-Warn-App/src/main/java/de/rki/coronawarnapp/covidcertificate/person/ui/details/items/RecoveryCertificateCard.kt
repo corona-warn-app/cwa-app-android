@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdap
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.databinding.RecoveryCertificateCardBinding
-import de.rki.coronawarnapp.util.CertificateStateHelper
+import de.rki.coronawarnapp.util.CertificateStateHelper.displayIndividualCardsExpirationState
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
@@ -42,11 +42,7 @@ class RecoveryCertificateCard(parent: ViewGroup) :
         }
         certificateBg.setImageResource(background)
 
-        CertificateStateHelper.displayIndividualCardsExpirationState(
-            certificateExpiration,
-            context,
-            curItem.certificate
-        )
+        certificateExpiration.displayIndividualCardsExpirationState(curItem.certificate)
     }
 
     data class Item(
