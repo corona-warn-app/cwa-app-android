@@ -12,8 +12,8 @@
         android:id="@+id/certificate_bg"
         android:layout_width="88dp"
         android:layout_height="95dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="@dimen/spacing_small"
+        android:layout_marginTop="@dimen/spacing_small"
         android:importantForAccessibility="no"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -35,8 +35,8 @@
         style="@style/body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/spacing_small"
         android:text="@string/vaccination_certificate_name"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -49,8 +49,8 @@
         style="@style/body2Medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/spacing_small"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/certificate_bg"
         app:layout_constraintTop_toBottomOf="@id/vaccination_certificate_name"
@@ -61,12 +61,25 @@
         style="@style/body2Medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="@dimen/spacing_small"
+        android:layout_marginTop="@dimen/spacing_mega_tiny"
         app:layout_constraintEnd_toEndOf="@+id/vaccination_doses_info"
         app:layout_constraintStart_toEndOf="@id/certificate_bg"
         app:layout_constraintTop_toBottomOf="@id/vaccination_doses_info"
         tools:text="geimpft am 01.06.21" />
+
+    <TextView
+        android:id="@+id/certificate_expiration"
+        style="@style/body2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_mega_tiny"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/certificate_date"
+        app:layout_constraintStart_toStartOf="@id/certificate_date"
+        app:layout_constraintTop_toBottomOf="@id/certificate_date"
+        tools:text="läuft am 21.08.21 um 14:12 Uhr ab"
+        tools:visibility="visible" />
 
     <ImageView
         android:id="@+id/bookmark"
@@ -83,12 +96,12 @@
         android:id="@+id/bookmark_info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="@dimen/spacing_tiny"
         android:layout_marginTop="12dp"
         android:text="@string/certificate_card_bookmark_info"
         app:layout_constraintEnd_toEndOf="@id/certificate_date"
         app:layout_constraintStart_toEndOf="@id/bookmark"
-        app:layout_constraintTop_toBottomOf="@id/certificate_date" />
+        app:layout_constraintTop_toBottomOf="@id/certificate_expiration" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/current_certificate"
@@ -106,7 +119,7 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="16dp"
+        android:layout_height="@dimen/spacing_small"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bottom_barrier" />
 
