@@ -172,6 +172,7 @@ class PersonDetailsViewModelTest : BaseTest() {
         every { registeredAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
         every { personIdentifier } returns certificatePersonIdentifier
         every { qrCode } returns "qrCode"
+        every { isValid } returns true
     }
 
     private fun mockVaccinationCertificate(number: Int = 1, final: Boolean = false): VaccinationCertificate =
@@ -192,6 +193,7 @@ class PersonDetailsViewModelTest : BaseTest() {
             every { totalSeriesOfDoses } returns 2
             every { isFinalShot } returns final
             every { qrCode } returns "qrCode"
+            every { isValid } returns true
         }
 
     private fun mockRecoveryCertificate(): RecoveryCertificate =
@@ -201,6 +203,7 @@ class PersonDetailsViewModelTest : BaseTest() {
             every { personIdentifier } returns certificatePersonIdentifier
             every { qrCode } returns "qrCode"
             every { containerId } returns rcContainerId
+            every { isValid } returns true
         }
 
     private val certificatePersonIdentifier = CertificatePersonIdentifier(
