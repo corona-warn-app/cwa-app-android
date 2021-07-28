@@ -36,7 +36,7 @@ enum class PersonColorShade(
     companion object {
         fun shadeFor(index: Int): PersonColorShade {
             val values = values()
-            return values.getOrElse(index.rem(values.size)) { COLOR_1 }
+            return values.getOrElse(index.rem(values.size - 1)) { COLOR_1 }
         }
     }
 }
