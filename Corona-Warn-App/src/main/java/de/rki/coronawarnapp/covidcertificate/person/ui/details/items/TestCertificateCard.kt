@@ -34,7 +34,10 @@ class TestCertificateCard(parent: ViewGroup) :
             certificate.sampleCollectedAt.toUserTimeZone().toDayFormat()
         )
         testCertificateType.text = certificate.testType
+
+        val bookmarkIcon = if (curItem.certificate.isValid) R.drawable.ic_bookmark_blue else R.drawable.ic_bookmark
         currentCertificate.isVisible = curItem.isCurrentCertificate
+        bookmark.setImageResource(bookmarkIcon)
 
         val color = when {
             curItem.certificate.isValid -> curItem.colorShade
