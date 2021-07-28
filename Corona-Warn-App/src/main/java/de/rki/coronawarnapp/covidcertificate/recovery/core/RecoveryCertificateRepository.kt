@@ -1,15 +1,16 @@
 package de.rki.coronawarnapp.covidcertificate.recovery.core
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidRecoveryCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateStorage
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.StoredRecoveryCertificateData
-import de.rki.coronawarnapp.covidcertificate.signature.core.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -26,6 +27,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.plus
+import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -122,6 +124,33 @@ class RecoveryCertificateRepository @Inject constructor(
         internalData.updateBlocking {
             Timber.tag(TAG).v("Deleting: %s", this)
             emptySet()
+        }
+    }
+
+    suspend fun setNotifiedState(
+        containerId: RecoveryCertificateContainerId,
+        state: CwaCovidCertificate.State,
+        time: Instant?,
+    ) {
+        Timber.tag(TAG).d("setNotifiedAboutState(containerId=$containerId, time=$time)")
+        internalData.updateBlocking {
+            val toUpdate = singleOrNull { it.containerId == containerId }
+            if (toUpdate == null) {
+                Timber.tag(TAG).w("Couldn't find %s", containerId)
+                return@updateBlocking this
+            }
+
+            val newData = when (state) {
+                is CwaCovidCertificate.State.Expired -> toUpdate.data.copy(notifiedExpiredAt = time)
+                is CwaCovidCertificate.State.ExpiringSoon -> toUpdate.data.copy(notifiedExpiresSoonAt = time)
+                else -> throw UnsupportedOperationException("$state is not supported.")
+            }
+
+            this.minus(toUpdate).plus(
+                toUpdate.copy(data = newData).also {
+                    Timber.tag(TAG).d("Updated %s", it)
+                }
+            )
         }
     }
 

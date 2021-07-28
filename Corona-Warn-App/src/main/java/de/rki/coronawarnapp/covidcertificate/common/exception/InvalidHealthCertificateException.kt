@@ -43,13 +43,20 @@ open class InvalidHealthCertificateException(
         AES_DECRYPTION_FAILED("AES decryption failed"),
         RSA_DECRYPTION_FAILED("RSA decryption failed."),
         RSA_KP_GENERATION_FAILED("RSA key pair generation failed."),
+
+        HC_COSE_NO_SIGN1("Signature is not a byte sequence."),
+        HC_COSE_PH_INVALID("Parsing of the protected header fails."),
+        HC_COSE_NO_ALG("No algorithm key."),
+        HC_COSE_UNKNOWN_ALG("Unknown algorithm."),
+        HC_DSC_NO_MATCH("No DSC match."),
+        HC_DSC_OID_MISMATCH_TC("Test certificate OID mismatch."),
+        HC_DSC_OID_MISMATCH_VC("Vaccination certificate OID mismatch."),
+        HC_DSC_OID_MISMATCH_RC("Recovery certificate OID mismatch."),
+        HC_DSC_NOT_YET_VALID("DSC is not valid yet."),
+        HC_DSC_EXPIRED("DSC expired."),
     }
 
-    open val showFaqButton: Boolean
-        get() = errorCode in codesCertificateInvalid
-    open val faqButtonText: Int = R.string.error_button_dcc_faq
-    open val faqLink: Int = R.string.error_button_dcc_faq_link
-
+    val isCertificateInvalid: Boolean get() = errorCode in codesCertificateInvalid
     private val codesCertificateInvalid = listOf(
         ErrorCode.HC_BASE45_DECODING_FAILED,
         ErrorCode.HC_CBOR_DECODING_FAILED,
@@ -64,6 +71,20 @@ open class InvalidHealthCertificateException(
         ErrorCode.HC_JSON_SCHEMA_INVALID
     )
 
+    val isSignatureInvalid: Boolean get() = errorCode in signatureErrorCodes
+    private val signatureErrorCodes = listOf(
+        ErrorCode.HC_COSE_NO_SIGN1,
+        ErrorCode.HC_COSE_PH_INVALID,
+        ErrorCode.HC_COSE_NO_ALG,
+        ErrorCode.HC_COSE_UNKNOWN_ALG,
+        ErrorCode.HC_DSC_NO_MATCH,
+        ErrorCode.HC_DSC_OID_MISMATCH_TC,
+        ErrorCode.HC_DSC_OID_MISMATCH_VC,
+        ErrorCode.HC_DSC_OID_MISMATCH_RC,
+        ErrorCode.HC_DSC_NOT_YET_VALID,
+        ErrorCode.HC_DSC_EXPIRED,
+    )
+
     open val errorMessage: LazyString
         get() = when (errorCode) {
             ErrorCode.STORING_FAILED -> CachedString { context ->
@@ -74,6 +95,10 @@ open class InvalidHealthCertificateException(
             }
             in codesCertificateInvalid -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_CERTIFICATE_INVALID)
+            }
+
+            in signatureErrorCodes -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_SIGNATURE_INVALID)
             }
             else -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_GENERIC)
@@ -87,6 +112,7 @@ open class InvalidHealthCertificateException(
     }
 }
 
+private const val ERROR_MESSAGE_SIGNATURE_INVALID = R.string.dcc_signature_validation_dialog_message
 private const val ERROR_MESSAGE_CERTIFICATE_INVALID = R.string.error_dcc_invalid
 private const val ERROR_MESSAGE_SCAN_AGAIN = R.string.error_dcc_scan_again
 private const val ERROR_MESSAGE_ALREADY_REGISTERED = R.string.error_dcc_already_registered

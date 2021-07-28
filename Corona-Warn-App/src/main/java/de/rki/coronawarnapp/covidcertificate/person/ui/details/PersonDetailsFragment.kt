@@ -11,6 +11,8 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
+import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
+import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationNoInternetErrorDialog
 import de.rki.coronawarnapp.databinding.PersonDetailsFragmentBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
@@ -105,7 +107,13 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                 PersonDetailsFragmentDirections
                     .actionPersonDetailsFragmentToValidationStartFragment(event.containerId)
             )
-            is ShowErrorDialog -> event.error.toErrorDialogBuilder(requireContext()).show()
+            is ShowErrorDialog -> with(event) {
+                if (error is DccValidationException && error.errorCode == DccValidationException.ErrorCode.NO_NETWORK) {
+                    DccValidationNoInternetErrorDialog(requireContext()).show()
+                } else {
+                    error.toErrorDialogBuilder(requireContext()).show()
+                }
+            }
             Back -> popBackStack()
         }
     }
