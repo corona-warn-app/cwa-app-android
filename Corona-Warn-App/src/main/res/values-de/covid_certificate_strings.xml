@@ -280,8 +280,6 @@
     <string name="dcc_signature_validation_dialog_faq_button">FAQ zur Signaturprüfung</string>
     <!-- XTXT: Signature validation dialog FAQ lint-->
     <string name="dcc_signature_validation_dialog_faq_link">https://www.coronawarn.app/de/faq/#hc_signature_invalid</string>
-    <!-- XBUT: Signature validation dialog OK button-->
-    <string name="dcc_signature_validation_dialog_ok_button">OK</string>
 
     <!-- Expiration notification -->
     <!-- XTXT: expiring soon notification -->
