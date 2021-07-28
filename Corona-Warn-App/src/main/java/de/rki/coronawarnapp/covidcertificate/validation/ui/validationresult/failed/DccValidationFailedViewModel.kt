@@ -42,8 +42,9 @@ class DccValidationFailedViewModel @AssistedInject constructor(
                     " ${DccValidation.State.TECHNICAL_FAILURE.name} but was ${validation.state.name}"
             )
             DccValidation.State.TECHNICAL_FAILURE -> {
+                val certificate = certificateProvider.findCertificate(containerId)
                 items.add(ruleHeaderVHItem(state = DccValidation.State.TECHNICAL_FAILURE))
-                items.add(technicalValidationFailedVHItem(validation = validation))
+                items.add(technicalValidationFailedVHItem(validation, certificate))
             }
             DccValidation.State.FAILURE -> {
                 val certificate = certificateProvider.findCertificate(containerId)
