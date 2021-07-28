@@ -97,7 +97,7 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     }
 }
 
-fun TextView.displayIndividualCardsExpirationState(certificate: CwaCovidCertificate) {
+fun TextView.displayExpirationState(certificate: CwaCovidCertificate) {
     when (certificate.getState()) {
         is CwaCovidCertificate.State.ExpiringSoon -> {
             isVisible = true
