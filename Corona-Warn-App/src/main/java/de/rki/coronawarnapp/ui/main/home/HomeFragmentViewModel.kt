@@ -155,8 +155,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
         combinedStatistics,
         appConfigProvider.currentConfig.map { it.coronaTestParameters }.distinctUntilChanged(),
         vaccinationRepository.vaccinationInfos,
-        networkStateProvider.networkState
-    ) { tracingItem, testPCR, testRAT, statsData, coronaTestParameters, vaccinatedPersons, networkState ->
+        networkStateProvider.networkState.map { it.isInternetAvailable }.distinctUntilChanged()
+    ) { tracingItem, testPCR, testRAT, statsData, coronaTestParameters, vaccinatedPersons, isInternetAvailable ->
         val statePCR = testPCR.toSubmissionState()
         val stateRAT = testRAT.toSubmissionState(timeStamper.nowUTC, coronaTestParameters)
         mutableListOf<HomeItem>().apply {
@@ -203,10 +203,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 }
             }
             // **************************************************************************
-            Timber.d("Test: is internet available? ${networkState.isInternetAvailable}")
+            Timber.d("Test: is internet available? $isInternetAvailable")
             // **************************************************************************
 
-            if (statsData.isDataAvailable || networkState.isInternetAvailable) {
+            if (statsData.isDataAvailable || isInternetAvailable) {
                 add(
                     StatisticsHomeCard.Item(
                         data = statsData,
@@ -215,7 +215,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                                 is AddStatsItem -> {
                                     events.postValue(HomeFragmentEvents.GoToFederalStateSelection)
                                     // Go to federal state selection if internet is available
-                                    if (networkState.isInternetAvailable) {
+                                    if (isInternetAvailable) {
                                         events.postValue(HomeFragmentEvents.GoToFederalStateSelection)
                                     } else {
                                         events.postValue(HomeFragmentEvents.ShowInternetNotAvailableDialog)
