@@ -20,8 +20,8 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationN
 import de.rki.coronawarnapp.databinding.FragmentTestCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
-import de.rki.coronawarnapp.util.CertificateStateHelper.bindValidityViews
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
+import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
@@ -71,7 +71,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     private fun FragmentTestCertificateDetailsBinding.onCertificateReady(
         certificate: TestCertificate
     ) {
-        qrCodeCard.bindValidityViews(root.context, certificate, isCertificateDetails = true)
+        qrCodeCard.bindValidityViews(certificate, isCertificateDetails = true)
         name.text = certificate.fullName
         dateOfBirth.text = certificate.dateOfBirthFormatted
         diseaseType.text = certificate.targetName

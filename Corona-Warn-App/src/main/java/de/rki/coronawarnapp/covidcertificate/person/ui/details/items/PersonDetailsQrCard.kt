@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
 import de.rki.coronawarnapp.databinding.IncludeCertificateQrcodeCardBinding
-import de.rki.coronawarnapp.util.CertificateStateHelper.bindValidityViews
+import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
@@ -39,7 +39,7 @@ class PersonDetailsQrCard(parent: ViewGroup) :
                 validateCertificate(certificate.containerId)
             }
             startValidationCheckButton.isLoading = curItem.isLoading
-            bindValidityViews(context, certificate, isPersonDetails = true)
+            bindValidityViews(certificate, isPersonDetails = true)
         }
     }
 
