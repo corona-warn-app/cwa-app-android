@@ -15,20 +15,22 @@ import de.rki.coronawarnapp.util.QrCodeHelper
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
+import de.rki.coronawarnapp.databinding.IncludeCertificateQrcodeCardBinding
+import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 
 class PersonDetailsQrCard(parent: ViewGroup) :
-    PersonDetailsAdapter.PersonDetailsItemVH<PersonDetailsQrCard.Item, PersonDetailsQrCardItemBinding>(
-        layoutRes = R.layout.person_details_qr_card_item,
+    PersonDetailsAdapter.PersonDetailsItemVH<PersonDetailsQrCard.Item, IncludeCertificateQrcodeCardBinding>(
+        layoutRes = R.layout.include_certificate_qrcode_card,
         parent = parent
     ) {
-    override val viewBinding: Lazy<PersonDetailsQrCardItemBinding> = lazy {
-        PersonDetailsQrCardItemBinding.bind(itemView)
+    override val viewBinding: Lazy<IncludeCertificateQrcodeCardBinding> = lazy {
+        IncludeCertificateQrcodeCardBinding.bind(itemView)
     }
 
-    override val onBindData: PersonDetailsQrCardItemBinding.(
+    override val onBindData: IncludeCertificateQrcodeCardBinding.(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
@@ -46,30 +48,6 @@ class PersonDetailsQrCard(parent: ViewGroup) :
                 validateCertificate(certificate.containerId)
             }
             startValidationCheckButton.isLoading = curItem.isLoading
-            when (certificate) {
-                is TestCertificate -> {
-                    val dateTime = certificate.sampleCollectedAt.toUserTimeZone().run {
-                        "${toShortDayFormat()}, ${toShortTimeFormat()}"
-                    }
-
-                    qrTitle.text = context.getString(R.string.test_certificate_name)
-                    qrSubtitle.text = context.getString(R.string.test_certificate_qrcode_card_sampled_on, dateTime)
-                }
-                is VaccinationCertificate -> {
-                    qrTitle.text = context.getString(R.string.vaccination_details_subtitle)
-                    qrSubtitle.text = context.getString(
-                        R.string.vaccination_certificate_vaccinated_on,
-                        certificate.vaccinatedOn.toShortDayFormat()
-                    )
-                }
-                is RecoveryCertificate -> {
-                    qrTitle.text = context.getString(R.string.recovery_certificate_name)
-                    qrSubtitle.text = context.getString(
-                        R.string.recovery_certificate_valid_until,
-                        certificate.validUntil.toShortDayFormat()
-                    )
-                }
-            }
 
             if (QrCodeHelper.isInvalidOrExpired(certificate.getState())) {
                 image.alpha = 0.1f
@@ -77,6 +55,7 @@ class PersonDetailsQrCard(parent: ViewGroup) :
             } else {
                 invalidQrCodeSymbol.isVisible = false
             }
+            bindValidityViews(certificate, isPersonDetails = true)
         }
     }
 

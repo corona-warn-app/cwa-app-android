@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.databinding.PersonOverviewItemBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.QrCodeHelper
+import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
@@ -33,11 +34,11 @@ class PersonCertificateCard(parent: ViewGroup) :
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
         name.text = curItem.certificate.fullName
 
-        qrcodeImage.loadAny(
+        qrCodeCard.image.loadAny(
             CoilQrCode(content = curItem.certificate.qrCode)
         ) {
             crossfade(true)
-            loadingView(qrcodeImage, qrCodeLoadingIndicator)
+            loadingView(qrCodeCard.image, qrCodeCard.progressBar)
         }
 
         backgroundImage.setImageResource(curItem.colorShade.background)
@@ -57,6 +58,7 @@ class PersonCertificateCard(parent: ViewGroup) :
             invalidQrCodeSymbol.isVisible = false
             backgroundImage.setImageResource(R.drawable.certificate_complete_gradient)
         }
+        qrCodeCard.bindValidityViews(curItem.certificate, isPersonOverview = true)
     }
 
     private fun starsDrawable(item: Item) =
