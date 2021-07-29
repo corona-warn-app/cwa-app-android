@@ -119,7 +119,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         }
 
         qrCodeCard.apply {
-            image.loadAny(CoilQrCode(content = certificate.qrCode)) {
+            image.loadAny(certificate.qrCodeToDisplay) {
                 crossfade(true)
                 loadingView(image, progressBar)
             }
@@ -142,7 +142,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
             TestCertificateDetailsNavigation.Back -> popBackStack()
             is TestCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
                 R.id.action_global_qrCodeFullScreenFragment,
-                QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
+                QrCodeFullScreenFragmentArgs(event.qrCode).toBundle(),
                 null,
                 FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
             )

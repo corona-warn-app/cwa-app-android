@@ -13,12 +13,12 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePerso
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
-import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragmentArgs
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsViewModel
+import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -118,8 +118,8 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
                     get() = testDate
                 override val headerExpiresAt: Instant
                     get() = testDate
-                override val qrCode: QrCodeString
-                    get() = ScreenshotCertificateTestData.testCertificate
+                override val qrCodeToDisplay: CoilQrCode
+                    get() = CoilQrCode(ScreenshotCertificateTestData.testCertificate)
                 override val firstName: String
                     get() = "Andrea"
                 override val lastName: String

@@ -85,7 +85,7 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
                     findNavController().navigate(R.id.submissionConsentFragment)
                 is ProfileQrCodeNavigation.FullQrCode -> findNavController().navigate(
                     R.id.action_global_qrCodeFullScreenFragment,
-                    QrCodeFullScreenFragmentArgs(it.qrcodeText).toBundle(),
+                    QrCodeFullScreenFragmentArgs(it.qrCode).toBundle(),
                     null,
                     FragmentNavigatorExtras(binding.qrCodeImage to binding.qrCodeImage.transitionName)
                 )
