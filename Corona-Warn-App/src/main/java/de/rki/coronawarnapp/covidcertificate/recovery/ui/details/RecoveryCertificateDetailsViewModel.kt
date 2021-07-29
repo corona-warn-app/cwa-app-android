@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertifica
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -21,18 +22,18 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
     private val dccValidationRepository: DccValidationRepository
 ) : CWAViewModel(dispatcherProvider) {
 
-    private var qrCodeText: String? = null
+    private var qrCode: CoilQrCode? = null
     val events = SingleLiveEvent<RecoveryCertificateDetailsNavigation>()
     val errors = SingleLiveEvent<Throwable>()
     val recoveryCertificate = recoveryCertificateRepository.certificates.map { certificates ->
         certificates.find { it.containerId == containerId }?.recoveryCertificate?.also {
-            qrCodeText = it.qrCode
+            qrCode = it.qrCodeToDisplay
         }
     }.asLiveData(dispatcherProvider.Default)
 
     fun onClose() = events.postValue(RecoveryCertificateDetailsNavigation.Back)
 
-    fun openFullScreen() = qrCodeText?.let { events.postValue(RecoveryCertificateDetailsNavigation.FullQrCode(it)) }
+    fun openFullScreen() = qrCode?.let { events.postValue(RecoveryCertificateDetailsNavigation.FullQrCode(it)) }
 
     fun onDeleteRecoveryCertificateConfirmed() = launch {
         Timber.d("Removing Recovery Certificate=$containerId")

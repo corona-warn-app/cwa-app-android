@@ -29,10 +29,7 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as QrCodeFullScreenViewModel.Factory
-            factory.create(
-                qrcodeText = args.qrCodeText,
-                correctionLevel = args.correctionLevel
-            )
+            factory.create(qrCode = args.qrCode)
         }
     )
 
@@ -55,7 +52,7 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
             root.setOnClickListener { viewModel.switchImmersiveMode() }
 
             postponeEnterTransition()
-            viewModel.qrcode.observe(viewLifecycleOwner) {
+            viewModel.qrCodeRequest.observe(viewLifecycleOwner) {
                 qrCodeImage.loadAny(it) {
                     crossfade(true)
                 }
