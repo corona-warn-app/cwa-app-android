@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.person.core
 
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
@@ -51,11 +52,25 @@ class PersonCertificatesExtensionsTest : BaseTest() {
         val first = mockk<TestCertificate>().apply {
             every { rawCertificate.test.testType } returns "LP6464-4"
             every { rawCertificate.test.sampleCollectedAt } returns time
+            every { getState() } returns mockk<State.ExpiringSoon>()
+        }
+
+        val firstButExpired = mockk<TestCertificate>().apply {
+            every { rawCertificate.test.testType } returns "LP6464-4"
+            every { rawCertificate.test.sampleCollectedAt } returns time
+            every { getState() } returns mockk<State.Expired>()
         }
 
         val second = mockk<TestCertificate>().apply {
             every { rawCertificate.test.testType } returns "LP217198-3"
             every { rawCertificate.test.sampleCollectedAt } returns time
+            every { getState() } returns mockk<State.Valid>()
+        }
+
+        val secondButInvalid = mockk<TestCertificate>().apply {
+            every { rawCertificate.test.testType } returns "LP217198-3"
+            every { rawCertificate.test.sampleCollectedAt } returns time
+            every { getState() } returns mockk<State.Invalid>()
         }
 
         val third = mockk<VaccinationCertificate>().apply {
@@ -64,45 +79,67 @@ class PersonCertificatesExtensionsTest : BaseTest() {
             every {
                 rawCertificate.vaccination.vaccinatedOn
             } returns time.minus(Duration.standardDays(15)).toLocalDateUtc()
+            every { getState() } returns mockk<State.Valid>()
         }
 
         val fourth = mockk<RecoveryCertificate>().apply {
             every { rawCertificate.recovery.validFrom } returns time.toLocalDateUtc()
+            every { getState() } returns mockk<State.Valid>()
         }
 
         val fifth = mockk<VaccinationCertificate>().apply {
             every { rawCertificate.vaccination.doseNumber } returns 2
             every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
             every { rawCertificate.vaccination.vaccinatedOn } returns time.toLocalDateUtc()
+            every { getState() } returns mockk<State.Valid>()
         }
 
         val sixth = mockk<VaccinationCertificate>().apply {
             every { rawCertificate.vaccination.doseNumber } returns 1
             every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
             every { rawCertificate.vaccination.vaccinatedOn } returns time.toLocalDateUtc()
+            every { getState() } returns mockk<State.Valid>()
         }
 
         val seventh = mockk<RecoveryCertificate>().apply {
             every { rawCertificate.recovery.validFrom } returns time.minus(Duration.standardDays(181)).toLocalDateUtc()
+            every { getState() } returns mockk<State.Valid>()
         }
 
         val eighth = mockk<TestCertificate>().apply {
             every { rawCertificate.test.testType } returns "LP6464-4"
             every { rawCertificate.test.sampleCollectedAt } returns time.minus(Duration.standardHours(149))
+            every { getState() } returns mockk<State.Valid>()
         }
 
         val ninth = mockk<TestCertificate>().apply {
             every { rawCertificate.test.testType } returns "LP217198-3"
             every { rawCertificate.test.sampleCollectedAt } returns time.minus(Duration.standardHours(25))
+            every { getState() } returns mockk<State.Valid>()
         }
 
         val fallback = mockk<TestCertificate>().apply {
             every { rawCertificate.test.testType } returns "Not-LP6464-4"
             every { rawCertificate.test.sampleCollectedAt } returns time
+            every { getState() } returns mockk<State.Invalid>()
         }
 
-        val certificates = mutableListOf(fallback, ninth, eighth, seventh, sixth, fifth, fourth, third, second, first)
+        val certificates = mutableListOf(
+            firstButExpired,
+            secondButInvalid,
+            fallback,
+            ninth,
+            eighth,
+            seventh,
+            sixth,
+            fifth,
+            fourth,
+            third,
+            second,
+            first,
+        )
 
+        // Valid
         certificates.findHighestPriorityCertificate(time) shouldBe first
         certificates.remove(first)
         certificates.findHighestPriorityCertificate(time) shouldBe second
@@ -121,6 +158,15 @@ class PersonCertificatesExtensionsTest : BaseTest() {
         certificates.remove(eighth)
         certificates.findHighestPriorityCertificate(time) shouldBe ninth
         certificates.remove(ninth)
+
+        // Expired
+        certificates.findHighestPriorityCertificate(time) shouldBe firstButExpired
+        certificates.remove(firstButExpired)
+
+        // Invalid
+        certificates.findHighestPriorityCertificate(time) shouldBe secondButInvalid
+        certificates.remove(secondButInvalid)
+
         certificates.findHighestPriorityCertificate(time) shouldBe fallback
         certificates.remove(fallback)
 
