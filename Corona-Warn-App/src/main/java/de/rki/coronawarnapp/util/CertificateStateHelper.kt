@@ -10,9 +10,9 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.databinding.IncludeCertificateQrcodeCardBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 
 fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     certificate: CwaCovidCertificate,
@@ -28,7 +28,7 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
 
     when (certificate) {
         is TestCertificate -> {
-            val dateTime = certificate.sampleCollectedAt.toUserTimeZone().run {
+            val dateTime = certificate.sampleCollectedAt.toLocalDateTimeUserTz().run {
                 "${toShortDayFormat()}, ${toShortTimeFormat()}"
             }
             qrTitle.isVisible = !isPersonOverview
@@ -62,8 +62,8 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
             expirationStatusText.isVisible = true
             expirationStatusText.text = context.getString(
                 R.string.certificate_qr_expiration,
-                certificate.headerExpiresAt.toShortDayFormat(),
-                certificate.headerExpiresAt.toShortTimeFormat()
+                certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortDayFormat(),
+                certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortTimeFormat()
             )
             expirationStatusBody.isVisible = isCertificateDetails
             expirationStatusBody.text = context.getText(R.string.expiration_info)
@@ -109,8 +109,8 @@ fun TextView.displayExpirationState(certificate: CwaCovidCertificate) {
             isVisible = true
             text = context.getString(
                 R.string.certificate_person_details_card_expiration,
-                certificate.headerExpiresAt.toShortDayFormat(),
-                certificate.headerExpiresAt.toShortTimeFormat()
+                certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortDayFormat(),
+                certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortTimeFormat()
             )
         }
 
