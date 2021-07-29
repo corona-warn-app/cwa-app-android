@@ -10,7 +10,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.plus
 import org.joda.time.Duration
-import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -18,7 +17,7 @@ import javax.inject.Singleton
 @Singleton
 class DscRepository @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
-    private val dispatcherProvider: DispatcherProvider,
+    dispatcherProvider: DispatcherProvider,
     private val defaultDscData: DefaultDscSource,
     private val localStorage: LocalDscStorage,
     private val dscServer: DscServer,
@@ -32,18 +31,37 @@ class DscRepository @Inject constructor(
             replayExpirationMillis = 0
         ),
     ) {
-
-        // TODO
-        DscData(
-            dscList = emptyList(),
-            updatedAt = Instant.EPOCH,
-        )
+        Timber.tag(TAG).d("internalData")
+        val localData = localStorage.load()
+        if (localData != null) {
+            Timber.tag(TAG).v("localStorage data exists")
+            localData
+        } else {
+            Timber.tag(TAG).v("Reading from defaultDscData")
+            defaultDscData.getDscData()
+        }
     }
 
     val dscData = internalData.data
 
     suspend fun refresh() {
         Timber.tag(TAG).d("refresh()")
+        internalData.updateBlocking {
+            dscServer.getDscList().let { rawData ->
+                mapDscList(rawData).apply {
+                    localStorage.save(rawData)
+                }
+            }
+        }
+    }
+
+    suspend fun clear() {
+        Timber.d("clear()")
+        localStorage.clear()
+    }
+
+    private fun mapDscList(rawData: ByteArray): DscData {
+        return dscDataParser.parse(rawData)
     }
 
     companion object {
