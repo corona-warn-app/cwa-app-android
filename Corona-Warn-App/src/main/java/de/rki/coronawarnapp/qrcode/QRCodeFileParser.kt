@@ -13,12 +13,12 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
+import com.google.zxing.MultiFormatReader
 
 @Reusable
 class QRCodeFileParser @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
-    private val qrCodeBitmapProvider: QRCodeBitmapProvider,
-    private val qrCodeReader: QRCodeReader
+    private val qrCodeBitmapProvider: QRCodeBitmapProvider
 ) {
 
     suspend fun decodeQrCodeFile(fileUri: Uri): QRCodeParseResult = withContext(dispatcherProvider.IO) {
@@ -33,7 +33,7 @@ class QRCodeFileParser @Inject constructor(
                     val binaryBitmap = BinaryBitmap(HybridBinarizer(source))
 
                     try {
-                        val content = qrCodeReader.decode(binaryBitmap).text
+                        val content = MultiFormatReader().decode(binaryBitmap).text
                         Timber.d("Parsed qr code from image: %s", content)
                         return@withContext QRCodeParseResult.Success(content)
                     } catch (ex: ReaderException) {
