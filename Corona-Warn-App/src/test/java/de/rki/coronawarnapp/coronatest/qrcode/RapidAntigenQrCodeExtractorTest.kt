@@ -14,7 +14,16 @@ class RapidAntigenQrCodeExtractorTest : BaseTest() {
 
     @Test
     fun `valid codes are recognized`() {
-        listOf(raQrCode1, raQrCode2, raQrCode3, raQrCode4, raQrCode5, raQrCode6, raQrCode7, raQrCode8).forEach {
+        listOf(
+            raQrCode1,
+            raQrCode2,
+            raQrCode3,
+            raQrCode4,
+            raQrCode5,
+            raQrCode6,
+            raQrCode7,
+            raQrAnonymousValidHash
+        ).forEach {
             instance.canHandle(it) shouldBe true
         }
     }
@@ -28,7 +37,16 @@ class RapidAntigenQrCodeExtractorTest : BaseTest() {
 
     @Test
     fun `extracting valid codes does not throw exception`() {
-        listOf(raQrCode1, raQrCode2, raQrCode3, raQrCode4, raQrCode5, raQrCode6, raQrCode7, raQrCode8).forEach {
+        listOf(
+            raQrCode1,
+            raQrCode2,
+            raQrCode3,
+            raQrCode4,
+            raQrCode5,
+            raQrCode6,
+            raQrCode7,
+            raQrAnonymousValidHash
+        ).forEach {
             instance.extract(it)
         }
     }
@@ -45,11 +63,11 @@ class RapidAntigenQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `empty strings are treated as null or notset`() {
-        val data = instance.extract(raQrCodeEmptyStrings)
+    fun `empty strings are treated as null or not set`() {
+        val data = instance.extract(raQrAnonymousValidHash)
         data.type shouldBe CoronaTest.Type.RAPID_ANTIGEN
-        data.hash shouldBe "d6e4d0181d8109bf05b346a0d2e0ef0cc472eed70d9df8c4b9ae5c7a009f3e34"
-        data.createdAt shouldBe Instant.ofEpochMilli(1619012952000)
+        data.hash shouldBe "61df099207704a072fb2a97d31687523ca50f5bb031fc58bcd325bd9a976fd68"
+        data.createdAt shouldBe Instant.ofEpochMilli(1627403671000)
         data.dateOfBirth shouldBe null
         data.lastName shouldBe null
         data.firstName shouldBe null
@@ -58,6 +76,11 @@ class RapidAntigenQrCodeExtractorTest : BaseTest() {
     @Test
     fun `personal data is only valid if complete or completely missing`() {
         shouldThrow<InvalidQRCodeException> { instance.extract(raQrIncompletePersonalData) }
+    }
+
+    @Test
+    fun `invalid hash anonymous throws exception`() {
+        shouldThrow<InvalidQRCodeException> { instance.extract(raQrAnonymousInvalidHash) }
     }
 
     @Test
