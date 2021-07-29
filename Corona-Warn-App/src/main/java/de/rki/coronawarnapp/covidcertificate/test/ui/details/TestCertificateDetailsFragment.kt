@@ -24,7 +24,6 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -115,7 +114,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         }
 
         qrCodeCard.apply {
-            image.loadAny(CoilQrCode(content = certificate.qrCode)) {
+            image.loadAny(certificate.qrCodeToDisplay) {
                 crossfade(true)
                 loadingView(image, progressBar)
             }
@@ -138,7 +137,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
             TestCertificateDetailsNavigation.Back -> popBackStack()
             is TestCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
                 R.id.action_global_qrCodeFullScreenFragment,
-                QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
+                QrCodeFullScreenFragmentArgs(event.qrCode).toBundle(),
                 null,
                 FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
             )

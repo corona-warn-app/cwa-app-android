@@ -2,12 +2,10 @@ package de.rki.coronawarnapp.ui.qrcode.fullscreen
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.qrcode.QrCodeOptions
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -15,13 +13,12 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import timber.log.Timber
 
 class QrCodeFullScreenViewModel @AssistedInject constructor(
-    @Assisted private val qrcodeText: String,
-    @Assisted private val correctionLevel: ErrorCorrectionLevel,
+    @Assisted private val qrCode: CoilQrCode,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider) {
 
-    private val qrCodeBitmap = MutableLiveData<CoilQrCode>()
-    val qrcode: LiveData<CoilQrCode> = qrCodeBitmap
+    private val qrCodeRequestInternal = MutableLiveData<CoilQrCode>()
+    val qrCodeRequest: LiveData<CoilQrCode> = qrCodeRequestInternal
     val immersiveMode = SingleLiveEvent<Boolean>()
 
     init {
@@ -30,12 +27,7 @@ class QrCodeFullScreenViewModel @AssistedInject constructor(
 
     private fun generateQrCode() = launch {
         try {
-            qrCodeBitmap.postValue(
-                CoilQrCode(
-                    content = qrcodeText,
-                    options = QrCodeOptions(correctionLevel = correctionLevel)
-                )
-            )
+            qrCodeRequestInternal.postValue(qrCode)
         } catch (e: Exception) {
             Timber.d(e, "generateQrCode failed")
         }
@@ -45,9 +37,6 @@ class QrCodeFullScreenViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<QrCodeFullScreenViewModel> {
-        fun create(
-            qrcodeText: String,
-            correctionLevel: ErrorCorrectionLevel
-        ): QrCodeFullScreenViewModel
+        fun create(qrCode: CoilQrCode): QrCodeFullScreenViewModel
     }
 }
