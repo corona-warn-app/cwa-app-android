@@ -9,6 +9,7 @@ import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.ScreenshotCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
@@ -204,6 +205,9 @@ class PersonOverviewFragmentTest : BaseUITest() {
             dateOfBirthFormatted = "1943-04-18"
         )
         every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.testCertificate)
+        every { isValid } returns true
+        every { sampleCollectedAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
+        every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
     }
 
     fun mockTestCertificateWrapper(isUpdating: Boolean) = mockk<TestCertificateWrapper>().apply {

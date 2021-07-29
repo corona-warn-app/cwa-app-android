@@ -20,10 +20,13 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationN
 import de.rki.coronawarnapp.databinding.FragmentTestCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.europaStarsResource
+import de.rki.coronawarnapp.util.expendedImageResource
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -81,9 +84,11 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         certificateCountry.text = certificate.certificateCountry
         certificateIssuer.text = certificate.certificateIssuer
         certificateId.text = certificate.certificateId
+        expandedImage.setImageResource(certificate.expendedImageResource)
+        europaImage.setImageResource(certificate.europaStarsResource)
         expirationNotice.expirationDate.text = getString(
             R.string.expiration_date,
-            certificate.headerExpiresAt.toShortDayFormat()
+            certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortDayFormat()
         )
 
         if (certificate.testName.isNullOrBlank()) {
