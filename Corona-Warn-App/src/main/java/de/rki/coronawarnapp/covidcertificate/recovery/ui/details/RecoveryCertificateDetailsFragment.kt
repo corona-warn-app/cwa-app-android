@@ -23,7 +23,6 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -69,14 +68,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         certificate: RecoveryCertificate
     ) {
         qrCodeCard.bindValidityViews(certificate, isCertificateDetails = true)
-        fullname.text = when {
-            certificate.firstName.isNullOrBlank() -> certificate.lastName
-            else -> getString(
-                R.string.covid_certificate_attribute_name_format,
-                certificate.lastName,
-                certificate.firstName
-            )
-        }
+        fullname.text = certificate.fullNameFormatted
         dateOfBirth.text = certificate.dateOfBirthFormatted
         recoveredFromDisease.text = certificate.targetDisease
         dateOfFirstPositiveTestResult.text = certificate.testedPositiveOnFormatted
@@ -91,7 +83,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         )
 
         qrCodeCard.apply {
-            image.loadAny(CoilQrCode(content = certificate.qrCode)) {
+            image.loadAny(certificate.qrCodeToDisplay) {
                 crossfade(true)
                 loadingView(image, progressBar)
             }
@@ -114,7 +106,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
             RecoveryCertificateDetailsNavigation.Back -> popBackStack()
             is RecoveryCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
                 R.id.action_global_qrCodeFullScreenFragment,
-                QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
+                QrCodeFullScreenFragmentArgs(event.qrCode).toBundle(),
                 null,
                 FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
             )

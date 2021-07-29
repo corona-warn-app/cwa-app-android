@@ -102,8 +102,10 @@ class QrCodeDetailViewModel @AssistedInject constructor(
             val correctionLevel = appConfigProvider.currentConfig.first().presenceTracing.qrCodeErrorCorrectionLevel
             routeToScreen.postValue(
                 QrCodeDetailNavigationEvents.NavigateToFullScreenQrCode(
-                    it.locationUrl,
-                    correctionLevel
+                    CoilQrCode(
+                        content = it.locationUrl,
+                        options = QrCodeOptions(correctionLevel = correctionLevel)
+                    )
                 )
             )
         }
