@@ -5,7 +5,7 @@
     android:autoMirrored="true"
     android:viewportWidth="360"
     android:viewportHeight="248">
-    <path android:pathData="M0,14C0,6.268 6.268,0 14,0H346C353.732,0 360,6.268 360,14V248H0V14Z">
+    <path android:pathData="M0,0H360V248H0V0Z">
         <aapt:attr name="android:fillColor">
             <gradient
                 android:endX="255.681"
