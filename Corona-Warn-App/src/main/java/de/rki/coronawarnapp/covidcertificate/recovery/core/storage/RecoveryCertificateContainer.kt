@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.recovery.core.storage
 
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
@@ -13,7 +12,6 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertifica
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
-import de.rki.coronawarnapp.util.qrcode.QrCodeOptions
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -118,13 +116,8 @@ data class RecoveryCertificateContainer(
             override val headerExpiresAt: Instant
                 get() = header.expiresAt
 
-            override val qrCodeToDisplay: CoilQrCode = when (getState()) {
-                State.Invalid -> when (userLocale.language) {
-                    Locale.GERMAN.language -> State.Invalid.URL_INVALID_SIGNATURE_DE
-                    else -> State.Invalid.URL_INVALID_SIGNATURE_EN
-                }.let { CoilQrCode(it, QrCodeOptions(correctionLevel = ErrorCorrectionLevel.M)) }
-                else -> CoilQrCode(data.recoveryCertificateQrCode)
-            }
+            override val qrCodeToDisplay: CoilQrCode =
+                displayQrCode(getState(), userLocale.language, data.recoveryCertificateQrCode)
 
             override val dccData: DccData<out DccV1.MetaData>
                 get() = certificateData
