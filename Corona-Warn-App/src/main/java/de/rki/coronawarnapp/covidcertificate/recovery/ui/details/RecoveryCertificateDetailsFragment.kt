@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.databinding.FragmentRecoveryCertificateDetailsBindin
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -83,7 +84,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         europaImage.setImageResource(certificate.europaStarsResource)
         expirationNotice.expirationDate.text = getString(
             R.string.expiration_date,
-            certificate.headerExpiresAt.toShortDayFormat()
+            certificate.headerExpiresAt.toUserTimeZone().toShortDayFormat()
         )
 
         qrCodeCard.apply {
