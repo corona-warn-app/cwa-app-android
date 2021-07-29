@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.test.debugoptions.ui
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.environment.EnvironmentSetup.Type.Companion.toEnvironmentType
 import de.rki.coronawarnapp.test.debugoptions.ui.EnvironmentState.Companion.toEnvironmentState
@@ -14,7 +15,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 class DebugOptionsFragmentViewModel @AssistedInject constructor(
     private val envSetup: EnvironmentSetup,
-    dispatcherProvider: DispatcherProvider
+    dispatcherProvider: DispatcherProvider,
+    private val dscRepository: DscRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val environmentStateFlow = MutableStateFlow(envSetup.toEnvironmentState())
@@ -26,6 +28,13 @@ class DebugOptionsFragmentViewModel @AssistedInject constructor(
         envSetup.toEnvironmentState().let {
             environmentStateFlow.value = it
             environmentStateChange.postValue(it)
+        }
+        cleanCachedData()
+    }
+
+    fun cleanCachedData() {
+        launch {
+            dscRepository.clear()
         }
     }
 
