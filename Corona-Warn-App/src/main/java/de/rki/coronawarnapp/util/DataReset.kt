@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
@@ -77,6 +78,7 @@ class DataReset @Inject constructor(
     private val personCertificatesSettings: PersonCertificatesSettings,
     private val validationRepository: DccValidationRepository,
     private val recoveryCertificateRepository: RecoveryCertificateRepository,
+    private val dscRepository: DscRepository,
 ) {
 
     private val mutex = Mutex()
@@ -95,6 +97,7 @@ class DataReset @Inject constructor(
         submissionRepository.reset()
         keyCacheRepository.clear()
         appConfigProvider.clear()
+        dscRepository.clear()
         exposureDetectionTracker.clear()
         downloadDiagnosisKeysSettings.clear()
         riskLevelStorage.clear()
