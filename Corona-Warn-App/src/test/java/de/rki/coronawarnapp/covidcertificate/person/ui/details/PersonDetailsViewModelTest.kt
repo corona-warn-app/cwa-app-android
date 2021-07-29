@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.details
 
 import androidx.lifecycle.SavedStateHandle
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
@@ -172,6 +173,7 @@ class PersonDetailsViewModelTest : BaseTest() {
         every { registeredAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
         every { personIdentifier } returns certificatePersonIdentifier
         every { qrCode } returns "qrCode"
+        every { getState() } returns State.Valid(expiresAt = Instant.parse("2022-01-01T11:35:00.000Z"))
     }
 
     private fun mockVaccinationCertificate(number: Int = 1, final: Boolean = false): VaccinationCertificate =
@@ -192,6 +194,7 @@ class PersonDetailsViewModelTest : BaseTest() {
             every { totalSeriesOfDoses } returns 2
             every { isFinalShot } returns final
             every { qrCode } returns "qrCode"
+            every { getState() } returns State.Valid(expiresAt = Instant.parse("2022-01-01T11:35:00.000Z"))
         }
 
     private fun mockRecoveryCertificate(): RecoveryCertificate =
@@ -201,6 +204,7 @@ class PersonDetailsViewModelTest : BaseTest() {
             every { personIdentifier } returns certificatePersonIdentifier
             every { qrCode } returns "qrCode"
             every { containerId } returns rcContainerId
+            every { getState() } returns State.Valid(expiresAt = Instant.parse("2022-01-01T11:35:00.000Z"))
         }
 
     private val certificatePersonIdentifier = CertificatePersonIdentifier(
