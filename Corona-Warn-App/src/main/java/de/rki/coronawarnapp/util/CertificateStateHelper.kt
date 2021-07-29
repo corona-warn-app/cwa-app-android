@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.util
 
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
@@ -58,6 +59,7 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     when (certificate.getState()) {
         is CwaCovidCertificate.State.ExpiringSoon -> {
             expirationStatusIcon.isVisible = true
+            (expirationStatusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
             expirationStatusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_av_timer))
             expirationStatusText.isVisible = true
             expirationStatusText.text = context.getString(
@@ -72,6 +74,7 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
 
         is CwaCovidCertificate.State.Expired -> {
             expirationStatusIcon.isVisible = true
+            (expirationStatusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 1.0f
             expirationStatusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
             expirationStatusText.isVisible = true
             expirationStatusText.text = context.getText(R.string.certificate_qr_expired)
@@ -83,6 +86,7 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
 
         is CwaCovidCertificate.State.Invalid -> {
             expirationStatusIcon.isVisible = true
+            (expirationStatusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
             expirationStatusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
             expirationStatusText.isVisible = true
             expirationStatusText.text = context.getText(R.string.certificate_qr_invalid_signature)
