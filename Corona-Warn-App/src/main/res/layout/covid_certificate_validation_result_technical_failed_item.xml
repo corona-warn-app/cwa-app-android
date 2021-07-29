@@ -39,6 +39,41 @@
 
 
     <ImageView
+        android:id="@+id/icon_signature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_small"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:importantForAccessibility="no"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider"
+        app:layout_goneMarginTop="0dp"
+        app:srcCompat="@drawable/ic_high_risk_alert" />
+
+    <TextView
+        android:id="@+id/text_signature"
+        style="@style/subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_small"
+        android:text="@string/validation_rule_technical_error_signature"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/icon_signature"
+        app:layout_constraintTop_toTopOf="@id/icon_signature" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/card_divider"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:background="@color/dividerColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_signature" />
+
+
+    <ImageView
         android:id="@+id/icon_expired"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -46,7 +81,7 @@
         android:layout_marginTop="@dimen/spacing_small"
         android:importantForAccessibility="no"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider"
+        app:layout_constraintTop_toBottomOf="@id/divider2"
         app:srcCompat="@drawable/ic_high_risk_alert" />
 
     <TextView
@@ -60,6 +95,27 @@
         app:layout_constraintStart_toEndOf="@id/icon_expired"
         app:layout_constraintTop_toTopOf="@id/icon_expired" />
 
+    <TextView
+        android:id="@+id/text_expired_subtitle"
+        style="@style/body2Medium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:text="@string/expiration_date_title"
+        app:layout_constraintEnd_toEndOf="@id/text_expired"
+        app:layout_constraintStart_toStartOf="@id/text_expired"
+        app:layout_constraintTop_toBottomOf="@id/text_expired" />
+
+    <TextView
+        android:id="@+id/text_expired_date"
+        style="@style/subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/text_expired_subtitle"
+        app:layout_constraintStart_toStartOf="@id/text_expired_subtitle"
+        app:layout_constraintTop_toBottomOf="@id/text_expired_subtitle"
+        tools:text="Gültig bis 21.08.21, 14:12 Uhr" />
+
     <androidx.constraintlayout.widget.Group
         android:id="@+id/group_date_format"
         android:layout_width="match_parent"
@@ -68,9 +124,16 @@
         tools:visibility="visible" />
 
     <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_signature"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="icon_signature, text_signature"
+        tools:visibility="visible" />
+
+    <androidx.constraintlayout.widget.Group
         android:id="@+id/group_date_expired"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="icon_expired, text_expired"
+        app:constraint_referenced_ids="icon_expired, text_expired,text_expired_date,text_expired_subtitle"
         tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

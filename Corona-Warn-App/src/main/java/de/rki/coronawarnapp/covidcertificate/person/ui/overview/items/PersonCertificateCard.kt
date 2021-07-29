@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewAd
 import de.rki.coronawarnapp.databinding.PersonOverviewItemBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
+import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
@@ -30,11 +31,11 @@ class PersonCertificateCard(parent: ViewGroup) :
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
         name.text = curItem.certificate.fullName
 
-        qrcodeImage.loadAny(
+        qrCodeCard.image.loadAny(
             curItem.certificate.qrCodeToDisplay
         ) {
             crossfade(true)
-            loadingView(qrcodeImage, qrCodeLoadingIndicator)
+            loadingView(qrCodeCard.image, qrCodeCard.progressBar)
         }
 
         backgroundImage.setImageResource(curItem.colorShade.background)
@@ -44,6 +45,7 @@ class PersonCertificateCard(parent: ViewGroup) :
             setOnClickListener { curItem.onClickAction(curItem, adapterPosition) }
             transitionName = curItem.certificate.personIdentifier.codeSHA256
         }
+        qrCodeCard.bindValidityViews(curItem.certificate, isPersonOverview = true)
     }
 
     private fun starsDrawable(item: Item) =

@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.test.debugoptions.ui
 
+import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -17,6 +18,7 @@ import testhelpers.extensions.getOrAwaitValue
 class DebugOptionsFragmentViewModelTest : BaseTestInstrumentation() {
 
     @MockK private lateinit var environmentSetup: EnvironmentSetup
+    @MockK private lateinit var dscRepository: DscRepository
 
     private var currentEnvironment = EnvironmentSetup.Type.DEV
 
@@ -41,7 +43,8 @@ class DebugOptionsFragmentViewModelTest : BaseTestInstrumentation() {
 
     private fun createViewModel(): DebugOptionsFragmentViewModel = DebugOptionsFragmentViewModel(
         envSetup = environmentSetup,
-        dispatcherProvider = TestDispatcherProvider()
+        dispatcherProvider = TestDispatcherProvider(),
+        dscRepository = dscRepository,
     )
 
     @Test

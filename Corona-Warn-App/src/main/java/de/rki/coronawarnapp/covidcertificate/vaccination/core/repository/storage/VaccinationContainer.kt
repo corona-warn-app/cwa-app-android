@@ -27,6 +27,8 @@ import java.util.Locale
 data class VaccinationContainer internal constructor(
     @SerializedName("vaccinationQrCode") val vaccinationQrCode: QrCodeString,
     @SerializedName("scannedAt") val scannedAt: Instant,
+    @SerializedName("notifiedExpiresSoonAt") val notifiedExpiresSoonAt: Instant? = null,
+    @SerializedName("notifiedExpiredAt") val notifiedExpiredAt: Instant? = null,
 ) : CertificateRepoContainer {
 
     // Either set by [ContainerPostProcessor] or via [toVaccinationContainer]
@@ -72,6 +74,12 @@ data class VaccinationContainer internal constructor(
         userLocale: Locale = Locale.getDefault(),
     ) = object : VaccinationCertificate {
         override fun getState(): State = certificateState
+
+        override val notifiedExpiresSoonAt: Instant?
+            get() = this@VaccinationContainer.notifiedExpiresSoonAt
+
+        override val notifiedExpiredAt: Instant?
+            get() = this@VaccinationContainer.notifiedExpiredAt
 
         override val containerId: VaccinationCertificateContainerId
             get() = this@VaccinationContainer.containerId
@@ -147,6 +155,8 @@ data class VaccinationContainer internal constructor(
 
         override val dccData: DccData<out DccV1.MetaData>
             get() = certificateData
+
+        override fun toString(): String = "VaccinationCertificate($containerId)"
     }
 }
 

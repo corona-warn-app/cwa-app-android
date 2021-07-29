@@ -17,7 +17,7 @@ import javax.inject.Singleton
 @Singleton
 class DscRepository @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
-    private val dispatcherProvider: DispatcherProvider,
+    dispatcherProvider: DispatcherProvider,
     private val defaultDscData: DefaultDscSource,
     private val localStorage: LocalDscStorage,
     private val dscServer: DscServer,
@@ -31,17 +31,37 @@ class DscRepository @Inject constructor(
             replayExpirationMillis = 0
         ),
     ) {
-
-        // TODO
-        DscData(
-            dscList = emptyList()
-        )
+        Timber.tag(TAG).d("internalData")
+        val localData = localStorage.load()
+        if (localData != null) {
+            Timber.tag(TAG).v("localStorage data exists")
+            localData
+        } else {
+            Timber.tag(TAG).v("Reading from defaultDscData")
+            defaultDscData.getDscData()
+        }
     }
 
     val dscData = internalData.data
 
     suspend fun refresh() {
         Timber.tag(TAG).d("refresh()")
+        internalData.updateBlocking {
+            dscServer.getDscList().let { rawData ->
+                mapDscList(rawData).apply {
+                    localStorage.save(rawData)
+                }
+            }
+        }
+    }
+
+    suspend fun clear() {
+        Timber.d("clear()")
+        localStorage.clear()
+    }
+
+    private fun mapDscList(rawData: ByteArray): DscData {
+        return dscDataParser.parse(rawData)
     }
 
     companion object {
