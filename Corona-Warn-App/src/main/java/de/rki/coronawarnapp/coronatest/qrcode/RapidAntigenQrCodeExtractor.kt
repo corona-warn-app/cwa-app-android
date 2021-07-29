@@ -59,9 +59,9 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
                 this.contains("/") ||
                 this.contains("=")
             ) {
-                BaseEncoding.base64().decode(this)
+                BaseEncoding.base64().decode(this).commonToUtf8String()
             } else {
-                BaseEncoding.base64Url().decode(this)
+                BaseEncoding.base64Url().decode(this).commonToUtf8String()
             }
         } catch (e: Exception) {
             Timber.e(e)
@@ -69,7 +69,7 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
         }
 
         try {
-            return Gson().fromJson(decoded.commonToUtf8String())
+            return Gson().fromJson(decoded)
         } catch (e: Exception) {
             Timber.e(e)
             throw InvalidQRCodeException("Malformed payload.")
@@ -147,10 +147,11 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
 
         private fun requireValidHash() {
             val isQrCodeWithPersonalData = firstName != null && lastName != null && dateOfBirth != null
-            val generatedHash =
+            val generatedHash = if (isQrCodeWithPersonalData)
                 "${raw.dateOfBirth}#${raw.firstName}#${raw.lastName}#${raw.timestamp}#${raw.testid}#${raw.salt}"
                     .toSHA256()
-            if (isQrCodeWithPersonalData && !generatedHash.equals(hash, true)) {
+            else "${raw.timestamp}#${raw.salt}".toSHA256()
+            if (!generatedHash.equals(hash, true)) {
                 throw InvalidQRCodeException("Generated hash doesn't match QRCode hash")
             }
         }
