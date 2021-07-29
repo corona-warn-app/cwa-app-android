@@ -17,6 +17,7 @@ interface CwaCovidCertificate {
     val firstName: String?
     val lastName: String
     val fullName: String
+    val fullNameFormatted: String
     val dateOfBirthFormatted: String
     val personIdentifier: CertificatePersonIdentifier
     val certificateIssuer: String
