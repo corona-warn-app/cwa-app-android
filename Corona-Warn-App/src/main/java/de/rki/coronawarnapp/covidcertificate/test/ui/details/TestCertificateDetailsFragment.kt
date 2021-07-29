@@ -72,14 +72,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         certificate: TestCertificate
     ) {
         qrCodeCard.bindValidityViews(certificate, isCertificateDetails = true)
-        name.text = when {
-            certificate.firstName.isNullOrBlank() -> certificate.lastName
-            else -> getString(
-                R.string.covid_certificate_attribute_name_format,
-                certificate.lastName,
-                certificate.firstName
-            )
-        }
+        name.text = certificate.fullNameFormatted
         dateOfBirth.text = certificate.dateOfBirthFormatted
         diseaseType.text = certificate.targetName
         testType.text = certificate.testType
