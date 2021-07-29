@@ -22,6 +22,37 @@
         tools:src="@drawable/ic_qrcode"
         tools:tint="@android:color/black" />
 
+    <ImageView
+        android:id="@+id/invalid_qr_code_overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/invalid_certificate_overlay"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="@id/image"
+        app:layout_constraintDimensionRatio="H,1:1"
+        app:layout_constraintLeft_toLeftOf="@id/image"
+        app:layout_constraintRight_toRightOf="@id/image"
+        app:layout_constraintTop_toTopOf="@id/image" />
+
+    <ImageView
+        android:id="@+id/invalid_qr_code_symbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="@id/image"
+        app:layout_constraintLeft_toLeftOf="@id/image"
+        app:layout_constraintRight_toRightOf="@id/image"
+        app:layout_constraintTop_toTopOf="@id/image"
+        app:srcCompat="@drawable/ic_invalid_qr_code" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/invalid_overlay"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:constraint_referenced_ids="invalid_qr_code_overlay,invalid_qr_code_symbol"
+        tools:visibility="visible" />
+
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progress_bar"
         android:layout_width="140dp"
@@ -56,11 +87,12 @@
         android:id="@+id/expiration_status_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_tiny"
         android:importantForAccessibility="no"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/expiration_status_text"
         app:layout_constraintStart_toStartOf="@id/qr_subtitle"
-        app:layout_constraintTop_toBottomOf="@id/qr_subtitle"
+        app:layout_constraintTop_toTopOf="@+id/expiration_status_text"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/ic_av_timer"
         tools:visibility="visible" />
 
@@ -70,10 +102,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_tiny"
+        android:layout_marginTop="10dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/expiration_status_icon"
         app:layout_constraintEnd_toEndOf="@id/image"
         app:layout_constraintStart_toEndOf="@id/expiration_status_icon"
+        app:layout_constraintTop_toBottomOf="@+id/qr_subtitle"
         tools:text="Zertifikat läuft am 21.08.21 um 14:12 Uhr ab"
         tools:visibility="visible" />
 

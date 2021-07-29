@@ -12,6 +12,7 @@ import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.ScreenshotCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
@@ -122,16 +123,16 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 VaccinationCertificateCard.Item(
                     vaccinationCertificate1,
                     isCurrentCertificate = false,
-                    VaccinatedPerson.Status.COMPLETE,
-                    PersonColorShade.COLOR_1
+                    status = VaccinatedPerson.Status.COMPLETE,
+                    colorShade = PersonColorShade.COLOR_1
                 ) {}
             )
             add(
                 VaccinationCertificateCard.Item(
                     vaccinationCertificate2,
                     isCurrentCertificate = false,
-                    VaccinatedPerson.Status.COMPLETE,
-                    PersonColorShade.COLOR_1
+                    status = VaccinatedPerson.Status.COMPLETE,
+                    colorShade = PersonColorShade.COLOR_1
                 ) {}
             )
             add(TestCertificateCard.Item(testCertificate, isCurrentCertificate = true, PersonColorShade.COLOR_1) {})
@@ -166,6 +167,9 @@ class PersonDetailsFragmentTest : BaseUITest() {
             lastNameStandardized = "lastNameStandardized",
             dateOfBirthFormatted = "1943-04-18"
         )
+        every { isValid } returns true
+        every { sampleCollectedAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
+        every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
     }
 
     private fun mockVaccinationCertificate(number: Int = 1, final: Boolean = false): VaccinationCertificate =
@@ -194,6 +198,8 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { dateOfBirthFormatted } returns "1981-03-20"
             every { isFinalShot } returns final
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)
+            every { isValid } returns true
+            every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
         }
 
     private fun mockRecoveryCertificate(): RecoveryCertificate =
@@ -205,6 +211,8 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { personIdentifier } returns certificatePersonIdentifier
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.recoveryCertificate)
             every { containerId } returns rcContainerId
+            every { isValid } returns true
+            every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
         }
 
     private val certificatePersonIdentifier = CertificatePersonIdentifier(

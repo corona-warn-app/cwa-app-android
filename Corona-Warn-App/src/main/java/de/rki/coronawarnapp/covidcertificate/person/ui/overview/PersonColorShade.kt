@@ -24,6 +24,11 @@ enum class PersonColorShade(
         R.color.starsColor3,
         R.drawable.bg_person_overview_3,
         R.drawable.bg_certificate_blue_3
+    ),
+    COLOR_INVALID(
+        R.color.starsColorInvalid,
+        R.drawable.bg_person_overview_invalid,
+        R.drawable.bg_certificate_grey
     );
 
     @DrawableRes val defaultCertificateBg: Int = R.drawable.bg_certificate_grey
@@ -31,7 +36,7 @@ enum class PersonColorShade(
     companion object {
         fun shadeFor(index: Int): PersonColorShade {
             val values = values()
-            return values.getOrElse(index.rem(values.size)) { COLOR_1 }
+            return values.getOrElse(index.rem(values.size - 1)) { COLOR_1 }
         }
     }
 }
