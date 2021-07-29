@@ -2,11 +2,12 @@ package de.rki.coronawarnapp.covidcertificate.test.core
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.signature.core.DccStateChecker
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage
@@ -76,7 +77,11 @@ class TestCertificateRepository @Inject constructor(
         valueSetsRepository.latestTestCertificateValueSets
     ) { certMap, valueSets ->
         certMap.values.map { container ->
-            val state = dccStateChecker.checkState(container.testCertificateQRCode.data).first()
+            val state = when {
+                container.isCertificateRetrievalPending -> CwaCovidCertificate.State.Invalid
+                else -> dccStateChecker.checkState(container.testCertificateQRCode.data).first()
+            }
+
             TestCertificateWrapper(
                 valueSets = valueSets,
                 container = container,

@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.details
 
 import androidx.lifecycle.SavedStateHandle
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
@@ -25,6 +26,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.Vaccina
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.observeOnce
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -171,7 +173,9 @@ class PersonDetailsViewModelTest : BaseTest() {
         every { sampleCollectedAt } returns Instant.parse("2021-05-31T11:35:00.000Z")
         every { registeredAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
         every { personIdentifier } returns certificatePersonIdentifier
-        every { qrCode } returns "qrCode"
+        every { isValid } returns true
+        every { getState() } returns State.Valid(expiresAt = Instant.parse("2022-01-01T11:35:00.000Z"))
+        every { qrCodeToDisplay } returns CoilQrCode("qrCode")
     }
 
     private fun mockVaccinationCertificate(number: Int = 1, final: Boolean = false): VaccinationCertificate =
@@ -191,7 +195,9 @@ class PersonDetailsViewModelTest : BaseTest() {
             every { doseNumber } returns number
             every { totalSeriesOfDoses } returns 2
             every { isFinalShot } returns final
-            every { qrCode } returns "qrCode"
+            every { isValid } returns true
+            every { getState() } returns State.Valid(expiresAt = Instant.parse("2022-01-01T11:35:00.000Z"))
+            every { qrCodeToDisplay } returns CoilQrCode("qrCode")
         }
 
     private fun mockRecoveryCertificate(): RecoveryCertificate =
@@ -199,8 +205,10 @@ class PersonDetailsViewModelTest : BaseTest() {
             every { certificateId } returns "recoveryCertificateId"
             every { validUntil } returns Instant.parse("2021-05-31T11:35:00.000Z").toLocalDateUserTz()
             every { personIdentifier } returns certificatePersonIdentifier
-            every { qrCode } returns "qrCode"
+            every { qrCodeToDisplay } returns CoilQrCode("qrCode")
             every { containerId } returns rcContainerId
+            every { isValid } returns true
+            every { getState() } returns State.Valid(expiresAt = Instant.parse("2022-01-01T11:35:00.000Z"))
         }
 
     private val certificatePersonIdentifier = CertificatePersonIdentifier(

@@ -7,6 +7,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
+import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureValidator
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.DccQrCodeValidator
@@ -25,7 +26,8 @@ class DccQrCodeScanViewModel @AssistedInject constructor(
     private val qrCodeFileParser: QRCodeFileParser,
     private val vaccinationRepository: VaccinationRepository,
     private val testCertificateRepository: TestCertificateRepository,
-    private val recoveryCertificateRepository: RecoveryCertificateRepository
+    private val recoveryCertificateRepository: RecoveryCertificateRepository,
+    private val dscSignatureValidator: DscSignatureValidator,
 ) : CWAViewModel() {
 
     val event = SingleLiveEvent<Event>()
@@ -50,7 +52,9 @@ class DccQrCodeScanViewModel @AssistedInject constructor(
     private suspend fun validateQRCode(qrCodeText: String) {
         try {
             event.postValue(Event.QrCodeScanInProgress)
-            when (val qrCode = qrCodeValidator.validate(qrCodeText)) {
+            val qrCode = qrCodeValidator.validate(qrCodeText)
+            dscSignatureValidator.validateSignature(qrCode.data)
+            when (qrCode) {
                 is VaccinationCertificateQRCode -> registerVaccinationCertificate(qrCode)
                 is TestCertificateQRCode -> registerTestCertificate(qrCode)
                 is RecoveryCertificateQRCode -> registerRecoveryCertificate(qrCode)

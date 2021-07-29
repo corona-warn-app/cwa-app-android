@@ -32,23 +32,6 @@ internal const val raQrCode6 =
 internal const val raQrCode7 =
     "https://s.coronawarn.app?v=1#eyJ0aW1lc3RhbXAiOjE2MTk2MTg0MjMsInNhbHQiOiJEM0Y1MzcyODU2NkMxMDFENjE1MkVCQ0I0OEMxMkFCOCIsInRlc3RpZCI6Ijc5NWIxY2MwLWU2NjQtNGFmZi05NTk3LWU3MTk2ODE4ZGVmYiIsImhhc2giOiI3NmMxMjJiOTlmZWVmZmM5Mjc3MTE2YjUwZGIwZGM1NjI0ZjY5OWFiMzliMDAwOWMwYzg5YmRlMWNjZjM4YmQxIiwiZm4iOiJWaWN0b3JpYSIsImxuIjoiTWFubmVsbGkiLCJkb2IiOiIxOTc4LTA0LTIxIn0="
 
-@Suppress("MaxLineLength")
-internal const val raQrCode8 =
-    "https://s.coronawarn.app?v=1#eyJ0aW1lc3RhbXAiOjE2MTk2MjEzMzEsInNhbHQiOiI5NERDMkUyRkNCNTE2NDFFQzA5RkZENjVEMkJEMDg4QiIsInRlc3RpZCI6ImMyMGI5OTgxLWZmNzAtNGRmOC1hYTAyLTUwOTdmMmJkN2YzYyIsImhhc2giOiI1MmVlZjA3YjQwYzU1ODM0OTg3MGQ3YTA2Yzc0OGIwOTAxNGMxMTBlYTkzYjZhNmRhNDhkOWI4NTU0NTU2MzY0In0="
-
-// {
-//     "fn":"",
-//     "ln":"",
-//     "dob":"",
-//     "testid":"0e600b42-cc21-4e75-914c-70603143b6cb",
-//     "timestamp": 1619012952,
-//     "salt":"510f3d750c2fc631fbcfe32cb06bbba9",
-//     "hash":"d6e4d0181d8109bf05b346a0d2e0ef0cc472eed70d9df8c4b9ae5c7a009f3e34"
-// }
-@Suppress("MaxLineLength")
-internal const val raQrCodeEmptyStrings =
-    "https://s.coronawarn.app?v=1#ewogICAgImZuIjoiIiwKICAgICJsbiI6IiIsCiAgICAiZG9iIjoiIiwKICAgICJ0ZXN0aWQiOiIwZTYwMGI0Mi1jYzIxLTRlNzUtOTE0Yy03MDYwMzE0M2I2Y2IiLAogICAgInRpbWVzdGFtcCI6IDE2MTkwMTI5NTIsCiAgICAic2FsdCI6IjUxMGYzZDc1MGMyZmM2MzFmYmNmZTMyY2IwNmJiYmE5IiwKICAgICJoYXNoIjoiZDZlNGQwMTgxZDgxMDliZjA1YjM0NmEwZDJlMGVmMGNjNDcyZWVkNzBkOWRmOGM0YjlhZTVjN2EwMDlmM2UzNCIKfQ"
-
 // {
 //     "fn":"Max",
 //     "ln":"",
@@ -61,3 +44,11 @@ internal const val raQrCodeEmptyStrings =
 @Suppress("MaxLineLength")
 internal const val raQrIncompletePersonalData =
     "https://s.coronawarn.app?v=1#ewogICAgImZuIjoiTWF4IiwKICAgICJsbiI6IiIsCiAgICAiZG9iIjoiIiwKICAgICJ0ZXN0aWQiOiIwZTYwMGI0Mi1jYzIxLTRlNzUtOTE0Yy03MDYwMzE0M2I2Y2IiLAogICAgInRpbWVzdGFtcCI6IDE2MTkwMTI5NTIsCiAgICAic2FsdCI6IjUxMGYzZDc1MGMyZmM2MzFmYmNmZTMyY2IwNmJiYmE5IiwKICAgICJoYXNoIjoiZDZlNGQwMTgxZDgxMDliZjA1YjM0NmEwZDJlMGVmMGNjNDcyZWVkNzBkOWRmOGM0YjlhZTVjN2EwMDlmM2UzNCIKfQ"
+
+@Suppress("MaxLineLength")
+internal const val raQrAnonymousValidHash =
+    """https://s.coronawarn.app?v=1#eyJ0aW1lc3RhbXAiOjE2Mjc0MDM2NzEsInNhbHQiOiJEM0I1RkNDMkQxMzgzNDc0RjBERTY5NjA2OEFCQjMzOCIsInRlc3RpZCI6IjczMGM3MDc3LTU2ZmQtNDdiOC04MTNiLWZiNjc4OTVhODBiOSIsImhhc2giOiI2MWRmMDk5MjA3NzA0YTA3MmZiMmE5N2QzMTY4NzUyM2NhNTBmNWJiMDMxZmM1OGJjZDMyNWJkOWE5NzZmZDY4In0"""
+
+@Suppress("MaxLineLength")
+internal const val raQrAnonymousInvalidHash =
+    """https://s.coronawarn.app?v=1#eyJ0aW1lc3RhbXAiOjE2Mjc0MDM2NzUsInNhbHQiOiJGQjRDMzZENDVFMjBBMkMwNzExNUFDMzIwMkI5OThBMiIsInRlc3RpZCI6IjlhYTNmMDM3LWM3MjgtNDRmNy1iMGVmLWVmMWM4MjdiYjAzNSIsImhhc2giOiI3MmQyYmJkNmMwM2QwMGFkMWRlZWQxYjE0Y2MzYjk4ZTVmMTQ1M2U5MDEzYTNiNWE1NTc2MDY1NmYzMWU4YmQ5In0"""

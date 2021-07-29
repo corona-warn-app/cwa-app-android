@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.databinding.RecoveryCertificateCardBinding
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
+import de.rki.coronawarnapp.util.displayExpirationState
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class RecoveryCertificateCard(parent: ViewGroup) :
@@ -33,13 +34,26 @@ class RecoveryCertificateCard(parent: ViewGroup) :
             certificate.validUntil.toShortDayFormat()
         )
 
+        val bookmarkIcon = if (curItem.certificate.isValid) R.drawable.ic_bookmark_blue else R.drawable.ic_bookmark
         currentCertificate.isVisible = curItem.isCurrentCertificate
+        bookmark.setImageResource(bookmarkIcon)
 
-        val background = when {
-            curItem.isCurrentCertificate -> curItem.colorShade.currentCertificateBg
-            else -> curItem.colorShade.defaultCertificateBg
+        val color = when {
+            curItem.certificate.isValid -> curItem.colorShade
+            else -> PersonColorShade.COLOR_INVALID
         }
-        certificateBg.setImageResource(background)
+
+        when {
+            curItem.certificate.isValid -> R.drawable.ic_recovery_certificate
+            else -> R.drawable.ic_certificate_invalid
+        }.also { certificateIcon.setImageResource(it) }
+
+        when {
+            curItem.isCurrentCertificate -> color.currentCertificateBg
+            else -> color.defaultCertificateBg
+        }.also { certificateBg.setImageResource(it) }
+
+        certificateExpiration.displayExpirationState(curItem.certificate)
     }
 
     data class Item(

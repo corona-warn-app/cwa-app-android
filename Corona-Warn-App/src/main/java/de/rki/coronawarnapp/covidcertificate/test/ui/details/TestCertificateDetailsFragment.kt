@@ -15,13 +15,18 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
+import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
+import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationNoInternetErrorDialog
 import de.rki.coronawarnapp.databinding.FragmentTestCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
+import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
+import de.rki.coronawarnapp.util.europaStarsResource
+import de.rki.coronawarnapp.util.expendedImageResource
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -68,21 +73,32 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     private fun FragmentTestCertificateDetailsBinding.onCertificateReady(
         certificate: TestCertificate
     ) {
-        name.text = certificate.fullName
+        qrCodeCard.bindValidityViews(certificate, isCertificateDetails = true)
+        name.text = certificate.fullNameFormatted
         dateOfBirth.text = certificate.dateOfBirthFormatted
         diseaseType.text = certificate.targetName
         testType.text = certificate.testType
-        testName.text = certificate.testName
         testManufacturer.text = certificate.testNameAndManufacturer
         testDate.text = certificate.sampleCollectedAtFormatted
         testResult.text = certificate.testResult
         certificateCountry.text = certificate.certificateCountry
         certificateIssuer.text = certificate.certificateIssuer
         certificateId.text = certificate.certificateId
+        expandedImage.setImageResource(certificate.expendedImageResource)
+        europaImage.setImageResource(certificate.europaStarsResource)
         expirationNotice.expirationDate.text = getString(
             R.string.expiration_date,
-            certificate.headerExpiresAt.toShortDayFormat()
+            certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortDayFormat()
         )
+
+        if (certificate.testName.isNullOrBlank()) {
+            testName.isGone = true
+            testNameTitle.isGone = true
+        } else {
+            testName.text = certificate.testName
+            testName.isGone = false
+            testNameTitle.isGone = false
+        }
 
         if (certificate.testCenter.isNullOrBlank()) {
             testCenterTitle.isGone = true
@@ -103,7 +119,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         }
 
         qrCodeCard.apply {
-            image.loadAny(CoilQrCode(content = certificate.qrCode)) {
+            image.loadAny(certificate.qrCodeToDisplay) {
                 crossfade(true)
                 loadingView(image, progressBar)
             }
@@ -114,7 +130,11 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     private fun FragmentTestCertificateDetailsBinding.onError(error: Throwable) {
         startValidationCheck.isLoading = false
         qrCodeCard.progressBar.hide()
-        error.toErrorDialogBuilder(requireContext()).show()
+        if (error is DccValidationException && error.errorCode == DccValidationException.ErrorCode.NO_NETWORK) {
+            DccValidationNoInternetErrorDialog(requireContext()).show()
+        } else {
+            error.toErrorDialogBuilder(requireContext()).show()
+        }
     }
 
     private fun FragmentTestCertificateDetailsBinding.onNavEvent(event: TestCertificateDetailsNavigation) {
@@ -122,7 +142,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
             TestCertificateDetailsNavigation.Back -> popBackStack()
             is TestCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
                 R.id.action_global_qrCodeFullScreenFragment,
-                QrCodeFullScreenFragmentArgs(event.qrCodeText).toBundle(),
+                QrCodeFullScreenFragmentArgs(event.qrCode).toBundle(),
                 null,
                 FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
             )

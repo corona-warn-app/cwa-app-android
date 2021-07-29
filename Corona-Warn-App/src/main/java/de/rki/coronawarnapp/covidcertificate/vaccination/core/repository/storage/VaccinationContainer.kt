@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storag
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccHeader
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertif
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
+import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import java.util.Locale
@@ -24,6 +25,8 @@ import java.util.Locale
 data class VaccinationContainer internal constructor(
     @SerializedName("vaccinationQrCode") val vaccinationQrCode: QrCodeString,
     @SerializedName("scannedAt") val scannedAt: Instant,
+    @SerializedName("notifiedExpiresSoonAt") val notifiedExpiresSoonAt: Instant? = null,
+    @SerializedName("notifiedExpiredAt") val notifiedExpiredAt: Instant? = null,
 ) : CertificateRepoContainer {
 
     // Either set by [ContainerPostProcessor] or via [toVaccinationContainer]
@@ -65,10 +68,16 @@ data class VaccinationContainer internal constructor(
 
     fun toVaccinationCertificate(
         valueSet: VaccinationValueSets?,
-        certificateState: CwaCovidCertificate.State,
+        certificateState: State,
         userLocale: Locale = Locale.getDefault(),
     ) = object : VaccinationCertificate {
-        override fun getState(): CwaCovidCertificate.State = certificateState
+        override fun getState(): State = certificateState
+
+        override val notifiedExpiresSoonAt: Instant?
+            get() = this@VaccinationContainer.notifiedExpiresSoonAt
+
+        override val notifiedExpiredAt: Instant?
+            get() = this@VaccinationContainer.notifiedExpiredAt
 
         override val containerId: VaccinationCertificateContainerId
             get() = this@VaccinationContainer.containerId
@@ -87,6 +96,9 @@ data class VaccinationContainer internal constructor(
 
         override val fullName: String
             get() = certificate.nameData.fullName
+
+        override val fullNameFormatted: String
+            get() = certificate.nameData.fullNameFormatted
 
         override val dateOfBirthFormatted: String
             get() = certificate.dateOfBirthFormatted
@@ -134,11 +146,13 @@ data class VaccinationContainer internal constructor(
         override val headerExpiresAt: Instant
             get() = header.expiresAt
 
-        override val qrCode: QrCodeString
-            get() = vaccinationQrCode
+        override val qrCodeToDisplay: CoilQrCode =
+            displayQrCode(getState(), userLocale.language, vaccinationQrCode)
 
         override val dccData: DccData<out DccV1.MetaData>
             get() = certificateData
+
+        override fun toString(): String = "VaccinationCertificate($containerId)"
     }
 }
 
