@@ -1530,7 +1530,7 @@
     <!-- XTXT: Statistics add card title -->
     <string name="statistics_add_card_title">"Add local 7-day incidence"</string>
     <!-- XTXT: Statistics add card warning no internet -->
-    <string name="sstatistics_add_card_warning_no_internet">"Ihre Internet-Verbindung wurde unterbrochen. Hinzufügen einer 7-Tage-Inzidenz nicht möglich."</string>
+    <string name="statistics_add_card_warning_no_internet">"Ihre Internetverbindung wurde unterbrochen. Hinzufügen einer 7-Tage-Inzidenz nicht möglich. Bitte prüfen Sie die Verbindung und versuchen Sie es erneut."</string>
     <!-- XTXT: Statistics add card warning -->
     <string name="statistics_add_card_warning">"Maximum number of local 7-day incidence figures reached."</string>
     <!-- XTXT: Statistics add screen whole state -->
