@@ -32,6 +32,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
+import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -159,7 +160,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
         every { sampleCollectedAt } returns Instant.parse("2021-05-31T11:35:00.000Z")
         every { registeredAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
         every { personIdentifier } returns certificatePersonIdentifier
-        every { qrCode } returns ScreenshotCertificateTestData.testCertificate
+        every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.testCertificate)
         every { personIdentifier } returns CertificatePersonIdentifier(
             firstNameStandardized = "firstNameStandardized",
             lastNameStandardized = "lastNameStandardized",
@@ -192,7 +193,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { totalSeriesOfDoses } returns 2
             every { dateOfBirthFormatted } returns "1981-03-20"
             every { isFinalShot } returns final
-            every { qrCode } returns ScreenshotCertificateTestData.vaccinationCertificate
+            every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)
         }
 
     private fun mockRecoveryCertificate(): RecoveryCertificate =
@@ -202,7 +203,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { dateOfBirthFormatted } returns "1981-03-20"
             every { validUntil } returns Instant.parse("2021-05-31T11:35:00.000Z").toLocalDateUserTz()
             every { personIdentifier } returns certificatePersonIdentifier
-            every { qrCode } returns ScreenshotCertificateTestData.recoveryCertificate
+            every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.recoveryCertificate)
             every { containerId } returns rcContainerId
         }
 

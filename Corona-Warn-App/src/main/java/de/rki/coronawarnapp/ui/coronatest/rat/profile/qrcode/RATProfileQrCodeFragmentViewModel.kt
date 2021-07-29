@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
 import de.rki.coronawarnapp.coronatest.antigen.profile.VCard
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -49,7 +50,7 @@ class RATProfileQrCodeFragmentViewModel @AssistedInject constructor(
 
     fun openFullScreen() = qrCodeString?.let {
         events.postValue(
-            ProfileQrCodeNavigation.FullQrCode(it)
+            ProfileQrCodeNavigation.FullQrCode(CoilQrCode(it))
         )
     }
 
