@@ -35,7 +35,7 @@ class QRCodeFileParser @Inject constructor(
                     try {
                         val content = qrCodeReader.decode(binaryBitmap).text
                         Timber.d("Parsed qr code from image: %s", content)
-                        QRCodeParseResult.Success(content)
+                        return@withContext QRCodeParseResult.Success(content)
                     } catch (ex: ReaderException) {
                         Timber.d(ex, "Failed to Parse QR Code from bitmap")
                     }
