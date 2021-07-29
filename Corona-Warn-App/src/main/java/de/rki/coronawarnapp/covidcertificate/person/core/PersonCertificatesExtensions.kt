@@ -10,7 +10,6 @@ import org.joda.time.Days
 import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
-import java.lang.IllegalStateException
 
 /*
     The list items shall be sorted descending by the following date attributes depending on the type of the DGC:
@@ -184,61 +183,83 @@ private fun Collection<CwaCovidCertificate>.rule9FindOldRaTest(
     .filter { Duration(it.rawCertificate.test.sampleCollectedAt, nowUtc) > Duration.standardHours(24) }
     .maxByOrNull { it.rawCertificate.test.sampleCollectedAt }
 
-@Suppress("ReturnCount")
+@Suppress("ReturnCount", "ComplexMethod")
 fun Collection<CwaCovidCertificate>.findHighestPriorityCertificate(
     nowUtc: Instant = Instant.now()
-): CwaCovidCertificate {
-    Timber.d("findHighestPriorityCertificate(nowUtc=%s): %s", nowUtc, this)
+): CwaCovidCertificate = this
+    .also { Timber.v("findHighestPriorityCertificate(nowUtc=%s): %s", nowUtc, this) }
+    .run {
+        val valid = mutableListOf<CwaCovidCertificate>()
+        val expired = mutableListOf<CwaCovidCertificate>()
+        val invalid = mutableListOf<CwaCovidCertificate>()
 
-    rule1FindRecentPcrCertificate(nowUtc)?.let {
-        Timber.d("Rule 1 match (PCR Test Certificate <= 48 hours): %s", it)
-        return it
+        this.forEach {
+            when (it.getState()) {
+                is CwaCovidCertificate.State.Valid,
+                is CwaCovidCertificate.State.ExpiringSoon -> valid.add(it)
+                is CwaCovidCertificate.State.Expired -> expired.add(it)
+                CwaCovidCertificate.State.Invalid -> invalid.add(it)
+            }
+        }
+
+        listOf(valid, expired, invalid)
     }
+    .map { certsForState ->
+        // Correct rulefinding depends on the explicit list ordering generated in the previous step
+        // list(list(valid+expiring_soon), list(expired), list(invalid))
 
-    rule2FindRecentRaCertificate(nowUtc)?.let {
-        Timber.d("Rule 2 match (RA Test Certificate <= 24 hours): %s", it)
-        return it
+        certsForState.rule1FindRecentPcrCertificate(nowUtc)?.let {
+            Timber.d("Rule 1 match (PCR Test Certificate <= 48 hours): %s", it)
+            return@map it
+        }
+
+        certsForState.rule2FindRecentRaCertificate(nowUtc)?.let {
+            Timber.d("Rule 2 match (RA Test Certificate <= 24 hours): %s", it)
+            return@map it
+        }
+
+        certsForState.rule3FindRecentLastShot(nowUtc)?.let {
+            Timber.d("Rule 3 match (Series-completing Vaccination Certificate > 14 days): %s", it)
+            return@map it
+        }
+
+        certsForState.rule4findRecentRecovery(nowUtc)?.let {
+            Timber.d("Rule 4 match (Recovery Certificate <= 180 days): %s", it)
+            return@map it
+        }
+
+        certsForState.rule5findTooRecentFinalShot(nowUtc)?.let {
+            Timber.d("Rule 5 match (Series-completing Vaccination Certificate <= 14 days): %s", it)
+            return@map it
+        }
+
+        certsForState.rule6findOtherVaccinations()?.let {
+            Timber.d("Rule 6 match (Other Vaccination Certificate): %s", it)
+            return@map it
+        }
+
+        certsForState.rule7FindOldRecovery(nowUtc)?.let {
+            Timber.d("Rule 7 match (Recovery Certificate > 180 days): %s", it)
+            return@map it
+        }
+
+        certsForState.rule8FindOldPcrTest(nowUtc)?.let {
+            Timber.d("Rule 8 match (PCR Test Certificate > 48 hours): %s", it)
+            return@map it
+        }
+
+        certsForState.rule9FindOldRaTest(nowUtc)?.let {
+            Timber.d("Rule 9 match (RAT Test Certificate > 24 hours): %s", it)
+            return@map it
+        }
+
+        null
     }
-
-    rule3FindRecentLastShot(nowUtc)?.let {
-        Timber.d("Rule 3 match (Series-completing Vaccination Certificate > 14 days): %s", it)
-        return it
+    .firstOrNull()
+    ?: first().also {
+        /**
+         * Fallback: return the first DGC from the set.
+         * Note that this fallback should never apply in a real scenario.
+         */
+        Timber.e("No priority match, this should not happen: %s", this)
     }
-
-    rule4findRecentRecovery(nowUtc)?.let {
-        Timber.d("Rule 4 match (Recovery Certificate <= 180 days): %s", it)
-        return it
-    }
-
-    rule5findTooRecentFinalShot(nowUtc)?.let {
-        Timber.d("Rule 5 match (Series-completing Vaccination Certificate <= 14 days): %s", it)
-        return it
-    }
-
-    rule6findOtherVaccinations()?.let {
-        Timber.d("Rule 6 match (Other Vaccination Certificate): %s", it)
-        return it
-    }
-
-    rule7FindOldRecovery(nowUtc)?.let {
-        Timber.d("Rule 7 match (Recovery Certificate > 180 days): %s", it)
-        return it
-    }
-
-    rule8FindOldPcrTest(nowUtc)?.let {
-        Timber.d("Rule 8 match (PCR Test Certificate > 48 hours): %s", it)
-        return it
-    }
-
-    rule9FindOldRaTest(nowUtc)?.let {
-        Timber.d("Rule 9 match (RAT Test Certificate > 24 hours): %s", it)
-        return it
-    }
-
-    /**
-     * Fallback: return the first DGC from the set.
-     * Note that this fallback should never apply in a real scenario.
-     */
-    Timber.e("No priority match, this should not happen: %s", this)
-    return first()
-}
