@@ -29,6 +29,12 @@ data class DccV1(
                 firstName.isNullOrBlank() -> lastName
                 else -> "$firstName $lastName"
             }
+
+        val fullNameFormatted: String
+            get() = when {
+                firstName.isNullOrBlank() -> lastName
+                else -> "$lastName, $firstName "
+            }
     }
 
     val dateOfBirthFormatted: String
