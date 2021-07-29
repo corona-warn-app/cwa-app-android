@@ -19,10 +19,13 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationN
 import de.rki.coronawarnapp.databinding.FragmentRecoveryCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.europaStarsResource
+import de.rki.coronawarnapp.util.expendedImageResource
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -77,9 +80,11 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         certificationPeriodStart.text = certificate.validFromFormatted
         certificationPeriodEnd.text = certificate.validUntilFormatted
         certificateId.text = certificate.certificateId
+        expandedImage.setImageResource(certificate.expendedImageResource)
+        europaImage.setImageResource(certificate.europaStarsResource)
         expirationNotice.expirationDate.text = getString(
             R.string.expiration_date,
-            certificate.headerExpiresAt.toShortDayFormat()
+            certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortDayFormat()
         )
 
         qrCodeCard.apply {

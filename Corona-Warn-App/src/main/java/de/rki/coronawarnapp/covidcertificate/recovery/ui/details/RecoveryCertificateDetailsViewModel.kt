@@ -19,9 +19,8 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     @Assisted private val containerId: RecoveryCertificateContainerId,
     private val recoveryCertificateRepository: RecoveryCertificateRepository,
-    private val dccValidationRepository: DccValidationRepository
+    private val dccValidationRepository: DccValidationRepository,
 ) : CWAViewModel(dispatcherProvider) {
-
     private var qrCode: CoilQrCode? = null
     val events = SingleLiveEvent<RecoveryCertificateDetailsNavigation>()
     val errors = SingleLiveEvent<Throwable>()
