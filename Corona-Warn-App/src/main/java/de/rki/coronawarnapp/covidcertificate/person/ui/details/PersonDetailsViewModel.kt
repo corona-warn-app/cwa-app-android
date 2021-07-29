@@ -89,11 +89,10 @@ class PersonDetailsViewModel @AssistedInject constructor(
         mutableListOf<CertificateItem>().apply {
             val priorityCertificate = personCertificates.highestPriorityCertificate
 
-            val color = when {
+            when {
                 priorityCertificate.isValid -> colorShade
                 else -> PersonColorShade.COLOR_INVALID
-            }
-            colorShadeData.postValue(color)
+            }.also { colorShadeData.postValue(it) }
 
             add(
                 PersonDetailsQrCard.Item(priorityCertificate, isLoading) { onValidateCertificate(it) }

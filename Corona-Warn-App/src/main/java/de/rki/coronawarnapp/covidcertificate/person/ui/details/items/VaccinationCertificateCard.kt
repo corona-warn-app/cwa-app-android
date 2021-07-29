@@ -44,7 +44,12 @@ class VaccinationCertificateCard(parent: ViewGroup) :
         currentCertificate.isVisible = curItem.isCurrentCertificate
         bookmark.setImageResource(bookmarkIcon)
 
-        val icon = when {
+        val color = when {
+            curItem.certificate.isValid -> curItem.colorShade
+            else -> PersonColorShade.COLOR_INVALID
+        }
+
+        when {
             !certificate.isValid -> R.drawable.ic_certificate_invalid
 
             // Final shot
@@ -55,18 +60,12 @@ class VaccinationCertificateCard(parent: ViewGroup) :
 
             // Other shots
             else -> R.drawable.ic_vaccination_incomplete
-        }
+        }.also { certificateIcon.setImageResource(it) }
 
-        val color = when {
-            curItem.certificate.isValid -> curItem.colorShade
-            else -> PersonColorShade.COLOR_INVALID
-        }
-        val background = when {
+        when {
             curItem.isCurrentCertificate -> color.currentCertificateBg
             else -> color.defaultCertificateBg
-        }
-        certificateBg.setImageResource(background)
-        certificateIcon.setImageResource(icon)
+        }.also { certificateBg.setImageResource(it) }
 
         certificateExpiration.displayExpirationState(curItem.certificate)
     }
