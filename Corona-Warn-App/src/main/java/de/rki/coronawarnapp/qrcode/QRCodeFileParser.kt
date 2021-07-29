@@ -6,7 +6,6 @@ import com.google.zxing.LuminanceSource
 import com.google.zxing.RGBLuminanceSource
 import com.google.zxing.ReaderException
 import com.google.zxing.common.HybridBinarizer
-import com.google.zxing.qrcode.QRCodeReader
 import dagger.Reusable
 import de.rki.coronawarnapp.qrcode.provider.QRCodeBitmapProvider
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
