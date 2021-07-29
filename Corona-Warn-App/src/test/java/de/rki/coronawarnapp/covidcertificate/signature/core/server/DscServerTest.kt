@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.covidcertificate.signature.core.server
 
+import de.rki.coronawarnapp.covidcertificate.signature.core.DscRawData.DSC_LIST_BASE64
 import de.rki.coronawarnapp.covidcertificate.signature.core.common.exception.DscValidationException
+import de.rki.coronawarnapp.util.encoding.base64
 import de.rki.coronawarnapp.util.security.SignatureValidation
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -41,10 +43,9 @@ internal class DscServerTest {
 
         val server = createInstance()
 
-        val dscList = server.getDscList()
-        dscList.certificatesCount shouldBe 11
-        dscList.certificatesList[0].kid.toByteArray() shouldBe byteArrayOf(-24, -75, 94, 36, -78, -100, -85, 123)
-        dscList.certificatesList[9].kid.toByteArray() shouldBe byteArrayOf(-124, 7, -88, -67, 30, 21, -45, 32)
+        val rawData = server.getDscList()
+
+        rawData.base64() shouldBe DSC_LIST_BASE64
 
         verify(exactly = 1) { signatureValidation.hasValidSignature(any(), any()) }
     }
