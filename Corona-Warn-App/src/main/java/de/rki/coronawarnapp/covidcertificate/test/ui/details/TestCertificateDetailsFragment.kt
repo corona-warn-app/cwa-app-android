@@ -76,7 +76,6 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         dateOfBirth.text = certificate.dateOfBirthFormatted
         diseaseType.text = certificate.targetName
         testType.text = certificate.testType
-        testName.text = certificate.testName
         testManufacturer.text = certificate.testNameAndManufacturer
         testDate.text = certificate.sampleCollectedAtFormatted
         testResult.text = certificate.testResult
@@ -87,6 +86,15 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
             R.string.expiration_date,
             certificate.headerExpiresAt.toShortDayFormat()
         )
+
+        if (certificate.testName.isNullOrBlank()) {
+            testName.isGone = true
+            testNameTitle.isGone = true
+        } else {
+            testName.text = certificate.testName
+            testName.isGone = false
+            testNameTitle.isGone = false
+        }
 
         if (certificate.testCenter.isNullOrBlank()) {
             testCenterTitle.isGone = true
