@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCerti
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateStorage
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.StoredRecoveryCertificateData
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
@@ -40,6 +41,7 @@ class RecoveryCertificateRepository @Inject constructor(
     valueSetsRepository: ValueSetsRepository,
     private val storage: RecoveryCertificateStorage,
     private val dccStateChecker: DccStateChecker,
+    private val timeStamper: TimeStamper,
 ) {
 
     private val internalData: HotDataFlow<Set<RecoveryCertificateContainer>> = HotDataFlow(
@@ -145,6 +147,37 @@ class RecoveryCertificateRepository @Inject constructor(
                 is CwaCovidCertificate.State.ExpiringSoon -> toUpdate.data.copy(notifiedExpiresSoonAt = time)
                 else -> throw UnsupportedOperationException("$state is not supported.")
             }
+
+            this.minus(toUpdate).plus(
+                toUpdate.copy(data = newData).also {
+                    Timber.tag(TAG).d("Updated %s", it)
+                }
+            )
+        }
+    }
+
+    suspend fun acknowledgeState(containerId: RecoveryCertificateContainerId) {
+        Timber.tag(TAG).d("acknowledgeStateChange(containerId=$containerId)")
+        internalData.updateBlocking {
+            val toUpdate = singleOrNull { it.containerId == containerId }
+            if (toUpdate == null) {
+                Timber.tag(TAG).w("Couldn't find %s", containerId)
+                return@updateBlocking this
+            }
+
+            val currentState = dccStateChecker.checkState(toUpdate.certificateData).first()
+
+            if (currentState == toUpdate.data.lastSeenStateChange) {
+                Timber.tag(TAG).w("State equals last acknowledged state.")
+                return@updateBlocking this
+            }
+
+            Timber.tag(TAG)
+                .d("Acknowledging state change to %s -> %s.", toUpdate.data.lastSeenStateChange, currentState)
+            val newData = toUpdate.data.copy(
+                lastSeenStateChange = currentState,
+                lastSeenStateChangeAt = timeStamper.nowUTC,
+            )
 
             this.minus(toUpdate).plus(
                 toUpdate.copy(data = newData).also {

@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.main
 
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.playbook.BackgroundNoise
@@ -38,7 +38,7 @@ class MainActivityViewModelTest : BaseTest() {
     @MockK lateinit var traceLocationSettings: TraceLocationSettings
     @MockK lateinit var checkInRepository: CheckInRepository
     @MockK lateinit var covidCertificateSettings: CovidCertificateSettings
-    @MockK lateinit var testCertificateRepository: TestCertificateRepository
+    @MockK lateinit var personCertificatesProvider: PersonCertificatesProvider
 
     @BeforeEach
     fun setup() {
@@ -53,7 +53,7 @@ class MainActivityViewModelTest : BaseTest() {
         )
         every { onboardingSettings.isBackgroundCheckDone } returns true
         every { checkInRepository.checkInsWithinRetention } returns MutableStateFlow(listOf())
-        every { testCertificateRepository.certificates } returns emptyFlow()
+        every { personCertificatesProvider.personCertificates } returns emptyFlow()
     }
 
     private fun createInstance(): MainActivityViewModel = MainActivityViewModel(
@@ -66,7 +66,7 @@ class MainActivityViewModelTest : BaseTest() {
         checkInRepository = checkInRepository,
         traceLocationSettings = traceLocationSettings,
         covidCertificateSettings = covidCertificateSettings,
-        testCertificateRepository = testCertificateRepository,
+        personCertificatesProvider = personCertificatesProvider
     )
 
     @Test

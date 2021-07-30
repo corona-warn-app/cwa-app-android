@@ -379,6 +379,11 @@ class TestCertificateRepository @Inject constructor(
         }
     }
 
+    suspend fun acknowledgeState(containerId: TestCertificateContainerId) {
+        Timber.tag(TAG).d("acknowledgeState(containerId=$containerId)")
+        // Currently not supported
+    }
+
     companion object {
         private val TAG = TestCertificateRepository::class.simpleName!!
     }

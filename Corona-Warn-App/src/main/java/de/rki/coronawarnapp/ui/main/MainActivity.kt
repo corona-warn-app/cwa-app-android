@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             binding.mainBottomNavigation.updateCountBadge(R.id.trace_location_attendee_nav_graph, count)
         }
 
-        vm.newCertificates.observe(this) { count ->
+        vm.certificateBadgeCount.observe(this) { count ->
             binding.mainBottomNavigation.updateCountBadge(R.id.covid_certificates_graph, count)
         }
 

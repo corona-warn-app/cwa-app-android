@@ -32,7 +32,7 @@ class DccStateChecker @Inject constructor(
             dscSignatureValidator.validateSignature(dccData = dccData, preFetchedDscData = dscData)
         } catch (e: Exception) {
             Timber.tag(TAG).w(e, "Certificate had invalid signature.")
-            return@combine CwaCovidCertificate.State.Invalid
+            return@combine CwaCovidCertificate.State.Invalid()
         }
 
         val nowUtc = timeStamper.nowUTC

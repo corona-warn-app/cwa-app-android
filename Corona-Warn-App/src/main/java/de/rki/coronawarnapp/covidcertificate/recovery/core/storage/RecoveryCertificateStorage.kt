@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.core.content.edit
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import kotlinx.coroutines.sync.Mutex
@@ -15,8 +16,14 @@ import javax.inject.Singleton
 @Singleton
 class RecoveryCertificateStorage @Inject constructor(
     @AppContext val context: Context,
-    @BaseGson val gson: Gson,
+    @BaseGson val baseGson: Gson,
 ) {
+
+    private val gson by lazy {
+        baseGson.newBuilder()
+            .registerTypeAdapterFactory(CwaCovidCertificate.State.typeAdapter)
+            .create()
+    }
 
     private val mutex = Mutex()
     private val prefs by lazy {

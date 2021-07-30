@@ -49,7 +49,7 @@ class VaccinatedPersonTest : BaseTest() {
         }
         val vaccinatedPerson = VaccinatedPerson(
             data = personData,
-            certificateStates = mapOf(conId to CwaCovidCertificate.State.Invalid),
+            certificateStates = mapOf(conId to CwaCovidCertificate.State.Invalid()),
             valueSet = null
         )
 
@@ -72,7 +72,7 @@ class VaccinatedPersonTest : BaseTest() {
         val vaccinatedPerson = VaccinatedPerson(
             data = personData,
             certificateStates = personData.vaccinations
-                .map { it.containerId to CwaCovidCertificate.State.Invalid }
+                .map { it.containerId to CwaCovidCertificate.State.Invalid() }
                 .toMap(),
             valueSet = null
         )
@@ -88,7 +88,7 @@ class VaccinatedPersonTest : BaseTest() {
         val vaccinatedPerson = VaccinatedPerson(
             data = personData,
             certificateStates = personData.vaccinations
-                .map { it.containerId to CwaCovidCertificate.State.Invalid }
+                .map { it.containerId to CwaCovidCertificate.State.Invalid() }
                 .toMap(),
             valueSet = null
         )
@@ -106,7 +106,7 @@ class VaccinatedPersonTest : BaseTest() {
         val vaccinatedPerson = VaccinatedPerson(
             data = personData,
             certificateStates = personData.vaccinations
-                .map { it.containerId to CwaCovidCertificate.State.Invalid }
+                .map { it.containerId to CwaCovidCertificate.State.Invalid() }
                 .toMap(),
             valueSet = null
         )
@@ -142,7 +142,7 @@ class VaccinatedPersonTest : BaseTest() {
         VaccinatedPerson(
             data = personData, valueSet = null,
             certificateStates = personData.vaccinations
-                .map { it.containerId to CwaCovidCertificate.State.Invalid }
+                .map { it.containerId to CwaCovidCertificate.State.Invalid() }
                 .toMap()
         ).apply {
 
@@ -194,7 +194,7 @@ class VaccinatedPersonTest : BaseTest() {
             data = personData,
             valueSet = null,
             certificateStates = personData.vaccinations
-                .map { it.containerId to CwaCovidCertificate.State.Invalid }
+                .map { it.containerId to CwaCovidCertificate.State.Invalid() }
                 .toMap()
         ).apply {
             // User was in GMT+2 timezone (UTC+2) , we want their MIDNIGHT
@@ -237,7 +237,7 @@ class VaccinatedPersonTest : BaseTest() {
             data = personData,
             valueSet = null,
             certificateStates = personData.vaccinations
-                .map { it.containerId to CwaCovidCertificate.State.Invalid }
+                .map { it.containerId to CwaCovidCertificate.State.Invalid() }
                 .toMap()
         ).apply {
             Instant.parse("2021-01-14T0:00:00.000Z").let { now ->
