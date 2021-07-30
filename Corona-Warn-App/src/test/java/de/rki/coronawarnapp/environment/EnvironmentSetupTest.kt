@@ -120,7 +120,8 @@ class EnvironmentSetupTest : BaseTest() {
         EnvironmentSetup.Type.WRU_XD.rawKey shouldBe "WRU-XD"
         EnvironmentSetup.Type.TESTER_MOCK.rawKey shouldBe "TESTER-MOCK"
         EnvironmentSetup.Type.LOCAL.rawKey shouldBe "LOCAL"
-        EnvironmentSetup.Type.values().size shouldBe 8
+        EnvironmentSetup.Type.MOCK_CLOUD.rawKey shouldBe "MOCK-CLOUD"
+        EnvironmentSetup.Type.values().size shouldBe 9
 
         EnvironmentSetup.EnvKey.USE_EUR_KEY_PKGS.rawKey shouldBe "USE_EUR_KEY_PKGS"
         EnvironmentSetup.EnvKey.SUBMISSION.rawKey shouldBe "SUBMISSION_CDN_URL"
@@ -206,7 +207,8 @@ class EnvironmentSetupTest : BaseTest() {
             EnvironmentSetup.Type.WRU_XD,
             EnvironmentSetup.Type.WRU_XA,
             EnvironmentSetup.Type.TESTER_MOCK,
-            EnvironmentSetup.Type.LOCAL
+            EnvironmentSetup.Type.LOCAL,
+            EnvironmentSetup.Type.MOCK_CLOUD,
         )
         private const val GOOD_JSON =
             """
@@ -315,7 +317,20 @@ class EnvironmentSetupTest : BaseTest() {
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-LOCAL",
                     "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-LOCAL",
                     "DCC_SERVER_URL": "https://dcc-LOCAL"
-                }
+                },
+                "MOCK-CLOUD": {
+                    "USE_EUR_KEY_PKGS" : true,
+                    "SUBMISSION_CDN_URL": "https://submission-MOCK-CLOUD",
+                    "DOWNLOAD_CDN_URL": "https://download-MOCK-CLOUD",
+                    "VERIFICATION_CDN_URL": "https://verification-MOCK-CLOUD",
+                    "DATA_DONATION_CDN_URL": "https://datadonation-MOCK-CLOUD",
+                    "LOG_UPLOAD_SERVER_URL": "https://logupload-MOCK-CLOUD",
+                    "VACCINATION_CDN_URL": "https://vaccination-MOCK-CLOUD",
+                    "SAFETYNET_API_KEY": "placeholder-MOCK-CLOUD",
+                    "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-MOCK-CLOUD",
+                    "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-MOCK-CLOUD",
+                    "DCC_SERVER_URL": "https://dcc-MOCK-CLOUD"
+                  }
             }
         """
     }
