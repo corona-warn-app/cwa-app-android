@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.databinding.IncludeCertificateQrcodeCardBinding
 import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
-import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 
 class PersonDetailsQrCard(parent: ViewGroup) :
     PersonDetailsAdapter.PersonDetailsItemVH<PersonDetailsQrCard.Item, IncludeCertificateQrcodeCardBinding>(
@@ -29,7 +28,7 @@ class PersonDetailsQrCard(parent: ViewGroup) :
 
         curItem.apply {
             image.loadAny(
-                CoilQrCode(content = curItem.certificate.qrCode)
+                curItem.certificate.qrCodeToDisplay
             ) {
                 crossfade(true)
                 loadingView(image, progressBar)
@@ -39,6 +38,7 @@ class PersonDetailsQrCard(parent: ViewGroup) :
                 validateCertificate(certificate.containerId)
             }
             startValidationCheckButton.isLoading = curItem.isLoading
+
             bindValidityViews(certificate, isPersonDetails = true)
         }
     }

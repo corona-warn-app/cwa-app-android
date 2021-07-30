@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertificateDetailsFragment
 import de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertificateDetailsFragmentArgs
 import de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertificateDetailsViewModel
+import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -80,7 +81,7 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
             every { validFromFormatted } returns "2021-06-07"
             every { validUntilFormatted } returns "2021-11-10"
             every { certificateId } returns "05930482748454836478695764787841"
-            every { qrCode } returns ScreenshotCertificateTestData.recoveryCertificate
+            every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.recoveryCertificate)
         }
 
         return MutableLiveData(mockCertificate)

@@ -13,8 +13,6 @@
 
     <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Name -->
     <string name="covid_certificate_attribute_name" translatable="false">"Name, Vorname / Name, First Name"</string>
-    <!-- XTXT:Vaccination Certificate Detail Screen Attribute: Name (Format) -->
-    <string name="covid_certificate_attribute_name_format" translatable="false">"%1$s, %2$s"</string>
     <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Date of Birth -->
     <string name="covid_certificate_attribute_date_of_birth" translatable="false">"Geburtsdatum / Date of Birth (YYYY-MM-DD)"</string>
     <!-- XTXT: Vaccination Certificate Detail Screen Attribute: Target Disease -->

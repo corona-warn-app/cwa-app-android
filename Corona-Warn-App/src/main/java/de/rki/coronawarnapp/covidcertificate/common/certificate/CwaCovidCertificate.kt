@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
-import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
+import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import org.joda.time.Instant
 
 /**
@@ -13,10 +13,11 @@ interface CwaCovidCertificate {
     val headerIssuedAt: Instant
     val headerExpiresAt: Instant
 
-    val qrCode: QrCodeString
+    val qrCodeToDisplay: CoilQrCode
     val firstName: String?
     val lastName: String
     val fullName: String
+    val fullNameFormatted: String
     val dateOfBirthFormatted: String
     val personIdentifier: CertificatePersonIdentifier
     val certificateIssuer: String
@@ -41,7 +42,10 @@ interface CwaCovidCertificate {
      */
     fun getState(): State
 
+    val isValid get() = getState() is State.Valid || getState() is State.ExpiringSoon
+
     sealed class State {
+
         data class Valid(
             val expiresAt: Instant,
         ) : State()
@@ -54,6 +58,9 @@ interface CwaCovidCertificate {
             val expiredAt: Instant
         ) : State()
 
-        object Invalid : State()
+        object Invalid : State() {
+            const val URL_INVALID_SIGNATURE_DE = "https://www.coronawarn.app/de/faq/#hc_signature_invalid"
+            const val URL_INVALID_SIGNATURE_EN = "https://www.coronawarn.app/en/faq/#hc_signature_invalid"
+        }
     }
 }

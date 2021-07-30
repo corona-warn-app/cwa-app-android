@@ -1,13 +1,12 @@
 package de.rki.coronawarnapp.covidcertificate.test.core.storage
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
-import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateRepoContainer
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
@@ -16,6 +15,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.BaseTestCer
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.GenericTestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RetrievedTestCertificate
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
+import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import org.joda.time.Instant
 import java.util.Locale
 
@@ -67,7 +67,7 @@ data class TestCertificateContainer(
 
     fun toTestCertificate(
         valueSet: TestCertificateValueSets? = null,
-        certificateState: CwaCovidCertificate.State,
+        certificateState: State,
         userLocale: Locale = Locale.getDefault(),
     ): TestCertificate? {
         if (isCertificateRetrievalPending) return null
@@ -77,7 +77,7 @@ data class TestCertificateContainer(
         val testCertificate = certificate.test
 
         return object : TestCertificate {
-            override fun getState(): CwaCovidCertificate.State = certificateState
+            override fun getState(): State = certificateState
 
             override val notifiedExpiresSoonAt: Instant?
                 get() = null
@@ -102,6 +102,9 @@ data class TestCertificateContainer(
 
             override val fullName: String
                 get() = certificate.nameData.fullName
+
+            override val fullNameFormatted: String
+                get() = certificate.nameData.fullNameFormatted
 
             override val dateOfBirthFormatted: String
                 get() = certificate.dateOfBirthFormatted
@@ -138,8 +141,8 @@ data class TestCertificateContainer(
             override val headerExpiresAt: Instant
                 get() = header.expiresAt
 
-            override val qrCode: QrCodeString
-                get() = data.testCertificateQrCode!!
+            override val qrCodeToDisplay: CoilQrCode =
+                displayQrCode(getState(), userLocale.language, data.testCertificateQrCode!!)
 
             override val isUpdatingData: Boolean
                 get() = this@TestCertificateContainer.isUpdatingData
