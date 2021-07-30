@@ -24,6 +24,14 @@
     <string name="person_card_title">"ЕС"</string>
     <!-- XTXT: Person card subtitle-->
     <string name="person_card_subtitle">"Цифров сертификат за COVID"</string>
+    <!-- XTXT: Certificate QR code expiration text-->
+    <string name="certificate_qr_expiration">"Сертификатът изтича на %s в %s"</string>
+    <!-- XTXT: Certificate person details card expiration text -->
+    <string name="certificate_person_details_card_expiration">"изтича на %s в %s"</string>
+    <!-- XTXT: Certificate QR code expired text-->
+    <string name="certificate_qr_expired">"Сертификатът е изтекъл"</string>
+    <!-- XTXT: Certificate QR code invalid signature-->
+    <string name="certificate_qr_invalid_signature">"Сертификатът (подписът) е невалиден"</string>
 
     <!-- XTXT: Vaccination Consent subtitle-->
     <string name="vaccination_consent_headline">"Добавете сертификати"</string>
@@ -168,7 +176,7 @@
     <!-- XTXT: Validation start note point 3 -->
     <string name="validation_start_note_point_3">"С цел удостоверяване на автентичността всеки сертификат се издава с електронен подпис, който се проверява с помощта на приложение за проверка."</string>
     <!-- XTXT: Validation start note point 4 -->
-    <string name="validation_start_note_point_4">"Приложението не проверява дали записаните в сертификата данни са валидни."</string>
+    <string name="validation_start_note_point_4">"Corona-Warn-App не проверява дали записаните в сертификата данни са валидни."</string>
     <!-- XTXT: Validation start FAQ -->
     <string name="validation_start_faq">"За повече информация, вижте ЧЗВ и посетете https://reopen.europa.eu/en."</string>
     <!-- XTXT: Validation start FAQ link -->
@@ -217,8 +225,12 @@
     <string name="validation_rules_technical_failure_header_subtitle">"Следните изисквания не са изпълнени:"</string>
     <!-- XTXT: Validation Rule Technical Failure - Date Format  -->
     <string name="validation_rule_technical_error_date_format">"Форматът на данните в сертификата трябва да отговаря на изискванията."</string>
+    <!-- XTXT: Validation Rule Technical Failure - Signature validation  -->
+    <string name="validation_rule_technical_error_signature">"Сертификатът трябва да носи валиден подпис."</string>
     <!-- XTXT: Validation Rule Technical Failure - Date Expired  -->
-    <string name="validation_rule_technical_error_date_expired">"Валидността на сертификата не трябва да е изтекла."</string>
+    <string name="validation_rule_technical_error_date_expired">"Техническата дата на изтичане на сертификата не може да е отминала."</string>
+    <!-- XTXT: Validation Rule Technical Failure - Date Expired format -->
+    <string name="validation_rule_technical_error_date_expired_format">"Валидно до %2$s, %1$s"</string>
 
     <!-- Validation Passed Screen-->
     <!-- XHED: Toolbar title for the validation passed screen  -->
@@ -263,4 +275,37 @@
     <!-- XTXT: Validation start privacy title -->
     <string name="validation_start_privacy_body">"Текущите правила за въвеждане са изтеглени от сървърите на RKI. Това изисква връзка с Интернет. Данните ви за достъп се изпращат до RKI."</string>
 
+    <!-- XHED: Vaccination Detail expiration Date title -->
+    <string name="expiration_date_title">"Техническа дата на изтичане"</string>
+    <!-- XHED: Vaccination Detail expiration Date -->
+    <string name="expiration_date">"Валидно до %1$s"</string>
+    <!-- XHED: Vaccination Detail expiration info -->
+    <string name="expiration_info">"Моля, снабдете се с нов цифров сертификат навреме."</string>
+    <!-- XTXT: Expired certificate info -->
+    <string name="expired_certificate_info">"Срокът на валидност е изтекъл. Моля, снабдете се с нов цифров сертификат."</string>
+    <!-- XTXT: Invalid certificate signature info -->
+    <string name="invalid_certificate_signature_info">"Сертификатът е издаден от неоторизиран орган или неправилно. Моля, заявете нов сертификат от оторизиран орган. "</string>
+
+
+    <!--    Dcc Signature validation-->
+    <!-- XHED: Signature validation dialog title-->
+    <string name="dcc_signature_validation_dialog_title">"Невалиден подпис"</string>
+    <!-- XTXT: Signature validation dialog message-->
+    <string name="dcc_signature_validation_dialog_message">"Подписът на сертификата е невалиден. Сертификатът няма силата на доказателство и съответно не може да бъде импортиран."</string>
+    <!-- XBUT: Signature validation dialog FAQ button-->
+    <string name="dcc_signature_validation_dialog_faq_button">"ЧЗВ за проверката на подписа"</string>
+    <!-- XTXT: Signature validation dialog FAQ lint-->
+    <string name="dcc_signature_validation_dialog_faq_link">"https://www.coronawarn.app/en/faq/#hc_signature_invalid"</string>
+
+    <!-- Expiration notification -->
+    <!-- XTXT: expiring soon notification -->
+    <string name="dcc_notification_expires_soon_text">"Проверете валидността на своите сертификати."</string>
+    <!-- XTXT: expired notification -->
+    <string name="dcc_notification_expired_text">"Проверете валидността на своите сертификати."</string>
+
+    <!-- DCC notification channel-->
+    <!-- XTXT: certificate notification channel title -->
+    <string name="dcc_notification_channel_title">"Сертификати"</string>
+    <!-- XTXT: certificate notification channel description -->
+    <string name="dcc_notification_channel_description">"Управление на известията относно сертификатите"</string>
 </resources>
