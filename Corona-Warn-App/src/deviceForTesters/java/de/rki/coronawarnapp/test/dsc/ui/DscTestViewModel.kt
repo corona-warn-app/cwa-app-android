@@ -40,7 +40,7 @@ class DscTestViewModel @AssistedInject constructor(
         launch {
             try {
                 dscRepository.refresh()
-            } catch (e:Exception) {
+            } catch (e: Exception) {
                 errorEvent.postValue(Unit)
             }
         }

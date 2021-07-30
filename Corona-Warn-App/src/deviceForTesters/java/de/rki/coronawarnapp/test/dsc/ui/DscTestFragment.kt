@@ -37,7 +37,7 @@ class DscTestFragment : Fragment(R.layout.fragment_test_dsc), AutoInject {
             }
 
             viewModel.errorEvent.observe2(this@DscTestFragment) {
-                Toast.makeText(requireContext(),"Can't refresh List of DSCs",Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Can't refresh List of DSCs", Toast.LENGTH_SHORT).show()
             }
         }
     }
