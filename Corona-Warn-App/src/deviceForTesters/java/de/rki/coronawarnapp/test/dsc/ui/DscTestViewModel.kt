@@ -4,17 +4,21 @@ import androidx.lifecycle.LiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.map
 import org.joda.time.Instant
+import java.lang.Exception
 
-class DscViewModel @AssistedInject constructor(
+class DscTestViewModel @AssistedInject constructor(
     private val dscRepository: DscRepository
 ) : CWAViewModel() {
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<DscViewModel>
+    interface Factory : SimpleCWAViewModelFactory<DscTestViewModel>
+
+    val errorEvent = SingleLiveEvent<Unit>()
 
     val dscData: LiveData<DscDataInfo> = dscRepository.dscData.map {
         DscDataInfo(
@@ -34,7 +38,11 @@ class DscViewModel @AssistedInject constructor(
 
     fun refresh() {
         launch {
-            dscRepository.refresh()
+            try {
+                dscRepository.refresh()
+            } catch (e:Exception) {
+                errorEvent.postValue(Unit)
+            }
         }
     }
 

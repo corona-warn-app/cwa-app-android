@@ -11,6 +11,6 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 abstract class DscModule {
     @Binds
     @IntoMap
-    @CWAViewModelKey(DscViewModel::class)
-    abstract fun playground(factory: DscViewModel.Factory): CWAViewModelFactory<out CWAViewModel>
+    @CWAViewModelKey(DscTestViewModel::class)
+    abstract fun dscTest(factory: DscTestViewModel.Factory): CWAViewModelFactory<out CWAViewModel>
 }

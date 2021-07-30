@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.test.dsc.ui
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestDscBinding
@@ -17,7 +18,7 @@ class DscTestFragment : Fragment(R.layout.fragment_test_dsc), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
-    private val viewModel: DscViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: DscTestViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentTestDscBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -33,6 +34,10 @@ class DscTestFragment : Fragment(R.layout.fragment_test_dsc), AutoInject {
 
             viewModel.dscData.observe2(this@DscTestFragment) {
                 infoText.text = "Last update: ${it.lastUpdate}\nList item size: ${it.listSize}"
+            }
+
+            viewModel.errorEvent.observe2(this@DscTestFragment) {
+                Toast.makeText(requireContext(),"Can't refresh List of DSCs",Toast.LENGTH_SHORT).show()
             }
         }
     }
