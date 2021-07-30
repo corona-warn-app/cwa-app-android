@@ -58,6 +58,9 @@ class DscRepository @Inject constructor(
     suspend fun clear() {
         Timber.d("clear()")
         localStorage.clear()
+        internalData.updateBlocking {
+            defaultDscData.getDscData()
+        }
     }
 
     private fun mapDscList(rawData: ByteArray): DscData {
