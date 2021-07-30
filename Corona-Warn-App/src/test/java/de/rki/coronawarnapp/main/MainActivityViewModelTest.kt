@@ -18,6 +18,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -53,7 +54,10 @@ class MainActivityViewModelTest : BaseTest() {
         )
         every { onboardingSettings.isBackgroundCheckDone } returns true
         every { checkInRepository.checkInsWithinRetention } returns MutableStateFlow(listOf())
-        every { personCertificatesProvider.personCertificates } returns emptyFlow()
+        personCertificatesProvider.apply {
+            every { personCertificates } returns emptyFlow()
+            every { badgeCount } returns flowOf(0)
+        }
     }
 
     private fun createInstance(): MainActivityViewModel = MainActivityViewModel(
