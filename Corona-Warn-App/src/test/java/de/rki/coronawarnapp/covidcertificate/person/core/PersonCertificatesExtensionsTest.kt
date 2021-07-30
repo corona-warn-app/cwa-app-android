@@ -177,17 +177,23 @@ class PersonCertificatesExtensionsTest : BaseTest() {
     }
 
     /**
-     * Prior to bugfix and what this test catches:
-     *
-     * Now:
-     * V/PersonCertificatesExten: findHighestPriorityCertificate(nowUtc=2021-06-24T14:00:00.000Z): [VaccinationCertificate(#1), VaccinationCertificate(#7)]
-     * V/PersonCertificatesExten: No rule match
-     * V/PersonCertificatesExten: No rule match
-     * D/PersonCertificatesExten: Rule 3 match (Series-completing Vaccination Certificate > 14 days): VaccinationCertificate(#7)
-     *
      * Bad: listOf(null,null,cert).map {...}.firstOrNull() ?: fallback
-     * vs
+     *
+     * findHighestPriorityCertificate(nowUtc=2021-06-24T14:00:00.000Z): [VaccinationCertificate(#1), VaccinationCertificate(#7)]
+     * No certs with state Valid/ExpiringSoon
+     * Checking 2 certs with for Expired
+     * Rule 3 match (Series-completing Vaccination Certificate > 14 days): VaccinationCertificate(#7)
+     * No certs with state Invalid
+     * No priority match, this should not happen: [VaccinationCertificate(#1), VaccinationCertificate(#7)]
+     *
+     *
      * Good: listOf(null,null,cert).mapNotNull {...}.firstOrNull() ?: fallback
+     *
+     * findHighestPriorityCertificate(nowUtc=2021-06-24T14:00:00.000Z): [VaccinationCertificate(#1), VaccinationCertificate(#7)]
+     * No certs with state Valid/ExpiringSoon
+     * Checking 2 certs with for Expired
+     * Rule 3 match (Series-completing Vaccination Certificate > 14 days): VaccinationCertificate(#7)
+     * No certs with state Invalid
      */
     @Test
     fun `fallback behavior when there are no valid certificates`() {
