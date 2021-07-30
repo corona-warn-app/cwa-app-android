@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?selectableItemBackground"
@@ -17,26 +17,25 @@
         style="@style/StatisticsCardValueLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_normal"
-        android:layout_marginTop="@dimen/spacing_large"
-        android:layout_marginEnd="@dimen/spacing_normal"
-        android:paddingBottom="@dimen/spacing_normal"
         android:text="@string/statistics_add_card_warning"
         android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@id/plus_image"
+        app:layout_constraintEnd_toEndOf="@id/title_text"
+        app:layout_constraintStart_toStartOf="@id/title_text"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1" />
 
     <ImageView
         android:id="@+id/plus_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_tiny"
         android:contentDescription="@null"
         android:importantForAccessibility="no"
-        app:layout_constraintBottom_toTopOf="@id/title_text"
+        android:padding="@dimen/spacing_tiny"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_blue_plus" />
 
     <TextView
@@ -44,28 +43,14 @@
         style="@style/StatisticsCardValueLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_normal"
-        android:layout_marginEnd="@dimen/spacing_normal"
+        android:layout_marginHorizontal="@dimen/spacing_small"
         android:text="@string/statistics_add_card_title"
         android:textAlignment="center"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/horizontal_barrier" />
-
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/horizontal_guideline"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
-
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/horizontal_barrier"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:barrierDirection="bottom"
-        app:constraint_referenced_ids="horizontal_guideline,warning_text" />
+        app:layout_constraintTop_toBottomOf="@id/plus_image"
+        app:layout_constraintVertical_bias="0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

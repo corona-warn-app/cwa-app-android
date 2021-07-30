@@ -20,9 +20,11 @@ import de.rki.coronawarnapp.util.flow.shareLatest
 import de.rki.coronawarnapp.util.hasAPILevel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -49,8 +51,12 @@ class NetworkStateProvider @Inject constructor(
         var registeredCallback: ConnectivityManager.NetworkCallback? = null
 
         try {
-            fun refreshState() {
-                appScope.launch { send(currentState) }
+
+            fun refreshState(delayValue: Long = 0) {
+                appScope.launch {
+                    delay(delayValue)
+                    send(currentState)
+                }
             }
 
             val callback = object : ConnectivityManager.NetworkCallback() {
@@ -59,9 +65,14 @@ class NetworkStateProvider @Inject constructor(
                     refreshState()
                 }
 
+                /**
+                 * We provide a little delay because some devices (Pixel2, Samsung *) don't update the
+                 * active network fast enought. 200ms gave good results.
+                 */
+
                 override fun onLost(network: Network) {
                     Timber.tag(TAG).v("onLost(network=%s)", network)
-                    refreshState()
+                    refreshState(200)
                 }
 
                 /**
@@ -123,6 +134,7 @@ class NetworkStateProvider @Inject constructor(
             fakeConnectionSubscriber.cancel()
         }
     }
+        .distinctUntilChanged()
         .shareLatest(
             tag = TAG,
             scope = appScope
