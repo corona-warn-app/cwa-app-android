@@ -34,7 +34,7 @@ object Statistics {
     private fun loadRealStatisticsData(): StatisticsData {
         val globalStats = loadGlobalStatisticsData()?.items ?: emptyList()
         val localStats = loadLocalStatisticsData()?.items ?: emptyList()
-        return StatisticsData(items = listOf(AddStatsItem(true)) + localStats + globalStats)
+        return StatisticsData(items = listOf(AddStatsItem(true, true)) + localStats + globalStats)
     }
 
     private fun loadLocalStatisticsData(): LocalStatisticsData? {

@@ -8,7 +8,8 @@ import timber.log.Timber
 data class StatisticsData(
     val items: List<GenericStatsItem> = emptyList()
 ) {
-    val isDataAvailable: Boolean = items.isNotEmpty()
+    val isDataAvailable: Boolean = items
+        .isNotEmpty()
 
     override fun toString(): String {
         return "StatisticsData(cards=${
@@ -39,7 +40,12 @@ data class LocalStatisticsData(
 
 sealed class GenericStatsItem
 
-data class AddStatsItem(val isEnabled: Boolean) : GenericStatsItem()
+data class AddStatsItem(
+    val canAddItem: Boolean,
+    val isInternetAvailable: Boolean
+) : GenericStatsItem() {
+    val isEnabled: Boolean get() = canAddItem && isInternetAvailable
+}
 
 sealed class GlobalStatsItem(val cardType: Type) : GenericStatsItem() {
     abstract val updatedAt: Instant
