@@ -78,7 +78,7 @@ class TestCertificateRepository @Inject constructor(
     ) { certMap, valueSets ->
         certMap.values.map { container ->
             val state = when {
-                container.isCertificateRetrievalPending -> CwaCovidCertificate.State.Invalid
+                container.isCertificateRetrievalPending -> CwaCovidCertificate.State.Invalid()
                 else -> dccStateChecker.checkState(container.testCertificateQRCode.data).first()
             }
 
