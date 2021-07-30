@@ -12,6 +12,7 @@ import io.mockk.every
 import io.mockk.mockk
 import org.joda.time.Duration
 import org.joda.time.Instant
+import org.joda.time.LocalDate
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
@@ -173,5 +174,37 @@ class PersonCertificatesExtensionsTest : BaseTest() {
         shouldThrow<NoSuchElementException> {
             certificates.findHighestPriorityCertificate(time) shouldBe null
         }
+    }
+
+    /**
+     * Prior to bugfix and what this test catches:
+     *
+     * Now:
+     * V/PersonCertificatesExten: findHighestPriorityCertificate(nowUtc=2021-06-24T14:00:00.000Z): [VaccinationCertificate(#1), VaccinationCertificate(#7)]
+     * V/PersonCertificatesExten: No rule match
+     * V/PersonCertificatesExten: No rule match
+     * D/PersonCertificatesExten: Rule 3 match (Series-completing Vaccination Certificate > 14 days): VaccinationCertificate(#7)
+     *
+     * Bad: listOf(null,null,cert).map {...}.firstOrNull() ?: fallback
+     * vs
+     * Good: listOf(null,null,cert).mapNotNull {...}.firstOrNull() ?: fallback
+     */
+    @Test
+    fun `fallback behavior when there are no valid certificates`() {
+        val first = mockk<VaccinationCertificate>().apply {
+            every { rawCertificate.vaccination.doseNumber } returns 2
+            every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
+            every { rawCertificate.vaccination.vaccinatedOn } returns LocalDate.parse("2021-01-01")
+            every { getState() } returns mockk<State.Expired>()
+        }
+
+        val second = mockk<VaccinationCertificate>().apply {
+            every { rawCertificate.vaccination.doseNumber } returns 2
+            every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
+            every { rawCertificate.vaccination.vaccinatedOn } returns LocalDate.parse("2021-01-02")
+            every { getState() } returns mockk<State.Expired>()
+        }
+
+        listOf(first, second).findHighestPriorityCertificate(time) shouldBe second
     }
 }
