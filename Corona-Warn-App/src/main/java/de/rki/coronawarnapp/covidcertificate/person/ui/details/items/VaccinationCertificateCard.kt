@@ -40,8 +40,18 @@ class VaccinationCertificateCard(parent: ViewGroup) :
             R.string.vaccination_certificate_vaccinated_on,
             certificate.vaccinatedOn.toShortDayFormat()
         )
+        val bookmarkIcon = if (curItem.certificate.isValid) R.drawable.ic_bookmark_blue else R.drawable.ic_bookmark
         currentCertificate.isVisible = curItem.isCurrentCertificate
-        val icon = when {
+        bookmark.setImageResource(bookmarkIcon)
+
+        val color = when {
+            curItem.certificate.isValid -> curItem.colorShade
+            else -> PersonColorShade.COLOR_INVALID
+        }
+
+        when {
+            !certificate.isValid -> R.drawable.ic_certificate_invalid
+
             // Final shot
             certificate.isFinalShot -> when (curItem.status) {
                 IMMUNITY -> R.drawable.ic_vaccination_immune
@@ -50,22 +60,21 @@ class VaccinationCertificateCard(parent: ViewGroup) :
 
             // Other shots
             else -> R.drawable.ic_vaccination_incomplete
-        }
-        val background = when {
-            curItem.isCurrentCertificate -> curItem.colorShade.currentCertificateBg
-            else -> curItem.colorShade.defaultCertificateBg
-        }
-        certificateBg.setImageResource(background)
-        certificateIcon.setImageResource(icon)
+        }.also { certificateIcon.setImageResource(it) }
+
+        when {
+            curItem.isCurrentCertificate -> color.currentCertificateBg
+            else -> color.defaultCertificateBg
+        }.also { certificateBg.setImageResource(it) }
 
         certificateExpiration.displayExpirationState(curItem.certificate)
     }
 
     data class Item(
         val certificate: VaccinationCertificate,
+        val colorShade: PersonColorShade,
         val isCurrentCertificate: Boolean,
         val status: VaccinatedPerson.Status,
-        val colorShade: PersonColorShade,
         val onClick: () -> Unit
     ) : CertificateItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null

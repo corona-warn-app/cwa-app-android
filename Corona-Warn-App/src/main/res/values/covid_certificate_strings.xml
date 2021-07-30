@@ -279,7 +279,7 @@
     <!-- XHED: Vaccination Detail expiration Date title -->
     <string name="expiration_date_title">Technisches Ablaufdatum</string>
     <!-- XHED: Vaccination Detail expiration Date -->
-    <string name="expiration_date">Gültig bis %1$s</string>
+    <string name="expiration_date">Gültig bis %s, %s Uhr</string>
     <!-- XHED: Vaccination Detail expiration info -->
     <string name="expiration_info">Bitte bemühen Sie sich rechtzeitig darum, einen neuen digitalen Nachweis ausstellen zu lassen.</string>
     <!-- XTXT: Expired certificate info -->

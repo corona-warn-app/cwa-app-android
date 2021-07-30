@@ -76,6 +76,7 @@ import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.flow.combine
+import de.rki.coronawarnapp.util.network.NetworkStateProvider
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -94,6 +95,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     statisticsProvider: StatisticsProvider,
     localStatisticsProvider: LocalStatisticsProvider,
     vaccinationRepository: VaccinationRepository,
+    networkStateProvider: NetworkStateProvider,
     private val errorResetTool: EncryptionErrorResetTool,
     private val tracingRepository: TracingRepository,
     private val submissionRepository: SubmissionRepository,
@@ -137,12 +139,16 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     private val combinedStatistics = combine(
         statisticsProvider.current,
-        localStatisticsProvider.current
-    ) { statsData, localStatsData ->
+        localStatisticsProvider.current,
+        networkStateProvider.networkState.map { it.isInternetAvailable }.distinctUntilChanged()
+    ) { statsData, localStatsData, isInternetAvailable ->
         statsData.copy(
-            items = mutableListOf(AddStatsItem(localStatsData.items.size < 5)) +
-                localStatsData.items +
-                statsData.items
+            items = mutableListOf(
+                AddStatsItem(
+                    canAddItem = localStatsData.items.size < 5,
+                    isInternetAvailable = isInternetAvailable
+                )
+            ) + localStatsData.items + statsData.items
         )
     }
 
@@ -206,9 +212,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                         data = statsData,
                         onClickListener = {
                             when (it) {
-                                is AddStatsItem -> {
-                                    events.postValue(HomeFragmentEvents.GoToFederalStateSelection)
-                                }
+                                is AddStatsItem -> events.postValue(HomeFragmentEvents.GoToFederalStateSelection)
                                 else -> events.postValue(HomeFragmentEvents.GoToStatisticsExplanation)
                             }
                         },

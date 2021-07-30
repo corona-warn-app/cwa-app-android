@@ -75,17 +75,18 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                 personDetailsAdapter.update(it)
             }
             viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
-
-            expandedImage.setImageResource(args.colorShade.background)
-            europaImage.setImageDrawable(
-                requireContext().getDrawableCompat(R.drawable.ic_eu_stars_blue)?.let {
-                    DrawableCompat.wrap(it)
-                        .mutate()
-                        .apply {
-                            setTint(requireContext().getColorCompat(args.colorShade.starsTint))
-                        }
-                }
-            )
+            viewModel.currentColorShade.observe(viewLifecycleOwner) { color ->
+                expandedImage.setImageResource(color.background)
+                europaImage.setImageDrawable(
+                    requireContext().getDrawableCompat(R.drawable.ic_eu_stars_blue)?.let {
+                        DrawableCompat.wrap(it)
+                            .mutate()
+                            .apply {
+                                setTint(requireContext().getColorCompat(color.starsTint))
+                            }
+                    }
+                )
+            }
         }
     }
 

@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateCo
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -21,18 +22,18 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
     private val dccValidationRepository: DccValidationRepository,
 ) : CWAViewModel(dispatcherProvider) {
 
-    private var qrCodeText: String? = null
+    private var qrCode: CoilQrCode? = null
     val events = SingleLiveEvent<TestCertificateDetailsNavigation>()
     val errors = SingleLiveEvent<Throwable>()
     val covidCertificate = testCertificateRepository.certificates.map { certificates ->
         certificates.find { it.containerId == containerId }?.testCertificate?.also {
-            qrCodeText = it.qrCode
+            qrCode = it.qrCodeToDisplay
         }
     }.asLiveData(dispatcherProvider.Default)
 
     fun onClose() = events.postValue(TestCertificateDetailsNavigation.Back)
 
-    fun openFullScreen() = qrCodeText?.let { events.postValue(TestCertificateDetailsNavigation.FullQrCode(it)) }
+    fun openFullScreen() = qrCode?.let { events.postValue(TestCertificateDetailsNavigation.FullQrCode(it)) }
 
     fun onDeleteTestCertificateConfirmed() = launch {
         Timber.d("Removing Test Certificate=$containerId")

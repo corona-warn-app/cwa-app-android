@@ -1,18 +1,18 @@
 package de.rki.coronawarnapp.covidcertificate.recovery.core.storage
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode
 import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
-import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateRepoContainer
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
+import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import java.util.Locale
@@ -46,7 +46,7 @@ data class RecoveryCertificateContainer(
 
     fun toRecoveryCertificate(
         valueSet: VaccinationValueSets? = null,
-        certificateState: CwaCovidCertificate.State,
+        certificateState: State,
         userLocale: Locale = Locale.getDefault(),
     ): RecoveryCertificate {
         val header = certificateData.header
@@ -54,7 +54,7 @@ data class RecoveryCertificateContainer(
         val recoveryCertificate = certificate.recovery
 
         return object : RecoveryCertificate {
-            override fun getState(): CwaCovidCertificate.State = certificateState
+            override fun getState(): State = certificateState
 
             override val notifiedExpiresSoonAt: Instant?
                 get() = data.notifiedExpiresSoonAt
@@ -83,6 +83,8 @@ data class RecoveryCertificateContainer(
                 get() = certificate.nameData.lastName
             override val fullName: String
                 get() = certificate.nameData.fullName
+            override val fullNameFormatted: String
+                get() = certificate.nameData.fullNameFormatted
 
             override val dateOfBirthFormatted: String
                 get() = certificate.dateOfBirthFormatted
@@ -122,8 +124,8 @@ data class RecoveryCertificateContainer(
             override val headerExpiresAt: Instant
                 get() = header.expiresAt
 
-            override val qrCode: QrCodeString
-                get() = data.recoveryCertificateQrCode
+            override val qrCodeToDisplay: CoilQrCode =
+                displayQrCode(getState(), userLocale.language, data.recoveryCertificateQrCode)
 
             override val dccData: DccData<out DccV1.MetaData>
                 get() = certificateData

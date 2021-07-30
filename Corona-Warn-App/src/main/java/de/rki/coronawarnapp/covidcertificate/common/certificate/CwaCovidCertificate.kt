@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
-import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
+import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.util.serialization.adapter.RuntimeTypeAdapterFactory
 import org.joda.time.Instant
@@ -17,10 +17,11 @@ interface CwaCovidCertificate {
     val headerIssuedAt: Instant
     val headerExpiresAt: Instant
 
-    val qrCode: QrCodeString
+    val qrCodeToDisplay: CoilQrCode
     val firstName: String?
     val lastName: String
     val fullName: String
+    val fullNameFormatted: String
     val dateOfBirthFormatted: String
     val personIdentifier: CertificatePersonIdentifier
     val certificateIssuer: String
@@ -47,6 +48,8 @@ interface CwaCovidCertificate {
      */
     fun getState(): State
 
+    val isValid get() = getState() is State.Valid || getState() is State.ExpiringSoon
+
     /**
      * Requires RuntimeAdapterFactory, see [SerializationModule]
      */
@@ -66,7 +69,12 @@ interface CwaCovidCertificate {
 
         data class Invalid(
             @SerializedName("isInvalidSignature") val isInvalidSignature: Boolean = true
-        ) : State("Invalid")
+        ) : State("Invalid") {
+            companion object {
+                const val URL_INVALID_SIGNATURE_DE = "https://www.coronawarn.app/de/faq/#hc_signature_invalid"
+                const val URL_INVALID_SIGNATURE_EN = "https://www.coronawarn.app/en/faq/#hc_signature_invalid"
+            }
+        }
 
         companion object {
             const val TYPE_FIELD_NAME = "typeName"

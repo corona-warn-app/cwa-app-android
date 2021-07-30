@@ -162,5 +162,10 @@
         android:name="de.rki.coronawarnapp.test.coronatest.ui.CoronaTestTestFragment"
         android:label="CoronaTestTestFragment"
         tools:layout="@layout/fragment_test_coronatest" />
+    <fragment
+        android:id="@+id/dscFragment"
+        android:name="de.rki.coronawarnapp.test.dsc.ui.DscTestFragment"
+        android:label="DscFragment"
+        tools:layout="@layout/fragment_test_dsc" />
 
 </navigation>
