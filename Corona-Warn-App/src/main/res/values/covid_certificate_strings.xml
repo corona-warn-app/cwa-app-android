@@ -112,6 +112,10 @@
     <string name="test_certificate_qrcode_card_sampled_on">"Sample taken %s"</string>
     <!-- XTXT: Test certificate card name  -->
     <string name="test_certificate_name">"Test Certificate"</string>
+    <!-- XTXT: Test certificate PCR test type  -->
+    <string name="test_certificate_pcr_test_type">PCR-Test</string>
+    <!-- XTXT: Test certificate Rapid test Type  -->
+    <string name="test_certificate_rapid_test_type">Schnelltest</string>
     <!-- XTXT: Dialog description for error 409 recovery-->
     <string name="test_certificate_error_409_recovery_description">"No certificate can be created for this test. Please add a new test to receive a certificate."</string>
 
