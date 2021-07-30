@@ -35,7 +35,8 @@
         android:id="@+id/empty_list_info_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="48dp"
+        android:layout_marginHorizontal="@dimen/spacing_small"
+        android:layout_marginBottom="@dimen/spacing_small"
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone"
@@ -66,7 +67,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:text="@string/trace_location_checkins_empty_description" />
+            android:text="@string/trace_location_checkins_empty_description"
+            app:autoSizeTextType="uniform" />
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
