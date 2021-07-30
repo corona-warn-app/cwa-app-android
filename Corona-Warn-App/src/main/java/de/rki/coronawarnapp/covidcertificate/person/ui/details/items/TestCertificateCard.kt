@@ -33,7 +33,13 @@ class TestCertificateCard(parent: ViewGroup) :
             R.string.test_certificate_sampled_on,
             certificate.sampleCollectedAt.toUserTimeZone().toDayFormat()
         )
-        testCertificateType.text = certificate.testType
+
+        when (certificate.rawCertificate.test.testType) {
+            // PCR Test
+            "LP6464-4" -> R.string.test_certificate_pcr_test_type
+            // RAT Test
+            else -> R.string.test_certificate_rapid_test_type
+        }.also { testCertificateType.setText(it) }
 
         val bookmarkIcon = if (curItem.certificate.isValid) R.drawable.ic_bookmark_blue else R.drawable.ic_bookmark
         currentCertificate.isVisible = curItem.isCurrentCertificate
