@@ -7,9 +7,7 @@ import android.net.Uri
 import timber.log.Timber
 import javax.inject.Inject
 
-class BaseImageUriResolver @Inject constructor(
-
-) : ImageUriResolver {
+class BaseImageUriResolver @Inject constructor() : ImageUriResolver {
     // Create a sequence of increasingly smaller images
     override fun resolve(uri: Uri, context: Context): Sequence<Bitmap> {
         var scaleFactor = MAX_SCALE_FACTOR
