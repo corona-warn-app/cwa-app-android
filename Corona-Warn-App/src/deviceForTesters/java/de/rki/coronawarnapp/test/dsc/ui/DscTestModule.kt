@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class DscModule {
+abstract class DscTestModule {
     @Binds
     @IntoMap
     @CWAViewModelKey(DscTestViewModel::class)
