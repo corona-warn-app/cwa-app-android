@@ -15,7 +15,7 @@ class QRCodeBitmapProvider @Inject constructor(
     private val imageUriResolver: ImageUriResolver,
     private val pdfUriResolver: PdfUriResolver
 ) {
-    suspend fun getBitmapsForUri(uri: Uri): BitmapResult {
+    fun getBitmapsForUri(uri: Uri): BitmapResult {
         val type = context.contentResolver.getType(uri) ?: return BitmapResult.Failed(
             IllegalArgumentException("File uri could not be resolved to a type")
         )
@@ -23,7 +23,7 @@ class QRCodeBitmapProvider @Inject constructor(
         return try {
             when {
                 type.startsWith("image/") ->
-                    BitmapResult.Success(listOf(imageUriResolver.resolve(uri, context)))
+                    BitmapResult.Success(imageUriResolver.resolve(uri, context))
                 type == "application/pdf" ->
                     BitmapResult.Success(pdfUriResolver.resolve(uri, context))
                 else ->
@@ -35,7 +35,7 @@ class QRCodeBitmapProvider @Inject constructor(
     }
 
     sealed class BitmapResult {
-        data class Success(val bitmaps: List<Bitmap>) : BitmapResult()
+        data class Success(val bitmaps: Sequence<Bitmap>) : BitmapResult()
         data class Failed(val error: Exception) : BitmapResult()
     }
 }

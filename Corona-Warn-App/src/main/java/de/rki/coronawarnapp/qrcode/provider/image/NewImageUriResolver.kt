@@ -6,23 +6,38 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
-import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.P)
-class NewImageUriResolver @Inject constructor(
-    private val dispatcherProvider: DispatcherProvider
-) : ImageUriResolver {
-    // This should be fine because of withContext
-    @Suppress("BlockingMethodInNonBlockingContext")
-    override suspend fun resolve(uri: Uri, context: Context): Bitmap = withContext(dispatcherProvider.IO) {
-        val bitmapSource = ImageDecoder.createSource(context.contentResolver, uri)
-        ImageDecoder.decodeBitmap(
-            bitmapSource
-        ) { decoder, _, _ ->
-            decoder.allocator = ImageDecoder.ALLOCATOR_SOFTWARE
-            decoder.isMutableRequired = true
+class NewImageUriResolver @Inject constructor() : ImageUriResolver {
+    // Create a sequence of increasingly smaller images
+    override fun resolve(uri: Uri, context: Context): Sequence<Bitmap> {
+        var scaleFactor = MAX_SCALE_FACTOR
+        return generateSequence {
+            if (scaleFactor == 0) {
+                return@generateSequence null
+            }
+
+            val bitmapSource = ImageDecoder.createSource(context.contentResolver, uri)
+
+            val bitmap = ImageDecoder.decodeBitmap(
+                bitmapSource
+            ) { decoder, _, _ ->
+                decoder.allocator = ImageDecoder.ALLOCATOR_SOFTWARE
+                decoder.setTargetSampleSize(scaleFactor)
+                decoder.isMutableRequired = true
+            }
+
+            Timber.d("Providing bitmap with scale factor: %s", scaleFactor)
+
+            scaleFactor -= 1
+
+            bitmap
         }
+    }
+
+    companion object {
+        const val MAX_SCALE_FACTOR = 6
     }
 }

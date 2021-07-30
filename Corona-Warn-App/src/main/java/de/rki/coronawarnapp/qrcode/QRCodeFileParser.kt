@@ -1,48 +1,46 @@
 package de.rki.coronawarnapp.qrcode
 
 import android.net.Uri
-import androidx.core.graphics.scale
 import com.google.zxing.BinaryBitmap
 import com.google.zxing.LuminanceSource
 import com.google.zxing.RGBLuminanceSource
 import com.google.zxing.ReaderException
 import com.google.zxing.common.HybridBinarizer
+import com.google.zxing.qrcode.QRCodeReader
 import dagger.Reusable
 import de.rki.coronawarnapp.qrcode.provider.QRCodeBitmapProvider
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
-import com.google.zxing.MultiFormatReader
 
 @Reusable
 class QRCodeFileParser @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
-    private val qrCodeBitmapProvider: QRCodeBitmapProvider
+    private val qrCodeBitmapProvider: QRCodeBitmapProvider,
+    private val qrCodeReader: QRCodeReader
 ) {
 
     suspend fun decodeQrCodeFile(fileUri: Uri): QRCodeParseResult = withContext(dispatcherProvider.IO) {
         when (val bitmapResult = qrCodeBitmapProvider.getBitmapsForUri(fileUri)) {
             is QRCodeBitmapProvider.BitmapResult.Success -> {
-                for (sourceBitmap in bitmapResult.bitmaps) {
-                    for (i in 1..15) {
-                        val bitmap = sourceBitmap.scale(sourceBitmap.width / i, sourceBitmap.height / i)
-                        val pixelBuffer = IntArray(bitmap.byteCount)
-                        bitmap.getPixels(pixelBuffer, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
-                        bitmap.recycle()
+                for (bitmap in bitmapResult.bitmaps) {
 
-                        val source: LuminanceSource = RGBLuminanceSource(bitmap.width, bitmap.height, pixelBuffer)
-                        val binaryBitmap = BinaryBitmap(HybridBinarizer(source))
+                    val pixelBuffer = IntArray(bitmap.byteCount)
+                    bitmap.getPixels(pixelBuffer, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
+                    val source: LuminanceSource = RGBLuminanceSource(bitmap.width, bitmap.height, pixelBuffer)
 
-                        try {
-                            val content = MultiFormatReader().decode(binaryBitmap).text
-                            Timber.d("Parsed qr code from image: %s", content)
-                            return@withContext QRCodeParseResult.Success(content)
-                        } catch (ex: ReaderException) {
-                            Timber.d(ex, "Failed to Parse QR Code from bitmap")
-                        }
+                    val binaryBitmap = BinaryBitmap(HybridBinarizer(source))
+
+                    try {
+                        val content = qrCodeReader.decode(binaryBitmap).text
+                        Timber.d("Parsed qr code from image: %s", content)
+                        return@withContext QRCodeParseResult.Success(content)
+                    } catch (ex: ReaderException) {
+                        Timber.d(ex, "Failed to Parse QR Code from bitmap")
                     }
-                    sourceBitmap.recycle()
+
+                    bitmap.recycle()
                 }
 
                 return@withContext QRCodeParseResult.Failure(

@@ -5,5 +5,5 @@ import android.graphics.Bitmap
 import android.net.Uri
 
 interface ImageUriResolver {
-    suspend fun resolve(uri: Uri, context: Context): Bitmap
+    fun resolve(uri: Uri, context: Context): Sequence<Bitmap>
 }
