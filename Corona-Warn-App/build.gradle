@@ -187,9 +187,6 @@ android {
 
     lintOptions {
         checkAllWarnings = true
-        // this rule is broken on 2.3.0
-        // see the following issue: https://issuetracker.google.com/issues/169249668
-        disable 'NullSafeMutableLiveData'
     }
 
     testOptions {
@@ -313,7 +310,7 @@ repositories {
 dependencies {
     // Comes from `local-maven-repo`
     // See https://github.com/corona-warn-app/dgc-certlogic-android
-    implementation ('dgca.verifier.app:dgc-certlogic-android-light:+')
+    implementation('dgca.verifier.app:dgc-certlogic-android-light:+')
 
     // Required for rdgca.verifier.app:dgc-certlogic-android-light API 26 Time API
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
