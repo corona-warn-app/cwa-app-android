@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
-    <!-- this rule is broken on 2.3.0
-    see the following issue: https://issuetracker.google.com/issues/169249668 -->
-    <issue id="NullSafeMutableLiveData" severity="warning" />
-
-    <!-- Reduce severity level for Timber lint rules until the following issue is fixed
-     https://github.com/JakeWharton/timber/issues/408 -->
-    <issue id="LogNotTimber" severity="ignore" />
-    <issue id="StringFormatInTimber" severity="ignore" />
-    <issue id="ThrowableNotAtBeginning" severity="ignore" />
-    <issue id="BinaryOperationInTimber" severity="ignore" />
-    <issue id="TimberArgCount" severity="ignore" />
-    <issue id="TimberArgTypes" severity="ignore" />
-    <issue id="TimberTagLength" severity="ignore" />
-    <issue id="TimberExceptionLogging" severity="ignore" />
-
-    <!-- Ignore [InvalidPackage] lint error referenced
-    from org.bouncycastle.cert.dane.fetcher.JndiDANEFetcherFactory -->
+    <!-- Ignore [InvalidPackage] lint error referenced from org.bouncycastle -->
     <issue id="InvalidPackage" severity="ignore">
         <ignore path="**/org.bouncycastle/bcprov-jdk15on/*" />
     </issue>
