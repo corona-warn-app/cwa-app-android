@@ -188,6 +188,15 @@ android {
     lintOptions {
         lintConfig file('lint.xml')
         checkAllWarnings = true
+        disable "LogNotTimber",
+                "StringFormatInTimber",
+                "ThrowableNotAtBeginning",
+                "BinaryOperationInTimber",
+                "TimberArgCount",
+                "TimberArgTypes",
+                "TimberTagLength",
+                "TimberExceptionLogging"
+
     }
 
     testOptions {
