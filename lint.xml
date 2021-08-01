@@ -6,18 +6,18 @@
 
     <!-- Reduce severity level for Timber lint rules until the following issue is fixed
      https://github.com/JakeWharton/timber/issues/408 -->
-    <issue id="LogNotTimber" severity="warning" />
-    <issue id="StringFormatInTimber" severity="warning" />
-    <issue id="ThrowableNotAtBeginning" severity="warning" />
-    <issue id="BinaryOperationInTimber" severity="warning" />
-    <issue id="TimberArgCount" severity="warning" />
-    <issue id="TimberArgTypes" severity="warning" />
-    <issue id="TimberTagLength" severity="warning" />
-    <issue id="TimberExceptionLogging" severity="warning" />
+    <issue id="LogNotTimber" severity="ignore" />
+    <issue id="StringFormatInTimber" severity="ignore" />
+    <issue id="ThrowableNotAtBeginning" severity="ignore" />
+    <issue id="BinaryOperationInTimber" severity="ignore" />
+    <issue id="TimberArgCount" severity="ignore" />
+    <issue id="TimberArgTypes" severity="ignore" />
+    <issue id="TimberTagLength" severity="ignore" />
+    <issue id="TimberExceptionLogging" severity="ignore" />
 
     <!-- Ignore [InvalidPackage] lint error referenced
     from org.bouncycastle.cert.dane.fetcher.JndiDANEFetcherFactory -->
-    <issue id="InvalidPackage" severity="warning">
+    <issue id="InvalidPackage" severity="ignore">
         <ignore path="**/org.bouncycastle/bcprov-jdk15on/*" />
     </issue>
 </lint>
