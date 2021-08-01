@@ -13,6 +13,7 @@
     <issue id="TimberArgCount" severity="ignore" />
     <issue id="TimberArgTypes" severity="ignore" />
     <issue id="TimberTagLength" severity="ignore" />
+    <issue id="TimberExceptionLogging" severity="ignore" />
 
     <!-- Ignore [InvalidPackage] lint error referenced
     from org.bouncycastle.cert.dane.fetcher.JndiDANEFetcherFactory -->
