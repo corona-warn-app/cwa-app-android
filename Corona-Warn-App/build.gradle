@@ -186,6 +186,7 @@ android {
     }
 
     lintOptions {
+        lintConfig file('lint.xml')
         checkAllWarnings = true
     }
 
