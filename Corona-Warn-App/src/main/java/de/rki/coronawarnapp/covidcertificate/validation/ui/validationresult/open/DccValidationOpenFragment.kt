@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.ValidationResultAdapter
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.setHeaderForState
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultFragmentsBinding
+import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.RecylerViewPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
@@ -53,6 +54,10 @@ class DccValidationOpenFragment : Fragment(R.layout.covid_certificate_validation
             }
 
             toolbar.setNavigationOnClickListener { popBackStack() }
+
+            appBarLayout.onOffsetChange { _, subtitleAlpha ->
+                headerImage.alpha = subtitleAlpha
+            }
         }
 
         viewModel.listItems.observe2(this) {
