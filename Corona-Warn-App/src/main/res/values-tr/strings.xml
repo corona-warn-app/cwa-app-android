@@ -567,8 +567,8 @@
     <string name="settings_off">"Kapalı"</string>
     <!-- XHED: settings(tracing) - page title -->
     <string name="settings_tracing_title">"Maruz Kalma Günlüğü"</string>
-    <!-- XHED: settings(tracing) - headline bellow illustration -->
-    <string name="settings_tracing_headline">"Maruz kalma günlüğü nasıl çalışır?"</string>
+    <!-- XHED: settings(tracing) - headline below illustration -->
+    <string name="settings_tracing_headline">"Maruz kalma günlüğü bu şekilde çalışır"</string>
     <!-- XTXT: settings(tracing) - explain text in settings overview under headline -->
     <string name="settings_tracing_body_description">"COVID-19 rastgele kimliklerinin oluşturulmasına ve paylaşılmasına izin verin."</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, active -->
@@ -577,6 +577,8 @@
     <string name="settings_tracing_body_inactive">"Maruz kalma günlüğü durduruldu"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
     <string name="settings_tracing_body_inactive_location">"Konum hizmetleri devre dışı bırakıldı"</string>
+    <!-- XHED: settings(tracing) - headline of tracing explanation -->
+    <string name="settings_tracing_body_headline">"Maruz Kalma Günlüğü Nasıl Çalışır?"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
     <string name="settings_tracing_body_text">"Uygulamanın, enfeksiyon riski altında olup olmadığınızı belirleyebilmesi için maruz kalma günlüğü özelliğini etkinleştirmeniz gerekir. Maruz kalma günlüğü özelliği uluslararası olarak çalışır; yani, kullanıcılara ilişkin tüm olası maruz kalmalar da diğer resmi koronavirüs uygulamalarıyla tespit edilir.\n\nMaruz kalma günlüğü özelliği, Android akıllı telefonunuzun Bluetooth üzerinden diğer uygulama kullanıcılarının şifrelenmiş rastgele kimliklerini alması ve size ait rastgele kimlikleri diğer kullanıcıların akıllı telefonlarına aktarmasıyla çalışır. Uygulama her gün, virüs testi pozitif olan ve uygulamaları aracılığıyla bu bilgileri (özellikle rastgele kimliklerini) gönüllü olarak paylaşan tüm kullanıcıların rastgele kimliklerini içeren listeler ile birlikte bu kullanıcıların belirtilerinin başlangıcına ilişkin gönüllü olarak verilen tüm bilgileri indirir. Ardından bu liste, sizin de enfekte olma olasılığınızı hesaplamak ve gereken durumlarda sizi uyarmak için Android akıllı telefonunuzun kaydetttiği ve karşılaştığınız diğer kullanıcıların rastgele kimliklerle karşılaştırılır.\n\nDüğmeyi kullanarak dilediğiniz zaman maruz kalma günlüğünü devre dışı bırakabilirsiniz.\n\nUygulama hiçbir durumda adınız, adresiniz veya konumunuz gibi kişisel verileri toplamaz ve bu bilgileri diğer kullanıcılara aktarmaz. Rastgele kimlikleri kullanarak kişilerin kimlikleri hakkında sonuçlar çıkarılamaz."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -619,7 +621,7 @@
     <!-- YTXT: settings(notification) - description text when it notifications are enabled -->
     <string name="settings_notifications_body_active">"Hangi konularda bildirim almaya devam etmek istediğinizi belirtin."</string>
     <!-- XTXT: settings(notification) - explains what the user has to do to activate settings -->
-    <string name="settings_notifications_body_inactive">"Bildirimleri etkinleştirmek üzere cihazınızın ayarlarında Corona-Warn-App için bildirimlere izin vermeniz gerekir."</string>
+    <string name="settings_notifications_body_inactive">"Corona-Warn-App uygulamasında bildirimleri etkinleştirmek için cihazınızın ayarlarında bildirimlere izin vermeniz gerekir."</string>
     <!-- XHED: settings(notification) - card headline -->
     <string name="settings_notifications_headline_card">"Bildirimleri Etkinleştir"</string>
     <!-- XHED: settings - notification headline on settings overview -->
@@ -1431,7 +1433,7 @@
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"Onaylanan Yeni Enfeksiyon Sayısı"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
-    <string name="statistics_explanation_confirmed_new_infection_text">"Koronavirüs tanısı koyulan ve RKI’ye bildirilen kişi sayısı"</string>
+    <string name="statistics_explanation_confirmed_new_infection_text">"Koronavirüs tanısı alan ve RKI’ye bildirilen kişi sayısı."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Uygulama Kullanıcılarının Uyarıları"</string>
     <!-- XTXT: Explanation screen warned persons text -->
@@ -1443,7 +1445,7 @@
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7 Günlük Olay"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
-    <string name="statistics_explanation_seven_day_incidence_text">"Her 100.000 vatandaşta son 7 günde (bildirme tarihine göre) onaylanan toplam yeni enfeksiyon sayısı"</string>
+    <string name="statistics_explanation_seven_day_incidence_text">"Her 100.000 vatandaşta son 7 günde (bildirme tarihine göre) onaylanan toplam yeni enfeksiyon sayısı."</string>
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7 Günlük R Değeri"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
@@ -1526,7 +1528,9 @@
 
     <!-- Statistics Add new tile -->
     <!-- XTXT: Statistics add card title -->
-    <string name="statistics_add_card_title">"Yerel 7 günlük olay ekle"</string>
+    <string name="statistics_add_card_title">"Yerel 7 Günlük Olay Ekle"</string>
+    <!-- XTXT: Statistics add card warning no internet -->
+    <string name="statistics_add_card_warning_no_internet">"İnternet bağlantınız kesildi. 7 günlük olay değeri eklenemedi. Lütfen bağlantıyı kontrol edin ve yeniden deneyin."</string>
     <!-- XTXT: Statistics add card warning -->
     <string name="statistics_add_card_warning">"Maksimum yerel 7 günlük olay sayısına ulaşıldı."</string>
     <!-- XTXT: Statistics add screen whole state -->
