@@ -241,6 +241,39 @@ class VaccinationRepository @Inject constructor(
         }
     }
 
+    suspend fun acknowledgeState(containerId: VaccinationCertificateContainerId) {
+        Timber.tag(TAG).d("acknowledgeStateChange(containerId=$containerId)")
+        internalData.updateBlocking {
+            val toUpdatePerson = singleOrNull { it.findVaccination(containerId) != null }
+
+            if (toUpdatePerson == null) {
+                Timber.tag(TAG).w("Couldn't find %s", containerId)
+                return@updateBlocking this
+            }
+
+            val toUpdateVaccination = toUpdatePerson.findVaccination(containerId)!!
+            val currentState = dccStateChecker.checkState(toUpdateVaccination.certificateData).first()
+
+            Timber.tag(TAG)
+                .d("Acknowledging state change to %s -> %s.", toUpdateVaccination.lastSeenStateChange, currentState)
+
+            val newVaccination = toUpdateVaccination.copy(
+                lastSeenStateChange = currentState,
+                lastSeenStateChangeAt = timeStamper.nowUTC,
+            )
+
+            newVaccination.qrCodeExtractor = qrCodeExtractor
+
+            val newPerson = toUpdatePerson.copy(
+                data = toUpdatePerson.data.copy(
+                    vaccinations = toUpdatePerson.data.vaccinations.minus(toUpdateVaccination).plus(newVaccination)
+                )
+            )
+
+            this.minus(toUpdatePerson).plus(newPerson)
+        }
+    }
+
     companion object {
         private const val TAG = "VaccinationRepository"
     }

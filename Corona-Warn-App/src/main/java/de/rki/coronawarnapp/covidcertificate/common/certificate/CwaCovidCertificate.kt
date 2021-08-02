@@ -1,7 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
+import androidx.annotation.Keep
+import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
+import de.rki.coronawarnapp.util.serialization.SerializationModule
+import de.rki.coronawarnapp.util.serialization.adapter.RuntimeTypeAdapterFactory
 import org.joda.time.Instant
 
 /**
@@ -34,8 +38,10 @@ interface CwaCovidCertificate {
     val dccData: DccData<out DccV1.MetaData>
 
     val notifiedExpiresSoonAt: Instant?
-
     val notifiedExpiredAt: Instant?
+
+    val lastSeenStateChange: State?
+    val lastSeenStateChangeAt: Instant?
 
     /**
      * The current state of the certificate, see [State]
@@ -44,23 +50,39 @@ interface CwaCovidCertificate {
 
     val isValid get() = getState() is State.Valid || getState() is State.ExpiringSoon
 
-    sealed class State {
-
+    /**
+     * Requires RuntimeAdapterFactory, see [SerializationModule]
+     */
+    @Keep
+    sealed class State(val type: String) {
         data class Valid(
-            val expiresAt: Instant,
-        ) : State()
+            @SerializedName("expiresAt") val expiresAt: Instant,
+        ) : State("Valid")
 
         data class ExpiringSoon(
-            val expiresAt: Instant,
-        ) : State()
+            @SerializedName("expiresAt") val expiresAt: Instant,
+        ) : State("ExpiringSoon")
 
         data class Expired(
-            val expiredAt: Instant
-        ) : State()
+            @SerializedName("expiredAt") val expiredAt: Instant,
+        ) : State("Expired")
 
-        object Invalid : State() {
-            const val URL_INVALID_SIGNATURE_DE = "https://www.coronawarn.app/de/faq/#hc_signature_invalid"
-            const val URL_INVALID_SIGNATURE_EN = "https://www.coronawarn.app/en/faq/#hc_signature_invalid"
+        data class Invalid(
+            @SerializedName("isInvalidSignature") val isInvalidSignature: Boolean = true
+        ) : State("Invalid") {
+            companion object {
+                const val URL_INVALID_SIGNATURE_DE = "https://www.coronawarn.app/de/faq/#hc_signature_invalid"
+                const val URL_INVALID_SIGNATURE_EN = "https://www.coronawarn.app/en/faq/#hc_signature_invalid"
+            }
+        }
+
+        companion object {
+            const val TYPE_FIELD_NAME = "typeName"
+            val typeAdapter = RuntimeTypeAdapterFactory.of(State::class.java, "type", true)
+                .registerSubtype(Valid::class.java, "Valid")
+                .registerSubtype(ExpiringSoon::class.java, "ExpiringSoon")
+                .registerSubtype(Expired::class.java, "Expired")
+                .registerSubtype(Invalid::class.java, "Invalid")
         }
     }
 }

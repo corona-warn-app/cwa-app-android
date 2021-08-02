@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storag
 import android.content.Context
 import androidx.core.content.edit
 import com.google.gson.Gson
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
@@ -27,6 +28,7 @@ class VaccinationStorage @Inject constructor(
         // Allow for custom type adapter.
         baseGson.newBuilder().apply {
             registerTypeAdapterFactory(containerPostProcessor)
+            registerTypeAdapterFactory(CwaCovidCertificate.State.typeAdapter)
         }.create()
     }
 
