@@ -567,8 +567,8 @@
     <string name="settings_off">"Wył."</string>
     <!-- XHED: settings(tracing) - page title -->
     <string name="settings_tracing_title">"Rejestrowanie narażenia"</string>
-    <!-- XHED: settings(tracing) - headline bellow illustration -->
-    <string name="settings_tracing_headline">"Jak działa funkcja rejestrowania narażenia"</string>
+    <!-- XHED: settings(tracing) - headline below illustration -->
+    <string name="settings_tracing_headline">"Sposób działania funkcji rejestrowania narażenia"</string>
     <!-- XTXT: settings(tracing) - explain text in settings overview under headline -->
     <string name="settings_tracing_body_description">"Zezwól na tworzenie i udostępnianie losowych identyfikatorów COVID-19."</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, active -->
@@ -577,6 +577,8 @@
     <string name="settings_tracing_body_inactive">"Rejestrowanie narażenia zatrzymane"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
     <string name="settings_tracing_body_inactive_location">"Usługi lokalizacji dezaktywowane"</string>
+    <!-- XHED: settings(tracing) - headline of tracing explanation -->
+    <string name="settings_tracing_body_headline">"Jak działa funkcja rejestrowania narażenia"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
     <string name="settings_tracing_body_text">"Musisz włączyć funkcję rejestrowania narażenia, aby aplikacja mogła ustalić, czy dotyczy Cię ryzyko zakażenia. Funkcja rejestrowania narażenia działa w skali międzynarodowej, co oznacza, że potencjalne narażenie użytkowników jest wykrywane również przez inne oficjalne aplikacje koronawirusowe.\n\nDziałanie funkcji rejestrowania narażenia polega na odbieraniu przez Twój smartfon z systemem Android za pomocą Bluetooth zaszyfrowanych, losowych identyfikatorów innych użytkowników aplikacji i przekazywaniu Twoich własnych, losowych identyfikatorów do ich smartfonów. Codziennie aplikacja pobiera listy losowych identyfikatorów – wraz z wszelkimi opcjonalnie podawanymi informacjami o wystąpieniu objawów – wszystkich użytkowników, którzy mieli pozytywny wynik testu na obecność koronawirusa i dobrowolnie udostępnili tę informację (a dokładnie swoje losowe identyfikatory) poprzez swoją aplikację. Lista ta jest następnie porównywana z zarejestrowanymi przez Twój smartfon z systemem Android losowymi identyfikatorami innych użytkowników, z którymi miałeś(-aś) kontakt, w celu obliczenia prawdopodobieństwa Twojego zakażenia i ostrzeżenia Cię w razie potrzeby.\n\nFunkcję rejestrowania narażenia można wyłączyć w dowolnym momencie.\n\nAplikacja nigdy nie gromadzi danych osobowych, takich jak imię i nazwisko, adres czy lokalizacja. Takie informacje nie są też przekazywane innym użytkownikom. Nie jest możliwe wykorzystanie losowych identyfikatorów do ustalenia tożsamości poszczególnych osób."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -619,7 +621,7 @@
     <!-- YTXT: settings(notification) - description text when it notifications are enabled -->
     <string name="settings_notifications_body_active">"Określ obszary, dla których chcesz nadal otrzymywać powiadomienia."</string>
     <!-- XTXT: settings(notification) - explains what the user has to do to activate settings -->
-    <string name="settings_notifications_body_inactive">"Aby aktywować powiadomienia, musisz zezwolić na powiadomienia dla aplikacji Corona-Warn-App w ustawieniach swojego urządzenia."</string>
+    <string name="settings_notifications_body_inactive">"Aby aktywować powiadomienia w aplikacji Corona-Warn-App, musisz zezwolić na powiadomienia w ustawieniach swojego urządzenia."</string>
     <!-- XHED: settings(notification) - card headline -->
     <string name="settings_notifications_headline_card">"Aktywuj powiadomienia"</string>
     <!-- XHED: settings - notification headline on settings overview -->
@@ -1431,7 +1433,7 @@
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"Potwierdzone nowe zakażenia"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
-    <string name="statistics_explanation_confirmed_new_infection_text">"Liczba osób ze zdiagnozowanym zakażeniem koronawirusem zgłoszonych do RKI"</string>
+    <string name="statistics_explanation_confirmed_new_infection_text">"Liczba osób ze zdiagnozowanym zakażeniem koronawirusem zgłoszonych do RKI."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Ostrzeżenia od użytkowników aplikacji"</string>
     <!-- XTXT: Explanation screen warned persons text -->
@@ -1443,7 +1445,7 @@
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7-dniowa zapadalność"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
-    <string name="statistics_explanation_seven_day_incidence_text">"Łączna liczba potwierdzonych nowych zakażeń w ciągu ostatnich 7 dni (według daty zgłoszenia) na 100 000 mieszkańców"</string>
+    <string name="statistics_explanation_seven_day_incidence_text">"Łączna liczba potwierdzonych nowych zakażeń w ciągu ostatnich 7 dni (według daty zgłoszenia) na 100 000 mieszkańców."</string>
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-dniowa wartość R"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
@@ -1527,6 +1529,8 @@
     <!-- Statistics Add new tile -->
     <!-- XTXT: Statistics add card title -->
     <string name="statistics_add_card_title">"Dodaj lokalną 7-dniową zapadalność"</string>
+    <!-- XTXT: Statistics add card warning no internet -->
+    <string name="statistics_add_card_warning_no_internet">"Twoje połączenie z Internetem zostało utracone. Nie można było dodać wskaźnika 7-dniowej zapadalności. Sprawdź połączenie i spróbuj ponownie."</string>
     <!-- XTXT: Statistics add card warning -->
     <string name="statistics_add_card_warning">"Osiągnięto maksymalną liczbę wskaźników lokalnej 7-dniowej zapadalności."</string>
     <!-- XTXT: Statistics add screen whole state -->

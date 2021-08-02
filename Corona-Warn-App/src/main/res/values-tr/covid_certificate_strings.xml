@@ -24,6 +24,14 @@
     <string name="person_card_title">"AB"</string>
     <!-- XTXT: Person card subtitle-->
     <string name="person_card_subtitle">"Dijital COVID Sertifikası"</string>
+    <!-- XTXT: Certificate QR code expiration text-->
+    <string name="certificate_qr_expiration">"Sertifikanın süresi %s, %s tarihinde dolacak"</string>
+    <!-- XTXT: Certificate person details card expiration text -->
+    <string name="certificate_person_details_card_expiration">"süresi %s, %s tarihinde dolacak"</string>
+    <!-- XTXT: Certificate QR code expired text-->
+    <string name="certificate_qr_expired">"Sertifikanın Süresi Doldu"</string>
+    <!-- XTXT: Certificate QR code invalid signature-->
+    <string name="certificate_qr_invalid_signature">"Sertifika (İmza) Geçersiz"</string>
 
     <!-- XTXT: Vaccination Consent subtitle-->
     <string name="vaccination_consent_headline">"Sertifikalar Ekle"</string>
@@ -103,6 +111,10 @@
     <string name="test_certificate_qrcode_card_sampled_on">"Numune alma tarihi: %s"</string>
     <!-- XTXT: Test certificate card name  -->
     <string name="test_certificate_name">"Test Sertifikası"</string>
+    <!-- XTXT: Test certificate PCR test type  -->
+    <string name="test_certificate_pcr_test_type">"PCR Testi"</string>
+    <!-- XTXT: Test certificate Rapid test Type  -->
+    <string name="test_certificate_rapid_test_type">"Hızlı Test"</string>
     <!-- XTXT: Dialog description for error 409 recovery-->
     <string name="test_certificate_error_409_recovery_description">"Bu test için sertifika oluşturulamıyor. Sertifika almak için lütfen yeni bir test ekleyin."</string>
 
@@ -168,7 +180,7 @@
     <!-- XTXT: Validation start note point 3 -->
     <string name="validation_start_note_point_3">"Sertifikaların doğruluğundan emin olmak üzere her bir sertifika dijital imza ile düzenlenir. Doğrulama uygulaması, yalnızca bu imzayı doğrular."</string>
     <!-- XTXT: Validation start note point 4 -->
-    <string name="validation_start_note_point_4">"Sertifikaya kaydedilen verilerin geçerli olup olmadığını kontrol etmez."</string>
+    <string name="validation_start_note_point_4">"Corona-Warn-App, sertifikaya kaydedilen verilerin geçerli olup olmadığını kontrol etmez."</string>
     <!-- XTXT: Validation start FAQ -->
     <string name="validation_start_faq">"Daha fazla bilgi için SSS sayfasına bakın ve https://reopen.europa.eu/en adresini ziyaret edin."</string>
     <!-- XTXT: Validation start FAQ link -->
@@ -217,8 +229,12 @@
     <string name="validation_rules_technical_failure_header_subtitle">"Aşağıdaki kurallara uygun değil:"</string>
     <!-- XTXT: Validation Rule Technical Failure - Date Format  -->
     <string name="validation_rule_technical_error_date_format">"Sertifika, beklenen veri biçiminde olmalıdır."</string>
+    <!-- XTXT: Validation Rule Technical Failure - Signature validation  -->
+    <string name="validation_rule_technical_error_signature">"Sertifika imzası geçerli olmalıdır."</string>
     <!-- XTXT: Validation Rule Technical Failure - Date Expired  -->
-    <string name="validation_rule_technical_error_date_expired">"Sertifikanın süresi dolmuş olmamalıdır."</string>
+    <string name="validation_rule_technical_error_date_expired">"Sertifikanın teknik geçerlilik sona erme tarihi dolmuş olmamalıdır."</string>
+    <!-- XTXT: Validation Rule Technical Failure - Date Expired format -->
+    <string name="validation_rule_technical_error_date_expired_format">"Geçerlilik bitişi: %1$s, %2$s"</string>
 
     <!-- Validation Passed Screen-->
     <!-- XHED: Toolbar title for the validation passed screen  -->
@@ -256,11 +272,44 @@
     <!-- XHED: travel country for the validation failed card  -->
     <string name="validation_rules_acceptance_country">"Bu, gideceğiniz ülke olan %s için geçerli bir kural."</string>
     <!-- XHED: issuer country for the validation failed card  -->
-    <string name="validation_rules_invalidation_country">"Bu, düzenleyen ülke olan için geçerli bir kural."</string>
+    <string name="validation_rules_invalidation_country">"Bu, düzenleyen ülke için geçerli bir kural."</string>
 
     <!-- XTXT: Validation start privacy title -->
     <string name="validation_start_privacy_title">"Gizlilik ve Veri Güvenliği"</string>
     <!-- XTXT: Validation start privacy title -->
     <string name="validation_start_privacy_body">"Güncel giriş kuralları RKI sunucularından indirilir. Bunun için internet bağlantısı gereklidir. Erişim verileri RKI\'ye aktarılır."</string>
 
+    <!-- XHED: Vaccination Detail expiration Date title -->
+    <string name="expiration_date_title">"Teknik sona erme tarihi"</string>
+    <!-- XHED: Vaccination Detail expiration Date -->
+    <string name="expiration_date">"Geçerlilik bitişi: %s, %s"</string>
+    <!-- XHED: Vaccination Detail expiration info -->
+    <string name="expiration_info">"Lütfen zamanında yeni bir dijital sertifika aldığınızdan emin olun."</string>
+    <!-- XTXT: Expired certificate info -->
+    <string name="expired_certificate_info">"Sona erme tarihi dolmadı. Lütfen yeni bir dijital sertifika alın."</string>
+    <!-- XTXT: Invalid certificate signature info -->
+    <string name="invalid_certificate_signature_info">"Sertifika onaylanmamış bir kuruluş tarafından veya yanlış düzenlenmiş. Lütfen onaylanmış bir kuruluşa yeni bir sertifika düzenletin. "</string>
+
+
+    <!--    Dcc Signature validation-->
+    <!-- XHED: Signature validation dialog title-->
+    <string name="dcc_signature_validation_dialog_title">"İmza Geçersiz"</string>
+    <!-- XTXT: Signature validation dialog message-->
+    <string name="dcc_signature_validation_dialog_message">"Sertifika imzası geçersiz. Sertifika kanıt olarak kullanılamaz ve dolayısıyla içe aktarılamaz."</string>
+    <!-- XBUT: Signature validation dialog FAQ button-->
+    <string name="dcc_signature_validation_dialog_faq_button">"İmza Doğrulama için SSS"</string>
+    <!-- XTXT: Signature validation dialog FAQ lint-->
+    <string name="dcc_signature_validation_dialog_faq_link">"https://www.coronawarn.app/en/faq/#hc_signature_invalid"</string>
+
+    <!-- Expiration notification -->
+    <!-- XTXT: expiring soon notification -->
+    <string name="dcc_notification_expires_soon_text">"Sertifikalarınızın geçerliliğini kontrol edin."</string>
+    <!-- XTXT: expired notification -->
+    <string name="dcc_notification_expired_text">"Sertifikalarınızın geçerliliğini kontrol edin."</string>
+
+    <!-- DCC notification channel-->
+    <!-- XTXT: certificate notification channel title -->
+    <string name="dcc_notification_channel_title">"Sertifikalar"</string>
+    <!-- XTXT: certificate notification channel description -->
+    <string name="dcc_notification_channel_description">"Sertifikaların Bildirimlerini Yönetin"</string>
 </resources>
