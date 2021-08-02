@@ -62,6 +62,12 @@ data class RecoveryCertificateContainer(
             override val notifiedExpiredAt: Instant?
                 get() = data.notifiedExpiredAt
 
+            override val lastSeenStateChange: State?
+                get() = data.lastSeenStateChange
+
+            override val lastSeenStateChangeAt: Instant?
+                get() = data.lastSeenStateChangeAt
+
             override val containerId: RecoveryCertificateContainerId
                 get() = this@RecoveryCertificateContainer.containerId
 
