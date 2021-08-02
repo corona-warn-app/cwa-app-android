@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.submission.ui.testresults.negative
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
@@ -9,6 +10,7 @@ import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionAntigenTestResultNegativeBinding
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
@@ -50,8 +52,12 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
 
             viewModel.events.observe(viewLifecycleOwner) {
                 when (it) {
-                    RATResultNegativeNavigation.ShowDeleteWarning ->
-                        DialogHelper.showDialog(deleteRatTestConfirmationDialog)
+                    RATResultNegativeNavigation.ShowDeleteWarning -> {
+                        DialogHelper.showDialog(deleteRatTestConfirmationDialog).apply {
+                            getButton(DialogInterface.BUTTON_POSITIVE)
+                                .setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
+                        }
+                    }
                     RATResultNegativeNavigation.Back -> popBackStack()
                 }
             }
