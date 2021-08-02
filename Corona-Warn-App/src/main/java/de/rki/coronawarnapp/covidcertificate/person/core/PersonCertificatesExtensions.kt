@@ -198,7 +198,7 @@ fun Collection<CwaCovidCertificate>.findHighestPriorityCertificate(
                 is CwaCovidCertificate.State.Valid,
                 is CwaCovidCertificate.State.ExpiringSoon -> valid.add(it)
                 is CwaCovidCertificate.State.Expired -> expired.add(it)
-                CwaCovidCertificate.State.Invalid -> invalid.add(it)
+                is CwaCovidCertificate.State.Invalid -> invalid.add(it)
             }
         }
 

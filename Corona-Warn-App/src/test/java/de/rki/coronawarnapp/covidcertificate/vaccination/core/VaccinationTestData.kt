@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccHeader
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
@@ -81,6 +82,8 @@ class VaccinationTestData @Inject constructor(
     val personAVac1Container = VaccinationContainer(
         scannedAt = Instant.ofEpochMilli(1620062834471),
         vaccinationQrCode = personAVac1QRCodeString,
+        lastSeenStateChangeAt = Instant.ofEpochMilli(1620062834471),
+        lastSeenStateChange = CwaCovidCertificate.State.ExpiringSoon(Instant.ofEpochMilli(1620062834471))
     ).apply {
         qrCodeExtractor = this@VaccinationTestData.qrCodeExtractor
     }

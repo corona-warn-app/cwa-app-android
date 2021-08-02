@@ -56,7 +56,7 @@ class VaccinationRepositoryTest : BaseTest() {
 
         DaggerCovidCertificateTestComponent.factory().create().inject(this)
 
-        coEvery { dccStateChecker.checkState(any()) } returns flow { emit(CwaCovidCertificate.State.Invalid) }
+        coEvery { dccStateChecker.checkState(any()) } returns flow { emit(CwaCovidCertificate.State.Invalid()) }
 
         every { timeStamper.nowUTC } returns nowUTC
 
