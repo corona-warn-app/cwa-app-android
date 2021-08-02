@@ -11,8 +11,9 @@ message SubmissionPayload {
   repeated string visitedCountries = 3;
   optional string origin = 4;
   optional bool consentToFederation = 5;
-  repeated de.rki.coronawarnapp.server.protocols.internal.pt.CheckIn checkIns = 6;
+  repeated de.rki.coronawarnapp.server.protocols.internal.pt.CheckIn checkIns = 6 [deprecated = true];
   optional SubmissionType submissionType = 7 [default = SUBMISSION_TYPE_PCR_TEST];
+  repeated de.rki.coronawarnapp.server.protocols.internal.pt.CheckInProtectedReport checkInProtectedReports = 8;
 
   enum SubmissionType {
     SUBMISSION_TYPE_PCR_TEST = 0;
