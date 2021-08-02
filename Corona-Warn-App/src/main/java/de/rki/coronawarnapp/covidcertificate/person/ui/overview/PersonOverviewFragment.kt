@@ -50,6 +50,12 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
              * It causes new certificates to be marked seen automatically.
              */
         }
+        viewModel.markStateChangesAsSeen.observe(viewLifecycleOwner) {
+            /**
+             * This just needs to stay subscribed while the UI is open.
+             * It causes certificate state changes to be marked seen automatically.
+             */
+        }
     }
 
     private fun onNavEvent(event: PersonOverviewFragmentEvents) {

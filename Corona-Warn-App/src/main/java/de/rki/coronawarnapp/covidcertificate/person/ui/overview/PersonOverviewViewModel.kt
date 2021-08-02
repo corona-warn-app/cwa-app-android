@@ -65,7 +65,22 @@ class PersonOverviewViewModel @AssistedInject constructor(
                     testCertificateRepository.markCertificateAsSeenByUser(it.containerId)
                 }
         }
-        .map { }
+        .catch { Timber.w("Failed to mark certificates as seen.") }
+        .asLiveData2()
+
+    val markStateChangesAsSeen = certificatesProvider.personCertificates
+        .map { persons ->
+            persons.map { it.certificates }.flatten()
+        }
+        .onEach { certs ->
+            certs.forEach {
+                if (it.getState() == it.lastSeenStateChange) {
+                    return@forEach
+                } else {
+                    certificatesProvider.acknowledgeStateChange(it)
+                }
+            }
+        }
         .catch { Timber.w("Failed to mark certificates as seen.") }
         .asLiveData2()
 

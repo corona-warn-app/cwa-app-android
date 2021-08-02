@@ -63,7 +63,7 @@ class TestCertificateContainerTest : BaseTest() {
     fun `check test certificate field mapping`() {
         val rawData = certificateTestData.personATest1CertQRCode.data
         certificateTestData.personATest1Container.toTestCertificate(
-            certificateState = CwaCovidCertificate.State.Invalid
+            certificateState = CwaCovidCertificate.State.Invalid()
         )!!.apply {
             headerIssuer shouldBe rawData.header.issuer
             certificateIssuer shouldBe rawData.certificate.test.certificateIssuer

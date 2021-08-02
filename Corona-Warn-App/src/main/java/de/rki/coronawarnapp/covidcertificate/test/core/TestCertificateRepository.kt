@@ -78,7 +78,7 @@ class TestCertificateRepository @Inject constructor(
     ) { certMap, valueSets ->
         certMap.values.map { container ->
             val state = when {
-                container.isCertificateRetrievalPending -> CwaCovidCertificate.State.Invalid
+                container.isCertificateRetrievalPending -> CwaCovidCertificate.State.Invalid()
                 else -> dccStateChecker.checkState(container.testCertificateQRCode.data).first()
             }
 
@@ -382,6 +382,11 @@ class TestCertificateRepository @Inject constructor(
 
             mutate { this[containerId] = updated }
         }
+    }
+
+    suspend fun acknowledgeState(containerId: TestCertificateContainerId) {
+        Timber.tag(TAG).d("acknowledgeState(containerId=$containerId)")
+        // Currently not supported
     }
 
     companion object {

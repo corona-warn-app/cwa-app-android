@@ -68,7 +68,7 @@ class VaccinationContainerTest : BaseTest() {
     fun `mapping to user facing data - valueset is null`() {
         testData.personAVac1Container.toVaccinationCertificate(
             valueSet = null,
-            certificateState = CwaCovidCertificate.State.Invalid,
+            certificateState = CwaCovidCertificate.State.Invalid(),
             userLocale = Locale.GERMAN
         ).apply {
             firstName shouldBe "Andreas"
@@ -119,7 +119,7 @@ class VaccinationContainerTest : BaseTest() {
 
         testData.personAVac1Container.toVaccinationCertificate(
             valueSet = vaccinationValueSets,
-            certificateState = CwaCovidCertificate.State.Invalid,
+            certificateState = CwaCovidCertificate.State.Invalid(),
             userLocale = Locale.GERMAN,
         ).apply {
             firstName shouldBe "Andreas"
@@ -150,7 +150,7 @@ class VaccinationContainerTest : BaseTest() {
     fun `nonsense country code appears unchanged`() {
         testData.personXVac1ContainerBadCountryData.toVaccinationCertificate(
             valueSet = null,
-            certificateState = CwaCovidCertificate.State.Invalid
+            certificateState = CwaCovidCertificate.State.Invalid()
         ).apply {
             certificateCountry shouldBe "YY"
         }

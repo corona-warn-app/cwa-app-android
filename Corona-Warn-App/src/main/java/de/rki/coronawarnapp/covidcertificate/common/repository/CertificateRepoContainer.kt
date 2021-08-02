@@ -21,7 +21,7 @@ interface CertificateRepoContainer {
         language: String,
         certificateQrCode: String
     ) = when (state) {
-        CwaCovidCertificate.State.Invalid -> when (language) {
+        is CwaCovidCertificate.State.Invalid -> when (language) {
             Locale.GERMAN.language -> CwaCovidCertificate.State.Invalid.URL_INVALID_SIGNATURE_DE
             else -> CwaCovidCertificate.State.Invalid.URL_INVALID_SIGNATURE_EN
         }.let { CoilQrCode(it, QrCodeOptions(correctionLevel = ErrorCorrectionLevel.M)) }
