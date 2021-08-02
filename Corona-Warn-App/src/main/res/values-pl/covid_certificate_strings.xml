@@ -24,6 +24,14 @@
     <string name="person_card_title">"Unijny"</string>
     <!-- XTXT: Person card subtitle-->
     <string name="person_card_subtitle">"Cyfrowy certyfikat COVID"</string>
+    <!-- XTXT: Certificate QR code expiration text-->
+    <string name="certificate_qr_expiration">"Certyfikat wygasa dnia %s o godzinie %s"</string>
+    <!-- XTXT: Certificate person details card expiration text -->
+    <string name="certificate_person_details_card_expiration">"wygasa dnia %s o godzinie %s"</string>
+    <!-- XTXT: Certificate QR code expired text-->
+    <string name="certificate_qr_expired">"Certyfikat wygasł"</string>
+    <!-- XTXT: Certificate QR code invalid signature-->
+    <string name="certificate_qr_invalid_signature">"Certyfikat (podpis) jest nieprawidłowy"</string>
 
     <!-- XTXT: Vaccination Consent subtitle-->
     <string name="vaccination_consent_headline">"Dodaj certyfikaty"</string>
@@ -74,7 +82,7 @@
     <!-- XTXT: Vaccination only one shot required -->
     <string name="vaccination_certificate_one_shot">"Jest to szczepionka, która wymaga tylko jednej dawki lub szczepionka dla ozdrowieńca, który potrzebuje tylko jednej dawki."</string>
     <!-- XTXT: Vaccination is not complete information card body-->
-    <string name="vaccination_certificate_incomplete_vaccination">"Nie otrzymałeś(-aś jeszcze wszystkich zaplanowanych szczepień. W związku z tym Twoja ochrona poszczepienna nie jest jeszcze pełna."</string>
+    <string name="vaccination_certificate_incomplete_vaccination">"Nie otrzymałeś(-aś) jeszcze wszystkich zaplanowanych szczepień. W związku z tym Twoja ochrona poszczepienna nie jest jeszcze pełna."</string>
 
     <!-- #####################################################
          RECOVERY CERTIFICATE STRINGS BELOW
@@ -168,7 +176,7 @@
     <!-- XTXT: Validation start note point 3 -->
     <string name="validation_start_note_point_3">"Wszystkie certyfikaty są opatrzone podpisem cyfrowym zapewniającym ich autentyczność. Aplikacja walidacyjna jedynie weryfikuje ten podpis."</string>
     <!-- XTXT: Validation start note point 4 -->
-    <string name="validation_start_note_point_4">"Nie sprawdza ona, czy dane zapisane w certyfikacie są ważne."</string>
+    <string name="validation_start_note_point_4">"Aplikacja Corona-Warn-App nie sprawdza, czy dane zapisane w certyfikacie są ważne."</string>
     <!-- XTXT: Validation start FAQ -->
     <string name="validation_start_faq">"Aby uzyskać więcej informacji, zapoznaj się z często zadawanymi pytaniami i odwiedź stronę https://reopen.europa.eu/en."</string>
     <!-- XTXT: Validation start FAQ link -->
@@ -217,8 +225,12 @@
     <string name="validation_rules_technical_failure_header_subtitle">"Brak zgodności z poniższymi zasadami:"</string>
     <!-- XTXT: Validation Rule Technical Failure - Date Format  -->
     <string name="validation_rule_technical_error_date_format">"Certyfikat musi mieć oczekiwany format danych."</string>
+    <!-- XTXT: Validation Rule Technical Failure - Signature validation  -->
+    <string name="validation_rule_technical_error_signature">"Podpis certyfikatu musi być ważny."</string>
     <!-- XTXT: Validation Rule Technical Failure - Date Expired  -->
-    <string name="validation_rule_technical_error_date_expired">"Certyfikat nie może być wygasły."</string>
+    <string name="validation_rule_technical_error_date_expired">"Techniczna data wygaśnięcia certyfikatu nie może upłynąć."</string>
+    <!-- XTXT: Validation Rule Technical Failure - Date Expired format -->
+    <string name="validation_rule_technical_error_date_expired_format">"Ważny do %1$s, %2$s"</string>
 
     <!-- Validation Passed Screen-->
     <!-- XHED: Toolbar title for the validation passed screen  -->
@@ -263,4 +275,37 @@
     <!-- XTXT: Validation start privacy title -->
     <string name="validation_start_privacy_body">"Aktualne zasady dotyczące wjazdu są pobierane z serwerów RKI. Wymaga to połączenia z Internetem. Dane dostępowe są przesyłane do RKI."</string>
 
+    <!-- XHED: Vaccination Detail expiration Date title -->
+    <string name="expiration_date_title">"Techniczna data wygaśnięcia"</string>
+    <!-- XHED: Vaccination Detail expiration Date -->
+    <string name="expiration_date">"Ważny do %1$s"</string>
+    <!-- XHED: Vaccination Detail expiration info -->
+    <string name="expiration_info">"Pamiętaj o terminowym pobraniu nowego certyfikatu cyfrowego."</string>
+    <!-- XTXT: Expired certificate info -->
+    <string name="expired_certificate_info">"Data wygaśnięcia upłynęła. Pobierz nowy certyfikat cyfrowy."</string>
+    <!-- XTXT: Invalid certificate signature info -->
+    <string name="invalid_certificate_signature_info">"Certyfikat został wydany przez nieuprawniony organ lub wydanie przebiegło nieprawidłowo. Zwróć się do uprawnionego organu o wydanie nowego certyfikatu. "</string>
+
+
+    <!--    Dcc Signature validation-->
+    <!-- XHED: Signature validation dialog title-->
+    <string name="dcc_signature_validation_dialog_title">"Podpis jest nieprawidłowy"</string>
+    <!-- XTXT: Signature validation dialog message-->
+    <string name="dcc_signature_validation_dialog_message">"Podpis certyfikatu jest nieprawidłowy. Certyfikatu nie można używać jako dowodu i w związku z tym nie można go importować."</string>
+    <!-- XBUT: Signature validation dialog FAQ button-->
+    <string name="dcc_signature_validation_dialog_faq_button">"Często zadawane pytania na temat weryfikacji podpisu"</string>
+    <!-- XTXT: Signature validation dialog FAQ lint-->
+    <string name="dcc_signature_validation_dialog_faq_link">"https://www.coronawarn.app/en/faq/#hc_signature_invalid"</string>
+
+    <!-- Expiration notification -->
+    <!-- XTXT: expiring soon notification -->
+    <string name="dcc_notification_expires_soon_text">"Sprawdź ważność swoich certyfikatów."</string>
+    <!-- XTXT: expired notification -->
+    <string name="dcc_notification_expired_text">"Sprawdź ważność swoich certyfikatów."</string>
+
+    <!-- DCC notification channel-->
+    <!-- XTXT: certificate notification channel title -->
+    <string name="dcc_notification_channel_title">"Certyfikaty"</string>
+    <!-- XTXT: certificate notification channel description -->
+    <string name="dcc_notification_channel_description">"Zarządzaj powiadomieniami dla certyfikatów"</string>
 </resources>
