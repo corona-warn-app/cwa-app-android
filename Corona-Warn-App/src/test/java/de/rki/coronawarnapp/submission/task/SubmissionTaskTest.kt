@@ -211,7 +211,7 @@ class SubmissionTaskTest : BaseTest() {
                     temporaryExposureKeys = listOf(transformedKey),
                     consentToFederation = true,
                     visitedCountries = listOf("NL"),
-                    checkIns = emptyList(),
+                    unencryptedCheckIns = emptyList(),
                     submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )
@@ -274,7 +274,7 @@ class SubmissionTaskTest : BaseTest() {
                     temporaryExposureKeys = listOf(transformedKey),
                     consentToFederation = true,
                     visitedCountries = listOf("NL"),
-                    checkIns = emptyList(),
+                    unencryptedCheckIns = emptyList(),
                     submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )
@@ -319,7 +319,7 @@ class SubmissionTaskTest : BaseTest() {
                     temporaryExposureKeys = listOf(transformedKey),
                     consentToFederation = true,
                     visitedCountries = listOf("DE"),
-                    checkIns = emptyList(),
+                    unencryptedCheckIns = emptyList(),
                     submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )

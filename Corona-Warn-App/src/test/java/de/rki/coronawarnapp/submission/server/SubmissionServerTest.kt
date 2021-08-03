@@ -115,7 +115,7 @@ class SubmissionServerTest : BaseTest() {
             keyList = listOf(googleKeyList),
             consentToFederation = true,
             visitedCountries = listOf("DE"),
-            checkIns = listOf(checkIn),
+            unencryptedCheckIns = listOf(checkIn),
             submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
         )
         server.submitPayload(submissionData)
@@ -185,7 +185,7 @@ class SubmissionServerTest : BaseTest() {
             keyList = listOf(googleKeyList),
             consentToFederation = true,
             visitedCountries = listOf("DE"),
-            checkIns = listOf(checkIn),
+            unencryptedCheckIns = listOf(checkIn),
             submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
         )
         server.submitPayload(submissionData)
@@ -248,7 +248,7 @@ class SubmissionServerTest : BaseTest() {
             keyList = listOf(googleKeyList),
             consentToFederation = true,
             visitedCountries = listOf("DE"),
-            checkIns = emptyList(),
+            unencryptedCheckIns = emptyList(),
             submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
         )
         webServer.enqueue(MockResponse().setBody("{}"))
