@@ -46,8 +46,6 @@ class CheckInsTransformer @Inject constructor(
         val transmissionVector = transmissionDeterminator.determine(symptoms)
         val now = timeStamper.nowUTC
         return checkIns.flatMap { originalCheckIn ->
-
-            // TODO encrypt check-in
             Timber.d("Transforming check-in=$originalCheckIn")
             val derivedTimes = submissionParams.deriveTime(
                 originalCheckIn.checkInStart.seconds,
@@ -64,6 +62,7 @@ class CheckInsTransformer @Inject constructor(
                     checkInEnd = derivedTimes.endTimeSeconds.secondsToInstant()
                 )
 
+                // TODO encrypt check-in
                 derivedCheckIn.splitByMidnightUTC().mapNotNull { checkIn ->
                     checkIn.toOuterCheckIn(now, transmissionVector, trvMappings)
                 }
