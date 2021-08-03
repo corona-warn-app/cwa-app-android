@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Analyti
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInsReport
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInsTransformer
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload.SubmissionType
@@ -160,7 +161,7 @@ class SubmissionTaskTest : BaseTest() {
             coEvery { updatePostSubmissionFlags(any()) } just Runs
         }
 
-        coEvery { checkInsTransformer.transform(any(), any()) } returns emptyList()
+        coEvery { checkInsTransformer.transform(any(), any()) } returns CheckInsReport(emptyList(), emptyList())
     }
 
     private fun createTask() = SubmissionTask(
@@ -212,6 +213,7 @@ class SubmissionTaskTest : BaseTest() {
                     consentToFederation = true,
                     visitedCountries = listOf("NL"),
                     unencryptedCheckIns = emptyList(),
+                    encryptedCheckIns = emptyList(),
                     submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )
@@ -275,6 +277,7 @@ class SubmissionTaskTest : BaseTest() {
                     consentToFederation = true,
                     visitedCountries = listOf("NL"),
                     unencryptedCheckIns = emptyList(),
+                    encryptedCheckIns = emptyList(),
                     submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )
@@ -320,6 +323,7 @@ class SubmissionTaskTest : BaseTest() {
                     consentToFederation = true,
                     visitedCountries = listOf("DE"),
                     unencryptedCheckIns = emptyList(),
+                    encryptedCheckIns = emptyList(),
                     submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )

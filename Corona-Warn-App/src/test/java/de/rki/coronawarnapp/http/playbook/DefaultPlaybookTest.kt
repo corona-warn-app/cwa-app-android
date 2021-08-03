@@ -104,6 +104,7 @@ class DefaultPlaybookTest : BaseTest() {
                 consentToFederation = true,
                 visitedCountries = listOf("DE"),
                 unencryptedCheckIns = emptyList(),
+                encryptedCheckIns = emptyList(),
                 submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
             )
         )
@@ -127,6 +128,7 @@ class DefaultPlaybookTest : BaseTest() {
                     consentToFederation = true,
                     visitedCountries = listOf("DE"),
                     unencryptedCheckIns = emptyList(),
+                    encryptedCheckIns = emptyList(),
                     submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )
@@ -148,6 +150,7 @@ class DefaultPlaybookTest : BaseTest() {
                     consentToFederation = true,
                     visitedCountries = listOf("DE"),
                     unencryptedCheckIns = emptyList(),
+                    encryptedCheckIns = emptyList(),
                     submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )
@@ -170,6 +173,7 @@ class DefaultPlaybookTest : BaseTest() {
                     consentToFederation = true,
                     visitedCountries = listOf("DE"),
                     unencryptedCheckIns = emptyList(),
+                    encryptedCheckIns = emptyList(),
                     submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )
@@ -292,6 +296,7 @@ class DefaultPlaybookTest : BaseTest() {
                     consentToFederation = true,
                     visitedCountries = listOf("DE"),
                     unencryptedCheckIns = emptyList(),
+                    encryptedCheckIns = emptyList(),
                     submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )

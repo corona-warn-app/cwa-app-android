@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.PresenceTracingConfigContainer
 import de.rki.coronawarnapp.appconfig.PresenceTracingRiskCalculationParamContainer
 import de.rki.coronawarnapp.appconfig.PresenceTracingSubmissionParamContainer
+import de.rki.coronawarnapp.presencetracing.checkins.cryptography.CheckInCryptography
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.AerosoleDecayFunctionLinear
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.DurationFilter
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.Range
@@ -27,13 +28,16 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.security.SecureRandom
 import java.util.concurrent.TimeUnit
+import kotlin.random.asKotlinRandom
 
 class CheckInsTransformerTest : BaseTest() {
 
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var symptoms: Symptoms
     @MockK lateinit var appConfigProvider: AppConfigProvider
+    private val checkInCryptography = CheckInCryptography(SecureRandom().asKotlinRandom())
 
     private lateinit var checkInTransformer: CheckInsTransformer
 
@@ -173,10 +177,13 @@ class CheckInsTransformerTest : BaseTest() {
                     transmissionRiskValueMapping = transmissionRiskValueMappings
                 )
             )
+
+            every { isUnencryptedCheckInsEnabled } returns true
         }
         checkInTransformer = CheckInsTransformer(
             timeStamper = timeStamper,
             transmissionDeterminator = TransmissionRiskVectorDeterminator(timeStamper),
+            checkInCryptography = checkInCryptography,
             appConfigProvider = appConfigProvider
         )
     }
@@ -190,7 +197,7 @@ class CheckInsTransformerTest : BaseTest() {
                 checkIn3
             ),
             symptoms
-        )
+        ).unencryptedCheckIns
 
         with(outCheckIns) {
             size shouldBe 6 // 3 check-ins with TRL = 1 and  3 other check-ins with TRL = 2, 4, 8

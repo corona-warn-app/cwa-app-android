@@ -1,10 +1,10 @@
 package de.rki.coronawarnapp.presencetracing.checkins
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.presencetracing.checkins.cryptography.CheckInCryptography
 import de.rki.coronawarnapp.presencetracing.checkins.derivetime.deriveTime
 import de.rki.coronawarnapp.presencetracing.checkins.split.splitByMidnightUTC
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
-import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.TransmissionRiskValueMapping
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVector
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVectorDeterminator
@@ -24,6 +24,7 @@ import javax.inject.Singleton
 class CheckInsTransformer @Inject constructor(
     private val timeStamper: TimeStamper,
     private val transmissionDeterminator: TransmissionRiskVectorDeterminator,
+    private val checkInCryptography: CheckInCryptography,
     private val appConfigProvider: AppConfigProvider
 ) {
     /**
@@ -37,15 +38,16 @@ class CheckInsTransformer @Inject constructor(
      * @param symptoms [Symptoms] symptoms to calculate transmission risk level
      */
     suspend fun transform(checkIns: List<CheckIn>, symptoms: Symptoms): CheckInsReport {
-        val presenceTracing = appConfigProvider
-            .getAppConfig()
-            .presenceTracing
-
-        val submissionParams = presenceTracing.submissionParameters
-        val trvMappings = presenceTracing.riskCalculationParameters.transmissionRiskValueMapping
+        val appConfig = appConfigProvider.getAppConfig()
+        val submissionParams = appConfig.presenceTracing.submissionParameters
+        val trvMappings = appConfig.presenceTracing.riskCalculationParameters.transmissionRiskValueMapping
         val transmissionVector = transmissionDeterminator.determine(symptoms)
         val now = timeStamper.nowUTC
-        checkIns.flatMap { originalCheckIn ->
+
+        val unencryptedCheckIns = mutableListOf<CheckInOuterClass.CheckIn>()
+        val encryptedCheckIns = mutableListOf<CheckInOuterClass.CheckInProtectedReport>()
+
+        for (originalCheckIn in checkIns) {
             Timber.d("Transforming check-in=$originalCheckIn")
             val derivedTimes = submissionParams.deriveTime(
                 originalCheckIn.checkInStart.seconds,
@@ -54,47 +56,49 @@ class CheckInsTransformer @Inject constructor(
 
             if (derivedTimes == null) {
                 Timber.d("CheckIn can't be derived")
-                emptyList() // Excluded from submission
-            } else {
-                Timber.d("Derived times=$derivedTimes")
-                val derivedCheckIn = originalCheckIn.copy(
-                    checkInStart = derivedTimes.startTimeSeconds.secondsToInstant(),
-                    checkInEnd = derivedTimes.endTimeSeconds.secondsToInstant()
-                )
+                continue // Excluded from submission
+            }
 
-                derivedCheckIn.splitByMidnightUTC().mapNotNull { checkIn ->
-                    checkIn.toOuterCheckIn(now, transmissionVector, trvMappings)
+            Timber.d("Derived times=$derivedTimes")
+            val derivedCheckIn = originalCheckIn.copy(
+                checkInStart = derivedTimes.startTimeSeconds.secondsToInstant(),
+                checkInEnd = derivedTimes.endTimeSeconds.secondsToInstant()
+            )
+
+            derivedCheckIn.splitByMidnightUTC().forEach { checkIn ->
+                val riskLevel = checkIn.determineRiskTransmission(now, transmissionVector)
+
+                // Find transmissionRiskValue for matched transmissionRiskLevel - default 0.0 if no match
+                val riskValue = trvMappings.find { it.transmissionRiskLevel == riskLevel }?.transmissionRiskValue ?: 0.0
+
+                if (riskValue == 0.0) {
+                    Timber.d("CheckIn has TRL=$riskLevel is excluded from submission (TRV=0)")
+                    return@forEach // Exclude check-in with TRV = 0.0 from submission
+                }
+
+                if (appConfig.isUnencryptedCheckInsEnabled) {
+                    CheckInOuterClass.CheckIn.newBuilder()
+                        .setLocationId(checkIn.traceLocationId.toProtoByteString())
+                        .setStartIntervalNumber(checkIn.checkInStart.derive10MinutesInterval().toInt())
+                        .setEndIntervalNumber(checkIn.checkInEnd.derive10MinutesInterval().toInt())
+                        .setTransmissionRiskLevel(riskLevel)
+                        .build()
+                        .also { unencryptedCheckIns.add(it) }
+                }
+
+                try {
+                    checkInCryptography.encrypt(checkIn, riskLevel).also { encryptedCheckIns.add(it) }
+                } catch (e: Exception) {
+                    Timber.d(e, "Encrypting checkIn=${checkIn.id} failed")
                 }
             }
         }
+        encryptedCheckIns.shuffle()
 
-        return CheckInsReport(emptyList(), emptyList())
-    }
-
-    private fun CheckIn.toOuterCheckIn(
-        now: Instant,
-        transmissionVector: TransmissionRiskVector,
-        trvMappings: List<TransmissionRiskValueMapping>
-    ): CheckInOuterClass.CheckIn? {
-        val transmissionRiskLevel = determineRiskTransmission(now, transmissionVector)
-
-        // Find transmissionRiskValue for matched transmissionRiskLevel - default 0.0 if no match
-        val transmissionRiskValue = trvMappings.find {
-            it.transmissionRiskLevel == transmissionRiskLevel
-        }?.transmissionRiskValue ?: 0.0
-
-        // Exclude check-in with TRV = 0.0
-        if (transmissionRiskValue == 0.0) {
-            Timber.d("CheckIn has TRL=$transmissionRiskLevel is excluded from submission (TRV=0)")
-            return null // Not mapped
-        }
-
-        return CheckInOuterClass.CheckIn.newBuilder()
-            .setLocationId(traceLocationId.toProtoByteString())
-            .setStartIntervalNumber(checkInStart.derive10MinutesInterval().toInt())
-            .setEndIntervalNumber(checkInEnd.derive10MinutesInterval().toInt())
-            .setTransmissionRiskLevel(transmissionRiskLevel)
-            .build()
+        return CheckInsReport(
+            unencryptedCheckIns = unencryptedCheckIns,
+            encryptedCheckIns = encryptedCheckIns
+        )
     }
 }
 

@@ -15,7 +15,7 @@ class CheckInCryptography @Inject constructor(
         transmissionRiskLevel: Int
     ): CheckInProtectedReport {
         // TODO
-        throw NotImplementedError()
+        return CheckInProtectedReport.newBuilder().build()
     }
 
     fun decrypt(checkInProtectedReport: CheckInProtectedReport): TraceWarning.TraceTimeIntervalWarning {
