@@ -42,6 +42,7 @@ class DccQrCodeScanViewModel @AssistedInject constructor(
                 is RecoveryCertificateQRCode -> registerRecoveryCertificate(qrCode)
             }
         } catch (e: Throwable) {
+            Timber.d(e, "Scanning Dcc failed")
             errorEvent.postValue(e)
         }
     }

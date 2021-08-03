@@ -86,13 +86,18 @@ class DscSignatureValidator @Inject constructor(
 
         var x509Certificate: X509Certificate? = null
         for (dsc in matchedDscSet) {
-            val dscCertificate = dsc.toX509certificate()
-            val (publicKey, signature) = when (dscMessage.algorithm) {
-                ES256 -> dscCertificate.publicKey to dscMessage.signature.toByteArray().toECDSAVerifier()
-                PS256 -> dscCertificate.publicKey.toRsaPublicKey() to dscMessage.signature.toByteArray()
-            }
-
             try {
+                val dscCertificate = dsc.toX509certificate()
+                Timber.d(
+                    "dscKid=%s, certAlgo=%s, headerAlgo=%s",
+                    dsc.kid, dscCertificate.sigAlgName, dscMessage.algorithm
+                )
+
+                val (publicKey, signature) = when (dscMessage.algorithm) {
+                    ES256 -> dscCertificate.publicKey to dscMessage.signature.toByteArray().toECDSAVerifier()
+                    PS256 -> dscCertificate.publicKey.toRsaPublicKey() to dscMessage.signature.toByteArray()
+                }
+
                 val valid = Signature.getInstance(dscMessage.algorithm.algName).verify(publicKey, toVerify, signature)
                 Timber.tag(TAG).d("Dsc certificate (${dsc.kid}) is valid=$valid")
 
