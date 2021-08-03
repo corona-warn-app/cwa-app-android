@@ -17,14 +17,14 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>Signaturprüfung</item>
-        <item>Prüfung technische Gültigkeit</item>
+        <item>Standardisierter Name</item>
+        <item>Zertifikat aus Testergebnis öffnen</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>Die Signatur Ihrer Zertifikate wird nun beim Hinzufügen in der Corona-Warn-App auf Gültigkeit und Echtheit geprüft. Damit können nur Zertifikate importiert werden, die von einer autorisierten Stelle ausgestellt wurden.</item>
-        <item>Die Corona-Warn-App zeigt Ihnen nun das technische Ablaufdatum der hinzugefügten Impf- und Genesenenzertifikate an. Die App kann Sie im Voraus über den Ablauf eines Zertifikats benachrichtigen.</item>
+        <item>Neben dem Namen in der länderspezifischen Schreibweise wird nun in jedem Zertifikat auch der Name in standardisierter, lateinischer Schreibweise angezeigt.</item>
+        <item>Sie können nun in der App direkt aus dem Testergebnis Ihr digitales COVID-Testzertifikat der EU aufrufen, sofern ein Zertifikat verfügbar ist.</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
