@@ -135,6 +135,8 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     ) {
         qrCodeCard.bindValidityViews(certificate, isCertificateDetails = true)
         fullname.text = certificate.fullNameFormatted
+        icaoname.text = "${certificate.personIdentifier.lastNameStandardized}," +
+            " ${certificate.personIdentifier.firstNameStandardized}"
         dateOfBirth.text = certificate.dateOfBirthFormatted
         vaccineName.text = certificate.vaccineTypeName
         medicalProductName.text = certificate.medicalProductName
