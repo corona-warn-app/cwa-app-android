@@ -189,17 +189,46 @@ class CheckInsTransformerTest : BaseTest() {
     }
 
     @Test
-    fun `transform check-ins`() = runBlockingTest {
-        val outCheckIns = checkInTransformer.transform(
+    fun `checkInsReport has encrypted check-ins only`() = runBlockingTest {
+        coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
+            every { presenceTracing } returns PresenceTracingConfigContainer(
+                submissionParameters = submissionParams,
+                riskCalculationParameters = PresenceTracingRiskCalculationParamContainer(
+                    transmissionRiskValueMapping = transmissionRiskValueMappings
+                )
+            )
+
+            every { isUnencryptedCheckInsEnabled } returns false
+        }
+
+        val checkInsReport = checkInTransformer.transform(
             listOf(
                 checkIn1,
                 checkIn2,
                 checkIn3
             ),
             symptoms
-        ).unencryptedCheckIns
+        )
 
-        with(outCheckIns) {
+        checkInsReport.unencryptedCheckIns.size shouldBe 0
+        checkInsReport.encryptedCheckIns.size shouldBe 6
+    }
+
+    @Test
+    fun `checkInsReport has unencrypted - encrypted check-ins`() = runBlockingTest {
+        val checkInsReport = checkInTransformer.transform(
+            listOf(
+                checkIn1,
+                checkIn2,
+                checkIn3
+            ),
+            symptoms
+        )
+
+        checkInsReport.unencryptedCheckIns.size shouldBe 6
+        checkInsReport.encryptedCheckIns.size shouldBe 6
+
+        with(checkInsReport.unencryptedCheckIns) {
             size shouldBe 6 // 3 check-ins with TRL = 1 and  3 other check-ins with TRL = 2, 4, 8
             // Check In 1 is excluded from submission due to time deriving
             // Check In 2 mapping and transformation
