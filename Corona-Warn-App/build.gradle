@@ -167,13 +167,13 @@ android {
     compileOptions {
         // Required for rdgca.verifier.app:dgc-certlogic-android-light API 26 Time API
         coreLibraryDesugaringEnabled true
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
         kotlinOptions {
-            jvmTarget = "11"
+            jvmTarget = "1.8"
 
             freeCompilerArgs += [
                     "-Xno-kotlin-nothing-value-exception",
@@ -186,24 +186,10 @@ android {
     }
 
     lintOptions {
-        lintConfig file('lint.xml')
         checkAllWarnings = true
-
-        // This rule is broken on 2.3.0
-        // See https://issuetracker.google.com/issues/169249668
-        disable "NullSafeMutableLiveData",
-
-                // Disable Timber lint rules.
-                // See https://github.com/JakeWharton/timber/issues/408
-                "LogNotTimber",
-                "StringFormatInTimber",
-                "ThrowableNotAtBeginning",
-                "BinaryOperationInTimber",
-                "TimberArgCount",
-                "TimberArgTypes",
-                "TimberTagLength",
-                "TimberExceptionLogging"
-
+        // this rule is broken on 2.3.0
+        // see the following issue: https://issuetracker.google.com/issues/169249668
+        disable 'NullSafeMutableLiveData'
     }
 
     testOptions {
@@ -236,7 +222,9 @@ android {
         useBuildCache true
         includeCompileClasspath = false
     }
-
+    dexOptions {
+        preDexLibraries true
+    }
     packagingOptions {
         exclude "**/module-info.class"
         exclude 'NOTICE'
