@@ -189,7 +189,7 @@ class CheckInsTransformerTest : BaseTest() {
     }
 
     @Test
-    fun `checkInsReport has encrypted check-ins only`() = runBlockingTest {
+    fun `checkInsReport has encryptedCheckIns only`() = runBlockingTest {
         coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
             every { presenceTracing } returns PresenceTracingConfigContainer(
                 submissionParameters = submissionParams,
@@ -212,10 +212,17 @@ class CheckInsTransformerTest : BaseTest() {
 
         checkInsReport.unencryptedCheckIns.size shouldBe 0
         checkInsReport.encryptedCheckIns.size shouldBe 6
+
+        // Note: Testing every item in the list by position is not applicable in this case, because
+        // encryptedCheckIns are shuffled
+        with(checkInsReport.encryptedCheckIns) {
+            filter { it.locationIdHash.toOkioByteString() == checkIn2.traceLocationIdHash }.size shouldBe 1
+            filter { it.locationIdHash.toOkioByteString() == checkIn3.traceLocationIdHash }.size shouldBe 5
+        }
     }
 
     @Test
-    fun `checkInsReport has unencrypted - encrypted check-ins`() = runBlockingTest {
+    fun `checkInsReport has unencryptedCheckIns - encryptedCheckIns`() = runBlockingTest {
         val checkInsReport = checkInTransformer.transform(
             listOf(
                 checkIn1,
@@ -225,11 +232,11 @@ class CheckInsTransformerTest : BaseTest() {
             symptoms
         )
 
+        // 3 check-ins with TRL = 1 and  3 other check-ins with TRL = 2, 4, 8
         checkInsReport.unencryptedCheckIns.size shouldBe 6
         checkInsReport.encryptedCheckIns.size shouldBe 6
 
         with(checkInsReport.unencryptedCheckIns) {
-            size shouldBe 6 // 3 check-ins with TRL = 1 and  3 other check-ins with TRL = 2, 4, 8
             // Check In 1 is excluded from submission due to time deriving
             // Check In 2 mapping and transformation
             get(0).apply {
@@ -286,6 +293,13 @@ class CheckInsTransformerTest : BaseTest() {
                 // End time for splitted check-in 5
                 endIntervalNumber shouldBe Instant.parse("2021-03-10T10:20:00Z").seconds / TEN_MINUTES_IN_SECONDS
             }
+        }
+
+        // Note: Testing every item in the list by position is not applicable in this case, because
+        // encryptedCheckIns are shuffled
+        with(checkInsReport.encryptedCheckIns) {
+            filter { it.locationIdHash.toOkioByteString() == checkIn2.traceLocationIdHash }.size shouldBe 1
+            filter { it.locationIdHash.toOkioByteString() == checkIn3.traceLocationIdHash }.size shouldBe 5
         }
     }
 
