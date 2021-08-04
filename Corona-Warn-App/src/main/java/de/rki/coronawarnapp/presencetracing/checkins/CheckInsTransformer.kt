@@ -77,29 +77,25 @@ class CheckInsTransformer @Inject constructor(
                 }
 
                 if (appConfig.isUnencryptedCheckInsEnabled) {
-                    CheckInOuterClass.CheckIn.newBuilder()
-                        .setLocationId(checkIn.traceLocationId.toProtoByteString())
-                        .setStartIntervalNumber(checkIn.checkInStart.derive10MinutesInterval().toInt())
-                        .setEndIntervalNumber(checkIn.checkInEnd.derive10MinutesInterval().toInt())
-                        .setTransmissionRiskLevel(riskLevel)
-                        .build()
-                        .also { unencryptedCheckIns.add(it) }
+                    checkIn.toUnencryptedCheckIn(riskLevel).also { unencryptedCheckIns.add(it) }
                 }
-
-                try {
-                    checkInCryptography.encrypt(checkIn, riskLevel).also { encryptedCheckIns.add(it) }
-                } catch (e: Exception) {
-                    Timber.d(e, "Encrypting checkIn=${checkIn.id} failed")
-                }
+                checkInCryptography.encrypt(checkIn, riskLevel).also { encryptedCheckIns.add(it) }
             }
         }
-        encryptedCheckIns.shuffle()
-
+        encryptedCheckIns.shuffle() // As per specs
         return CheckInsReport(
             unencryptedCheckIns = unencryptedCheckIns,
             encryptedCheckIns = encryptedCheckIns
         )
     }
+
+    private fun CheckIn.toUnencryptedCheckIn(riskLevel: Int) =
+        CheckInOuterClass.CheckIn.newBuilder()
+            .setLocationId(traceLocationId.toProtoByteString())
+            .setStartIntervalNumber(checkInStart.derive10MinutesInterval().toInt())
+            .setEndIntervalNumber(checkInEnd.derive10MinutesInterval().toInt())
+            .setTransmissionRiskLevel(riskLevel)
+            .build()
 }
 
 /**
