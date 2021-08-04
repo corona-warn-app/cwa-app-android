@@ -84,9 +84,12 @@ class SubmissionServerTest : BaseTest() {
     @Test
     fun `genuine submission - empty checkInPadding`(): Unit = runBlocking {
         val testKeyData = ByteString.copyFrom("TestKeyDataGoogle", Charsets.UTF_8)
-        val checkIn = CheckInOuterClass.CheckIn.newBuilder()
+        val unencryptedCheckIn = CheckInOuterClass.CheckIn.newBuilder()
             .setEndIntervalNumber(0)
             .setStartIntervalNumber(0)
+            .build()
+
+        val encryptedCheckIn = CheckInOuterClass.CheckInProtectedReport.newBuilder()
             .build()
 
         val server = createServer()
@@ -97,7 +100,11 @@ class SubmissionServerTest : BaseTest() {
             arg<SubmissionPayloadOuterClass.SubmissionPayload>(3).apply {
                 keysList.single().keyData shouldBe testKeyData
                 checkInsOrBuilderList.size shouldBe 1
-                checkInsOrBuilderList[0] shouldBe checkIn
+                checkInsOrBuilderList[0] shouldBe unencryptedCheckIn
+
+                checkInProtectedReportsList.size shouldBe 1
+                checkInProtectedReportsList[0] shouldBe encryptedCheckIn
+
                 requestPadding.size() shouldBe 392
                 hasConsentToFederation() shouldBe true
                 visitedCountriesList shouldBe listOf("DE")
@@ -115,8 +122,8 @@ class SubmissionServerTest : BaseTest() {
             keyList = listOf(googleKeyList),
             consentToFederation = true,
             visitedCountries = listOf("DE"),
-            unencryptedCheckIns = listOf(checkIn),
-            encryptedCheckIns = emptyList(),
+            unencryptedCheckIns = listOf(unencryptedCheckIn),
+            encryptedCheckIns = listOf(encryptedCheckIn),
             submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
         )
         server.submitPayload(submissionData)
@@ -154,9 +161,12 @@ class SubmissionServerTest : BaseTest() {
             )
         }
         val testKeyData = ByteString.copyFrom("TestKeyDataGoogle", Charsets.UTF_8)
-        val checkIn = CheckInOuterClass.CheckIn.newBuilder()
+        val unencryptedCheckIn = CheckInOuterClass.CheckIn.newBuilder()
             .setEndIntervalNumber(0)
             .setStartIntervalNumber(0)
+            .build()
+
+        val encryptedCheckIn = CheckInOuterClass.CheckInProtectedReport.newBuilder()
             .build()
 
         val server = createServer()
@@ -166,8 +176,13 @@ class SubmissionServerTest : BaseTest() {
             arg<String>(2) shouldBe ""
             arg<SubmissionPayloadOuterClass.SubmissionPayload>(3).apply {
                 keysList.single().keyData shouldBe testKeyData
+
                 checkInsOrBuilderList.size shouldBe 1
-                checkInsOrBuilderList[0] shouldBe checkIn
+                checkInsOrBuilderList[0] shouldBe unencryptedCheckIn
+
+                checkInProtectedReportsList.size shouldBe 1
+                checkInProtectedReportsList[0] shouldBe encryptedCheckIn
+
                 // CheckInPadding length is random > is used to check it exists
                 requestPadding.size() shouldBeGreaterThan 392
                 hasConsentToFederation() shouldBe true
@@ -186,8 +201,8 @@ class SubmissionServerTest : BaseTest() {
             keyList = listOf(googleKeyList),
             consentToFederation = true,
             visitedCountries = listOf("DE"),
-            unencryptedCheckIns = listOf(checkIn),
-            encryptedCheckIns = emptyList(),
+            unencryptedCheckIns = listOf(unencryptedCheckIn),
+            encryptedCheckIns = listOf(encryptedCheckIn),
             submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
         )
         server.submitPayload(submissionData)
@@ -205,6 +220,7 @@ class SubmissionServerTest : BaseTest() {
             arg<SubmissionPayloadOuterClass.SubmissionPayload>(3).apply {
                 keysList.size shouldBe 0
                 checkInsOrBuilderList.size shouldBe 0
+                checkInProtectedReportsList.size shouldBe 0
                 requestPadding.size() shouldBe 420
                 hasConsentToFederation() shouldBe false
                 visitedCountriesList shouldBe emptyList()
