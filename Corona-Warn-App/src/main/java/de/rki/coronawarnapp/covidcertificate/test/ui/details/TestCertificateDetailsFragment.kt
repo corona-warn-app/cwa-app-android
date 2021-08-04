@@ -76,6 +76,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     ) {
         qrCodeCard.bindValidityViews(certificate, isCertificateDetails = true)
         name.text = certificate.fullNameFormatted
+        icaoname.text = certificate.fullNameStandardizedFormatted
         dateOfBirth.text = certificate.dateOfBirthFormatted
         diseaseType.text = certificate.targetName
         testType.text = certificate.testType

@@ -153,6 +153,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
+                        android:text="@string/covid_certificate_attribute_icao_name" />
+
+                    <TextView
+                        android:id="@+id/icaoname"
+                        style="@style/body1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="SCHNEIDER, ANDREA" />
+
+                    <TextView
+                        style="@style/body1Medium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
                         android:text="@string/covid_certificate_attribute_date_of_birth" />
 
                     <TextView

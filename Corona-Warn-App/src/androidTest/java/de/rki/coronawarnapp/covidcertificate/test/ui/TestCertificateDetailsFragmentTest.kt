@@ -128,6 +128,8 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
                     get() = "Andrea Schneider"
                 override val fullNameFormatted: String
                     get() = "Schneider, Andrea"
+                override val fullNameStandardizedFormatted: String
+                    get() = "SCHNEIDER, ANDREA"
                 override val dateOfBirthFormatted: String
                     get() = "1943-04-18"
                 override val personIdentifier: CertificatePersonIdentifier
