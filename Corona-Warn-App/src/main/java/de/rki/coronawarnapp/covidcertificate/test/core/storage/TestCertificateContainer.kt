@@ -101,8 +101,7 @@ data class TestCertificateContainer(
                 get() = certificate.nameData.fullNameFormatted
 
             override val fullNameStandardizedFormatted: String
-                get() = "${certificate.personIdentifier.lastNameStandardized}," +
-                    " ${certificate.personIdentifier.firstNameStandardized}"
+                get() = certificate.nameData.fullNameStandardizedFormatted
 
             override val dateOfBirthFormatted: String
                 get() = certificate.dateOfBirthFormatted
