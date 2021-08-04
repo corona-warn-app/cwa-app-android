@@ -84,7 +84,7 @@ class JsonSchemaValidatorTest : BaseTest() {
     fun `simple fail`() {
         createInstance().validate(schemaSource, invalidJson).apply {
             isValid shouldBe false
-            errors.size shouldBe 3
+            errors.size shouldBe 1
         }
     }
 }
