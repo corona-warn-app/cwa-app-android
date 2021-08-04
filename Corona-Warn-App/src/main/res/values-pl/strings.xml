@@ -291,7 +291,13 @@
     <!--    Dialog part 1-->
     <string name="risk_details_information_body_period_logged">"Ryzyko zakażenia można obliczyć tylko dla okresów, w których rejestrowanie narażenia było aktywne. Dlatego też funkcja rejestrowania powinna być stale aktywna. Rejestrowanie narażenia obejmuje 14 ostatnich dni."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days -->
-    <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Aplikacja Corona-Warn-App została zainstalowana %s dni temu. Ryzyko zakażenia jest obliczane dla okresów, w których aktywne było rejestrowanie narażenia. Oblicza się je w przypadku kontaktowania się z innymi ludźmi przy aktywnej funkcji rejestrowania narażenia."</string>
+    <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Aplikacja Corona-Warn-App została zainstalowana w dniu %s. Ryzyko zakażenia jest obliczane dla okresów, w których aktywne było rejestrowanie narażenia. Oblicza się je w przypadku kontaktowania się z innymi ludźmi przy aktywnej funkcji rejestrowania narażenia."</string>
+    <!-- XTXT: risk details - infection period logged 0 days -->
+    <string name="risk_details_information_body_period_logged_today">"Dzisiaj"</string>
+    <!-- XTXT: risk details - infection period logged 1 day -->
+    <string name="risk_details_information_body_period_logged_yesterday">"Wczoraj"</string>
+    <!-- XTXT: risk details - infection period logged >=2 days -->
+    <string name="risk_details_information_body_period_logged_other">"%d dni"</string>
     <!-- XTXT: risk details - infection period logged information body, over 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_over_14_days">"Jeśli rejestrowanie narażenia było aktywne podczas kontaktowania się z innymi ludźmi, można obliczyć ryzyko zakażenia dla tego okresu."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->        <!-- XTXT: risk details - infection period logged information body, under 14 days -->
