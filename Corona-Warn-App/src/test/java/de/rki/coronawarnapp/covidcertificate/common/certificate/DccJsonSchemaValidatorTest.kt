@@ -49,7 +49,7 @@ class DccJsonSchemaValidatorTest : BaseTest() {
         createInstance().apply {
             isValid(JSON_INVALID).apply {
                 isValid shouldBe false
-                invalidityReason shouldContain "does not match the regex pattern "
+                invalidityReason shouldContain "\$.v[0].dt: is missing but it is required"
             }
         }
     }
