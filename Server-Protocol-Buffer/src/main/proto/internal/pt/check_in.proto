@@ -20,4 +20,5 @@ message CheckInProtectedReport {
   bytes locationIdHash = 1;
   bytes iv = 2;
   bytes encryptedCheckInRecord = 3;
+  bytes mac = 4;
 }
