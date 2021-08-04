@@ -9,6 +9,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.ScreenshotCertificateTestData
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
@@ -98,6 +99,9 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
             every { headerExpiresAt } returns Instant.parse("2021-05-16T00:00:00.000Z")
             every { totalSeriesOfDoses } returns 2
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)
+            every { isValid } returns true
+            every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(21))
+            every { fullNameFormatted } returns "Max, Mustermann"
             if (complete) every { doseNumber } returns 2 else every { doseNumber } returns 1
         }
 
