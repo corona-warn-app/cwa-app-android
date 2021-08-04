@@ -28,7 +28,7 @@ class DccJsonSchemaTest : BaseTest() {
     fun `test asset reading`() {
         createInstance().apply {
             rawSchema shouldContain """
-                "title": "EU DGC"
+                "title": "EU DCC"
             """.trimIndent()
         }
     }

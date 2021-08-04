@@ -291,13 +291,13 @@
     <!--    Dialog part 1-->
     <string name="risk_details_information_body_period_logged">"Your risk of infection can be calculated only for periods during which exposure logging was active. The logging feature should therefore remain active permanently. Exposure logging covers the last 14 days."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days -->
-    <string name="risk_details_information_body_period_logged_assessment_under_14_days">"The Corona-Warn-App was installed %s days ago. Your risk of infection is calculated for the periods during which exposure logging was active. If you have encountered other people and exposure logging was active, your risk of infection is calculated."</string>
+    <string name="risk_details_information_body_period_logged_assessment_under_14_days">"The Corona-Warn-App was installed on %s. Your risk of infection is calculated for the periods during which exposure logging was active. If you have encountered other people and exposure logging was active, your risk of infection is calculated."</string>
     <!-- XTXT: risk details - infection period logged 0 days -->
-    <string name="risk_details_information_body_period_logged_today">"today"</string>
+    <string name="risk_details_information_body_period_logged_today">"Today"</string>
     <!-- XTXT: risk details - infection period logged 1 day -->
-    <string name="risk_details_information_body_period_logged_yesterday">"yesterday"</string>
+    <string name="risk_details_information_body_period_logged_yesterday">"Yesterday"</string>
     <!-- XTXT: risk details - infection period logged >=2 days -->
-    <string name="risk_details_information_body_period_logged_other">"%d days ago"</string>
+    <string name="risk_details_information_body_period_logged_other">"%d days"</string>
     <!-- XTXT: risk details - infection period logged information body, over 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_over_14_days">"If exposure logging was active at times during which you encountered other people, your risk of infection can be calculated for this period."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->        <!-- XTXT: risk details - infection period logged information body, under 14 days -->
