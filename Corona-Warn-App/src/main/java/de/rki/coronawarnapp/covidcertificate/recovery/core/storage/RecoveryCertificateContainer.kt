@@ -86,6 +86,10 @@ data class RecoveryCertificateContainer(
             override val fullNameFormatted: String
                 get() = certificate.nameData.fullNameFormatted
 
+            override val fullNameStandardizedFormatted: String
+                get() = "${certificate.personIdentifier.lastNameStandardized}," +
+                    " ${certificate.personIdentifier.firstNameStandardized}"
+
             override val dateOfBirthFormatted: String
                 get() = certificate.dateOfBirthFormatted
 
