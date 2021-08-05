@@ -113,7 +113,7 @@ class DccCoseDecoder @Inject constructor(
 
     private fun ByteArray.decrypt(decryptionKey: ByteArray) = try {
         aesEncryptor.decrypt(
-            decryptionKey = decryptionKey,
+            key = decryptionKey,
             encryptedData = this
         )
     } catch (e: Throwable) {
