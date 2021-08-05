@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.presencetracing.warning.download.server.TraceWarning
 import de.rki.coronawarnapp.presencetracing.warning.download.server.TraceWarningServer
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackageMetadata
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
-import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
 import de.rki.coronawarnapp.util.HourInterval
 import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
 import de.rki.coronawarnapp.util.ZipHelper.unzip
