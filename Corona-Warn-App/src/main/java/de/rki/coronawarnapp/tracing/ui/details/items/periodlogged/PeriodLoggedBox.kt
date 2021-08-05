@@ -39,16 +39,14 @@ class PeriodLoggedBox(
 
         fun getInstallTimePeriodLogged(context: Context): String = when (daysSinceInstallation) {
             0 -> context.getString(
-                R.string.risk_details_information_body_period_logged_assessment_under_14_days,
-                context.getString(R.string.risk_details_information_body_period_logged_today)
+                R.string.risk_details_information_body_period_logged_assessment_under_14_days_today
             )
             1 -> context.getString(
-                R.string.risk_details_information_body_period_logged_assessment_under_14_days,
-                context.getString(R.string.risk_details_information_body_period_logged_yesterday)
+                R.string.risk_details_information_body_period_logged_assessment_under_14_days_yesterday
             )
             in 2..13 -> context.getString(
                 R.string.risk_details_information_body_period_logged_assessment_under_14_days,
-                context.getString(R.string.risk_details_information_body_period_logged_other, daysSinceInstallation)
+                daysSinceInstallation
             )
             else -> context.getString(R.string.risk_details_information_body_period_logged_assessment_over_14_days)
         }
