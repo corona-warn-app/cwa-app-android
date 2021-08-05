@@ -6,16 +6,15 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Streaming
 
-interface UnencryptedTraceWarningApiV1 {
-
-    @GET("/version/v1/twp/country/{region}/hour")
-    suspend fun getWarningPackageIds(
+interface TraceWarningEncryptedApiV2 : TraceWarningApi {
+    @GET("/version/v2/twp/country/{region}/hour")
+    override suspend fun getWarningPackageIds(
         @Path("region") region: String
     ): DiscoveryResult
 
     @Streaming
-    @GET("/version/v1/twp/country/{region}/hour/{timeId}")
-    suspend fun downloadKeyFileForHour(
+    @GET("/version/v2/twp/country/{region}/hour/{timeId}")
+    override suspend fun downloadKeyFileForHour(
         @Path("region") region: String,
         @Path("timeId") timeId: Long
     ): Response<ResponseBody>

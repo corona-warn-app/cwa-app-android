@@ -38,7 +38,7 @@ class FindMatchesTest {
             transmissionRiskLevel = 8
         )
         val warningPackage = object : TraceWarningPackage {
-            override suspend fun extractWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
+            override suspend fun extractUnencryptedWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
                 return listOf(warning1, warning2)
             }
 

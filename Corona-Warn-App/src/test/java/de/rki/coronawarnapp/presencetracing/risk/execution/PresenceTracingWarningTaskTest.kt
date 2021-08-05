@@ -307,7 +307,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         )
 
         val WARNING_PKG = object : TraceWarningPackage {
-            override suspend fun extractWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
+            override suspend fun extractUnencryptedWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
                 return listOf(WARNING_1, WARNING_2)
             }
 

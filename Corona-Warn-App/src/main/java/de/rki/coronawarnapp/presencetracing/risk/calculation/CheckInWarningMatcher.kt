@@ -102,7 +102,7 @@ internal suspend fun findMatches(
     warningPackage: TraceWarningPackage
 ): List<CheckInWarningOverlap> {
     return warningPackage
-        .extractWarnings()
+        .extractUnencryptedWarnings() // TODO read encryptedWarning based on the mode 
         .flatMap { warning ->
             checkIns
                 .mapNotNull { checkIn ->

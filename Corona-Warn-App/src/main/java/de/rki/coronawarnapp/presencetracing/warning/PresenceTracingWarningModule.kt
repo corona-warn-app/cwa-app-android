@@ -6,8 +6,8 @@ import dagger.multibindings.IntoMap
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingWarningTask
-import de.rki.coronawarnapp.presencetracing.warning.download.server.EncryptedTraceWarningApiV2
-import de.rki.coronawarnapp.presencetracing.warning.download.server.UnencryptedTraceWarningApiV1
+import de.rki.coronawarnapp.presencetracing.warning.download.server.TraceWarningEncryptedApiV2
+import de.rki.coronawarnapp.presencetracing.warning.download.server.TraceWarningUnencryptedApiV1
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.TaskTypeKey
@@ -32,14 +32,14 @@ class PresenceTracingWarningModule {
         @DownloadCDNHttpClient client: OkHttpClient,
         @DownloadCDNServerUrl url: String,
         gsonConverterFactory: GsonConverterFactory,
-    ): UnencryptedTraceWarningApiV1 {
+    ): TraceWarningUnencryptedApiV1 {
 
         return Retrofit.Builder()
             .client(client)
             .baseUrl(url)
             .addConverterFactory(gsonConverterFactory)
             .build()
-            .create(UnencryptedTraceWarningApiV1::class.java)
+            .create(TraceWarningUnencryptedApiV1::class.java)
     }
 
     @Singleton
@@ -48,13 +48,13 @@ class PresenceTracingWarningModule {
         @DownloadCDNHttpClient client: OkHttpClient,
         @DownloadCDNServerUrl url: String,
         gsonConverterFactory: GsonConverterFactory,
-    ): EncryptedTraceWarningApiV2 {
+    ): TraceWarningEncryptedApiV2 {
 
         return Retrofit.Builder()
             .client(client)
             .baseUrl(url)
             .addConverterFactory(gsonConverterFactory)
             .build()
-            .create(EncryptedTraceWarningApiV2::class.java)
+            .create(TraceWarningEncryptedApiV2::class.java)
     }
 }

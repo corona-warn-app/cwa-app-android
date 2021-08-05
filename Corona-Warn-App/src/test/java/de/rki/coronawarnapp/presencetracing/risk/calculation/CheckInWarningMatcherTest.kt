@@ -52,7 +52,7 @@ class CheckInWarningMatcherTest : BaseTest() {
         )
 
         val warningPackage = object : TraceWarningPackage {
-            override suspend fun extractWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
+            override suspend fun extractUnencryptedWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
                 return listOf(warning1, warning2)
             }
 
@@ -107,7 +107,7 @@ class CheckInWarningMatcherTest : BaseTest() {
         )
 
         val warningPackage = object : TraceWarningPackage {
-            override suspend fun extractWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
+            override suspend fun extractUnencryptedWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
                 return listOf(warning1, warning2)
             }
 
@@ -145,7 +145,7 @@ class CheckInWarningMatcherTest : BaseTest() {
         )
 
         val warningPackage = object : TraceWarningPackage {
-            override suspend fun extractWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
+            override suspend fun extractUnencryptedWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
                 return listOf()
             }
 
@@ -184,7 +184,7 @@ class CheckInWarningMatcherTest : BaseTest() {
 
         @Suppress("TooGenericExceptionThrown")
         val warningPackage = object : TraceWarningPackage {
-            override suspend fun extractWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
+            override suspend fun extractUnencryptedWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
                 throw Exception()
             }
 
@@ -222,12 +222,12 @@ class CheckInWarningMatcherTest : BaseTest() {
 
         @Suppress("TooGenericExceptionThrown")
         val warningPackage1 = object : TraceWarningPackage {
-            override suspend fun extractWarnings() = throw Exception()
+            override suspend fun extractUnencryptedWarnings() = throw Exception()
 
             override val packageId: WarningPackageId = "id1"
         }
         val warningPackage2 = object : TraceWarningPackage {
-            override suspend fun extractWarnings() = listOf(
+            override suspend fun extractUnencryptedWarnings() = listOf(
                 createWarning(
                     traceLocationId = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
                     startIntervalDateStr = "2021-03-04T10:00+01:00",
@@ -286,7 +286,7 @@ class CheckInWarningMatcherTest : BaseTest() {
         )
 
         val warningPackage = object : TraceWarningPackage {
-            override suspend fun extractWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
+            override suspend fun extractUnencryptedWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
                 return listOf(warning1, warning2)
             }
 
