@@ -100,6 +100,9 @@ data class TestCertificateContainer(
             override val fullNameFormatted: String
                 get() = certificate.nameData.fullNameFormatted
 
+            override val fullNameStandardizedFormatted: String
+                get() = certificate.nameData.fullNameStandardizedFormatted
+
             override val dateOfBirthFormatted: String
                 get() = certificate.dateOfBirthFormatted
 

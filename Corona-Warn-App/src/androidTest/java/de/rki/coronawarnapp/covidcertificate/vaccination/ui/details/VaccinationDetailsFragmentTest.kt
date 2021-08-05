@@ -9,6 +9,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.ScreenshotCertificateTestData
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
@@ -84,6 +85,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
         val formatter = DateTimeFormat.forPattern("dd.MM.yyyy")
         val mockCertificate = mockk<VaccinationCertificate>().apply {
             every { fullName } returns "Max Mustermann"
+            every { fullNameStandardizedFormatted } returns "MUSTERMANN, MAX"
             every { dateOfBirthFormatted } returns "01.02.1976"
             every { vaccinatedOnFormatted } returns "18.02.2021"
             every { vaccinatedOn } returns LocalDate.parse("18.02.2021", formatter)
@@ -97,6 +99,9 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
             every { headerExpiresAt } returns Instant.parse("2021-05-16T00:00:00.000Z")
             every { totalSeriesOfDoses } returns 2
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)
+            every { isValid } returns true
+            every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(21))
+            every { fullNameFormatted } returns "Max, Mustermann"
             if (complete) every { doseNumber } returns 2 else every { doseNumber } returns 1
         }
 
