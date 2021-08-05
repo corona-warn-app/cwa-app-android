@@ -157,10 +157,10 @@ internal fun List<CheckInOuterClass.CheckInProtectedReport>.deriveTraceWarnings(
 
 @VisibleForTesting(otherwise = PRIVATE)
 internal fun TraceWarning.TraceTimeIntervalWarning.isValid(): Boolean =
-    startIntervalNumber >= 0
-        && period > 0
-        && transmissionRiskLevel >= 1
-        && transmissionRiskLevel <= 8
+    startIntervalNumber >= 0 &&
+        period > 0 &&
+        transmissionRiskLevel >= 1 &&
+        transmissionRiskLevel <= 8
 
 @VisibleForTesting(otherwise = PRIVATE)
 internal fun CheckIn.calculateOverlap(
