@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.warning.download.server.DiscoveryResult
-import de.rki.coronawarnapp.presencetracing.warning.download.server.UnencryptedTraceWarningApiV1
 import de.rki.coronawarnapp.presencetracing.warning.download.server.TraceWarningServer
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackageMetadata
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
