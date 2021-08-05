@@ -1,21 +1,12 @@
 package de.rki.coronawarnapp.presencetracing.warning.download.server
 
-import androidx.annotation.Keep
-import com.google.gson.annotations.SerializedName
-import de.rki.coronawarnapp.util.HourInterval
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Streaming
 
-interface TraceWarningApiV1 {
-
-    @Keep
-    data class DiscoveryResult(
-        @SerializedName("oldest") val oldest: HourInterval,
-        @SerializedName("latest") val latest: HourInterval
-    )
+interface UnencryptedTraceWarningApiV1 {
 
     @GET("/version/v1/twp/country/{region}/hour")
     suspend fun getWarningPackageIds(

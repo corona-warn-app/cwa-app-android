@@ -12,16 +12,20 @@ import javax.inject.Singleton
 
 @Singleton
 class TraceWarningServer @Inject constructor(
-    private val traceWarningApi: Lazy<TraceWarningApiV1>
+    private val unencryptedTraceWarningApi: Lazy<UnencryptedTraceWarningApiV1>,
+    private val encryptedTraceWarningApi: Lazy<EncryptedTraceWarningApiV2>,
 ) {
 
-    private val warningApi: TraceWarningApiV1
-        get() = traceWarningApi.get()
+    private val unencryptedWarningApi: UnencryptedTraceWarningApiV1
+        get() = unencryptedTraceWarningApi.get()
+
+    private val encryptedWarningApi: EncryptedTraceWarningApiV2
+        get() = encryptedTraceWarningApi.get()
 
     suspend fun getAvailableIds(
         location: LocationCode
-    ): TraceWarningApiV1.DiscoveryResult = withContext(Dispatchers.IO) {
-        warningApi.getWarningPackageIds(location.identifier).also {
+    ): DiscoveryResult = withContext(Dispatchers.IO) {
+        unencryptedWarningApi.getWarningPackageIds(location.identifier).also {
             Timber.d("getAvailableIds(location=%s): %s", location, it)
         }
     }
@@ -32,7 +36,7 @@ class TraceWarningServer @Inject constructor(
     ): TraceWarningPackageDownload = withContext(Dispatchers.IO) {
         Timber.tag(TAG).v("downloadPackage(location=%s, hourInterval=%s)", location, hourInterval)
 
-        val response = warningApi.downloadKeyFileForHour(
+        val response = unencryptedWarningApi.downloadKeyFileForHour(
             location.identifier,
             hourInterval
         )

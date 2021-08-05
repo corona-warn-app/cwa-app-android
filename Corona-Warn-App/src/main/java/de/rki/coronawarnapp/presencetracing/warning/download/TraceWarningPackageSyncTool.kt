@@ -6,7 +6,8 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
-import de.rki.coronawarnapp.presencetracing.warning.download.server.TraceWarningApiV1
+import de.rki.coronawarnapp.presencetracing.warning.download.server.DiscoveryResult
+import de.rki.coronawarnapp.presencetracing.warning.download.server.UnencryptedTraceWarningApiV1
 import de.rki.coronawarnapp.presencetracing.warning.download.server.TraceWarningServer
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackageMetadata
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
@@ -56,7 +57,7 @@ class TraceWarningPackageSyncTool @Inject constructor(
 
         cleanUpRevokedPackages(downloadConfig)
 
-        val intervalDiscovery: TraceWarningApiV1.DiscoveryResult = try {
+        val intervalDiscovery: DiscoveryResult = try {
             server.getAvailableIds(location)
         } catch (e: Exception) {
             Timber.tag(TAG).w(e, "Failed to discover available IDs.")
