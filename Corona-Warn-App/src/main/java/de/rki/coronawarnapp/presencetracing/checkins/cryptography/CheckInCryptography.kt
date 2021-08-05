@@ -59,7 +59,7 @@ class CheckInCryptography @Inject constructor(
 
         if (!mac.contentEquals(checkInProtectedReport.mac.toByteArray())) throw IllegalArgumentException(
             "Message Authentication Codes are not the same ${mac.base64()} != ${
-                checkInProtectedReport.mac.toByteArray().base64()
+            checkInProtectedReport.mac.toByteArray().base64()
             }"
         )
 

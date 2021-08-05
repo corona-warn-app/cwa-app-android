@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.encoding.base64
 import de.rki.coronawarnapp.util.toProtoByteString
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -148,6 +149,20 @@ internal class CheckInCryptographyTest {
         val output = getCryptographyInstance().getEncryptionKey(locationId)
 
         output.base64() shouldBe "prxOK3dvFTjoxfROd2KyfG0aTFeMYZfPos69m84vv6E="
+    }
+
+    @Test
+    fun `decrypting tempered data should throw an exception`() {
+        val locationId = "A61rMz1EUJnH3+D/dF7FzBMw0UnvdS82w67U7+oT9xU=".decodeBase64()!!.toByteArray()
+        val checkInProtectedReport = mockCheckInProtectedReport(
+            authenticationCode = "vfjGr8pJ2F+IhGfHl4Audcrjhhcgr9qJ9hl176S/Il8=".decodeBase64()!!.toProtoByteString(),
+            initVector = "SM6n2ApMmwWCEVwex9yrmA==".decodeBase64()!!.toProtoByteString(),
+            encryptedRecord = "axfEwnDGz7r4c/n65DVDaw==".decodeBase64()!!.toProtoByteString(),
+        )
+
+        shouldThrow<IllegalArgumentException> {
+            getCryptographyInstance().decrypt(checkInProtectedReport, locationId)
+        }
     }
 
     private fun getCryptographyInstance() = CheckInCryptography(secureRandom, AesCryptography())
