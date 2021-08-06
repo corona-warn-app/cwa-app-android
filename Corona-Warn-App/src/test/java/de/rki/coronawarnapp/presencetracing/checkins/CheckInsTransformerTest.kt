@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.PresenceTracingConfigContainer
 import de.rki.coronawarnapp.appconfig.PresenceTracingRiskCalculationParamContainer
 import de.rki.coronawarnapp.appconfig.PresenceTracingSubmissionParamContainer
+import de.rki.coronawarnapp.covidcertificate.common.cryptography.AesCryptography
 import de.rki.coronawarnapp.presencetracing.checkins.cryptography.CheckInCryptography
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.AerosoleDecayFunctionLinear
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.DurationFilter
@@ -37,7 +38,7 @@ class CheckInsTransformerTest : BaseTest() {
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var symptoms: Symptoms
     @MockK lateinit var appConfigProvider: AppConfigProvider
-    private val checkInCryptography = CheckInCryptography(SecureRandom().asKotlinRandom())
+    private val checkInCryptography = CheckInCryptography(SecureRandom().asKotlinRandom(), AesCryptography())
 
     private lateinit var checkInTransformer: CheckInsTransformer
 
