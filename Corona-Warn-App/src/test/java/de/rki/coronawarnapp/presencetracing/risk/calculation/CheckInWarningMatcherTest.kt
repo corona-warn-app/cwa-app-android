@@ -1,7 +1,10 @@
 package de.rki.coronawarnapp.presencetracing.risk.calculation
 
+import de.rki.coronawarnapp.covidcertificate.common.cryptography.AesCryptography
+import de.rki.coronawarnapp.presencetracing.checkins.cryptography.CheckInCryptography
 import de.rki.coronawarnapp.presencetracing.warning.WarningPackageId
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackage
+import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -10,6 +13,8 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
+import java.security.SecureRandom
+import kotlin.random.asKotlinRandom
 
 class CheckInWarningMatcherTest : BaseTest() {
 
@@ -19,7 +24,8 @@ class CheckInWarningMatcherTest : BaseTest() {
     }
 
     private fun createInstance() = CheckInWarningMatcher(
-        TestDispatcherProvider()
+        TestDispatcherProvider(),
+        CheckInCryptography(SecureRandom().asKotlinRandom(), AesCryptography())
     )
 
     @Test
@@ -55,6 +61,8 @@ class CheckInWarningMatcherTest : BaseTest() {
             override suspend fun extractUnencryptedWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
                 return listOf(warning1, warning2)
             }
+
+            override suspend fun extractEncryptedWarnings() = emptyList<CheckInOuterClass.CheckInProtectedReport>()
 
             override val packageId: WarningPackageId
                 get() = "id"
@@ -111,6 +119,8 @@ class CheckInWarningMatcherTest : BaseTest() {
                 return listOf(warning1, warning2)
             }
 
+            override suspend fun extractEncryptedWarnings() = emptyList<CheckInOuterClass.CheckInProtectedReport>()
+
             override val packageId: WarningPackageId
                 get() = "id"
         }
@@ -148,6 +158,8 @@ class CheckInWarningMatcherTest : BaseTest() {
             override suspend fun extractUnencryptedWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
                 return listOf()
             }
+
+            override suspend fun extractEncryptedWarnings() = emptyList<CheckInOuterClass.CheckInProtectedReport>()
 
             override val packageId: WarningPackageId
                 get() = "id"
@@ -188,6 +200,10 @@ class CheckInWarningMatcherTest : BaseTest() {
                 throw Exception()
             }
 
+            override suspend fun extractEncryptedWarnings(): List<CheckInOuterClass.CheckInProtectedReport> {
+                throw Exception()
+            }
+
             override val packageId: String
                 get() = "id"
         }
@@ -223,6 +239,7 @@ class CheckInWarningMatcherTest : BaseTest() {
         @Suppress("TooGenericExceptionThrown")
         val warningPackage1 = object : TraceWarningPackage {
             override suspend fun extractUnencryptedWarnings() = throw Exception()
+            override suspend fun extractEncryptedWarnings() = throw Exception()
 
             override val packageId: WarningPackageId = "id1"
         }
@@ -235,6 +252,8 @@ class CheckInWarningMatcherTest : BaseTest() {
                     transmissionRiskLevel = 8
                 )
             )
+
+            override suspend fun extractEncryptedWarnings() = emptyList<CheckInOuterClass.CheckInProtectedReport>()
 
             override val packageId: WarningPackageId = "id2"
         }
@@ -289,6 +308,8 @@ class CheckInWarningMatcherTest : BaseTest() {
             override suspend fun extractUnencryptedWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
                 return listOf(warning1, warning2)
             }
+
+            override suspend fun extractEncryptedWarnings() = emptyList<CheckInOuterClass.CheckInProtectedReport>()
 
             override val packageId: WarningPackageId
                 get() = "id"

@@ -4,6 +4,7 @@ import com.google.protobuf.ByteString
 import de.rki.coronawarnapp.covidcertificate.common.cryptography.AesCryptography
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationId
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.toTraceLocationIdHash
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.derive10MinutesInterval
 import de.rki.coronawarnapp.util.encoding.base64
@@ -97,6 +98,8 @@ internal class CheckInCryptographyTest {
             authenticationCode = "BJX/KwAXo3vQBMlycMxNxiwlrNyzWdD2LeF9KCrzt/I=".decodeBase64()!!.toProtoByteString(),
             initVector = "+VNLZEr+j6qotkv8v1ASlQ==".decodeBase64()!!.toProtoByteString(),
             encryptedRecord = "t5TWYYc/kn4vbWRd677L3g==".decodeBase64()!!.toProtoByteString(),
+            locIdHash = "m686QDEvOYSfRtrRBA8vA58c/6EjjEHp22dTFc+tObY=".decodeBase64()!!.toTraceLocationIdHash()
+                .toProtoByteString()
         )
 
         getCryptographyInstance().decrypt(checkInProtectedReport, locationId).apply {
@@ -113,6 +116,8 @@ internal class CheckInCryptographyTest {
             authenticationCode = "vfjGr8pJ2F+IhGfHl4Audcrjhhcgr9qJ9hl176S/Il8=".decodeBase64()!!.toProtoByteString(),
             initVector = "SM6n2ApMmwWCEVwex9yrmA==".decodeBase64()!!.toProtoByteString(),
             encryptedRecord = "axfEwnDGz7r4c/n65DVDaw==".decodeBase64()!!.toProtoByteString(),
+            locIdHash = "A61rMz1EUJnH3+D/dF7FzBMw0UnvdS82w67U7+oT9yU=".decodeBase64()!!.toTraceLocationIdHash()
+                .toProtoByteString()
         )
 
         getCryptographyInstance().decrypt(checkInProtectedReport, locationId).apply {
@@ -156,6 +161,8 @@ internal class CheckInCryptographyTest {
             authenticationCode = "vfjGr8pJ2F+IhGfHl4Audcrjhhcgr9qJ9hl176S/Il8=".decodeBase64()!!.toProtoByteString(),
             initVector = "SM6n2ApMmwWCEVwex9yrmA==".decodeBase64()!!.toProtoByteString(),
             encryptedRecord = "axfEwnDGz7r4c/n65DVDaw==".decodeBase64()!!.toProtoByteString(),
+            locIdHash = "A61rMz1EUJnH3+D/dF7FzBMw0UnvdS82w67U7+oT9xU=".decodeBase64()!!.toTraceLocationIdHash()
+                .toProtoByteString()
         )
 
         shouldThrow<IllegalArgumentException> {
@@ -179,10 +186,12 @@ internal class CheckInCryptographyTest {
     private fun mockCheckInProtectedReport(
         authenticationCode: ByteString,
         initVector: ByteString,
-        encryptedRecord: ByteString
+        encryptedRecord: ByteString,
+        locIdHash: ByteString
     ) = mockk<CheckInOuterClass.CheckInProtectedReport>().apply {
         every { mac } returns authenticationCode
         every { iv } returns initVector
         every { encryptedCheckInRecord } returns encryptedRecord
+        every { locationIdHash } returns locIdHash
     }
 }

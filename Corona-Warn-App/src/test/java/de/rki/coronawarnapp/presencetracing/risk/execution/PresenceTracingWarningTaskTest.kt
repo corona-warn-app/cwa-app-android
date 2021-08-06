@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.presencetracing.risk.execution
 
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
@@ -11,8 +13,10 @@ import de.rki.coronawarnapp.presencetracing.risk.calculation.createWarning
 import de.rki.coronawarnapp.presencetracing.risk.storage.PresenceTracingRiskRepository
 import de.rki.coronawarnapp.presencetracing.warning.WarningPackageId
 import de.rki.coronawarnapp.presencetracing.warning.download.TraceWarningPackageSyncTool
+import de.rki.coronawarnapp.presencetracing.warning.download.server.TraceWarningApi
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackage
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
+import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.comparables.shouldBeLessThan
@@ -45,6 +49,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     @MockK lateinit var presenceTracingRiskMapper: PresenceTracingRiskMapper
     @MockK lateinit var autoCheckOut: AutoCheckOut
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
+    @MockK lateinit var appConfigProvider: AppConfigProvider
 
     private val coronaTests: MutableStateFlow<Set<CoronaTest>> = MutableStateFlow(
         setOf(
@@ -52,13 +57,19 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         )
     )
 
+    private val mode = TraceWarningApi.Mode.UNENCRYPTED
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
         every { coronaTestRepository.coronaTests } returns coronaTests
 
-        coEvery { syncTool.syncPackages() } returns TraceWarningPackageSyncTool.SyncResult(successful = true)
+        coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
+            every { isUnencryptedCheckInsEnabled } returns true
+        }
+
+        coEvery { syncTool.syncPackages(any()) } returns TraceWarningPackageSyncTool.SyncResult(successful = true)
         coEvery { checkInWarningMatcher.process(any(), any()) } answers {
             CheckInWarningMatcher.Result(
                 successful = true,
@@ -99,6 +110,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         presenceTracingRiskMapper = presenceTracingRiskMapper,
         coronaTestRepository = coronaTestRepository,
         autoCheckOut = autoCheckOut,
+        appConfigProvider = appConfigProvider
     )
 
     @Test
@@ -109,7 +121,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
             autoCheckOut.processOverDueCheckouts()
             autoCheckOut.refreshAlarm()
 
-            syncTool.syncPackages()
+            syncTool.syncPackages(mode)
             presenceTracingRiskRepository.deleteStaleData()
             checkInsRepository.checkInsWithinRetention
 
@@ -133,7 +145,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
 
         coVerifySequence {
             presenceTracingRiskMapper.clearConfig()
-            syncTool.syncPackages()
+            syncTool.syncPackages(mode)
             presenceTracingRiskRepository.deleteStaleData()
             checkInsRepository.checkInsWithinRetention
             traceWarningRepository.unprocessedWarningPackages
@@ -150,7 +162,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
 
     @Test
     fun `overall task errors lead to a reported failed calculation`() = runBlockingTest {
-        coEvery { syncTool.syncPackages() } throws IOException("Unexpected")
+        coEvery { syncTool.syncPackages(mode) } throws IOException("Unexpected")
 
         shouldThrow<IOException> {
             createInstance().run(mockk())
@@ -171,7 +183,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         createInstance().run(mockk()) shouldNotBe null
 
         coVerifySequence {
-            syncTool.syncPackages()
+            syncTool.syncPackages(mode)
             presenceTracingRiskRepository.deleteStaleData()
             checkInsRepository.checkInsWithinRetention
 
@@ -187,7 +199,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         createInstance().run(mockk()) shouldNotBe null
 
         coVerifySequence {
-            syncTool.syncPackages()
+            syncTool.syncPackages(mode)
             presenceTracingRiskRepository.deleteStaleData()
             checkInsRepository.checkInsWithinRetention
             traceWarningRepository.unprocessedWarningPackages
@@ -198,12 +210,12 @@ class PresenceTracingWarningTaskTest : BaseTest() {
 
     @Test
     fun `report failure if downloads fail`() = runBlockingTest {
-        coEvery { syncTool.syncPackages() } returns TraceWarningPackageSyncTool.SyncResult(successful = false)
+        coEvery { syncTool.syncPackages(mode) } returns TraceWarningPackageSyncTool.SyncResult(successful = false)
 
         createInstance().run(mockk()) shouldNotBe null
 
         coVerifySequence {
-            syncTool.syncPackages()
+            syncTool.syncPackages(mode)
 
             presenceTracingRiskRepository.reportCalculation(
                 successful = false,
@@ -224,7 +236,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         }
 
         coVerifySequence {
-            syncTool.syncPackages()
+            syncTool.syncPackages(mode)
             presenceTracingRiskRepository.deleteStaleData()
             checkInsRepository.checkInsWithinRetention
             traceWarningRepository.unprocessedWarningPackages
@@ -258,7 +270,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         createInstance().run(mockk()) shouldNotBe null
 
         coVerifySequence {
-            syncTool.syncPackages()
+            syncTool.syncPackages(any())
             presenceTracingRiskRepository.deleteStaleData()
             checkInsRepository.checkInsWithinRetention
 
@@ -310,6 +322,8 @@ class PresenceTracingWarningTaskTest : BaseTest() {
             override suspend fun extractUnencryptedWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
                 return listOf(WARNING_1, WARNING_2)
             }
+
+            override suspend fun extractEncryptedWarnings() = emptyList<CheckInOuterClass.CheckInProtectedReport>()
 
             override val packageId: WarningPackageId
                 get() = "id"

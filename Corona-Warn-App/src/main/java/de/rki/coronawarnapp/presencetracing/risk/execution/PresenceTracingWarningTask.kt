@@ -80,8 +80,7 @@ class PresenceTracingWarningTask @Inject constructor(
         val unencryptedEnabled = appConfigProvider.getAppConfig().isUnencryptedCheckInsEnabled
         Timber.d("unencryptedEnabled=%s", unencryptedEnabled)
 
-        val mode = TraceWarningApi.Mode.UNENCRYPTED
-        // TODO if (unencryptedEnabled) TraceWarningApi.Mode.UNENCRYPTED else TraceWarningApi.Mode.ENCRYPTED
+        val mode = if (unencryptedEnabled) TraceWarningApi.Mode.UNENCRYPTED else TraceWarningApi.Mode.ENCRYPTED
         Timber.d("TraceWarningApiMode=%s", mode)
 
         val syncResult = syncTool.syncPackages(mode)
