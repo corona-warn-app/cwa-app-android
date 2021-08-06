@@ -102,7 +102,8 @@ class DefaultPlaybook @Inject constructor(
                     keyList = data.temporaryExposureKeys,
                     consentToFederation = data.consentToFederation,
                     visitedCountries = data.visitedCountries,
-                    checkIns = data.checkIns,
+                    unencryptedCheckIns = data.unencryptedCheckIns,
+                    encryptedCheckIns = data.encryptedCheckIns,
                     submissionType = data.submissionType
                 )
                 submissionServer.submitPayload(serverSubmissionData)
