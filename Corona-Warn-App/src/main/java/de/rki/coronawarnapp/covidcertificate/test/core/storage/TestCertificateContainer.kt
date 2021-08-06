@@ -26,12 +26,12 @@ data class TestCertificateContainer(
 ) : CertificateRepoContainer {
 
     @delegate:Transient
-    internal val testCertificateQRCode: TestCertificateQRCode by lazy {
+    internal val testCertificateQRCode: TestCertificateQRCode? by lazy {
         data.testCertificateQrCode!!.let {
             qrCodeExtractor.extract(
                 it,
                 DccV1Parser.Mode.CERT_TEST_LENIENT
-            ) as TestCertificateQRCode
+            ) as? TestCertificateQRCode
         }
     }
 
@@ -44,8 +44,8 @@ data class TestCertificateContainer(
             is GenericTestCertificateData -> null // Has none
         }
 
-    val personIdentifier: CertificatePersonIdentifier
-        get() = testCertificateQRCode.data.certificate.personIdentifier
+    val personIdentifier: CertificatePersonIdentifier?
+        get() = testCertificateQRCode?.data?.certificate?.personIdentifier
 
     val certificateSeenByUser: Boolean
         get() = when (data) {
@@ -62,7 +62,7 @@ data class TestCertificateContainer(
     val certificateId: String?
         get() {
             if (isCertificateRetrievalPending) return null
-            return testCertificateQRCode.uniqueCertificateIdentifier
+            return testCertificateQRCode?.uniqueCertificateIdentifier
         }
 
     fun toTestCertificate(
@@ -72,8 +72,8 @@ data class TestCertificateContainer(
     ): TestCertificate? {
         if (isCertificateRetrievalPending) return null
 
-        val header = testCertificateQRCode.data.header
-        val certificate = testCertificateQRCode.data.certificate
+        val header = testCertificateQRCode?.data?.header ?: return null
+        val certificate = testCertificateQRCode?.data?.certificate ?: return null
         val testCertificate = certificate.test
 
         return object : TestCertificate {
@@ -148,7 +148,7 @@ data class TestCertificateContainer(
                 get() = this@TestCertificateContainer.isCertificateRetrievalPending
 
             override val dccData: DccData<out DccV1.MetaData>
-                get() = testCertificateQRCode.data
+                get() = testCertificateQRCode!!.data
 
             override fun toString(): String = "TestCertificate($containerId)"
         }
