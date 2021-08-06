@@ -151,8 +151,6 @@ class TestCertificateRepository @Inject constructor(
                 )
             }
 
-
-
             val data = when (test.type) {
                 CoronaTest.Type.PCR -> PCRCertificateData(
                     identifier = identifier,
