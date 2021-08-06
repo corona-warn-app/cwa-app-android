@@ -76,7 +76,7 @@ class DccStateCheckScheduler @Inject constructor(
         workManager.enqueueUniquePeriodicWork(UNIQUE_WORKERNAME, ExistingPeriodicWorkPolicy.KEEP, buildWorkRequest())
     }
 
-    private fun buildWorkRequest() = PeriodicWorkRequestBuilder<PCRResultRetrievalWorker>(24, TimeUnit.HOURS)
+    private fun buildWorkRequest() = PeriodicWorkRequestBuilder<DccStateCheckWorker>(24, TimeUnit.HOURS)
         .setBackoffCriteria(
             BackoffPolicy.LINEAR,
             BackgroundConstants.KIND_DELAY,
