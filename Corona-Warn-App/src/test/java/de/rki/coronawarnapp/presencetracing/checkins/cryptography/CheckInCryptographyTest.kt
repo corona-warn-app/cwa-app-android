@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.covidcertificate.common.cryptography.AesCryptography
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationId
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.derive10MinutesInterval
 import de.rki.coronawarnapp.util.encoding.base64
 import de.rki.coronawarnapp.util.toProtoByteString
 import io.kotest.assertions.throwables.shouldThrow
@@ -40,17 +40,15 @@ internal class CheckInCryptographyTest {
         val checkInRecord = mockCheckIn(
             start = Instant.now(),
             end = Instant.now().plus(Duration.standardMinutes(120)),
-            checkInTraceLocationId = "m686QDEvOYSfRtrRBA8vA58c/6EjjEHp22dTFc+tObY=".decodeBase64() as TraceLocationId
+            checkInTraceLocationId = "m686QDEvOYSfRtrRBA8vA58c/6EjjEHp22dTFc+tObY=".decodeBase64()!!
         )
 
         val encryptedData = getCryptographyInstance().encrypt(checkInRecord, 6)
-        val decryptedData = getCryptographyInstance().decrypt(
-            encryptedData,
-            checkInRecord.traceLocationId.toByteArray()
-        )
+        val decryptedData = getCryptographyInstance().decrypt(encryptedData, checkInRecord.traceLocationId)
 
-        decryptedData.startIntervalNumber shouldBe checkInRecord.checkInStart.seconds / 60
-        decryptedData.period shouldBe checkInRecord.checkInEnd.seconds / 60 - checkInRecord.checkInStart.seconds / 60
+        decryptedData.startIntervalNumber shouldBe checkInRecord.checkInStart.derive10MinutesInterval()
+        decryptedData.period shouldBe checkInRecord.checkInEnd.derive10MinutesInterval() -
+            checkInRecord.checkInStart.derive10MinutesInterval()
         decryptedData.transmissionRiskLevel shouldBe 6
     }
 
@@ -64,13 +62,13 @@ internal class CheckInCryptographyTest {
         val checkInRecord = mockCheckIn(
             start = Instant.EPOCH.plus(Duration.standardMinutes(2710445)),
             end = Instant.EPOCH.plus(Duration.standardMinutes(2710473)),
-            checkInTraceLocationId = "m686QDEvOYSfRtrRBA8vA58c/6EjjEHp22dTFc+tObY=".decodeBase64() as TraceLocationId
+            checkInTraceLocationId = "m686QDEvOYSfRtrRBA8vA58c/6EjjEHp22dTFc+tObY=".decodeBase64()!!
         )
         val output = getCryptographyInstance().encrypt(checkInRecord, 7)
 
         output.iv.toByteArray().base64() shouldBe "+VNLZEr+j6qotkv8v1ASlQ=="
-        output.mac.toByteArray().base64() shouldBe "BJX/KwAXo3vQBMlycMxNxiwlrNyzWdD2LeF9KCrzt/I="
-        output.encryptedCheckInRecord.toByteArray().base64() shouldBe "t5TWYYc/kn4vbWRd677L3g=="
+        output.mac.toByteArray().base64() shouldBe "g6KU9FjzawyGA5ZPiZxfgxt8Ou5pSVWqqyAaBkQEA4k="
+        output.encryptedCheckInRecord.toByteArray().base64() shouldBe "7v9eQ9R2JtDnU70gn4cidQ=="
     }
 
     @Test
@@ -83,18 +81,18 @@ internal class CheckInCryptographyTest {
         val checkInRecord = mockCheckIn(
             start = Instant.EPOCH.plus(Duration.standardMinutes(2710117)),
             end = Instant.EPOCH.plus(Duration.standardMinutes(2710127)),
-            checkInTraceLocationId = "A61rMz1EUJnH3+D/dF7FzBMw0UnvdS82w67U7+oT9yU=".decodeBase64() as TraceLocationId
+            checkInTraceLocationId = "A61rMz1EUJnH3+D/dF7FzBMw0UnvdS82w67U7+oT9yU=".decodeBase64()!!
         )
         val output = getCryptographyInstance().encrypt(checkInRecord, 8)
 
         output.iv.toByteArray().base64() shouldBe "SM6n2ApMmwWCEVwex9yrmA=="
-        output.mac.toByteArray().base64() shouldBe "vfjGr8pJ2F+IhGfHl4Audcrjhhcgr9qJ9hl176S/Il8="
-        output.encryptedCheckInRecord.toByteArray().base64() shouldBe "axfEwnDGz7r4c/n65DVDaw=="
+        output.mac.toByteArray().base64() shouldBe "S62l9vcMeisaFItADTNgTC9a6uEGYkIEL9ISx50LZSo="
+        output.encryptedCheckInRecord.toByteArray().base64() shouldBe "XpP2tOktT+RqKNtvv3qbxg=="
     }
 
     @Test
     fun `decrypt sample 1`() {
-        val locationId = "m686QDEvOYSfRtrRBA8vA58c/6EjjEHp22dTFc+tObY=".decodeBase64()!!.toByteArray()
+        val locationId = "m686QDEvOYSfRtrRBA8vA58c/6EjjEHp22dTFc+tObY=".decodeBase64()!!
         val checkInProtectedReport = mockCheckInProtectedReport(
             authenticationCode = "BJX/KwAXo3vQBMlycMxNxiwlrNyzWdD2LeF9KCrzt/I=".decodeBase64()!!.toProtoByteString(),
             initVector = "+VNLZEr+j6qotkv8v1ASlQ==".decodeBase64()!!.toProtoByteString(),
@@ -110,7 +108,7 @@ internal class CheckInCryptographyTest {
 
     @Test
     fun `decrypt sample 2`() {
-        val locationId = "A61rMz1EUJnH3+D/dF7FzBMw0UnvdS82w67U7+oT9yU=".decodeBase64()!!.toByteArray()
+        val locationId = "A61rMz1EUJnH3+D/dF7FzBMw0UnvdS82w67U7+oT9yU=".decodeBase64()!!
         val checkInProtectedReport = mockCheckInProtectedReport(
             authenticationCode = "vfjGr8pJ2F+IhGfHl4Audcrjhhcgr9qJ9hl176S/Il8=".decodeBase64()!!.toProtoByteString(),
             initVector = "SM6n2ApMmwWCEVwex9yrmA==".decodeBase64()!!.toProtoByteString(),
@@ -137,7 +135,7 @@ internal class CheckInCryptographyTest {
 
     @Test
     fun `right MAC key should be generated`() {
-        val locationId = "m686QDEvOYSfRtrRBA8vA58c/6EjjEHp22dTFc+tObY=".decodeBase64()!!.toByteArray()
+        val locationId = "m686QDEvOYSfRtrRBA8vA58c/6EjjEHp22dTFc+tObY=".decodeBase64()!!
         val output = getCryptographyInstance().getMacKey(locationId)
 
         output.base64() shouldBe "T4jqEMtrtkhQmn+mDXoFBTji4LDiVIZNtP83axUz+bA="
@@ -145,7 +143,7 @@ internal class CheckInCryptographyTest {
 
     @Test
     fun `right encryption key should be generated`() {
-        val locationId = "m686QDEvOYSfRtrRBA8vA58c/6EjjEHp22dTFc+tObY=".decodeBase64()!!.toByteArray()
+        val locationId = "m686QDEvOYSfRtrRBA8vA58c/6EjjEHp22dTFc+tObY=".decodeBase64()!!
         val output = getCryptographyInstance().getEncryptionKey(locationId)
 
         output.base64() shouldBe "prxOK3dvFTjoxfROd2KyfG0aTFeMYZfPos69m84vv6E="
@@ -153,7 +151,7 @@ internal class CheckInCryptographyTest {
 
     @Test
     fun `decrypting tempered data should throw an exception`() {
-        val locationId = "A61rMz1EUJnH3+D/dF7FzBMw0UnvdS82w67U7+oT9xU=".decodeBase64()!!.toByteArray()
+        val locationId = "A61rMz1EUJnH3+D/dF7FzBMw0UnvdS82w67U7+oT9xU=".decodeBase64() as TraceLocationId
         val checkInProtectedReport = mockCheckInProtectedReport(
             authenticationCode = "vfjGr8pJ2F+IhGfHl4Audcrjhhcgr9qJ9hl176S/Il8=".decodeBase64()!!.toProtoByteString(),
             initVector = "SM6n2ApMmwWCEVwex9yrmA==".decodeBase64()!!.toProtoByteString(),
