@@ -15,7 +15,6 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
-import okio.ByteString
 import org.joda.time.Instant
 import timber.log.Timber
 import java.lang.reflect.Modifier.PRIVATE
@@ -67,14 +66,13 @@ class CheckInWarningMatcher @Inject constructor(
     ): List<List<MatchesPerPackage>?> {
 
         val launcher: CoroutineScope.(
-            List<ByteString>,
             List<CheckIn>,
             List<TraceWarningPackage>
-        ) -> Deferred<List<MatchesPerPackage>?> = { hashes, checkInList, packageChunk ->
+        ) -> Deferred<List<MatchesPerPackage>?> = { checkInList, packageChunk ->
             async {
                 try {
                     packageChunk.map {
-                        val overlaps = findMatches(checkInCryptography, hashes, checkInList, it)
+                        val overlaps = findMatches(checkInList, it)
                         Timber.tag(TAG).d("%d overlaps for %s", overlaps.size, it.packageId)
                         MatchesPerPackage(warningPackage = it, overlaps = overlaps)
                     }
@@ -87,72 +85,70 @@ class CheckInWarningMatcher @Inject constructor(
 
         // at most 4 parallel processes
         val chunkSize = (checkIns.size / 4) + 1
-        val locationIdHashes = checkIns.map { it.traceLocationIdHash }
         return warningPackages.chunked(chunkSize).map { packageChunk ->
             withContext(context = coroutineContext) {
-                launcher(locationIdHashes, checkIns, packageChunk)
+                launcher(checkIns, packageChunk)
             }
         }.awaitAll()
+    }
+
+    @VisibleForTesting(otherwise = PRIVATE)
+    internal suspend fun findMatches(
+        checkIns: List<CheckIn>,
+        warningPackage: TraceWarningPackage
+    ): List<CheckInWarningOverlap> {
+        val deriveTraceWarnings = deriveTraceWarnings(warningPackage.extractEncryptedWarnings(), checkIns)
+        val unencryptedWarnings = warningPackage.extractUnencryptedWarnings()
+
+        val warnings = unencryptedWarnings + deriveTraceWarnings
+        return warnings
+            .flatMap { warning ->
+                checkIns
+                    .mapNotNull { checkIn ->
+                        checkIn.calculateOverlap(warning, warningPackage.packageId).also { overlap ->
+                            if (!CWADebug.isDebugBuildOrMode) {
+                                return@also
+                            }
+                            if (overlap == null) {
+                                Timber.tag(TAG).v("No match found for $checkIn and $warning")
+                            } else {
+                                Timber.tag(TAG).w("Overlap was found $overlap")
+                            }
+                        }
+                    }
+            }
+    }
+
+    @VisibleForTesting(otherwise = PRIVATE)
+    internal fun deriveTraceWarnings(
+        checkInProtectedReport: List<CheckInOuterClass.CheckInProtectedReport>,
+        checkIns: List<CheckIn>
+    ): List<TraceWarning.TraceTimeIntervalWarning> {
+        val hashCheckInMap = checkIns.map { it.traceLocationIdHash to it }.toMap()
+        return checkInProtectedReport
+            .filter {
+                hashCheckInMap.containsKey(it.locationIdHash.toOkioByteString())
+            }.mapNotNull { checkInReport ->
+                try {
+                    val relevantCheckIn = hashCheckInMap[checkInReport.locationIdHash.toOkioByteString()]
+                    val traceWarning = checkInCryptography.decrypt(checkInReport, relevantCheckIn!!.traceLocationId)
+                    if (traceWarning.isValid()) {
+                        traceWarning
+                    } else {
+                        Timber.d("TraceWarning=%s is invalid", traceWarning)
+                        null
+                    }
+                } catch (e: Exception) {
+                    Timber.d(e, "%s decrypting failed", checkInReport)
+                    null
+                }
+            }
     }
 
     data class MatchesPerPackage(
         val warningPackage: TraceWarningPackage,
         val overlaps: List<CheckInWarningOverlap>,
     )
-}
-
-@VisibleForTesting(otherwise = PRIVATE)
-internal suspend fun findMatches(
-    checkInCryptography: CheckInCryptography,
-    hashes: List<ByteString>,
-    checkIns: List<CheckIn>,
-    warningPackage: TraceWarningPackage
-): List<CheckInWarningOverlap> {
-    val deriveTraceWarnings = warningPackage.extractEncryptedWarnings()
-        .deriveTraceWarnings(checkInCryptography, hashes)
-
-    val unencryptedWarnings = warningPackage.extractUnencryptedWarnings()
-
-    val warnings = unencryptedWarnings + deriveTraceWarnings
-    return warnings
-        .flatMap { warning ->
-            checkIns
-                .mapNotNull { checkIn ->
-                    checkIn.calculateOverlap(warning, warningPackage.packageId).also { overlap ->
-                        if (!CWADebug.isDebugBuildOrMode) {
-                            return@also
-                        }
-                        if (overlap == null) {
-                            Timber.tag(TAG).v("No match found for $checkIn and $warning")
-                        } else {
-                            Timber.tag(TAG).w("Overlap was found $overlap")
-                        }
-                    }
-                }
-        }
-}
-
-@VisibleForTesting(otherwise = PRIVATE)
-internal fun List<CheckInOuterClass.CheckInProtectedReport>.deriveTraceWarnings(
-    checkInCryptography: CheckInCryptography,
-    hashes: List<ByteString>
-): List<TraceWarning.TraceTimeIntervalWarning> {
-    return filter {
-        hashes.contains(it.locationIdHash.toOkioByteString())
-    }.mapNotNull { checkInReport ->
-        try {
-            val traceWarning = checkInCryptography.decrypt(checkInReport)
-            if (traceWarning.isValid()) {
-                traceWarning
-            } else {
-                Timber.d("TraceWarning=%s is not failed", traceWarning)
-                null
-            }
-        } catch (e: Exception) {
-            Timber.d(e, "%s decrypting failed", checkInReport)
-            null
-        }
-    }
 }
 
 @VisibleForTesting(otherwise = PRIVATE)

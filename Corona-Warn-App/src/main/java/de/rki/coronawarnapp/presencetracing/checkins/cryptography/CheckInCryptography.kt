@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.presencetracing.checkins.cryptography
 
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationId
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass.CheckInProtectedReport
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
 import de.rki.coronawarnapp.util.security.RandomStrong
@@ -18,7 +19,10 @@ class CheckInCryptography @Inject constructor(
         throw NotImplementedError()
     }
 
-    fun decrypt(checkInProtectedReport: CheckInProtectedReport): TraceWarning.TraceTimeIntervalWarning {
+    fun decrypt(
+        checkInProtectedReport: CheckInProtectedReport,
+        traceLocationId: TraceLocationId
+    ): TraceWarning.TraceTimeIntervalWarning {
         // TODO
         throw NotImplementedError()
     }
