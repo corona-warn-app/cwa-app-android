@@ -98,7 +98,10 @@ class CheckInWarningMatcher @Inject constructor(
         warningPackage: TraceWarningPackage
     ): List<CheckInWarningOverlap> {
         val deriveTraceWarnings = deriveTraceWarnings(warningPackage.extractEncryptedWarnings(), checkIns)
+        Timber.d("deriveTraceWarnings=%s", deriveTraceWarnings.size)
+
         val unencryptedWarnings = warningPackage.extractUnencryptedWarnings()
+        Timber.d("unencryptedWarnings=%s", unencryptedWarnings.size)
 
         val warnings = unencryptedWarnings + deriveTraceWarnings
         return warnings
@@ -130,10 +133,11 @@ class CheckInWarningMatcher @Inject constructor(
                 hashCheckInMap.containsKey(it.locationIdHash.toOkioByteString())
             }.mapNotNull { checkInReport ->
                 try {
+                    Timber.d("Deriving %s", checkInReport)
                     val relevantCheckIn = hashCheckInMap[checkInReport.locationIdHash.toOkioByteString()]
                     val traceWarning = checkInCryptography.decrypt(checkInReport, relevantCheckIn!!.traceLocationId)
                     if (traceWarning.isValid()) {
-                        traceWarning
+                        traceWarning.also { Timber.d("Driven traceWarning %s", it) }
                     } else {
                         Timber.d("TraceWarning=%s is invalid", traceWarning)
                         null
