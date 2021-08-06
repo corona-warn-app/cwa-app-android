@@ -76,11 +76,9 @@ class DccQrCodeScanViewModel @AssistedInject constructor(
 
     private suspend fun registerTestCertificate(qrCode: TestCertificateQRCode) {
         val certificate = testCertificateRepository.registerCertificate(qrCode)
-        event.postValue(
-            Event.PersonDetailsScreen(
-                certificate.personIdentifier.codeSHA256, certificate.containerId
-            )
-        )
+        certificate.personIdentifier?.codeSHA256?.let { sha256 ->
+            event.postValue(Event.PersonDetailsScreen(sha256, certificate.containerId))
+        }
     }
 
     private suspend fun registerRecoveryCertificate(qrCode: RecoveryCertificateQRCode) {
