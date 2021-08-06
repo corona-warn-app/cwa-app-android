@@ -8,15 +8,28 @@ import javax.inject.Inject
 class AesCryptography @Inject constructor() {
 
     fun decrypt(
-        decryptionKey: ByteArray,
-        encryptedData: ByteArray
+        key: ByteArray,
+        encryptedData: ByteArray,
+        iv: IvParameterSpec? = null
     ): ByteArray = with(Cipher.getInstance(TRANSFORMATION)) {
-        val keySpec = SecretKeySpec(decryptionKey, ALGORITHM)
+        val keySpec = SecretKeySpec(key, ALGORITHM)
+        val ivParameterSpec = iv ?: defaultIvParameterSpec
         init(Cipher.DECRYPT_MODE, keySpec, ivParameterSpec)
         doFinal(encryptedData)
     }
 
-    private val ivParameterSpec
+    fun encrypt(
+        key: ByteArray,
+        data: ByteArray,
+        iv: IvParameterSpec? = null,
+    ): ByteArray = with(Cipher.getInstance(TRANSFORMATION)) {
+        val keySpec = SecretKeySpec(key, ALGORITHM)
+        val ivParameterSpec = iv ?: defaultIvParameterSpec
+        init(Cipher.ENCRYPT_MODE, keySpec, ivParameterSpec)
+        doFinal(data)
+    }
+
+    private val defaultIvParameterSpec
         get() = IvParameterSpec(
             ByteArray(16) { 0 }
         )
