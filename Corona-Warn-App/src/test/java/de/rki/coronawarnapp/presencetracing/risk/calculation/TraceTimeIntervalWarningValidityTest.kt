@@ -5,7 +5,7 @@ import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-internal class CheckInWarningMatcherKtTest : BaseTest() {
+internal class TraceTimeIntervalWarningValidityTest : BaseTest() {
 
     @Test
     fun `TraceTimeIntervalWarning validity`() {

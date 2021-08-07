@@ -20,9 +20,10 @@ import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import testhelpers.BaseTest
 import kotlin.random.Random
 
-internal class CheckInCryptographyTest {
+internal class CheckInCryptographyTest : BaseTest() {
 
     @MockK lateinit var secureRandom: Random
 
