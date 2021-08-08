@@ -67,6 +67,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
         valueSetsRepository = valueSetsRepository,
         qrCodeExtractor = qrCodeExtractor,
         dccStateChecker = dccStateChecker,
+        timeStamper = timeStamper,
     )
 
     @Test

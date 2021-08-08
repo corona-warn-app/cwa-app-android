@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <!-- Ignore [InvalidPackage] lint error referenced from org.bouncycastle -->
+    <issue id="InvalidPackage" severity="ignore">
+        <ignore path="**/org.bouncycastle/bcprov-jdk15on/*" />
+    </issue>
+</lint>

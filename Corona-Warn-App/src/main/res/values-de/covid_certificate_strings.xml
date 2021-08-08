@@ -112,6 +112,10 @@
     <string name="test_certificate_qrcode_card_sampled_on">"Probenahme am %s Uhr"</string>
     <!-- XTXT: Test certificate card name  -->
     <string name="test_certificate_name">Testzertifikat</string>
+    <!-- XTXT: Test certificate PCR test type  -->
+    <string name="test_certificate_pcr_test_type">PCR-Test</string>
+    <!-- XTXT: Test certificate Rapid test Type  -->
+    <string name="test_certificate_rapid_test_type">Schnelltest</string>
     <!-- XTXT: Dialog description for error 409 recovery-->
     <string name="test_certificate_error_409_recovery_description">Für diesen Test kann leider kein Zertifikat erstellt werden. Bitte fügen Sie einen neuen Test hinzu um ein Zertifikat zu erhalten.</string>
 
@@ -279,7 +283,7 @@
     <!-- XHED: Vaccination Detail expiration Date title -->
     <string name="expiration_date_title">Technisches Ablaufdatum</string>
     <!-- XHED: Vaccination Detail expiration Date -->
-    <string name="expiration_date">Gültig bis %1$s</string>
+    <string name="expiration_date">Gültig bis %s, %s Uhr</string>
     <!-- XHED: Vaccination Detail expiration info -->
     <string name="expiration_info">Bitte bemühen Sie sich rechtzeitig darum, einen neuen digitalen Nachweis ausstellen zu lassen.</string>
     <!-- XTXT: Expired certificate info -->

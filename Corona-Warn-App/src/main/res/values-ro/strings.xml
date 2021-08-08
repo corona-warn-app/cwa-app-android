@@ -290,8 +290,12 @@
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <!--    Dialog part 1-->
     <string name="risk_details_information_body_period_logged">"Riscul dvs. de infectare poate fi calculat doar pentru perioadele în care a fost activă înregistrarea în jurnal a expunerilor. Prin urmare, caracteristica de înregistrare în jurnal trebuie să rămână permanent activă. Înregistrarea în jurnal a expunerilor acoperă ultimele 14 zile."</string>
+    <!-- XTXT: risk details - infection period logged information body, under 14 days todasy -->
+    <string name="risk_details_information_body_period_logged_assessment_under_14_days_today">"Aplicația Corona-Warn a fost instalată astăzi. Riscul dvs. de infectare este calculat pentru perioadele în care înregistrarea în jurnal a expunerilor a fost activă. Dacă v-ați întâlnit cu alte persoane și înregistrarea în jurnal a expunerilor a fost activă, este calculat riscul dvs. de infectare."</string>
+    <!-- XTXT: risk details - infection period logged information body, under 14 days yesterday-->
+    <string name="risk_details_information_body_period_logged_assessment_under_14_days_yesterday">"Aplicația Corona-Warn a fost instalată ieri. Riscul dvs. de infectare este calculat pentru perioadele în care înregistrarea în jurnal a expunerilor a fost activă. Dacă v-ați întâlnit cu alte persoane și înregistrarea în jurnal a expunerilor a fost activă, este calculat riscul dvs. de infectare."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days -->
-    <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Aplicația Corona-Warn a fost instalată acum %s zi(le). Riscul dvs. de infectare este calculat pentru perioadele în care înregistrarea în jurnal a expunerilor a fost activă. Dacă v-ați întâlnit cu alte persoane și înregistrarea în jurnal a expunerilor a fost activă, este calculat riscul dvs. de infectare."</string>
+    <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Aplicația Corona-Warn a fost instalată acum %d zi(le). Riscul dvs. de infectare este calculat pentru perioadele în care înregistrarea în jurnal a expunerilor a fost activă. Dacă v-ați întâlnit cu alte persoane și înregistrarea în jurnal a expunerilor a fost activă, este calculat riscul dvs. de infectare."</string>
     <!-- XTXT: risk details - infection period logged information body, over 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_over_14_days">"Dacă înregistrarea în jurnal a expunerilor a fost activă pe durata în care v-ați întâlnit cu alte persoane, riscul dvs. de infectare poate fi calculat pentru această perioadă."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->        <!-- XTXT: risk details - infection period logged information body, under 14 days -->
@@ -567,7 +571,7 @@
     <string name="settings_off">"Oprită"</string>
     <!-- XHED: settings(tracing) - page title -->
     <string name="settings_tracing_title">"Înregistrarea în jurnal a expunerilor"</string>
-    <!-- XHED: settings(tracing) - headline bellow illustration -->
+    <!-- XHED: settings(tracing) - headline below illustration -->
     <string name="settings_tracing_headline">"Modul în care funcționează înregistrarea în jurnal a expunerilor"</string>
     <!-- XTXT: settings(tracing) - explain text in settings overview under headline -->
     <string name="settings_tracing_body_description">"Permiteți crearea și partajarea de ID-uri aleatorii asociate COVID-19."</string>
@@ -577,6 +581,8 @@
     <string name="settings_tracing_body_inactive">"Înregistrarea în jurnal a expunerilor a fost oprită"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
     <string name="settings_tracing_body_inactive_location">"Serviciile de localizare au fost dezactivate"</string>
+    <!-- XHED: settings(tracing) - headline of tracing explanation -->
+    <string name="settings_tracing_body_headline">"Modul în care funcționează înregistrarea în jurnal a expunerilor"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
     <string name="settings_tracing_body_text">"Trebuie să activați caracteristica de înregistrare în jurnal a expunerilor, pentru ca aplicația să poată determina dacă aveți risc de infectare. Caracteristica de înregistrare în jurnal a expunerilor funcționează la nivel transnațional, ceea ce înseamnă că orice expunere posibilă care îi implică pe utilizatori este detectată și de alte aplicații oficiale împotriva coronavirusului.\n\nCaracteristica de înregistrare în jurnal a expunerilor funcționează astfel: smartphone-ul dvs. Android primește prin Bluetooth ID-uri aleatorii criptate ale altor utilizatori ai aplicației și transmite propriul dvs. ID aleatoriu către smartphone-urile acestora. În fiecare zi, aplicația descarcă liste ce conțin ID-uri aleatorii – împreună cu orice alte informații voluntare despre debutul simptomelor – ale tuturor utilizatorilor testați pozitiv la virus și care au împărtășit voluntar aceste informații (mai exact: ID-urile lor aleatorii) prin intermediul aplicației lor. Apoi, lista este comparată cu ID-urile aleatorii ale altor utilizatori cu care v-ați întâlnit, care au fost înregistrate de smartphone-ul dvs. Android, pentru a calcula probabilitatea ca și dvs. să fi fost infectat și să vă avertizeze dacă este necesar.\n\nPuteți utiliza comutatorul pentru a dezactiva în orice moment înregistrarea în jurnal a expunerilor.\n\nAplicația nu colectează niciodată date personale, precum numele, adresa sau locația dvs., iar aceste informații nu sunt transmise niciodată altor utilizatori. Nu se pot utiliza ID-urile aleatorii pentru a trage concluzii despre persoane individuale."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -619,7 +625,7 @@
     <!-- YTXT: settings(notification) - description text when it notifications are enabled -->
     <string name="settings_notifications_body_active">"Specificați zonele pentru care doriți să continuați să primiți notificări."</string>
     <!-- XTXT: settings(notification) - explains what the user has to do to activate settings -->
-    <string name="settings_notifications_body_inactive">"Pentru a activa notificările, trebuie să permiteți notificările pentru Corona-Warn-App în setările dispozitivului."</string>
+    <string name="settings_notifications_body_inactive">"Pentru a activa notificările în Corona-Warn-App, trebuie să permiteți notificările în setările dispozitivului."</string>
     <!-- XHED: settings(notification) - card headline -->
     <string name="settings_notifications_headline_card">"Activați Notificările"</string>
     <!-- XHED: settings - notification headline on settings overview -->
@@ -1431,7 +1437,7 @@
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"Infecții noi confirmate"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
-    <string name="statistics_explanation_confirmed_new_infection_text">"Numărul de persoane care au fost diagnosticate cu coronavirus și raportate la RKI"</string>
+    <string name="statistics_explanation_confirmed_new_infection_text">"Numărul de persoane care au fost diagnosticate cu coronavirus și raportate la RKI."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Avertizări de la utilizatorii aplicației"</string>
     <!-- XTXT: Explanation screen warned persons text -->
@@ -1443,7 +1449,7 @@
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"Incidența pe 7 zile"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
-    <string name="statistics_explanation_seven_day_incidence_text">"Numărul total de infecții noi confirmate în ultimele 7 zile (după data de raportare) la 100.000 de locuitori"</string>
+    <string name="statistics_explanation_seven_day_incidence_text">"Numărul total de infecții noi confirmate în ultimele 7 zile (după data de raportare) la 100.000 de locuitori."</string>
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"Valoarea R pe 7 zile"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
@@ -1526,7 +1532,9 @@
 
     <!-- Statistics Add new tile -->
     <!-- XTXT: Statistics add card title -->
-    <string name="statistics_add_card_title">"Adăugați incidența pe 7 zile la nivel local"</string>
+    <string name="statistics_add_card_title">"Adăugarea incidenței pe 7 zile la nivel local"</string>
+    <!-- XTXT: Statistics add card warning no internet -->
+    <string name="statistics_add_card_warning_no_internet">"Conexiunea la internet s-a pierdut. Nu a fost posibilă adăugarea cifrei de incidență pe 7 zile. Verificați conexiunea și încercați din nou."</string>
     <!-- XTXT: Statistics add card warning -->
     <string name="statistics_add_card_warning">"Numărul maxim al incidenței pe 7 zile la nivel local a fost atins."</string>
     <!-- XTXT: Statistics add screen whole state -->

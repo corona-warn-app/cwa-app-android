@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2019-09/schema",
-  "$id": "https://id.uvci.eu/DGC.combined-schema.json",
-  "title": "EU DGC",
-  "description": "EU Digital Green Certificate",
-  "$comment": "Schema version 1.0.0",
+  "$id": "https://id.uvci.eu/DCC.combined-schema.json",
+  "title": "EU DCC",
+  "description": "EU Digital Covid Certificate",
+  "$comment": "Schema version 1.3.0",
   "required": [
     "ver",
     "nam",
@@ -17,21 +17,23 @@
       "type": "string",
       "pattern": "^\\d+.\\d+.\\d+$",
       "examples": [
-        "1.0.0"
+        "1.3.0"
       ]
     },
     "nam": {
-      "description": "Surname(s), given name(s) - in that order",
+      "description": "Surname(s), forename(s) - in that order",
       "$ref": "#/$defs/person_name"
     },
     "dob": {
       "title": "Date of birth",
-      "description": "Date of Birth of the person addressed in the DGC. ISO 8601 date format restricted to range 1900-2099",
+      "description": "Date of Birth of the person addressed in the DCC. ISO 8601 date format restricted to range 1900-2099 or empty",
       "type": "string",
-      "__format": "date",
-      "pattern": "^(19|20)\\d{2}-\\d{2}-\\d{2}.*$",
+      "pattern": "^((19|20)\\d\\d(-\\d\\d){0,2}){0,1}.*$",
       "examples": [
-        "1979-04-14"
+        "1979-04-14",
+        "1950",
+        "1901-08",
+        ""
       ]
     },
     "v": {
@@ -43,7 +45,8 @@
       "items": {
         "$ref": "#/$defs/vaccination_entry"
       },
-      "minItems": 1
+      "minItems": 1,
+      "maxItems": 1
     },
     "t": {
       "description": "Test Group",
@@ -54,7 +57,8 @@
       "items": {
         "$ref": "#/$defs/test_entry"
       },
-      "minItems": 1
+      "minItems": 1,
+      "maxItems": 1
     },
     "r": {
       "description": "Recovery Group",
@@ -65,67 +69,62 @@
       "items": {
         "$ref": "#/$defs/recovery_entry"
       },
-      "minItems": 1
+      "minItems": 1,
+      "maxItems": 1
     }
   },
   "$defs": {
     "dose_posint": {
-      "description": "Dose Number / Total doses in Series: positive integer, range: [1,9]",
+      "description": "Dose Number / Total doses in Series: positive integer",
       "type": "integer",
-      "minimum": 1,
-      "maximum": 9
-    },
-    "country_vt": {
-      "description": "Country of Vaccination / Test, ISO 3166 where possible",
-      "type": "string",
-      "pattern": "[A-Z]{1,10}"
+      "minimum": 1
     },
     "issuer": {
       "description": "Certificate Issuer",
       "type": "string",
-      "maxLength": 50
+      "maxLength": 80
     },
     "person_name": {
-      "description": "Person name: Surname(s), given name(s) - in that order",
+      "description": "Person name: Surname(s), forename(s) - in that order",
       "required": [
         "fnt"
       ],
       "type": "object",
       "properties": {
         "fn": {
-          "title": "Family name",
-          "description": "The family or primary name(s) of the person addressed in the certificate",
+          "title": "Surname",
+          "description": "The surname or primary name(s) of the person addressed in the certificate",
           "type": "string",
-          "maxLength": 50,
+          "maxLength": 80,
           "examples": [
             "d'Červenková Panklová"
           ]
         },
         "fnt": {
-          "title": "Standardised family name",
-          "description": "The family name(s) of the person transliterated",
+          "title": "Standardised surname",
+          "description": "The surname(s) of the person, transliterated ICAO 9303",
           "type": "string",
           "pattern": "^[A-Z<]*$",
-          "maxLength": 50,
+          "maxLength": 80,
           "examples": [
             "DCERVENKOVA<PANKLOVA"
           ]
         },
         "gn": {
-          "title": "Given name",
-          "description": "The given name(s) of the person addressed in the certificate",
+          "title": "Forename",
+          "description": "The forename(s) of the person addressed in the certificate",
           "type": "string",
-          "maxLength": 50,
+          "maxLength": 80,
           "examples": [
             "Jiřina-Maria Alena"
           ]
         },
         "gnt": {
-          "title": "Standardised given name",
-          "description": "The given name(s) of the person transliterated",
+          "title": "Standardised forename",
+          "description": "The forename(s) of the person, transliterated ICAO 9303",
           "type": "string",
           "pattern": "^[A-Z<]*$",
-          "maxLength": 50,
+          "maxLength": 80,
           "examples": [
             "JIRINA<MARIA<ALENA"
           ]
@@ -135,7 +134,7 @@
     "certificate_id": {
       "description": "Certificate Identifier, format as per UVCI: Annex 2 in  https://ec.europa.eu/health/sites/health/files/ehealth/docs/vaccination-proof_interoperability-guidelines_en.pdf",
       "type": "string",
-      "maxLength": 50
+      "maxLength": 80
     },
     "vaccination_entry": {
       "description": "Vaccination Entry",
@@ -178,11 +177,10 @@
           "$ref": "#/$defs/dose_posint"
         },
         "dt": {
-          "description": "Date of Vaccination",
+          "description": "ISO8601 complete date: Date of Vaccination",
           "type": "string",
           "__format": "date",
-          "pattern": "^(19|20)\\d{2}-\\d{2}-\\d{2}.*$",
-          "$comment": "SemanticSG: constrain to specific date range?"
+          "pattern": "^((19|20)\\d\\d(-\\d\\d){2}).*$"
         },
         "co": {
           "description": "Country of Vaccination",
@@ -205,7 +203,6 @@
         "tt",
         "sc",
         "tr",
-        "tc",
         "co",
         "is",
         "ci"
@@ -217,11 +214,12 @@
         },
         "tt": {
           "description": "Type of Test",
-          "type": "string"
+          "$ref": "#/$defs/test-type"
         },
         "nm": {
           "description": "NAA Test Name",
-          "type": "string"
+          "type": "string",
+          "maxLength": 80
         },
         "ma": {
           "description": "RAT Test name and manufacturer",
@@ -232,11 +230,6 @@
           "type": "string",
           "format": "date-time"
         },
-        "dr": {
-          "description": "Date/Time of Test Result",
-          "type": "string",
-          "format": "date-time"
-        },
         "tr": {
           "description": "Test Result",
           "$ref": "#/$defs/test-result"
@@ -244,7 +237,7 @@
         "tc": {
           "description": "Testing Centre",
           "type": "string",
-          "maxLength": 50
+          "maxLength": 80
         },
         "co": {
           "description": "Country of Test",
@@ -277,9 +270,10 @@
           "$ref": "#/$defs/disease-agent-targeted"
         },
         "fr": {
-          "description": "ISO 8601 Date of First Positive Test Result",
+          "description": "ISO 8601 complete date of first positive NAA test result",
           "type": "string",
-          "format": "date"
+          "__format": "date",
+          "pattern": "^((19|20)\\d\\d(-\\d\\d){2}).*$"
         },
         "co": {
           "description": "Country of Test",
@@ -290,14 +284,16 @@
           "$ref": "#/$defs/issuer"
         },
         "df": {
-          "description": "ISO 8601 Date: Certificate Valid From",
+          "description": "ISO 8601 complete date: Certificate Valid From",
           "type": "string",
-          "format": "date"
+          "__format": "date",
+          "pattern": "^((19|20)\\d\\d(-\\d\\d){2}).*$"
         },
         "du": {
-          "description": "Certificate Valid Until",
+          "description": "ISO 8601 complete date: Certificate Valid Until",
           "type": "string",
-          "format": "date"
+          "__format": "date",
+          "pattern": "^((19|20)\\d\\d(-\\d\\d){2}).*$"
         },
         "ci": {
           "description": "Unique Certificate Identifier, UVCI",
@@ -306,34 +302,45 @@
       }
     },
     "disease-agent-targeted": {
-      "description": "EU eHealthNetwork: Value Sets for Digital Green Certificates. version 1.0, 2021-04-16, section 2.1",
+      "description": "EU eHealthNetwork: Value Sets for Digital Covid Certificates. version 1.0, 2021-04-16, section 2.1",
       "type": "string",
       "valueset-uri": "valuesets/disease-agent-targeted.json"
     },
     "vaccine-prophylaxis": {
-      "description": "EU eHealthNetwork: Value Sets for Digital Green Certificates. version 1.0, 2021-04-16, section 2.2",
+      "description": "EU eHealthNetwork: Value Sets for Digital Covid Certificates. version 1.0, 2021-04-16, section 2.2",
       "type": "string",
       "valueset-uri": "valuesets/vaccine-prophylaxis.json"
     },
     "vaccine-medicinal-product": {
-      "description": "EU eHealthNetwork: Value Sets for Digital Green Certificates. version 1.0, 2021-04-16, section 2.3",
+      "description": "EU eHealthNetwork: Value Sets for Digital Covid Certificates. version 1.0, 2021-04-16, section 2.3",
       "type": "string",
       "valueset-uri": "valuesets/vaccine-medicinal-product.json"
     },
     "vaccine-mah-manf": {
-      "description": "EU eHealthNetwork: Value Sets for Digital Green Certificates. version 1.0, 2021-04-16, section 2.4",
+      "description": "EU eHealthNetwork: Value Sets for Digital Covid Certificates. version 1.0, 2021-04-16, section 2.4",
       "type": "string",
       "valueset-uri": "valuesets/vaccine-mah-manf.json"
     },
+    "country_vt": {
+      "description": "Country of Vaccination / Test, ISO 3166 alpha-2 where possible",
+      "type": "string",
+      "pattern": "[A-Z]{1,10}",
+      "valueset-uri": "valuesets/country-2-codes.json"
+    },
     "test-manf": {
-      "description": "EU eHealthNetwork: Value Sets for Digital Green Certificates. version 1.0, 2021-04-16, section 2.8",
+      "description": "EU eHealthNetwork: Value Sets for Digital Covid Certificates. version 1.0, 2021-04-16, section 2.8",
       "type": "string",
       "valueset-uri": "valuesets/test-manf.json"
     },
     "test-result": {
-      "description": "EU eHealthNetwork: Value Sets for Digital Green Certificates. version 1.0, 2021-04-16, section 2.9",
+      "description": "EU eHealthNetwork: Value Sets for Digital Covid Certificates. version 1.0, 2021-04-16, section 2.9",
       "type": "string",
-      "valueset-uri": "valuesets/test-results.json"
+      "valueset-uri": "valuesets/test-result.json"
+    },
+    "test-type": {
+      "description": "EU eHealthNetwork: Value Sets for Digital Covid Certificates. version 1.0, 2021-04-16, section 2.7",
+      "type": "string",
+      "valueset-uri": "valuesets/test-type.json"
     }
   }
 }

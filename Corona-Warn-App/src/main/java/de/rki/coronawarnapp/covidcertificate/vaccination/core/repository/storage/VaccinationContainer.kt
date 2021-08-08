@@ -27,6 +27,8 @@ data class VaccinationContainer internal constructor(
     @SerializedName("scannedAt") val scannedAt: Instant,
     @SerializedName("notifiedExpiresSoonAt") val notifiedExpiresSoonAt: Instant? = null,
     @SerializedName("notifiedExpiredAt") val notifiedExpiredAt: Instant? = null,
+    @SerializedName("lastSeenStateChange") val lastSeenStateChange: State? = null,
+    @SerializedName("lastSeenStateChangeAt") val lastSeenStateChangeAt: Instant? = null,
 ) : CertificateRepoContainer {
 
     // Either set by [ContainerPostProcessor] or via [toVaccinationContainer]
@@ -78,6 +80,12 @@ data class VaccinationContainer internal constructor(
 
         override val notifiedExpiredAt: Instant?
             get() = this@VaccinationContainer.notifiedExpiredAt
+
+        override val lastSeenStateChange: State?
+            get() = this@VaccinationContainer.lastSeenStateChange
+
+        override val lastSeenStateChangeAt: Instant?
+            get() = this@VaccinationContainer.lastSeenStateChangeAt
 
         override val containerId: VaccinationCertificateContainerId
             get() = this@VaccinationContainer.containerId

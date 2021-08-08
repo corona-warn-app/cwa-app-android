@@ -3,16 +3,6 @@
     android:width="400dp" xmlns:aapt="http://schemas.android.com/aapt" xmlns:android="http://schemas.android.com/apk/res/android">
     <group>
         <clip-path android:pathData="M0,0h360v248h-360z"/>
-        <path android:fillColor="#ffffff" android:pathData="M0,0h360v248h-360z"/>
-        <path android:pathData="M0,0H360V248H0V0Z">
-            <aapt:attr name="android:fillColor">
-                <gradient android:endX="330.316" android:endY="278.815"
-                    android:startX="0" android:startY="0" android:type="linear">
-                    <item android:color="#FF181818" android:offset="0"/>
-                    <item android:color="#FF2D414D" android:offset="1"/>
-                </gradient>
-            </aapt:attr>
-        </path>
         <path android:fillColor="#F7B994" android:fillType="evenOdd" android:pathData="M107.252,186.483C110.461,180.958 113.791,175.519 116.849,169.895C123.215,158.187 129.111,146.234 135.218,134.39C130.929,130.127 127.918,127.179 127.918,127.179C127.918,127.179 120.228,119.024 116.893,123.58C113.558,128.136 121.858,137.869 121.858,137.869L122.66,138.467L126.538,144.539L118.696,145.753C118.696,145.753 103.491,150.769 101.549,154.792C99.607,158.816 104.437,161.46 104.437,161.46C104.437,161.46 97.346,161.831 97.748,166.047C98.043,169.138 100.797,172.402 100.797,172.402C100.797,172.402 93.958,173.313 93.175,178.454C92.831,180.717 97.235,184.713 97.235,184.713L105.697,189.188C106.782,186.386 105.572,188.934 107.252,186.483Z"/>
         <path android:fillColor="#B2DBF0" android:fillType="evenOdd" android:pathData="M135.475,225.178L102.367,212.036C98.995,210.697 97.347,206.878 98.685,203.506L131.476,120.9C132.815,117.528 136.634,115.879 140.007,117.218L173.115,130.36C176.487,131.699 178.136,135.518 176.797,138.89L144.006,221.496C142.667,224.869 138.848,226.517 135.475,225.178Z"/>
         <path android:fillColor="#000000" android:fillType="evenOdd" android:pathData="M135.475,225.178L102.367,212.036C98.995,210.697 97.346,206.878 98.685,203.506L131.476,120.9C132.815,117.528 136.634,115.879 140.006,117.217L173.114,130.36C176.487,131.699 178.135,135.518 176.797,138.89L144.005,221.496C142.667,224.868 138.848,226.517 135.475,225.178Z"/>

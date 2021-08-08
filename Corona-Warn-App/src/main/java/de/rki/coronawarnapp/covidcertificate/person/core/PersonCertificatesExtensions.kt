@@ -198,61 +198,69 @@ fun Collection<CwaCovidCertificate>.findHighestPriorityCertificate(
                 is CwaCovidCertificate.State.Valid,
                 is CwaCovidCertificate.State.ExpiringSoon -> valid.add(it)
                 is CwaCovidCertificate.State.Expired -> expired.add(it)
-                CwaCovidCertificate.State.Invalid -> invalid.add(it)
+                is CwaCovidCertificate.State.Invalid -> invalid.add(it)
             }
         }
 
-        listOf(valid, expired, invalid)
+        listOf(valid to "Valid/ExpiringSoon", expired to "Expired", invalid to "Invalid")
     }
-    .map { certsForState ->
+    .mapNotNull { (certsForState, stateName) ->
         // Correct rulefinding depends on the explicit list ordering generated in the previous step
         // list(list(valid+expiring_soon), list(expired), list(invalid))
 
+        if (certsForState.isEmpty()) {
+            Timber.v("No certs with state %s", stateName)
+            return@mapNotNull null
+        } else {
+            Timber.v("Checking %d certs with for %s", certsForState.size, stateName)
+        }
+
         certsForState.rule1FindRecentPcrCertificate(nowUtc)?.let {
             Timber.d("Rule 1 match (PCR Test Certificate <= 48 hours): %s", it)
-            return@map it
+            return@mapNotNull it
         }
 
         certsForState.rule2FindRecentRaCertificate(nowUtc)?.let {
             Timber.d("Rule 2 match (RA Test Certificate <= 24 hours): %s", it)
-            return@map it
+            return@mapNotNull it
         }
 
         certsForState.rule3FindRecentLastShot(nowUtc)?.let {
             Timber.d("Rule 3 match (Series-completing Vaccination Certificate > 14 days): %s", it)
-            return@map it
+            return@mapNotNull it
         }
 
         certsForState.rule4findRecentRecovery(nowUtc)?.let {
             Timber.d("Rule 4 match (Recovery Certificate <= 180 days): %s", it)
-            return@map it
+            return@mapNotNull it
         }
 
         certsForState.rule5findTooRecentFinalShot(nowUtc)?.let {
             Timber.d("Rule 5 match (Series-completing Vaccination Certificate <= 14 days): %s", it)
-            return@map it
+            return@mapNotNull it
         }
 
         certsForState.rule6findOtherVaccinations()?.let {
             Timber.d("Rule 6 match (Other Vaccination Certificate): %s", it)
-            return@map it
+            return@mapNotNull it
         }
 
         certsForState.rule7FindOldRecovery(nowUtc)?.let {
             Timber.d("Rule 7 match (Recovery Certificate > 180 days): %s", it)
-            return@map it
+            return@mapNotNull it
         }
 
         certsForState.rule8FindOldPcrTest(nowUtc)?.let {
             Timber.d("Rule 8 match (PCR Test Certificate > 48 hours): %s", it)
-            return@map it
+            return@mapNotNull it
         }
 
         certsForState.rule9FindOldRaTest(nowUtc)?.let {
             Timber.d("Rule 9 match (RAT Test Certificate > 24 hours): %s", it)
-            return@map it
+            return@mapNotNull it
         }
 
+        Timber.v("No rule matched for state %s", stateName)
         null
     }
     .firstOrNull()

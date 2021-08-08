@@ -37,14 +37,21 @@ class PeriodLoggedBox(
         val tracingStatus: GeneralTracingStatus.Status
     ) : DetailsItem {
 
-        fun getInstallTimePeriodLogged(context: Context): String =
-            if (daysSinceInstallation < 14) {
+        fun getInstallTimePeriodLogged(context: Context): String = when (daysSinceInstallation) {
+            0 -> context.getString(
+                R.string.risk_details_information_body_period_logged_assessment_under_14_days_today
+            )
+            1 -> context.getString(
+                R.string.risk_details_information_body_period_logged_assessment_under_14_days_yesterday
+            )
+            in 2..13 -> String.format(
                 context.getString(
                     R.string.risk_details_information_body_period_logged_assessment_under_14_days
-                ).format(daysSinceInstallation)
-            } else context.getString(
-                R.string.risk_details_information_body_period_logged_assessment_over_14_days
+                ),
+                daysSinceInstallation
             )
+            else -> context.getString(R.string.risk_details_information_body_period_logged_assessment_over_14_days)
+        }
 
         override val stableId: Long
             get() = Item::class.java.name.hashCode().toLong()

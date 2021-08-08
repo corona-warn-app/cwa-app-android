@@ -3,8 +3,11 @@ package de.rki.coronawarnapp.covidcertificate.person.core
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.flow.shareLatest
@@ -19,9 +22,9 @@ import javax.inject.Inject
 @Reusable
 class PersonCertificatesProvider @Inject constructor(
     private val personCertificatesSettings: PersonCertificatesSettings,
-    vaccinationRepository: VaccinationRepository,
-    testCertificateRepository: TestCertificateRepository,
-    recoveryCertificateRepository: RecoveryCertificateRepository,
+    private val vaccinationRepository: VaccinationRepository,
+    private val testCertificateRepository: TestCertificateRepository,
+    private val recoveryCertificateRepository: RecoveryCertificateRepository,
     @AppScope private val appScope: CoroutineScope,
 ) {
 
@@ -33,7 +36,7 @@ class PersonCertificatesProvider @Inject constructor(
             testWrappers.mapNotNull { it.testCertificate }
         },
         recoveryCertificateRepository.certificates.map { recoveryWrappers ->
-            recoveryWrappers.mapNotNull { it.recoveryCertificate }
+            recoveryWrappers.map { it.recoveryCertificate }
         },
         personCertificatesSettings.currentCwaUser.flow,
     ) { vaccs, tests, recos, cwaUser ->
@@ -63,6 +66,43 @@ class PersonCertificatesProvider @Inject constructor(
     fun setCurrentCwaUser(personIdentifier: CertificatePersonIdentifier?) {
         Timber.d("setCurrentCwaUser(personIdentifier=%s)", personIdentifier)
         personCertificatesSettings.currentCwaUser.update { personIdentifier }
+    }
+
+    val badgeCount: Flow<Int> = combine(
+        testCertificateRepository.certificates.map { certs ->
+            certs.filter { !it.seenByUser && !it.isCertificateRetrievalPending }.size
+        },
+        vaccinationRepository.vaccinationInfos.map { persons ->
+            persons
+                .map { it.vaccinationCertificates }
+                .flatten()
+                .filter { it.getState() !is CwaCovidCertificate.State.Valid }
+                .count { it.getState() != it.lastSeenStateChange }
+        },
+        recoveryCertificateRepository.certificates.map { certs ->
+            certs
+                .map { it.recoveryCertificate }
+                .filter { it.getState() !is CwaCovidCertificate.State.Valid }
+                .count { it.getState() != it.lastSeenStateChange }
+        },
+    ) { newTestCertificates, vacStateChanges, recoveryStateChanges ->
+        newTestCertificates + vacStateChanges + recoveryStateChanges
+    }.shareLatest(scope = appScope)
+
+    suspend fun acknowledgeStateChange(certificate: CwaCovidCertificate) {
+        Timber.tag(TAG).d("acknowledgeStateChange(containerId=$certificate.containerId)")
+
+        if (certificate.getState() is CwaCovidCertificate.State.Valid && certificate.lastSeenStateChange == null) {
+            Timber.tag(TAG).d("Current state is valid, and previous state was null, don't acknowledge.")
+            return
+        }
+
+        when (certificate) {
+            is VaccinationCertificate -> vaccinationRepository.acknowledgeState(certificate.containerId)
+            is RecoveryCertificate -> recoveryCertificateRepository.acknowledgeState(certificate.containerId)
+            is TestCertificate -> testCertificateRepository.acknowledgeState(certificate.containerId)
+            else -> throw IllegalArgumentException("Unknown certificate type: $certificate")
+        }
     }
 
     companion object {
