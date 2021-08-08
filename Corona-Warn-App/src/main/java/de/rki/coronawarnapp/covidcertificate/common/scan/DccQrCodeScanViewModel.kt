@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.common.scan
 
-import android.net.Uri
 import com.journeyapps.barcodescanner.BarcodeResult
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -13,7 +12,6 @@ import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRC
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.DccQrCodeValidator
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
-import de.rki.coronawarnapp.qrcode.QRCodeFileParser
 import de.rki.coronawarnapp.util.permission.CameraSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -23,7 +21,6 @@ import timber.log.Timber
 class DccQrCodeScanViewModel @AssistedInject constructor(
     private val cameraSettings: CameraSettings,
     private val qrCodeValidator: DccQrCodeValidator,
-    private val qrCodeFileParser: QRCodeFileParser,
     private val vaccinationRepository: VaccinationRepository,
     private val testCertificateRepository: TestCertificateRepository,
     private val recoveryCertificateRepository: RecoveryCertificateRepository,
@@ -35,24 +32,9 @@ class DccQrCodeScanViewModel @AssistedInject constructor(
     val errorEvent = SingleLiveEvent<Throwable>()
 
     fun onScanResult(barcodeResult: BarcodeResult) = launch {
-        validateQRCode(barcodeResult.text)
-    }
-
-    fun onFileSelected(uri: Uri) = launch {
-        event.postValue(Event.QrCodeScanInProgress)
-
-        when (val result = qrCodeFileParser.decodeQrCodeFile(uri)) {
-            is QRCodeFileParser.QRCodeParseResult.Success ->
-                validateQRCode(result.text)
-            is QRCodeFileParser.QRCodeParseResult.Failure ->
-                errorEvent.postValue(result.exception)
-        }
-    }
-
-    private suspend fun validateQRCode(qrCodeText: String) {
         try {
             event.postValue(Event.QrCodeScanInProgress)
-            val qrCode = qrCodeValidator.validate(qrCodeText)
+            val qrCode = qrCodeValidator.validate(barcodeResult.text)
             dscSignatureValidator.validateSignature(qrCode.data)
             when (qrCode) {
                 is VaccinationCertificateQRCode -> registerVaccinationCertificate(qrCode)
