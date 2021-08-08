@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.common.scan
 
 import android.Manifest
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent.TYPE_ANNOUNCEMENT
@@ -51,13 +50,6 @@ class DccQrCodeScanFragment :
             }
         }
 
-    private val filePickerLauncher =
-        registerForActivityResult(
-            ActivityResultContracts.OpenDocument()
-        ) { contentURI: Uri ->
-            viewModel.onFileSelected(contentURI)
-        }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -73,10 +65,6 @@ class DccQrCodeScanFragment :
         with(binding) {
             qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
                 binding.qrCodeScanPreview.setTorch(isChecked)
-            }
-
-            qrCodeScanFromFileButton.setOnClickListener {
-                getImageFromFile()
             }
 
             qrCodeScanToolbar.setNavigationOnClickListener { popBackStack() }
@@ -187,8 +175,6 @@ class DccQrCodeScanFragment :
     }
 
     private fun requestCameraPermission() = requestPermissionLauncher.launch(Manifest.permission.CAMERA)
-
-    private fun getImageFromFile() = filePickerLauncher.launch(arrayOf("image/*", "application/pdf"))
 
     private fun leave() {
         showsPermissionDialog = false

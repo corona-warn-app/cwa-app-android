@@ -85,14 +85,6 @@
             android:textOff=""
             android:textOn="" />
 
-        <Button
-            android:id="@+id/qr_code_scan_from_file_button"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/icon_size_button"
-            android:layout_gravity="end"
-            android:layout_marginEnd="@dimen/spacing_tiny"
-            android:text="Scan from file" />
-
     </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.constraintlayout.widget.Guideline

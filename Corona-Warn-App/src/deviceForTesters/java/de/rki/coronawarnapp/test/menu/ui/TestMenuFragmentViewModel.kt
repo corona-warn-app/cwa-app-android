@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.test.hometestcards.ui.HomeTestCardsFragment
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragment
 import de.rki.coronawarnapp.test.playground.ui.PlaygroundFragment
 import de.rki.coronawarnapp.test.presencetracing.ui.PresenceTracingTestFragment
+import de.rki.coronawarnapp.test.qrcode.ui.QrCodeTestFragment
 import de.rki.coronawarnapp.test.risklevel.ui.TestRiskLevelCalculationFragment
 import de.rki.coronawarnapp.test.submission.ui.SubmissionTestFragment
 import de.rki.coronawarnapp.test.tasks.ui.TestTaskControllerFragment
@@ -41,6 +42,7 @@ class TestMenuFragmentViewModel @AssistedInject constructor() : CWAViewModel() {
             PresenceTracingTestFragment.MENU_ITEM,
             HomeTestCardsFragment.MENU_ITEM,
             CoronaTestTestFragment.MENU_ITEM,
+            QrCodeTestFragment.MENU_ITEM,
         ).let { MutableLiveData(it) }
     }
     val showTestScreenEvent = SingleLiveEvent<TestMenuItem>()

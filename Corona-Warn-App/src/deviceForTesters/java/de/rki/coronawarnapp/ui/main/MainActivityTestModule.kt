@@ -28,6 +28,8 @@ import de.rki.coronawarnapp.test.presencetracing.ui.PresenceTracingTestFragment
 import de.rki.coronawarnapp.test.presencetracing.ui.PresenceTracingTestFragmentModule
 import de.rki.coronawarnapp.test.presencetracing.ui.poster.QrCodePosterTestFragment
 import de.rki.coronawarnapp.test.presencetracing.ui.poster.QrCodePosterTestFragmentModule
+import de.rki.coronawarnapp.test.qrcode.ui.QrCodeTestFragment
+import de.rki.coronawarnapp.test.qrcode.ui.QrCodeTestFragmentModule
 import de.rki.coronawarnapp.test.risklevel.ui.TestRiskLevelCalculationFragment
 import de.rki.coronawarnapp.test.risklevel.ui.TestRiskLevelCalculationFragmentModule
 import de.rki.coronawarnapp.test.submission.ui.SubmissionTestFragment
@@ -85,4 +87,7 @@ abstract class MainActivityTestModule {
 
     @ContributesAndroidInjector(modules = [CoronaTestTestFragmentModule::class])
     abstract fun coronaTest(): CoronaTestTestFragment
+
+    @ContributesAndroidInjector(modules = [QrCodeTestFragmentModule::class])
+    abstract fun qrCodeTest(): QrCodeTestFragment
 }
