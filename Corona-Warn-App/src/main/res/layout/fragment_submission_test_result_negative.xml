@@ -92,7 +92,7 @@
                     app:step_entry_icon="@drawable/ic_test_result_step_invalid" />
 
                 <de.rki.coronawarnapp.ui.view.SimpleStepEntry
-                    android:id="@+id/test_result_invalid_steps_remove_test"
+                    android:id="@+id/test_result_negative_steps_remove_test"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_normal"
@@ -112,7 +112,7 @@
                     android:layout_marginEnd="@dimen/spacing_normal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/test_result_negative_steps_negative_result"
-                    app:layout_constraintTop_toBottomOf="@+id/test_result_invalid_steps_remove_test"
+                    app:layout_constraintTop_toBottomOf="@+id/test_result_negative_steps_remove_test"
                     app:simple_step_entry_text="@string/coronatest_negative_result_certificate_info_body"
                     app:simple_step_entry_title="@string/coronatest_negative_result_certificate_info_title"
                     app:step_entry_final="true"
