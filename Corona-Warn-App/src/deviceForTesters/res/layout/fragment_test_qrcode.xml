@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:ignore="HardcodedText">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:orientation="vertical"
+        android:paddingBottom="32dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_tiny"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/test_qrcode_title"
+                style="@style/body1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="QR Code File Scan"
+                app:layout_constraintBottom_toBottomOf="@+id/test_qrcode_file_select"
+                app:layout_constraintEnd_toStartOf="@+id/test_qrcode_file_select"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/test_qrcode_file_select"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:text="Select File"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/test_qrcode_result"
+                style="@style/body2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/test_qrcode_title"
+                tools:text="QR Code Content" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
