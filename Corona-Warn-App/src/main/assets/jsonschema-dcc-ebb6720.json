@@ -104,7 +104,8 @@
           "title": "Standardised surname",
           "description": "The surname(s) of the person, transliterated ICAO 9303",
           "type": "string",
-          "pattern": "^[A-Z<]*$",
+          "__comment": "Special case handling: original pattern check dropped",
+          "__pattern": "^[A-Z<]*$",
           "maxLength": 80,
           "examples": [
             "DCERVENKOVA<PANKLOVA"
@@ -122,8 +123,8 @@
         "gnt": {
           "title": "Standardised forename",
           "description": "The forename(s) of the person, transliterated ICAO 9303",
-          "type": "string",
-          "pattern": "^[A-Z<]*$",
+          "__comment": "Special case handling: original pattern check dropped",
+          "__pattern": "^[A-Z<]*$",
           "maxLength": 80,
           "examples": [
             "JIRINA<MARIA<ALENA"
