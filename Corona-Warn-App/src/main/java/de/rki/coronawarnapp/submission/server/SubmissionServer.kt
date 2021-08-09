@@ -40,7 +40,7 @@ class SubmissionServer @Inject constructor(
 
         val authCode = data.authCode
         val keyList = data.keyList
-        val checkInList = data.unencryptedCheckIns
+        val checkInList = data.encryptedCheckIns
 
         Timber.tag(TAG).d(
             "Writing %s Keys and %s CheckIns to the Submission Payload.",
