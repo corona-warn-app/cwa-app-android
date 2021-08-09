@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationId
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass.CheckInRecord
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass.CheckInProtectedReport
+import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.derive10MinutesInterval
 import de.rki.coronawarnapp.util.encoding.base64
@@ -49,7 +50,7 @@ class CheckInCryptography @Inject constructor(
     fun decrypt(
         checkInProtectedReport: CheckInProtectedReport,
         traceLocationId: TraceLocationId
-    ): CheckInRecord {
+    ): TraceWarning.TraceTimeIntervalWarning {
 
         val macKey = getMacKey(traceLocationId).toByteArray()
         val mac = getMac(
@@ -72,7 +73,14 @@ class CheckInCryptography @Inject constructor(
             ivParameterSpec
         )
 
-        return CheckInRecord.parseFrom(decryptedData)
+        val checkInRecord = CheckInRecord.parseFrom(decryptedData)
+
+        return TraceWarning.TraceTimeIntervalWarning.newBuilder()
+            .setLocationIdHash(checkInProtectedReport.locationIdHash)
+            .setPeriod(checkInRecord.period)
+            .setTransmissionRiskLevel(checkInRecord.transmissionRiskLevel)
+            .setStartIntervalNumber(checkInRecord.startIntervalNumber)
+            .build()
     }
 
     private fun getCryptographicSeed(): ByteArray {
