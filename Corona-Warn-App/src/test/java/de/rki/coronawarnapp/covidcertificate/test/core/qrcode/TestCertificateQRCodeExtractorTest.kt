@@ -142,13 +142,13 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
     @Test
     fun `required values that are null fail with JSON_SCHEMA_INVALID`() {
         shouldThrow<InvalidHealthCertificateException> {
-            extractor.extract(TestData.qrCodeMissingImportantValues)
+            extractor.extract(TestData.qrCodeMissingRequiredValues)
         }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.HC_JSON_SCHEMA_INVALID
     }
 
     @Test
     fun `not required values that are null pass schema validation`() {
-        val qrCode = extractor.extract(TestData.qrCodeMissingNonImportantValues) as TestCertificateQRCode
+        val qrCode = extractor.extract(TestData.qrCodeMissingNotRequiredValues) as TestCertificateQRCode
         with(qrCode.data.header) {
             issuer shouldBe "DE"
             issuedAt shouldBe Instant.parse("2021-08-10T09:02:14.000Z")
