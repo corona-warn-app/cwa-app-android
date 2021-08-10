@@ -27,6 +27,9 @@ class PersonCertificatesProvider @Inject constructor(
     private val recoveryCertificateRepository: RecoveryCertificateRepository,
     @AppScope private val appScope: CoroutineScope,
 ) {
+    init {
+        Timber.tag(TAG).d("PersonCertificatesProvider init(%s)", this)
+    }
 
     val personCertificates: Flow<Set<PersonCertificates>> = combine(
         vaccinationRepository.vaccinationInfos.map { vaccPersons ->
@@ -40,8 +43,8 @@ class PersonCertificatesProvider @Inject constructor(
         },
         personCertificatesSettings.currentCwaUser.flow,
     ) { vaccs, tests, recos, cwaUser ->
+        Timber.tag(TAG).d("vaccs=%s, tests=%s, recos=%s, cwaUser=%s", vaccs, tests, recos, cwaUser)
         val mapping = mutableMapOf<CertificatePersonIdentifier, MutableSet<CwaCovidCertificate>>()
-
         val allCerts: Set<CwaCovidCertificate> = (vaccs + tests + recos)
         allCerts.forEach {
             mapping[it.personIdentifier] = (mapping[it.personIdentifier] ?: mutableSetOf()).apply {
