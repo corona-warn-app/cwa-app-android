@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.util.lists.modular.ModularAdapter
 import de.rki.coronawarnapp.util.lists.modular.mods.DataBinderMod
 import de.rki.coronawarnapp.util.lists.modular.mods.StableIdMod
 import de.rki.coronawarnapp.util.lists.modular.mods.TypedVHCreatorMod
+import timber.log.Timber
 
 class PersonOverviewAdapter :
     ModularAdapter<PersonOverviewAdapter.PersonOverviewItemVH<PersonCertificatesItem, ViewBinding>>(),
@@ -33,6 +34,8 @@ class PersonOverviewAdapter :
                 TypedVHCreatorMod({ data[it] is CameraPermissionCard.Item }) { CameraPermissionCard(it) },
             )
         )
+
+        Timber.tag(TAG).d("modules=%s", modules)
     }
 
     override fun getItemCount(): Int = data.size
@@ -41,4 +44,8 @@ class PersonOverviewAdapter :
         @LayoutRes layoutRes: Int,
         parent: ViewGroup
     ) : ModularAdapter.VH(layoutRes, parent), BindableVH<Item, VB>
+
+    companion object {
+        private const val TAG = "PersonOverviewAdapter"
+    }
 }
