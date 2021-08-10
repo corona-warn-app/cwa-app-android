@@ -34,7 +34,7 @@ class DccQrCodeScanFragment :
     private val binding: FragmentScanQrCodeBinding by viewBinding()
     private var showsPermissionDialog = false
 
-    val requestPermissionLauncher =
+    private val requestPermissionLauncher =
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
