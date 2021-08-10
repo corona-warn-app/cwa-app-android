@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ui.submission.testresult.negative
 
 import androidx.lifecycle.asLiveData
-import androidx.navigation.NavDirections
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -29,7 +28,7 @@ class SubmissionTestResultNegativeViewModel @AssistedInject constructor(
         Timber.v("init() coronaTestType=%s", testType)
     }
 
-    val routeToScreen = SingleLiveEvent<NavDirections?>()
+    val events = SingleLiveEvent<SubmissionTestResultNegativeNavigation>()
     val testResult = combine(
         submissionRepository.testForType(type = testType).filterNotNull(),
         certificateRepository.certificates
@@ -50,17 +49,34 @@ class SubmissionTestResultNegativeViewModel @AssistedInject constructor(
         )
     }.asLiveData(context = dispatcherProvider.Default)
 
+    val certificate = combine(
+        submissionRepository.testForType(type = testType).filterNotNull(),
+        certificateRepository.certificates
+    ) { test, certs ->
+        val cert = certs.firstOrNull {
+            it.registrationToken == test.registrationToken
+        }
+
+        cert
+    }.asLiveData(context = dispatcherProvider.Default)
+
     fun deregisterTestFromDevice() = launch {
         Timber.tag(TAG).d("deregisterTestFromDevice()")
         submissionRepository.removeTestFromDevice(type = testType)
 
-        routeToScreen.postValue(null)
+        events.postValue(SubmissionTestResultNegativeNavigation.Back)
     }
 
     fun onTestOpened() = launch {
         Timber.tag(TAG).d("onTestOpened()")
         submissionRepository.setViewedTestResult(type = testType)
         testResultAvailableNotificationService.cancelTestResultAvailableNotification()
+    }
+
+    fun onCertificateClicked() {
+        certificate.value?.let {
+            events.postValue(SubmissionTestResultNegativeNavigation.OpenTestCertificateDetails(it.containerId))
+        }
     }
 
     enum class CertificateState {

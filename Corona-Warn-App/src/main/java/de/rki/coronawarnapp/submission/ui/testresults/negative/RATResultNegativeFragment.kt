@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -44,21 +45,35 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
             coronatestNegativeAntigenResultButton.setOnClickListener { viewModel.onDeleteTestClicked() }
+            testCertificateCard.setOnClickListener { viewModel.onCertificateClicked() }
             toolbar.setNavigationOnClickListener { viewModel.onClose() }
 
             viewModel.testAge.observe(viewLifecycleOwner) {
                 it?.let { bindView(it) }
             }
 
+            viewModel.certificate.observe(viewLifecycleOwner) {
+                certificateDate.text = getString(
+                    R.string.test_certificate_sampled_on,
+                    it?.testCertificate?.sampleCollectedAt?.toUserTimeZone()?.toDayFormat()
+                )
+            }
+
             viewModel.events.observe(viewLifecycleOwner) {
                 when (it) {
-                    RATResultNegativeNavigation.ShowDeleteWarning -> {
+                    is RATResultNegativeNavigation.ShowDeleteWarning -> {
                         DialogHelper.showDialog(deleteRatTestConfirmationDialog).apply {
                             getButton(DialogInterface.BUTTON_POSITIVE)
                                 .setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
                         }
                     }
-                    RATResultNegativeNavigation.Back -> popBackStack()
+                    is RATResultNegativeNavigation.Back -> popBackStack()
+                    is RATResultNegativeNavigation.OpenTestCertificateDetails -> doNavigate(
+                        RATResultNegativeFragmentDirections
+                            .actionSubmissionNegativeAntigenTestResultFragmentToTestCertificateDetailsFragment(
+                                it.containerId
+                            )
+                    )
                 }
             }
         }
@@ -119,6 +134,7 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
             RATResultNegativeViewModel.CertificateState.NOT_REQUESTED -> {
                 coronatestNegativeAntigenResultThirdInfo.setIsFinal(true)
                 coronatestNegativeAntigenResultFourthInfo.isGone = true
+                testCertificateCard.isGone = true
             }
             RATResultNegativeViewModel.CertificateState.PENDING -> {
                 coronatestNegativeAntigenResultThirdInfo.setIsFinal(false)
@@ -129,6 +145,7 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
                 coronatestNegativeAntigenResultFourthInfo.setIcon(
                     getDrawable(requireContext(), R.drawable.ic_result_pending_certificate_info)
                 )
+                testCertificateCard.isGone = true
             }
             RATResultNegativeViewModel.CertificateState.AVAILABLE -> {
                 coronatestNegativeAntigenResultThirdInfo.setIsFinal(false)
@@ -139,6 +156,7 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
                 coronatestNegativeAntigenResultFourthInfo.setIcon(
                     getDrawable(requireContext(), R.drawable.ic_qr_code_illustration)
                 )
+                testCertificateCard.isGone = false
             }
         }
     }
