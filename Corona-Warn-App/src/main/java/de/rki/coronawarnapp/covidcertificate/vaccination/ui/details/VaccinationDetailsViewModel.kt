@@ -77,7 +77,6 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
         } catch (e: Exception) {
             Timber.d(e, "validation rule download failed for covidCertificate=%s", containerId)
             errors.postValue(e)
-
         }
     }
 
