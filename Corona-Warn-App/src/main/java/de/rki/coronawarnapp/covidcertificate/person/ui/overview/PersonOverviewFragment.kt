@@ -145,6 +145,9 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
         scanQrcodeFab.isGone = items.any { it is CameraPermissionCard.Item }
         emptyLayout.isVisible = items.isEmpty()
         personOverviewAdapter.update(items)
+
+        Timber.tag(TAG).d("recyclerViewVisibility=%s", recyclerView.visibility)
+        Timber.tag(TAG).d("recyclerViewItemsCount=%s", recyclerView.layoutManager?.itemCount)
     }
 
     private fun PersonOverviewFragmentBinding.bindRecycler() = recyclerView.apply {

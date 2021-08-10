@@ -54,7 +54,10 @@ class PersonOverviewViewModel @AssistedInject constructor(
         Timber.tag(TAG).d("denied=%s, persons=%s, tcWrappers=%s", denied, persons, tcWrappers)
 
         mutableListOf<PersonCertificatesItem>().apply {
-            if (denied) add(CameraPermissionCard.Item { events.postValue(OpenAppDeviceSettings) })
+            if (denied) {
+                Timber.tag(TAG).d("Camera permission is denied")
+                add(CameraPermissionCard.Item { events.postValue(OpenAppDeviceSettings) })
+            }
             addPersonItems(persons, tcWrappers)
         }
     }.asLiveData(dispatcherProvider.Default)
