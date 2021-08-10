@@ -68,6 +68,11 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         viewModel.recoveryCertificate.observe(viewLifecycleOwner) { it?.let { onCertificateReady(it) } }
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.refreshCertState()
+    }
+
     private fun FragmentRecoveryCertificateDetailsBinding.onCertificateReady(
         certificate: RecoveryCertificate
     ) {

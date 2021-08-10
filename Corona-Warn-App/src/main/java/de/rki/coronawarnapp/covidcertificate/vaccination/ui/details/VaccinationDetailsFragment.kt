@@ -117,6 +117,11 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             }
         }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.refreshCertState()
+    }
+
     private fun FragmentVaccinationDetailsBinding.bindToolbar() = toolbar.apply {
         setNavigationOnClickListener { popBackStack() }
         setOnMenuItemClickListener {

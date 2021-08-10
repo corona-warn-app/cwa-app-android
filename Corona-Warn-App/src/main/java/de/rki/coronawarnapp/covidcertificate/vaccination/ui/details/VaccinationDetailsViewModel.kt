@@ -77,7 +77,13 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
         } catch (e: Exception) {
             Timber.d(e, "validation rule download failed for covidCertificate=%s", containerId)
             errors.postValue(e)
+
         }
+    }
+
+    fun refreshCertState() = launch(scope = appScope) {
+        Timber.v("refreshCertState()")
+        vaccinationRepository.acknowledgeState(containerId)
     }
 
     @AssistedFactory
