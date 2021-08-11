@@ -56,7 +56,7 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
             )
         }
     }
-    when (certificate.getState()) {
+    when (certificate.displayedState()) {
         is CwaCovidCertificate.State.ExpiringSoon -> {
             expirationStatusIcon.isVisible = true
             (expirationStatusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
@@ -108,7 +108,7 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
 }
 
 fun TextView.displayExpirationState(certificate: CwaCovidCertificate) {
-    when (certificate.getState()) {
+    when (certificate.displayedState()) {
         is CwaCovidCertificate.State.ExpiringSoon -> {
             isVisible = true
             text = context.getString(
@@ -145,3 +145,15 @@ val CwaCovidCertificate.expendedImageResource
         isValid -> R.drawable.certificate_complete_gradient
         else -> R.drawable.vaccination_incomplete
     }
+
+/**
+ * Display state is just for UI purpose only and does change the state for Test Certificate only
+ */
+private fun CwaCovidCertificate.displayedState(): CwaCovidCertificate.State = when (this) {
+    is TestCertificate -> if (isValid) {
+        CwaCovidCertificate.State.Valid(headerExpiresAt)
+    } else {
+        CwaCovidCertificate.State.Invalid()
+    }
+    else -> getState()
+}

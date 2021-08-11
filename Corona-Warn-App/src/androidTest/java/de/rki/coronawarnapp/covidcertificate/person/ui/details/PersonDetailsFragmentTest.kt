@@ -155,6 +155,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 every { sampleCollectedAt } returns Instant.parse("2021-05-31T11:35:00.000Z")
             }
         }
+        every { headerExpiresAt } returns Instant.now().plus(20)
         every { containerId } returns tcsContainerId
         every { testType } returns "PCR-Test"
         every { dateOfBirthFormatted } returns "1943-04-18"
@@ -169,7 +170,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
         )
         every { isValid } returns true
         every { sampleCollectedAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
-        every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
+        every { getState() } returns CwaCovidCertificate.State.Valid(headerExpiresAt)
     }
 
     private fun mockVaccinationCertificate(number: Int = 1, final: Boolean = false): VaccinationCertificate =

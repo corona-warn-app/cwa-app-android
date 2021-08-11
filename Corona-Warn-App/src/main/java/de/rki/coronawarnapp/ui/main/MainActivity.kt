@@ -107,6 +107,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         }
 
         vm.certificateBadgeCount.observe(this) { count ->
+            Timber.d("certificateBadgeCount=$count")
             binding.mainBottomNavigation.updateCountBadge(R.id.covid_certificates_graph, count)
         }
 

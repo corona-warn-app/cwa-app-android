@@ -80,6 +80,11 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
         }
     }
 
+    fun refreshCertState() = launch(scope = appScope) {
+        Timber.v("refreshCertState()")
+        vaccinationRepository.acknowledgeState(containerId)
+    }
+
     @AssistedFactory
     interface Factory : CWAViewModelFactory<VaccinationDetailsViewModel> {
         fun create(

@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.common.certificate
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.util.serialization.adapter.RuntimeTypeAdapterFactory
@@ -49,7 +50,11 @@ interface CwaCovidCertificate {
      */
     fun getState(): State
 
-    val isValid get() = getState() is State.Valid || getState() is State.ExpiringSoon
+    val isValid
+        get() = when (this) {
+            is TestCertificate -> getState() !is State.Invalid
+            else -> getState() is State.Valid || getState() is State.ExpiringSoon
+        }
 
     /**
      * Requires RuntimeAdapterFactory, see [SerializationModule]
