@@ -48,6 +48,22 @@ class RATResultNegativeViewModel @AssistedInject constructor(
         rapidTest?.uiState(certificate)
     }.asLiveData(context = dispatcherProvider.Default)
 
+    val certificate = combine(
+        intervalFlow(1),
+        coronaTestRepository.coronaTests,
+        certificateRepository.certificates
+    ) { _, tests, certs ->
+        val rapidTest = tests.firstOrNull {
+            it.type == CoronaTest.Type.RAPID_ANTIGEN
+        }
+
+        val certificate = certs.firstOrNull {
+            it.registrationToken == rapidTest?.registrationToken
+        }
+
+        certificate
+    }.asLiveData(context = dispatcherProvider.Default)
+
     private fun CoronaTest.uiState(certificate: TestCertificateWrapper?): UIState? {
         if (this !is RACoronaTest) {
             Timber.d("Rapid test is missing")
@@ -88,6 +104,12 @@ class RATResultNegativeViewModel @AssistedInject constructor(
 
     fun onClose() {
         events.postValue(RATResultNegativeNavigation.Back)
+    }
+
+    fun onCertificateClicked() {
+        certificate.value?.let {
+            events.postValue(RATResultNegativeNavigation.OpenTestCertificateDetails(it.containerId))
+        }
     }
 
     @AssistedFactory
