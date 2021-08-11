@@ -167,6 +167,7 @@ class PersonDetailsViewModelTest : BaseTest() {
                 every { sampleCollectedAt } returns Instant.parse("2021-05-31T11:35:00.000Z")
             }
         }
+        every { headerExpiresAt } returns Instant.parse("2022-01-01T11:35:00.000Z")
         every { containerId } returns tcsContainerId
         every { testType } returns "PCR-Test"
         every { dateOfBirthFormatted } returns "18.04.1943"
@@ -174,7 +175,7 @@ class PersonDetailsViewModelTest : BaseTest() {
         every { registeredAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
         every { personIdentifier } returns certificatePersonIdentifier
         every { isValid } returns true
-        every { getState() } returns State.Valid(expiresAt = Instant.parse("2022-01-01T11:35:00.000Z"))
+        every { getState() } returns State.Valid(headerExpiresAt)
         every { qrCodeToDisplay } returns CoilQrCode("qrCode")
     }
 
