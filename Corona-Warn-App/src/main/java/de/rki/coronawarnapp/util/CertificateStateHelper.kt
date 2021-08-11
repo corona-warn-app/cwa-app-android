@@ -26,7 +26,8 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     var internalCertificateState = certificate.getState()
 
     invalidOverlay.isGone = valid || certificate is TestCertificate
-    image.isEnabled = isCertificateDetails && valid || certificate is TestCertificate// Disable Qr-Code image from opening full-screen mode
+    // Disable Qr-Code image from opening full-screen mode
+    image.isEnabled = isCertificateDetails && valid || certificate is TestCertificate
 
     when (certificate) {
         is TestCertificate -> {
@@ -149,4 +150,3 @@ val CwaCovidCertificate.expendedImageResource
     get() = if (isValid || this is TestCertificate) {
         R.drawable.certificate_complete_gradient
     } else R.drawable.vaccination_incomplete
-
