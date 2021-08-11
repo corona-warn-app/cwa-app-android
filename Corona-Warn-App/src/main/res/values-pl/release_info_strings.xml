@@ -16,14 +16,14 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Weryfikacja podpisu"</item>
-        <item>"Techniczna kontrola ważności"</item>
+        <item>"Standardowa nazwa"</item>
+        <item>"Otwórz certyfikat z wyniku testu"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Po dodaniu certyfikatów w aplikacji Corona-Warn-App ich ważność i autentyczność jest sprawdzana. Dlatego możliwy jest import tylko tych certyfikatów, które zostały wydane przez uprawniony organ."</item>
-        <item>"Teraz w aplikacji Corona-Warn-App wyświetlana jest techniczna data wygaśnięcia dodawanych certyfikatów szczepień oraz certyfikatów statusu ozdrowieńca. Aplikacja może powiadomić Cię z wyprzedzeniem o wygasającym certyfikacie."</item>
+        <item>"Poza nazwą w pisowni specyficznej dla kraju każdy certyfikat ma wyświetlaną również nazwę w standardowych znakach łacińskich."</item>
+        <item>"Teraz możesz wywołać swój unijny cyfrowy certyfikat testu na COVID ze swojego wyniku testu, jeśli jest on dostępny."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
