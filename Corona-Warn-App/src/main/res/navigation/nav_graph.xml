@@ -587,9 +587,6 @@
         <argument
             android:name="testType"
             app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
-        <action
-            android:id="@+id/action_submissionTestResultNegativeFragment_to_testCertificateDetailsFragment"
-            app:destination="@id/testCertificateDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/submissionTestResultInvalidFragment"
@@ -604,11 +601,7 @@
         android:id="@+id/submissionNegativeAntigenTestResultFragment"
         android:name="de.rki.coronawarnapp.submission.ui.testresults.negative.RATResultNegativeFragment"
         android:label="SubmissionNegativeAntigenTestResultFragment"
-        tools:layout="@layout/fragment_submission_antigen_test_result_negative" >
-        <action
-            android:id="@+id/action_submissionNegativeAntigenTestResultFragment_to_testCertificateDetailsFragment"
-            app:destination="@id/testCertificateDetailsFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_submission_antigen_test_result_negative" />
     <fragment
         android:id="@+id/debuglogFragment"
         android:name="de.rki.coronawarnapp.bugreporting.debuglog.ui.DebugLogFragment"
@@ -865,16 +858,5 @@
             android:name="selectedFederalState"
             android:defaultValue="-1"
             app:argType="integer" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/testCertificateDetailsFragment"
-        android:name="de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment"
-        android:label="CovidCertificateDetailsFragment"
-        tools:layout="@layout/fragment_test_certificate_details">
-
-        <argument
-            android:name="containerId"
-            app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId" />
     </fragment>
 </navigation>

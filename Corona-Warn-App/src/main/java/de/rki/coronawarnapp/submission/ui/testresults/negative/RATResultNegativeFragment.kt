@@ -8,7 +8,9 @@ import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment
 import de.rki.coronawarnapp.databinding.FragmentSubmissionAntigenTestResultNegativeBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
@@ -16,7 +18,6 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -68,12 +69,8 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
                         }
                     }
                     is RATResultNegativeNavigation.Back -> popBackStack()
-                    is RATResultNegativeNavigation.OpenTestCertificateDetails -> doNavigate(
-                        RATResultNegativeFragmentDirections
-                            .actionSubmissionNegativeAntigenTestResultFragmentToTestCertificateDetailsFragment(
-                                it.containerId
-                            )
-                    )
+                    is RATResultNegativeNavigation.OpenTestCertificateDetails ->
+                        findNavController().navigate(TestCertificateDetailsFragment.uri(it.containerId.identifier))
                 }
             }
         }
