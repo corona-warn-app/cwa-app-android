@@ -12,5 +12,7 @@ interface CWAConfig {
 
     val isDeviceTimeCheckEnabled: Boolean
 
+    val isUnencryptedCheckInsEnabled: Boolean
+
     interface Mapper : ConfigMapper<CWAConfig>
 }

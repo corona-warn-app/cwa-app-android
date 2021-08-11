@@ -6,7 +6,8 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
-import de.rki.coronawarnapp.presencetracing.warning.download.server.TraceWarningApiV1
+import de.rki.coronawarnapp.presencetracing.warning.download.server.DiscoveryResult
+import de.rki.coronawarnapp.presencetracing.warning.download.server.TraceWarningApi
 import de.rki.coronawarnapp.presencetracing.warning.download.server.TraceWarningServer
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackageMetadata
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
@@ -29,17 +30,18 @@ class TraceWarningPackageSyncTool @Inject constructor(
     private val downloader: TraceWarningPackageDownloader
 ) {
 
-    suspend fun syncPackages(): SyncResult {
+    suspend fun syncPackages(mode: TraceWarningApi.Mode): SyncResult {
+        Timber.d("syncPackages(mode=$mode)")
         repository.cleanMetadata()
         return measureTime(
             { Timber.tag(TAG).d("syncPackagesForLocation(DE), took %dms", it) },
-            { syncPackagesForLocation(LocationCode("DE")) }
+            { syncPackagesForLocation(mode, LocationCode("DE")) }
         )
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal suspend fun syncPackagesForLocation(location: LocationCode): SyncResult {
-        Timber.tag(TAG).d("syncTraceWarningPackages(location=%s)", location)
+    internal suspend fun syncPackagesForLocation(mode: TraceWarningApi.Mode, location: LocationCode): SyncResult {
+        Timber.tag(TAG).d("syncTraceWarningPackages(mode=%s,location=%s)", mode, location)
 
         val oldestCheckIn = checkInRepository.checkInsWithinRetention.first().minByOrNull { it.checkInStart }.also {
             Timber.tag(TAG).d("Our oldest check-in is %s", it)
@@ -56,8 +58,8 @@ class TraceWarningPackageSyncTool @Inject constructor(
 
         cleanUpRevokedPackages(downloadConfig)
 
-        val intervalDiscovery: TraceWarningApiV1.DiscoveryResult = try {
-            server.getAvailableIds(location)
+        val intervalDiscovery: DiscoveryResult = try {
+            server.getAvailableIds(mode, location)
         } catch (e: Exception) {
             Timber.tag(TAG).w(e, "Failed to discover available IDs.")
             return SyncResult(successful = false)
@@ -93,6 +95,7 @@ class TraceWarningPackageSyncTool @Inject constructor(
         requireStorageSpaceFor(missingHourIntervals.size)
 
         val downloadResult = downloader.launchDownloads(
+            mode = mode,
             location = location,
             hourIntervals = missingHourIntervals,
             downloadTimeout = downloadConfig.individualDownloadTimeout

@@ -5,6 +5,8 @@ import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.PresenceTracingConfigContainer
 import de.rki.coronawarnapp.appconfig.PresenceTracingRiskCalculationParamContainer
 import de.rki.coronawarnapp.appconfig.PresenceTracingSubmissionParamContainer
+import de.rki.coronawarnapp.covidcertificate.common.cryptography.AesCryptography
+import de.rki.coronawarnapp.presencetracing.checkins.cryptography.CheckInCryptography
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.AerosoleDecayFunctionLinear
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.DurationFilter
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.Range
@@ -27,13 +29,16 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.security.SecureRandom
 import java.util.concurrent.TimeUnit
+import kotlin.random.asKotlinRandom
 
 class CheckInsTransformerTest : BaseTest() {
 
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var symptoms: Symptoms
     @MockK lateinit var appConfigProvider: AppConfigProvider
+    private val checkInCryptography = CheckInCryptography(SecureRandom().asKotlinRandom(), AesCryptography())
 
     private lateinit var checkInTransformer: CheckInsTransformer
 
@@ -173,17 +178,31 @@ class CheckInsTransformerTest : BaseTest() {
                     transmissionRiskValueMapping = transmissionRiskValueMappings
                 )
             )
+
+            every { isUnencryptedCheckInsEnabled } returns true
         }
         checkInTransformer = CheckInsTransformer(
             timeStamper = timeStamper,
             transmissionDeterminator = TransmissionRiskVectorDeterminator(timeStamper),
+            checkInCryptography = checkInCryptography,
             appConfigProvider = appConfigProvider
         )
     }
 
     @Test
-    fun `transform check-ins`() = runBlockingTest {
-        val outCheckIns = checkInTransformer.transform(
+    fun `checkInsReport has encryptedCheckIns only`() = runBlockingTest {
+        coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
+            every { presenceTracing } returns PresenceTracingConfigContainer(
+                submissionParameters = submissionParams,
+                riskCalculationParameters = PresenceTracingRiskCalculationParamContainer(
+                    transmissionRiskValueMapping = transmissionRiskValueMappings
+                )
+            )
+
+            every { isUnencryptedCheckInsEnabled } returns false
+        }
+
+        val checkInsReport = checkInTransformer.transform(
             listOf(
                 checkIn1,
                 checkIn2,
@@ -192,8 +211,33 @@ class CheckInsTransformerTest : BaseTest() {
             symptoms
         )
 
-        with(outCheckIns) {
-            size shouldBe 6 // 3 check-ins with TRL = 1 and  3 other check-ins with TRL = 2, 4, 8
+        checkInsReport.unencryptedCheckIns.size shouldBe 0
+        checkInsReport.encryptedCheckIns.size shouldBe 6
+
+        // Note: Testing every item in the list by position is not applicable in this case, because
+        // encryptedCheckIns are shuffled
+        with(checkInsReport.encryptedCheckIns) {
+            filter { it.locationIdHash.toOkioByteString() == checkIn2.traceLocationIdHash }.size shouldBe 1
+            filter { it.locationIdHash.toOkioByteString() == checkIn3.traceLocationIdHash }.size shouldBe 5
+        }
+    }
+
+    @Test
+    fun `checkInsReport has unencryptedCheckIns - encryptedCheckIns`() = runBlockingTest {
+        val checkInsReport = checkInTransformer.transform(
+            listOf(
+                checkIn1,
+                checkIn2,
+                checkIn3
+            ),
+            symptoms
+        )
+
+        // 3 check-ins with TRL = 1 and  3 other check-ins with TRL = 2, 4, 8
+        checkInsReport.unencryptedCheckIns.size shouldBe 6
+        checkInsReport.encryptedCheckIns.size shouldBe 6
+
+        with(checkInsReport.unencryptedCheckIns) {
             // Check In 1 is excluded from submission due to time deriving
             // Check In 2 mapping and transformation
             get(0).apply {
@@ -250,6 +294,13 @@ class CheckInsTransformerTest : BaseTest() {
                 // End time for splitted check-in 5
                 endIntervalNumber shouldBe Instant.parse("2021-03-10T10:20:00Z").seconds / TEN_MINUTES_IN_SECONDS
             }
+        }
+
+        // Note: Testing every item in the list by position is not applicable in this case, because
+        // encryptedCheckIns are shuffled
+        with(checkInsReport.encryptedCheckIns) {
+            filter { it.locationIdHash.toOkioByteString() == checkIn2.traceLocationIdHash }.size shouldBe 1
+            filter { it.locationIdHash.toOkioByteString() == checkIn3.traceLocationIdHash }.size shouldBe 5
         }
     }
 
