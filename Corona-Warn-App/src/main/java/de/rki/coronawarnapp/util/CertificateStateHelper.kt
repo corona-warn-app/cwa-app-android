@@ -146,6 +146,9 @@ val CwaCovidCertificate.expendedImageResource
         else -> R.drawable.vaccination_incomplete
     }
 
+/**
+ * Display state is just for UI purpose only and does change the state for Test Certificate only
+ */
 private fun CwaCovidCertificate.displayedState(): CwaCovidCertificate.State = when (this) {
     is TestCertificate -> if (isValid) {
         CwaCovidCertificate.State.Valid(headerExpiresAt)
