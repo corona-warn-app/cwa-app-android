@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningMatch
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingRiskMapper
 import de.rki.coronawarnapp.presencetracing.risk.storage.PresenceTracingRiskRepository
 import de.rki.coronawarnapp.presencetracing.warning.download.TraceWarningPackageSyncTool
+import de.rki.coronawarnapp.presencetracing.warning.download.server.TraceWarningApi
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
@@ -33,6 +34,7 @@ class PresenceTracingWarningTask @Inject constructor(
     private val presenceTracingRiskMapper: PresenceTracingRiskMapper,
     private val coronaTestRepository: CoronaTestRepository,
     private val autoCheckOut: AutoCheckOut,
+    private val appConfigProvider: AppConfigProvider,
 ) : Task<PresenceTracingWarningTaskProgress, PresenceTracingWarningTask.Result> {
 
     private val internalProgress =
@@ -75,7 +77,13 @@ class PresenceTracingWarningTask @Inject constructor(
         Timber.tag(TAG).d("Syncing packages.")
         internalProgress.value = PresenceTracingWarningTaskProgress.Downloading()
 
-        val syncResult = syncTool.syncPackages()
+        val unencryptedEnabled = appConfigProvider.getAppConfig().isUnencryptedCheckInsEnabled
+        Timber.d("unencryptedEnabled=%s", unencryptedEnabled)
+
+        val mode = if (unencryptedEnabled) TraceWarningApi.Mode.UNENCRYPTED else TraceWarningApi.Mode.ENCRYPTED
+        Timber.d("TraceWarningApiMode=%s", mode)
+
+        val syncResult = syncTool.syncPackages(mode)
 
         if (syncResult.successful) {
             Timber.tag(TAG).d("TraceWarningPackage sync successful: %s", syncResult)

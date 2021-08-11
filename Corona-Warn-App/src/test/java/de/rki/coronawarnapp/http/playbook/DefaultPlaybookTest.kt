@@ -103,7 +103,8 @@ class DefaultPlaybookTest : BaseTest() {
                 temporaryExposureKeys = listOf(),
                 consentToFederation = true,
                 visitedCountries = listOf("DE"),
-                checkIns = emptyList(),
+                unencryptedCheckIns = emptyList(),
+                encryptedCheckIns = emptyList(),
                 submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
             )
         )
@@ -126,7 +127,8 @@ class DefaultPlaybookTest : BaseTest() {
                     temporaryExposureKeys = listOf(),
                     consentToFederation = true,
                     visitedCountries = listOf("DE"),
-                    checkIns = emptyList(),
+                    unencryptedCheckIns = emptyList(),
+                    encryptedCheckIns = emptyList(),
                     submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )
@@ -147,7 +149,8 @@ class DefaultPlaybookTest : BaseTest() {
                     temporaryExposureKeys = listOf(),
                     consentToFederation = true,
                     visitedCountries = listOf("DE"),
-                    checkIns = emptyList(),
+                    unencryptedCheckIns = emptyList(),
+                    encryptedCheckIns = emptyList(),
                     submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )
@@ -169,7 +172,8 @@ class DefaultPlaybookTest : BaseTest() {
                     temporaryExposureKeys = listOf(),
                     consentToFederation = true,
                     visitedCountries = listOf("DE"),
-                    checkIns = emptyList(),
+                    unencryptedCheckIns = emptyList(),
+                    encryptedCheckIns = emptyList(),
                     submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )
@@ -291,7 +295,8 @@ class DefaultPlaybookTest : BaseTest() {
                     temporaryExposureKeys = listOf(),
                     consentToFederation = true,
                     visitedCountries = listOf("DE"),
-                    checkIns = emptyList(),
+                    unencryptedCheckIns = emptyList(),
+                    encryptedCheckIns = emptyList(),
                     submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
                 )
             )

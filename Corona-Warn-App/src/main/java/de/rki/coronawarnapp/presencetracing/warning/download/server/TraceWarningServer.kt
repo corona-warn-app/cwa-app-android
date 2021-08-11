@@ -12,27 +12,27 @@ import javax.inject.Singleton
 
 @Singleton
 class TraceWarningServer @Inject constructor(
-    private val traceWarningApi: Lazy<TraceWarningApiV1>
+    private val traceWarningUnencryptedApi: Lazy<TraceWarningUnencryptedApiV1>,
+    private val traceWarningEncryptedApi: Lazy<TraceWarningEncryptedApiV2>,
 ) {
 
-    private val warningApi: TraceWarningApiV1
-        get() = traceWarningApi.get()
-
     suspend fun getAvailableIds(
+        mode: TraceWarningApi.Mode,
         location: LocationCode
-    ): TraceWarningApiV1.DiscoveryResult = withContext(Dispatchers.IO) {
-        warningApi.getWarningPackageIds(location.identifier).also {
-            Timber.d("getAvailableIds(location=%s): %s", location, it)
+    ): DiscoveryResult = withContext(Dispatchers.IO) {
+        warningApi(mode).getWarningPackageIds(location.identifier).also {
+            Timber.d("getAvailableIds(mode=%s,location=%s): %s", mode, location, it)
         }
     }
 
     suspend fun downloadPackage(
+        mode: TraceWarningApi.Mode,
         location: LocationCode,
         hourInterval: HourInterval
     ): TraceWarningPackageDownload = withContext(Dispatchers.IO) {
-        Timber.tag(TAG).v("downloadPackage(location=%s, hourInterval=%s)", location, hourInterval)
+        Timber.tag(TAG).v("downloadPackage(mode=%s,location=%s, hourInterval=%s)", mode, location, hourInterval)
 
-        val response = warningApi.downloadKeyFileForHour(
+        val response = warningApi(mode).downloadKeyFileForHour(
             location.identifier,
             hourInterval
         )
@@ -47,6 +47,12 @@ class TraceWarningServer @Inject constructor(
             throw HttpException(response)
         }
     }
+
+    private fun warningApi(mode: TraceWarningApi.Mode): TraceWarningApi =
+        when (mode) {
+            TraceWarningApi.Mode.UNENCRYPTED -> traceWarningUnencryptedApi.get()
+            TraceWarningApi.Mode.ENCRYPTED -> traceWarningEncryptedApi.get()
+        }
 
     companion object {
         private val TAG = TraceWarningServer::class.java.simpleName
