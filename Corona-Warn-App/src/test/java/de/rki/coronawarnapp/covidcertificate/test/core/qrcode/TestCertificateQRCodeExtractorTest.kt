@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCerti
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.test.TestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeTestData
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.util.serialization.validation.JsonSchemaValidator
 import io.kotest.assertions.throwables.shouldThrow
@@ -139,9 +140,73 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `null values fail with JSON_SCHEMA_INVALID`() {
+    fun `required values that are null fail with JSON_SCHEMA_INVALID`() {
         shouldThrow<InvalidHealthCertificateException> {
-            extractor.extract(TestData.qrCodeMissingValues)
+            extractor.extract(TestData.qrCodeMissingRequiredValues)
         }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.HC_JSON_SCHEMA_INVALID
+    }
+
+    @Test
+    fun `not required values that are null pass schema validation`() {
+        val qrCode = extractor.extract(TestData.qrCodeMissingNotRequiredValues) as TestCertificateQRCode
+        with(qrCode.data.header) {
+            issuer shouldBe "DE"
+            issuedAt shouldBe Instant.parse("2021-08-10T09:02:14.000Z")
+            expiresAt shouldBe Instant.parse("2022-08-10T09:02:14.000Z")
+        }
+
+        with(qrCode.data.certificate) {
+            with(nameData) {
+                familyName shouldBe "Darbiņš"
+                familyNameStandardized shouldBe "DARBINS"
+                givenName shouldBe "Aldis"
+                givenNameStandardized shouldBe "ALDIS"
+            }
+            dateOfBirthFormatted shouldBe "1966-10-25"
+            version shouldBe "1.0.0"
+
+            with(test) {
+                uniqueCertificateIdentifier shouldBe "urn:uvci:01:lv:e047f5373a6ea7794a7edd34eb204a12"
+                certificateCountry shouldBe "LV"
+                certificateIssuer shouldBe "Nacionālais veselības dienests"
+                targetId shouldBe "840539006"
+                sampleCollectedAt shouldBe Instant.parse("2021-07-01T09:44:52Z")
+                testType shouldBe "LP6464-4"
+                testCenter shouldBe "CENTRĀLĀ LABORATORIJA, SIA"
+                testName shouldBe null
+                testNameAndManufacturer shouldBe null
+                testResult shouldBe "260415000"
+            }
+        }
+    }
+
+    @Test
+    fun `whitespaces in JSON attributes are trimmed and pass schema validation`() {
+        val qrCode = extractor.extract(TestData.qrCodeWhiteSpacesInAttributes) as VaccinationCertificateQRCode
+        with(qrCode.data.header) {
+            issuer shouldBe "DE"
+            issuedAt shouldBe Instant.parse("2021-08-10T09:02:26.000Z")
+            expiresAt shouldBe Instant.parse("2022-08-10T09:02:26.000Z")
+        }
+
+        with(qrCode.data.certificate) {
+            with(nameData) {
+                familyName shouldBe "Mustermann"
+                familyNameStandardized shouldBe "MUSTERMANN"
+                givenName shouldBe "Erika"
+                givenNameStandardized shouldBe "ERIKA"
+            }
+            dateOfBirthFormatted shouldBe "1964-08-12"
+            version shouldBe "1.3.0"
+
+            with(vaccination) {
+                uniqueCertificateIdentifier shouldBe "URN:UVCI:01DE/IZ12345A/5CWLU12RNOB9RXSEOP6FG8#W"
+                certificateCountry shouldBe "DE"
+                certificateIssuer shouldBe "Robert Koch-Institut"
+                targetId shouldBe "840539006"
+                marketAuthorizationHolderId shouldBe "ORG-100031184"
+                medicalProductId shouldBe "EU/1/20/1507"
+            }
+        }
     }
 }
