@@ -39,7 +39,7 @@
 
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="95dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:importantForAccessibility="no"
             app:layout_constraintEnd_toEndOf="parent"
