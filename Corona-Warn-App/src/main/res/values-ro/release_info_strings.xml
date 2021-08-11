@@ -16,14 +16,14 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Verificarea semnăturii"</item>
-        <item>"Verificarea valabilității tehnice"</item>
+        <item>"Nume standardizat"</item>
+        <item>"Deschidere certificat de la rezultat de test"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Atunci când adăugați certificatele dvs. în Corona-Warn-App, acestora li se verifică atât valabilitatea, cât și autenticitatea. Prin urmare, doar certificatele care au fost emise de către un organism autorizat pot fi importate."</item>
-        <item>"Acum Corona-Warn-App vă afișează data de expirare tehnică a certificatelor de vaccinare și a certificatelor de recuperate pe care le adăugați. Aplicația vă poate notifica în avans cu privire la expirarea certificatului."</item>
+        <item>"Pe lângă numele afișat în ortografia specifică țării, acum fiecare certificat afișează numele și sub formă de caractere latine standardizate."</item>
+        <item>"Acum puteți apela certificatul de test COVID digital UE direct din rezultatul testului, cu condiția să existe un certificat disponibil."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
