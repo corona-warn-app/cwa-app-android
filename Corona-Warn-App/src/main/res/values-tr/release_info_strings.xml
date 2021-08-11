@@ -16,14 +16,14 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"İmza Doğrulama"</item>
-        <item>"Teknik Geçerlilik Kontrolü"</item>
+        <item>"Standartlaştırılmış Ad"</item>
+        <item>"Test Sonucundan Sertifika Aç"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Sertifikalarınızı Corona-Warn-App\'e eklediğinizde sertifikalarınız geçerlilik ve doğruluk açısından konrol edilir. Bu nedenle, yalnızca onaylanmış bir kuruluş tarafından düzenlenen sertifikalar içe aktarılabilir."</item>
-        <item>"Corona-Warn-App artık eklediğiniz aşı sertifikalarının ve iyileşme sertifikalarının teknik sona erme tarihini gösterir. Uygulama, süresi olmak üzere olan sertifikalar konusunda sizi önceden uyarabilir."</item>
+        <item>"Artık her bir sertifikada, ülkeye özel yazım biçimindeki ada ek olarak standartlaştırılmış Latin harfleriyle yazımı da görüntülenir."</item>
+        <item>"Sertifika varsa, AB dijital COVID test sertifikanızı doğrudan test sertifikanızdan çekebilirsiniz."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
