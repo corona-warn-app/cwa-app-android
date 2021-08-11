@@ -34,7 +34,8 @@ interface Playbook {
         val temporaryExposureKeys: List<TemporaryExposureKeyExportOuterClass.TemporaryExposureKey>,
         val consentToFederation: Boolean,
         val visitedCountries: List<String>,
-        val checkIns: List<CheckInOuterClass.CheckIn>,
+        val unencryptedCheckIns: List<CheckInOuterClass.CheckIn>,
+        val encryptedCheckIns: List<CheckInOuterClass.CheckInProtectedReport>,
         val submissionType: SubmissionPayload.SubmissionType
     )
 }
