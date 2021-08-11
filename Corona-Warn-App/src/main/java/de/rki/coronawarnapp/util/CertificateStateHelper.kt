@@ -23,19 +23,21 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
 ) {
     val valid = certificate.isValid
     val context = root.context
+    var internalCertificateState = certificate.getState()
 
-    invalidOverlay.isGone = valid
-    image.isEnabled = isCertificateDetails && valid // Disable Qr-Code image from opening full-screen mode
+    invalidOverlay.isGone = valid || certificate is TestCertificate
+    image.isEnabled = isCertificateDetails && valid || certificate is TestCertificate// Disable Qr-Code image from opening full-screen mode
 
     when (certificate) {
         is TestCertificate -> {
             val dateTime = certificate.sampleCollectedAt.toLocalDateTimeUserTz().run {
                 "${toShortDayFormat()}, ${toShortTimeFormat()}"
             }
-            qrTitle.isVisible = !isPersonOverview
+            qrTitle.isVisible = true
             qrTitle.text = context.getString(R.string.test_certificate_name)
-            qrSubtitle.isVisible = !isPersonOverview
+            qrSubtitle.isVisible = true
             qrSubtitle.text = context.getString(R.string.test_certificate_qrcode_card_sampled_on, dateTime)
+            internalCertificateState = CwaCovidCertificate.State.Valid(certificate.headerExpiresAt)
         }
         is VaccinationCertificate -> {
             qrTitle.isVisible = !isPersonOverview
@@ -56,7 +58,7 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
             )
         }
     }
-    when (certificate.getState()) {
+    when (internalCertificateState) {
         is CwaCovidCertificate.State.ExpiringSoon -> {
             expirationStatusIcon.isVisible = true
             (expirationStatusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
@@ -108,7 +110,11 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
 }
 
 fun TextView.displayExpirationState(certificate: CwaCovidCertificate) {
-    when (certificate.getState()) {
+    var internalCertificateState = certificate.getState()
+    if (certificate is TestCertificate) {
+        internalCertificateState = CwaCovidCertificate.State.Valid(certificate.headerExpiresAt)
+    }
+    when (internalCertificateState) {
         is CwaCovidCertificate.State.ExpiringSoon -> {
             isVisible = true
             text = context.getString(
@@ -135,13 +141,12 @@ fun TextView.displayExpirationState(certificate: CwaCovidCertificate) {
 }
 
 val CwaCovidCertificate.europaStarsResource
-    get() = when {
-        isValid -> R.drawable.ic_eu_stars_blue
-        else -> R.drawable.ic_eu_stars_grey
-    }
+    get() = if (isValid || this is TestCertificate) {
+        R.drawable.ic_eu_stars_blue
+    } else R.drawable.ic_eu_stars_grey
 
 val CwaCovidCertificate.expendedImageResource
-    get() = when {
-        isValid -> R.drawable.certificate_complete_gradient
-        else -> R.drawable.vaccination_incomplete
-    }
+    get() = if (isValid || this is TestCertificate) {
+        R.drawable.certificate_complete_gradient
+    } else R.drawable.vaccination_incomplete
+

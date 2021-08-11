@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewAdapter
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.databinding.PersonOverviewItemBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
@@ -30,10 +31,9 @@ class PersonCertificateCard(parent: ViewGroup) :
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
 
-        val color = when {
-            curItem.certificate.isValid -> curItem.colorShade
-            else -> PersonColorShade.COLOR_INVALID
-        }
+        val color = if (curItem.certificate.isValid || curItem.certificate is TestCertificate) {
+            curItem.colorShade
+        } else PersonColorShade.COLOR_INVALID
         name.text = curItem.certificate.fullName
 
         qrCodeCard.image.loadAny(
