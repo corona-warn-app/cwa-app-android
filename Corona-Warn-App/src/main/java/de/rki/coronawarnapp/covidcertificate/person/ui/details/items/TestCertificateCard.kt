@@ -47,8 +47,6 @@ class TestCertificateCard(parent: ViewGroup) :
         val color = curItem.colorShade
         certificateIcon.setImageResource(R.drawable.ic_test_certificate)
 
-        certificateIcon.setImageResource(R.drawable.ic_test_certificate)
-
         val background = when {
             curItem.isCurrentCertificate -> color.currentCertificateBg
             else -> color.defaultCertificateBg
