@@ -88,10 +88,11 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private suspend fun assembleList(personCertificates: PersonCertificates, isLoading: Boolean) =
         mutableListOf<CertificateItem>().apply {
             val priorityCertificate = personCertificates.highestPriorityCertificate
-            val colorState = if (priorityCertificate.isValid || priorityCertificate is TestCertificate) {
-                colorShade
-            } else PersonColorShade.COLOR_INVALID
-            colorShadeData.postValue(colorState)
+
+            when {
+                priorityCertificate.isValid -> colorShade
+                else -> PersonColorShade.COLOR_INVALID
+            }.also { colorShadeData.postValue(it) }
 
             add(
                 PersonDetailsQrCard.Item(priorityCertificate, isLoading) { onValidateCertificate(it) }
