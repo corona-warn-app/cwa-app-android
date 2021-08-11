@@ -2,8 +2,10 @@ package de.rki.coronawarnapp.presencetracing.risk.calculation
 
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.checkins.cryptography.CheckInCryptography
 import de.rki.coronawarnapp.presencetracing.checkins.split.splitByMidnightUTC
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackage
+import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -21,7 +23,8 @@ import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 class CheckInWarningMatcher @Inject constructor(
-    private val dispatcherProvider: DispatcherProvider
+    private val dispatcherProvider: DispatcherProvider,
+    private val checkInCryptography: CheckInCryptography,
 ) {
     suspend fun process(
         checkIns: List<CheckIn>,
@@ -65,11 +68,11 @@ class CheckInWarningMatcher @Inject constructor(
         val launcher: CoroutineScope.(
             List<CheckIn>,
             List<TraceWarningPackage>
-        ) -> Deferred<List<MatchesPerPackage>?> = { list, packageChunk ->
+        ) -> Deferred<List<MatchesPerPackage>?> = { checkInList, packageChunk ->
             async {
                 try {
                     packageChunk.map {
-                        val overlaps = findMatches(list, it)
+                        val overlaps = findMatches(checkInList, it)
                         Timber.tag(TAG).d("%d overlaps for %s", overlaps.size, it.packageId)
                         MatchesPerPackage(warningPackage = it, overlaps = overlaps)
                     }
@@ -82,12 +85,68 @@ class CheckInWarningMatcher @Inject constructor(
 
         // at most 4 parallel processes
         val chunkSize = (checkIns.size / 4) + 1
-
         return warningPackages.chunked(chunkSize).map { packageChunk ->
             withContext(context = coroutineContext) {
                 launcher(checkIns, packageChunk)
             }
         }.awaitAll()
+    }
+
+    @VisibleForTesting(otherwise = PRIVATE)
+    internal suspend fun findMatches(
+        checkIns: List<CheckIn>,
+        warningPackage: TraceWarningPackage
+    ): List<CheckInWarningOverlap> {
+        val deriveTraceWarnings = deriveTraceWarnings(warningPackage.extractEncryptedWarnings(), checkIns)
+        Timber.d("deriveTraceWarnings=%s", deriveTraceWarnings.size)
+
+        val unencryptedWarnings = warningPackage.extractUnencryptedWarnings()
+        Timber.d("unencryptedWarnings=%s", unencryptedWarnings.size)
+
+        val warnings = unencryptedWarnings + deriveTraceWarnings
+        return warnings
+            .flatMap { warning ->
+                checkIns
+                    .mapNotNull { checkIn ->
+                        checkIn.calculateOverlap(warning, warningPackage.packageId).also { overlap ->
+                            if (!CWADebug.isDebugBuildOrMode) {
+                                return@also
+                            }
+                            if (overlap == null) {
+                                Timber.tag(TAG).v("No match found for $checkIn and $warning")
+                            } else {
+                                Timber.tag(TAG).w("Overlap was found $overlap")
+                            }
+                        }
+                    }
+            }
+    }
+
+    @VisibleForTesting(otherwise = PRIVATE)
+    internal fun deriveTraceWarnings(
+        checkInProtectedReport: List<CheckInOuterClass.CheckInProtectedReport>,
+        checkIns: List<CheckIn>
+    ): List<TraceWarning.TraceTimeIntervalWarning> {
+        val hashCheckInMap = checkIns.map { it.traceLocationIdHash to it }.toMap()
+        return checkInProtectedReport
+            .filter {
+                hashCheckInMap.containsKey(it.locationIdHash.toOkioByteString())
+            }.mapNotNull { checkInReport ->
+                try {
+                    Timber.d("Deriving %s", checkInReport)
+                    val relevantCheckIn = hashCheckInMap[checkInReport.locationIdHash.toOkioByteString()]
+                    val traceWarning = checkInCryptography.decrypt(checkInReport, relevantCheckIn!!.traceLocationId)
+                    if (traceWarning.isValid()) {
+                        traceWarning.also { Timber.d("Driven traceWarning %s", it) }
+                    } else {
+                        Timber.d("TraceWarning=%s is invalid", traceWarning)
+                        null
+                    }
+                } catch (e: Exception) {
+                    Timber.d(e, "%s decrypting failed", checkInReport)
+                    null
+                }
+            }
     }
 
     data class MatchesPerPackage(
@@ -97,28 +156,8 @@ class CheckInWarningMatcher @Inject constructor(
 }
 
 @VisibleForTesting(otherwise = PRIVATE)
-internal suspend fun findMatches(
-    checkIns: List<CheckIn>,
-    warningPackage: TraceWarningPackage
-): List<CheckInWarningOverlap> {
-    return warningPackage
-        .extractWarnings()
-        .flatMap { warning ->
-            checkIns
-                .mapNotNull { checkIn ->
-                    checkIn.calculateOverlap(warning, warningPackage.packageId).also { overlap ->
-                        if (!CWADebug.isDebugBuildOrMode) {
-                            return@also
-                        }
-                        if (overlap == null) {
-                            Timber.tag(TAG).v("No match found for $checkIn and $warning")
-                        } else {
-                            Timber.tag(TAG).w("Overlap was found $overlap")
-                        }
-                    }
-                }
-        }
-}
+internal fun TraceWarning.TraceTimeIntervalWarning.isValid(): Boolean =
+    startIntervalNumber >= 0 && period > 0 && transmissionRiskLevel in 1..8
 
 @VisibleForTesting(otherwise = PRIVATE)
 internal fun CheckIn.calculateOverlap(

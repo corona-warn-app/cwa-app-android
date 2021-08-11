@@ -152,16 +152,17 @@ class SubmissionTask @Inject constructor(
         val checkIns = checkInsRepository.completedCheckIns.first().filter {
             it.hasSubmissionConsent && !it.isSubmitted
         }
-        val transformedCheckIns = checkInsTransformer.transform(checkIns, symptoms)
+        val checkInsReport = checkInsTransformer.transform(checkIns, symptoms)
 
-        Timber.tag(TAG).d("Transformed CheckIns from: %s to: %s", checkIns, transformedCheckIns)
+        Timber.tag(TAG).d("Transformed CheckIns from: %s to: %s", checkIns, checkInsReport)
 
         val submissionData = Playbook.SubmissionData(
             registrationToken = coronaTest.registrationToken,
             temporaryExposureKeys = transformedKeys,
             consentToFederation = true,
             visitedCountries = getSupportedCountries(),
-            checkIns = transformedCheckIns,
+            unencryptedCheckIns = checkInsReport.unencryptedCheckIns,
+            encryptedCheckIns = checkInsReport.encryptedCheckIns,
             submissionType = coronaTest.type.toSubmissionType()
         )
 
@@ -171,7 +172,7 @@ class SubmissionTask @Inject constructor(
         playbook.submit(submissionData)
 
         analyticsKeySubmissionCollector.reportSubmitted(coronaTest.type)
-        if (transformedCheckIns.isNotEmpty())
+        if (checkInsReport.encryptedCheckIns.isNotEmpty())
             analyticsKeySubmissionCollector.reportSubmittedWithCheckIns(coronaTest.type)
         if (inBackground)
             analyticsKeySubmissionCollector.reportSubmittedInBackground(coronaTest.type)

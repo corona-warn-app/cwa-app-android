@@ -1,13 +1,24 @@
 package de.rki.coronawarnapp.presencetracing.risk.calculation
 
+import de.rki.coronawarnapp.covidcertificate.common.cryptography.AesCryptography
+import de.rki.coronawarnapp.presencetracing.checkins.cryptography.CheckInCryptography
 import de.rki.coronawarnapp.presencetracing.warning.WarningPackageId
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackage
+import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.Test
+import testhelpers.TestDispatcherProvider
+import java.security.SecureRandom
+import kotlin.random.asKotlinRandom
 
 class FindMatchesTest {
+
+    private fun createInstance() = CheckInWarningMatcher(
+        TestDispatcherProvider(),
+        CheckInCryptography(SecureRandom().asKotlinRandom(), AesCryptography())
+    )
 
     @Test
     fun `findMatches works`() {
@@ -38,15 +49,17 @@ class FindMatchesTest {
             transmissionRiskLevel = 8
         )
         val warningPackage = object : TraceWarningPackage {
-            override suspend fun extractWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
+            override suspend fun extractUnencryptedWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
                 return listOf(warning1, warning2)
             }
+
+            override suspend fun extractEncryptedWarnings() = emptyList<CheckInOuterClass.CheckInProtectedReport>()
 
             override val packageId: WarningPackageId
                 get() = "id"
         }
         runBlockingTest {
-            val result = findMatches(listOf(checkIn1, checkIn2), warningPackage)
+            val result = createInstance().findMatches(listOf(checkIn1, checkIn2), warningPackage)
             result.size shouldBe 1
             result[0].checkInId shouldBe 3L
             result[0].roundedMinutes shouldBe 15

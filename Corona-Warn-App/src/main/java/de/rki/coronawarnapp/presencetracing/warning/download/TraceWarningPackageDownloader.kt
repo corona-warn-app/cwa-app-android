@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.presencetracing.warning.download
 
 import dagger.Reusable
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
+import de.rki.coronawarnapp.presencetracing.warning.download.server.TraceWarningApi
 import de.rki.coronawarnapp.presencetracing.warning.download.server.TraceWarningServer
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackageMetadata
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
@@ -37,6 +38,7 @@ class TraceWarningPackageDownloader @Inject constructor(
     }
 
     suspend fun launchDownloads(
+        mode: TraceWarningApi.Mode,
         location: LocationCode,
         hourIntervals: List<HourInterval>,
         downloadTimeout: Duration
@@ -47,7 +49,7 @@ class TraceWarningPackageDownloader @Inject constructor(
             async {
                 val metadata = repository.createMetadata(location, hourInterval)
                 withTimeout(downloadTimeout.millis) {
-                    downloadPackageForMetaData(metadata)
+                    downloadPackageForMetaData(mode, metadata)
                 }
             }
         }
@@ -73,9 +75,11 @@ class TraceWarningPackageDownloader @Inject constructor(
     }
 
     private suspend fun downloadPackageForMetaData(
+        mode: TraceWarningApi.Mode,
         metaData: TraceWarningPackageMetadata
     ): TraceWarningPackageMetadata? = try {
         val downloadInfo = server.downloadPackage(
+            mode = mode,
             location = metaData.location,
             hourInterval = metaData.hourInterval
         )
