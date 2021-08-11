@@ -137,6 +137,11 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.refreshCertState()
+    }
+
     private fun FragmentTestCertificateDetailsBinding.onError(error: Throwable) {
         startValidationCheck.isLoading = false
         qrCodeCard.progressBar.hide()
