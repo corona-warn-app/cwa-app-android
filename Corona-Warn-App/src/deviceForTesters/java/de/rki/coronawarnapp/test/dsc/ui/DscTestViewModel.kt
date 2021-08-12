@@ -30,7 +30,7 @@ class DscTestViewModel @AssistedInject constructor(
         )
     }.asLiveData2()
 
-    fun clear() {
+    fun clearDscList() {
         launch {
             dscRepository.clear()
         }
