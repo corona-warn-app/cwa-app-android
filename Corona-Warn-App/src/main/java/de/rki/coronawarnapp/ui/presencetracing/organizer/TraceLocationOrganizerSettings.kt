@@ -12,4 +12,10 @@ class TraceLocationOrganizerSettings @Inject constructor(val preferences: TraceL
             return preferences.qrInfoAcknowledged.value
         }
         set(value) = preferences.qrInfoAcknowledged.update { value }
+
+    var warnInfoAcknowledged: Boolean
+        get() {
+            return preferences.warnInfoAcknowledged.value
+        }
+        set(value) = preferences.warnInfoAcknowledged.update { value }
 }

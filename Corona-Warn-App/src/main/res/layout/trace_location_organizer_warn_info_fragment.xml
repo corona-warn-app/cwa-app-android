@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:contentDescription="@string/trace_location_organiser_warn_info_header"
+    android:background="@color/colorSurface"
+    tools:context=".ui.presencetracing.organizer.warn.info.TraceLocationWarnInfoFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAToolbar.Close.Transparent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/trace_location_organiser_warn_info_header" />
+
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toTopOf="@id/next_button">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/trace_location_warn_info_graphic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_huge"
+                android:contentDescription="@string/trace_location_qr_info_content_description"
+                app:srcCompat="@drawable/ic_qr_info"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/trace_location_warn_info_headline"
+                style="@style/headline5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:text="@string/trace_location_organiser_warn_info_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/trace_location_warn_info_graphic" />
+
+            <TextView
+                android:id="@+id/trace_location_warn_info_subtitle"
+                style="@style/subtitleMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:text="@string/trace_location_organiser_warn_info_body"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/trace_location_warn_info_headline" />
+
+            <ImageView
+                android:id="@+id/trace_location_tracing_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:importantForAccessibility="no"
+                app:srcCompat="@drawable/ic_qr_tracing_static"
+                app:layout_constraintStart_toStartOf="@id/trace_location_warn_info_subtitle"
+                app:layout_constraintTop_toBottomOf="@id/trace_location_warn_info_subtitle" />
+
+            <TextView
+                android:id="@+id/trace_location_warn_info_guests"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:text="@string/trace_location_organiser_warn_info_guests"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/trace_location_tracing_icon"
+                app:layout_constraintTop_toTopOf="@id/trace_location_tracing_icon" />
+
+            <ImageView
+                android:id="@+id/trace_location_qr_code_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:importantForAccessibility="no"
+                app:srcCompat="@drawable/ic_bureaucracy_illustration"
+                app:layout_constraintStart_toStartOf="@id/trace_location_tracing_icon"
+                app:layout_constraintTop_toBottomOf="@id/trace_location_warn_info_guests" />
+
+            <TextView
+                android:id="@+id/trace_location_qr_code_illustration_text"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:layout_marginBottom="40dp"
+                android:text="@string/trace_location_organiser_warn_info_authority"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/trace_location_qr_code_icon"
+                app:layout_constraintTop_toTopOf="@id/trace_location_qr_code_icon"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/next_button"
+        style="@style/buttonPrimary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:text="@string/acknowledge_button"
+        app:layout_constraintTop_toBottomOf="@id/scrollview"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="@string/acknowledge_button" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
