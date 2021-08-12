@@ -37,10 +37,8 @@
                 android:id="@+id/trace_location_warn_info_graphic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_huge"
                 android:contentDescription="@string/trace_location_qr_info_content_description"
-                app:srcCompat="@drawable/ic_qr_info"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/ic_trace_location_warn_info_illustration"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
