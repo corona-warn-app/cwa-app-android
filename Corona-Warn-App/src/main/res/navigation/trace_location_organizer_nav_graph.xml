@@ -100,6 +100,8 @@
             app:argType="long" />
     </fragment>
 
+    <!-- TODO add new screens-->
+
     <fragment
         android:id="@+id/traceLocationWarnInfoFragment"
         android:name="de.rki.coronawarnapp.ui.presencetracing.organizer.warn.info.TraceLocationWarnInfoFragment"

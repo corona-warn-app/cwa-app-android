@@ -26,7 +26,7 @@ class DscTestFragment : Fragment(R.layout.fragment_test_dsc), AutoInject {
 
         binding.apply {
             clearCache.setOnClickListener {
-                viewModel.clear()
+                viewModel.clearDscList()
             }
             refreshCache.setOnClickListener {
                 viewModel.refresh()
