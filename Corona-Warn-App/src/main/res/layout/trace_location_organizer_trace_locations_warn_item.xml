@@ -9,101 +9,53 @@
     android:layout_marginVertical="8dp"
     android:focusable="true">
 
-    <de.rki.coronawarnapp.ui.presencetracing.common.TraceLocationCardHighlightView
-        android:id="@+id/icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"
+    <ImageView
+        android:id="@+id/header_checkbox"
+        android:layout_width="@dimen/spacing_medium"
+        android:layout_height="@dimen/spacing_medium"
+        android:layout_margin="@dimen/spacing_small"
+        android:layout_marginStart="@dimen/spacing_small"
+        android:clickable="false"
+        android:focusable="false"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:importantForAccessibility="no"
-            app:srcCompat="@drawable/ic_qr_code_list_item_icon"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </de.rki.coronawarnapp.ui.presencetracing.common.TraceLocationCardHighlightView>
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_unselected"
+        tools:srcCompat="@drawable/ic_selected" />
 
     <TextView
-        android:id="@+id/description"
-        style="@style/subtitleBoldSixteen"
+        android:id="@+id/title"
+        style="@style/body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toStartOf="@id/menu_action"
-        app:layout_constraintStart_toEndOf="@id/icon"
+        android:layout_marginHorizontal="@dimen/spacing_small"
+        android:layout_marginTop="@dimen/spacing_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/header_checkbox"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Jahrestreffen der deutschen SAP Anwendergruppe" />
+        tools:text="Jahrestreffen XYZ" />
 
     <TextView
         android:id="@+id/address"
         style="@style/body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="@dimen/spacing_mega_tiny"
         android:textColor="@color/colorTextPrimary2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/icon"
-        app:layout_constraintTop_toBottomOf="@id/description"
-        tools:text="Hauptstr. 3, 69115 Heidelberg Hauptstr. 3, 69115 Heidelberg Hauptstr. 3, 69115 Heidelberg" />
+        app:layout_constraintEnd_toEndOf="@id/title"
+        app:layout_constraintStart_toStartOf="@id/title"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        tools:text="Berlin" />
 
     <TextView
         android:id="@+id/duration"
         style="@style/body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/icon"
+        android:layout_marginTop="@dimen/spacing_mega_tiny"
+        android:paddingBottom="@dimen/spacing_normal"
+        app:layout_constraintEnd_toEndOf="@id/title"
+        app:layout_constraintStart_toStartOf="@id/title"
         app:layout_constraintTop_toBottomOf="@id/address"
-        tools:text="21.01.21 18:00 - 22.02.21 21:00 Uhr 21.01.21 18:00 - 22.02.21 21:00 Uhr" />
-
-    <ImageButton
-        android:id="@+id/menu_action"
-        style="@style/CardOverFlowButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/button_barrier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="bottom"
-        app:constraint_referenced_ids="address,duration,icon" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="16dp"
-        app:layout_constraintTop_toBottomOf="@id/button_barrier" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/checkin_action"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/trace_location_organizer_list_item_action_checkin"
-        android:textColor="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button_barrier"
-        app:strokeColor="@color/colorPrimary" />
+        tools:text="21.01.21, 18:01 - 21:00 Uhr" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

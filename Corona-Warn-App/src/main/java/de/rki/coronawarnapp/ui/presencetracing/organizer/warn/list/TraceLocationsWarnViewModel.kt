@@ -5,9 +5,8 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
-import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
-import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.items.TraceLocationItem
+import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.items.TraceLocationWarnItem
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.items.TraceLocationVH
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -22,9 +21,9 @@ class TraceLocationsWarnViewModel @AssistedInject constructor(
     private val traceLocationRepository: TraceLocationRepository,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val events = SingleLiveEvent<TraceLocationEvent>()
+    val events = SingleLiveEvent<TraceLocationWarnEvent>()
 
-    val traceLocations: LiveData<List<TraceLocationItem>> = traceLocationRepository.traceLocationsWithinRetention
+    val traceLocations: LiveData<List<TraceLocationWarnItem>> = traceLocationRepository.traceLocationsWithinRetention
         .map { traceLocations ->
             traceLocations.sortedBy { it.description }
         }
@@ -41,32 +40,20 @@ class TraceLocationsWarnViewModel @AssistedInject constructor(
                 TraceLocationVH.Item(
                     traceLocation = item.first,
                     canCheckIn = item.second,
-                    onCheckIn = { events.postValue(TraceLocationEvent.SelfCheckIn(it)) },
-                    onDuplicate = { events.postValue(TraceLocationEvent.DuplicateItem(it)) },
-                    onShowPrint = { events.postValue(TraceLocationEvent.StartQrCodePosterFragment(it)) },
-                    onDeleteItem = { events.postValue(TraceLocationEvent.ConfirmDeleteItem(it)) },
+                    onCheckIn = { },
+                    onDuplicate = { },
+                    onShowPrint = {  },
+                    onDeleteItem = {  },
                     onSwipeItem = { location, position ->
-                        events.postValue(
-                            TraceLocationEvent.ConfirmSwipeItem(location, position)
-                        )
+
                     },
                     onCardClicked = { traceLocation, position ->
-                        events.postValue(
-                            TraceLocationEvent.StartQrCodeDetailFragment(traceLocation.id, position)
-                        )
+
                     },
                 )
             }
         }
         .asLiveData(context = dispatcherProvider.Default)
-
-    fun deleteAllTraceLocations() {
-        traceLocationRepository.deleteAllTraceLocations()
-    }
-
-    fun deleteSingleTraceLocation(traceLocation: TraceLocation) {
-        traceLocationRepository.deleteTraceLocation(traceLocation)
-    }
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<TraceLocationsWarnViewModel>
