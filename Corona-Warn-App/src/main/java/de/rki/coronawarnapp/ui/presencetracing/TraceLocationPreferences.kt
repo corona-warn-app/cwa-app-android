@@ -25,11 +25,6 @@ class TraceLocationPreferences @Inject constructor(
         defaultValue = true
     )
 
-    val warnInfoAcknowledged = prefs.createFlowPreference(
-        key = "trace_location_warn_info_acknowledged",
-        defaultValue = false
-    )
-
     fun clear() {
         prefs.clearAndNotify()
     }

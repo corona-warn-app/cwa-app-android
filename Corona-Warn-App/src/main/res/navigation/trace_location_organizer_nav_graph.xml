@@ -104,7 +104,7 @@
 
     <fragment
         android:id="@+id/traceLocationWarnInfoFragment"
-        android:name="de.rki.coronawarnapp.ui.presencetracing.organizer.warn.info.TraceLocationWarnInfoFragment"
+        android:name="de.rki.coronawarnapp.ui.presencetracing.organizer.warn.TraceLocationWarnInfoFragment"
         android:label="TraceLocationWarnInfoFragment"
         tools:layout="@layout/trace_location_organizer_warn_info_fragment">
     </fragment>
