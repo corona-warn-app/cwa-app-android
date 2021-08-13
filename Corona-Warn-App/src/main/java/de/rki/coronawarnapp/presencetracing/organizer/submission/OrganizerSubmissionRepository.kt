@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.presencetracing.organizer.submission
 
 import dagger.Reusable
-import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
 import de.rki.coronawarnapp.coronatest.server.VerificationServer
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.OrganizerCheckInsTransformer
