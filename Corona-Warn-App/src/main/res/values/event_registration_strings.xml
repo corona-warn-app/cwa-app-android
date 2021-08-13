@@ -259,4 +259,7 @@
     <!-- XTXT: My check-ins: qr code validation wrong cryptographic seed field -->
     <string name="trace_location_checkins_qr_code_invalid_cryptographic_seed">"Check-in prevented due to invalid QR code. The responsible party has to generate a new QR code (error code INVALID_CRYPTO_SEED)."</string>
 
+    <!--  Warn Info Screen -->
+    <!-- XHED: Warn Info Screen: header -->
+    <string name="trace_location_organiser_warn_info_header">"In Vertretung warnen"</string>
 </resources>

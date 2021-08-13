@@ -260,4 +260,7 @@
     <!-- XTXT: My check-ins: qr code validation wrong cryptographic seed field -->
     <string name="trace_location_checkins_qr_code_invalid_cryptographic_seed">"Ungültiger QR-Code verhindert das Einchecken. Die verantwortliche Stelle muss einen neuen QR-Code generieren (Fehlercode INVALID_CRYPTO_SEED)."</string>
 
+    <!--  Warn Info Screen -->
+    <!-- XHED: Warn Info Screen: header -->
+    <string name="trace_location_organiser_warn_info_header">"In Vertretung warnen"</string>
 </resources>
