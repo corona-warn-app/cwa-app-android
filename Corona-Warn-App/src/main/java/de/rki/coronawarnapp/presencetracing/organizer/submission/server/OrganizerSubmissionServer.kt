@@ -24,7 +24,10 @@ class OrganizerSubmissionServer @Inject constructor(
             .presenceTracing
             .plausibleDeniabilityParameters
 
-        val checkInPadding = paddingTool.checkInPadding(plausibleParameters, checkInsReport.encryptedCheckIns.size)
+        val checkInPadding = paddingTool.checkInPadding(
+            plausibleParameters = plausibleParameters,
+            checkInListSize = checkInsReport.encryptedCheckIns.size
+        )
 
         val submissionPayload = SubmissionPayload.newBuilder()
             .addAllKeys(emptyList())

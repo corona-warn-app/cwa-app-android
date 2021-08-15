@@ -5,9 +5,7 @@ import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
 import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.coronatest.server.VerificationServer
 import de.rki.coronawarnapp.presencetracing.checkins.OrganizerCheckInsTransformer
-import de.rki.coronawarnapp.presencetracing.organizer.submission.server.OrganizerSubmissionPayload
 import de.rki.coronawarnapp.presencetracing.organizer.submission.server.OrganizerSubmissionServer
-import de.rki.coronawarnapp.presencetracing.organizer.submission.server.toCheckIns
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.withContext
@@ -16,9 +14,9 @@ import javax.inject.Inject
 @Reusable
 class OrganizerSubmissionRepository @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
-    private val organizerCheckInsTransformer: OrganizerCheckInsTransformer,
+    private val checkInsTransformer: OrganizerCheckInsTransformer,
     private val verificationServer: VerificationServer,
-    private val organizerSubmissionServer: OrganizerSubmissionServer,
+    private val submissionServer: OrganizerSubmissionServer,
 ) {
 
     /**
@@ -28,12 +26,12 @@ class OrganizerSubmissionRepository @Inject constructor(
     suspend fun submit(payload: OrganizerSubmissionPayload) =
         withContext(appScope.coroutineContext) {
             // Prepare CheckIns for submission
-            val checkInsReport = organizerCheckInsTransformer.transform(listOf(payload.toCheckIns()))
+            val checkInsReport = checkInsTransformer.transform(listOf(payload.toCheckIns()))
             // Obtain registration token
             val registrationRequest = RegistrationRequest(key = payload.tan, type = VerificationKeyType.TELETAN)
             val registrationToken = verificationServer.retrieveRegistrationToken(registrationRequest)
             // Obtain upload TAN
             val uploadTAN = verificationServer.retrieveTan(registrationToken)
-            organizerSubmissionServer.submit(uploadTAN, checkInsReport)
+            submissionServer.submit(uploadTAN, checkInsReport)
         }
 }

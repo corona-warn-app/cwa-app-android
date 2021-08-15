@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.presencetracing.organizer.submission.server
+package de.rki.coronawarnapp.presencetracing.organizer.submission
 
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
