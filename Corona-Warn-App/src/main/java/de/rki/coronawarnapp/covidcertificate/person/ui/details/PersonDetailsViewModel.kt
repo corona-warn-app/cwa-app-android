@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.details
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -55,6 +56,9 @@ class PersonDetailsViewModel @AssistedInject constructor(
 
     val events = SingleLiveEvent<PersonDetailsEvents>()
 
+    private val colorShadeData = MutableLiveData(colorShade)
+    val currentColorShade: LiveData<PersonColorShade> = colorShadeData
+
     init {
         if (containerId != savedInstance[CONTAINER_ID]) {
             savedInstance[CONTAINER_ID] = containerId
@@ -84,6 +88,12 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private suspend fun assembleList(personCertificates: PersonCertificates, isLoading: Boolean) =
         mutableListOf<CertificateItem>().apply {
             val priorityCertificate = personCertificates.highestPriorityCertificate
+
+            when {
+                priorityCertificate.isValid -> colorShade
+                else -> PersonColorShade.COLOR_INVALID
+            }.also { colorShadeData.postValue(it) }
+
             add(
                 PersonDetailsQrCard.Item(priorityCertificate, isLoading) { onValidateCertificate(it) }
             )

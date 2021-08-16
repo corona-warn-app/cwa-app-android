@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.comm
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationPassedHintVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.businessrule.BusinessRuleVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.mapAffectedFields
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDateTimeFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
@@ -43,7 +44,7 @@ class ValidationResultItemCreator @Inject constructor() {
         }
 
         val ruleDescription = rule.getRuleDescription().toLazyString()
-        val countryInformation = rule.getCountryDescription(certificate)
+        val countryInformation = rule.getCountryDescription()
 
         val affectedFields = mapAffectedFields(rule.affectedFields, certificate)
 
@@ -96,10 +97,13 @@ class ValidationResultItemCreator @Inject constructor() {
         )
     }
 
-    fun technicalValidationFailedVHItem(validation: DccValidation): TechnicalValidationFailedVH.Item =
+    fun technicalValidationFailedVHItem(
+        validation: DccValidation,
+        certificate: CwaCovidCertificate
+    ): TechnicalValidationFailedVH.Item =
         TechnicalValidationFailedVH.Item(
-            hideGroupDateExpired = validation.expirationCheckPassed,
-            hideGroupDateFormat = validation.jsonSchemaCheckPassed
+            validation = validation,
+            certificateExpiresAt = certificate.headerExpiresAt.toLocalDateTimeUserTz()
         )
 
     fun validationFaqVHItem(): ValidationFaqVH.Item = ValidationFaqVH.Item
@@ -135,12 +139,10 @@ class ValidationResultItemCreator @Inject constructor() {
     }
 
     // Apply rules from tech spec to decide which rule description to display
-    private fun DccValidationRule.getCountryDescription(certificate: CwaCovidCertificate): LazyString = when (typeDcc) {
+    private fun DccValidationRule.getCountryDescription(): LazyString = when (typeDcc) {
         DccValidationRule.Type.ACCEPTANCE -> R.string.validation_rules_acceptance_country.toResolvingString(
             DccCountry(country).displayName()
         )
-        DccValidationRule.Type.INVALIDATION -> R.string.validation_rules_invalidation_country.toResolvingString(
-            certificate.certificateCountry
-        )
+        DccValidationRule.Type.INVALIDATION -> R.string.validation_rules_invalidation_country.toResolvingString()
     }
 }

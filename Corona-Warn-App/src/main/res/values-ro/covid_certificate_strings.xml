@@ -24,6 +24,14 @@
     <string name="person_card_title">"Certificat COVID digital"</string>
     <!-- XTXT: Person card subtitle-->
     <string name="person_card_subtitle">"UE"</string>
+    <!-- XTXT: Certificate QR code expiration text-->
+    <string name="certificate_qr_expiration">"Certificatul expiră pe %s la %s"</string>
+    <!-- XTXT: Certificate person details card expiration text -->
+    <string name="certificate_person_details_card_expiration">"expiră pe %s la %s"</string>
+    <!-- XTXT: Certificate QR code expired text-->
+    <string name="certificate_qr_expired">"Certificat expirat"</string>
+    <!-- XTXT: Certificate QR code invalid signature-->
+    <string name="certificate_qr_invalid_signature">"Certificat (Semnătură) nevalabil(ă)"</string>
 
     <!-- XTXT: Vaccination Consent subtitle-->
     <string name="vaccination_consent_headline">"Adăugarea certificatelor"</string>
@@ -103,6 +111,10 @@
     <string name="test_certificate_qrcode_card_sampled_on">"Probă prelevată %s"</string>
     <!-- XTXT: Test certificate card name  -->
     <string name="test_certificate_name">"Certificat de test"</string>
+    <!-- XTXT: Test certificate PCR test type  -->
+    <string name="test_certificate_pcr_test_type">"Test PCR"</string>
+    <!-- XTXT: Test certificate Rapid test Type  -->
+    <string name="test_certificate_rapid_test_type">"Test rapid"</string>
     <!-- XTXT: Dialog description for error 409 recovery-->
     <string name="test_certificate_error_409_recovery_description">"Niciun certificat nu poate fi creat pentru acest test. Adăugați un test nou pentru a primi un certificat."</string>
 
@@ -168,7 +180,7 @@
     <!-- XTXT: Validation start note point 3 -->
     <string name="validation_start_note_point_3">"Pentru a asigura autenticitatea certificatelor, fiecare certificat este emis cu o semnătură digitală. O aplicație de validare doar validează această semnătură."</string>
     <!-- XTXT: Validation start note point 4 -->
-    <string name="validation_start_note_point_4">"Aceasta nu verifică dacă datele înregistrate în acest certificat sunt valabile."</string>
+    <string name="validation_start_note_point_4">"Aplicația Corona-Warn nu verifică dacă datele înregistrate în acest certificat sunt valabile."</string>
     <!-- XTXT: Validation start FAQ -->
     <string name="validation_start_faq">"Pentru mai multe informații, consultați pagina de întrebări frecvente și vizitați https://reopen.europa.eu/en."</string>
     <!-- XTXT: Validation start FAQ link -->
@@ -217,8 +229,12 @@
     <string name="validation_rules_technical_failure_header_subtitle">"Următoarele reguli nu sunt îndeplinite:"</string>
     <!-- XTXT: Validation Rule Technical Failure - Date Format  -->
     <string name="validation_rule_technical_error_date_format">"Certificatul trebuie să aibă formatul de date prevăzut."</string>
+    <!-- XTXT: Validation Rule Technical Failure - Signature validation  -->
+    <string name="validation_rule_technical_error_signature">"Semnătura de pe certificat trebuie să fie valabilă."</string>
     <!-- XTXT: Validation Rule Technical Failure - Date Expired  -->
-    <string name="validation_rule_technical_error_date_expired">"Certificatul nu trebuie să fie expirat."</string>
+    <string name="validation_rule_technical_error_date_expired">"Data de expirare tehnică a certificatului nu trebuie să fi trecut."</string>
+    <!-- XTXT: Validation Rule Technical Failure - Date Expired format -->
+    <string name="validation_rule_technical_error_date_expired_format">"Valabil până la %1$s, %2$s"</string>
 
     <!-- Validation Passed Screen-->
     <!-- XHED: Toolbar title for the validation passed screen  -->
@@ -256,11 +272,44 @@
     <!-- XHED: travel country for the validation failed card  -->
     <string name="validation_rules_acceptance_country">"Aceasta este o regulă pentru țara dvs. de destinație, %s."</string>
     <!-- XHED: issuer country for the validation failed card  -->
-    <string name="validation_rules_invalidation_country">"Aceasta este o regulă a țării emitente, %s."</string>
+    <string name="validation_rules_invalidation_country">"Aceasta este o regulă a țării emitente."</string>
 
     <!-- XTXT: Validation start privacy title -->
     <string name="validation_start_privacy_title">"Confidențialitate și securitatea datelor"</string>
     <!-- XTXT: Validation start privacy title -->
     <string name="validation_start_privacy_body">"Regulile de intrare curente sunt descărcate de pe serverele RKI. Acest lucru necesită o conexiune la internet. Datele de acces sunt transmise către RKI."</string>
 
+    <!-- XHED: Vaccination Detail expiration Date title -->
+    <string name="expiration_date_title">"Data de expirare tehnică"</string>
+    <!-- XHED: Vaccination Detail expiration Date -->
+    <string name="expiration_date">"Valabil până la %s, %s"</string>
+    <!-- XHED: Vaccination Detail expiration info -->
+    <string name="expiration_info">"Asigurați-vă că obțineți un certificat digital nou la timp."</string>
+    <!-- XTXT: Expired certificate info -->
+    <string name="expired_certificate_info">"Data de expirare a trecut. Obțineți un certificat digital nou."</string>
+    <!-- XTXT: Invalid certificate signature info -->
+    <string name="invalid_certificate_signature_info">"Certificatul a fost emis de un organism neautorizat sau a fost emis incorect. Adresați-vă unui organism autorizat pentru eliberarea unui certificat nou. "</string>
+
+
+    <!--    Dcc Signature validation-->
+    <!-- XHED: Signature validation dialog title-->
+    <string name="dcc_signature_validation_dialog_title">"Semnătură nevalabilă"</string>
+    <!-- XTXT: Signature validation dialog message-->
+    <string name="dcc_signature_validation_dialog_message">"Semnătura de pe certificat este nevalabilă. Certificatul nu poate fi utilizat ca dovadă și de aceea nu poate fi importat."</string>
+    <!-- XBUT: Signature validation dialog FAQ button-->
+    <string name="dcc_signature_validation_dialog_faq_button">"Întrebări frecvente privind validarea semnăturii"</string>
+    <!-- XTXT: Signature validation dialog FAQ lint-->
+    <string name="dcc_signature_validation_dialog_faq_link">"https://www.coronawarn.app/en/faq/#hc_signature_invalid"</string>
+
+    <!-- Expiration notification -->
+    <!-- XTXT: expiring soon notification -->
+    <string name="dcc_notification_expires_soon_text">"Verificați valabilitatea certificatelor dvs."</string>
+    <!-- XTXT: expired notification -->
+    <string name="dcc_notification_expired_text">"Verificați valabilitatea certificatelor dvs."</string>
+
+    <!-- DCC notification channel-->
+    <!-- XTXT: certificate notification channel title -->
+    <string name="dcc_notification_channel_title">"Certificate"</string>
+    <!-- XTXT: certificate notification channel description -->
+    <string name="dcc_notification_channel_description">"Gestionare notificări pentru certificate"</string>
 </resources>

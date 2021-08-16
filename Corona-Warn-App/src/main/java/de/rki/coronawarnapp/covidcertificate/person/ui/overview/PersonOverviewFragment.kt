@@ -27,6 +27,7 @@ import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import timber.log.Timber
 import javax.inject.Inject
 
 // Shows a list of multiple persons
@@ -37,6 +38,9 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
     private val personOverviewAdapter = PersonOverviewAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Timber.tag(TAG).d("onViewCreated(view=%s, savedInstanceState=%s)", view, savedInstanceState)
+        Timber.tag(TAG).d("binding=%s, bindingView=%s", binding, binding.root)
+
         binding.apply {
             bindToolbar()
             bindRecycler()
@@ -45,14 +49,25 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
         viewModel.personCertificates.observe(viewLifecycleOwner) { binding.bindViews(it) }
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
         viewModel.markNewCertsAsSeen.observe(viewLifecycleOwner) {
+            Timber.tag(TAG).d("markNewCertsAsSeen=%s", it)
+
             /**
              * This just needs to stay subscribed while the UI is open.
              * It causes new certificates to be marked seen automatically.
              */
         }
+        viewModel.markStateChangesAsSeen.observe(viewLifecycleOwner) {
+            Timber.tag(TAG).d("markStateChangesAsSeen=%s", it)
+
+            /**
+             * This just needs to stay subscribed while the UI is open.
+             * It causes certificate state changes to be marked seen automatically.
+             */
+        }
     }
 
     private fun onNavEvent(event: PersonOverviewFragmentEvents) {
+        Timber.tag(TAG).d(" onNavEvent(event=%s)", event)
         when (event) {
             is OpenPersonDetailsFragment -> {
                 setupHoldTransition()
@@ -126,9 +141,13 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
     }
 
     private fun PersonOverviewFragmentBinding.bindViews(items: List<PersonCertificatesItem>) {
+        Timber.tag(TAG).d("bindViews(items=%s)", items)
         scanQrcodeFab.isGone = items.any { it is CameraPermissionCard.Item }
         emptyLayout.isVisible = items.isEmpty()
         personOverviewAdapter.update(items)
+
+        Timber.tag(TAG).d("recyclerViewVisibility=%s", recyclerView.visibility)
+        Timber.tag(TAG).d("recyclerViewItemsCount=%s", recyclerView.layoutManager?.itemCount)
     }
 
     private fun PersonOverviewFragmentBinding.bindRecycler() = recyclerView.apply {
@@ -137,5 +156,9 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
         itemAnimator = DefaultItemAnimator()
 
         with(scanQrcodeFab) { onScroll { extend -> if (extend) extend() else shrink() } }
+    }
+
+    companion object {
+        private const val TAG = "PersonOverviewFragment"
     }
 }

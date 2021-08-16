@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.main
 
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.playbook.BackgroundNoise
@@ -18,6 +18,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -38,7 +39,7 @@ class MainActivityViewModelTest : BaseTest() {
     @MockK lateinit var traceLocationSettings: TraceLocationSettings
     @MockK lateinit var checkInRepository: CheckInRepository
     @MockK lateinit var covidCertificateSettings: CovidCertificateSettings
-    @MockK lateinit var testCertificateRepository: TestCertificateRepository
+    @MockK lateinit var personCertificatesProvider: PersonCertificatesProvider
 
     @BeforeEach
     fun setup() {
@@ -53,7 +54,10 @@ class MainActivityViewModelTest : BaseTest() {
         )
         every { onboardingSettings.isBackgroundCheckDone } returns true
         every { checkInRepository.checkInsWithinRetention } returns MutableStateFlow(listOf())
-        every { testCertificateRepository.certificates } returns emptyFlow()
+        personCertificatesProvider.apply {
+            every { personCertificates } returns emptyFlow()
+            every { badgeCount } returns flowOf(0)
+        }
     }
 
     private fun createInstance(): MainActivityViewModel = MainActivityViewModel(
@@ -66,7 +70,7 @@ class MainActivityViewModelTest : BaseTest() {
         checkInRepository = checkInRepository,
         traceLocationSettings = traceLocationSettings,
         covidCertificateSettings = covidCertificateSettings,
-        testCertificateRepository = testCertificateRepository,
+        personCertificatesProvider = personCertificatesProvider
     )
 
     @Test
@@ -99,7 +103,7 @@ class MainActivityViewModelTest : BaseTest() {
     @Test
     fun `User is not onboarded when settings returns NOT_ONBOARDED `() {
         every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.NOT_ONBOARDED
-        every { covidCertificateSettings.isOnboardingDone } returns true
+        every { covidCertificateSettings.isOnboarded } returns mockFlowPreference(true)
         val vm = createInstance()
         vm.onBottomNavSelected()
         vm.isContactDiaryOnboardingDone.value shouldBe false
@@ -108,7 +112,7 @@ class MainActivityViewModelTest : BaseTest() {
     @Test
     fun `User is onboarded when settings returns RISK_STATUS_1_12 `() {
         every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
-        every { covidCertificateSettings.isOnboardingDone } returns true
+        every { covidCertificateSettings.isOnboarded } returns mockFlowPreference(false)
         val vm = createInstance()
         vm.onBottomNavSelected()
         vm.isContactDiaryOnboardingDone.value shouldBe true
@@ -117,7 +121,7 @@ class MainActivityViewModelTest : BaseTest() {
     @Test
     fun `Vaccination is not acknowledged when settings returns false `() {
         every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
-        every { covidCertificateSettings.isOnboardingDone } returns false
+        every { covidCertificateSettings.isOnboarded } returns mockFlowPreference(false)
         val vm = createInstance()
         vm.onBottomNavSelected()
         vm.isVaccinationConsentGiven.value shouldBe false
@@ -126,7 +130,7 @@ class MainActivityViewModelTest : BaseTest() {
     @Test
     fun `Vaccination is acknowledged  when settings returns true `() {
         every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
-        every { covidCertificateSettings.isOnboardingDone } returns true
+        every { covidCertificateSettings.isOnboarded } returns mockFlowPreference(true)
         val vm = createInstance()
         vm.onBottomNavSelected()
         vm.isVaccinationConsentGiven.value shouldBe true

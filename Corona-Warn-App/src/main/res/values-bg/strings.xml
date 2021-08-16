@@ -290,8 +290,12 @@
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <!--    Dialog part 1-->
     <string name="risk_details_information_body_period_logged">"Вашият риск от заразяване може да се изчисли само за периодите, в които регистрирането на излаганията на риск е било активно. Ето защо тази функция трябва да бъде активирана постоянно. Регистрирането на контактите Ви покрива последните 14 дни."</string>
+    <!-- XTXT: risk details - infection period logged information body, under 14 days todasy -->
+    <string name="risk_details_information_body_period_logged_assessment_under_14_days_today">"Приложението Corona-Warn-App е инсталирано днес. Рискът от заразяване се изчислява за периодите, в които регистрирането на контактите е било активно. Ако сте били в близост до други хора и регистрирането на излаганията е било активно, Вашият риск от заразяване ще бъде изчислен."</string>
+    <!-- XTXT: risk details - infection period logged information body, under 14 days yesterday-->
+    <string name="risk_details_information_body_period_logged_assessment_under_14_days_yesterday">"Приложението Corona-Warn-App е инсталирано преди един ден. Рискът от заразяване се изчислява за периодите, в които регистрирането на контактите е било активно. Ако сте били в близост до други хора и регистрирането на излаганията е било активно, Вашият риск от заразяване ще бъде изчислен."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days -->
-    <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Приложението Corona-Warn-App е инсталирано преди %s дни. Рискът да сте се заразили се изчислява за периодите, през които е било активно регистрирането на контактите Ви. Ако сте били в близост до други хора и регистрирането на излаганията е било активно, рискът да сте се заразили ще бъде изчислен."</string>
+    <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Приложението Corona-Warn-App е инсталирано преди %d дни. Рискът от заразяване се изчислява за периодите, в които регистрирането на контактите е било активно. Ако сте били в близост до други хора и регистрирането на излаганията е било активно, Вашият риск от заразяване ще бъде изчислен."</string>
     <!-- XTXT: risk details - infection period logged information body, over 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_over_14_days">"Ако регистрирането на контактите Ви е било активно, когато сте се срещали с други хора, рискът да сте се заразили през този период ще бъде изчислен."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->        <!-- XTXT: risk details - infection period logged information body, under 14 days -->
@@ -567,8 +571,8 @@
     <string name="settings_off">"Изключено"</string>
     <!-- XHED: settings(tracing) - page title -->
     <string name="settings_tracing_title">"Регистриране на излаганията на риск"</string>
-    <!-- XHED: settings(tracing) - headline bellow illustration -->
-    <string name="settings_tracing_headline">"Как работи регистрирането на излагания на риск"</string>
+    <!-- XHED: settings(tracing) - headline below illustration -->
+    <string name="settings_tracing_headline">"Ето как работи регистрирането на излагания на риск"</string>
     <!-- XTXT: settings(tracing) - explain text in settings overview under headline -->
     <string name="settings_tracing_body_description">"Разрешаване на генерирането и споделянето на случайни ИД кодове за COVID-19"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, active -->
@@ -577,6 +581,8 @@
     <string name="settings_tracing_body_inactive">"В момента не се извършва регистриране на излагания на риск"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
     <string name="settings_tracing_body_inactive_location">"Услугите за споделяне на местоположението са дезактивирани"</string>
+    <!-- XHED: settings(tracing) - headline of tracing explanation -->
+    <string name="settings_tracing_body_headline">"Как работи регистрирането на излагания на риск"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
     <string name="settings_tracing_body_text">"За да може приложението да определи дали съществува риск да сте се заразили, трябва да активирате функцията за регистриране на излаганията на риск. Тя работи на транснационален принцип, което означава, че се вземат предвид и контактите Ви с потребители на други официални приложения за борба с коронавируса.\n\nФункцията за регистриране на излаганията на риск работи по следния начин: Чрез Bluetooth се осъществява обмен на криптираните случайно генерирани ИД кодове между Вашето Android устройство и тези на другите потребители на приложението. Всеки ден приложението изтегля списъци на случайните ИД кодове на всички потребители с положителен тест за вируса, споделен в приложението, както и доброволно предоставените от тях данни за проявените симптоми, и най-вече техните случайно генерирани ИД кодове. След това ИД кодове от тези списъци се сравняват с ИД кодове на потребителите, записани във Вашето Android устройство, за да се изчисли вероятността да сте се заразили и за да получите предупреждение, ако е необходимо.\n\nМожете да активирате и дезактивирате регистрирането на излагания на риск по всяко време.\n\nПриложението никога не събира лични данни от типа на име, адрес и местоположение и не споделя подобна информация с други потребители. Самоличността Ви не може да бъде определена по Вашите случайни ИД."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -619,7 +625,7 @@
     <!-- YTXT: settings(notification) - description text when it notifications are enabled -->
     <string name="settings_notifications_body_active">"Посочете за какво желаете да получавате известия"</string>
     <!-- XTXT: settings(notification) - explains what the user has to do to activate settings -->
-    <string name="settings_notifications_body_inactive">"За да активирате известията, от настройките на Вашето устройство трябва да разрешите на приложението Corona-Warn-App да Ви изпраща известия."</string>
+    <string name="settings_notifications_body_inactive">"За да активирате известията от Corona-Warn-App, трябва да разрешите известяването от настройките на Вашето устройство."</string>
     <!-- XHED: settings(notification) - card headline -->
     <string name="settings_notifications_headline_card">"Активиране на известия"</string>
     <!-- XHED: settings - notification headline on settings overview -->
@@ -1431,7 +1437,7 @@
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"Потвърдени нови случаи на заразяване"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
-    <string name="statistics_explanation_confirmed_new_infection_text">"Брой диагностицирани с коронавирус лица, регистрирани в института „Роберт Кох“"</string>
+    <string name="statistics_explanation_confirmed_new_infection_text">"Брой диагностицирани с коронавирус лица, регистрирани в института „Роберт Кох“."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Лица, изпратили предупреждения"</string>
     <!-- XTXT: Explanation screen warned persons text -->
@@ -1443,7 +1449,7 @@
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7-дневна заболеваемост"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
-    <string name="statistics_explanation_seven_day_incidence_text">"Общ брой потвърдени нови случаи на заразяване за последните 7 дни (по дата на регистриране) на 100 000 души"</string>
+    <string name="statistics_explanation_seven_day_incidence_text">"Общ брой потвърдени нови случаи на заразяване за последните 7 дни (по дата на регистриране) на 100 000 души."</string>
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-дневно репродуктивно число R"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
@@ -1527,6 +1533,8 @@
     <!-- Statistics Add new tile -->
     <!-- XTXT: Statistics add card title -->
     <string name="statistics_add_card_title">"Добавяне на 7-дневна заболеваемост на местно ниво"</string>
+    <!-- XTXT: Statistics add card warning no internet -->
+    <string name="statistics_add_card_warning_no_internet">"Връзката Ви с Интернет прекъсна. Не успяхме да добавим данните за 7-дневната заболеваемост. Моля, проверете връзката си и опитайте отново."</string>
     <!-- XTXT: Statistics add card warning -->
     <string name="statistics_add_card_warning">"Достигнато максимално ниво на заболеваемост на 7-дневна база на местно ниво."</string>
     <!-- XTXT: Statistics add screen whole state -->

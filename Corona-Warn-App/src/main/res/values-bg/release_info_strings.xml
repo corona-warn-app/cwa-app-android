@@ -16,28 +16,24 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Валидиране на сертификат на ЕС"</item>
-        <item>"Разширена статистика"</item>
-        <item>"Редактиране на профил за бързи тестове"</item>
+        <item>"Версия на подписа"</item>
+        <item>"Техническа проверка за валидност"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Вече може да проверите дали сертификатът ви е валиден в посочена от вас държава, преди да тръгнете на път."</item>
-        <item>"Вече може да добавяте до пет записа на данни за 7-дневна заболеваемост на местно ниво."</item>
-        <item>"Вече можете да редактирате профила за бързи тестове в приложението, например за да промените адреса си."</item>
+        <item>"Когато добавяте своите сертификати в Corona-Warn-App, те преминават проверка за валидност и автентичност. Могат да бъдат импортирани само сертификати, издадени от оторизиран орган."</item>
+        <item>"Corona-Warn-App вече показва техническата дата на изтичане на сертификатите за ваксинация и възстановяване, които сте добавили. Приложението може да Ви известява за наближаващо изтичане на валидността на някой от сертификатите."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
         <item/>
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
         <item/>
         <item/>
     </string-array>

@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.playbook.BackgroundNoise
@@ -32,7 +32,7 @@ class MainActivityViewModel @AssistedInject constructor(
     private val traceLocationSettings: TraceLocationSettings,
     private val covidCertificateSettings: CovidCertificateSettings,
     checkInRepository: CheckInRepository,
-    testCertificateRepository: TestCertificateRepository,
+    personCertificatesProvider: PersonCertificatesProvider,
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
@@ -52,11 +52,7 @@ class MainActivityViewModel @AssistedInject constructor(
         .map { checkins -> checkins.filter { !it.completed }.size }
         .asLiveData2()
 
-    val newCertificates = testCertificateRepository.certificates
-        .map { certs ->
-            certs.filter { !it.seenByUser && !it.isCertificateRetrievalPending }.size
-        }
-        .asLiveData2()
+    val certificateBadgeCount: LiveData<Int> = personCertificatesProvider.badgeCount.asLiveData2()
 
     init {
         if (CWADebug.isDeviceForTestersBuild) {
@@ -95,7 +91,7 @@ class MainActivityViewModel @AssistedInject constructor(
     fun onBottomNavSelected() {
         mutableIsContactDiaryOnboardingDone.value = contactDiarySettings.isOnboardingDone
         mutableIsTraceLocationOnboardingDone.value = traceLocationSettings.isOnboardingDone
-        mutableIsVaccinationOnboardingDone.value = covidCertificateSettings.isOnboardingDone
+        mutableIsVaccinationOnboardingDone.value = covidCertificateSettings.isOnboarded.value
     }
 
     private suspend fun checkForEnergyOptimizedEnabled() {

@@ -10,14 +10,15 @@ import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.ScreenshotCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
-import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragmentArgs
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsViewModel
+import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -83,7 +84,10 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
             object : TestCertificate {
                 override val rawCertificate: TestDccV1
                     get() = mockk()
-
+                override val notifiedExpiredAt: Instant?
+                    get() = null
+                override val notifiedExpiresSoonAt: Instant?
+                    get() = null
                 override val containerId: TestCertificateContainerId
                     get() = TestCertificateContainerId("identifier")
                 override val targetName: String
@@ -114,13 +118,15 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
                     get() = testDate
                 override val headerExpiresAt: Instant
                     get() = testDate
-                override val qrCode: QrCodeString
-                    get() = ScreenshotCertificateTestData.testCertificate
+                override val qrCodeToDisplay: CoilQrCode
+                    get() = CoilQrCode(ScreenshotCertificateTestData.testCertificate)
                 override val firstName: String
                     get() = "Andrea"
                 override val lastName: String
                     get() = "Schneider"
                 override val fullName: String
+                    get() = "Andrea Schneider"
+                override val fullNameFormatted: String
                     get() = "Schneider, Andrea"
                 override val dateOfBirthFormatted: String
                     get() = "1943-04-18"
@@ -134,6 +140,8 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
                     get() = "05930482748454836478695764787840"
                 override val dccData: DccData<*>
                     get() = mockk()
+
+                override fun getState(): CwaCovidCertificate.State = CwaCovidCertificate.State.Valid(Instant.now())
             }
         )
     }

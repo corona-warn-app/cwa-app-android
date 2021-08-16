@@ -5,26 +5,6 @@
     android:autoMirrored="true"
     android:viewportWidth="360"
     android:viewportHeight="248">
-    <path android:pathData="M0,14C0,6.268 6.268,0 14,0H346C353.732,0 360,6.268 360,14V248H0V14Z">
-        <aapt:attr name="android:fillColor">
-            <gradient
-                android:endX="255.681"
-                android:endY="355.903"
-                android:startX="103.43"
-                android:startY="-7.90439"
-                android:type="linear">
-                <item
-                    android:color="#FFFFFFFF"
-                    android:offset="0" />
-                <item
-                    android:color="#FFFFFFFF"
-                    android:offset="0.344105" />
-                <item
-                    android:color="#FFE3F3FF"
-                    android:offset="0.852488" />
-            </gradient>
-        </aapt:attr>
-    </path>
     <group>
         <clip-path android:pathData="M75,68h190.093v180h-190.093z" />
         <group>

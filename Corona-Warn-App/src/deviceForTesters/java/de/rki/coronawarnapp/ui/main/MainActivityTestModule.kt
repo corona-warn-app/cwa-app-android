@@ -16,6 +16,8 @@ import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragment
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragmentModule
 import de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaOnboardingFragmentModule
 import de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaonboardingFragment
+import de.rki.coronawarnapp.test.dsc.ui.DscTestFragment
+import de.rki.coronawarnapp.test.dsc.ui.DscTestModule
 import de.rki.coronawarnapp.test.hometestcards.ui.HomeTestCardsFragment
 import de.rki.coronawarnapp.test.hometestcards.ui.HomeTestCardsFragmentModule
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragment
@@ -28,6 +30,8 @@ import de.rki.coronawarnapp.test.presencetracing.ui.PresenceTracingTestFragment
 import de.rki.coronawarnapp.test.presencetracing.ui.PresenceTracingTestFragmentModule
 import de.rki.coronawarnapp.test.presencetracing.ui.poster.QrCodePosterTestFragment
 import de.rki.coronawarnapp.test.presencetracing.ui.poster.QrCodePosterTestFragmentModule
+import de.rki.coronawarnapp.test.qrcode.ui.QrCodeTestFragment
+import de.rki.coronawarnapp.test.qrcode.ui.QrCodeTestFragmentModule
 import de.rki.coronawarnapp.test.risklevel.ui.TestRiskLevelCalculationFragment
 import de.rki.coronawarnapp.test.risklevel.ui.TestRiskLevelCalculationFragmentModule
 import de.rki.coronawarnapp.test.submission.ui.SubmissionTestFragment
@@ -85,4 +89,10 @@ abstract class MainActivityTestModule {
 
     @ContributesAndroidInjector(modules = [CoronaTestTestFragmentModule::class])
     abstract fun coronaTest(): CoronaTestTestFragment
+
+    @ContributesAndroidInjector(modules = [QrCodeTestFragmentModule::class])
+    abstract fun qrCodeTest(): QrCodeTestFragment
+
+    @ContributesAndroidInjector(modules = [DscTestModule::class])
+    abstract fun dscTest(): DscTestFragment
 }

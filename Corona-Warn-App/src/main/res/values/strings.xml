@@ -290,8 +290,12 @@
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <!--    Dialog part 1-->
     <string name="risk_details_information_body_period_logged">"Your risk of infection can be calculated only for periods during which exposure logging was active. The logging feature should therefore remain active permanently. Exposure logging covers the last 14 days."</string>
+    <!-- XTXT: risk details - infection period logged information body, under 14 days todasy -->
+    <string name="risk_details_information_body_period_logged_assessment_under_14_days_today">"The Corona-Warn-App was installed today. Your risk of infection is calculated for the periods during which exposure logging was active. If you have encountered other people and exposure logging was active, your risk of infection is calculated."</string>
+    <!-- XTXT: risk details - infection period logged information body, under 14 days yesterday-->
+    <string name="risk_details_information_body_period_logged_assessment_under_14_days_yesterday">"The Corona-Warn-App was installed yesterday. Your risk of infection is calculated for the periods during which exposure logging was active. If you have encountered other people and exposure logging was active, your risk of infection is calculated."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days -->
-    <string name="risk_details_information_body_period_logged_assessment_under_14_days">"The Corona-Warn-App was installed %s days ago. Your risk of infection is calculated for the periods during which exposure logging was active. If you have encountered other people and exposure logging was active, your risk of infection is calculated."</string>
+    <string name="risk_details_information_body_period_logged_assessment_under_14_days">"The Corona-Warn-App was installed %d days ago. Your risk of infection is calculated for the periods during which exposure logging was active. If you have encountered other people and exposure logging was active, your risk of infection is calculated."</string>
     <!-- XTXT: risk details - infection period logged information body, over 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_over_14_days">"If exposure logging was active at times during which you encountered other people, your risk of infection can be calculated for this period."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->        <!-- XTXT: risk details - infection period logged information body, under 14 days -->
@@ -567,8 +571,8 @@
     <string name="settings_off">"Off"</string>
     <!-- XHED: settings(tracing) - page title -->
     <string name="settings_tracing_title">"Exposure Logging"</string>
-    <!-- XHED: settings(tracing) - headline bellow illustration -->
-    <string name="settings_tracing_headline">"How exposure logging works"</string>
+    <!-- XHED: settings(tracing) - headline below illustration -->
+    <string name="settings_tracing_headline">"This is how exposure logging works"</string>
     <!-- XTXT: settings(tracing) - explain text in settings overview under headline -->
     <string name="settings_tracing_body_description">"Allow creation and sharing of COVID-19 random IDs."</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, active -->
@@ -577,6 +581,8 @@
     <string name="settings_tracing_body_inactive">"Exposure logging stopped"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive location -->
     <string name="settings_tracing_body_inactive_location">"Location services deactivated"</string>
+    <!-- XHED: settings(tracing) - headline of tracing explanation -->
+    <string name="settings_tracing_body_headline">"How Exposure Logging Works"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
     <string name="settings_tracing_body_text">"You need to enable the exposure logging feature so that the app can determine whether you are at risk of infection. The exposure logging feature works transnationally, meaning any possible exposure involving users is also detected by other official coronavirus apps.\n\nThe exposure logging feature works by your Android smartphone receiving encrypted random IDs from other app users via Bluetooth and passing your own random IDs to their smartphones. Every day, the app downloads lists containing the random IDs – along with any voluntary information about the onset of symptoms – of all users who have tested positive for the virus and voluntarily shared this information (specifically: their random IDs) via their app. This list is then compared with the random IDs of other users you have encountered that have been recorded by your Android smartphone, in order to calculate the likelihood that you have also been infected and to warn you if necessary.\n\nYou can use the toggle switch to disable exposure logging at any time.\n\nThe app never collects personal data such as your name, address or location, nor is this information passed on to other users. It is not possible to use random IDs to draw conclusions about individual persons."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -619,7 +625,7 @@
     <!-- YTXT: settings(notification) - description text when it notifications are enabled -->
     <string name="settings_notifications_body_active">"Specify which areas you want to continue to receive notifications for."</string>
     <!-- XTXT: settings(notification) - explains what the user has to do to activate settings -->
-    <string name="settings_notifications_body_inactive">"To activate notifications, you must allow notifications for the Corona-Warn-App in your device settings."</string>
+    <string name="settings_notifications_body_inactive">"To activate notifications in the Corona-Warn-App, you must allow notifications in your device settings."</string>
     <!-- XHED: settings(notification) - card headline -->
     <string name="settings_notifications_headline_card">"Activate Notifications"</string>
     <!-- XHED: settings - notification headline on settings overview -->
@@ -1431,7 +1437,7 @@
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"Confirmed New Infections"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
-    <string name="statistics_explanation_confirmed_new_infection_text">"Number of persons who have been diagnosed with coronavirus and reported to the RKI"</string>
+    <string name="statistics_explanation_confirmed_new_infection_text">"Number of persons who have been diagnosed with coronavirus and reported to the RKI."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Warnings by App Users"</string>
     <!-- XTXT: Explanation screen warned persons text -->
@@ -1443,7 +1449,7 @@
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7-Day Incidence"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
-    <string name="statistics_explanation_seven_day_incidence_text">"Total number of confirmed new infections in the last 7 days (by reporting date) per 100,000 residents"</string>
+    <string name="statistics_explanation_seven_day_incidence_text">"Total number of confirmed new infections in the last 7 days (by reporting date) per 100,000 residents."</string>
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-Day R Value"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
@@ -1526,7 +1532,9 @@
 
     <!-- Statistics Add new tile -->
     <!-- XTXT: Statistics add card title -->
-    <string name="statistics_add_card_title">"Add local 7-day incidence"</string>
+    <string name="statistics_add_card_title">"Add Local 7-Day Incidence"</string>
+    <!-- XTXT: Statistics add card warning no internet -->
+    <string name="statistics_add_card_warning_no_internet">"Your Internet connection was lost. It was not possible to add a 7-day incidence figure. Please check the connection and try again."</string>
     <!-- XTXT: Statistics add card warning -->
     <string name="statistics_add_card_warning">"Maximum number of local 7-day incidence figures reached."</string>
     <!-- XTXT: Statistics add screen whole state -->

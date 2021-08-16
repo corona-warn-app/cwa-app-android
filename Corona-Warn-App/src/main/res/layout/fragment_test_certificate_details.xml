@@ -196,6 +196,7 @@
                         tools:text="Rapid Antigen Test" />
 
                     <TextView
+                        android:id="@+id/test_name_title"
                         style="@style/body1Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -318,6 +319,14 @@
                         android:layout_marginTop="4dp"
                         tools:text="05930482748454836478695764787840" />
                 </LinearLayout>
+
+                <include
+                    android:id="@+id/expiration_notice"
+                    layout="@layout/include_expiration_notice_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="8dp" />
 
                 <de.rki.coronawarnapp.covidcertificate.common.certificate.TravelNoticeView
                     android:id="@+id/travel_notice"

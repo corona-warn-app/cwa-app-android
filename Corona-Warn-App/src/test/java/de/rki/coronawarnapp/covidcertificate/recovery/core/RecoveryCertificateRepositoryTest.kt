@@ -1,7 +1,9 @@
 package de.rki.coronawarnapp.covidcertificate.recovery.core
 
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.recovery.RecoveryQrCodeTestData
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateStorage
@@ -32,6 +34,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var storage: RecoveryCertificateStorage
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
+    @MockK lateinit var dccStateChecker: DccStateChecker
 
     @Inject lateinit var qrCodeExtractor: DccQrCodeExtractor
 
@@ -63,6 +66,8 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
         storage = storage,
         valueSetsRepository = valueSetsRepository,
         qrCodeExtractor = qrCodeExtractor,
+        dccStateChecker = dccStateChecker,
+        timeStamper = timeStamper,
     )
 
     @Test
@@ -75,7 +80,10 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
         instance.registerCertificate(qrCode)
         advanceUntilIdle()
 
-        instance.certificates.first().first().recoveryCertificate.qrCode shouldBe RecoveryQrCodeTestData.qrCode1
+        instance.certificates.first().first().apply {
+            recoveryCertificate.qrCodeToDisplay.content shouldBe RecoveryQrCodeTestData.qrCode1
+            recoveryCertificate.qrCodeToDisplay.options.correctionLevel shouldBe ErrorCorrectionLevel.M
+        }
 
         testStorage.first().recoveryCertificateQrCode shouldBe RecoveryQrCodeTestData.qrCode1
     }

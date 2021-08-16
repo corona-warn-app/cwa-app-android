@@ -6,6 +6,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
+import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureValidator
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.DccQrCodeValidator
@@ -22,7 +23,8 @@ class DccQrCodeScanViewModel @AssistedInject constructor(
     private val qrCodeValidator: DccQrCodeValidator,
     private val vaccinationRepository: VaccinationRepository,
     private val testCertificateRepository: TestCertificateRepository,
-    private val recoveryCertificateRepository: RecoveryCertificateRepository
+    private val recoveryCertificateRepository: RecoveryCertificateRepository,
+    private val dscSignatureValidator: DscSignatureValidator,
 ) : CWAViewModel() {
 
     val event = SingleLiveEvent<Event>()
@@ -32,12 +34,15 @@ class DccQrCodeScanViewModel @AssistedInject constructor(
     fun onScanResult(barcodeResult: BarcodeResult) = launch {
         try {
             event.postValue(Event.QrCodeScanInProgress)
-            when (val qrCode = qrCodeValidator.validate(barcodeResult.text)) {
+            val qrCode = qrCodeValidator.validate(barcodeResult.text)
+            dscSignatureValidator.validateSignature(qrCode.data)
+            when (qrCode) {
                 is VaccinationCertificateQRCode -> registerVaccinationCertificate(qrCode)
                 is TestCertificateQRCode -> registerTestCertificate(qrCode)
                 is RecoveryCertificateQRCode -> registerRecoveryCertificate(qrCode)
             }
         } catch (e: Throwable) {
+            Timber.d(e, "Scanning Dcc failed")
             errorEvent.postValue(e)
         }
     }
@@ -53,11 +58,9 @@ class DccQrCodeScanViewModel @AssistedInject constructor(
 
     private suspend fun registerTestCertificate(qrCode: TestCertificateQRCode) {
         val certificate = testCertificateRepository.registerCertificate(qrCode)
-        event.postValue(
-            Event.PersonDetailsScreen(
-                certificate.personIdentifier.codeSHA256, certificate.containerId
-            )
-        )
+        certificate.personIdentifier?.codeSHA256?.let { sha256 ->
+            event.postValue(Event.PersonDetailsScreen(sha256, certificate.containerId))
+        }
     }
 
     private suspend fun registerRecoveryCertificate(qrCode: RecoveryCertificateQRCode) {

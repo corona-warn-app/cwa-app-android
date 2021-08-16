@@ -7,8 +7,12 @@ import dagger.Provides
 import de.rki.coronawarnapp.bugreporting.censors.dcc.DccQrCodeCensorTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractorTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.KidExtractionTest
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckerTest
+import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationCheckerTest
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepositoryTest
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateContainerTest
+import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateStorageTest
+import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureValidatorTest
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepositoryTest
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainerTest
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorageTest
@@ -48,6 +52,10 @@ interface CovidCertificateTestComponent {
     fun inject(testClass: KidExtractionTest)
     fun inject(testClass: DccValidatorTest)
     fun inject(testClass: RecoveryCertificateRepositoryTest)
+    fun inject(testClass: DccStateCheckerTest)
+    fun inject(testClass: DscSignatureValidatorTest)
+    fun inject(testClass: DccExpirationCheckerTest)
+    fun inject(testClass: RecoveryCertificateStorageTest)
 
     @Component.Factory
     interface Factory {

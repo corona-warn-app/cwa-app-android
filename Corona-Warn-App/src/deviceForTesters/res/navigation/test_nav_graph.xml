@@ -55,6 +55,9 @@
         <action
             android:id="@+id/action_test_menu_fragment_to_coronaTestTestFragment"
             app:destination="@id/coronaTestTestFragment" />
+        <action
+            android:id="@+id/action_test_menu_fragment_to_qrcodeFragment"
+            app:destination="@id/test_qrcode_fragment" />
     </fragment>
 
     <fragment
@@ -162,5 +165,14 @@
         android:name="de.rki.coronawarnapp.test.coronatest.ui.CoronaTestTestFragment"
         android:label="CoronaTestTestFragment"
         tools:layout="@layout/fragment_test_coronatest" />
+    <fragment
+        android:id="@+id/test_qrcode_fragment"
+        android:name="de.rki.coronawarnapp.test.qrcode.ui.QrCodeTestFragment"
+        android:label="QrCodeTestFragment" />
+    <fragment
+        android:id="@+id/dscFragment"
+        android:name="de.rki.coronawarnapp.test.dsc.ui.DscTestFragment"
+        android:label="DscFragment"
+        tools:layout="@layout/fragment_test_dsc" />
 
 </navigation>

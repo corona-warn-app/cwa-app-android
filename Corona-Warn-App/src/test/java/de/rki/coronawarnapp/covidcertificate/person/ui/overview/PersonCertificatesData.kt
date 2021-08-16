@@ -1,13 +1,14 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
-import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
+import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import io.mockk.every
 import io.mockk.mockk
 import org.joda.time.Instant
@@ -49,6 +50,8 @@ fun testCertificate(
     isPending: Boolean = false,
     isUpdating: Boolean = false
 ) = object : TestCertificate {
+    override fun getState(): CwaCovidCertificate.State = CwaCovidCertificate.State.Valid(expiresAt = Instant.EPOCH)
+
     override val containerId: TestCertificateContainerId
         get() = TestCertificateContainerId(UUID.randomUUID().toString())
     override val targetName: String = "targetName"
@@ -65,10 +68,11 @@ fun testCertificate(
     override val headerIssuer: String = "issuer"
     override val headerIssuedAt: Instant = Instant.EPOCH
     override val headerExpiresAt: Instant = Instant.EPOCH
-    override val qrCode: QrCodeString = "qrCode"
+    override val qrCodeToDisplay: CoilQrCode = CoilQrCode("qrCode")
     override val firstName: String = "firstName"
     override val lastName: String = "lastName"
     override val fullName: String = fullName
+    override val fullNameFormatted: String = fullName
     override val dateOfBirthFormatted = "1981-03-20"
     override val personIdentifier = CertificatePersonIdentifier(
         dateOfBirthFormatted = "1981-03-20",

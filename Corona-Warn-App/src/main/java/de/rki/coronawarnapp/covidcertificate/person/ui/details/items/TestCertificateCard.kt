@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.databinding.TestCertificateCardBinding
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
+import de.rki.coronawarnapp.util.displayExpirationState
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class TestCertificateCard(parent: ViewGroup) :
@@ -32,14 +33,34 @@ class TestCertificateCard(parent: ViewGroup) :
             R.string.test_certificate_sampled_on,
             certificate.sampleCollectedAt.toUserTimeZone().toDayFormat()
         )
-        testCertificateType.text = certificate.testType
+
+        when (certificate.rawCertificate.test.testType) {
+            // PCR Test
+            "LP6464-4" -> R.string.test_certificate_pcr_test_type
+            // RAT Test
+            else -> R.string.test_certificate_rapid_test_type
+        }.also { testCertificateType.setText(it) }
+
+        val bookmarkIcon = if (curItem.certificate.isValid) R.drawable.ic_bookmark_blue else R.drawable.ic_bookmark
         currentCertificate.isVisible = curItem.isCurrentCertificate
+        bookmark.setImageResource(bookmarkIcon)
+        val color = when {
+            curItem.certificate.isValid -> curItem.colorShade
+            else -> PersonColorShade.COLOR_INVALID
+        }
+
+        when {
+            curItem.certificate.isValid -> R.drawable.ic_test_certificate
+            else -> R.drawable.ic_certificate_invalid
+        }.also { certificateIcon.setImageResource(it) }
 
         val background = when {
-            curItem.isCurrentCertificate -> curItem.colorShade.currentCertificateBg
-            else -> curItem.colorShade.defaultCertificateBg
+            curItem.isCurrentCertificate -> color.currentCertificateBg
+            else -> color.defaultCertificateBg
         }
         certificateBg.setImageResource(background)
+
+        certificateExpiration.displayExpirationState(curItem.certificate)
     }
 
     data class Item(

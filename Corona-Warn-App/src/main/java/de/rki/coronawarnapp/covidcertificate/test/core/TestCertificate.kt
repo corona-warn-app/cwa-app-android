@@ -31,5 +31,17 @@ interface TestCertificate : CwaCovidCertificate {
     val isUpdatingData: Boolean
     val isCertificateRetrievalPending: Boolean
 
+    /**
+     * Not supported by this type of certificate (at the moment)
+     */
+    override val notifiedExpiredAt: Instant?
+        get() = null
+    override val notifiedExpiresSoonAt: Instant?
+        get() = null
+    override val lastSeenStateChange: CwaCovidCertificate.State?
+        get() = null
+    override val lastSeenStateChangeAt: Instant?
+        get() = null
+
     override val rawCertificate: TestDccV1
 }

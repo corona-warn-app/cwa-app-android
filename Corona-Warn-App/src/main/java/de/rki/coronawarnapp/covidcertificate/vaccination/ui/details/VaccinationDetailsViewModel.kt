@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.Vaccina
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -26,12 +27,12 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
 ) : CWAViewModel(dispatcherProvider) {
 
-    private var qrCodeText: String? = null
+    private var qrCode: CoilQrCode? = null
 
     val vaccinationCertificate = vaccinationRepository.vaccinationInfos
         .map { persons ->
             val findVaccinationDetails = findVaccinationDetails(persons)
-            qrCodeText = findVaccinationDetails.certificate?.qrCode
+            qrCode = findVaccinationDetails.certificate?.qrCodeToDisplay
             findVaccinationDetails
         }
         .asLiveData(context = dispatcherProvider.Default)
@@ -41,7 +42,7 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
 
     fun onClose() = events.postValue(VaccinationDetailsNavigation.Back)
 
-    fun openFullScreen() = qrCodeText?.let { events.postValue(VaccinationDetailsNavigation.FullQrCode(it)) }
+    fun openFullScreen() = qrCode?.let { events.postValue(VaccinationDetailsNavigation.FullQrCode(it)) }
 
     private fun findVaccinationDetails(
         vaccinatedPersons: Set<VaccinatedPerson>
@@ -77,6 +78,11 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
             Timber.d(e, "validation rule download failed for covidCertificate=%s", containerId)
             errors.postValue(e)
         }
+    }
+
+    fun refreshCertState() = launch(scope = appScope) {
+        Timber.v("refreshCertState()")
+        vaccinationRepository.acknowledgeState(containerId)
     }
 
     @AssistedFactory

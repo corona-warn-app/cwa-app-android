@@ -25,6 +25,14 @@
     <string name="person_card_title">Digitales</string>
     <!-- XTXT: Person card subtitle-->
     <string name="person_card_subtitle">COVID-Zertifikat der EU</string>
+    <!-- XTXT: Certificate QR code expiration text-->
+    <string name="certificate_qr_expiration">"Zertifikat läuft am %s um %s Uhr ab"</string>
+    <!-- XTXT: Certificate person details card expiration text -->
+    <string name="certificate_person_details_card_expiration">"läuft am %s um %s Uhr ab"</string>
+    <!-- XTXT: Certificate QR code expired text-->
+    <string name="certificate_qr_expired">"Zertifikat abgelaufen"</string>
+    <!-- XTXT: Certificate QR code invalid signature-->
+    <string name="certificate_qr_invalid_signature">"Zertifikat (Signatur) ungültig"</string>
 
     <!-- XTXT: Vaccination Consent subtitle-->
     <string name="vaccination_consent_headline">"Zertifikate hinzufügen"</string>
@@ -104,6 +112,10 @@
     <string name="test_certificate_qrcode_card_sampled_on">"Probenahme am %s Uhr"</string>
     <!-- XTXT: Test certificate card name  -->
     <string name="test_certificate_name">Testzertifikat</string>
+    <!-- XTXT: Test certificate PCR test type  -->
+    <string name="test_certificate_pcr_test_type">PCR-Test</string>
+    <!-- XTXT: Test certificate Rapid test Type  -->
+    <string name="test_certificate_rapid_test_type">Schnelltest</string>
     <!-- XTXT: Dialog description for error 409 recovery-->
     <string name="test_certificate_error_409_recovery_description">Für diesen Test kann leider kein Zertifikat erstellt werden. Bitte fügen Sie einen neuen Test hinzu um ein Zertifikat zu erhalten.</string>
 
@@ -136,7 +148,7 @@
     <!-- XTXT: Start Validation Rule Check Loading Text -->
     <string name="start_validation_rule_check_loading_text">Bitte warten…</string>
     <!-- XTXT: Digital covid certificate validation error message - no network -->
-    <string name="dcc_validation_error_no_network">"Ihre Internetverbindung wurde unterbrochen. Um die Gültigkeitsprüfung des Zertifikates abzuschließen, prüfen Sie die Verbindung und versuchen Sie es erneut."</string>
+    <string name="dcc_validation_error_no_network">"Ihre Internetverbindung wurde unterbrochen. Um die Gültigkeitsprüfung des Zertifikats abzuschließen, prüfen Sie die Verbindung und versuchen Sie es erneut."</string>
     <!-- XTXT: Digital covid certificate validation error message - try again -->
     <string name="dcc_validation_error_try_again">"Ein Fehler ist aufgetreten. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline."</string>
     <!-- XBUT: Test certificate validation start button -->
@@ -147,7 +159,7 @@
          ##################################################### -->
 
     <!-- XHED: Validation start header -->
-    <string name="validation_start_header">"Gültigkeit des Zertifikates"</string>
+    <string name="validation_start_header">"Gültigkeit des Zertifikats"</string>
     <!-- XTXT: Validation start body -->
     <string name="validation_start_body">"Prüfen Sie vorab, ob Ihr Zertifikat im Reiseland zum Zeitpunkt der Reise gültig ist. Hierfür werden die geltenden Einreiseregeln des gewählten Reiselandes berücksichtigt."</string>
     <!-- XTXT: Validation start subtitle -->
@@ -169,7 +181,7 @@
     <!-- XTXT: Validation start note point 3 -->
     <string name="validation_start_note_point_3">"Um die Echtheit eines Zertifikats sicherzustellen, wird jedes Zertifikat mit einer digitalen Signatur ausgestellt. Diese Signatur wird nur in einer Prüf-Anwendung validiert."</string>
     <!-- XTXT: Validation start note point 4 -->
-    <string name="validation_start_note_point_4">"Ob die im Zertifikat eingetragenen Daten richtig sind, wird nicht geprüft."</string>
+    <string name="validation_start_note_point_4">"Ob die im Zertifikat eingetragenen Daten richtig sind, wird in der Corona-Warn-App nicht geprüft."</string>
     <!-- XTXT: Validation start FAQ -->
     <string name="validation_start_faq">"Mehr Informationen finden Sie in den FAQ und unter https://reopen.europa.eu/de."</string>
     <!-- XTXT: Validation start FAQ link -->
@@ -190,7 +202,7 @@
     <!-- XHED: No Internet connection diaglog title -->
     <string name="validation_start_no_internet_dialog_title">Überprüfung fehlgeschlagen</string>
     <!-- XTXT: No Internet connection diaglog message -->
-    <string name="validation_start_no_internet_dialog_msg">Ihre Internetverbindung wurde unterbrochen. Um die Gültigkeitsprüfung des Zertifikates abzuschließen, prüfen Sie die Verbindung und versuchen Sie es erneut.</string>
+    <string name="validation_start_no_internet_dialog_msg">Ihre Internetverbindung wurde unterbrochen. Um die Gültigkeitsprüfung des Zertifikats abzuschließen, prüfen Sie die Verbindung und versuchen Sie es erneut.</string>
     <!-- XBUT: No Internet connection diaglog positive button -->
     <string name="validation_start_no_internet_dialog_positive_button">OK</string>
 
@@ -218,8 +230,12 @@
     <string name="validation_rules_technical_failure_header_subtitle">Folgende Regeln sind nicht erfüllt:</string>
     <!-- XTXT: Validation Rule Technical Failure - Date Format  -->
     <string name="validation_rule_technical_error_date_format">Das Zertifikat muss dem erwarteten Datenformat entsprechen.</string>
+    <!-- XTXT: Validation Rule Technical Failure - Signature validation  -->
+    <string name="validation_rule_technical_error_signature">Die Signatur des Zertifikats muss gültig sein.</string>
     <!-- XTXT: Validation Rule Technical Failure - Date Expired  -->
-    <string name="validation_rule_technical_error_date_expired">Das Zertifikat darf nicht abgelaufen sein.</string>
+    <string name="validation_rule_technical_error_date_expired">Das technische Ablaufdatum darf nicht überschritten sein.</string>
+    <!-- XTXT: Validation Rule Technical Failure - Date Expired format -->
+    <string name="validation_rule_technical_error_date_expired_format">Gültig bis %1$s, %2$s Uhr</string>
 
     <!-- Validation Passed Screen-->
     <!-- XHED: Toolbar title for the validation passed screen  -->
@@ -257,11 +273,44 @@
     <!-- XHED: travel country for the validation failed card  -->
     <string name="validation_rules_acceptance_country">"Dies ist eine Regel des Reiselandes %s."</string>
     <!-- XHED: issuer country for the validation failed card  -->
-    <string name="validation_rules_invalidation_country">"Dies ist eine Regel des Ausstellerlandes %s."</string>
+    <string name="validation_rules_invalidation_country">"Dies ist eine Regel des Ausstellerlandes."</string>
 
     <!-- XTXT: Validation start privacy title -->
     <string name="validation_start_privacy_title">"Datenschutz und Datensicherheit"</string>
     <!-- XTXT: Validation start privacy title -->
     <string name="validation_start_privacy_body">"Die aktuellen Einreiseregeln werden von den Servern des RKI heruntergeladen. Hierfür ist eine Verbindung zum Internet erforderlich und es werden Zugriffsdaten an das RKI übermittelt."</string>
 
+    <!-- XHED: Vaccination Detail expiration Date title -->
+    <string name="expiration_date_title">Technisches Ablaufdatum</string>
+    <!-- XHED: Vaccination Detail expiration Date -->
+    <string name="expiration_date">Gültig bis %s, %s Uhr</string>
+    <!-- XHED: Vaccination Detail expiration info -->
+    <string name="expiration_info">Bitte bemühen Sie sich rechtzeitig darum, einen neuen digitalen Nachweis ausstellen zu lassen.</string>
+    <!-- XTXT: Expired certificate info -->
+    <string name="expired_certificate_info">"Das Ablaufdatum wurde überschritten. Bitte bemühen Sie sich darum, einen neuen digitalen Nachweis ausstellen zu lassen."</string>
+    <!-- XTXT: Invalid certificate signature info -->
+    <string name="invalid_certificate_signature_info">"Das Zertifikat wurde von einer nicht autorisierten Stelle oder fehlerhaft ausgestellt. Bitte lassen Sie das Zertifikat von einer autorisierten Stelle erneut ausstellen. "</string>
+
+
+    <!--    Dcc Signature validation-->
+    <!-- XHED: Signature validation dialog title-->
+    <string name="dcc_signature_validation_dialog_title">Signatur ungültig</string>
+    <!-- XTXT: Signature validation dialog message-->
+    <string name="dcc_signature_validation_dialog_message">Die Signatur des Zertifikats ist ungültig. Das Zertifikat kann nicht als Nachweis verwendet werden und daher nicht importiert werden.</string>
+    <!-- XBUT: Signature validation dialog FAQ button-->
+    <string name="dcc_signature_validation_dialog_faq_button">FAQ zur Signaturprüfung</string>
+    <!-- XTXT: Signature validation dialog FAQ lint-->
+    <string name="dcc_signature_validation_dialog_faq_link">https://www.coronawarn.app/de/faq/#hc_signature_invalid</string>
+
+    <!-- Expiration notification -->
+    <!-- XTXT: expiring soon notification -->
+    <string name="dcc_notification_expires_soon_text">Überprüfen Sie die Gültigkeit Ihrer Zertifikate.</string>
+    <!-- XTXT: expired notification -->
+    <string name="dcc_notification_expired_text">Überprüfen Sie die Gültigkeit Ihrer Zertifikate.</string>
+
+    <!-- DCC notification channel-->
+    <!-- XTXT: certificate notification channel title -->
+    <string name="dcc_notification_channel_title">Zertifikate</string>
+    <!-- XTXT: certificate notification channel description -->
+    <string name="dcc_notification_channel_description">Benachrichtigungen für Zertifikate verwalten</string>
 </resources>

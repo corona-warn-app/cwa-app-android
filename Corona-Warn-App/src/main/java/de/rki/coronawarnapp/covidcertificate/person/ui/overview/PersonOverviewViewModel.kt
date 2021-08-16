@@ -51,8 +51,13 @@ class PersonOverviewViewModel @AssistedInject constructor(
         certificatesProvider.personCertificates,
         testCertificateRepository.certificates,
     ) { denied, persons, tcWrappers ->
+        Timber.tag(TAG).d("denied=%s, persons=%s, tcWrappers=%s", denied, persons, tcWrappers)
+
         mutableListOf<PersonCertificatesItem>().apply {
-            if (denied) add(CameraPermissionCard.Item { events.postValue(OpenAppDeviceSettings) })
+            if (denied) {
+                Timber.tag(TAG).d("Camera permission is denied")
+                add(CameraPermissionCard.Item { events.postValue(OpenAppDeviceSettings) })
+            }
             addPersonItems(persons, tcWrappers)
         }
     }.asLiveData(dispatcherProvider.Default)
@@ -65,8 +70,23 @@ class PersonOverviewViewModel @AssistedInject constructor(
                     testCertificateRepository.markCertificateAsSeenByUser(it.containerId)
                 }
         }
-        .map { }
-        .catch { Timber.w("Failed to mark certificates as seen.") }
+        .catch { Timber.tag(TAG).w("Failed to mark certificates as seen.") }
+        .asLiveData2()
+
+    val markStateChangesAsSeen = certificatesProvider.personCertificates
+        .map { persons ->
+            persons.map { it.certificates }.flatten()
+        }
+        .onEach { certs ->
+            certs.forEach {
+                if (it.getState() == it.lastSeenStateChange) {
+                    return@forEach
+                } else {
+                    certificatesProvider.acknowledgeStateChange(it)
+                }
+            }
+        }
+        .catch { Timber.tag(TAG).w("Failed to mark certificates as seen.") }
         .asLiveData2()
 
     fun deleteTestCertificate(containerId: TestCertificateContainerId) = launch {
@@ -134,4 +154,8 @@ class PersonOverviewViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<PersonOverviewViewModel>
+
+    companion object {
+        private const val TAG = "PersonOverviewViewModel"
+    }
 }

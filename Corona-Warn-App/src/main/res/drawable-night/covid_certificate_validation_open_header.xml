@@ -8,23 +8,6 @@
     <clip-path
         android:pathData="M0,0h360v248h-360z"/>
     <path
-        android:pathData="M0,0h360v248h-360z"
-        android:fillColor="#ffffff"/>
-    <path
-        android:pathData="M0,0H360V248H0V0Z">
-      <aapt:attr name="android:fillColor">
-        <gradient 
-            android:startY="0"
-            android:startX="0"
-            android:endY="278.815"
-            android:endX="330.316"
-            android:type="linear">
-          <item android:offset="0" android:color="#FF181818"/>
-          <item android:offset="1" android:color="#FF2D414D"/>
-        </gradient>
-      </aapt:attr>
-    </path>
-    <path
         android:pathData="M107.252,185.959C110.461,180.434 113.791,174.995 116.849,169.372C123.215,157.664 129.111,145.71 135.218,133.867C130.929,129.604 127.918,126.655 127.918,126.655C127.918,126.655 120.228,118.501 116.893,123.056C113.558,127.612 121.858,137.345 121.858,137.345L122.66,137.944L126.538,144.015L118.696,145.23C118.696,145.23 103.491,150.245 101.549,154.269C99.607,158.292 104.437,160.936 104.437,160.936C104.437,160.936 97.346,161.307 97.748,165.523C98.043,168.614 100.797,171.879 100.797,171.879C100.797,171.879 93.958,172.789 93.175,177.931C92.831,180.193 97.235,184.189 97.235,184.189L105.697,188.664C106.782,185.862 105.572,188.41 107.252,185.959Z"
         android:fillColor="#F7B994"
         android:fillType="evenOdd"/>

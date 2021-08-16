@@ -9,15 +9,20 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.ScreenshotCertificateTestData
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertificateDetailsFragment
 import de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertificateDetailsFragmentArgs
 import de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertificateDetailsViewModel
+import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import org.joda.time.Instant
+import org.joda.time.LocalDate
+import org.joda.time.format.DateTimeFormat
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -80,7 +85,15 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
             every { validFromFormatted } returns "2021-06-07"
             every { validUntilFormatted } returns "2021-11-10"
             every { certificateId } returns "05930482748454836478695764787841"
-            every { qrCode } returns ScreenshotCertificateTestData.recoveryCertificate
+            every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.recoveryCertificate)
+            every { isValid } returns true
+            every { validUntil } returns
+                LocalDate.parse("2021-11-10", DateTimeFormat.forPattern("yyyy-MM-dd"))
+
+            every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(21))
+
+            every { fullNameFormatted } returns "Max, Mustermann"
+            every { headerExpiresAt } returns Instant.now().plus(21)
         }
 
         return MutableLiveData(mockCertificate)

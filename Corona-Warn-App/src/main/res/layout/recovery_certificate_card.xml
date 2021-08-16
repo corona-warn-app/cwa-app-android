@@ -56,6 +56,19 @@
         app:layout_constraintTop_toBottomOf="@id/recovery_certificate_name"
         tools:text="gültig bis 23.11.21" />
 
+    <TextView
+        android:id="@+id/certificate_expiration"
+        style="@style/body2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_mega_tiny"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/certificate_date"
+        app:layout_constraintStart_toStartOf="@id/certificate_date"
+        app:layout_constraintTop_toBottomOf="@id/certificate_date"
+        tools:text="läuft am 21.08.21 um 14:12 Uhr ab"
+        tools:visibility="visible" />
+
     <ImageView
         android:id="@+id/bookmark"
         android:layout_width="20dp"
@@ -74,9 +87,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
         android:text="@string/certificate_card_bookmark_info"
-        app:layout_constraintEnd_toEndOf="@id/certificate_date"
+        app:layout_constraintEnd_toEndOf="@id/certificate_expiration"
         app:layout_constraintStart_toEndOf="@id/bookmark"
-        app:layout_constraintTop_toBottomOf="@id/certificate_date" />
+        app:layout_constraintTop_toBottomOf="@id/certificate_expiration" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/current_certificate"

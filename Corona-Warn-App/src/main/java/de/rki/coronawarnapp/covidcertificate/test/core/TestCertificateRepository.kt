@@ -2,10 +2,12 @@ package de.rki.coronawarnapp.covidcertificate.test.core
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage
@@ -27,6 +29,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -48,6 +51,7 @@ class TestCertificateRepository @Inject constructor(
     private val timeStamper: TimeStamper,
     valueSetsRepository: ValueSetsRepository,
     private val rsaKeyPairGenerator: RSAKeyPairGenerator,
+    private val dccStateChecker: DccStateChecker,
 ) {
 
     private val internalData: HotDataFlow<Map<TestCertificateContainerId, TestCertificateContainer>> = HotDataFlow(
@@ -73,9 +77,17 @@ class TestCertificateRepository @Inject constructor(
         valueSetsRepository.latestTestCertificateValueSets
     ) { certMap, valueSets ->
         certMap.values.map { container ->
+            val state = when {
+                container.isCertificateRetrievalPending -> CwaCovidCertificate.State.Invalid()
+                else -> container.testCertificateQRCode?.data?.let {
+                    dccStateChecker.checkState(it).first()
+                } ?: CwaCovidCertificate.State.Invalid()
+            }
+
             TestCertificateWrapper(
                 valueSets = valueSets,
                 container = container,
+                certificateState = state,
             )
         }.toSet()
     }
@@ -372,6 +384,11 @@ class TestCertificateRepository @Inject constructor(
 
             mutate { this[containerId] = updated }
         }
+    }
+
+    suspend fun acknowledgeState(containerId: TestCertificateContainerId) {
+        Timber.tag(TAG).d("acknowledgeState(containerId=$containerId)")
+        // Currently not supported
     }
 
     companion object {
