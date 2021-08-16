@@ -102,17 +102,12 @@ class PersonDetailsViewModel @AssistedInject constructor(
             // Find any vaccination certificate to determine the vaccination information
             personCertificates.certificates.find { it is VaccinationCertificate }?.let { certificate ->
                 val vaccinatedPerson = vaccinatedPerson(certificate)
-                if (vaccinatedPerson != null && vaccinatedPerson.getVaccinationStatus(timeStamper.nowUTC) != IMMUNITY) {
-                    vaccinatedPerson.isFirstVaccinationDoseAfterRecovery()
-
-                    /**Don't show the vaccination hint section
-                     * if the person had their first dose of vaccine after recovering from covid.
-                     * Applies to ASTRA, BIONTECH and MODERNA vaccines only
-                     */
-                    if (!vaccinatedPerson.isFirstVaccinationDoseAfterRecovery()) {
-                        val timeUntilImmunity = vaccinatedPerson.getDaysUntilImmunity()
-                        add(VaccinationInfoCard.Item(timeUntilImmunity))
-                    }
+                if (vaccinatedPerson != null &&
+                    vaccinatedPerson.getVaccinationStatus(timeStamper.nowUTC) != IMMUNITY &&
+                    !vaccinatedPerson.isFirstVaccinationDoseAfterRecovery()
+                ) {
+                    val timeUntilImmunity = vaccinatedPerson.getDaysUntilImmunity()
+                    add(VaccinationInfoCard.Item(timeUntilImmunity))
                 }
             }
 
