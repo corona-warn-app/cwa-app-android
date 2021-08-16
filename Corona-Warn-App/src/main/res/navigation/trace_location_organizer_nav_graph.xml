@@ -70,6 +70,9 @@
         <action
             android:id="@+id/action_traceLocationOrganizerListFragment_to_traceLocationInfoFragment"
             app:destination="@id/traceLocationInfoFragment" />
+        <action
+            android:id="@+id/action_traceLocationsFragment_to_traceLocationWarnInfoFragment"
+            app:destination="@id/traceLocationWarnInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/qrCodeDetailFragment"
@@ -98,5 +101,12 @@
     </fragment>
 
     <!-- TODO add new screens-->
+
+    <fragment
+        android:id="@+id/traceLocationWarnInfoFragment"
+        android:name="de.rki.coronawarnapp.ui.presencetracing.organizer.warn.TraceLocationWarnInfoFragment"
+        android:label="TraceLocationWarnInfoFragment"
+        tools:layout="@layout/trace_location_organizer_warn_info_fragment">
+    </fragment>
 
 </navigation>
