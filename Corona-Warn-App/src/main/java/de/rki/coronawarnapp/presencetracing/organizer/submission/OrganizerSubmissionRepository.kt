@@ -1,12 +1,8 @@
 package de.rki.coronawarnapp.presencetracing.organizer.submission
 
 import dagger.Reusable
-import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
-import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
-import de.rki.coronawarnapp.coronatest.server.VerificationServer
 import de.rki.coronawarnapp.playbook.OrganizerPlaybook
 import de.rki.coronawarnapp.presencetracing.checkins.OrganizerCheckInsTransformer
-import de.rki.coronawarnapp.presencetracing.organizer.submission.server.OrganizerSubmissionServer
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.withContext
