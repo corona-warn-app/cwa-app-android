@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
@@ -71,6 +72,16 @@ data class VaccinatedPerson(
         return IMMUNITY_WAITING_DAYS - Days.daysBetween(newestFullDose.vaccinatedOn, today).days
     }
 
+    private fun getNewestFullDose() = vaccinationCertificates.filter { it.doseNumber == it.totalSeriesOfDoses }
+
+    fun isFirstVaccinationDoseAfterRecovery(): Boolean {
+        val vaccinationDetails = getNewestFullDose()[0].rawCertificate.vaccination
+        return when (vaccinationDetails.medicalProductId) {
+            BIONTECH, ASTRA, MODERNA -> vaccinationDetails.doseNumber == 1
+            else -> false
+        }
+    }
+
     enum class Status {
         INCOMPLETE,
         COMPLETE,
@@ -79,5 +90,8 @@ data class VaccinatedPerson(
 
     companion object {
         private const val IMMUNITY_WAITING_DAYS = 15
+        private const val BIONTECH = "EU/1/20/1528"
+        private const val ASTRA = "EU/1/21/1529"
+        private const val MODERNA = "EU/1/20/1507"
     }
 }
