@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerWarnInfoFragmentBinding
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 
@@ -25,7 +26,7 @@ class TraceLocationWarnInfoFragment : Fragment(R.layout.trace_location_organizer
         binding.apply {
             toolbar.setNavigationOnClickListener { popBackStack() }
             nextButton.setOnClickListener {
-                // TODO: navigate here }
+                doNavigate(TraceLocationWarnInfoFragmentDirections.actionTraceLocationWarnInfoFragmentToTraceLocationsWarnFragment())
             }
         }
     }

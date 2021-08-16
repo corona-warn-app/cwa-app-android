@@ -28,7 +28,7 @@
         android:paddingBottom="@dimen/spacing_fab_padding"
         android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/next_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
@@ -38,57 +38,88 @@
         android:id="@+id/qr_codes_list_no_items_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="qr_codes__list_no_items_image,qr_codes_list_no_items_title,qr_codes_list_no_items_subtitle" />
+        app:constraint_referenced_ids="list_no_items_image,list_no_items_title,list_no_items_subtitle,list_no_items_info" />
 
     <ImageView
-        android:id="@+id/qr_codes__list_no_items_image"
+        android:id="@+id/list_no_items_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/contact_diary_edit_locations_image_content_description"
-        app:layout_constraintBottom_toTopOf="@id/qr_codes_list_no_items_title"
+        app:layout_constraintBottom_toTopOf="@id/list_no_items_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
-        app:srcCompat="@drawable/ic_illustration_no_qr_codes" />
+        app:srcCompat="@drawable/ic_illustration_no_events" />
 
     <TextView
-        android:id="@+id/qr_codes_list_no_items_title"
+        android:id="@+id/list_no_items_title"
         style="@style/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_huge"
         android:layout_marginTop="@dimen/spacing_normal"
-        android:text="@string/trace_location_organiser_list_no_codes_title"
+        android:text="@string/trace_location_organiser_list_no_events_title"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@id/qr_codes_list_no_items_subtitle"
+        app:layout_constraintBottom_toTopOf="@id/list_no_items_subtitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/qr_codes__list_no_items_image" />
+        app:layout_constraintTop_toBottomOf="@id/list_no_items_image" />
 
     <TextView
-        android:id="@+id/qr_codes_list_no_items_subtitle"
+        android:id="@+id/list_no_items_subtitle"
         style="@style/body2Medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_huge"
         android:layout_marginTop="@dimen/spacing_tiny"
-        android:text="@string/trace_location_organiser_list_no_codes_subtitle"
+        android:text="@string/trace_location_organiser_list_no_events_subtitle"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/qr_codes_list_no_items_title" />
+        app:layout_constraintTop_toBottomOf="@id/list_no_items_title" />
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/qr_code_fab"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/list_no_items_info"
+        style="@style/body2Medium"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_normal"
-        android:text="@string/trace_location_organiser_list_new_button"
-        android:transitionName="trace_location_organizer_category"
-        app:icon="@drawable/ic_add"
+        android:layout_marginHorizontal="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:text="@string/trace_location_organiser_list_no_events_info"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <Button
+        android:id="@+id/next_button"
+        style="@style/buttonPrimary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:text="@string/acknowledge_button"
+        app:layout_constraintBottom_toTopOf="@id/qr_scan_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/qr_scan_button"
+        style="@style/materialTextButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:text="@string/acknowledge_button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="QR Code Scannen" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

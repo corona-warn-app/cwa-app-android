@@ -63,18 +63,6 @@ class TraceLocationsWarnFragment : Fragment(R.layout.trace_location_organizer_tr
                 }
             }
         }
-
-        binding.qrCodeFab.apply {
-            setOnClickListener {
-                setupHoldTransition()
-                findNavController().navigate(
-                    R.id.action_traceLocationsFragment_to_traceLocationCategoryFragment,
-                    null,
-                    null,
-                    FragmentNavigatorExtras(this to transitionName)
-                )
-            }
-        }
     }
 
     private fun setupHoldTransition() {

@@ -273,4 +273,11 @@
     <!-- XTXT: Warn Info Screen: guests -->
     <string name="trace_location_organiser_warn_info_authority">"Nur nach Anweisung des Gesundheitsamtes können Sie Ihre Gäste in Vertretung warnen. Sie bekommen dazu vom Gesundheitsamt eine TAN mitgeteilt."</string>
 
+    <!--  Warn List Screen -->
+    <!-- XTXT: Event organiser qr codes list: new qr code button  -->
+    <string name="trace_location_organiser_list_no_events_title">"Keine Events vorhanden"</string>
+    <!-- XTXT: Event organiser qr codes list: new qr code button  -->
+    <string name="trace_location_organiser_list_no_events_subtitle">"Scannen Sie den QR-Code eines Events erneut, um andere in Vertretung zu warnen."</string>
+    <!-- XTXT: Event organiser qr codes list: new qr code button  -->
+    <string name="trace_location_organiser_list_no_events_info">"Wählen Sie ein Event, für welches Sie in Vertretung einer infizierten Person andere warnen möchten."</string>
 </resources>
