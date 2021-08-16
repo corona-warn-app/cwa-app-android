@@ -4,9 +4,11 @@ import com.google.protobuf.ByteString
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInsReport
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload
+import de.rki.coronawarnapp.submission.server.SubmissionServer
 import de.rki.coronawarnapp.util.PaddingTool
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 class OrganizerSubmissionServer @Inject constructor(
@@ -18,7 +20,7 @@ class OrganizerSubmissionServer @Inject constructor(
         uploadTAN: String,
         checkInsReport: CheckInsReport
     ) = withContext(dispatcherProvider.IO) {
-
+        Timber.tag(TAG).d("submit(uploadTAN=%s, checkInReport=%s)", uploadTAN, checkInsReport)
         val plausibleParameters = appConfigProvider
             .getAppConfig()
             .presenceTracing
@@ -40,5 +42,27 @@ class OrganizerSubmissionServer @Inject constructor(
             .build()
 
         // TODO submit
+    }
+
+    suspend fun submitFakePayload() = withContext(dispatcherProvider.IO) {
+        Timber.tag(TAG).d("submitFakePayload()")
+        val plausibleParameters = appConfigProvider
+            .getAppConfig()
+            .presenceTracing
+            .plausibleDeniabilityParameters
+
+        val fakeCheckInPadding = paddingTool.checkInPadding(plausibleParameters, checkInListSize = 0)
+
+        Timber.tag(TAG).v("fakeCheckInPadding=%s", fakeCheckInPadding)
+
+        val submissionPayload = SubmissionPayload.newBuilder()
+            .setRequestPadding(ByteString.copyFromUtf8(fakeCheckInPadding))
+            .build()
+
+        // TODO submit fake payload
+    }
+
+    companion object {
+        private val TAG = this::class.simpleName
     }
 }
