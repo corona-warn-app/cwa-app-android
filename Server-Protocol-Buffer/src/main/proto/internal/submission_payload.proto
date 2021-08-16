@@ -18,5 +18,6 @@ message SubmissionPayload {
   enum SubmissionType {
     SUBMISSION_TYPE_PCR_TEST = 0;
     SUBMISSION_TYPE_RAPID_TEST = 1;
+    SUBMISSION_TYPE_HOST_WARNING = 2;
   }
 }
