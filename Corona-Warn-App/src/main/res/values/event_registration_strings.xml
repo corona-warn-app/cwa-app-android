@@ -171,6 +171,8 @@
     <string name="trace_location_organizer_list_menu_information_btn">"Information"</string>
     <!-- XBUT: Event organiser qr codes list: menu: remove all button  -->
     <string name="trace_location_organizer_list_menu_remove_all_btn">"Remove All"</string>
+    <!-- XBUT: Event organiser qr codes list: menu: warn guests button  -->
+    <string name="trace_location_organizer_list_menu_warn_guests_btn">"In Vertretung warnen"</string>
 
     <!-- XHED:  Event organiser qr codes list: delete single popup title -->
     <string name="trace_location_organiser_list_delete_single_popup_title">"Do you want to remove the QR code?"</string>
@@ -262,4 +264,13 @@
     <!--  Warn Info Screen -->
     <!-- XHED: Warn Info Screen: header -->
     <string name="trace_location_organiser_warn_info_header">"In Vertretung warnen"</string>
+    <!-- XHED: Warn Info Screen: title -->
+    <string name="trace_location_organiser_warn_info_title">"Mehr Sicherheit für Sie und Ihre Gäste"</string>
+    <!-- XTXT: Warn Info Screen: body -->
+    <string name="trace_location_organiser_warn_info_body">"Sie können Ihre Gäste in Vertretung für eine positiv getestete Person warnen, die am Event teilgenommen hat, aber nicht über die Corona-Warn-App eingecheckt war."</string>
+    <!-- XTXT: Warn Info Screen: guests -->
+    <string name="trace_location_organiser_warn_info_guests">"Wird eine nicht eingecheckte Person später positiv getestet, können die Gäste gewarnt werden, wenn sie sich zur gleichen Zeit oder bis zu 30 Minuten nach der positiv getesteten Person im gleichen Raum aufgehalten haben."</string>
+    <!-- XTXT: Warn Info Screen: guests -->
+    <string name="trace_location_organiser_warn_info_authority">"Nur nach Anweisung des Gesundheitsamtes können Sie Ihre Gäste in Vertretung warnen. Sie bekommen dazu vom Gesundheitsamt eine TAN mitgeteilt."</string>
+
 </resources>
