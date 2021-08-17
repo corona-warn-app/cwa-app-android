@@ -26,6 +26,8 @@ import de.rki.coronawarnapp.ui.presencetracing.organizer.poster.QrCodePosterFrag
 import de.rki.coronawarnapp.ui.presencetracing.organizer.poster.QrCodePosterFragmentModule
 import de.rki.coronawarnapp.ui.presencetracing.organizer.qrinfo.TraceLocationQRInfoFragment
 import de.rki.coronawarnapp.ui.presencetracing.organizer.qrinfo.TraceLocationQRInfoFragmentModule
+import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.TraceLocationSelectionFragment
+import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.TraceLocationSelectionFragmentModule
 
 @Module
 internal abstract class PresenceTracingUIModule {
@@ -56,6 +58,9 @@ internal abstract class PresenceTracingUIModule {
 
     @ContributesAndroidInjector(modules = [TraceLocationsFragmentModule::class])
     abstract fun traceLocationsFragment(): TraceLocationsFragment
+
+    @ContributesAndroidInjector(modules = [TraceLocationSelectionFragmentModule::class])
+    abstract fun traceLocationsWarnFragment(): TraceLocationSelectionFragment
 
     @ContributesAndroidInjector(modules = [QrCodePosterFragmentModule::class])
     abstract fun qrCodePosterFragment(): QrCodePosterFragment
