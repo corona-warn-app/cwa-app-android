@@ -15,7 +15,8 @@ import javax.inject.Inject
 class OrganizerSubmissionServer @Inject constructor(
     private val paddingTool: PaddingTool,
     private val appConfigProvider: AppConfigProvider,
-    private val dispatcherProvider: DispatcherProvider
+    private val dispatcherProvider: DispatcherProvider,
+    private val organizerSubmissionApiV1: OrganizerSubmissionApiV1
 ) {
     suspend fun submit(
         uploadTAN: String,
@@ -32,7 +33,7 @@ class OrganizerSubmissionServer @Inject constructor(
             checkInListSize = checkInsReport.encryptedCheckIns.size
         )
 
-        val submissionPayload = SubmissionPayload.newBuilder()
+        val payload = SubmissionPayload.newBuilder()
             .addAllKeys(emptyList())
             .setRequestPadding(ByteString.copyFromUtf8(checkInPadding))
             .setConsentToFederation(false)
@@ -42,7 +43,7 @@ class OrganizerSubmissionServer @Inject constructor(
             .setSubmissionType(SubmissionPayload.SubmissionType.SUBMISSION_TYPE_HOST_WARNING)
             .build()
 
-        // TODO submit
+        organizerSubmissionApiV1.submitCheckInsOnBehalf(uploadTAN, payload)
     }
 
     companion object {
