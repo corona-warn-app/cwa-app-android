@@ -5,8 +5,8 @@
     style="@style/contactDiaryCardRipple"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="16dp"
-    android:layout_marginVertical="8dp"
+    android:layout_marginHorizontal="@dimen/spacing_small"
+    android:layout_marginVertical="@dimen/spacing_tiny"
     android:focusable="true">
 
     <ImageView
