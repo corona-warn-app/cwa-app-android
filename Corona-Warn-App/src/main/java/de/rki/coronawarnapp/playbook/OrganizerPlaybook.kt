@@ -7,21 +7,25 @@ import de.rki.coronawarnapp.exception.TanPairingException
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInsReport
 import de.rki.coronawarnapp.presencetracing.organizer.submission.server.OrganizerSubmissionServer
+import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 import timber.log.Timber
 import java.util.UUID
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class OrganizerPlaybook @Inject constructor(
+    @AppScope private val appScope: CoroutineScope,
     private val verificationServer: VerificationServer,
-    private val submissionServer: OrganizerSubmissionServer
+    private val submissionServer: OrganizerSubmissionServer,
+    dispatcherProvider: DispatcherProvider,
 ) {
     private val uid = UUID.randomUUID().toString()
-    private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
+    private val coroutineScope: CoroutineScope = appScope + dispatcherProvider.IO
 
     suspend fun submit(tan: String, checkInsReport: CheckInsReport) {
         Timber.i("[$uid] New Submission Playbook")

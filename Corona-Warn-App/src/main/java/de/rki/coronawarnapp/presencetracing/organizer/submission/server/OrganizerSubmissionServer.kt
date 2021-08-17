@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.presencetracing.organizer.submission.server
 
 import com.google.protobuf.ByteString
+import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInsReport
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload
@@ -10,6 +11,7 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
+@Reusable
 class OrganizerSubmissionServer @Inject constructor(
     private val paddingTool: PaddingTool,
     private val appConfigProvider: AppConfigProvider,
