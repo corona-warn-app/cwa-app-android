@@ -37,7 +37,7 @@ class OrganizerSubmissionServer @Inject constructor(
             .addAllVisitedCountries(emptyList())
             .addAllCheckIns(checkInsReport.unencryptedCheckIns)
             .addAllCheckInProtectedReports(checkInsReport.encryptedCheckIns)
-            .setSubmissionType(SubmissionPayload.SubmissionType.SUBMISSION_TYPE_PCR_TEST) // TODO TBD
+            .setSubmissionType(SubmissionPayload.SubmissionType.SUBMISSION_TYPE_HOST_WARNING) // TODO TBD
             .build()
 
         // TODO submit
