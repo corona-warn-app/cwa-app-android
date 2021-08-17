@@ -66,10 +66,10 @@ data class VaccinatedPerson(
 
         return IMMUNITY_WAITING_DAYS - Days.daysBetween(newestFullDose.vaccinatedOn, today).days
     }
-    private fun getNewestFullDose(): VaccinationCertificate? = vaccinationCertificates
-            .filter { it.doseNumber == it.totalSeriesOfDoses }
-            .maxByOrNull { it.vaccinatedOn }
 
+    private fun getNewestFullDose(): VaccinationCertificate? = vaccinationCertificates
+        .filter { it.doseNumber == it.totalSeriesOfDoses }
+        .maxByOrNull { it.vaccinatedOn }
 
     private fun isFirstVaccinationDoseAfterRecovery(): Boolean {
         val vaccinationDetails = getNewestFullDose()?.rawCertificate?.vaccination
