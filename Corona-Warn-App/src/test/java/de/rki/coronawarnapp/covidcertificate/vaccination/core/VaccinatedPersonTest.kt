@@ -184,6 +184,8 @@ class VaccinatedPersonTest : BaseTest() {
                         every { vaccinatedOn } returns LocalDate.parse("2021-06-13")
                         every { doseNumber } returns 2
                         every { totalSeriesOfDoses } returns 2
+                        every { rawCertificate.vaccination.doseNumber } returns doseNumber
+                        every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1528"
                     }
                     every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
                 }
@@ -226,6 +228,8 @@ class VaccinatedPersonTest : BaseTest() {
                         every { vaccinatedOn } returns LocalDate.parse("2021-01-01")
                         every { doseNumber } returns 2
                         every { totalSeriesOfDoses } returns 2
+                        every { rawCertificate.vaccination.doseNumber } returns doseNumber
+                        every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1528"
                     }
 
                     every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
