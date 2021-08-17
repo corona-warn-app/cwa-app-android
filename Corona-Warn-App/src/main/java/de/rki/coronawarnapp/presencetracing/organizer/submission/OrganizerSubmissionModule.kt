@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.presencetracing.organizer.submission.server.Organize
 import de.rki.coronawarnapp.submission.server.SubmissionHttpClient
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import retrofit2.converter.protobuf.ProtoConverterFactory
 
 @Module
 class OrganizerSubmissionModule {
@@ -16,10 +17,12 @@ class OrganizerSubmissionModule {
     @Provides
     fun provideOrganizerSubmissionApiV1(
         @SubmissionHttpClient client: OkHttpClient,
-        @SubmissionCDNServerUrl url: String
+        @SubmissionCDNServerUrl url: String,
+        protoConverterFactory: ProtoConverterFactory
     ): OrganizerSubmissionApiV1 = Retrofit.Builder()
         .client(client)
         .baseUrl(url)
+        .addConverterFactory(protoConverterFactory)
         .build()
         .create(OrganizerSubmissionApiV1::class.java)
 }
