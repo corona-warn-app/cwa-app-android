@@ -44,7 +44,7 @@ class TraceLocationsWarnFragment : Fragment(R.layout.trace_location_organizer_tr
         }
 
         binding.toolbar.setNavigationOnClickListener {
-            // TODO: pop to home fragment
+            // TODO: pop to home fragment?
             popBackStack()
         }
 

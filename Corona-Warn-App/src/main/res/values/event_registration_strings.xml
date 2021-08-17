@@ -280,4 +280,6 @@
     <string name="trace_location_organiser_list_no_events_subtitle">"Scannen Sie den QR-Code eines Events erneut, um andere in Vertretung zu warnen."</string>
     <!-- XTXT: Event organiser qr codes list: new qr code button  -->
     <string name="trace_location_organiser_list_no_events_info">"Wählen Sie ein Event, für welches Sie in Vertretung einer infizierten Person andere warnen möchten."</string>
+    <!-- XTXT: Event organiser qr codes list: new qr code button  -->
+    <string name="trace_location_organiser_list_subtitle">"Wählen Sie ein Event, für welches Sie in Vertretung einer infizierten Person andere warnen möchten. Oder stellen Sie gelöschte Events wieder her, indem sie den QR-Code des Events erneut einscannen."</string>
 </resources>
