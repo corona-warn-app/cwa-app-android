@@ -268,4 +268,38 @@ class VaccinatedPersonTest : BaseTest() {
             }
         }
     }
+
+    @Test
+    fun `vaccination after recovery returns immunity`() {
+        DateTimeZone.setDefault(DateTimeZone.forTimeZone(TimeZone.getTimeZone("Europe/Berlin")))
+
+        val personData = mockk<VaccinatedPersonData>().apply {
+            every { vaccinations } returns setOf(
+                mockk<VaccinationContainer>().apply {
+                    every { toVaccinationCertificate(any(), any()) } returns mockk<VaccinationCertificate>().apply {
+                        every { vaccinatedOn } returns LocalDate.parse("2021-01-01")
+                        every { doseNumber } returns 1
+                        every { totalSeriesOfDoses } returns 1
+                        every { rawCertificate.vaccination.doseNumber } returns doseNumber
+                        every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1528" // BIONTECH
+                    }
+
+                    every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
+                }
+            )
+        }
+
+        VaccinatedPerson(
+            data = personData,
+            valueSet = null,
+            certificateStates = personData.vaccinations
+                .map { it.containerId to CwaCovidCertificate.State.Invalid() }
+                .toMap()
+        ).apply {
+            Instant.parse("2021-01-14T0:00:00.000Z").let { now ->
+                getDaysUntilImmunity(now)!! shouldBe 2
+                getVaccinationStatus(now) shouldBe VaccinatedPerson.Status.IMMUNITY
+            }
+        }
+    }
 }
