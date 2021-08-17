@@ -5,11 +5,11 @@ import androidx.core.view.isInvisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsWarnItemBinding
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
-import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.TraceLocationsWarnAdapter
+import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.TraceLocationSelectionAdapter
 import org.joda.time.format.DateTimeFormat
 
 class TraceLocationVH(parent: ViewGroup) :
-    TraceLocationsWarnAdapter.ItemVH<TraceLocationVH.Item, TraceLocationOrganizerTraceLocationsWarnItemBinding>(
+    TraceLocationSelectionAdapter.ItemVH<TraceLocationVH.Item, TraceLocationOrganizerTraceLocationsWarnItemBinding>(
         layoutRes = R.layout.trace_location_organizer_trace_locations_warn_item,
         parent = parent
     ) {
@@ -63,7 +63,7 @@ class TraceLocationVH(parent: ViewGroup) :
         val traceLocation: TraceLocation,
         val selected: Boolean,
         val onCardClicked: (TraceLocation) -> Unit
-    ) : TraceLocationWarnItem {
+    ) : TraceLocationItem {
         override val stableId: Long = traceLocation.id.hashCode().toLong()
     }
 }

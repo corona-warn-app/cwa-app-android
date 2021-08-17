@@ -9,7 +9,6 @@ import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsWarnListFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -18,13 +17,13 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
-class TraceLocationsWarnFragment :
+class TraceLocationSelectionFragment :
     Fragment(R.layout.trace_location_organizer_trace_locations_warn_list_fragment), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: TraceLocationsWarnViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: TraceLocationSelectionViewModel by cwaViewModels { viewModelFactory }
     private val binding: TraceLocationOrganizerTraceLocationsWarnListFragmentBinding by viewBinding()
-    private val traceLocationsAdapter = TraceLocationsWarnAdapter()
+    private val traceLocationsAdapter = TraceLocationSelectionAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +39,6 @@ class TraceLocationsWarnFragment :
 
             recyclerView.apply {
                 adapter = traceLocationsAdapter
-                addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
             }
 
             toolbar.setNavigationOnClickListener {
@@ -67,10 +65,10 @@ class TraceLocationsWarnFragment :
 
         viewModel.events.observe2(this) {
             when (it) {
-                is TraceLocationWarnEvent.ContinueWithTraceLocation -> {
+                is TraceLocationSelectionEvent.ContinueWithTraceLocation -> {
                     // TODO: navigation here
                 }
-                TraceLocationWarnEvent.ScanQrCode -> {
+                TraceLocationSelectionEvent.ScanQrCode -> {
                     // TODO: navigation here
                 }
             }

@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.items.TraceLocationSubHeaderItem
-import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.items.TraceLocationWarnItem
+import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.items.TraceLocationItem
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.items.TraceLocationVH
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -18,13 +18,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 
-class TraceLocationsWarnViewModel @AssistedInject constructor(
+class TraceLocationSelectionViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     checkInsRepository: CheckInRepository,
     traceLocationRepository: TraceLocationRepository,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val events = SingleLiveEvent<TraceLocationWarnEvent>()
+    val events = SingleLiveEvent<TraceLocationSelectionEvent>()
 
     private val selectedEvent = MutableStateFlow<TraceLocation?>(null)
 
@@ -41,7 +41,7 @@ class TraceLocationsWarnViewModel @AssistedInject constructor(
             }
         }.combine(selectedEvent) { traceLocations, selectedItem ->
             State(
-                traceLocations = mutableListOf<TraceLocationWarnItem>().apply {
+                traceLocations = mutableListOf<TraceLocationItem>().apply {
                     if (traceLocations.isNotEmpty()) {
                         add(TraceLocationSubHeaderItem)
                     }
@@ -64,16 +64,16 @@ class TraceLocationsWarnViewModel @AssistedInject constructor(
 
     fun goNext() {
         selectedEvent.value?.let {
-            events.value = TraceLocationWarnEvent.ContinueWithTraceLocation(it)
+            events.value = TraceLocationSelectionEvent.ContinueWithTraceLocation(it)
         }
     }
 
     fun scanQrCode() {
-        events.value = TraceLocationWarnEvent.ScanQrCode
+        events.value = TraceLocationSelectionEvent.ScanQrCode
     }
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<TraceLocationsWarnViewModel>
+    interface Factory : SimpleCWAViewModelFactory<TraceLocationSelectionViewModel>
 
-    data class State(val traceLocations: List<TraceLocationWarnItem>, val actionEnabled: Boolean)
+    data class State(val traceLocations: List<TraceLocationItem>, val actionEnabled: Boolean)
 }
