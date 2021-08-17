@@ -58,7 +58,7 @@ class TraceLocationSelectionFragment :
             traceLocationsAdapter.update(it.traceLocations)
             binding.apply {
                 recyclerView.isGone = it.traceLocations.isEmpty()
-                qrCodesListNoItemsGroup.isGone = it.traceLocations.isNotEmpty()
+                listNoItemsGroup.isGone = it.traceLocations.isNotEmpty()
             }
             binding.nextButton.isEnabled = it.actionEnabled
         }
@@ -73,10 +73,5 @@ class TraceLocationSelectionFragment :
                 }
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        binding.contentContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 }

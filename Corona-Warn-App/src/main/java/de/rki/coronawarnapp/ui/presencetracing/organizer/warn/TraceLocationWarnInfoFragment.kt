@@ -28,7 +28,7 @@ class TraceLocationWarnInfoFragment : Fragment(R.layout.trace_location_organizer
             nextButton.setOnClickListener {
                 doNavigate(
                     TraceLocationWarnInfoFragmentDirections
-                        .actionTraceLocationWarnInfoFragmentToTraceLocationsWarnFragment()
+                        .actionTraceLocationWarnInfoFragmentToTraceLocationSelectionFragment()
                 )
             }
         }

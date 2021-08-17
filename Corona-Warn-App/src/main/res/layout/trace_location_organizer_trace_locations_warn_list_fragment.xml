@@ -23,10 +23,10 @@
         android:id="@+id/recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/spacing_small"
         android:clipToPadding="false"
         android:paddingBottom="@dimen/spacing_fab_padding"
         android:visibility="gone"
-        android:layout_marginBottom="@dimen/spacing_small"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/next_button"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +34,7 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <androidx.constraintlayout.widget.Group
-        android:id="@+id/qr_codes_list_no_items_group"
+        android:id="@+id/list_no_items_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="list_no_items_image,list_no_items_title,list_no_items_subtitle,list_no_items_info" />
