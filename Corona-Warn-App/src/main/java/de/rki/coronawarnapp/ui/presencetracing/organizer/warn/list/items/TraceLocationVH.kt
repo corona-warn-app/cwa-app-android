@@ -25,6 +25,7 @@ class TraceLocationVH(parent: ViewGroup) :
 
         address.text = item.traceLocation.address
         title.text = item.traceLocation.description
+        headerCheckbox.setImageResource(if (item.selected) R.drawable.ic_selected else R.drawable.ic_unselected)
 
         if (item.traceLocation.startDate != null && item.traceLocation.endDate != null) {
 
@@ -54,20 +55,14 @@ class TraceLocationVH(parent: ViewGroup) :
         }
 
         itemView.apply {
-            setOnClickListener { item.onCardClicked(item.traceLocation, adapterPosition) }
-            transitionName = item.traceLocation.id.toString()
+            setOnClickListener { item.onCardClicked(item.traceLocation) }
         }
     }
 
     data class Item(
         val traceLocation: TraceLocation,
-        val canCheckIn: Boolean,
-        val onCheckIn: (TraceLocation) -> Unit,
-        val onDuplicate: (TraceLocation) -> Unit,
-        val onShowPrint: (TraceLocation) -> Unit,
-        val onDeleteItem: (TraceLocation) -> Unit,
-        val onSwipeItem: (TraceLocation, Int) -> Unit,
-        val onCardClicked: (TraceLocation, Int) -> Unit
+        val selected: Boolean,
+        val onCardClicked: (TraceLocation) -> Unit
     ) : TraceLocationWarnItem {
         override val stableId: Long = traceLocation.id.hashCode().toLong()
     }
