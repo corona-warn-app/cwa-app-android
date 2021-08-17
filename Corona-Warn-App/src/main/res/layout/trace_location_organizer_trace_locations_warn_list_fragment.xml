@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -27,12 +26,12 @@
         android:clipToPadding="false"
         android:paddingBottom="@dimen/spacing_fab_padding"
         android:visibility="gone"
+        android:layout_marginBottom="@dimen/spacing_small"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/next_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        tools:listitem="@layout/trace_location_organizer_trace_locations_item" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/qr_codes_list_no_items_group"
@@ -116,10 +115,9 @@
         android:layout_marginTop="@dimen/spacing_small"
         android:layout_marginEnd="@dimen/spacing_normal"
         android:layout_marginBottom="@dimen/spacing_small"
-        android:text="@string/acknowledge_button"
+        android:text="@string/trace_location_organiser_qr_code_scan"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="QR Code Scannen" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

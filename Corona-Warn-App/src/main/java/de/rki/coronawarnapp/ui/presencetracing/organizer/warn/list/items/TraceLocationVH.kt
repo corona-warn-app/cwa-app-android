@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.items
 
 import android.view.ViewGroup
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsWarnItemBinding
@@ -24,13 +25,14 @@ class TraceLocationVH(parent: ViewGroup) :
     ) -> Unit = { item, _ ->
 
         address.text = item.traceLocation.address
+        title.text = item.traceLocation.description
 
         if (item.traceLocation.startDate != null && item.traceLocation.endDate != null) {
 
             val startTime = item.traceLocation.startDate.toDateTime()
             val endTime = item.traceLocation.endDate.toDateTime()
 
-            duration.isVisible = false
+            duration.isInvisible = false
             duration.text = if (startTime.toLocalDate() == endTime.toLocalDate()) {
                 val dateFormat = DateTimeFormat.shortDate()
                 val timeFormat = DateTimeFormat.shortTime()
@@ -49,7 +51,7 @@ class TraceLocationVH(parent: ViewGroup) :
                 )
             }
         } else {
-            duration.isVisible = true
+            duration.isInvisible = true
         }
 
         itemView.apply {
