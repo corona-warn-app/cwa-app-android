@@ -54,28 +54,26 @@ data class VaccinatedPerson(
         val daysToImmunity = getDaysUntilImmunity(nowUTC) ?: return Status.INCOMPLETE
 
         return when {
-            daysToImmunity <= 0 -> Status.IMMUNITY
+            daysToImmunity <= 0 || isFirstVaccinationDoseAfterRecovery() -> Status.IMMUNITY
             else -> Status.COMPLETE
         }
     }
 
     fun getDaysUntilImmunity(nowUTC: Instant = Instant.now()): Int? {
-        val newestFullDose = vaccinationCertificates
-            .filter { it.doseNumber == it.totalSeriesOfDoses }
-            .maxByOrNull { it.vaccinatedOn }
-            ?: return null
-
+        val newestFullDose = getNewestFullDose() ?: return null
         val today = nowUTC
             .toLocalDateUserTz()
 
         return IMMUNITY_WAITING_DAYS - Days.daysBetween(newestFullDose.vaccinatedOn, today).days
     }
+    private fun getNewestFullDose(): VaccinationCertificate? = vaccinationCertificates
+            .filter { it.doseNumber == it.totalSeriesOfDoses }
+            .maxByOrNull { it.vaccinatedOn }
 
-    private fun getNewestFullDose() = vaccinationCertificates.filter { it.doseNumber == it.totalSeriesOfDoses }
 
-    fun isFirstVaccinationDoseAfterRecovery(): Boolean {
-        val vaccinationDetails = getNewestFullDose()[0].rawCertificate.vaccination
-        return when (vaccinationDetails.medicalProductId) {
+    private fun isFirstVaccinationDoseAfterRecovery(): Boolean {
+        val vaccinationDetails = getNewestFullDose()?.rawCertificate?.vaccination
+        return when (vaccinationDetails?.medicalProductId) {
             BIONTECH, ASTRA, MODERNA -> vaccinationDetails.doseNumber == 1
             else -> false
         }
