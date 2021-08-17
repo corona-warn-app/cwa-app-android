@@ -38,7 +38,7 @@ class DccValidationPassedFragment : Fragment(R.layout.covid_certificate_validati
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             covidCertificateValidationResultFragments.apply {
-                setHeaderForState(args.validation.state)
+                setHeaderForState(args.validation.state, args.validation.acceptanceRules.size)
                 list.apply {
                     adapter = validationResultAdapter
                     val padding = R.dimen.spacing_small

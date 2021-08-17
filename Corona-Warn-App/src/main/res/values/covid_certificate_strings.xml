@@ -241,6 +241,8 @@
     <!-- Validation Passed Screen-->
     <!-- XHED: Toolbar title for the validation passed screen  -->
     <string name="validation_rules_result_valid_header">"Certificate Is Valid"</string>
+    <!-- XTXT: Validation Rule Result No Rules - Result  -->
+    <string name="validation_rules_result_no_rules_title">Ihr Zertifikat konnte nicht geprüft werden</string>
     <!-- XTXT: No rules available text for the validation passed screen  -->
     <string name="validation_no_rules_available_valid_text">"There are currently no entry rules for the selected country and selected time for this certificate type. Please note the following:"</string>
     <!-- XTXT: Rule validation text for the validation passed screen  -->
