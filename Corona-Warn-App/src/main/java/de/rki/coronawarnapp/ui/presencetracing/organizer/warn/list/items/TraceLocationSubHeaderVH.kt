@@ -6,7 +6,8 @@ import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsWarn
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.TraceLocationsWarnAdapter
 
 class TraceLocationSubHeaderVH(parent: ViewGroup) :
-    TraceLocationsWarnAdapter.ItemVH<TraceLocationSubHeaderItem, TraceLocationOrganizerTraceLocationsWarnSubheaderBinding>(
+    TraceLocationsWarnAdapter.ItemVH<TraceLocationSubHeaderItem,
+        TraceLocationOrganizerTraceLocationsWarnSubheaderBinding>(
         layoutRes = R.layout.trace_location_organizer_trace_locations_warn_subheader,
         parent = parent
     ) {

@@ -19,8 +19,8 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
-class TraceLocationsWarnFragment : Fragment(R.layout.trace_location_organizer_trace_locations_warn_list_fragment),
-    AutoInject {
+class TraceLocationsWarnFragment :
+    Fragment(R.layout.trace_location_organizer_trace_locations_warn_list_fragment), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: TraceLocationsWarnViewModel by cwaViewModels { viewModelFactory }
