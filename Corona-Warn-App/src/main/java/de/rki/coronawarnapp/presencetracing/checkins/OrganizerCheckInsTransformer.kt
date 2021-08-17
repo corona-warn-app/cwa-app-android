@@ -57,6 +57,6 @@ class OrganizerCheckInsTransformer @Inject constructor(
     }
 
     companion object {
-        private const val RISK_LEVEL = 8
+        private const val RISK_LEVEL = 5
     }
 }

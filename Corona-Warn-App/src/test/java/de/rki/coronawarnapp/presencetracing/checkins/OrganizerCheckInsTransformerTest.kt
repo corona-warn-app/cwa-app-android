@@ -73,7 +73,7 @@ internal class OrganizerCheckInsTransformerTest : BaseTest() {
     private val transmissionRiskValueMappings: List<RiskCalculationParametersOuterClass.TransmissionRiskValueMapping> =
         listOf(
             RiskCalculationParametersOuterClass.TransmissionRiskValueMapping.newBuilder()
-                .setTransmissionRiskLevel(8)
+                .setTransmissionRiskLevel(5)
                 .setTransmissionRiskValue(2.0)
                 .build()
         )
@@ -200,7 +200,7 @@ internal class OrganizerCheckInsTransformerTest : BaseTest() {
             encryptedCheckIns.size shouldBe 7
 
             unencryptedCheckIns.forEach {
-                it.transmissionRiskLevel shouldBe 8
+                it.transmissionRiskLevel shouldBe 5
                 it.locationId.toOkioByteString() shouldBe checkIn3.traceLocationId
             }
 
