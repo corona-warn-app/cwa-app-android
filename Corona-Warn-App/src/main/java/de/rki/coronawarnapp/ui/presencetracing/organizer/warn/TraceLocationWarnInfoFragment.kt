@@ -5,7 +5,6 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.bugreporting.debuglog.ui.DebugLogFragmentDirections
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerWarnInfoFragmentBinding
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -29,10 +28,10 @@ class TraceLocationWarnInfoFragment : Fragment(R.layout.trace_location_organizer
             nextButton.setOnClickListener {
                 // TODO: navigate here }
                 // TODO: test navigation: to be deleted on final polishing
-                doNavigate(
-                    TraceLocationWarnInfoFragmentDirections
-                        .actionTraceLocationWarnInfoFragmentToTraceLocationWarnDurationFragment()
-                )
+//                doNavigate(
+//                    TraceLocationWarnInfoFragmentDirections
+//                        .actionTraceLocationWarnInfoFragmentToTraceLocationWarnDurationFragment(3)
+//                )
             }
         }
     }

@@ -118,6 +118,9 @@
         android:name="de.rki.coronawarnapp.ui.presencetracing.organizer.warn.duration.TraceLocationWarnDurationFragment"
         android:label="TraceLocationWarnDurationFragment"
         tools:layout="@layout/trace_location_organizer_warn_duration_fragment">
+        <argument
+            android:name="traceLocationId"
+            app:argType="long" />
     </fragment>
 
 </navigation>

@@ -73,7 +73,7 @@
                     tools:text="Jahrestreffen der deutschen SAP Anwendergruppe" />
 
                 <TextView
-                    android:id="@+id/address"
+                    android:id="@+id/eventDate"
                     style="@style/body2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
                 app:layout_constraintTop_toBottomOf="@id/event_card" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/trace_location_warn_duration_start"
+                android:id="@+id/start"
                 style="@style/TextInputLayoutTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -113,21 +113,23 @@
                 android:hint="@string/trace_location_organiser_warn_duration_start_hint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/trace_location_warn_duration_body"
-                app:endIconMode="clear_text">
+                app:layout_constraintTop_toBottomOf="@id/trace_location_warn_duration_body">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/start_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:imeOptions="actionNext"
-                    android:inputType="textCapWords"
-                    android:maxLength="100" />
+                    android:clickable="true"
+                    android:cursorVisible="false"
+                    android:focusable="true"
+                    android:focusableInTouchMode="false"
+                    android:imeOptions="actionNext|flagNoPersonalizedLearning"
+                    android:inputType="date" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/trace_location_warn_duration_duration"
+                android:id="@+id/duration"
                 style="@style/TextInputLayoutTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -136,16 +138,18 @@
                 android:hint="@string/trace_location_organiser_warn_duration_duration_hint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/trace_location_warn_duration_start"
-                app:endIconMode="clear_text">
+                app:layout_constraintTop_toBottomOf="@id/start">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/duration_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:imeOptions="actionNext"
-                    android:inputType="textCapWords"
-                    android:maxLength="100" />
+                    android:clickable="true"
+                    android:cursorVisible="false"
+                    android:focusable="true"
+                    android:focusableInTouchMode="false"
+                    android:imeOptions="actionNext|flagNoPersonalizedLearning"
+                    android:inputType="date" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
