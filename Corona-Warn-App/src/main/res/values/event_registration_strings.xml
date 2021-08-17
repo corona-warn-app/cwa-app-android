@@ -273,4 +273,14 @@
     <!-- XTXT: Warn Info Screen: guests -->
     <string name="trace_location_organiser_warn_info_authority">"Nur nach Anweisung des Gesundheitsamtes können Sie Ihre Gäste in Vertretung warnen. Sie bekommen dazu vom Gesundheitsamt eine TAN mitgeteilt."</string>
 
+    <!--  Warn Duration Screen -->
+    <!-- XHED: Warn Duration Screen: header -->
+    <string name="trace_location_organiser_warn_duration_header">"In Vertretung warnen"</string>
+    <!-- XTXT: Warn Duration Screen: body -->
+    <string name="trace_location_organiser_warn_duration_body">"Geben Sie die Aufenhaltsdauer der positiv getesteten Person an, für die gewarnt werden soll. Diese Information erhalten Sie vom Gesundheitsamt."</string>
+    <!-- XTXT: Warn Duration Screen: start hint -->
+    <string name="trace_location_organiser_warn_duration_start_hint">"Beginn/Ankunft"</string>
+    <!-- XTXT: Warn Duration Screen: duration hint -->
+    <string name="trace_location_organiser_warn_duration_duration_hint">"Dauer"</string>
+
 </resources>

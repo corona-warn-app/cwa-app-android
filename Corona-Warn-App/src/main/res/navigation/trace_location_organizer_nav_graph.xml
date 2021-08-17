@@ -107,6 +107,17 @@
         android:name="de.rki.coronawarnapp.ui.presencetracing.organizer.warn.TraceLocationWarnInfoFragment"
         android:label="TraceLocationWarnInfoFragment"
         tools:layout="@layout/trace_location_organizer_warn_info_fragment">
+        <!-- TODO test action only: to be deleted on final polishing -->
+        <action
+            android:id="@+id/action_traceLocationWarnInfoFragment_to_traceLocationWarnDurationFragment"
+            app:destination="@id/traceLocationWarnDurationFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/traceLocationWarnDurationFragment"
+        android:name="de.rki.coronawarnapp.ui.presencetracing.organizer.warn.duration.TraceLocationWarnDurationFragment"
+        android:label="TraceLocationWarnDurationFragment"
+        tools:layout="@layout/trace_location_organizer_warn_duration_fragment">
     </fragment>
 
 </navigation>
