@@ -3,9 +3,8 @@ package de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
-import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.subheader.OverviewSubHeaderVH
-import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.items.OverviewSubHeaderItem
-import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.items.TraceLocationSubheaderVH
+import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.items.TraceLocationSubHeaderItem
+import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.items.TraceLocationSubHeaderVH
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.items.TraceLocationWarnItem
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.items.TraceLocationVH
 import de.rki.coronawarnapp.util.lists.BindableVH
@@ -28,7 +27,7 @@ class TraceLocationsWarnAdapter :
                 StableIdMod(data),
                 DataBinderMod<TraceLocationWarnItem, ItemVH<TraceLocationWarnItem, ViewBinding>>(data),
                 TypedVHCreatorMod({ data[it] is TraceLocationVH.Item }) { TraceLocationVH(it) },
-                TypedVHCreatorMod({ data[it] is OverviewSubHeaderItem }) { TraceLocationSubheaderVH(it) },
+                TypedVHCreatorMod({ data[it] is TraceLocationSubHeaderItem }) { TraceLocationSubHeaderVH(it) },
             )
         )
     }

@@ -5,8 +5,8 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsWarnSubheaderBinding
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.TraceLocationsWarnAdapter
 
-class TraceLocationSubheaderVH(parent: ViewGroup) :
-    TraceLocationsWarnAdapter.ItemVH<OverviewSubHeaderItem, TraceLocationOrganizerTraceLocationsWarnSubheaderBinding>(
+class TraceLocationSubHeaderVH(parent: ViewGroup) :
+    TraceLocationsWarnAdapter.ItemVH<TraceLocationSubHeaderItem, TraceLocationOrganizerTraceLocationsWarnSubheaderBinding>(
         layoutRes = R.layout.trace_location_organizer_trace_locations_warn_subheader,
         parent = parent
     ) {
@@ -15,7 +15,7 @@ class TraceLocationSubheaderVH(parent: ViewGroup) :
         lazy { TraceLocationOrganizerTraceLocationsWarnSubheaderBinding.bind(itemView) }
 
     override val onBindData: TraceLocationOrganizerTraceLocationsWarnSubheaderBinding.(
-        item: OverviewSubHeaderItem,
+        item: TraceLocationSubHeaderItem,
         payloads: List<Any>
     ) -> Unit = { _, _ ->
         // NOOP

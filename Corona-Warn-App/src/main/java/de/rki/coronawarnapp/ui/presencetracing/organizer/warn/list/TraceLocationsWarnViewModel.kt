@@ -6,7 +6,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
-import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.items.OverviewSubHeaderItem
+import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.items.TraceLocationSubHeaderItem
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.items.TraceLocationWarnItem
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.items.TraceLocationVH
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -39,7 +39,7 @@ class TraceLocationsWarnViewModel @AssistedInject constructor(
         .map { traceLocations ->
             mutableListOf<TraceLocationWarnItem>().apply {
                 if (traceLocations.isNotEmpty()) {
-                    add(OverviewSubHeaderItem)
+                    add(TraceLocationSubHeaderItem)
                 }
                 addAll(
                     traceLocations.map { item ->
@@ -51,10 +51,8 @@ class TraceLocationsWarnViewModel @AssistedInject constructor(
                             onShowPrint = { },
                             onDeleteItem = { },
                             onSwipeItem = { location, position ->
-
                             },
                             onCardClicked = { traceLocation, position ->
-
                             },
                         )
                     }

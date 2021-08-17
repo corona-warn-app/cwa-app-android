@@ -5,8 +5,6 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.FragmentNavigatorExtras
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
@@ -21,7 +19,8 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
-class TraceLocationsWarnFragment : Fragment(R.layout.trace_location_organizer_trace_locations_warn_list_fragment), AutoInject {
+class TraceLocationsWarnFragment : Fragment(R.layout.trace_location_organizer_trace_locations_warn_list_fragment),
+    AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: TraceLocationsWarnViewModel by cwaViewModels { viewModelFactory }
@@ -59,7 +58,6 @@ class TraceLocationsWarnFragment : Fragment(R.layout.trace_location_organizer_tr
         viewModel.events.observe2(this) {
             when (it) {
                 is TraceLocationWarnEvent.ContinueWithTraceLocation -> {
-
                 }
             }
         }
@@ -80,5 +78,4 @@ class TraceLocationsWarnFragment : Fragment(R.layout.trace_location_organizer_tr
         super.onResume()
         binding.contentContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
-
 }

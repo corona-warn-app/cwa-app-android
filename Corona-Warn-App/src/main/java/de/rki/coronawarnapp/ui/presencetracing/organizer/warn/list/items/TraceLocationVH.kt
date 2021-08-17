@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.items
 
 import android.view.ViewGroup
 import androidx.core.view.isInvisible
-import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsWarnItemBinding
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation

@@ -26,7 +26,10 @@ class TraceLocationWarnInfoFragment : Fragment(R.layout.trace_location_organizer
         binding.apply {
             toolbar.setNavigationOnClickListener { popBackStack() }
             nextButton.setOnClickListener {
-                doNavigate(TraceLocationWarnInfoFragmentDirections.actionTraceLocationWarnInfoFragmentToTraceLocationsWarnFragment())
+                doNavigate(
+                    TraceLocationWarnInfoFragmentDirections
+                        .actionTraceLocationWarnInfoFragmentToTraceLocationsWarnFragment()
+                )
             }
         }
     }
