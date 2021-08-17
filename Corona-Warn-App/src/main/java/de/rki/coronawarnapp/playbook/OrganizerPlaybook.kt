@@ -98,7 +98,7 @@ class OrganizerPlaybook @Inject constructor(
         else -> exception
     }
 
-    private suspend fun dummy(launchFollowUp: Boolean) {
+    private suspend fun dummy() {
         // fake verification
         ignoreExceptions { verificationServer.retrieveTanFake() }
 
@@ -107,9 +107,6 @@ class OrganizerPlaybook @Inject constructor(
 
         // fake submission
         ignoreExceptions { submissionServer.submitFakePayload() }
-
-        if (launchFollowUp)
-            coroutineScope.launch { followUpPlaybooks() }
     }
 
     private suspend fun followUpPlaybooks() {
@@ -127,7 +124,7 @@ class OrganizerPlaybook @Inject constructor(
             Timber.i("[$uid] Follow Up: (${it + 1}/$runsToExecute) waiting $executionDelay[s]...")
             delay(TimeUnit.SECONDS.toMillis(executionDelay.toLong()))
 
-            dummy(false)
+            dummy()
         }
         Timber.i("[$uid] Follow Up: finished")
     }
