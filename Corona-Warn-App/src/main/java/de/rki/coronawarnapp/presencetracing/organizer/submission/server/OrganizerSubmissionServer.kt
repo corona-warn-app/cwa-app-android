@@ -45,24 +45,6 @@ class OrganizerSubmissionServer @Inject constructor(
         // TODO submit
     }
 
-    suspend fun submitFakePayload() = withContext(dispatcherProvider.IO) {
-        Timber.tag(TAG).d("submitFakePayload()")
-        val plausibleParameters = appConfigProvider
-            .getAppConfig()
-            .presenceTracing
-            .plausibleDeniabilityParameters
-
-        val fakeCheckInPadding = paddingTool.checkInPadding(plausibleParameters, checkInListSize = 0)
-
-        Timber.tag(TAG).v("fakeCheckInPadding=%s", fakeCheckInPadding)
-
-        val submissionPayload = SubmissionPayload.newBuilder()
-            .setRequestPadding(ByteString.copyFromUtf8(fakeCheckInPadding))
-            .build()
-
-        // TODO submit fake payload
-    }
-
     companion object {
         private val TAG = this::class.simpleName
     }

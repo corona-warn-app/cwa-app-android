@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.exception.TanPairingException
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInsReport
 import de.rki.coronawarnapp.presencetracing.organizer.submission.server.OrganizerSubmissionServer
+import de.rki.coronawarnapp.submission.server.SubmissionServer
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.CoroutineScope
@@ -21,7 +22,8 @@ import javax.inject.Inject
 class OrganizerPlaybook @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val verificationServer: VerificationServer,
-    private val submissionServer: OrganizerSubmissionServer,
+    private val organizerSubmissionServer: OrganizerSubmissionServer,
+    private val submissionServer: SubmissionServer,
     dispatcherProvider: DispatcherProvider,
 ) {
     private val uid = UUID.randomUUID().toString()
@@ -39,7 +41,7 @@ class OrganizerPlaybook @Inject constructor(
         try {
             // Real submission
             if (uploadTan != null) {
-                submissionServer.submit(uploadTan, checkInsReport)
+                organizerSubmissionServer.submit(uploadTan, checkInsReport)
                 coroutineScope.launch { followUpPlaybooks() }
             } else {
                 submissionServer.submitFakePayload()
