@@ -129,6 +129,8 @@
     <string name="error_dcc_scan_again">"Сертификатът не може да бъде запазен на смартфона Ви. Моля, опитайте отново по-късно или се свържете с горещата линия за технически проблеми, посочена в „Информация за приложението“."</string>
     <!-- XTXT: DCC QR code scan error message-->
     <string name="error_dcc_already_registered">"Сертификатът вече е регистриран в приложението Ви."</string>
+    <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#eu_dcc -->
+    <string name="error_dcc_already_registered_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc"</string>
 
 
     <!-- #####################################################
@@ -210,6 +212,8 @@
 
     <!-- XTXT: Validation Rule Result Valid - Result  -->
     <string name="validation_rules_result_valid_result_title">"Сертификатът ви е валиден в избраната държава"</string>
+    <!-- XTXT: Validation Rule Result No Rules - Result  -->
+    <string name="validation_rules_result_no_rules_title">"Сертификатът ви не беше валидиран"</string>
     <!-- XTXT: Validation Rule Result Cannot be checked  - Result  -->
     <string name="validation_rules_result_cannot_be_checked_result_title">"Сертификатът ви не беше валидиран напълно"</string>
     <!-- XTXT: Validation Rule Result Not Valid - Result  -->

@@ -1356,7 +1356,7 @@
     <!-- XACT: Test result available illustration description -->
     <string name="submission_test_result_available_illustration_description">"O femeie își ține în mână smartphone-ul. Acesta trimite un semnal către un alt smartphone."</string>
     <!-- YTXT: Text for consent given -->
-    <string name="submission_test_result_available_text_consent_given">"Vă mulțumim pentru că sunteți de acord să partajați rezultatul testului dvs. și să ajutați astfel la avertizarea celorlalți. \n\n"<b>"La pasul următor, partajați rezultatul testului dvs. apăsând „Partajare”."</b></string>
+    <string name="submission_test_result_available_text_consent_given">"Vă mulțumim pentru că sunteți de acord să partajați rezultatul testului dvs. și să ajutați astfel la avertizarea celorlalți. \n\n"<b>"Dacă nu ați acordat consimțământul pentru a accesa ID-urile aleatorii sau dacă au trecut mai mult de cinci zile de atunci, acordați consimțământul la pasul următor."</b></string>
     <!-- XHED: Close screen popup title for consent given -->
     <string name="submission_test_result_available_close_dialog_title_consent_given">"Afișare rezultat test"</string>
     <!-- XTXT: Close screen popup text for consent given -->
