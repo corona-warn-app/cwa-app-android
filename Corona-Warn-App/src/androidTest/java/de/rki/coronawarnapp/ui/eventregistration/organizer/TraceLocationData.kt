@@ -10,9 +10,9 @@ import okio.ByteString.Companion.decodeBase64
 
 object TraceLocationData {
 
-    private const val CRYPTOGRAPHIC_SEED = "MTIzNA=="
+    const val CRYPTOGRAPHIC_SEED = "MTIzNA=="
 
-    private const val PUB_KEY =
+    const val PUB_KEY =
         "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEc7DEstcUIRcyk35OYDJ95/hTg3UVhsaDXKT0z" +
             "K7NhHPXoyzipEnOp3GyNXDVpaPi3cAfQmxeuFMZAIX2+6A5Xg=="
 

@@ -22,7 +22,7 @@ class OrganizerSubmissionRepository @Inject constructor(
     suspend fun submit(payload: OrganizerSubmissionPayload) =
         withContext(appScope.coroutineContext) {
             // Prepare CheckIns for submission
-            val checkInsReport = checkInsTransformer.transform(listOf(payload.toCheckIns()))
+            val checkInsReport = checkInsTransformer.transform(listOf(payload.toCheckIn()))
             organizerPlaybook.submit(payload.tan, checkInsReport)
         }
 }
