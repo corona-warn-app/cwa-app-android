@@ -1357,7 +1357,7 @@
     <!-- XACT: Test result available illustration description -->
     <string name="submission_test_result_available_illustration_description">"A woman holds her smartphone in her hand. It is sending a signal to another smartphone."</string>
     <!-- YTXT: Text for consent given -->
-    <string name="submission_test_result_available_text_consent_given">"Thank you for agreeing to share your test result and helping to warn others as a result. \n\n"<b>"In the next step, please share your test result by tapping “Share”."</b></string>
+    <string name="submission_test_result_available_text_consent_given">"Thank you for agreeing to share your test result and helping to warn others as a result. \n\n"<b>"If you have not granted your consent to access the random IDs or if more than five days have passed since then, please grant your consent in the next step."</b></string>
     <!-- XHED: Close screen popup title for consent given -->
     <string name="submission_test_result_available_close_dialog_title_consent_given">"Display Test Result"</string>
     <!-- XTXT: Close screen popup text for consent given -->

@@ -1356,7 +1356,7 @@
     <!-- XACT: Test result available illustration description -->
     <string name="submission_test_result_available_illustration_description">"Kobieta trzyma w dłoni smartfon, który wysyła sygnał do innego smartfona."</string>
     <!-- YTXT: Text for consent given -->
-    <string name="submission_test_result_available_text_consent_given">"Dziękujemy za wyrażenie zgody na udostępnienie wyniku testu i pomoc w ostrzeganiu innych osób. \n\n"<b>"W następnym kroku udostępnij wynik testu, klikając opcję „Udostępnij”."</b></string>
+    <string name="submission_test_result_available_text_consent_given">"Dziękujemy za wyrażenie zgody na udostępnienie wyniku testu i pomoc w ostrzeganiu innych osób. \n\n"<b>"Jeśli nie wyraziłeś swojej zgody na dostęp do losowych identyfikatorów lub jeśli od wyrażenia zgody upłynęło ponad pięć dni, wyraź zgodę w następnym kroku."</b></string>
     <!-- XHED: Close screen popup title for consent given -->
     <string name="submission_test_result_available_close_dialog_title_consent_given">"Wyświetl wynik testu"</string>
     <!-- XTXT: Close screen popup text for consent given -->
