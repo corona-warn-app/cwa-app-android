@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCerti
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
+import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage
@@ -52,6 +53,7 @@ class TestCertificateRepository @Inject constructor(
     valueSetsRepository: ValueSetsRepository,
     private val rsaKeyPairGenerator: RSAKeyPairGenerator,
     private val dccStateChecker: DccStateChecker,
+    dscRepository: DscRepository
 ) {
 
     private val internalData: HotDataFlow<Map<TestCertificateContainerId, TestCertificateContainer>> = HotDataFlow(
@@ -74,8 +76,9 @@ class TestCertificateRepository @Inject constructor(
 
     val certificates: Flow<Set<TestCertificateWrapper>> = combine(
         internalData.data,
-        valueSetsRepository.latestTestCertificateValueSets
-    ) { certMap, valueSets ->
+        valueSetsRepository.latestTestCertificateValueSets,
+        dscRepository.dscData
+    ) { certMap, valueSets, _ ->
         certMap.values.map { container ->
             val state = when {
                 container.isCertificateRetrievalPending -> CwaCovidCertificate.State.Invalid()

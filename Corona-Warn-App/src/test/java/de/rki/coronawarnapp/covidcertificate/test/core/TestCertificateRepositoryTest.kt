@@ -8,6 +8,8 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtract
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
+import de.rki.coronawarnapp.covidcertificate.signature.core.DscData
+import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.BaseTestCertificateData
@@ -29,6 +31,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -47,6 +50,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     @MockK lateinit var testCertificateProcessor: TestCertificateProcessor
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var dccStateChecker: DccStateChecker
+    @MockK lateinit var dscRepository: DscRepository
 
     @Inject lateinit var testData: TestCertificateTestData
 
@@ -93,6 +97,8 @@ class TestCertificateRepositoryTest : BaseTest() {
         every { valueSetsRepository.latestTestCertificateValueSets } returns emptyFlow()
 
         every { timeStamper.nowUTC } returns Instant.ofEpochSecond(12345678)
+
+        every { dscRepository.dscData } returns flowOf(DscData(listOf(), timeStamper.nowUTC))
     }
 
     private fun createInstance(scope: CoroutineScope) = TestCertificateRepository(
@@ -105,6 +111,7 @@ class TestCertificateRepositoryTest : BaseTest() {
         processor = testCertificateProcessor,
         rsaKeyPairGenerator = RSAKeyPairGenerator(),
         dccStateChecker = dccStateChecker,
+        dscRepository = dscRepository,
     )
 
     @Test
