@@ -8,6 +8,8 @@ import de.rki.coronawarnapp.covidcertificate.recovery.RecoveryQrCodeTestData
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateStorage
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.StoredRecoveryCertificateData
+import de.rki.coronawarnapp.covidcertificate.signature.core.DscData
+import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyTestCertificateValueSets
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyVaccinationValueSets
@@ -35,6 +37,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
     @MockK lateinit var storage: RecoveryCertificateStorage
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var dccStateChecker: DccStateChecker
+    @MockK lateinit var dscRepository: DscRepository
 
     @Inject lateinit var qrCodeExtractor: DccQrCodeExtractor
 
@@ -48,6 +51,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
         DaggerCovidCertificateTestComponent.factory().create().inject(this)
 
         every { timeStamper.nowUTC } returns nowUTC
+        every { dscRepository.dscData } returns flowOf(DscData(listOf(), nowUTC))
 
         valueSetsRepository.apply {
             every { latestTestCertificateValueSets } returns flowOf(emptyTestCertificateValueSets)
@@ -68,6 +72,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
         qrCodeExtractor = qrCodeExtractor,
         dccStateChecker = dccStateChecker,
         timeStamper = timeStamper,
+        dscRepository = dscRepository,
     )
 
     @Test

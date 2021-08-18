@@ -11,11 +11,13 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertif
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateStorage
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.StoredRecoveryCertificateData
+import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
+import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -24,7 +26,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.plus
@@ -42,6 +43,7 @@ class RecoveryCertificateRepository @Inject constructor(
     private val storage: RecoveryCertificateStorage,
     private val dccStateChecker: DccStateChecker,
     private val timeStamper: TimeStamper,
+    dscRepository: DscRepository
 ) {
 
     private val internalData: HotDataFlow<Set<RecoveryCertificateContainer>> = HotDataFlow(
@@ -75,8 +77,8 @@ class RecoveryCertificateRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
-    val certificates: Flow<Set<RecoveryCertificateWrapper>> = internalData.data
-        .map { set ->
+    val certificates: Flow<Set<RecoveryCertificateWrapper>> =
+        combine(internalData.data, dscRepository.dscData) { set, _ ->
             set.map { container ->
                 val state = dccStateChecker.checkState(container.certificateData).first()
                 RecoveryCertificateWrapper(
@@ -85,8 +87,7 @@ class RecoveryCertificateRepository @Inject constructor(
                     certificateState = state
                 )
             }.toSet()
-        }
-        .shareLatest(
+        }.shareLatest(
             tag = TAG,
             scope = appScope
         )

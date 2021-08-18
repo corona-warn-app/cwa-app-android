@@ -45,7 +45,7 @@ class DscRepository @Inject constructor(
     val dscData = internalData.data
 
     suspend fun refresh() {
-        Timber.tag(TAG).d("refresh()")
+        Timber.tag(TAG).d("refresh() - START")
         internalData.updateBlocking {
             dscServer.getDscList().let { rawData ->
                 mapDscList(rawData).apply {
@@ -53,6 +53,7 @@ class DscRepository @Inject constructor(
                 }
             }
         }
+        Timber.tag(TAG).d("refresh() - DONE")
     }
 
     suspend fun clear() {
