@@ -1356,7 +1356,7 @@
     <!-- XACT: Test result available illustration description -->
     <string name="submission_test_result_available_illustration_description">"Bir kadın elinde akıllı telefonunu tutuyor. Bu telefondan başka bir akıllı telefona sinyal gönderiliyor."</string>
     <!-- YTXT: Text for consent given -->
-    <string name="submission_test_result_available_text_consent_given">"Test sonucunuzu paylaşmayı kabul ederek diğer kullanıcıların uyarılmasına yardımcı olduğunuz için teşekkür ederiz. \n\n"<b>"Sonraki adımda lütfen “Paylaş” seçeneğine dokunarak test sonucunuzu paylaşın."</b></string>
+    <string name="submission_test_result_available_text_consent_given">"Test sonucunuzu paylaşmayı kabul ederek diğer kullanıcıların uyarılmasına yardımcı olduğunuz için teşekkür ederiz. \n\n"<b>"Rastgele kimliklere erişim onayı vermediyseniz veya verdiğiniz tarihin üzerinden beş günden uzun süre geçtiyse lütfen sonraki adımda onay verin."</b></string>
     <!-- XHED: Close screen popup title for consent given -->
     <string name="submission_test_result_available_close_dialog_title_consent_given">"Test Sonucunu Görüntüle"</string>
     <!-- XTXT: Close screen popup text for consent given -->
