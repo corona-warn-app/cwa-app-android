@@ -62,9 +62,9 @@
     <!-- XTXT: risk card - Days since installation if < 14 days -->
     <string name="risk_card_body_days_since_installation">"Seit %s Tagen installiert"</string>
     <!-- XTXT: risk card - Days since installation if today -->
-    <string name="risk_card_body_installation_today">Seit heute installiert</string>
+    <string name="risk_card_body_installation_today">Heute installiert</string>
     <!-- XTXT: risk card - Days since installation if yesterday -->
-    <string name="risk_card_body_installation_yesterday">Seit gestern installiert</string>
+    <string name="risk_card_body_installation_yesterday">Gestern installiert</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"Begegnungen wurden noch nicht überprüft."</string>
     <!-- XTXT: risk card - last successful update -->
