@@ -39,6 +39,10 @@
     @retrofit2.http.* <methods>;
 }
 
+-keepclasseswithmembers class * {
+    @retrofit2.http.* <methods>;
+}
+
 # Ignore annotation used for build tooling.
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 
