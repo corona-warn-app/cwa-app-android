@@ -569,6 +569,18 @@
                     android:focusable="true"
                     android:text="@string/statistics_explanation_trend_description" />
 
+                <TextView
+                    android:id="@+id/blog_link"
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_blog"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_blog" />
+
             </LinearLayout>
 
         </ScrollView>
