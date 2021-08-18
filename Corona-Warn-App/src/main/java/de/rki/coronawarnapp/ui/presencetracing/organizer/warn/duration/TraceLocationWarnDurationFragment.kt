@@ -37,7 +37,7 @@ class TraceLocationWarnDurationFragment :
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as TraceLocationWarnDurationViewModel.Factory
-            factory.create(navArgs.traceLocationId)
+            factory.create(navArgs.traceLocation)
         }
     )
 
@@ -146,7 +146,7 @@ class TraceLocationWarnDurationFragment :
     private fun showDurationPicker() {
         DurationPicker.Builder()
             .duration(viewModel.selectedDuration.toContactDiaryFormat())
-            .title(getString(R.string.tracelocation_organizer_add_event_length_of_stay)) //TODO <<<<<
+            .title(getString(R.string.contact_diary_location_visit_duration_label))
             .build()
             .apply {
                 setDurationChangeListener {
