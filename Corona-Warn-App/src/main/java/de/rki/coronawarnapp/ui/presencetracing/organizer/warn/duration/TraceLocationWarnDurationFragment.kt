@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -101,6 +102,9 @@ class TraceLocationWarnDurationFragment :
             durationInputEdit.setOnClickListener {
                 it.hideKeyboard()
                 showDurationPicker()
+            }
+            toolbar.setNavigationOnClickListener {
+                popBackStack()
             }
         }
     }
