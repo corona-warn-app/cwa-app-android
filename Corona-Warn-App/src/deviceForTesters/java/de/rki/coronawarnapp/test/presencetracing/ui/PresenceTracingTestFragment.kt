@@ -12,6 +12,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentTestPresenceTracingBinding
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
@@ -80,8 +81,21 @@ class PresenceTracingTestFragment : Fragment(R.layout.fragment_test_presence_tra
                                 .actionPresenceTracingTestFragmentToQrCodePosterTestFragment(traceLocation.id)
                         )
                     }
+
+                    submitButton.setOnClickListener {
+                        viewModel.submit(
+                            traceLocation,
+                            organizerTan.text.toString(),
+                            organizerStartDate.text.toString(),
+                            organizerDuration.text.toString()
+                        )
+                    }
                 }
             }
+        }
+
+        viewModel.error.observe(viewLifecycleOwner) {
+            it.toErrorDialogBuilder(requireContext()).show()
         }
 
         viewModel.lastAttendeeLocation.observe(viewLifecycleOwner) {
