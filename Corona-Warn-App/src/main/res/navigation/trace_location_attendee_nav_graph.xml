@@ -59,7 +59,13 @@
         android:id="@+id/scanCheckInQrCodeFragment"
         android:name="de.rki.coronawarnapp.ui.presencetracing.attendee.scan.ScanCheckInQrCodeFragment"
         android:label="ScanCheckInQrCodeFragment"
-        tools:layout="@layout/fragment_scan_qr_code" />
+        tools:layout="@layout/fragment_scan_qr_code">
+        <deepLink app:uri="coronawarnapp://presencetracing/organizer/warn/{isOrganizerWarn}" />
+        <argument
+            android:name="isOrganizerWarn"
+            android:defaultValue="false"
+            app:argType="boolean" />
+    </fragment>
 
     <fragment
         android:id="@+id/checkInsFragment"
@@ -74,9 +80,9 @@
             app:destination="@id/confirmCheckInFragment" />
         <action
             android:id="@+id/action_checkInsFragment_to_confirmCheckInFragment_cleanHistory"
+            app:destination="@id/confirmCheckInFragment"
             app:popUpTo="@id/checkInsFragment"
-            app:popUpToInclusive="true"
-            app:destination="@id/confirmCheckInFragment" />
+            app:popUpToInclusive="true" />
         <argument
             android:name="uri"
             android:defaultValue="@null"

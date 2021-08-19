@@ -8,6 +8,7 @@ import android.view.accessibility.AccessibilityEvent.TYPE_ANNOUNCEMENT
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.zxing.BarcodeFormat
@@ -33,6 +34,7 @@ class ScanCheckInQrCodeFragment :
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: ScanCheckInQrCodeViewModel by cwaViewModels { viewModelFactory }
+    private val navArgs by navArgs<ScanCheckInQrCodeFragmentArgs>()
 
     private val binding: FragmentScanQrCodeBinding by viewBinding()
     private var showsPermissionDialog = false

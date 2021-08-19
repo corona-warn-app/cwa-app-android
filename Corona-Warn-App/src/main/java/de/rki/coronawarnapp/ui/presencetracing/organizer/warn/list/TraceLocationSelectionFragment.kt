@@ -2,8 +2,11 @@ package de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.net.toUri
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsWarnListFragmentBinding
@@ -68,7 +71,11 @@ class TraceLocationSelectionFragment :
                     // TODO: navigation here
                 }
                 TraceLocationSelectionEvent.ScanQrCode -> {
-                    // TODO: navigation here
+                    findNavController().navigate(
+                        "coronawarnapp://presencetracing/organizer/warn/true".toUri(),
+                        null,
+
+                    )
                 }
             }
         }
