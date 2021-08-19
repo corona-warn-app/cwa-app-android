@@ -140,6 +140,11 @@ object TimeAndDateExtensions {
     fun LocalDateTime.toShortDayFormat(): String = toString(dayFormatter2DigitYear)
 
     /**
+     * Returns a readable date String with the format "dd.MM.yyyy" like 23.05.1989 of a LocalDateTime
+     */
+    fun LocalDateTime.toDayFormat(): String = toString(dayFormatter)
+
+    /**
      * Returns a readable date String with the format "dd.MM.yy hh:mm" like 23.05.89 12:00 of a DateTime
      */
     fun DateTime.toShortDateTimeFormat(): String = toString(DateTimeFormat.shortDateTime())
