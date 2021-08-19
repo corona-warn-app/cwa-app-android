@@ -10,7 +10,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_tiny"
-        android:layout_marginTop="@dimen/spacing_tiny"
         android:focusable="true"
         android:text="@string/validation_start_faq"
         app:layout_constraintEnd_toEndOf="parent"
