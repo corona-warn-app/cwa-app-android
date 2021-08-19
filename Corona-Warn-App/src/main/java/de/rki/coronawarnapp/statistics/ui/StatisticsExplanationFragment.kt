@@ -24,16 +24,24 @@ class StatisticsExplanationFragment : Fragment(R.layout.fragment_statistics_expl
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
-        binding.statisticsFaqLink.setTextWithUrl(
-            R.string.statistics_explanation_seven_day_r_link_label,
-            R.string.statistics_explanation_seven_day_r_link_label,
-            R.string.statistics_explanation_faq_url
-        )
+        binding.apply {
+            statisticsFaqLink.setTextWithUrl(
+                R.string.statistics_explanation_seven_day_r_link_label,
+                R.string.statistics_explanation_seven_day_r_link_label,
+                R.string.statistics_explanation_faq_url
+            )
 
-        binding.statisticsExplanationTrendText.apply {
-            val label = String.format(getString(R.string.statistics_explanation_trend_text))
-            text = label
-            contentDescription = label
+            statisticsExplanationTrendText.apply {
+                val label = String.format(getString(R.string.statistics_explanation_trend_text))
+                text = label
+                contentDescription = label
+            }
+
+            blogLink.setTextWithUrl(
+                R.string.statistics_explanation_blog,
+                R.string.statistics_explanation_blog_label,
+                R.string.statistics_eplanation_blog_url
+            )
         }
     }
 
