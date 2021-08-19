@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.util.HumanReadableError
 import de.rki.coronawarnapp.util.ui.CachedString
 import de.rki.coronawarnapp.util.ui.LazyString
 
+@Suppress("MaxLineLength")
 class OrganizerSubmissionException(
     val errorCode: ErrorCode,
     override val cause: Throwable? = null
