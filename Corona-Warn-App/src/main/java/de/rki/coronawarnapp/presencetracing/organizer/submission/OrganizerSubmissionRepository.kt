@@ -30,6 +30,6 @@ class OrganizerSubmissionRepository @Inject constructor(
         }
 
     companion object {
-        private val TAG = this::class.simpleName
+        private val TAG = OrganizerSubmissionRepository::class.simpleName
     }
 }
