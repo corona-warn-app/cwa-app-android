@@ -109,8 +109,6 @@
             app:argType="long" />
     </fragment>
 
-    <!-- TODO add new screens-->
-
     <fragment
         android:id="@+id/traceLocationWarnInfoFragment"
         android:name="de.rki.coronawarnapp.ui.presencetracing.organizer.warn.TraceLocationWarnInfoFragment"
@@ -118,7 +116,9 @@
         tools:layout="@layout/trace_location_organizer_warn_info_fragment">
         <action
             android:id="@+id/action_traceLocationWarnInfoFragment_to_traceLocationSelectionFragment"
-            app:destination="@id/traceLocationSelectionFragment" />
+            app:destination="@id/traceLocationSelectionFragment"
+            app:popUpTo="@id/traceLocationWarnInfoFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment

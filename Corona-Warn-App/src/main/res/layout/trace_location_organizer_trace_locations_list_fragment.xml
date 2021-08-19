@@ -10,10 +10,9 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
-        style="@style/CWAToolbar.BackArrow"
+        style="@style/CWAToolbar.BackArrow.Transparent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/contact_diary_background"
         android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
