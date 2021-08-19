@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.presencetracing.organizer.submission
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
-import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationData
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.decodeBase64
@@ -23,8 +22,8 @@ internal class OrganizerSubmissionPayloadTest : BaseTest() {
             startDate = 1618740005L.secondsToInstant(),
             endDate = 1618865545L.secondsToInstant(),
             defaultCheckInLengthInMinutes = null,
-            cryptographicSeed = TraceLocationData.CRYPTOGRAPHIC_SEED.decodeBase64()!!,
-            cnPublicKey = TraceLocationData.PUB_KEY,
+            cryptographicSeed = CRYPTOGRAPHIC_SEED.decodeBase64()!!,
+            cnPublicKey = PUB_KEY,
             version = TraceLocation.VERSION
         )
         val organizerSubmissionPayload = OrganizerSubmissionPayload(
@@ -53,5 +52,13 @@ internal class OrganizerSubmissionPayloadTest : BaseTest() {
             isSubmitted = false,
             hasSubmissionConsent = true
         )
+    }
+
+    companion object {
+        const val CRYPTOGRAPHIC_SEED = "MTIzNA=="
+
+        const val PUB_KEY =
+            "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEc7DEstcUIRcyk35OYDJ95/hTg3UVhsaDXKT0z" +
+                "K7NhHPXoyzipEnOp3GyNXDVpaPi3cAfQmxeuFMZAIX2+6A5Xg=="
     }
 }

@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.playbook
 
+import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
 import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.coronatest.server.VerificationServer
@@ -59,7 +60,8 @@ class OrganizerPlaybook @Inject constructor(
         }
     }
 
-    private suspend fun obtainUploadTan(
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    suspend fun obtainUploadTan(
         tokenRequest: RegistrationRequest
     ): String {
         Timber.i("[$uid] New Initial Registration Playbook")
