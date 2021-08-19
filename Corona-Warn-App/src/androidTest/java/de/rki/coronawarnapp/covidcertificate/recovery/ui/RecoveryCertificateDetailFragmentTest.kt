@@ -94,20 +94,26 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
         takeScreenshot<RecoveryCertificateDetailsFragment>("recovered_invalid_2")
     }
 
-    private fun validMockCertificate() = MutableLiveData(mockCertificate().apply {
-        every { isValid } returns true
-        every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(21))
-    })
+    private fun validMockCertificate() = MutableLiveData(
+        mockCertificate().apply {
+            every { isValid } returns true
+            every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(21))
+        }
+    )
 
-    private fun invalidMockCertificate() = MutableLiveData(mockCertificate().apply {
-        every { isValid } returns false
-        every { getState() } returns CwaCovidCertificate.State.Invalid()
-    })
+    private fun invalidMockCertificate() = MutableLiveData(
+        mockCertificate().apply {
+            every { isValid } returns false
+            every { getState() } returns CwaCovidCertificate.State.Invalid()
+        }
+    )
 
-    private fun expiredMockCertificate() = MutableLiveData(mockCertificate().apply {
-        every { isValid } returns false
-        every { getState() } returns CwaCovidCertificate.State.Expired(Instant.now())
-    })
+    private fun expiredMockCertificate() = MutableLiveData(
+        mockCertificate().apply {
+            every { isValid } returns false
+            every { getState() } returns CwaCovidCertificate.State.Expired(Instant.now())
+        }
+    )
 
     private fun mockCertificate() = mockk<RecoveryCertificate>().apply {
         every { fullName } returns "Max Mustermann"
