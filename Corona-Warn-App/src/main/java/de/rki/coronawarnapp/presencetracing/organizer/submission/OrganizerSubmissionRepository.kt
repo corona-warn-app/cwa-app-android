@@ -30,7 +30,7 @@ class OrganizerSubmissionRepository @Inject constructor(
             Timber.tag(TAG).d("checkInsReport=%s", checkInsReport)
             organizerPlaybook.submit(payload.tan, checkInsReport)
 
-            Timber.tag(TAG).d("organizer submission passed")
+            Timber.tag(TAG).d("Organizer submission passed")
         }
 
     companion object {
