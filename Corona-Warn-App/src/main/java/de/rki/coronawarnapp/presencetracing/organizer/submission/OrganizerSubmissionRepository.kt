@@ -23,9 +23,13 @@ class OrganizerSubmissionRepository @Inject constructor(
     suspend fun submit(payload: OrganizerSubmissionPayload) =
         withContext(appScope.coroutineContext) {
             Timber.tag(TAG).d("submit(payload=%s)", payload)
+
             // Prepare CheckIns for submission
             val checkInsReport = checkInsTransformer.transform(listOf(payload.toCheckIn()))
+
+            Timber.tag(TAG).d("checkInsReport=%s", checkInsReport)
             organizerPlaybook.submit(payload.tan, checkInsReport)
+
             Timber.tag(TAG).d("organizer submission passed")
         }
 
