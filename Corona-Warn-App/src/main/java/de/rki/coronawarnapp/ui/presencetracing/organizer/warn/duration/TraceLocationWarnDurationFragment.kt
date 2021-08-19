@@ -17,6 +17,8 @@ import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerWarnDurationFragmentBinding
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -60,15 +62,15 @@ class TraceLocationWarnDurationFragment :
 
                 if (uiState.startDateTime != null && uiState.endDateTime != null) {
 
-                    val startTime = uiState.startDateTime!!.toDateTime()
-                    val endTime = uiState.endDateTime!!.toDateTime()
+                    val startTime = uiState.startDateTime.toDateTime()
+                    val endTime = uiState.endDateTime.toDateTime()
 
                     eventDate.isGone = false
 
-                    val startDay = startTime.toLocalDate().toString("dd.MM.yyyy")
-                    val startHour = startTime.toLocalTime().toString("HH:mm")
-                    val endDay = endTime.toLocalDate().toString("dd.MM.yyyy")
-                    val endHour = endTime.toLocalTime().toString("HH:mm")
+                    val startDay = startTime.toDayFormat()
+                    val startHour = startTime.toShortTimeFormat()
+                    val endDay = endTime.toDayFormat()
+                    val endHour = endTime.toShortTimeFormat()
                     eventDate.text = if (startTime.toLocalDate() == endTime.toLocalDate()) {
                         requireContext().getString(
                             R.string.trace_location_organizer_detail_item_duration,
@@ -113,16 +115,16 @@ class TraceLocationWarnDurationFragment :
         val constraintsBuilder = CalendarConstraints.Builder()
             .setValidator(DateValidatorPointBackward.now())
 
-        val dateTime = viewModel.selectedDate.toDateTime(viewModel.selectedTime)
+        val dateTime = viewModel.selectedDateTime
         MaterialDatePicker
             .Builder
             .datePicker()
-            .setSelection(dateTime.millis)
+            .setSelection(dateTime.toDateTime().millis)
             .setCalendarConstraints(constraintsBuilder.build())
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
-                    showTimePicker(LocalDate(it), viewModel.selectedTime)
+                    showTimePicker(LocalDate(it), dateTime.toLocalTime())
                 }
             }
             .show(childFragmentManager, DATE_PICKER_TAG)
@@ -141,7 +143,7 @@ class TraceLocationWarnDurationFragment :
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
-                    viewModel.dateChanged(date, LocalTime(hour, minute))
+                    viewModel.dateChanged(date.toDateTime(LocalTime(hour, minute)).toLocalDateTime())
                 }
             }
             .show(childFragmentManager, TIME_PICKER_TAG)

@@ -14,8 +14,8 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.joda.time.Duration
 import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
+import org.joda.time.LocalDateTime
+import kotlin.math.roundToInt
 
 class TraceLocationWarnDurationViewModel @AssistedInject constructor(
     @Assisted private val traceLocation: TraceLocation,
@@ -25,21 +25,19 @@ class TraceLocationWarnDurationViewModel @AssistedInject constructor(
 
     private val uiState = MutableStateFlow(UiState())
     val state: LiveData<UiState> = uiState.asLiveData2()
-    val selectedDate: LocalDate get() = uiState.value.localDate
-    val selectedTime: LocalTime get() = uiState.value.localTime
+    val selectedDateTime: LocalDateTime get() = uiState.value.localDateTime
     val selectedDuration: Duration get() = uiState.value.duration
 
     init {
         updateUiState()
     }
 
-    fun dateChanged(localDate: LocalDate, localTime: LocalTime) {
-        val resultTime = if (localDate == LocalDate.now() &&
-            localTime.isAfter(LocalTime.now())
-        ) LocalTime.now() else localTime
-        uiState.apply { value = value.copy(localDate = localDate, localTime = resultTime) }
+    fun dateChanged(localDateTime: LocalDateTime) {
+        val resultDateTime = if (localDateTime.isAfter(LocalDateTime.now())) LocalDateTime.now() else localDateTime
+        uiState.apply { value = value.copy(localDateTime = resultDateTime) }
     }
 
+    // Duration should be between 15 minutes and 23 hours and 45 minutes (23 * 60 + 45 = 1425 minutes)
     fun durationChanged(duration: Duration) {
         uiState.apply {
             value = value.copy(
@@ -62,40 +60,32 @@ class TraceLocationWarnDurationViewModel @AssistedInject constructor(
             !traceLocation.isBeforeStartTime(timeStamper.nowUTC)
         ) {
             uiState.apply {
-                value = value.copy(
-                    localDate = traceLocation.startDate.toDateTime().toLocalDate(),
-                    localTime = traceLocation.startDate.toDateTime().toLocalTime()
-                )
+                value = value.copy(localDateTime = traceLocation.startDate.toDateTime().toLocalDateTime())
             }
         }
 
-        val duration = if (traceLocation.endDate != null && traceLocation.endDate != Instant.EPOCH) {
-            getNearestFifteen(Duration(traceLocation.startDate, traceLocation.endDate).standardMinutes)
-        } else if (traceLocation.defaultCheckInLengthInMinutes != null &&
-            traceLocation.defaultCheckInLengthInMinutes > 0
-        ) {
-            getNearestFifteen(traceLocation.defaultCheckInLengthInMinutes.toLong())
-        } else {
-            Duration.standardHours(2)
-        }
-        durationChanged(duration)
+        when {
+            traceLocation.endDate != null && traceLocation.endDate != Instant.EPOCH ->
+                getNearestFifteen(Duration(traceLocation.startDate, traceLocation.endDate).standardMinutes)
+            traceLocation.defaultCheckInLengthInMinutes != null && traceLocation.defaultCheckInLengthInMinutes > 0 ->
+                getNearestFifteen(traceLocation.defaultCheckInLengthInMinutes.toLong())
+            else ->
+                Duration.standardHours(2)
+        }.also { durationChanged(it) }
     }
 
-    private fun getNearestFifteen(durationMinutes: Long): Duration {
-        val minDif = durationMinutes % 15
-        val maxDif = 15 - (durationMinutes % 15)
-        return Duration.standardMinutes(if (minDif < maxDif) durationMinutes - minDif else durationMinutes + maxDif)
+    private fun getNearestFifteen(number: Long): Duration {
+        return Duration.standardMinutes(((number.toFloat() / 15).roundToInt() * 15).toLong())
     }
 
     data class UiState(
         val description: String? = null,
         val startDateTime: Instant? = null,
         val endDateTime: Instant? = null,
-        val localDate: LocalDate = LocalDate.now(),
-        val localTime: LocalTime = LocalTime.now(),
+        val localDateTime: LocalDateTime = LocalDateTime.now(),
         val duration: Duration = Duration.standardMinutes(15)
     ) {
-        fun formattedDateTime() = "${localDate.toDayFormat()} ${localTime.toShortTimeFormat()}"
+        fun formattedDateTime() = "${localDateTime.toDayFormat()} ${localDateTime.toShortTimeFormat()}"
     }
 
     @AssistedFactory
