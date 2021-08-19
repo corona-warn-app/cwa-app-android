@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSurface"
+    android:contentDescription="@string/trace_location_organiser_warn_duration_header"
+    tools:context=".ui.presencetracing.organizer.warn.TraceLocationWarnInfoFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAToolbar.BackArrow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/trace_location_organiser_warn_duration_header" />
+
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/next_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/event_card"
+                style="@style/contactDiaryCardRipple"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:layout_marginVertical="8dp"
+                android:focusable="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/traceLocationCardHighlightView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="11dp"
+                    android:layout_marginTop="21dp"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="vertical"
+                    app:srcCompat="@drawable/ic_old_checkin"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:text="21.01.2021" />
+
+                <TextView
+                    android:id="@+id/description"
+                    style="@style/subtitleBoldSixteen"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="19dp"
+                    android:layout_marginEnd="37dp"
+                    app:layout_constraintStart_toEndOf="@+id/traceLocationCardHighlightView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Jahrestreffen der deutschen SAP Anwendergruppe" />
+
+                <TextView
+                    android:id="@+id/eventDate"
+                    style="@style/body2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="37dp"
+                    android:layout_marginBottom="14dp"
+                    android:textColor="@color/colorTextPrimary2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/traceLocationCardHighlightView"
+                    app:layout_constraintTop_toBottomOf="@id/description"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:text="Hauptstr. 3, 69115 Heidelberg" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/trace_location_warn_duration_body"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:text="@string/trace_location_organiser_warn_duration_body"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/event_card" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:layout_marginTop="32dp"
+                android:hint="@string/trace_location_organiser_warn_duration_start_hint"
+                android:textColorHint="@color/colorPrimary"
+                app:boxBackgroundColor="@color/colorContactDiaryListItem"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/trace_location_warn_duration_body">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/start_input_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:cursorVisible="false"
+                    android:textColorHint="@color/colorTextPrimary3"
+                    android:focusable="true"
+                    android:focusableInTouchMode="false"
+                    android:imeOptions="actionNext|flagNoPersonalizedLearning"
+                    android:inputType="date" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/duration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:layout_marginTop="24dp"
+                android:hint="@string/trace_location_organiser_warn_duration_duration_hint"
+                android:textColorHint="@color/colorPrimary"
+                app:boxBackgroundColor="@color/colorContactDiaryListItem"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/start">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/duration_input_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:cursorVisible="false"
+                    android:focusable="true"
+                    android:focusableInTouchMode="false"
+                    android:imeOptions="actionNext|flagNoPersonalizedLearning"
+                    android:inputType="date" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/next_button"
+        style="@style/buttonPrimary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:text="@string/acknowledge_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scrollview"
+        tools:text="@string/acknowledge_button" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

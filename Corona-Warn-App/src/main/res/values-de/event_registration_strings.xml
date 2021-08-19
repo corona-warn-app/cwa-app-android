@@ -285,4 +285,15 @@
     <string name="trace_location_organiser_list_subtitle">"Wählen Sie ein Event, für welches Sie in Vertretung einer infizierten Person andere warnen möchten. Oder stellen Sie gelöschte Events wieder her, indem sie den QR-Code des Events erneut einscannen."</string>
     <!-- XTXT: Event organiser selection list: qr code scann  -->
     <string name="trace_location_organiser_qr_code_scan">"QR-Code scannen"</string>
+
+    <!--  Warn Duration Screen -->
+    <!-- XHED: Warn Duration Screen: header -->
+    <string name="trace_location_organiser_warn_duration_header">"In Vertretung warnen"</string>
+    <!-- XTXT: Warn Duration Screen: body -->
+    <string name="trace_location_organiser_warn_duration_body">"Geben Sie die Aufenhaltsdauer der positiv getesteten Person an, für die gewarnt werden soll. Diese Information erhalten Sie vom Gesundheitsamt."</string>
+    <!-- XTXT: Warn Duration Screen: start hint -->
+    <string name="trace_location_organiser_warn_duration_start_hint">"Beginn/Ankunft"</string>
+    <!-- XTXT: Warn Duration Screen: duration hint -->
+    <string name="trace_location_organiser_warn_duration_duration_hint">"Dauer"</string>
+
 </resources>
