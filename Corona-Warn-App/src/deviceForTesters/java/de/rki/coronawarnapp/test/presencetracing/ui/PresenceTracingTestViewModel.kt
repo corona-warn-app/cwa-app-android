@@ -61,6 +61,7 @@ class PresenceTracingTestViewModel @AssistedInject constructor(
     val checkInRiskPerDayText = MutableLiveData<String>()
 
     val error = SingleLiveEvent<Throwable>()
+    val submissionResult = SingleLiveEvent<Boolean>()
 
     fun runPresenceTracingWarningTask() = launch {
         Timber.d("runWarningPackageTask()")
@@ -173,6 +174,7 @@ class PresenceTracingTestViewModel @AssistedInject constructor(
                     endDate = startDate.plus(parsedDuration)
                 )
                 organizerSubmissionRepository.submit(payload)
+                submissionResult.postValue(true)
             } catch (e: Exception) {
                 Timber.d(e, "Organizer submission failed")
                 error.postValue(e)

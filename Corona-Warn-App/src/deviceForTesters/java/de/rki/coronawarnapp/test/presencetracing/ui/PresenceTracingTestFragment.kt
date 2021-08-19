@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.SpannedString
 import android.view.View
+import android.widget.Toast
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.core.text.color
@@ -96,6 +97,10 @@ class PresenceTracingTestFragment : Fragment(R.layout.fragment_test_presence_tra
 
         viewModel.error.observe(viewLifecycleOwner) {
             it.toErrorDialogBuilder(requireContext()).show()
+        }
+
+        viewModel.submissionResult.observe(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), "Organizer submission passed", Toast.LENGTH_LONG).show()
         }
 
         viewModel.lastAttendeeLocation.observe(viewLifecycleOwner) {
