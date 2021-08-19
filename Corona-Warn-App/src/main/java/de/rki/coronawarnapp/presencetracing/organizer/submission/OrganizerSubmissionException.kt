@@ -45,6 +45,6 @@ class OrganizerSubmissionException(
         }
 
     override fun toHumanReadableError(context: Context): HumanReadableError = HumanReadableError(
-        description = errorMessage.get(context) + " (${errorCode})"
+        description = errorMessage.get(context) + " ($errorCode)"
     )
 }
