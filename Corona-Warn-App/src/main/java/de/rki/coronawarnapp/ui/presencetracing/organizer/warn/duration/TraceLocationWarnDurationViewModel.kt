@@ -5,10 +5,12 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.TraceLocationWarnDuration
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,6 +29,7 @@ class TraceLocationWarnDurationViewModel @AssistedInject constructor(
     val state: LiveData<UiState> = uiState.asLiveData2()
     val selectedDateTime: LocalDateTime get() = uiState.value.localDateTime
     val selectedDuration: Duration get() = uiState.value.duration
+    val events = SingleLiveEvent<TraceLocationWarnDurationEvent>()
 
     init {
         updateUiState()
@@ -86,6 +89,20 @@ class TraceLocationWarnDurationViewModel @AssistedInject constructor(
         val duration: Duration = Duration.standardMinutes(15)
     ) {
         fun formattedDateTime() = "${localDateTime.toDayFormat()} ${localDateTime.toShortTimeFormat()}"
+
+        fun getTraceLocationWarnDuration(traceLocation: TraceLocation) = TraceLocationWarnDuration(
+            traceLocation = traceLocation,
+            dateTime = localDateTime,
+            duration = duration
+        )
+    }
+
+    fun goNext() {
+        uiState.value.let {
+            events.value = TraceLocationWarnDurationEvent.ContinueWithTraceLocationDuration(
+                it.getTraceLocationWarnDuration(traceLocation)
+            )
+        }
     }
 
     @AssistedFactory

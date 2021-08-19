@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -96,6 +97,18 @@ class TraceLocationWarnDurationFragment :
             }
         }
 
+        viewModel.events.observe(this) {
+            when (it) {
+                is TraceLocationWarnDurationEvent.ContinueWithTraceLocationDuration ->
+                    doNavigate(
+                        TraceLocationWarnDurationFragmentDirections
+                            .actionTraceLocationWarnDurationFragmentToTraceLocationTanDurationFragment(
+                                traceLocationWarnDuration = it.traceLocationWarnDuration
+                            )
+                    )
+            }
+        }
+
         with(binding) {
             startInputEdit.setOnClickListener {
                 it.hideKeyboard()
@@ -107,6 +120,9 @@ class TraceLocationWarnDurationFragment :
             }
             toolbar.setNavigationOnClickListener {
                 popBackStack()
+            }
+            nextButton.setOnClickListener {
+                viewModel.goNext()
             }
         }
     }

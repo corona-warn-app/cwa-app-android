@@ -129,6 +129,19 @@
         <argument
             android:name="traceLocation"
             app:argType="de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation" />
+        <action
+            android:id="@+id/action_traceLocationWarnDurationFragment_to_traceLocationTanDurationFragment"
+            app:destination="@id/traceLocationTanDurationFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/traceLocationTanDurationFragment"
+        android:name="de.rki.coronawarnapp.ui.presencetracing.organizer.warn.tan.TraceLocationWarnTanFragment"
+        android:label="TraceLocationWarnTanFragment"
+        tools:layout="@layout/trace_location_organizer_warn_tan_fragment">
+        <argument
+            android:name="traceLocationWarnDuration"
+            app:argType="de.rki.coronawarnapp.ui.presencetracing.organizer.warn.TraceLocationWarnDuration" />
     </fragment>
 
 </navigation>

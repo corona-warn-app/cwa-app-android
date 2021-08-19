@@ -296,4 +296,8 @@
     <!-- XTXT: Warn Duration Screen: duration hint -->
     <string name="trace_location_organiser_warn_duration_duration_hint">"Dauer"</string>
 
+    <!--  Warn Tan Screen -->
+    <!-- XHED: Warn Tan Screen: header -->
+    <string name="trace_location_organiser_warn_tan_header">"In Vertretung warnen"</string>
+
 </resources>
