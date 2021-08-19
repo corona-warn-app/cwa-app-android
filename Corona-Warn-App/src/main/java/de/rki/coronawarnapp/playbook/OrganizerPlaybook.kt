@@ -96,39 +96,6 @@ class OrganizerPlaybook @Inject constructor(
         )
     }
 
-    private enum class ErrorType {
-        REG_TOKEN, TAN, SUBMISSION
-    }
-
-    private fun Exception.asOrganizerSubmissionException(type: ErrorType): OrganizerSubmissionException = when (this) {
-        is CwaUnknownHostException, is NetworkConnectTimeoutException -> when (type) {
-            ErrorType.REG_TOKEN -> OrganizerSubmissionException.ErrorCode.REGTOKEN_OB_NO_NETWORK
-            ErrorType.TAN -> OrganizerSubmissionException.ErrorCode.TAN_OB_NO_NETWORK
-            ErrorType.SUBMISSION -> OrganizerSubmissionException.ErrorCode.SUBMISSION_OB_NO_NETWORK
-        }
-        // HTTP status code 4XX
-        is CwaClientError -> when (type) {
-            ErrorType.REG_TOKEN -> OrganizerSubmissionException.ErrorCode.REGTOKEN_OB_CLIENT_ERROR
-            ErrorType.TAN -> OrganizerSubmissionException.ErrorCode.TAN_OB_CLIENT_ERROR
-            ErrorType.SUBMISSION -> OrganizerSubmissionException.ErrorCode.SUBMISSION_OB_CLIENT_ERROR
-        }
-        // HTTP status code 5XX
-        is CwaServerError -> when (type) {
-            ErrorType.REG_TOKEN -> OrganizerSubmissionException.ErrorCode.REGTOKEN_OB_SERVER_ERROR
-            ErrorType.TAN -> OrganizerSubmissionException.ErrorCode.TAN_OB_SERVER_ERROR
-            ErrorType.SUBMISSION -> OrganizerSubmissionException.ErrorCode.SUBMISSION_OB_SERVER_ERROR
-        }
-        // Blame the server ¯\_(ツ)_/¯
-        else -> when (type) {
-            ErrorType.REG_TOKEN -> OrganizerSubmissionException.ErrorCode.REGTOKEN_OB_SERVER_ERROR
-            ErrorType.TAN -> OrganizerSubmissionException.ErrorCode.TAN_OB_SERVER_ERROR
-            ErrorType.SUBMISSION -> OrganizerSubmissionException.ErrorCode.SUBMISSION_OB_SERVER_ERROR
-        }
-    }.let {
-        Timber.i("Mapped %s to %s", this::class.java.simpleName, it)
-        OrganizerSubmissionException(it, this)
-    }
-
     private suspend fun dummy() {
         // fake verification
         ignoreExceptions { verificationServer.retrieveTanFake() }
@@ -179,6 +146,39 @@ class OrganizerPlaybook @Inject constructor(
 
     private fun propagateException(vararg exceptions: Exception?): Nothing {
         throw exceptions.filterNotNull().firstOrNull() ?: IllegalStateException()
+    }
+
+    private enum class ErrorType {
+        REG_TOKEN, TAN, SUBMISSION
+    }
+
+    private fun Exception.asOrganizerSubmissionException(type: ErrorType): OrganizerSubmissionException = when (this) {
+        is CwaUnknownHostException, is NetworkConnectTimeoutException -> when (type) {
+            ErrorType.REG_TOKEN -> OrganizerSubmissionException.ErrorCode.REGTOKEN_OB_NO_NETWORK
+            ErrorType.TAN -> OrganizerSubmissionException.ErrorCode.TAN_OB_NO_NETWORK
+            ErrorType.SUBMISSION -> OrganizerSubmissionException.ErrorCode.SUBMISSION_OB_NO_NETWORK
+        }
+        // HTTP status code 4XX
+        is CwaClientError -> when (type) {
+            ErrorType.REG_TOKEN -> OrganizerSubmissionException.ErrorCode.REGTOKEN_OB_CLIENT_ERROR
+            ErrorType.TAN -> OrganizerSubmissionException.ErrorCode.TAN_OB_CLIENT_ERROR
+            ErrorType.SUBMISSION -> OrganizerSubmissionException.ErrorCode.SUBMISSION_OB_CLIENT_ERROR
+        }
+        // HTTP status code 5XX
+        is CwaServerError -> when (type) {
+            ErrorType.REG_TOKEN -> OrganizerSubmissionException.ErrorCode.REGTOKEN_OB_SERVER_ERROR
+            ErrorType.TAN -> OrganizerSubmissionException.ErrorCode.TAN_OB_SERVER_ERROR
+            ErrorType.SUBMISSION -> OrganizerSubmissionException.ErrorCode.SUBMISSION_OB_SERVER_ERROR
+        }
+        // Blame the server ¯\_(ツ)_/¯
+        else -> when (type) {
+            ErrorType.REG_TOKEN -> OrganizerSubmissionException.ErrorCode.REGTOKEN_OB_SERVER_ERROR
+            ErrorType.TAN -> OrganizerSubmissionException.ErrorCode.TAN_OB_SERVER_ERROR
+            ErrorType.SUBMISSION -> OrganizerSubmissionException.ErrorCode.SUBMISSION_OB_SERVER_ERROR
+        }
+    }.let {
+        Timber.i("Mapped %s to %s", this::class.java.simpleName, it)
+        OrganizerSubmissionException(it, this)
     }
 
     companion object {
