@@ -105,12 +105,12 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/start"
-                style="@style/TextInputLayoutTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_normal"
                 android:layout_marginTop="32dp"
                 android:hint="@string/trace_location_organiser_warn_duration_start_hint"
+                app:boxBackgroundColor="@color/colorContactDiaryListItem"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/trace_location_warn_duration_body">
@@ -121,6 +121,7 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:cursorVisible="false"
+                    android:textColorHint="@color/colorTextPrimary3"
                     android:focusable="true"
                     android:focusableInTouchMode="false"
                     android:imeOptions="actionNext|flagNoPersonalizedLearning"
@@ -130,12 +131,12 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/duration"
-                style="@style/TextInputLayoutTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_normal"
                 android:layout_marginTop="24dp"
                 android:hint="@string/trace_location_organiser_warn_duration_duration_hint"
+                app:boxBackgroundColor="@color/colorContactDiaryListItem"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/start">
