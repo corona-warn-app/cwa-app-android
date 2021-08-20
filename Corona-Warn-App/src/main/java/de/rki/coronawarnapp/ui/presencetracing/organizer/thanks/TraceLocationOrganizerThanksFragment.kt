@@ -24,6 +24,8 @@ class TraceLocationOrganizerThanksFragment : Fragment(R.layout.trace_location_or
 
     private fun navigateToHome() {
         Timber.d("navigateToHome()")
-        doNavigate(TraceLocationOrganizerThanksFragmentDirections.actionTraceLocationOrganizerThanksFragmentToHomeFragment())
+        doNavigate(
+            TraceLocationOrganizerThanksFragmentDirections.actionTraceLocationOrganizerThanksFragmentToHomeFragment()
+        )
     }
 }
