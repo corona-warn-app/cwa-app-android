@@ -10,7 +10,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.TraceLocationOrganizerWarnQrScannerFragmentBinding
+import de.rki.coronawarnapp.databinding.FragmentScanQrCodeBinding
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
@@ -24,24 +24,24 @@ import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
 class OrganizerWarnQrCodeScannerFragment :
-    Fragment(R.layout.trace_location_organizer_warn_qr_scanner_fragment),
+    Fragment(R.layout.fragment_scan_qr_code),
     AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: OrganizerWarnQrCodeScannerViewModel by cwaViewModels { viewModelFactory }
 
-    private val binding: TraceLocationOrganizerWarnQrScannerFragmentBinding by viewBinding()
+    private val binding: FragmentScanQrCodeBinding by viewBinding()
     private var showsPermissionDialog = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(binding) {
-            qrCodeWarnScanTorch.setOnCheckedChangeListener { _, isChecked ->
-                binding.qrCodeWarnScanPreview.setTorch(isChecked)
+            qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
+                binding.qrCodeScanPreview.setTorch(isChecked)
             }
 
-            qrCodeWarnScanToolbar.setNavigationOnClickListener { viewModel.onNavigateUp() }
-            qrCodeWarnScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
-            qrCodeWarnScanViewfinderView.setCameraPreview(binding.qrCodeWarnScanPreview)
+            qrCodeScanToolbar.setNavigationOnClickListener { viewModel.onNavigateUp() }
+            qrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
+            qrCodeScanViewfinderView.setCameraPreview(binding.qrCodeScanPreview)
         }
 
         viewModel.events.observe2(this) { navEvent ->
@@ -62,9 +62,9 @@ class OrganizerWarnQrCodeScannerFragment :
 
     override fun onResume() {
         super.onResume()
-        binding.checkInQrCodeWarnScanContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+        binding.checkInQrCodeScanContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
         if (CameraPermissionHelper.hasCameraPermission(requireActivity())) {
-            binding.qrCodeWarnScanPreview.resume()
+            binding.qrCodeScanPreview.resume()
             startDecode()
             return
         }
@@ -92,7 +92,7 @@ class OrganizerWarnQrCodeScannerFragment :
         }
     }
 
-    private fun startDecode() = binding.qrCodeWarnScanPreview
+    private fun startDecode() = binding.qrCodeScanPreview
         .decodeSingle { barcodeResult ->
             viewModel.onScanResult(barcodeResult)
         }
@@ -156,7 +156,7 @@ class OrganizerWarnQrCodeScannerFragment :
 
     override fun onPause() {
         super.onPause()
-        binding.qrCodeWarnScanPreview.pause()
+        binding.qrCodeScanPreview.pause()
     }
 
     companion object {

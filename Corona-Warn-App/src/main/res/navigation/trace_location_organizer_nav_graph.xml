@@ -138,7 +138,7 @@
         android:id="@+id/traceLocationQrScannerFragment"
         android:name="de.rki.coronawarnapp.ui.presencetracing.organizer.warn.qrcode.OrganizerWarnQrCodeScannerFragment"
         android:label="OrganizerWarnQrCodeScannerFragment"
-        tools:layout="@layout/trace_location_organizer_warn_qr_scanner_fragment">
+        tools:layout="@layout/fragment_scan_qr_code">
         <action
             android:id="@+id/action_traceLocationQrScannerFragment_to_traceLocationWarnDurationFragment"
             app:destination="@id/traceLocationWarnDurationFragment" />

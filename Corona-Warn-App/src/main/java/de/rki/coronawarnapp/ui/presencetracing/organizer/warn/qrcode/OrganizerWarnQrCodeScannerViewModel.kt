@@ -26,7 +26,7 @@ class OrganizerWarnQrCodeScannerViewModel @AssistedInject constructor(
 
     fun onScanResult(barcodeResult: BarcodeResult) = launch {
         try {
-            Timber.i("uri: $barcodeResult.result.text")
+            Timber.i("uri: ${barcodeResult.result.text}")
             val qrCodePayload = qrCodeUriParser.getQrCodePayload(barcodeResult.result.text)
             when (val verifyResult = traceLocationVerifier.verifyTraceLocation(qrCodePayload)) {
                 is TraceLocationVerifier.VerificationResult.Invalid ->
