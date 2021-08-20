@@ -15,10 +15,8 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.test.runBlockingTest
-import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import retrofit2.Response
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import java.security.SecureRandom
@@ -60,15 +58,13 @@ internal class OrganizerSubmissionServerTest : BaseTest() {
 
                 submissionType shouldBe SubmissionPayload.SubmissionType.SUBMISSION_TYPE_HOST_WARNING
             }
-
-            Response.success("{}".toResponseBody())
         }
 
         organizerSubmissionServer = OrganizerSubmissionServer(
             paddingTool = PaddingTool(SecureRandom.getInstanceStrong().asKotlinRandom()),
             dispatcherProvider = TestDispatcherProvider(),
             appConfigProvider = appConfigProvider,
-            organizerSubmissionApiV1 = organizerSubmissionApiV1
+            organizerSubmissionApiV1Lazy = { organizerSubmissionApiV1 }
         )
     }
 

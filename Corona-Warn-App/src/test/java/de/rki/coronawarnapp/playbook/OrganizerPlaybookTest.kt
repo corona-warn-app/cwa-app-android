@@ -17,10 +17,8 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
-import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import retrofit2.Response
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 
@@ -42,7 +40,7 @@ internal class OrganizerPlaybookTest : BaseTest() {
         }
 
         coEvery { submissionServer.submitFakePayload() } just Runs
-        coEvery { organizerSubmissionServer.submit(any(), any()) } returns Response.success("{}".toResponseBody())
+        coEvery { organizerSubmissionServer.submit(any(), any()) } just Runs
 
         organizerPlaybook = OrganizerPlaybook(
             appScope = TestCoroutineScope(),
