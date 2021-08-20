@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.OrganizerCheckInsTransforme
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
@@ -21,8 +22,18 @@ class OrganizerSubmissionRepository @Inject constructor(
      */
     suspend fun submit(payload: OrganizerSubmissionPayload) =
         withContext(appScope.coroutineContext) {
+            Timber.tag(TAG).d("submit(payload=%s)", payload)
+
             // Prepare CheckIns for submission
-            val checkInsReport = checkInsTransformer.transform(listOf(payload.toCheckIns()))
+            val checkInsReport = checkInsTransformer.transform(listOf(payload.toCheckIn()))
+
+            Timber.tag(TAG).d("checkInsReport=%s", checkInsReport)
             organizerPlaybook.submit(payload.tan, checkInsReport)
+
+            Timber.tag(TAG).d("Organizer submission passed")
         }
+
+    companion object {
+        private val TAG = OrganizerSubmissionRepository::class.simpleName
+    }
 }
