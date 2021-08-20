@@ -4,11 +4,16 @@ import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
 import de.rki.coronawarnapp.coronatest.server.VerificationApiV1
 import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.coronatest.server.VerificationServer
+import de.rki.coronawarnapp.exception.http.CwaClientError
+import de.rki.coronawarnapp.exception.http.CwaServerError
+import de.rki.coronawarnapp.exception.http.CwaUnknownHostException
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInsReport
+import de.rki.coronawarnapp.presencetracing.organizer.submission.OrganizerSubmissionException
 import de.rki.coronawarnapp.presencetracing.organizer.submission.server.OrganizerSubmissionServer
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
 import de.rki.coronawarnapp.submission.server.SubmissionServer
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -72,35 +77,6 @@ internal class OrganizerPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `submit Upload TAN fail`() = runBlockingTest {
-        with(verificationServer) {
-            coEvery { retrieveRegistrationToken(any()) } throws Exception()
-            coEvery { retrieveTan(any()) } returns "uploadTan"
-            coEvery { retrieveTanFake() } returns VerificationApiV1.TanResponse("tan")
-        }
-
-        val checkInsReport = CheckInsReport(
-            unencryptedCheckIns = listOf(CheckInOuterClass.CheckIn.getDefaultInstance()),
-            encryptedCheckIns = listOf(CheckInOuterClass.CheckInProtectedReport.getDefaultInstance())
-        )
-
-        shouldThrow<Exception> {
-            organizerPlaybook.submit("tan", checkInsReport)
-        }
-
-        coVerifySequence {
-            // Obtain TAN
-            verificationServer.retrieveRegistrationToken(any())
-            verificationServer.retrieveTanFake()
-            submissionServer.submitFakePayload()
-
-            // Submission
-            verificationServer.retrieveTanFake()
-            submissionServer.submitFakePayload()
-        }
-    }
-
-    @Test
     fun `obtainUploadTan - Registration token pass`() = runBlockingTest {
         organizerPlaybook.obtainUploadTan(RegistrationRequest(key = "key", type = VerificationKeyType.TELETAN))
 
@@ -119,7 +95,7 @@ internal class OrganizerPlaybookTest : BaseTest() {
             coEvery { retrieveTanFake() } returns VerificationApiV1.TanResponse("tan")
         }
 
-        shouldThrow<Exception> {
+        shouldThrow<OrganizerSubmissionException> {
             organizerPlaybook.obtainUploadTan(RegistrationRequest(key = "key", type = VerificationKeyType.TELETAN))
         }
 
@@ -127,6 +103,339 @@ internal class OrganizerPlaybookTest : BaseTest() {
             verificationServer.retrieveRegistrationToken(any())
             verificationServer.retrieveTanFake()
             submissionServer.submitFakePayload()
+        }
+    }
+
+    // /////////////////////////////////////////////////////
+    // Registration token Cases
+    // ////////////////////////////////////////////////////
+
+    @Test
+    fun `submit - registration fails with client error`() = runBlockingTest {
+        with(verificationServer) {
+            coEvery { retrieveRegistrationToken(any()) } throws CwaClientError(400, "CwaClientError")
+            coEvery { retrieveTan(any()) } returns "uploadTan"
+            coEvery { retrieveTanFake() } returns VerificationApiV1.TanResponse("tan")
+        }
+
+        val checkInsReport = CheckInsReport(
+            unencryptedCheckIns = listOf(CheckInOuterClass.CheckIn.getDefaultInstance()),
+            encryptedCheckIns = listOf(CheckInOuterClass.CheckInProtectedReport.getDefaultInstance())
+        )
+
+        shouldThrow<OrganizerSubmissionException> {
+            organizerPlaybook.submit("tan", checkInsReport)
+        }.errorCode shouldBe OrganizerSubmissionException.ErrorCode.REGTOKEN_OB_CLIENT_ERROR
+
+        coVerifySequence {
+            // Obtain TAN
+            verificationServer.retrieveRegistrationToken(any())
+            verificationServer.retrieveTanFake()
+            submissionServer.submitFakePayload()
+
+            // Submission
+            verificationServer.retrieveTanFake()
+            submissionServer.submitFakePayload()
+        }
+    }
+
+    @Test
+    fun `submit - registration fails with server error`() = runBlockingTest {
+        with(verificationServer) {
+            coEvery { retrieveRegistrationToken(any()) } throws CwaServerError(500, "CwaServerError")
+            coEvery { retrieveTan(any()) } returns "uploadTan"
+            coEvery { retrieveTanFake() } returns VerificationApiV1.TanResponse("tan")
+        }
+
+        val checkInsReport = CheckInsReport(
+            unencryptedCheckIns = listOf(CheckInOuterClass.CheckIn.getDefaultInstance()),
+            encryptedCheckIns = listOf(CheckInOuterClass.CheckInProtectedReport.getDefaultInstance())
+        )
+
+        shouldThrow<OrganizerSubmissionException> {
+            organizerPlaybook.submit("tan", checkInsReport)
+        }.errorCode shouldBe OrganizerSubmissionException.ErrorCode.REGTOKEN_OB_SERVER_ERROR
+
+        coVerifySequence {
+            // Obtain TAN
+            verificationServer.retrieveRegistrationToken(any())
+            verificationServer.retrieveTanFake()
+            submissionServer.submitFakePayload()
+
+            // Submission
+            verificationServer.retrieveTanFake()
+            submissionServer.submitFakePayload()
+        }
+    }
+
+    @Test
+    fun `submit - registration fails with network error`() = runBlockingTest {
+        with(verificationServer) {
+            coEvery { retrieveRegistrationToken(any()) } throws CwaUnknownHostException("CwaUnknownHostException", null)
+            coEvery { retrieveTan(any()) } returns "uploadTan"
+            coEvery { retrieveTanFake() } returns VerificationApiV1.TanResponse("tan")
+        }
+
+        val checkInsReport = CheckInsReport(
+            unencryptedCheckIns = listOf(CheckInOuterClass.CheckIn.getDefaultInstance()),
+            encryptedCheckIns = listOf(CheckInOuterClass.CheckInProtectedReport.getDefaultInstance())
+        )
+
+        shouldThrow<OrganizerSubmissionException> {
+            organizerPlaybook.submit("tan", checkInsReport)
+        }.errorCode shouldBe OrganizerSubmissionException.ErrorCode.REGTOKEN_OB_NO_NETWORK
+
+        coVerifySequence {
+            // Obtain TAN
+            verificationServer.retrieveRegistrationToken(any())
+            verificationServer.retrieveTanFake()
+            submissionServer.submitFakePayload()
+
+            // Submission
+            verificationServer.retrieveTanFake()
+            submissionServer.submitFakePayload()
+        }
+    }
+
+    @Test
+    fun `submit - registration fails with other errors`() = runBlockingTest {
+        with(verificationServer) {
+            coEvery { retrieveRegistrationToken(any()) } throws Exception()
+            coEvery { retrieveTan(any()) } returns "uploadTan"
+            coEvery { retrieveTanFake() } returns VerificationApiV1.TanResponse("tan")
+        }
+
+        val checkInsReport = CheckInsReport(
+            unencryptedCheckIns = listOf(CheckInOuterClass.CheckIn.getDefaultInstance()),
+            encryptedCheckIns = listOf(CheckInOuterClass.CheckInProtectedReport.getDefaultInstance())
+        )
+
+        shouldThrow<OrganizerSubmissionException> {
+            organizerPlaybook.submit("tan", checkInsReport)
+        }.errorCode shouldBe OrganizerSubmissionException.ErrorCode.REGTOKEN_OB_SERVER_ERROR
+
+        coVerifySequence {
+            // Obtain TAN
+            verificationServer.retrieveRegistrationToken(any())
+            verificationServer.retrieveTanFake()
+            submissionServer.submitFakePayload()
+
+            // Submission
+            verificationServer.retrieveTanFake()
+            submissionServer.submitFakePayload()
+        }
+    }
+    // /////////////////////////////////////////////////////
+    // TAN Cases
+    // ////////////////////////////////////////////////////
+
+    @Test
+    fun `submit - TAN fails with client error`() = runBlockingTest {
+        with(verificationServer) {
+            coEvery { retrieveRegistrationToken(any()) } returns "RegistrationToken"
+            coEvery { retrieveTan(any()) } throws CwaClientError(400, "CwaClientError")
+            coEvery { retrieveTanFake() } returns VerificationApiV1.TanResponse("tan")
+        }
+
+        val checkInsReport = CheckInsReport(
+            unencryptedCheckIns = listOf(CheckInOuterClass.CheckIn.getDefaultInstance()),
+            encryptedCheckIns = listOf(CheckInOuterClass.CheckInProtectedReport.getDefaultInstance())
+        )
+
+        shouldThrow<OrganizerSubmissionException> {
+            organizerPlaybook.submit("tan", checkInsReport)
+        }.errorCode shouldBe OrganizerSubmissionException.ErrorCode.TAN_OB_CLIENT_ERROR
+
+        coVerifySequence {
+            // Obtain TAN
+            verificationServer.retrieveRegistrationToken(any())
+            verificationServer.retrieveTan(any())
+            submissionServer.submitFakePayload()
+
+            // Submission
+            verificationServer.retrieveTanFake()
+            submissionServer.submitFakePayload()
+        }
+    }
+
+    @Test
+    fun `submit - TAN fails with server error`() = runBlockingTest {
+        with(verificationServer) {
+            coEvery { retrieveRegistrationToken(any()) } returns "RegistrationToken"
+            coEvery { retrieveTan(any()) } throws CwaServerError(500, "CwaServerError")
+            coEvery { retrieveTanFake() } returns VerificationApiV1.TanResponse("tan")
+        }
+
+        val checkInsReport = CheckInsReport(
+            unencryptedCheckIns = listOf(CheckInOuterClass.CheckIn.getDefaultInstance()),
+            encryptedCheckIns = listOf(CheckInOuterClass.CheckInProtectedReport.getDefaultInstance())
+        )
+
+        shouldThrow<OrganizerSubmissionException> {
+            organizerPlaybook.submit("tan", checkInsReport)
+        }.errorCode shouldBe OrganizerSubmissionException.ErrorCode.TAN_OB_SERVER_ERROR
+
+        coVerifySequence {
+            // Obtain TAN
+            verificationServer.retrieveRegistrationToken(any())
+            verificationServer.retrieveTan(any())
+            submissionServer.submitFakePayload()
+
+            // Submission
+            verificationServer.retrieveTanFake()
+            submissionServer.submitFakePayload()
+        }
+    }
+
+    @Test
+    fun `submit - TAN fails with network error`() = runBlockingTest {
+        with(verificationServer) {
+            coEvery { retrieveRegistrationToken(any()) } returns "RegistrationToken"
+            coEvery { retrieveTan(any()) } throws CwaUnknownHostException("CwaUnknownHostException", null)
+            coEvery { retrieveTanFake() } returns VerificationApiV1.TanResponse("tan")
+        }
+
+        val checkInsReport = CheckInsReport(
+            unencryptedCheckIns = listOf(CheckInOuterClass.CheckIn.getDefaultInstance()),
+            encryptedCheckIns = listOf(CheckInOuterClass.CheckInProtectedReport.getDefaultInstance())
+        )
+
+        shouldThrow<OrganizerSubmissionException> {
+            organizerPlaybook.submit("tan", checkInsReport)
+        }.errorCode shouldBe OrganizerSubmissionException.ErrorCode.TAN_OB_NO_NETWORK
+
+        coVerifySequence {
+            // Obtain TAN
+            verificationServer.retrieveRegistrationToken(any())
+            verificationServer.retrieveTan(any())
+            submissionServer.submitFakePayload()
+
+            // Submission
+            verificationServer.retrieveTanFake()
+            submissionServer.submitFakePayload()
+        }
+    }
+
+    @Test
+    fun `submit - TAN fails with other errors`() = runBlockingTest {
+        with(verificationServer) {
+            coEvery { retrieveRegistrationToken(any()) } returns "RegistrationToken"
+            coEvery { retrieveTan(any()) } throws Exception()
+            coEvery { retrieveTanFake() } returns VerificationApiV1.TanResponse("tan")
+        }
+
+        val checkInsReport = CheckInsReport(
+            unencryptedCheckIns = listOf(CheckInOuterClass.CheckIn.getDefaultInstance()),
+            encryptedCheckIns = listOf(CheckInOuterClass.CheckInProtectedReport.getDefaultInstance())
+        )
+
+        shouldThrow<OrganizerSubmissionException> {
+            organizerPlaybook.submit("tan", checkInsReport)
+        }.errorCode shouldBe OrganizerSubmissionException.ErrorCode.TAN_OB_SERVER_ERROR
+
+        coVerifySequence {
+            // Obtain TAN
+            verificationServer.retrieveRegistrationToken(any())
+            verificationServer.retrieveTan(any())
+            submissionServer.submitFakePayload()
+
+            // Submission
+            verificationServer.retrieveTanFake()
+            submissionServer.submitFakePayload()
+        }
+    }
+
+    // /////////////////////////////////////////////////////
+    // Submission Cases
+    // ////////////////////////////////////////////////////
+
+    @Test
+    fun `submit fails with client error`() = runBlockingTest {
+        coEvery { organizerSubmissionServer.submit(any(), any()) } throws
+            CwaClientError(400, "CwaClientError")
+        val checkInsReport = CheckInsReport(
+            unencryptedCheckIns = listOf(CheckInOuterClass.CheckIn.getDefaultInstance()),
+            encryptedCheckIns = listOf(CheckInOuterClass.CheckInProtectedReport.getDefaultInstance())
+        )
+
+        shouldThrow<OrganizerSubmissionException> {
+            organizerPlaybook.submit("tan", checkInsReport)
+        }.errorCode shouldBe OrganizerSubmissionException.ErrorCode.SUBMISSION_OB_CLIENT_ERROR
+
+        coVerifySequence {
+            verificationServer.retrieveRegistrationToken(any())
+            verificationServer.retrieveTan(any())
+            submissionServer.submitFakePayload()
+            verificationServer.retrieveTanFake()
+            organizerSubmissionServer.submit(any(), any())
+        }
+    }
+
+    @Test
+    fun `submit fails with server error`() = runBlockingTest {
+        coEvery { organizerSubmissionServer.submit(any(), any()) } throws
+            CwaServerError(500, "CwaServerError")
+
+        val checkInsReport = CheckInsReport(
+            unencryptedCheckIns = listOf(CheckInOuterClass.CheckIn.getDefaultInstance()),
+            encryptedCheckIns = listOf(CheckInOuterClass.CheckInProtectedReport.getDefaultInstance())
+        )
+
+        shouldThrow<OrganizerSubmissionException> {
+            organizerPlaybook.submit("tan", checkInsReport)
+        }.errorCode shouldBe OrganizerSubmissionException.ErrorCode.SUBMISSION_OB_SERVER_ERROR
+
+        coVerifySequence {
+            verificationServer.retrieveRegistrationToken(any())
+            verificationServer.retrieveTan(any())
+            submissionServer.submitFakePayload()
+            verificationServer.retrieveTanFake()
+            organizerSubmissionServer.submit(any(), any())
+        }
+    }
+
+    @Test
+    fun `submit fails with network error`() = runBlockingTest {
+        coEvery { organizerSubmissionServer.submit(any(), any()) } throws
+            CwaUnknownHostException("CwaUnknownHostException", null)
+
+        val checkInsReport = CheckInsReport(
+            unencryptedCheckIns = listOf(CheckInOuterClass.CheckIn.getDefaultInstance()),
+            encryptedCheckIns = listOf(CheckInOuterClass.CheckInProtectedReport.getDefaultInstance())
+        )
+
+        shouldThrow<OrganizerSubmissionException> {
+            organizerPlaybook.submit("tan", checkInsReport)
+        }.errorCode shouldBe OrganizerSubmissionException.ErrorCode.SUBMISSION_OB_NO_NETWORK
+
+        coVerifySequence {
+            verificationServer.retrieveRegistrationToken(any())
+            verificationServer.retrieveTan(any())
+            submissionServer.submitFakePayload()
+            verificationServer.retrieveTanFake()
+            organizerSubmissionServer.submit(any(), any())
+        }
+    }
+
+    @Test
+    fun `submit fails with other errors`() = runBlockingTest {
+        coEvery { organizerSubmissionServer.submit(any(), any()) } throws Exception()
+
+        val checkInsReport = CheckInsReport(
+            unencryptedCheckIns = listOf(CheckInOuterClass.CheckIn.getDefaultInstance()),
+            encryptedCheckIns = listOf(CheckInOuterClass.CheckInProtectedReport.getDefaultInstance())
+        )
+
+        shouldThrow<OrganizerSubmissionException> {
+            organizerPlaybook.submit("tan", checkInsReport)
+        }.errorCode shouldBe OrganizerSubmissionException.ErrorCode.SUBMISSION_OB_SERVER_ERROR
+
+        coVerifySequence {
+            verificationServer.retrieveRegistrationToken(any())
+            verificationServer.retrieveTan(any())
+            submissionServer.submitFakePayload()
+            verificationServer.retrieveTanFake()
+            organizerSubmissionServer.submit(any(), any())
         }
     }
 }
