@@ -42,25 +42,12 @@ class TraceLocationWarnTanFragment : Fragment(R.layout.trace_location_organizer_
         viewModel.state.observe2(this) {
             binding.apply {
                 uiState = it
-
                 tanContent.submissionTanCharacterError.setGone(it.areCharactersCorrect)
                 if (it.isCorrectLength) {
                     tanContent.submissionTanError.setGone(it.isTanValid)
                 } else {
                     tanContent.submissionTanError.setGone(true)
                 }
-            }
-        }
-
-        viewModel.routeToScreen.observe2(this) {
-            when (it) {
-//                is SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromTan ->
-//                    doNavigate(
-//                        SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionDeletionWarningFragment(
-//                            testRegistrationRequest = it.coronaTestTan,
-//                            isConsentGiven = it.consentGiven,
-//                        )
-//                    )
             }
         }
 
@@ -87,8 +74,7 @@ class TraceLocationWarnTanFragment : Fragment(R.layout.trace_location_organizer_
             if (ApiRequestState.SUCCESS == it) {
                 // TODO What about negative tests and consent?
 //                doNavigate(
-//                    SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionTestResultNoConsentFragment(
-//                        CoronaTest.Type.PCR
+//                    TraceLocationWarnTanFragmentDirections.action-to-go-here(
 //                    )
 //                )
             }
@@ -108,6 +94,7 @@ class TraceLocationWarnTanFragment : Fragment(R.layout.trace_location_organizer_
         popBackStack()
     }
 
+    // TODO: replace errors with correct one
     private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
         return when (exception) {
             is BadRequestException -> DialogHelper.DialogInstance(

@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.TraceLocationWarnDuration
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.tan.Tan
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -25,7 +24,6 @@ class TraceLocationWarnTanViewModel @AssistedInject constructor(
 
     private val currentTan = MutableStateFlow(Tan(""))
 
-    val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
     val state = currentTan.map { currentTan ->
         UIState(
             isTanValid = currentTan.isTanValid,
@@ -49,7 +47,7 @@ class TraceLocationWarnTanViewModel @AssistedInject constructor(
             return
         }
 
-        //TODO: some backend call magic here
+        // TODO: some backend call magic here
     }
 
     data class UIState(

@@ -11,5 +11,4 @@ data class TraceLocationWarnDuration(
     val traceLocation: TraceLocation,
     val dateTime: LocalDateTime,
     val duration: Duration
-) : Parcelable {
-}
+) : Parcelable
