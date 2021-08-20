@@ -5,7 +5,9 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerThanksFragmentBinding
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.viewBinding
+import timber.log.Timber
 
 class TraceLocationOrganizerThanksFragment : Fragment(R.layout.trace_location_organizer_thanks_fragment) {
 
@@ -15,12 +17,13 @@ class TraceLocationOrganizerThanksFragment : Fragment(R.layout.trace_location_or
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
-            toolbar.setNavigationOnClickListener { leave() }
-            finishButton.setOnClickListener { leave() }
+            toolbar.setNavigationOnClickListener { navigateToHome() }
+            finishButton.setOnClickListener { navigateToHome() }
         }
     }
 
-    private fun leave() {
-        TODO()
+    private fun navigateToHome() {
+        Timber.d("navigateToHome()")
+        doNavigate(TraceLocationOrganizerThanksFragmentDirections.actionTraceLocationOrganizerThanksFragmentToHomeFragment())
     }
 }
