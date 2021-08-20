@@ -143,6 +143,8 @@
     <string name="trace_location_qr_info_qr_code_text">"Stellen Sie den QR-Code Ihren Gästen entweder über Ihr Smartphone oder in ausgedruckter Form zur Verfügung."</string>
     <!-- XTXT: Text for time sheet icon of qr info screen -->
     <string name="trace_location_qr_info_time_text">"Wenn Sie dauerhaft einen QR-Code verwenden, sollten Sie diesen einmal täglich außerhalb der Öffnungszeiten neu erstellen."</string>
+    <!-- XTXT: Text for warning icon of qr info screen -->
+    <string name="trace_location_qr_info_warn_text">"Sie können Ihre Gäste in Vertretung für eine positiv getestete Person warnen, die am Event teilgenommen hat, aber nicht über die Corona-Warn-App eingecheckt war."</string>
     <!-- XTXT: Text for I understand button -->
     <string name="acknowledge_button">"Weiter"</string>
 

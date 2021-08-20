@@ -142,6 +142,8 @@
     <string name="trace_location_qr_info_qr_code_text">"You can provide the QR code to your guests on your smartphone or as a printed form."</string>
     <!-- XTXT: Text for time sheet icon of qr info screen -->
     <string name="trace_location_qr_info_time_text">"If you want to use a QR code for the long term, you should generate it again each day, outside of your operating hours."</string>
+    <!-- XTXT: Text for warning icon of qr info screen -->
+    <string name="trace_location_qr_info_warn_text">"Sie können Ihre Gäste in Vertretung für eine positiv getestete Person warnen, die am Event teilgenommen hat, aber nicht über die Corona-Warn-App eingecheckt war."</string>
     <!-- XTXT: Text for I understand button -->
     <string name="acknowledge_button">"Next"</string>
 
