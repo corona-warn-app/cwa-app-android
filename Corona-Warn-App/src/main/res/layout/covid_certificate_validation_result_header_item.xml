@@ -6,7 +6,7 @@
 
     <TextView
         android:id="@+id/headline"
-        style="@style/headline5"
+        style="@style/headline6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_tiny"
