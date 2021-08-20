@@ -284,4 +284,25 @@
     <string name="trace_location_organiser_list_subtitle">"Wählen Sie ein Event, für welches Sie in Vertretung einer infizierten Person andere warnen möchten. Oder stellen Sie gelöschte Events wieder her, indem sie den QR-Code des Events erneut einscannen."</string>
     <!-- XTXT: Event organiser selection list: qr code scann  -->
     <string name="trace_location_organiser_qr_code_scan">"QR-Code scannen"</string>
+
+    <!--  Warn Duration Screen -->
+    <!-- XHED: Warn Duration Screen: header -->
+    <string name="trace_location_organiser_warn_duration_header">"In Vertretung warnen"</string>
+    <!-- XTXT: Warn Duration Screen: body -->
+    <string name="trace_location_organiser_warn_duration_body">"Geben Sie die Aufenhaltsdauer der positiv getesteten Person an, für die gewarnt werden soll. Diese Information erhalten Sie vom Gesundheitsamt."</string>
+    <!-- XTXT: Warn Duration Screen: start hint -->
+    <string name="trace_location_organiser_warn_duration_start_hint">"Beginn/Ankunft"</string>
+    <!-- XTXT: Warn Duration Screen: duration hint -->
+    <string name="trace_location_organiser_warn_duration_duration_hint">"Dauer"</string>
+
+    <!--  Organizer submission error texts -->
+    <!-- XTXT: Text key: SUBMISSION_OB_FAILED -->
+    <string name="submission_ob_failed">Ein Fehler ist aufgetreten. Bitte kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline.</string>
+    <!-- XTXT: Text key: SUBMISSION_OB_TAN_ERROR -->
+    <string name="submission_ob_tan_error">Ungültige TAN. Bitte überprüfen Sie Ihre Eingabe oder kontaktieren Sie die Stelle, die Ihnen die TAN mitgeteilt hat.</string>
+    <!-- XTXT: Text key: SUBMISSION_OB_TRY_AGAIN -->
+    <string name="submission_ob_try_again">Ein Fehler ist aufgetreten. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline.</string>
+    <!-- XTXT: Text key: SUBMISSION_OB_NO_NETWORK -->
+    <string name="submission_ob_no_network">Ihre Internetverbindung wurde unterbrochen. Bitte prüfen Sie die Verbindung und versuchen Sie es erneut.</string>
+
 </resources>

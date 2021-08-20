@@ -52,6 +52,9 @@
         android:name="de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.TraceLocationSelectionFragment"
         android:label="TraceLocationSelectionFragment"
         tools:layout="@layout/trace_location_organizer_trace_locations_warn_list_fragment">
+        <action
+            android:id="@+id/action_traceLocationSelectionFragment_to_traceLocationWarnDurationFragment"
+            app:destination="@id/traceLocationWarnDurationFragment" />
     </fragment>
     <fragment
         android:id="@+id/traceLocationsFragment"
@@ -106,8 +109,6 @@
             app:argType="long" />
     </fragment>
 
-    <!-- TODO add new screens-->
-
     <fragment
         android:id="@+id/traceLocationWarnInfoFragment"
         android:name="de.rki.coronawarnapp.ui.presencetracing.organizer.warn.TraceLocationWarnInfoFragment"
@@ -115,7 +116,19 @@
         tools:layout="@layout/trace_location_organizer_warn_info_fragment">
         <action
             android:id="@+id/action_traceLocationWarnInfoFragment_to_traceLocationSelectionFragment"
-            app:destination="@id/traceLocationSelectionFragment" />
+            app:destination="@id/traceLocationSelectionFragment"
+            app:popUpTo="@id/traceLocationWarnInfoFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/traceLocationWarnDurationFragment"
+        android:name="de.rki.coronawarnapp.ui.presencetracing.organizer.warn.duration.TraceLocationWarnDurationFragment"
+        android:label="TraceLocationWarnDurationFragment"
+        tools:layout="@layout/trace_location_organizer_warn_duration_fragment">
+        <argument
+            android:name="traceLocation"
+            app:argType="de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation" />
     </fragment>
 
 </navigation>
