@@ -28,6 +28,7 @@ import testhelpers.TestDispatcherProvider
 import java.security.SecureRandom
 import kotlin.random.asKotlinRandom
 
+@Suppress("MaxLineLength")
 internal class OrganizerSubmissionServerTest : BaseTest() {
 
     @MockK lateinit var appConfigProvider: AppConfigProvider
