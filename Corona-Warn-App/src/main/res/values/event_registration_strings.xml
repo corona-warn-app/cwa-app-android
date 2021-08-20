@@ -295,6 +295,7 @@
     <!-- XTXT: Warn Duration Screen: duration hint -->
     <string name="trace_location_organiser_warn_duration_duration_hint">"Dauer"</string>
 
+
     <!--  Thank You Final Screen -->
     <!-- XHED: Warn Info Screen: header -->
     <string name="trace_location_organiser_thank_you_header">"In Vertretung warnen"</string>
@@ -304,5 +305,15 @@
     <string name="trace_location_organiser_thank_you_body">"Dank Ihrer Mithilfe können andere gewarnt werden und entsprechend reagieren."</string>
     <!-- XBUT: Thank You Screen: finish button text -->
     <string name="trace_location_organiser_thank_you_finish_button">"Beenden"</string>
+
+    <!--  Organizer submission error texts -->
+    <!-- XTXT: Text key: SUBMISSION_OB_FAILED -->
+    <string name="submission_ob_failed">Ein Fehler ist aufgetreten. Bitte kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline.</string>
+    <!-- XTXT: Text key: SUBMISSION_OB_TAN_ERROR -->
+    <string name="submission_ob_tan_error">Ungültige TAN. Bitte überprüfen Sie Ihre Eingabe oder kontaktieren Sie die Stelle, die Ihnen die TAN mitgeteilt hat.</string>
+    <!-- XTXT: Text key: SUBMISSION_OB_TRY_AGAIN -->
+    <string name="submission_ob_try_again">Ein Fehler ist aufgetreten. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline.</string>
+    <!-- XTXT: Text key: SUBMISSION_OB_NO_NETWORK -->
+    <string name="submission_ob_no_network">Ihre Internetverbindung wurde unterbrochen. Bitte prüfen Sie die Verbindung und versuchen Sie es erneut.</string>
 
 </resources>
