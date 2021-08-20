@@ -59,13 +59,7 @@
         android:id="@+id/scanCheckInQrCodeFragment"
         android:name="de.rki.coronawarnapp.ui.presencetracing.attendee.scan.ScanCheckInQrCodeFragment"
         android:label="ScanCheckInQrCodeFragment"
-        tools:layout="@layout/fragment_scan_qr_code">
-        <deepLink app:uri="coronawarnapp://presencetracing/organizer/warn/{isOrganizerWarn}" />
-        <argument
-            android:name="isOrganizerWarn"
-            android:defaultValue="false"
-            app:argType="boolean" />
-    </fragment>
+        tools:layout="@layout/fragment_scan_qr_code"></fragment>
 
     <fragment
         android:id="@+id/checkInsFragment"

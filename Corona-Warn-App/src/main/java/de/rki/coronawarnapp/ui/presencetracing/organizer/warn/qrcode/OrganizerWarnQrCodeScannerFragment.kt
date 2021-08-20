@@ -1,85 +1,70 @@
-package de.rki.coronawarnapp.ui.presencetracing.attendee.scan
+package de.rki.coronawarnapp.ui.presencetracing.organizer.warn.qrcode
 
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
-import android.view.accessibility.AccessibilityEvent.TYPE_ANNOUNCEMENT
+import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavOptions
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.transition.MaterialContainerTransform
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.FragmentScanQrCodeBinding
-import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
+import de.rki.coronawarnapp.databinding.TraceLocationOrganizerWarnQrScannerFragmentBinding
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.ui.LazyString
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import timber.log.Timber
 import javax.inject.Inject
 
-class ScanCheckInQrCodeFragment :
-    Fragment(R.layout.fragment_scan_qr_code),
+class OrganizerWarnQrCodeScannerFragment :
+    Fragment(R.layout.trace_location_organizer_warn_qr_scanner_fragment),
     AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: ScanCheckInQrCodeViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: OrganizerWarnQrCodeScannerViewModel by cwaViewModels { viewModelFactory }
 
-    private val binding: FragmentScanQrCodeBinding by viewBinding()
+    private val binding: TraceLocationOrganizerWarnQrScannerFragmentBinding by viewBinding()
     private var showsPermissionDialog = false
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        sharedElementEnterTransition = MaterialContainerTransform()
-        sharedElementReturnTransition = MaterialContainerTransform()
-    }
-
-    override fun onViewCreated(
-        view: View,
-        savedInstanceState: Bundle?
-    ) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(binding) {
-            qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
-                binding.qrCodeScanPreview.setTorch(isChecked)
+            qrCodeWarnScanTorch.setOnCheckedChangeListener { _, isChecked ->
+                binding.qrCodeWarnScanPreview.setTorch(isChecked)
             }
 
-            qrCodeScanToolbar.setNavigationOnClickListener { viewModel.onNavigateUp() }
-            qrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
-            qrCodeScanViewfinderView.setCameraPreview(binding.qrCodeScanPreview)
+            qrCodeWarnScanToolbar.setNavigationOnClickListener { viewModel.onNavigateUp() }
+            qrCodeWarnScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
+            qrCodeWarnScanViewfinderView.setCameraPreview(binding.qrCodeWarnScanPreview)
         }
 
         viewModel.events.observe2(this) { navEvent ->
             when (navEvent) {
-                is ScanCheckInQrCodeNavigation.BackNavigation -> popBackStack()
-                is ScanCheckInQrCodeNavigation.ScanResultNavigation -> {
-                    Timber.i(navEvent.uri)
-                    findNavController().navigate(
-                        CheckInsFragment.createDeepLink(navEvent.uri),
-                        NavOptions.Builder()
-                            .setPopUpTo(R.id.checkInsFragment, true)
-                            .build()
+                is OrganizerWarnQrCodeNavigation.BackNavigation -> popBackStack()
+                is OrganizerWarnQrCodeNavigation.InvalidQrCode -> showInvalidQrCodeInformation(navEvent.errorText)
+                is OrganizerWarnQrCodeNavigation.DurationSelectionScreen -> {
+                    doNavigate(
+                        OrganizerWarnQrCodeScannerFragmentDirections
+                            .actionTraceLocationQrScannerFragmentToTraceLocationWarnDurationFragment(
+                                navEvent.traceLocation
+                            )
                     )
                 }
-                is ScanCheckInQrCodeNavigation.InvalidQrCode -> showInvalidQrCodeInformation(navEvent.errorText)
             }
         }
     }
 
     override fun onResume() {
         super.onResume()
-        binding.checkInQrCodeScanContainer.sendAccessibilityEvent(TYPE_ANNOUNCEMENT)
+        binding.checkInQrCodeWarnScanContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
         if (CameraPermissionHelper.hasCameraPermission(requireActivity())) {
-            binding.qrCodeScanPreview.resume()
+            binding.qrCodeWarnScanPreview.resume()
             startDecode()
             return
         }
@@ -107,7 +92,7 @@ class ScanCheckInQrCodeFragment :
         }
     }
 
-    private fun startDecode() = binding.qrCodeScanPreview
+    private fun startDecode() = binding.qrCodeWarnScanPreview
         .decodeSingle { barcodeResult ->
             viewModel.onScanResult(barcodeResult)
         }
@@ -115,7 +100,6 @@ class ScanCheckInQrCodeFragment :
     private fun showCameraPermissionDeniedDialog() {
         val permissionDeniedDialog = DialogHelper.DialogInstance(
             requireActivity(),
-            // TODO use strings for this screen
             R.string.submission_qr_code_scan_permission_denied_dialog_headline,
             R.string.submission_qr_code_scan_permission_denied_dialog_body,
             R.string.submission_qr_code_scan_permission_denied_dialog_button,
@@ -146,7 +130,6 @@ class ScanCheckInQrCodeFragment :
     private fun showCameraPermissionRationaleDialog() {
         val cameraPermissionRationaleDialogInstance = DialogHelper.DialogInstance(
             requireActivity(),
-            // TODO use strings for this screen
             R.string.submission_qr_code_scan_permission_rationale_dialog_headline,
             R.string.submission_qr_code_scan_permission_rationale_dialog_body,
             R.string.submission_qr_code_scan_permission_rationale_dialog_button_positive,
@@ -173,7 +156,7 @@ class ScanCheckInQrCodeFragment :
 
     override fun onPause() {
         super.onPause()
-        binding.qrCodeScanPreview.pause()
+        binding.qrCodeWarnScanPreview.pause()
     }
 
     companion object {
