@@ -4,6 +4,11 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.PlausibleDeniabilityParametersContainer
 import de.rki.coronawarnapp.appconfig.PresenceTracingConfigContainer
+import de.rki.coronawarnapp.exception.http.BadRequestException
+import de.rki.coronawarnapp.exception.http.CwaUnknownHostException
+import de.rki.coronawarnapp.exception.http.InternalServerErrorException
+import de.rki.coronawarnapp.exception.http.NetworkConnectTimeoutException
+import de.rki.coronawarnapp.exception.http.UnauthorizedException
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInsReport
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
@@ -17,6 +22,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import java.security.SecureRandom
@@ -27,10 +33,20 @@ internal class OrganizerSubmissionServerTest : BaseTest() {
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var organizerSubmissionApiV1: OrganizerSubmissionApiV1
 
-    private lateinit var organizerSubmissionServer: OrganizerSubmissionServer
-
     private val unencryptedCheckIn = CheckInOuterClass.CheckIn.getDefaultInstance()
     private val encryptedCheckIn = CheckInOuterClass.CheckInProtectedReport.getDefaultInstance()
+
+    private val checkInsReport = CheckInsReport(
+        unencryptedCheckIns = listOf(unencryptedCheckIn),
+        encryptedCheckIns = listOf(encryptedCheckIn)
+    )
+
+    private fun createServer(appConfigProvider: AppConfigProvider, organizerSubmissionApiV1: OrganizerSubmissionApiV1) = OrganizerSubmissionServer(
+        paddingTool = PaddingTool(SecureRandom.getInstanceStrong().asKotlinRandom()),
+        dispatcherProvider = TestDispatcherProvider(),
+        appConfigProvider = appConfigProvider,
+        organizerSubmissionApiV1Lazy = { organizerSubmissionApiV1 }
+    )
 
     @BeforeEach
     fun setUp() {
@@ -59,21 +75,47 @@ internal class OrganizerSubmissionServerTest : BaseTest() {
                 submissionType shouldBe SubmissionPayload.SubmissionType.SUBMISSION_TYPE_HOST_WARNING
             }
         }
-
-        organizerSubmissionServer = OrganizerSubmissionServer(
-            paddingTool = PaddingTool(SecureRandom.getInstanceStrong().asKotlinRandom()),
-            dispatcherProvider = TestDispatcherProvider(),
-            appConfigProvider = appConfigProvider,
-            organizerSubmissionApiV1Lazy = { organizerSubmissionApiV1 }
-        )
     }
 
     @Test
     fun submit() = runBlockingTest {
-        val checkInsReport = CheckInsReport(
-            unencryptedCheckIns = listOf(unencryptedCheckIn),
-            encryptedCheckIns = listOf(encryptedCheckIn)
-        )
-        organizerSubmissionServer.submit("uploadTan", checkInsReport)
+        createServer(appConfigProvider, organizerSubmissionApiV1).submit("uploadTan", checkInsReport)
+    }
+
+    @Test
+    fun `forwards exceptions`() = runBlockingTest {
+        val server = createServer(appConfigProvider, organizerSubmissionApiV1)
+        val errorDetails = "errorDetails"
+        val uploadTan = "uploadTan"
+
+        coEvery { organizerSubmissionApiV1.submitCheckInsOnBehalf(any(), any()) } throws BadRequestException(errorDetails)
+
+        assertThrows<BadRequestException> {
+            server.submit(uploadTan, checkInsReport)
+        }
+
+        coEvery { organizerSubmissionApiV1.submitCheckInsOnBehalf(any(), any()) } throws UnauthorizedException(errorDetails)
+
+        assertThrows<UnauthorizedException> {
+            server.submit(uploadTan, checkInsReport)
+        }
+
+        coEvery { organizerSubmissionApiV1.submitCheckInsOnBehalf(any(), any()) } throws InternalServerErrorException(errorDetails)
+
+        assertThrows<InternalServerErrorException> {
+            server.submit(uploadTan, checkInsReport)
+        }
+
+        coEvery { organizerSubmissionApiV1.submitCheckInsOnBehalf(any(), any()) } throws NetworkConnectTimeoutException(errorDetails)
+
+        assertThrows<NetworkConnectTimeoutException> {
+            server.submit(uploadTan, checkInsReport)
+        }
+
+        coEvery { organizerSubmissionApiV1.submitCheckInsOnBehalf(any(), any()) } throws CwaUnknownHostException(errorDetails, null)
+
+        assertThrows<CwaUnknownHostException> {
+            server.submit(uploadTan, checkInsReport)
+        }
     }
 }
