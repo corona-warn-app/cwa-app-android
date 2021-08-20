@@ -1,8 +1,7 @@
 package de.rki.coronawarnapp.presencetracing.organizer.submission.server
 
-import de.rki.coronawarnapp.exception.http.BadRequestException
-import de.rki.coronawarnapp.exception.http.ForbiddenException
-import de.rki.coronawarnapp.exception.http.InternalServerErrorException
+import de.rki.coronawarnapp.exception.http.CwaClientError
+import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.http.HttpModule
 import de.rki.coronawarnapp.presencetracing.organizer.submission.OrganizerSubmissionModule
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass
@@ -69,22 +68,23 @@ class OrganizerSubmissionApiV1Test : BaseTest() {
     fun `delivers response codes`(): Unit = runBlocking {
         val apiV1 = createApi()
 
+        // Successful submission doesn't throw
         webServer.enqueue(MockResponse().setResponseCode(200))
-        apiV1.submitCheckInsOnBehalf(authCode = uploadTan, requestBody = requestBody).code() shouldBe 200
+        apiV1.submitCheckInsOnBehalf(authCode = uploadTan, requestBody = requestBody)
 
-        assertThrows<BadRequestException> {
+        assertThrows<CwaClientError> {
             webServer.enqueue(MockResponse().setResponseCode(400))
-            apiV1.submitCheckInsOnBehalf(authCode = uploadTan, requestBody = requestBody).code() shouldBe 400
+            apiV1.submitCheckInsOnBehalf(authCode = uploadTan, requestBody = requestBody)
         }
 
-        assertThrows<ForbiddenException> {
+        assertThrows<CwaClientError> {
             webServer.enqueue(MockResponse().setResponseCode(403))
-            apiV1.submitCheckInsOnBehalf(authCode = uploadTan, requestBody = requestBody).code() shouldBe 403
+            apiV1.submitCheckInsOnBehalf(authCode = uploadTan, requestBody = requestBody)
         }
 
-        assertThrows<InternalServerErrorException> {
+        assertThrows<CwaServerError> {
             webServer.enqueue(MockResponse().setResponseCode(500))
-            apiV1.submitCheckInsOnBehalf(authCode = uploadTan, requestBody = requestBody).code() shouldBe 500
+            apiV1.submitCheckInsOnBehalf(authCode = uploadTan, requestBody = requestBody)
         }
     }
 }

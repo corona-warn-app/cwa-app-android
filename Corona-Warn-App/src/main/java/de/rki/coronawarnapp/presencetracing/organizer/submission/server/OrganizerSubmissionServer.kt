@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.presencetracing.organizer.submission.server
 
 import com.google.protobuf.ByteString
+import dagger.Lazy
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInsReport
@@ -16,12 +17,16 @@ class OrganizerSubmissionServer @Inject constructor(
     private val paddingTool: PaddingTool,
     private val appConfigProvider: AppConfigProvider,
     private val dispatcherProvider: DispatcherProvider,
-    private val organizerSubmissionApiV1: OrganizerSubmissionApiV1
+    private val organizerSubmissionApiV1Lazy: Lazy<OrganizerSubmissionApiV1>
 ) {
+
+    private val organizerSubmissionApiV1: OrganizerSubmissionApiV1
+        get() = organizerSubmissionApiV1Lazy.get()
+
     suspend fun submit(
         uploadTAN: String,
         checkInsReport: CheckInsReport
-    ) = withContext(dispatcherProvider.IO) {
+    ): Unit = withContext(dispatcherProvider.IO) {
         Timber.tag(TAG).d("submit(uploadTAN=%s, checkInReport=%s)", uploadTAN, checkInsReport)
         val plausibleParameters = appConfigProvider
             .getAppConfig()
