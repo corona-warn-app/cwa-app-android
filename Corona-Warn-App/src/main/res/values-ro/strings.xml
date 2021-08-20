@@ -1490,6 +1490,12 @@
     <string name="statistics_explanation_faq_url">"https://www.coronawarn.app/en/faq/#further_details"</string>
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"O imagine abstractă a unui smartphone cu patru substituenți pentru informații"</string>
+    <!-- XTXT: Statistics explanation blog text -->
+    <string name="statistics_explanation_blog">"Pentru mai multe detalii despre conținutul indicatorilor individuali, citiți blogul nostru."</string>
+    <!-- XTXT: Statistics explanation blog text label -->
+    <string name="statistics_explanation_blog_label">"Blog."</string>
+    <!-- XTXT: Statistics explanation blog text url -->
+    <string name="statistics_eplanation_blog_url">"https://www.coronawarn.app/en/blog/2021-08-05-statistictiles"</string>
 
     <!-- XTXT: Statistics Card Announcement -->
     <string name="accessibility_statistics_card_announcement">"Mozaic statistică"</string>
