@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
+import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerWarnTanFragmentBinding
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -59,6 +60,7 @@ class TraceLocationWarnTanFragment : Fragment(R.layout.trace_location_organizer_
             }
 
             tanButtonEnter.setOnClickListener {
+                tanButtonEnter.hideKeyboard()
                 viewModel.startTanSubmission()
             }
             toolbar.setNavigationOnClickListener { goBack() }
