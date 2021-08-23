@@ -147,18 +147,20 @@
             app:argType="de.rki.coronawarnapp.ui.presencetracing.organizer.warn.TraceLocationWarnDuration" />
         <action
             android:id="@+id/action_traceLocationTanDurationFragment_to_traceLocationOrganizerThanksFragment"
-            app:destination="@id/traceLocationOrganizerThanksFragment" />
+            app:destination="@id/traceLocationOrganizerThanksFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/traceLocationOrganizerThanksFragment"
         android:name="de.rki.coronawarnapp.ui.presencetracing.organizer.thanks.TraceLocationOrganizerThanksFragment"
         android:label="trace_location_organizer_thanks_fragment"
-        tools:layout="@layout/trace_location_organizer_thanks_fragment" >
+        tools:layout="@layout/trace_location_organizer_thanks_fragment">
         <action
             android:id="@+id/action_traceLocationOrganizerThanksFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/traceLocationsFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
