@@ -99,11 +99,14 @@ class TraceLocationWarnDurationViewModel @AssistedInject constructor(
             )
         }
 
-        fun getTraceLocationWarnDuration(traceLocation: TraceLocation) = TraceLocationWarnDuration(
-            traceLocation = traceLocation,
-            dateTime = localDateTime,
-            duration = duration
-        )
+        fun getTraceLocationWarnDuration(traceLocation: TraceLocation): TraceLocationWarnDuration {
+            val startDate = localDateTime.toDateTime().toInstant()
+            return TraceLocationWarnDuration(
+                traceLocation = traceLocation,
+                startDate = startDate,
+                endDate = startDate.plus(duration),
+            )
+        }
     }
 
     fun goNext() {

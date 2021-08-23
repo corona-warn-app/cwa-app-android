@@ -53,9 +53,8 @@ class TraceLocationWarnTanViewModel @AssistedInject constructor(
 
         val payload = OrganizerSubmissionPayload(
             traceLocation = traceLocationWarnDuration.traceLocation,
-            startDate = traceLocationWarnDuration.dateTime.toDateTime().toInstant(),
-            endDate = traceLocationWarnDuration.dateTime.toDateTime()
-                .plus(traceLocationWarnDuration.duration).toInstant(),
+            startDate = traceLocationWarnDuration.startDate,
+            endDate = traceLocationWarnDuration.endDate,
             tan = teletan.value
         )
 
