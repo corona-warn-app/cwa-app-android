@@ -74,7 +74,10 @@ class TraceLocationSelectionFragment :
                     )
                 }
                 TraceLocationSelectionEvent.ScanQrCode -> {
-                    // TODO: navigation here
+                    doNavigate(
+                        TraceLocationSelectionFragmentDirections
+                            .actionTraceLocationSelectionFragmentToTraceLocationQrScannerFragment()
+                    )
                 }
             }
         }

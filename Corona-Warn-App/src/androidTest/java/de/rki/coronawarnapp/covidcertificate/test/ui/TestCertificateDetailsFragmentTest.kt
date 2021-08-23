@@ -77,75 +77,117 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
         takeScreenshot<TestCertificateDetailsFragment>("_2")
     }
 
-    private fun vaccinationDetailsData(): MutableLiveData<TestCertificate> {
+    @Screenshot
+    @Test
+    fun capture_screenshot_invalid() {
+        every { vaccinationDetailsViewModel.covidCertificate } returns invalidVaccinationDetailsData()
+        launchFragmentInContainer2<TestCertificateDetailsFragment>(fragmentArgs = args)
+        takeScreenshot<TestCertificateDetailsFragment>("invalid")
+        onView(withId(R.id.coordinator_layout)).perform(swipeUp())
+        takeScreenshot<TestCertificateDetailsFragment>("invalid_2")
+    }
+
+    @Screenshot
+    @Test
+    fun capture_screenshot_expired() {
+        every { vaccinationDetailsViewModel.covidCertificate } returns expiredVaccinationDetailsData()
+        launchFragmentInContainer2<TestCertificateDetailsFragment>(fragmentArgs = args)
+        takeScreenshot<TestCertificateDetailsFragment>("expired")
+        onView(withId(R.id.coordinator_layout)).perform(swipeUp())
+        takeScreenshot<TestCertificateDetailsFragment>("expired_2")
+    }
+
+    private fun invalidVaccinationDetailsData() = MutableLiveData(
+        getTestCertificateObject(
+            CwaCovidCertificate.State.Invalid()
+        )
+    )
+
+    private fun expiredVaccinationDetailsData() = MutableLiveData(
+        getTestCertificateObject(
+            CwaCovidCertificate.State.Expired(Instant.now())
+        )
+    )
+
+    private fun vaccinationDetailsData() = MutableLiveData(
+        getTestCertificateObject(
+            CwaCovidCertificate.State.Valid(Instant.now())
+        )
+    )
+
+    abstract class AbstractTestCertificate(
+        private val testDate: Instant,
+        private val certificatePersonIdentifier: CertificatePersonIdentifier
+    ) : TestCertificate {
+        override val rawCertificate: TestDccV1
+            get() = mockk()
+        override val notifiedExpiredAt: Instant?
+            get() = null
+        override val notifiedExpiresSoonAt: Instant?
+            get() = null
+        override val containerId: TestCertificateContainerId
+            get() = TestCertificateContainerId("identifier")
+        override val targetName: String
+            get() = "Schneider, Andrea"
+        override val testType: String
+            get() = "SARS-CoV-2-Test"
+        override val testResult: String
+            get() = "negative"
+        override val testName: String
+            get() = "Xep"
+        override val testNameAndManufacturer: String
+            get() = "Xup"
+        override val sampleCollectedAt: Instant
+            get() = testDate
+        override val sampleCollectedAtFormatted: String
+            get() = "12.05.2021 19:00"
+        override val testCenter: String
+            get() = "AB123"
+        override val registeredAt: Instant
+            get() = testDate
+        override val isUpdatingData: Boolean
+            get() = false
+        override val isCertificateRetrievalPending: Boolean
+            get() = false
+        override val headerIssuer: String
+            get() = "G0593048274845483647869576478784"
+        override val headerIssuedAt: Instant
+            get() = testDate
+        override val headerExpiresAt: Instant
+            get() = testDate
+        override val qrCodeToDisplay: CoilQrCode
+            get() = CoilQrCode(ScreenshotCertificateTestData.testCertificate)
+        override val firstName: String
+            get() = "Andrea"
+        override val lastName: String
+            get() = "Schneider"
+        override val fullName: String
+            get() = "Andrea Schneider"
+        override val fullNameFormatted: String
+            get() = "Schneider, Andrea"
+        override val fullNameStandardizedFormatted: String
+            get() = "SCHNEIDER, ANDREA"
+        override val dateOfBirthFormatted: String
+            get() = "1943-04-18"
+        override val personIdentifier: CertificatePersonIdentifier
+            get() = certificatePersonIdentifier
+        override val certificateIssuer: String
+            get() = "G0593048274845483647869576478784"
+        override val certificateCountry: String
+            get() = "Germany"
+        override val certificateId: String
+            get() = "05930482748454836478695764787840"
+        override val dccData: DccData<*>
+            get() = mockk()
+    }
+
+    private fun getTestCertificateObject(state: CwaCovidCertificate.State): TestCertificate {
         val formatter = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm")
         val testDate = DateTime.parse("12.05.2021 19:00", formatter).toInstant()
-        return MutableLiveData(
-            object : TestCertificate {
-                override val rawCertificate: TestDccV1
-                    get() = mockk()
-                override val notifiedExpiredAt: Instant?
-                    get() = null
-                override val notifiedExpiresSoonAt: Instant?
-                    get() = null
-                override val containerId: TestCertificateContainerId
-                    get() = TestCertificateContainerId("identifier")
-                override val targetName: String
-                    get() = "Schneider, Andrea"
-                override val testType: String
-                    get() = "SARS-CoV-2-Test"
-                override val testResult: String
-                    get() = "negative"
-                override val testName: String
-                    get() = "Xep"
-                override val testNameAndManufacturer: String
-                    get() = "Xup"
-                override val sampleCollectedAt: Instant
-                    get() = testDate
-                override val sampleCollectedAtFormatted: String
-                    get() = "12.05.2021 19:00"
-                override val testCenter: String
-                    get() = "AB123"
-                override val registeredAt: Instant
-                    get() = testDate
-                override val isUpdatingData: Boolean
-                    get() = false
-                override val isCertificateRetrievalPending: Boolean
-                    get() = false
-                override val headerIssuer: String
-                    get() = "G0593048274845483647869576478784"
-                override val headerIssuedAt: Instant
-                    get() = testDate
-                override val headerExpiresAt: Instant
-                    get() = testDate
-                override val qrCodeToDisplay: CoilQrCode
-                    get() = CoilQrCode(ScreenshotCertificateTestData.testCertificate)
-                override val firstName: String
-                    get() = "Andrea"
-                override val lastName: String
-                    get() = "Schneider"
-                override val fullName: String
-                    get() = "Andrea Schneider"
-                override val fullNameFormatted: String
-                    get() = "Schneider, Andrea"
-                override val fullNameStandardizedFormatted: String
-                    get() = "SCHNEIDER, ANDREA"
-                override val dateOfBirthFormatted: String
-                    get() = "1943-04-18"
-                override val personIdentifier: CertificatePersonIdentifier
-                    get() = certificatePersonIdentifier
-                override val certificateIssuer: String
-                    get() = "G0593048274845483647869576478784"
-                override val certificateCountry: String
-                    get() = "Germany"
-                override val certificateId: String
-                    get() = "05930482748454836478695764787840"
-                override val dccData: DccData<*>
-                    get() = mockk()
 
-                override fun getState(): CwaCovidCertificate.State = CwaCovidCertificate.State.Valid(Instant.now())
-            }
-        )
+        return object : AbstractTestCertificate(testDate, certificatePersonIdentifier) {
+            override fun getState(): CwaCovidCertificate.State = state
+        }
     }
 
     @After

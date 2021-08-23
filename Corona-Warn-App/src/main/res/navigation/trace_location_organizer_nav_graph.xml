@@ -55,6 +55,9 @@
         <action
             android:id="@+id/action_traceLocationSelectionFragment_to_traceLocationWarnDurationFragment"
             app:destination="@id/traceLocationWarnDurationFragment" />
+        <action
+            android:id="@+id/action_traceLocationSelectionFragment_to_traceLocationQrScannerFragment"
+            app:destination="@id/traceLocationQrScannerFragment" />
     </fragment>
     <fragment
         android:id="@+id/traceLocationsFragment"
@@ -109,8 +112,6 @@
             app:argType="long" />
     </fragment>
 
-    <!-- TODO add new screens-->
-
     <fragment
         android:id="@+id/traceLocationWarnInfoFragment"
         android:name="de.rki.coronawarnapp.ui.presencetracing.organizer.warn.TraceLocationWarnInfoFragment"
@@ -118,7 +119,9 @@
         tools:layout="@layout/trace_location_organizer_warn_info_fragment">
         <action
             android:id="@+id/action_traceLocationWarnInfoFragment_to_traceLocationSelectionFragment"
-            app:destination="@id/traceLocationSelectionFragment" />
+            app:destination="@id/traceLocationSelectionFragment"
+            app:popUpTo="@id/traceLocationWarnInfoFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -142,6 +145,31 @@
         <argument
             android:name="traceLocationWarnDuration"
             app:argType="de.rki.coronawarnapp.ui.presencetracing.organizer.warn.TraceLocationWarnDuration" />
+    </fragment>
+    <fragment
+        android:id="@+id/traceLocationOrganizerThanksFragment"
+        android:name="de.rki.coronawarnapp.ui.presencetracing.organizer.thanks.TraceLocationOrganizerThanksFragment"
+        android:label="trace_location_organizer_thanks_fragment"
+        tools:layout="@layout/trace_location_organizer_thanks_fragment" >
+        <action
+            android:id="@+id/action_traceLocationOrganizerThanksFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/traceLocationsFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="de.rki.coronawarnapp.ui.main.home.HomeFragment"
+        android:label="HomeFragment" />
+
+    <fragment
+        android:id="@+id/traceLocationQrScannerFragment"
+        android:name="de.rki.coronawarnapp.ui.presencetracing.organizer.warn.qrcode.OrganizerWarnQrCodeScannerFragment"
+        android:label="OrganizerWarnQrCodeScannerFragment"
+        tools:layout="@layout/fragment_scan_qr_code">
+        <action
+            android:id="@+id/action_traceLocationQrScannerFragment_to_traceLocationWarnDurationFragment"
+            app:destination="@id/traceLocationWarnDurationFragment" />
     </fragment>
 
 </navigation>

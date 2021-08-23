@@ -1025,7 +1025,7 @@
     <!-- XHED: Page headline for negative test result next steps  -->
     <string name="submission_test_result_negative_steps_negative_heading">"Befund negativ"</string>
     <!-- YTXT: Body text for next steps section of test negative result -->
-    <string name="submission_test_result_negative_steps_negative_body">"Der Labortest hat keinen Nachweis für das Coronavirus SARS-CoV-2 bei Ihnen ergeben. \n\nBevor Sie einen neuen Test registrieren können, muss der letzte Test entfernt werden."</string>
+    <string name="submission_test_result_negative_steps_negative_body">"Der Labortest hat keinen Nachweis für das Coronavirus SARS-CoV-2 bei Ihnen ergeben."</string>
     <!-- XBUT: negative test result : remove the test button -->
     <string name="submission_test_result_negative_remove_test_button">"Test entfernen"</string>
     <!-- XHED: Page headline for other warnings screen  -->
@@ -1113,7 +1113,7 @@
     <!-- XHED: Dispatcher text for test center option -->
     <string name="submission_dispatcher_card_test_center">"Testmöglichkeit finden"</string>
     <!-- YTXT: Body text for test center dispatcher option -->
-    <string name="submission_dispatcher_card_test_center_text">"Finden Sie Teststellen in Ihrer Nähe."</string>
+    <string name="submission_dispatcher_card_test_center_text">"Finden Sie Teststellen in Ihrer Nähe. Sie werden auf eine externe Website des RKI weitergeleitet."</string>
     <!-- XTXT: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#where_can_i_get_tested -->
     <string name="submission_dispatcher_card_test_center_link">"https://www.coronawarn.app/de/faq/#where_can_i_get_tested"</string>
     <!-- YTXT: Dispatcher text for TAN code option -->

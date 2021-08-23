@@ -1,11 +1,15 @@
 package de.rki.coronawarnapp.playbook
 
+import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
 import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.coronatest.server.VerificationServer
-import de.rki.coronawarnapp.exception.TanPairingException
-import de.rki.coronawarnapp.exception.http.BadRequestException
+import de.rki.coronawarnapp.exception.http.CwaClientError
+import de.rki.coronawarnapp.exception.http.CwaServerError
+import de.rki.coronawarnapp.exception.http.CwaUnknownHostException
+import de.rki.coronawarnapp.exception.http.NetworkConnectTimeoutException
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInsReport
+import de.rki.coronawarnapp.presencetracing.organizer.submission.OrganizerSubmissionException
 import de.rki.coronawarnapp.presencetracing.organizer.submission.server.OrganizerSubmissionServer
 import de.rki.coronawarnapp.submission.server.SubmissionServer
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -29,6 +33,7 @@ class OrganizerPlaybook @Inject constructor(
     private val uid = UUID.randomUUID().toString()
     private val coroutineScope: CoroutineScope = appScope + dispatcherProvider.IO
 
+    @Throws(OrganizerSubmissionException::class)
     suspend fun submit(tan: String, checkInsReport: CheckInsReport) {
         Timber.i("[$uid] New Submission Playbook")
         // Real upload TAN
@@ -46,20 +51,18 @@ class OrganizerPlaybook @Inject constructor(
             } else {
                 submissionServer.submitFakePayload()
                 coroutineScope.launch { followUpPlaybooks() }
-                propagateException(wrapException(exception))
+                propagateException(exception)
             }
-        } catch (exception: BadRequestException) {
-            propagateException(
-                TanPairingException(
-                    code = exception.statusCode,
-                    message = "Invalid payload or missing header",
-                    cause = exception
-                )
-            )
+        } catch (exception: Exception) {
+            throw when (exception) {
+                is OrganizerSubmissionException -> exception
+                else -> exception.asOrganizerSubmissionException(ErrorType.SUBMISSION)
+            }
         }
     }
 
-    private suspend fun obtainUploadTan(
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    suspend fun obtainUploadTan(
         tokenRequest: RegistrationRequest
     ): String {
         Timber.i("[$uid] New Initial Registration Playbook")
@@ -89,19 +92,10 @@ class OrganizerPlaybook @Inject constructor(
         }
 
         // else propagate the exception of either the first or the second step
-        propagateException(registrationException, uploadTanException)
-    }
-
-    /**
-     * Distinguish BadRequestException to present more insightful message to the end user
-     */
-    private fun wrapException(exception: Exception?) = when (exception) {
-        is BadRequestException -> TanPairingException(
-            code = exception.statusCode,
-            message = "Tan has been retrieved before for this registration token",
-            cause = exception
+        propagateException(
+            registrationException?.asOrganizerSubmissionException(ErrorType.REG_TOKEN),
+            uploadTanException?.asOrganizerSubmissionException(ErrorType.TAN)
         )
-        else -> exception
     }
 
     private suspend fun dummy() {
@@ -154,6 +148,39 @@ class OrganizerPlaybook @Inject constructor(
 
     private fun propagateException(vararg exceptions: Exception?): Nothing {
         throw exceptions.filterNotNull().firstOrNull() ?: IllegalStateException()
+    }
+
+    private enum class ErrorType {
+        REG_TOKEN, TAN, SUBMISSION
+    }
+
+    private fun Exception.asOrganizerSubmissionException(type: ErrorType): OrganizerSubmissionException = when (this) {
+        is CwaUnknownHostException, is NetworkConnectTimeoutException -> when (type) {
+            ErrorType.REG_TOKEN -> OrganizerSubmissionException.ErrorCode.REGTOKEN_OB_NO_NETWORK
+            ErrorType.TAN -> OrganizerSubmissionException.ErrorCode.TAN_OB_NO_NETWORK
+            ErrorType.SUBMISSION -> OrganizerSubmissionException.ErrorCode.SUBMISSION_OB_NO_NETWORK
+        }
+        // HTTP status code 4XX
+        is CwaClientError -> when (type) {
+            ErrorType.REG_TOKEN -> OrganizerSubmissionException.ErrorCode.REGTOKEN_OB_CLIENT_ERROR
+            ErrorType.TAN -> OrganizerSubmissionException.ErrorCode.TAN_OB_CLIENT_ERROR
+            ErrorType.SUBMISSION -> OrganizerSubmissionException.ErrorCode.SUBMISSION_OB_CLIENT_ERROR
+        }
+        // HTTP status code 5XX
+        is CwaServerError -> when (type) {
+            ErrorType.REG_TOKEN -> OrganizerSubmissionException.ErrorCode.REGTOKEN_OB_SERVER_ERROR
+            ErrorType.TAN -> OrganizerSubmissionException.ErrorCode.TAN_OB_SERVER_ERROR
+            ErrorType.SUBMISSION -> OrganizerSubmissionException.ErrorCode.SUBMISSION_OB_SERVER_ERROR
+        }
+        // Blame the server ¯\_(ツ)_/¯
+        else -> when (type) {
+            ErrorType.REG_TOKEN -> OrganizerSubmissionException.ErrorCode.REGTOKEN_OB_SERVER_ERROR
+            ErrorType.TAN -> OrganizerSubmissionException.ErrorCode.TAN_OB_SERVER_ERROR
+            ErrorType.SUBMISSION -> OrganizerSubmissionException.ErrorCode.SUBMISSION_OB_SERVER_ERROR
+        }
+    }.let {
+        Timber.i("Mapped %s to %s", this::class.java.simpleName, it)
+        OrganizerSubmissionException(it, this)
     }
 
     companion object {

@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import org.joda.time.Instant
 
-fun OrganizerSubmissionPayload.toCheckIns(): CheckIn {
+fun OrganizerSubmissionPayload.toCheckIn(): CheckIn {
     val payload = this
 
     return with(traceLocation) {
