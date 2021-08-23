@@ -1024,7 +1024,7 @@
     <!-- XHED: Page headline for negative test result next steps  -->
     <string name="submission_test_result_negative_steps_negative_heading">"Отрицателен резултат"</string>
     <!-- YTXT: Body text for next steps section of test negative result -->
-    <string name="submission_test_result_negative_steps_negative_body">"Вашият лабораторен резултат не потвърждава заразяване с коронавирус SARS-CoV-2.\n\nТрябва да изтриете последния тест, за да можете да регистрирате нов."</string>
+    <string name="submission_test_result_negative_steps_negative_body">"Вашият лабораторен резултат не потвърждава заразяване с коронавирус SARS-CoV-2."</string>
     <!-- XBUT: negative test result : remove the test button -->
     <string name="submission_test_result_negative_remove_test_button">"Изтриване на тест"</string>
     <!-- XHED: Page headline for other warnings screen  -->
