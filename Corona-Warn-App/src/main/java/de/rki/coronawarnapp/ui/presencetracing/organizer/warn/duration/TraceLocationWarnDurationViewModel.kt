@@ -1,10 +1,13 @@
 package de.rki.coronawarnapp.ui.presencetracing.organizer.warn.duration
 
+import android.content.res.Resources
 import androidx.lifecycle.LiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.ui.durationpicker.toReadableDuration
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.TraceLocationWarnDuration
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
@@ -89,6 +92,12 @@ class TraceLocationWarnDurationViewModel @AssistedInject constructor(
         val duration: Duration = Duration.standardMinutes(15)
     ) {
         fun formattedDateTime() = "${localDateTime.toDayFormat()} ${localDateTime.toShortTimeFormat()}"
+
+        fun getReadableDuration(resources: Resources): String {
+            return duration.toReadableDuration(
+                suffix = resources.getString(R.string.tracelocation_organizer_duration_suffix)
+            )
+        }
 
         fun getTraceLocationWarnDuration(traceLocation: TraceLocation) = TraceLocationWarnDuration(
             traceLocation = traceLocation,

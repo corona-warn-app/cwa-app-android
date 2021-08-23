@@ -5,7 +5,11 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.exception.http.CwaWebException
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.presencetracing.organizer.submission.OrganizerSubmissionException
+import de.rki.coronawarnapp.presencetracing.organizer.submission.OrganizerSubmissionPayload
+import de.rki.coronawarnapp.presencetracing.organizer.submission.OrganizerSubmissionRepository
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.TraceLocationWarnDuration
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.tan.Tan
@@ -19,10 +23,13 @@ import timber.log.Timber
 
 class TraceLocationWarnTanViewModel @AssistedInject constructor(
     @Assisted private val traceLocationWarnDuration: TraceLocationWarnDuration,
+    private val organizerSubmissionRepository: OrganizerSubmissionRepository,
     dispatcherProvider: DispatcherProvider,
 ) : CWAViewModel() {
 
     private val currentTan = MutableStateFlow(Tan(""))
+    val registrationError = SingleLiveEvent<OrganizerSubmissionException>()
+    val registrationState = MutableLiveData(ApiRequestState.IDLE)
 
     val state = currentTan.map { currentTan ->
         UIState(
@@ -32,9 +39,6 @@ class TraceLocationWarnTanViewModel @AssistedInject constructor(
             isCorrectLength = currentTan.isCorrectLength
         )
     }.asLiveData(context = dispatcherProvider.Default)
-
-    val registrationState = MutableLiveData(ApiRequestState.IDLE)
-    val registrationError = SingleLiveEvent<CwaWebException>()
 
     fun onTanChanged(tan: String) {
         currentTan.value = Tan(tan)
@@ -47,7 +51,27 @@ class TraceLocationWarnTanViewModel @AssistedInject constructor(
             return
         }
 
-        // TODO: some backend call magic here
+        val payload = OrganizerSubmissionPayload(
+            traceLocation = traceLocationWarnDuration.traceLocation,
+            startDate = traceLocationWarnDuration.dateTime.toDateTime().toInstant(),
+            endDate = traceLocationWarnDuration.dateTime.toDateTime()
+                .plus(traceLocationWarnDuration.duration).toInstant(),
+            tan = teletan.value
+        )
+
+        launch {
+            try {
+                registrationState.postValue(ApiRequestState.STARTED)
+                organizerSubmissionRepository.submit(payload)
+                registrationState.postValue(ApiRequestState.SUCCESS)
+            } catch (err: OrganizerSubmissionException) {
+                registrationState.postValue(ApiRequestState.FAILED)
+                registrationError.postValue(err)
+            } catch (err: Exception) {
+                registrationState.postValue(ApiRequestState.FAILED)
+                err.report(ExceptionCategory.INTERNAL)
+            }
+        }
     }
 
     data class UIState(

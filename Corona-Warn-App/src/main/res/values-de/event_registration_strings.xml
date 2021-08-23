@@ -301,6 +301,10 @@
     <!--  Warn Tan Screen -->
     <!-- XHED: Warn Tan Screen: header -->
     <string name="trace_location_organiser_warn_tan_header">"In Vertretung warnen"</string>
+    <!-- XHED: Warn Tan Screen: error header -->
+    <string name="trace_location_organiser_warn_tan_error_header">"Fehler"</string>
+    <!-- XBUT: Warn Tan Screen: error ok button -->
+    <string name="trace_location_organiser_warn_tan_error_ok_button">"OK"</string>
 
     <!--  Thank You Final Screen -->
     <!-- XHED: Warn Info Screen: header -->

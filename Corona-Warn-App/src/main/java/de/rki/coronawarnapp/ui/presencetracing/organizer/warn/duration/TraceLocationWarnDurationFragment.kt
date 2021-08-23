@@ -93,7 +93,7 @@ class TraceLocationWarnDurationFragment :
                 }
 
                 startInputEdit.setText(uiState.formattedDateTime())
-                durationInputEdit.setText(uiState.duration.toContactDiaryFormat())
+                durationInputEdit.setText(uiState.getReadableDuration(resources))
             }
         }
 

@@ -145,6 +145,9 @@
         <argument
             android:name="traceLocationWarnDuration"
             app:argType="de.rki.coronawarnapp.ui.presencetracing.organizer.warn.TraceLocationWarnDuration" />
+        <action
+            android:id="@+id/action_traceLocationTanDurationFragment_to_traceLocationOrganizerThanksFragment"
+            app:destination="@id/traceLocationOrganizerThanksFragment" />
     </fragment>
     <fragment
         android:id="@+id/traceLocationOrganizerThanksFragment"

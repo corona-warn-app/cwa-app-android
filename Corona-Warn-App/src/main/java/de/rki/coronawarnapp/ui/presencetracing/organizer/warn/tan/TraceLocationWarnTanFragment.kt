@@ -7,13 +7,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerWarnTanFragmentBinding
-import de.rki.coronawarnapp.exception.http.BadRequestException
-import de.rki.coronawarnapp.exception.http.CwaClientError
-import de.rki.coronawarnapp.exception.http.CwaServerError
-import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.setGone
@@ -72,16 +69,24 @@ class TraceLocationWarnTanFragment : Fragment(R.layout.trace_location_organizer_
             }
 
             if (ApiRequestState.SUCCESS == it) {
-                // TODO What about negative tests and consent?
-//                doNavigate(
-//                    TraceLocationWarnTanFragmentDirections.action-to-go-here(
-//                    )
-//                )
+                doNavigate(
+                    TraceLocationWarnTanFragmentDirections
+                        .actionTraceLocationTanDurationFragmentToTraceLocationOrganizerThanksFragment()
+                )
             }
         }
 
         viewModel.registrationError.observe2(this) {
-            DialogHelper.showDialog(buildErrorDialog(it))
+            val errorDialog = DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.trace_location_organiser_warn_tan_error_header,
+                it.errorMessage.get(requireContext()),
+                R.string.trace_location_organiser_warn_tan_error_ok_button,
+                null,
+                true,
+                ::goBack
+            )
+            DialogHelper.showDialog(errorDialog)
         }
     }
 
@@ -92,38 +97,5 @@ class TraceLocationWarnTanFragment : Fragment(R.layout.trace_location_organizer_
 
     private fun goBack() {
         popBackStack()
-    }
-
-    // TODO: replace errors with correct one
-    private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
-        return when (exception) {
-            is BadRequestException -> DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_test_paired_title_tan,
-                R.string.submission_error_dialog_web_test_paired_body_tan,
-                R.string.submission_error_dialog_web_test_paired_button_positive,
-                null,
-                true,
-                ::goBack
-            )
-            is CwaClientError, is CwaServerError -> DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_generic_error_title,
-                R.string.submission_error_dialog_web_generic_network_error_body,
-                R.string.submission_error_dialog_web_generic_error_button_positive,
-                null,
-                true,
-                ::goBack
-            )
-            else -> DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_generic_error_title,
-                R.string.submission_error_dialog_web_generic_error_body,
-                R.string.submission_error_dialog_web_generic_error_button_positive,
-                null,
-                true,
-                ::goBack
-            )
-        }
     }
 }
