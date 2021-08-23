@@ -76,16 +76,7 @@ class TraceLocationWarnTanFragment : Fragment(R.layout.trace_location_organizer_
         }
 
         viewModel.registrationError.observe2(this) {
-            val errorDialog = DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.trace_location_organiser_warn_tan_error_header,
-                it.errorMessage.get(requireContext()),
-                R.string.trace_location_organiser_warn_tan_error_ok_button,
-                null,
-                true,
-                ::goBack
-            )
-            DialogHelper.showDialog(errorDialog)
+            it.toErrorDialogBuilder(requireContext()).show()
         }
     }
 
