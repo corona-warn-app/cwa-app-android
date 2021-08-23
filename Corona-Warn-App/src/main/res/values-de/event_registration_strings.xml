@@ -301,6 +301,9 @@
     <!--  Warn Tan Screen -->
     <!-- XHED: Warn Tan Screen: header -->
     <string name="trace_location_organiser_warn_tan_header">"In Vertretung warnen"</string>
+    <!-- XBUT: Warn Tan Screen: submit button text -->
+    <string name="trace_location_organizer_warn_tan_submit_button">Warnung abschicken</string>
+
     <!--  Thank You Final Screen -->
     <!-- XHED: Warn Info Screen: header -->
     <string name="trace_location_organiser_thank_you_header">"In Vertretung warnen"</string>
