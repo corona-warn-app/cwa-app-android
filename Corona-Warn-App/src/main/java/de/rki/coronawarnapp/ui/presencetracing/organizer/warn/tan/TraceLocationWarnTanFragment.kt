@@ -3,9 +3,12 @@ package de.rki.coronawarnapp.ui.presencetracing.organizer.warn.tan
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerWarnTanFragmentBinding
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.DialogHelper
@@ -38,12 +41,12 @@ class TraceLocationWarnTanFragment : Fragment(R.layout.trace_location_organizer_
 
         viewModel.state.observe2(this) {
             binding.apply {
-                uiState = it
+                tanButtonEnter.isEnabled = it.isTanValid
                 tanContent.submissionTanCharacterError.setGone(it.areCharactersCorrect)
                 if (it.isCorrectLength) {
-                    tanContent.submissionTanError.setGone(it.isTanValid)
+                    tanContent.submissionTanError.isGone = it.isTanValid
                 } else {
-                    tanContent.submissionTanError.setGone(true)
+                    tanContent.submissionTanError.isGone = true
                 }
             }
         }
@@ -59,15 +62,11 @@ class TraceLocationWarnTanFragment : Fragment(R.layout.trace_location_organizer_
             tanButtonEnter.setOnClickListener {
                 viewModel.startTanSubmission()
             }
-            tanHeader.headerButtonBack.buttonIcon.setOnClickListener { goBack() }
+            toolbar.setNavigationOnClickListener { goBack() }
         }
 
         viewModel.registrationState.observe2(this) {
-            binding.tanSpinner.visibility = when (it) {
-                ApiRequestState.STARTED -> View.VISIBLE
-                else -> View.GONE
-            }
-
+            binding.tanSpinner.isVisible = it == ApiRequestState.STARTED
             if (ApiRequestState.SUCCESS == it) {
                 doNavigate(
                     TraceLocationWarnTanFragmentDirections
