@@ -584,7 +584,7 @@
     <!-- XHED: settings(tracing) - headline of tracing explanation -->
     <string name="settings_tracing_body_headline">"Maruz Kalma Günlüğü Nasıl Çalışır?"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
-    <string name="settings_tracing_body_text">"Uygulamanın, enfeksiyon riski altında olup olmadığınızı belirleyebilmesi için maruz kalma günlüğü özelliğini etkinleştirmeniz gerekir. Maruz kalma günlüğü özelliği uluslararası olarak çalışır; yani, kullanıcılara ilişkin tüm olası maruz kalmalar da diğer resmi koronavirüs uygulamalarıyla tespit edilir.\n\nMaruz kalma günlüğü özelliği, Android akıllı telefonunuzun Bluetooth üzerinden diğer uygulama kullanıcılarının şifrelenmiş rastgele kimliklerini alması ve size ait rastgele kimlikleri diğer kullanıcıların akıllı telefonlarına aktarmasıyla çalışır. Uygulama her gün, virüs testi pozitif olan ve uygulamaları aracılığıyla bu bilgileri (özellikle rastgele kimliklerini) gönüllü olarak paylaşan tüm kullanıcıların rastgele kimliklerini içeren listeler ile birlikte bu kullanıcıların belirtilerinin başlangıcına ilişkin gönüllü olarak verilen tüm bilgileri indirir. Ardından bu liste, sizin de enfekte olma olasılığınızı hesaplamak ve gereken durumlarda sizi uyarmak için Android akıllı telefonunuzun kaydetttiği ve karşılaştığınız diğer kullanıcıların rastgele kimliklerle karşılaştırılır.\n\nDüğmeyi kullanarak dilediğiniz zaman maruz kalma günlüğünü devre dışı bırakabilirsiniz.\n\nUygulama hiçbir durumda adınız, adresiniz veya konumunuz gibi kişisel verileri toplamaz ve bu bilgileri diğer kullanıcılara aktarmaz. Rastgele kimlikleri kullanarak kişilerin kimlikleri hakkında sonuçlar çıkarılamaz."</string>
+    <string name="settings_tracing_body_text">"Uygulamanın, enfeksiyon riski altında olup olmadığınızı belirleyebilmesi için maruz kalma günlüğü özelliğini etkinleştirmeniz gerekir. Maruz kalma günlüğü özelliği uluslararası olarak çalışır; yani, kullanıcılara ilişkin tüm olası maruz kalmalar da diğer resmi koronavirüs uygulamalarıyla tespit edilir.\n\nMaruz kalma günlüğü özelliği, Android akıllı telefonunuzun Bluetooth üzerinden diğer uygulama kullanıcılarının şifrelenmiş rastgele kimliklerini alması ve size ait rastgele kimlikleri diğer kullanıcıların akıllı telefonlarına aktarmasıyla çalışır. Uygulama her gün, virüs testi pozitif olan ve uygulamaları aracılığıyla bu bilgileri (özellikle rastgele kimliklerini) gönüllü olarak paylaşan tüm kullanıcıların rastgele kimliklerini içeren listeler ile birlikte bu kullanıcıların belirtilerinin başlangıcına ilişkin gönüllü olarak verilen tüm bilgileri indirir. Ardından bu liste, sizin de enfekte olma olasılığınızı hesaplamak ve gereken durumlarda sizi uyarmak için Android akıllı telefonunuzun kaydetttiği ve karşılaştığınız diğer kullanıcıların rastgele kimliklerle karşılaştırılır.\n\nDüğmeyi kullanarak dilediğiniz zaman maruz kalma günlüğünü devre dışı bırakabilirsiniz.\n\nMaruz kalma günlüğü özelliği sırasında asla adınız, adresiniz veya konumunuz gibi kişisel veriler toplanmaz ve bu bilgiler diğer kullanıcılara aktarılmaz. Rastgele kimlikleri kullanarak kişilerin kimlikleri hakkında sonuçlar çıkarılamaz."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
     <string name="settings_tracing_status_active">"Etkin"</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -1356,7 +1356,7 @@
     <!-- XACT: Test result available illustration description -->
     <string name="submission_test_result_available_illustration_description">"Bir kadın elinde akıllı telefonunu tutuyor. Bu telefondan başka bir akıllı telefona sinyal gönderiliyor."</string>
     <!-- YTXT: Text for consent given -->
-    <string name="submission_test_result_available_text_consent_given">"Test sonucunuzu paylaşmayı kabul ederek diğer kullanıcıların uyarılmasına yardımcı olduğunuz için teşekkür ederiz. \n\n"<b>"Sonraki adımda lütfen “Paylaş” seçeneğine dokunarak test sonucunuzu paylaşın."</b></string>
+    <string name="submission_test_result_available_text_consent_given">"Test sonucunuzu paylaşmayı kabul ederek diğer kullanıcıların uyarılmasına yardımcı olduğunuz için teşekkür ederiz. \n\n"<b>"Rastgele kimliklere erişim onayı vermediyseniz veya verdiğiniz tarihin üzerinden beş günden uzun süre geçtiyse lütfen sonraki adımda onay verin."</b></string>
     <!-- XHED: Close screen popup title for consent given -->
     <string name="submission_test_result_available_close_dialog_title_consent_given">"Test Sonucunu Görüntüle"</string>
     <!-- XTXT: Close screen popup text for consent given -->
@@ -1490,6 +1490,12 @@
     <string name="statistics_explanation_faq_url">"https://www.coronawarn.app/en/faq/#further_details"</string>
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Bilgi için dört yer tutucu bulunan bir akıllı telefonun soyut resmi"</string>
+    <!-- XTXT: Statistics explanation blog text -->
+    <string name="statistics_explanation_blog">"Münferit önemli değerlerin içeriği hakkında daha ayrıntılı bilgi için blogumuzu okuyun."</string>
+    <!-- XTXT: Statistics explanation blog text label -->
+    <string name="statistics_explanation_blog_label">"Blog."</string>
+    <!-- XTXT: Statistics explanation blog text url -->
+    <string name="statistics_eplanation_blog_url">"https://www.coronawarn.app/en/blog/2021-08-05-statistictiles"</string>
 
     <!-- XTXT: Statistics Card Announcement -->
     <string name="accessibility_statistics_card_announcement">"İstatistik kutucuğu"</string>
