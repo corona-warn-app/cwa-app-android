@@ -584,7 +584,7 @@
     <!-- XHED: settings(tracing) - headline of tracing explanation -->
     <string name="settings_tracing_body_headline">"Modul în care funcționează înregistrarea în jurnal a expunerilor"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
-    <string name="settings_tracing_body_text">"Trebuie să activați caracteristica de înregistrare în jurnal a expunerilor, pentru ca aplicația să poată determina dacă aveți risc de infectare. Caracteristica de înregistrare în jurnal a expunerilor funcționează la nivel transnațional, ceea ce înseamnă că orice expunere posibilă care îi implică pe utilizatori este detectată și de alte aplicații oficiale împotriva coronavirusului.\n\nCaracteristica de înregistrare în jurnal a expunerilor funcționează astfel: smartphone-ul dvs. Android primește prin Bluetooth ID-uri aleatorii criptate ale altor utilizatori ai aplicației și transmite propriul dvs. ID aleatoriu către smartphone-urile acestora. În fiecare zi, aplicația descarcă liste ce conțin ID-uri aleatorii – împreună cu orice alte informații voluntare despre debutul simptomelor – ale tuturor utilizatorilor testați pozitiv la virus și care au împărtășit voluntar aceste informații (mai exact: ID-urile lor aleatorii) prin intermediul aplicației lor. Apoi, lista este comparată cu ID-urile aleatorii ale altor utilizatori cu care v-ați întâlnit, care au fost înregistrate de smartphone-ul dvs. Android, pentru a calcula probabilitatea ca și dvs. să fi fost infectat și să vă avertizeze dacă este necesar.\n\nPuteți utiliza comutatorul pentru a dezactiva în orice moment înregistrarea în jurnal a expunerilor.\n\nAplicația nu colectează niciodată date personale, precum numele, adresa sau locația dvs., iar aceste informații nu sunt transmise niciodată altor utilizatori. Nu se pot utiliza ID-urile aleatorii pentru a trage concluzii despre persoane individuale."</string>
+    <string name="settings_tracing_body_text">"Trebuie să activați caracteristica de înregistrare în jurnal a expunerilor, pentru ca aplicația să poată determina dacă aveți risc de infectare. Caracteristica de înregistrare în jurnal a expunerilor funcționează la nivel transnațional, ceea ce înseamnă că orice expunere posibilă care îi implică pe utilizatori este detectată și de alte aplicații oficiale împotriva coronavirusului.\n\nCaracteristica de înregistrare în jurnal a expunerilor funcționează astfel: smartphone-ul dvs. Android primește prin Bluetooth ID-uri aleatorii criptate ale altor utilizatori ai aplicației și transmite propriul dvs. ID aleatoriu către smartphone-urile acestora. În fiecare zi, aplicația descarcă liste ce conțin ID-uri aleatorii – împreună cu orice alte informații voluntare despre debutul simptomelor – ale tuturor utilizatorilor testați pozitiv la virus și care au împărtășit voluntar aceste informații (mai exact: ID-urile lor aleatorii) prin intermediul aplicației lor. Apoi, lista este comparată cu ID-urile aleatorii ale altor utilizatori cu care v-ați întâlnit, care au fost înregistrate de smartphone-ul dvs. Android, pentru a calcula probabilitatea ca și dvs. să fi fost infectat și să vă avertizeze dacă este necesar.\n\nPuteți utiliza comutatorul pentru a dezactiva în orice moment înregistrarea în jurnal a expunerilor.\n\nDatele personale, precum numele, adresa sau locația dvs. nu sunt înregistrate niciodată în timpul înregistrăii în jurnal a expunerilor, iar aceste informații nu sunt transmise niciodată altor utilizatori. Nu se pot utiliza ID-urile aleatorii pentru a trage concluzii despre persoane individuale."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
     <string name="settings_tracing_status_active">"Activ"</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -1356,7 +1356,7 @@
     <!-- XACT: Test result available illustration description -->
     <string name="submission_test_result_available_illustration_description">"O femeie își ține în mână smartphone-ul. Acesta trimite un semnal către un alt smartphone."</string>
     <!-- YTXT: Text for consent given -->
-    <string name="submission_test_result_available_text_consent_given">"Vă mulțumim pentru că sunteți de acord să partajați rezultatul testului dvs. și să ajutați astfel la avertizarea celorlalți. \n\n"<b>"La pasul următor, partajați rezultatul testului dvs. apăsând „Partajare”."</b></string>
+    <string name="submission_test_result_available_text_consent_given">"Vă mulțumim pentru că sunteți de acord să partajați rezultatul testului dvs. și să ajutați astfel la avertizarea celorlalți. \n\n"<b>"Dacă nu ați acordat consimțământul pentru a accesa ID-urile aleatorii sau dacă au trecut mai mult de cinci zile de atunci, acordați consimțământul la pasul următor."</b></string>
     <!-- XHED: Close screen popup title for consent given -->
     <string name="submission_test_result_available_close_dialog_title_consent_given">"Afișare rezultat test"</string>
     <!-- XTXT: Close screen popup text for consent given -->
@@ -1490,6 +1490,12 @@
     <string name="statistics_explanation_faq_url">"https://www.coronawarn.app/en/faq/#further_details"</string>
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"O imagine abstractă a unui smartphone cu patru substituenți pentru informații"</string>
+    <!-- XTXT: Statistics explanation blog text -->
+    <string name="statistics_explanation_blog">"Pentru mai multe detalii despre conținutul indicatorilor individuali, citiți blogul nostru."</string>
+    <!-- XTXT: Statistics explanation blog text label -->
+    <string name="statistics_explanation_blog_label">"Blog."</string>
+    <!-- XTXT: Statistics explanation blog text url -->
+    <string name="statistics_eplanation_blog_url">"https://www.coronawarn.app/en/blog/2021-08-05-statistictiles"</string>
 
     <!-- XTXT: Statistics Card Announcement -->
     <string name="accessibility_statistics_card_announcement">"Mozaic statistică"</string>

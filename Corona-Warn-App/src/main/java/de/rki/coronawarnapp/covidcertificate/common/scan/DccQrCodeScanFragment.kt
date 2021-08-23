@@ -111,7 +111,7 @@ class DccQrCodeScanFragment :
                         }
                         it.errorCode == InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED -> {
                             setNeutralButton(R.string.error_button_dcc_faq) { _, _ ->
-                                openUrl(R.string.error_button_dcc_faq_link)
+                                openUrl(R.string.error_dcc_already_registered_faq_link)
                             }
                         }
                     }
