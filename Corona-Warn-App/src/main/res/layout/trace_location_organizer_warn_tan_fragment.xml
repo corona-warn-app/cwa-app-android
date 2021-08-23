@@ -28,7 +28,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/trace_location_organiser_warn_tan_header" />
+            app:title="@{@string/trace_location_organiser_warn_tan_header}" />
 
         <include
             android:id="@+id/tan_content"
