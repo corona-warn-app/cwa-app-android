@@ -51,6 +51,7 @@ class TraceLocationWarnTanViewModel @AssistedInject constructor(
             return
         }
 
+        Timber.d("traceLocationWarnDuration=%s", traceLocationWarnDuration)
         val payload = OrganizerSubmissionPayload(
             traceLocation = traceLocationWarnDuration.traceLocation,
             startDate = traceLocationWarnDuration.startDate,
@@ -64,9 +65,11 @@ class TraceLocationWarnTanViewModel @AssistedInject constructor(
                 organizerSubmissionRepository.submit(payload)
                 registrationState.postValue(ApiRequestState.SUCCESS)
             } catch (err: OrganizerSubmissionException) {
+                Timber.d(err, "Organizer submission failed")
                 registrationState.postValue(ApiRequestState.FAILED)
                 registrationError.postValue(err)
             } catch (err: Exception) {
+                Timber.d(err, "Unknown organizer submission Exception")
                 registrationState.postValue(ApiRequestState.FAILED)
                 err.report(ExceptionCategory.INTERNAL)
             }
