@@ -81,8 +81,8 @@ class TraceLocationCreateFragmentTest : BaseUITest() {
 
         onView(withId(R.id.description_input_edit)).check(matches(withText("Jahrestreffen der deutschen SAP Anwendergruppe")))
         onView(withId(R.id.place_input_edit)).check(matches(withText("Hauptstr. 3, 69115 Heidelberg")))
-        onView(withId(R.id.value_start)).check(matches(withText("Mo., 21.06.21   19:00")))
-        onView(withId(R.id.value_end)).check(matches(withText("Mo., 21.06.21   21:00")))
+        onView(withId(R.id.value_start)).check(matches(withText("Mo., 21.06.21   18:00")))
+        onView(withId(R.id.value_end)).check(matches(withText("Mo., 21.06.21   20:00")))
 
         onView(withId(R.id.button_submit)).perform(click())
 
