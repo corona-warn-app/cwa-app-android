@@ -1,13 +1,16 @@
 package de.rki.coronawarnapp.ui.eventregistration.organizer
 
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.ui.presencetracing.organizer.list.TraceLocationsFragment
@@ -22,8 +25,10 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
+import testhelpers.Screenshot
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragmentInContainer2
+import testhelpers.takeScreenshot
 import java.util.TimeZone
 
 @RunWith(AndroidJUnit4::class)
@@ -63,8 +68,8 @@ class TraceLocationsFragmentTest : BaseUITest() {
 
         launchFragmentInContainer2<TraceLocationsFragment>()
 
-        onView(withId(R.id.description)).check(matches(withText("My Birthday Party")))
-        onView(withId(R.id.address)).check(matches(withText("at my place")))
+        onView(withId(R.id.description)).check(matches(withText("Jahrestreffen der deutschen SAP Anwendergruppe")))
+        onView(withId(R.id.address)).check(matches(withText("Hauptstr. 3, 69115 Heidelberg")))
         onView(withId(R.id.duration)).check(matches(withText("19.04.21 06:12 - 22:52 Uhr")))
     }
 
@@ -75,9 +80,19 @@ class TraceLocationsFragmentTest : BaseUITest() {
 
         launchFragmentInContainer2<TraceLocationsFragment>()
 
-        onView(withId(R.id.description)).check(matches(withText("Your Birthday Party")))
-        onView(withId(R.id.address)).check(matches(withText("at your place")))
+        onView(withId(R.id.description)).check(matches(withText("Event XYZ")))
+        onView(withId(R.id.address)).check(matches(withText("Otto-Hahn-Str. 3, 123456 Berlin")))
         onView(withId(R.id.duration)).check(matches(withText("18.04.21 12:00 - 19.04.21 22:52 Uhr")))
+    }
+
+    @Screenshot
+    @Test
+    fun screenshot_menu() {
+        every { traceLocationRepository.traceLocationsWithinRetention } returns flowOf(listOf())
+
+        launchFragmentInContainer2<TraceLocationsFragment>()
+        openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext)
+        takeScreenshot<TestCertificateDetailsFragment>()
     }
 
     private fun createViewModel() = TraceLocationsViewModel(

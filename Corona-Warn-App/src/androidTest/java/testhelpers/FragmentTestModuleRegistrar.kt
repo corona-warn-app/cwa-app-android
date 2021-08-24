@@ -29,6 +29,8 @@ import de.rki.coronawarnapp.ui.onboarding.OnboardingNotificationsTestModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingPrivacyTestModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingTestFragmentModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingTracingFragmentTestModule
+import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.duration.TraceLocationWarnDurationFragmentTestModule
+import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.TraceLocationSelectionFragmentTestModule
 import de.rki.coronawarnapp.ui.statistics.StatisticsExplanationFragmentTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionConsentFragmentTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionContactTestModule
@@ -99,6 +101,8 @@ import de.rki.coronawarnapp.ui.vaccination.CovidCertificateInfoFragmentTestModul
         CreateEventTestModule::class,
         TraceLocationsFragmentTestModule::class,
         QrCodeDetailFragmentTestModule::class,
+        TraceLocationSelectionFragmentTestModule::class,
+        TraceLocationWarnDurationFragmentTestModule::class,
 
         // -------- Certificates --------
         VaccinationDetailsFragmentTestModule::class,
