@@ -10,7 +10,7 @@
     <!-- XTXT: Vaccination List deletion dialog title-->
     <string name="vaccination_list_deletion_dialog_title">Wollen Sie das Impfzertifikat wirklich entfernen?</string>
     <!-- XTXT: Vaccination List deletion dialog message-->
-    <string name="vaccination_list_deletion_dialog_message">Wir empfehlen die Impfzertifikate in der App zu behalten, auch wenn Sie diese nicht mehr aktuell sind.</string>
+    <string name="vaccination_list_deletion_dialog_message">Wir empfehlen die Impfzertifikate in der App zu behalten, auch wenn diese nicht mehr aktuell sind.</string>
     <!-- XACT: Vaccination List Qr-Code for screen readers -->
     <string name="vaccination_list_qr_code_accessibility">Qr-Code</string>
 
