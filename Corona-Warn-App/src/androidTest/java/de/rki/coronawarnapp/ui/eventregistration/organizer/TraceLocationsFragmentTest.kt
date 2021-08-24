@@ -70,7 +70,7 @@ class TraceLocationsFragmentTest : BaseUITest() {
 
         onView(withId(R.id.description)).check(matches(withText("Jahrestreffen der deutschen SAP Anwendergruppe")))
         onView(withId(R.id.address)).check(matches(withText("Hauptstr. 3, 69115 Heidelberg")))
-        onView(withId(R.id.duration)).check(matches(withText("19.04.21 06:12 - 22:52 Uhr")))
+        onView(withId(R.id.duration)).check(matches(withText("21.06.21 18:00 - 21:00 Uhr")))
     }
 
     @Test
