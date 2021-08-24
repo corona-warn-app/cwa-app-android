@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.presencetracing.organizer.warn.tan
 
-import android.os.Bundle
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers
