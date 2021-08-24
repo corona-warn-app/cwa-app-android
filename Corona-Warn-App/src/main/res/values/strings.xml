@@ -1441,7 +1441,7 @@
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Warnings by App Users"</string>
     <!-- XTXT: Explanation screen warned persons text -->
-    <string name="statistics_explanation_warned_persons_text">"Number of app users who have been diagnosed with coronavirus via PCR test and have warned others through the app"</string>
+    <string name="statistics_explanation_warned_persons_text">"Number of app users who have been diagnosed with coronavirus via PCR test and have warned others through the app."</string>
     <!-- XHED: Explanation screen local incidence title -->
     <string name="statistics_explanation_local_incidence_title">"Local 7-Day Incidence"</string>
     <!-- XTXT: Explanation screen local incidence text -->
