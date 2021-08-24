@@ -5,6 +5,7 @@ import androidx.core.content.edit
 import com.google.gson.Gson
 import dagger.Reusable
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
@@ -43,6 +44,8 @@ class RATProfileSettings @Inject constructor(
     fun deleteProfile() = prefs.edit(commit = true) {
         remove(PREFS_KEY_PROFILE)
     }
+
+    fun clear() = prefs.clearAndNotify()
 
     companion object {
         private const val PREFS_KEY_PROFILE = "ratprofile.settings.profile"

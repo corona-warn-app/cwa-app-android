@@ -123,7 +123,7 @@ class DataReset @Inject constructor(
         traceLocationRepository.deleteAllTraceLocations()
         checkInRepository.clear()
         coronaTestRepository.clear()
-        ratProfileSettings.deleteProfile()
+        ratProfileSettings.clear()
 
         valueSetsRepository.clear()
 

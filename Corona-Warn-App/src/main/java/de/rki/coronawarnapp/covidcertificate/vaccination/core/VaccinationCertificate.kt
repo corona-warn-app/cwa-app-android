@@ -18,10 +18,13 @@ interface VaccinationCertificate : CwaCovidCertificate {
     // To avoid further confusion:
     // vp
     val vaccineTypeName: String
+
     // mp
     val medicalProductName: String
 
     override val rawCertificate: VaccinationDccV1
 
     val isFinalShot get() = doseNumber == totalSeriesOfDoses
+
+    val isBooster get() = doseNumber > totalSeriesOfDoses
 }

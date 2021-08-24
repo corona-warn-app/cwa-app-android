@@ -124,6 +124,55 @@
                 app:backgroundTint="@color/colorPrimary"
                 app:icon="@drawable/ic_qrcode"
                 app:iconTint="@android:color/white" />
+
+            <TextView
+                style="@style/headline6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Organiser Submission" />
+
+            <EditText
+                android:id="@+id/organizerStartDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:autoLink="web"
+                android:hint="Start Date: dd.MM.yy HH:mm"
+                android:inputType="text"
+
+                android:textIsSelectable="true" />
+
+            <EditText
+                android:id="@+id/organizerDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:hint="Duration"
+                android:inputType="time"
+                android:text="02:00"
+                android:textIsSelectable="true" />
+
+            <EditText
+                android:id="@+id/organizerTan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:hint="TAN"
+                android:inputType="number"
+                android:text="222-222-2223"
+                android:textIsSelectable="true" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/submit_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Submit"
+                android:textColor="@android:color/white"
+                app:backgroundTint="@color/colorPrimary"
+                app:iconTint="@android:color/white" />
+
         </LinearLayout>
 
         <LinearLayout
