@@ -49,7 +49,7 @@ class AppConfigProviderTest : BaseIOTest() {
             cacheValidity = Duration.standardMinutes(5)
         )
         coEvery { appConfigSource.clear() } just Runs
-        coEvery { appConfigSource.getConfigData() } returns testConfigDownload
+        coEvery { appConfigSource.getConfigData(any()) } returns testConfigDownload
 
         every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
     }
@@ -92,10 +92,11 @@ class AppConfigProviderTest : BaseIOTest() {
         advanceUntilIdle()
 
         coVerifySequence {
-            appConfigSource.getConfigData()
-            appConfigSource.getConfigData()
-            appConfigSource.getConfigData()
-            appConfigSource.getConfigData()
+            // First `getConfigData` happens on init and should not trigger a network request.
+            appConfigSource.getConfigData(offlineMode = true)
+            appConfigSource.getConfigData(offlineMode = false)
+            appConfigSource.getConfigData(offlineMode = false)
+            appConfigSource.getConfigData(offlineMode = false)
         }
     }
 
@@ -104,7 +105,7 @@ class AppConfigProviderTest : BaseIOTest() {
         val instance = createInstance(this)
 
         val testCollector1 = instance.currentConfig.test(startOnScope = this)
-        coVerify(exactly = 1) { appConfigSource.getConfigData() }
+        coVerify(exactly = 1) { appConfigSource.getConfigData(offlineMode = true) }
 
         // Was still active
         val testCollector2 = instance.currentConfig.test(startOnScope = this)
@@ -116,7 +117,7 @@ class AppConfigProviderTest : BaseIOTest() {
         advanceUntilIdle()
         testCollector3.cancel()
 
-        coVerify(exactly = 1) { appConfigSource.getConfigData() }
+        coVerify(exactly = 1) { appConfigSource.getConfigData(offlineMode = true) }
         testCollector1.cancel() // Last subscriber
         advanceUntilIdle()
 
@@ -125,7 +126,7 @@ class AppConfigProviderTest : BaseIOTest() {
         advanceUntilIdle()
         testCollector4.cancel()
 
-        coVerify(exactly = 1) { appConfigSource.getConfigData() }
+        coVerify(exactly = 1) { appConfigSource.getConfigData(offlineMode = true) }
     }
 
     @Test
