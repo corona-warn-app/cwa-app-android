@@ -8,6 +8,8 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.presencetracing.organizer.submission.OrganizerSubmissionPayload
+import de.rki.coronawarnapp.presencetracing.organizer.submission.OrganizerSubmissionRepository
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingRiskCalculator
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingWarningTask
@@ -19,10 +21,15 @@ import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.debug.measureTime
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import org.joda.time.LocalDateTime
+import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.PeriodFormatter
+import org.joda.time.format.PeriodFormatterBuilder
 import timber.log.Timber
 import kotlin.system.measureTimeMillis
 
@@ -33,7 +40,8 @@ class PresenceTracingTestViewModel @AssistedInject constructor(
     private val presenceTracingRiskCalculator: PresenceTracingRiskCalculator,
     private val taskController: TaskController,
     private val presenceTracingRiskRepository: PresenceTracingRiskRepository,
-    private val traceWarningRepository: TraceWarningRepository
+    private val traceWarningRepository: TraceWarningRepository,
+    private val organizerSubmissionRepository: OrganizerSubmissionRepository,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val lastOrganiserLocation: LiveData<TraceLocation?> =
@@ -51,6 +59,9 @@ class PresenceTracingTestViewModel @AssistedInject constructor(
     val riskCalculationRuntime = MutableLiveData<Long>()
 
     val checkInRiskPerDayText = MutableLiveData<String>()
+
+    val error = SingleLiveEvent<Throwable>()
+    val submissionResult = SingleLiveEvent<Boolean>()
 
     fun runPresenceTracingWarningTask() = launch {
         Timber.d("runWarningPackageTask()")
@@ -141,6 +152,34 @@ class PresenceTracingTestViewModel @AssistedInject constructor(
             cnPublicKey = checkIn.cnPublicKey,
             version = checkIn.version
         )
+    }
+
+    fun submit(traceLocation: TraceLocation, tan: String, startTime: String, duration: String) {
+        launch {
+            try {
+                val localeDateTime = LocalDateTime.parse(startTime, DateTimeFormat.forPattern("dd.MM.yy HH:mm"))
+                val startDate = localeDateTime.toDateTime().toInstant()
+
+                val formatter: PeriodFormatter = PeriodFormatterBuilder()
+                    .appendHours()
+                    .appendLiteral(":")
+                    .appendMinutes()
+                    .toFormatter()
+                val parsedDuration = formatter.parsePeriod(duration).toStandardDuration()
+
+                val payload = OrganizerSubmissionPayload(
+                    traceLocation = traceLocation,
+                    tan = tan,
+                    startDate = startDate,
+                    endDate = startDate.plus(parsedDuration)
+                )
+                organizerSubmissionRepository.submit(payload)
+                submissionResult.postValue(true)
+            } catch (e: Exception) {
+                Timber.d(e, "Organizer submission failed")
+                error.postValue(e)
+            }
+        }
     }
 
     @AssistedFactory

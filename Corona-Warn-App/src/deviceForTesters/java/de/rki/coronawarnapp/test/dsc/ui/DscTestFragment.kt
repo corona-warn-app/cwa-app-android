@@ -3,6 +3,9 @@ package de.rki.coronawarnapp.test.dsc.ui
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.text.bold
+import androidx.core.text.buildSpannedString
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestDscBinding
@@ -32,8 +35,22 @@ class DscTestFragment : Fragment(R.layout.fragment_test_dsc), AutoInject {
                 viewModel.refresh()
             }
 
+            searchEditText.doOnTextChanged { text, _, _, _ ->
+                viewModel.updateSearchTerm(text.toString())
+            }
+
             viewModel.dscData.observe2(this@DscTestFragment) {
-                infoText.text = "Last update: ${it.lastUpdate}\nList item size: ${it.listSize}"
+                infoText.text = buildSpannedString {
+                    bold { append("Last update: ") }
+                    appendLine(it.lastUpdate)
+                    bold { append("List item size: ") }
+                    appendLine(it.listSize.toString())
+                    appendLine()
+                    bold { appendLine("Results") }
+                    it.searchResults.forEach {
+                        appendLine(it)
+                    }
+                }
             }
 
             viewModel.errorEvent.observe2(this@DscTestFragment) {

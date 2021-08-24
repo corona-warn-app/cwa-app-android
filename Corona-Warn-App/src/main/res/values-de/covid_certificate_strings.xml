@@ -175,7 +175,7 @@
     <!-- XTXT: Validation start certificate proof -->
     <string name="validation_start_certificate_proof">"Ein COVID-Zertifikat gilt bei Reisen innerhalb der EU als Nachweis."</string>
     <!-- XTXT: Validation start note subtitle -->
-    <string name="validation_start_note_subtitle">"Hinweis"</string>
+    <string name="validation_start_note_subtitle">"Hinweise"</string>
     <!-- XTXT: Validation start note point 1 -->
     <string name="validation_start_note_point_1">"Beachten Sie, dass sich die Einreiseregeln ändern können. Prüfen Sie daher das Zertifikat kurz vor der Einreise (max. 48 Stunden)."</string>
     <!-- XTXT: Validation start note point 2 -->

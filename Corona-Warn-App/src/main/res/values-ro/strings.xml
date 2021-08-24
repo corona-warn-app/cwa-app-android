@@ -1024,7 +1024,7 @@
     <!-- XHED: Page headline for negative test result next steps  -->
     <string name="submission_test_result_negative_steps_negative_heading">"Diagnostic negativ"</string>
     <!-- YTXT: Body text for next steps section of test negative result -->
-    <string name="submission_test_result_negative_steps_negative_body">"Rezultatul de laborator nu indică o confirmare a infecției cu coronavirusul SARS-CoV-2.\n\nTrebuie să eliminați ultimul test înainte de a putea înregistra unul nou."</string>
+    <string name="submission_test_result_negative_steps_negative_body">"Rezultatul de laborator nu indică o confirmare a infecției cu coronavirusul SARS-CoV-2."</string>
     <!-- XBUT: negative test result : remove the test button -->
     <string name="submission_test_result_negative_remove_test_button">"Ștergere test"</string>
     <!-- XHED: Page headline for other warnings screen  -->
