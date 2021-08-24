@@ -78,9 +78,9 @@ class QrCodeDetailFragmentTest : BaseUITest() {
             ).toBundle()
         )
 
-        onView(withId(R.id.title)).check(matches(withText("My Birthday Party")))
-        onView(withId(R.id.subtitle)).check(matches(withText("at my place")))
-        onView(withId(R.id.eventDate)).check(matches(withText("19.04.2021, 06:12 - 22:52 Uhr")))
+        onView(withId(R.id.title)).check(matches(withText("Jahrestreffen der deutschen SAP Anwendergruppe")))
+        onView(withId(R.id.subtitle)).check(matches(withText("Hauptstr. 3, 69115 Heidelberg")))
+        onView(withId(R.id.eventDate)).check(matches(withText("21.06.2021, 18:00 - 21:00 Uhr")))
     }
 
     @Test
@@ -90,8 +90,8 @@ class QrCodeDetailFragmentTest : BaseUITest() {
                 traceLocationId = 2
             ).toBundle()
         )
-        onView(withId(R.id.title)).check(matches(withText("Your Birthday Party")))
-        onView(withId(R.id.subtitle)).check(matches(withText("at your place")))
+        onView(withId(R.id.title)).check(matches(withText("Event XYZ")))
+        onView(withId(R.id.subtitle)).check(matches(withText("Otto-Hahn-Str. 3, 123456 Berlin")))
         onView(withId(R.id.eventDate)).check(matches(withText("18.04.2021, 12:00 - 19.04.2021, 22:52 Uhr")))
     }
 

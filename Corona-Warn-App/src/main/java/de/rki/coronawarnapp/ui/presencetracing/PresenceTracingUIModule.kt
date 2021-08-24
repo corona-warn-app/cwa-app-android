@@ -26,6 +26,15 @@ import de.rki.coronawarnapp.ui.presencetracing.organizer.poster.QrCodePosterFrag
 import de.rki.coronawarnapp.ui.presencetracing.organizer.poster.QrCodePosterFragmentModule
 import de.rki.coronawarnapp.ui.presencetracing.organizer.qrinfo.TraceLocationQRInfoFragment
 import de.rki.coronawarnapp.ui.presencetracing.organizer.qrinfo.TraceLocationQRInfoFragmentModule
+import de.rki.coronawarnapp.ui.presencetracing.organizer.thanks.TraceLocationOrganizerThanksFragment
+import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.TraceLocationSelectionFragment
+import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.TraceLocationSelectionFragmentModule
+import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.duration.TraceLocationWarnDurationFragment
+import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.duration.TraceLocationWarnDurationFragmentModule
+import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.qrcode.OrganizerWarnQrCodeScannerFragment
+import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.qrcode.OrganizerWarnQrCodeScannerFragmentModule
+import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.tan.TraceLocationWarnTanFragment
+import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.tan.TraceLocationWarnTanModule
 
 @Module
 internal abstract class PresenceTracingUIModule {
@@ -57,6 +66,9 @@ internal abstract class PresenceTracingUIModule {
     @ContributesAndroidInjector(modules = [TraceLocationsFragmentModule::class])
     abstract fun traceLocationsFragment(): TraceLocationsFragment
 
+    @ContributesAndroidInjector(modules = [TraceLocationSelectionFragmentModule::class])
+    abstract fun traceLocationsWarnFragment(): TraceLocationSelectionFragment
+
     @ContributesAndroidInjector(modules = [QrCodePosterFragmentModule::class])
     abstract fun qrCodePosterFragment(): QrCodePosterFragment
 
@@ -65,4 +77,16 @@ internal abstract class PresenceTracingUIModule {
 
     @ContributesAndroidInjector(modules = [CheckInsConsentFragmentModule::class])
     abstract fun checkInsConsentFragment(): CheckInsConsentFragment
+
+    @ContributesAndroidInjector(modules = [TraceLocationWarnDurationFragmentModule::class])
+    abstract fun traceLocationWarnDurationFragment(): TraceLocationWarnDurationFragment
+
+    @ContributesAndroidInjector(modules = [TraceLocationWarnTanModule::class])
+    abstract fun traceLocationWarnTanFragment(): TraceLocationWarnTanFragment
+
+    @ContributesAndroidInjector
+    abstract fun traceLocationOrganizerThanksFragment(): TraceLocationOrganizerThanksFragment
+
+    @ContributesAndroidInjector(modules = [OrganizerWarnQrCodeScannerFragmentModule::class])
+    abstract fun organizerWarnQrCodeScannerfragment(): OrganizerWarnQrCodeScannerFragment
 }
