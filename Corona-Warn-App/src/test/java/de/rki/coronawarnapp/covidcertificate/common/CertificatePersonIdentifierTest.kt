@@ -67,4 +67,19 @@ class CertificatePersonIdentifierTest : BaseTest() {
             testPersonMaxData.requireMatch(testPersonMaxData.copy(dateOfBirthFormatted = "1900-12-31"))
         }.errorCode shouldBe DOB_MISMATCH
     }
+
+    @Test
+    fun `all fields of person identifier are missing`() {
+        CertificatePersonIdentifier(
+            dateOfBirthFormatted = "",
+            firstNameStandardized = "",
+            lastNameStandardized = ""
+        ).code shouldBe "##"
+
+        CertificatePersonIdentifier(
+            dateOfBirthFormatted = "",
+            lastNameStandardized = "",
+            firstNameStandardized = null
+        ).code shouldBe "##null"
+    }
 }
