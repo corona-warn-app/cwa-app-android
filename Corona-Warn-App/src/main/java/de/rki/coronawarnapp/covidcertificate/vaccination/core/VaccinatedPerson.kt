@@ -68,7 +68,7 @@ data class VaccinatedPerson(
     }
 
     private fun getNewestFullDose(): VaccinationCertificate? = vaccinationCertificates
-        .filter { it.doseNumber == it.totalSeriesOfDoses }
+        .filter { it.doseNumber >= it.totalSeriesOfDoses }
         .maxByOrNull { it.vaccinatedOn }
 
     private fun isFirstVaccinationDoseAfterRecovery(): Boolean {
