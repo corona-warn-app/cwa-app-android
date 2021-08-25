@@ -79,10 +79,10 @@ class TraceLocationCreateFragmentTest : BaseUITest() {
             ).toBundle()
         ).onFragment { fragment -> Navigation.setViewNavController(fragment.requireView(), navController) }
 
-        onView(withId(R.id.description_input_edit)).check(matches(withText("My Birthday Party")))
-        onView(withId(R.id.place_input_edit)).check(matches(withText("at my place")))
-        onView(withId(R.id.value_start)).check(matches(withText("Mo., 19.04.21   06:12")))
-        onView(withId(R.id.value_end)).check(matches(withText("Mo., 19.04.21   22:52")))
+        onView(withId(R.id.description_input_edit)).check(matches(withText("Jahrestreffen der deutschen SAP Anwendergruppe")))
+        onView(withId(R.id.place_input_edit)).check(matches(withText("Hauptstr. 3, 69115 Heidelberg")))
+        onView(withId(R.id.value_start)).check(matches(withText("Mo., 21.06.21   18:00")))
+        onView(withId(R.id.value_end)).check(matches(withText("Mo., 21.06.21   21:00")))
 
         onView(withId(R.id.button_submit)).perform(click())
 
@@ -99,8 +99,8 @@ class TraceLocationCreateFragmentTest : BaseUITest() {
             ).toBundle()
         ).onFragment { fragment -> Navigation.setViewNavController(fragment.requireView(), navController) }
 
-        onView(withId(R.id.description_input_edit)).check(matches(withText("Your Birthday Party")))
-        onView(withId(R.id.place_input_edit)).check(matches(withText("at your place")))
+        onView(withId(R.id.description_input_edit)).check(matches(withText("Event XYZ")))
+        onView(withId(R.id.place_input_edit)).check(matches(withText("Otto-Hahn-Str. 3, 123456 Berlin")))
         onView(withId(R.id.value_start)).check(matches(withText("So., 18.04.21   12:00")))
         onView(withId(R.id.value_end)).check(matches(withText("Mo., 19.04.21   22:52")))
 

@@ -166,13 +166,11 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `blank name fails with JSON_SCHEMA_INVALID`() {
-        shouldThrow<InvalidVaccinationCertificateException> {
-            extractor.extract(
-                VaccinationQrCodeTestData.qrCodeBlankLastNameStandardized,
-                mode = Mode.CERT_VAC_STRICT
-            )
-        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.HC_JSON_SCHEMA_INVALID
+    fun `blank name passes`() {
+        extractor.extract(
+            VaccinationQrCodeTestData.qrCodeBlankLastNameStandardized,
+            mode = Mode.CERT_VAC_STRICT
+        )
     }
 
     @Test
