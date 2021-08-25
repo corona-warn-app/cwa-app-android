@@ -11,6 +11,7 @@ interface OrganizerSubmissionApiV1 {
 
     suspend fun submitCheckInsOnBehalf(
         @Header("cwa-authorization") authCode: String,
-        @Body requestBody: SubmissionPayload
+        @Body requestBody: SubmissionPayload,
+        @Header("cwa-fake") fake: String = "0"
     )
 }
