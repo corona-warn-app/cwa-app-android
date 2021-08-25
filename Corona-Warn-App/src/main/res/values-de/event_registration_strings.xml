@@ -292,7 +292,7 @@
     <!-- XHED: Warn Duration Screen: header -->
     <string name="trace_location_organiser_warn_duration_header">"In Vertretung warnen"</string>
     <!-- XTXT: Warn Duration Screen: body -->
-    <string name="trace_location_organiser_warn_duration_body">"Geben Sie die Aufenhaltsdauer der positiv getesteten Person an, für die gewarnt werden soll. Diese Information erhalten Sie vom Gesundheitsamt."</string>
+    <string name="trace_location_organiser_warn_duration_body">"Geben Sie die Aufenthaltsdauer der positiv getesteten Person an, für die gewarnt werden soll. Diese Information erhalten Sie vom Gesundheitsamt."</string>
     <!-- XTXT: Warn Duration Screen: start hint -->
     <string name="trace_location_organiser_warn_duration_start_hint">"Beginn/Ankunft"</string>
     <!-- XTXT: Warn Duration Screen: duration hint -->
