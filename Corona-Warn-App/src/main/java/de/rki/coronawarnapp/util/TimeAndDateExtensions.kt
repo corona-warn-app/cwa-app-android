@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.util
 
 import android.content.Context
+import android.text.format.DateFormat
 import com.google.common.math.DoubleMath.roundToLong
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
@@ -23,8 +24,8 @@ object TimeAndDateExtensions {
     private const val MS_TO_HOURS = (1000 * 60 * 60)
     private const val MS_TO_SECONDS = 1000
 
-    private val dayFormatter = DateTimeFormat.forPattern("dd.MM.yyyy")
-    private val dayFormatter2DigitYear = DateTimeFormat.forPattern("dd.MM.yy")
+    private val dayFormatter = DateTimeFormat.mediumDate()
+    private val dayFormatter2DigitYear = DateTimeFormat.shortDate()
     private val shortTime = DateTimeFormat.shortTime()
 
     fun getCurrentHourUTC(): Int = DateTime(Instant.now(), DateTimeZone.UTC).hourOfDay().get()
@@ -34,22 +35,15 @@ object TimeAndDateExtensions {
             .withZoneUTC()
             .print(this.time)
 
-    fun Date.toUIFormat(context: Context): String =
-        android.text.format.DateFormat.getDateFormat(context).format(this)
+    fun Date.toUIFormat(context: Context): String = DateFormat.getDateFormat(context).format(this)
 
     fun Date.logUTCFormat(): String = DateTime(this, DateTimeZone.UTC).toString()
 
-    fun Long.millisecondsToSeconds(): Long {
-        return this.div(MS_TO_SECONDS)
-    }
+    fun Long.millisecondsToSeconds(): Long = this.div(MS_TO_SECONDS)
 
-    fun Long.millisecondsToHours(): Long {
-        return this.div(MS_TO_HOURS)
-    }
+    fun Long.millisecondsToHours(): Long = this.div(MS_TO_HOURS)
 
-    fun Long.daysToMilliseconds(): Long {
-        return this.times(MS_TO_DAYS)
-    }
+    fun Long.daysToMilliseconds(): Long = this.times(MS_TO_DAYS)
 
     fun Long.roundUpMsToDays(): Long {
         val numberOfDays = this / MS_TO_DAYS.toDouble()
