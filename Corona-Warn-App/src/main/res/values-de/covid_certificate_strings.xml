@@ -333,6 +333,8 @@
     <!-- PDF Print: Info screen -->
     <!-- XHED: PDF Print: Info screen title -->
     <string name="pdf_print_info_title">Druckversion anzeigen</string>
+    <!-- XACT: PDF Print: Info screen illustration description-->
+    <string name="pdf_print_info_illustration_description">Die Druckversion eines Zertifikats wird zur Erstellung eines EU-Ausdrucks von einem Smartphone an einen Drucker gesendet.</string>
     <!-- XTXT: PDF Print: Info screen subtitle-->
     <string name="pdf_print_info_subtitle">Erstellung des EU-Ausdrucks</string>
     <!-- XTXT: PDF Print: Info screen point regarding PDF storage -->

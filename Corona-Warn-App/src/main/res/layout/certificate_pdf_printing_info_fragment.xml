@@ -39,7 +39,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_pdf_info_illustration"
-                android:contentDescription="TODO" />
+                android:contentDescription="@string/pdf_print_info_illustration_description" />
 
             <TextView
                 android:id="@+id/pdf_printing_info_headline"
