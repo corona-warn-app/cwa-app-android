@@ -118,10 +118,16 @@ class ValidationResultItemCreator @Inject constructor() {
             )
         )
 
-    fun validationOverallResultVHItem(state: DccValidation.State): ValidationOverallResultVH.Item =
+    fun validationOverallResultVHItem(state: DccValidation.State, ruleCount: Int = 0): ValidationOverallResultVH.Item =
         ValidationOverallResultVH.Item(
             headlineText = when (state) {
-                DccValidation.State.PASSED -> R.string.validation_rules_result_valid_result_title
+                DccValidation.State.PASSED -> {
+                    if (ruleCount > 0) {
+                        R.string.validation_rules_result_valid_result_title
+                    } else {
+                        R.string.validation_rules_result_no_rules_title
+                    }
+                }
                 DccValidation.State.OPEN -> R.string.validation_rules_result_cannot_be_checked_result_title
                 DccValidation.State.TECHNICAL_FAILURE -> R.string.validation_rules_result_not_valid_result_title
                 DccValidation.State.FAILURE -> R.string.validation_rules_result_not_valid_result_title

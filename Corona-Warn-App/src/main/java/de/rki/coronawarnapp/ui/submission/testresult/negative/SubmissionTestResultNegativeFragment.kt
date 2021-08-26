@@ -7,13 +7,16 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultNegativeBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -44,6 +47,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
         binding.apply {
             submissionTestResultButtonNegativeRemoveTest.setOnClickListener { removeTestAfterConfirmation() }
             submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener { popBackStack() }
+            testCertificateCard.setOnClickListener { viewModel.onCertificateClicked() }
         }
 
         viewModel.testResult.observe2(this) {
@@ -54,6 +58,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
                     SubmissionTestResultNegativeViewModel.CertificateState.NOT_REQUESTED -> {
                         testResultNegativeStepsNegativeResult.setIsFinal(true)
                         testResultNegativeStepsCertificate.isGone = true
+                        testCertificateCard.isGone = true
                     }
                     SubmissionTestResultNegativeViewModel.CertificateState.PENDING -> {
                         testResultNegativeStepsNegativeResult.setIsFinal(false)
@@ -66,6 +71,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
                         testResultNegativeStepsCertificate.setIcon(
                             getDrawable(requireContext(), R.drawable.ic_result_pending_certificate_info)
                         )
+                        testCertificateCard.isGone = true
                     }
                     SubmissionTestResultNegativeViewModel.CertificateState.AVAILABLE -> {
                         testResultNegativeStepsNegativeResult.setIsFinal(false)
@@ -76,13 +82,25 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
                         testResultNegativeStepsCertificate.setIcon(
                             getDrawable(requireContext(), R.drawable.ic_qr_code_illustration)
                         )
+                        testCertificateCard.isGone = false
                     }
                 }
             }
         }
 
-        viewModel.routeToScreen.observe2(this) { navDirections ->
-            navDirections?.let { doNavigate(it) } ?: popBackStack()
+        viewModel.events.observe(viewLifecycleOwner) {
+            when (it) {
+                is SubmissionTestResultNegativeNavigation.Back -> popBackStack()
+                is SubmissionTestResultNegativeNavigation.OpenTestCertificateDetails ->
+                    findNavController().navigate(TestCertificateDetailsFragment.uri(it.containerId.identifier))
+            }
+        }
+
+        viewModel.certificate.observe(viewLifecycleOwner) {
+            binding.certificateDate.text = getString(
+                R.string.test_certificate_sampled_on,
+                it?.testCertificate?.sampleCollectedAt?.toUserTimeZone()?.toDayFormat()
+            )
         }
     }
 

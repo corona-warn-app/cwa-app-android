@@ -78,6 +78,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
     ) {
         qrCodeCard.bindValidityViews(certificate, isCertificateDetails = true)
         fullname.text = certificate.fullNameFormatted
+        icaoname.text = certificate.fullNameStandardizedFormatted
         dateOfBirth.text = certificate.dateOfBirthFormatted
         recoveredFromDisease.text = certificate.targetDisease
         dateOfFirstPositiveTestResult.text = certificate.testedPositiveOnFormatted

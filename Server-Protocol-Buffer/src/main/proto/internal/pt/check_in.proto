@@ -9,3 +9,16 @@ message CheckIn {
   uint32 endIntervalNumber = 3;
   uint32 transmissionRiskLevel = 4;
 }
+
+message CheckInRecord {
+  uint32 startIntervalNumber = 1;
+  uint32 period = 2;
+  uint32 transmissionRiskLevel = 3;
+}
+
+message CheckInProtectedReport {
+  bytes locationIdHash = 1;
+  bytes iv = 2;
+  bytes encryptedCheckInRecord = 3;
+  bytes mac = 4;
+}

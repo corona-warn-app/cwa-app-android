@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.net.toUri
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -14,6 +15,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
+import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
 import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationNoInternetErrorDialog
@@ -33,6 +35,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certificate_details), AutoInject {
@@ -45,10 +48,14 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         constructorCall = { factory, _ ->
             factory as TestCertificateDetailsViewModel.Factory
             factory.create(
-                containerId = args.containerId
+                containerId = testCertificateContainerId()
             )
         }
     )
+
+    private fun testCertificateContainerId(): TestCertificateContainerId =
+        args.containerId ?: args.certUuid?.let { TestCertificateContainerId(it) }
+            ?: throw IllegalArgumentException("Either containerId or certUuid must be provided")
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
 
@@ -76,6 +83,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     ) {
         qrCodeCard.bindValidityViews(certificate, isCertificateDetails = true)
         name.text = certificate.fullNameFormatted
+        icaoname.text = certificate.fullNameStandardizedFormatted
         dateOfBirth.text = certificate.dateOfBirthFormatted
         diseaseType.text = certificate.targetName
         testType.text = certificate.testType
@@ -197,5 +205,9 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
                 viewModel.onDeleteTestCertificateConfirmed()
             }
         }.show()
+    }
+
+    companion object {
+        fun uri(certUuid: String) = "coronawarnapp://test-certificate-details/?certUuid=$certUuid".toUri()
     }
 }

@@ -62,9 +62,9 @@
     <!-- XTXT: risk card - Days since installation if < 14 days -->
     <string name="risk_card_body_days_since_installation">"Seit %s Tagen installiert"</string>
     <!-- XTXT: risk card - Days since installation if today -->
-    <string name="risk_card_body_installation_today">Seit heute installiert</string>
+    <string name="risk_card_body_installation_today">Heute installiert</string>
     <!-- XTXT: risk card - Days since installation if yesterday -->
-    <string name="risk_card_body_installation_yesterday">Seit gestern installiert</string>
+    <string name="risk_card_body_installation_yesterday">Gestern installiert</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"Begegnungen wurden noch nicht überprüft."</string>
     <!-- XTXT: risk card - last successful update -->
@@ -292,9 +292,9 @@
     <!--    Dialog part 1-->
     <string name="risk_details_information_body_period_logged">"Die Berechnung des Infektionsrisikos kann nur für die Zeiträume erfolgen, an denen die Risiko-Ermittlung aktiv war. Die Risiko- Ermittlung sollte daher dauerhaft aktiv sein. Für Ihre Risiko-Ermittlung wird der Zeitraum der letzten 14 Tage betrachtet."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days todasy -->
-    <string name="risk_details_information_body_period_logged_assessment_under_14_days_today">"Die Corona-Warn-App ist seit heute installiert. Das Infektionsrisiko wird für Zeiträume berechnet, in denen die Risiko-Ermittlung aktiv ist. Wenn Sie andere Personen getroffen haben und die Risiko-Ermittlung aktiv war, wird Ihr Infektions-Risiko berechnet."</string>
+    <string name="risk_details_information_body_period_logged_assessment_under_14_days_today">"Die Corona-Warn-App wurde heute installiert. Das Infektionsrisiko wird für Zeiträume berechnet, in denen die Risiko-Ermittlung aktiv ist. Wenn Sie andere Personen getroffen haben und die Risiko-Ermittlung aktiv war, wird Ihr Infektions-Risiko berechnet."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days yesterday-->
-    <string name="risk_details_information_body_period_logged_assessment_under_14_days_yesterday">"Die Corona-Warn-App ist seit gestern installiert. Das Infektionsrisiko wird für Zeiträume berechnet, in denen die Risiko-Ermittlung aktiv ist. Wenn Sie andere Personen getroffen haben und die Risiko-Ermittlung aktiv war, wird Ihr Infektions-Risiko berechnet."</string>
+    <string name="risk_details_information_body_period_logged_assessment_under_14_days_yesterday">"Die Corona-Warn-App wurde gestern installiert. Das Infektionsrisiko wird für Zeiträume berechnet, in denen die Risiko-Ermittlung aktiv ist. Wenn Sie andere Personen getroffen haben und die Risiko-Ermittlung aktiv war, wird Ihr Infektions-Risiko berechnet."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Die Corona-Warn-App ist seit %d Tagen installiert. Das Infektionsrisiko wird für Zeiträume berechnet, in denen die Risiko-Ermittlung aktiv ist. Wenn Sie andere Personen getroffen haben und die Risiko-Ermittlung aktiv war, wird Ihr Infektions-Risiko berechnet."</string>
     <!-- XTXT: risk details - infection period logged information body, over 14 days -->
@@ -585,7 +585,7 @@
     <!-- XHED: settings(tracing) - headline of tracing explanation -->
     <string name="settings_tracing_body_headline">"So funktioniert die Risiko-Ermittlung"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
-    <string name="settings_tracing_body_text">"Um zu erkennen, ob für Sie ein Ansteckungsrisiko vorliegt, müssen Sie die Risiko-Ermittlung aktivieren. Die Risiko-Ermittlung funktioniert länderübergreifend, so dass auch Risiko-Begegnungen mit Nutzern von anderen offiziellen Corona-Apps erkannt werden.\n\nDie Risiko-Ermittlung funktioniert, indem Ihr Android-Smartphone per Bluetooth verschlüsselte Zufalls-IDs anderer App nutzenden Personen empfängt und Ihre eigenen Zufalls-IDs an deren Smartphone weitergibt. Die App lädt täglich Listen mit den Zufalls-IDs und eventuellen Angaben zum Symptombeginn aller Corona-positiv getesteten Nutzer herunter, die ihr Testergebnis (genauer gesagt: ihre Zufalls-IDs) freiwillig über ihre App geteilt haben. Diese Liste wird dann mit den von Ihrem Android-Smartphone aufgezeichneten Zufalls-IDs anderer Nutzer, denen Sie begegnet sind, verglichen, um Ihr Ansteckungsrisiko zu berechnen und Sie zu warnen. \n\nDie Risiko-Ermittlung lässt sich jederzeit über den Schieberegler deaktivieren.\n\nPersönliche Daten wie Ihr Name, Ihre Adresse oder Ihr Aufenthaltsort werden über die App zu keiner Zeit erfasst oder an andere Nutzer übermittelt. Rückschlüsse auf einzelne Personen sind anhand der Zufalls-IDs nicht möglich."</string>
+    <string name="settings_tracing_body_text">"Um zu erkennen, ob für Sie ein Ansteckungsrisiko vorliegt, müssen Sie die Risiko-Ermittlung aktivieren. Die Risiko-Ermittlung funktioniert länderübergreifend, so dass auch Risiko-Begegnungen mit Nutzern von anderen offiziellen Corona-Apps erkannt werden.\n\nDie Risiko-Ermittlung funktioniert, indem Ihr Android-Smartphone per Bluetooth verschlüsselte Zufalls-IDs anderer App nutzenden Personen empfängt und Ihre eigenen Zufalls-IDs an deren Smartphone weitergibt. Die App lädt täglich Listen mit den Zufalls-IDs und eventuellen Angaben zum Symptombeginn aller Corona-positiv getesteten Nutzer herunter, die ihr Testergebnis (genauer gesagt: ihre Zufalls-IDs) freiwillig über ihre App geteilt haben. Diese Liste wird dann mit den von Ihrem Android-Smartphone aufgezeichneten Zufalls-IDs anderer Nutzer, denen Sie begegnet sind, verglichen, um Ihr Ansteckungsrisiko zu berechnen und Sie zu warnen. \n\nDie Risiko-Ermittlung lässt sich jederzeit über den Schieberegler deaktivieren.\n\nPersönliche Daten wie Ihr Name, Ihre Adresse oder Ihr Aufenthaltsort werden bei der Risiko-Ermittlung zu keiner Zeit erfasst oder an andere Nutzer übermittelt. Rückschlüsse auf einzelne Personen sind anhand der Zufalls-IDs nicht möglich."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
     <string name="settings_tracing_status_active">"Aktiv"</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -1357,7 +1357,7 @@
     <!-- XACT: Test result available illustration description -->
     <string name="submission_test_result_available_illustration_description">"Eine Frau hält ihr Smartphone in der Hand. Es überträgt ein Signal an ein weiteres Smartphone."</string>
     <!-- YTXT: Text for consent given -->
-    <string name="submission_test_result_available_text_consent_given">"Vielen Dank, dass Sie mithelfen, andere zu warnen und damit einverstanden sind, Ihr Testergebnis zu teilen. \n\n"<b>"Bitte geben Sie Ihr Testergebnis im nächsten Schritt frei, indem Sie „Teilen“ antippen."</b>""</string>
+    <string name="submission_test_result_available_text_consent_given">"Vielen Dank, dass Sie mithelfen, andere zu warnen und damit einverstanden sind, Ihr Testergebnis zu teilen. \n\n"<b>"Falls Sie Ihre Erlaubnis zum Zugriff auf die Zufalls-IDs noch nicht erteilt haben oder seitdem mehr als 5 Tage vergangen sind, erteilen Sie Ihre Erlaubnis bitte im nächsten Schritt."</b>""</string>
     <!-- XHED: Close screen popup title for consent given -->
     <string name="submission_test_result_available_close_dialog_title_consent_given">"Testergebnis anzeigen"</string>
     <!-- XTXT: Close screen popup text for consent given -->
@@ -1491,6 +1491,12 @@
     <string name="statistics_explanation_faq_url">"https://www.coronawarn.app/de/faq/#further_details"</string>
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Abstrakte Darstellung eines Smartphones mit vier Platzhaltern für Informationen"</string>
+    <!-- XTXT: Statistics explanation blog text -->
+    <string name="statistics_explanation_blog">"Mehr inhaltliche Details zu einzelnen Kennzahlen finden Sie im Blog."</string>
+    <!-- XTXT: Statistics explanation blog text label -->
+    <string name="statistics_explanation_blog_label">"Blog."</string>
+    <!-- XTXT: Statistics explanation blog text url -->
+    <string name="statistics_eplanation_blog_url">"https://www.coronawarn.app/de/blog/2021-08-05-statistictiles"</string>
 
     <!-- XTXT: Statistics Card Announcement -->
     <string name="accessibility_statistics_card_announcement">"Statistikkarte"</string>

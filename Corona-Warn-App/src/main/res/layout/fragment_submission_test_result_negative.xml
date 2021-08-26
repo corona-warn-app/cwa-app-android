@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/submission_test_result_container"
@@ -18,7 +19,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@{@string/submission_test_result_headline}" />
+            app:title="@{@string/submission_test_result_toolbar_text}" />
 
         <ScrollView
             android:id="@+id/submission_test_result_content"
@@ -49,17 +50,98 @@
                     app:test_result_section_headline="@string/test_result_card_headline" />
 
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/test_certificate_card"
+                    android:background="@drawable/card_with_outline_ripple"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/submission_test_result_section">
+
+                    <ImageView
+                        android:id="@+id/certificate_bg"
+                        android:layout_width="88dp"
+                        android:layout_height="95dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:importantForAccessibility="no"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/bg_certificate_blue_2" />
+
+                    <ImageView
+                        android:id="@+id/certificate_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:importantForAccessibility="no"
+                        app:layout_constraintBottom_toBottomOf="@id/certificate_bg"
+                        app:layout_constraintEnd_toEndOf="@id/certificate_bg"
+                        app:layout_constraintStart_toStartOf="@id/certificate_bg"
+                        app:layout_constraintTop_toTopOf="@id/certificate_bg"
+                        app:srcCompat="@drawable/ic_test_certificate" />
+
+                    <TextView
+                        android:id="@+id/test_certificate_name"
+                        style="@style/body2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:text="@string/test_certificate_name"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/certificate_bg"
+                        app:layout_constraintTop_toTopOf="@id/certificate_bg" />
+
+                    <TextView
+                        android:id="@+id/test_certificate_type"
+                        style="@style/body2Medium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginHorizontal="16dp"
+                        android:text = "@string/test_certificate_pcr_test_type"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/certificate_bg"
+                        app:layout_constraintTop_toBottomOf="@id/test_certificate_name"
+                        tools:text="PCR-Test" />
+
+                    <TextView
+                        android:id="@+id/certificate_date"
+                        style="@style/body2Medium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="4dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/certificate_bg"
+                        app:layout_constraintTop_toBottomOf="@id/test_certificate_type"
+                        tools:text="Probenahme am 31.05.2021" />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="16dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/certificate_bg" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <TextView
                     android:id="@+id/submission_test_result_subtitle"
                     style="@style/headline5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/spacing_normal"
+                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:layout_marginTop="28dp"
+                    android:layout_marginBottom="24dp"
                     android:accessibilityHeading="true"
                     android:text="@string/submission_test_result_subtitle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/submission_test_result_section" />
+                    app:layout_constraintTop_toBottomOf="@id/test_certificate_card" />
 
 
                 <de.rki.coronawarnapp.ui.view.SimpleStepEntry
@@ -89,7 +171,21 @@
                     app:simple_step_entry_text="@string/submission_test_result_negative_steps_negative_body"
                     app:simple_step_entry_title="@string/submission_test_result_negative_steps_negative_heading"
                     app:step_entry_final="false"
-                    app:step_entry_icon="@drawable/ic_test_result_step_done" />
+                    app:step_entry_icon="@drawable/ic_test_result_step_invalid" />
+
+                <de.rki.coronawarnapp.ui.view.SimpleStepEntry
+                    android:id="@+id/test_result_negative_steps_remove_test"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_normal"
+                    android:layout_marginEnd="@dimen/spacing_normal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/test_result_negative_steps_negative_result"
+                    app:simple_step_entry_text="@string/submission_test_result_delete_steps_invalid_body"
+                    app:simple_step_entry_title="@string/submission_test_result_delete_steps_invalid_heading"
+                    app:step_entry_final="true"
+                    app:step_entry_icon="@drawable/ic_test_result_step_deletion" />
 
                 <de.rki.coronawarnapp.ui.view.SimpleStepEntry
                     android:id="@+id/test_result_negative_steps_certificate"
@@ -98,11 +194,11 @@
                     android:layout_marginEnd="@dimen/spacing_normal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/test_result_negative_steps_negative_result"
-                    app:layout_constraintTop_toBottomOf="@+id/test_result_negative_steps_negative_result"
+                    app:layout_constraintTop_toBottomOf="@+id/test_result_negative_steps_remove_test"
                     app:simple_step_entry_text="@string/coronatest_negative_result_certificate_info_body"
                     app:simple_step_entry_title="@string/coronatest_negative_result_certificate_info_title"
                     app:step_entry_final="true"
-                    app:step_entry_icon="@drawable/ic_qr_code_illustration" />
+                    app:step_entry_icon="@drawable/ic_result_pending_certificate_info" />
 
                 <LinearLayout
                     android:id="@+id/further_info"

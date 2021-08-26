@@ -28,7 +28,8 @@ class SubmissionServer @Inject constructor(
         val keyList: List<TemporaryExposureKey>,
         val consentToFederation: Boolean,
         val visitedCountries: List<String>,
-        val checkIns: List<CheckInOuterClass.CheckIn>,
+        val unencryptedCheckIns: List<CheckInOuterClass.CheckIn>,
+        val encryptedCheckIns: List<CheckInOuterClass.CheckInProtectedReport>,
         val submissionType: SubmissionPayload.SubmissionType
     )
 
@@ -39,7 +40,7 @@ class SubmissionServer @Inject constructor(
 
         val authCode = data.authCode
         val keyList = data.keyList
-        val checkInList = data.checkIns
+        val checkInList = data.encryptedCheckIns
 
         Timber.tag(TAG).d(
             "Writing %s Keys and %s CheckIns to the Submission Payload.",
@@ -67,7 +68,8 @@ class SubmissionServer @Inject constructor(
             .setRequestPadding(ByteString.copyFromUtf8(requestPadding))
             .setConsentToFederation(data.consentToFederation)
             .addAllVisitedCountries(data.visitedCountries)
-            .addAllCheckIns(data.checkIns)
+            .addAllCheckIns(data.unencryptedCheckIns)
+            .addAllCheckInProtectedReports(data.encryptedCheckIns)
             .setSubmissionType(data.submissionType)
             .build()
 

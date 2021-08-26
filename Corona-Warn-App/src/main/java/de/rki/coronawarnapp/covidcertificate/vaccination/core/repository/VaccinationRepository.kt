@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCerti
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
+import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
@@ -46,6 +47,7 @@ class VaccinationRepository @Inject constructor(
     valueSetsRepository: ValueSetsRepository,
     private val qrCodeExtractor: DccQrCodeExtractor,
     private val dccStateChecker: DccStateChecker,
+    dscRepository: DscRepository
 ) {
 
     private val internalData: HotDataFlow<Set<VaccinatedPerson>> = HotDataFlow(
@@ -84,8 +86,9 @@ class VaccinationRepository @Inject constructor(
 
     val vaccinationInfos: Flow<Set<VaccinatedPerson>> = combine(
         internalData.data,
-        valueSetsRepository.latestVaccinationValueSets
-    ) { personDatas, currentValueSet ->
+        valueSetsRepository.latestVaccinationValueSets,
+        dscRepository.dscData
+    ) { personDatas, currentValueSet, _ ->
         personDatas.map { person ->
             val stateMap = person.data.getStates()
             person.copy(valueSet = currentValueSet, certificateStates = stateMap)

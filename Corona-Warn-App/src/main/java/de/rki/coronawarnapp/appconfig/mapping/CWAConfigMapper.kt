@@ -14,7 +14,8 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
             latestVersionCode = rawConfig.latestVersionCode,
             minVersionCode = rawConfig.minVersionCode,
             supportedCountries = rawConfig.getMappedSupportedCountries(),
-            isDeviceTimeCheckEnabled = !rawConfig.isDeviceTimeCheckDisabled()
+            isDeviceTimeCheckEnabled = !rawConfig.isDeviceTimeCheckDisabled(),
+            isUnencryptedCheckInsEnabled = rawConfig.isUnencryptedCheckInsEnabled()
         )
     }
 
@@ -43,11 +44,26 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
         }
     }
 
+    private fun ApplicationConfigurationAndroid.isUnencryptedCheckInsEnabled(): Boolean {
+        if (!hasAppFeatures()) return false
+        return try {
+            (0 until appFeatures.appFeaturesCount)
+                .map { appFeatures.getAppFeatures(it) }
+                .firstOrNull { it.label == "unencrypted-checkins-enabled" }
+                ?.let { it.value == 1 }
+                ?: false
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to map `unencrypted-checkins-enabled` from %s", this)
+            false
+        }
+    }
+
     data class CWAConfigContainer(
         override val latestVersionCode: Long,
         override val minVersionCode: Long,
         override val supportedCountries: List<String>,
-        override val isDeviceTimeCheckEnabled: Boolean
+        override val isDeviceTimeCheckEnabled: Boolean,
+        override val isUnencryptedCheckInsEnabled: Boolean,
     ) : CWAConfig
 
     companion object {

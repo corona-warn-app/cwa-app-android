@@ -1,6 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import com.google.gson.Gson
+import com.google.gson.JsonArray
+import com.google.gson.JsonElement
+import com.google.gson.JsonNull
+import com.google.gson.JsonObject
+import com.google.gson.JsonPrimitive
 import com.upokecenter.cbor.CBORObject
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
@@ -21,21 +26,21 @@ class DccV1Parser @Inject constructor(
             it[keyEuDgcV1] ?: throw InvalidHealthCertificateException(ErrorCode.HC_CWT_NO_DGC)
         }
 
-        val (rawBody, dcc) = dgcCbor.toCertificate()
+        val (rawBody, euExceptionBody, dcc) = dgcCbor.toCertificate()
 
-        Body(
-            parsed = dcc.toValidated(mode), // To get specific errors, run this before the raw check
-            raw = rawBody.checkSchema(mode)
-        )
+        val checkedDcc = dcc.toValidated(mode)
+        euExceptionBody.checkSchema(mode)
+        Body(parsed = checkedDcc, raw = rawBody)
     } catch (e: InvalidHealthCertificateException) {
         throw e
     } catch (e: Throwable) {
         throw InvalidHealthCertificateException(ErrorCode.HC_CBOR_DECODING_FAILED, cause = e)
     }
 
-    private fun CBORObject.toCertificate(): Pair<String, DccV1> = try {
+    private fun CBORObject.toCertificate(): Triple<String, String, DccV1> = try {
         val json = ToJSONString()
-        json to gson.fromJson(json)
+        val euExceptionJson = gson.fromJson(json, JsonObject::class.java).filterExceptions().toString()
+        Triple(json, euExceptionJson, gson.fromJson(euExceptionJson))
     } catch (e: InvalidHealthCertificateException) {
         throw e
     } catch (e: Throwable) {
@@ -147,6 +152,29 @@ class DccV1Parser @Inject constructor(
             this
         }
     }
+
+    private fun JsonElement.filterExceptions(): JsonElement =
+        when (this) {
+            is JsonObject -> {
+                entrySet().fold(JsonObject()) { acc, (key, jsonElement) ->
+                    when (jsonElement) {
+                        is JsonNull -> acc
+                        else -> acc.apply { add(key, jsonElement.filterExceptions()) }
+                    }
+                }
+            }
+            is JsonArray -> {
+                fold(JsonArray()) { acc, jsonElement ->
+                    when (jsonElement) {
+                        is JsonNull -> acc
+                        else -> acc.apply { add(jsonElement.filterExceptions()) }
+                    }
+                }
+            }
+            is JsonPrimitive -> if (isString) JsonPrimitive(asString?.trim()) else this
+
+            else -> this // Should never be reached
+        }
 
     enum class Mode {
         CERT_VAC_STRICT, // exactly one vaccination certificate allowed

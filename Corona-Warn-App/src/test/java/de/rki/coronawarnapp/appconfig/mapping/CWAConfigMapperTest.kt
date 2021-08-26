@@ -77,6 +77,7 @@ class CWAConfigMapperTest : BaseTest() {
             .build()
         createInstance().map(rawConfig).apply {
             isDeviceTimeCheckEnabled shouldBe false
+            isUnencryptedCheckInsEnabled shouldBe false
         }
     }
 
@@ -96,6 +97,88 @@ class CWAConfigMapperTest : BaseTest() {
             .build()
         createInstance().map(rawConfig).apply {
             isDeviceTimeCheckEnabled shouldBe true
+            isUnencryptedCheckInsEnabled shouldBe false
+        }
+    }
+
+    @Test
+    fun `feature, unencrypted checkins enabled`() {
+        val rawConfig = ApplicationConfigurationAndroid.newBuilder()
+            .setAppFeatures(
+                AppFeatures.newBuilder().apply {
+                    addAppFeatures(
+                        AppFeature.newBuilder().apply {
+                            label = "disable-device-time-check"
+                            value = 1
+                        }.build()
+                    )
+
+                    addAppFeatures(
+                        AppFeature.newBuilder().apply {
+                            label = "unencrypted-checkins-enabled"
+                            value = 1
+                        }.build()
+                    )
+                }
+            )
+            .build()
+        createInstance().map(rawConfig).apply {
+            isDeviceTimeCheckEnabled shouldBe false
+            isUnencryptedCheckInsEnabled shouldBe true
+        }
+    }
+
+    @Test
+    fun `feature, unencrypted checkins disabled`() {
+        val rawConfig = ApplicationConfigurationAndroid.newBuilder()
+            .setAppFeatures(
+                AppFeatures.newBuilder().apply {
+                    addAppFeatures(
+                        AppFeature.newBuilder().apply {
+                            label = "disable-device-time-check"
+                            value = 0
+                        }.build()
+                    )
+
+                    addAppFeatures(
+                        AppFeature.newBuilder().apply {
+                            label = "unencrypted-checkins-enabled"
+                            value = 0
+                        }.build()
+                    )
+                }
+            )
+            .build()
+        createInstance().map(rawConfig).apply {
+            isDeviceTimeCheckEnabled shouldBe true
+            isUnencryptedCheckInsEnabled shouldBe false
+        }
+    }
+
+    @Test
+    fun `feature, unencrypted checkins disabled - value is not 1`() {
+        val rawConfig = ApplicationConfigurationAndroid.newBuilder()
+            .setAppFeatures(
+                AppFeatures.newBuilder().apply {
+                    addAppFeatures(
+                        AppFeature.newBuilder().apply {
+                            label = "disable-device-time-check"
+                            value = 0
+                        }.build()
+                    )
+
+                    addAppFeatures(
+                        AppFeature.newBuilder().apply {
+                            label = "unencrypted-checkins-enabled"
+                            value = 11
+                        }.build()
+                    )
+                }
+            )
+            .build()
+        createInstance().map(rawConfig).apply {
+            isDeviceTimeCheckEnabled shouldBe true
+            isUnencryptedCheckInsEnabled shouldBe false
         }
     }
 
@@ -115,6 +198,7 @@ class CWAConfigMapperTest : BaseTest() {
             .build()
         createInstance().map(rawConfig).apply {
             isDeviceTimeCheckEnabled shouldBe true
+            isUnencryptedCheckInsEnabled shouldBe false
         }
     }
 
