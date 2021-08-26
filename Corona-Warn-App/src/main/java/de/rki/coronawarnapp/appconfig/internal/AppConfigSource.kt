@@ -22,8 +22,8 @@ class AppConfigSource @Inject constructor(
     private val timeStamper: TimeStamper
 ) {
 
-    suspend fun getConfigData(): ConfigData {
-        Timber.tag(TAG).d("getConfigData()")
+    suspend fun getConfigData(offlineMode: Boolean = false): ConfigData {
+        Timber.tag(TAG).d("getConfigData(offlineMode=$offlineMode)")
 
         val localConfig = localAppConfigSource.getConfigData()
         val nowUTC = timeStamper.nowUTC
@@ -36,7 +36,11 @@ class AppConfigSource @Inject constructor(
             Timber.tag(TAG).d("Local app config was unavailable(${localConfig == null}) or invalid.")
         }
 
-        val remoteConfig = remoteAppConfigSource.getConfigData()
+        val remoteConfig = if (!offlineMode) {
+            remoteAppConfigSource.getConfigData()
+        } else {
+            null
+        }
 
         return when {
             remoteConfig != null -> {
