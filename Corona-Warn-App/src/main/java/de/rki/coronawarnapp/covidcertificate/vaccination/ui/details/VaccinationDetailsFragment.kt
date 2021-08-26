@@ -130,6 +130,9 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                     showCertificateDeletionRequest()
                     true
                 }
+                R.id.menu_covid_certificate_print -> {
+                    TODO("Implement me!")
+                }
                 else -> onOptionsItemSelected(it)
             }
         }

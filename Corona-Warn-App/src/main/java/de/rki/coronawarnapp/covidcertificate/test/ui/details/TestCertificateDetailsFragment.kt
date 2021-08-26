@@ -179,6 +179,9 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
                     showCertificateDeletionRequest()
                     true
                 }
+                R.id.menu_covid_certificate_print -> {
+                    TODO("Implement me!")
+                }
                 else -> onOptionsItemSelected(it)
             }
         }
