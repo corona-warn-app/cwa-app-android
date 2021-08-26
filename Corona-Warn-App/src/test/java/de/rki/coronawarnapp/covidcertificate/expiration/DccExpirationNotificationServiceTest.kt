@@ -56,8 +56,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
         every { covidCertificateSettings.lastDccStateBackgroundCheck } returns lastDccStateBackgroundCheck
 
         expirationNotification.apply {
-            coEvery { showExpiredNotification(any()) } returns true
-            coEvery { showExpiresSoonNotification(any()) } returns true
+            coEvery { showNotification(any()) } returns true
         }
 
         vaccinationRepository.apply {
@@ -138,8 +137,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
 
         createInstance().showNotificationIfExpired()
 
-        coVerify(exactly = 0) { expirationNotification.showExpiresSoonNotification(any()) }
-        coVerify(exactly = 1) { expirationNotification.showExpiredNotification(any()) }
+        coVerify { expirationNotification.showNotification(any()) }
     }
 
     @Test
@@ -149,8 +147,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
 
         createInstance().showNotificationIfExpired()
 
-        coVerify(exactly = 1) { expirationNotification.showExpiresSoonNotification(any()) }
-        coVerify(exactly = 0) { expirationNotification.showExpiredNotification(any()) }
+        coVerify { expirationNotification.showNotification(any()) }
     }
 
     @Test
@@ -160,15 +157,15 @@ class DccExpirationNotificationServiceTest : BaseTest() {
 
         createInstance().showNotificationIfExpired()
 
+        coVerify(exactly = 2) { expirationNotification.showNotification(any()) }
+
         coVerify(exactly = 1) {
-            expirationNotification.showExpiresSoonNotification(any())
             vaccinationRepository.setNotifiedState(
                 containerId = vaccinationContainerId,
                 state = State.ExpiringSoon(expiresAt = Instant.EPOCH),
                 time = nowUtc,
             )
 
-            expirationNotification.showExpiredNotification(any())
             recoveryRepository.setNotifiedState(
                 containerId = recoverContainerId,
                 state = State.Expired(expiredAt = Instant.EPOCH),
@@ -191,8 +188,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
         createInstance().showNotificationIfExpired()
 
         coVerify(exactly = 0) {
-            expirationNotification.showExpiresSoonNotification(any())
-            expirationNotification.showExpiredNotification(any())
+            expirationNotification.showNotification(any())
         }
     }
 }

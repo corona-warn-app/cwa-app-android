@@ -29,20 +29,6 @@ class DccExpirationNotification @Inject constructor(
     private val notificationHelper: DigitalCovidCertificateNotifications,
     private val deepLinkBuilderFactory: NavDeepLinkBuilderFactory,
 ) {
-
-    // TODO remove these functions and use showNotification
-    fun showExpiresSoonNotification(containerId: CertificateContainerId): Boolean {
-        Timber.d("showExpiresSoonNotification(containerId=$containerId)")
-        showNotification(containerId, R.string.dcc_notification_expires_soon_text)
-        return true // we always show it independent of foreground state
-    }
-
-    fun showExpiredNotification(containerId: CertificateContainerId): Boolean {
-        Timber.d("showExpiredNotification(containerId=$containerId)")
-        showNotification(containerId, R.string.dcc_notification_expired_text)
-        return true // we always show it independent of foreground state
-    }
-
     fun showNotification(containerId: CertificateContainerId): Boolean {
         Timber.d("showNotification(containerId=$containerId)")
         showNotification(containerId, R.string.notification_body)

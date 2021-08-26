@@ -182,6 +182,9 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
 
         override val hasNotification: Boolean
             get() = false
+
+        override val notifiedInvalidAt: Instant?
+            get() = null
     }
 
     private fun getTestCertificateObject(state: CwaCovidCertificate.State): TestCertificate {

@@ -60,25 +60,25 @@ class DccExpirationNotificationTest : BaseTest() {
 
     @Test
     fun `show expires soon notification for vaccination`() = runBlockingTest {
-        createInstance().showExpiresSoonNotification(VaccinationCertificateContainerId("the vax-scene"))
+        createInstance().showNotification(VaccinationCertificateContainerId("the vax-scene"))
         verify { notificationHelper.sendNotification(any(), any()) }
     }
 
     @Test
     fun `show expired notification for vaccination`() = runBlockingTest {
-        createInstance().showExpiredNotification(VaccinationCertificateContainerId("the vax-scene"))
+        createInstance().showNotification(VaccinationCertificateContainerId("the vax-scene"))
         verify { notificationHelper.sendNotification(any(), any()) }
     }
 
     @Test
     fun `show expires soon notification for recovery`() = runBlockingTest {
-        createInstance().showExpiresSoonNotification(RecoveryCertificateContainerId("recovery"))
+        createInstance().showNotification(RecoveryCertificateContainerId("recovery"))
         verify { notificationHelper.sendNotification(any(), any()) }
     }
 
     @Test
     fun `show expired notification for recovery`() = runBlockingTest {
-        createInstance().showExpiredNotification(RecoveryCertificateContainerId("recovery"))
+        createInstance().showNotification(RecoveryCertificateContainerId("recovery"))
         verify { notificationHelper.sendNotification(any(), any()) }
     }
 }
