@@ -166,6 +166,8 @@ data class VaccinationContainer internal constructor(
         // TODO check notification conditions
         override val hasNotification: Boolean
             get() = false
+        override val notifiedInvalidAt: Instant?
+            get() = null
 
         override fun toString(): String = "VaccinationCertificate($containerId)"
     }

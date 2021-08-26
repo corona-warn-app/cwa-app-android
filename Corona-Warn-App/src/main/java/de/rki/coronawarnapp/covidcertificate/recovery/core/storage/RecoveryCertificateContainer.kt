@@ -136,6 +136,8 @@ data class RecoveryCertificateContainer(
             // TODO check notification conditions
             override val hasNotification: Boolean
                 get() = false
+            override val notifiedInvalidAt: Instant?
+                get() = null
 
             override fun toString(): String = "RecoveryCertificate($containerId)"
         }

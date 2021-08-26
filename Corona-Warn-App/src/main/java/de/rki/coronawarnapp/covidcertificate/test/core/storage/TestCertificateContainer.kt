@@ -157,6 +157,9 @@ data class TestCertificateContainer(
             override val hasNotification: Boolean
                 get() = false
 
+            override val notifiedInvalidAt: Instant?
+                get() = null
+
             override fun toString(): String = "TestCertificate($containerId)"
         }
     }
