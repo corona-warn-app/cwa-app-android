@@ -40,6 +40,8 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
     val errors = SingleLiveEvent<Throwable>()
     val events = SingleLiveEvent<VaccinationDetailsNavigation>()
 
+    val exportError = SingleLiveEvent<Unit>()
+
     fun onClose() = events.postValue(VaccinationDetailsNavigation.Back)
 
     fun openFullScreen() = qrCode?.let { events.postValue(VaccinationDetailsNavigation.FullQrCode(it)) }
@@ -83,6 +85,16 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
     fun refreshCertState() = launch(scope = appScope) {
         Timber.v("refreshCertState()")
         vaccinationRepository.acknowledgeState(containerId)
+    }
+
+    fun onExport() {
+        // TODO: some magic here to check if we could export certificate to PDF
+        val exportPossible = false
+        if (!exportPossible) {
+            exportError.postValue(null)
+        } else {
+            events.postValue(VaccinationDetailsNavigation.Export)
+        }
     }
 
     @AssistedFactory

@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationN
 import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
+import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
@@ -97,6 +98,10 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 }
             }
 
+            viewModel.exportError.observe(viewLifecycleOwner) {
+                showExportErrorDialog()
+            }
+
             viewModel.events.observe(viewLifecycleOwner) { event ->
                 when (event) {
                     VaccinationDetailsNavigation.Back -> popBackStack()
@@ -111,6 +116,12 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                         doNavigate(
                             VaccinationDetailsFragmentDirections
                                 .actionVaccinationDetailsFragmentToValidationStartFragment(event.containerId)
+                        )
+                    }
+                    is VaccinationDetailsNavigation.Export -> {
+                        doNavigate(
+                            VaccinationDetailsFragmentDirections
+                                .actionVaccinationDetailsFragmentToCertificatePdfPrintInfoFragment()
                         )
                     }
                 }
@@ -131,7 +142,8 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                     true
                 }
                 R.id.menu_covid_certificate_print -> {
-                    TODO("Implement me!")
+                    viewModel.onExport()
+                    true
                 }
                 else -> onOptionsItemSelected(it)
             }
@@ -188,6 +200,17 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             setPositiveButton(R.string.green_certificate_details_dialog_remove_test_button_positive) { _, _ ->
                 viewModel.onDeleteVaccinationCertificateConfirmed()
             }
+        }.show()
+    }
+
+    private fun showExportErrorDialog() {
+        MaterialAlertDialogBuilder(requireContext()).apply {
+            setTitle(R.string.certificate_export_error_dialog_title)
+            setMessage(R.string.certificate_export_error_dialog_body)
+            setNegativeButton(R.string.certificate_export_error_dialog_faq_button) { _, _ ->
+                openUrl(getString(R.string.certificate_export_error_dialog_faq_link))
+            }
+            setPositiveButton(R.string.certificate_export_error_dialog_ok_button) { _, _ -> }
         }.show()
     }
 }

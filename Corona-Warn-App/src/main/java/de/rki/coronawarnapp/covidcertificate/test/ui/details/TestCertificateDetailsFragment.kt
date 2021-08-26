@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationN
 import de.rki.coronawarnapp.databinding.FragmentTestCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
+import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
@@ -35,7 +36,6 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certificate_details), AutoInject {
@@ -76,6 +76,10 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         viewModel.errors.observe(viewLifecycleOwner) { onError(it) }
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
         viewModel.covidCertificate.observe(viewLifecycleOwner) { it?.let { onCertificateReady(it) } }
+
+        viewModel.exportError.observe(viewLifecycleOwner) {
+            showExportErrorDialog()
+        }
     }
 
     private fun FragmentTestCertificateDetailsBinding.onCertificateReady(
@@ -168,6 +172,12 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
                         .actionTestCertificateDetailsFragmentToValidationStartFragment(event.containerId)
                 )
             }
+            is TestCertificateDetailsNavigation.Export -> {
+                doNavigate(
+                    TestCertificateDetailsFragmentDirections
+                        .actionTestCertificateDetailsFragmentToCertificatePdfPrintInfoFragment()
+                )
+            }
         }
     }
 
@@ -180,7 +190,8 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
                     true
                 }
                 R.id.menu_covid_certificate_print -> {
-                    TODO("Implement me!")
+                    viewModel.onExport()
+                    true
                 }
                 else -> onOptionsItemSelected(it)
             }
@@ -207,6 +218,17 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
             setPositiveButton(R.string.green_certificate_details_dialog_remove_test_button_positive) { _, _ ->
                 viewModel.onDeleteTestCertificateConfirmed()
             }
+        }.show()
+    }
+
+    private fun showExportErrorDialog() {
+        MaterialAlertDialogBuilder(requireContext()).apply {
+            setTitle(R.string.certificate_export_error_dialog_title)
+            setMessage(R.string.certificate_export_error_dialog_body)
+            setNegativeButton(R.string.certificate_export_error_dialog_faq_button) { _, _ ->
+                openUrl(getString(R.string.certificate_export_error_dialog_faq_link))
+            }
+            setPositiveButton(R.string.certificate_export_error_dialog_ok_button) { _, _ -> }
         }.show()
     }
 

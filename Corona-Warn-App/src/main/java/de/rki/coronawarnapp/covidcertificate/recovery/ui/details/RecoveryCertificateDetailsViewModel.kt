@@ -27,6 +27,9 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
     private var qrCode: CoilQrCode? = null
     val events = SingleLiveEvent<RecoveryCertificateDetailsNavigation>()
     val errors = SingleLiveEvent<Throwable>()
+
+    val exportError = SingleLiveEvent<Unit>()
+
     val recoveryCertificate = recoveryCertificateRepository.certificates.map { certificates ->
         certificates.find { it.containerId == containerId }?.recoveryCertificate?.also {
             qrCode = it.qrCodeToDisplay
@@ -56,6 +59,16 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
     fun refreshCertState() = launch(scope = appScope) {
         Timber.v("refreshCertState()")
         recoveryCertificateRepository.acknowledgeState(containerId)
+    }
+
+    fun onExport() {
+        // TODO: some magic here to check if we could export certificate to PDF
+        val exportPossible = false
+        if (!exportPossible) {
+            exportError.postValue(null)
+        } else {
+            events.postValue(RecoveryCertificateDetailsNavigation.Export)
+        }
     }
 
     @AssistedFactory

@@ -322,13 +322,15 @@
 
     <!-- PDF Print: Not possible dialog -->
     <!-- XHED: PDF Print: Not possible dialog title -->
-    <string name="pdf_print_not_possible_dialog_title">Druckversion anzeigen nicht möglich</string>
+    <string name="certificate_export_error_dialog_title">Druckversion anzeigen nicht möglich</string>
     <!-- XHED: PDF Print: Not possible dialog body -->
-    <string name="pdf_print_not_possible_dialog_body">Die Druckversion des Zertifikats kann nicht angezeigt werden, da das Zertifikat nicht in Deutschland ausgestellt wurde.</string>
+    <string name="certificate_export_error_dialog_body">Die Druckversion des Zertifikats kann nicht angezeigt werden, da das Zertifikat nicht in Deutschland ausgestellt wurde.</string>
     <!-- XBUT: PDF Print: Not possible dialog faq button -->
-    <string name="pdf_print_not_possible_dialog_faq_button">faq zur druckversion</string>
+    <string name="certificate_export_error_dialog_faq_button">faq zur druckversion</string>
+    <!-- XBUT: PDF Print: Not possible dialog faq link -->
+    <string name="certificate_export_error_dialog_faq_link">https://www.coronawarn.app/de/faq/#eu_dcc_export</string>
     <!-- XBUT: PDF Print: Not possible dialog ok button -->
-    <string name="pdf_print_not_possible_dialog_ok_button">OK</string>
+    <string name="certificate_export_error_dialog_ok_button">OK</string>
 
     <!-- PDF Print: Info screen -->
     <!-- XHED: PDF Print: Info screen title -->
