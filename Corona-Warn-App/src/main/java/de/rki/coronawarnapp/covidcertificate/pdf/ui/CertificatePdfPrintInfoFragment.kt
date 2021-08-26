@@ -26,6 +26,7 @@ class CertificatePdfPrintInfoFragment : Fragment(R.layout.certificate_pdf_print_
             toolbar.setNavigationOnClickListener { popBackStack() }
             nextButton.setOnClickListener {
                 // TODO: navigation
+            }
         }
     }
 }

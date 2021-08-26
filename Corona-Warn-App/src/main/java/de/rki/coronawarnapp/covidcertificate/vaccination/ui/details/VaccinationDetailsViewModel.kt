@@ -89,7 +89,7 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
 
     fun onExport() {
         // TODO: some magic here to check if we could export certificate to PDF
-        val exportPossible = false
+        val exportPossible = true
         if (!exportPossible) {
             exportError.postValue(null)
         } else {
