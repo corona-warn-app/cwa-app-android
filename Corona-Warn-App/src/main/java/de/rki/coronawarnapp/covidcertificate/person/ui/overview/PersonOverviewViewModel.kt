@@ -73,6 +73,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
         .catch { Timber.tag(TAG).w("Failed to mark certificates as seen.") }
         .asLiveData2()
 
+    // TODO move this logic into certificate details screen
     val markStateChangesAsSeen = certificatesProvider.personCertificates
         .map { persons ->
             persons.map { it.certificates }.flatten()

@@ -5,10 +5,12 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import org.joda.time.Days
 import org.joda.time.Instant
+import org.joda.time.LocalDate
 
 data class VaccinatedPerson(
     internal val data: VaccinatedPersonData,
@@ -32,12 +34,13 @@ data class VaccinatedPerson(
         }.toSet()
     }
 
+    val hasBoosterNotification get() = false
+
+    val boosterRule: EvaluatedDccRule? = null
+
     fun findVaccination(containerId: VaccinationCertificateContainerId) = vaccinationContainers.find {
         it.containerId == containerId
     }
-
-    val vaccineName: String
-        get() = vaccinationCertificates.first().vaccineTypeName
 
     val fullName: String
         get() = vaccinationCertificates.first().fullName
@@ -45,12 +48,9 @@ data class VaccinatedPerson(
     val dateOfBirthFormatted: String
         get() = vaccinationCertificates.first().dateOfBirthFormatted
 
-    val getMostRecentVaccinationCertificate: VaccinationCertificate
-        get() = vaccinationCertificates.maxByOrNull { it.vaccinatedOnFormatted } ?: throw IllegalStateException(
-            "Every Vaccinated Person needs to have at least one vaccinationCertificate"
-        )
-
     fun getVaccinationStatus(nowUTC: Instant = Instant.now()): Status {
+        if (boosterRule != null) return Status.BOOSTER_ELIGIBLE
+
         val daysToImmunity = getDaysUntilImmunity(nowUTC) ?: return Status.INCOMPLETE
 
         val isImmune = daysToImmunity <= 0 || isFirstVaccinationDoseAfterRecovery() ||
@@ -69,6 +69,9 @@ data class VaccinatedPerson(
         return IMMUNITY_WAITING_DAYS - Days.daysBetween(newestFullDose.vaccinatedOn, today).days
     }
 
+    fun getNewestDoseVaccinatedOn(): LocalDate =
+        vaccinationCertificates.maxOf { it.vaccinatedOn }
+
     private fun getNewestFullDose(): VaccinationCertificate? = vaccinationCertificates
         .filter { it.doseNumber >= it.totalSeriesOfDoses }
         .maxByOrNull { it.vaccinatedOn }
@@ -84,7 +87,8 @@ data class VaccinatedPerson(
     enum class Status {
         INCOMPLETE,
         COMPLETE,
-        IMMUNITY
+        IMMUNITY,
+        BOOSTER_ELIGIBLE
     }
 
     companion object {

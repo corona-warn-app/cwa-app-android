@@ -45,6 +45,10 @@ interface CwaCovidCertificate {
     val lastSeenStateChange: State?
     val lastSeenStateChangeAt: Instant?
 
+    val hasNotification: Boolean
+
+    val notifiedInvalidAt: Instant?
+
     /**
      * The current state of the certificate, see [State]
      */

@@ -163,6 +163,10 @@ data class VaccinationContainer internal constructor(
         override val dccData: DccData<out DccV1.MetaData>
             get() = certificateData
 
+        // TODO check notification conditions
+        override val hasNotification: Boolean
+            get() = false
+
         override fun toString(): String = "VaccinationCertificate($containerId)"
     }
 }

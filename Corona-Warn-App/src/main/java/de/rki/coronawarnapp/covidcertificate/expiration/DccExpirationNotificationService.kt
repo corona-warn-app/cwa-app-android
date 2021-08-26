@@ -44,7 +44,7 @@ class DccExpirationNotificationService @Inject constructor(
                 it.notifiedExpiredAt == null
             }
             ?.let {
-                if (dscCheckNotification.showExpiredNotification(it.containerId)) {
+                if (dscCheckNotification.showNotification(it.containerId)) {
                     setStateNotificationShown(it)
                 }
             }
@@ -56,7 +56,21 @@ class DccExpirationNotificationService @Inject constructor(
                 it.notifiedExpiresSoonAt == null && it.notifiedExpiredAt == null
             }
             ?.let {
-                if (dscCheckNotification.showExpiresSoonNotification(it.containerId)) {
+                if (dscCheckNotification.showNotification(it.containerId)) {
+                    setStateNotificationShown(it)
+                }
+            }
+
+        allCerts
+            .filter { it.getState() is CwaCovidCertificate.State.Invalid }
+            .firstOrNull {
+                Timber.tag(TAG).w("Certificate is invalid: %s", it)
+                // TODO clarify whether notification should be shown for every state change or once
+                it.notifiedInvalidAt == null && it.notifiedExpiredAt == null &&
+                    it.notifiedExpiresSoonAt == null
+            }
+            ?.let {
+                if (dscCheckNotification.showNotification(it.containerId)) {
                     setStateNotificationShown(it)
                 }
             }

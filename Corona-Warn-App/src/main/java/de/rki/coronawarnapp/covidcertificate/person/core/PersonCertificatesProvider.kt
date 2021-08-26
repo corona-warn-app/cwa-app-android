@@ -14,6 +14,8 @@ import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import javax.inject.Inject
@@ -57,6 +59,7 @@ class PersonCertificatesProvider @Inject constructor(
             PersonCertificates(
                 certificates = certs.toCertificateSortOrder(),
                 isCwaUser = personIdentifier == cwaUser,
+                badgeCount = certs.filter { it.hasNotification }.count()
             )
         }.toSet()
     }.shareLatest(scope = appScope)
@@ -91,6 +94,9 @@ class PersonCertificatesProvider @Inject constructor(
     ) { newTestCertificates, vacStateChanges, recoveryStateChanges ->
         newTestCertificates + vacStateChanges + recoveryStateChanges
     }.shareLatest(scope = appScope)
+
+    // TODO return person badge count
+    val personsBadgeCount: Flow<Int> = flowOf()
 
     suspend fun acknowledgeStateChange(certificate: CwaCovidCertificate) {
         Timber.tag(TAG).d("acknowledgeStateChange(containerId=$certificate.containerId)")

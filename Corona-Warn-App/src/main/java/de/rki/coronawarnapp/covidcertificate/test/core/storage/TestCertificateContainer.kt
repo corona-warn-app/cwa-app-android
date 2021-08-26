@@ -153,6 +153,10 @@ data class TestCertificateContainer(
             override val dccData: DccData<out DccV1.MetaData>
                 get() = testCertificateQRCode!!.data
 
+            // TODO check notification conditions
+            override val hasNotification: Boolean
+                get() = false
+
             override fun toString(): String = "TestCertificate($containerId)"
         }
     }
