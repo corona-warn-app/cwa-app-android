@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSurface"
+    android:contentDescription="@string/pdf_print_info_title"
+    tools:context=".ui.presencetracing.organizer.warn.TraceLocationWarnInfoFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAToolbar.Close.Transparent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/pdf_print_info_title" />
+
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/next_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/pdf_printing_info_graphic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_pdf_info_illustration"
+                android:contentDescription="TODO" />
+
+            <TextView
+                android:id="@+id/pdf_printing_info_headline"
+                style="@style/headline5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:text="@string/pdf_print_info_subtitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/pdf_printing_info_graphic" />
+
+            <ImageView
+                android:id="@+id/pdf_printing_info_pdf_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                android:importantForAccessibility="no"
+                app:layout_constraintStart_toStartOf="@id/pdf_printing_info_headline"
+                app:layout_constraintTop_toBottomOf="@id/pdf_printing_info_headline"
+                app:srcCompat="@drawable/ic_pdf_icon" />
+
+            <TextView
+                android:id="@+id/pdf_printing_info_pdf_text"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="26dp"
+                android:text="@string/pdf_print_info_point_pdf"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/pdf_printing_info_pdf_icon"
+                app:layout_constraintTop_toTopOf="@id/pdf_printing_info_pdf_icon" />
+
+            <ImageView
+                android:id="@+id/pdf_printing_info_lock_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="27dp"
+                android:importantForAccessibility="no"
+                app:layout_constraintStart_toStartOf="@id/pdf_printing_info_pdf_icon"
+                app:layout_constraintTop_toBottomOf="@id/pdf_printing_info_pdf_text"
+                app:srcCompat="@drawable/ic_pdf_lock" />
+
+            <TextView
+                android:id="@+id/pdf_printing_info_sensitive_text"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="26dp"
+                android:text="@string/pdf_print_info_point_sensitive"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/pdf_printing_info_lock_icon"
+                app:layout_constraintTop_toTopOf="@id/pdf_printing_info_lock_icon" />
+
+            <ImageView
+                android:id="@+id/pdf_printing_info_phone_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="27dp"
+                android:importantForAccessibility="no"
+                app:layout_constraintStart_toStartOf="@id/pdf_printing_info_pdf_icon"
+                app:layout_constraintTop_toBottomOf="@id/pdf_printing_info_sensitive_text"
+                app:srcCompat="@drawable/ic_pdf_phone" />
+
+            <TextView
+                android:id="@+id/pdf_printing_info_recommendations_text"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="26dp"
+                android:layout_marginBottom="39dp"
+                android:text="@string/pdf_print_info_point_recommendations"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/pdf_printing_info_phone_icon"
+                app:layout_constraintTop_toTopOf="@id/pdf_printing_info_phone_icon" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/next_button"
+        style="@style/buttonPrimary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:text="@string/acknowledge_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scrollview"
+        tools:text="@string/acknowledge_button" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
