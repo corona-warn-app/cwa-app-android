@@ -20,14 +20,10 @@ import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.TestDispatcherProvider
 import testhelpers.coroutines.runBlockingTest2
 import testhelpers.preferences.mockFlowPreference
 
@@ -52,7 +48,6 @@ class PersonCertificatesProviderTest : BaseTest() {
         every { personIdentifier } returns identifierA
         every { sampleCollectedAt } returns Instant.EPOCH
         every { hasNotification } returns true
-
     }
     private val testWrapperA = mockk<TestCertificateWrapper>().apply {
         every { testCertificate } returns testWrapperACertificate
@@ -71,7 +66,6 @@ class PersonCertificatesProviderTest : BaseTest() {
         every { personIdentifier } returns identifierB
         every { sampleCollectedAt } returns Instant.EPOCH
         every { hasNotification } returns true
-
     }
 
     private val recoveryCertificateB = mockk<RecoveryCertificate>().apply {
