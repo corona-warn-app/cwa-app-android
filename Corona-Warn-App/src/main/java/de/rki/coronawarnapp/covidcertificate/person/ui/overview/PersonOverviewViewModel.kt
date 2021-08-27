@@ -34,10 +34,10 @@ import timber.log.Timber
 class PersonOverviewViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     certificatesProvider: PersonCertificatesProvider,
-    private val testCertificateRepository: TestCertificateRepository,
+    cameraPermissionProvider: CameraPermissionProvider,
     valueSetsRepository: ValueSetsRepository,
+    private val testCertificateRepository: TestCertificateRepository,
     @AppContext context: Context,
-    private val cameraPermissionProvider: CameraPermissionProvider,
     @AppScope private val appScope: CoroutineScope
 ) : CWAViewModel(dispatcherProvider) {
 
@@ -69,23 +69,6 @@ class PersonOverviewViewModel @AssistedInject constructor(
                 .forEach {
                     testCertificateRepository.markCertificateAsSeenByUser(it.containerId)
                 }
-        }
-        .catch { Timber.tag(TAG).w("Failed to mark certificates as seen.") }
-        .asLiveData2()
-
-    // TODO move this logic into certificate details screen
-    val markStateChangesAsSeen = certificatesProvider.personCertificates
-        .map { persons ->
-            persons.map { it.certificates }.flatten()
-        }
-        .onEach { certs ->
-            certs.forEach {
-                if (it.getState() == it.lastSeenStateChange) {
-                    return@forEach
-                } else {
-                    certificatesProvider.acknowledgeStateChange(it)
-                }
-            }
         }
         .catch { Timber.tag(TAG).w("Failed to mark certificates as seen.") }
         .asLiveData2()

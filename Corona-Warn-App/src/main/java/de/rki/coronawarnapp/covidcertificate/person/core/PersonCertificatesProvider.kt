@@ -72,47 +72,8 @@ class PersonCertificatesProvider @Inject constructor(
         personCertificatesSettings.currentCwaUser.update { personIdentifier }
     }
 
-    // TODO remove
-    val badgeCount: Flow<Int> = combine(
-        testCertificateRepository.certificates.map { certs ->
-            certs.filter { !it.seenByUser && !it.isCertificateRetrievalPending }.size
-        },
-        vaccinationRepository.vaccinationInfos.map { persons ->
-            persons
-                .map { it.vaccinationCertificates }
-                .flatten()
-                .filter { it.getState() !is CwaCovidCertificate.State.Valid }
-                .count { it.getState() != it.lastSeenStateChange }
-        },
-        recoveryCertificateRepository.certificates.map { certs ->
-            certs
-                .map { it.recoveryCertificate }
-                .filter { it.getState() !is CwaCovidCertificate.State.Valid }
-                .count { it.getState() != it.lastSeenStateChange }
-        },
-    ) { newTestCertificates, vacStateChanges, recoveryStateChanges ->
-        newTestCertificates + vacStateChanges + recoveryStateChanges
-    }.shareLatest(scope = appScope)
-    // TODO end
-
     val personsBadgeCount: Flow<Int> = personCertificates
         .map { persons -> persons.sumOf { it.badgeCount } }
-
-    suspend fun acknowledgeStateChange(certificate: CwaCovidCertificate) {
-        Timber.tag(TAG).d("acknowledgeStateChange(containerId=$certificate.containerId)")
-
-        if (certificate.getState() is CwaCovidCertificate.State.Valid && certificate.lastSeenStateChange == null) {
-            Timber.tag(TAG).d("Current state is valid, and previous state was null, don't acknowledge.")
-            return
-        }
-
-        when (certificate) {
-            is VaccinationCertificate -> vaccinationRepository.acknowledgeState(certificate.containerId)
-            is RecoveryCertificate -> recoveryCertificateRepository.acknowledgeState(certificate.containerId)
-            is TestCertificate -> testCertificateRepository.acknowledgeState(certificate.containerId)
-            else -> throw IllegalArgumentException("Unknown certificate type: $certificate")
-        }
-    }
 
     companion object {
         private val TAG = PersonCertificatesProvider::class.simpleName!!
