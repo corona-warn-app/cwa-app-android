@@ -73,6 +73,7 @@ class PersonCertificatesProvider @Inject constructor(
         personCertificatesSettings.currentCwaUser.update { personIdentifier }
     }
 
+    // TODO remove
     val badgeCount: Flow<Int> = combine(
         testCertificateRepository.certificates.map { certs ->
             certs.filter { !it.seenByUser && !it.isCertificateRetrievalPending }.size
@@ -93,6 +94,7 @@ class PersonCertificatesProvider @Inject constructor(
     ) { newTestCertificates, vacStateChanges, recoveryStateChanges ->
         newTestCertificates + vacStateChanges + recoveryStateChanges
     }.shareLatest(scope = appScope)
+    // TODO end
 
     val personsBadgeCount: Flow<Int> = personCertificates
         .map { persons -> persons.sumOf { it.badgeCount } }

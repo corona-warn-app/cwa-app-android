@@ -56,7 +56,7 @@ class MainActivityViewModelTest : BaseTest() {
         every { checkInRepository.checkInsWithinRetention } returns MutableStateFlow(listOf())
         personCertificatesProvider.apply {
             every { personCertificates } returns emptyFlow()
-            every { badgeCount } returns flowOf(0)
+            every { personsBadgeCount } returns flowOf(0)
         }
     }
 
