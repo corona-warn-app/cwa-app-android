@@ -393,6 +393,7 @@ class TestCertificateRepository @Inject constructor(
     suspend fun acknowledgeState(containerId: TestCertificateContainerId) {
         Timber.tag(TAG).d("acknowledgeState(containerId=$containerId)")
         // Currently not supported
+        // TODO for invalid state
     }
 
     fun setNotifiedState(
@@ -400,7 +401,7 @@ class TestCertificateRepository @Inject constructor(
         state: CwaCovidCertificate.State,
         now: Instant
     ) {
-        TODO("Not yet implemented")
+        // TODO
     }
 
     companion object {
