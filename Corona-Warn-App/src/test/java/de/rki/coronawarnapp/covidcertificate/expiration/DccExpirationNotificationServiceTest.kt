@@ -86,7 +86,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
         }
 
         testCertificateRepository.apply {
-            every { setNotifiedState(any(), any(), any()) } just Runs
+            coEvery { setNotifiedState(any(), any(), any()) } just Runs
         }
     }
 
