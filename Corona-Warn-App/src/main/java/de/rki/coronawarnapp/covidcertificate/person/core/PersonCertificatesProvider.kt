@@ -3,11 +3,8 @@ package de.rki.coronawarnapp.covidcertificate.person.core
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
-import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.flow.shareLatest
@@ -22,9 +19,9 @@ import javax.inject.Inject
 @Reusable
 class PersonCertificatesProvider @Inject constructor(
     private val personCertificatesSettings: PersonCertificatesSettings,
-    private val vaccinationRepository: VaccinationRepository,
-    private val testCertificateRepository: TestCertificateRepository,
-    private val recoveryCertificateRepository: RecoveryCertificateRepository,
+    vaccinationRepository: VaccinationRepository,
+    testCertificateRepository: TestCertificateRepository,
+    recoveryCertificateRepository: RecoveryCertificateRepository,
     @AppScope private val appScope: CoroutineScope,
 ) {
     init {

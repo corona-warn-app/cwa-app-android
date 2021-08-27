@@ -154,11 +154,23 @@ data class TestCertificateContainer(
                 get() = testCertificateQRCode!!.data
 
             override val notifiedInvalidAt: Instant?
-                get() = null
+                get() = data.notifiedInvalidAt
+
+            override val lastSeenStateChange: State?
+                get() = data.lastSeenStateChange
+
+            override val lastSeenStateChangeAt: Instant?
+                get() = data.lastSeenStateChangeAt
+
+            override val isNewlyRetrieved: Boolean
+                get() = !certificateSeenByUser && !isCertificateRetrievalPending
 
             override val hasNotificationBadge: Boolean
-                get() = (!certificateSeenByUser && !isCertificateRetrievalPending) ||
-                    (getState() is State.Invalid && notifiedInvalidAt == null)
+                get() {
+                    val state = getState()
+                    return isNewlyRetrieved ||
+                        (state is State.Invalid && state != lastSeenStateChange)
+                }
 
             override fun toString(): String = "TestCertificate($containerId)"
         }

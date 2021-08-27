@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.test.core.storage.types
 
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import org.joda.time.Instant
 
 /**
@@ -10,5 +11,7 @@ sealed class BaseTestCertificateData {
     abstract val registeredAt: Instant
     abstract val certificateReceivedAt: Instant?
     abstract val notifiedInvalidAt: Instant?
+    abstract val lastSeenStateChange: CwaCovidCertificate.State?
+    abstract val lastSeenStateChangeAt: Instant?
     abstract val testCertificateQrCode: String?
 }

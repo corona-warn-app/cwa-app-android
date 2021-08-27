@@ -91,8 +91,8 @@ interface CwaCovidCertificate {
         }
 
         companion object {
-            const val TYPE_FIELD_NAME = "typeName"
-            val typeAdapter = RuntimeTypeAdapterFactory.of(State::class.java, "type", true)
+            val typeAdapter: RuntimeTypeAdapterFactory<State> = RuntimeTypeAdapterFactory
+                .of(State::class.java, "type", true)
                 .registerSubtype(Valid::class.java, "Valid")
                 .registerSubtype(ExpiringSoon::class.java, "ExpiringSoon")
                 .registerSubtype(Expired::class.java, "Expired")

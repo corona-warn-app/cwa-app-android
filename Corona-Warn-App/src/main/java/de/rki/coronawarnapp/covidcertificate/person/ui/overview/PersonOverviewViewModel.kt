@@ -25,10 +25,7 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 
 class PersonOverviewViewModel @AssistedInject constructor(
@@ -61,17 +58,6 @@ class PersonOverviewViewModel @AssistedInject constructor(
             addPersonItems(persons, tcWrappers)
         }
     }.asLiveData(dispatcherProvider.Default)
-
-    val markNewCertsAsSeen = testCertificateRepository.certificates
-        .onEach { wrappers ->
-            wrappers
-                .filter { !it.seenByUser && !it.isCertificateRetrievalPending }
-                .forEach {
-                    testCertificateRepository.markCertificateAsSeenByUser(it.containerId)
-                }
-        }
-        .catch { Timber.tag(TAG).w("Failed to mark certificates as seen.") }
-        .asLiveData2()
 
     fun deleteTestCertificate(containerId: TestCertificateContainerId) = launch {
         testCertificateRepository.deleteCertificate(containerId)

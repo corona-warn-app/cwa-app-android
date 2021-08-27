@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.BaseTestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.GenericTestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RACertificateData
@@ -391,17 +392,110 @@ class TestCertificateRepository @Inject constructor(
     }
 
     suspend fun acknowledgeState(containerId: TestCertificateContainerId) {
+        // Currently Invalid state supported
         Timber.tag(TAG).d("acknowledgeState(containerId=$containerId)")
-        // Currently not supported
-        // TODO for invalid state
+        internalData.updateBlocking {
+            val current = this[containerId]
+            if (current == null) {
+                Timber.tag(TAG).w("Can't mark %s state", containerId)
+                return@updateBlocking this
+            }
+
+            if (current.isCertificateRetrievalPending) {
+                Timber.tag(TAG).w("Can't mark %s state, certificate hasn't been retrieved yet.", containerId)
+                return@updateBlocking this
+            }
+
+            if (current.testCertificateQRCode == null) {
+                Timber.tag(TAG).w("Can't mark %s state, testCertificateQRCode is null.", containerId)
+                return@updateBlocking this
+            }
+
+            val currentState = dccStateChecker.checkState(current.testCertificateQRCode!!.data).first()
+
+            if (currentState !is CwaCovidCertificate.State.Invalid) {
+                Timber.tag(TAG).w("%s is still valid ", containerId)
+                return@updateBlocking this
+            }
+
+            if (currentState == current.data.lastSeenStateChange) {
+                Timber.tag(TAG).w("State equals last acknowledged state.")
+                return@updateBlocking this
+            }
+
+            Timber.tag(TAG).d(
+                "Acknowledging state change to %s -> %s.", current.data.lastSeenStateChange, currentState
+            )
+
+            val updated = current.copy(
+                data = updateLastStateDate(current.data, currentState)
+            )
+
+            mutate { this[containerId] = updated }
+        }
     }
 
-    fun setNotifiedState(
+    suspend fun setNotifiedState(
         containerId: TestCertificateContainerId,
         state: CwaCovidCertificate.State,
         now: Instant
     ) {
-        // TODO
+        Timber.tag(TAG).d("acknowledgeState(containerId=$containerId)")
+        internalData.updateBlocking {
+            val current = this[containerId]
+            if (current == null) {
+                Timber.tag(TAG).w("Can't mark %s state", containerId)
+                return@updateBlocking this
+            }
+
+            if (current.isCertificateRetrievalPending) {
+                Timber.tag(TAG).w("Can't mark %s state, certificate hasn't been retrieved yet.", containerId)
+                return@updateBlocking this
+            }
+
+            if (state !is CwaCovidCertificate.State.Invalid) {
+                Timber.tag(TAG).w("%s is still valid ", containerId)
+                return@updateBlocking this
+            }
+
+            val updated = current.copy(
+                data = updateInvalidDate(current.data, now)
+            )
+
+            Timber.tag(TAG).d("Updated %s", updated)
+            mutate { this[containerId] = updated }
+        }
+    }
+
+    private fun updateLastStateDate(
+        data: BaseTestCertificateData,
+        state: CwaCovidCertificate.State
+    ): BaseTestCertificateData {
+        return when (data) {
+            is PCRCertificateData -> data.copy(
+                lastSeenStateChange = state,
+                lastSeenStateChangeAt = timeStamper.nowUTC
+            )
+            is RACertificateData -> data.copy(
+                lastSeenStateChange = state,
+                lastSeenStateChangeAt = timeStamper.nowUTC
+            )
+            is GenericTestCertificateData -> data.copy(
+                lastSeenStateChange = state,
+                lastSeenStateChangeAt = timeStamper.nowUTC
+            )
+        }
+    }
+
+    private fun updateInvalidDate(
+        data: BaseTestCertificateData,
+        now: Instant
+    ): BaseTestCertificateData {
+        return when (data) {
+            is PCRCertificateData -> data.copy(notifiedInvalidAt = now)
+            is RACertificateData -> data.copy(notifiedInvalidAt = now)
+            is GenericTestCertificateData -> data.copy(notifiedInvalidAt = now)
+        }
     }
 
     companion object {

@@ -56,7 +56,11 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
 
     fun refreshCertState() = launch(scope = appScope) {
         Timber.v("refreshCertState()")
-        testCertificateRepository.acknowledgeState(containerId)
+        if (covidCertificate.value?.isNewlyRetrieved == true) {
+            testCertificateRepository.markCertificateAsSeenByUser(containerId)
+        } else {
+            testCertificateRepository.acknowledgeState(containerId)
+        }
     }
 
     @AssistedFactory
