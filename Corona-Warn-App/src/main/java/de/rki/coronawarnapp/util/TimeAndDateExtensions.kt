@@ -15,7 +15,6 @@ import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
 import java.math.RoundingMode
 import java.util.Date
-import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 @Suppress("TooManyFunctions")
