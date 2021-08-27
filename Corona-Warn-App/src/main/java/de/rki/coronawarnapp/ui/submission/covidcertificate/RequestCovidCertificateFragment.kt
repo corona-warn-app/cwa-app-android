@@ -134,7 +134,7 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
             .datePicker()
             .setCalendarConstraints(constraintsBuilder.build())
             .setInputMode(MaterialDatePicker.INPUT_MODE_TEXT)
-            .setTitleText(getResources().getString(R.string.request_green_certificate_birthdate_hint))
+            .setTitleText(getString(R.string.request_green_certificate_birthdate_hint))
             .build()
             .apply {
                 addOnPositiveButtonClickListener { timestamp ->

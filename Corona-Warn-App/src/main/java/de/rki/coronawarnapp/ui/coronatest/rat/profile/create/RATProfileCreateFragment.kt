@@ -131,7 +131,7 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
             .datePicker()
             .setCalendarConstraints(constraintsBuilder.build())
             .setInputMode(MaterialDatePicker.INPUT_MODE_TEXT)
-            .setTitleText(getResources().getString(R.string.rat_profile_create_birth_date_hint))
+            .setTitleText(getString(R.string.rat_profile_create_birth_date_hint))
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
