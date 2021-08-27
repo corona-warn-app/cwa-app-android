@@ -134,8 +134,8 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
         return mockk<VaccinationCertificate>().apply {
             every { fullName } returns "Max Mustermann"
             every { fullNameStandardizedFormatted } returns "MUSTERMANN, MAX"
-            every { dateOfBirthFormatted } returns "01.02.1976"
-            every { vaccinatedOnFormatted } returns "18.02.2021"
+            every { dateOfBirthFormatted } returns "1976-02-01"
+            every { vaccinatedOnFormatted } returns "2021-02-18"
             every { vaccinatedOn } returns LocalDate.parse("18.02.2021", formatter)
             every { targetDisease } returns "COVID-19"
             every { medicalProductName } returns "Comirnaty"
