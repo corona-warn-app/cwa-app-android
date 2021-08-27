@@ -16,6 +16,9 @@ data class RACertificateData(
     @SerializedName("registeredAt")
     override val registeredAt: Instant,
 
+    @SerializedName("notifiedInvalidAt")
+    override val notifiedInvalidAt: Instant? = null,
+
     @SerializedName("publicKeyRegisteredAt")
     override val publicKeyRegisteredAt: Instant? = null,
 

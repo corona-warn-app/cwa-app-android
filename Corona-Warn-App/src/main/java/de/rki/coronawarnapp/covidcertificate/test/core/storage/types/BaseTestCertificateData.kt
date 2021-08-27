@@ -9,5 +9,6 @@ sealed class BaseTestCertificateData {
     abstract val identifier: String
     abstract val registeredAt: Instant
     abstract val certificateReceivedAt: Instant?
+    abstract val notifiedInvalidAt: Instant?
     abstract val testCertificateQrCode: String?
 }

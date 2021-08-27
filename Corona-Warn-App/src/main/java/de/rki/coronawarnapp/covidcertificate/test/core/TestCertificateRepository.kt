@@ -36,6 +36,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.withContext
+import org.joda.time.Instant
 import timber.log.Timber
 import java.util.UUID
 import javax.inject.Inject
@@ -392,6 +393,14 @@ class TestCertificateRepository @Inject constructor(
     suspend fun acknowledgeState(containerId: TestCertificateContainerId) {
         Timber.tag(TAG).d("acknowledgeState(containerId=$containerId)")
         // Currently not supported
+    }
+
+    fun setNotifiedState(
+        containerId: TestCertificateContainerId,
+        state: CwaCovidCertificate.State,
+        now: Instant
+    ) {
+        TODO("Not yet implemented")
     }
 
     companion object {

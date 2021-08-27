@@ -96,8 +96,6 @@ class PersonOverviewViewModel @AssistedInject constructor(
 
     fun onScanQrCode() = events.postValue(ScanQrCode)
 
-    fun checkCameraSettings() = cameraPermissionProvider.checkSettings()
-
     private fun MutableList<PersonCertificatesItem>.addPersonItems(
         persons: Set<PersonCertificates>,
         tcWrappers: Set<TestCertificateWrapper>,

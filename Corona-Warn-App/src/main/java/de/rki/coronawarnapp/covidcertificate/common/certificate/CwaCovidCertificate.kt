@@ -41,14 +41,12 @@ interface CwaCovidCertificate {
 
     val notifiedExpiresSoonAt: Instant?
     val notifiedExpiredAt: Instant?
+    val notifiedInvalidAt: Instant?
 
     val lastSeenStateChange: State?
     val lastSeenStateChangeAt: Instant?
 
     val hasNotification: Boolean
-
-    val notifiedInvalidAt: Instant?
-
     /**
      * The current state of the certificate, see [State]
      */

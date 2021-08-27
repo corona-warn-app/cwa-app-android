@@ -20,10 +20,14 @@ import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.TestDispatcherProvider
 import testhelpers.coroutines.runBlockingTest2
 import testhelpers.preferences.mockFlowPreference
 
@@ -34,10 +38,12 @@ class PersonCertificatesProviderTest : BaseTest() {
     @MockK lateinit var personCertificatesSettings: PersonCertificatesSettings
 
     private val identifierA = mockk<CertificatePersonIdentifier>()
+    private val identifierB = mockk<CertificatePersonIdentifier>()
 
     private val vaccinatedPersonACertificate1 = mockk<VaccinationCertificate>().apply {
         every { personIdentifier } returns identifierA
         every { vaccinatedOn } returns Instant.EPOCH.toLocalDateUtc()
+        every { hasNotification } returns false
     }
     private val vaccinatedPersonA = mockk<VaccinatedPerson>().apply {
         every { vaccinationCertificates } returns setOf(vaccinatedPersonACertificate1)
@@ -45,6 +51,8 @@ class PersonCertificatesProviderTest : BaseTest() {
     private val testWrapperACertificate = mockk<TestCertificate>().apply {
         every { personIdentifier } returns identifierA
         every { sampleCollectedAt } returns Instant.EPOCH
+        every { hasNotification } returns true
+
     }
     private val testWrapperA = mockk<TestCertificateWrapper>().apply {
         every { testCertificate } returns testWrapperACertificate
@@ -52,14 +60,37 @@ class PersonCertificatesProviderTest : BaseTest() {
     private val recoveryWrapperACertificate = mockk<RecoveryCertificate>().apply {
         every { personIdentifier } returns identifierA
         every { validFrom } returns Instant.EPOCH.toLocalDateUtc()
+        every { hasNotification } returns true
     }
     private val recoveryWrapperA = mockk<RecoveryCertificateWrapper>().apply {
         every { recoveryCertificate } returns recoveryWrapperACertificate
     }
 
+    // Person B
+    private val testCertificateB = mockk<TestCertificate>().apply {
+        every { personIdentifier } returns identifierB
+        every { sampleCollectedAt } returns Instant.EPOCH
+        every { hasNotification } returns true
+
+    }
+
+    private val recoveryCertificateB = mockk<RecoveryCertificate>().apply {
+        every { personIdentifier } returns identifierB
+        every { validFrom } returns Instant.EPOCH.toLocalDateUtc()
+        every { hasNotification } returns true
+    }
+
+    private val recoveryWrapperB = mockk<RecoveryCertificateWrapper>().apply {
+        every { recoveryCertificate } returns recoveryCertificateB
+    }
+
+    private val testWrapperB = mockk<TestCertificateWrapper>().apply {
+        every { testCertificate } returns testCertificateB
+    }
+
     private val vaccinationPersons = MutableStateFlow(setOf(vaccinatedPersonA))
-    private val testWrappers = MutableStateFlow(setOf(testWrapperA))
-    private val recoveryWrappers = MutableStateFlow(setOf(recoveryWrapperA))
+    private val testWrappers = MutableStateFlow(setOf(testWrapperA, testWrapperB))
+    private val recoveryWrappers = MutableStateFlow(setOf(recoveryWrapperA, recoveryWrapperB))
 
     @BeforeEach
     fun setup() {
@@ -111,8 +142,19 @@ class PersonCertificatesProviderTest : BaseTest() {
                     recoveryWrapperACertificate
                 ),
                 isCwaUser = true,
+                badgeCount = 2
+            ),
+            PersonCertificates(
+                certificates = listOf(
+                    testCertificateB,
+                    recoveryCertificateB
+                ),
+                isCwaUser = false,
+                badgeCount = 2
             )
         )
+
+        instance.personsBadgeCount.first() shouldBe 4
 
         verify {
             recoveryRepo.certificates

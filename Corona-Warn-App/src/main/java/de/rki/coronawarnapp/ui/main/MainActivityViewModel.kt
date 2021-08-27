@@ -53,6 +53,7 @@ class MainActivityViewModel @AssistedInject constructor(
         .asLiveData2()
 
     val certificateBadgeCount: LiveData<Int> = personCertificatesProvider.badgeCount.asLiveData2()
+    val personsBadgeCount: LiveData<Int> = personCertificatesProvider.personsBadgeCount.asLiveData2()
 
     init {
         if (CWADebug.isDeviceForTestersBuild) {

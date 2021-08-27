@@ -17,6 +17,9 @@ data class GenericTestCertificateData(
     @SerializedName("certificateReceivedAt")
     override val certificateReceivedAt: Instant? = null,
 
+    @SerializedName("notifiedInvalidAt")
+    override val notifiedInvalidAt: Instant? = null,
+
     @SerializedName("testCertificateQrCode")
     override val testCertificateQrCode: String? = null,
 ) : ScannedTestCertificate() {

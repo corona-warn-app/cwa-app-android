@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storag
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccHeader
@@ -27,6 +28,7 @@ data class VaccinationContainer internal constructor(
     @SerializedName("scannedAt") val scannedAt: Instant,
     @SerializedName("notifiedExpiresSoonAt") val notifiedExpiresSoonAt: Instant? = null,
     @SerializedName("notifiedExpiredAt") val notifiedExpiredAt: Instant? = null,
+    @SerializedName("notifiedInvalidAt") val notifiedInvalidAt: Instant? = null,
     @SerializedName("lastSeenStateChange") val lastSeenStateChange: State? = null,
     @SerializedName("lastSeenStateChangeAt") val lastSeenStateChangeAt: Instant? = null,
 ) : CertificateRepoContainer {
@@ -80,6 +82,9 @@ data class VaccinationContainer internal constructor(
 
         override val notifiedExpiredAt: Instant?
             get() = this@VaccinationContainer.notifiedExpiredAt
+
+        override val notifiedInvalidAt: Instant?
+            get() = this@VaccinationContainer.notifiedInvalidAt
 
         override val lastSeenStateChange: State?
             get() = this@VaccinationContainer.lastSeenStateChange
@@ -163,11 +168,11 @@ data class VaccinationContainer internal constructor(
         override val dccData: DccData<out DccV1.MetaData>
             get() = certificateData
 
-        // TODO check notification conditions
         override val hasNotification: Boolean
-            get() = false
-        override val notifiedInvalidAt: Instant?
-            get() = null
+            get() {
+                val state = getState()
+                return state !is State.Valid && state != lastSeenStateChange
+            }
 
         override fun toString(): String = "VaccinationCertificate($containerId)"
     }

@@ -95,8 +95,8 @@ class PersonCertificatesProvider @Inject constructor(
         newTestCertificates + vacStateChanges + recoveryStateChanges
     }.shareLatest(scope = appScope)
 
-    // TODO return person badge count
-    val personsBadgeCount: Flow<Int> = flowOf()
+    val personsBadgeCount: Flow<Int> = personCertificates
+        .map { persons -> persons.sumOf { it.badgeCount } }
 
     suspend fun acknowledgeStateChange(certificate: CwaCovidCertificate) {
         Timber.tag(TAG).d("acknowledgeStateChange(containerId=$certificate.containerId)")

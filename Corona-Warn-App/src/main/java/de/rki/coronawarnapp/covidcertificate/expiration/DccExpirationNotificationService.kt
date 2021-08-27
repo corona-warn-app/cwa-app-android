@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.covidcertificate.expiration
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
@@ -21,6 +23,7 @@ class DccExpirationNotificationService @Inject constructor(
     private val vaccinationRepository: VaccinationRepository,
     private val recoveryRepository: RecoveryCertificateRepository,
     private val covidCertificateSettings: CovidCertificateSettings,
+    private val testCertificateRepository: TestCertificateRepository,
     private val timeStamper: TimeStamper,
 ) {
     private val mutex = Mutex()
@@ -65,9 +68,7 @@ class DccExpirationNotificationService @Inject constructor(
             .filter { it.getState() is CwaCovidCertificate.State.Invalid }
             .firstOrNull {
                 Timber.tag(TAG).w("Certificate is invalid: %s", it)
-                // TODO clarify whether notification should be shown for every state change or once
-                it.notifiedInvalidAt == null && it.notifiedExpiredAt == null &&
-                    it.notifiedExpiresSoonAt == null
+                it.notifiedInvalidAt == null
             }
             ?.let {
                 if (dscCheckNotification.showNotification(it.containerId)) {
@@ -84,6 +85,7 @@ class DccExpirationNotificationService @Inject constructor(
         when (certificate) {
             is RecoveryCertificate -> recoveryRepository.setNotifiedState(certificate.containerId, state, now)
             is VaccinationCertificate -> vaccinationRepository.setNotifiedState(certificate.containerId, state, now)
+            is TestCertificate -> testCertificateRepository.setNotifiedState(certificate.containerId, state, now)
             else -> throw UnsupportedOperationException("Class: ${certificate.javaClass.simpleName}")
         }
     }

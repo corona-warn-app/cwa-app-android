@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertif
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateWrapper
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
@@ -33,6 +34,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
     @MockK lateinit var expirationNotification: DccExpirationNotification
     @MockK lateinit var vaccinationRepository: VaccinationRepository
     @MockK lateinit var recoveryRepository: RecoveryCertificateRepository
+    @MockK lateinit var testCertificateRepository: TestCertificateRepository
     @MockK lateinit var covidCertificateSettings: CovidCertificateSettings
     @MockK lateinit var timeStamper: TimeStamper
 
@@ -82,6 +84,10 @@ class DccExpirationNotificationServiceTest : BaseTest() {
             every { notifiedExpiresSoonAt } returns null
             every { notifiedExpiredAt } returns null
         }
+
+        testCertificateRepository.apply {
+            every { setNotifiedState(any(), any(), any()) } just Runs
+        }
     }
 
     fun createInstance() = DccExpirationNotificationService(
@@ -89,6 +95,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
         vaccinationRepository = vaccinationRepository,
         recoveryRepository = recoveryRepository,
         covidCertificateSettings = covidCertificateSettings,
+        testCertificateRepository = testCertificateRepository,
         timeStamper = timeStamper,
     )
 
