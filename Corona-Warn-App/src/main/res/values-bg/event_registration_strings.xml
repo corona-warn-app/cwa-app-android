@@ -142,6 +142,8 @@
     <string name="trace_location_qr_info_qr_code_text">"Можете да предоставите QR кода на посетителите си от смартфон или отпечатан на хартия."</string>
     <!-- XTXT: Text for time sheet icon of qr info screen -->
     <string name="trace_location_qr_info_time_text">"Ако желаете да използвате QR код дългосрочно, трябва да генерирате такъв ежедневно извън работно време."</string>
+    <!-- XTXT: Text for warning icon of qr info screen -->
+    <string name="trace_location_qr_info_warn_text">"Можете да предупредите гостите си от името на лице, което е било диагностицирано с коронавирус и е посетило събитието, но не се е регистрирало в приложението Corona-Warn-App."</string>
     <!-- XTXT: Text for I understand button -->
     <string name="acknowledge_button">"Напред"</string>
 
@@ -171,6 +173,8 @@
     <string name="trace_location_organizer_list_menu_information_btn">"Информация"</string>
     <!-- XBUT: Event organiser qr codes list: menu: remove all button  -->
     <string name="trace_location_organizer_list_menu_remove_all_btn">"Изтриване на всички"</string>
+    <!-- XBUT: Event organiser qr codes list: menu: warn guests button  -->
+    <string name="trace_location_organizer_list_menu_warn_guests_btn">"Предупреждение за другите"</string>
 
     <!-- XHED:  Event organiser qr codes list: delete single popup title -->
     <string name="trace_location_organiser_list_delete_single_popup_title">"Желаете ли да изтриете QR кода?"</string>
@@ -258,5 +262,65 @@
     <string name="trace_location_checkins_qr_code_invalid_times">"Регистрацията не е извършена поради невалиден QR код. Отговорната страна трябва да генерира нов QR код (код за грешка: INVALID_TIMESTAMPS)."</string>
     <!-- XTXT: My check-ins: qr code validation wrong cryptographic seed field -->
     <string name="trace_location_checkins_qr_code_invalid_cryptographic_seed">"Регистрацията не е извършена поради невалиден QR код. Отговорната страна трябва да генерира нов QR код (код за грешка: INVALID_CRYPTO_SEED)."</string>
+
+    <!--  Warn Info Screen -->
+    <!-- XHED: Warn Info Screen: header -->
+    <string name="trace_location_organiser_warn_info_header">"Предупреждение за другите"</string>
+    <!-- XHED: Warn Info Screen: title -->
+    <string name="trace_location_organiser_warn_info_title">"Повече безопасност за Вас и Вашите посетители"</string>
+    <!-- XTXT: Warn Info Screen: body -->
+    <string name="trace_location_organiser_warn_info_body">"Можете да предупредите гостите си от името на лице, което е било диагностицирано с коронавирус и е посетило събитието, но не се е регистрирало в приложението Corona-Warn-App."</string>
+    <!-- XTXT: Warn Info Screen: guests -->
+    <string name="trace_location_organiser_warn_info_guests">"Ако лице, което не се е регистрирало на това събитие или място, е диагностицирано с коронавирус по-късно, гостите ще могат да получат предупреждение, ако са били в едно помещение по същото време или до 30 минути след него."</string>
+    <!-- XTXT: Warn Info Screen: guests -->
+    <string name="trace_location_organiser_warn_info_authority">"Можете да изпращате такива предупреждения от името на други лице единствено ако сте инструктирани от службите за обществено здравеопазване да направите това. В такъв случай те ще ви изпратят ТАН код."</string>
+
+    <!--  Selection List Screen -->
+    <!-- XTXT: Event organiser selection list: no events title  -->
+    <string name="trace_location_organiser_list_no_events_title">"Не са налични събития"</string>
+    <!-- XTXT: Event organiser selection list: no events subtitle  -->
+    <string name="trace_location_organiser_list_no_events_subtitle">"Сканирайте QR кода на желаното събитие отново, за да изпратите предупреждения от името на други лица."</string>
+    <!-- XTXT: Event organiser selection list: no events info  -->
+    <string name="trace_location_organiser_list_no_events_info">"Изберете събитие, за което искате да изпратите предупреждения до другите от името на лице, което е било диагностицирано с коронавирус."</string>
+    <!-- XTXT: Event organiser selection list: title  -->
+    <string name="trace_location_organiser_list_subtitle">"Изберете събитие, за което искате да изпратите предупреждения до другите от името на лице, което е диагностицирано с коронавирус или възстановете изтрито събитие като сканирате QR кода му отново."</string>
+    <!-- XTXT: Event organiser selection list: qr code scann  -->
+    <string name="trace_location_organiser_qr_code_scan">"Сканиране на QR код"</string>
+
+    <!--  Warn Duration Screen -->
+    <!-- XHED: Warn Duration Screen: header -->
+    <string name="trace_location_organiser_warn_duration_header">"Предупреждение за другите"</string>
+    <!-- XTXT: Warn Duration Screen: body -->
+    <string name="trace_location_organiser_warn_duration_body">"Посочете продължителността на престоя на лицето, което е диагностицирано с коронавирус от името на лицето, което трябва да предупреди останалите. Тази информация ще получите от службите по обществено здравеопазване."</string>
+    <!-- XTXT: Warn Duration Screen: start hint -->
+    <string name="trace_location_organiser_warn_duration_start_hint">"Начало/пристигане"</string>
+    <!-- XTXT: Warn Duration Screen: duration hint -->
+    <string name="trace_location_organiser_warn_duration_duration_hint">"Продължителност"</string>
+
+    <!--  Warn Tan Screen -->
+    <!-- XHED: Warn Tan Screen: header -->
+    <string name="trace_location_organiser_warn_tan_header">"Предупреждение за другите"</string>
+    <!-- XBUT: Warn Tan Screen: submit button text -->
+    <string name="trace_location_organizer_warn_tan_submit_button">"Изпратете предупреждение"</string>
+
+    <!--  Thank You Final Screen -->
+    <!-- XHED: Warn Info Screen: header -->
+    <string name="trace_location_organiser_thank_you_header">"Предупреждение за другите"</string>
+    <!-- XHED: Thank You Screen: top text -->
+    <string name="trace_location_organiser_thank_you_title">"Благодарим Ви!"</string>
+    <!-- XTXT: Thank You Screen: main text -->
+    <string name="trace_location_organiser_thank_you_body">"Благодарение на Вашата подкрепа други хора ще бъдат предупредени и ще могат да реагират адекватно."</string>
+    <!-- XBUT: Thank You Screen: finish button text -->
+    <string name="trace_location_organiser_thank_you_finish_button">"Изход"</string>
+
+    <!--  Organizer submission error texts -->
+    <!-- XTXT: Text key: SUBMISSION_OB_FAILED -->
+    <string name="submission_ob_failed">"Възникна грешка. Моля, свържете се с горещата линия за технически проблеми, посочена в „Информация за приложението“ -&gt; „Технически въпроси“."</string>
+    <!-- XTXT: Text key: SUBMISSION_OB_TAN_ERROR -->
+    <string name="submission_ob_tan_error">"Невалиден ТАН код. Моля, проверете въведените данни или се свържете с организацията, която ви е изпратила кода."</string>
+    <!-- XTXT: Text key: SUBMISSION_OB_TRY_AGAIN -->
+    <string name="submission_ob_try_again">"Възникна грешка. Моля, опитайте по-късно или се свържете с горещата линия за технически проблеми, посочена в „Информация за приложението“ -&gt; „Технически въпроси“."</string>
+    <!-- XTXT: Text key: SUBMISSION_OB_NO_NETWORK -->
+    <string name="submission_ob_no_network">"Няма връзка с интернет. Моля, проверете я и опитайте отново."</string>
 
 </resources>

@@ -9,7 +9,7 @@
     <!-- XTXT: Vaccination List deletion dialog title-->
     <string name="vaccination_list_deletion_dialog_title">"Czy chcesz usunąć certyfikat szczepienia?"</string>
     <!-- XTXT: Vaccination List deletion dialog message-->
-    <string name="vaccination_list_deletion_dialog_message">"Jeśli usuniesz certyfikat szczepienia, aplikacja nie będzie już mogła używać szczepienia do weryfikacji statusu szczepienia."</string>
+    <string name="vaccination_list_deletion_dialog_message">"Zalecamy przechowywanie certyfikatów szczepień w aplikacji, nawet jeśli nie są już aktualne."</string>
     <!-- XACT: Vaccination List Qr-Code for screen readers -->
     <string name="vaccination_list_qr_code_accessibility">"Kod QR"</string>
 
