@@ -16,14 +16,14 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Nume standardizat"</item>
-        <item>"Deschidere certificat de la rezultat de test"</item>
+        <item>"Avertizarea altor persoane"</item>
+        <item>"Afișarea imediată a stării de vaccinare pentru persoanele care s-au recuperat după boală"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Pe lângă numele afișat în ortografia specifică țării, acum fiecare certificat afișează numele și sub formă de caractere latine standardizate."</item>
-        <item>"Acum puteți apela certificatul de test COVID digital UE direct din rezultatul testului, cu condiția să existe un certificat disponibil."</item>
+        <item>"În calitate de organizator al evenimentului, dacă vi se solicită din partea autorităților de sănătate publică, acum vă puteți avertiza invitații în numele cuiva care a fost diagnosticat cu coronavirus și care a participat la eveniment, dar care nu a făcut check-inul în Corona-Warn-App."</item>
+        <item>"Corona-Warn-App afișează acum protecția prin vaccinarea completă pentru persoanele care s-au recuperat după boală direct după prima vaccinare. Se poate renunța la timpul de așteptare de două săptămâni cu excepția Johnson &amp; Johnson."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
