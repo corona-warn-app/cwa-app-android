@@ -39,7 +39,7 @@ class PersonCertificatesProviderTest : BaseTest() {
     private val vaccinatedPersonACertificate1 = mockk<VaccinationCertificate>().apply {
         every { personIdentifier } returns identifierA
         every { vaccinatedOn } returns Instant.EPOCH.toLocalDateUtc()
-        every { hasNotification } returns false
+        every { hasNotificationBadge } returns false
     }
     private val vaccinatedPersonA = mockk<VaccinatedPerson>().apply {
         every { vaccinationCertificates } returns setOf(vaccinatedPersonACertificate1)
@@ -47,7 +47,7 @@ class PersonCertificatesProviderTest : BaseTest() {
     private val testWrapperACertificate = mockk<TestCertificate>().apply {
         every { personIdentifier } returns identifierA
         every { sampleCollectedAt } returns Instant.EPOCH
-        every { hasNotification } returns true
+        every { hasNotificationBadge } returns true
     }
     private val testWrapperA = mockk<TestCertificateWrapper>().apply {
         every { testCertificate } returns testWrapperACertificate
@@ -55,7 +55,7 @@ class PersonCertificatesProviderTest : BaseTest() {
     private val recoveryWrapperACertificate = mockk<RecoveryCertificate>().apply {
         every { personIdentifier } returns identifierA
         every { validFrom } returns Instant.EPOCH.toLocalDateUtc()
-        every { hasNotification } returns true
+        every { hasNotificationBadge } returns true
     }
     private val recoveryWrapperA = mockk<RecoveryCertificateWrapper>().apply {
         every { recoveryCertificate } returns recoveryWrapperACertificate
@@ -65,13 +65,13 @@ class PersonCertificatesProviderTest : BaseTest() {
     private val testCertificateB = mockk<TestCertificate>().apply {
         every { personIdentifier } returns identifierB
         every { sampleCollectedAt } returns Instant.EPOCH
-        every { hasNotification } returns true
+        every { hasNotificationBadge } returns true
     }
 
     private val recoveryCertificateB = mockk<RecoveryCertificate>().apply {
         every { personIdentifier } returns identifierB
         every { validFrom } returns Instant.EPOCH.toLocalDateUtc()
-        every { hasNotification } returns true
+        every { hasNotificationBadge } returns true
     }
 
     private val recoveryWrapperB = mockk<RecoveryCertificateWrapper>().apply {

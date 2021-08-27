@@ -156,7 +156,7 @@ data class TestCertificateContainer(
             override val notifiedInvalidAt: Instant?
                 get() = null
 
-            override val hasNotification: Boolean
+            override val hasNotificationBadge: Boolean
                 get() = (!certificateSeenByUser && !isCertificateRetrievalPending) ||
                     (getState() is State.Invalid && notifiedInvalidAt == null)
 

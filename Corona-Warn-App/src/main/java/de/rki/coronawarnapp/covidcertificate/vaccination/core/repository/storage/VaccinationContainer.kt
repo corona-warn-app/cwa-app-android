@@ -167,7 +167,7 @@ data class VaccinationContainer internal constructor(
         override val dccData: DccData<out DccV1.MetaData>
             get() = certificateData
 
-        override val hasNotification: Boolean
+        override val hasNotificationBadge: Boolean
             get() {
                 val state = getState()
                 return state !is State.Valid && state != lastSeenStateChange

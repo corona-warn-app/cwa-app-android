@@ -46,7 +46,13 @@ interface CwaCovidCertificate {
     val lastSeenStateChange: State?
     val lastSeenStateChangeAt: Instant?
 
-    val hasNotification: Boolean
+    /**
+     * Indicates that certificate has updates regarding its status
+     * for example state changed to Expiring_Soon, Expired, Invalid or
+     * retrieved Test certificate became available
+     */
+    val hasNotificationBadge: Boolean
+
     /**
      * The current state of the certificate, see [State]
      */
