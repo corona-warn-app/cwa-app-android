@@ -15,6 +15,7 @@ import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
 import java.math.RoundingMode
 import java.util.Date
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 @Suppress("TooManyFunctions")
@@ -26,14 +27,16 @@ object TimeAndDateExtensions {
 
     private val dayFormatter = DateTimeFormat.mediumDate()
     private val dayFormatter2DigitYear = DateTimeFormat.shortDate()
+    private val serverDateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
+        .withChronology(GJChronology.getInstance())
+        .withZoneUTC()
     private val shortTime = DateTimeFormat.shortTime()
 
     fun getCurrentHourUTC(): Int = DateTime(Instant.now(), DateTimeZone.UTC).hourOfDay().get()
 
-    fun Date.toServerFormat(): String =
-        DateTimeFormat.forPattern("yyyy-MM-dd").withChronology(GJChronology.getInstance())
-            .withZoneUTC()
-            .print(this.time)
+    fun Date.toServerFormat(): String = serverDateFormatter.print(this.time)
+
+    fun String.parseServerFormat(): LocalDate = serverDateFormatter.parseLocalDate(this)
 
     fun Date.toUIFormat(context: Context): String = DateFormat.getDateFormat(context).format(this)
 
