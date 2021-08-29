@@ -397,7 +397,7 @@ class TestCertificateRepository @Inject constructor(
         internalData.updateBlocking {
             val current = this[containerId]
             if (current == null) {
-                Timber.tag(TAG).w("Can't mark %s state", containerId)
+                Timber.tag(TAG).w("Can't mark %s state certificate isn't found", containerId)
                 return@updateBlocking this
             }
 
@@ -418,18 +418,16 @@ class TestCertificateRepository @Inject constructor(
                 return@updateBlocking this
             }
 
-            if (currentState == current.data.lastSeenStateChange) {
+            val lastSeenStateChange = current.data.lastSeenStateChange
+            if (currentState == lastSeenStateChange) {
                 Timber.tag(TAG).w("State equals last acknowledged state.")
                 return@updateBlocking this
             }
 
-            Timber.tag(TAG).d(
-                "Acknowledging state change to %s -> %s.", current.data.lastSeenStateChange, currentState
-            )
+            Timber.tag(TAG).d("Acknowledging state change to %s -> %s.", lastSeenStateChange, currentState)
 
-            val updated = current.copy(
-                data = updateLastStateDate(current.data, currentState)
-            )
+            val updated = current.copy(data = updateLastSeenStateData(current.data, currentState))
+            Timber.tag(TAG).d("Updated= %s", updated)
 
             mutate { this[containerId] = updated }
         }
@@ -438,36 +436,33 @@ class TestCertificateRepository @Inject constructor(
     suspend fun setNotifiedState(
         containerId: TestCertificateContainerId,
         state: CwaCovidCertificate.State,
-        now: Instant
+        time: Instant
     ) {
-        Timber.tag(TAG).d("acknowledgeState(containerId=$containerId)")
+        Timber.tag(TAG).d("setNotifiedAboutState(containerId=$containerId, time=$time)")
         internalData.updateBlocking {
             val current = this[containerId]
             if (current == null) {
-                Timber.tag(TAG).w("Can't mark %s state", containerId)
+                Timber.tag(TAG).w("Certificate %s isn't found", containerId)
                 return@updateBlocking this
             }
 
             if (current.isCertificateRetrievalPending) {
-                Timber.tag(TAG).w("Can't mark %s state, certificate hasn't been retrieved yet.", containerId)
+                Timber.tag(TAG).w("Certificate %s is pending", containerId)
                 return@updateBlocking this
             }
 
             if (state !is CwaCovidCertificate.State.Invalid) {
-                Timber.tag(TAG).w("%s is still valid ", containerId)
+                Timber.tag(TAG).w("%s is still valid", containerId)
                 return@updateBlocking this
             }
 
-            val updated = current.copy(
-                data = updateInvalidDate(current.data, now)
-            )
-
-            Timber.tag(TAG).d("Updated %s", updated)
+            val updated = current.copy(data = updateInvalidDate(current.data, time))
+            Timber.tag(TAG).d("Updated= %s", updated)
             mutate { this[containerId] = updated }
         }
     }
 
-    private fun updateLastStateDate(
+    private fun updateLastSeenStateData(
         data: BaseTestCertificateData,
         state: CwaCovidCertificate.State
     ): BaseTestCertificateData {
