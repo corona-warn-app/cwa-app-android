@@ -48,7 +48,7 @@
                     app:expandedTitleGravity="top"
                     app:layout_collapseMode="pin"
                     app:navigationIcon="@drawable/ic_close"
-                    app:title="@string/validation_failed_title" />
+                    app:title="@string/pdf_export_info_title" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
