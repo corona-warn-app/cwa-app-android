@@ -51,9 +51,9 @@ class DccBoosterRulesValidatorTest : BaseTest() {
         validator().validateBoosterRules(emptyList()) shouldBe null
     }
 
-    //////////////////////
+    // ////////////////////
     // Recovery
-    /////////////////////
+    // ///////////////////
     @Test
     fun `Most recent Rec Cert based on testedPositiveOn date`() {
         val mockRec1 = mockk<RecoveryCertificate>().apply {
@@ -110,9 +110,9 @@ class DccBoosterRulesValidatorTest : BaseTest() {
         findRecentRecoveryCertificate(emptyList()) shouldBe null
     }
 
-    /////////////////////////
+    // ///////////////////////
     // Vaccination
-    ////////////////////////
+    // //////////////////////
     @Test
     fun `Most recent Vac Cert based on vaccination date`() {
         val mockVac1 = mockk<VaccinationCertificate>().apply {

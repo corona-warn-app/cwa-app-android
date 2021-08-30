@@ -45,19 +45,19 @@ class DccBoosterRulesValidator @Inject constructor(
         }
 
         // Find recent vaccination certificate
-        val recentVaccinationCertificate = findRecentVaccinationCertificate(dccList)
-        if (recentVaccinationCertificate == null) {
+        val vaccinationCertificate = findRecentVaccinationCertificate(dccList)
+        if (vaccinationCertificate == null) {
             Timber.tag(TAG).d("No vaccination certificate found")
             return null
         }
-        Timber.tag(TAG).d("Most recent vaccination certificate=%s", recentVaccinationCertificate)
+        Timber.tag(TAG).d("Most recent vaccination certificate=%s", vaccinationCertificate)
 
         // Find recent recovery certificate
-        val recentRecoveryCertificate = findRecentRecoveryCertificate(dccList)
-        Timber.tag(TAG).d("Most recent recovery certificate=%s", recentRecoveryCertificate)
+        val recoveryCertificate = findRecentRecoveryCertificate(dccList)
+        Timber.tag(TAG).d("Most recent recovery certificate=%s", recoveryCertificate)
 
-        val vacDccData = recentVaccinationCertificate.dccData
-        val recDccData = recentRecoveryCertificate?.dccData
+        val vacDccData = vaccinationCertificate.dccData
+        val recDccData = recoveryCertificate?.dccData
 
         val payload = objectMapper.writeValueAsString(
             JsonPayload(
