@@ -89,7 +89,7 @@ data class VaccinatedPerson(
         }
     }
 
-    public enum class Status {
+    enum class Status {
         INCOMPLETE,
         COMPLETE,
         IMMUNITY,
