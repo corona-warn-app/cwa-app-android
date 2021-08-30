@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.util.HumanReadableError
 import de.rki.coronawarnapp.util.ui.CachedString
 import de.rki.coronawarnapp.util.ui.LazyString
 
+@Suppress("MaxLineLength")
 open class DccValidationException(
     val errorCode: ErrorCode,
     cause: Throwable? = null,

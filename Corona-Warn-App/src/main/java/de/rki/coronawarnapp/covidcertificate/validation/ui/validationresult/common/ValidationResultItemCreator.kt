@@ -150,6 +150,7 @@ class ValidationResultItemCreator @Inject constructor() {
             DccCountry(country).displayName()
         )
         DccValidationRule.Type.INVALIDATION -> R.string.validation_rules_invalidation_country.toResolvingString()
-        DccValidationRule.Type.BOOSTER_NOTIFICATION -> throw IllegalStateException("Booster notification rules are not allowed here!")
+        DccValidationRule.Type.BOOSTER_NOTIFICATION ->
+            throw IllegalStateException("Booster notification rules are not allowed here!")
     }
 }
