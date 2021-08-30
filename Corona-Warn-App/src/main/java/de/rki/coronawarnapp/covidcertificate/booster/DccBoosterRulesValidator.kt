@@ -1,16 +1,15 @@
 package de.rki.coronawarnapp.covidcertificate.booster
 
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchema
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.ValueSetWrapper
 import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.asEvaluatedDccRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.asExternalRule
-import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.asZonedDateTime
 import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.toZonedDateTime
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
@@ -23,9 +22,8 @@ import dgca.verifier.app.engine.UTC_ZONE_ID
 import dgca.verifier.app.engine.data.CertificateType
 import dgca.verifier.app.engine.data.ExternalParameter
 import kotlinx.coroutines.flow.first
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
 import timber.log.Timber
+import java.time.ZonedDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -33,7 +31,6 @@ import javax.inject.Singleton
 class DccBoosterRulesValidator @Inject constructor(
     private val boosterRulesRepository: BoosterRulesRepository,
     private val dccJsonSchema: DccJsonSchema,
-    private val valueSetWrapper: ValueSetWrapper,
     @BaseJackson private val objectMapper: ObjectMapper,
 ) {
 
@@ -77,17 +74,6 @@ class DccBoosterRulesValidator @Inject constructor(
         val vacDccData = recentVaccinationCertificate.dccData
         val recDccData = recentRecoveryCertificate?.dccData
 
-        val externalParameter = ExternalParameter(
-            kid = "",
-            validationClock = DateTime.now(DateTimeZone.UTC).asZonedDateTime(UTC_ZONE_ID),
-            valueSets = valueSetWrapper.valueMap.first(),
-            countryCode = DccCountry.DE,
-            issuerCountryCode = DccCountry.DE,
-            exp = vacDccData.header.expiresAt.toZonedDateTime(UTC_ZONE_ID),
-            iat = vacDccData.header.issuedAt.toZonedDateTime(UTC_ZONE_ID),
-            region = ""
-        )
-
         val payload = objectMapper.writeValueAsString(
             JsonPayload(
                 v = listOf(vacDccData.certificate.payload),
@@ -97,12 +83,23 @@ class DccBoosterRulesValidator @Inject constructor(
             )
         )
 
+        val externalParameter = ExternalParameter(
+            validationClock = ZonedDateTime.now(UTC_ZONE_ID),
+            valueSets = emptyMap(),
+            countryCode = DccCountry.DE,
+            issuerCountryCode = DccCountry.DE,
+            exp = vacDccData.header.expiresAt.toZonedDateTime(UTC_ZONE_ID),
+            iat = vacDccData.header.issuedAt.toZonedDateTime(UTC_ZONE_ID),
+            kid = "",
+            region = ""
+        )
+
         val ruleResults = engine.validate(
+            certificateType = CertificateType.VACCINATION,
             hcertVersionString = vacDccData.certificate.version,
             rules = boosterRules.map { it.asExternalRule },
             externalParameter = externalParameter,
             payload = payload,
-            certificateType = CertificateType.VACCINATION
         ).map { result ->
             result.validationErrors?.forEach {
                 Timber.tag(TAG).e(it, "Errors during validation of %s", result.rule.identifier)
@@ -122,10 +119,11 @@ class DccBoosterRulesValidator @Inject constructor(
         private val TAG = DccBoosterRulesValidator::class.simpleName
     }
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private data class JsonPayload(
-        @SerializedName("v") val v: List<DccV1.Payload>,
-        @SerializedName("r") val r: List<DccV1.Payload>?,
-        @SerializedName("nam") val nam: DccV1.NameData,
-        @SerializedName("ver") val ver: String,
+        @JsonProperty("v") val v: List<DccV1.Payload>,
+        @JsonProperty("r") val r: List<DccV1.Payload>?,
+        @JsonProperty("nam") val nam: DccV1.NameData,
+        @JsonProperty("ver") val ver: String,
     )
 }
