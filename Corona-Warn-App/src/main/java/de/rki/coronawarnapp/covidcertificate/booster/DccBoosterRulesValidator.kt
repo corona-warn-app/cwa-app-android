@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.booster
 
+import androidx.annotation.VisibleForTesting
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -44,12 +45,7 @@ class DccBoosterRulesValidator @Inject constructor(
         }
 
         // Find recent vaccination certificate
-        val vacCertificates = dccList.filterIsInstance<VaccinationCertificate>()
-        val recentVaccinatedOnCert = vacCertificates.maxByOrNull { it.vaccinatedOn }
-        val recentVaccinationCertificate = vacCertificates
-            .filter { it.vaccinatedOn == recentVaccinatedOnCert?.vaccinatedOn }
-            .maxByOrNull { it.headerIssuedAt }
-
+        val recentVaccinationCertificate = findRecentVaccinationCertificate(dccList)
         if (recentVaccinationCertificate == null) {
             Timber.tag(TAG).d("No vaccination certificate found")
             return null
@@ -57,12 +53,9 @@ class DccBoosterRulesValidator @Inject constructor(
         Timber.tag(TAG).d("Most recent vaccination certificate=%s", recentVaccinationCertificate)
 
         // Find recent recovery certificate
-        val recCertificates = dccList.filterIsInstance<RecoveryCertificate>()
-        val recentFirstResultOnCert = recCertificates.maxByOrNull { it.testedPositiveOn }
-        val recentRecoveryCertificate = recCertificates
-            .filter { it.testedPositiveOn == recentFirstResultOnCert?.testedPositiveOn }
-            .maxByOrNull { it.headerIssuedAt }
+        val recentRecoveryCertificate = findRecentRecoveryCertificate(dccList)
         Timber.tag(TAG).d("Most recent recovery certificate=%s", recentRecoveryCertificate)
+
         val vacDccData = recentVaccinationCertificate.dccData
         val recDccData = recentRecoveryCertificate?.dccData
 
@@ -118,4 +111,22 @@ class DccBoosterRulesValidator @Inject constructor(
         @JsonProperty("nam") val nam: DccV1.NameData,
         @JsonProperty("ver") val ver: String,
     )
+}
+
+@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+fun findRecentRecoveryCertificate(dccList: List<CwaCovidCertificate>): RecoveryCertificate? {
+    val recCertificates = dccList.filterIsInstance<RecoveryCertificate>()
+    val recentFirstResultOnCert = recCertificates.maxByOrNull { it.testedPositiveOn }
+    return recCertificates
+        .filter { it.testedPositiveOn == recentFirstResultOnCert?.testedPositiveOn }
+        .maxByOrNull { it.headerIssuedAt }
+}
+
+@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+fun findRecentVaccinationCertificate(dccList: List<CwaCovidCertificate>): VaccinationCertificate? {
+    val vacCertificates = dccList.filterIsInstance<VaccinationCertificate>()
+    val recentVaccinatedOnCert = vacCertificates.maxByOrNull { it.vaccinatedOn }
+    return vacCertificates
+        .filter { it.vaccinatedOn == recentVaccinatedOnCert?.vaccinatedOn }
+        .maxByOrNull { it.headerIssuedAt }
 }
