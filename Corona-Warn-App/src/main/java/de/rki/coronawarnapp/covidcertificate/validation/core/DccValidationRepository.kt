@@ -65,10 +65,20 @@ class DccValidationRepository @Inject constructor(
                 emptyList()
             }
         }
+        val boosterNotificationRules = kotlin.run {
+            val rawJson = localCache.loadBoosterNotificationRulesJson()
+            try {
+                rawJson.toRuleSet()
+            } catch (e: Exception) {
+                Timber.tag(TAG).w("Failed to parse cached boosterNotificationRules: %s", rawJson)
+                emptyList()
+            }
+        }
         DccValidationData(
             countries = localCache.loadCountryJson()?.let { mapCountries(it) } ?: emptyList(),
             acceptanceRules = acceptanceRules,
             invalidationRules = invalidationRules,
+            boosterNotificationRules = boosterNotificationRules
         )
     }
 
@@ -77,6 +87,8 @@ class DccValidationRepository @Inject constructor(
     val acceptanceRules: Flow<List<DccValidationRule>> = internalData.data.map { it.acceptanceRules }
 
     val invalidationRules: Flow<List<DccValidationRule>> = internalData.data.map { it.invalidationRules }
+
+    val boosterNotificationRules: Flow<List<DccValidationRule>> = internalData.data.map { it.boosterNotificationRules }
 
     /**
      * The UI calls this before entering the validation flow.
@@ -107,8 +119,31 @@ class DccValidationRepository @Inject constructor(
             DccValidationData(
                 countries = newCountryData,
                 acceptanceRules = newAcceptanceData,
-                invalidationRules = newInvalidationData
+                invalidationRules = newInvalidationData,
+                boosterNotificationRules = this.boosterNotificationRules
             )
+        }
+    }
+
+    /**
+     * This only updates the booster notification rules.
+     * Falls back to previous cached rules in case of an error.
+     * Worst case is an empty list.
+     */
+    suspend fun updateBoosterNotificationRules(): List<DccValidationRule> {
+        Timber.tag(TAG).d("updateBoosterNotificationRules()")
+        return internalData.updateBlocking {
+            val newBNR = try {
+                val rawJson = server.ruleSetJson(Type.BOOSTER_NOTIFICATION)
+                rawJson.toRuleSet().also { localCache.saveBoosterNotificationRulesJson(rawJson) }
+            } catch (e: Exception) {
+                Timber.tag(TAG).w(e, "Updating booster notification rules failed, keeping previous rules")
+                boosterNotificationRules
+            }
+
+            this.copy(boosterNotificationRules = newBNR)
+        }.let { data ->
+            data.boosterNotificationRules.also { Timber.tag(TAG).d("Booster notification rules: %s", it) }
         }
     }
 
