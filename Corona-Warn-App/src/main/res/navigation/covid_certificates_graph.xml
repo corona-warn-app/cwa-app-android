@@ -68,8 +68,8 @@
             android:id="@+id/action_testCertificateDetailsFragment_to_validationStartFragment"
             app:destination="@id/validationStartFragment" />
         <action
-            android:id="@+id/action_testCertificateDetailsFragment_to_certificatePdfPrintInfoFragment"
-            app:destination="@id/certificatePdfPrintInfoFragment" />
+            android:id="@+id/action_testCertificateDetailsFragment_to_certificatePdfExportInfoFragment"
+            app:destination="@id/certificatePdfExportInfoFragment" />
     </fragment>
 
     <fragment
@@ -139,8 +139,8 @@
             android:id="@+id/action_vaccinationDetailsFragment_to_validationStartFragment"
             app:destination="@id/validationStartFragment" />
         <action
-            android:id="@+id/action_vaccinationDetailsFragment_to_certificatePdfPrintInfoFragment"
-            app:destination="@id/certificatePdfPrintInfoFragment" />
+            android:id="@+id/action_vaccinationDetailsFragment_to_certificatePdfExportInfoFragment"
+            app:destination="@id/certificatePdfExportInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/recoveryCertificateDetailsFragment"
@@ -154,8 +154,8 @@
             android:id="@+id/action_recoveryCertificateDetailsFragment_to_validationStartFragment"
             app:destination="@id/validationStartFragment" />
         <action
-            android:id="@+id/action_recoveryCertificateDetailsFragment_to_certificatePdfPrintInfoFragment"
-            app:destination="@id/certificatePdfPrintInfoFragment" />
+            android:id="@+id/action_recoveryCertificateDetailsFragment_to_certificatePdfExportInfoFragment"
+            app:destination="@id/certificatePdfExportInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/validationStartFragment"
@@ -219,9 +219,9 @@
             app:argType="de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation" />
     </fragment>
     <fragment
-        android:id="@+id/certificatePdfPrintInfoFragment"
-        android:name="de.rki.coronawarnapp.covidcertificate.pdf.ui.CertificatePdfPrintInfoFragment"
-        android:label="certificate_pdf_print_info_fragment"
-        tools:layout="@layout/certificate_pdf_print_info_fragment">
+        android:id="@+id/certificatePdfExportInfoFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.pdf.ui.CertificatePdfExportInfoFragment"
+        android:label="certificate_pdf_export_info_fragment"
+        tools:layout="@layout/certificate_pdf_export_info_fragment">
     </fragment>
 </navigation>

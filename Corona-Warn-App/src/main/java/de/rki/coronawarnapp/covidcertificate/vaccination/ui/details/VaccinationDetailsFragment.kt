@@ -121,7 +121,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                     is VaccinationDetailsNavigation.Export -> {
                         doNavigate(
                             VaccinationDetailsFragmentDirections
-                                .actionVaccinationDetailsFragmentToCertificatePdfPrintInfoFragment()
+                                .actionVaccinationDetailsFragmentToCertificatePdfExportInfoFragment()
                         )
                     }
                 }
@@ -141,7 +141,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                     showCertificateDeletionRequest()
                     true
                 }
-                R.id.menu_covid_certificate_print -> {
+                R.id.menu_covid_certificate_export -> {
                     viewModel.onExport()
                     true
                 }

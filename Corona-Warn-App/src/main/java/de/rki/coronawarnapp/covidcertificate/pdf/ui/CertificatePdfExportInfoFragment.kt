@@ -5,13 +5,14 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.CertificatePdfPrintInfoFragmentBinding
+import de.rki.coronawarnapp.databinding.CertificatePdfExportInfoFragmentBinding
+import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 
-class CertificatePdfPrintInfoFragment : Fragment(R.layout.certificate_pdf_print_info_fragment) {
+class CertificatePdfExportInfoFragment : Fragment(R.layout.certificate_pdf_export_info_fragment) {
 
-    private val binding: CertificatePdfPrintInfoFragmentBinding by viewBinding()
+    private val binding: CertificatePdfExportInfoFragmentBinding by viewBinding()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +27,9 @@ class CertificatePdfPrintInfoFragment : Fragment(R.layout.certificate_pdf_print_
             toolbar.setNavigationOnClickListener { popBackStack() }
             nextButton.setOnClickListener {
                 // TODO: navigation
+            }
+            appBarLayout.onOffsetChange { _, subtitleAlpha ->
+                headerImage.alpha = subtitleAlpha
             }
         }
     }

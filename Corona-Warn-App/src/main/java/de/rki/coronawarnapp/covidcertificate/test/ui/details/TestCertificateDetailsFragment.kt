@@ -175,7 +175,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
             is TestCertificateDetailsNavigation.Export -> {
                 doNavigate(
                     TestCertificateDetailsFragmentDirections
-                        .actionTestCertificateDetailsFragmentToCertificatePdfPrintInfoFragment()
+                        .actionTestCertificateDetailsFragmentToCertificatePdfExportInfoFragment()
                 )
             }
         }
@@ -189,7 +189,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
                     showCertificateDeletionRequest()
                     true
                 }
-                R.id.menu_covid_certificate_print -> {
+                R.id.menu_covid_certificate_export -> {
                     viewModel.onExport()
                     true
                 }

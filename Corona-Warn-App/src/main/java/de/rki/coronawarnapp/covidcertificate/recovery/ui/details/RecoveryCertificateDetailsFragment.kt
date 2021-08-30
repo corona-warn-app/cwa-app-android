@@ -138,7 +138,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
             is RecoveryCertificateDetailsNavigation.Export -> {
                 doNavigate(
                     RecoveryCertificateDetailsFragmentDirections
-                        .actionRecoveryCertificateDetailsFragmentToCertificatePdfPrintInfoFragment()
+                        .actionRecoveryCertificateDetailsFragmentToCertificatePdfExportInfoFragment()
                 )
             }
         }
@@ -152,7 +152,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
                     showCertificateDeletionRequest()
                     true
                 }
-                R.id.menu_covid_certificate_print -> {
+                R.id.menu_recovery_certificate_export -> {
                     viewModel.onExport()
                     true
                 }
