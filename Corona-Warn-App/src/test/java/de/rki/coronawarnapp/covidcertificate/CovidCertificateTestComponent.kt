@@ -5,6 +5,7 @@ import dagger.Component
 import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.bugreporting.censors.dcc.DccQrCodeCensorTest
+import de.rki.coronawarnapp.covidcertificate.booster.DccBoosterRulesValidatorTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractorTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.KidExtractionTest
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckerTest
@@ -57,6 +58,7 @@ interface CovidCertificateTestComponent {
     fun inject(testClass: DscSignatureValidatorTest)
     fun inject(testClass: DccExpirationCheckerTest)
     fun inject(testClass: RecoveryCertificateStorageTest)
+    fun inject(testClass: DccBoosterRulesValidatorTest)
 
     @Component.Factory
     interface Factory {
