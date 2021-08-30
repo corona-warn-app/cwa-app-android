@@ -38,6 +38,11 @@ class DccBoosterRulesValidator @Inject constructor(
         val boosterRules = boosterRulesRepository.rules.first()
         Timber.tag(TAG).d("boosterRules=%s", boosterRules)
 
+        if (boosterRules.isEmpty()) {
+            Timber.tag(TAG).d("Booster rules are empty")
+            return null
+        }
+
         // Find recent vaccination certificate
         val vacCertificates = dccList.filterIsInstance<VaccinationCertificate>()
         val recentVaccinatedOnCert = vacCertificates.maxByOrNull { it.vaccinatedOn }
