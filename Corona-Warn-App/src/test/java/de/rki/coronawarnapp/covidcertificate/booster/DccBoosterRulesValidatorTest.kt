@@ -75,7 +75,7 @@ class DccBoosterRulesValidatorTest : BaseTest() {
     }
 
     @Test
-    fun `Most recent Rec Cert based on issued date`() {
+    fun `Most recent Rec Cert based on issuedAt date`() {
         val mockRec1 = mockk<RecoveryCertificate>().apply {
             every { testedPositiveOn } returns LocalDate.parse("2021.01.01", dateTime)
             every { headerIssuedAt } returns Instant.parse("2020-02-01T00:00:00.000Z")
@@ -114,7 +114,7 @@ class DccBoosterRulesValidatorTest : BaseTest() {
     // Vaccination
     // //////////////////////
     @Test
-    fun `Most recent Vac Cert based on vaccination date`() {
+    fun `Most recent Vac Cert based on vaccinationOn date`() {
         val mockVac1 = mockk<VaccinationCertificate>().apply {
             every { vaccinatedOn } returns LocalDate.parse("2021.03.01", dateTime)
             every { headerIssuedAt } returns Instant.parse("2020-04-01T00:00:00.000Z")
@@ -134,7 +134,7 @@ class DccBoosterRulesValidatorTest : BaseTest() {
     }
 
     @Test
-    fun `Most recent Vac Cert based on issued date`() {
+    fun `Most recent Vac Cert based on issuedAt date`() {
         val mockVac1 = mockk<VaccinationCertificate>().apply {
             every { vaccinatedOn } returns LocalDate.parse("2021.01.01", dateTime)
             every { headerIssuedAt } returns Instant.parse("2020-02-01T00:00:00.000Z")
