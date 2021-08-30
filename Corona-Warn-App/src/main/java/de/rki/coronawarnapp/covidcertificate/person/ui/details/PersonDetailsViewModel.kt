@@ -24,7 +24,6 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson.Status.IMMUNITY
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson.Status.INCOMPLETE
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
@@ -106,12 +105,14 @@ class PersonDetailsViewModel @AssistedInject constructor(
                     val vaccinationStatus = vaccinatedPerson.getVaccinationStatus()
                     val daysSinceLastVaccination = vaccinatedPerson.getDaysSinceLastVaccination()
                     val boosterRule = vaccinatedPerson.boosterRule
-                    add(VaccinationInfoCard.Item(
+                    add(
+                        VaccinationInfoCard.Item(
                             vaccinationStatus = vaccinationStatus,
                             daysUntilImmunity = daysUntilImmunity,
                             boosterRule = boosterRule,
                             daysSinceLastVaccination = daysSinceLastVaccination
-                    ))
+                        )
+                    )
                 }
             }
 
