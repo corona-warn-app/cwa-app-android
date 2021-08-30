@@ -1,16 +1,12 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import dagger.Lazy
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
-import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchema
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
-import de.rki.coronawarnapp.util.serialization.BaseJackson
-import dgca.verifier.app.engine.DefaultAffectedFieldsDataRetriever
 import dgca.verifier.app.engine.DefaultCertLogicEngine
-import dgca.verifier.app.engine.DefaultJsonLogicValidator
 import kotlinx.coroutines.flow.first
 import org.joda.time.DateTime
 import timber.log.Timber
@@ -19,19 +15,8 @@ import javax.inject.Inject
 @Reusable
 class CertLogicEngineWrapper @Inject constructor(
     private val valueSetWrapper: ValueSetWrapper,
-    private val dccJsonSchema: DccJsonSchema,
-    @BaseJackson private val objectMapper: ObjectMapper,
+    private val engine: Lazy<DefaultCertLogicEngine>
 ) {
-
-    private val engine: DefaultCertLogicEngine by lazy {
-        DefaultCertLogicEngine(
-            DefaultAffectedFieldsDataRetriever(
-                schemaJsonNode = objectMapper.readTree(dccJsonSchema.rawSchema),
-                objectMapper = objectMapper
-            ),
-            DefaultJsonLogicValidator()
-        )
-    }
 
     suspend fun process(
         rules: List<DccValidationRule>,
@@ -57,7 +42,7 @@ class CertLogicEngineWrapper @Inject constructor(
             Timber.tag(TAG).i("Rule ${it.identifier} ${it.version}.")
         }
 
-        return engine
+        return engine.get()
             .validate(
                 hcertVersionString = certificate.certificate.version,
                 rules = rules.map { it.asExternalRule },

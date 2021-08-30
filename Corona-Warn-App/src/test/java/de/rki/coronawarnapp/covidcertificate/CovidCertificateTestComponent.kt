@@ -32,7 +32,8 @@ import javax.inject.Singleton
 @Component(
     modules = [
         CovidCertificateMockProvider::class,
-        SerializationModule::class
+        SerializationModule::class,
+        DigitalCovidCertificateModule::class,
     ]
 )
 interface CovidCertificateTestComponent {

@@ -3,8 +3,8 @@ package de.rki.coronawarnapp.covidcertificate.booster
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
+import dagger.Lazy
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
-import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchema
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
@@ -15,9 +15,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
 import de.rki.coronawarnapp.util.serialization.BaseJackson
-import dgca.verifier.app.engine.DefaultAffectedFieldsDataRetriever
 import dgca.verifier.app.engine.DefaultCertLogicEngine
-import dgca.verifier.app.engine.DefaultJsonLogicValidator
 import dgca.verifier.app.engine.UTC_ZONE_ID
 import dgca.verifier.app.engine.data.CertificateType
 import dgca.verifier.app.engine.data.ExternalParameter
@@ -30,20 +28,9 @@ import javax.inject.Singleton
 @Singleton
 class DccBoosterRulesValidator @Inject constructor(
     private val boosterRulesRepository: BoosterRulesRepository,
-    private val dccJsonSchema: DccJsonSchema,
+    private val engine: Lazy<DefaultCertLogicEngine>,
     @BaseJackson private val objectMapper: ObjectMapper,
 ) {
-
-    private val engine: DefaultCertLogicEngine by lazy {
-        DefaultCertLogicEngine(
-            DefaultAffectedFieldsDataRetriever(
-                schemaJsonNode = objectMapper.readTree(dccJsonSchema.rawSchema),
-                objectMapper = objectMapper
-            ),
-            DefaultJsonLogicValidator()
-        )
-    }
-
     @Suppress("BlockingMethodInNonBlockingContext")
     suspend fun validateBoosterRules(dccList: List<CwaCovidCertificate>): EvaluatedDccRule? {
         Timber.tag(TAG).d("validateBoosterRules(dccList=%s)", dccList)
@@ -94,7 +81,7 @@ class DccBoosterRulesValidator @Inject constructor(
             region = ""
         )
 
-        val ruleResults = engine.validate(
+        val ruleResults = engine.get().validate(
             certificateType = CertificateType.VACCINATION,
             hcertVersionString = vacDccData.certificate.version,
             rules = boosterRules.map { it.asExternalRule },

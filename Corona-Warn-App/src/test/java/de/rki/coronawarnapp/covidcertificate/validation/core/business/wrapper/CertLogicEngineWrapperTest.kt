@@ -1,9 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.gson.Gson
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
-import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchema
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.test.TestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeTestData
@@ -15,8 +13,8 @@ import de.rki.coronawarnapp.covidcertificate.valueset.internal.toValueSetsContai
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyValueSetsContainer
 import de.rki.coronawarnapp.server.protocols.internal.dgc.ValueSetsOuterClass
 import de.rki.coronawarnapp.util.serialization.BaseGson
-import de.rki.coronawarnapp.util.serialization.BaseJackson
 import de.rki.coronawarnapp.util.serialization.fromJson
+import dgca.verifier.app.engine.DefaultCertLogicEngine
 import dgca.verifier.app.engine.data.RuleCertificateType
 import io.kotest.matchers.ints.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
@@ -40,6 +38,7 @@ import java.io.FileReader
 import java.nio.file.Paths
 import java.util.Locale
 import javax.inject.Inject
+import dagger.Lazy
 
 class CertLogicEngineWrapperTest : BaseTest() {
 
@@ -48,15 +47,15 @@ class CertLogicEngineWrapperTest : BaseTest() {
     @MockK lateinit var dccValidationRepository: DccValidationRepository
 
     lateinit var wrapper: CertLogicEngineWrapper
+
     @Inject lateinit var extractor: DccQrCodeExtractor
-    @Inject lateinit var dccJsonSchema: DccJsonSchema
-    @Inject @BaseJackson lateinit var objectMapper: ObjectMapper
+    @Inject lateinit var engine: Lazy<DefaultCertLogicEngine>
     @Inject @BaseGson lateinit var gson: Gson
 
     // Json file (located in /test/resources/dcc-validation-rules-common-test-cases.json)
     private val fileName = "dcc-validation-rules-common-test-cases.json"
 
-    val timeZoneOffsetBerlin = 2 // Berlin
+    private val timeZoneOffsetBerlin = 2 // Berlin
 
     @BeforeEach
     fun setup() {
@@ -215,6 +214,6 @@ class CertLogicEngineWrapperTest : BaseTest() {
 
     private fun createWrapperInstance() {
         valueSetWrapper = ValueSetWrapper(valueSetsRepository, dccValidationRepository)
-        wrapper = CertLogicEngineWrapper(valueSetWrapper, dccJsonSchema, objectMapper)
+        wrapper = CertLogicEngineWrapper(valueSetWrapper, engine)
     }
 }
