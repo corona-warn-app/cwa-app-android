@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
+import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
@@ -88,9 +89,9 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
     }
 
     fun onExport() {
-        // TODO: some magic here to check if we could export certificate to PDF
-        val exportPossible = true
-        if (!exportPossible) {
+        if (vaccinationCertificate.value?.certificate?.certificateCountry
+            != DccCountry("DE").displayName()
+        ) {
             exportError.postValue(null)
         } else {
             events.postValue(VaccinationDetailsNavigation.Export)

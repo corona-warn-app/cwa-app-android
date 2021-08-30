@@ -7,6 +7,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
+import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
@@ -63,9 +64,7 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
     }
 
     fun onExport() {
-        // TODO: some magic here to check if we could export certificate to PDF
-        val exportPossible = false
-        if (!exportPossible) {
+        if (covidCertificate.value?.certificateCountry != DccCountry("DE").displayName()) {
             exportError.postValue(null)
         } else {
             events.postValue(TestCertificateDetailsNavigation.Export)
