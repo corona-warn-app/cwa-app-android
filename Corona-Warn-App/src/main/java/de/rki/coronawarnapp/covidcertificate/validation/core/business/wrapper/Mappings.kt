@@ -120,8 +120,7 @@ private val String.asExternalCertificateType: RuleCertificateType
         else -> throw IllegalArgumentException()
     }
 
-@VisibleForTesting
-internal fun Instant.toZonedDateTime(zoneId: ZoneId): ZonedDateTime {
+fun Instant.toZonedDateTime(zoneId: ZoneId): ZonedDateTime {
     return ZonedDateTime.ofInstant(java.time.Instant.ofEpochMilli(this.millis), zoneId)
 }
 
@@ -170,7 +169,7 @@ internal fun List<DccValidationRule>.filterRelevantRules(
     }
     .toList()
 
-internal fun DateTime.asZonedDateTime(zoneId: ZoneId): ZonedDateTime = ZonedDateTime.of(
+fun DateTime.asZonedDateTime(zoneId: ZoneId): ZonedDateTime = ZonedDateTime.of(
     year,
     monthOfYear,
     dayOfMonth,
