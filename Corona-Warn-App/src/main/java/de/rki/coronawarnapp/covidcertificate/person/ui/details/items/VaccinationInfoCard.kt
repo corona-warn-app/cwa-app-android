@@ -59,12 +59,12 @@ class VaccinationInfoCard(parent: ViewGroup) :
                 )
 
                 body2Faq.isVisible = true
+                boosterBadge.isVisible = true
                 body2Faq.setTextWithUrl(
                         R.string.vaccination_card_booster_eligible_faq,
                         R.string.vaccination_card_booster_eligible_faq_link_container,
                         R.string.vaccination_card_booster_eligible_faq_link
                 )
-
             }
 
             VaccinatedPerson.Status.COMPLETE,
