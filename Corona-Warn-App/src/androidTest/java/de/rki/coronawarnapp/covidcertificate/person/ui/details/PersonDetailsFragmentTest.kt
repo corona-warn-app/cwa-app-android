@@ -248,7 +248,6 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { isFinalShot } returns final
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)
             every { isValid } returns true
-            every { isBooster } returns booster
             every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
         }
 
