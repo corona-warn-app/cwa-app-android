@@ -220,12 +220,12 @@ fun Collection<CwaCovidCertificate>.findHighestPriorityCertificate(
         }
 
         certsForState.rule3findRecentRecovery(nowUtc)?.let {
-            Timber.d("Rule 4 match (Recovery Certificate <= 180 days): %s", it)
+            Timber.d("Rule 3 match (Recovery Certificate <= 180 days): %s", it)
             return@mapNotNull it
         }
 
         certsForState.rule4FindRecentLastShot(nowUtc)?.let {
-            Timber.d("Rule 3 match (Series-completing Vaccination Certificate > 14 days): %s", it)
+            Timber.d("Rule 4 match (Series-completing Vaccination Certificate > 14 days): %s", it)
             return@mapNotNull it
         }
 
