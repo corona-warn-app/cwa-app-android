@@ -145,10 +145,10 @@ class PersonCertificatesExtensionsTest : BaseTest() {
         certificates.remove(first)
         certificates.findHighestPriorityCertificate(time) shouldBe second
         certificates.remove(second)
-        certificates.findHighestPriorityCertificate(time) shouldBe third
-        certificates.remove(third)
         certificates.findHighestPriorityCertificate(time) shouldBe fourth
         certificates.remove(fourth)
+        certificates.findHighestPriorityCertificate(time) shouldBe third
+        certificates.remove(third)
         certificates.findHighestPriorityCertificate(time) shouldBe sixth
         certificates.remove(sixth)
         certificates.findHighestPriorityCertificate(time) shouldBe fifth

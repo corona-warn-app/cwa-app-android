@@ -63,24 +63,6 @@ private fun Collection<CwaCovidCertificate>.rule2FindRecentRaCertificate(
     .maxByOrNull { it.rawCertificate.test.sampleCollectedAt }
 
 /**
- * 3
- * Series-completing Vaccination Certificate > 14 days:
- * Find Vaccination Certificates (i.e. DGC with v[0]) where v[0].dn equal to v[0].sd and the time difference
- * between the time represented by v[0].dt and the current device time is > 14 days, sorted descending by v[0].dt
- * (i.e. latest first).
- * If there is one or more certificates matching these requirements,
- * the first one is returned as a result of the operation.
- */
-private fun Collection<CwaCovidCertificate>.rule3FindRecentLastShot(
-    nowUtc: Instant
-): CwaCovidCertificate? = this
-    .filterIsInstance<VaccinationCertificate>()
-    .filter {
-        Days.daysBetween(it.rawCertificate.vaccination.vaccinatedOn, nowUtc.toLocalDateUtc()).days > 14
-    }
-    .maxByOrNull { it.rawCertificate.vaccination.vaccinatedOn }
-
-/**
  * 4
  * Recovery Certificate <= 180 days
  * Find Recovery Certificates (i.e. DGC with r[0]) where the time difference between the time
@@ -89,13 +71,31 @@ private fun Collection<CwaCovidCertificate>.rule3FindRecentLastShot(
  * If there is one or more certificates matching these requirements,
  * the first one is returned as a result of the operation.
  */
-private fun Collection<CwaCovidCertificate>.rule4findRecentRecovery(
+private fun Collection<CwaCovidCertificate>.rule3findRecentRecovery(
     nowUtc: Instant
 ): CwaCovidCertificate? = this
     .filterIsInstance<RecoveryCertificate>()
     .filter {
         Days.daysBetween(it.rawCertificate.recovery.validFrom, nowUtc.toLocalDateUtc()).days <= 180
     }.maxByOrNull { it.rawCertificate.recovery.validFrom }
+
+/**
+ * 3
+ * Series-completing Vaccination Certificate > 14 days:
+ * Find Vaccination Certificates (i.e. DGC with v[0]) where v[0].dn equal to v[0].sd and the time difference
+ * between the time represented by v[0].dt and the current device time is > 14 days, sorted descending by v[0].dt
+ * (i.e. latest first).
+ * If there is one or more certificates matching these requirements,
+ * the first one is returned as a result of the operation.
+ */
+private fun Collection<CwaCovidCertificate>.rule4FindRecentLastShot(
+    nowUtc: Instant
+): CwaCovidCertificate? = this
+    .filterIsInstance<VaccinationCertificate>()
+    .filter {
+        Days.daysBetween(it.rawCertificate.vaccination.vaccinatedOn, nowUtc.toLocalDateUtc()).days > 14
+    }
+    .maxByOrNull { it.rawCertificate.vaccination.vaccinatedOn }
 
 /**
  * 5
@@ -219,13 +219,13 @@ fun Collection<CwaCovidCertificate>.findHighestPriorityCertificate(
             return@mapNotNull it
         }
 
-        certsForState.rule3FindRecentLastShot(nowUtc)?.let {
-            Timber.d("Rule 3 match (Series-completing Vaccination Certificate > 14 days): %s", it)
+        certsForState.rule3findRecentRecovery(nowUtc)?.let {
+            Timber.d("Rule 4 match (Recovery Certificate <= 180 days): %s", it)
             return@mapNotNull it
         }
 
-        certsForState.rule4findRecentRecovery(nowUtc)?.let {
-            Timber.d("Rule 4 match (Recovery Certificate <= 180 days): %s", it)
+        certsForState.rule4FindRecentLastShot(nowUtc)?.let {
+            Timber.d("Rule 3 match (Series-completing Vaccination Certificate > 14 days): %s", it)
             return@mapNotNull it
         }
 
