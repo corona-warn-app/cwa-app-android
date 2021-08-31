@@ -133,15 +133,15 @@ class DccValidationRepository @Inject constructor(
     suspend fun updateBoosterNotificationRules(): List<DccValidationRule> {
         Timber.tag(TAG).d("updateBoosterNotificationRules()")
         return internalData.updateBlocking {
-            val newBNR = try {
+            val bnr = try {
                 val rawJson = server.ruleSetJson(Type.BOOSTER_NOTIFICATION)
                 rawJson.toRuleSet().also { localCache.saveBoosterNotificationRulesJson(rawJson) }
             } catch (e: Exception) {
-                Timber.tag(TAG).w(e, "Updating booster notification rules failed, keeping previous rules")
-                boosterNotificationRules
+                Timber.tag(TAG).w(e, "Updating booster notification rules failed, loading cached rules")
+                localCache.loadBoosterNotificationRulesJson().toRuleSet()
             }
 
-            this.copy(boosterNotificationRules = newBNR)
+            this.copy(boosterNotificationRules = bnr)
         }.let { data ->
             data.boosterNotificationRules.also { Timber.tag(TAG).d("Booster notification rules: %s", it) }
         }

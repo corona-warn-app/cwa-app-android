@@ -15,6 +15,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.runs
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import org.junit.jupiter.api.BeforeEach
@@ -95,6 +96,40 @@ class DccValidationRepositoryTest : BaseTest() {
             ]
         """.trimIndent()
 
+    private val testBoosterNotificationRulesData =
+        """
+            [
+                {
+                    "Type": "BoosterNotification",
+                    "Logic": {
+                        "!": [
+                            {
+                                "var": "payload.v.1"
+                            }
+                        ]
+                    },
+                    "Engine": "CERTLOGIC",
+                    "Country": "LT",
+                    "ValidTo": "2023-07-04T00:00:00Z",
+                    "Version": "1.0.0",
+                    "ValidFrom": "2021-07-04T15:00:00Z",
+                    "Identifier": "IR-DE-0000",
+                    "Description": [
+                        {
+                            "desc": "One type of event of vaccination",
+                            "lang": "en"
+                        }
+                    ],
+                    "EngineVersion": "1.0.0",
+                    "SchemaVersion": "1.0.0",
+                    "AffectedFields": [
+                        "v.1"
+                    ],
+                    "CertificateType": "Vaccination"
+                }
+            ]
+        """.trimIndent()
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
@@ -106,6 +141,8 @@ class DccValidationRepositoryTest : BaseTest() {
             coEvery { saveAcceptanceRulesJson(any()) } just Runs
             coEvery { loadInvalidationRuleJson() } returns null
             coEvery { saveInvalidationRulesJson(any()) } just Runs
+            coEvery { loadBoosterNotificationRulesJson() } returns null
+            coEvery { saveBoosterNotificationRulesJson(any()) } just runs
         }
 
         server.apply {
@@ -127,12 +164,61 @@ class DccValidationRepositoryTest : BaseTest() {
         localCache = localCache,
     )
 
+    private val testAcceptanceRule = DccValidationRule(
+        identifier = "VR-LT-0000",
+        typeDcc = Type.ACCEPTANCE,
+        country = "LT",
+        version = "1.0.0",
+        schemaVersion = "1.0.0",
+        engine = "CERTLOGIC",
+        engineVersion = "1.0.0",
+        certificateType = "Vaccination",
+        description = listOf(Description("en", "One type of event of vaccination")),
+        validFrom = "2021-07-04T15:00:00Z",
+        validTo = "2023-07-04T00:00:00Z",
+        affectedFields = listOf("v.1"),
+        logic = objectMapper.readTree("{\"!\":[{\"var\":\"payload.v.1\"}]}")
+    )
+
+    private val testInvalidationRule = DccValidationRule(
+        identifier = "IR-DE-0000",
+        typeDcc = Type.INVALIDATION,
+        country = "LT",
+        version = "1.0.0",
+        schemaVersion = "1.0.0",
+        engine = "CERTLOGIC",
+        engineVersion = "1.0.0",
+        certificateType = "Vaccination",
+        description = listOf(Description("en", "One type of event of vaccination")),
+        validFrom = "2021-07-04T15:00:00Z",
+        validTo = "2023-07-04T00:00:00Z",
+        affectedFields = listOf("v.1"),
+        logic = objectMapper.readTree("{\"!\":[{\"var\":\"payload.v.1\"}]}")
+    )
+
+    private val testBoosterNotificationRule = DccValidationRule(
+        identifier = "IR-DE-0000",
+        typeDcc = Type.BOOSTER_NOTIFICATION,
+        country = "LT",
+        version = "1.0.0",
+        schemaVersion = "1.0.0",
+        engine = "CERTLOGIC",
+        engineVersion = "1.0.0",
+        certificateType = "Vaccination",
+        description = listOf(Description("en", "One type of event of vaccination")),
+        validFrom = "2021-07-04T15:00:00Z",
+        validTo = "2023-07-04T00:00:00Z",
+        affectedFields = listOf("v.1"),
+        logic = objectMapper.readTree("{\"!\":[{\"var\":\"payload.v.1\"}]}")
+    )
+
     @Test
     fun `local cache is loaded on init - no server requests`() = runBlockingTest2(ignoreActive = true) {
         createInstance(this).apply {
             dccCountries.first() shouldBe emptyList()
             acceptanceRules.first() shouldBe emptyList()
             invalidationRules.first() shouldBe emptyList()
+            boosterNotificationRules.first() shouldBe emptyList()
         }
 
         coVerify {
@@ -155,60 +241,45 @@ class DccValidationRepositoryTest : BaseTest() {
         coVerify(exactly = 0) {
             server.ruleSetJson(Type.INVALIDATION)
         }
+
+        coVerify {
+            localCache.loadBoosterNotificationRulesJson()
+        }
+
+        coVerify(exactly = 0) {
+            server.ruleSetJson(Type.BOOSTER_NOTIFICATION)
+        }
     }
 
     @Test
-    fun `refresh talks to server and updates local cache`() = runBlockingTest2(ignoreActive = true) {
-        createInstance(this).apply {
-            refresh()
-            dccCountries.first() shouldBe listOf(
-                DccCountry("DE"), DccCountry("NL")
-            )
-            acceptanceRules.first() shouldBe listOf(
-                DccValidationRule(
-                    identifier = "VR-LT-0000",
-                    typeDcc = Type.ACCEPTANCE,
-                    country = "LT",
-                    version = "1.0.0",
-                    schemaVersion = "1.0.0",
-                    engine = "CERTLOGIC",
-                    engineVersion = "1.0.0",
-                    certificateType = "Vaccination",
-                    description = listOf(Description("en", "One type of event of vaccination")),
-                    validFrom = "2021-07-04T15:00:00Z",
-                    validTo = "2023-07-04T00:00:00Z",
-                    affectedFields = listOf("v.1"),
-                    logic = objectMapper.readTree("{\"!\":[{\"var\":\"payload.v.1\"}]}")
+    fun `refresh talks to server and updates local cache except booster notification rules`() =
+        runBlockingTest2(ignoreActive = true) {
+            createInstance(this).apply {
+                refresh()
+                dccCountries.first() shouldBe listOf(
+                    DccCountry("DE"), DccCountry("NL")
                 )
-            )
-            invalidationRules.first() shouldBe listOf(
-                DccValidationRule(
-                    identifier = "IR-DE-0000",
-                    typeDcc = Type.INVALIDATION,
-                    country = "LT",
-                    version = "1.0.0",
-                    schemaVersion = "1.0.0",
-                    engine = "CERTLOGIC",
-                    engineVersion = "1.0.0",
-                    certificateType = "Vaccination",
-                    description = listOf(Description("en", "One type of event of vaccination")),
-                    validFrom = "2021-07-04T15:00:00Z",
-                    validTo = "2023-07-04T00:00:00Z",
-                    affectedFields = listOf("v.1"),
-                    logic = objectMapper.readTree("{\"!\":[{\"var\":\"payload.v.1\"}]}")
-                )
-            )
-        }
+                acceptanceRules.first() shouldBe listOf(testAcceptanceRule)
+                invalidationRules.first() shouldBe listOf(testInvalidationRule)
 
-        coVerify {
-            server.dccCountryJson()
-            localCache.saveCountryJson(testCountryData)
-            server.ruleSetJson(Type.ACCEPTANCE)
-            localCache.saveAcceptanceRulesJson(testAcceptanceRulesData)
-            server.ruleSetJson(Type.INVALIDATION)
-            localCache.saveInvalidationRulesJson(testInvalidationRulesData)
+                boosterNotificationRules.first() shouldBe emptyList()
+            }
+
+            coVerify {
+                server.dccCountryJson()
+                localCache.saveCountryJson(testCountryData)
+                server.ruleSetJson(Type.ACCEPTANCE)
+                localCache.saveAcceptanceRulesJson(testAcceptanceRulesData)
+                server.ruleSetJson(Type.INVALIDATION)
+                localCache.saveInvalidationRulesJson(testInvalidationRulesData)
+                localCache.loadBoosterNotificationRulesJson()
+            }
+
+            coVerify(exactly = 0) {
+                server.ruleSetJson(Type.BOOSTER_NOTIFICATION)
+                localCache.saveBoosterNotificationRulesJson(any())
+            }
         }
-    }
 
     @Test
     fun `bad acceptance rules yields exception`() = runBlockingTest2(ignoreActive = true) {
@@ -242,6 +313,8 @@ class DccValidationRepositoryTest : BaseTest() {
             localCache.saveAcceptanceRulesJson(any())
             server.ruleSetJson(Type.INVALIDATION)
             localCache.saveInvalidationRulesJson(any())
+            server.ruleSetJson(Type.BOOSTER_NOTIFICATION)
+            localCache.saveBoosterNotificationRulesJson(any())
         }
     }
 
@@ -274,6 +347,112 @@ class DccValidationRepositoryTest : BaseTest() {
         }
         coVerify(exactly = 0) {
             localCache.saveInvalidationRulesJson(any())
+            server.ruleSetJson(Type.BOOSTER_NOTIFICATION)
+            localCache.saveBoosterNotificationRulesJson(any())
+        }
+    }
+
+    @Test
+    fun `update booster notification rules server fails and no cache`() = runBlockingTest2(ignoreActive = true) {
+        coEvery { server.ruleSetJson(Type.BOOSTER_NOTIFICATION) } throws DccValidationException(DccValidationException.ErrorCode.BOOSTER_NOTIFICATION_RULE_SERVER_ERROR)
+
+        with(createInstance(this)) {
+            updateBoosterNotificationRules() shouldBe emptyList()
+            boosterNotificationRules.first() shouldBe emptyList()
+            acceptanceRules.first() shouldBe emptyList()
+            invalidationRules.first() shouldBe emptyList()
+        }
+
+        coVerify {
+            server.ruleSetJson(Type.BOOSTER_NOTIFICATION)
+        }
+
+        coVerify(exactly = 0) {
+            localCache.run {
+                saveBoosterNotificationRulesJson(any())
+                saveAcceptanceRulesJson(any())
+                saveInvalidationRulesJson(any())
+                saveCountryJson(any())
+            }
+
+            server.run {
+                ruleSetJson(Type.ACCEPTANCE)
+                ruleSetJson(Type.INVALIDATION)
+                dccCountryJson()
+            }
+        }
+    }
+
+    @Test
+    fun `update booster notification rules only updates booster notification rules`() =
+        runBlockingTest2(ignoreActive = true) {
+            val boosterRuleList = listOf(testBoosterNotificationRule)
+            val acceptanceRuleList = listOf(testAcceptanceRule)
+            val invalidationRuleList = listOf(testInvalidationRule)
+
+            coEvery { server.ruleSetJson(Type.BOOSTER_NOTIFICATION) } returns testBoosterNotificationRulesData
+            coEvery { localCache.loadAcceptanceRuleJson() } returns testAcceptanceRulesData
+            coEvery { localCache.loadInvalidationRuleJson() } returns testInvalidationRulesData
+
+            with(createInstance(this)) {
+                updateBoosterNotificationRules() shouldBe boosterRuleList
+                acceptanceRules.first() shouldBe acceptanceRuleList
+                boosterNotificationRules.first() shouldBe boosterRuleList
+                invalidationRules.first() shouldBe invalidationRuleList
+            }
+
+            coVerify {
+                server.ruleSetJson(Type.BOOSTER_NOTIFICATION)
+                localCache.saveBoosterNotificationRulesJson(any())
+            }
+
+            coVerify(exactly = 0) {
+                localCache.run {
+                    saveAcceptanceRulesJson(any())
+                    saveInvalidationRulesJson(any())
+                    saveCountryJson(any())
+                }
+
+                server.run {
+                    ruleSetJson(Type.ACCEPTANCE)
+                    ruleSetJson(Type.INVALIDATION)
+                    dccCountryJson()
+                }
+            }
+        }
+
+    @Test
+    fun `bad booster notification rules do not wreck cache`() = runBlockingTest2(ignoreActive = true) {
+        // Missing attributes
+        coEvery { server.ruleSetJson(Type.BOOSTER_NOTIFICATION) } returns """
+            [
+                {
+                    "Type": "BoosterNotification",
+                    "Engine": "CERTLOGIC",
+                    "Country": "LT",
+                    "Version": "1.0.0",
+                    "Identifier": "VR-LT-0000",
+                    "EngineVersion": "1.0.0",
+                    "SchemaVersion": "1.0.0",
+                }
+            ]
+        """.trimIndent()
+
+        coEvery { localCache.loadBoosterNotificationRulesJson() } returns testBoosterNotificationRulesData
+
+        val boosterRuleList = listOf(testBoosterNotificationRule)
+
+        with(createInstance(this)) {
+            updateBoosterNotificationRules() shouldBe boosterRuleList
+            boosterNotificationRules.first() shouldBe boosterRuleList
+        }
+
+        coVerify {
+            server.ruleSetJson(Type.BOOSTER_NOTIFICATION)
+        }
+
+        coVerify(exactly = 0) {
+            localCache.saveBoosterNotificationRulesJson(any())
         }
     }
 }
