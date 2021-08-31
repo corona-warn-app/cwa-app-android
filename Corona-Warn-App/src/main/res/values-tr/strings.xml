@@ -1024,7 +1024,7 @@
     <!-- XHED: Page headline for negative test result next steps  -->
     <string name="submission_test_result_negative_steps_negative_heading">"Negatif Tanı"</string>
     <!-- YTXT: Body text for next steps section of test negative result -->
-    <string name="submission_test_result_negative_steps_negative_body">"Laboratuvar sonucuna göre SARS-CoV-2 koronavirüs olduğunuza dair bir doğrulama yok."</string>
+    <string name="submission_test_result_negative_steps_negative_body">"Laboratuvar sonucuna göre koronavirüs SARS-CoV-2 olduğunuza dair bir doğrulama yok."</string>
     <!-- XBUT: negative test result : remove the test button -->
     <string name="submission_test_result_negative_remove_test_button">"Testi Sil"</string>
     <!-- XHED: Page headline for other warnings screen  -->
@@ -1112,7 +1112,7 @@
     <!-- XHED: Dispatcher text for test center option -->
     <string name="submission_dispatcher_card_test_center">"Test Merkezi Bul"</string>
     <!-- YTXT: Body text for test center dispatcher option -->
-    <string name="submission_dispatcher_card_test_center_text">"Yakınınızdaki test merkezlerini bulun."</string>
+    <string name="submission_dispatcher_card_test_center_text">"Yakınınızdaki test merkezlerini bulun. Bir harici RKI web sitesine yönlendirileceksiniz."</string>
     <!-- XTXT: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#where_can_i_get_tested -->
     <string name="submission_dispatcher_card_test_center_link">"https://www.coronawarn.app/en/faq/#where_can_i_get_tested"</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
@@ -1441,7 +1441,7 @@
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Uygulama Kullanıcılarının Uyarıları"</string>
     <!-- XTXT: Explanation screen warned persons text -->
-    <string name="statistics_explanation_warned_persons_text">"PCR testi ile koronavirüs tanısı alan ve uygulama üzerinden diğer kullanıcıları uyaran uygulama kullanıcılarının sayısı"</string>
+    <string name="statistics_explanation_warned_persons_text">"PCR testi ile koronavirüs tanısı alan ve uygulama üzerinden diğer kullanıcıları uyaran uygulama kullanıcılarının sayısı."</string>
     <!-- XHED: Explanation screen local incidence title -->
     <string name="statistics_explanation_local_incidence_title">"Yerel 7 Günlük Olay"</string>
     <!-- XTXT: Explanation screen local incidence text -->

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <!-- ####################################
        Special string files for the strings
@@ -175,7 +174,7 @@
     <!-- XTXT: Validation start certificate proof -->
     <string name="validation_start_certificate_proof">"A COVID certificate is valid proof for travel within the EU."</string>
     <!-- XTXT: Validation start note subtitle -->
-    <string name="validation_start_note_subtitle">"Note"</string>
+    <string name="validation_start_note_subtitle">"Notes"</string>
     <!-- XTXT: Validation start note point 1 -->
     <string name="validation_start_note_point_1">"Please note that entry rules are subject to change. Therefore, please check the certificate shortly before you enter the destination country (max. 48 hours)."</string>
     <!-- XTXT: Validation start note point 2 -->
