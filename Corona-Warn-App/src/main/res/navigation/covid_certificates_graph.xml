@@ -67,6 +67,9 @@
         <action
             android:id="@+id/action_testCertificateDetailsFragment_to_validationStartFragment"
             app:destination="@id/validationStartFragment" />
+        <action
+            android:id="@+id/action_testCertificateDetailsFragment_to_certificatePdfExportInfoFragment"
+            app:destination="@id/certificatePdfExportInfoFragment" />
     </fragment>
 
     <fragment
@@ -135,6 +138,9 @@
         <action
             android:id="@+id/action_vaccinationDetailsFragment_to_validationStartFragment"
             app:destination="@id/validationStartFragment" />
+        <action
+            android:id="@+id/action_vaccinationDetailsFragment_to_certificatePdfExportInfoFragment"
+            app:destination="@id/certificatePdfExportInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/recoveryCertificateDetailsFragment"
@@ -147,6 +153,9 @@
         <action
             android:id="@+id/action_recoveryCertificateDetailsFragment_to_validationStartFragment"
             app:destination="@id/validationStartFragment" />
+        <action
+            android:id="@+id/action_recoveryCertificateDetailsFragment_to_certificatePdfExportInfoFragment"
+            app:destination="@id/certificatePdfExportInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/validationStartFragment"
@@ -208,5 +217,11 @@
         <argument
             android:name="validation"
             app:argType="de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation" />
+    </fragment>
+    <fragment
+        android:id="@+id/certificatePdfExportInfoFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.pdf.ui.CertificatePdfExportInfoFragment"
+        android:label="certificate_pdf_export_info_fragment"
+        tools:layout="@layout/certificate_pdf_export_info_fragment">
     </fragment>
 </navigation>

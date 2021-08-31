@@ -1,8 +1,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/menu_covid_certificate_export"
+        android:title="@string/green_certificate_details_menu_item_export" />
+    <item
         android:id="@+id/menu_covid_certificate_delete"
         android:title="@string/green_certificate_details_menu_item_delete" />
-    <item
-        android:id="@+id/menu_covid_certificate_print"
-        android:title="@string/green_certificate_details_menu_item_print" />
 </menu>
