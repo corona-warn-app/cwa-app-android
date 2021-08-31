@@ -5,9 +5,9 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.pdf.ui.canBeExported
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
-import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
@@ -63,7 +63,7 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
     }
 
     fun onExport() {
-        if (recoveryCertificate.value?.certificateCountry != DccCountry("DE").displayName()) {
+        if (recoveryCertificate.value?.canBeExported() == false) {
             exportError.postValue(null)
         } else {
             events.postValue(RecoveryCertificateDetailsNavigation.Export)

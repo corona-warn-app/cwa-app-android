@@ -16,6 +16,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.pdf.ui.CertificateExportErrorDialog
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
 import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationNoInternetErrorDialog
@@ -78,7 +79,9 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         viewModel.covidCertificate.observe(viewLifecycleOwner) { it?.let { onCertificateReady(it) } }
 
         viewModel.exportError.observe(viewLifecycleOwner) {
-            showExportErrorDialog()
+            CertificateExportErrorDialog.showDialog(
+                requireContext()
+            ) { openUrl(getString(R.string.certificate_export_error_dialog_faq_link)) }
         }
     }
 
@@ -218,17 +221,6 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
             setPositiveButton(R.string.green_certificate_details_dialog_remove_test_button_positive) { _, _ ->
                 viewModel.onDeleteTestCertificateConfirmed()
             }
-        }.show()
-    }
-
-    private fun showExportErrorDialog() {
-        MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle(R.string.certificate_export_error_dialog_title)
-            setMessage(R.string.certificate_export_error_dialog_body)
-            setNegativeButton(R.string.certificate_export_error_dialog_faq_button) { _, _ ->
-                openUrl(getString(R.string.certificate_export_error_dialog_faq_link))
-            }
-            setPositiveButton(R.string.certificate_export_error_dialog_ok_button) { _, _ -> }
         }.show()
     }
 

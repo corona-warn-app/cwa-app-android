@@ -14,6 +14,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
+import de.rki.coronawarnapp.covidcertificate.pdf.ui.CertificateExportErrorDialog
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
 import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationNoInternetErrorDialog
@@ -99,7 +100,9 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             }
 
             viewModel.exportError.observe(viewLifecycleOwner) {
-                showExportErrorDialog()
+                CertificateExportErrorDialog.showDialog(
+                    requireContext()
+                ) { openUrl(getString(R.string.certificate_export_error_dialog_faq_link)) }
             }
 
             viewModel.events.observe(viewLifecycleOwner) { event ->
@@ -200,17 +203,6 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             setPositiveButton(R.string.green_certificate_details_dialog_remove_test_button_positive) { _, _ ->
                 viewModel.onDeleteVaccinationCertificateConfirmed()
             }
-        }.show()
-    }
-
-    private fun showExportErrorDialog() {
-        MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle(R.string.certificate_export_error_dialog_title)
-            setMessage(R.string.certificate_export_error_dialog_body)
-            setNegativeButton(R.string.certificate_export_error_dialog_faq_button) { _, _ ->
-                openUrl(getString(R.string.certificate_export_error_dialog_faq_link))
-            }
-            setPositiveButton(R.string.certificate_export_error_dialog_ok_button) { _, _ -> }
         }.show()
     }
 }

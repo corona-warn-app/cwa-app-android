@@ -5,11 +5,11 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.pdf.ui.canBeExported
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
-import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
@@ -89,9 +89,7 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
     }
 
     fun onExport() {
-        if (vaccinationCertificate.value?.certificate?.certificateCountry
-            != DccCountry("DE").displayName()
-        ) {
+        if (vaccinationCertificate.value?.certificate?.canBeExported() == false) {
             exportError.postValue(null)
         } else {
             events.postValue(VaccinationDetailsNavigation.Export)
