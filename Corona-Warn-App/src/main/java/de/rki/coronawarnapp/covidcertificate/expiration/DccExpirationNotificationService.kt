@@ -38,9 +38,9 @@ class DccExpirationNotificationService @Inject constructor(
             return
         }
 
-        val allCerts = getCertificates()
+        val vacRecCerts = getCertificates()
 
-        allCerts
+        vacRecCerts
             .filter { it.getState() is CwaCovidCertificate.State.Expired }
             .firstOrNull {
                 Timber.tag(TAG).w("Certificate expired: %s", it)
@@ -52,7 +52,7 @@ class DccExpirationNotificationService @Inject constructor(
                 }
             }
 
-        allCerts
+        vacRecCerts
             .filter { it.getState() is CwaCovidCertificate.State.ExpiringSoon }
             .firstOrNull {
                 Timber.tag(TAG).w("Certificate expiring soon: %s", it)
@@ -63,6 +63,10 @@ class DccExpirationNotificationService @Inject constructor(
                     setStateNotificationShown(it)
                 }
             }
+
+        val testCerts = testCertificateRepository.certificates.first().mapNotNull { it.testCertificate }
+        Timber.tag(TAG).d("Checking %d test certificates", testCerts.size)
+        val allCerts = vacRecCerts + testCerts
 
         allCerts
             .filter { it.getState() is CwaCovidCertificate.State.Invalid }
