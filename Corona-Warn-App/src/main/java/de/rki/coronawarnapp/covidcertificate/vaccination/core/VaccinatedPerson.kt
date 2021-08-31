@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
-import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import org.joda.time.Days
@@ -16,8 +16,6 @@ data class VaccinatedPerson(
     internal val data: VaccinatedPersonData,
     private val valueSet: VaccinationValueSets?,
     private val certificateStates: Map<VaccinationCertificateContainerId, CwaCovidCertificate.State>,
-    val isUpdatingData: Boolean = false,
-    val lastError: Throwable? = null,
 ) {
     val identifier: CertificatePersonIdentifier
         get() = data.identifier
@@ -34,9 +32,11 @@ data class VaccinatedPerson(
         }.toSet()
     }
 
-    val hasBoosterNotification get() = false
+    val hasBoosterNotification: Boolean
+        get() = data.boosterRule?.identifier != data.lastSeenBoosterRuleIdentifier
 
-    val boosterRule: EvaluatedDccRule? = null
+    val boosterRule: DccValidationRule?
+        get() = data.boosterRule
 
     fun findVaccination(containerId: VaccinationCertificateContainerId) = vaccinationContainers.find {
         it.containerId == containerId

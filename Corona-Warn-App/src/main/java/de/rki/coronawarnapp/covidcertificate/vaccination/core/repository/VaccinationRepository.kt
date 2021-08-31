@@ -61,8 +61,6 @@ class VaccinationRepository @Inject constructor(
                     data = personContainer,
                     certificateStates = personContainer.getStates(),
                     valueSet = null,
-                    isUpdatingData = false,
-                    lastError = null
                 )
             }
             .toSet()
@@ -204,10 +202,10 @@ class VaccinationRepository @Inject constructor(
         VaccinationCertificateContainerId,
         CwaCovidCertificate.State
         > {
-        return vaccinations.map { container ->
+        return vaccinations.associate { container ->
             val state = dccStateChecker.checkState(container.certificateData).first()
             container.containerId to state
-        }.toMap()
+        }
     }
 
     suspend fun setNotifiedState(
