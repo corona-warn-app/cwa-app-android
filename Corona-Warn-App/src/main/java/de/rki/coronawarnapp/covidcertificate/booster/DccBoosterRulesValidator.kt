@@ -120,17 +120,17 @@ class DccBoosterRulesValidator @Inject constructor(
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 fun findRecentRecoveryCertificate(dccList: List<CwaCovidCertificate>): RecoveryCertificate? {
     val recCertificates = dccList.filterIsInstance<RecoveryCertificate>()
-    val recentFirstResultOnCert = recCertificates.maxByOrNull { it.testedPositiveOn }
+    val recentFirstResultOnCert = recCertificates.maxByOrNull { it.testedPositiveOn } ?: return null
     return recCertificates
-        .filter { it.testedPositiveOn == recentFirstResultOnCert?.testedPositiveOn }
+        .filter { it.testedPositiveOn == recentFirstResultOnCert.testedPositiveOn }
         .maxByOrNull { it.headerIssuedAt }
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 fun findRecentVaccinationCertificate(dccList: List<CwaCovidCertificate>): VaccinationCertificate? {
     val vacCertificates = dccList.filterIsInstance<VaccinationCertificate>()
-    val recentVaccinatedOnCert = vacCertificates.maxByOrNull { it.vaccinatedOn }
+    val recentVaccinatedOnCert = vacCertificates.maxByOrNull { it.vaccinatedOn } ?: return null
     return vacCertificates
-        .filter { it.vaccinatedOn == recentVaccinatedOnCert?.vaccinatedOn }
+        .filter { it.vaccinatedOn == recentVaccinatedOnCert.vaccinatedOn }
         .maxByOrNull { it.headerIssuedAt }
 }

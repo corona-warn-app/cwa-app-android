@@ -4,12 +4,19 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import dagger.Lazy
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccHeader
+import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.asExternalRule
+import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import dgca.verifier.app.engine.DefaultCertLogicEngine
+import dgca.verifier.app.engine.data.CertificateType
+import dgca.verifier.app.engine.data.ExternalParameter
+import dgca.verifier.app.engine.data.Rule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -135,6 +142,81 @@ class DccBoosterRulesValidatorTest : BaseTest() {
     }
 
     @Test
+    fun `Validate params to CertLogic`() = runBlockingTest {
+        val rule = DccValidationRule(
+            identifier = "identifier",
+            typeDcc = DccValidationRule.Type.ACCEPTANCE,
+            country = DccCountry.DE,
+            version = "1.0.0",
+            schemaVersion = "1.3.0",
+            engine = "CERTLOGIC",
+            engineVersion = "0.9.0",
+            certificateType = "Vaccination",
+            description = emptyList(),
+            validFrom = "2021-05-27T07:46:40Z",
+            validTo = "2023-05-27T07:46:40Z",
+            affectedFields = emptyList(),
+            logic = mockk()
+        )
+
+        val mockHeader = mockk<DccHeader>().apply {
+            every { issuedAt } returns Instant.EPOCH
+            every { expiresAt } returns Instant.EPOCH
+        }
+        val vacDccData = mockk<DccData<VaccinationDccV1>>().apply {
+            every { certificateJson } returns vacCertJson
+            every { header } returns mockHeader
+            every { certificate } returns mockk<VaccinationDccV1>().apply {
+                every { version } returns "1.2.1"
+            }
+        }
+
+        val recDccData = mockk<DccData<RecoveryDccV1>>().apply {
+            every { certificateJson } returns recCertJson
+        }
+
+        val mockRec1 = mockk<RecoveryCertificate>().apply {
+            every { testedPositiveOn } returns LocalDate.parse("2021.03.01", dateTime)
+            every { headerIssuedAt } returns Instant.parse("2021-04-01T00:00:00.000Z")
+            every { dccData } returns recDccData
+        }
+
+        val mockVac2 = mockk<VaccinationCertificate>().apply {
+            every { vaccinatedOn } returns LocalDate.parse("2021.02.01", dateTime)
+            every { headerIssuedAt } returns Instant.parse("2021-04-01T00:00:00.000Z")
+            every { dccData } returns vacDccData
+        }
+
+        coEvery { dccBoosterRulesRepository.rules } returns flowOf(listOf(rule))
+        val mockEngine = mockk<DefaultCertLogicEngine>().apply {
+            every { validate(any(), any(), any(), any(), any()) } answers {
+                arg<CertificateType>(0) shouldBe CertificateType.VACCINATION
+                arg<String>(1) shouldBe "1.2.1"
+                arg<List<Rule>>(2) shouldBe listOf(rule.asExternalRule)
+                arg<ExternalParameter>(3).apply {
+                    countryCode shouldBe DccCountry.DE
+                    issuerCountryCode shouldBe DccCountry.DE
+                    valueSets shouldBe emptyMap()
+                    kid shouldBe ""
+                    region shouldBe ""
+                    iat shouldBe "1970-01-01T00:00Z"
+                    exp shouldBe "1970-01-01T00:00Z"
+                }
+                arg<String>(4).apply { objectMapper.readTree(this).toPrettyString() shouldBe payloadJson }
+
+                emptyList()
+            }
+        }
+        val validator = DccBoosterRulesValidator(
+            boosterRulesRepository = dccBoosterRulesRepository,
+            engine = { mockEngine },
+            objectMapper = objectMapper
+        )
+
+        validator.validateBoosterRules(listOf(mockRec1, mockVac2)) shouldBe null
+    }
+
+    @Test
     fun `Constructed payload should be Vac Json in case of failure`() {
         val vacDccData = mockk<DccData<VaccinationDccV1>>().apply {
             every { certificateJson } returns vacCertJson
@@ -173,7 +255,7 @@ class DccBoosterRulesValidatorTest : BaseTest() {
             every { certificateJson } returns vacCertJson
         }
 
-        val recDccData = mockk<DccData<VaccinationDccV1>>().apply {
+        val recDccData = mockk<DccData<RecoveryDccV1>>().apply {
             every { certificateJson } returns recCertJson
         }
         val payload = validator().payload(vacDccData, recDccData)
