@@ -108,14 +108,19 @@ class PersonDetailsViewModelTest : BaseTest() {
         every { timeStamper.nowUTC } returns Instant.EPOCH
         val vaccinatedPerson = mockk<VaccinatedPerson>().apply {
             every { vaccinationCertificates } returns setOf(vaccCert1, vaccCert2)
-            every { identifier } returns certificatePersonIdentifier
             every { getVaccinationStatus(any()) } returns VaccinatedPerson.Status.IMMUNITY
+            every { getDaysUntilImmunity(any()) } returns null
+            every { getDaysSinceLastVaccination() } returns 21
+            every { boosterRule } returns null
+            every { identifier } returns certificatePersonIdentifier
         }
         every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPerson))
         personDetailsViewModel(certificatePersonIdentifier.codeSHA256)
             .apply {
                 uiState.getOrAwaitValue().apply {
+
                     get(0) as PersonDetailsQrCard.Item
+
                     (get(1) as CwaUserCard.Item).apply {
                         onSwitch(true)
                         coVerify { personCertificatesProvider.setCurrentCwaUser(any()) }

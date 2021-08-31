@@ -36,7 +36,7 @@ data class VaccinatedPerson(
 
     val hasBoosterNotification get() = false
 
-    fun getDaysSinceLastVaccination(): Int? {
+    fun getDaysSinceLastVaccination(): Int {
         val today = Instant.now().toLocalDateUserTz()
         return Days.daysBetween(getNewestDoseVaccinatedOn(), today).days
     }
