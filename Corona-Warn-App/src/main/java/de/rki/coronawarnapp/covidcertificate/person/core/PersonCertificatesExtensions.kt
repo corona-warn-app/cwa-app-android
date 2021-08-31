@@ -76,9 +76,6 @@ private fun Collection<CwaCovidCertificate>.rule3FindRecentLastShot(
 ): CwaCovidCertificate? = this
     .filterIsInstance<VaccinationCertificate>()
     .filter {
-        with(it.rawCertificate.vaccination) { doseNumber == totalSeriesOfDoses }
-    }
-    .filter {
         Days.daysBetween(it.rawCertificate.vaccination.vaccinatedOn, nowUtc.toLocalDateUtc()).days > 14
     }
     .maxByOrNull { it.rawCertificate.vaccination.vaccinatedOn }
@@ -113,9 +110,6 @@ private fun Collection<CwaCovidCertificate>.rule5findTooRecentFinalShot(
     nowUtc: Instant
 ): CwaCovidCertificate? = this
     .filterIsInstance<VaccinationCertificate>()
-    .filter {
-        with(it.rawCertificate.vaccination) { doseNumber == totalSeriesOfDoses }
-    }
     .filter {
         Days.daysBetween(it.rawCertificate.vaccination.vaccinatedOn, nowUtc.toLocalDateUtc()).days <= 14
     }
