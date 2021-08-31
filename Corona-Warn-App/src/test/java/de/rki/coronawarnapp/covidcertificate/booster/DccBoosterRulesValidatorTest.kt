@@ -14,6 +14,8 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import dgca.verifier.app.engine.DefaultCertLogicEngine
+import dgca.verifier.app.engine.Result
+import dgca.verifier.app.engine.ValidationResult
 import dgca.verifier.app.engine.data.CertificateType
 import dgca.verifier.app.engine.data.ExternalParameter
 import dgca.verifier.app.engine.data.Rule
@@ -86,6 +88,61 @@ class DccBoosterRulesValidatorTest : BaseTest() {
         }
     """.trimIndent()
 
+    private val recCertJsonMalformed1 = """
+        {
+          "ver" : "1.2.1",
+          "nam" : {
+            "fn" : "Musterfrau-Gößinger",
+            "gn" : "Gabriele",
+            "fnt" : "MUSTERFRAU<GOESSINGER",
+            "gnt" : "GABRIELE"
+          },
+          "dob" : "1998-02-26",
+        }
+    """.trimIndent()
+
+    private val recCertJsonMalformed2 = """
+        {
+          "ver" : "1.2.1",
+          "nam" : {
+            "fn" : "Musterfrau-Gößinger",
+            "gn" : "Gabriele",
+            "fnt" : "MUSTERFRAU<GOESSINGER",
+            "gnt" : "GABRIELE"
+          },
+          "dob" : "1998-02-26",
+          "r" : []
+        }
+    """.trimIndent()
+
+    private val recCertJsonMalformed3 = """
+        {
+          "ver" : "1.2.1",
+          "nam" : {
+            "fn" : "Musterfrau-Gößinger",
+            "gn" : "Gabriele",
+            "fnt" : "MUSTERFRAU<GOESSINGER",
+            "gnt" : "GABRIELE"
+          },
+          "dob" : "1998-02-26",
+          "r" : null
+        }
+    """.trimIndent()
+
+    private val recCertJsonMalformed4 = """
+        {
+          "ver" : "1.2.1",
+          "nam" : {
+            "fn" : "Musterfrau-Gößinger",
+            "gn" : "Gabriele",
+            "fnt" : "MUSTERFRAU<GOESSINGER",
+            "gnt" : "GABRIELE"
+          },
+          "dob" : "1998-02-26",
+          "r" : ""
+        }
+    """.trimIndent()
+
     private val payloadJson = """
         {
           "ver" : "1.2.1",
@@ -142,7 +199,7 @@ class DccBoosterRulesValidatorTest : BaseTest() {
     }
 
     @Test
-    fun `Validate params to CertLogic`() = runBlockingTest {
+    fun `Validate params to CertLogic - Success`() = runBlockingTest {
         val rule = DccValidationRule(
             identifier = "identifier",
             typeDcc = DccValidationRule.Type.ACCEPTANCE,
@@ -204,7 +261,14 @@ class DccBoosterRulesValidatorTest : BaseTest() {
                 }
                 arg<String>(4).apply { objectMapper.readTree(this).toPrettyString() shouldBe payloadJson }
 
-                emptyList()
+                listOf(
+                    ValidationResult(
+                        rule = rule.asExternalRule,
+                        result = Result.PASSED,
+                        current = "",
+                        validationErrors = null
+                    )
+                )
             }
         }
         val validator = DccBoosterRulesValidator(
@@ -213,7 +277,66 @@ class DccBoosterRulesValidatorTest : BaseTest() {
             objectMapper = objectMapper
         )
 
-        validator.validateBoosterRules(listOf(mockRec1, mockVac2)) shouldBe null
+        validator.validateBoosterRules(listOf(mockRec1, mockVac2))?.apply {
+            rule.identifier shouldBe rule.identifier
+            result shouldBe DccValidationRule.Result.PASSED
+        }
+    }
+
+    @Test
+    fun `Validate params to CertLogic - Failure`() = runBlockingTest {
+        val rule = DccValidationRule(
+            identifier = "identifier",
+            typeDcc = DccValidationRule.Type.ACCEPTANCE,
+            country = DccCountry.DE,
+            version = "1.0.0",
+            schemaVersion = "1.3.0",
+            engine = "CERTLOGIC",
+            engineVersion = "0.9.0",
+            certificateType = "Vaccination",
+            description = emptyList(),
+            validFrom = "2021-05-27T07:46:40Z",
+            validTo = "2023-05-27T07:46:40Z",
+            affectedFields = emptyList(),
+            logic = mockk()
+        )
+
+        val mockHeader = mockk<DccHeader>().apply {
+            every { issuedAt } returns Instant.EPOCH
+            every { expiresAt } returns Instant.EPOCH
+        }
+        val vacDccData = mockk<DccData<VaccinationDccV1>>().apply {
+            every { certificateJson } returns vacCertJson
+            every { header } returns mockHeader
+            every { certificate } returns mockk<VaccinationDccV1>().apply {
+                every { version } returns "1.2.1"
+            }
+        }
+
+        val mockVac2 = mockk<VaccinationCertificate>().apply {
+            every { vaccinatedOn } returns LocalDate.parse("2021.02.01", dateTime)
+            every { headerIssuedAt } returns Instant.parse("2021-04-01T00:00:00.000Z")
+            every { dccData } returns vacDccData
+        }
+
+        coEvery { dccBoosterRulesRepository.rules } returns flowOf(listOf(rule))
+        val mockEngine = mockk<DefaultCertLogicEngine>().apply {
+            every { validate(any(), any(), any(), any(), any()) } returns listOf(
+                ValidationResult(
+                    rule = rule.asExternalRule,
+                    result = Result.FAIL,
+                    current = "",
+                    validationErrors = listOf(Exception())
+                )
+            )
+        }
+        val validator = DccBoosterRulesValidator(
+            boosterRulesRepository = dccBoosterRulesRepository,
+            engine = { mockEngine },
+            objectMapper = objectMapper
+        )
+
+        validator.validateBoosterRules(listOf(mockVac2)) shouldBe null
     }
 
     @Test
@@ -260,6 +383,26 @@ class DccBoosterRulesValidatorTest : BaseTest() {
         }
         val payload = validator().payload(vacDccData, recDccData)
         objectMapper.readTree(payload).toPrettyString() shouldBe payloadJson
+    }
+
+    @Test
+    fun `Constructed payload should be Vac Json when r0 is missing for Rec Certficate`() {
+        listOf(
+            recCertJsonMalformed1,
+            recCertJsonMalformed2,
+            recCertJsonMalformed3,
+            recCertJsonMalformed4
+        ).forEach { json ->
+            val vacDccData = mockk<DccData<VaccinationDccV1>>().apply {
+                every { certificateJson } returns vacCertJson
+            }
+
+            val recDccData = mockk<DccData<RecoveryDccV1>>().apply {
+                every { certificateJson } returns json
+            }
+            val payload = validator().payload(vacDccData, recDccData)
+            objectMapper.readTree(payload).toPrettyString() shouldBe vacCertJson
+        }
     }
 
     // ////////////////////
