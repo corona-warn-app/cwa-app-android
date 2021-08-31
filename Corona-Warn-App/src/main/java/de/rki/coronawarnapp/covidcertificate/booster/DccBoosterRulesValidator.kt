@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.booster
 
 import androidx.annotation.VisibleForTesting
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.node.ObjectNode
 import dagger.Lazy
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
@@ -59,14 +59,7 @@ class DccBoosterRulesValidator @Inject constructor(
         val vacDccData = vaccinationCertificate.dccData
         val recDccData = recoveryCertificate?.dccData
 
-        val payload = objectMapper.writeValueAsString(
-            JsonPayload(
-                v = listOf(vacDccData.certificate.payload),
-                r = recDccData?.certificate?.payload?.let { listOf(it) },
-                nam = vacDccData.certificate.nameData,
-                ver = vacDccData.certificate.version
-            )
-        )
+        val payload = payload(vacDccData, recDccData)
 
         val externalParameter = ExternalParameter(
             validationClock = ZonedDateTime.now(UTC_ZONE_ID),
@@ -100,17 +93,28 @@ class DccBoosterRulesValidator @Inject constructor(
         return ruleResults.firstOrNull { it.result == DccValidationRule.Result.PASSED }
     }
 
-    companion object {
-        private val TAG = DccBoosterRulesValidator::class.simpleName
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun payload(
+        vacDccData: DccData<out DccV1.MetaData>,
+        recDccData: DccData<out DccV1.MetaData>?
+    ): String = try {
+        val vacObjectNode = objectMapper.readTree(vacDccData.certificateJson) as ObjectNode
+        val r0 = recDccData?.certificateJson?.let { objectMapper.readTree(it).path(R)[0] }
+        r0?.let {
+            Timber.tag(TAG).d("Setting r[0] to payload")
+            vacObjectNode.putArray(R).add(it)
+        }
+
+        vacObjectNode.toString()
+    } catch (e: Exception) {
+        Timber.tag(TAG).d(e, "Setting  r[0] failed, fallback to Vaccine Json")
+        vacDccData.certificateJson
     }
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private data class JsonPayload(
-        @JsonProperty("v") val v: List<DccV1.Payload>,
-        @JsonProperty("r") val r: List<DccV1.Payload>?,
-        @JsonProperty("nam") val nam: DccV1.NameData,
-        @JsonProperty("ver") val ver: String,
-    )
+    companion object {
+        private const val R = "r"
+        private val TAG = DccBoosterRulesValidator::class.simpleName
+    }
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.covidcertificate.booster
 import com.fasterxml.jackson.databind.ObjectMapper
 import dagger.Lazy
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
+import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
@@ -30,6 +32,87 @@ class DccBoosterRulesValidatorTest : BaseTest() {
     @Inject @BaseJackson lateinit var objectMapper: ObjectMapper
     @MockK lateinit var dccBoosterRulesRepository: BoosterRulesRepository
 
+    private val vacCertJson = """
+        {
+          "ver" : "1.2.1",
+          "nam" : {
+            "fn" : "Musterfrau-Gößinger",
+            "gn" : "Gabriele",
+            "fnt" : "MUSTERFRAU<GOESSINGER",
+            "gnt" : "GABRIELE"
+          },
+          "dob" : "1998-02-26",
+          "v" : [ {
+            "tg" : "840539006",
+            "vp" : "1119349007",
+            "mp" : "EU/1/20/1528",
+            "ma" : "ORG-100030215",
+            "dn" : 1,
+            "sd" : 2,
+            "dt" : "2021-02-18",
+            "co" : "AT",
+            "is" : "Ministry of Health, Austria",
+            "ci" : "URN:UVCI:01:AT:10807843F94AEE0EE5093FBC254BD813#B"
+          } ]
+        }
+    """.trimIndent()
+
+    private val recCertJson = """
+        {
+          "ver" : "1.2.1",
+          "nam" : {
+            "fn" : "Musterfrau-Gößinger",
+            "gn" : "Gabriele",
+            "fnt" : "MUSTERFRAU<GOESSINGER",
+            "gnt" : "GABRIELE"
+          },
+          "dob" : "1998-02-26",
+          "r" : [ {
+            "tg" : "840539006",
+            "fr" : "2021-02-20",
+            "co" : "AT",
+            "is" : "Ministry of Health, Austria",
+            "df" : "2021-04-04",
+            "du" : "2021-10-04",
+            "ci" : "URN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"
+          } ]
+        }
+    """.trimIndent()
+
+    private val payloadJson = """
+        {
+          "ver" : "1.2.1",
+          "nam" : {
+            "fn" : "Musterfrau-Gößinger",
+            "gn" : "Gabriele",
+            "fnt" : "MUSTERFRAU<GOESSINGER",
+            "gnt" : "GABRIELE"
+          },
+          "dob" : "1998-02-26",
+          "v" : [ {
+            "tg" : "840539006",
+            "vp" : "1119349007",
+            "mp" : "EU/1/20/1528",
+            "ma" : "ORG-100030215",
+            "dn" : 1,
+            "sd" : 2,
+            "dt" : "2021-02-18",
+            "co" : "AT",
+            "is" : "Ministry of Health, Austria",
+            "ci" : "URN:UVCI:01:AT:10807843F94AEE0EE5093FBC254BD813#B"
+          } ],
+          "r" : [ {
+            "tg" : "840539006",
+            "fr" : "2021-02-20",
+            "co" : "AT",
+            "is" : "Ministry of Health, Austria",
+            "df" : "2021-04-04",
+            "du" : "2021-10-04",
+            "ci" : "URN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"
+          } ]
+        }
+    """.trimIndent()
+
     @BeforeEach
     fun setUp() {
         DaggerCovidCertificateTestComponent.create().inject(this)
@@ -51,6 +134,52 @@ class DccBoosterRulesValidatorTest : BaseTest() {
         validator().validateBoosterRules(emptyList()) shouldBe null
     }
 
+    @Test
+    fun `Constructed payload should be Vac Json in case of failure`() {
+        val vacDccData = mockk<DccData<VaccinationDccV1>>().apply {
+            every { certificateJson } returns vacCertJson
+        }
+
+        val recDccData = mockk<DccData<VaccinationDccV1>>().apply {
+            every { certificateJson } returns recCertJson
+        }
+
+        val objectMapper2 = mockk<ObjectMapper>().apply {
+            every { readTree(any<String>()) } throws Exception("Crash \uD83D\uDCA5")
+        }
+
+        val validator = DccBoosterRulesValidator(
+            boosterRulesRepository = dccBoosterRulesRepository,
+            engine = engine,
+            objectMapper = objectMapper2
+        )
+        val payload = validator.payload(vacDccData, recDccData)
+        objectMapper.readTree(payload).toPrettyString() shouldBe vacCertJson
+    }
+
+    @Test
+    fun `Constructed payload should be Vac Json`() {
+        val vacDccData = mockk<DccData<VaccinationDccV1>>().apply {
+            every { certificateJson } returns vacCertJson
+        }
+
+        val payload = validator().payload(vacDccData, null)
+        objectMapper.readTree(payload).toPrettyString() shouldBe vacCertJson
+    }
+
+    @Test
+    fun `Constructed payload should have r0`() {
+        val vacDccData = mockk<DccData<VaccinationDccV1>>().apply {
+            every { certificateJson } returns vacCertJson
+        }
+
+        val recDccData = mockk<DccData<VaccinationDccV1>>().apply {
+            every { certificateJson } returns recCertJson
+        }
+        val payload = validator().payload(vacDccData, recDccData)
+        objectMapper.readTree(payload).toPrettyString() shouldBe payloadJson
+    }
+
     // ////////////////////
     // Recovery
     // ///////////////////
@@ -58,16 +187,16 @@ class DccBoosterRulesValidatorTest : BaseTest() {
     fun `Most recent Rec Cert based on testedPositiveOn date`() {
         val mockRec1 = mockk<RecoveryCertificate>().apply {
             every { testedPositiveOn } returns LocalDate.parse("2021.03.01", dateTime)
-            every { headerIssuedAt } returns Instant.parse("2020-04-01T00:00:00.000Z")
+            every { headerIssuedAt } returns Instant.parse("2021-04-01T00:00:00.000Z")
         }
         val mockRec2 = mockk<RecoveryCertificate>().apply {
             every { testedPositiveOn } returns LocalDate.parse("2021.02.01", dateTime)
-            every { headerIssuedAt } returns Instant.parse("2020-04-01T00:00:00.000Z")
+            every { headerIssuedAt } returns Instant.parse("2021-04-01T00:00:00.000Z")
         }
 
         val mockRec3 = mockk<RecoveryCertificate>().apply {
             every { testedPositiveOn } returns LocalDate.parse("2021.01.01", dateTime)
-            every { headerIssuedAt } returns Instant.parse("2020-04-01T00:00:00.000Z")
+            every { headerIssuedAt } returns Instant.parse("2021-04-01T00:00:00.000Z")
         }
 
         val dccList = listOf(mockRec1, mockRec2, mockRec3).shuffled()
@@ -78,16 +207,16 @@ class DccBoosterRulesValidatorTest : BaseTest() {
     fun `Most recent Rec Cert based on issuedAt date`() {
         val mockRec1 = mockk<RecoveryCertificate>().apply {
             every { testedPositiveOn } returns LocalDate.parse("2021.01.01", dateTime)
-            every { headerIssuedAt } returns Instant.parse("2020-02-01T00:00:00.000Z")
+            every { headerIssuedAt } returns Instant.parse("2021-02-01T00:00:00.000Z")
         }
         val mockRec2 = mockk<RecoveryCertificate>().apply {
             every { testedPositiveOn } returns LocalDate.parse("2021.01.01", dateTime)
-            every { headerIssuedAt } returns Instant.parse("2020-03-01T00:00:00.000Z")
+            every { headerIssuedAt } returns Instant.parse("2021-03-01T00:00:00.000Z")
         }
 
         val mockRec3 = mockk<RecoveryCertificate>().apply {
             every { testedPositiveOn } returns LocalDate.parse("2021.01.01", dateTime)
-            every { headerIssuedAt } returns Instant.parse("2020-01-01T00:00:00.000Z")
+            every { headerIssuedAt } returns Instant.parse("2021-01-01T00:00:00.000Z")
         }
 
         val dccList = listOf(mockRec1, mockRec2, mockRec3).shuffled()
@@ -98,7 +227,7 @@ class DccBoosterRulesValidatorTest : BaseTest() {
     fun `Most recent Rec Cert singe certificate`() {
         val mockRec1 = mockk<RecoveryCertificate>().apply {
             every { testedPositiveOn } returns LocalDate.parse("2021.01.01", dateTime)
-            every { headerIssuedAt } returns Instant.parse("2020-02-01T00:00:00.000Z")
+            every { headerIssuedAt } returns Instant.parse("2021-02-01T00:00:00.000Z")
         }
 
         val dccList = listOf(mockRec1).shuffled()
@@ -117,16 +246,16 @@ class DccBoosterRulesValidatorTest : BaseTest() {
     fun `Most recent Vac Cert based on vaccinationOn date`() {
         val mockVac1 = mockk<VaccinationCertificate>().apply {
             every { vaccinatedOn } returns LocalDate.parse("2021.03.01", dateTime)
-            every { headerIssuedAt } returns Instant.parse("2020-04-01T00:00:00.000Z")
+            every { headerIssuedAt } returns Instant.parse("2021-04-01T00:00:00.000Z")
         }
         val mockVac2 = mockk<VaccinationCertificate>().apply {
             every { vaccinatedOn } returns LocalDate.parse("2021.02.01", dateTime)
-            every { headerIssuedAt } returns Instant.parse("2020-04-01T00:00:00.000Z")
+            every { headerIssuedAt } returns Instant.parse("2021-04-01T00:00:00.000Z")
         }
 
         val mockVac3 = mockk<VaccinationCertificate>().apply {
             every { vaccinatedOn } returns LocalDate.parse("2021.01.01", dateTime)
-            every { headerIssuedAt } returns Instant.parse("2020-04-01T00:00:00.000Z")
+            every { headerIssuedAt } returns Instant.parse("2021-04-01T00:00:00.000Z")
         }
 
         val dccList = listOf(mockVac1, mockVac2, mockVac3).shuffled()
@@ -137,16 +266,16 @@ class DccBoosterRulesValidatorTest : BaseTest() {
     fun `Most recent Vac Cert based on issuedAt date`() {
         val mockVac1 = mockk<VaccinationCertificate>().apply {
             every { vaccinatedOn } returns LocalDate.parse("2021.01.01", dateTime)
-            every { headerIssuedAt } returns Instant.parse("2020-02-01T00:00:00.000Z")
+            every { headerIssuedAt } returns Instant.parse("2021-02-01T00:00:00.000Z")
         }
         val mockVac2 = mockk<VaccinationCertificate>().apply {
             every { vaccinatedOn } returns LocalDate.parse("2021.01.01", dateTime)
-            every { headerIssuedAt } returns Instant.parse("2020-03-01T00:00:00.000Z")
+            every { headerIssuedAt } returns Instant.parse("2021-03-01T00:00:00.000Z")
         }
 
         val mockVac3 = mockk<VaccinationCertificate>().apply {
             every { vaccinatedOn } returns LocalDate.parse("2021.01.01", dateTime)
-            every { headerIssuedAt } returns Instant.parse("2020-01-01T00:00:00.000Z")
+            every { headerIssuedAt } returns Instant.parse("2021-01-01T00:00:00.000Z")
         }
 
         val dccList = listOf(mockVac1, mockVac2, mockVac3).shuffled()
@@ -157,7 +286,7 @@ class DccBoosterRulesValidatorTest : BaseTest() {
     fun `Most recent Vac Cert singe certificate`() {
         val mockVac1 = mockk<VaccinationCertificate>().apply {
             every { vaccinatedOn } returns LocalDate.parse("2021.01.01", dateTime)
-            every { headerIssuedAt } returns Instant.parse("2020-02-01T00:00:00.000Z")
+            every { headerIssuedAt } returns Instant.parse("2021-02-01T00:00:00.000Z")
         }
 
         val dccList = listOf(mockVac1).shuffled()
