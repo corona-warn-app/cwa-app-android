@@ -74,7 +74,7 @@ data class VaccinatedPerson(
         return IMMUNITY_WAITING_DAYS - Days.daysBetween(newestFullDose.vaccinatedOn, today).days
     }
 
-    fun getNewestDoseVaccinatedOn(): LocalDate =
+    private fun getNewestDoseVaccinatedOn(): LocalDate =
         vaccinationCertificates.maxOf { it.vaccinatedOn }
 
     private fun getNewestFullDose(): VaccinationCertificate? = vaccinationCertificates

@@ -36,7 +36,7 @@ class VaccinationInfoCard(parent: ViewGroup) :
         )
 
         when (vaccinationStatus) {
-            VaccinatedPerson.Status.INCOMPLETE -> {
+            VaccinatedPerson.Status.COMPLETE -> {
                 body.text = when {
                     daysUntilImmunity == 1 -> context.resources.getString(
                         R.string.vaccination_list_immunity_tomorrow_card_body
@@ -66,14 +66,15 @@ class VaccinationInfoCard(parent: ViewGroup) :
                 )
             }
 
-            VaccinatedPerson.Status.COMPLETE,
             VaccinatedPerson.Status.IMMUNITY -> {
                 body.text = context.resources.getString(
                     R.string.vaccination_list_immunity_card_body
                 )
             }
 
-            else -> context.getString(R.string.vaccination_certificate_incomplete_vaccination)
+            VaccinatedPerson.Status.INCOMPLETE -> {
+                body.text = context.getString(R.string.vaccination_certificate_incomplete_vaccination)
+            }
         }
     }
 
