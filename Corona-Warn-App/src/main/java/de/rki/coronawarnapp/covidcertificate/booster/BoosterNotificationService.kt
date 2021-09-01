@@ -26,7 +26,7 @@ class BoosterNotificationService @Inject constructor(
     private val mutex = Mutex()
 
     suspend fun checkBoosterNotification() = mutex.withLock {
-        Timber.tag(TAG).v("checkBoosterNotification()")
+        Timber.tag(TAG).v("checkBoosterNotification() - Started")
 
         val lastCheck = covidCertificateSettings.lastDccBoosterCheck.value
 
@@ -39,7 +39,7 @@ class BoosterNotificationService @Inject constructor(
         Timber.tag(TAG).d("All persons=%s", allPersons.map { it.personIdentifier.codeSHA256 })
 
         val vaccinatedPersonsMap = vaccinationRepository.vaccinationInfos.first().associateBy { it.identifier }
-        Timber.tag(TAG).d("Vaccinated persons=%s", vaccinatedPersonsMap.keys)
+        Timber.tag(TAG).d("Vaccinated persons=%s", vaccinatedPersonsMap.keys.map { it.codeSHA256 })
 
         allPersons.forEach { person ->
             val codeSHA256 = person.personIdentifier.codeSHA256
@@ -49,7 +49,9 @@ class BoosterNotificationService @Inject constructor(
                     Timber.tag(TAG).d("Person %s isn't vaccinated yet", codeSHA256)
                     return@forEach
                 }
+                Timber.tag(TAG).d("Person %s has %s certificates", codeSHA256, person.certificates.size)
                 val rule = dccBoosterRulesValidator.validateBoosterRules(person.certificates)
+
                 Timber.tag(TAG).d("Booster rule= %s for person=%s ", rule, codeSHA256)
 
                 vaccinationRepository.updateBoosterRule(vaccinatedPerson.identifier, rule)
@@ -60,7 +62,7 @@ class BoosterNotificationService @Inject constructor(
         }
 
         covidCertificateSettings.lastDccBoosterCheck.update { timeStamper.nowUTC }
-        Timber.tag(TAG).v("checkBoosterNotification() finished")
+        Timber.tag(TAG).v("checkBoosterNotification() - Finished")
     }
 
     private suspend fun notifyIfBoosterChanged(
