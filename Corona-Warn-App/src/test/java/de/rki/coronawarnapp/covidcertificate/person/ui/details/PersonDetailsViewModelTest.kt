@@ -114,6 +114,7 @@ class PersonDetailsViewModelTest : BaseTest() {
             every { getDaysSinceLastVaccination() } returns 21
             every { boosterRule } returns null
             every { identifier } returns certificatePersonIdentifier
+            every { hasBoosterNotification } returns false
         }
         every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPerson))
         personDetailsViewModel(certificatePersonIdentifier.codeSHA256)
