@@ -299,7 +299,7 @@ class VaccinationRepository @Inject constructor(
             val vaccinatedPerson = singleOrNull { it.identifier == personIdentifier }
 
             if (vaccinatedPerson == null) {
-                Timber.tag(TAG).w("Couldn't find person %s", personIdentifier)
+                Timber.tag(TAG).w("Couldn't find person %s", personIdentifier.codeSHA256)
                 return@updateBlocking this
             }
 
@@ -317,12 +317,12 @@ class VaccinationRepository @Inject constructor(
         personIdentifier: CertificatePersonIdentifier,
         time: Instant
     ) {
-        Timber.tag(TAG).d("updateBoosterNotifiedAt(personIdentifier=%s, time=%s)", personIdentifier, time)
+        Timber.tag(TAG).d("updateBoosterNotifiedAt(personIdentifier=%s, time=%s)", personIdentifier.codeSHA256, time)
         internalData.updateBlocking {
             val vaccinatedPerson = singleOrNull { it.identifier == personIdentifier }
 
             if (vaccinatedPerson == null) {
-                Timber.tag(TAG).w("Couldn't find person %s", personIdentifier)
+                Timber.tag(TAG).w("Couldn't find person %s", personIdentifier.codeSHA256)
                 return@updateBlocking this
             }
 
