@@ -4,13 +4,16 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterNotificationService
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import org.joda.time.Instant
 
 class BoosterTestViewModel @AssistedInject constructor(
     private val boosterNotificationService: BoosterNotificationService,
-    private val boosterRulesRepository: BoosterRulesRepository
+    private val boosterRulesRepository: BoosterRulesRepository,
+    private val covidCertificateSettings: CovidCertificateSettings,
 ) : CWAViewModel() {
     fun refreshBoosterRules() = launch {
         boosterRulesRepository.updateBoosterNotificationRules()
@@ -21,6 +24,7 @@ class BoosterTestViewModel @AssistedInject constructor(
     }
 
     fun runBoosterRules() = launch {
+        covidCertificateSettings.lastDccBoosterCheck.update { Instant.EPOCH }
         boosterNotificationService.checkBoosterNotification()
     }
 
