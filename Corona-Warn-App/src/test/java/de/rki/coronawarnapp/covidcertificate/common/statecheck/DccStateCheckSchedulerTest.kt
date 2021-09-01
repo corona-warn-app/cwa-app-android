@@ -49,7 +49,7 @@ class DccStateCheckSchedulerTest : BaseTest() {
 
         every { mockDscData.updatedAt } returns Instant.EPOCH
         every { timeStamper.nowUTC } returns Instant.ofEpochSecond(1234567)
-        coEvery { dccExpirationNotificationService.showNotificationIfExpired() } just Runs
+        coEvery { dccExpirationNotificationService.showNotificationIfStateChanged() } just Runs
     }
 
     fun createInstance(scope: CoroutineScope) = DccStateCheckScheduler(
@@ -96,7 +96,7 @@ class DccStateCheckSchedulerTest : BaseTest() {
             isForeground.value = false
             advanceUntilIdle()
 
-            coVerify(exactly = 1) { dccExpirationNotificationService.showNotificationIfExpired() }
+            coVerify(exactly = 1) { dccExpirationNotificationService.showNotificationIfStateChanged() }
         }
     }
 

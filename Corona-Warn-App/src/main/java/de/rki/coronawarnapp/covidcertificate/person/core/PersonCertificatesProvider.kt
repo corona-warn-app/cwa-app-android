@@ -3,19 +3,14 @@ package de.rki.coronawarnapp.covidcertificate.person.core
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
-import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import javax.inject.Inject
@@ -24,9 +19,9 @@ import javax.inject.Inject
 @Reusable
 class PersonCertificatesProvider @Inject constructor(
     private val personCertificatesSettings: PersonCertificatesSettings,
-    private val vaccinationRepository: VaccinationRepository,
-    private val testCertificateRepository: TestCertificateRepository,
-    private val recoveryCertificateRepository: RecoveryCertificateRepository,
+    vaccinationRepository: VaccinationRepository,
+    testCertificateRepository: TestCertificateRepository,
+    recoveryCertificateRepository: RecoveryCertificateRepository,
     @AppScope private val appScope: CoroutineScope,
 ) {
     init {
@@ -59,7 +54,7 @@ class PersonCertificatesProvider @Inject constructor(
             PersonCertificates(
                 certificates = certs.toCertificateSortOrder(),
                 isCwaUser = personIdentifier == cwaUser,
-                badgeCount = certs.filter { it.hasNotification }.count()
+                badgeCount = certs.filter { it.hasNotificationBadge }.count()
             )
         }.toSet()
     }.shareLatest(scope = appScope)
@@ -74,45 +69,8 @@ class PersonCertificatesProvider @Inject constructor(
         personCertificatesSettings.currentCwaUser.update { personIdentifier }
     }
 
-    val badgeCount: Flow<Int> = combine(
-        testCertificateRepository.certificates.map { certs ->
-            certs.filter { !it.seenByUser && !it.isCertificateRetrievalPending }.size
-        },
-        vaccinationRepository.vaccinationInfos.map { persons ->
-            persons
-                .map { it.vaccinationCertificates }
-                .flatten()
-                .filter { it.getState() !is CwaCovidCertificate.State.Valid }
-                .count { it.getState() != it.lastSeenStateChange }
-        },
-        recoveryCertificateRepository.certificates.map { certs ->
-            certs
-                .map { it.recoveryCertificate }
-                .filter { it.getState() !is CwaCovidCertificate.State.Valid }
-                .count { it.getState() != it.lastSeenStateChange }
-        },
-    ) { newTestCertificates, vacStateChanges, recoveryStateChanges ->
-        newTestCertificates + vacStateChanges + recoveryStateChanges
-    }.shareLatest(scope = appScope)
-
-    // TODO return person badge count
-    val personsBadgeCount: Flow<Int> = flowOf()
-
-    suspend fun acknowledgeStateChange(certificate: CwaCovidCertificate) {
-        Timber.tag(TAG).d("acknowledgeStateChange(containerId=$certificate.containerId)")
-
-        if (certificate.getState() is CwaCovidCertificate.State.Valid && certificate.lastSeenStateChange == null) {
-            Timber.tag(TAG).d("Current state is valid, and previous state was null, don't acknowledge.")
-            return
-        }
-
-        when (certificate) {
-            is VaccinationCertificate -> vaccinationRepository.acknowledgeState(certificate.containerId)
-            is RecoveryCertificate -> recoveryCertificateRepository.acknowledgeState(certificate.containerId)
-            is TestCertificate -> testCertificateRepository.acknowledgeState(certificate.containerId)
-            else -> throw IllegalArgumentException("Unknown certificate type: $certificate")
-        }
-    }
+    val personsBadgeCount: Flow<Int> = personCertificates
+        .map { persons -> persons.sumOf { it.badgeCount } }
 
     companion object {
         private val TAG = PersonCertificatesProvider::class.simpleName!!

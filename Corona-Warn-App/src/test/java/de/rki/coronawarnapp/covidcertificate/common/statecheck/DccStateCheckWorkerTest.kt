@@ -30,7 +30,7 @@ class DccStateCheckWorkerTest : BaseTest() {
         MockKAnnotations.init(this)
 
         dccExpirationNotificationService.apply {
-            coEvery { showNotificationIfExpired() } just Runs
+            coEvery { showNotificationIfStateChanged() } just Runs
         }
     }
 
@@ -50,18 +50,18 @@ class DccStateCheckWorkerTest : BaseTest() {
         createWorker().doWork() shouldBe ListenableWorker.Result.success()
 
         coVerifySequence {
-            dccExpirationNotificationService.showNotificationIfExpired()
+            dccExpirationNotificationService.showNotificationIfStateChanged()
         }
     }
 
     @Test
     fun `retry on errors`() = runBlockingTest {
-        coEvery { dccExpirationNotificationService.showNotificationIfExpired() } throws RuntimeException()
+        coEvery { dccExpirationNotificationService.showNotificationIfStateChanged() } throws RuntimeException()
 
         createWorker().doWork() shouldBe ListenableWorker.Result.retry()
 
         coVerifySequence {
-            dccExpirationNotificationService.showNotificationIfExpired()
+            dccExpirationNotificationService.showNotificationIfStateChanged()
         }
     }
 }
