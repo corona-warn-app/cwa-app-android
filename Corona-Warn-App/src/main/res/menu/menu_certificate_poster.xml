@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_print"
+        android:icon="@drawable/ic_print"
+        android:title="@string/trace_location_organiser_poster_print"
+        android:enabled="false"
+        app:iconTint="@color/colorOnPrimary"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_share"
+        android:icon="@drawable/ic_share"
+        android:title="@string/trace_location_organiser_poster_share"
+        android:enabled="false"
+        app:iconTint="@color/colorOnPrimary"
+        app:showAsAction="ifRoom" />
+</menu>

@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.pdf.ui.poster
 import android.os.Bundle
 import android.print.PrintAttributes
 import android.print.PrintManager
+import android.view.Menu
 import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.Toast
@@ -11,7 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.QrCodePosterFragmentBinding
+import de.rki.coronawarnapp.databinding.CertificatePosterFragmentBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.ui.print.PrintingAdapter
@@ -25,7 +26,7 @@ import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
-class CertificatePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInject {
+class CertificatePosterFragment : Fragment(R.layout.certificate_poster_fragment), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
@@ -40,7 +41,7 @@ class CertificatePosterFragment : Fragment(R.layout.qr_code_poster_fragment), Au
         }
     )
 
-    private val binding: QrCodePosterFragmentBinding by viewBinding()
+    private val binding: CertificatePosterFragmentBinding by viewBinding()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,6 +77,15 @@ class CertificatePosterFragment : Fragment(R.layout.qr_code_poster_fragment), Au
                 }
             }
         )
+        // Request to redraw options menu to enable buttons
+        requireActivity().invalidateOptionsMenu()
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        // TODO: replace true with proper flag
+        menu.findItem(R.id.action_print).isEnabled = true
+        menu.findItem(R.id.action_share).isEnabled = true
+        return super.onPrepareOptionsMenu(menu)
     }
 
     private fun onShareIntent(fileIntent: FileSharing.FileIntentProvider) {
