@@ -124,7 +124,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                     is VaccinationDetailsNavigation.Export -> {
                         doNavigate(
                             VaccinationDetailsFragmentDirections
-                                .actionVaccinationDetailsFragmentToCertificatePdfExportInfoFragment()
+                                .actionVaccinationDetailsFragmentToCertificatePdfExportInfoFragment(event.containerId)
                         )
                     }
                 }

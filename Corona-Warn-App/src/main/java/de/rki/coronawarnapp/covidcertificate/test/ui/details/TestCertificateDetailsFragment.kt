@@ -178,7 +178,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
             is TestCertificateDetailsNavigation.Export -> {
                 doNavigate(
                     TestCertificateDetailsFragmentDirections
-                        .actionTestCertificateDetailsFragmentToCertificatePdfExportInfoFragment()
+                        .actionTestCertificateDetailsFragmentToCertificatePdfExportInfoFragment(event.containerId)
                 )
             }
         }

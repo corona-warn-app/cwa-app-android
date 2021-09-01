@@ -66,7 +66,7 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
         if (recoveryCertificate.value?.canBeExported() == false) {
             exportError.postValue(null)
         } else {
-            events.postValue(RecoveryCertificateDetailsNavigation.Export)
+            events.postValue(RecoveryCertificateDetailsNavigation.Export(containerId))
         }
     }
 

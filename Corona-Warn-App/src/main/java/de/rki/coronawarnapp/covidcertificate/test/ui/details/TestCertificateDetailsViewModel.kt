@@ -67,7 +67,7 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
         if (covidCertificate.value?.canBeExported() == false) {
             exportError.postValue(null)
         } else {
-            events.postValue(TestCertificateDetailsNavigation.Export)
+            events.postValue(TestCertificateDetailsNavigation.Export(containerId))
         }
     }
 

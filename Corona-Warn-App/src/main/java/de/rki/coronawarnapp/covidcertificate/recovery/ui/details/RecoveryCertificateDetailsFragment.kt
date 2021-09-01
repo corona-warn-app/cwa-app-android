@@ -141,7 +141,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
             is RecoveryCertificateDetailsNavigation.Export -> {
                 doNavigate(
                     RecoveryCertificateDetailsFragmentDirections
-                        .actionRecoveryCertificateDetailsFragmentToCertificatePdfExportInfoFragment()
+                        .actionRecoveryCertificateDetailsFragmentToCertificatePdfExportInfoFragment(event.containerId)
                 )
             }
         }
