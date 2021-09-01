@@ -36,25 +36,26 @@ class BoosterNotificationService @Inject constructor(
         }
 
         val allPersons = personCertificatesProvider.personCertificates.first()
-        Timber.tag(TAG).d("All persons=%s", allPersons)
+        Timber.tag(TAG).d("All persons=%s", allPersons.map { it.personIdentifier.codeSHA256 })
 
         val vaccinatedPersonsMap = vaccinationRepository.vaccinationInfos.first().associateBy { it.identifier }
         Timber.tag(TAG).d("Vaccinated persons=%s", vaccinatedPersonsMap.keys)
 
         allPersons.forEach { person ->
+            val codeSHA256 = person.personIdentifier.codeSHA256
             try {
                 val vaccinatedPerson = vaccinatedPersonsMap[person.personIdentifier]
                 if (vaccinatedPerson == null) {
-                    Timber.tag(TAG).d("Person %s isn't vaccinated yet", person.personIdentifier)
+                    Timber.tag(TAG).d("Person %s isn't vaccinated yet", codeSHA256)
                     return@forEach
                 }
                 val rule = dccBoosterRulesValidator.validateBoosterRules(person.certificates)
-                Timber.tag(TAG).d("Booster rule= %s for person=%s ", rule, person.personIdentifier)
+                Timber.tag(TAG).d("Booster rule= %s for person=%s ", rule, codeSHA256)
 
                 vaccinationRepository.updateBoosterRule(vaccinatedPerson.identifier, rule)
                 notifyIfBoosterChanged(vaccinatedPerson, rule)
             } catch (e: Exception) {
-                Timber.tag(TAG).d(e, "Booster rules check for %s failed", person.personIdentifier)
+                Timber.tag(TAG).d(e, "Booster rules check for %s failed", codeSHA256)
             }
         }
 
@@ -66,19 +67,19 @@ class BoosterNotificationService @Inject constructor(
         vaccinatedPerson: VaccinatedPerson,
         rule: DccValidationRule?
     ) {
-        val identifier = vaccinatedPerson.identifier
+        val codeSHA256 = vaccinatedPerson.identifier.codeSHA256
         val lastSeenBoosterRuleIdentifier = vaccinatedPerson.data.lastSeenBoosterRuleIdentifier
         Timber.tag(TAG).d(
-            "BoosterRule of person=%s  lastChecked=%s, lastSeen=%s", identifier.codeSHA256,
+            "BoosterRule of person=%s  lastChecked=%s, lastSeen=%s", codeSHA256,
             rule?.identifier, lastSeenBoosterRuleIdentifier
         )
         if (rule?.identifier.isNullOrEmpty().not() && rule?.identifier != lastSeenBoosterRuleIdentifier) {
-            Timber.tag(TAG).d("Notifying person=%s about rule=%s", identifier, rule?.identifier)
-            boosterNotification.showBoosterNotification(identifier)
-            vaccinationRepository.updateBoosterNotifiedAt(identifier, timeStamper.nowUTC)
-            Timber.tag(TAG).d("Person %s notified about booster rule change", identifier.codeSHA256)
+            Timber.tag(TAG).d("Notifying person=%s about rule=%s", codeSHA256, rule?.identifier)
+            boosterNotification.showBoosterNotification(vaccinatedPerson.identifier)
+            vaccinationRepository.updateBoosterNotifiedAt(vaccinatedPerson.identifier, timeStamper.nowUTC)
+            Timber.tag(TAG).d("Person %s notified about booster rule change", codeSHA256)
         } else {
-            Timber.tag(TAG).d("Person %s isn't notified about booster rule=%s", identifier.codeSHA256, rule?.identifier)
+            Timber.tag(TAG).d("Person %s shouldn't be notified about booster rule=%s", codeSHA256, rule?.identifier)
         }
     }
 
