@@ -5,6 +5,7 @@ import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
 import de.rki.coronawarnapp.databinding.VaccinationInfoCardBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
@@ -54,7 +55,7 @@ class VaccinationInfoCard(parent: ViewGroup) :
 
                 body.text = context.resources.getString(
                     R.string.vaccination_card_booster_eligible,
-                    boosterRule!!.rule.identifier
+                    boosterRule!!.identifier
                 )
 
                 body2Faq.isVisible = true
@@ -81,7 +82,7 @@ class VaccinationInfoCard(parent: ViewGroup) :
     data class Item(
         val vaccinationStatus: VaccinatedPerson.Status,
         val daysUntilImmunity: Int?,
-        val boosterRule: EvaluatedDccRule?,
+        val boosterRule: DccValidationRule?,
         val daysSinceLastVaccination: Int?,
         val hasBoosterNotification: Boolean
     ) : CertificateItem, HasPayloadDiffer {

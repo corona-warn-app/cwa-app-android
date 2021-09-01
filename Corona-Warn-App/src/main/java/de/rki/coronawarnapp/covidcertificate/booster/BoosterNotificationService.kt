@@ -21,7 +21,6 @@ class BoosterNotificationService @Inject constructor(
     private val covidCertificateSettings: CovidCertificateSettings,
     private val dccBoosterRulesValidator: DccBoosterRulesValidator,
     private val vaccinationRepository: VaccinationRepository,
-    private val dccBoosterRulesRepository: BoosterRulesRepository,
     private val timeStamper: TimeStamper,
 ) {
     private val mutex = Mutex()
@@ -42,9 +41,6 @@ class BoosterNotificationService @Inject constructor(
         val vaccinatedPersonsMap = vaccinationRepository.vaccinationInfos.first().associateBy { it.identifier }
         Timber.tag(TAG).d("Vaccinated persons=%s", vaccinatedPersonsMap.keys)
 
-        val boosterRules = dccBoosterRulesRepository.rules.first()
-        Timber.tag(TAG).d("Booster rules=%s", boosterRules)
-
         allPersons.forEach { person ->
             try {
                 val vaccinatedPerson = vaccinatedPersonsMap[person.personIdentifier]
@@ -52,11 +48,11 @@ class BoosterNotificationService @Inject constructor(
                     Timber.tag(TAG).d("Person %s isn't vaccinated yet", person.personIdentifier)
                     return@forEach
                 }
-                val rule = dccBoosterRulesValidator.validateBoosterRules(person.certificates, boosterRules)
+                val rule = dccBoosterRulesValidator.validateBoosterRules(person.certificates)
                 Timber.tag(TAG).d("Booster rule= %s for person=%s ", rule, person.personIdentifier)
 
-                notifyIfBoosterChanged(vaccinatedPerson, rule)
                 vaccinationRepository.updateBoosterRule(vaccinatedPerson.identifier, rule)
+                notifyIfBoosterChanged(vaccinatedPerson, rule)
             } catch (e: Exception) {
                 Timber.tag(TAG).d(e, "Booster rules check for %s failed", person.personIdentifier)
             }
@@ -69,21 +65,19 @@ class BoosterNotificationService @Inject constructor(
         vaccinatedPerson: VaccinatedPerson,
         rule: DccValidationRule?
     ) {
-        val personIdentifier = vaccinatedPerson.identifier
-        if (rule?.identifier.isNullOrEmpty() &&
-            rule?.identifier != vaccinatedPerson.data.lastSeenBoosterRuleIdentifier
-        ) {
-            Timber.tag(TAG).d(
-                "Booster rule of person %s changed from %s to %s",
-                personIdentifier,
-                vaccinatedPerson.data.lastSeenBoosterRuleIdentifier,
-                rule?.identifier
-            )
-
-            boosterNotification.showBoosterNotification(personIdentifier)
-            Timber.tag(TAG).d("Person %s notified about booster rule change", personIdentifier)
-
-            vaccinationRepository.updateBoosterNotifiedAt(personIdentifier, timeStamper.nowUTC)
+        val identifier = vaccinatedPerson.identifier
+        val lastSeenBoosterRuleIdentifier = vaccinatedPerson.data.lastSeenBoosterRuleIdentifier
+        Timber.tag(TAG).d(
+            "BoosterRule of person=%s  lastChecked=%s, lastSeen=%s", identifier,
+            lastSeenBoosterRuleIdentifier, rule?.identifier
+        )
+        if (rule?.identifier.isNullOrEmpty() && rule?.identifier != lastSeenBoosterRuleIdentifier) {
+            Timber.tag(TAG).d("Notifying person=%s about rule=%s", identifier, rule?.identifier)
+            boosterNotification.showBoosterNotification(identifier)
+            vaccinationRepository.updateBoosterNotifiedAt(identifier, timeStamper.nowUTC)
+            Timber.tag(TAG).d("Person %s notified about booster rule change", identifier)
+        } else {
+            Timber.tag(TAG).d("Person %s already notified about booster rule=%s", identifier, rule?.identifier)
         }
     }
 

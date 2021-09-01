@@ -279,7 +279,6 @@ class DccBoosterRulesValidatorTest : BaseTest() {
 
         validator.validateBoosterRules(listOf(mockRec1, mockVac2))?.apply {
             rule.identifier shouldBe rule.identifier
-            result shouldBe DccValidationRule.Result.PASSED
         }
     }
 

@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
@@ -40,13 +41,13 @@ import javax.inject.Singleton
 
 @Singleton
 class VaccinationRepository @Inject constructor(
-    @AppScope private val appScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
+    valueSetsRepository: ValueSetsRepository,
     private val timeStamper: TimeStamper,
     private val storage: VaccinationStorage,
-    valueSetsRepository: ValueSetsRepository,
     private val qrCodeExtractor: DccQrCodeExtractor,
     private val dccStateChecker: DccStateChecker,
+    @AppScope private val appScope: CoroutineScope,
     dscRepository: DscRepository
 ) {
 
