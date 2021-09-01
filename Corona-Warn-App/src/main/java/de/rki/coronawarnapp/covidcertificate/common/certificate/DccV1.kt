@@ -84,6 +84,9 @@ data class DccV1(
         // Unique Certificate Identifier, e.g.  "ci": "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"
         @SerializedName("ci") override val uniqueCertificateIdentifier: String
     ) : Payload {
+        val testedPositiveOn: LocalDate
+            get() = fr.parseLocalDate()
+
         val testedPositiveOnFormatted: String
             get() = fr.formatDate()
 

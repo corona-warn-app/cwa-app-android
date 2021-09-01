@@ -101,6 +101,9 @@ data class RecoveryCertificateContainer(
             override val testedPositiveOnFormatted: String
                 get() = recoveryCertificate.testedPositiveOnFormatted
 
+            override val testedPositiveOn: LocalDate
+                get() = recoveryCertificate.testedPositiveOn
+
             override val validUntilFormatted: String
                 get() = recoveryCertificate.validUntilFormatted
 

@@ -25,7 +25,6 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultSched
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.notification.RATTestResultAvailableNotificationService
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalScheduler
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.execution.VaccinationUpdateScheduler
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.EnvironmentSetup
@@ -86,7 +85,6 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var raTestResultScheduler: RAResultScheduler
     @Inject lateinit var pcrTestResultAvailableNotificationService: PCRTestResultAvailableNotificationService
     @Inject lateinit var raTestResultAvailableNotificationService: RATTestResultAvailableNotificationService
-    @Inject lateinit var vaccinationUpdateScheduler: VaccinationUpdateScheduler
     @Inject lateinit var testCertificateRetrievalScheduler: TestCertificateRetrievalScheduler
     @Inject lateinit var environmentSetup: EnvironmentSetup
     @Inject lateinit var localStatisticsRetrievalScheduler: LocalStatisticsRetrievalScheduler
@@ -152,9 +150,6 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         pcrTestResultAvailableNotificationService.setup()
         raTestResultAvailableNotificationService.setup()
         testCertificateRetrievalScheduler.setup()
-
-        Timber.v("Setting up vaccination data update scheduler.")
-        vaccinationUpdateScheduler.setup()
 
         Timber.v("Setting up local statistics update scheduler")
         localStatisticsRetrievalScheduler.setup()

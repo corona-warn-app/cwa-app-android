@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
@@ -143,16 +142,6 @@ class VaccinationRepository @Inject constructor(
         return updatedPerson.vaccinationCertificates.single {
             it.certificateId == qrCode.uniqueCertificateIdentifier
         }
-    }
-
-    /**
-     * Passing null as identifier will refresh all available data, if within constraints.
-     * Throws VaccinatedPersonNotFoundException is you try to refresh a person that is unknown.
-     */
-    suspend fun refresh(personIdentifier: CertificatePersonIdentifier? = null) {
-        Timber.tag(TAG).d("refresh(personIdentifier=%s)", personIdentifier)
-
-        // NOOP
     }
 
     suspend fun clear() {
