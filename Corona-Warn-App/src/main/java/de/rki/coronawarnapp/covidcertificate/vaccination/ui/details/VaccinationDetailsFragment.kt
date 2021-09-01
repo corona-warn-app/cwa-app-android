@@ -131,7 +131,8 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                     true
                 }
                 R.id.menu_covid_certificate_print -> {
-                    TODO("Implement me!")
+                    viewModel.test()
+                    true
                 }
                 else -> onOptionsItemSelected(it)
             }

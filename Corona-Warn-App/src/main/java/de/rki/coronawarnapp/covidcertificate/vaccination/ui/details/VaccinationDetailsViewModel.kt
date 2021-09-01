@@ -5,6 +5,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.pdf.PdfGenerator
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
@@ -25,6 +26,7 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
     private val dccValidationRepository: DccValidationRepository,
     @AppScope private val appScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
+    private val pdfGenerator: PdfGenerator
 ) : CWAViewModel(dispatcherProvider) {
 
     private var qrCode: CoilQrCode? = null
@@ -83,6 +85,14 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
     fun refreshCertState() = launch(scope = appScope) {
         Timber.v("refreshCertState()")
         vaccinationRepository.acknowledgeState(containerId)
+    }
+
+    fun test() {
+        launch(scope = appScope) {
+            vaccinationCertificate.value?.certificate?.let {
+                pdfGenerator.creteVaccinationCertificatePdf(it)
+            }
+        }
     }
 
     @AssistedFactory

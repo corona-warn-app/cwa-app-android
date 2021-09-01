@@ -1,8 +1,11 @@
 package de.rki.coronawarnapp.environment.presencetracing.qrcodeposter
 
 import android.content.Context
+import android.graphics.Typeface
+import androidx.core.content.res.ResourcesCompat
 import dagger.Module
 import dagger.Provides
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.environment.BaseEnvironmentModule
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
@@ -17,6 +20,12 @@ import javax.inject.Singleton
 
 @Module
 class QrCodePosterTemplateModule : BaseEnvironmentModule() {
+
+    @Singleton
+    @Provides
+    fun provideFont(
+        @AppContext context: Context
+    ): Typeface = ResourcesCompat.getFont(context, R.font.opensans)!!
 
     @Singleton
     @Provides
