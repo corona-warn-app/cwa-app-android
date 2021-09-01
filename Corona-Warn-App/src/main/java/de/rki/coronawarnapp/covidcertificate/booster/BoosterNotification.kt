@@ -32,7 +32,7 @@ class BoosterNotification @Inject constructor(
         }.build()
 
         notificationHelper.sendNotification(
-            NotificationConstants.DCC_BOOSTER_NOTIFICATION_ID,
+            System.identityHashCode(personIdentifier),
             notification
         )
     }
