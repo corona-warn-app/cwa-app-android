@@ -45,7 +45,7 @@ class DccStateCheckScheduler @Inject constructor(
             .distinctUntilChanged()
             .filter { it } // Only when going into foreground
             .onEach {
-                dccExpirationNotificationService.showNotificationIfExpired()
+                dccExpirationNotificationService.showNotificationIfStateChanged()
             }
             .launchIn(appScope)
 

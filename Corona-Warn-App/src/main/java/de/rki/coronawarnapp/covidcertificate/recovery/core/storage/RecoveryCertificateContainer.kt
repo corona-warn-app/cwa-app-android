@@ -62,6 +62,9 @@ data class RecoveryCertificateContainer(
             override val notifiedExpiredAt: Instant?
                 get() = data.notifiedExpiredAt
 
+            override val notifiedInvalidAt: Instant?
+                get() = data.notifiedInvalidAt
+
             override val lastSeenStateChange: State?
                 get() = data.lastSeenStateChange
 
@@ -136,11 +139,11 @@ data class RecoveryCertificateContainer(
             override val dccData: DccData<out DccV1.MetaData>
                 get() = certificateData
 
-            // TODO check notification conditions
-            override val hasNotification: Boolean
-                get() = false
-            override val notifiedInvalidAt: Instant?
-                get() = null
+            override val hasNotificationBadge: Boolean
+                get() {
+                    val state = getState()
+                    return state !is State.Valid && state != lastSeenStateChange
+                }
 
             override fun toString(): String = "RecoveryCertificate($containerId)"
         }

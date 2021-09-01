@@ -48,7 +48,6 @@ class PersonOverviewFragmentTest : BaseUITest() {
         viewModel.apply {
             every { events } returns SingleLiveEvent()
             every { personCertificates } returns MutableLiveData()
-            every { markNewCertsAsSeen } returns MutableLiveData()
         }
         setupFakeImageLoader(
             createFakeImageLoaderForQrCodes()
