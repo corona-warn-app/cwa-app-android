@@ -108,7 +108,9 @@ class BoosterRulesRepositoryTest : BaseTest() {
 
     @Test
     fun `update booster notification rules server fails and no cache`() = runBlockingTest2(ignoreActive = true) {
-        coEvery { server.ruleSetJson(Type.BOOSTER_NOTIFICATION) } throws DccValidationException(DccValidationException.ErrorCode.BOOSTER_NOTIFICATION_RULE_SERVER_ERROR)
+        coEvery {
+            server.ruleSetJson(Type.BOOSTER_NOTIFICATION)
+        } throws DccValidationException(DccValidationException.ErrorCode.BOOSTER_NOTIFICATION_RULE_SERVER_ERROR)
 
         with(createInstance(this)) {
             updateBoosterNotificationRules() shouldBe emptyList()
