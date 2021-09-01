@@ -23,6 +23,7 @@ class BoosterTestFragment : Fragment(R.layout.fragment_test_booster), AutoInject
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             refreshBoosterRules.setOnClickListener { viewModel.refreshBoosterRules() }
+            clearBoosterRules.setOnClickListener { viewModel.clearBoosterRules() }
             runBoosterRules.setOnClickListener { viewModel.runBoosterRules() }
         }
     }
