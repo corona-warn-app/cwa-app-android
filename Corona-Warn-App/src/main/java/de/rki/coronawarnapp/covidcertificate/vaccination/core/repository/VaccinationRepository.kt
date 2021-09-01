@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.toVaccinationContainer
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -274,6 +275,20 @@ class VaccinationRepository @Inject constructor(
 
             this.minus(toUpdatePerson).plus(newPerson)
         }
+    }
+
+    suspend fun updateBoosterRule(
+        identifier: CertificatePersonIdentifier,
+        rule: DccValidationRule?
+    ) {
+        Timber.tag(TAG).d("updateBoosterRule(personIdentifier=%s, ruleIdentifier=%s)", identifier, rule?.identifier)
+    }
+
+    suspend fun updateBoosterNotifiedAt(
+        identifier: CertificatePersonIdentifier,
+        time: Instant
+    ) {
+        Timber.tag(TAG).d("updateBoosterNotifiedAt(personIdentifier=%s, time=%s)", identifier, time)
     }
 
     companion object {
