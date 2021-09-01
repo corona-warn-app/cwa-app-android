@@ -110,7 +110,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
                             vaccinationStatus = vaccinationStatus,
                             daysUntilImmunity = daysUntilImmunity,
                             boosterRule = boosterRule,
-                            daysSinceLastVaccination = daysSinceLastVaccination
+                            daysSinceLastVaccination = daysSinceLastVaccination,
+                            hasBoosterNotification = vaccinatedPerson.hasBoosterNotification
                         )
                     )
                 }

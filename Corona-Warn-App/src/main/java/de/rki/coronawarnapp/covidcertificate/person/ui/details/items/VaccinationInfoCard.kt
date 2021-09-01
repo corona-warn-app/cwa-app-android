@@ -58,7 +58,7 @@ class VaccinationInfoCard(parent: ViewGroup) :
                 )
 
                 body2Faq.isVisible = true
-                boosterBadge.isVisible = true
+                boosterBadge.isVisible = curItem.hasBoosterNotification
                 body2Faq.setTextWithUrl(
                     R.string.vaccination_card_booster_eligible_faq,
                     R.string.vaccination_card_booster_eligible_faq_link_container,
@@ -82,7 +82,8 @@ class VaccinationInfoCard(parent: ViewGroup) :
         val vaccinationStatus: VaccinatedPerson.Status,
         val daysUntilImmunity: Int?,
         val boosterRule: EvaluatedDccRule?,
-        val daysSinceLastVaccination: Int?
+        val daysSinceLastVaccination: Int?,
+        val hasBoosterNotification: Boolean
     ) : CertificateItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
         override val stableId = Item::class.hashCode().toLong()
