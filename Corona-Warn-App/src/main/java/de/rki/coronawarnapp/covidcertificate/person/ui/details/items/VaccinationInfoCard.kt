@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
+import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.getRuleDescription
 import de.rki.coronawarnapp.databinding.VaccinationInfoCardBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import setTextWithUrl
@@ -51,10 +52,10 @@ class VaccinationInfoCard(parent: ViewGroup) :
             }
 
             VaccinatedPerson.Status.BOOSTER_ELIGIBLE -> {
-
                 body.text = context.resources.getString(
-                    R.string.vaccination_card_booster_eligible,
-                    boosterRule!!.identifier
+                    R.string.vaccination_card_booster_eligible_description,
+                    boosterRule!!.getRuleDescription(),
+                    boosterRule.identifier
                 )
 
                 body2Faq.isVisible = true
