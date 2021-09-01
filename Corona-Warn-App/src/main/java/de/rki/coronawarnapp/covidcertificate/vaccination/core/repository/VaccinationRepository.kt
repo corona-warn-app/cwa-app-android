@@ -277,18 +277,73 @@ class VaccinationRepository @Inject constructor(
         }
     }
 
+    suspend fun acknowledgeBoosterRule(personIdentifierCode: String) {
+        Timber.tag(TAG).d("acknowledgeBoosterRule(personIdentifierCode=%s)", personIdentifierCode)
+        internalData.updateBlocking {
+            val vaccinatedPerson = singleOrNull { it.identifier.codeSHA256 == personIdentifierCode }
+
+            if (vaccinatedPerson == null) {
+                Timber.tag(TAG).w("Couldn't find person %s", personIdentifierCode)
+                return@updateBlocking this
+            }
+
+            val updatedPerson = vaccinatedPerson.copy(
+                data = vaccinatedPerson.data.copy(
+                    lastSeenBoosterRuleIdentifier = vaccinatedPerson.data.boosterRule?.identifier
+                )
+            )
+
+            Timber.tag(TAG).d("updatedPerson=%s", updatedPerson)
+
+            this.minus(vaccinatedPerson).plus(updatedPerson)
+        }
+    }
+
     suspend fun updateBoosterRule(
-        identifier: CertificatePersonIdentifier,
+        personIdentifier: CertificatePersonIdentifier,
         rule: DccValidationRule?
     ) {
-        Timber.tag(TAG).d("updateBoosterRule(personIdentifier=%s, ruleIdentifier=%s)", identifier, rule?.identifier)
+        Timber.tag(TAG)
+            .d("updateBoosterRule(personIdentifier=%s, ruleIdentifier=%s)", personIdentifier, rule?.identifier)
+        internalData.updateBlocking {
+            val vaccinatedPerson = singleOrNull { it.identifier == personIdentifier }
+
+            if (vaccinatedPerson == null) {
+                Timber.tag(TAG).w("Couldn't find person %s", personIdentifier)
+                return@updateBlocking this
+            }
+
+            val updatedPerson = vaccinatedPerson.copy(
+                data = vaccinatedPerson.data.copy(boosterRule = rule)
+            )
+
+            Timber.tag(TAG).d("updatedPerson=%s", updatedPerson)
+
+            this.minus(vaccinatedPerson).plus(updatedPerson)
+        }
     }
 
     suspend fun updateBoosterNotifiedAt(
-        identifier: CertificatePersonIdentifier,
+        personIdentifier: CertificatePersonIdentifier,
         time: Instant
     ) {
-        Timber.tag(TAG).d("updateBoosterNotifiedAt(personIdentifier=%s, time=%s)", identifier, time)
+        Timber.tag(TAG).d("updateBoosterNotifiedAt(personIdentifier=%s, time=%s)", personIdentifier, time)
+        internalData.updateBlocking {
+            val vaccinatedPerson = singleOrNull { it.identifier == personIdentifier }
+
+            if (vaccinatedPerson == null) {
+                Timber.tag(TAG).w("Couldn't find person %s", personIdentifier)
+                return@updateBlocking this
+            }
+
+            val updatedPerson = vaccinatedPerson.copy(
+                data = vaccinatedPerson.data.copy(lastBoosterNotifiedAt = time)
+            )
+
+            Timber.tag(TAG).d("updatedPerson=%s", updatedPerson)
+
+            this.minus(vaccinatedPerson).plus(updatedPerson)
+        }
     }
 
     companion object {

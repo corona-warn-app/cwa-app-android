@@ -15,8 +15,8 @@ data class VaccinatedPersonData(
     @SerializedName("lastSeenBoosterRuleIdentifier")
     val lastSeenBoosterRuleIdentifier: String? = null,
 
-    @SerializedName("lastBoosterCheckAt")
-    val lastBoosterCheckAt: Instant? = null,
+    @SerializedName("lastBoosterNotifiedAt")
+    val lastBoosterNotifiedAt: Instant? = null,
 ) {
     val identifier: CertificatePersonIdentifier
         get() = vaccinations.first().personIdentifier

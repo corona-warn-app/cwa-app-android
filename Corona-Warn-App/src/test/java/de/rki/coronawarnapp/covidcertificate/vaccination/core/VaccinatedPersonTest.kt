@@ -64,7 +64,7 @@ class VaccinatedPersonTest : BaseTest() {
             every { vaccinations } returns setOf(testData.personAVac1Container)
             every { boosterRule } returns null
             every { lastSeenBoosterRuleIdentifier } returns null
-            every { lastBoosterCheckAt } returns null
+            every { lastBoosterNotifiedAt } returns null
         }
         val vaccinatedPerson = VaccinatedPerson(
             data = personData,
@@ -81,7 +81,7 @@ class VaccinatedPersonTest : BaseTest() {
         val personData = mockk<VaccinatedPersonData>().apply {
             every { boosterRule } returns null
             every { lastSeenBoosterRuleIdentifier } returns null
-            every { lastBoosterCheckAt } returns null
+            every { lastBoosterNotifiedAt } returns null
             every { vaccinations } returns setOf(testData.personAVac1Container, testData.personAVac2Container)
         }
         val vaccinatedPerson = VaccinatedPerson(
@@ -102,7 +102,7 @@ class VaccinatedPersonTest : BaseTest() {
             every { vaccinations } returns setOf(testData.personAVac1Container, immunityContainer)
             every { boosterRule } returns null
             every { lastSeenBoosterRuleIdentifier } returns null
-            every { lastBoosterCheckAt } returns null
+            every { lastBoosterNotifiedAt } returns null
         }
         val vaccinatedPerson = VaccinatedPerson(
             data = personData,
@@ -140,7 +140,7 @@ class VaccinatedPersonTest : BaseTest() {
             every { vaccinations } returns setOf(testData.personAVac1Container, immunityContainer)
             every { boosterRule } returns null
             every { lastSeenBoosterRuleIdentifier } returns null
-            every { lastBoosterCheckAt } returns null
+            every { lastBoosterNotifiedAt } returns null
         }
         VaccinatedPerson(
             data = personData, valueSet = null,
@@ -176,7 +176,7 @@ class VaccinatedPersonTest : BaseTest() {
         val personData = mockk<VaccinatedPersonData>().apply {
             every { boosterRule } returns null
             every { lastSeenBoosterRuleIdentifier } returns null
-            every { lastBoosterCheckAt } returns null
+            every { lastBoosterNotifiedAt } returns null
             every { vaccinations } returns setOf(
                 mockk<VaccinationContainer>().apply {
                     every { toVaccinationCertificate(any(), any()) } returns
@@ -220,7 +220,7 @@ class VaccinatedPersonTest : BaseTest() {
         val personData = mockk<VaccinatedPersonData>().apply {
             every { boosterRule } returns null
             every { lastSeenBoosterRuleIdentifier } returns null
-            every { lastBoosterCheckAt } returns null
+            every { lastBoosterNotifiedAt } returns null
             every { vaccinations } returns setOf(
                 mockk<VaccinationContainer>().apply {
                     every { toVaccinationCertificate(any(), any()) } returns
@@ -276,7 +276,7 @@ class VaccinatedPersonTest : BaseTest() {
         val personData = mockk<VaccinatedPersonData>().apply {
             every { boosterRule } returns null
             every { lastSeenBoosterRuleIdentifier } returns null
-            every { lastBoosterCheckAt } returns null
+            every { lastBoosterNotifiedAt } returns null
             every { vaccinations } returns setOf(
                 mockk<VaccinationContainer>().apply {
                     every { toVaccinationCertificate(any(), any()) } returns
@@ -313,7 +313,7 @@ class VaccinatedPersonTest : BaseTest() {
         val personData = mockk<VaccinatedPersonData>().apply {
             every { boosterRule } returns null
             every { lastSeenBoosterRuleIdentifier } returns null
-            every { lastBoosterCheckAt } returns null
+            every { lastBoosterNotifiedAt } returns null
             every { vaccinations } returns setOf(
                 mockk<VaccinationContainer>().apply {
                     every { toVaccinationCertificate(any(), any()) } returns
@@ -350,7 +350,7 @@ class VaccinatedPersonTest : BaseTest() {
         val personData = mockk<VaccinatedPersonData>().apply {
             every { boosterRule } returns null
             every { lastSeenBoosterRuleIdentifier } returns null
-            every { lastBoosterCheckAt } returns null
+            every { lastBoosterNotifiedAt } returns null
             every { vaccinations } returns setOf(
                 mockk<VaccinationContainer>().apply {
                     every { toVaccinationCertificate(any(), any()) } returns
@@ -387,7 +387,7 @@ class VaccinatedPersonTest : BaseTest() {
         val personData = mockk<VaccinatedPersonData>().apply {
             every { boosterRule } returns null
             every { lastSeenBoosterRuleIdentifier } returns null
-            every { lastBoosterCheckAt } returns null
+            every { lastBoosterNotifiedAt } returns null
             every { vaccinations } returns setOf(
                 mockk<VaccinationContainer>().apply {
                     every { toVaccinationCertificate(any(), any()) } returns
