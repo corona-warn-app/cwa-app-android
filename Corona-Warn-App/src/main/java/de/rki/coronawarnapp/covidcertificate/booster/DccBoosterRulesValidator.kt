@@ -20,7 +20,6 @@ import dgca.verifier.app.engine.DefaultCertLogicEngine
 import dgca.verifier.app.engine.UTC_ZONE_ID
 import dgca.verifier.app.engine.data.CertificateType
 import dgca.verifier.app.engine.data.ExternalParameter
-import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import java.time.ZonedDateTime
 import javax.inject.Inject
@@ -36,7 +35,7 @@ class DccBoosterRulesValidator @Inject constructor(
     suspend fun validateBoosterRules(dccList: List<CwaCovidCertificate>): EvaluatedDccRule? {
         Timber.tag(TAG).d("validateBoosterRules(dccList=%s)", dccList)
 
-        val boosterRules = boosterRulesRepository.rules.first()
+        val boosterRules = boosterRulesRepository.updateBoosterNotificationRules()
         Timber.tag(TAG).d("boosterRules=%s", boosterRules)
 
         if (boosterRules.isEmpty()) {

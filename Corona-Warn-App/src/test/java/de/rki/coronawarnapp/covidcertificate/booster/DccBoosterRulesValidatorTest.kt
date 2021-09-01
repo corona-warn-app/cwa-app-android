@@ -181,7 +181,7 @@ class DccBoosterRulesValidatorTest : BaseTest() {
     fun setUp() {
         DaggerCovidCertificateTestComponent.create().inject(this)
         MockKAnnotations.init(this)
-        coEvery { dccBoosterRulesRepository.rules } returns flowOf(emptyList())
+        coEvery { dccBoosterRulesRepository.updateBoosterNotificationRules() } returns emptyList()
     }
 
     @Test
@@ -193,7 +193,7 @@ class DccBoosterRulesValidatorTest : BaseTest() {
     @Test
     fun `Empty Certificates List returns null`() = runBlockingTest {
         val mockRule = mockk<DccValidationRule>()
-        coEvery { dccBoosterRulesRepository.rules } returns flowOf(listOf(mockRule))
+        coEvery { dccBoosterRulesRepository.updateBoosterNotificationRules() } returns listOf(mockRule)
 
         validator().validateBoosterRules(emptyList()) shouldBe null
     }
@@ -319,7 +319,7 @@ class DccBoosterRulesValidatorTest : BaseTest() {
             every { dccData } returns vacDccData
         }
 
-        coEvery { dccBoosterRulesRepository.rules } returns flowOf(listOf(rule))
+        coEvery { dccBoosterRulesRepository.updateBoosterNotificationRules() } returns listOf(rule)
         val mockEngine = mockk<DefaultCertLogicEngine>().apply {
             every { validate(any(), any(), any(), any(), any()) } returns listOf(
                 ValidationResult(
