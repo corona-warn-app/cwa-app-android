@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePerso
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.flow.shareLatest
@@ -29,9 +30,7 @@ class PersonCertificatesProvider @Inject constructor(
     }
 
     val personCertificates: Flow<Set<PersonCertificates>> = combine(
-        vaccinationRepository.vaccinationInfos.map { vaccPersons ->
-            vaccPersons.flatMap { it.vaccinationCertificates }.toSet()
-        },
+        vaccinationRepository.vaccinationInfos,
         testCertificateRepository.certificates.map { testWrappers ->
             testWrappers.mapNotNull { it.testCertificate }
         },
@@ -39,10 +38,12 @@ class PersonCertificatesProvider @Inject constructor(
             recoveryWrappers.map { it.recoveryCertificate }
         },
         personCertificatesSettings.currentCwaUser.flow,
-    ) { vaccs, tests, recos, cwaUser ->
-        Timber.tag(TAG).d("vaccs=%s, tests=%s, recos=%s, cwaUser=%s", vaccs, tests, recos, cwaUser)
+    ) { vaccPersons, tests, recos, cwaUser ->
+        Timber.tag(TAG).d("vaccPersons=%s, tests=%s, recos=%s, cwaUser=%s", vaccPersons, tests, recos, cwaUser)
         val mapping = mutableMapOf<CertificatePersonIdentifier, MutableSet<CwaCovidCertificate>>()
-        val allCerts: Set<CwaCovidCertificate> = (vaccs + tests + recos)
+
+        val allVaccs = vaccPersons.flatMap { it.vaccinationCertificates }.toSet()
+        val allCerts: Set<CwaCovidCertificate> = (allVaccs + tests + recos)
         allCerts.forEach {
             mapping[it.personIdentifier] = (mapping[it.personIdentifier] ?: mutableSetOf()).apply {
                 add(it)
@@ -51,10 +52,14 @@ class PersonCertificatesProvider @Inject constructor(
 
         mapping.entries.map { (personIdentifier, certs) ->
             Timber.tag(TAG).v("PersonCertificates for %s with %d certs.", personIdentifier, certs.size)
+
+            val badgeCount = certs.filter { it.hasNotificationBadge }.count() +
+                vaccPersons.boosterBadgeCount(personIdentifier)
+            Timber.tag(TAG).d("Badge count of %s =%s", personIdentifier.codeSHA256, badgeCount)
             PersonCertificates(
                 certificates = certs.toCertificateSortOrder(),
                 isCwaUser = personIdentifier == cwaUser,
-                badgeCount = certs.filter { it.hasNotificationBadge }.count()
+                badgeCount = badgeCount
             )
         }.toSet()
     }.shareLatest(scope = appScope)
@@ -71,6 +76,16 @@ class PersonCertificatesProvider @Inject constructor(
 
     val personsBadgeCount: Flow<Int> = personCertificates
         .map { persons -> persons.sumOf { it.badgeCount } }
+
+    private fun Set<VaccinatedPerson>.boosterBadgeCount(
+        personIdentifier: CertificatePersonIdentifier
+    ): Int {
+        val vaccinatedPerson = singleOrNull { it.identifier == personIdentifier }
+        return when (vaccinatedPerson?.hasBoosterNotification) {
+            true -> 1
+            else -> 0
+        }
+    }
 
     companion object {
         private val TAG = PersonCertificatesProvider::class.simpleName!!
