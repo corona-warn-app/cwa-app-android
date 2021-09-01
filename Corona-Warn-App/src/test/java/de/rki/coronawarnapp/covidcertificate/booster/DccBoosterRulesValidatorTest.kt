@@ -236,12 +236,14 @@ class DccBoosterRulesValidatorTest : BaseTest() {
             every { testedPositiveOn } returns LocalDate.parse("2021.03.01", dateTime)
             every { headerIssuedAt } returns Instant.parse("2021-04-01T00:00:00.000Z")
             every { dccData } returns recDccData
+            every { certificateId } returns "1"
         }
 
         val mockVac2 = mockk<VaccinationCertificate>().apply {
             every { vaccinatedOn } returns LocalDate.parse("2021.02.01", dateTime)
             every { headerIssuedAt } returns Instant.parse("2021-04-01T00:00:00.000Z")
             every { dccData } returns vacDccData
+            every { certificateId } returns "2"
         }
 
         coEvery { dccBoosterRulesRepository.rules } returns flowOf(listOf(rule))
@@ -316,6 +318,7 @@ class DccBoosterRulesValidatorTest : BaseTest() {
             every { vaccinatedOn } returns LocalDate.parse("2021.02.01", dateTime)
             every { headerIssuedAt } returns Instant.parse("2021-04-01T00:00:00.000Z")
             every { dccData } returns vacDccData
+            every { certificateId } returns "2"
         }
 
         coEvery { dccBoosterRulesRepository.updateBoosterNotificationRules() } returns listOf(rule)
