@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.covidcertificate
 import com.fasterxml.jackson.databind.ObjectMapper
 import dagger.Module
 import dagger.Provides
+import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchema
 import de.rki.coronawarnapp.covidcertificate.signature.core.server.DscServerModule
 import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateServerModule
@@ -22,10 +23,9 @@ import javax.inject.Singleton
         DscServerModule::class,
     ]
 )
-
 class DigitalCovidCertificateModule {
     @Provides
-    @Singleton
+    @Reusable
     fun providesDefaultCertLogicEngine(
         dccJsonSchema: DccJsonSchema,
         @BaseJackson objectMapper: ObjectMapper,
