@@ -82,6 +82,7 @@ class CertificatePosterViewModel @AssistedInject constructor(
     private fun generatePoster() = launch(context = dispatcher.IO) {
         try {
             certificateData = certificateProvider.findCertificate(containerId)
+            // TODO: remove logs after adding poster generation
             Timber.d("Certificate found: ${certificateData.fullName}")
             // TODO: generate poster here with provided certificate
         } catch (e: Exception) {
