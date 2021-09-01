@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.Dc
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule.Type
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRuleConverter
 import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidationServer
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -38,6 +39,7 @@ class DccValidationRepository @Inject constructor(
     @BaseGson private val gson: Gson,
     private val server: DccValidationServer,
     private val localCache: DccValidationCache,
+    private val converter: DccValidationRuleConverter
 ) {
     private val internalData: HotDataFlow<DccValidationData> = HotDataFlow(
         loggingTag = TAG,
@@ -68,7 +70,7 @@ class DccValidationRepository @Inject constructor(
         DccValidationData(
             countries = localCache.loadCountryJson()?.let { mapCountries(it) } ?: emptyList(),
             acceptanceRules = acceptanceRules,
-            invalidationRules = invalidationRules,
+            invalidationRules = invalidationRules
         )
     }
 
@@ -107,7 +109,7 @@ class DccValidationRepository @Inject constructor(
             DccValidationData(
                 countries = newCountryData,
                 acceptanceRules = newAcceptanceData,
-                invalidationRules = newInvalidationData
+                invalidationRules = newInvalidationData,
             )
         }
     }
@@ -120,10 +122,7 @@ class DccValidationRepository @Inject constructor(
         throw DccValidationException(ErrorCode.ONBOARDED_COUNTRIES_JSON_DECODING_FAILED, e)
     }
 
-    private fun String?.toRuleSet(): List<DccValidationRule> {
-        if (this == null) return emptyList()
-        return gson.fromJson(this)
-    }
+    private fun String?.toRuleSet(): List<DccValidationRule> = converter.jsonToRuleSet(this)
 
     suspend fun clear() {
         Timber.tag(TAG).i("clear()")
