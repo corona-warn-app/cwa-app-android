@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.test.core.storage.types
 
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.coronatest.type.RegistrationToken
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKey
 import okio.ByteString
 import org.joda.time.Instant
@@ -15,6 +16,15 @@ data class PCRCertificateData internal constructor(
 
     @SerializedName("registeredAt")
     override val registeredAt: Instant,
+
+    @SerializedName("notifiedInvalidAt")
+    override val notifiedInvalidAt: Instant? = null,
+
+    @SerializedName("lastSeenStateChange")
+    override val lastSeenStateChange: CwaCovidCertificate.State? = null,
+
+    @SerializedName("lastSeenStateChangeAt")
+    override val lastSeenStateChangeAt: Instant? = null,
 
     @SerializedName("publicKeyRegisteredAt")
     override val publicKeyRegisteredAt: Instant? = null,
