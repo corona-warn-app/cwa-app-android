@@ -23,7 +23,7 @@ class PdfGenerator @Inject constructor(
 ) {
 
     fun createDgcPdf(certificate: CwaCovidCertificate): File {
-        return File(cacheDir,"test.pdf").also { file ->
+        return File(cacheDir, "test.pdf").also { file ->
             PdfDocument().apply {
                 startPage(createEmptyPage()).apply {
                     drawTemplate(certificate)
@@ -86,4 +86,3 @@ class PdfGenerator @Inject constructor(
         const val PAGE_HEIGHT = 3508
     }
 }
-

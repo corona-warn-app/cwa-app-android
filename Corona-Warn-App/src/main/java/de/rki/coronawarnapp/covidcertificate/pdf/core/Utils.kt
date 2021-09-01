@@ -8,10 +8,8 @@ import com.google.zxing.qrcode.encoder.ByteMatrix
 import java.nio.IntBuffer
 import java.util.stream.IntStream
 
-data class TextArea(val x: Float, val y: Float, val width: Float)
-
 fun Canvas.drawTextIntoRectangle(text: String, paint: Paint, area: TextArea) {
-    val textWidth = paint.measureText(text)
+    val textWidth = paint.measureText(text) // TODO: use for text boundary
     drawText(text, area.x, area.y + paint.textSize, paint)
 }
 
@@ -26,4 +24,3 @@ fun ByteMatrix.toBitmap(): Bitmap = Bitmap.createBitmap(
         .array(),
     width, height, Bitmap.Config.RGB_565
 )
-

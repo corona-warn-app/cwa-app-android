@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.pdf.core
 
 import android.content.res.AssetManager
-import androidx.annotation.ColorInt
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
