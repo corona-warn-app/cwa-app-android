@@ -101,8 +101,7 @@ private val DccValidationRule.Type.asExternalType: Type
     get() = when (this) {
         DccValidationRule.Type.ACCEPTANCE -> Type.ACCEPTANCE
         DccValidationRule.Type.INVALIDATION -> Type.INVALIDATION
-        DccValidationRule.Type.BOOSTER_NOTIFICATION ->
-            throw IllegalArgumentException("Not yet supported by dgca verifier")
+        DccValidationRule.Type.BOOSTER_NOTIFICATION -> Type.ACCEPTANCE
     }
 
 private val RuleCertificateType.asInternalString: String
