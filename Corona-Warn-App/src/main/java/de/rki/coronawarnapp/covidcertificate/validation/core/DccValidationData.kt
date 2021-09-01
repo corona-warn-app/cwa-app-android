@@ -7,5 +7,4 @@ data class DccValidationData(
     val countries: List<DccCountry>,
     val acceptanceRules: List<DccValidationRule>,
     val invalidationRules: List<DccValidationRule>,
-    val boosterNotificationRules: List<DccValidationRule>
 )

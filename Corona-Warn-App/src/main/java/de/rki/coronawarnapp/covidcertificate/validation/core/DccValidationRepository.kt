@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.Dc
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule.Type
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRuleConverter
 import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidationServer
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -38,6 +39,7 @@ class DccValidationRepository @Inject constructor(
     @BaseGson private val gson: Gson,
     private val server: DccValidationServer,
     private val localCache: DccValidationCache,
+    private val converter: DccValidationRuleConverter
 ) {
     private val internalData: HotDataFlow<DccValidationData> = HotDataFlow(
         loggingTag = TAG,
@@ -65,20 +67,10 @@ class DccValidationRepository @Inject constructor(
                 emptyList()
             }
         }
-        val boosterNotificationRules = kotlin.run {
-            val rawJson = localCache.loadBoosterNotificationRulesJson()
-            try {
-                rawJson.toRuleSet()
-            } catch (e: Exception) {
-                Timber.tag(TAG).w("Failed to parse cached boosterNotificationRules: %s", rawJson)
-                emptyList()
-            }
-        }
         DccValidationData(
             countries = localCache.loadCountryJson()?.let { mapCountries(it) } ?: emptyList(),
             acceptanceRules = acceptanceRules,
-            invalidationRules = invalidationRules,
-            boosterNotificationRules = boosterNotificationRules
+            invalidationRules = invalidationRules
         )
     }
 
@@ -87,8 +79,6 @@ class DccValidationRepository @Inject constructor(
     val acceptanceRules: Flow<List<DccValidationRule>> = internalData.data.map { it.acceptanceRules }
 
     val invalidationRules: Flow<List<DccValidationRule>> = internalData.data.map { it.invalidationRules }
-
-    val boosterNotificationRules: Flow<List<DccValidationRule>> = internalData.data.map { it.boosterNotificationRules }
 
     /**
      * The UI calls this before entering the validation flow.
@@ -120,30 +110,7 @@ class DccValidationRepository @Inject constructor(
                 countries = newCountryData,
                 acceptanceRules = newAcceptanceData,
                 invalidationRules = newInvalidationData,
-                boosterNotificationRules = this.boosterNotificationRules
             )
-        }
-    }
-
-    /**
-     * This only updates the booster notification rules.
-     * Falls back to previous cached rules in case of an error.
-     * Worst case is an empty list.
-     */
-    suspend fun updateBoosterNotificationRules(): List<DccValidationRule> {
-        Timber.tag(TAG).d("updateBoosterNotificationRules()")
-        return internalData.updateBlocking {
-            val bnr = try {
-                val rawJson = server.ruleSetJson(Type.BOOSTER_NOTIFICATION)
-                rawJson.toRuleSet().also { localCache.saveBoosterNotificationRulesJson(rawJson) }
-            } catch (e: Exception) {
-                Timber.tag(TAG).w(e, "Updating booster notification rules failed, loading cached rules")
-                localCache.loadBoosterNotificationRulesJson().toRuleSet()
-            }
-
-            this.copy(boosterNotificationRules = bnr)
-        }.let { data ->
-            data.boosterNotificationRules.also { Timber.tag(TAG).d("Booster notification rules: %s", it) }
         }
     }
 
@@ -155,10 +122,7 @@ class DccValidationRepository @Inject constructor(
         throw DccValidationException(ErrorCode.ONBOARDED_COUNTRIES_JSON_DECODING_FAILED, e)
     }
 
-    private fun String?.toRuleSet(): List<DccValidationRule> {
-        if (this == null) return emptyList()
-        return gson.fromJson(this)
-    }
+    private fun String?.toRuleSet(): List<DccValidationRule> = converter.jsonToRuleSet(this)
 
     suspend fun clear() {
         Timber.tag(TAG).i("clear()")
