@@ -59,6 +59,7 @@ class BoosterNotificationService @Inject constructor(
         }
 
         covidCertificateSettings.lastDccBoosterCheck.update { timeStamper.nowUTC }
+        Timber.tag(TAG).v("checkBoosterNotification() finished")
     }
 
     private suspend fun notifyIfBoosterChanged(
