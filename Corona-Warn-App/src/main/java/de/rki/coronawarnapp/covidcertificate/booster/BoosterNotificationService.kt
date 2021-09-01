@@ -70,15 +70,15 @@ class BoosterNotificationService @Inject constructor(
         val lastSeenBoosterRuleIdentifier = vaccinatedPerson.data.lastSeenBoosterRuleIdentifier
         Timber.tag(TAG).d(
             "BoosterRule of person=%s  lastChecked=%s, lastSeen=%s", identifier.codeSHA256,
-            lastSeenBoosterRuleIdentifier, rule?.identifier
+            rule?.identifier, lastSeenBoosterRuleIdentifier
         )
-        if (rule?.identifier.isNullOrEmpty() && rule?.identifier != lastSeenBoosterRuleIdentifier) {
+        if (rule?.identifier.isNullOrEmpty().not() && rule?.identifier != lastSeenBoosterRuleIdentifier) {
             Timber.tag(TAG).d("Notifying person=%s about rule=%s", identifier, rule?.identifier)
             boosterNotification.showBoosterNotification(identifier)
             vaccinationRepository.updateBoosterNotifiedAt(identifier, timeStamper.nowUTC)
             Timber.tag(TAG).d("Person %s notified about booster rule change", identifier.codeSHA256)
         } else {
-            Timber.tag(TAG).d("Person %s  about booster rule=%s", identifier.codeSHA256, rule?.identifier)
+            Timber.tag(TAG).d("Person %s isn't notified about booster rule=%s", identifier.codeSHA256, rule?.identifier)
         }
     }
 
