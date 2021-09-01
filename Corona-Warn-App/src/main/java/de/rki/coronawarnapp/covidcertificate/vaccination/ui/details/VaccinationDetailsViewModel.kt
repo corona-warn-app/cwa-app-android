@@ -5,6 +5,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.pdf.core.PdfGenerator
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.canBeExported
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
@@ -26,6 +27,7 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
     private val dccValidationRepository: DccValidationRepository,
     @AppScope private val appScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
+    private val pdfGenerator: PdfGenerator
 ) : CWAViewModel(dispatcherProvider) {
 
     private var qrCode: CoilQrCode? = null
@@ -92,7 +94,10 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
         if (vaccinationCertificate.value?.certificate?.canBeExported() == false) {
             exportError.postValue(null)
         } else {
-            events.postValue(VaccinationDetailsNavigation.Export)
+            vaccinationCertificate.value?.certificate?.let {
+                pdfGenerator.createDgcPdf(it)
+            }
+//            events.postValue(VaccinationDetailsNavigation.Export)
         }
     }
 
