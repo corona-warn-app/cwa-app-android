@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultRetrievalWork
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultRetrievalWorker
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckWorker
 import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalWorker
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.execution.worker.VaccinationUpdateWorker
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsPeriodicWorker
 import de.rki.coronawarnapp.deadman.DeadmanNotificationOneTimeWorker
 import de.rki.coronawarnapp.deadman.DeadmanNotificationPeriodicWorker
@@ -121,13 +120,6 @@ abstract class WorkerBinder {
     @WorkerKey(PresenceTracingWarningWorker::class)
     abstract fun traceWarningWorker(
         factory: PresenceTracingWarningWorker.Factory
-    ): InjectedWorkerFactory<out ListenableWorker>
-
-    @Binds
-    @IntoMap
-    @WorkerKey(VaccinationUpdateWorker::class)
-    abstract fun vaccinationUpdateWorker(
-        factory: VaccinationUpdateWorker.Factory
     ): InjectedWorkerFactory<out ListenableWorker>
 
     @Binds

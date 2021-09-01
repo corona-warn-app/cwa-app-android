@@ -35,6 +35,11 @@ data class VaccinatedPerson(
     val hasBoosterNotification: Boolean
         get() = data.boosterRule?.identifier != data.lastSeenBoosterRuleIdentifier
 
+    fun getDaysSinceLastVaccination(): Int {
+        val today = Instant.now().toLocalDateUserTz()
+        return Days.daysBetween(getNewestDoseVaccinatedOn(), today).days
+    }
+
     val boosterRule: DccValidationRule?
         get() = data.boosterRule
 
@@ -69,7 +74,7 @@ data class VaccinatedPerson(
         return IMMUNITY_WAITING_DAYS - Days.daysBetween(newestFullDose.vaccinatedOn, today).days
     }
 
-    fun getNewestDoseVaccinatedOn(): LocalDate =
+    private fun getNewestDoseVaccinatedOn(): LocalDate =
         vaccinationCertificates.maxOf { it.vaccinatedOn }
 
     private fun getNewestFullDose(): VaccinationCertificate? = vaccinationCertificates
