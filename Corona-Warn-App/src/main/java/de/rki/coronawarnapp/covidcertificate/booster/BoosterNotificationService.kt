@@ -71,7 +71,8 @@ class BoosterNotificationService @Inject constructor(
     ) {
         val personIdentifier = vaccinatedPerson.identifier
         if (rule?.identifier.isNullOrEmpty() &&
-            rule?.identifier != vaccinatedPerson.data.lastSeenBoosterRuleIdentifier) {
+            rule?.identifier != vaccinatedPerson.data.lastSeenBoosterRuleIdentifier
+        ) {
             Timber.tag(TAG).d(
                 "Booster rule of person %s changed from %s to %s",
                 personIdentifier,
