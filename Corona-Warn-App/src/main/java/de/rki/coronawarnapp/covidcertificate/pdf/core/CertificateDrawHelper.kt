@@ -22,9 +22,9 @@ class CertificateDrawHelper @Inject constructor(
 
     fun drawCertificateDetail(canvas: Canvas, certificate: CwaCovidCertificate) {
         with(canvas) {
-            drawTextIntoRectangle(certificate.fullNameFormatted, paint, TextArea(115f, 2890f, 1115f))
-            drawTextIntoRectangle(certificate.dateOfBirthFormatted, paint, TextArea(115f, 3080f, 1115f))
-            drawTextIntoRectangle(certificate.certificateId, paint, TextArea(115f, 3265f, 1115f))
+            drawTextIntoRectangle(certificate.fullNameFormatted, paint, TextArea(120f, 2890f, 1115f))
+            drawTextIntoRectangle(certificate.dateOfBirthFormatted, paint, TextArea(120f, 3080f, 1115f))
+            drawTextIntoRectangle(certificate.certificateId, paint, TextArea(120f, 3265f, 1115f))
         }
     }
 
