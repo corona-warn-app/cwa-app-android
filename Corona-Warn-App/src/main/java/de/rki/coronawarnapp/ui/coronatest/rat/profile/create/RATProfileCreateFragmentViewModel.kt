@@ -103,6 +103,6 @@ class RATProfileCreateFragmentViewModel @AssistedInject constructor(
     interface Factory : SimpleCWAViewModelFactory<RATProfileCreateFragmentViewModel>
 
     companion object {
-        val format: DateTimeFormatter = DateTimeFormat.forPattern("dd.MM.yyyy")
+        val format: DateTimeFormatter = DateTimeFormat.mediumDate()
     }
 }
