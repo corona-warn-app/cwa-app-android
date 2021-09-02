@@ -53,4 +53,3 @@ fun Resources.mutateDrawable(
     @DrawableRes drawable: Int,
     @ColorInt color: Int
 ): Drawable? = getDrawableCompat(drawable)?.mutate(color)
-
