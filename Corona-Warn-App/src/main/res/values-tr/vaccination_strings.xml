@@ -9,7 +9,7 @@
     <!-- XTXT: Vaccination List deletion dialog title-->
     <string name="vaccination_list_deletion_dialog_title">"Aşı sertifikasını silmek istiyor musunuz?"</string>
     <!-- XTXT: Vaccination List deletion dialog message-->
-    <string name="vaccination_list_deletion_dialog_message">"Aşı sertifikasını silerseniz uygulama artık bu aşıyı aşı durumunuzun doğrulaması için kullanamaz."</string>
+    <string name="vaccination_list_deletion_dialog_message">"Artık geçerli olmasalar da aşı sertifikalarını uygulamada tutmanızı öneririz."</string>
     <!-- XACT: Vaccination List Qr-Code for screen readers -->
     <string name="vaccination_list_qr_code_accessibility">"QR Kod"</string>
 

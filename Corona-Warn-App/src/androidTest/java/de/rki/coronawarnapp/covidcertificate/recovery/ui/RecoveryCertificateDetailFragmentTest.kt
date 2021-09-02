@@ -130,7 +130,7 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
         every { validUntil } returns
             LocalDate.parse("2021-11-10", DateTimeFormat.forPattern("yyyy-MM-dd"))
 
-        every { fullNameFormatted } returns "Max, Mustermann"
+        every { fullNameFormatted } returns "Mustermann, Max"
         every { headerExpiresAt } returns Instant.now().plus(21)
     }
 

@@ -174,7 +174,7 @@
     <!-- XTXT: Validation start certificate proof -->
     <string name="validation_start_certificate_proof">"Un certificat COVID este o dovadă valabilă pentru deplasarea în UE."</string>
     <!-- XTXT: Validation start note subtitle -->
-    <string name="validation_start_note_subtitle">"Notă"</string>
+    <string name="validation_start_note_subtitle">"Note"</string>
     <!-- XTXT: Validation start note point 1 -->
     <string name="validation_start_note_point_1">"Rețineți că regulile de intrare se supun modificărilor. În consecință, verificați certificatul cu puțin timp înainte de a intra în țara de destinație (cu maximum 48 de ore înainte)."</string>
     <!-- XTXT: Validation start note point 2 -->

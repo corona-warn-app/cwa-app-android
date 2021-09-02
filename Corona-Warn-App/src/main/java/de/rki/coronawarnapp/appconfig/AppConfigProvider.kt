@@ -25,7 +25,8 @@ class AppConfigProvider @Inject constructor(
         coroutineContext = dispatcherProvider.IO,
         sharingBehavior = SharingStarted.Lazily
     ) {
-        appConfigSource.getConfigData()
+        // Restore config-data without network calls because we don't want to block on initialization.
+        appConfigSource.getConfigData(offlineMode = true)
     }
 
     val currentConfig: Flow<ConfigData> = configHolder.data
