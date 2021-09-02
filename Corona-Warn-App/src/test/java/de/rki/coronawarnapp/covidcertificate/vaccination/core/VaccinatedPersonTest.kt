@@ -186,7 +186,6 @@ class VaccinatedPersonTest : BaseTest() {
                             every { totalSeriesOfDoses } returns 2
                             every { rawCertificate.vaccination.doseNumber } returns doseNumber
                             every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1528"
-
                         }
                     every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
                 }
@@ -230,7 +229,6 @@ class VaccinatedPersonTest : BaseTest() {
                             every { totalSeriesOfDoses } returns 2
                             every { rawCertificate.vaccination.doseNumber } returns doseNumber
                             every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1528"
-
                         }
 
                     every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
