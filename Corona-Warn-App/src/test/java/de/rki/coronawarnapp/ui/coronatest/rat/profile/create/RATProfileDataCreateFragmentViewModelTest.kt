@@ -118,7 +118,7 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
     @Test
     fun birthDateChanged() {
         viewModel().apply {
-            birthDateChanged("01.01.2021")
+            birthDateChanged("Jan 1, 2021")
             profile.getOrAwaitValue().apply {
                 birthDate shouldBe birthDate
                 isValid shouldBe true
