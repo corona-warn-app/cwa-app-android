@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
+import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
@@ -41,6 +42,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScope
 import org.joda.time.Instant
+import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -220,6 +222,11 @@ class PersonDetailsViewModelTest : BaseTest() {
             every { qrCodeToDisplay } returns CoilQrCode("qrCode")
             every { containerId } returns rcContainerId
             every { isValid } returns true
+            every { rawCertificate } returns mockk<RecoveryDccV1>().apply {
+                every { recovery } returns mockk<DccV1.RecoveryCertificateData>().apply {
+                    every { validFrom } returns LocalDate.now()
+                }
+            }
             every { getState() } returns State.Valid(expiresAt = Instant.parse("2022-01-01T11:35:00.000Z"))
         }
 

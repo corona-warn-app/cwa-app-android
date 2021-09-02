@@ -174,7 +174,7 @@
     <!-- XTXT: Validation start certificate proof -->
     <string name="validation_start_certificate_proof">"Certyfikat COVID jest ważnym dowodem w przypadku podróży na terenie UE."</string>
     <!-- XTXT: Validation start note subtitle -->
-    <string name="validation_start_note_subtitle">"Uwaga"</string>
+    <string name="validation_start_note_subtitle">"Uwagi"</string>
     <!-- XTXT: Validation start note point 1 -->
     <string name="validation_start_note_point_1">"Należy pamiętać, że zasady dotyczące wjazdu mogą ulec zmianie. Dlatego prosimy o sprawdzenie certyfikatu na krótko przed wjazdem do kraju docelowego (maks. 48 godzin)."</string>
     <!-- XTXT: Validation start note point 2 -->
