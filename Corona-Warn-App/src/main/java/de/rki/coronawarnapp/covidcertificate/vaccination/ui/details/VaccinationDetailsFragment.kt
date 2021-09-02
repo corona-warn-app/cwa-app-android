@@ -1,9 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.ui.details
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -19,6 +21,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertifi
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
 import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationNoInternetErrorDialog
 import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
+import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsState
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
@@ -28,6 +31,7 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.getDrawableCompat
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -138,6 +142,9 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
     private fun FragmentVaccinationDetailsBinding.bindToolbar() = toolbar.apply {
         setNavigationOnClickListener { popBackStack() }
+
+        toolbar.navigationIcon = backIcon()
+
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_covid_certificate_delete -> {
@@ -180,6 +187,18 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortTimeFormat()
         )
     }
+
+    private fun backIcon() =
+        resources.getDrawableCompat(R.drawable.ic_back)?.let { drawable ->
+            DrawableCompat
+                .wrap(drawable)
+                .mutate()
+                .apply {
+                    setTint(
+                        Color.WHITE
+                    )
+                }
+        }
 
     private fun setToolbarOverlay() {
         val width = requireContext().resources.displayMetrics.widthPixels
