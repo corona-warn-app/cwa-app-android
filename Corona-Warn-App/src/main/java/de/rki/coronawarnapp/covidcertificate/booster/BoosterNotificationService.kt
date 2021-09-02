@@ -52,10 +52,11 @@ class BoosterNotificationService @Inject constructor(
                 Timber.tag(TAG).d("Person %s has %s certificates", codeSHA256, person.certificates.size)
                 val rule = dccBoosterRulesValidator.validateBoosterRules(person.certificates)
 
-                Timber.tag(TAG).d("Booster rule= %s for person=%s ", rule, codeSHA256)
-
-                vaccinationRepository.updateBoosterRule(vaccinatedPerson.identifier, rule)
+                Timber.tag(TAG).d("Booster rule= %s for person=%s", rule, codeSHA256)
                 notifyIfBoosterChanged(vaccinatedPerson, rule)
+
+                Timber.tag(TAG).d("Saving rule=%s for person=%s", rule, codeSHA256)
+                vaccinationRepository.updateBoosterRule(vaccinatedPerson.identifier, rule)
             } catch (e: Exception) {
                 Timber.tag(TAG).d(e, "Booster rules check for %s failed", codeSHA256)
             }
@@ -70,12 +71,12 @@ class BoosterNotificationService @Inject constructor(
         rule: DccValidationRule?
     ) {
         val codeSHA256 = vaccinatedPerson.identifier.codeSHA256
-        val lastSeenBoosterRuleIdentifier = vaccinatedPerson.data.lastSeenBoosterRuleIdentifier
+        val lastSavedBoosterRuleIdentifier = vaccinatedPerson.data.boosterRule?.identifier
         Timber.tag(TAG).d(
-            "BoosterRule of person=%s  lastChecked=%s, lastSeen=%s", codeSHA256,
-            rule?.identifier, lastSeenBoosterRuleIdentifier
+            "BoosterRule of person=%s  lastChecked=%s, lastSaved=%s", codeSHA256,
+            rule?.identifier, lastSavedBoosterRuleIdentifier
         )
-        if (rule?.identifier.isNullOrEmpty().not() && rule?.identifier != lastSeenBoosterRuleIdentifier) {
+        if (rule?.identifier.isNullOrEmpty().not() && rule?.identifier != lastSavedBoosterRuleIdentifier) {
             Timber.tag(TAG).d("Notifying person=%s about rule=%s", codeSHA256, rule?.identifier)
             boosterNotification.showBoosterNotification(vaccinatedPerson.identifier)
             vaccinationRepository.updateBoosterNotifiedAt(vaccinatedPerson.identifier, timeStamper.nowUTC)
