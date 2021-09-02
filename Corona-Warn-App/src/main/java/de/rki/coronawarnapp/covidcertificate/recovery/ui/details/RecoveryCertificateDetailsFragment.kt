@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -31,7 +30,7 @@ import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.europaStarsResource
 import de.rki.coronawarnapp.util.expendedImageResource
-import de.rki.coronawarnapp.util.getDrawableCompat
+import de.rki.coronawarnapp.util.mutateDrawable
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -151,7 +150,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
     }
 
     private fun FragmentRecoveryCertificateDetailsBinding.bindToolbar() = toolbar.apply {
-        toolbar.navigationIcon = backIcon()
+        toolbar.navigationIcon = resources.mutateDrawable(R.drawable.ic_back, Color.WHITE)
         setNavigationOnClickListener { popBackStack() }
         setOnMenuItemClickListener {
             when (it.itemId) {
@@ -167,18 +166,6 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
             }
         }
     }
-
-    private fun backIcon() =
-        resources.getDrawableCompat(R.drawable.ic_back)?.let { drawable ->
-            DrawableCompat
-                .wrap(drawable)
-                .mutate()
-                .apply {
-                    setTint(
-                        Color.WHITE
-                    )
-                }
-        }
 
     private fun setToolbarOverlay() {
         val width = requireContext().resources.displayMetrics.widthPixels
