@@ -58,8 +58,7 @@ data class VaccinatedPerson(
 
         val daysToImmunity = getDaysUntilImmunity(nowUTC) ?: return Status.INCOMPLETE
 
-        val isImmune = daysToImmunity <= 0 || isFirstVaccinationDoseAfterRecovery() ||
-            getNewestFullDose()?.isBooster == true
+        val isImmune = daysToImmunity <= 0 || isFirstVaccinationDoseAfterRecovery() || isBooster()
         return when {
             isImmune -> Status.IMMUNITY
             else -> Status.COMPLETE
@@ -87,6 +86,16 @@ data class VaccinatedPerson(
             BIONTECH, ASTRA, MODERNA -> vaccinationDetails.doseNumber == 1
             else -> false
         }
+    }
+
+    private fun isBooster(): Boolean {
+        val boosterVaccination = getNewestFullDose()?.rawCertificate?.vaccination
+        return if (boosterVaccination != null) {
+            when (boosterVaccination.medicalProductId) {
+                BIONTECH, ASTRA, MODERNA -> boosterVaccination.doseNumber > 2
+                else -> boosterVaccination.doseNumber > 1
+            }
+        } else false
     }
 
     enum class Status {

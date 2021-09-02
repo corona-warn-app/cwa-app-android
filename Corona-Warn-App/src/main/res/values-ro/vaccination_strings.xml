@@ -9,7 +9,7 @@
     <!-- XTXT: Vaccination List deletion dialog title-->
     <string name="vaccination_list_deletion_dialog_title">"Doriți să ștergeți certificatul de vaccinare?"</string>
     <!-- XTXT: Vaccination List deletion dialog message-->
-    <string name="vaccination_list_deletion_dialog_message">"Dacă ștergeți certificatul de vaccinare, aplicația nu mai poate utiliza vaccinarea pentru a verifica starea vaccinării dvs."</string>
+    <string name="vaccination_list_deletion_dialog_message">"Vă recomandăm să păstrați certificatele de vaccinare în aplicație, chiar dacă nu mai sunt de actualitate."</string>
     <!-- XACT: Vaccination List Qr-Code for screen readers -->
     <string name="vaccination_list_qr_code_accessibility">"Cod QR"</string>
 

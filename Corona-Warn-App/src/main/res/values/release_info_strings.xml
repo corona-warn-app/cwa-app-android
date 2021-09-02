@@ -16,14 +16,14 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Standardized Name"</item>
-        <item>"Open Certificate from Test Result"</item>
+        <item>"Warn for Others"</item>
+        <item>"Immediate Display of Vaccination Status for Recovered Persons"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"In addition to the name in the country-specific spelling, each certificate now also displays the name in standardized Latin characters."</item>
-        <item>"You can now call up your EU digital COVID test certificate directly from your test result, provided a certificate is available."</item>
+        <item>"As the organizer of an event, you can now – when instructed to do so by the public health authorities – warn your guests on behalf of someone who has been diagnosed with coronavirus and who attended the event, but was not checked in with the Corona-Warn-App."</item>
+        <item>"The Corona-Warn-App now displays full vaccination protection for recovered persons directly after the first vaccination. The two-week waiting time is waived for all vaccines except Johnson &amp; Johnson."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

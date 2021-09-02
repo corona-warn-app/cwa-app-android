@@ -174,7 +174,7 @@
     <!-- XTXT: Validation start certificate proof -->
     <string name="validation_start_certificate_proof">"Сертификатът за COVID е валиден документ при пътуване в рамките на ЕС."</string>
     <!-- XTXT: Validation start note subtitle -->
-    <string name="validation_start_note_subtitle">"Забележка"</string>
+    <string name="validation_start_note_subtitle">"Бележки"</string>
     <!-- XTXT: Validation start note point 1 -->
     <string name="validation_start_note_point_1">"Моля, имайте предвид, че правилата за влизане подлежат на промяна. Затова, моля, проверете сертификата си непосредствено преди да влезете в държавата на местоназначение (макс. 48 часа)."</string>
     <!-- XTXT: Validation start note point 2 -->

@@ -142,6 +142,8 @@
     <string name="trace_location_qr_info_qr_code_text">"QR kodu konuklarınıza akıllı telefonunuzda ya da yazılı bir form halinde sunabilirsiniz."</string>
     <!-- XTXT: Text for time sheet icon of qr info screen -->
     <string name="trace_location_qr_info_time_text">"QR kodu uzun süreli olarak kullanmak istiyorsanız mesai saatlerinizin dışında her gün yeniden QR kod oluşturmanız gerekir."</string>
+    <!-- XTXT: Text for warning icon of qr info screen -->
+    <string name="trace_location_qr_info_warn_text">"Koronavirüs tanısı almış ve etkinliğe katılmış ancak Corona-Warn-App ile check-in yapmamış başka kişiler adına misafirlerinizi uyarabilirsiniz."</string>
     <!-- XTXT: Text for I understand button -->
     <string name="acknowledge_button">"Sonraki"</string>
 
@@ -171,6 +173,8 @@
     <string name="trace_location_organizer_list_menu_information_btn">"Bilgi"</string>
     <!-- XBUT: Event organiser qr codes list: menu: remove all button  -->
     <string name="trace_location_organizer_list_menu_remove_all_btn">"Tümünü Kaldır"</string>
+    <!-- XBUT: Event organiser qr codes list: menu: warn guests button  -->
+    <string name="trace_location_organizer_list_menu_warn_guests_btn">"Diğer Kullanıcılara Uyarı"</string>
 
     <!-- XHED:  Event organiser qr codes list: delete single popup title -->
     <string name="trace_location_organiser_list_delete_single_popup_title">"QR kodu kaldırmak istiyor musunuz?"</string>
@@ -258,5 +262,65 @@
     <string name="trace_location_checkins_qr_code_invalid_times">"Geçersiz QR kod nedeniyle check-in engellendi. Sorumlu taraf yeni bir QR kod oluşturmalıdır (hata kodu INVALID_TIMESTAMPS)."</string>
     <!-- XTXT: My check-ins: qr code validation wrong cryptographic seed field -->
     <string name="trace_location_checkins_qr_code_invalid_cryptographic_seed">"Geçersiz QR kod nedeniyle check-in engellendi. Sorumlu taraf yeni bir QR kod oluşturmalıdır (hata kodu INVALID_CRYPTO_SEED)."</string>
+
+    <!--  Warn Info Screen -->
+    <!-- XHED: Warn Info Screen: header -->
+    <string name="trace_location_organiser_warn_info_header">"Diğer Kullanıcılara Uyarı"</string>
+    <!-- XHED: Warn Info Screen: title -->
+    <string name="trace_location_organiser_warn_info_title">"Siz ve Konuklarınız için Daha Yüksek Düzeyde Güvenlik"</string>
+    <!-- XTXT: Warn Info Screen: body -->
+    <string name="trace_location_organiser_warn_info_body">"Koronavirüs tanısı almış ve etkinliğe katılmış ancak Corona-Warn-App ile check-in yapmamış başka kişiler adına misafirlerinizi uyarabilirsiniz."</string>
+    <!-- XTXT: Warn Info Screen: guests -->
+    <string name="trace_location_organiser_warn_info_guests">"Bu etkinliğe veya yere check in yapmamış biri daha sonra koronavirüs tanısı alırsa tanı alan kişi ile aynı anda ya da bu kişi odadan çıktıktan sonra en fazla 30 dakika içinde aynı odada bulunmuşlarsa konuklara uyarı gönderilebilir."</string>
+    <!-- XTXT: Warn Info Screen: guests -->
+    <string name="trace_location_organiser_warn_info_authority">"Misafirlerinizi bir başkası adına uyarabilmeniz kamu sağlığı yetkililerinin bu yönde bir talimatının olması koşuluna bağlıdır. Böyle bir durumda size bir TAN göndereceklerdir."</string>
+
+    <!--  Selection List Screen -->
+    <!-- XTXT: Event organiser selection list: no events title  -->
+    <string name="trace_location_organiser_list_no_events_title">"Etkinlik Yok"</string>
+    <!-- XTXT: Event organiser selection list: no events subtitle  -->
+    <string name="trace_location_organiser_list_no_events_subtitle">"Başka kişiler adına uyarıda bulunmak için tekrar ilgili etkinliğin QR kodunu tarayın."</string>
+    <!-- XTXT: Event organiser selection list: no events info  -->
+    <string name="trace_location_organiser_list_no_events_info">"Koronavirüs tanısı almış bir kişi adına diğer kullanıcıları uyarmak istediğiniz bir etkinliği seçin."</string>
+    <!-- XTXT: Event organiser selection list: title  -->
+    <string name="trace_location_organiser_list_subtitle">"Koronavirüs tanısı almış bir kişi adına diğer kullanıcıları uyarmak istediğiniz bir etkinliği seçin ya da tekrar etkinliğin QR kodunu tarayarak silinmiş bir etkinliği geri yükleyin."</string>
+    <!-- XTXT: Event organiser selection list: qr code scann  -->
+    <string name="trace_location_organiser_qr_code_scan">"QR Kodu Tara"</string>
+
+    <!--  Warn Duration Screen -->
+    <!-- XHED: Warn Duration Screen: header -->
+    <string name="trace_location_organiser_warn_duration_header">"Diğer Kullanıcılara Uyarı"</string>
+    <!-- XTXT: Warn Duration Screen: body -->
+    <string name="trace_location_organiser_warn_duration_body">"Adına diğer kullanıcıları uyarmak istediğiniz koronavirüs tanısı almış kişinin kalış süresini belirtin. Bu bilgiyi kamu sağlığı yetkililerinden alacaksınız."</string>
+    <!-- XTXT: Warn Duration Screen: start hint -->
+    <string name="trace_location_organiser_warn_duration_start_hint">"Başlangıç/Varış"</string>
+    <!-- XTXT: Warn Duration Screen: duration hint -->
+    <string name="trace_location_organiser_warn_duration_duration_hint">"Süre"</string>
+
+    <!--  Warn Tan Screen -->
+    <!-- XHED: Warn Tan Screen: header -->
+    <string name="trace_location_organiser_warn_tan_header">"Diğer Kullanıcılara Uyarı"</string>
+    <!-- XBUT: Warn Tan Screen: submit button text -->
+    <string name="trace_location_organizer_warn_tan_submit_button">"Uyarı Gönder"</string>
+
+    <!--  Thank You Final Screen -->
+    <!-- XHED: Warn Info Screen: header -->
+    <string name="trace_location_organiser_thank_you_header">"Diğer Kullanıcılara Uyarı"</string>
+    <!-- XHED: Thank You Screen: top text -->
+    <string name="trace_location_organiser_thank_you_title">"Teşekkür ederiz!"</string>
+    <!-- XTXT: Thank You Screen: main text -->
+    <string name="trace_location_organiser_thank_you_body">"Desteğiniz sayesinde artık diğer kullanıcılar uyarılabilir ve buna uygun şekilde hareket edebilir."</string>
+    <!-- XBUT: Thank You Screen: finish button text -->
+    <string name="trace_location_organiser_thank_you_finish_button">"Çıkış"</string>
+
+    <!--  Organizer submission error texts -->
+    <!-- XTXT: Text key: SUBMISSION_OB_FAILED -->
+    <string name="submission_ob_failed">"Bir hata oluştu. Lütfen Uygulama Bilgileri -&gt; Teknik Yardım Hattı üzerinden teknik yardım hattı ile iletişime geçin."</string>
+    <!-- XTXT: Text key: SUBMISSION_OB_TAN_ERROR -->
+    <string name="submission_ob_tan_error">"TAN geçersiz. Lütfen girişinizi kontrol edin veya size TAN\'yi gönderen kuruluşla iletişime geçin."</string>
+    <!-- XTXT: Text key: SUBMISSION_OB_TRY_AGAIN -->
+    <string name="submission_ob_try_again">"Bir hata oluştu. Lütfen daha sonra tekrar deneyin veya Uygulama Bilgileri -&gt; Teknik Yardım Hattı üzerinden teknik yardım hattı ile iletişime geçin."</string>
+    <!-- XTXT: Text key: SUBMISSION_OB_NO_NETWORK -->
+    <string name="submission_ob_no_network">"İnternet bağlantınız kesildi. Lütfen bağlantıyı kontrol edin ve tekrar deneyin."</string>
 
 </resources>

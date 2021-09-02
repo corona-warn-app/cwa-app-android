@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.CWAConfig
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationCorruptException
 import de.rki.coronawarnapp.environment.BuildConfigWrap
-import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -36,9 +36,7 @@ class UpdateChecker @Inject constructor(
     }
 
     private suspend fun isUpdateNeeded(): Boolean {
-        val cwaAppConfig: CWAConfig = withTimeout(UPDATE_CHECK_TIMEOUT) {
-            appConfigProvider.getAppConfig()
-        }
+        val cwaAppConfig: CWAConfig = appConfigProvider.currentConfig.first()
 
         val minVersionFromServer = cwaAppConfig.minVersionCode
 
@@ -69,7 +67,6 @@ class UpdateChecker @Inject constructor(
 
     companion object {
         private const val TAG: String = "UpdateChecker"
-        private const val UPDATE_CHECK_TIMEOUT = 5_000L
         private const val STORE_PREFIX = "https://play.google.com/store/apps/details?id="
         private const val COM_ANDROID_VENDING = "com.android.vending"
     }
