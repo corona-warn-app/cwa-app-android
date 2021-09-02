@@ -40,6 +40,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.TestCoroutineScope
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
@@ -166,7 +167,8 @@ class PersonDetailsViewModelTest : BaseTest() {
         savedInstance = mockk<SavedStateHandle>().apply {
             every { get<CertificateContainerId>(any()) } returns vcContainerId
             every { set(any(), any<CertificateContainerId>()) } just Runs
-        }
+        },
+        appScope = TestCoroutineScope()
     )
 
     private fun mockTestCertificate(): TestCertificate = mockk<TestCertificate>().apply {

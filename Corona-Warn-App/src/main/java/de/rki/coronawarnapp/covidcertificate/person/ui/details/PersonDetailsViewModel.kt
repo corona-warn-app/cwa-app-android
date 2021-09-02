@@ -29,10 +29,12 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertifi
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
@@ -47,6 +49,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private val vaccinationRepository: VaccinationRepository,
     private val dccValidationRepository: DccValidationRepository,
     private val timeStamper: TimeStamper,
+    @AppScope private val appScope: CoroutineScope,
     @Assisted private val personIdentifierCode: String,
     @Assisted private val colorShade: PersonColorShade,
     @Assisted private val containerId: CertificateContainerId?,
@@ -192,6 +195,11 @@ class PersonDetailsViewModel @AssistedInject constructor(
                 /* Stay here on PersonDetailScreen */
             }
         }
+    }
+
+    fun refreshBoosterRuleState() = launch(scope = appScope) {
+        Timber.v("refreshBoosterRuleState personIdentifierCode=$personIdentifierCode")
+        vaccinationRepository.acknowledgeBoosterRule(personIdentifierCode = personIdentifierCode)
     }
 
     @AssistedFactory

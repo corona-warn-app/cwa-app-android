@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.as
 import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.toZonedDateTime
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
-import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import dgca.verifier.app.engine.DefaultCertLogicEngine
 import dgca.verifier.app.engine.UTC_ZONE_ID
@@ -32,7 +31,7 @@ class DccBoosterRulesValidator @Inject constructor(
     @BaseJackson private val objectMapper: ObjectMapper,
 ) {
     @Suppress("BlockingMethodInNonBlockingContext")
-    suspend fun validateBoosterRules(dccList: List<CwaCovidCertificate>): EvaluatedDccRule? {
+    suspend fun validateBoosterRules(dccList: List<CwaCovidCertificate>): DccValidationRule? {
         Timber.tag(TAG).d("validateBoosterRules(dccList=%s)", dccList)
 
         val boosterRules = boosterRulesRepository.updateBoosterNotificationRules()
@@ -49,11 +48,11 @@ class DccBoosterRulesValidator @Inject constructor(
             Timber.tag(TAG).d("No vaccination certificate found")
             return null
         }
-        Timber.tag(TAG).d("Most recent vaccination certificate=%s", vaccinationCertificate)
+        Timber.tag(TAG).d("Most recent vaccination certificate=%s", vaccinationCertificate.certificateId)
 
         // Find recent recovery certificate
         val recoveryCertificate = findRecentRecoveryCertificate(dccList)
-        Timber.tag(TAG).d("Most recent recovery certificate=%s", recoveryCertificate)
+        Timber.tag(TAG).d("Most recent recovery certificate=%s", recoveryCertificate?.certificateId)
 
         val vacDccData = vaccinationCertificate.dccData
         val recDccData = recoveryCertificate?.dccData
@@ -89,7 +88,7 @@ class DccBoosterRulesValidator @Inject constructor(
             }
         }.toSet()
 
-        return ruleResults.firstOrNull { it.result == DccValidationRule.Result.PASSED }
+        return ruleResults.firstOrNull { it.result == DccValidationRule.Result.PASSED }?.rule
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
