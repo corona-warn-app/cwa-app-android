@@ -147,7 +147,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
             every { headerExpiresAt } returns Instant.parse("2021-05-16T00:00:00.000Z")
             every { totalSeriesOfDoses } returns 2
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)
-            every { fullNameFormatted } returns "Max, Mustermann"
+            every { fullNameFormatted } returns "Mustermann, Max"
         }
     }
 
