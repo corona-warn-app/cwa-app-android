@@ -26,7 +26,7 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
     private val dccValidationRepository: DccValidationRepository,
     @AppScope private val appScope: CoroutineScope,
     private val pdfGenerator: PdfGenerator
-    ) : CWAViewModel(dispatcherProvider) {
+) : CWAViewModel(dispatcherProvider) {
 
     private var qrCode: CoilQrCode? = null
     val events = SingleLiveEvent<TestCertificateDetailsNavigation>()

@@ -19,7 +19,11 @@ class RecoveryCertificateDrawHelper @Inject constructor(font: Typeface) {
             save()
             rotate(180f, PdfGenerator.PAGE_WIDTH / 2f, PdfGenerator.PAGE_HEIGHT / 2f)
             drawTextIntoRectangle("\$tg = ${certificate.targetDisease}", paint, TextArea(1895f, 2040f, 525f))
-            drawTextIntoRectangle("\$fr = ${certificate.testedPositiveOnFormatted}", paint, TextArea(1895f, 2335f, 525f))
+            drawTextIntoRectangle(
+                "\$fr = ${certificate.testedPositiveOnFormatted}",
+                paint,
+                TextArea(1895f, 2335f, 525f)
+            )
             drawTextIntoRectangle("\$co = ${certificate.certificateCountry}", paint, TextArea(1895f, 2550f, 525f))
             drawTextIntoRectangle("\$is = ${certificate.certificateIssuer}", paint, TextArea(1895f, 2740f, 525f))
             drawTextIntoRectangle("\$df = ${certificate.validFromFormatted}", paint, TextArea(1895f, 2925f, 525f))
