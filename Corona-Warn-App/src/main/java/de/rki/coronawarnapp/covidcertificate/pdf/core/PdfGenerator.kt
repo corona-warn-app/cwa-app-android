@@ -14,7 +14,7 @@ import java.io.FileOutputStream
 import javax.inject.Inject
 
 class PdfGenerator @Inject constructor(
-    @QrCodePosterTemplate private val cacheDir: File,
+    @CertificateExportCache private val cacheDir: File,
     private val pdfTemplateRepository: PdfTemplateRepository,
     private val certificateDrawHelper: CertificateDrawHelper,
     private val vaccinationCertificateDrawHelper: VaccinationCertificateDrawHelper,
@@ -23,6 +23,7 @@ class PdfGenerator @Inject constructor(
 ) {
 
     fun createDgcPdf(certificate: CwaCovidCertificate): File {
+        // TODO: adjust name
         return File(cacheDir, "test.pdf").also { file ->
             PdfDocument().apply {
                 startPage(createEmptyPage()).apply {

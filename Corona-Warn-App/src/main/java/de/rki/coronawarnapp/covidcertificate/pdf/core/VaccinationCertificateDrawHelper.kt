@@ -6,7 +6,7 @@ import android.graphics.Typeface
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import javax.inject.Inject
 
-class VaccinationCertificateDrawHelper @Inject constructor(font: Typeface) {
+class VaccinationCertificateDrawHelper @Inject constructor(@OpenSansTypeFace font: Typeface) {
 
     val paint = Paint().apply {
         typeface = font

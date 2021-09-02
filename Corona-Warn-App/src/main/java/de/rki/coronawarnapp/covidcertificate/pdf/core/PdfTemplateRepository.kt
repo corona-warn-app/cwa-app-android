@@ -10,7 +10,7 @@ import java.io.File
 import javax.inject.Inject
 
 class PdfTemplateRepository @Inject constructor(
-    @QrCodePosterTemplate private val cacheDir: File,
+    @CertificateExportCache private val cacheDir: File,
     private val assetManager: AssetManager,
 ) {
 

@@ -23,12 +23,6 @@ class QrCodePosterTemplateModule : BaseEnvironmentModule() {
 
     @Singleton
     @Provides
-    fun provideFont(
-        @AppContext context: Context
-    ): Typeface = ResourcesCompat.getFont(context, R.font.opensans)!!
-
-    @Singleton
-    @Provides
     @QrCodePosterTemplate
     fun cacheDir(
         @AppContext context: Context

@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import javax.inject.Inject
 
 class CertificateDrawHelper @Inject constructor(
-    font: Typeface
+    @OpenSansTypeFace font: Typeface
 ) {
 
     val paint = Paint().apply {
