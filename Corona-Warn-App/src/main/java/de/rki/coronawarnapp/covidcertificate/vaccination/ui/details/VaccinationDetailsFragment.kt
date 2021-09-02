@@ -141,10 +141,8 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     }
 
     private fun FragmentVaccinationDetailsBinding.bindToolbar() = toolbar.apply {
-        setNavigationOnClickListener { popBackStack() }
-
         toolbar.navigationIcon = backIcon()
-
+        setNavigationOnClickListener { popBackStack() }
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_covid_certificate_delete -> {

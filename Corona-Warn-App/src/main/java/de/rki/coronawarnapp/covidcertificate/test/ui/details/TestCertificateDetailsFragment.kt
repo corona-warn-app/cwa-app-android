@@ -1,9 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.test.ui.details
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.net.toUri
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
@@ -32,6 +34,7 @@ import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.europaStarsResource
 import de.rki.coronawarnapp.util.expendedImageResource
+import de.rki.coronawarnapp.util.getDrawableCompat
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -185,6 +188,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     }
 
     private fun FragmentTestCertificateDetailsBinding.bindToolbar() = toolbar.apply {
+        toolbar.navigationIcon = backIcon()
         setNavigationOnClickListener { popBackStack() }
         setOnMenuItemClickListener {
             when (it.itemId) {
@@ -200,6 +204,19 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
             }
         }
     }
+
+    private fun backIcon() =
+        resources.getDrawableCompat(R.drawable.ic_back)?.let { drawable ->
+            DrawableCompat
+                .wrap(drawable)
+                .mutate()
+                .apply {
+                    setTint(
+                        Color.WHITE
+                    )
+                }
+        }
+
 
     private fun setToolbarOverlay() {
         val width = requireContext().resources.displayMetrics.widthPixels
