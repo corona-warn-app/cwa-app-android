@@ -10,7 +10,7 @@ class VaccinationCertificateDrawHelper @Inject constructor(@OpenSansTypeFace fon
 
     val paint = Paint().apply {
         typeface = font
-        textSize = 35f
+        textSize = 34f
         color = CertificateDrawHelper.FONT_COLOR
     }
 

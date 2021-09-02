@@ -16,7 +16,7 @@ class CertificateDrawHelper @Inject constructor(
 
     val paint = Paint().apply {
         typeface = font
-        textSize = 35f
+        textSize = 34f
         color = FONT_COLOR
     }
 

@@ -10,7 +10,7 @@ class RecoveryCertificateDrawHelper @Inject constructor(@OpenSansTypeFace font: 
 
     val paint = Paint().apply {
         typeface = font
-        textSize = 35f
+        textSize = 34f
         color = CertificateDrawHelper.FONT_COLOR
     }
 

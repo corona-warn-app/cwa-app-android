@@ -10,7 +10,7 @@ class TestCertificateDrawHelper @Inject constructor(@OpenSansTypeFace font: Type
 
     val paint = Paint().apply {
         typeface = font
-        textSize = 35f
+        textSize = 34f
         color = CertificateDrawHelper.FONT_COLOR
     }
 
@@ -18,20 +18,15 @@ class TestCertificateDrawHelper @Inject constructor(@OpenSansTypeFace font: Type
         with(canvas) {
             save()
             rotate(180f, PdfGenerator.PAGE_WIDTH / 2f, PdfGenerator.PAGE_HEIGHT / 2f)
-            // TODO:
-            drawTextIntoRectangle("\$tg = ${certificate.targetName}", paint, TextArea(1990f, 2040f, 525f))
-            drawTextIntoRectangle("\$tt = ${certificate.testType}", paint, TextArea(1990f, 2150f, 525f))
-            drawTextIntoRectangle("\$nm = ${certificate.testName}", paint, TextArea(1310f, 2425f, 525f))
-            drawTextIntoRectangle("\$ma = ${certificate.testNameAndManufacturer}", paint, TextArea(1310f, 2620f, 525f))
-            drawTextIntoRectangle(
-                "\$sc = ${certificate.sampleCollectedAtFormatted}",
-                paint,
-                TextArea(1990f, 2815f, 525f)
-            )
-            drawTextIntoRectangle("\$tr = ${certificate.testResult}", paint, TextArea(1990f, 2970f, 525f))
-            drawTextIntoRectangle("\$tc = ${certificate.testCenter}", paint, TextArea(1990f, 3090f, 525f))
-            drawTextIntoRectangle("\$co = ${certificate.certificateCountry}", paint, TextArea(1990f, 3200f, 525f))
-            drawTextIntoRectangle("\$is = ${certificate.certificateIssuer}", paint, TextArea(1990f, 3315f, 525f))
+            drawTextIntoRectangle(certificate.targetName, paint, TextArea(1985f, 2040f, 470f))
+            drawTextIntoRectangle(certificate.testType, paint, TextArea(1985f, 2150f, 470f))
+            drawTextIntoRectangle(certificate.testName ?: "", paint, TextArea(1310f, 2425f, 1100f))
+            drawTextIntoRectangle(certificate.testNameAndManufacturer ?: "", paint, TextArea(1310f, 2620f, 1100f))
+            drawTextIntoRectangle(certificate.sampleCollectedAtFormatted, paint, TextArea(1985f, 2815f, 470f))
+            drawTextIntoRectangle(certificate.testResult, paint, TextArea(1985f, 2970f, 470f))
+            drawTextIntoRectangle(certificate.testCenter ?: "", paint, TextArea(1985f, 3090f, 470f))
+            drawTextIntoRectangle(certificate.certificateCountry, paint, TextArea(1985f, 3200f, 470f))
+            drawTextIntoRectangle(certificate.certificateIssuer, paint, TextArea(1985f, 3315f, 470f))
             restore()
         }
     }
