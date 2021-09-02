@@ -5,12 +5,40 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import com.google.zxing.qrcode.encoder.ByteMatrix
+import timber.log.Timber
 import java.nio.IntBuffer
 import java.util.stream.IntStream
 
 fun Canvas.drawTextIntoRectangle(text: String, paint: Paint, area: TextArea) {
-    val textWidth = paint.measureText(text) // TODO: use for text boundary
-    drawText(text, area.x, area.y + paint.textSize, paint)
+    val textList = getMultilineText(text, paint, area.width.toInt())
+    drawMultilineText(textList, paint, area.x, area.y + paint.textSize)
+}
+
+/*
+ Method split text int multiple lines that are able to fit maximal available width
+ */
+fun getMultilineText(text: String, paint: Paint, maxSize: Int): List<String> {
+    return if (paint.measureText(text) > maxSize) {
+        var longestTextSize = text.length
+        for (i in 1..text.length) {
+            if (paint.measureText(text.substring(0, i)) > maxSize) {
+                longestTextSize = i - 1
+                break
+            }
+        }
+        val lastSpace = text.lastIndexOf(' ', longestTextSize)
+        val textLine = text.substring(0, if (lastSpace > 0) lastSpace else longestTextSize)
+        val rest = text.substring(textLine.length)
+        listOf(textLine.trim()) + getMultilineText(rest.trim(), paint, maxSize)
+    } else {
+        listOf(text.trim())
+    }
+}
+
+fun Canvas.drawMultilineText(text: List<String>, paint: Paint, x: Float, y: Float) {
+    text.forEachIndexed { index, line ->
+        drawText(line, x, y + paint.textSize * index * 1.2f, paint)
+    }
 }
 
 fun ByteMatrix.toBitmap(): Bitmap = Bitmap.createBitmap(
