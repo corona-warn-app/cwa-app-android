@@ -18,16 +18,12 @@ class RecoveryCertificateDrawHelper @Inject constructor(@OpenSansTypeFace font: 
         with(canvas) {
             save()
             rotate(180f, PdfGenerator.PAGE_WIDTH / 2f, PdfGenerator.PAGE_HEIGHT / 2f)
-            drawTextIntoRectangle("\$tg = ${certificate.targetDisease}", paint, TextArea(1895f, 2040f, 525f))
-            drawTextIntoRectangle(
-                "\$fr = ${certificate.testedPositiveOnFormatted}",
-                paint,
-                TextArea(1895f, 2335f, 525f)
-            )
-            drawTextIntoRectangle("\$co = ${certificate.certificateCountry}", paint, TextArea(1895f, 2550f, 525f))
-            drawTextIntoRectangle("\$is = ${certificate.certificateIssuer}", paint, TextArea(1895f, 2740f, 525f))
-            drawTextIntoRectangle("\$df = ${certificate.validFromFormatted}", paint, TextArea(1895f, 2925f, 525f))
-            drawTextIntoRectangle("\$du = ${certificate.validUntilFormatted}", paint, TextArea(1895f, 3090f, 525f))
+            drawTextIntoRectangle(certificate.targetDisease, paint, TextArea(1890f, 2040f, 540f))
+            drawTextIntoRectangle(certificate.testedPositiveOnFormatted, paint, TextArea(1890f, 2335f, 540f))
+            drawTextIntoRectangle(certificate.certificateCountry, paint, TextArea(1890f, 2550f, 540f))
+            drawTextIntoRectangle(certificate.certificateIssuer, paint, TextArea(1890f, 2740f, 540f))
+            drawTextIntoRectangle(certificate.validFromFormatted, paint, TextArea(1890f, 2925f, 540f))
+            drawTextIntoRectangle(certificate.validUntilFormatted, paint, TextArea(1890f, 3090f, 540f))
             restore()
         }
     }

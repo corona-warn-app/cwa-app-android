@@ -5,7 +5,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import com.google.zxing.qrcode.encoder.ByteMatrix
-import timber.log.Timber
 import java.nio.IntBuffer
 import java.util.stream.IntStream
 
