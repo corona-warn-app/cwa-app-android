@@ -106,7 +106,7 @@
     <!-- XHED: Title for Bugreporting share log Privacy Card -->
     <string name="debugging_debuglog_share_privacy_card_title">"Rıza beyanınız"</string>
     <!-- YTXT: First body section for Bugreporting share log Privacy Card -->
-    <string name="debugging_debuglog_share_privacy_card_body_1">"“Kabul ediyorum”a tıklayarak aşağıdaki adımlara onay vermiş olursunuz:"</string>
+    <string name="debugging_debuglog_share_privacy_card_body_1">"“Kabul Et ve Gönder”e tıklayarak aşağıdaki adımlara onay vermiş olursunuz:"</string>
     <!-- YTXT: First bullet point for Bugreporting share log Privacy Card -->
     <string name="debugging_debuglog_share_privacy_card_bullet_point_1">"Tarafınızdan oluşturulan hata raporu, hata analizinin gerçekleştirilmesi için RKI’ye aktarılır. RKI, Uygulamanızda ortaya çıkan hataların olası nedenlerini belirlemek ve bunları gidermek için hata raporunu inceleyecektir. Hata raporu kimlik numarasını teknik destek birimine sağladığınızda, RKI bu hata raporunu size kişisel olarak atayabilir."</string>
     <!-- YTXT: Second bullet point for Bugreporting share log Privacy Card -->
