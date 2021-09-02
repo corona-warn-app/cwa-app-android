@@ -273,7 +273,7 @@ class VaccinationRepository @Inject constructor(
             val vaccinatedPerson = singleOrNull { it.identifier.codeSHA256 == personIdentifierCode }
 
             if (vaccinatedPerson == null) {
-                Timber.tag(TAG).w("Couldn't find person %s", personIdentifierCode)
+                Timber.tag(TAG).w("acknowledgeBoosterRule couldn't find person %s", personIdentifierCode)
                 return@updateBlocking this
             }
 
@@ -283,7 +283,7 @@ class VaccinationRepository @Inject constructor(
                 )
             )
 
-            Timber.tag(TAG).d("updatedPerson=%s", updatedPerson)
+            Timber.tag(TAG).d("acknowledgeBoosterRule updatedPerson=%s", updatedPerson)
 
             this.minus(vaccinatedPerson).plus(updatedPerson)
         }
@@ -299,7 +299,7 @@ class VaccinationRepository @Inject constructor(
             val vaccinatedPerson = singleOrNull { it.identifier == personIdentifier }
 
             if (vaccinatedPerson == null) {
-                Timber.tag(TAG).w("Couldn't find person %s", personIdentifier.codeSHA256)
+                Timber.tag(TAG).w("updateBoosterRule couldn't find person %s", personIdentifier.codeSHA256)
                 return@updateBlocking this
             }
 
@@ -307,7 +307,7 @@ class VaccinationRepository @Inject constructor(
                 data = vaccinatedPerson.data.copy(boosterRule = rule)
             )
 
-            Timber.tag(TAG).d("updatedPerson=%s", updatedPerson)
+            Timber.tag(TAG).d("updateBoosterRule updatedPerson=%s", updatedPerson)
 
             this.minus(vaccinatedPerson).plus(updatedPerson)
         }
@@ -322,7 +322,7 @@ class VaccinationRepository @Inject constructor(
             val vaccinatedPerson = singleOrNull { it.identifier == personIdentifier }
 
             if (vaccinatedPerson == null) {
-                Timber.tag(TAG).w("Couldn't find person %s", personIdentifier.codeSHA256)
+                Timber.tag(TAG).w("updateBoosterNotifiedAt couldn't find person %s", personIdentifier.codeSHA256)
                 return@updateBlocking this
             }
 
@@ -330,7 +330,7 @@ class VaccinationRepository @Inject constructor(
                 data = vaccinatedPerson.data.copy(lastBoosterNotifiedAt = time)
             )
 
-            Timber.tag(TAG).d("updatedPerson=%s", updatedPerson)
+            Timber.tag(TAG).d("updateBoosterNotifiedAt updatedPerson=%s", updatedPerson)
 
             this.minus(vaccinatedPerson).plus(updatedPerson)
         }
