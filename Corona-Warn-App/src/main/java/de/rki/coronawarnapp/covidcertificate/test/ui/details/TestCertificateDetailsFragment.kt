@@ -88,7 +88,10 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         diseaseType.text = certificate.targetName
         testType.text = certificate.testType
         testManufacturer.text = certificate.testNameAndManufacturer
-        testDate.text = certificate.sampleCollectedAtFormatted
+        testDate.text = arrayOf(
+            certificate.sampleCollectedAt.toShortDayFormat(),
+            certificate.sampleCollectedAt.toShortTimeFormat()
+        ).joinToString(" ")
         testResult.text = certificate.testResult
         certificateCountry.text = certificate.certificateCountry
         certificateIssuer.text = certificate.certificateIssuer
