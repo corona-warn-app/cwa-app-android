@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.environment.presencetracing.qrcodeposter.QrCodePosterTemplate
 import java.io.File
 import java.io.FileOutputStream
 import javax.inject.Inject

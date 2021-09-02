@@ -16,7 +16,7 @@ class CertificateDrawHelper @Inject constructor(
 
     val paint = Paint().apply {
         typeface = font
-        textSize = 34f
+        textSize = FONT_SIZE
         color = FONT_COLOR
     }
 
@@ -54,6 +54,7 @@ class CertificateDrawHelper @Inject constructor(
     }
 
     companion object {
-        @ColorInt val FONT_COLOR: Int = 0xFF0067A0.toInt()
+        @ColorInt const val FONT_COLOR = 0xFF0067A0.toInt()
+        const val FONT_SIZE = 32f
     }
 }

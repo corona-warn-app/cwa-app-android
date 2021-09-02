@@ -27,8 +27,8 @@ internal class UtilsTest {
         }
 
         val text = "ABCDEFG 12345 XYZ OMG 0123456789101112"
-        val result = listOf("ABCDEFG","12345 XYZ","OMG","012345678","9101112")
+        val result = listOf("ABCDEFG", "12345 XYZ", "OMG", "012345678", "9101112")
 
-        getMultilineText(text,paint,9) shouldBe result
+        getMultilineText(text, paint, 9) shouldBe result
     }
 }

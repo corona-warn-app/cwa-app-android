@@ -27,7 +27,6 @@ class ExportCertificateModule {
     fun cacheDir(
         @AppContext context: Context
     ): File = File(context.cacheDir, "export")
-
 }
 
 @Qualifier

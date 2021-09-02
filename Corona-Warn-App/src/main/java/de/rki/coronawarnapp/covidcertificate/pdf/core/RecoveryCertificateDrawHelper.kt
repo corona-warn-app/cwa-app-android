@@ -5,13 +5,15 @@ import android.graphics.Paint
 import android.graphics.Typeface
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import javax.inject.Inject
+import de.rki.coronawarnapp.covidcertificate.pdf.core.CertificateDrawHelper.Companion.FONT_COLOR
+import de.rki.coronawarnapp.covidcertificate.pdf.core.CertificateDrawHelper.Companion.FONT_SIZE
 
 class RecoveryCertificateDrawHelper @Inject constructor(@OpenSansTypeFace font: Typeface) {
 
     val paint = Paint().apply {
         typeface = font
-        textSize = 34f
-        color = CertificateDrawHelper.FONT_COLOR
+        textSize = FONT_SIZE
+        color = FONT_COLOR
     }
 
     fun drawCertificateDetail(canvas: Canvas, certificate: RecoveryCertificate) {
