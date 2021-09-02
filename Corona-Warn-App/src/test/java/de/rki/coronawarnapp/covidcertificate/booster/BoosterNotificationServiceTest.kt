@@ -211,8 +211,8 @@ class BoosterNotificationServiceTest : BaseTest() {
     fun `Multiple persons are notified when they are eligible`() = runBlockingTest {
         val pIdentifier1 = CertificatePersonIdentifier(
             dateOfBirthFormatted = "1980-10-10",
-            firstNameStandardized = "firstNameStandardized",
-            lastNameStandardized = "lastNameStandardized"
+            firstNameStandardized = "firstNameStandardized1",
+            lastNameStandardized = "lastNameStandardized1"
         )
 
         val vaccinationCertificate1 = mockk<VaccinationCertificate>()
@@ -228,9 +228,9 @@ class BoosterNotificationServiceTest : BaseTest() {
         }
 
         val pIdentifier2 = CertificatePersonIdentifier(
-            dateOfBirthFormatted = "1980-10-10",
-            firstNameStandardized = "firstNameStandardized",
-            lastNameStandardized = "lastNameStandardized"
+            dateOfBirthFormatted = "1980-10-11",
+            firstNameStandardized = "firstNameStandardized2",
+            lastNameStandardized = "lastNameStandardized2"
         )
 
         val vaccinationCertificate2 = mockk<VaccinationCertificate>()
