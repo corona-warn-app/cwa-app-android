@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.Vaccina
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.util.TimeStamper
+import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -173,6 +174,61 @@ class BoosterNotificationServiceTest : BaseTest() {
         coVerify(exactly = 0) {
             boosterNotification.showBoosterNotification(any())
             vaccinationRepository.updateBoosterNotifiedAt(any(), any())
+        }
+    }
+
+    @Test
+    fun `User isn't notified when rule identifier is empty`() = runBlockingTest {
+        val pIdentifier = CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1980-10-10",
+            firstNameStandardized = "firstNameStandardized",
+            lastNameStandardized = "lastNameStandardized"
+        )
+
+        val vaccinationCertificate = mockk<VaccinationCertificate>().apply {
+            every { personIdentifier } returns pIdentifier
+        }
+        val personCertificate = PersonCertificates(certificates = listOf(vaccinationCertificate))
+
+        val vaccinatedPerson = mockk<VaccinatedPerson>().apply {
+            every { identifier } returns pIdentifier
+            every { data } returns VaccinatedPersonData(vaccinations = emptySet())
+        }
+        every { personCertificatesProvider.personCertificates } returns flowOf(setOf(personCertificate))
+        every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPerson))
+        coEvery { dccBoosterRulesValidator.validateBoosterRules(any()) } returns
+            mockk<DccValidationRule>().apply { every { identifier } returns "" }
+
+        service().checkBoosterNotification()
+
+        coVerify(exactly = 0) {
+            boosterNotification.showBoosterNotification(any())
+            vaccinationRepository.updateBoosterNotifiedAt(any(), any())
+        }
+    }
+
+    @Test
+    fun `No exception thrown if it happens`() = runBlockingTest {
+        val pIdentifier = CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1980-10-10",
+            firstNameStandardized = "firstNameStandardized",
+            lastNameStandardized = "lastNameStandardized"
+        )
+
+        val vaccinationCertificate = mockk<VaccinationCertificate>().apply {
+            every { personIdentifier } returns pIdentifier
+        }
+        val personCertificate = PersonCertificates(certificates = listOf(vaccinationCertificate))
+
+        val vaccinatedPerson = mockk<VaccinatedPerson>().apply {
+            every { identifier } returns pIdentifier
+            every { data } returns VaccinatedPersonData(vaccinations = emptySet())
+        }
+        every { personCertificatesProvider.personCertificates } returns flowOf(setOf(personCertificate))
+        every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPerson))
+        coEvery { dccBoosterRulesValidator.validateBoosterRules(any()) } throws Exception("Crash")
+        shouldNotThrowAny {
+            service().checkBoosterNotification()
         }
     }
 
