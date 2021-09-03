@@ -27,11 +27,13 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.PersonDetai
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.RecoveryCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.TestCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationCertificateCard
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationInfoCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -131,6 +133,17 @@ class PersonDetailsFragmentTest : BaseUITest() {
             )
 
             add(PersonDetailsQrCard.Item(testCertificate, false) {})
+
+            add(
+                VaccinationInfoCard.Item(
+                    vaccinationStatus = VaccinatedPerson.Status.IMMUNITY,
+                    daysUntilImmunity = null,
+                    boosterRule = null,
+                    daysSinceLastVaccination = 86,
+                    hasBoosterNotification = false
+                )
+            )
+
             add(CwaUserCard.Item(personCertificates) {})
             add(
                 VaccinationCertificateCard.Item(
@@ -172,12 +185,34 @@ class PersonDetailsFragmentTest : BaseUITest() {
     private fun boosterCertificateData(isCwa: Boolean = false): LiveData<List<CertificateItem>> = MutableLiveData(
         mutableListOf<CertificateItem>().apply {
             val vaccinationCertificate1 = mockVaccinationCertificate(number = 3, final = false, booster = true)
+
             val personCertificates = PersonCertificates(
                 listOf(vaccinationCertificate1),
                 isCwaUser = isCwa
             )
 
             add(PersonDetailsQrCard.Item(vaccinationCertificate1, false) {})
+
+            add(
+                VaccinationInfoCard.Item(
+                    vaccinationStatus = VaccinatedPerson.Status.BOOSTER_ELIGIBLE,
+                    daysUntilImmunity = null,
+                    boosterRule = mockk<DccValidationRule>().apply {
+                        every { identifier } returns "BNR-DE-416"
+                        every { description } returns listOf(
+                            mockk {
+                                every { description } returns "Aufgrund Ihres vorhanden Impfzertifikats könnte für Sie eine Auffrischungsimpfung erforderlich sein, da Ihr letztes Impfzertifikat älter als 6 Monate ist"
+                                every { languageCode } returns "DE"
+                            }
+                        )
+                    },
+                    daysSinceLastVaccination = 86,
+                    hasBoosterNotification = true
+
+
+                )
+            )
+
             add(CwaUserCard.Item(personCertificates) {})
             add(
                 VaccinationCertificateCard.Item(
