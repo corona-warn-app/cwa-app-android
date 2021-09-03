@@ -65,7 +65,8 @@ class PersonCertificateCard(parent: ViewGroup) :
     data class Item(
         val certificate: CwaCovidCertificate,
         val colorShade: PersonColorShade,
-        val onClickAction: (Item, Int) -> Unit,
+        val badgeCount: Int?,
+        val onClickAction: (Item, Int) -> Unit
     ) : PersonCertificatesItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
         override val stableId: Long = certificate.personIdentifier.codeSHA256.hashCode().toLong()
