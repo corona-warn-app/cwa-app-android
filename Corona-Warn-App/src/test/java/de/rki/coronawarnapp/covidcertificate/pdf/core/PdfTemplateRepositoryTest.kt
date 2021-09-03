@@ -40,8 +40,8 @@ internal class PdfTemplateRepositoryTest : BaseIOTest() {
 
     @Test
     fun `get template from cache when there is one`() {
-        val root = File(testDir,"template").apply {  mkdirs() }
-        File(root,"test_certificate_template.pdf").createNewFile()
+        val root = File(testDir, "template").apply { mkdirs() }
+        File(root, "test_certificate_template.pdf").createNewFile()
         val repository = getInstance()
         repository.getTemplate(cwaCertificate)
         verify(exactly = 0) { assetManager.open(any()) }
