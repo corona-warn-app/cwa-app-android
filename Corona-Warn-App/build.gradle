@@ -167,13 +167,13 @@ android {
     compileOptions {
         // Required for rdgca.verifier.app:dgc-certlogic-android-light API 26 Time API
         coreLibraryDesugaringEnabled true
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
         kotlinOptions {
-            jvmTarget = "1.8"
+            jvmTarget = "11"
 
             freeCompilerArgs += [
                     "-Xno-kotlin-nothing-value-exception",
@@ -459,7 +459,7 @@ dependencies {
     implementation 'org.conscrypt:conscrypt-android:2.5.1'
 
     // LOGGING
-    implementation 'com.jakewharton.timber:timber:4.7.1@aar'
+    implementation 'com.jakewharton.timber:timber:5.0.1@aar'
 
     // ANIMATIONS
     implementation "com.airbnb.android:lottie:3.5.0"
