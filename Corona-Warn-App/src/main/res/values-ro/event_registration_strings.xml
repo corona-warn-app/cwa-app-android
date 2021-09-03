@@ -142,6 +142,8 @@
     <string name="trace_location_qr_info_qr_code_text">"Puteți furniza codul QR invitaților dvs. de pe smartphone-ul dvs. sau în formă tipărită."</string>
     <!-- XTXT: Text for time sheet icon of qr info screen -->
     <string name="trace_location_qr_info_time_text">"Dacă doriți să utilizați un cod QR pe termen lung, generați-l din nou în fiecare zi, în afara programului dvs. de lucru."</string>
+    <!-- XTXT: Text for warning icon of qr info screen -->
+    <string name="trace_location_qr_info_warn_text">"Vă puteți avertiza invitații în numele cuiva care a fost diagnosticat cu coronavirus și care a participat la eveniment, dar care nu a făcut check-inul în Corona-Warn-App."</string>
     <!-- XTXT: Text for I understand button -->
     <string name="acknowledge_button">"Înainte"</string>
 
@@ -171,6 +173,8 @@
     <string name="trace_location_organizer_list_menu_information_btn">"Informații"</string>
     <!-- XBUT: Event organiser qr codes list: menu: remove all button  -->
     <string name="trace_location_organizer_list_menu_remove_all_btn">"Eliminare toate"</string>
+    <!-- XBUT: Event organiser qr codes list: menu: warn guests button  -->
+    <string name="trace_location_organizer_list_menu_warn_guests_btn">"Avertizarea altor persoane"</string>
 
     <!-- XHED:  Event organiser qr codes list: delete single popup title -->
     <string name="trace_location_organiser_list_delete_single_popup_title">"Doriți să eliminați codul QR?"</string>
@@ -258,5 +262,65 @@
     <string name="trace_location_checkins_qr_code_invalid_times">"Check-in împiedicat din cauza unui cod QR nevalabil. Partea responsabilă trebuie să genereze un cod QR nou (cod de eroare INVALID_TIMESTAMPS)."</string>
     <!-- XTXT: My check-ins: qr code validation wrong cryptographic seed field -->
     <string name="trace_location_checkins_qr_code_invalid_cryptographic_seed">"Check-in împiedicat din cauza unui cod QR nevalabil. Partea responsabilă trebuie să genereze un cod QR nou (cod de eroare INVALID_CRYPTO_SEED)."</string>
+
+    <!--  Warn Info Screen -->
+    <!-- XHED: Warn Info Screen: header -->
+    <string name="trace_location_organiser_warn_info_header">"Avertizarea altor persoane"</string>
+    <!-- XHED: Warn Info Screen: title -->
+    <string name="trace_location_organiser_warn_info_title">"Siguranță crescută pentru dvs. și invitații dvs."</string>
+    <!-- XTXT: Warn Info Screen: body -->
+    <string name="trace_location_organiser_warn_info_body">"Vă puteți avertiza invitații în numele cuiva care a fost diagnosticat cu coronavirus și care a participat la eveniment, dar care nu a făcut check-inul în Corona-Warn-App."</string>
+    <!-- XTXT: Warn Info Screen: guests -->
+    <string name="trace_location_organiser_warn_info_guests">"Dacă o persoană care nu a făcut check-in la acest eveniment sau în acest loc este diagnosticată ulterior cu coronavirus, invitații pot fi notificați dacă au fost în aceeași cameră în același timp sau în decurs de 30 de minute după persoana diagnosticată."</string>
+    <!-- XTXT: Warn Info Screen: guests -->
+    <string name="trace_location_organiser_warn_info_authority">"Vă puteți avertiza invitații în numele altor persoane doar dacă vi se solicită acest lucru de către autoritățile de sănătate publică. Acestea vă vor trimite un TAN, în acest caz."</string>
+
+    <!--  Selection List Screen -->
+    <!-- XTXT: Event organiser selection list: no events title  -->
+    <string name="trace_location_organiser_list_no_events_title">"Nu există evenimente disponibile"</string>
+    <!-- XTXT: Event organiser selection list: no events subtitle  -->
+    <string name="trace_location_organiser_list_no_events_subtitle">"Scanați codul QR al evenimentului relevant din nou pentru a avertiza în numele altor persoane."</string>
+    <!-- XTXT: Event organiser selection list: no events info  -->
+    <string name="trace_location_organiser_list_no_events_info">"Selectați un eveniment pentru care doriți să avertizați alte persoane în numele unei persoane care a fost diagnosticată cu coronavirus."</string>
+    <!-- XTXT: Event organiser selection list: title  -->
+    <string name="trace_location_organiser_list_subtitle">"Selectați un eveniment pentru care doriți să avertizați alte persoane în numele unei persoane care a fost diagnosticată cu coronavirus sau să restaurați un eveniment șters scanând din nou codul QR al evenimentului respectiv."</string>
+    <!-- XTXT: Event organiser selection list: qr code scann  -->
+    <string name="trace_location_organiser_qr_code_scan">"Scanare cod QR"</string>
+
+    <!--  Warn Duration Screen -->
+    <!-- XHED: Warn Duration Screen: header -->
+    <string name="trace_location_organiser_warn_duration_header">"Avertizarea altor persoane"</string>
+    <!-- XTXT: Warn Duration Screen: body -->
+    <string name="trace_location_organiser_warn_duration_body">"Specificați durata șederii persoanei care a fost diagnosticată cu coronavirus în numele căreia doriți să avertizați alte persoane. Primiți această informație de la autoritățile de sănătate publică."</string>
+    <!-- XTXT: Warn Duration Screen: start hint -->
+    <string name="trace_location_organiser_warn_duration_start_hint">"Început/Sosire"</string>
+    <!-- XTXT: Warn Duration Screen: duration hint -->
+    <string name="trace_location_organiser_warn_duration_duration_hint">"Durată"</string>
+
+    <!--  Warn Tan Screen -->
+    <!-- XHED: Warn Tan Screen: header -->
+    <string name="trace_location_organiser_warn_tan_header">"Avertizarea altor persoane"</string>
+    <!-- XBUT: Warn Tan Screen: submit button text -->
+    <string name="trace_location_organizer_warn_tan_submit_button">"Trimitere avertizare"</string>
+
+    <!--  Thank You Final Screen -->
+    <!-- XHED: Warn Info Screen: header -->
+    <string name="trace_location_organiser_thank_you_header">"Avertizarea altor persoane"</string>
+    <!-- XHED: Thank You Screen: top text -->
+    <string name="trace_location_organiser_thank_you_title">"Vă mulțumim!"</string>
+    <!-- XTXT: Thank You Screen: main text -->
+    <string name="trace_location_organiser_thank_you_body">"Datorită sprijinului dvs., alte persoane pot fi acum avertizate și pot reacționa adecvat."</string>
+    <!-- XBUT: Thank You Screen: finish button text -->
+    <string name="trace_location_organiser_thank_you_finish_button">"Ieșire"</string>
+
+    <!--  Organizer submission error texts -->
+    <!-- XTXT: Text key: SUBMISSION_OB_FAILED -->
+    <string name="submission_ob_failed">"A apărut o eroare. Contactați hotline-ul tehnic prin Informații aplicație -&gt; Hotline tehnic."</string>
+    <!-- XTXT: Text key: SUBMISSION_OB_TAN_ERROR -->
+    <string name="submission_ob_tan_error">"TAN nevalabil. Verificați intrarea dvs. sau contactați organizația care v-a trimis TAN-ul."</string>
+    <!-- XTXT: Text key: SUBMISSION_OB_TRY_AGAIN -->
+    <string name="submission_ob_try_again">"A apărut o eroare. Încercați din nou mai târziu sau contactați hotline-ul tehnic prin Informații aplicație -&gt; Hotline tehnic."</string>
+    <!-- XTXT: Text key: SUBMISSION_OB_NO_NETWORK -->
+    <string name="submission_ob_no_network">"Conexiunea dvs. la internet a fost pierdută. Verificați conexiunea și încercați din nou."</string>
 
 </resources>

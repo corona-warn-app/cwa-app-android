@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.ui.details
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -28,6 +29,7 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.mutateDrawable
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -124,7 +126,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                     is VaccinationDetailsNavigation.Export -> {
                         doNavigate(
                             VaccinationDetailsFragmentDirections
-                                .actionVaccinationDetailsFragmentToCertificatePdfExportInfoFragment()
+                                .actionVaccinationDetailsFragmentToCertificatePdfExportInfoFragment(event.containerId)
                         )
                     }
                 }
@@ -137,6 +139,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     }
 
     private fun FragmentVaccinationDetailsBinding.bindToolbar() = toolbar.apply {
+        toolbar.navigationIcon = resources.mutateDrawable(R.drawable.ic_back, Color.WHITE)
         setNavigationOnClickListener { popBackStack() }
         setOnMenuItemClickListener {
             when (it.itemId) {

@@ -69,8 +69,6 @@
     <string name="vaccination_certificate_doses">Impfung %1$d von %2$d</string>
     <!-- XTXT: Vaccination card name-->
     <string name="vaccination_certificate_name">Impfzertifikat</string>
-    <!-- XTXT: Booster Vaccination title-->
-    <string name="vaccination_booster_certificate_title">Auffrischungsimpfung</string>
 
     <!-- XTXT: Vaccination card immunity information card body-->
     <plurals name="vaccination_certificate_days_unti_immunity" tools:ignore="UnusedQuantity">
@@ -345,4 +343,11 @@
     <string name="pdf_export_info_point_sensitive">Beachten Sie, dass das PDF-Dokument sensible Informationen enthält. Wir empfehlen Ihnen, hiermit sorgsam umzugehen und es nur Personen vorzuzeigen, denen Sie vertrauen und die zur Prüfung des Nachweises berechtigt sind.</string>
     <!-- XTXT: PDF Export: Info screen point with recommendations -->
     <string name="pdf_export_info_point_recommendations">Wir empfehlen, das PDF-Dokument nicht zu veröffentlichen und nicht per E-Mail zu versenden oder über andere Apps zu teilen.</string>
+
+    <!-- PDF Export: Error message -->
+    <!-- XHED: PDF Export: Error message title -->
+    <string name="pdf_export_error_title">Druckversion anzeigen nicht möglich</string>
+    <!-- XHED: PDF Export: Error message body -->
+    <string name="pdf_export_error_message">Die Druckversion des Zertifikats kann nicht angezeigt werden, da das Zertifikat momentan nicht abgerufen werden kann. Bitte versuchen Sie es später noch einmal.</string>
+
 </resources>

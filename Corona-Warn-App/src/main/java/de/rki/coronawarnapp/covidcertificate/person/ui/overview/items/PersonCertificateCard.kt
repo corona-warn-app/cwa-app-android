@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview.items
 
 import android.view.ViewGroup
-import androidx.core.graphics.drawable.DrawableCompat
 import coil.loadAny
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
@@ -9,10 +8,10 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewAdapter
 import de.rki.coronawarnapp.databinding.PersonOverviewItemBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
-import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
+import de.rki.coronawarnapp.util.mutateDrawable
 
 class PersonCertificateCard(parent: ViewGroup) :
     PersonOverviewAdapter.PersonOverviewItemVH<PersonCertificateCard.Item, PersonOverviewItemBinding>(
@@ -54,13 +53,10 @@ class PersonCertificateCard(parent: ViewGroup) :
     }
 
     private fun starsDrawable(colorShade: PersonColorShade) =
-        context.getDrawableCompat(R.drawable.ic_eu_stars_blue)?.let {
-            DrawableCompat.wrap(it)
-                .mutate()
-                .apply {
-                    setTint(context.getColorCompat(colorShade.starsTint))
-                }
-        }
+        resources.mutateDrawable(
+            R.drawable.ic_eu_stars_blue,
+            context.getColorCompat(colorShade.starsTint)
+        )
 
     data class Item(
         val certificate: CwaCovidCertificate,

@@ -31,14 +31,11 @@ class VaccinationCertificateCard(parent: ViewGroup) :
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
         val certificate = curItem.certificate
         root.setOnClickListener { curItem.onClick() }
-        vaccinationDosesInfo.text = when (certificate.isBooster) {
-            true -> context.getString(R.string.vaccination_booster_certificate_title)
-            else -> context.getString(
-                R.string.vaccination_certificate_doses,
-                certificate.doseNumber,
-                certificate.totalSeriesOfDoses
-            )
-        }
+        vaccinationDosesInfo.text = context.getString(
+            R.string.vaccination_certificate_doses,
+            certificate.doseNumber,
+            certificate.totalSeriesOfDoses
+        )
 
         certificateDate.text = context.getString(
             R.string.vaccination_certificate_vaccinated_on,
@@ -56,9 +53,6 @@ class VaccinationCertificateCard(parent: ViewGroup) :
         when {
             // Invalid state first
             !certificate.isValid -> R.drawable.ic_certificate_invalid
-
-            // Booster Vaccination
-            certificate.isBooster -> R.drawable.ic_vaccination_immune
 
             // Final shot
             certificate.isFinalShot -> when (curItem.status) {

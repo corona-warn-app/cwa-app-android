@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.test.ui.details
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -32,6 +33,7 @@ import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.europaStarsResource
 import de.rki.coronawarnapp.util.expendedImageResource
+import de.rki.coronawarnapp.util.mutateDrawable
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -178,13 +180,14 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
             is TestCertificateDetailsNavigation.Export -> {
                 doNavigate(
                     TestCertificateDetailsFragmentDirections
-                        .actionTestCertificateDetailsFragmentToCertificatePdfExportInfoFragment()
+                        .actionTestCertificateDetailsFragmentToCertificatePdfExportInfoFragment(event.containerId)
                 )
             }
         }
     }
 
     private fun FragmentTestCertificateDetailsBinding.bindToolbar() = toolbar.apply {
+        toolbar.navigationIcon = resources.mutateDrawable(R.drawable.ic_back, Color.WHITE)
         setNavigationOnClickListener { popBackStack() }
         setOnMenuItemClickListener {
             when (it.itemId) {
