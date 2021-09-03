@@ -45,7 +45,7 @@ class PdfGenerator @Inject constructor(
 
     private fun PdfDocument.Page.drawTemplate(certificate: CwaCovidCertificate) {
         val templateFile = pdfTemplateRepository.getTemplate(certificate)
-        val templateBitmap = renderPdfFileToBitmap(templateFile)
+        val templateBitmap = renderPdfFileToBitmap(templateFile, BitmapQuality.PRINT)
         canvas.drawBitmap(templateBitmap, 0f, 0f, null)
     }
 
@@ -72,12 +72,28 @@ class PdfGenerator @Inject constructor(
     private fun createEmptyPage(): PdfDocument.PageInfo =
         PdfDocument.PageInfo.Builder(PAGE_WIDTH, PAGE_HEIGHT, 1).create()
 
-    private fun renderPdfFileToBitmap(file: File): Bitmap {
-        return Bitmap.createBitmap(PAGE_WIDTH, PAGE_HEIGHT, Bitmap.Config.ARGB_8888).also { bitmap ->
+    fun renderPdfFileToBitmap(file: File, quality: BitmapQuality): Bitmap {
+        val (pageWidth, pageHeight) = when (quality) {
+            BitmapQuality.PRINT -> Pair(PAGE_WIDTH, PAGE_HEIGHT)
+            BitmapQuality.PREVIEW -> Pair(PAGE_WIDTH / 2, PAGE_HEIGHT / 2)
+        }
+        return Bitmap.createBitmap(pageWidth, pageHeight, Bitmap.Config.ARGB_8888).also { bitmap ->
             val fileDescriptor = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
             val firstPage = PdfRenderer(fileDescriptor).openPage(0)
-            firstPage.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_PRINT)
+            firstPage.render(
+                bitmap,
+                null,
+                null,
+                if (quality == BitmapQuality.PRINT)
+                    PdfRenderer.Page.RENDER_MODE_FOR_PRINT
+                else
+                    PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY
+            )
         }
+    }
+
+    enum class BitmapQuality {
+        PRINT, PREVIEW
     }
 
     companion object {

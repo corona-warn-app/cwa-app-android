@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.core.content.getSystemService
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialSharedAxis
@@ -19,6 +20,7 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.ui.print.PrintingAdapter
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.files.FileSharing
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -71,20 +73,27 @@ class CertificatePosterFragment : Fragment(R.layout.certificate_poster_fragment)
         viewModel.error.observe(viewLifecycleOwner) {
             it.toErrorDialogBuilder(requireContext()).show()
         }
+
+        viewModel.uiState.observe2(this) {
+            binding.progressBar.isVisible = it is CertificatePosterViewModel.UiState.InProgress
+            if (it is CertificatePosterViewModel.UiState.Done) {
+                binding.posterImage.setImageBitmap(it.bitmap)
+            }
+        }
     }
 
-    private fun onPosterDrawn() = with(binding.qrCodePoster) {
-        viewTreeObserver.addOnGlobalLayoutListener(
-            object : ViewTreeObserver.OnGlobalLayoutListener {
-                override fun onGlobalLayout() {
-                    viewModel.createPDF(binding.qrCodePoster)
-                    viewTreeObserver.removeOnGlobalLayoutListener(this)
-                }
-            }
-        )
-        // Request to redraw options menu to enable buttons
-        requireActivity().invalidateOptionsMenu()
-    }
+//    private fun onPosterDrawn() = with(binding.qrCodePoster) {
+//        viewTreeObserver.addOnGlobalLayoutListener(
+//            object : ViewTreeObserver.OnGlobalLayoutListener {
+//                override fun onGlobalLayout() {
+//                    viewModel.createPDF(binding.qrCodePoster)
+//                    viewTreeObserver.removeOnGlobalLayoutListener(this)
+//                }
+//            }
+//        )
+//        // Request to redraw options menu to enable buttons
+//        requireActivity().invalidateOptionsMenu()
+//    }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         // TODO: replace true with proper flag

@@ -18,25 +18,12 @@
         app:menu="@menu/menu_certificate_poster"
         app:title="@string/trace_location_organiser_poster_title" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/qr_code_poster"
+    <ImageView
+        android:id="@+id/poster_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
-
-        <ImageView
-            android:id="@+id/poster_image"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:adjustViewBounds="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_constraintDimensionRatio="595:841" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:adjustViewBounds="true"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progress_bar"
