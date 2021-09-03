@@ -222,9 +222,7 @@ android {
         useBuildCache true
         includeCompileClasspath = false
     }
-    dexOptions {
-        preDexLibraries true
-    }
+
     packagingOptions {
         exclude "**/module-info.class"
         exclude 'NOTICE'
