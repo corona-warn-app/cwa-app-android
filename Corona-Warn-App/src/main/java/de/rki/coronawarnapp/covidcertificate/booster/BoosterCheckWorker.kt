@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import timber.log.Timber
 
 class BoosterCheckWorker @AssistedInject constructor(
-    @Assisted context: Context,
+    @Assisted val context: Context,
     @Assisted workerParameters: WorkerParameters,
     private val boosterNotificationService: BoosterNotificationService
 ) : CoroutineWorker(context, workerParameters) {
