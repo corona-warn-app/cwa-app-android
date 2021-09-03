@@ -8,6 +8,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.pdf.ui.CertificateExportException
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -30,6 +31,7 @@ class CertificatePosterViewModel @AssistedInject constructor(
 ) : CWAViewModel(dispatcher) {
 
     val sharingIntent = SingleLiveEvent<FileSharing.FileIntentProvider>()
+    val error = SingleLiveEvent<CertificateExportException>()
 
     private lateinit var certificateData: CwaCovidCertificate
 
@@ -74,21 +76,27 @@ class CertificatePosterViewModel @AssistedInject constructor(
 
     private fun getPDFFileName() =
         when (certificateData) {
-            is RecoveryCertificate -> "recovery_certificate"
-            is TestCertificate -> "test_certificate"
-            else -> "vaccination_certificate"
+            is RecoveryCertificate -> "recovery_certificate$pdfNameSuffix"
+            is TestCertificate -> "test_certificate$pdfNameSuffix"
+            else -> "vaccination_certificate$pdfNameSuffix"
+        }
+
+    private val pdfNameSuffix =
+        with(certificateData) {
+            if (firstName != null) {
+                "_${firstName}_$lastName"
+            } else {
+                "_$lastName"
+            }
         }
 
     private fun generatePoster() = launch(context = dispatcher.IO) {
         try {
             certificateData = certificateProvider.findCertificate(containerId)
-            // TODO: remove logs after adding poster generation
-            Timber.d("Certificate found: ${certificateData.fullName}")
             // TODO: generate poster here with provided certificate
         } catch (e: Exception) {
             Timber.d(e, "Generating poster failed")
-            // TODO: empty poster here
-            e.report(ExceptionCategory.UI)
+            error.postValue(CertificateExportException(e.cause, e.message))
         }
     }
 

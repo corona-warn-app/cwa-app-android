@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.CertificatePosterFragmentBinding
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
@@ -65,6 +66,10 @@ class CertificatePosterFragment : Fragment(R.layout.certificate_poster_fragment)
 
         viewModel.sharingIntent.observe(viewLifecycleOwner) {
             onShareIntent(it)
+        }
+
+        viewModel.error.observe(viewLifecycleOwner) {
+            it.toErrorDialogBuilder(requireContext()).show()
         }
     }
 
