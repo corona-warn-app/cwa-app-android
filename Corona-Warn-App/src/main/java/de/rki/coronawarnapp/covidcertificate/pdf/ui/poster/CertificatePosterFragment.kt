@@ -3,9 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.pdf.ui.poster
 import android.os.Bundle
 import android.print.PrintAttributes
 import android.print.PrintManager
-import android.view.Menu
 import android.view.View
-import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.core.content.getSystemService
 import androidx.core.view.isVisible
@@ -58,19 +56,13 @@ class CertificatePosterFragment : Fragment(R.layout.certificate_poster_fragment)
 
         with(binding) {
             toolbar.setNavigationOnClickListener { popBackStack() }
-//             TODO: add poster observer here
-//            viewModel.poster.observe(viewLifecycleOwner) { poster ->
-//                bindPoster(poster)
-//                // Avoid creating blank PDF
-//                if (poster.hasImages()) onPosterDrawn()
-//            }
         }
 
-        viewModel.sharingIntent.observe(viewLifecycleOwner) {
+        viewModel.sharingIntent.observe2(this) {
             onShareIntent(it)
         }
 
-        viewModel.error.observe(viewLifecycleOwner) {
+        viewModel.error.observe2(this) {
             it.toErrorDialogBuilder(requireContext()).show()
         }
 
@@ -82,28 +74,10 @@ class CertificatePosterFragment : Fragment(R.layout.certificate_poster_fragment)
         }
     }
 
-//    private fun onPosterDrawn() = with(binding.qrCodePoster) {
-//        viewTreeObserver.addOnGlobalLayoutListener(
-//            object : ViewTreeObserver.OnGlobalLayoutListener {
-//                override fun onGlobalLayout() {
-//                    viewModel.createPDF(binding.qrCodePoster)
-//                    viewTreeObserver.removeOnGlobalLayoutListener(this)
-//                }
-//            }
-//        )
-//        // Request to redraw options menu to enable buttons
-//        requireActivity().invalidateOptionsMenu()
-//    }
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        // TODO: replace true with proper flag
-        menu.findItem(R.id.action_print).isEnabled = true
-        menu.findItem(R.id.action_share).isEnabled = true
-        return super.onPrepareOptionsMenu(menu)
-    }
-
     private fun onShareIntent(fileIntent: FileSharing.FileIntentProvider) {
+        Timber.d("onShareIntent()")
         binding.toolbar.setOnMenuItemClickListener {
+            Timber.d("clickOnMenu($it)")
             when (it.itemId) {
                 R.id.action_print -> printFile(fileIntent.file).run { true }
                 R.id.action_share -> startActivity(fileIntent.intent(requireActivity())).run { true }

@@ -21,9 +21,8 @@ class PdfGenerator @Inject constructor(
     private val testCertificateDrawHelper: TestCertificateDrawHelper,
 ) {
 
-    fun createDgcPdf(certificate: CwaCovidCertificate): File {
-        // TODO: adjust name
-        return File(cacheDir, "test.pdf").also { file ->
+    fun createDgcPdf(certificate: CwaCovidCertificate, fileName:String): File {
+        return File(cacheDir, fileName).also { file ->
             PdfDocument().apply {
                 startPage(createEmptyPage()).apply {
                     drawTemplate(certificate)
