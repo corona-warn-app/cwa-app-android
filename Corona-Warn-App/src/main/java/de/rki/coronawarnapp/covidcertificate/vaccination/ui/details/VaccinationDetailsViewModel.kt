@@ -92,7 +92,7 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
         if (vaccinationCertificate.value?.certificate?.canBeExported() == false) {
             exportError.postValue(null)
         } else {
-            events.postValue(VaccinationDetailsNavigation.Export)
+            events.postValue(VaccinationDetailsNavigation.Export(containerId))
         }
     }
 

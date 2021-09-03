@@ -4,6 +4,8 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.covidcertificate.common.scan.DccQrCodeScanFragment
 import de.rki.coronawarnapp.covidcertificate.common.scan.DccQrCodeScanModule
+import de.rki.coronawarnapp.covidcertificate.pdf.ui.poster.CertificatePosterFragment
+import de.rki.coronawarnapp.covidcertificate.pdf.ui.poster.CertificatePosterModule
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFragment
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFragmentModule
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewFragment
@@ -52,4 +54,7 @@ abstract class DigitalCovidCertificateUIModule {
 
     @ContributesAndroidInjector(modules = [ValidationStartModule::class])
     abstract fun validationStartFragment(): ValidationStartFragment
+
+    @ContributesAndroidInjector(modules = [CertificatePosterModule::class])
+    abstract fun certificatePosterFragment(): CertificatePosterFragment
 }
