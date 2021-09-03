@@ -11,9 +11,9 @@ import timber.log.Timber
 
 class BoosterCheckWorker @AssistedInject constructor(
     @Assisted val context: Context,
-    @Assisted workerParameters: WorkerParameters,
+    @Assisted workerParams: WorkerParameters,
     private val boosterNotificationService: BoosterNotificationService
-) : CoroutineWorker(context, workerParameters) {
+) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result = try {
         Timber.d("Starting booster notification check")

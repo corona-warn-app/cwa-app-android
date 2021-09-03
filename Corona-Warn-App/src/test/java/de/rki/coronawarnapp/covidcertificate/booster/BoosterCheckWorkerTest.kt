@@ -38,7 +38,7 @@ class BoosterCheckWorkerTest : BaseTest() {
 
     private fun createWorker() = BoosterCheckWorker(
         context = context,
-        workerParameters = workerParameters,
+        workerParams = workerParameters,
         boosterNotificationService = boosterNotificationService
     )
 
