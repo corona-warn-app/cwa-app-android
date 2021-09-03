@@ -198,7 +198,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
                     vaccinationStatus = VaccinatedPerson.Status.BOOSTER_ELIGIBLE,
                     daysUntilImmunity = null,
                     boosterRule = mockk<DccValidationRule>().apply {
-                        every { identifier } returns "BNR-DE-416"
+                        every { identifier } returns "AH-1994"
                         every { description } returns listOf(
                             mockk {
                                 every { description } returns "Aufgrund Ihres vorhanden Impfzertifikats könnte für Sie eine Auffrischungsimpfung erforderlich sein, da Ihr letztes Impfzertifikat älter als 6 Monate ist"
@@ -208,8 +208,6 @@ class PersonDetailsFragmentTest : BaseUITest() {
                     },
                     daysSinceLastVaccination = 86,
                     hasBoosterNotification = true
-
-
                 )
             )
 
