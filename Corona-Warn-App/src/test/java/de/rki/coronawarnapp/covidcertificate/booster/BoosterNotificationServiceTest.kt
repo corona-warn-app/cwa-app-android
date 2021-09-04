@@ -401,6 +401,39 @@ class BoosterNotificationServiceTest : BaseTest() {
     }
 
     @Test
+    fun `User isn't notified when rule id is empty`() = runBlockingTest {
+        val pIdentifier = CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1980-10-10",
+            firstNameStandardized = "firstNameStandardized",
+            lastNameStandardized = "lastNameStandardized"
+        )
+
+        val vaccinationCertificate = mockk<VaccinationCertificate>()
+            .apply { every { personIdentifier } returns pIdentifier }
+        val personCertificate = PersonCertificates(certificates = listOf(vaccinationCertificate))
+
+        val vaccinatedPerson = mockk<VaccinatedPerson>().apply {
+            every { identifier } returns pIdentifier
+            every { data } returns VaccinatedPersonData(
+                vaccinations = emptySet(),
+                boosterRule = mockk<DccValidationRule>().apply {
+                    every { identifier } returns "BNR-DE-416"
+                }
+            )
+        }
+        every { personCertificatesProvider.personCertificates } returns flowOf(setOf(personCertificate))
+        every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPerson))
+        coEvery { dccBoosterRulesValidator.validateBoosterRules(any()) } returns
+            mockk<DccValidationRule>().apply { every { identifier } returns "" }
+
+        service().checkBoosterNotification()
+        coVerify(exactly = 0) {
+            boosterNotification.showBoosterNotification(any())
+            vaccinationRepository.updateBoosterNotifiedAt(any(), any())
+        }
+    }
+
+    @Test
     fun `Multiple persons are notified when they are eligible`() = runBlockingTest {
         val pIdentifier1 = CertificatePersonIdentifier(
             dateOfBirthFormatted = "1980-10-10",
