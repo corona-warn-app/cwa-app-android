@@ -10,11 +10,11 @@ abstract class BaseTestInstrumentation {
     init {
         Timber.uprootAll()
         Timber.plant(JUnitTree())
-        testClassName = this.javaClass.simpleName
+        testClassName = this::class.simpleName.toString()
     }
 
     companion object {
-        private var testClassName: String? = null
+        private var testClassName: String = ""
 
         @JvmStatic
         @AfterClass
