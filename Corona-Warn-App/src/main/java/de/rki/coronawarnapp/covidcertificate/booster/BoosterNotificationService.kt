@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.booster
 
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
@@ -52,11 +53,14 @@ class BoosterNotificationService @Inject constructor(
                 Timber.tag(TAG).d("Person %s has %s certificates", codeSHA256, person.certificates.size)
                 val rule = dccBoosterRulesValidator.validateBoosterRules(person.certificates)
 
-                Timber.tag(TAG).d("Booster rule= %s for person=%s", rule, codeSHA256)
-                notifyIfBoosterChanged(vaccinatedPerson, rule)
+                // Hold last saved rule before updating to new one
+                val lastSavedRuleId = vaccinatedPerson.data.boosterRule?.identifier
 
                 Timber.tag(TAG).d("Saving rule=%s for person=%s", rule, codeSHA256)
                 vaccinationRepository.updateBoosterRule(vaccinatedPerson.identifier, rule)
+
+                Timber.tag(TAG).d("Booster rule= %s for person=%s", rule?.identifier, codeSHA256)
+                notifyIfBoosterChanged(vaccinatedPerson.identifier, rule, lastSavedRuleId)
             } catch (e: Exception) {
                 Timber.tag(TAG).d(e, "Booster rules check for %s failed", codeSHA256)
             }
@@ -67,19 +71,17 @@ class BoosterNotificationService @Inject constructor(
     }
 
     private suspend fun notifyIfBoosterChanged(
-        vaccinatedPerson: VaccinatedPerson,
-        rule: DccValidationRule?
+        personIdentifier: CertificatePersonIdentifier,
+        rule: DccValidationRule?,
+        lastSavedRuleId: String?,
     ) {
-        val codeSHA256 = vaccinatedPerson.identifier.codeSHA256
-        val lastSavedBoosterRuleIdentifier = vaccinatedPerson.data.boosterRule?.identifier
-        Timber.tag(TAG).d(
-            "BoosterRule of person=%s  lastChecked=%s, lastSaved=%s", codeSHA256,
-            rule?.identifier, lastSavedBoosterRuleIdentifier
-        )
-        if (rule?.identifier.isNullOrEmpty().not() && rule?.identifier != lastSavedBoosterRuleIdentifier) {
+        val codeSHA256 = personIdentifier.codeSHA256
+        Timber.tag(TAG)
+            .d("BoosterRule of person=%s  lastChecked=%s, lastSaved=%s", codeSHA256, rule?.identifier, lastSavedRuleId)
+        if (rule?.identifier.isNullOrEmpty().not() && rule?.identifier != lastSavedRuleId) {
             Timber.tag(TAG).d("Notifying person=%s about rule=%s", codeSHA256, rule?.identifier)
-            boosterNotification.showBoosterNotification(vaccinatedPerson.identifier)
-            vaccinationRepository.updateBoosterNotifiedAt(vaccinatedPerson.identifier, timeStamper.nowUTC)
+            boosterNotification.showBoosterNotification(personIdentifier)
+            vaccinationRepository.updateBoosterNotifiedAt(personIdentifier, timeStamper.nowUTC)
             Timber.tag(TAG).d("Person %s notified about booster rule change", codeSHA256)
         } else {
             Timber.tag(TAG).d("Person %s shouldn't be notified about booster rule=%s", codeSHA256, rule?.identifier)
