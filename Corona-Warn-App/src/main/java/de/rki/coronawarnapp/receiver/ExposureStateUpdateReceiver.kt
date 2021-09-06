@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ExposureStateUpdateWorker
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection.Result
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.CoroutineScope
@@ -87,6 +88,6 @@ class ExposureStateUpdateReceiver : BroadcastReceiver() {
     }
 
     companion object {
-        private val TAG: String? = ExposureStateUpdateReceiver::class.simpleName
+        private val TAG = tag<ExposureStateUpdateReceiver>()
     }
 }
