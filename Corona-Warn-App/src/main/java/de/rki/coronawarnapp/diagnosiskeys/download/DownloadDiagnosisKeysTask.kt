@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
 import de.rki.coronawarnapp.risk.RollbackItem
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
@@ -249,6 +250,6 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     }
 
     companion object {
-        private val TAG: String? = DownloadDiagnosisKeysTask::class.simpleName
+        private val TAG = tag<DownloadDiagnosisKeysTask>()
     }
 }

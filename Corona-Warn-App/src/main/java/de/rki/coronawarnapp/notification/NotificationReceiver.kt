@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.notification.NotificationConstants.NOTIFICATION_ID
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_ID
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_TEST_TYPE
+import de.rki.coronawarnapp.tag
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -39,6 +40,6 @@ class NotificationReceiver : BroadcastReceiver() {
     }
 
     companion object {
-        private val TAG: String? = NotificationReceiver::class.simpleName
+        private val TAG = tag<NotificationReceiver>()
     }
 }
