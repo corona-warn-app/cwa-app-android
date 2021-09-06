@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetec
 import de.rki.coronawarnapp.risk.EwRiskLevelResult.FailureReason
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
@@ -230,7 +231,7 @@ class RiskLevelTask @Inject constructor(
     }
 
     companion object {
-        private val TAG: String? = RiskLevelTask::class.simpleName
+        private val TAG = tag<RiskLevelTask>()
         private val STALE_DOWNLOAD_LIMIT = Duration.standardHours(48)
     }
 }

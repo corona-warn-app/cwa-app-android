@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvi
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
@@ -88,6 +89,6 @@ class BoosterNotificationService @Inject constructor(
     }
 
     companion object {
-        private val TAG = BoosterNotificationService::class.simpleName
+        private val TAG = tag<BoosterNotificationService>()
     }
 }

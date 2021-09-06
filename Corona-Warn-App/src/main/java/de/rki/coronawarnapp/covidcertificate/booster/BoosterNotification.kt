@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.notification.DigitalCovidCertificateNotifications
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFragmentArgs
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.launcher.LauncherActivity
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.notifications.NavDeepLinkBuilderFactory
@@ -47,6 +48,6 @@ class BoosterNotification @Inject constructor(
     }
 
     companion object {
-        private val TAG = BoosterNotification::class.simpleName
+        private val TAG = tag<BoosterNotification>()
     }
 }

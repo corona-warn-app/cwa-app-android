@@ -6,6 +6,7 @@ import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInsReport
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.PaddingTool
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.withContext
@@ -52,6 +53,6 @@ class OrganizerSubmissionServer @Inject constructor(
     }
 
     companion object {
-        private val TAG = this::class.simpleName
+        private val TAG = tag<OrganizerSubmissionServer>()
     }
 }
