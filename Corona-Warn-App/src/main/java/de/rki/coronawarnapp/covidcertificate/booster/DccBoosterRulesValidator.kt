@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.as
 import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.toZonedDateTime
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import dgca.verifier.app.engine.DefaultCertLogicEngine
 import dgca.verifier.app.engine.UTC_ZONE_ID
@@ -111,7 +112,7 @@ class DccBoosterRulesValidator @Inject constructor(
 
     companion object {
         private const val R = "r"
-        private val TAG = DccBoosterRulesValidator::class.simpleName
+        private val TAG = tag<DccBoosterRulesValidator>()
     }
 }
 
