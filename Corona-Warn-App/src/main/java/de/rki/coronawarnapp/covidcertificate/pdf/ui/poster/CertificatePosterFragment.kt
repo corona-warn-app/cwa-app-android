@@ -75,9 +75,7 @@ class CertificatePosterFragment : Fragment(R.layout.certificate_poster_fragment)
     }
 
     private fun onShareIntent(fileIntent: FileSharing.FileIntentProvider) {
-        Timber.d("onShareIntent()")
         binding.toolbar.setOnMenuItemClickListener {
-            Timber.d("clickOnMenu($it)")
             when (it.itemId) {
                 R.id.action_print -> printFile(fileIntent.file).run { true }
                 R.id.action_share -> startActivity(fileIntent.intent(requireActivity())).run { true }
