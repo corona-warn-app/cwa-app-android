@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.presencetracing.organizer.submission
 import dagger.Reusable
 import de.rki.coronawarnapp.playbook.OrganizerPlaybook
 import de.rki.coronawarnapp.presencetracing.checkins.OrganizerCheckInsTransformer
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.withContext
@@ -34,6 +35,6 @@ class OrganizerSubmissionRepository @Inject constructor(
         }
 
     companion object {
-        private val TAG = OrganizerSubmissionRepository::class.simpleName
+        private val TAG = tag<OrganizerSubmissionRepository>()
     }
 }
