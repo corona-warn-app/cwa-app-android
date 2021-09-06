@@ -177,6 +177,22 @@ class DccBoosterRulesValidatorTest : BaseTest() {
         }
     """.trimIndent()
 
+    private val rule = DccValidationRule(
+        identifier = "identifier",
+        typeDcc = DccValidationRule.Type.ACCEPTANCE,
+        country = DccCountry.DE,
+        version = "1.0.0",
+        schemaVersion = "1.3.0",
+        engine = "CERTLOGIC",
+        engineVersion = "0.9.0",
+        certificateType = "Vaccination",
+        description = emptyList(),
+        validFrom = "2021-05-27T07:46:40Z",
+        validTo = "2023-05-27T07:46:40Z",
+        affectedFields = emptyList(),
+        logic = mockk()
+    )
+
     @BeforeEach
     fun setUp() {
         DaggerCovidCertificateTestComponent.create().inject(this)
@@ -200,22 +216,6 @@ class DccBoosterRulesValidatorTest : BaseTest() {
 
     @Test
     fun `Validate params to CertLogic - Success`() = runBlockingTest {
-        val rule = DccValidationRule(
-            identifier = "identifier",
-            typeDcc = DccValidationRule.Type.ACCEPTANCE,
-            country = DccCountry.DE,
-            version = "1.0.0",
-            schemaVersion = "1.3.0",
-            engine = "CERTLOGIC",
-            engineVersion = "0.9.0",
-            certificateType = "Vaccination",
-            description = emptyList(),
-            validFrom = "2021-05-27T07:46:40Z",
-            validTo = "2023-05-27T07:46:40Z",
-            affectedFields = emptyList(),
-            logic = mockk()
-        )
-
         val mockHeader = mockk<DccHeader>().apply {
             every { issuedAt } returns Instant.EPOCH
             every { expiresAt } returns Instant.EPOCH
@@ -286,22 +286,6 @@ class DccBoosterRulesValidatorTest : BaseTest() {
 
     @Test
     fun `Validate params to CertLogic - Failure`() = runBlockingTest {
-        val rule = DccValidationRule(
-            identifier = "identifier",
-            typeDcc = DccValidationRule.Type.ACCEPTANCE,
-            country = DccCountry.DE,
-            version = "1.0.0",
-            schemaVersion = "1.3.0",
-            engine = "CERTLOGIC",
-            engineVersion = "0.9.0",
-            certificateType = "Vaccination",
-            description = emptyList(),
-            validFrom = "2021-05-27T07:46:40Z",
-            validTo = "2023-05-27T07:46:40Z",
-            affectedFields = emptyList(),
-            logic = mockk()
-        )
-
         val mockHeader = mockk<DccHeader>().apply {
             every { issuedAt } returns Instant.EPOCH
             every { expiresAt } returns Instant.EPOCH
@@ -331,6 +315,40 @@ class DccBoosterRulesValidatorTest : BaseTest() {
                     validationErrors = listOf(Exception())
                 )
             )
+        }
+        val validator = DccBoosterRulesValidator(
+            boosterRulesRepository = dccBoosterRulesRepository,
+            engine = { mockEngine },
+            objectMapper = objectMapper
+        )
+
+        validator.validateBoosterRules(listOf(mockVac2)) shouldBe null
+    }
+
+    @Test
+    fun `Validate params to CertLogic - no rules returned`() = runBlockingTest {
+        val mockHeader = mockk<DccHeader>().apply {
+            every { issuedAt } returns Instant.EPOCH
+            every { expiresAt } returns Instant.EPOCH
+        }
+        val vacDccData = mockk<DccData<VaccinationDccV1>>().apply {
+            every { certificateJson } returns vacCertJson
+            every { header } returns mockHeader
+            every { certificate } returns mockk<VaccinationDccV1>().apply {
+                every { version } returns "1.2.1"
+            }
+        }
+
+        val mockVac2 = mockk<VaccinationCertificate>().apply {
+            every { vaccinatedOn } returns LocalDate.parse("2021.02.01", dateTime)
+            every { headerIssuedAt } returns Instant.parse("2021-04-01T00:00:00.000Z")
+            every { dccData } returns vacDccData
+            every { certificateId } returns "2"
+        }
+
+        coEvery { dccBoosterRulesRepository.updateBoosterNotificationRules() } returns listOf(rule)
+        val mockEngine = mockk<DefaultCertLogicEngine>().apply {
+            every { validate(any(), any(), any(), any(), any()) } returns listOf()
         }
         val validator = DccBoosterRulesValidator(
             boosterRulesRepository = dccBoosterRulesRepository,
