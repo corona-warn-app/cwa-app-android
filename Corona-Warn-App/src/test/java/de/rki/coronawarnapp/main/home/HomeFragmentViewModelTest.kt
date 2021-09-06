@@ -3,8 +3,6 @@ package de.rki.coronawarnapp.main.home
 import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
@@ -68,8 +66,6 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var traceLocationOrganizerSettings: TraceLocationOrganizerSettings
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var bluetoothSupport: BluetoothSupport
-    @MockK lateinit var covidCertificateSettings: CovidCertificateSettings
-    @MockK lateinit var vaccinationRepository: VaccinationRepository
     @MockK lateinit var localStatisticsConfigStorage: LocalStatisticsConfigStorage
     @MockK lateinit var networkStateProvider: NetworkStateProvider
 
@@ -83,8 +79,6 @@ class HomeFragmentViewModelTest : BaseTest() {
         every { tracingStateProvider.state } returns flowOf(mockk<LowRisk>())
 
         every { coronaTestRepository.coronaTests } returns emptyFlow()
-
-        every { vaccinationRepository.vaccinationInfos } returns emptyFlow()
 
         coEvery { appConfigProvider.currentConfig } returns emptyFlow()
         coEvery { statisticsProvider.current } returns emptyFlow()
@@ -118,8 +112,6 @@ class HomeFragmentViewModelTest : BaseTest() {
         traceLocationOrganizerSettings = traceLocationOrganizerSettings,
         timeStamper = timeStamper,
         bluetoothSupport = bluetoothSupport,
-        vaccinationRepository = vaccinationRepository,
-        covidCertificateSettings = covidCertificateSettings,
         localStatisticsConfigStorage = localStatisticsConfigStorage,
         networkStateProvider = networkStateProvider
     )

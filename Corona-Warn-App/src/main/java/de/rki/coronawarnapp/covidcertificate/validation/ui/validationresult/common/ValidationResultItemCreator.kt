@@ -137,14 +137,6 @@ class ValidationResultItemCreator @Inject constructor() {
     fun validationPassedHintVHItem(): ValidationPassedHintVH.Item = ValidationPassedHintVH.Item
 
     // Apply rules from tech spec to decide which rule description to display
-    private fun DccValidationRule.getRuleDescription(): String {
-        val currentLocaleCode = Locale.getDefault().language
-        val descItem = description.find { it.languageCode == currentLocaleCode }
-            ?: description.find { it.languageCode == "en" } ?: description.firstOrNull()
-        return descItem?.description ?: identifier
-    }
-
-    // Apply rules from tech spec to decide which rule description to display
     private fun DccValidationRule.getCountryDescription(): LazyString = when (typeDcc) {
         DccValidationRule.Type.ACCEPTANCE -> R.string.validation_rules_acceptance_country.toResolvingString(
             DccCountry(country).displayName()
@@ -153,4 +145,12 @@ class ValidationResultItemCreator @Inject constructor() {
         DccValidationRule.Type.BOOSTER_NOTIFICATION ->
             throw IllegalStateException("Booster notification rules are not allowed here!")
     }
+}
+
+// Apply rules from tech spec to decide which rule description to display
+fun DccValidationRule.getRuleDescription(): String {
+    val currentLocaleCode = Locale.getDefault().language
+    val descItem = description.find { it.languageCode == currentLocaleCode }
+        ?: description.find { it.languageCode == "en" } ?: description.firstOrNull()
+    return descItem?.description ?: identifier
 }

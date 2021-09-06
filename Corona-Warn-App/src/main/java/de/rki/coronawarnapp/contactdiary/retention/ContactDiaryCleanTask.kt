@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.contactdiary.retention
 
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.common.DefaultProgress
@@ -71,6 +72,6 @@ class ContactDiaryCleanTask @Inject constructor(
     }
 
     companion object {
-        private val TAG: String? = ContactDiaryCleanTask::class.simpleName
+        private val TAG = tag<ContactDiaryCleanTask>()
     }
 }

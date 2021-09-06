@@ -56,7 +56,7 @@ class BoosterRulesRepository @Inject constructor(
                 localCache.loadBoosterNotificationRulesJson().toRuleSet()
             }
         }.let { boosterNotificationRules ->
-            boosterNotificationRules.also { Timber.tag(TAG).d("Booster notification rules: %s", it) }
+            boosterNotificationRules.also { Timber.tag(TAG).d("Booster notification rules size=%s: %s", it.size, it) }
         }
     }
 

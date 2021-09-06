@@ -69,6 +69,8 @@ class VaccinationCertificateCard(parent: ViewGroup) :
             else -> color.defaultCertificateBg
         }.also { certificateBg.setImageResource(it) }
 
+        notificationBadge.isVisible = curItem.certificate.hasNotificationBadge
+
         certificateExpiration.displayExpirationState(curItem.certificate)
     }
 
