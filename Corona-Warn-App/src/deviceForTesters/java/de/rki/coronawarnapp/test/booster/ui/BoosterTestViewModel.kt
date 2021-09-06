@@ -32,6 +32,10 @@ class BoosterTestViewModel @AssistedInject constructor(
         boosterNotificationService.checkBoosterNotification()
     }
 
+    fun resetLastCheckTime() {
+        covidCertificateSettings.lastDccBoosterCheck.update { Instant.EPOCH }
+    }
+
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<BoosterTestViewModel>
 }

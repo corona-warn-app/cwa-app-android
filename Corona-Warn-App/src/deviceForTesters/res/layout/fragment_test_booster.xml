@@ -37,6 +37,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Run booster rules" />
+
+            <Button
+                android:id="@+id/reset_last_check_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Reset last check time" />
         </LinearLayout>
 
         <LinearLayout
