@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.coronatest.type
 
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import org.joda.time.Instant
 
@@ -18,6 +19,6 @@ interface CommonSubmissionStates {
         val testRegisteredAt: Instant
 
         fun getFormattedRegistrationDate(): String =
-            testRegisteredAt.toUserTimeZone().toLocalDate().toString("dd.MM.yy")
+            testRegisteredAt.toUserTimeZone().toLocalDate().toShortDayFormat()
     }
 }

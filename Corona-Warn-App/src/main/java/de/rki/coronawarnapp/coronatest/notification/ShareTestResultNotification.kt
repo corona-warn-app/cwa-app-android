@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_ID
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_INITIAL_OFFSET
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_INTERVAL
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
@@ -63,6 +64,6 @@ class ShareTestResultNotification @Inject constructor(
     }
 
     companion object {
-        private val TAG = ShareTestResultNotification::class.simpleName
+        private val TAG = tag<ShareTestResultNotification>()
     }
 }

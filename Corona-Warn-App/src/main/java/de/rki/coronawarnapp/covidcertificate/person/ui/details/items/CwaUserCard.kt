@@ -5,7 +5,9 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
 import de.rki.coronawarnapp.databinding.CwaUserCardItemBinding
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
+import org.joda.time.LocalDate
 import timber.log.Timber
 
 class CwaUserCard(parent: ViewGroup) :
@@ -41,9 +43,15 @@ class CwaUserCard(parent: ViewGroup) :
 
     private fun formatBirthDate(dateOfBirthFormatted: String): String =
         try {
-            dateOfBirthFormatted.split("-").reversed().joinToString(separator = ".")
+            val delimiter = LocalDate().toShortDayFormat()
+                .find { char -> !Character.isDigit(char) }
+                .toString()
+            when (delimiter) {
+                "/" -> dateOfBirthFormatted.split("-").joinToString(delimiter)
+                else -> dateOfBirthFormatted.split("-").reversed().joinToString(delimiter)
+            }
         } catch (e: Exception) {
-            Timber.d(e, "Formatting to dd.MM.yyyy failed, falling back to $dateOfBirthFormatted")
+            Timber.d(e, "Formatting to local format failed, falling back to $dateOfBirthFormatted")
             dateOfBirthFormatted
         }
 
