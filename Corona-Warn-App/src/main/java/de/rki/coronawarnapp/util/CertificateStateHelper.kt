@@ -36,6 +36,7 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
             qrTitle.text = context.getString(R.string.test_certificate_name)
             qrSubtitle.isVisible = !isPersonOverview
             qrSubtitle.text = context.getString(R.string.test_certificate_qrcode_card_sampled_on, dateTime)
+            notificationBadge.isVisible = !isPersonOverview && certificate.hasNotificationBadge
         }
         is VaccinationCertificate -> {
             qrTitle.isVisible = !isPersonOverview
@@ -45,6 +46,7 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
                 R.string.vaccination_certificate_vaccinated_on,
                 certificate.vaccinatedOn.toShortDayFormat()
             )
+            notificationBadge.isVisible = !isPersonOverview && certificate.hasNotificationBadge
         }
         is RecoveryCertificate -> {
             qrTitle.isVisible = !isPersonOverview
@@ -54,6 +56,7 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
                 R.string.recovery_certificate_valid_until,
                 certificate.validUntil.toShortDayFormat()
             )
+            notificationBadge.isVisible = !isPersonOverview && certificate.hasNotificationBadge
         }
     }
     when (certificate.displayedState()) {
