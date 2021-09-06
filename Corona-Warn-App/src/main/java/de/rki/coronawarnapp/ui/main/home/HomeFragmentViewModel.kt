@@ -20,8 +20,6 @@ import de.rki.coronawarnapp.coronatest.type.pcr.toSubmissionState
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.toSubmissionState
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.statistics.AddStatsItem
 import de.rki.coronawarnapp.statistics.LocalIncidenceStats
@@ -94,7 +92,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
     coronaTestRepository: CoronaTestRepository,
     statisticsProvider: StatisticsProvider,
     localStatisticsProvider: LocalStatisticsProvider,
-    vaccinationRepository: VaccinationRepository,
     networkStateProvider: NetworkStateProvider,
     private val errorResetTool: EncryptionErrorResetTool,
     private val tracingRepository: TracingRepository,
@@ -106,7 +103,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val traceLocationOrganizerSettings: TraceLocationOrganizerSettings,
     private val timeStamper: TimeStamper,
     private val bluetoothSupport: BluetoothSupport,
-    private val covidCertificateSettings: CovidCertificateSettings,
     private val localStatisticsConfigStorage: LocalStatisticsConfigStorage,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -157,9 +153,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
         coronaTestRepository.latestPCRT,
         coronaTestRepository.latestRAT,
         combinedStatistics,
-        appConfigProvider.currentConfig.map { it.coronaTestParameters }.distinctUntilChanged(),
-        vaccinationRepository.vaccinationInfos
-    ) { tracingItem, testPCR, testRAT, statsData, coronaTestParameters, vaccinatedPersons ->
+        appConfigProvider.currentConfig.map { it.coronaTestParameters }.distinctUntilChanged()
+    ) { tracingItem, testPCR, testRAT, statsData, coronaTestParameters ->
         val statePCR = testPCR.toSubmissionState()
         val stateRAT = testRAT.toSubmissionState(timeStamper.nowUTC, coronaTestParameters)
         mutableListOf<HomeItem>().apply {

@@ -17,7 +17,7 @@ fun ImageRequest.Builder.loadingView(
             loadingView.isInvisible = false
             imageView.isInvisible = true
         },
-        onSuccess = { request, metadata ->
+        onSuccess = { _, _ ->
             loadingView.isInvisible = true
             imageView.isInvisible = false
         }
