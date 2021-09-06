@@ -36,13 +36,11 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
     private val binding: PersonDetailsFragmentBinding by viewBinding()
     private val viewModel: PersonDetailsViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
-        constructorCall = { factory, savedInstance ->
+        constructorCall = { factory, _ ->
             factory as PersonDetailsViewModel.Factory
             factory.create(
                 personIdentifierCode = args.personCode,
-                colorShade = args.colorShade,
-                containerId = args.containerId,
-                savedInstance = savedInstance
+                colorShade = args.colorShade
             )
         }
     )

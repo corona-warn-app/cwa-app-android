@@ -49,30 +49,16 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private val dccValidationRepository: DccValidationRepository,
     private val timeStamper: TimeStamper,
     @Assisted private val personIdentifierCode: String,
-    @Assisted private val colorShade: PersonColorShade,
-    @Assisted private val containerId: CertificateContainerId?,
-    @Assisted private val savedInstance: SavedStateHandle,
+    @Assisted private val colorShade: PersonColorShade
 ) : CWAViewModel(dispatcherProvider) {
 
-    val events = SingleLiveEvent<PersonDetailsEvents>()
-
     private val colorShadeData = MutableLiveData(colorShade)
+    val events = SingleLiveEvent<PersonDetailsEvents>()
     val currentColorShade: LiveData<PersonColorShade> = colorShadeData
-
-    init {
-        if (containerId != savedInstance[CONTAINER_ID]) {
-            savedInstance[CONTAINER_ID] = containerId
-            onOpenCertificateDetails(containerId)
-        } else {
-            Timber.d("Stay on this screen containerId=%s", containerId)
-        }
-    }
 
     private val loadingButtonState = MutableStateFlow(false)
     private val personCertificatesFlow = personCertificatesProvider.personCertificates.mapNotNull { certificateSet ->
-        certificateSet.first {
-            it.personIdentifier.codeSHA256 == personIdentifierCode
-        }
+        certificateSet.first { it.personIdentifier.codeSHA256 == personIdentifierCode }
     }.catch { error ->
         Timber.d(error, "No person found for $personIdentifierCode")
         events.postValue(Back)
@@ -168,32 +154,13 @@ class PersonDetailsViewModel @AssistedInject constructor(
     }
 
     private suspend fun vaccinatedPerson(certificate: CwaCovidCertificate): VaccinatedPerson? =
-        vaccinationRepository.vaccinationInfos.first().find {
-            it.identifier == certificate.personIdentifier
-        }
-
-    private fun onOpenCertificateDetails(containerId: CertificateContainerId?) {
-        when (containerId) {
-            is RecoveryCertificateContainerId -> events.postValue(OpenRecoveryCertificateDetails(containerId))
-            is TestCertificateContainerId -> events.postValue(OpenTestCertificateDetails(containerId))
-            is VaccinationCertificateContainerId -> events.postValue(OpenVaccinationCertificateDetails(containerId))
-            null -> {
-                /* Stay here on PersonDetailScreen */
-            }
-        }
-    }
+        vaccinationRepository.vaccinationInfos.first().find { it.identifier == certificate.personIdentifier }
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<PersonDetailsViewModel> {
         fun create(
             personIdentifierCode: String,
             colorShade: PersonColorShade,
-            containerId: CertificateContainerId?,
-            savedInstance: SavedStateHandle,
         ): PersonDetailsViewModel
-    }
-
-    companion object {
-        private const val CONTAINER_ID = "container_id"
     }
 }
