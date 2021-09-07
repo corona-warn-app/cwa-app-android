@@ -108,5 +108,6 @@
     <color name="starsColor3">#025A8F</color>
     <color name="starsColorInvalid">#576778</color>
     <color name="qrcodeCardColor">@color/colorSurface</color>
+    <color name="badgeColor">#ED382F</color>
 
 </resources>
