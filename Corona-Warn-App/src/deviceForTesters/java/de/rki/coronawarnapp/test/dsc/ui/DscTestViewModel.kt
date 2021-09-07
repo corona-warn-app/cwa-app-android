@@ -3,7 +3,9 @@ package de.rki.coronawarnapp.test.dsc.ui
 import androidx.lifecycle.LiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -12,7 +14,9 @@ import kotlinx.coroutines.flow.combine
 import org.joda.time.Instant
 
 class DscTestViewModel @AssistedInject constructor(
-    private val dscRepository: DscRepository
+    private val dscRepository: DscRepository,
+    private val covidCertificateSettings: CovidCertificateSettings,
+    private val dccExpirationNotificationService: DccExpirationNotificationService,
 ) : CWAViewModel() {
 
     @AssistedFactory
@@ -53,6 +57,15 @@ class DscTestViewModel @AssistedInject constructor(
                 errorEvent.postValue(Unit)
             }
         }
+    }
+
+    fun resetLastCheckTime() {
+        covidCertificateSettings.lastDccStateBackgroundCheck.update { Instant.EPOCH }
+    }
+
+    fun checkValidityNotifications() = launch {
+        covidCertificateSettings.lastDccStateBackgroundCheck.update { Instant.EPOCH }
+        dccExpirationNotificationService.showNotificationIfStateChanged()
     }
 
     data class DscDataInfo(

@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.test.booster.ui
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.text.buildSpannedString
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestBoosterBinding
@@ -25,6 +26,36 @@ class BoosterTestFragment : Fragment(R.layout.fragment_test_booster), AutoInject
             refreshBoosterRules.setOnClickListener { viewModel.refreshBoosterRules() }
             clearBoosterRules.setOnClickListener { viewModel.clearBoosterRules() }
             runBoosterRules.setOnClickListener { viewModel.runBoosterRules() }
+            resetLastCheckTime.setOnClickListener { viewModel.resetLastCheckTime() }
+        }
+
+        viewModel.persons.observe(viewLifecycleOwner) { persons ->
+            binding.boosterStatus.text = buildString {
+                persons.forEach { person ->
+                    val boosterRule = person.data.boosterRule
+                    append(
+                        "%s isEligible=%s by rule=%s".format(
+                            person.fullName,
+                            boosterRule != null,
+                            boosterRule?.identifier
+                        )
+                    )
+                    appendLine()
+                    appendLine()
+                }
+            }
+        }
+
+        viewModel.rules.observe(viewLifecycleOwner) { rules ->
+            binding.rulesIds.text = buildSpannedString {
+                append("Rules count=${rules.size}")
+                appendLine()
+                appendLine()
+                rules.forEach { rule ->
+                    append(rule.identifier)
+                    appendLine()
+                }
+            }
         }
     }
 

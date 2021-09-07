@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.Vaccina
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.util.TimeStamper
+import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -132,17 +133,152 @@ class BoosterNotificationServiceTest : BaseTest() {
             every { identifier } returns pIdentifier
             every { data } returns VaccinatedPersonData(
                 vaccinations = emptySet(),
-                lastSeenBoosterRuleIdentifier = "BNR-DE-416"
+                boosterRule = mockk<DccValidationRule>().apply {
+                    every { identifier } returns "BNR-DE-416"
+                }
             )
         }
         every { personCertificatesProvider.personCertificates } returns flowOf(setOf(personCertificate))
         every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPerson))
-        coEvery { dccBoosterRulesValidator.validateBoosterRules(any()) } returns mockk<DccValidationRule>().apply {
-            every { identifier } returns "BNR-DE-416"
-        }
+        coEvery { dccBoosterRulesValidator.validateBoosterRules(any()) } returns mockk<DccValidationRule>()
+            .apply {
+                every { identifier } returns "BNR-DE-416"
+            }
 
         service().checkBoosterNotification()
         coVerify(exactly = 0) {
+            boosterNotification.showBoosterNotification(any())
+            vaccinationRepository.updateBoosterNotifiedAt(any(), any())
+        }
+    }
+
+    @Test
+    fun `User isn't notified when rule did NOT change, even if last rule is not seen yet`() = runBlockingTest {
+        val pIdentifier = CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1980-10-10",
+            firstNameStandardized = "firstNameStandardized",
+            lastNameStandardized = "lastNameStandardized"
+        )
+
+        val vaccinationCertificate = mockk<VaccinationCertificate>().apply {
+            every { personIdentifier } returns pIdentifier
+        }
+        val personCertificate = PersonCertificates(certificates = listOf(vaccinationCertificate))
+
+        val vaccinatedPerson = mockk<VaccinatedPerson>().apply {
+            every { identifier } returns pIdentifier
+            every { data } returns VaccinatedPersonData(
+                vaccinations = emptySet(),
+                boosterRule = mockk<DccValidationRule>().apply {
+                    every { identifier } returns "BNR-DE-416"
+                },
+                lastSeenBoosterRuleIdentifier = null
+            )
+        }
+
+        val vaccinatedPersonAfterUpdate = mockk<VaccinatedPerson>().apply {
+            every { identifier } returns pIdentifier
+            every { data } returns VaccinatedPersonData(
+                vaccinations = emptySet(),
+                boosterRule = mockk<DccValidationRule>().apply {
+                    every { identifier } returns "BNR-DE-418"
+                },
+                lastSeenBoosterRuleIdentifier = null
+            )
+        }
+
+        // First check user is not notified and new rule is not saved yet
+        every { personCertificatesProvider.personCertificates } returns flowOf(setOf(personCertificate))
+        every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPerson))
+        coEvery { dccBoosterRulesValidator.validateBoosterRules(any()) } returns mockk<DccValidationRule>()
+            .apply {
+                every { identifier } returns "BNR-DE-418"
+            }
+
+        service().checkBoosterNotification()
+        coVerify(exactly = 1) {
+            boosterNotification.showBoosterNotification(any())
+            vaccinationRepository.updateBoosterNotifiedAt(any(), any())
+        }
+
+        // Second check user is notified before ,but has not last rule yet
+        // User should NOT be notified again for the same rule
+        every { covidCertificateSettings.lastDccBoosterCheck } returns mockFlowPreference(Instant.EPOCH)
+        every { timeStamper.nowUTC } returns Instant.parse("2021-01-01T00:00:00.000Z")
+        every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPersonAfterUpdate))
+        coEvery { dccBoosterRulesValidator.validateBoosterRules(any()) } returns mockk<DccValidationRule>()
+            .apply {
+                every { identifier } returns "BNR-DE-418"
+            }
+
+        service().checkBoosterNotification()
+        coVerify(exactly = 1) {
+            boosterNotification.showBoosterNotification(any())
+            vaccinationRepository.updateBoosterNotifiedAt(any(), any())
+        }
+    }
+
+    @Test
+    fun `User is notified when rule changed, even if last rule is not seen yet`() = runBlockingTest {
+        val pIdentifier = CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1980-10-10",
+            firstNameStandardized = "firstNameStandardized",
+            lastNameStandardized = "lastNameStandardized"
+        )
+
+        val vaccinationCertificate = mockk<VaccinationCertificate>().apply {
+            every { personIdentifier } returns pIdentifier
+        }
+        val personCertificate = PersonCertificates(certificates = listOf(vaccinationCertificate))
+
+        val vaccinatedPerson = mockk<VaccinatedPerson>().apply {
+            every { identifier } returns pIdentifier
+            every { data } returns VaccinatedPersonData(
+                vaccinations = emptySet(),
+                boosterRule = mockk<DccValidationRule>().apply {
+                    every { identifier } returns "BNR-DE-416"
+                },
+                lastSeenBoosterRuleIdentifier = null
+            )
+        }
+
+        val vaccinatedPersonAfterUpdate = mockk<VaccinatedPerson>().apply {
+            every { identifier } returns pIdentifier
+            every { data } returns VaccinatedPersonData(
+                vaccinations = emptySet(),
+                boosterRule = mockk<DccValidationRule>().apply {
+                    every { identifier } returns "BNR-DE-418"
+                },
+                lastSeenBoosterRuleIdentifier = null
+            )
+        }
+
+        // First check user is not notified and new rule is not saved yet
+        every { personCertificatesProvider.personCertificates } returns flowOf(setOf(personCertificate))
+        every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPerson))
+        coEvery { dccBoosterRulesValidator.validateBoosterRules(any()) } returns mockk<DccValidationRule>()
+            .apply {
+                every { identifier } returns "BNR-DE-418"
+            }
+
+        service().checkBoosterNotification()
+        coVerify(exactly = 1) {
+            boosterNotification.showBoosterNotification(any())
+            vaccinationRepository.updateBoosterNotifiedAt(any(), any())
+        }
+
+        // Second check user is notified before ,but has not seen last rule yet
+        // User should be notified again about new rule
+        every { covidCertificateSettings.lastDccBoosterCheck } returns mockFlowPreference(Instant.EPOCH)
+        every { timeStamper.nowUTC } returns Instant.parse("2021-01-01T00:00:00.000Z")
+        every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPersonAfterUpdate))
+        coEvery { dccBoosterRulesValidator.validateBoosterRules(any()) } returns mockk<DccValidationRule>()
+            .apply {
+                every { identifier } returns "BNR-DE-500"
+            }
+
+        service().checkBoosterNotification()
+        coVerify(exactly = 2) {
             boosterNotification.showBoosterNotification(any())
             vaccinationRepository.updateBoosterNotifiedAt(any(), any())
         }
@@ -177,6 +313,61 @@ class BoosterNotificationServiceTest : BaseTest() {
     }
 
     @Test
+    fun `User isn't notified when rule identifier is empty`() = runBlockingTest {
+        val pIdentifier = CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1980-10-10",
+            firstNameStandardized = "firstNameStandardized",
+            lastNameStandardized = "lastNameStandardized"
+        )
+
+        val vaccinationCertificate = mockk<VaccinationCertificate>().apply {
+            every { personIdentifier } returns pIdentifier
+        }
+        val personCertificate = PersonCertificates(certificates = listOf(vaccinationCertificate))
+
+        val vaccinatedPerson = mockk<VaccinatedPerson>().apply {
+            every { identifier } returns pIdentifier
+            every { data } returns VaccinatedPersonData(vaccinations = emptySet())
+        }
+        every { personCertificatesProvider.personCertificates } returns flowOf(setOf(personCertificate))
+        every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPerson))
+        coEvery { dccBoosterRulesValidator.validateBoosterRules(any()) } returns
+            mockk<DccValidationRule>().apply { every { identifier } returns "" }
+
+        service().checkBoosterNotification()
+
+        coVerify(exactly = 0) {
+            boosterNotification.showBoosterNotification(any())
+            vaccinationRepository.updateBoosterNotifiedAt(any(), any())
+        }
+    }
+
+    @Test
+    fun `No exception thrown if it happens`() = runBlockingTest {
+        val pIdentifier = CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1980-10-10",
+            firstNameStandardized = "firstNameStandardized",
+            lastNameStandardized = "lastNameStandardized"
+        )
+
+        val vaccinationCertificate = mockk<VaccinationCertificate>().apply {
+            every { personIdentifier } returns pIdentifier
+        }
+        val personCertificate = PersonCertificates(certificates = listOf(vaccinationCertificate))
+
+        val vaccinatedPerson = mockk<VaccinatedPerson>().apply {
+            every { identifier } returns pIdentifier
+            every { data } returns VaccinatedPersonData(vaccinations = emptySet())
+        }
+        every { personCertificatesProvider.personCertificates } returns flowOf(setOf(personCertificate))
+        every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPerson))
+        coEvery { dccBoosterRulesValidator.validateBoosterRules(any()) } throws Exception("Crash")
+        shouldNotThrowAny {
+            service().checkBoosterNotification()
+        }
+    }
+
+    @Test
     fun `User is notified when rule changes`() = runBlockingTest {
         val pIdentifier = CertificatePersonIdentifier(
             dateOfBirthFormatted = "1980-10-10",
@@ -192,7 +383,9 @@ class BoosterNotificationServiceTest : BaseTest() {
             every { identifier } returns pIdentifier
             every { data } returns VaccinatedPersonData(
                 vaccinations = emptySet(),
-                lastSeenBoosterRuleIdentifier = "BNR-DE-416"
+                boosterRule = mockk<DccValidationRule>().apply {
+                    every { identifier } returns "BNR-DE-416"
+                }
             )
         }
         every { personCertificatesProvider.personCertificates } returns flowOf(setOf(personCertificate))
@@ -202,6 +395,39 @@ class BoosterNotificationServiceTest : BaseTest() {
 
         service().checkBoosterNotification()
         coVerify {
+            boosterNotification.showBoosterNotification(any())
+            vaccinationRepository.updateBoosterNotifiedAt(any(), any())
+        }
+    }
+
+    @Test
+    fun `User isn't notified when rule id is empty`() = runBlockingTest {
+        val pIdentifier = CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1980-10-10",
+            firstNameStandardized = "firstNameStandardized",
+            lastNameStandardized = "lastNameStandardized"
+        )
+
+        val vaccinationCertificate = mockk<VaccinationCertificate>()
+            .apply { every { personIdentifier } returns pIdentifier }
+        val personCertificate = PersonCertificates(certificates = listOf(vaccinationCertificate))
+
+        val vaccinatedPerson = mockk<VaccinatedPerson>().apply {
+            every { identifier } returns pIdentifier
+            every { data } returns VaccinatedPersonData(
+                vaccinations = emptySet(),
+                boosterRule = mockk<DccValidationRule>().apply {
+                    every { identifier } returns "BNR-DE-416"
+                }
+            )
+        }
+        every { personCertificatesProvider.personCertificates } returns flowOf(setOf(personCertificate))
+        every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPerson))
+        coEvery { dccBoosterRulesValidator.validateBoosterRules(any()) } returns
+            mockk<DccValidationRule>().apply { every { identifier } returns "" }
+
+        service().checkBoosterNotification()
+        coVerify(exactly = 0) {
             boosterNotification.showBoosterNotification(any())
             vaccinationRepository.updateBoosterNotifiedAt(any(), any())
         }
@@ -223,7 +449,9 @@ class BoosterNotificationServiceTest : BaseTest() {
             every { identifier } returns pIdentifier1
             every { data } returns VaccinatedPersonData(
                 vaccinations = emptySet(),
-                lastSeenBoosterRuleIdentifier = "BNR-DE-416"
+                boosterRule = mockk<DccValidationRule>().apply {
+                    every { identifier } returns "BNR-DE-416"
+                }
             )
         }
 
@@ -241,7 +469,9 @@ class BoosterNotificationServiceTest : BaseTest() {
             every { identifier } returns pIdentifier2
             every { data } returns VaccinatedPersonData(
                 vaccinations = emptySet(),
-                lastSeenBoosterRuleIdentifier = "BNR-DE-400"
+                boosterRule = mockk<DccValidationRule>().apply {
+                    every { identifier } returns "BNR-DE-416"
+                }
             )
         }
 
