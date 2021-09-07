@@ -3,11 +3,9 @@ package de.rki.coronawarnapp.covidcertificate.person.core
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
-import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.flow.shareLatest
@@ -22,9 +20,9 @@ import javax.inject.Inject
 @Reusable
 class PersonCertificatesProvider @Inject constructor(
     private val personCertificatesSettings: PersonCertificatesSettings,
-    private val vaccinationRepository: VaccinationRepository,
-    private val testCertificateRepository: TestCertificateRepository,
-    private val recoveryCertificateRepository: RecoveryCertificateRepository,
+    vaccinationRepository: VaccinationRepository,
+    testCertificateRepository: TestCertificateRepository,
+    recoveryCertificateRepository: RecoveryCertificateRepository,
     @AppScope private val appScope: CoroutineScope,
 ) {
     init {
@@ -32,9 +30,7 @@ class PersonCertificatesProvider @Inject constructor(
     }
 
     val personCertificates: Flow<Set<PersonCertificates>> = combine(
-        vaccinationRepository.vaccinationInfos.map { vaccPersons ->
-            vaccPersons.flatMap { it.vaccinationCertificates }.toSet()
-        },
+        vaccinationRepository.vaccinationInfos,
         testCertificateRepository.certificates.map { testWrappers ->
             testWrappers.mapNotNull { it.testCertificate }
         },
@@ -42,10 +38,12 @@ class PersonCertificatesProvider @Inject constructor(
             recoveryWrappers.map { it.recoveryCertificate }
         },
         personCertificatesSettings.currentCwaUser.flow,
-    ) { vaccs, tests, recos, cwaUser ->
-        Timber.tag(TAG).d("vaccs=%s, tests=%s, recos=%s, cwaUser=%s", vaccs, tests, recos, cwaUser)
+    ) { vaccPersons, tests, recos, cwaUser ->
+        Timber.tag(TAG).d("vaccPersons=%s, tests=%s, recos=%s, cwaUser=%s", vaccPersons, tests, recos, cwaUser)
         val mapping = mutableMapOf<CertificatePersonIdentifier, MutableSet<CwaCovidCertificate>>()
-        val allCerts: Set<CwaCovidCertificate> = (vaccs + tests + recos)
+
+        val allVaccs = vaccPersons.flatMap { it.vaccinationCertificates }.toSet()
+        val allCerts: Set<CwaCovidCertificate> = (allVaccs + tests + recos)
         allCerts.forEach {
             mapping[it.personIdentifier] = (mapping[it.personIdentifier] ?: mutableSetOf()).apply {
                 add(it)
@@ -54,9 +52,14 @@ class PersonCertificatesProvider @Inject constructor(
 
         mapping.entries.map { (personIdentifier, certs) ->
             Timber.tag(TAG).v("PersonCertificates for %s with %d certs.", personIdentifier, certs.size)
+
+            val badgeCount = certs.filter { it.hasNotificationBadge }.count() +
+                vaccPersons.boosterBadgeCount(personIdentifier)
+            Timber.tag(TAG).d("Badge count of %s =%s", personIdentifier.codeSHA256, badgeCount)
             PersonCertificates(
                 certificates = certs.toCertificateSortOrder(),
                 isCwaUser = personIdentifier == cwaUser,
+                badgeCount = badgeCount
             )
         }.toSet()
     }.shareLatest(scope = appScope)
@@ -71,40 +74,16 @@ class PersonCertificatesProvider @Inject constructor(
         personCertificatesSettings.currentCwaUser.update { personIdentifier }
     }
 
-    val badgeCount: Flow<Int> = combine(
-        testCertificateRepository.certificates.map { certs ->
-            certs.filter { !it.seenByUser && !it.isCertificateRetrievalPending }.size
-        },
-        vaccinationRepository.vaccinationInfos.map { persons ->
-            persons
-                .map { it.vaccinationCertificates }
-                .flatten()
-                .filter { it.getState() !is CwaCovidCertificate.State.Valid }
-                .count { it.getState() != it.lastSeenStateChange }
-        },
-        recoveryCertificateRepository.certificates.map { certs ->
-            certs
-                .map { it.recoveryCertificate }
-                .filter { it.getState() !is CwaCovidCertificate.State.Valid }
-                .count { it.getState() != it.lastSeenStateChange }
-        },
-    ) { newTestCertificates, vacStateChanges, recoveryStateChanges ->
-        newTestCertificates + vacStateChanges + recoveryStateChanges
-    }.shareLatest(scope = appScope)
+    val personsBadgeCount: Flow<Int> = personCertificates
+        .map { persons -> persons.sumOf { it.badgeCount } }
 
-    suspend fun acknowledgeStateChange(certificate: CwaCovidCertificate) {
-        Timber.tag(TAG).d("acknowledgeStateChange(containerId=$certificate.containerId)")
-
-        if (certificate.getState() is CwaCovidCertificate.State.Valid && certificate.lastSeenStateChange == null) {
-            Timber.tag(TAG).d("Current state is valid, and previous state was null, don't acknowledge.")
-            return
-        }
-
-        when (certificate) {
-            is VaccinationCertificate -> vaccinationRepository.acknowledgeState(certificate.containerId)
-            is RecoveryCertificate -> recoveryCertificateRepository.acknowledgeState(certificate.containerId)
-            is TestCertificate -> testCertificateRepository.acknowledgeState(certificate.containerId)
-            else -> throw IllegalArgumentException("Unknown certificate type: $certificate")
+    private fun Set<VaccinatedPerson>.boosterBadgeCount(
+        personIdentifier: CertificatePersonIdentifier
+    ): Int {
+        val vaccinatedPerson = singleOrNull { it.identifier == personIdentifier }
+        return when (vaccinatedPerson?.hasBoosterNotification) {
+            true -> 1
+            else -> 0
         }
     }
 

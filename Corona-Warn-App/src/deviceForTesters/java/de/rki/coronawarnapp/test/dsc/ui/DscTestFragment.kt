@@ -39,6 +39,10 @@ class DscTestFragment : Fragment(R.layout.fragment_test_dsc), AutoInject {
                 viewModel.updateSearchTerm(text.toString())
             }
 
+            resetLastCheckTime.setOnClickListener { viewModel.resetLastCheckTime() }
+
+            checkValidityNotifications.setOnClickListener { viewModel.checkValidityNotifications() }
+
             viewModel.dscData.observe2(this@DscTestFragment) {
                 infoText.text = buildSpannedString {
                     bold { append("Last update: ") }

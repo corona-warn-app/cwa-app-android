@@ -85,6 +85,17 @@ class DccValidationServerTest : BaseIOTest() {
     }
 
     @Test
+    fun `booster notification rules data is faulty`() = runBlockingTest {
+        coEvery { rulesApi.boosterNotificationRules() } returns Response.success("123ABC".decodeHex().toResponseBody())
+
+        val server = createInstance()
+
+        shouldThrow<DccValidationException> {
+            server.ruleSetJson(DccValidationRule.Type.BOOSTER_NOTIFICATION)
+        }.errorCode shouldBe DccValidationException.ErrorCode.BOOSTER_NOTIFICATION_RULE_JSON_ARCHIVE_FILE_MISSING
+    }
+
+    @Test
     fun `invalidation rules data is faulty`() = runBlockingTest {
         coEvery { rulesApi.invalidationRules() } returns Response.success("123ABC".decodeHex().toResponseBody())
 
@@ -121,6 +132,15 @@ class DccValidationServerTest : BaseIOTest() {
 
         shouldThrow<DccValidationException> {
             createInstance().ruleSetJson(DccValidationRule.Type.ACCEPTANCE)
+        }.errorCode shouldBe DccValidationException.ErrorCode.NO_NETWORK
+    }
+
+    @Test
+    fun `booster notification rules maps network error`() = runBlockingTest {
+        coEvery { rulesApi.boosterNotificationRules() } throws CwaUnknownHostException(cause = IOException())
+
+        shouldThrow<DccValidationException> {
+            createInstance().ruleSetJson(DccValidationRule.Type.BOOSTER_NOTIFICATION)
         }.errorCode shouldBe DccValidationException.ErrorCode.NO_NETWORK
     }
 

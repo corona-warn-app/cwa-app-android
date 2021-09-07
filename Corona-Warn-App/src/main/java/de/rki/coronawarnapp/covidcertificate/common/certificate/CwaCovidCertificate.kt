@@ -41,9 +41,17 @@ interface CwaCovidCertificate {
 
     val notifiedExpiresSoonAt: Instant?
     val notifiedExpiredAt: Instant?
+    val notifiedInvalidAt: Instant?
 
     val lastSeenStateChange: State?
     val lastSeenStateChangeAt: Instant?
+
+    /**
+     * Indicates that certificate has updates regarding its status
+     * for example state changed to Expiring_Soon, Expired, Invalid or
+     * retrieved Test certificate became available
+     */
+    val hasNotificationBadge: Boolean
 
     /**
      * The current state of the certificate, see [State]
@@ -83,8 +91,8 @@ interface CwaCovidCertificate {
         }
 
         companion object {
-            const val TYPE_FIELD_NAME = "typeName"
-            val typeAdapter = RuntimeTypeAdapterFactory.of(State::class.java, "type", true)
+            val typeAdapter: RuntimeTypeAdapterFactory<State> = RuntimeTypeAdapterFactory
+                .of(State::class.java, "type", true)
                 .registerSubtype(Valid::class.java, "Valid")
                 .registerSubtype(ExpiringSoon::class.java, "ExpiringSoon")
                 .registerSubtype(Expired::class.java, "Expired")

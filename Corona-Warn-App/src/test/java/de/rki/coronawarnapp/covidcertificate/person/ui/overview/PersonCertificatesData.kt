@@ -83,6 +83,14 @@ fun testCertificate(
     override val certificateIssuer: String = "certificateIssuer"
     override val certificateCountry: String = "certificateCountry"
     override val certificateId: String = "certificateId"
+    override val hasNotificationBadge: Boolean
+        get() = false
+    override val notifiedInvalidAt: Instant?
+        get() = null
+    override val lastSeenStateChange: CwaCovidCertificate.State?
+        get() = null
+    override val lastSeenStateChangeAt: Instant?
+        get() = null
 
     override val rawCertificate: TestDccV1
         get() = mockk()
