@@ -128,6 +128,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     certificate = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_1,
+                    badgeCount = null
                 )
             )
         }
@@ -147,6 +148,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     certificate = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_1,
+                    badgeCount = null
                 )
             )
         }
@@ -158,6 +160,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     certificate = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_1,
+                    badgeCount = 5
                 )
             )
 
@@ -166,6 +169,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     certificate = mockTestCertificate("Mia Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_2,
+                    badgeCount = 3
                 )
             )
 
@@ -174,6 +178,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     certificate = mockTestCertificate("Thomas Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_3,
+                    badgeCount = 0
                 )
             )
         }
@@ -185,6 +190,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     certificate = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_1,
+                    badgeCount = null
                 )
             )
         }
