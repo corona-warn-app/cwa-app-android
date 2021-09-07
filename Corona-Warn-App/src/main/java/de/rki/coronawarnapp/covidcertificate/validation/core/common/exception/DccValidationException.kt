@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.util.HumanReadableError
 import de.rki.coronawarnapp.util.ui.CachedString
 import de.rki.coronawarnapp.util.ui.LazyString
 
+@Suppress("MaxLineLength")
 open class DccValidationException(
     val errorCode: ErrorCode,
     cause: Throwable? = null,
@@ -22,6 +23,10 @@ open class DccValidationException(
         ACCEPTANCE_RULE_JSON_EXTRACTION_FAILED("Acceptance rules could not be extracted from archive."),
         ACCEPTANCE_RULE_SERVER_ERROR("Update of acceptance rules failed with server error."),
         ACCEPTANCE_RULE_JSON_DECODING_FAILED("Decoding acceptance rules failed."),
+        BOOSTER_NOTIFICATION_RULE_JSON_ARCHIVE_FILE_MISSING("Booster notification rules archive is missing files."),
+        BOOSTER_NOTIFICATION_RULE_JSON_ARCHIVE_SIGNATURE_INVALID("Booster notification rules archive has an invalid signature."),
+        BOOSTER_NOTIFICATION_RULE_JSON_EXTRACTION_FAILED("Booster notification rules could not be extracted from archive."),
+        BOOSTER_NOTIFICATION_RULE_SERVER_ERROR("Update of Booster notification rules failed with server error."),
         INVALIDATION_RULE_CLIENT_ERROR("Update of invalidation rules failed with client error."),
         INVALIDATION_RULE_JSON_ARCHIVE_FILE_MISSING("Invalidation rules archive is missing files."),
         INVALIDATION_RULE_JSON_ARCHIVE_SIGNATURE_INVALID("Invalidation rules archive has an invalid signature."),

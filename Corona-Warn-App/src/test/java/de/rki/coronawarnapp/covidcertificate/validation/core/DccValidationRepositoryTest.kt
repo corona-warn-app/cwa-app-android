@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule.Description
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule.Type
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRuleConverter
 import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidationServer
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.assertions.throwables.shouldThrow
@@ -118,6 +119,7 @@ class DccValidationRepositoryTest : BaseTest() {
     private val serializationModule = SerializationModule()
     private val baseGson = serializationModule.baseGson()
     private val objectMapper = serializationModule.jacksonObjectMapper()
+    private val converter = DccValidationRuleConverter(baseGson)
 
     private fun createInstance(scope: CoroutineScope) = DccValidationRepository(
         appScope = scope,
@@ -125,6 +127,39 @@ class DccValidationRepositoryTest : BaseTest() {
         gson = baseGson,
         server = server,
         localCache = localCache,
+        converter = converter
+    )
+
+    private val testAcceptanceRule = DccValidationRule(
+        identifier = "VR-LT-0000",
+        typeDcc = Type.ACCEPTANCE,
+        country = "LT",
+        version = "1.0.0",
+        schemaVersion = "1.0.0",
+        engine = "CERTLOGIC",
+        engineVersion = "1.0.0",
+        certificateType = "Vaccination",
+        description = listOf(Description("en", "One type of event of vaccination")),
+        validFrom = "2021-07-04T15:00:00Z",
+        validTo = "2023-07-04T00:00:00Z",
+        affectedFields = listOf("v.1"),
+        logic = objectMapper.readTree("{\"!\":[{\"var\":\"payload.v.1\"}]}")
+    )
+
+    private val testInvalidationRule = DccValidationRule(
+        identifier = "IR-DE-0000",
+        typeDcc = Type.INVALIDATION,
+        country = "LT",
+        version = "1.0.0",
+        schemaVersion = "1.0.0",
+        engine = "CERTLOGIC",
+        engineVersion = "1.0.0",
+        certificateType = "Vaccination",
+        description = listOf(Description("en", "One type of event of vaccination")),
+        validFrom = "2021-07-04T15:00:00Z",
+        validTo = "2023-07-04T00:00:00Z",
+        affectedFields = listOf("v.1"),
+        logic = objectMapper.readTree("{\"!\":[{\"var\":\"payload.v.1\"}]}")
     )
 
     @Test
@@ -158,57 +193,26 @@ class DccValidationRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `refresh talks to server and updates local cache`() = runBlockingTest2(ignoreActive = true) {
-        createInstance(this).apply {
-            refresh()
-            dccCountries.first() shouldBe listOf(
-                DccCountry("DE"), DccCountry("NL")
-            )
-            acceptanceRules.first() shouldBe listOf(
-                DccValidationRule(
-                    identifier = "VR-LT-0000",
-                    typeDcc = Type.ACCEPTANCE,
-                    country = "LT",
-                    version = "1.0.0",
-                    schemaVersion = "1.0.0",
-                    engine = "CERTLOGIC",
-                    engineVersion = "1.0.0",
-                    certificateType = "Vaccination",
-                    description = listOf(Description("en", "One type of event of vaccination")),
-                    validFrom = "2021-07-04T15:00:00Z",
-                    validTo = "2023-07-04T00:00:00Z",
-                    affectedFields = listOf("v.1"),
-                    logic = objectMapper.readTree("{\"!\":[{\"var\":\"payload.v.1\"}]}")
+    fun `refresh talks to server and updates local cache`() =
+        runBlockingTest2(ignoreActive = true) {
+            createInstance(this).apply {
+                refresh()
+                dccCountries.first() shouldBe listOf(
+                    DccCountry("DE"), DccCountry("NL")
                 )
-            )
-            invalidationRules.first() shouldBe listOf(
-                DccValidationRule(
-                    identifier = "IR-DE-0000",
-                    typeDcc = Type.INVALIDATION,
-                    country = "LT",
-                    version = "1.0.0",
-                    schemaVersion = "1.0.0",
-                    engine = "CERTLOGIC",
-                    engineVersion = "1.0.0",
-                    certificateType = "Vaccination",
-                    description = listOf(Description("en", "One type of event of vaccination")),
-                    validFrom = "2021-07-04T15:00:00Z",
-                    validTo = "2023-07-04T00:00:00Z",
-                    affectedFields = listOf("v.1"),
-                    logic = objectMapper.readTree("{\"!\":[{\"var\":\"payload.v.1\"}]}")
-                )
-            )
-        }
+                acceptanceRules.first() shouldBe listOf(testAcceptanceRule)
+                invalidationRules.first() shouldBe listOf(testInvalidationRule)
+            }
 
-        coVerify {
-            server.dccCountryJson()
-            localCache.saveCountryJson(testCountryData)
-            server.ruleSetJson(Type.ACCEPTANCE)
-            localCache.saveAcceptanceRulesJson(testAcceptanceRulesData)
-            server.ruleSetJson(Type.INVALIDATION)
-            localCache.saveInvalidationRulesJson(testInvalidationRulesData)
+            coVerify {
+                server.dccCountryJson()
+                localCache.saveCountryJson(testCountryData)
+                server.ruleSetJson(Type.ACCEPTANCE)
+                localCache.saveAcceptanceRulesJson(testAcceptanceRulesData)
+                server.ruleSetJson(Type.INVALIDATION)
+                localCache.saveInvalidationRulesJson(testInvalidationRulesData)
+            }
         }
-    }
 
     @Test
     fun `bad acceptance rules yields exception`() = runBlockingTest2(ignoreActive = true) {

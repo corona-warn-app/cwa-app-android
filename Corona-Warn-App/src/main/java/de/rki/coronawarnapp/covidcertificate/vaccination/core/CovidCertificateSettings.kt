@@ -22,6 +22,7 @@ class CovidCertificateSettings @Inject constructor(
     )
 
     val lastDccStateBackgroundCheck = prefs.createFlowPreference("dcc.state.lastcheck", Instant.EPOCH)
+    val lastDccBoosterCheck = prefs.createFlowPreference("dcc.booster.lastcheck", Instant.EPOCH)
 
     fun clear() {
         prefs.clearAndNotify()

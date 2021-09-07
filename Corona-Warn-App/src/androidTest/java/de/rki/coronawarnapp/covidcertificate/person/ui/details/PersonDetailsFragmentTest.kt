@@ -27,11 +27,13 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.PersonDetai
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.RecoveryCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.TestCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationCertificateCard
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationInfoCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -51,6 +53,7 @@ import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.setupFakeImageLoader
 import testhelpers.takeScreenshot
+import java.util.Locale
 
 @RunWith(AndroidJUnit4::class)
 class PersonDetailsFragmentTest : BaseUITest() {
@@ -131,6 +134,17 @@ class PersonDetailsFragmentTest : BaseUITest() {
             )
 
             add(PersonDetailsQrCard.Item(testCertificate, false) {})
+
+            add(
+                VaccinationInfoCard.Item(
+                    vaccinationStatus = VaccinatedPerson.Status.IMMUNITY,
+                    daysUntilImmunity = null,
+                    boosterRule = null,
+                    daysSinceLastVaccination = 86,
+                    hasBoosterNotification = false
+                )
+            )
+
             add(CwaUserCard.Item(personCertificates) {})
             add(
                 VaccinationCertificateCard.Item(
@@ -172,12 +186,41 @@ class PersonDetailsFragmentTest : BaseUITest() {
     private fun boosterCertificateData(isCwa: Boolean = false): LiveData<List<CertificateItem>> = MutableLiveData(
         mutableListOf<CertificateItem>().apply {
             val vaccinationCertificate1 = mockVaccinationCertificate(number = 3, final = false, booster = true)
+
             val personCertificates = PersonCertificates(
                 listOf(vaccinationCertificate1),
                 isCwaUser = isCwa
             )
 
+            val ruleDescriptionDE = mockk<DccValidationRule.Description> {
+                Locale.GERMAN.also {
+                    every { description } returns "Sie könnten für eine Auffrischungsimpfung berechtigt sein, da sie for mehr als 4 Monaten von COVID-19 genesen sind trotz einer vorherigen Impfung."
+                    every { languageCode } returns it.language
+                }
+            }
+
+            val ruleDescriptionEN = mockk<DccValidationRule.Description> {
+                Locale.ENGLISH.also {
+                    every { description } returns "You may be eligible for a booster because you recovered from COVID-19 more than 4 months ago despite a prior vaccination."
+                    every { languageCode } returns it.language
+                }
+            }
+
             add(PersonDetailsQrCard.Item(vaccinationCertificate1, false) {})
+
+            add(
+                VaccinationInfoCard.Item(
+                    vaccinationStatus = VaccinatedPerson.Status.BOOSTER_ELIGIBLE,
+                    daysUntilImmunity = null,
+                    boosterRule = mockk<DccValidationRule>().apply {
+                        every { identifier } returns "BNR-DE-4161"
+                        every { description } returns listOf(ruleDescriptionDE, ruleDescriptionEN)
+                    },
+                    daysSinceLastVaccination = 147,
+                    hasBoosterNotification = true
+                )
+            )
+
             add(CwaUserCard.Item(personCertificates) {})
             add(
                 VaccinationCertificateCard.Item(
@@ -236,7 +279,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { containerId } returns vcContainerId
             every { vaccinatedOn } returns localDate
             every { personIdentifier } returns certificatePersonIdentifier
-            every { vaccinatedOn } returns Instant.parse("2021-06-01T11:35:00.000Z").toLocalDateUserTz()
+            every { vaccinatedOn } returns Instant.parse("2021-04-01T11:35:00.000Z").toLocalDateUserTz()
             every { personIdentifier } returns CertificatePersonIdentifier(
                 firstNameStandardized = "firstNameStandardized",
                 lastNameStandardized = "lastNameStandardized",
@@ -256,7 +299,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { fullName } returns "Andrea Schneider"
             every { certificateId } returns "recoveryCertificateId"
             every { dateOfBirthFormatted } returns "1981-03-20"
-            every { validUntil } returns Instant.parse("2021-05-31T11:35:00.000Z").toLocalDateUserTz()
+            every { validUntil } returns Instant.parse("2021-03-31T11:35:00.000Z").toLocalDateUserTz()
             every { personIdentifier } returns certificatePersonIdentifier
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.recoveryCertificate)
             every { containerId } returns rcContainerId

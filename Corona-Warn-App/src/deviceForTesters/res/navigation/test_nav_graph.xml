@@ -175,4 +175,10 @@
         android:label="DscFragment"
         tools:layout="@layout/fragment_test_dsc" />
 
+    <fragment
+        android:id="@+id/boosterTestFragment"
+        android:name="de.rki.coronawarnapp.test.booster.ui.BoosterTestFragment"
+        android:label="BoosterTestFragment"
+        tools:layout="@layout/fragment_test_booster" />
+
 </navigation>

@@ -77,7 +77,10 @@ data class DccValidationRule(
         ACCEPTANCE,
 
         @SerializedName("Invalidation")
-        INVALIDATION
+        INVALIDATION,
+
+        @SerializedName("BoosterNotification")
+        BOOSTER_NOTIFICATION
     }
 
     enum class Result {

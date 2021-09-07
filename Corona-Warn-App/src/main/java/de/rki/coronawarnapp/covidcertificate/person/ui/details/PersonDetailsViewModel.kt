@@ -24,16 +24,17 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson.Status.IMMUNITY
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson.Status.INCOMPLETE
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
@@ -48,6 +49,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private val vaccinationRepository: VaccinationRepository,
     private val dccValidationRepository: DccValidationRepository,
     private val timeStamper: TimeStamper,
+    @AppScope private val appScope: CoroutineScope,
     @Assisted private val personIdentifierCode: String,
     @Assisted private val colorShade: PersonColorShade,
     @Assisted private val containerId: CertificateContainerId?,
@@ -97,16 +99,28 @@ class PersonDetailsViewModel @AssistedInject constructor(
             add(
                 PersonDetailsQrCard.Item(priorityCertificate, isLoading) { onValidateCertificate(it) }
             )
-            add(cwaUserCard(personCertificates))
 
             // Find any vaccination certificate to determine the vaccination information
             personCertificates.certificates.find { it is VaccinationCertificate }?.let { certificate ->
                 val vaccinatedPerson = vaccinatedPerson(certificate)
-                if (vaccinatedPerson != null && vaccinatedPerson.getVaccinationStatus(timeStamper.nowUTC) != IMMUNITY) {
-                    val timeUntilImmunity = vaccinatedPerson.getDaysUntilImmunity()
-                    add(VaccinationInfoCard.Item(timeUntilImmunity))
+                if (vaccinatedPerson != null) {
+                    val daysUntilImmunity = vaccinatedPerson.getDaysUntilImmunity()
+                    val vaccinationStatus = vaccinatedPerson.getVaccinationStatus()
+                    val daysSinceLastVaccination = vaccinatedPerson.getDaysSinceLastVaccination()
+                    val boosterRule = vaccinatedPerson.boosterRule
+                    add(
+                        VaccinationInfoCard.Item(
+                            vaccinationStatus = vaccinationStatus,
+                            daysUntilImmunity = daysUntilImmunity,
+                            boosterRule = boosterRule,
+                            daysSinceLastVaccination = daysSinceLastVaccination,
+                            hasBoosterNotification = vaccinatedPerson.hasBoosterNotification
+                        )
+                    )
                 }
             }
+
+            add(cwaUserCard(personCertificates))
 
             personCertificates.certificates.forEach { addCardItem(it, personCertificates.highestPriorityCertificate) }
         }
@@ -181,6 +195,11 @@ class PersonDetailsViewModel @AssistedInject constructor(
                 /* Stay here on PersonDetailScreen */
             }
         }
+    }
+
+    fun refreshBoosterRuleState() = launch(scope = appScope) {
+        Timber.v("refreshBoosterRuleState personIdentifierCode=$personIdentifierCode")
+        vaccinationRepository.acknowledgeBoosterRule(personIdentifierCode = personIdentifierCode)
     }
 
     @AssistedFactory

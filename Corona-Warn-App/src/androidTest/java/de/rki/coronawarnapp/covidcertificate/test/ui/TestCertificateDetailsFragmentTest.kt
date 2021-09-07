@@ -179,6 +179,17 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
             get() = "05930482748454836478695764787840"
         override val dccData: DccData<*>
             get() = mockk()
+
+        override val hasNotificationBadge: Boolean
+            get() = false
+
+        override val notifiedInvalidAt: Instant?
+            get() = null
+
+        override val lastSeenStateChange: CwaCovidCertificate.State?
+            get() = null
+        override val lastSeenStateChangeAt: Instant?
+            get() = null
     }
 
     private fun getTestCertificateObject(state: CwaCovidCertificate.State): TestCertificate {

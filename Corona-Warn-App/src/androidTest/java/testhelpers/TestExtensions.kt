@@ -1,7 +1,10 @@
 package testhelpers
 
+import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
+import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
@@ -13,6 +16,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.main.FakeEmptyActivity
 import de.rki.coronawarnapp.ui.main.FakeMainActivity
 import de.rki.coronawarnapp.ui.main.MainActivity
+import java.util.Locale
 
 /** Delay time before taking screenshot
  */
@@ -103,4 +107,15 @@ inline fun <reified F : Fragment> launchInEmptyActivity(
         putExtra(FakeEmptyActivity.FRAGMENT_ARGUMENTS, fragmentArgs)
     }
     launchActivity<FakeEmptyActivity>(intent)
+}
+
+/**
+ * Helper to get a string for a specific locale
+ */
+fun stringForLocale(locale: Locale, @StringRes stringRes: Int): String {
+    val ctx: Context = ApplicationProvider.getApplicationContext()
+    val conf = ctx.resources.configuration
+        .let { Configuration(it) }
+        .apply { setLocale(locale) }
+    return ctx.createConfigurationContext(conf).getString(stringRes)
 }

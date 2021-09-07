@@ -51,6 +51,11 @@ class DccValidationServer @Inject constructor(
                     ErrorCode.INVALIDATION_RULE_JSON_ARCHIVE_SIGNATURE_INVALID,
                     ErrorCode.INVALIDATION_RULE_JSON_EXTRACTION_FAILED,
                 )
+                DccValidationRule.Type.BOOSTER_NOTIFICATION -> rulesApi.boosterNotificationRules().parseAndValidate(
+                    ErrorCode.BOOSTER_NOTIFICATION_RULE_JSON_ARCHIVE_FILE_MISSING,
+                    ErrorCode.BOOSTER_NOTIFICATION_RULE_JSON_ARCHIVE_SIGNATURE_INVALID,
+                    ErrorCode.BOOSTER_NOTIFICATION_RULE_JSON_EXTRACTION_FAILED
+                )
             }
         } catch (e: Exception) {
             Timber.e(e, "Getting $ruleTypeDcc rule set failed.")
@@ -61,6 +66,7 @@ class DccValidationServer @Inject constructor(
                     val type = when (ruleTypeDcc) {
                         DccValidationRule.Type.ACCEPTANCE -> ErrorCode.ACCEPTANCE_RULE_SERVER_ERROR
                         DccValidationRule.Type.INVALIDATION -> ErrorCode.INVALIDATION_RULE_SERVER_ERROR
+                        DccValidationRule.Type.BOOSTER_NOTIFICATION -> ErrorCode.BOOSTER_NOTIFICATION_RULE_SERVER_ERROR
                     }
                     DccValidationException(type, e)
                 }
