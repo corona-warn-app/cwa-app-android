@@ -52,7 +52,9 @@ import testhelpers.createFakeImageLoaderForQrCodes
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.setupFakeImageLoader
+import testhelpers.stringForLocale
 import testhelpers.takeScreenshot
+import java.util.Locale
 
 @RunWith(AndroidJUnit4::class)
 class PersonDetailsFragmentTest : BaseUITest() {
@@ -191,6 +193,22 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 isCwaUser = isCwa
             )
 
+            val stringRes = R.string.vaccination_card_booster_eligible
+
+            val ruleDescriptionDE = mockk<DccValidationRule.Description> {
+                Locale.GERMAN.also {
+                    every { description } returns stringForLocale(it, stringRes)
+                    every { languageCode } returns it.language
+                }
+            }
+
+            val ruleDescriptionEN = mockk<DccValidationRule.Description> {
+                Locale.ENGLISH.also {
+                    every { description } returns stringForLocale(it, stringRes)
+                    every { languageCode } returns it.language
+                }
+            }
+
             add(PersonDetailsQrCard.Item(vaccinationCertificate1, false) {})
 
             add(
@@ -199,12 +217,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
                     daysUntilImmunity = null,
                     boosterRule = mockk<DccValidationRule>().apply {
                         every { identifier } returns "AH-1994"
-                        every { description } returns listOf(
-                            mockk {
-                                every { description } returns "Aufgrund Ihres vorhanden Impfzertifikats könnte für Sie eine Auffrischungsimpfung erforderlich sein, da Ihr letztes Impfzertifikat älter als 6 Monate ist"
-                                every { languageCode } returns "DE"
-                            }
-                        )
+                        every { description } returns listOf(ruleDescriptionDE, ruleDescriptionEN)
                     },
                     daysSinceLastVaccination = 86,
                     hasBoosterNotification = true

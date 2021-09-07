@@ -57,6 +57,8 @@
     <string name="vaccination_list_immunity_card_body">"Sie haben nun alle derzeit geplanten Impfungen erhalten. Ihr Impfschutz ist vollständig."</string>
     <!-- XTXT: Vaccination card title -->
     <string name="vaccination_state_title">"Impfstatus"</string>
+    <!-- XTXT: Vaccination card booster eligible -->
+    <string name="vaccination_card_booster_eligible">"Aufgrund Ihres vorhanden Impfzertifikats könnte für Sie eine Auffrischungsimpfung erforderlich sein, da Ihr letztes Impfzertifikat älter als 6 Monate ist (Regel-ID: %1$s)."</string>
     <!-- XTXT: Vaccination card booster eligible description -->
     <string name="vaccination_card_booster_eligible_description">"%1$s (Regel-ID: %2$s)."</string>
     <!-- XTXT: Vaccination card booster eligible FAQ -->
