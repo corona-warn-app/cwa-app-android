@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import coil.loadAny
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewAdapter
 import de.rki.coronawarnapp.databinding.PersonOverviewItemBinding
@@ -12,6 +13,7 @@ import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.util.mutateDrawable
+import java.util.Locale
 
 class PersonCertificateCard(parent: ViewGroup) :
     PersonOverviewAdapter.PersonOverviewItemVH<PersonCertificateCard.Item, PersonOverviewItemBinding>(
@@ -35,9 +37,7 @@ class PersonCertificateCard(parent: ViewGroup) :
         }
         name.text = curItem.certificate.fullName
 
-        qrCodeCard.image.loadAny(
-            curItem.certificate.qrCodeToDisplay
-        ) {
+        qrCodeCard.image.loadAny(curItem.certificate.getValidQrCode(Locale.getDefault().language)) {
             crossfade(true)
             loadingView(qrCodeCard.image, qrCodeCard.progressBar)
         }

@@ -158,8 +158,7 @@ data class VaccinationContainer internal constructor(
         override val headerExpiresAt: Instant
             get() = header.expiresAt
 
-        override val qrCodeToDisplay: CoilQrCode =
-            displayQrCode(getState(), userLocale.language, vaccinationQrCode)
+        override val qrCodeToDisplay: CoilQrCode = displayQrCode(vaccinationQrCode)
 
         override val dccData: DccData<out DccV1.MetaData>
             get() = certificateData

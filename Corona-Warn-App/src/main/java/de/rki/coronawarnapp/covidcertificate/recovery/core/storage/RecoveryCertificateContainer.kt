@@ -127,8 +127,7 @@ data class RecoveryCertificateContainer(
             override val headerExpiresAt: Instant
                 get() = header.expiresAt
 
-            override val qrCodeToDisplay: CoilQrCode =
-                displayQrCode(getState(), userLocale.language, data.recoveryCertificateQrCode)
+            override val qrCodeToDisplay: CoilQrCode = displayQrCode(data.recoveryCertificateQrCode)
 
             override val dccData: DccData<out DccV1.MetaData>
                 get() = certificateData
