@@ -284,7 +284,7 @@
     <!-- XTXT: Event organiser selection list: no events info  -->
     <string name="trace_location_organiser_list_no_events_info">"Wählen Sie ein Event, für welches Sie in Vertretung einer infizierten Person andere warnen möchten."</string>
     <!-- XTXT: Event organiser selection list: title  -->
-    <string name="trace_location_organiser_list_subtitle">"Wählen Sie ein Event, für welches Sie in Vertretung einer infizierten Person andere warnen möchten. Oder stellen Sie gelöschte Events wieder her, indem sie den QR-Code des Events erneut einscannen."</string>
+    <string name="trace_location_organiser_list_subtitle">"Wählen Sie ein Event, für welches Sie in Vertretung einer infizierten Person andere warnen möchten. Oder stellen Sie gelöschte Events wieder her, indem Sie den QR-Code des Events erneut einscannen."</string>
     <!-- XTXT: Event organiser selection list: qr code scann  -->
     <string name="trace_location_organiser_qr_code_scan">"QR-Code scannen"</string>
 
