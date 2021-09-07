@@ -161,11 +161,6 @@ class PersonDetailsViewModelTest : BaseTest() {
         personCertificatesProvider = personCertificatesProvider,
         personIdentifierCode = personCode,
         colorShade = PersonColorShade.COLOR_1,
-        containerId = vcContainerId,
-        savedInstance = mockk<SavedStateHandle>().apply {
-            every { get<CertificateContainerId>(any()) } returns vcContainerId
-            every { set(any(), any<CertificateContainerId>()) } just Runs
-        },
         appScope = TestCoroutineScope()
     )
 
