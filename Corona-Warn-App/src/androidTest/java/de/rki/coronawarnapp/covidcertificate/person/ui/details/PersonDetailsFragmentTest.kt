@@ -197,14 +197,14 @@ class PersonDetailsFragmentTest : BaseUITest() {
 
             val ruleDescriptionDE = mockk<DccValidationRule.Description> {
                 Locale.GERMAN.also {
-                    every { description } returns stringForLocale(it, stringRes)
+                    every { description } returns "Sie könnten für eine Auffrischungsimpfung berechtigt sein, da sie for mehr als 4 Monaten von COVID-19 genesen sind trotz einer vorherigen Impfung."
                     every { languageCode } returns it.language
                 }
             }
 
             val ruleDescriptionEN = mockk<DccValidationRule.Description> {
                 Locale.ENGLISH.also {
-                    every { description } returns stringForLocale(it, stringRes)
+                    every { description } returns "You may be eligible for a booster because you recovered from COVID-19 more than 4 months ago despite a prior vaccination."
                     every { languageCode } returns it.language
                 }
             }
@@ -216,10 +216,10 @@ class PersonDetailsFragmentTest : BaseUITest() {
                     vaccinationStatus = VaccinatedPerson.Status.BOOSTER_ELIGIBLE,
                     daysUntilImmunity = null,
                     boosterRule = mockk<DccValidationRule>().apply {
-                        every { identifier } returns "BNR-DE-3009"
+                        every { identifier } returns "BNR-DE-4161"
                         every { description } returns listOf(ruleDescriptionDE, ruleDescriptionEN)
                     },
-                    daysSinceLastVaccination = 86,
+                    daysSinceLastVaccination = 147,
                     hasBoosterNotification = true
                 )
             )
@@ -282,7 +282,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { containerId } returns vcContainerId
             every { vaccinatedOn } returns localDate
             every { personIdentifier } returns certificatePersonIdentifier
-            every { vaccinatedOn } returns Instant.parse("2021-06-01T11:35:00.000Z").toLocalDateUserTz()
+            every { vaccinatedOn } returns Instant.parse("2021-04-01T11:35:00.000Z").toLocalDateUserTz()
             every { personIdentifier } returns CertificatePersonIdentifier(
                 firstNameStandardized = "firstNameStandardized",
                 lastNameStandardized = "lastNameStandardized",
@@ -302,7 +302,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { fullName } returns "Andrea Schneider"
             every { certificateId } returns "recoveryCertificateId"
             every { dateOfBirthFormatted } returns "1981-03-20"
-            every { validUntil } returns Instant.parse("2021-05-31T11:35:00.000Z").toLocalDateUserTz()
+            every { validUntil } returns Instant.parse("2021-03-31T11:35:00.000Z").toLocalDateUserTz()
             every { personIdentifier } returns certificatePersonIdentifier
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.recoveryCertificate)
             every { containerId } returns rcContainerId
