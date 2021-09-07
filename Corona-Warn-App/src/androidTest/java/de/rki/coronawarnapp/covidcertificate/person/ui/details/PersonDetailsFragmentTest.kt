@@ -74,9 +74,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             object : PersonDetailsViewModel.Factory {
                 override fun create(
                     personIdentifierCode: String,
-                    colorShade: PersonColorShade,
-                    containerId: CertificateContainerId?,
-                    savedInstance: SavedStateHandle
+                    colorShade: PersonColorShade
                 ): PersonDetailsViewModel = viewModel
             }
         )
