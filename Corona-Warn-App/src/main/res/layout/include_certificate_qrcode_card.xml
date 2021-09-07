@@ -116,7 +116,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/circle_badge_count"
         android:textAlignment="center"
-        android:textColor="#FFFFFFFF"
+        android:textColor="@android:color/white"
         android:textSize="12sp"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/qr_subtitle"

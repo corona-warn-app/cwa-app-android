@@ -128,7 +128,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     certificate = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_1,
-                    badgeCount = null
+                    badgeCount = 0
                 )
             )
         }
@@ -148,7 +148,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     certificate = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_1,
-                    badgeCount = null
+                    badgeCount = 0
                 )
             )
         }
@@ -190,7 +190,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     certificate = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_1,
-                    badgeCount = null
+                    badgeCount = 0
                 )
             )
         }
