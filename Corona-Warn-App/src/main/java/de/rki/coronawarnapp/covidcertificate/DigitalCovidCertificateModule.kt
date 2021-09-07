@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchema
+import de.rki.coronawarnapp.covidcertificate.pdf.core.ExportCertificateModule
 import de.rki.coronawarnapp.covidcertificate.signature.core.server.DscServerModule
 import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateServerModule
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationModule
@@ -20,6 +21,7 @@ import dgca.verifier.app.engine.DefaultJsonLogicValidator
         TestCertificateServerModule::class,
         DccValidationModule::class,
         DscServerModule::class,
+        ExportCertificateModule::class,
     ]
 )
 class DigitalCovidCertificateModule {

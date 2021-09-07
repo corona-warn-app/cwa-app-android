@@ -336,4 +336,37 @@
     <string name="dcc_notification_channel_title">"Certificates"</string>
     <!-- XTXT: certificate notification channel description -->
     <string name="dcc_notification_channel_description">"Manage Notifications for Certificates"</string>
+
+    <!-- PDF Export: Not possible dialog -->
+    <!-- XHED: PDF Export: Not possible dialog title -->
+    <string name="certificate_export_error_dialog_title">Druckversion anzeigen nicht möglich</string>
+    <!-- XHED: PDF Export: Not possible dialog body -->
+    <string name="certificate_export_error_dialog_body">Die Druckversion des Zertifikats kann nicht angezeigt werden, da das Zertifikat nicht in Deutschland ausgestellt wurde.</string>
+    <!-- XBUT: PDF Export: Not possible dialog faq button -->
+    <string name="certificate_export_error_dialog_faq_button">faq zur druckversion</string>
+    <!-- XBUT: PDF Export: Not possible dialog faq link -->
+    <string name="certificate_export_error_dialog_faq_link">https://www.coronawarn.app/en/faq/#eu_dcc_export</string>
+    <!-- XBUT: PDF Export: Not possible dialog ok button -->
+    <string name="certificate_export_error_dialog_ok_button">OK</string>
+
+    <!-- PDF Export: Info screen -->
+    <!-- XHED: PDF Export: Info screen title -->
+    <string name="pdf_export_info_title">Druckversion anzeigen</string>
+    <!-- XACT: PDF Export: Info screen illustration description-->
+    <string name="pdf_export_info_illustration_description">Die Druckversion eines Zertifikats wird zur Erstellung eines EU-Ausdrucks von einem Smartphone an einen Drucker gesendet.</string>
+    <!-- XTXT: PDF Export: Info screen subtitle-->
+    <string name="pdf_export_info_subtitle">Erstellung des EU-Ausdrucks</string>
+    <!-- XTXT: PDF Export: Info screen point regarding PDF storage -->
+    <string name="pdf_export_info_point_pdf">Sie können das Zertifikat als PDF-Dokument speichern. Die Speicherung ist freiwillig. Auf das PDF-Dokument haben zunächst nur Sie Zugriff. Sie können im Anschluss entscheiden, ob Sie es auf Ihrem Smartphone speichern oder in andere Apps importieren möchten.</string>
+    <!-- XTXT: PDF Export: Info screen point regarding sensitive information in PDF file -->
+    <string name="pdf_export_info_point_sensitive">Beachten Sie, dass das PDF-Dokument sensible Informationen enthält. Wir empfehlen Ihnen, hiermit sorgsam umzugehen und es nur Personen vorzuzeigen, denen Sie vertrauen und die zur Prüfung des Nachweises berechtigt sind.</string>
+    <!-- XTXT: PDF Export: Info screen point with recommendations -->
+    <string name="pdf_export_info_point_recommendations">Wir empfehlen, das PDF-Dokument nicht zu veröffentlichen und nicht per E-Mail zu versenden oder über andere Apps zu teilen.</string>
+
+    <!-- PDF Export: Error message -->
+    <!-- XHED: PDF Export: Error message title -->
+    <string name="pdf_export_error_title">Druckversion anzeigen nicht möglich</string>
+    <!-- XHED: PDF Export: Error message body -->
+    <string name="pdf_export_error_message">Die Druckversion des Zertifikats kann nicht angezeigt werden, da das Zertifikat momentan nicht abgerufen werden kann. Bitte versuchen Sie es später noch einmal.</string>
+
 </resources>

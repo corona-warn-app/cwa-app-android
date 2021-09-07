@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
@@ -16,10 +15,10 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationN
 import de.rki.coronawarnapp.databinding.PersonDetailsFragmentBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
-import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.mutateDrawable
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -78,13 +77,10 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
             viewModel.currentColorShade.observe(viewLifecycleOwner) { color ->
                 expandedImage.setImageResource(color.background)
                 europaImage.setImageDrawable(
-                    requireContext().getDrawableCompat(R.drawable.ic_eu_stars_blue)?.let {
-                        DrawableCompat.wrap(it)
-                            .mutate()
-                            .apply {
-                                setTint(requireContext().getColorCompat(color.starsTint))
-                            }
-                    }
+                    resources.mutateDrawable(
+                        R.drawable.ic_eu_stars_blue,
+                        requireContext().getColorCompat(color.starsTint)
+                    )
                 )
             }
         }
