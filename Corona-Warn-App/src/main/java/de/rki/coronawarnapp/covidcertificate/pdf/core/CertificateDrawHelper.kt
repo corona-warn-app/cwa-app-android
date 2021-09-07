@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.pdf.core
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Typeface
 import androidx.annotation.ColorInt
@@ -22,16 +23,18 @@ class CertificateDrawHelper @Inject constructor(
 
     fun drawCertificateDetail(canvas: Canvas, certificate: CwaCovidCertificate) {
         with(canvas) {
-            drawTextIntoRectangle(certificate.fullNameFormatted, paint, TextArea(120f, 2890f, 1115f))
-            drawTextIntoRectangle(certificate.dateOfBirthFormatted, paint, TextArea(120f, 3080f, 1115f))
-            drawTextIntoRectangle(certificate.certificateId, paint, TextArea(120f, 3265f, 1115f))
+            drawTextIntoRectangle(certificate.fullNameFormatted, paint, TextArea(28.78f, 693.31f, 267.5f))
+            drawTextIntoRectangle(certificate.dateOfBirthFormatted, paint, TextArea(28.78f, 738.89f, 267.5f))
+            drawTextIntoRectangle(certificate.certificateId, paint, TextArea(28.78f, 783.27f, 267.5f))
         }
     }
 
     fun drawQrCode(canvas: Canvas, certificate: CwaCovidCertificate) {
         val qrCode = createQrCodeBitmap(certificate, 625)
         with(canvas) {
-            drawBitmap(qrCode, 550f, 1815f, null)
+            save()
+            drawBitmap(qrCode, Matrix().apply { scale(0.2399f, 0.2399f); translate(550f, 1815f) }, null)
+            restore()
         }
     }
 
@@ -55,6 +58,6 @@ class CertificateDrawHelper @Inject constructor(
 
     companion object {
         @ColorInt const val FONT_COLOR = 0xFF0067A0.toInt()
-        const val FONT_SIZE = 32f
+        const val FONT_SIZE = 8f
     }
 }

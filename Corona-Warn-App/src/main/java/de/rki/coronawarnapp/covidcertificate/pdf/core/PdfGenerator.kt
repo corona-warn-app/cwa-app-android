@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.pdf.core
 
 import android.graphics.Bitmap
+import android.graphics.Matrix
 import android.graphics.pdf.PdfDocument
 import android.graphics.pdf.PdfRenderer
 import android.os.ParcelFileDescriptor
@@ -26,8 +27,8 @@ class PdfGenerator @Inject constructor(
             PdfDocument().apply {
                 startPage(createEmptyPage()).apply {
                     drawTemplate(certificate)
-                    drawBasicInfo(certificate)
                     drawCertificateDetails(certificate)
+                    drawBasicInfo(certificate)
                     finishPage(this)
                 }
                 saveToFile(file)
@@ -45,7 +46,7 @@ class PdfGenerator @Inject constructor(
     private fun PdfDocument.Page.drawTemplate(certificate: CwaCovidCertificate) {
         val templateFile = pdfTemplateRepository.getTemplate(certificate)
         val templateBitmap = renderPdfFileToBitmap(templateFile, BitmapQuality.PRINT)
-        canvas.drawBitmap(templateBitmap, 0f, 0f, null)
+        canvas.drawBitmap(templateBitmap, Matrix().apply { setScale(0.25f, 0.25f) }, null)
     }
 
     private fun PdfDocument.Page.drawBasicInfo(certificate: CwaCovidCertificate) {
@@ -62,13 +63,12 @@ class PdfGenerator @Inject constructor(
         }
     }
 
-    private fun createEmptyPage(): PdfDocument.PageInfo =
-        PdfDocument.PageInfo.Builder(PAGE_WIDTH, PAGE_HEIGHT, 1).create()
+    private fun createEmptyPage(): PdfDocument.PageInfo = PdfDocument.PageInfo.Builder(A4_WIDTH, A4_HEIGHT, 1).create()
 
     fun renderPdfFileToBitmap(file: File, quality: BitmapQuality): Bitmap {
         val (pageWidth, pageHeight) = when (quality) {
-            BitmapQuality.PRINT -> Pair(PAGE_WIDTH, PAGE_HEIGHT)
-            BitmapQuality.PREVIEW -> Pair(PAGE_WIDTH / 2, PAGE_HEIGHT / 2)
+            BitmapQuality.PRINT -> Pair(A4_WIDTH * 4, A4_HEIGHT * 4)
+            BitmapQuality.PREVIEW -> Pair(A4_WIDTH * 2, A4_HEIGHT * 2)
         }
         return Bitmap.createBitmap(pageWidth, pageHeight, Bitmap.Config.ARGB_8888).also { bitmap ->
             val fileDescriptor = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
@@ -90,8 +90,11 @@ class PdfGenerator @Inject constructor(
     }
 
     companion object {
-        // 300ppi A4 = 2480x3508
-        const val PAGE_WIDTH = 2480
-        const val PAGE_HEIGHT = 3508
+        /**
+         * A4 size in PostScript
+         * @see <a href="https://www.cl.cam.ac.uk/~mgk25/iso-paper-ps.txt">Iso-paper-ps</a>
+         */
+        const val A4_WIDTH = 595 // PostScript
+        const val A4_HEIGHT = 842 // PostScript
     }
 }

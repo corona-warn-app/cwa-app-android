@@ -19,19 +19,19 @@ class VaccinationCertificateDrawHelper @Inject constructor(@OpenSansTypeFace fon
     fun drawCertificateDetail(canvas: Canvas, certificate: VaccinationCertificate) {
         with(canvas) {
             save()
-            rotate(180f, PdfGenerator.PAGE_WIDTH / 2f, PdfGenerator.PAGE_HEIGHT / 2f)
-            drawTextIntoRectangle(certificate.targetDisease, paint, TextArea(1876f, 2040f, 530f))
-            drawTextIntoRectangle(certificate.vaccineTypeName, paint, TextArea(1876f, 2155f, 530f))
-            drawTextIntoRectangle(certificate.medicalProductName, paint, TextArea(1300f, 2450f, 1100f))
-            drawTextIntoRectangle(certificate.vaccineManufacturer, paint, TextArea(1300f, 2690f, 1100f))
+            rotate(180f, PdfGenerator.A4_WIDTH / 2f, PdfGenerator.A4_HEIGHT / 2f)
+            drawTextIntoRectangle(certificate.targetDisease, paint, TextArea(450.05f, 489.40f, 127.15f))
+            drawTextIntoRectangle(certificate.vaccineTypeName, paint, TextArea(450.05f, 516.98f, 127.15f))
+            drawTextIntoRectangle(certificate.medicalProductName, paint, TextArea(311.87f, 587.75f, 263.89f))
+            drawTextIntoRectangle(certificate.vaccineManufacturer, paint, TextArea(311.87f, 645.33f, 263.89f))
             drawTextIntoRectangle(
                 "${certificate.doseNumber}  ${certificate.totalSeriesOfDoses}",
                 paint,
-                TextArea(1876f, 2828f, 530f)
+                TextArea(450.05f, 678.44f, 127.15f)
             )
-            drawTextIntoRectangle(certificate.vaccinatedOnFormatted, paint, TextArea(1876f, 3030f, 530f))
-            drawTextIntoRectangle(certificate.certificateCountry, paint, TextArea(1876f, 3160f, 530f))
-            drawTextIntoRectangle(certificate.certificateIssuer, paint, TextArea(1876f, 3295f, 530f))
+            drawTextIntoRectangle(certificate.vaccinatedOnFormatted, paint, TextArea(450.05f, 726.90f, 127.15f))
+            drawTextIntoRectangle(certificate.certificateCountry, paint, TextArea(450.05f, 758.08f, 127.15f))
+            drawTextIntoRectangle(certificate.certificateIssuer, paint, TextArea(450.05f, 790.47f, 127.15f))
             restore()
         }
     }
