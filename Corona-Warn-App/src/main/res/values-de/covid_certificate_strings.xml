@@ -33,6 +33,8 @@
     <string name="certificate_qr_expired">"Zertifikat abgelaufen"</string>
     <!-- XTXT: Certificate QR code invalid signature-->
     <string name="certificate_qr_invalid_signature">"Zertifikat (Signatur) ungültig"</string>
+    <!-- XTXT: Certificate badge text -->
+    <string name="certificate_badge_text">"Es gibt Neuigkeiten zu Ihren Zertifikaten"</string>
 
     <!-- XTXT: Vaccination Consent subtitle-->
     <string name="vaccination_consent_headline">"Zertifikate hinzufügen"</string>
@@ -50,6 +52,21 @@
     <string name="vaccination_consent_onboarding_legal_information">"Ausführliche Informationen zur Datenverarbeitung finden Sie in der Datenschutzerklärung."</string>
     <!-- XBUT: Text for vaccination consent accept button -->
     <string name="vaccination_consent_accept_button">"Weiter"</string>
+
+    <!-- XTXT: Vaccination card immunity information: Days since last shot -->
+    <string name="vaccination_days_since_last_shot">"letzte Impfung vor %1$d Tagen"</string>
+    <!-- XTXT: Vaccination card immunity information card body when immunity is completed -->
+    <string name="vaccination_list_immunity_card_body">"Sie haben nun alle derzeit geplanten Impfungen erhalten. Ihr Impfschutz ist vollständig."</string>
+    <!-- XTXT: Vaccination card title -->
+    <string name="vaccination_state_title">"Impfstatus"</string>
+    <!-- XTXT: Vaccination card booster eligible description -->
+    <string name="vaccination_card_booster_eligible_description">"%1$s (Regel-ID: %2$s)."</string>
+    <!-- XTXT: Vaccination card booster eligible FAQ -->
+    <string name="vaccination_card_booster_eligible_faq">"Mehr Informationen finden Sie in den FAQ."</string>
+    <!-- XTXT: Vaccination card booster eligible FAQ Link -->
+    <string name="vaccination_card_booster_eligible_faq_link">"https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-faq-1758392"</string>
+    <!-- XTXT: Vaccination card booster eligible faq link keyword -->
+    <string name="vaccination_card_booster_eligible_faq_link_container">"FAQ"</string>
 
 
     <!-- XTXT: Current priority certificate info -->
@@ -133,6 +150,8 @@
     <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#eu_dcc -->
     <string name="error_dcc_already_registered_faq_link">https://www.coronawarn.app/de/faq/#eu_dcc</string>
 
+    <!-- XTXT: Test Certificate QR code new text-->
+    <string name="test_certificate_qr_new">"Neu"</string>
 
     <!-- #####################################################
     VALIDATION RULES INFO SCREEN STRINGS BELOW

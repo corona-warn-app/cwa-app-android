@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.test.core.storage.types
 
 import com.google.gson.annotations.SerializedName
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import org.joda.time.Instant
 
 /**
@@ -16,6 +17,15 @@ data class GenericTestCertificateData(
 
     @SerializedName("certificateReceivedAt")
     override val certificateReceivedAt: Instant? = null,
+
+    @SerializedName("notifiedInvalidAt")
+    override val notifiedInvalidAt: Instant? = null,
+
+    @SerializedName("lastSeenStateChange")
+    override val lastSeenStateChange: CwaCovidCertificate.State? = null,
+
+    @SerializedName("lastSeenStateChangeAt")
+    override val lastSeenStateChangeAt: Instant? = null,
 
     @SerializedName("testCertificateQrCode")
     override val testCertificateQrCode: String? = null,

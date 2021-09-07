@@ -6,6 +6,8 @@ import de.rki.coronawarnapp.miscinfo.MiscInfoFragment
 import de.rki.coronawarnapp.miscinfo.MiscInfoFragmentModule
 import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragment
 import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragmentModule
+import de.rki.coronawarnapp.test.booster.ui.BoosterTestFragment
+import de.rki.coronawarnapp.test.booster.ui.BoosterTestModule
 import de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragment
 import de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragmentModule
 import de.rki.coronawarnapp.test.coronatest.ui.CoronaTestTestFragment
@@ -95,4 +97,7 @@ abstract class MainActivityTestModule {
 
     @ContributesAndroidInjector(modules = [DscTestModule::class])
     abstract fun dscTest(): DscTestFragment
+
+    @ContributesAndroidInjector(modules = [BoosterTestModule::class])
+    abstract fun boosterTestFragment(): BoosterTestFragment
 }

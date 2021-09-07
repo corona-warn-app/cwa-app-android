@@ -86,6 +86,11 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        viewModel.refreshBoosterRuleState()
+    }
+
     private fun onNavEvent(event: PersonDetailsEvents) {
         when (event) {
             is OpenRecoveryCertificateDetails -> doNavigate(

@@ -11,4 +11,8 @@ interface DccValidationRuleApi {
 
     @GET("/version/v1/ehn-dgc/invalidation-rules")
     suspend fun invalidationRules(): Response<ResponseBody>
+
+    // No ehn-dgc component in the path; this is a DE-only feature
+    @GET("/version/v1/booster-notification-rules")
+    suspend fun boosterNotificationRules(): Response<ResponseBody>
 }
