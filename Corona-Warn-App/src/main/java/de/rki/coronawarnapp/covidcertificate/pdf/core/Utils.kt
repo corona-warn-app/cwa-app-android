@@ -5,8 +5,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import com.google.zxing.qrcode.encoder.ByteMatrix
-import java.nio.IntBuffer
-import java.util.stream.IntStream
 
 fun Canvas.drawTextIntoRectangle(text: String, paint: Paint, area: TextArea) {
     val textList = getMultilineText(text, paint, area.width.toInt())
@@ -41,13 +39,8 @@ fun Canvas.drawMultilineText(text: List<String>, paint: Paint, x: Float, y: Floa
 }
 
 fun ByteMatrix.toBitmap(): Bitmap = Bitmap.createBitmap(
-    IntStream.range(0, height)
-        .flatMap { h ->
-            IntStream.range(0, width).map { w ->
-                if (get(w, h) > 0) Color.BLACK else Color.WHITE
-            }
-        }
-        .collect({ IntBuffer.allocate(width * height) }, IntBuffer::put, IntBuffer::put)
-        .array(),
+    (0 until height).flatMap { h ->
+        (0 until width).map { w -> if (get(w, h) > 0) Color.BLACK else Color.WHITE }
+    }.toIntArray(),
     width, height, Bitmap.Config.RGB_565
 )

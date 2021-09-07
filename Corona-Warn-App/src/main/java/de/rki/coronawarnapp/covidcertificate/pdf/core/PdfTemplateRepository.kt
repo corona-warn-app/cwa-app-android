@@ -23,15 +23,9 @@ class PdfTemplateRepository @Inject constructor(
     }
 
     private fun getTemplateName(certificate: CwaCovidCertificate): String = when (certificate) {
-        is VaccinationCertificate -> {
-            VACCINATION_TEMPLATE_NAME
-        }
-        is RecoveryCertificate -> {
-            RECOVERY_TEMPLATE_NAME
-        }
-        is TestCertificate -> {
-            TEST_TEMPLATE_ASSET_NAME
-        }
+        is VaccinationCertificate -> VACCINATION_TEMPLATE_NAME
+        is RecoveryCertificate -> RECOVERY_TEMPLATE_NAME
+        is TestCertificate -> TEST_TEMPLATE_ASSET_NAME
         else -> throw IllegalArgumentException("Certificate $certificate is not supported")
     }
 

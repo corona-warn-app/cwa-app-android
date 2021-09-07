@@ -55,15 +55,9 @@ class PdfGenerator @Inject constructor(
 
     private fun PdfDocument.Page.drawCertificateDetails(certificate: CwaCovidCertificate) {
         when (certificate) {
-            is VaccinationCertificate -> {
-                vaccinationCertificateDrawHelper.drawCertificateDetail(canvas, certificate)
-            }
-            is RecoveryCertificate -> {
-                recoveryCertificateDrawHelper.drawCertificateDetail(canvas, certificate)
-            }
-            is TestCertificate -> {
-                testCertificateDrawHelper.drawCertificateDetail(canvas, certificate)
-            }
+            is VaccinationCertificate -> vaccinationCertificateDrawHelper.drawCertificateDetail(canvas, certificate)
+            is RecoveryCertificate -> recoveryCertificateDrawHelper.drawCertificateDetail(canvas, certificate)
+            is TestCertificate -> testCertificateDrawHelper.drawCertificateDetail(canvas, certificate)
             else -> throw IllegalArgumentException("Certificate $certificate is not supported")
         }
     }
