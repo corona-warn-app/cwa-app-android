@@ -52,7 +52,6 @@ import testhelpers.createFakeImageLoaderForQrCodes
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.setupFakeImageLoader
-import testhelpers.stringForLocale
 import testhelpers.takeScreenshot
 import java.util.Locale
 
@@ -192,7 +191,6 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 listOf(vaccinationCertificate1),
                 isCwaUser = isCwa
             )
-
 
             val ruleDescriptionDE = mockk<DccValidationRule.Description> {
                 Locale.GERMAN.also {
