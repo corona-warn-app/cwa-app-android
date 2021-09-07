@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
+import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
@@ -79,6 +80,7 @@ class DataReset @Inject constructor(
     private val validationRepository: DccValidationRepository,
     private val recoveryCertificateRepository: RecoveryCertificateRepository,
     private val dscRepository: DscRepository,
+    private val boosterRulesRepository: BoosterRulesRepository,
 ) {
 
     private val mutex = Mutex()
@@ -135,6 +137,8 @@ class DataReset @Inject constructor(
         personCertificatesSettings.clear()
 
         validationRepository.clear()
+
+        boosterRulesRepository.clear()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }

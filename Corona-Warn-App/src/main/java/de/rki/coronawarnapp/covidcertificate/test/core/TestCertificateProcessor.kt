@@ -213,7 +213,7 @@ class TestCertificateProcessor @Inject constructor(
         }
     }
 
-    internal suspend fun updateSeenByUser(
+    fun updateSeenByUser(
         data: RetrievedTestCertificate,
         seenByUser: Boolean,
     ): RetrievedTestCertificate {

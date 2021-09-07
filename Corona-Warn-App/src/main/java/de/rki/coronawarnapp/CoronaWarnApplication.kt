@@ -23,9 +23,9 @@ import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.notification.RATTestResultAvailableNotificationService
+import de.rki.coronawarnapp.covidcertificate.booster.BoosterCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalScheduler
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.execution.VaccinationUpdateScheduler
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.EnvironmentSetup
@@ -86,13 +86,13 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var raTestResultScheduler: RAResultScheduler
     @Inject lateinit var pcrTestResultAvailableNotificationService: PCRTestResultAvailableNotificationService
     @Inject lateinit var raTestResultAvailableNotificationService: RATTestResultAvailableNotificationService
-    @Inject lateinit var vaccinationUpdateScheduler: VaccinationUpdateScheduler
     @Inject lateinit var testCertificateRetrievalScheduler: TestCertificateRetrievalScheduler
     @Inject lateinit var environmentSetup: EnvironmentSetup
     @Inject lateinit var localStatisticsRetrievalScheduler: LocalStatisticsRetrievalScheduler
     @Inject lateinit var imageLoaderFactory: ImageLoaderFactory
     @Inject lateinit var dccStateCheckScheduler: DccStateCheckScheduler
     @Inject lateinit var securityProvider: SecurityProvider
+    @Inject lateinit var boosterCheckScheduler: BoosterCheckScheduler
 
     @AppScope
     @Inject lateinit var appScope: CoroutineScope
@@ -153,9 +153,6 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         raTestResultAvailableNotificationService.setup()
         testCertificateRetrievalScheduler.setup()
 
-        Timber.v("Setting up vaccination data update scheduler.")
-        vaccinationUpdateScheduler.setup()
-
         Timber.v("Setting up local statistics update scheduler")
         localStatisticsRetrievalScheduler.setup()
 
@@ -168,6 +165,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         traceLocationDbCleanupScheduler.scheduleDaily()
         shareTestResultNotificationService.setup()
         dccStateCheckScheduler.setup()
+        boosterCheckScheduler.setup()
     }
 
     private val activityLifecycleCallback = object : ActivityLifecycleCallbacks {

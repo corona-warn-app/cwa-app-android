@@ -20,8 +20,6 @@ data class TestCertificateWrapper(
 
     val registeredAt: Instant get() = container.registeredAt
 
-    val seenByUser: Boolean get() = container.certificateSeenByUser
-
     val registrationToken: String? get() = container.registrationToken
 
     val testCertificate: TestCertificate? by lazy {

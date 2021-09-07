@@ -20,6 +20,19 @@
         app:srcCompat="@drawable/bg_certificate_grey" />
 
     <ImageView
+        android:id="@+id/notification_badge"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:translationX="7dp"
+        android:translationY="-7dp"
+        android:importantForAccessibility="no"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@id/certificate_bg"
+        app:layout_constraintEnd_toEndOf="@id/certificate_bg"
+        app:srcCompat="@drawable/circle_certificate_notification_badge"
+        tools:visibility="visible"/>
+
+    <ImageView
         android:id="@+id/certificate_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

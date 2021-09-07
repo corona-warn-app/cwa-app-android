@@ -60,6 +60,8 @@ class TestCertificateCard(parent: ViewGroup) :
         }
         certificateBg.setImageResource(background)
 
+        notificationBadge.isVisible = curItem.certificate.hasNotificationBadge
+
         certificateExpiration.displayExpirationState(curItem.certificate)
     }
 

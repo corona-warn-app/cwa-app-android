@@ -12,6 +12,36 @@
         android:layout_height="match_parent"
         android:layout_margin="8dp"
         android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_tiny"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/headline6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Certificate Validity"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/check_validity_notifications"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Check Validity Notifications" />
+
+            <Button
+                android:id="@+id/reset_last_check_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Reset last check time" />
+
+        </LinearLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/dsc_list_container"
             style="@style/Card"
@@ -41,17 +71,17 @@
                 app:layout_constraintTop_toBottomOf="@id/refresh_cache" />
             <TextView
                 android:id="@+id/info_text"
-                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@id/search_edit_text" />
             <EditText
-                android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@id/clear_cache"
-                android:layout_width="match_parent"
-                android:hint="Filter"
                 android:id="@+id/search_edit_text"
-                android:layout_height="wrap_content" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="Filter"
+                app:layout_constraintTop_toBottomOf="@id/clear_cache" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
