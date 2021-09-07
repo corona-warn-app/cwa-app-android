@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate
 
 import dagger.Module
+import de.rki.coronawarnapp.covidcertificate.pdf.core.ExportCertificateModule
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateModule
 import de.rki.coronawarnapp.covidcertificate.signature.core.DigitalSignatureCertificateModule
 import de.rki.coronawarnapp.covidcertificate.signature.core.server.DscServerModule
@@ -18,6 +19,7 @@ import de.rki.coronawarnapp.covidcertificate.valueset.CertificateValueSetModule
         DccValidationModule::class,
         DigitalSignatureCertificateModule::class,
         DscServerModule::class,
+        ExportCertificateModule::class,
     ]
 )
 abstract class DigitalCovidCertificateModule
