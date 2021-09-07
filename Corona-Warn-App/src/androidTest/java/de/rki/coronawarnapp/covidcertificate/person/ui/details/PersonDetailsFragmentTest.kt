@@ -193,7 +193,6 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 isCwaUser = isCwa
             )
 
-            val stringRes = R.string.vaccination_card_booster_eligible
 
             val ruleDescriptionDE = mockk<DccValidationRule.Description> {
                 Locale.GERMAN.also {
