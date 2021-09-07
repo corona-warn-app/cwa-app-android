@@ -33,6 +33,8 @@
     <string name="certificate_qr_expired">"Zertifikat abgelaufen"</string>
     <!-- XTXT: Certificate QR code invalid signature-->
     <string name="certificate_qr_invalid_signature">"Zertifikat (Signatur) ungültig"</string>
+    <!-- XTXT: Certificate badge text -->
+    <string name="certificate_badge_text">"Es gibt Neuigkeiten zu Ihren Zertifikaten"</string>
 
     <!-- XTXT: Vaccination Consent subtitle-->
     <string name="vaccination_consent_headline">"Zertifikate hinzufügen"</string>
