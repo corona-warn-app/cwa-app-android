@@ -146,6 +146,7 @@ class RecoveryCertificateRepository @Inject constructor(
             val newData = when (state) {
                 is CwaCovidCertificate.State.Expired -> toUpdate.data.copy(notifiedExpiredAt = time)
                 is CwaCovidCertificate.State.ExpiringSoon -> toUpdate.data.copy(notifiedExpiresSoonAt = time)
+                is CwaCovidCertificate.State.Invalid -> toUpdate.data.copy(notifiedInvalidAt = time)
                 else -> throw UnsupportedOperationException("$state is not supported.")
             }
 

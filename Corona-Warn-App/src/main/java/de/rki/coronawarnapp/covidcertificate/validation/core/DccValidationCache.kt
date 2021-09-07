@@ -16,6 +16,7 @@ class DccValidationCache @Inject constructor(
     private val countryCacheFile = File(cacheDir, "dcc_validation_cache_countries_raw")
     private val acceptanceRulesCacheFile = File(cacheDir, "dcc_validation_cache_acc_rules_raw")
     private val invalidationRulesCacheFile = File(cacheDir, "dcc_validation_cache_inv_rules_raw")
+    private val boosterNotificationRulesCacheFile = File(cacheDir, "dcc_validation_cache_bn_rules_raw")
 
     suspend fun loadCountryJson(): String? = countryCacheFile.load()
 
@@ -23,11 +24,15 @@ class DccValidationCache @Inject constructor(
 
     suspend fun loadInvalidationRuleJson(): String? = invalidationRulesCacheFile.load()
 
+    suspend fun loadBoosterNotificationRulesJson(): String? = boosterNotificationRulesCacheFile.load()
+
     suspend fun saveCountryJson(data: String?) = countryCacheFile.save(data)
 
     suspend fun saveAcceptanceRulesJson(data: String?) = acceptanceRulesCacheFile.save(data)
 
     suspend fun saveInvalidationRulesJson(data: String?) = invalidationRulesCacheFile.save(data)
+
+    suspend fun saveBoosterNotificationRulesJson(data: String?) = boosterNotificationRulesCacheFile.save(data)
 
     @VisibleForTesting
     internal suspend fun File.load(): String? = mutex.withLock {

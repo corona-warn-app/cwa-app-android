@@ -2,10 +2,14 @@ package de.rki.coronawarnapp.covidcertificate.expiration
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateWrapper
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
@@ -33,6 +37,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
     @MockK lateinit var expirationNotification: DccExpirationNotification
     @MockK lateinit var vaccinationRepository: VaccinationRepository
     @MockK lateinit var recoveryRepository: RecoveryCertificateRepository
+    @MockK lateinit var testCertificateRepository: TestCertificateRepository
     @MockK lateinit var covidCertificateSettings: CovidCertificateSettings
     @MockK lateinit var timeStamper: TimeStamper
 
@@ -43,6 +48,10 @@ class DccExpirationNotificationServiceTest : BaseTest() {
     @MockK lateinit var recoveryCertificateWrapper: RecoveryCertificateWrapper
     @MockK lateinit var recoveryCertificate: RecoveryCertificate
     private val recoverContainerId = RecoveryCertificateContainerId("rec")
+
+    @MockK lateinit var testCertificateWrapper: TestCertificateWrapper
+    @MockK lateinit var testCertificate: TestCertificate
+    private val testContainerId = TestCertificateContainerId("test")
 
     private val lastDccStateBackgroundCheck = mockFlowPreference(Instant.EPOCH)
     private val nowUtc = Instant.EPOCH.plus(Duration.standardDays(7))
@@ -56,8 +65,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
         every { covidCertificateSettings.lastDccStateBackgroundCheck } returns lastDccStateBackgroundCheck
 
         expirationNotification.apply {
-            coEvery { showExpiredNotification(any()) } returns true
-            coEvery { showExpiresSoonNotification(any()) } returns true
+            coEvery { showNotification(any()) } returns true
         }
 
         vaccinationRepository.apply {
@@ -70,6 +78,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
             every { containerId } returns vaccinationContainerId
             every { notifiedExpiresSoonAt } returns null
             every { notifiedExpiredAt } returns null
+            every { notifiedInvalidAt } returns null
         }
 
         recoveryRepository.apply {
@@ -82,6 +91,21 @@ class DccExpirationNotificationServiceTest : BaseTest() {
             every { containerId } returns recoverContainerId
             every { notifiedExpiresSoonAt } returns null
             every { notifiedExpiredAt } returns null
+            every { notifiedInvalidAt } returns null
+        }
+
+        every { testCertificateWrapper.testCertificate } returns testCertificate
+        testCertificate.apply {
+            every { getState() } returns State.Valid(expiresAt = Instant.EPOCH)
+            every { containerId } returns testContainerId
+            every { notifiedExpiresSoonAt } returns null
+            every { notifiedExpiredAt } returns null
+            every { notifiedInvalidAt } returns null
+        }
+
+        testCertificateRepository.apply {
+            coEvery { setNotifiedState(any(), any(), any()) } just Runs
+            every { certificates } returns flowOf(setOf(testCertificateWrapper))
         }
     }
 
@@ -90,6 +114,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
         vaccinationRepository = vaccinationRepository,
         recoveryRepository = recoveryRepository,
         covidCertificateSettings = covidCertificateSettings,
+        testCertificateRepository = testCertificateRepository,
         timeStamper = timeStamper,
     )
 
@@ -110,7 +135,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
         every { vaccinationRepository.vaccinationInfos } returns flowOf(emptySet())
         every { recoveryRepository.certificates } returns flowOf(emptySet())
 
-        createInstance().showNotificationIfExpired()
+        createInstance().showNotificationIfStateChanged()
 
         verify {
             vaccinationRepository.vaccinationInfos
@@ -121,7 +146,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
 
     @Test
     fun `certificates that are all valid`() = runBlockingTest {
-        createInstance().showNotificationIfExpired()
+        createInstance().showNotificationIfStateChanged()
 
         verify { expirationNotification wasNot Called }
 
@@ -136,10 +161,9 @@ class DccExpirationNotificationServiceTest : BaseTest() {
         every { vaccinationCertificate.getState() } returns State.Expired(expiredAt = Instant.EPOCH)
         every { recoveryCertificate.getState() } returns State.Expired(expiredAt = Instant.EPOCH)
 
-        createInstance().showNotificationIfExpired()
+        createInstance().showNotificationIfStateChanged()
 
-        coVerify(exactly = 0) { expirationNotification.showExpiresSoonNotification(any()) }
-        coVerify(exactly = 1) { expirationNotification.showExpiredNotification(any()) }
+        coVerify { expirationNotification.showNotification(any()) }
     }
 
     @Test
@@ -147,10 +171,9 @@ class DccExpirationNotificationServiceTest : BaseTest() {
         every { vaccinationCertificate.getState() } returns State.ExpiringSoon(expiresAt = Instant.EPOCH)
         every { recoveryCertificate.getState() } returns State.ExpiringSoon(expiresAt = Instant.EPOCH)
 
-        createInstance().showNotificationIfExpired()
+        createInstance().showNotificationIfStateChanged()
 
-        coVerify(exactly = 1) { expirationNotification.showExpiresSoonNotification(any()) }
-        coVerify(exactly = 0) { expirationNotification.showExpiredNotification(any()) }
+        coVerify { expirationNotification.showNotification(any()) }
     }
 
     @Test
@@ -158,20 +181,100 @@ class DccExpirationNotificationServiceTest : BaseTest() {
         every { vaccinationCertificate.getState() } returns State.ExpiringSoon(expiresAt = Instant.EPOCH)
         every { recoveryCertificate.getState() } returns State.Expired(expiredAt = Instant.EPOCH)
 
-        createInstance().showNotificationIfExpired()
+        createInstance().showNotificationIfStateChanged()
+
+        coVerify(exactly = 2) { expirationNotification.showNotification(any()) }
 
         coVerify(exactly = 1) {
-            expirationNotification.showExpiresSoonNotification(any())
             vaccinationRepository.setNotifiedState(
                 containerId = vaccinationContainerId,
                 state = State.ExpiringSoon(expiresAt = Instant.EPOCH),
                 time = nowUtc,
             )
 
-            expirationNotification.showExpiredNotification(any())
             recoveryRepository.setNotifiedState(
                 containerId = recoverContainerId,
                 state = State.Expired(expiredAt = Instant.EPOCH),
+                time = nowUtc,
+            )
+        }
+    }
+
+    @Test
+    fun `one invalid each - one notification`() = runBlockingTest {
+        every { vaccinationCertificate.getState() } returns State.Invalid()
+        every { recoveryCertificate.getState() } returns State.Invalid()
+        every { testCertificate.getState() } returns State.Invalid()
+
+        createInstance().showNotificationIfStateChanged()
+
+        coVerify(exactly = 1) {
+            expirationNotification.showNotification(any())
+            vaccinationRepository.setNotifiedState(
+                containerId = vaccinationContainerId,
+                state = State.Invalid(),
+                time = nowUtc,
+            )
+        }
+
+        coVerify(exactly = 0) {
+            recoveryRepository.setNotifiedState(
+                containerId = recoverContainerId,
+                state = State.Invalid(),
+                time = nowUtc,
+            )
+
+            testCertificateRepository.setNotifiedState(
+                containerId = testContainerId,
+                state = State.Invalid(),
+                time = nowUtc,
+            )
+        }
+    }
+
+    @Test
+    fun `one invalid test certificate`() = runBlockingTest {
+        every { testCertificate.getState() } returns State.Invalid()
+
+        createInstance().showNotificationIfStateChanged()
+
+        coVerify(exactly = 1) {
+            expirationNotification.showNotification(any())
+            testCertificateRepository.setNotifiedState(
+                containerId = testContainerId,
+                state = State.Invalid(),
+                time = nowUtc,
+            )
+        }
+    }
+
+    @Test
+    fun `one invalid vaccination certificate`() = runBlockingTest {
+        every { vaccinationCertificate.getState() } returns State.Invalid()
+
+        createInstance().showNotificationIfStateChanged()
+
+        coVerify(exactly = 1) {
+            expirationNotification.showNotification(any())
+            vaccinationRepository.setNotifiedState(
+                containerId = vaccinationContainerId,
+                state = State.Invalid(),
+                time = nowUtc,
+            )
+        }
+    }
+
+    @Test
+    fun `one invalid recovery certificate`() = runBlockingTest {
+        every { recoveryCertificate.getState() } returns State.Invalid()
+
+        createInstance().showNotificationIfStateChanged()
+
+        coVerify(exactly = 1) {
+            expirationNotification.showNotification(any())
+            recoveryRepository.setNotifiedState(
+                containerId = recoverContainerId,
+                state = State.Invalid(),
                 time = nowUtc,
             )
         }
@@ -188,11 +291,10 @@ class DccExpirationNotificationServiceTest : BaseTest() {
             every { notifiedExpiredAt } returns Instant.EPOCH
         }
 
-        createInstance().showNotificationIfExpired()
+        createInstance().showNotificationIfStateChanged()
 
         coVerify(exactly = 0) {
-            expirationNotification.showExpiresSoonNotification(any())
-            expirationNotification.showExpiredNotification(any())
+            expirationNotification.showNotification(any())
         }
     }
 }

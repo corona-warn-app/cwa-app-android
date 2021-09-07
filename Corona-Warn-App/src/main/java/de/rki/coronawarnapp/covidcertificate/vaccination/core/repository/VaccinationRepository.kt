@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.toVaccinationContainer
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -40,13 +41,13 @@ import javax.inject.Singleton
 
 @Singleton
 class VaccinationRepository @Inject constructor(
-    @AppScope private val appScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
+    valueSetsRepository: ValueSetsRepository,
     private val timeStamper: TimeStamper,
     private val storage: VaccinationStorage,
-    valueSetsRepository: ValueSetsRepository,
     private val qrCodeExtractor: DccQrCodeExtractor,
     private val dccStateChecker: DccStateChecker,
+    @AppScope private val appScope: CoroutineScope,
     dscRepository: DscRepository
 ) {
 
@@ -61,8 +62,6 @@ class VaccinationRepository @Inject constructor(
                     data = personContainer,
                     certificateStates = personContainer.getStates(),
                     valueSet = null,
-                    isUpdatingData = false,
-                    lastError = null
                 )
             }
             .toSet()
@@ -145,16 +144,6 @@ class VaccinationRepository @Inject constructor(
         }
     }
 
-    /**
-     * Passing null as identifier will refresh all available data, if within constraints.
-     * Throws VaccinatedPersonNotFoundException is you try to refresh a person that is unknown.
-     */
-    suspend fun refresh(personIdentifier: CertificatePersonIdentifier? = null) {
-        Timber.tag(TAG).d("refresh(personIdentifier=%s)", personIdentifier)
-
-        // NOOP
-    }
-
     suspend fun clear() {
         Timber.tag(TAG).w("Clearing vaccination data.")
         internalData.updateBlocking {
@@ -204,10 +193,10 @@ class VaccinationRepository @Inject constructor(
         VaccinationCertificateContainerId,
         CwaCovidCertificate.State
         > {
-        return vaccinations.map { container ->
+        return vaccinations.associate { container ->
             val state = dccStateChecker.checkState(container.certificateData).first()
             container.containerId to state
-        }.toMap()
+        }
     }
 
     suspend fun setNotifiedState(
@@ -229,6 +218,7 @@ class VaccinationRepository @Inject constructor(
             val newVaccination = when (state) {
                 is CwaCovidCertificate.State.Expired -> toUpdateVaccination.copy(notifiedExpiredAt = time)
                 is CwaCovidCertificate.State.ExpiringSoon -> toUpdateVaccination.copy(notifiedExpiresSoonAt = time)
+                is CwaCovidCertificate.State.Invalid -> toUpdateVaccination.copy(notifiedInvalidAt = time)
                 else -> throw UnsupportedOperationException("$state is not supported.")
             }
 
@@ -274,6 +264,75 @@ class VaccinationRepository @Inject constructor(
             )
 
             this.minus(toUpdatePerson).plus(newPerson)
+        }
+    }
+
+    suspend fun acknowledgeBoosterRule(personIdentifierCode: String) {
+        Timber.tag(TAG).d("acknowledgeBoosterRule(personIdentifierCode=%s)", personIdentifierCode)
+        internalData.updateBlocking {
+            val vaccinatedPerson = singleOrNull { it.identifier.codeSHA256 == personIdentifierCode }
+
+            if (vaccinatedPerson == null) {
+                Timber.tag(TAG).w("acknowledgeBoosterRule couldn't find person %s", personIdentifierCode)
+                return@updateBlocking this
+            }
+
+            val updatedPerson = vaccinatedPerson.copy(
+                data = vaccinatedPerson.data.copy(
+                    lastSeenBoosterRuleIdentifier = vaccinatedPerson.data.boosterRule?.identifier
+                )
+            )
+
+            Timber.tag(TAG).d("acknowledgeBoosterRule updatedPerson=%s", updatedPerson)
+
+            this.minus(vaccinatedPerson).plus(updatedPerson)
+        }
+    }
+
+    suspend fun updateBoosterRule(
+        personIdentifier: CertificatePersonIdentifier,
+        rule: DccValidationRule?
+    ) {
+        Timber.tag(TAG)
+            .d("updateBoosterRule(personIdentifier=%s, ruleIdentifier=%s)", personIdentifier, rule?.identifier)
+        internalData.updateBlocking {
+            val vaccinatedPerson = singleOrNull { it.identifier == personIdentifier }
+
+            if (vaccinatedPerson == null) {
+                Timber.tag(TAG).w("updateBoosterRule couldn't find person %s", personIdentifier.codeSHA256)
+                return@updateBlocking this
+            }
+
+            val updatedPerson = vaccinatedPerson.copy(
+                data = vaccinatedPerson.data.copy(boosterRule = rule)
+            )
+
+            Timber.tag(TAG).d("updateBoosterRule updatedPerson=%s", updatedPerson)
+
+            this.minus(vaccinatedPerson).plus(updatedPerson)
+        }
+    }
+
+    suspend fun updateBoosterNotifiedAt(
+        personIdentifier: CertificatePersonIdentifier,
+        time: Instant
+    ) {
+        Timber.tag(TAG).d("updateBoosterNotifiedAt(personIdentifier=%s, time=%s)", personIdentifier.codeSHA256, time)
+        internalData.updateBlocking {
+            val vaccinatedPerson = singleOrNull { it.identifier == personIdentifier }
+
+            if (vaccinatedPerson == null) {
+                Timber.tag(TAG).w("updateBoosterNotifiedAt couldn't find person %s", personIdentifier.codeSHA256)
+                return@updateBlocking this
+            }
+
+            val updatedPerson = vaccinatedPerson.copy(
+                data = vaccinatedPerson.data.copy(lastBoosterNotifiedAt = time)
+            )
+
+            Timber.tag(TAG).d("updateBoosterNotifiedAt updatedPerson=%s", updatedPerson)
+
+            this.minus(vaccinatedPerson).plus(updatedPerson)
         }
     }
 

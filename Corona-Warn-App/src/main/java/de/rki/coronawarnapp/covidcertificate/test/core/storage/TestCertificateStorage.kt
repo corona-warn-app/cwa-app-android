@@ -6,6 +6,7 @@ import androidx.core.content.edit
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.BaseTestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.GenericTestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertificateData
@@ -31,6 +32,7 @@ class TestCertificateStorage @Inject constructor(
 
     private val gson by lazy {
         baseGson.newBuilder().apply {
+            registerTypeAdapterFactory(CwaCovidCertificate.State.typeAdapter)
             registerTypeAdapter(CoronaTestResult::class.java, CoronaTestResult.GsonAdapter())
         }.create()
     }

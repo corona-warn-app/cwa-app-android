@@ -17,7 +17,7 @@ class DccStateCheckWorker @AssistedInject constructor(
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result = try {
-        dccExpirationNotificationService.showNotificationIfExpired()
+        dccExpirationNotificationService.showNotificationIfStateChanged()
 
         Result.success()
     } catch (e: Exception) {
