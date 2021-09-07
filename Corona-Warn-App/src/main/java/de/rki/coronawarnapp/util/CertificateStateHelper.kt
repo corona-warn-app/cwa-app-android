@@ -106,6 +106,7 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
             qrTitle.isVisible = isPersonDetails
             qrSubtitle.isVisible = isPersonDetails
             startValidationCheckButton.isVisible = isPersonDetails
+            notificationBadge.isVisible = isPersonDetails
         }
     }
 }
@@ -133,6 +134,10 @@ fun TextView.displayExpirationState(certificate: CwaCovidCertificate) {
 
         is CwaCovidCertificate.State.Valid -> {
             isVisible = false
+            if (certificate is TestCertificate && certificate.isNewlyRetrieved) {
+                isVisible = true
+                text = context.getText(R.string.test_certificate_qr_new)
+            }
         }
     }
 }
