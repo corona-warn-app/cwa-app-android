@@ -19,7 +19,8 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     certificate: CwaCovidCertificate,
     isPersonOverview: Boolean = false,
     isPersonDetails: Boolean = false,
-    isCertificateDetails: Boolean = false
+    isCertificateDetails: Boolean = false,
+    badgeCount: Int? = null
 ) {
     val valid = certificate.isValid
     val context = root.context
@@ -61,10 +62,10 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     }
     when (certificate.displayedState()) {
         is CwaCovidCertificate.State.ExpiringSoon -> {
-            expirationStatusIcon.isVisible = true
+            expirationStatusIcon.isVisible = badgeCount == null || badgeCount == 0
             (expirationStatusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
             expirationStatusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_av_timer))
-            expirationStatusText.isVisible = true
+            expirationStatusText.isVisible = badgeCount == null || badgeCount == 0
             expirationStatusText.text = context.getString(
                 R.string.certificate_qr_expiration,
                 certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortDayFormat(),
@@ -73,36 +74,47 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
             expirationStatusBody.isVisible = isCertificateDetails
             expirationStatusBody.text = context.getText(R.string.expiration_info)
             startValidationCheckButton.isVisible = isPersonDetails
+            certificateBadgeCount.isVisible = badgeCount != null && badgeCount != 0
+            certificateBadgeCount.text = badgeCount.toString()
+            certificateBadgeText.isVisible = badgeCount != null && badgeCount != 0
         }
 
         is CwaCovidCertificate.State.Expired -> {
-            expirationStatusIcon.isVisible = true
+            expirationStatusIcon.isVisible = badgeCount == null || badgeCount == 0
             (expirationStatusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 1.0f
             expirationStatusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
-            expirationStatusText.isVisible = true
+            expirationStatusText.isVisible = badgeCount == null || badgeCount == 0
             expirationStatusText.text = context.getText(R.string.certificate_qr_expired)
             expirationStatusBody.isVisible = isCertificateDetails
             expirationStatusBody.text = context.getText(R.string.expired_certificate_info)
             qrSubtitle.isVisible = false
             startValidationCheckButton.isVisible = isPersonDetails
+            certificateBadgeCount.isVisible = badgeCount != null && badgeCount != 0
+            certificateBadgeCount.text = badgeCount.toString()
+            certificateBadgeText.isVisible = badgeCount != null && badgeCount != 0
         }
 
         is CwaCovidCertificate.State.Invalid -> {
-            expirationStatusIcon.isVisible = true
+            expirationStatusIcon.isVisible = badgeCount == null || badgeCount == 0
             (expirationStatusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
             expirationStatusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
-            expirationStatusText.isVisible = true
+            expirationStatusText.isVisible = badgeCount == null || badgeCount == 0
             expirationStatusText.text = context.getText(R.string.certificate_qr_invalid_signature)
             expirationStatusBody.isVisible = isCertificateDetails
             expirationStatusBody.text = context.getText(R.string.invalid_certificate_signature_info)
             qrSubtitle.isVisible = false
             startValidationCheckButton.isVisible = isPersonDetails
+            certificateBadgeCount.isVisible = badgeCount != null && badgeCount != 0
+            certificateBadgeCount.text = badgeCount.toString()
+            certificateBadgeText.isVisible = badgeCount != null && badgeCount != 0
         }
 
         is CwaCovidCertificate.State.Valid -> {
             expirationStatusIcon.isVisible = false
             expirationStatusText.isVisible = false
             expirationStatusBody.isVisible = false
+            certificateBadgeCount.isVisible = false
+            certificateBadgeText.isVisible = false
             qrTitle.isVisible = isPersonDetails
             qrSubtitle.isVisible = isPersonDetails
             startValidationCheckButton.isVisible = isPersonDetails

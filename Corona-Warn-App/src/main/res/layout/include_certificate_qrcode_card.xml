@@ -83,9 +83,9 @@
         android:layout_marginStart="8dp"
         android:src="@drawable/ic_booster_badge"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/qr_title"
         app:layout_constraintStart_toEndOf="@id/qr_title"
         app:layout_constraintTop_toTopOf="@id/qr_title"
-        app:layout_constraintBottom_toBottomOf="@id/qr_title"
         tools:visibility="visible" />
 
     <TextView
@@ -102,12 +102,42 @@
         android:layout_height="wrap_content"
         android:importantForAccessibility="no"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/expiration_status_text"
+        app:layout_constraintBottom_toBottomOf="@id/expiration_status_text"
         app:layout_constraintStart_toStartOf="@id/qr_subtitle"
-        app:layout_constraintTop_toTopOf="@+id/expiration_status_text"
+        app:layout_constraintTop_toTopOf="@id/expiration_status_text"
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/ic_av_timer"
         tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/certificate_badge_count"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/circle_badge_count"
+        android:textAlignment="center"
+        android:textColor="#FFFFFFFF"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/qr_subtitle"
+        app:layout_constraintTop_toBottomOf="@id/qr_subtitle"
+        app:layout_constraintVertical_bias="1.0"
+        tools:text="1"
+        tools:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/certificate_badge_text"
+        style="@style/body2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_tiny"
+        android:layout_marginTop="10dp"
+        android:text="@string/certificate_badge_text"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/image"
+        app:layout_constraintStart_toEndOf="@id/certificate_badge_count"
+        app:layout_constraintTop_toBottomOf="@+id/qr_subtitle"
+        tools:visibility="invisible" />
 
     <TextView
         android:id="@+id/expiration_status_text"
