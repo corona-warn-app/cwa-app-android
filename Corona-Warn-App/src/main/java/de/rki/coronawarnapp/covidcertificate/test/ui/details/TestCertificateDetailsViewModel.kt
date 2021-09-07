@@ -5,6 +5,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.pdf.ui.canBeExported
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -28,6 +29,9 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
     private var qrCode: CoilQrCode? = null
     val events = SingleLiveEvent<TestCertificateDetailsNavigation>()
     val errors = SingleLiveEvent<Throwable>()
+
+    val exportError = SingleLiveEvent<Unit>()
+
     val covidCertificate = testCertificateRepository.certificates.map { certificates ->
         certificates.find { it.containerId == containerId }?.testCertificate?.also {
             qrCode = it.qrCodeToDisplay
@@ -57,6 +61,14 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
     fun refreshCertState() = launch(scope = appScope) {
         Timber.v("refreshCertState()")
         testCertificateRepository.acknowledgeState(containerId)
+    }
+
+    fun onExport() {
+        if (covidCertificate.value?.canBeExported() == false) {
+            exportError.postValue(null)
+        } else {
+            events.postValue(TestCertificateDetailsNavigation.Export(containerId))
+        }
     }
 
     @AssistedFactory
