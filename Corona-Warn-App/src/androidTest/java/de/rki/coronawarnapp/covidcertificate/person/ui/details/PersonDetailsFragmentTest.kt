@@ -216,7 +216,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
                     vaccinationStatus = VaccinatedPerson.Status.BOOSTER_ELIGIBLE,
                     daysUntilImmunity = null,
                     boosterRule = mockk<DccValidationRule>().apply {
-                        every { identifier } returns "AH-BNR-DE-3009"
+                        every { identifier } returns "BNR-DE-3009"
                         every { description } returns listOf(ruleDescriptionDE, ruleDescriptionEN)
                     },
                     daysSinceLastVaccination = 86,
