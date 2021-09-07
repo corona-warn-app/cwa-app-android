@@ -84,7 +84,6 @@
                     app:layout_scrollFlags="scroll|enterAlways"
                     app:menu="@menu/menu_recovery_certificate_details"
                     app:navigationIcon="@drawable/ic_back"
-                    app:navigationIconTint="@android:color/white"
                     app:popupTheme="@style/Theme.MaterialComponents.DayNight">
 
                     <LinearLayout
