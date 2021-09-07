@@ -11,8 +11,6 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.pdf.core.PdfGenerator
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.CertificateExportException
-import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.files.FileSharing
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -41,19 +39,15 @@ class CertificatePosterViewModel @AssistedInject constructor(
     }
 
     private fun getPDFFileName(certificateData: CwaCovidCertificate): String {
-        val pdfNameSuffix =
-            with(certificateData) {
-                if (firstName != null) {
-                    "_${firstName}_$lastName"
-                } else {
-                    "_$lastName"
-                }
+        val pdfNameSuffix = with(certificateData) {
+            if (firstName.isNullOrBlank()) {
+                lastName
+            } else {
+                "${firstName}_$lastName"
             }
-        return when (certificateData) {
-            is RecoveryCertificate -> "recovery_certificate$pdfNameSuffix.pdf"
-            is TestCertificate -> "test_certificate$pdfNameSuffix.pdf"
-            else -> "vaccination_certificate$pdfNameSuffix.pdf"
         }
+
+        return "health_certificate_$pdfNameSuffix.pdf"
     }
 
     private fun generatePoster() = launch(context = dispatcher.IO) {
