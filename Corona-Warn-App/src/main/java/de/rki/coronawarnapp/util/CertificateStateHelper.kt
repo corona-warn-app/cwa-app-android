@@ -74,9 +74,6 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
             expirationStatusBody.isVisible = isCertificateDetails
             expirationStatusBody.text = context.getText(R.string.expiration_info)
             startValidationCheckButton.isVisible = isPersonDetails
-            certificateBadgeCount.isVisible = badgeCount != 0
-            certificateBadgeCount.text = badgeCount.toString()
-            certificateBadgeText.isVisible = badgeCount != 0
         }
 
         is CwaCovidCertificate.State.Expired -> {
@@ -89,9 +86,6 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
             expirationStatusBody.text = context.getText(R.string.expired_certificate_info)
             qrSubtitle.isVisible = false
             startValidationCheckButton.isVisible = isPersonDetails
-            certificateBadgeCount.isVisible = badgeCount != 0
-            certificateBadgeCount.text = badgeCount.toString()
-            certificateBadgeText.isVisible = badgeCount != 0
         }
 
         is CwaCovidCertificate.State.Invalid -> {
@@ -104,23 +98,20 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
             expirationStatusBody.text = context.getText(R.string.invalid_certificate_signature_info)
             qrSubtitle.isVisible = false
             startValidationCheckButton.isVisible = isPersonDetails
-            certificateBadgeCount.isVisible = badgeCount != 0
-            certificateBadgeCount.text = badgeCount.toString()
-            certificateBadgeText.isVisible = badgeCount != 0
         }
 
         is CwaCovidCertificate.State.Valid -> {
             expirationStatusIcon.isVisible = false
             expirationStatusText.isVisible = false
             expirationStatusBody.isVisible = false
-            certificateBadgeCount.isVisible = badgeCount != 0
-            certificateBadgeCount.text = badgeCount.toString()
-            certificateBadgeText.isVisible = badgeCount != 0
             qrTitle.isVisible = isPersonDetails
             qrSubtitle.isVisible = isPersonDetails
             startValidationCheckButton.isVisible = isPersonDetails
         }
     }
+    certificateBadgeCount.isVisible = badgeCount != 0
+    certificateBadgeCount.text = badgeCount.toString()
+    certificateBadgeText.isVisible = badgeCount != 0
 }
 
 fun TextView.displayExpirationState(certificate: CwaCovidCertificate) {
