@@ -47,7 +47,9 @@ class CwaUserCard(parent: ViewGroup) :
                 .find { char -> !Character.isDigit(char) }
                 .toString()
             when (delimiter) {
-                "/" -> dateOfBirthFormatted.split("-").joinToString(delimiter)
+                "/" -> dateOfBirthFormatted.split("-").run {
+                    listOf(this[1], this[2], this[0])
+                }.joinToString(delimiter)
                 else -> dateOfBirthFormatted.split("-").reversed().joinToString(delimiter)
             }
         } catch (e: Exception) {
