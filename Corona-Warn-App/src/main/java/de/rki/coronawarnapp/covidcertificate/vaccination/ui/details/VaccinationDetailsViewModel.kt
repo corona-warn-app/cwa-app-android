@@ -5,6 +5,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.pdf.ui.canBeExported
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
@@ -39,6 +40,8 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
 
     val errors = SingleLiveEvent<Throwable>()
     val events = SingleLiveEvent<VaccinationDetailsNavigation>()
+
+    val exportError = SingleLiveEvent<Unit>()
 
     fun onClose() = events.postValue(VaccinationDetailsNavigation.Back)
 
@@ -83,6 +86,14 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
     fun refreshCertState() = launch(scope = appScope) {
         Timber.v("refreshCertState()")
         vaccinationRepository.acknowledgeState(containerId)
+    }
+
+    fun onExport() {
+        if (vaccinationCertificate.value?.certificate?.canBeExported() == false) {
+            exportError.postValue(null)
+        } else {
+            events.postValue(VaccinationDetailsNavigation.Export(containerId))
+        }
     }
 
     @AssistedFactory

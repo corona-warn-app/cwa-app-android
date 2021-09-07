@@ -138,8 +138,7 @@ data class TestCertificateContainer(
             override val headerExpiresAt: Instant
                 get() = header.expiresAt
 
-            override val qrCodeToDisplay: CoilQrCode =
-                displayQrCode(getState(), userLocale.language, data.testCertificateQrCode!!)
+            override val qrCodeToDisplay: CoilQrCode = displayQrCode(data.testCertificateQrCode!!)
 
             override val isUpdatingData: Boolean
                 get() = this@TestCertificateContainer.isUpdatingData

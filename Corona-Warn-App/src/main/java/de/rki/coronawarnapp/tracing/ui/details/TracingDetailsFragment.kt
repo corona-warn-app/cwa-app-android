@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.tracing.ui.details
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,8 +10,8 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TracingDetailsFragmentLayoutBinding
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.getDrawableCompat
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.mutateDrawable
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -76,16 +75,10 @@ class TracingDetailsFragment : Fragment(R.layout.tracing_details_fragment_layout
     }
 
     private fun closeIcon(it: TracingDetailsState) =
-        resources.getDrawableCompat(R.drawable.ic_close)?.let { drawable ->
-            DrawableCompat
-                .wrap(drawable)
-                .mutate()
-                .apply {
-                    setTint(
-                        it.getStableTextColor(requireContext())
-                    )
-                }
-        }
+        resources.mutateDrawable(
+            R.drawable.ic_close,
+            it.getStableTextColor(requireContext())
+        )
 
     override fun onResume() {
         super.onResume()

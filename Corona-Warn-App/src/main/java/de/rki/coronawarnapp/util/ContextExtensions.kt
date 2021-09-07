@@ -2,10 +2,13 @@ package de.rki.coronawarnapp.util
 
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.drawable.Drawable
+import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.DrawableCompat
 
 /**
  * These context extensions provide easier access to the ContextCompat calls that we want
@@ -28,3 +31,25 @@ fun Resources.getDrawableCompat(@DrawableRes id: Int, theme: Resources.Theme? = 
     ResourcesCompat.getDrawable(this, id, theme)
 
 fun Resources.isPhone(): Boolean = configuration.smallestScreenWidthDp < 600
+
+/**
+ * Mutate drawable and provide new copy tinted with provided color
+ * @param color [Int]
+ */
+fun Drawable?.mutate(@ColorInt color: Int): Drawable? = this?.let { drawable ->
+    DrawableCompat
+        .wrap(drawable)
+        .mutate()
+        .apply {
+            setTint(color)
+        }
+}
+
+/**
+ * Mutate drawable and provide new copy tinted with provided color
+ * @param color [Int]
+ */
+fun Resources.mutateDrawable(
+    @DrawableRes drawable: Int,
+    @ColorInt color: Int
+): Drawable? = getDrawableCompat(drawable)?.mutate(color)
