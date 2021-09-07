@@ -92,7 +92,7 @@ class TraceLocationsFragmentTest : BaseUITest() {
 
         launchFragmentInContainer2<TraceLocationsFragment>()
         openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext)
-        takeScreenshot<TestCertificateDetailsFragment>()
+        takeScreenshot<TraceLocationsFragment>("_menu")
     }
 
     private fun createViewModel() = TraceLocationsViewModel(
