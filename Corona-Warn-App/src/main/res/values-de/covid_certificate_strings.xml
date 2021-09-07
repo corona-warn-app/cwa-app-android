@@ -148,6 +148,8 @@
     <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#eu_dcc -->
     <string name="error_dcc_already_registered_faq_link">https://www.coronawarn.app/de/faq/#eu_dcc</string>
 
+    <!-- XTXT: Test Certificate QR code new text-->
+    <string name="test_certificate_qr_new">"Neu"</string>
 
     <!-- #####################################################
     VALIDATION RULES INFO SCREEN STRINGS BELOW
