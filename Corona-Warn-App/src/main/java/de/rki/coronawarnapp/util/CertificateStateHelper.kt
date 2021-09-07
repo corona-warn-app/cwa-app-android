@@ -28,36 +28,38 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     invalidOverlay.isGone = valid
     image.isEnabled = isCertificateDetails && valid // Disable Qr-Code image from opening full-screen mode
 
+    val isNewTestCertificate = certificate is TestCertificate && certificate.isNewlyRetrieved
+    notificationBadge.isVisible = if (isNewTestCertificate) {
+        false
+    } else {
+        isCertificateDetails && certificate.hasNotificationBadge
+    }
+
+    qrTitle.isVisible = !isPersonOverview
+    qrSubtitle.isVisible = !isPersonOverview
+
     when (certificate) {
         is TestCertificate -> {
             val dateTime = certificate.sampleCollectedAt.toLocalDateTimeUserTz().run {
                 "${toShortDayFormat()}, ${toShortTimeFormat()}"
             }
-            qrTitle.isVisible = !isPersonOverview
+
             qrTitle.text = context.getString(R.string.test_certificate_name)
-            qrSubtitle.isVisible = !isPersonOverview
             qrSubtitle.text = context.getString(R.string.test_certificate_qrcode_card_sampled_on, dateTime)
-            notificationBadge.isVisible = !isPersonOverview && certificate.hasNotificationBadge
         }
         is VaccinationCertificate -> {
-            qrTitle.isVisible = !isPersonOverview
             qrTitle.text = context.getString(R.string.vaccination_details_subtitle)
-            qrSubtitle.isVisible = !isPersonOverview
             qrSubtitle.text = context.getString(
                 R.string.vaccination_certificate_vaccinated_on,
                 certificate.vaccinatedOn.toShortDayFormat()
             )
-            notificationBadge.isVisible = !isPersonOverview && certificate.hasNotificationBadge
         }
         is RecoveryCertificate -> {
-            qrTitle.isVisible = !isPersonOverview
             qrTitle.text = context.getString(R.string.recovery_certificate_name)
-            qrSubtitle.isVisible = !isPersonOverview
             qrSubtitle.text = context.getString(
                 R.string.recovery_certificate_valid_until,
                 certificate.validUntil.toShortDayFormat()
             )
-            notificationBadge.isVisible = !isPersonOverview && certificate.hasNotificationBadge
         }
     }
     when (certificate.displayedState()) {
@@ -137,6 +139,10 @@ fun TextView.displayExpirationState(certificate: CwaCovidCertificate) {
 
         is CwaCovidCertificate.State.Valid -> {
             isVisible = false
+            if (certificate is TestCertificate && certificate.isNewlyRetrieved) {
+                isVisible = true
+                text = context.getText(R.string.test_certificate_qr_new)
+            }
         }
     }
 }
