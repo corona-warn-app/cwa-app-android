@@ -106,7 +106,7 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
             qrTitle.isVisible = isPersonDetails
             qrSubtitle.isVisible = isPersonDetails
             startValidationCheckButton.isVisible = isPersonDetails
-            notificationBadge.isVisible = isPersonDetails
+            notificationBadge.isVisible = isPersonDetails && certificate.hasNotificationBadge
         }
     }
 }
