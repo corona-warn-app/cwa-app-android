@@ -15,6 +15,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
+import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.CertificateExportErrorDialog
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
@@ -35,6 +36,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import java.util.Locale
 import javax.inject.Inject
 
 class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_details), AutoInject {
@@ -71,7 +73,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 europaImage.setImageResource(europaStars)
 
                 qrCodeCard.apply {
-                    val request = it.certificate?.qrCodeToDisplay
+                    val request = it.certificate?.getValidQrCode(Locale.getDefault().language)
                     image.loadAny(request) {
                         crossfade(true)
                         loadingView(image, progressBar)

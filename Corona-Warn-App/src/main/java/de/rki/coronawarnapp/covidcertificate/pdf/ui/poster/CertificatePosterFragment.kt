@@ -3,11 +3,10 @@ package de.rki.coronawarnapp.covidcertificate.pdf.ui.poster
 import android.os.Bundle
 import android.print.PrintAttributes
 import android.print.PrintManager
-import android.view.Menu
 import android.view.View
-import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.core.content.getSystemService
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialSharedAxis
@@ -19,6 +18,7 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.ui.print.PrintingAdapter
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.files.FileSharing
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -56,41 +56,22 @@ class CertificatePosterFragment : Fragment(R.layout.certificate_poster_fragment)
 
         with(binding) {
             toolbar.setNavigationOnClickListener { popBackStack() }
-//             TODO: add poster observer here
-//            viewModel.poster.observe(viewLifecycleOwner) { poster ->
-//                bindPoster(poster)
-//                // Avoid creating blank PDF
-//                if (poster.hasImages()) onPosterDrawn()
-//            }
         }
 
-        viewModel.sharingIntent.observe(viewLifecycleOwner) {
+        viewModel.sharingIntent.observe2(this) {
             onShareIntent(it)
         }
 
-        viewModel.error.observe(viewLifecycleOwner) {
+        viewModel.error.observe2(this) {
             it.toErrorDialogBuilder(requireContext()).show()
         }
-    }
 
-    private fun onPosterDrawn() = with(binding.qrCodePoster) {
-        viewTreeObserver.addOnGlobalLayoutListener(
-            object : ViewTreeObserver.OnGlobalLayoutListener {
-                override fun onGlobalLayout() {
-                    viewModel.createPDF(binding.qrCodePoster)
-                    viewTreeObserver.removeOnGlobalLayoutListener(this)
-                }
+        viewModel.uiState.observe2(this) {
+            binding.progressBar.isVisible = it is CertificatePosterViewModel.UiState.InProgress
+            if (it is CertificatePosterViewModel.UiState.Done) {
+                binding.posterImage.setImageBitmap(it.bitmap)
             }
-        )
-        // Request to redraw options menu to enable buttons
-        requireActivity().invalidateOptionsMenu()
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        // TODO: replace true with proper flag
-        menu.findItem(R.id.action_print).isEnabled = true
-        menu.findItem(R.id.action_share).isEnabled = true
-        return super.onPrepareOptionsMenu(menu)
+        }
     }
 
     private fun onShareIntent(fileIntent: FileSharing.FileIntentProvider) {
