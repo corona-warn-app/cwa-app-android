@@ -48,7 +48,7 @@ class CwaUserCard(parent: ViewGroup) :
                 .toString()
             when (delimiter) {
                 "/" -> dateOfBirthFormatted.split("-").run {
-                    listOf(this[1], this[2], this[0])
+                    listOfNotNull(getOrNull(1), getOrNull(2), getOrNull(0))
                 }.joinToString(delimiter)
                 else -> dateOfBirthFormatted.split("-").reversed().joinToString(delimiter)
             }
