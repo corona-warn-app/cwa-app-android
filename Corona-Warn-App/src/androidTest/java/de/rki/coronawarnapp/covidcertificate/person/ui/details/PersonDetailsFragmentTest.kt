@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.details
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -16,7 +15,6 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
-import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
@@ -77,9 +75,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             object : PersonDetailsViewModel.Factory {
                 override fun create(
                     personIdentifierCode: String,
-                    colorShade: PersonColorShade,
-                    containerId: CertificateContainerId?,
-                    savedInstance: SavedStateHandle
+                    colorShade: PersonColorShade
                 ): PersonDetailsViewModel = viewModel
             }
         )
