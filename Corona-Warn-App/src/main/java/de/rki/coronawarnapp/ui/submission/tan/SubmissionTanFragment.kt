@@ -5,6 +5,7 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTanBinding
 import de.rki.coronawarnapp.exception.http.BadRequestException
@@ -71,6 +72,7 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
             }
 
             submissionTanButtonEnter.setOnClickListener {
+                submissionTanButtonEnter.hideKeyboard()
                 viewModel.startTanSubmission()
             }
             submissionTanHeader.headerButtonBack.buttonIcon.setOnClickListener { goBack() }
