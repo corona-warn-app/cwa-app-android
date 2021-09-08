@@ -38,11 +38,14 @@ class LauncherActivity : AppCompatActivity() {
                     this.overridePendingTransition(0, 0)
                     finish()
                 }
-                is LauncherEvent.ShowUpdateDialog -> {
-                    showUpdateNeededDialog(it.updateIntent)
-                }
+                is LauncherEvent.ForceUpdate -> it.forceUpdate(this)
             }
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        vm.onResult(requestCode, resultCode)
     }
 
     private fun showUpdateNeededDialog(intent: Intent) {
