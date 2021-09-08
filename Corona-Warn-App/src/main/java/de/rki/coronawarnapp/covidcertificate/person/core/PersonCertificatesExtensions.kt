@@ -64,27 +64,6 @@ private fun Collection<CwaCovidCertificate>.rule2FindRecentRaCertificate(
 
 /**
  * 3
- * Series-completing Vaccination Certificate > 14 days:
- * Find Vaccination Certificates (i.e. DGC with v[0]) where v[0].dn equal to v[0].sd and the time difference
- * between the time represented by v[0].dt and the current device time is > 14 days, sorted descending by v[0].dt
- * (i.e. latest first).
- * If there is one or more certificates matching these requirements,
- * the first one is returned as a result of the operation.
- */
-private fun Collection<CwaCovidCertificate>.rule3FindRecentLastShot(
-    nowUtc: Instant
-): CwaCovidCertificate? = this
-    .filterIsInstance<VaccinationCertificate>()
-    .filter {
-        with(it.rawCertificate.vaccination) { doseNumber == totalSeriesOfDoses }
-    }
-    .filter {
-        Days.daysBetween(it.rawCertificate.vaccination.vaccinatedOn, nowUtc.toLocalDateUtc()).days > 14
-    }
-    .maxByOrNull { it.rawCertificate.vaccination.vaccinatedOn }
-
-/**
- * 4
  * Recovery Certificate <= 180 days
  * Find Recovery Certificates (i.e. DGC with r[0]) where the time difference between the time
  * represented by r[0].df and the current device time is <= 180 days, sorted descending by r[0].df
@@ -92,7 +71,7 @@ private fun Collection<CwaCovidCertificate>.rule3FindRecentLastShot(
  * If there is one or more certificates matching these requirements,
  * the first one is returned as a result of the operation.
  */
-private fun Collection<CwaCovidCertificate>.rule4findRecentRecovery(
+private fun Collection<CwaCovidCertificate>.rule3findRecentRecovery(
     nowUtc: Instant
 ): CwaCovidCertificate? = this
     .filterIsInstance<RecoveryCertificate>()
@@ -101,23 +80,37 @@ private fun Collection<CwaCovidCertificate>.rule4findRecentRecovery(
     }.maxByOrNull { it.rawCertificate.recovery.validFrom }
 
 /**
- * 5
- * Series-completing Vaccination Certificate <= 14 days
- * Find Vaccination Certificates (i.e. DGC with v[0]) where v[0].dn equal to v[0].sd and the time difference
- * between the time represented by v[0].dt and the current device time is <= 14 days,
- * sorted descending by v[0].dt (i.e. latest first).
+ * 4
+ * Vaccination Certificate <= 14 days
+ * Find Vaccination Certificates (i.e. DGC with v[0]) the time difference between the time represented by v[0].dt
+ * and the current device time is <= 14 days, sorted descending by v[0].dt (i.e. latest first).
  * If there is one or more certificates matching these requirements,
  * the first one is returned as a result of the operation.
  */
-private fun Collection<CwaCovidCertificate>.rule5findTooRecentFinalShot(
+private fun Collection<CwaCovidCertificate>.rule4findTooRecentFinalShot(
     nowUtc: Instant
 ): CwaCovidCertificate? = this
     .filterIsInstance<VaccinationCertificate>()
     .filter {
-        with(it.rawCertificate.vaccination) { doseNumber == totalSeriesOfDoses }
-    }
-    .filter {
         Days.daysBetween(it.rawCertificate.vaccination.vaccinatedOn, nowUtc.toLocalDateUtc()).days <= 14
+    }
+    .maxByOrNull { it.rawCertificate.vaccination.vaccinatedOn }
+
+/**
+ * 5
+ * Vaccination Certificate > 14 days:
+ * Find Vaccination Certificates (i.e. DGC with v[0]) where the time difference between the time represented by v[0].dt
+ * and the current device time is > 14 days, sorted descending by v[0].dt
+ * (i.e. latest first).
+ * If there is one or more certificates matching these requirements,
+ * the first one is returned as a result of the operation.
+ */
+private fun Collection<CwaCovidCertificate>.rule5FindRecentLastShot(
+    nowUtc: Instant
+): CwaCovidCertificate? = this
+    .filterIsInstance<VaccinationCertificate>()
+    .filter {
+        Days.daysBetween(it.rawCertificate.vaccination.vaccinatedOn, nowUtc.toLocalDateUtc()).days > 14
     }
     .maxByOrNull { it.rawCertificate.vaccination.vaccinatedOn }
 
@@ -225,18 +218,18 @@ fun Collection<CwaCovidCertificate>.findHighestPriorityCertificate(
             return@mapNotNull it
         }
 
-        certsForState.rule3FindRecentLastShot(nowUtc)?.let {
-            Timber.d("Rule 3 match (Series-completing Vaccination Certificate > 14 days): %s", it)
+        certsForState.rule3findRecentRecovery(nowUtc)?.let {
+            Timber.d("Rule 3 match (Recovery Certificate <= 180 days): %s", it)
             return@mapNotNull it
         }
 
-        certsForState.rule4findRecentRecovery(nowUtc)?.let {
-            Timber.d("Rule 4 match (Recovery Certificate <= 180 days): %s", it)
+        certsForState.rule4findTooRecentFinalShot(nowUtc)?.let {
+            Timber.d("Rule 4 match (Vaccination Certificate <= 14 days): %s", it)
             return@mapNotNull it
         }
 
-        certsForState.rule5findTooRecentFinalShot(nowUtc)?.let {
-            Timber.d("Rule 5 match (Series-completing Vaccination Certificate <= 14 days): %s", it)
+        certsForState.rule5FindRecentLastShot(nowUtc)?.let {
+            Timber.d("Rule 5 match (Vaccination Certificate > 14 days): %s", it)
             return@mapNotNull it
         }
 

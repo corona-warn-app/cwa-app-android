@@ -107,14 +107,27 @@ class PersonDetailsFragmentTest : BaseUITest() {
         takeScreenshot<PersonDetailsFragment>("not_cwa")
     }
 
+    @Test
+    @Screenshot
+    fun capture_fragment_booster() {
+        every { viewModel.uiState } returns boosterCertificateData()
+        launchFragmentInContainer2<PersonDetailsFragment>(fragmentArgs = args)
+        takeScreenshot<PersonDetailsFragment>("booster")
+
+        onView(withId(R.id.coordinator_layout)).perform(swipeUp())
+        takeScreenshot<PersonDetailsFragment>("booster_2")
+    }
+
     private fun certificateData(isCwa: Boolean = false): LiveData<List<CertificateItem>> = MutableLiveData(
         mutableListOf<CertificateItem>().apply {
             val testCertificate = mockTestCertificate()
             val vaccinationCertificate1 = mockVaccinationCertificate(number = 1, final = false)
             val vaccinationCertificate2 = mockVaccinationCertificate(number = 2, final = true)
+            val vaccinationCertificate3 = mockVaccinationCertificate(number = 3, final = false, booster = true)
             val recoveryCertificate = mockRecoveryCertificate()
             val personCertificates = PersonCertificates(
-                listOf(testCertificate, vaccinationCertificate1, vaccinationCertificate2), isCwaUser = isCwa
+                listOf(testCertificate, vaccinationCertificate1, vaccinationCertificate2, vaccinationCertificate3),
+                isCwaUser = isCwa
             )
 
             add(PersonDetailsQrCard.Item(testCertificate, false) {})
@@ -135,12 +148,43 @@ class PersonDetailsFragmentTest : BaseUITest() {
                     colorShade = PersonColorShade.COLOR_1
                 ) {}
             )
+
+            add(
+                VaccinationCertificateCard.Item(
+                    vaccinationCertificate3,
+                    isCurrentCertificate = false,
+                    status = VaccinatedPerson.Status.IMMUNITY,
+                    colorShade = PersonColorShade.COLOR_1
+                ) {}
+            )
+
             add(TestCertificateCard.Item(testCertificate, isCurrentCertificate = true, PersonColorShade.COLOR_1) {})
             add(
                 RecoveryCertificateCard.Item(
                     recoveryCertificate,
                     isCurrentCertificate = false,
                     PersonColorShade.COLOR_1
+                ) {}
+            )
+        }
+    )
+
+    private fun boosterCertificateData(isCwa: Boolean = false): LiveData<List<CertificateItem>> = MutableLiveData(
+        mutableListOf<CertificateItem>().apply {
+            val vaccinationCertificate1 = mockVaccinationCertificate(number = 3, final = false, booster = true)
+            val personCertificates = PersonCertificates(
+                listOf(vaccinationCertificate1),
+                isCwaUser = isCwa
+            )
+
+            add(PersonDetailsQrCard.Item(vaccinationCertificate1, false) {})
+            add(CwaUserCard.Item(personCertificates) {})
+            add(
+                VaccinationCertificateCard.Item(
+                    vaccinationCertificate1,
+                    isCurrentCertificate = true,
+                    status = VaccinatedPerson.Status.COMPLETE,
+                    colorShade = PersonColorShade.COLOR_1
                 ) {}
             )
         }
@@ -173,7 +217,11 @@ class PersonDetailsFragmentTest : BaseUITest() {
         every { getState() } returns CwaCovidCertificate.State.Valid(headerExpiresAt)
     }
 
-    private fun mockVaccinationCertificate(number: Int = 1, final: Boolean = false): VaccinationCertificate =
+    private fun mockVaccinationCertificate(
+        number: Int = 1,
+        final: Boolean = false,
+        booster: Boolean = false
+    ): VaccinationCertificate =
         mockk<VaccinationCertificate>().apply {
             val localDate = Instant.parse("2021-06-01T11:35:00.000Z").toLocalDateUserTz()
             every { fullName } returns "Andrea Schneider"

@@ -18,6 +18,7 @@ interface VaccinationCertificate : CwaCovidCertificate {
     // To avoid further confusion:
     // vp
     val vaccineTypeName: String
+
     // mp
     val medicalProductName: String
 

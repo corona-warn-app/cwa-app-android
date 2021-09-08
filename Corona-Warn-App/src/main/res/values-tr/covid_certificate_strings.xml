@@ -174,7 +174,7 @@
     <!-- XTXT: Validation start certificate proof -->
     <string name="validation_start_certificate_proof">"COVID sertifikası, AB\'de seyahat için geçerli bir kanıttır."</string>
     <!-- XTXT: Validation start note subtitle -->
-    <string name="validation_start_note_subtitle">"Not"</string>
+    <string name="validation_start_note_subtitle">"Notlar"</string>
     <!-- XTXT: Validation start note point 1 -->
     <string name="validation_start_note_point_1">"Giriş kurallarında değişiklik yapılabileceğini lütfen unutmayın. Bu nedenle, lütfen gideceğiniz ülkeye girmeden kısa bir süre (en fazla 48 saat) önce sertifikayı kontrol edin."</string>
     <!-- XTXT: Validation start note point 2 -->

@@ -16,14 +16,14 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Standardowa nazwa"</item>
-        <item>"Otwórz certyfikat z wyniku testu"</item>
+        <item>"Ostrzegaj w imieniu innych"</item>
+        <item>"Natychmiastowe wyświetlanie statusu szczepień ozdrowieńców"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Poza nazwą w pisowni specyficznej dla kraju każdy certyfikat ma wyświetlaną również nazwę w standardowych znakach łacińskich."</item>
-        <item>"Teraz możesz wywołać swój unijny cyfrowy certyfikat testu na COVID ze swojego wyniku testu, jeśli jest on dostępny."</item>
+        <item>"Jako organizator wydarzenia możesz teraz – na polecenie organów zdrowia publicznego – ostrzegać swoich gości w imieniu osoby, u której zdiagnozowano koronawirusa i która uczestniczyła w wydarzeniu, ale nie zameldowała się w aplikacji Corona- Warn-App."</item>
+        <item>"Aplikacja Corona-Warn-App wyświetla teraz pełną ochronę poszczepienną dla ozdrowieńców bezpośrednio po pierwszym szczepieniu. Dwutygodniowy okres oczekiwania zostaje zniesiony w przypadku wszystkich szczepionek z wyjątkiem Johnson &amp; Johnson."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

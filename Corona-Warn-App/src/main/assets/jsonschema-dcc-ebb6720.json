@@ -123,6 +123,7 @@
         "gnt": {
           "title": "Standardised forename",
           "description": "The forename(s) of the person, transliterated ICAO 9303",
+          "type": "string",
           "__comment": "Special case handling: original pattern check dropped",
           "__pattern": "^[A-Z<]*$",
           "maxLength": 80,

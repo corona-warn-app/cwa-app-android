@@ -142,6 +142,8 @@
     <string name="trace_location_qr_info_qr_code_text">"You can provide the QR code to your guests on your smartphone or as a printed form."</string>
     <!-- XTXT: Text for time sheet icon of qr info screen -->
     <string name="trace_location_qr_info_time_text">"If you want to use a QR code for the long term, you should generate it again each day, outside of your operating hours."</string>
+    <!-- XTXT: Text for warning icon of qr info screen -->
+    <string name="trace_location_qr_info_warn_text">"You can warn your guests on behalf of someone who has been diagnosed with coronavirus and who attended the event, but was not checked in with the Corona-Warn-App."</string>
     <!-- XTXT: Text for I understand button -->
     <string name="acknowledge_button">"Next"</string>
 
@@ -171,6 +173,8 @@
     <string name="trace_location_organizer_list_menu_information_btn">"Information"</string>
     <!-- XBUT: Event organiser qr codes list: menu: remove all button  -->
     <string name="trace_location_organizer_list_menu_remove_all_btn">"Remove All"</string>
+    <!-- XBUT: Event organiser qr codes list: menu: warn guests button  -->
+    <string name="trace_location_organizer_list_menu_warn_guests_btn">"Warn for Others"</string>
 
     <!-- XHED:  Event organiser qr codes list: delete single popup title -->
     <string name="trace_location_organiser_list_delete_single_popup_title">"Do you want to remove the QR code?"</string>
@@ -258,5 +262,65 @@
     <string name="trace_location_checkins_qr_code_invalid_times">"Check-in prevented due to invalid QR code. The responsible party has to generate a new QR code (error code INVALID_TIMESTAMPS)."</string>
     <!-- XTXT: My check-ins: qr code validation wrong cryptographic seed field -->
     <string name="trace_location_checkins_qr_code_invalid_cryptographic_seed">"Check-in prevented due to invalid QR code. The responsible party has to generate a new QR code (error code INVALID_CRYPTO_SEED)."</string>
+
+    <!--  Warn Info Screen -->
+    <!-- XHED: Warn Info Screen: header -->
+    <string name="trace_location_organiser_warn_info_header">"Warn for Others"</string>
+    <!-- XHED: Warn Info Screen: title -->
+    <string name="trace_location_organiser_warn_info_title">"Increased Safety for You and Your Guests"</string>
+    <!-- XTXT: Warn Info Screen: body -->
+    <string name="trace_location_organiser_warn_info_body">"You can warn your guests on behalf of someone who has been diagnosed with coronavirus and who attended the event, but was not checked in with the Corona-Warn-App."</string>
+    <!-- XTXT: Warn Info Screen: guests -->
+    <string name="trace_location_organiser_warn_info_guests">"If someone who did not check in to this event or place is diagnosed with coronavirus later, the guests can be notified if they were in the same room at the same time or up to 30 minutes after the diagnosed person."</string>
+    <!-- XTXT: Warn Info Screen: guests -->
+    <string name="trace_location_organiser_warn_info_authority">"You can only warn your guests on behalf of others if you have been instructed to do so by the public health authorities. They will send you a TAN in this case."</string>
+
+    <!--  Selection List Screen -->
+    <!-- XTXT: Event organiser selection list: no events title  -->
+    <string name="trace_location_organiser_list_no_events_title">"No Events Available"</string>
+    <!-- XTXT: Event organiser selection list: no events subtitle  -->
+    <string name="trace_location_organiser_list_no_events_subtitle">"Scan the QR code of the relevant event again to warn on behalf of others."</string>
+    <!-- XTXT: Event organiser selection list: no events info  -->
+    <string name="trace_location_organiser_list_no_events_info">"Select an event for which you want to warn others on behalf of a person who has been diagnosed with coronavirus."</string>
+    <!-- XTXT: Event organiser selection list: title  -->
+    <string name="trace_location_organiser_list_subtitle">"Select an event for which you want to warn others on behalf of a person who has been diagnosed with coronavirus, or restore a deleted event by scanning the QR code of that event again."</string>
+    <!-- XTXT: Event organiser selection list: qr code scann  -->
+    <string name="trace_location_organiser_qr_code_scan">"Scan QR Code"</string>
+
+    <!--  Warn Duration Screen -->
+    <!-- XHED: Warn Duration Screen: header -->
+    <string name="trace_location_organiser_warn_duration_header">"Warn for Others"</string>
+    <!-- XTXT: Warn Duration Screen: body -->
+    <string name="trace_location_organiser_warn_duration_body">"Specify the length of stay of the person who has been diagnosed with coronavirus, on behalf of whom you want to warn others. You receive this information from the public health authorities."</string>
+    <!-- XTXT: Warn Duration Screen: start hint -->
+    <string name="trace_location_organiser_warn_duration_start_hint">"Start/Arrival"</string>
+    <!-- XTXT: Warn Duration Screen: duration hint -->
+    <string name="trace_location_organiser_warn_duration_duration_hint">"Duration"</string>
+
+    <!--  Warn Tan Screen -->
+    <!-- XHED: Warn Tan Screen: header -->
+    <string name="trace_location_organiser_warn_tan_header">"Warn for Others"</string>
+    <!-- XBUT: Warn Tan Screen: submit button text -->
+    <string name="trace_location_organizer_warn_tan_submit_button">"Send Warning"</string>
+
+    <!--  Thank You Final Screen -->
+    <!-- XHED: Warn Info Screen: header -->
+    <string name="trace_location_organiser_thank_you_header">"Warn for Others"</string>
+    <!-- XHED: Thank You Screen: top text -->
+    <string name="trace_location_organiser_thank_you_title">"Thank you!"</string>
+    <!-- XTXT: Thank You Screen: main text -->
+    <string name="trace_location_organiser_thank_you_body">"Thanks to your support, other people can now be warned and respond appropriately."</string>
+    <!-- XBUT: Thank You Screen: finish button text -->
+    <string name="trace_location_organiser_thank_you_finish_button">"Exit"</string>
+
+    <!--  Organizer submission error texts -->
+    <!-- XTXT: Text key: SUBMISSION_OB_FAILED -->
+    <string name="submission_ob_failed">"An error has occurred. Please contact the technical hotline via App Information -&gt; Technical Hotline."</string>
+    <!-- XTXT: Text key: SUBMISSION_OB_TAN_ERROR -->
+    <string name="submission_ob_tan_error">"Invalid TAN. Please check your entry or contact the organization that sent you the TAN."</string>
+    <!-- XTXT: Text key: SUBMISSION_OB_TRY_AGAIN -->
+    <string name="submission_ob_try_again">"An error occurred. Please try again later or contact the technical hotline via App Information -&gt; Technical Hotline."</string>
+    <!-- XTXT: Text key: SUBMISSION_OB_NO_NETWORK -->
+    <string name="submission_ob_no_network">"Your Internet connection was lost. Please check the connection and try again."</string>
 
 </resources>

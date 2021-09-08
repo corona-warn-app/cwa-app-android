@@ -1024,7 +1024,7 @@
     <!-- XHED: Page headline for negative test result next steps  -->
     <string name="submission_test_result_negative_steps_negative_heading">"Отрицателен резултат"</string>
     <!-- YTXT: Body text for next steps section of test negative result -->
-    <string name="submission_test_result_negative_steps_negative_body">"Вашият лабораторен резултат не потвърждава заразяване с коронавирус SARS-CoV-2.\n\nТрябва да изтриете последния тест, за да можете да регистрирате нов."</string>
+    <string name="submission_test_result_negative_steps_negative_body">"Вашият лабораторен резултат не потвърждава заразяване с коронавирус SARS-CoV-2."</string>
     <!-- XBUT: negative test result : remove the test button -->
     <string name="submission_test_result_negative_remove_test_button">"Изтриване на тест"</string>
     <!-- XHED: Page headline for other warnings screen  -->
@@ -1112,7 +1112,7 @@
     <!-- XHED: Dispatcher text for test center option -->
     <string name="submission_dispatcher_card_test_center">"Търсене на център за тестване"</string>
     <!-- YTXT: Body text for test center dispatcher option -->
-    <string name="submission_dispatcher_card_test_center_text">"Намерете центровете за тестване в близост до вас."</string>
+    <string name="submission_dispatcher_card_test_center_text">"Намерете центровете за тестване в близост до вас. Ще бъдете препратени към външен уебсайт на RKI."</string>
     <!-- XTXT: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#where_can_i_get_tested -->
     <string name="submission_dispatcher_card_test_center_link">"https://www.coronawarn.app/en/faq/#where_can_i_get_tested"</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
@@ -1441,7 +1441,7 @@
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Лица, изпратили предупреждения"</string>
     <!-- XTXT: Explanation screen warned persons text -->
-    <string name="statistics_explanation_warned_persons_text">"Брой потребители, диагностицирани с коронавирус на база на PCR тест, които са предупредили другите потребители чрез приложението"</string>
+    <string name="statistics_explanation_warned_persons_text">"Брой потребители, които са диагностицирани с коронавирус с помощта на PCR тест и са предупредили другите потребители чрез приложението."</string>
     <!-- XHED: Explanation screen local incidence title -->
     <string name="statistics_explanation_local_incidence_title">"7-дневна заболеваемост на местно ниво"</string>
     <!-- XTXT: Explanation screen local incidence text -->

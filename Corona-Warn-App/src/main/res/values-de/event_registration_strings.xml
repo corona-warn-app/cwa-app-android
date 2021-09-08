@@ -143,6 +143,8 @@
     <string name="trace_location_qr_info_qr_code_text">"Stellen Sie den QR-Code Ihren Gästen entweder über Ihr Smartphone oder in ausgedruckter Form zur Verfügung."</string>
     <!-- XTXT: Text for time sheet icon of qr info screen -->
     <string name="trace_location_qr_info_time_text">"Wenn Sie dauerhaft einen QR-Code verwenden, sollten Sie diesen einmal täglich außerhalb der Öffnungszeiten neu erstellen."</string>
+    <!-- XTXT: Text for warning icon of qr info screen -->
+    <string name="trace_location_qr_info_warn_text">"Sie können Ihre Gäste in Vertretung für eine positiv getestete Person warnen, die am Event teilgenommen hat, aber nicht über die Corona-Warn-App eingecheckt war."</string>
     <!-- XTXT: Text for I understand button -->
     <string name="acknowledge_button">"Weiter"</string>
 
@@ -172,6 +174,8 @@
     <string name="trace_location_organizer_list_menu_information_btn">"Informationen"</string>
     <!-- XBUT: Event organiser qr codes list: menu: remove all button  -->
     <string name="trace_location_organizer_list_menu_remove_all_btn">"Alle entfernen"</string>
+    <!-- XBUT: Event organiser qr codes list: menu: warn guests button  -->
+    <string name="trace_location_organizer_list_menu_warn_guests_btn">"In Vertretung warnen"</string>
 
     <!-- XHED:  Event organiser qr codes list: delete single popup title -->
     <string name="trace_location_organiser_list_delete_single_popup_title">"Wollen Sie den QR-Code wirklich entfernen?"</string>
@@ -259,5 +263,65 @@
     <string name="trace_location_checkins_qr_code_invalid_times">"Ungültiger QR-Code verhindert das Einchecken. Die verantwortliche Stelle muss einen neuen QR-Code generieren (Fehlercode INVALID_TIMESTAMPS)."</string>
     <!-- XTXT: My check-ins: qr code validation wrong cryptographic seed field -->
     <string name="trace_location_checkins_qr_code_invalid_cryptographic_seed">"Ungültiger QR-Code verhindert das Einchecken. Die verantwortliche Stelle muss einen neuen QR-Code generieren (Fehlercode INVALID_CRYPTO_SEED)."</string>
+
+    <!--  Warn Info Screen -->
+    <!-- XHED: Warn Info Screen: header -->
+    <string name="trace_location_organiser_warn_info_header">"In Vertretung warnen"</string>
+    <!-- XHED: Warn Info Screen: title -->
+    <string name="trace_location_organiser_warn_info_title">"Mehr Sicherheit für Sie und Ihre Gäste"</string>
+    <!-- XTXT: Warn Info Screen: body -->
+    <string name="trace_location_organiser_warn_info_body">"Sie können Ihre Gäste in Vertretung für eine positiv getestete Person warnen, die am Event teilgenommen hat, aber nicht über die Corona-Warn-App eingecheckt war."</string>
+    <!-- XTXT: Warn Info Screen: guests -->
+    <string name="trace_location_organiser_warn_info_guests">"Wird eine nicht eingecheckte Person später positiv getestet, können die Gäste gewarnt werden, wenn sie sich zur gleichen Zeit oder bis zu 30 Minuten nach der positiv getesteten Person im gleichen Raum aufgehalten haben."</string>
+    <!-- XTXT: Warn Info Screen: guests -->
+    <string name="trace_location_organiser_warn_info_authority">"Nur nach Anweisung des Gesundheitsamtes können Sie Ihre Gäste in Vertretung warnen. Sie bekommen dazu vom Gesundheitsamt eine TAN mitgeteilt."</string>
+
+    <!--  Selection List Screen -->
+    <!-- XTXT: Event organiser selection list: no events title  -->
+    <string name="trace_location_organiser_list_no_events_title">"Keine Events vorhanden"</string>
+    <!-- XTXT: Event organiser selection list: no events subtitle  -->
+    <string name="trace_location_organiser_list_no_events_subtitle">"Scannen Sie den QR-Code eines Events erneut, um andere in Vertretung zu warnen."</string>
+    <!-- XTXT: Event organiser selection list: no events info  -->
+    <string name="trace_location_organiser_list_no_events_info">"Wählen Sie ein Event, für welches Sie in Vertretung einer infizierten Person andere warnen möchten."</string>
+    <!-- XTXT: Event organiser selection list: title  -->
+    <string name="trace_location_organiser_list_subtitle">"Wählen Sie ein Event, für welches Sie in Vertretung einer infizierten Person andere warnen möchten. Oder stellen Sie gelöschte Events wieder her, indem sie den QR-Code des Events erneut einscannen."</string>
+    <!-- XTXT: Event organiser selection list: qr code scann  -->
+    <string name="trace_location_organiser_qr_code_scan">"QR-Code scannen"</string>
+
+    <!--  Warn Duration Screen -->
+    <!-- XHED: Warn Duration Screen: header -->
+    <string name="trace_location_organiser_warn_duration_header">"In Vertretung warnen"</string>
+    <!-- XTXT: Warn Duration Screen: body -->
+    <string name="trace_location_organiser_warn_duration_body">"Geben Sie die Aufenthaltsdauer der positiv getesteten Person an, für die gewarnt werden soll. Diese Information erhalten Sie vom Gesundheitsamt."</string>
+    <!-- XTXT: Warn Duration Screen: start hint -->
+    <string name="trace_location_organiser_warn_duration_start_hint">"Beginn/Ankunft"</string>
+    <!-- XTXT: Warn Duration Screen: duration hint -->
+    <string name="trace_location_organiser_warn_duration_duration_hint">"Dauer"</string>
+
+    <!--  Warn Tan Screen -->
+    <!-- XHED: Warn Tan Screen: header -->
+    <string name="trace_location_organiser_warn_tan_header">"In Vertretung warnen"</string>
+    <!-- XBUT: Warn Tan Screen: submit button text -->
+    <string name="trace_location_organizer_warn_tan_submit_button">Warnung abschicken</string>
+
+    <!--  Thank You Final Screen -->
+    <!-- XHED: Warn Info Screen: header -->
+    <string name="trace_location_organiser_thank_you_header">"In Vertretung warnen"</string>
+    <!-- XHED: Thank You Screen: top text -->
+    <string name="trace_location_organiser_thank_you_title">"Vielen Dank!"</string>
+    <!-- XTXT: Thank You Screen: main text -->
+    <string name="trace_location_organiser_thank_you_body">"Dank Ihrer Mithilfe können andere gewarnt werden und entsprechend reagieren."</string>
+    <!-- XBUT: Thank You Screen: finish button text -->
+    <string name="trace_location_organiser_thank_you_finish_button">"Beenden"</string>
+
+    <!--  Organizer submission error texts -->
+    <!-- XTXT: Text key: SUBMISSION_OB_FAILED -->
+    <string name="submission_ob_failed">Ein Fehler ist aufgetreten. Bitte kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline.</string>
+    <!-- XTXT: Text key: SUBMISSION_OB_TAN_ERROR -->
+    <string name="submission_ob_tan_error">Ungültige TAN. Bitte überprüfen Sie Ihre Eingabe oder kontaktieren Sie die Stelle, die Ihnen die TAN mitgeteilt hat.</string>
+    <!-- XTXT: Text key: SUBMISSION_OB_TRY_AGAIN -->
+    <string name="submission_ob_try_again">Ein Fehler ist aufgetreten. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline.</string>
+    <!-- XTXT: Text key: SUBMISSION_OB_NO_NETWORK -->
+    <string name="submission_ob_no_network">Ihre Internetverbindung wurde unterbrochen. Bitte prüfen Sie die Verbindung und versuchen Sie es erneut.</string>
 
 </resources>

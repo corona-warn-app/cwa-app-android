@@ -114,7 +114,7 @@
             android:id="@+id/debug_log_current_status_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/card"
             android:backgroundTint="@color/colorSurface2"
             android:minHeight="64dp">
@@ -168,7 +168,6 @@
             style="@style/buttonPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:text="@string/debugging_debuglog_action_share_log"
             tools:text="@string/debugging_debuglog_action_share_log" />
 
@@ -177,7 +176,6 @@
             style="@style/buttonPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:text="@string/debugging_debuglog_action_local_log_export"
             tools:text="@string/debugging_debuglog_action_local_log_export" />
 

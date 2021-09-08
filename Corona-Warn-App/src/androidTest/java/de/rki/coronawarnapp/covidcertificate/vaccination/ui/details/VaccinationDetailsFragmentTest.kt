@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.ui.details
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.swipeUp
@@ -64,7 +65,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
     @Screenshot
     @Test
     fun capture_screenshot_immune() {
-        every { vaccinationDetailsViewModel.vaccinationCertificate } returns vaccinationDetailsData(true)
+        every { vaccinationDetailsViewModel.vaccinationCertificate } returns validVaccinationDetailsData(true)
         launchFragmentInContainer2<VaccinationDetailsFragment>(fragmentArgs = args)
         takeScreenshot<VaccinationDetailsFragment>("immune")
         onView(withId(R.id.coordinator_layout)).perform(swipeUp())
@@ -74,16 +75,63 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
     @Screenshot
     @Test
     fun capture_screenshot_incomplete() {
-        every { vaccinationDetailsViewModel.vaccinationCertificate } returns vaccinationDetailsData(false)
+        every { vaccinationDetailsViewModel.vaccinationCertificate } returns validVaccinationDetailsData(false)
         launchFragmentInContainer2<VaccinationDetailsFragment>(fragmentArgs = args)
         takeScreenshot<VaccinationDetailsFragment>("incomplete")
         onView(withId(R.id.coordinator_layout)).perform(swipeUp())
         takeScreenshot<VaccinationDetailsFragment>("incomplete_2")
     }
 
-    private fun vaccinationDetailsData(complete: Boolean): MutableLiveData<VaccinationDetails> {
+    @Screenshot
+    @Test
+    fun capture_screenshot_invalid() {
+        every { vaccinationDetailsViewModel.vaccinationCertificate } returns invalidVaccinationDetailsData()
+        launchFragmentInContainer2<VaccinationDetailsFragment>(fragmentArgs = args)
+        takeScreenshot<VaccinationDetailsFragment>("invalid")
+        onView(withId(R.id.coordinator_layout)).perform(swipeUp())
+        takeScreenshot<VaccinationDetailsFragment>("invalid_2")
+    }
+
+    @Screenshot
+    @Test
+    fun capture_screenshot_expired() {
+        every { vaccinationDetailsViewModel.vaccinationCertificate } returns expiredVaccinationDetailsData()
+        launchFragmentInContainer2<VaccinationDetailsFragment>(fragmentArgs = args)
+        takeScreenshot<VaccinationDetailsFragment>("expired")
+        onView(withId(R.id.coordinator_layout)).perform(swipeUp())
+        takeScreenshot<VaccinationDetailsFragment>("expired_2")
+    }
+
+    private fun validVaccinationDetailsData(complete: Boolean): LiveData<VaccinationDetails> {
+        val vaccinationCertificate = vaccinationCertificate().apply {
+            if (complete) every { doseNumber } returns 2 else every { doseNumber } returns 1
+            every { isValid } returns true
+            every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(21))
+        }
+        return MutableLiveData(VaccinationDetails(vaccinationCertificate, complete))
+    }
+
+    private fun invalidVaccinationDetailsData(): LiveData<VaccinationDetails> {
+        val vaccinationCertificate = vaccinationCertificate().apply {
+            every { doseNumber } returns 2
+            every { isValid } returns false
+            every { getState() } returns CwaCovidCertificate.State.Invalid()
+        }
+        return MutableLiveData(VaccinationDetails(vaccinationCertificate, false))
+    }
+
+    private fun expiredVaccinationDetailsData(): LiveData<VaccinationDetails> {
+        val vaccinationCertificate = vaccinationCertificate().apply {
+            every { doseNumber } returns 2
+            every { isValid } returns false
+            every { getState() } returns CwaCovidCertificate.State.Expired(Instant.now())
+        }
+        return MutableLiveData(VaccinationDetails(vaccinationCertificate, false))
+    }
+
+    private fun vaccinationCertificate(): VaccinationCertificate {
         val formatter = DateTimeFormat.forPattern("dd.MM.yyyy")
-        val mockCertificate = mockk<VaccinationCertificate>().apply {
+        return mockk<VaccinationCertificate>().apply {
             every { fullName } returns "Max Mustermann"
             every { fullNameStandardizedFormatted } returns "MUSTERMANN, MAX"
             every { dateOfBirthFormatted } returns "01.02.1976"
@@ -99,15 +147,8 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
             every { headerExpiresAt } returns Instant.parse("2021-05-16T00:00:00.000Z")
             every { totalSeriesOfDoses } returns 2
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)
-            every { isValid } returns true
-            every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(21))
-            every { fullNameFormatted } returns "Max, Mustermann"
-            if (complete) every { doseNumber } returns 2 else every { doseNumber } returns 1
+            every { fullNameFormatted } returns "Mustermann, Max"
         }
-
-        return MutableLiveData(
-            VaccinationDetails(mockCertificate, complete)
-        )
     }
 
     @After

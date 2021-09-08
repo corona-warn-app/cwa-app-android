@@ -58,8 +58,13 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
         )
 
         newMessage = newMessage.censor(
-            data.certificateCountry,
-            "recovery/certificateCountry"
+            " ${data.certificateCountry} ",
+            " recovery/certificateCountry "
+        )
+
+        newMessage = newMessage.censor(
+            "\"${data.certificateCountry}\"",
+            "\"recovery/certificateCountry\""
         )
 
         newMessage = newMessage.censor(
@@ -117,8 +122,13 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
         )
 
         newMessage = newMessage.censor(
-            vaccinationData.certificateCountry,
-            "vaccination/certificateCountry"
+            " ${vaccinationData.certificateCountry} ",
+            " vaccination/certificateCountry "
+        )
+
+        newMessage = newMessage.censor(
+            "\"${vaccinationData.certificateCountry}\"",
+            "\"vaccination/certificateCountry\""
         )
 
         newMessage = newMessage.censor(
@@ -204,8 +214,13 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
         )
 
         newMessage = newMessage.censor(
-            data.certificateCountry,
-            "test/certificateCountry"
+            " ${data.certificateCountry} ",
+            " test/certificateCountry "
+        )
+
+        newMessage = newMessage.censor(
+            "\"${data.certificateCountry}\"",
+            "\"test/certificateCountry\""
         )
 
         return newMessage

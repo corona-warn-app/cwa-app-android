@@ -51,7 +51,6 @@ class DccV1Parser @Inject constructor(
         checkModeRestrictions(mode).apply {
             // Apply otherwise we risk accidentally accessing the original obj in the outer scope
             require(isSingleCertificate())
-            checkFields()
         }
     } catch (e: InvalidHealthCertificateException) {
         throw e
@@ -96,42 +95,6 @@ class DccV1Parser @Inject constructor(
 
     private fun DccV1.isSingleCertificate(): Boolean {
         return (vaccinations?.size ?: 0) + (tests?.size ?: 0) + (recoveries?.size ?: 0) == 1
-    }
-
-    private fun DccV1.checkFields() {
-        // check for non null (Gson does not enforce it) + not blank & force date parsing
-        require(version.isNotBlank())
-        require(nameData.familyNameStandardized.isNotBlank())
-        dateOfBirthFormatted
-        vaccinations?.forEach {
-            it.vaccinatedOnFormatted
-            it.vaccinatedOn
-            require(it.certificateIssuer.isNotBlank())
-            require(it.certificateCountry.isNotBlank())
-            require(it.marketAuthorizationHolderId.isNotBlank())
-            require(it.medicalProductId.isNotBlank())
-            require(it.targetId.isNotBlank())
-            require(it.doseNumber > 0)
-            require(it.totalSeriesOfDoses > 0)
-        }
-        tests?.forEach {
-            it.sampleCollectedAt
-            require(it.certificateIssuer.isNotBlank())
-            require(it.certificateCountry.isNotBlank())
-            require(it.targetId.isNotBlank())
-            require(it.testResult.isNotBlank())
-            require(it.testType.isNotBlank())
-        }
-        recoveries?.forEach {
-            it.testedPositiveOnFormatted
-            it.validFromFormatted
-            it.validUntilFormatted
-            it.validFrom
-            it.validUntil
-            require(it.certificateIssuer.isNotBlank())
-            require(it.certificateCountry.isNotBlank())
-            require(it.targetId.isNotBlank())
-        }
     }
 
     private fun String.checkSchema(mode: Mode) = when (mode) {

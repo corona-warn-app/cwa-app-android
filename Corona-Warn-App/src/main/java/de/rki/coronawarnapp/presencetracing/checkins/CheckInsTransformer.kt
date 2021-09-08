@@ -88,15 +88,15 @@ class CheckInsTransformer @Inject constructor(
             encryptedCheckIns = encryptedCheckIns
         )
     }
-
-    private fun CheckIn.toUnencryptedCheckIn(riskLevel: Int) =
-        CheckInOuterClass.CheckIn.newBuilder()
-            .setLocationId(traceLocationId.toProtoByteString())
-            .setStartIntervalNumber(checkInStart.derive10MinutesInterval().toInt())
-            .setEndIntervalNumber(checkInEnd.derive10MinutesInterval().toInt())
-            .setTransmissionRiskLevel(riskLevel)
-            .build()
 }
+
+fun CheckIn.toUnencryptedCheckIn(riskLevel: Int): CheckInOuterClass.CheckIn =
+    CheckInOuterClass.CheckIn.newBuilder()
+        .setLocationId(traceLocationId.toProtoByteString())
+        .setStartIntervalNumber(checkInStart.derive10MinutesInterval().toInt())
+        .setEndIntervalNumber(checkInEnd.derive10MinutesInterval().toInt())
+        .setTransmissionRiskLevel(riskLevel)
+        .build()
 
 /**
  * Determine transmission risk level for [CheckIn] bases on its start time.

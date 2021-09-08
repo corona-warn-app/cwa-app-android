@@ -67,37 +67,71 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
     @Screenshot
     @Test
     fun capture_screenshot_recovered() {
-        every { recoveryDetailsViewModel.recoveryCertificate } returns mockCertificate()
+        every { recoveryDetailsViewModel.recoveryCertificate } returns validMockCertificate()
         launchFragmentInContainer2<RecoveryCertificateDetailsFragment>(fragmentArgs = args)
         takeScreenshot<RecoveryCertificateDetailsFragment>("recovered")
         onView(withId(R.id.coordinator_layout)).perform(swipeUp())
         takeScreenshot<RecoveryCertificateDetailsFragment>("recovered_2")
     }
 
-    private fun mockCertificate(): MutableLiveData<RecoveryCertificate> {
-        val mockCertificate = mockk<RecoveryCertificate>().apply {
-            every { fullName } returns "Max Mustermann"
-            every { fullNameStandardizedFormatted } returns "MUSTERMANN, MAX"
-            every { dateOfBirthFormatted } returns "1969-01-08"
-            every { targetDisease } returns "COVID-19"
-            every { testedPositiveOnFormatted } returns "2021-05-24"
-            every { certificateCountry } returns "Deutschland"
-            every { certificateIssuer } returns "Robert-Koch-Institut"
-            every { validFromFormatted } returns "2021-06-07"
-            every { validUntilFormatted } returns "2021-11-10"
-            every { certificateId } returns "05930482748454836478695764787841"
-            every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.recoveryCertificate)
+    @Screenshot
+    @Test
+    fun capture_screenshot_recovered_expired() {
+        every { recoveryDetailsViewModel.recoveryCertificate } returns expiredMockCertificate()
+        launchFragmentInContainer2<RecoveryCertificateDetailsFragment>(fragmentArgs = args)
+        takeScreenshot<RecoveryCertificateDetailsFragment>("recovered_expired")
+        onView(withId(R.id.coordinator_layout)).perform(swipeUp())
+        takeScreenshot<RecoveryCertificateDetailsFragment>("recovered_expired_2")
+    }
+
+    @Screenshot
+    @Test
+    fun capture_screenshot_recovered_invalid() {
+        every { recoveryDetailsViewModel.recoveryCertificate } returns invalidMockCertificate()
+        launchFragmentInContainer2<RecoveryCertificateDetailsFragment>(fragmentArgs = args)
+        takeScreenshot<RecoveryCertificateDetailsFragment>("recovered_invalid")
+        onView(withId(R.id.coordinator_layout)).perform(swipeUp())
+        takeScreenshot<RecoveryCertificateDetailsFragment>("recovered_invalid_2")
+    }
+
+    private fun validMockCertificate() = MutableLiveData(
+        mockCertificate().apply {
             every { isValid } returns true
-            every { validUntil } returns
-                LocalDate.parse("2021-11-10", DateTimeFormat.forPattern("yyyy-MM-dd"))
-
             every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(21))
-
-            every { fullNameFormatted } returns "Max, Mustermann"
-            every { headerExpiresAt } returns Instant.now().plus(21)
         }
+    )
 
-        return MutableLiveData(mockCertificate)
+    private fun invalidMockCertificate() = MutableLiveData(
+        mockCertificate().apply {
+            every { isValid } returns false
+            every { getState() } returns CwaCovidCertificate.State.Invalid()
+        }
+    )
+
+    private fun expiredMockCertificate() = MutableLiveData(
+        mockCertificate().apply {
+            every { isValid } returns false
+            every { getState() } returns CwaCovidCertificate.State.Expired(Instant.now())
+        }
+    )
+
+    private fun mockCertificate() = mockk<RecoveryCertificate>().apply {
+        every { fullName } returns "Max Mustermann"
+        every { fullNameStandardizedFormatted } returns "MUSTERMANN, MAX"
+        every { dateOfBirthFormatted } returns "1969-01-08"
+        every { targetDisease } returns "COVID-19"
+        every { testedPositiveOnFormatted } returns "2021-05-24"
+        every { certificateCountry } returns "Deutschland"
+        every { certificateIssuer } returns "Robert-Koch-Institut"
+        every { validFromFormatted } returns "2021-06-07"
+        every { validUntilFormatted } returns "2021-11-10"
+        every { certificateId } returns "05930482748454836478695764787841"
+        every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.recoveryCertificate)
+        every { validUntil } returns
+            LocalDate.parse("2021-11-10", DateTimeFormat.forPattern("yyyy-MM-dd"))
+
+        every { fullNameFormatted } returns "Mustermann, Max"
+        every { headerExpiresAt } returns Instant.now().plus(21)
     }
 
     @After

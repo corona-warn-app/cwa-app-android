@@ -53,22 +53,41 @@ data class VaccinatedPerson(
     fun getVaccinationStatus(nowUTC: Instant = Instant.now()): Status {
         val daysToImmunity = getDaysUntilImmunity(nowUTC) ?: return Status.INCOMPLETE
 
+        val isImmune = daysToImmunity <= 0 || isFirstVaccinationDoseAfterRecovery() || isBooster()
         return when {
-            daysToImmunity <= 0 -> Status.IMMUNITY
+            isImmune -> Status.IMMUNITY
             else -> Status.COMPLETE
         }
     }
 
     fun getDaysUntilImmunity(nowUTC: Instant = Instant.now()): Int? {
-        val newestFullDose = vaccinationCertificates
-            .filter { it.doseNumber == it.totalSeriesOfDoses }
-            .maxByOrNull { it.vaccinatedOn }
-            ?: return null
-
+        val newestFullDose = getNewestFullDose() ?: return null
         val today = nowUTC
             .toLocalDateUserTz()
 
         return IMMUNITY_WAITING_DAYS - Days.daysBetween(newestFullDose.vaccinatedOn, today).days
+    }
+
+    private fun getNewestFullDose(): VaccinationCertificate? = vaccinationCertificates
+        .filter { it.doseNumber >= it.totalSeriesOfDoses }
+        .maxByOrNull { it.vaccinatedOn }
+
+    private fun isFirstVaccinationDoseAfterRecovery(): Boolean {
+        val vaccinationDetails = getNewestFullDose()?.rawCertificate?.vaccination
+        return when (vaccinationDetails?.medicalProductId) {
+            BIONTECH, ASTRA, MODERNA -> vaccinationDetails.doseNumber == 1
+            else -> false
+        }
+    }
+
+    private fun isBooster(): Boolean {
+        val boosterVaccination = getNewestFullDose()?.rawCertificate?.vaccination
+        return if (boosterVaccination != null) {
+            when (boosterVaccination.medicalProductId) {
+                BIONTECH, ASTRA, MODERNA -> boosterVaccination.doseNumber > 2
+                else -> boosterVaccination.doseNumber > 1
+            }
+        } else false
     }
 
     enum class Status {
@@ -79,5 +98,8 @@ data class VaccinatedPerson(
 
     companion object {
         private const val IMMUNITY_WAITING_DAYS = 15
+        private const val BIONTECH = "EU/1/20/1528"
+        private const val ASTRA = "EU/1/21/1529"
+        private const val MODERNA = "EU/1/20/1507"
     }
 }

@@ -16,14 +16,14 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Standartlaştırılmış Ad"</item>
-        <item>"Test Sonucundan Sertifika Aç"</item>
+        <item>"Diğer Kullanıcılara Uyarı"</item>
+        <item>"İyileşen Kişiler İçin Anlık Aşı Durumu Görüntülemesi"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Artık her bir sertifikada, ülkeye özel yazım biçimindeki ada ek olarak standartlaştırılmış Latin harfleriyle yazımı da görüntülenir."</item>
-        <item>"Sertifika varsa, AB dijital COVID test sertifikanızı doğrudan test sertifikanızdan çekebilirsiniz."</item>
+        <item>"Kamu sağlığı yetkililerince belirtilen durumlarda artık etkinlik organizatörü olarak misafirlerinize, koronavirüs tanısı almış ve etkinliğe katılmış ancak Corona-Warn-App ile check in yapmamış başka kişilerin adına uyarıda bulunabilirsiniz."</item>
+        <item>"Corona-Warn-App artık iyileşen kişiler için doğrudan ilk aşıdan sonra tam aşı koruması ibaresini görüntülemektedir. Johnson &amp; Johnson haricindeki tüm aşılar için iki haftalık bekleme süresi kaldırılmıştır."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

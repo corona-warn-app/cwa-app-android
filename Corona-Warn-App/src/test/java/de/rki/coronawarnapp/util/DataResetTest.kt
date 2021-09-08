@@ -147,7 +147,7 @@ internal class DataResetTest : BaseTest() {
             traceLocationRepository.deleteAllTraceLocations()
             checkInRepository.clear()
             coronaTestRepository.clear()
-            ratProfileSettings.deleteProfile()
+            ratProfileSettings.clear()
             vaccinationRepository.clear()
             covidCertificateSettings.clear()
             valueSetsRepository.clear()
