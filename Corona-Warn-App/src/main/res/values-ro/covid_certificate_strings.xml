@@ -32,6 +32,8 @@
     <string name="certificate_qr_expired">"Certificat expirat"</string>
     <!-- XTXT: Certificate QR code invalid signature-->
     <string name="certificate_qr_invalid_signature">"Certificat (Semnătură) nevalabil(ă)"</string>
+    <!-- XTXT: Certificate badge text -->
+    <string name="certificate_badge_text">"Există noutăți despre certificatele dvs."</string>
 
     <!-- XTXT: Vaccination Consent subtitle-->
     <string name="vaccination_consent_headline">"Adăugarea certificatelor"</string>
@@ -49,6 +51,21 @@
     <string name="vaccination_consent_onboarding_legal_information">"Pentru mai multe informații despre prelucrarea datelor, consultați înștiințarea de confidențialitate."</string>
     <!-- XBUT: Text for vaccination consent accept button -->
     <string name="vaccination_consent_accept_button">"Continuare"</string>
+
+    <!-- XTXT: Vaccination card immunity information: Days since last shot -->
+    <string name="vaccination_days_since_last_shot">"Ultima vaccinare: acum %1$d zi(le)"</string>
+    <!-- XTXT: Vaccination card immunity information card body when immunity is completed -->
+    <string name="vaccination_list_immunity_card_body">"Ați primit toate vaccinările planificate în acest moment. Protecția prin vaccinare este completă."</string>
+    <!-- XTXT: Vaccination card title -->
+    <string name="vaccination_state_title">"Starea vaccinării"</string>
+    <!-- XTXT: Vaccination card booster eligible description -->
+    <string name="vaccination_card_booster_eligible_description">"%1$s (ID regulă: %2$s)."</string>
+    <!-- XTXT: Vaccination card booster eligible FAQ -->
+    <string name="vaccination_card_booster_eligible_faq">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente."</string>
+    <!-- XTXT: Vaccination card booster eligible FAQ Link -->
+    <string name="vaccination_card_booster_eligible_faq_link">"https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-englisch/corona-warn-app-faq-1758636"</string>
+    <!-- XTXT: Vaccination card booster eligible faq link keyword -->
+    <string name="vaccination_card_booster_eligible_faq_link_container">"Întrebări frecvente"</string>
 
 
     <!-- XTXT: Current priority certificate info -->
@@ -132,6 +149,8 @@
     <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#eu_dcc -->
     <string name="error_dcc_already_registered_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc"</string>
 
+    <!-- XTXT: Test Certificate QR code new text-->
+    <string name="test_certificate_qr_new">"Nou"</string>
 
     <!-- #####################################################
     VALIDATION RULES INFO SCREEN STRINGS BELOW
@@ -316,4 +335,37 @@
     <string name="dcc_notification_channel_title">"Certificate"</string>
     <!-- XTXT: certificate notification channel description -->
     <string name="dcc_notification_channel_description">"Gestionare notificări pentru certificate"</string>
+
+    <!-- PDF Export: Not possible dialog -->
+    <!-- XHED: PDF Export: Not possible dialog title -->
+    <string name="certificate_export_error_dialog_title">"Imposibil de afișat versiunea de tipărire"</string>
+    <!-- XHED: PDF Export: Not possible dialog body -->
+    <string name="certificate_export_error_dialog_body">"Versiunea de tipărire a certificatului nu poate fi afișată deoarece certificatul nu a fost emis în Germania"</string>
+    <!-- XBUT: PDF Export: Not possible dialog faq button -->
+    <string name="certificate_export_error_dialog_faq_button">"Întrebări frecvente despre versiunea de tipărire"</string>
+    <!-- XBUT: PDF Export: Not possible dialog faq link -->
+    <string name="certificate_export_error_dialog_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc_export"</string>
+    <!-- XBUT: PDF Export: Not possible dialog ok button -->
+    <string name="certificate_export_error_dialog_ok_button">"OK"</string>
+
+    <!-- PDF Export: Info screen -->
+    <!-- XHED: PDF Export: Info screen title -->
+    <string name="pdf_export_info_title">"Afișare versiune de tipărire"</string>
+    <!-- XACT: PDF Export: Info screen illustration description-->
+    <string name="pdf_export_info_illustration_description">"Versiunea de tipărire a unui certificat este utilizată pentru a crea un document tipărit pentru UE, care poate fi trimis de la smartphone la o imprimantă."</string>
+    <!-- XTXT: PDF Export: Info screen subtitle-->
+    <string name="pdf_export_info_subtitle">"Generarea documentului tipărit pentru UE"</string>
+    <!-- XTXT: PDF Export: Info screen point regarding PDF storage -->
+    <string name="pdf_export_info_point_pdf">"Puteți salva certificatul ca document PDF. Această etapă este voluntară. Dvs. sunteți singura persoană care poate accesa inițial documentul PDF. Apoi puteți decide dacă doriți să îl salvați pe smartphone-ul dvs. sau dacă doriți să îl importați în alte aplicații."</string>
+    <!-- XTXT: PDF Export: Info screen point regarding sensitive information in PDF file -->
+    <string name="pdf_export_info_point_sensitive">"Vă rugăm să rețineți că documentul PDF conține informații sensibile. Vă recomandăm să îl utilizați cu atenție și să îl arătați doar persoanelor în care aveți încredere și care sunt autorizate să verifice certificatul."</string>
+    <!-- XTXT: PDF Export: Info screen point with recommendations -->
+    <string name="pdf_export_info_point_recommendations">"Vă recomandăm să nu publicați documentul PDF, să nu îl transmiteți prin e-mail și să nu îl partajați prin alte aplicații."</string>
+
+    <!-- PDF Export: Error message -->
+    <!-- XHED: PDF Export: Error message title -->
+    <string name="pdf_export_error_title">"Imposibil de afișat versiunea de tipărire"</string>
+    <!-- XHED: PDF Export: Error message body -->
+    <string name="pdf_export_error_message">"Versiunea de tipărire a certificatului nu poate fi afișată deoarece certificatul nu poate fi obținut în acest moment. Încercați din nou mai târziu."</string>
+
 </resources>
