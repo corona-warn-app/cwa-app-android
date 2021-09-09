@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.presencetracing.checkins.qrcode
 import com.google.common.io.BaseEncoding
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.qrcode.scanner.QrCodeExtractor
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.QRCodePayload
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingQRCodeDescriptor.PayloadEncoding
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingQRCodeDescriptorOrBuilder
@@ -13,9 +14,9 @@ import java.net.URI
 import javax.inject.Inject
 
 @Reusable
-class QRCodeUriParser @Inject constructor(
+class CheckInQrCodeExtractor @Inject constructor(
     private val configProvider: AppConfigProvider
-) {
+) : QrCodeExtractor<CheckInQrCode> {
 
     /**
      * Parse [QRCodePayload] from [input]
@@ -82,5 +83,13 @@ class QRCodeUriParser @Inject constructor(
             throw InvalidQrCodePayloadException("Invalid payload - group index is out of bounds")
         }
         return groups
+    }
+
+    override fun canHandle(rawString: String): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun extract(rawString: String): CheckInQrCode {
+        TODO("Not yet implemented")
     }
 }

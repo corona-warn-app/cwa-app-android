@@ -21,7 +21,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource
 import testhelpers.BaseTest
 
 @Suppress("BlockingMethodInNonBlockingContext")
-class QRCodeUriParserTest : BaseTest() {
+class CheckInQrCodeExtractorTest : BaseTest() {
 
     @MockK lateinit var configProvider: AppConfigProvider
 
@@ -42,7 +42,7 @@ class QRCodeUriParserTest : BaseTest() {
         }
     }
 
-    fun createInstance() = QRCodeUriParser(configProvider)
+    fun createInstance() = CheckInQrCodeExtractor(configProvider)
 
     @ParameterizedTest
     @ArgumentsSource(Base64UrlProvider::class)

@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.ui.presencetracing.attendee.scan
 
 import com.journeyapps.barcodescanner.BarcodeResult
-import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QRCodeUriParser
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCodeExtractor
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationVerifier
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.ui.presencetracing.attendee.scan.ScanCheckInQrCodeNavigation.ScanResultNavigation
@@ -26,7 +26,7 @@ import testhelpers.preferences.mockFlowPreference
 class ScanCheckInQrCodeViewModelTest : BaseTest() {
 
     private lateinit var viewModel: ScanCheckInQrCodeViewModel
-    @MockK lateinit var qrCodeUriParser: QRCodeUriParser
+    @MockK lateinit var checkInQrCodeExtractor: CheckInQrCodeExtractor
     @MockK lateinit var cameraSettings: CameraSettings
     @MockK lateinit var traceLocationVerifier: TraceLocationVerifier
 
@@ -34,7 +34,7 @@ class ScanCheckInQrCodeViewModelTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         viewModel = ScanCheckInQrCodeViewModel(
-            qrCodeUriParser,
+            checkInQrCodeExtractor,
             cameraSettings,
             traceLocationVerifier
         )
@@ -57,7 +57,7 @@ class ScanCheckInQrCodeViewModelTest : BaseTest() {
             }
         }
         val qrCodePayload = mockk<TraceLocationOuterClass.QRCodePayload>()
-        coEvery { qrCodeUriParser.getQrCodePayload(any()) } returns qrCodePayload
+        coEvery { checkInQrCodeExtractor.getQrCodePayload(any()) } returns qrCodePayload
         every { traceLocationVerifier.verifyTraceLocation(qrCodePayload) } returns validationPassed
 
         viewModel.onScanResult(mockedResult)

@@ -4,6 +4,7 @@ import com.google.common.io.BaseEncoding
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.bugreporting.censors.submission.RatQrCodeCensor
+import de.rki.coronawarnapp.qrcode.scanner.QrCodeExtractor
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.hashing.isSha256Hash
 import de.rki.coronawarnapp.util.serialization.fromJson

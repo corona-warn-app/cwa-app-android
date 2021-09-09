@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.coronatest.qrcode
 
 import dagger.Reusable
-import de.rki.coronawarnapp.qrcode.scanner.QrCode
+import de.rki.coronawarnapp.qrcode.scanner.QrCodeExtractor
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -22,9 +22,4 @@ class CoronaTestQrCodeValidator @Inject constructor(
     private fun findExtractor(rawString: String): QrCodeExtractor<CoronaTestQRCode>? {
         return extractors.find { it.canHandle(rawString) }
     }
-}
-
-interface QrCodeExtractor<T : QrCode> {
-    fun canHandle(rawString: String): Boolean
-    fun extract(rawString: String): T
 }

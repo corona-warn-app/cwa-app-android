@@ -9,7 +9,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.CheckOutHandler
-import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QRCodeUriParser
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCodeExtractor
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationVerifier
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.ActiveCheckInVH
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CameraPermissionVH
@@ -35,7 +35,7 @@ class CheckInsViewModel @AssistedInject constructor(
     @Assisted private val cleanHistory: Boolean,
     dispatcherProvider: DispatcherProvider,
     @AppScope private val appScope: CoroutineScope,
-    private val qrCodeUriParser: QRCodeUriParser,
+    private val checkInQrCodeExtractor: CheckInQrCodeExtractor,
     private val checkInsRepository: CheckInRepository,
     private val checkOutHandler: CheckOutHandler,
     private val cameraPermissionProvider: CameraPermissionProvider,
@@ -144,7 +144,7 @@ class CheckInsViewModel @AssistedInject constructor(
     private fun verifyUri(uri: String) = launch {
         try {
             Timber.i("uri: $uri")
-            val qrCodePayload = qrCodeUriParser.getQrCodePayload(uri)
+            val qrCodePayload = checkInQrCodeExtractor.getQrCodePayload(uri)
             when (val verifyResult = traceLocationVerifier.verifyTraceLocation(qrCodePayload)) {
                 is TraceLocationVerifier.VerificationResult.Valid -> events.postValue(
                     if (cleanHistory)
