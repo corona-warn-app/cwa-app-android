@@ -1,10 +1,8 @@
 package de.rki.coronawarnapp.ui.launcher
 
-import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
-import com.google.android.play.core.install.model.ActivityResult
 import com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE
 import com.google.android.play.core.install.model.UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
 import com.google.android.play.core.install.model.UpdateAvailability.UPDATE_AVAILABLE
@@ -32,6 +30,7 @@ class LauncherActivityViewModel @AssistedInject constructor(
 
     init {
         launch {
+            Timber.tag(TAG).d("init()")
             val appUpdateInfo = appUpdateManager.getUpdateInfo()
             Timber.tag(TAG).d("appUpdateInfo=%s", appUpdateInfo?.updateAvailability())
             when {
@@ -43,31 +42,31 @@ class LauncherActivityViewModel @AssistedInject constructor(
     }
 
     fun onResume() = launch {
+        Timber.tag(TAG).d("onResume()")
         val appUpdateInfo = appUpdateManager.getUpdateInfo()
+        Timber.tag(TAG).d("appUpdateInfo=%s", appUpdateInfo?.updateAvailability())
         if (appUpdateInfo?.updateAvailability() == DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
             events.postValue(forceUpdateEvent(appUpdateInfo))
         }
     }
 
     fun onResult(requestCode: Int, resultCode: Int) {
+        Timber.tag(TAG).d("onResult(requestCode=$requestCode, resultCode=$resultCode)")
         if (requestCode == UPDATE_CODE) {
-            when (resultCode) {
-                // The user has accepted the update. For immediate updates, this callback might not be called
-                // because the update should already be finished by the time control is given back to your app.
-                RESULT_OK -> {
-                    // TODO
-                }
-
-                // The user has denied or canceled the update.
-                RESULT_CANCELED -> {
-                    // TODO
-                }
-
-                // Some other error prevented either the user from providing consent or the update from proceeding.
-                ActivityResult.RESULT_IN_APP_UPDATE_FAILED -> {
-                    // TODO
-                }
+            if (resultCode != RESULT_OK) {
+                Timber.tag(TAG).d("Update flow failed! Result code: $resultCode")
+                // If the update is cancelled or fails, request to start the update again.
+                events.postValue(LauncherEvent.ShowUpdateDialog)
             }
+        }
+    }
+
+    fun requestUpdate() = launch {
+        Timber.tag(TAG).d("requestUpdate()")
+        val appUpdateInfo = appUpdateManager.getUpdateInfo()
+        Timber.tag(TAG).d("appUpdateInfo=%s", appUpdateInfo?.updateAvailability())
+        if (appUpdateInfo?.updateAvailability() == UPDATE_AVAILABLE) {
+            forceUpdateEvent(appUpdateInfo)
         }
     }
 

@@ -8,4 +8,6 @@ sealed class LauncherEvent {
     data class ForceUpdate(
         val forceUpdate: (Activity) -> Unit
     ) : LauncherEvent()
+
+    object ShowUpdateDialog : LauncherEvent()
 }

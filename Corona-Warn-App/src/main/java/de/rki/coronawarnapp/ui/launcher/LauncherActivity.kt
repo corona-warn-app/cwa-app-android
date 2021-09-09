@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.launcher
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.main.MainActivity
@@ -17,7 +16,7 @@ class LauncherActivity : AppCompatActivity() {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
-    private val vm: LauncherActivityViewModel by cwaViewModels(
+    private val viewModel: LauncherActivityViewModel by cwaViewModels(
         ownerProducer = { viewModelStore },
         factoryProducer = { viewModelFactory }
     )
@@ -26,7 +25,7 @@ class LauncherActivity : AppCompatActivity() {
         AppInjector.setup(this)
         super.onCreate(savedInstanceState)
 
-        vm.events.observe(this) {
+        viewModel.events.observe(this) {
             when (it) {
                 LauncherEvent.GoToOnboarding -> {
                     OnboardingActivity.start(this, intent)
@@ -39,23 +38,22 @@ class LauncherActivity : AppCompatActivity() {
                     finish()
                 }
                 is LauncherEvent.ForceUpdate -> it.forceUpdate(this)
+                LauncherEvent.ShowUpdateDialog -> showUpdateNeededDialog()
             }
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        vm.onResult(requestCode, resultCode)
+        viewModel.onResult(requestCode, resultCode)
     }
 
-    private fun showUpdateNeededDialog(intent: Intent) {
+    private fun showUpdateNeededDialog() {
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.update_dialog_title)
             .setMessage(R.string.update_dialog_message)
             .setCancelable(false)
-            .setPositiveButton(R.string.update_dialog_button) { _, _ ->
-                ContextCompat.startActivity(this, intent, null)
-            }
+            .setPositiveButton(R.string.update_dialog_button) { _, _ -> viewModel.requestUpdate() }
             .show()
     }
 }
