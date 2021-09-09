@@ -72,7 +72,13 @@ class LauncherActivityViewModel @AssistedInject constructor(
 
     private fun forceUpdateEvent(appUpdateInfo: AppUpdateInfo) =
         LauncherEvent.ForceUpdate { activity ->
-            appUpdateManager.startUpdateFlowForResult(appUpdateInfo, IMMEDIATE, activity, UPDATE_CODE)
+            try {
+                appUpdateManager.startUpdateFlowForResult(appUpdateInfo, IMMEDIATE, activity, UPDATE_CODE)
+            } catch (e: Exception) {
+                Timber.tag(TAG).d("startUpdateFlowForResult failed for appUpdateInfo=$appUpdateInfo")
+                Timber.tag(TAG).d("startUpdateFlowForResult - Ask user to try again")
+                events.postValue(LauncherEvent.ShowUpdateDialog)
+            }
         }
 
     private fun isJustInstalledOrUpdated() =
