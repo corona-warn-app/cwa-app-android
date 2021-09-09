@@ -32,7 +32,7 @@ class LauncherActivityViewModel @AssistedInject constructor(
         launch {
             Timber.tag(TAG).d("init()")
             val appUpdateInfo = appUpdateManager.getUpdateInfo()
-            Timber.tag(TAG).d("appUpdateInfo=%s", appUpdateInfo?.updateAvailability())
+            Timber.tag(TAG).d("init - appUpdateInfo=%s", appUpdateInfo?.updateAvailability())
             when {
                 appUpdateInfo?.updateAvailability() == UPDATE_AVAILABLE -> forceUpdateEvent(appUpdateInfo)
                 isJustInstalledOrUpdated() -> LauncherEvent.GoToOnboarding
@@ -44,7 +44,7 @@ class LauncherActivityViewModel @AssistedInject constructor(
     fun onResume() = launch {
         Timber.tag(TAG).d("onResume()")
         val appUpdateInfo = appUpdateManager.getUpdateInfo()
-        Timber.tag(TAG).d("appUpdateInfo=%s", appUpdateInfo?.updateAvailability())
+        Timber.tag(TAG).d("onResume - appUpdateInfo=%s", appUpdateInfo?.updateAvailability())
         if (appUpdateInfo?.updateAvailability() == DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
             events.postValue(forceUpdateEvent(appUpdateInfo))
         }
@@ -64,7 +64,7 @@ class LauncherActivityViewModel @AssistedInject constructor(
     fun requestUpdate() = launch {
         Timber.tag(TAG).d("requestUpdate()")
         val appUpdateInfo = appUpdateManager.getUpdateInfo()
-        Timber.tag(TAG).d("appUpdateInfo=%s", appUpdateInfo?.updateAvailability())
+        Timber.tag(TAG).d("requestUpdate - appUpdateInfo=%s", appUpdateInfo?.updateAvailability())
         if (appUpdateInfo?.updateAvailability() == UPDATE_AVAILABLE) {
             forceUpdateEvent(appUpdateInfo)
         }
