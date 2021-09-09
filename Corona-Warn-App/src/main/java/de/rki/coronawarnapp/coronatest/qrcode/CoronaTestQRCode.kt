@@ -3,12 +3,13 @@ package de.rki.coronawarnapp.coronatest.qrcode
 import android.os.Parcelable
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.qrcode.scanner.QrCode
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
-sealed class CoronaTestQRCode : Parcelable, TestRegistrationRequest {
+sealed class CoronaTestQRCode : Parcelable, TestRegistrationRequest, QrCode {
 
     abstract override val type: CoronaTest.Type
     abstract val registrationIdentifier: String
