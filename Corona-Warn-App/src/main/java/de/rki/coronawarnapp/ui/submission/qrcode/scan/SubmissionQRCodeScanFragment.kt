@@ -52,15 +52,15 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
-            submissionQrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
-                submissionQrCodeScanPreview.setTorch(isChecked)
+            qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
+                qrCodeScanPreview.setTorch(isChecked)
             }
 
-            submissionQrCodeScanToolbar.setNavigationOnClickListener { viewModel.onClosePressed() }
+            qrCodeScanToolbar.setNavigationOnClickListener { viewModel.onClosePressed() }
 
-            submissionQrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
+            qrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
 
-            submissionQrCodeScanViewfinderView.setCameraPreview(submissionQrCodeScanPreview)
+            qrCodeScanViewfinderView.setCameraPreview(qrCodeScanPreview)
         }
 
         viewModel.events.observe2(this) {
@@ -87,9 +87,9 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 
         viewModel.registrationState.observe2(this) { state ->
             if (state is State.Working) {
-                binding.submissionQrCodeScanSpinner.show()
+                binding.qrCodeScanSpinner.show()
             } else {
-                binding.submissionQrCodeScanSpinner.hide()
+                binding.qrCodeScanSpinner.hide()
             }
             when (state) {
                 State.Idle,
@@ -123,7 +123,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
     }
 
     private fun startDecode() {
-        binding.submissionQrCodeScanPreview.decodeSingle {
+        binding.qrCodeScanPreview.decodeSingle {
             viewModel.registerCoronaTest(it.text)
         }
     }
@@ -171,7 +171,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
         binding.submissionQrCodeScanContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
 
         if (CameraPermissionHelper.hasCameraPermission(requireActivity())) {
-            binding.submissionQrCodeScanPreview.resume()
+            binding.qrCodeScanPreview.resume()
             startDecode()
             return
         }
@@ -232,7 +232,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 
     override fun onPause() {
         super.onPause()
-        binding.submissionQrCodeScanPreview.pause()
+        binding.qrCodeScanPreview.pause()
     }
 
     companion object {
