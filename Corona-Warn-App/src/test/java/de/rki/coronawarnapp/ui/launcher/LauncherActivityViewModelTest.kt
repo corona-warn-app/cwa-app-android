@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.launcher
 import android.app.Activity
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.install.model.ActivityResult
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import de.rki.coronawarnapp.environment.BuildConfigWrap
@@ -107,6 +108,55 @@ class LauncherActivityViewModelTest : BaseTest() {
             }
         val vm = createViewModel()
         vm.onResume()
+        (vm.events.value as LauncherEvent.ForceUpdate).apply {
+            forceUpdate(mockk())
+            verify {
+                appUpdateManager.startUpdateFlowForResult(
+                    any(),
+                    AppUpdateType.IMMEDIATE,
+                    any<Activity>(),
+                    any()
+                )
+            }
+        }
+    }
+
+    @Test
+    fun `onResult nothing happens if requestCode is different`() {
+        val vm = createViewModel()
+        vm.onResult(1000, Activity.RESULT_OK)
+        vm.events.value shouldBe LauncherEvent.GoToOnboarding // From initialization
+    }
+
+    @Test
+    fun `onResult nothing happens if resultCode is OK`() {
+        val vm = createViewModel()
+        vm.onResult(LauncherActivityViewModel.UPDATE_CODE, Activity.RESULT_OK)
+        vm.events.value shouldBe LauncherEvent.GoToOnboarding // From initialization
+    }
+
+    @Test
+    fun `onResult ask user to update if resultCode is CANCLED`() {
+        val vm = createViewModel()
+        vm.onResult(LauncherActivityViewModel.UPDATE_CODE, Activity.RESULT_CANCELED)
+        vm.events.value shouldBe LauncherEvent.ShowUpdateDialog
+    }
+
+    @Test
+    fun `onResult ask user to update if resultCode is RESULT_IN_APP_UPDATE_FAILED`() {
+        val vm = createViewModel()
+        vm.onResult(LauncherActivityViewModel.UPDATE_CODE, ActivityResult.RESULT_IN_APP_UPDATE_FAILED)
+        vm.events.value shouldBe LauncherEvent.ShowUpdateDialog
+    }
+
+    @Test
+    fun `request update event triggers update`() {
+        coEvery { appUpdateManager.getUpdateInfo() } returns
+            mockk<AppUpdateInfo>().apply {
+                every { updateAvailability() } returns UpdateAvailability.UPDATE_AVAILABLE
+            }
+        val vm = createViewModel()
+
         (vm.events.value as LauncherEvent.ForceUpdate).apply {
             forceUpdate(mockk())
             verify {

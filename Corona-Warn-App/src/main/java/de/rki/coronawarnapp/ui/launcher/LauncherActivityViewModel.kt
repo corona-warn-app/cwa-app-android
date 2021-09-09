@@ -89,7 +89,7 @@ class LauncherActivityViewModel @AssistedInject constructor(
     interface Factory : SimpleCWAViewModelFactory<LauncherActivityViewModel>
 
     companion object {
-        private const val UPDATE_CODE = 90000
+        const val UPDATE_CODE = 90000
         private val TAG = tag<LauncherActivityViewModel>()
     }
 }
