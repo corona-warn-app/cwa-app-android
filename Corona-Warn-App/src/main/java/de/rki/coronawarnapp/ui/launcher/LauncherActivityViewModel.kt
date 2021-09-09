@@ -52,12 +52,10 @@ class LauncherActivityViewModel @AssistedInject constructor(
 
     fun onResult(requestCode: Int, resultCode: Int) {
         Timber.tag(TAG).d("onResult(requestCode=$requestCode, resultCode=$resultCode)")
-        if (requestCode == UPDATE_CODE) {
-            if (resultCode != RESULT_OK) {
-                Timber.tag(TAG).d("Update flow failed! Result code: $resultCode")
-                // If the update is cancelled or fails, request to start the update again.
-                events.postValue(LauncherEvent.ShowUpdateDialog)
-            }
+        if (requestCode == UPDATE_CODE && resultCode != RESULT_OK) {
+            Timber.tag(TAG).d("Update flow failed! Result code: $resultCode")
+            // If the update is cancelled or fails, request to start the update again.
+            events.postValue(LauncherEvent.ShowUpdateDialog)
         }
     }
 
