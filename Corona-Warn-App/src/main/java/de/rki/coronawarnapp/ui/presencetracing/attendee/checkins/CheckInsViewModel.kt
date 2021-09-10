@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.intervalFlow
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.ui.toLazyString
+import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
@@ -145,13 +146,13 @@ class CheckInsViewModel @AssistedInject constructor(
             Timber.i("uri: $uri")
             val checkInQrCode = checkInQrCodeExtractor.extract(uri)
             when (val verifyResult = checkInQrCodeHandler.handleCheckInQrCode(checkInQrCode.qrCodePayload)) {
-                is CheckInQrCodeHandler.VerificationResult.Result.Valid -> events.postValue(
+                is CheckInQrCodeHandler.Result.Valid -> events.postValue(
                     if (cleanHistory)
                         CheckInEvent.ConfirmCheckInWithoutHistory(verifyResult.verifiedTraceLocation)
                     else
                         CheckInEvent.ConfirmCheckIn(verifyResult.verifiedTraceLocation)
                 )
-                is CheckInQrCodeHandler.VerificationResult.Result.Invalid -> events.postValue(
+                is CheckInQrCodeHandler.Result.Invalid -> events.postValue(
                     CheckInEvent.InvalidQrCode(verifyResult.errorTextRes.toResolvingString())
                 )
             }

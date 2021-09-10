@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCode
 import de.rki.coronawarnapp.qrcode.QrCodeFileParser
+import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
 import de.rki.coronawarnapp.tag
@@ -23,6 +24,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     private val qrCodeValidator: QrCodeValidator,
     private val qrCodeFileParser: QrCodeFileParser,
     private val dccQrCodeHandler: DccQrCodeHandler,
+    private val checkInQrCodeHandler: CheckInQrCodeHandler,
 ) : CWAViewModel(dispatcherProvider) {
 
     val error = SingleLiveEvent<Throwable>()
@@ -49,7 +51,8 @@ class QrCodeScannerViewModel @AssistedInject constructor(
             }
 
             is CheckInQrCode -> {
-                // TODO
+                val result = checkInQrCodeHandler.handleCheckInQrCode(qrCode.qrCodePayload)
+                // TODO navigate or show error based on result
             }
             is DccQrCode -> {
                 val containerId = dccQrCodeHandler.handleDccQrCode(qrCode)

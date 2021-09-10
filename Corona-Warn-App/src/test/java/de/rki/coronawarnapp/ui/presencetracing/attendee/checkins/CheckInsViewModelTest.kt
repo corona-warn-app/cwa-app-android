@@ -222,7 +222,7 @@ class CheckInsViewModelTest : BaseTest() {
             checkInsRepository = checkInsRepository,
             checkOutHandler = checkOutHandler,
             cameraPermissionProvider = cameraPermissionProvider,
-            traceLocationVerifier = checkInQrCodeHandler,
+            checkInQrCodeHandler = checkInQrCodeHandler,
             cleanHistory = false
         )
 
