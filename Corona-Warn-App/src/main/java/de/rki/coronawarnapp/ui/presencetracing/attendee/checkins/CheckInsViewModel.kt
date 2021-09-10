@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.CheckOutHandler
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCodeExtractor
-import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationVerifier
+import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.ActiveCheckInVH
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CameraPermissionVH
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CheckInsItem
@@ -21,7 +21,6 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.intervalFlow
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.ui.toLazyString
-import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
@@ -39,7 +38,7 @@ class CheckInsViewModel @AssistedInject constructor(
     private val checkInsRepository: CheckInRepository,
     private val checkOutHandler: CheckOutHandler,
     private val cameraPermissionProvider: CameraPermissionProvider,
-    private val traceLocationVerifier: TraceLocationVerifier
+    private val checkInQrCodeHandler: CheckInQrCodeHandler
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<CheckInEvent>()
@@ -145,14 +144,14 @@ class CheckInsViewModel @AssistedInject constructor(
         try {
             Timber.i("uri: $uri")
             val checkInQrCode = checkInQrCodeExtractor.extract(uri)
-            when (val verifyResult = traceLocationVerifier.verifyTraceLocation(checkInQrCode.qrCodePayload)) {
-                is TraceLocationVerifier.VerificationResult.Valid -> events.postValue(
+            when (val verifyResult = checkInQrCodeHandler.handleCheckInQrCode(checkInQrCode.qrCodePayload)) {
+                is CheckInQrCodeHandler.VerificationResult.Result.Valid -> events.postValue(
                     if (cleanHistory)
                         CheckInEvent.ConfirmCheckInWithoutHistory(verifyResult.verifiedTraceLocation)
                     else
                         CheckInEvent.ConfirmCheckIn(verifyResult.verifiedTraceLocation)
                 )
-                is TraceLocationVerifier.VerificationResult.Invalid -> events.postValue(
+                is CheckInQrCodeHandler.VerificationResult.Result.Invalid -> events.postValue(
                     CheckInEvent.InvalidQrCode(verifyResult.errorTextRes.toResolvingString())
                 )
             }

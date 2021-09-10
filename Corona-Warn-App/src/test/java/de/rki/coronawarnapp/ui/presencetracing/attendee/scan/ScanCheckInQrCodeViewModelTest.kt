@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.ui.presencetracing.attendee.scan
 import com.journeyapps.barcodescanner.BarcodeResult
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCode
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCodeExtractor
-import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationVerifier
+import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.ui.presencetracing.attendee.scan.ScanCheckInQrCodeNavigation.ScanResultNavigation
 import de.rki.coronawarnapp.util.permission.CameraSettings
@@ -29,7 +29,7 @@ class ScanCheckInQrCodeViewModelTest : BaseTest() {
     private lateinit var viewModel: ScanCheckInQrCodeViewModel
     @MockK lateinit var checkInQrCodeExtractor: CheckInQrCodeExtractor
     @MockK lateinit var cameraSettings: CameraSettings
-    @MockK lateinit var traceLocationVerifier: TraceLocationVerifier
+    @MockK lateinit var checkInQrCodeHandler: CheckInQrCodeHandler
 
     @BeforeEach
     fun setup() {
@@ -37,7 +37,7 @@ class ScanCheckInQrCodeViewModelTest : BaseTest() {
         viewModel = ScanCheckInQrCodeViewModel(
             checkInQrCodeExtractor,
             cameraSettings,
-            traceLocationVerifier
+            checkInQrCodeHandler
         )
     }
 
@@ -51,7 +51,7 @@ class ScanCheckInQrCodeViewModelTest : BaseTest() {
     fun `onScanResult results in navigation url`() = runBlockingTest {
         val codeContent = "https://coronawarn.app/E1/SOME_PATH_GOES_HERE"
         val expectedOutcome: ScanCheckInQrCodeNavigation = ScanResultNavigation(codeContent)
-        val validationPassed = mockk<TraceLocationVerifier.VerificationResult.Valid>()
+        val validationPassed = mockk<CheckInQrCodeHandler.VerificationResult.Result.Valid>()
         val mockedResult = mockk<BarcodeResult> {
             every { result } returns mockk {
                 every { text } returns codeContent
@@ -61,7 +61,7 @@ class ScanCheckInQrCodeViewModelTest : BaseTest() {
         coEvery { checkInQrCodeExtractor.extract(any()) } returns CheckInQrCode(
             qrCodePayload = qrCodePayload
         )
-        every { traceLocationVerifier.verifyTraceLocation(qrCodePayload) } returns validationPassed
+        every { checkInQrCodeHandler.handleCheckInQrCode(qrCodePayload) } returns validationPassed
 
         viewModel.onScanResult(mockedResult)
         viewModel.events.getOrAwaitValue() shouldBe expectedOutcome

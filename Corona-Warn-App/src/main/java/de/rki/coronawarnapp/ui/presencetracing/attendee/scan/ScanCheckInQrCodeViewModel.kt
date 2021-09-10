@@ -4,11 +4,10 @@ import com.journeyapps.barcodescanner.BarcodeResult
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCodeExtractor
-import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationVerifier
+import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.util.permission.CameraSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.ui.toLazyString
-import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import timber.log.Timber
@@ -16,7 +15,7 @@ import timber.log.Timber
 class ScanCheckInQrCodeViewModel @AssistedInject constructor(
     private val checkInQrCodeExtractor: CheckInQrCodeExtractor,
     private val cameraSettings: CameraSettings,
-    private val traceLocationVerifier: TraceLocationVerifier
+    private val checkInQrCodeHandler: CheckInQrCodeHandler
 ) : CWAViewModel() {
     val events = SingleLiveEvent<ScanCheckInQrCodeNavigation>()
 
@@ -28,8 +27,8 @@ class ScanCheckInQrCodeViewModel @AssistedInject constructor(
         try {
             Timber.i("uri: $barcodeResult.result.text")
             val qrCodePayload = checkInQrCodeExtractor.extract(barcodeResult.result.text).qrCodePayload
-            when (val verifyResult = traceLocationVerifier.verifyTraceLocation(qrCodePayload)) {
-                is TraceLocationVerifier.VerificationResult.Invalid ->
+            when (val verifyResult = checkInQrCodeHandler.handleCheckInQrCode(qrCodePayload)) {
+                is CheckInQrCodeHandler.VerificationResult.Result.Invalid ->
                     events.postValue(
                         ScanCheckInQrCodeNavigation.InvalidQrCode(
                             verifyResult.errorTextRes.toResolvingString()

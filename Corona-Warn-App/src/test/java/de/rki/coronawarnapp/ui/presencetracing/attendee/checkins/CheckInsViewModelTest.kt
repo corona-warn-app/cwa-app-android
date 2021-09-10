@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCode
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.InvalidQrCodeDataException
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.InvalidQrCodeUriException
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCodeExtractor
-import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationVerifier
+import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.ActiveCheckInVH
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CameraPermissionVH
@@ -46,7 +46,7 @@ class CheckInsViewModelTest : BaseTest() {
     @MockK lateinit var checkInsRepository: CheckInRepository
     @MockK lateinit var checkOutHandler: CheckOutHandler
     @MockK lateinit var cameraPermissionProvider: CameraPermissionProvider
-    @MockK lateinit var traceLocationVerifier: TraceLocationVerifier
+    @MockK lateinit var checkInQrCodeHandler: CheckInQrCodeHandler
 
     @BeforeEach
     fun setup() {
@@ -54,8 +54,8 @@ class CheckInsViewModelTest : BaseTest() {
         every { savedState.set(any(), any<String>()) } just Runs
         every { checkInsRepository.checkInsWithinRetention } returns flowOf()
         every { cameraPermissionProvider.deniedPermanently } returns flowOf(false)
-        every { traceLocationVerifier.verifyTraceLocation(any()) } returns
-            TraceLocationVerifier.VerificationResult.Valid(mockk())
+        every { checkInQrCodeHandler.handleCheckInQrCode(any()) } returns
+            CheckInQrCodeHandler.Result.Valid(mockk())
     }
 
     @Test
@@ -222,7 +222,7 @@ class CheckInsViewModelTest : BaseTest() {
             checkInsRepository = checkInsRepository,
             checkOutHandler = checkOutHandler,
             cameraPermissionProvider = cameraPermissionProvider,
-            traceLocationVerifier = traceLocationVerifier,
+            traceLocationVerifier = checkInQrCodeHandler,
             cleanHistory = false
         )
 
