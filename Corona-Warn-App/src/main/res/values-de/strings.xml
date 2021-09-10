@@ -942,7 +942,7 @@
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle">"PCR-Test und Schnelltests, Testzertifikate, Impfzertifikate, Genesenenzertifikate und Check-ins."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="qr_code_scan_body">"Positionieren Sie den QR-Code in den Rahmen."</string>
+    <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Sie können Check-ins scannen, um gelöschte Events wiederherzustellen."</string>
     <!-- XBUT: open image file button  -->
     <string name="qr_code_open_file">"Datei öffnen"</string>
 
