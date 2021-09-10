@@ -69,7 +69,6 @@ class DccQrCodeScanFragment :
 
             qrCodeScanToolbar.setNavigationOnClickListener { popBackStack() }
             qrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
-            qrCodeScanViewfinderView.setCameraPreview(binding.qrCodeScanPreview)
             qrCodeScanSpinner.hide()
         }
 
