@@ -30,7 +30,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
 ) : CWAViewModel(dispatcherProvider) {
 
     val error = SingleLiveEvent<Throwable>()
-    val navEvent = SingleLiveEvent<Throwable>()
+    val navEvent = SingleLiveEvent<String>() // TODO Change to event
 
     fun onImportFile(fileUri: Uri) = launch {
         when (val parseResult = qrCodeFileParser.decodeQrCodeFile(fileUri)) {
@@ -46,21 +46,31 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     }
 
     fun onScanResult(rawResult: String) = launch {
-        Timber.tag(TAG).d("onScanResult(rawResult=$rawResult)")
-        when (val qrCode = qrCodeValidator.validate(rawResult)) {
-            is CoronaTestQRCode -> {
-                val submissionEvent = coronaTestQrCodeHandler.handleQrCode(qrCode)
-                // TODO navigate or show error based on result
-            }
+        try {
+            Timber.tag(TAG).d("onScanResult(rawResult=$rawResult)")
+            when (val qrCode = qrCodeValidator.validate(rawResult)) {
+                is CoronaTestQRCode -> {
+                    val submissionEvent = coronaTestQrCodeHandler.handleQrCode(qrCode)
+                    // TODO navigate or show error based on result
+                    Timber.tag(TAG).d("submissionEvent=$submissionEvent")
+                    navEvent.postValue(submissionEvent.toString())
+                }
 
-            is CheckInQrCode -> {
-                val result = checkInQrCodeHandler.handleQrCode(qrCode)
-                // TODO navigate or show error based on result
+                is CheckInQrCode -> {
+                    val result = checkInQrCodeHandler.handleQrCode(qrCode)
+                    // TODO navigate or show error based on result
+                    Timber.tag(TAG).d("result=$result")
+                    navEvent.postValue(result.toString())
+                }
+                is DccQrCode -> {
+                    val containerId = dccQrCodeHandler.handleQrCode(qrCode)
+                    // TODO open certificate details
+                    Timber.tag(TAG).d("containerId=$containerId")
+                    navEvent.postValue(containerId.toString())
+                }
             }
-            is DccQrCode -> {
-                val containerId = dccQrCodeHandler.handleQrCode(qrCode)
-                // TODO open certificate details
-            }
+        } catch (e: Exception) {
+            error.postValue(e)
         }
     }
 
