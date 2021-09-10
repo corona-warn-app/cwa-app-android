@@ -19,7 +19,7 @@ class QrViewfinderView(context: Context, attrs: AttributeSet) : View(context, at
     init {
         context.theme.obtainStyledAttributes(attrs, R.styleable.QrViewfinderView, 0, 0).apply {
             try {
-                paint.color = getColor(R.styleable.QrViewfinderView_maskColor, Color.RED)
+                paint.color = getColor(R.styleable.QrViewfinderView_maskColor, Color.BLACK)
                 maskPosition = getFloat(R.styleable.QrViewfinderView_maskPosition, 0.5f)
                 maskSize = getDimension(R.styleable.QrViewfinderView_maskSize, 300f)
             } finally {

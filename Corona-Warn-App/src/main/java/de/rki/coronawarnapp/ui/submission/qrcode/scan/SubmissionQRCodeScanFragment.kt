@@ -57,10 +57,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_scan_qr_code), A
             }
 
             qrCodeScanToolbar.setNavigationOnClickListener { viewModel.onClosePressed() }
-
             qrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
-
-//            qrCodeScanViewfinderView.setCameraPreview(qrCodeScanPreview)
         }
 
         viewModel.events.observe2(this) {

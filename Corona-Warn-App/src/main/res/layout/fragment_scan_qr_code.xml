@@ -16,15 +16,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:zxing_framing_rect_height="@dimen/scan_qr_code_viewfinder_safe_size"
-        app:zxing_framing_rect_width="@dimen/scan_qr_code_viewfinder_size">
-    </com.journeyapps.barcodescanner.BarcodeView>
+        app:zxing_framing_rect_width="@dimen/scan_qr_code_viewfinder_size" />
 
     <de.rki.coronawarnapp.ui.qrcode.QrViewfinderView
-        app:maskColor = "@color/colorQrCodeScanMask"
-        app:maskSize="@dimen/scan_qr_code_viewfinder_size"
-        app:maskPosition="0.4"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:maskColor="@color/colorQrCodeScanMask"
+        app:maskPosition="0.4"
+        app:maskSize="@dimen/scan_qr_code_viewfinder_size" />
 
     <TextView
         android:id="@+id/qr_code_scan_title"
