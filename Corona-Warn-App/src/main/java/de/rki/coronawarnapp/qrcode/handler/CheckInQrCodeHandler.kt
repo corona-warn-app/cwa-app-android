@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.qrcode.handler
 import androidx.annotation.StringRes
 import dagger.Reusable
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCode
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocation
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.traceLocation
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.QRCodePayload
@@ -12,7 +13,8 @@ import javax.inject.Inject
 class CheckInQrCodeHandler @Inject constructor() {
 
     @Suppress("ReturnCount")
-    fun handleCheckInQrCode(payload: QRCodePayload): Result {
+    fun handleQrCode(qrcode: CheckInQrCode): Result {
+        val payload = qrcode.qrCodePayload
         val traceLocation = payload.traceLocation()
 
         if (traceLocation.description.isEmpty()) return Result.Invalid.Description

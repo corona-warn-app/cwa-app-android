@@ -51,17 +51,16 @@ class ScanCheckInQrCodeViewModelTest : BaseTest() {
     fun `onScanResult results in navigation url`() = runBlockingTest {
         val codeContent = "https://coronawarn.app/E1/SOME_PATH_GOES_HERE"
         val expectedOutcome: ScanCheckInQrCodeNavigation = ScanResultNavigation(codeContent)
-        val validationPassed = mockk<CheckInQrCodeHandler.VerificationResult.Result.Valid>()
+        val validationPassed = mockk<CheckInQrCodeHandler.Result.Valid>()
         val mockedResult = mockk<BarcodeResult> {
             every { result } returns mockk {
                 every { text } returns codeContent
             }
         }
         val qrCodePayload = mockk<TraceLocationOuterClass.QRCodePayload>()
-        coEvery { checkInQrCodeExtractor.extract(any()) } returns CheckInQrCode(
-            qrCodePayload = qrCodePayload
-        )
-        every { checkInQrCodeHandler.handleCheckInQrCode(qrCodePayload) } returns validationPassed
+        val checkInQrCode = CheckInQrCode(qrCodePayload = qrCodePayload)
+        coEvery { checkInQrCodeExtractor.extract(any()) } returns checkInQrCode
+        every { checkInQrCodeHandler.handleQrCode(checkInQrCode) } returns validationPassed
 
         viewModel.onScanResult(mockedResult)
         viewModel.events.getOrAwaitValue() shouldBe expectedOutcome

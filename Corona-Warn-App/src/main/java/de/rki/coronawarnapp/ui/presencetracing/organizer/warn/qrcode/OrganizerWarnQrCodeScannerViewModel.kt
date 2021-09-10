@@ -27,8 +27,8 @@ class OrganizerWarnQrCodeScannerViewModel @AssistedInject constructor(
     fun onScanResult(barcodeResult: BarcodeResult) = launch {
         try {
             Timber.i("uri: ${barcodeResult.result.text}")
-            val qrCodePayload = checkInQrCodeExtractor.extract(barcodeResult.result.text).qrCodePayload
-            when (val result = checkInQrCodeHandler.handleCheckInQrCode(qrCodePayload)) {
+            val checkInQrCode = checkInQrCodeExtractor.extract(barcodeResult.result.text)
+            when (val result = checkInQrCodeHandler.handleQrCode(checkInQrCode)) {
                 is CheckInQrCodeHandler.Result.Invalid -> events.postValue(
                     OrganizerWarnQrCodeNavigation.InvalidQrCode(result.errorTextRes.toResolvingString())
                 )
