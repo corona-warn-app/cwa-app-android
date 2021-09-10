@@ -39,6 +39,11 @@
         <attr name="android:backgroundTint" />
         <attr name="android:foregroundTint" />
     </declare-styleable>
+    <declare-styleable name="QrViewfinderView">
+        <attr name="maskSize" format="dimension" />
+        <attr name="maskPosition" format="float" />
+        <attr name="maskColor" format="color" />
+    </declare-styleable>
 
     <declare-styleable name="MoreInformationView">
         <attr name="isTopDividerVisible" format="boolean" />
