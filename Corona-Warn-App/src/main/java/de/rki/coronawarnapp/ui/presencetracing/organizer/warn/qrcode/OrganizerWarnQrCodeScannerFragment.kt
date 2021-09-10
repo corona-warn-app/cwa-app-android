@@ -41,7 +41,7 @@ class OrganizerWarnQrCodeScannerFragment :
 
             qrCodeScanToolbar.setNavigationOnClickListener { viewModel.onNavigateUp() }
             qrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
-//            qrCodeScanViewfinderView.setCameraPreview(binding.qrCodeScanPreview)
+            qrCodeScanSubtitle.setText(R.string.qr_code_scan_body_subtitle_vertretung_warnen)
         }
 
         viewModel.events.observe2(this) { navEvent ->
