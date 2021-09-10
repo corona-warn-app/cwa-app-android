@@ -51,7 +51,10 @@ class QrCodeScannerViewModel @AssistedInject constructor(
             is CheckInQrCode -> {
                 // TODO
             }
-            is DccQrCode -> dccQrCodeHandler.handleDccQrCode(qrCode)
+            is DccQrCode -> {
+                val containerId = dccQrCodeHandler.handleDccQrCode(qrCode)
+                // TODO open certificate details
+            }
         }
     }
 
