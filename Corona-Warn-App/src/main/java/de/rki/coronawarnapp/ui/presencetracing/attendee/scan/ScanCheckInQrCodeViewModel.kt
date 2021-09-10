@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.util.permission.CameraSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.ui.toLazyString
+import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import timber.log.Timber
@@ -27,14 +28,13 @@ class ScanCheckInQrCodeViewModel @AssistedInject constructor(
         try {
             Timber.i("uri: $barcodeResult.result.text")
             val qrCodePayload = checkInQrCodeExtractor.extract(barcodeResult.result.text).qrCodePayload
-            when (val verifyResult = checkInQrCodeHandler.handleCheckInQrCode(qrCodePayload)) {
-                is CheckInQrCodeHandler.VerificationResult.Result.Invalid ->
-                    events.postValue(
-                        ScanCheckInQrCodeNavigation.InvalidQrCode(
-                            verifyResult.errorTextRes.toResolvingString()
-                        )
-                    )
-                else -> events.postValue(ScanCheckInQrCodeNavigation.ScanResultNavigation(barcodeResult.result.text))
+            when (val result = checkInQrCodeHandler.handleCheckInQrCode(qrCodePayload)) {
+                is CheckInQrCodeHandler.Result.Invalid -> events.postValue(
+                    ScanCheckInQrCodeNavigation.InvalidQrCode(result.errorTextRes.toResolvingString())
+                )
+                else -> events.postValue(
+                    ScanCheckInQrCodeNavigation.ScanResultNavigation(barcodeResult.result.text)
+                )
             }
         } catch (e: Exception) {
             Timber.d(e, "TraceLocation verification failed")
