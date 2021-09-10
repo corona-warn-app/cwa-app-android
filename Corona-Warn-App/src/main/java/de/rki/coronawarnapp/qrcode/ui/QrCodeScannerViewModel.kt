@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.submission.qrcode.scan.SubmissionQRCodeScanViewModel
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.permission.CameraSettings
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import timber.log.Timber
@@ -24,6 +25,9 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     private val qrCodeFileParser: QrCodeFileParser,
     private val dccQrCodeHandler: DccQrCodeHandler,
 ) : CWAViewModel(dispatcherProvider) {
+
+    val error = SingleLiveEvent<Throwable>()
+    val navEvent = SingleLiveEvent<Throwable>()
 
     fun onImportFile(fileUri: Uri) = launch {
         when (val parseResult = qrCodeFileParser.decodeQrCodeFile(fileUri)) {
@@ -58,7 +62,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     }
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<SubmissionQRCodeScanViewModel>
+    interface Factory : SimpleCWAViewModelFactory<QrCodeScannerViewModel>
 
     companion object {
         private val TAG = tag<QrCodeScannerViewModel>()
