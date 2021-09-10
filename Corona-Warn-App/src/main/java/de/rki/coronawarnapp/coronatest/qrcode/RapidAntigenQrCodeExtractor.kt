@@ -16,11 +16,11 @@ import javax.inject.Inject
 
 class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<CoronaTestQRCode> {
 
-    override fun canHandle(rawString: String): Boolean {
+    override suspend fun canHandle(rawString: String): Boolean {
         return rawString.startsWith(PREFIX1, ignoreCase = true) || rawString.startsWith(PREFIX2, ignoreCase = true)
     }
 
-    override fun extract(rawString: String): CoronaTestQRCode.RapidAntigen {
+    override suspend fun extract(rawString: String): CoronaTestQRCode.RapidAntigen {
         Timber.v("extract(rawString=%s)", rawString)
         val payload = CleanPayload(extractData(rawString))
 

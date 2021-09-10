@@ -12,14 +12,14 @@ class CoronaTestQrCodeValidator @Inject constructor(
 ) {
     private val extractors = setOf(raExtractor, pcrExtractor)
 
-    fun validate(rawString: String): CoronaTestQRCode {
+    suspend fun validate(rawString: String): CoronaTestQRCode {
         return findExtractor(rawString)
             ?.extract(rawString)
             ?.also { Timber.i("Extracted data from QR code is %s", it) }
             ?: throw InvalidQRCodeException()
     }
 
-    private fun findExtractor(rawString: String): QrCodeExtractor<CoronaTestQRCode>? {
+    private suspend fun findExtractor(rawString: String): QrCodeExtractor<CoronaTestQRCode>? {
         return extractors.find { it.canHandle(rawString) }
     }
 }

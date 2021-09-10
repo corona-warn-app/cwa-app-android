@@ -42,17 +42,17 @@ class DccQrCodeExtractor @Inject constructor(
     private val bodyParser: DccV1Parser,
 ) : QrCodeExtractor<DccQrCode> {
 
-    override fun canHandle(rawString: String): Boolean = rawString.startsWith(PREFIX)
+    override suspend fun canHandle(rawString: String): Boolean = rawString.startsWith(PREFIX)
 
     /**
      * May throw an **[InvalidHealthCertificateException]**
      */
-    override fun extract(rawString: String): DccQrCode = extract(rawString, CERT_SINGLE_STRICT)
+    override suspend fun extract(rawString: String): DccQrCode = extract(rawString, CERT_SINGLE_STRICT)
 
     /**
      * May throw an **[InvalidHealthCertificateException]**
      */
-    fun extractEncrypted(
+    suspend fun extractEncrypted(
         decryptionKey: ByteArray,
         rawCoseObjectEncrypted: ByteArray,
     ): DccQrCode {

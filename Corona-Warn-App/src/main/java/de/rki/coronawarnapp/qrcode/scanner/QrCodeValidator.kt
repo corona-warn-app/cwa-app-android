@@ -31,14 +31,14 @@ class QrCodeValidator @Inject constructor(
     /**
      * @throws [UnsupportedQrCodeException], [InvalidHealthCertificateException], [InvalidQRCodeException]
      */
-    fun validate(rawString: String): QrCode {
+    suspend fun validate(rawString: String): QrCode {
         return findExtractor(rawString)
             ?.extract(rawString)
             ?.also { Timber.i("Extracted data from QR code is %s", it) }
             ?: throw UnsupportedQrCodeException()
     }
 
-    private fun findExtractor(rawString: String): QrCodeExtractor<*>? {
+    private suspend fun findExtractor(rawString: String): QrCodeExtractor<*>? {
         return extractors.find { it.canHandle(rawString) }
     }
 }

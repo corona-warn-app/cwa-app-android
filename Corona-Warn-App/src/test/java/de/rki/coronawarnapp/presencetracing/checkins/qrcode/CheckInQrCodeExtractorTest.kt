@@ -51,9 +51,9 @@ class CheckInQrCodeExtractorTest : BaseTest() {
         expectedPayload: QRCodePayload,
         expectedVendorData: CWALocationData
     ) = runBlockingTest {
-        val qrCodePayload = createInstance().getQrCodePayload(input)
-        qrCodePayload shouldBe expectedPayload
-        CWALocationData.parseFrom(qrCodePayload.vendorData) shouldBe expectedVendorData
+        val checkInQrCode = createInstance().extract(input)
+        checkInQrCode shouldBe expectedPayload
+        CWALocationData.parseFrom(checkInQrCode.qrCodePayload.vendorData) shouldBe expectedVendorData
     }
 
     @ParameterizedTest
@@ -76,16 +76,16 @@ class CheckInQrCodeExtractorTest : BaseTest() {
             )
         }
 
-        val qrCodePayload = createInstance().getQrCodePayload(input)
-        qrCodePayload shouldBe expectedPayload
-        CWALocationData.parseFrom(qrCodePayload.vendorData) shouldBe expectedVendorData
+        val checkInQrCode = createInstance().extract(input)
+        checkInQrCode shouldBe expectedPayload
+        CWALocationData.parseFrom(checkInQrCode.qrCodePayload.vendorData) shouldBe expectedVendorData
     }
 
     @ParameterizedTest
     @ArgumentsSource(InvalidUrlProvider::class)
     fun `Invalid URLs`(input: String) = runBlockingTest {
         shouldThrow<InvalidQrCodeUriException> {
-            createInstance().getQrCodePayload(input)
+            createInstance().extract(input)
         }
     }
 }

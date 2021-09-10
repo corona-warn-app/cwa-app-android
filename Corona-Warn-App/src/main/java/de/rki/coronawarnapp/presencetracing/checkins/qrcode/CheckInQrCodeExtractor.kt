@@ -7,10 +7,10 @@ import de.rki.coronawarnapp.qrcode.scanner.QrCodeExtractor
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.QRCodePayload
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingQRCodeDescriptor.PayloadEncoding
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingQRCodeDescriptorOrBuilder
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.encoding.decodeBase32
 import okio.ByteString.Companion.toByteString
 import timber.log.Timber
-import java.net.URI
 import javax.inject.Inject
 
 @Reusable
@@ -18,31 +18,24 @@ class CheckInQrCodeExtractor @Inject constructor(
     private val configProvider: AppConfigProvider
 ) : QrCodeExtractor<CheckInQrCode> {
 
-    /**
-     * Parse [QRCodePayload] from [input]
-     *
-     * @throws [Exception] such as [QRCodeException],
-     * exceptions from [URI.create]
-     * and possible decoding exceptions
-     */
+    override suspend fun canHandle(rawString: String): Boolean {
+        return descriptor(rawString) != null
+    }
+
     @Suppress("BlockingMethodInNonBlockingContext")
-    suspend fun getQrCodePayload(input: String): QRCodePayload {
-        Timber.d("input=$input")
-        try {
-            URI.create(input) // Verify it is a valid uri
-        } catch (e: Exception) {
-            Timber.d(e, "Invalid URI")
-            throw InvalidQrCodeUriException("Invalid URI", e)
+    override suspend fun extract(rawString: String): CheckInQrCode {
+        val descriptor = descriptor(rawString)
+        if (descriptor == null) {
+            Timber.tag(TAG).d("Invalid URI - no matchedDescriptor")
+            throw InvalidQrCodeUriException("Invalid URI - no matchedDescriptor")
         }
 
-        val descriptor = descriptor(input)
-        val groups = descriptor.matchedGroups(input)
-
+        val groups = descriptor.matchedGroups(rawString)
         val payload = groups[descriptor.encodedPayloadGroupIndex]
-        Timber.d("payload=$payload")
+        Timber.tag(TAG).d("payload=$payload")
 
         val encoding = PayloadEncoding.forNumber(descriptor.payloadEncoding.number)
-        Timber.d("encoding=$encoding")
+        Timber.tag(TAG).d("encoding=$encoding")
 
         val rawPayload = try {
             when (encoding) {
@@ -51,22 +44,20 @@ class CheckInQrCodeExtractor @Inject constructor(
                 else -> null
             }
         } catch (e: Exception) {
-            Timber.d(e, "Payload decoding failed")
+            Timber.tag(TAG).d(e, "Payload decoding failed")
             null
         } ?: throw InvalidQrCodeDataException("Payload decoding failed")
 
-        return QRCodePayload.parseFrom(rawPayload.toByteArray())
+        return CheckInQrCode(
+            qrCodePayload = QRCodePayload.parseFrom(rawPayload.toByteArray())
+        )
     }
 
-    private suspend fun descriptor(input: String): PresenceTracingQRCodeDescriptorOrBuilder {
+    private suspend fun descriptor(input: String): PresenceTracingQRCodeDescriptorOrBuilder? {
         val descriptors = configProvider.getAppConfig().presenceTracing.qrCodeDescriptors
-        Timber.d("descriptors=$descriptors")
+        Timber.tag(TAG).d("descriptors=$descriptors")
         val descriptor = descriptors.find { it.regexPattern.toRegex(RegexOption.IGNORE_CASE).matches(input) }
-        if (descriptor == null) {
-            Timber.d("Invalid URI - no matchedDescriptor")
-            throw InvalidQrCodeUriException("Invalid URI - no matchedDescriptor")
-        }
-        Timber.d("descriptor=$descriptor")
+        Timber.tag(TAG).d("descriptor=$descriptor")
         return descriptor
     }
 
@@ -76,20 +67,16 @@ class CheckInQrCodeExtractor @Inject constructor(
         val groups = regexPattern
             .toRegex(RegexOption.IGNORE_CASE).find(input) // Find matched result [MatchResult]
             ?.destructured?.toList().orEmpty() // Destructured groups - excluding the zeroth group (Whole String)
-        Timber.d("groups=$groups")
+        Timber.tag(TAG).d("groups=$groups")
 
         if (encodedPayloadGroupIndex !in groups.indices) {
-            Timber.d("Invalid payload - group index is out of bounds")
+            Timber.tag(TAG).d("Invalid payload - group index is out of bounds")
             throw InvalidQrCodePayloadException("Invalid payload - group index is out of bounds")
         }
         return groups
     }
 
-    override fun canHandle(rawString: String): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override fun extract(rawString: String): CheckInQrCode {
-        TODO("Not yet implemented")
+    companion object {
+        private val TAG = tag<CheckInQrCodeExtractor>()
     }
 }
