@@ -24,7 +24,7 @@ class DccQrCodeHandler @Inject constructor(
      * Saves [DccQrCode] in the respective repository after validating the signature
      * throws [InvalidHealthCertificateException]
      */
-    suspend fun handleDccQrCode(dccQrCode: DccQrCode): CertificateContainerId {
+    suspend fun handleQrCode(dccQrCode: DccQrCode): CertificateContainerId {
         dscSignatureValidator.validateSignature(dccData = dccQrCode.data)
         return when (dccQrCode) {
             is RecoveryCertificateQRCode -> recoveryCertificateRepository.registerCertificate(dccQrCode).containerId

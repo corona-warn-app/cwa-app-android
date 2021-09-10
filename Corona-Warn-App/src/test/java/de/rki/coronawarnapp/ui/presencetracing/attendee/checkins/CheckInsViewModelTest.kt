@@ -54,7 +54,7 @@ class CheckInsViewModelTest : BaseTest() {
         every { savedState.set(any(), any<String>()) } just Runs
         every { checkInsRepository.checkInsWithinRetention } returns flowOf()
         every { cameraPermissionProvider.deniedPermanently } returns flowOf(false)
-        every { checkInQrCodeHandler.handleCheckInQrCode(any()) } returns
+        every { checkInQrCodeHandler.handleQrCode(any()) } returns
             CheckInQrCodeHandler.Result.Valid(mockk())
     }
 

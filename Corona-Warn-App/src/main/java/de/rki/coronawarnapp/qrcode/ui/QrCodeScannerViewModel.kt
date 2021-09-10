@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCode
 import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
+import de.rki.coronawarnapp.qrcode.handler.CoronaTestQrCodeHandler
 import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
 import de.rki.coronawarnapp.tag
@@ -25,6 +26,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     private val qrCodeFileParser: QrCodeFileParser,
     private val dccQrCodeHandler: DccQrCodeHandler,
     private val checkInQrCodeHandler: CheckInQrCodeHandler,
+    private val coronaTestQrCodeHandler: CoronaTestQrCodeHandler,
 ) : CWAViewModel(dispatcherProvider) {
 
     val error = SingleLiveEvent<Throwable>()
@@ -47,15 +49,16 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         Timber.tag(TAG).d("onScanResult(rawResult=$rawResult)")
         when (val qrCode = qrCodeValidator.validate(rawResult)) {
             is CoronaTestQRCode -> {
+                coronaTestQrCodeHandler.handleQrCode(qrCode)
                 // TODO
             }
 
             is CheckInQrCode -> {
-                val result = checkInQrCodeHandler.handleCheckInQrCode(qrCode.qrCodePayload)
+                val result = checkInQrCodeHandler.handleQrCode(qrCode)
                 // TODO navigate or show error based on result
             }
             is DccQrCode -> {
-                val containerId = dccQrCodeHandler.handleDccQrCode(qrCode)
+                val containerId = dccQrCodeHandler.handleQrCode(qrCode)
                 // TODO open certificate details
             }
         }

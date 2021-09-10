@@ -15,18 +15,18 @@ class CheckInQrCodeHandlerTest : BaseTest() {
     fun `Valid QR Codes`(
         protoQrCodePayload: TraceLocationOuterClass.QRCodePayload
     ) {
-        val validationResult = createInstance().handleCheckInQrCode(protoQrCodePayload)
+        val validationResult = createInstance().handleQrCode(CheckInQrCode(protoQrCodePayload))
 
-        (validationResult is CheckInQrCodeHandler.VerificationResult.Result.Valid) shouldBe true
+        (validationResult is CheckInQrCodeHandler.Result.Valid) shouldBe true
     }
 
     @ParameterizedTest
     @ArgumentsSource(InvalidQRCodeProvider::class)
     fun `Invalid QR Codes`(
         protoQrCodePayload: TraceLocationOuterClass.QRCodePayload,
-        expectedFailure: CheckInQrCodeHandler.VerificationResult.Result.Invalid
+        expectedFailure: CheckInQrCodeHandler.Result.Invalid
     ) {
-        val validationResult = createInstance().handleCheckInQrCode(protoQrCodePayload)
+        val validationResult = createInstance().handleQrCode(CheckInQrCode(protoQrCodePayload))
 
         validationResult shouldBe expectedFailure
     }
