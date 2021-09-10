@@ -5,11 +5,14 @@ import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents.NavigateToDuplicateWarningFragment
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents.NavigateToRequestDccFragment
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents.RegisterTestResult
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class CoronaTestQrCodeHandler @Inject constructor(
-    private val registrationStateProcessor: TestRegistrationStateProcessor,
+    private val registrationProcessor: TestRegistrationStateProcessor,
     private val submissionRepository: SubmissionRepository
 ) {
 
@@ -19,19 +22,11 @@ class CoronaTestQrCodeHandler @Inject constructor(
     suspend fun handleQrCode(qrcode: CoronaTestQRCode): SubmissionNavigationEvents {
         val coronaTest = submissionRepository.testForType(qrcode.type).first()
         return when {
-            coronaTest != null -> SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode(
-                coronaTestQRCode = qrcode,
-                consentGiven = false
-            )
+            coronaTest != null -> NavigateToDuplicateWarningFragment(qrcode, consentGiven = false)
             else -> if (!qrcode.isDccSupportedByPoc) {
-                val state = registrationStateProcessor.registerCoronaTest(
-                    request = qrcode,
-                    isSubmissionConsentGiven = false,
-                    allowReplacement = false
-                )
-                SubmissionNavigationEvents.RegisterTestResult(state)
+                RegisterTestResult(state = registrationProcessor.registerCoronaTest(qrcode))
             } else {
-                SubmissionNavigationEvents.NavigateToRequestDccFragment(qrcode, false)
+                NavigateToRequestDccFragment(qrcode, false)
             }
         }
     }

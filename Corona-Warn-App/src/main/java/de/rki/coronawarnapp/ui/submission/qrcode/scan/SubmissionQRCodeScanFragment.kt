@@ -62,7 +62,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_qrcode_scanner),
 
         viewModel.events.observe2(this) {
             when (it) {
-                is SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode -> {
+                is SubmissionNavigationEvents.NavigateToDuplicateWarningFragment -> {
                     NavGraphDirections
                         .actionToSubmissionDeletionWarningFragment(
                             testRegistrationRequest = it.coronaTestQRCode,
