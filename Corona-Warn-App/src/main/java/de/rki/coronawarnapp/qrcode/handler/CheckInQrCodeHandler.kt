@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCode
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocation
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.traceLocation
-import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.QRCodePayload
 import javax.inject.Inject
 
 @Reusable
