@@ -11,31 +11,27 @@ import javax.inject.Inject
 @Reusable
 class CheckInQrCodeHandler @Inject constructor() {
 
-    @Suppress("ReturnCount")
     fun handleQrCode(qrcode: CheckInQrCode): Result {
         val payload = qrcode.qrCodePayload
-        val traceLocation = payload.traceLocation()
-
-        if (traceLocation.description.isEmpty()) return Result.Invalid.Description
-        if (traceLocation.description.length > QR_CODE_DESCRIPTION_MAX_LENGTH) return Result.Invalid.Description
-        if (traceLocation.description.lines().size > 1) return Result.Invalid.Description
-        if (traceLocation.address.isEmpty()) return Result.Invalid.Address
-        if (traceLocation.address.length > QR_CODE_ADDRESS_MAX_LENGTH) return Result.Invalid.Address
-        if (traceLocation.address.lines().size > 1) return Result.Invalid.Address
-
-        // If both are 0 do nothing else check start is smaller than end or return error
+        val location = payload.traceLocation()
         val locationData = payload.locationData
-        if (!(locationData.startTimestamp == 0L && locationData.endTimestamp == 0L) &&
-            locationData.startTimestamp > locationData.endTimestamp
-        ) {
-            return Result.Invalid.StartEndTime
-        }
+        return when {
+            location.description.isEmpty() ||
+                location.description.length > DESCRIPTION_MAX_LENGTH ||
+                location.description.lines().size > 1 -> Result.Invalid.Description
 
-        if (traceLocation.cryptographicSeed.size != CROWD_NOTIFIER_CRYPTO_SEED_LENGTH) {
-            return Result.Invalid.CryptographicSeed
-        }
+            location.address.isEmpty() ||
+                location.address.length > ADDRESS_MAX_LENGTH ||
+                location.address.lines().size > 1 -> Result.Invalid.Address
 
-        return Result.Valid(VerifiedTraceLocation(payload))
+            // If both are 0 do nothing else check start is smaller than end or return error
+            !(locationData.startTimestamp == 0L && locationData.endTimestamp == 0L) &&
+                locationData.startTimestamp > locationData.endTimestamp -> Result.Invalid.StartEndTime
+
+            location.cryptographicSeed.size != CRYPTO_SEED_LENGTH -> Result.Invalid.CryptographicSeed
+
+            else -> Result.Valid(VerifiedTraceLocation(payload))
+        }
     }
 
     sealed class Result {
@@ -51,8 +47,8 @@ class CheckInQrCodeHandler @Inject constructor() {
     }
 
     companion object {
-        private const val CROWD_NOTIFIER_CRYPTO_SEED_LENGTH = 16
-        private const val QR_CODE_DESCRIPTION_MAX_LENGTH = 100
-        private const val QR_CODE_ADDRESS_MAX_LENGTH = 100
+        private const val CRYPTO_SEED_LENGTH = 16
+        private const val DESCRIPTION_MAX_LENGTH = 100
+        private const val ADDRESS_MAX_LENGTH = 100
     }
 }
