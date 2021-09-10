@@ -374,7 +374,7 @@
         android:id="@+id/submissionQRCodeScanFragment"
         android:name="de.rki.coronawarnapp.ui.submission.qrcode.scan.SubmissionQRCodeScanFragment"
         android:label="SubmissionQRCodeScanFragment"
-        tools:layout="@layout/fragment_submission_qr_code_scan">
+        tools:layout="@layout/fragment_scan_qr_code">
         <argument
             android:name="isConsentGiven"
             android:defaultValue="false"
