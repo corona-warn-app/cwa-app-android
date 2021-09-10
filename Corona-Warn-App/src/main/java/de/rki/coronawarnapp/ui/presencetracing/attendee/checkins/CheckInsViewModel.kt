@@ -145,15 +145,15 @@ class CheckInsViewModel @AssistedInject constructor(
         try {
             Timber.i("uri: $uri")
             val checkInQrCode = checkInQrCodeExtractor.extract(uri)
-            when (val verifyResult = checkInQrCodeHandler.handleQrCode(checkInQrCode)) {
+            when (val result = checkInQrCodeHandler.handleQrCode(checkInQrCode)) {
                 is CheckInQrCodeHandler.Result.Valid -> events.postValue(
                     if (cleanHistory)
-                        CheckInEvent.ConfirmCheckInWithoutHistory(verifyResult.verifiedTraceLocation)
+                        CheckInEvent.ConfirmCheckInWithoutHistory(result.verifiedTraceLocation)
                     else
-                        CheckInEvent.ConfirmCheckIn(verifyResult.verifiedTraceLocation)
+                        CheckInEvent.ConfirmCheckIn(result.verifiedTraceLocation)
                 )
                 is CheckInQrCodeHandler.Result.Invalid -> events.postValue(
-                    CheckInEvent.InvalidQrCode(verifyResult.errorTextRes.toResolvingString())
+                    CheckInEvent.InvalidQrCode(result.errorTextRes.toResolvingString())
                 )
             }
         } catch (e: Exception) {

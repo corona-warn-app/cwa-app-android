@@ -21,7 +21,7 @@ class QrCodeFileParser @Inject constructor(
     private val qrCodeReader: QRCodeReader
 ) {
 
-    suspend fun decodeQrCodeFile(fileUri: Uri): QrCodeParseResult = withContext(dispatcherProvider.IO) {
+    suspend fun decodeQrCodeFile(fileUri: Uri): ParseResult = withContext(dispatcherProvider.IO) {
         when (val bitmapResult = qrCodeBitmapProvider.getBitmapsForUri(fileUri)) {
             is QRCodeBitmapProvider.BitmapResult.Success -> {
                 for (bitmap in bitmapResult.bitmaps) {
@@ -35,7 +35,7 @@ class QrCodeFileParser @Inject constructor(
                     try {
                         val content = qrCodeReader.decode(binaryBitmap).text
                         Timber.d("Parsed qr code from image: %s", content)
-                        return@withContext QrCodeParseResult.Success(content)
+                        return@withContext ParseResult.Success(content)
                     } catch (ex: ReaderException) {
                         Timber.d(ex, "Failed to Parse QR Code from bitmap")
                     }
@@ -43,18 +43,18 @@ class QrCodeFileParser @Inject constructor(
                     bitmap.recycle()
                 }
 
-                return@withContext QrCodeParseResult.Failure(
+                return@withContext ParseResult.Failure(
                     IllegalArgumentException("No valid QR Code found")
                 )
             }
             is QRCodeBitmapProvider.BitmapResult.Failed -> {
-                QrCodeParseResult.Failure(bitmapResult.error)
+                ParseResult.Failure(bitmapResult.error)
             }
         }
     }
 
-    sealed class QrCodeParseResult {
-        data class Success(val text: String) : QrCodeParseResult()
-        data class Failure(val exception: Exception) : QrCodeParseResult()
+    sealed class ParseResult {
+        data class Success(val text: String) : ParseResult()
+        data class Failure(val exception: Exception) : ParseResult()
     }
 }

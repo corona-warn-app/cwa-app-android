@@ -20,8 +20,8 @@ class QrCodeTestFragmentViewModel @AssistedInject constructor(
     fun onFileSelected(contentURI: Uri) = launch {
         _qrCodeContent.postValue("Decoding....")
         when (val result = qrCodeFileParser.decodeQrCodeFile(contentURI)) {
-            is QrCodeFileParser.QrCodeParseResult.Success -> _qrCodeContent.postValue(result.text)
-            is QrCodeFileParser.QrCodeParseResult.Failure -> _qrCodeContent.postValue(result.exception.message)
+            is QrCodeFileParser.ParseResult.Success -> _qrCodeContent.postValue(result.text)
+            is QrCodeFileParser.ParseResult.Failure -> _qrCodeContent.postValue(result.exception.message)
         }
     }
 

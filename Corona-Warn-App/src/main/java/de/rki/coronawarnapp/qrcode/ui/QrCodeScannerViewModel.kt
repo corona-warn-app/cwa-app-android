@@ -34,11 +34,11 @@ class QrCodeScannerViewModel @AssistedInject constructor(
 
     fun onImportFile(fileUri: Uri) = launch {
         when (val parseResult = qrCodeFileParser.decodeQrCodeFile(fileUri)) {
-            is QrCodeFileParser.QrCodeParseResult.Failure -> {
+            is QrCodeFileParser.ParseResult.Failure -> {
                 Timber.tag(TAG).d(parseResult.exception, "parseResult failed")
                 // TODO show error message
             }
-            is QrCodeFileParser.QrCodeParseResult.Success -> {
+            is QrCodeFileParser.ParseResult.Success -> {
                 Timber.tag(TAG).d("parseResult=$parseResult")
                 onScanResult(parseResult.text)
             }
