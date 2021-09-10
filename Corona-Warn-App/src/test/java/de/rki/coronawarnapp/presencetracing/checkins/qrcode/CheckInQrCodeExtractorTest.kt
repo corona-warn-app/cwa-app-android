@@ -52,7 +52,7 @@ class CheckInQrCodeExtractorTest : BaseTest() {
         expectedVendorData: CWALocationData
     ) = runBlockingTest {
         val checkInQrCode = createInstance().extract(input)
-        checkInQrCode shouldBe expectedPayload
+        checkInQrCode.qrCodePayload shouldBe expectedPayload
         CWALocationData.parseFrom(checkInQrCode.qrCodePayload.vendorData) shouldBe expectedVendorData
     }
 
@@ -77,7 +77,7 @@ class CheckInQrCodeExtractorTest : BaseTest() {
         }
 
         val checkInQrCode = createInstance().extract(input)
-        checkInQrCode shouldBe expectedPayload
+        checkInQrCode.qrCodePayload shouldBe expectedPayload
         CWALocationData.parseFrom(checkInQrCode.qrCodePayload.vendorData) shouldBe expectedVendorData
     }
 
