@@ -55,7 +55,6 @@ class ScanCheckInQrCodeFragment :
 
             qrCodeScanToolbar.setNavigationOnClickListener { viewModel.onNavigateUp() }
             qrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
-            qrCodeScanViewfinderView.setCameraPreview(binding.qrCodeScanPreview)
         }
 
         viewModel.events.observe2(this) { navEvent ->
@@ -77,7 +76,7 @@ class ScanCheckInQrCodeFragment :
 
     override fun onResume() {
         super.onResume()
-        binding.checkInQrCodeScanContainer.sendAccessibilityEvent(TYPE_ANNOUNCEMENT)
+        binding.qrCodeScanContainer.sendAccessibilityEvent(TYPE_ANNOUNCEMENT)
         if (CameraPermissionHelper.hasCameraPermission(requireActivity())) {
             binding.qrCodeScanPreview.resume()
             startDecode()
