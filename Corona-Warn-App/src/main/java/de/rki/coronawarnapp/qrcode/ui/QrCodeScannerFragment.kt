@@ -4,6 +4,7 @@ import android.Manifest
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.OpenDocument
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.fragment.app.Fragment
@@ -70,6 +71,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
 
         viewModel.navEvent.observe(viewLifecycleOwner) {
             // TODO
+            Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
         }
         viewModel.error.observe(viewLifecycleOwner) {
             // TODO
