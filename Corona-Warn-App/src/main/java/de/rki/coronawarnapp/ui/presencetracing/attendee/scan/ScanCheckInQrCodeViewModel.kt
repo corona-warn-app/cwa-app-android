@@ -27,7 +27,7 @@ class ScanCheckInQrCodeViewModel @AssistedInject constructor(
     fun onScanResult(barcodeResult: BarcodeResult) = launch {
         try {
             Timber.i("uri: $barcodeResult.result.text")
-            val qrCodePayload = checkInQrCodeExtractor.getQrCodePayload(barcodeResult.result.text)
+            val qrCodePayload = checkInQrCodeExtractor.extract(barcodeResult.result.text).qrCodePayload
             when (val verifyResult = traceLocationVerifier.verifyTraceLocation(qrCodePayload)) {
                 is TraceLocationVerifier.VerificationResult.Invalid ->
                     events.postValue(

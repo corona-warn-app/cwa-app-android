@@ -144,8 +144,8 @@ class CheckInsViewModel @AssistedInject constructor(
     private fun verifyUri(uri: String) = launch {
         try {
             Timber.i("uri: $uri")
-            val qrCodePayload = checkInQrCodeExtractor.getQrCodePayload(uri)
-            when (val verifyResult = traceLocationVerifier.verifyTraceLocation(qrCodePayload)) {
+            val checkInQrCode = checkInQrCodeExtractor.extract(uri)
+            when (val verifyResult = traceLocationVerifier.verifyTraceLocation(checkInQrCode.qrCodePayload)) {
                 is TraceLocationVerifier.VerificationResult.Valid -> events.postValue(
                     if (cleanHistory)
                         CheckInEvent.ConfirmCheckInWithoutHistory(verifyResult.verifiedTraceLocation)
