@@ -110,4 +110,33 @@ class TestRegistrationStateProcessor @Inject constructor(
             null
         }
     }
+
+    suspend fun registerCoronaTest(
+        request: TestRegistrationRequest,
+        isSubmissionConsentGiven: Boolean,
+        allowReplacement: Boolean,
+    ): State = mutex.withLock {
+        return try {
+            PcrQrCodeCensor.dateOfBirth = request.dateOfBirth
+            val coronaTest = if (allowReplacement) {
+                submissionRepository.tryReplaceTest(request)
+            } else {
+                submissionRepository.registerTest(request)
+            }
+
+            if (isSubmissionConsentGiven) {
+                submissionRepository.giveConsentToSubmission(type = coronaTest.type)
+                if (request is CoronaTestQRCode) {
+                    analyticsKeySubmissionCollector.reportAdvancedConsentGiven(request.type)
+                }
+            }
+
+            State.TestRegistered(test = coronaTest)
+        } catch (err: Exception) {
+            if (err !is CwaWebException && err !is AlreadyRedeemedException) {
+                err.report(ExceptionCategory.INTERNAL)
+            }
+            State.Error(exception = err)
+        }
+    }
 }

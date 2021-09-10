@@ -49,8 +49,8 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         Timber.tag(TAG).d("onScanResult(rawResult=$rawResult)")
         when (val qrCode = qrCodeValidator.validate(rawResult)) {
             is CoronaTestQRCode -> {
-                coronaTestQrCodeHandler.handleQrCode(qrCode)
-                // TODO
+                val submissionNavigationEvents = coronaTestQrCodeHandler.handleQrCode(qrCode)
+                // TODO navigate or show error based on result
             }
 
             is CheckInQrCode -> {
