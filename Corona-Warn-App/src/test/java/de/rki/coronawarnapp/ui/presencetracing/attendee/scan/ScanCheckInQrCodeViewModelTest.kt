@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.presencetracing.attendee.scan
 
 import com.journeyapps.barcodescanner.BarcodeResult
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCode
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCodeExtractor
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationVerifier
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
@@ -57,7 +58,9 @@ class ScanCheckInQrCodeViewModelTest : BaseTest() {
             }
         }
         val qrCodePayload = mockk<TraceLocationOuterClass.QRCodePayload>()
-        coEvery { checkInQrCodeExtractor.getQrCodePayload(any()) } returns qrCodePayload
+        coEvery { checkInQrCodeExtractor.extract(any()) } returns CheckInQrCode(
+            qrCodePayload = qrCodePayload
+        )
         every { traceLocationVerifier.verifyTraceLocation(qrCodePayload) } returns validationPassed
 
         viewModel.onScanResult(mockedResult)
