@@ -41,8 +41,7 @@ class CheckInQrCodeHandler @Inject constructor() {
             object Description : Invalid(R.string.trace_location_checkins_qr_code_invalid_description)
             object Address : Invalid(R.string.trace_location_checkins_qr_code_invalid_address)
             object StartEndTime : Invalid(R.string.trace_location_checkins_qr_code_invalid_times)
-            object CryptographicSeed :
-                Invalid(R.string.trace_location_checkins_qr_code_invalid_cryptographic_seed)
+            object CryptographicSeed : Invalid(R.string.trace_location_checkins_qr_code_invalid_cryptographic_seed)
         }
     }
 
