@@ -134,9 +134,9 @@ internal class ContactDiaryExporterTest {
                     Kontakte der letzten 15 Tage (01.01.2021 - 15.01.2021)
                     Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG.
 
-                    02.01.2021 Constantin Frenzel; Kontaktdauer > 15 Minuten; ohne Maske; im Gebäude
+                    02.01.2021 Constantin Frenzel; Kontaktdauer > 10 Minuten; ohne Maske; im Gebäude
                     02.01.2021 Barber; Dauer 01:45 h
-                    01.01.2021 Andrea Steinhauer; Kontaktdauer < 15 Minuten; mit Maske; im Freien
+                    01.01.2021 Andrea Steinhauer; Kontaktdauer < 10 Minuten; mit Maske; im Freien
                     01.01.2021 Bakery; Dauer 00:15 h
                 
                 """.trimIndent()
