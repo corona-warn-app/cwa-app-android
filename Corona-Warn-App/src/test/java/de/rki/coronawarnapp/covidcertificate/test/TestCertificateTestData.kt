@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @Suppress("MaxLineLength")
 class TestCertificateTestData @Inject constructor(
-   private val qrCodeExtractor: DccQrCodeExtractor
+    private val qrCodeExtractor: DccQrCodeExtractor
 ) {
 
     val personATest1CertQRCodeString =
