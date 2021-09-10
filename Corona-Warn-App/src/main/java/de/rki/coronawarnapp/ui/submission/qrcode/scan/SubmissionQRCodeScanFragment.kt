@@ -60,7 +60,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 
             qrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
 
-            qrCodeScanViewfinderView.setCameraPreview(qrCodeScanPreview)
+//            qrCodeScanViewfinderView.setCameraPreview(qrCodeScanPreview)
         }
 
         viewModel.events.observe2(this) {

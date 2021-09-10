@@ -55,7 +55,7 @@ class ScanCheckInQrCodeFragment :
 
             qrCodeScanToolbar.setNavigationOnClickListener { viewModel.onNavigateUp() }
             qrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
-            qrCodeScanViewfinderView.setCameraPreview(binding.qrCodeScanPreview)
+//            qrCodeScanViewfinderView.setCameraPreview(binding.qrCodeScanPreview)
         }
 
         viewModel.events.observe2(this) { navEvent ->
