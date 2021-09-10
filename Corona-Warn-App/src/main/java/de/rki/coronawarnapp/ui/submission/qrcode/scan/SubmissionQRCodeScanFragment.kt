@@ -13,7 +13,7 @@ import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.errors.AlreadyRedeemedException
-import de.rki.coronawarnapp.databinding.FragmentSubmissionQrCodeScanBinding
+import de.rki.coronawarnapp.databinding.FragmentScanQrCodeBinding
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
@@ -31,7 +31,7 @@ import javax.inject.Inject
 /**
  * A simple [Fragment] subclass.
  */
-class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_code_scan), AutoInject {
+class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_scan_qr_code), AutoInject {
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
     private val args by navArgs<SubmissionQRCodeScanFragmentArgs>()
@@ -44,7 +44,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
         }
     )
 
-    private val binding: FragmentSubmissionQrCodeScanBinding by viewBinding()
+    private val binding: FragmentScanQrCodeBinding by viewBinding()
     private var showsPermissionDialog = false
 
     @Suppress("ComplexMethod")
@@ -168,7 +168,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 
     override fun onResume() {
         super.onResume()
-        binding.submissionQrCodeScanContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+        binding.qrCodeScanContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
 
         if (CameraPermissionHelper.hasCameraPermission(requireActivity())) {
             binding.qrCodeScanPreview.resume()

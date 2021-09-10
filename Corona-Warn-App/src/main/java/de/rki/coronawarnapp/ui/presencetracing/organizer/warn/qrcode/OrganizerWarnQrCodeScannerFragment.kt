@@ -62,7 +62,7 @@ class OrganizerWarnQrCodeScannerFragment :
 
     override fun onResume() {
         super.onResume()
-        binding.checkInQrCodeScanContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+        binding.qrCodeScanContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
         if (CameraPermissionHelper.hasCameraPermission(requireActivity())) {
             binding.qrCodeScanPreview.resume()
             startDecode()
