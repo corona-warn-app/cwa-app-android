@@ -4,13 +4,16 @@ import android.os.Build
 import com.google.zxing.qrcode.QRCodeReader
 import dagger.Module
 import dagger.Provides
+import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.qrcode.provider.image.BaseImageUriResolver
 import de.rki.coronawarnapp.qrcode.provider.image.ImageUriResolver
 import de.rki.coronawarnapp.qrcode.provider.image.NewImageUriResolver
+import de.rki.coronawarnapp.ui.submission.qrcode.scan.SubmissionQRCodeScanFragment
+import de.rki.coronawarnapp.ui.submission.qrcode.scan.SubmissionQRCodeScanModule
 import javax.inject.Singleton
 
 @Module
-class QrCodeFileParserModule {
+class QrCodeScannerModule {
     @Provides
     @Singleton
     fun bindImageResolver(
