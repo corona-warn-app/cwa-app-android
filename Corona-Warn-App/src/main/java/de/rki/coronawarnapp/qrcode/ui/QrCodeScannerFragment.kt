@@ -56,7 +56,6 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked -> binding.qrCodeScanPreview.setTorch(isChecked) }
             qrCodeScanToolbar.setNavigationOnClickListener { popBackStack() }
             qrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
-            qrCodeScanViewfinderView.setCameraPreview(binding.qrCodeScanPreview)
             qrCodeScanSpinner.hide()
         }
 
