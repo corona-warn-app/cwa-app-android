@@ -24,15 +24,16 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     private val cameraSettings: CameraSettings,
     private val qrCodeValidator: QrCodeValidator,
     private val qrCodeFileParser: QrCodeFileParser,
-    private val dccQrCodeHandler: DccQrCodeHandler,
-    private val checkInQrCodeHandler: CheckInQrCodeHandler,
-    private val coronaTestQrCodeHandler: CoronaTestQrCodeHandler,
+    private val dccHandler: DccQrCodeHandler,
+    private val checkInHandler: CheckInQrCodeHandler,
+    private val coronaTestHandler: CoronaTestQrCodeHandler,
 ) : CWAViewModel(dispatcherProvider) {
 
     val error = SingleLiveEvent<Throwable>()
     val navEvent = SingleLiveEvent<String>() // TODO Change to event
 
     fun onImportFile(fileUri: Uri) = launch {
+        Timber.tag(TAG).d("onImportFile(fileUri=$fileUri)")
         when (val parseResult = qrCodeFileParser.decodeQrCodeFile(fileUri)) {
             is QrCodeFileParser.ParseResult.Failure -> {
                 Timber.tag(TAG).d(parseResult.exception, "parseResult failed")
@@ -46,33 +47,15 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     }
 
     fun onScanResult(rawResult: String) = launch {
+        Timber.tag(TAG).d("onScanResult(rawResult=$rawResult)")
         try {
-            Timber.tag(TAG).d("onScanResult(rawResult=$rawResult)")
             when (val qrCode = qrCodeValidator.validate(rawResult)) {
-                is CoronaTestQRCode -> {
-                    Timber.tag(TAG).d("coronaTestQRCode=$qrCode")
-                    val submissionEvent = coronaTestQrCodeHandler.handleQrCode(qrCode)
-                    // TODO navigate or show error based on result
-                    Timber.tag(TAG).d("submissionEvent=$submissionEvent")
-                    navEvent.postValue(submissionEvent.toString())
-                }
-
-                is CheckInQrCode -> {
-                    Timber.tag(TAG).d("checkInQrCode=$qrCode")
-                    val result = checkInQrCodeHandler.handleQrCode(qrCode)
-                    // TODO navigate or show error based on result
-                    Timber.tag(TAG).d("result=$result")
-                    navEvent.postValue(result.toString())
-                }
-                is DccQrCode -> {
-                    Timber.tag(TAG).d("dccQrCode=$qrCode")
-                    val containerId = dccQrCodeHandler.handleQrCode(qrCode)
-                    // TODO open certificate details
-                    Timber.tag(TAG).d("containerId=$containerId")
-                    navEvent.postValue(containerId.toString())
-                }
+                is CoronaTestQRCode -> onCoronaTestQrCode(qrCode)
+                is CheckInQrCode -> onCheckInQrCode(qrCode)
+                is DccQrCode -> onDccQrCode(qrCode)
             }
         } catch (e: Exception) {
+            Timber.tag(TAG).d(e, "onScanResult failed")
             error.postValue(e)
         }
     }
@@ -80,6 +63,30 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     fun setCameraDeniedPermanently(denied: Boolean) {
         Timber.d("setCameraDeniedPermanently(denied=$denied)")
         cameraSettings.isCameraDeniedPermanently.update { denied }
+    }
+
+    private suspend fun onDccQrCode(qrCode: DccQrCode) {
+        Timber.tag(TAG).d("onDccQrCode=$qrCode")
+        val containerId = dccHandler.handleQrCode(qrCode)
+        // TODO open certificate details
+        Timber.tag(TAG).d("containerId=$containerId")
+        navEvent.postValue(containerId.toString())
+    }
+
+    private fun onCheckInQrCode(qrCode: CheckInQrCode) {
+        Timber.tag(TAG).d("onCheckInQrCode=$qrCode")
+        val result = checkInHandler.handleQrCode(qrCode)
+        // TODO navigate or show error based on result
+        Timber.tag(TAG).d("result=$result")
+        navEvent.postValue(result.toString())
+    }
+
+    private suspend fun onCoronaTestQrCode(qrCode: CoronaTestQRCode) {
+        Timber.tag(TAG).d("onCoronaTestQrCode=$qrCode")
+        val submissionEvent = coronaTestHandler.handleQrCode(qrCode)
+        // TODO navigate or show error based on result
+        Timber.tag(TAG).d("submissionEvent=$submissionEvent")
+        navEvent.postValue(submissionEvent.toString())
     }
 
     @AssistedFactory
