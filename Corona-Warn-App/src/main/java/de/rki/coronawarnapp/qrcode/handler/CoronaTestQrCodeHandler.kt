@@ -23,11 +23,8 @@ class CoronaTestQrCodeHandler @Inject constructor(
         val coronaTest = submissionRepository.testForType(qrcode.type).first()
         return when {
             coronaTest != null -> NavigateToDuplicateWarningFragment(qrcode, consentGiven = false)
-            else -> if (!qrcode.isDccSupportedByPoc) {
-                RegisterTestResult(state = registrationProcessor.registerCoronaTest(qrcode))
-            } else {
-                NavigateToRequestDccFragment(qrcode, false)
-            }
+            !qrcode.isDccSupportedByPoc -> RegisterTestResult(registrationProcessor.registerCoronaTest(qrcode))
+            else -> NavigateToRequestDccFragment(qrcode, consentGiven = false)
         }
     }
 }
