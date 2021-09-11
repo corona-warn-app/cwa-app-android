@@ -27,9 +27,9 @@ import javax.inject.Inject
 
 class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoInject {
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: QrCodeScannerViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel by cwaViewModels<QrCodeScannerViewModel> { viewModelFactory }
 
-    private val binding: FragmentQrcodeScannerBinding by viewBinding()
+    private val binding by viewBinding<FragmentQrcodeScannerBinding>()
     private var showsPermissionDialog = false
 
     private val requestPermissionLauncher = registerForActivityResult(RequestPermission()) { isGranted ->
