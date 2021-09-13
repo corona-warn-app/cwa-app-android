@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.submission.viewmodel
 
 import com.google.android.gms.common.api.ApiException
+import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
@@ -18,7 +19,7 @@ sealed class SubmissionNavigationEvents {
 
     object NavigateToTAN : SubmissionNavigationEvents()
 
-    object NavigateToConsent : SubmissionNavigationEvents()
+    data class  NavigateToConsent(val qrCode: String) : SubmissionNavigationEvents()
 
     object NavigateToMainActivity : SubmissionNavigationEvents()
 

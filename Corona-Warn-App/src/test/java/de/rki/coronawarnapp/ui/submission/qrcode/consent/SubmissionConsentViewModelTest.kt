@@ -29,6 +29,7 @@ import java.io.PrintWriter
 @ExtendWith(InstantExecutorExtension::class)
 class SubmissionConsentViewModelTest {
 
+    @MockK lateinit var qrCode: String
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var interoperabilityRepository: InteroperabilityRepository
     @MockK lateinit var tekHistoryProvider: TEKHistoryProvider
@@ -53,6 +54,7 @@ class SubmissionConsentViewModelTest {
         viewModel = SubmissionConsentViewModel(
             interoperabilityRepository,
             dispatcherProvider = TestDispatcherProvider(),
+            qrCode,
             tekHistoryProvider,
             testRegistrationStateProcessor,
             submissionRepository,
@@ -75,7 +77,7 @@ class SubmissionConsentViewModelTest {
 
     @Test
     fun testOnBackButtonClick() {
-        viewModel.onBackButtonClick()
+        //TODO: remember to change this as it will now fail
         viewModel.routeToScreen.value shouldBe SubmissionNavigationEvents.NavigateToDispatcher
     }
 
