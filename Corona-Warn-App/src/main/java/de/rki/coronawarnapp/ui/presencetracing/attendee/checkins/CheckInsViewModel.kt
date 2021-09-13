@@ -9,8 +9,8 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.CheckOutHandler
-import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QRCodeUriParser
-import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationVerifier
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCodeExtractor
+import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.ActiveCheckInVH
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CameraPermissionVH
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CheckInsItem
@@ -35,11 +35,11 @@ class CheckInsViewModel @AssistedInject constructor(
     @Assisted private val cleanHistory: Boolean,
     dispatcherProvider: DispatcherProvider,
     @AppScope private val appScope: CoroutineScope,
-    private val qrCodeUriParser: QRCodeUriParser,
+    private val checkInQrCodeExtractor: CheckInQrCodeExtractor,
     private val checkInsRepository: CheckInRepository,
     private val checkOutHandler: CheckOutHandler,
     private val cameraPermissionProvider: CameraPermissionProvider,
-    private val traceLocationVerifier: TraceLocationVerifier
+    private val checkInQrCodeHandler: CheckInQrCodeHandler
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<CheckInEvent>()
@@ -144,16 +144,16 @@ class CheckInsViewModel @AssistedInject constructor(
     private fun verifyUri(uri: String) = launch {
         try {
             Timber.i("uri: $uri")
-            val qrCodePayload = qrCodeUriParser.getQrCodePayload(uri)
-            when (val verifyResult = traceLocationVerifier.verifyTraceLocation(qrCodePayload)) {
-                is TraceLocationVerifier.VerificationResult.Valid -> events.postValue(
+            val checkInQrCode = checkInQrCodeExtractor.extract(uri)
+            when (val result = checkInQrCodeHandler.handleQrCode(checkInQrCode)) {
+                is CheckInQrCodeHandler.Result.Valid -> events.postValue(
                     if (cleanHistory)
-                        CheckInEvent.ConfirmCheckInWithoutHistory(verifyResult.verifiedTraceLocation)
+                        CheckInEvent.ConfirmCheckInWithoutHistory(result.verifiedTraceLocation)
                     else
-                        CheckInEvent.ConfirmCheckIn(verifyResult.verifiedTraceLocation)
+                        CheckInEvent.ConfirmCheckIn(result.verifiedTraceLocation)
                 )
-                is TraceLocationVerifier.VerificationResult.Invalid -> events.postValue(
-                    CheckInEvent.InvalidQrCode(verifyResult.errorTextRes.toResolvingString())
+                is CheckInQrCodeHandler.Result.Invalid -> events.postValue(
+                    CheckInEvent.InvalidQrCode(result.errorTextRes.toResolvingString())
                 )
             }
         } catch (e: Exception) {

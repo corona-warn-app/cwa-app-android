@@ -76,7 +76,7 @@
         android:id="@+id/dccQrCodeScanFragment"
         android:name="de.rki.coronawarnapp.covidcertificate.common.scan.DccQrCodeScanFragment"
         android:label="DccQrCodeScanFragment"
-        tools:layout="@layout/fragment_scan_qr_code">
+        tools:layout="@layout/fragment_qrcode_scanner">
         <action
             android:id="@+id/action_dccQrCodeScanFragment_to_recoveryCertificateDetailsFragment"
             app:destination="@id/recoveryCertificateDetailsFragment"
