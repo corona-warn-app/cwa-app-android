@@ -10,10 +10,8 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertifica
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.ui.toResolvingString
-import java.lang.IllegalArgumentException
 
 fun Throwable.toQrCodeErrorDialogBuilder(context: Context): MaterialAlertDialogBuilder {
     val throwable = this

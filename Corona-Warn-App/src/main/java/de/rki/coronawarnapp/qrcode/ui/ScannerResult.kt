@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertifica
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocation
-import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import de.rki.coronawarnapp.util.ui.LazyString
 
 sealed interface ScannerResult
