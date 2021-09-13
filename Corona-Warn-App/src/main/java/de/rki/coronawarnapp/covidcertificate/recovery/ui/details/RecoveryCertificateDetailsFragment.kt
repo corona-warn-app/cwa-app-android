@@ -4,7 +4,9 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
+import androidx.activity.OnBackPressedCallback
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -15,6 +17,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
+import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.CertificateExportErrorDialog
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
@@ -49,9 +52,15 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as RecoveryCertificateDetailsViewModel.Factory
-            factory.create(args.containerId)
+            factory.create(
+                containerId = recoveryCertificateContainerId()
+            )
         }
     )
+
+    private fun recoveryCertificateContainerId(): RecoveryCertificateContainerId =
+        args.containerId ?: args.certUuid?.let { RecoveryCertificateContainerId(it) }
+            ?: throw IllegalArgumentException("Either containerId or certUuid must be provided")
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
 
@@ -78,6 +87,12 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
                 requireContext()
             ) { openUrl(getString(R.string.certificate_export_error_dialog_faq_link)) }
         }
+
+        // Override android back button to manually control back logic
+        val backCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() = viewModel.onClose()
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
     }
 
     override fun onStop() {
@@ -128,7 +143,17 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
 
     private fun FragmentRecoveryCertificateDetailsBinding.onNavEvent(event: RecoveryCertificateDetailsNavigation) {
         when (event) {
-            RecoveryCertificateDetailsNavigation.Back -> popBackStack()
+            RecoveryCertificateDetailsNavigation.Back -> {
+                // certUuid != null -> we came from universal scanner. Pressing back leads to person overview
+                if (args.certUuid != null) {
+                    doNavigate(
+                        RecoveryCertificateDetailsFragmentDirections
+                            .actionRecoveryCertificateDetailsFragmentToPersonOverviewFragment()
+                    )
+                } else {
+                    popBackStack()
+                }
+            }
             is RecoveryCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
                 R.id.action_global_qrCodeFullScreenFragment,
                 QrCodeFullScreenFragmentArgs(event.qrCode).toBundle(),
@@ -153,7 +178,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
 
     private fun FragmentRecoveryCertificateDetailsBinding.bindToolbar() = toolbar.apply {
         toolbar.navigationIcon = resources.mutateDrawable(R.drawable.ic_back, Color.WHITE)
-        setNavigationOnClickListener { popBackStack() }
+        setNavigationOnClickListener { viewModel.onClose() }
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_recovery_certificate_delete -> {
@@ -190,5 +215,9 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
                 viewModel.onDeleteRecoveryCertificateConfirmed()
             }
         }.show()
+    }
+
+    companion object {
+        fun uri(certUuid: String) = "coronawarnapp://recovery-certificate-details/?certUuid=$certUuid".toUri()
     }
 }

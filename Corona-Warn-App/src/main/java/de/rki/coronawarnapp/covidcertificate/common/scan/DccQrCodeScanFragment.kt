@@ -5,19 +5,23 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent.TYPE_ANNOUNCEMENT
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
+import de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertificateDetailsFragment
+import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment
+import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragment
 import de.rki.coronawarnapp.databinding.FragmentScanQrCodeBinding
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -77,23 +81,11 @@ class DccQrCodeScanFragment :
             when (event) {
                 DccQrCodeScanViewModel.Event.QrCodeScanInProgress -> binding.qrCodeScanSpinner.show()
                 is DccQrCodeScanViewModel.Event.RecoveryCertScreen ->
-                    doNavigate(
-                        DccQrCodeScanFragmentDirections.actionDccQrCodeScanFragmentToRecoveryCertificateDetailsFragment(
-                            event.containerId
-                        )
-                    )
+                    findNavController().navigate(RecoveryCertificateDetailsFragment.uri(event.containerId.identifier))
                 is DccQrCodeScanViewModel.Event.TestCertScreen ->
-                    doNavigate(
-                        DccQrCodeScanFragmentDirections.actionDccQrCodeScanFragmentToTestCertificateDetailsFragment(
-                            event.containerId
-                        )
-                    )
+                    findNavController().navigate(TestCertificateDetailsFragment.uri(event.containerId.identifier))
                 is DccQrCodeScanViewModel.Event.VaccinationCertScreen ->
-                    doNavigate(
-                        DccQrCodeScanFragmentDirections.actionDccQrCodeScanFragmentToVaccinationDetailsFragment(
-                            event.containerId
-                        )
-                    )
+                    findNavController().navigate(VaccinationDetailsFragment.uri(event.containerId.identifier))
             }
         }
 
@@ -189,5 +181,9 @@ class DccQrCodeScanFragment :
     override fun onPause() {
         super.onPause()
         binding.qrCodeScanPreview.pause()
+    }
+
+    companion object {
+        val uri = "coronawarnapp://universal-scanner".toUri()
     }
 }

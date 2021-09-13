@@ -859,4 +859,15 @@
             android:defaultValue="-1"
             app:argType="integer" />
     </fragment>
+
+    <fragment
+        android:id="@+id/universalScanner"
+        android:name="de.rki.coronawarnapp.covidcertificate.common.scan.DccQrCodeScanFragment"
+        android:label="DccQrCodeScanFragment"
+        tools:layout="@layout/fragment_scan_qr_code">
+
+        <deepLink app:uri="coronawarnapp://universal-scanner" />
+
+    </fragment>
+
 </navigation>

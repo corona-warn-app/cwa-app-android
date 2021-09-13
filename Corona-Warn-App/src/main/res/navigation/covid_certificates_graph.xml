@@ -15,9 +15,6 @@
         <action
             android:id="@+id/action_personOverviewFragment_to_personDetailsFragment"
             app:destination="@id/personDetailsFragment" />
-        <action
-            android:id="@+id/action_personOverviewFragment_to_dccQrCodeScanFragment"
-            app:destination="@id/dccQrCodeScanFragment" />
     </fragment>
 
     <fragment
@@ -70,25 +67,9 @@
         <action
             android:id="@+id/action_testCertificateDetailsFragment_to_certificatePdfExportInfoFragment"
             app:destination="@id/certificatePdfExportInfoFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/dccQrCodeScanFragment"
-        android:name="de.rki.coronawarnapp.covidcertificate.common.scan.DccQrCodeScanFragment"
-        android:label="DccQrCodeScanFragment"
-        tools:layout="@layout/fragment_scan_qr_code">
         <action
-            android:id="@+id/action_dccQrCodeScanFragment_to_recoveryCertificateDetailsFragment"
-            app:destination="@id/recoveryCertificateDetailsFragment"
-            app:popUpTo="@id/personOverviewFragment" />
-        <action
-            android:id="@+id/action_dccQrCodeScanFragment_to_vaccinationDetailsFragment"
-            app:destination="@id/vaccinationDetailsFragment"
-            app:popUpTo="@id/personOverviewFragment" />
-        <action
-            android:id="@+id/action_dccQrCodeScanFragment_to_testCertificateDetailsFragment"
-            app:destination="@id/testCertificateDetailsFragment"
-            app:popUpTo="@id/personOverviewFragment" />
+            android:id="@+id/action_testCertificateDetailsFragment_to_personOverviewFragment"
+            app:destination="@id/personOverviewFragment" />
     </fragment>
 
     <fragment
@@ -130,30 +111,60 @@
         android:name="de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragment"
         android:label="fragment_vaccination_details"
         tools:layout="@layout/fragment_vaccination_details">
+
+        <deepLink app:uri="coronawarnapp://vaccination-certificate-details/?certUuid={certUuid}" />
+
         <argument
             android:name="containerId"
-            app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId" />
+            android:defaultValue="@null"
+            app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId"
+            app:nullable="true" />
+
+        <argument
+            android:name="certUuid"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+
         <action
             android:id="@+id/action_vaccinationDetailsFragment_to_validationStartFragment"
             app:destination="@id/validationStartFragment" />
         <action
             android:id="@+id/action_vaccinationDetailsFragment_to_certificatePdfExportInfoFragment"
             app:destination="@id/certificatePdfExportInfoFragment" />
+        <action
+            android:id="@+id/action_vaccinationDetailsFragment_to_personOverviewFragment"
+            app:destination="@id/personOverviewFragment" />
     </fragment>
     <fragment
         android:id="@+id/recoveryCertificateDetailsFragment"
         android:name="de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertificateDetailsFragment"
         android:label="RecoveryCertificateDetailsFragment"
         tools:layout="@layout/fragment_recovery_certificate_details">
+
+        <deepLink app:uri="coronawarnapp://recovery-certificate-details/?certUuid={certUuid}" />
+
         <argument
             android:name="containerId"
-            app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId" />
+            android:defaultValue="@null"
+            app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId"
+            app:nullable="true" />
+
+        <argument
+            android:name="certUuid"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+
         <action
             android:id="@+id/action_recoveryCertificateDetailsFragment_to_validationStartFragment"
             app:destination="@id/validationStartFragment" />
         <action
             android:id="@+id/action_recoveryCertificateDetailsFragment_to_certificatePdfExportInfoFragment"
             app:destination="@id/certificatePdfExportInfoFragment" />
+        <action
+            android:id="@+id/action_recoveryCertificateDetailsFragment_to_personOverviewFragment"
+            app:destination="@id/personOverviewFragment" />
     </fragment>
     <fragment
         android:id="@+id/validationStartFragment"

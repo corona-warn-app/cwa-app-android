@@ -4,7 +4,9 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
+import androidx.activity.OnBackPressedCallback
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -16,6 +18,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
+import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.CertificateExportErrorDialog
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
@@ -50,10 +53,14 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         constructorCall = { factory, _ ->
             factory as VaccinationDetailsViewModel.Factory
             factory.create(
-                containerId = args.containerId,
+                containerId = vaccinationCertificateContainerId()
             )
         }
     )
+
+    private fun vaccinationCertificateContainerId(): VaccinationCertificateContainerId =
+        args.containerId ?: args.certUuid?.let { VaccinationCertificateContainerId(it) }
+            ?: throw IllegalArgumentException("Either containerId or certUuid must be provided")
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
@@ -111,7 +118,17 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
             viewModel.events.observe(viewLifecycleOwner) { event ->
                 when (event) {
-                    VaccinationDetailsNavigation.Back -> popBackStack()
+                    VaccinationDetailsNavigation.Back -> {
+                        // certUuid != null -> we came from universal scanner. Pressing back leads to person overview
+                        if (args.certUuid != null) {
+                            doNavigate(
+                                VaccinationDetailsFragmentDirections
+                                    .actionVaccinationDetailsFragmentToPersonOverviewFragment()
+                            )
+                        } else {
+                            popBackStack()
+                        }
+                    }
                     is VaccinationDetailsNavigation.FullQrCode -> findNavController().navigate(
                         R.id.action_global_qrCodeFullScreenFragment,
                         QrCodeFullScreenFragmentArgs(event.qrCode).toBundle(),
@@ -133,6 +150,12 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                     }
                 }
             }
+
+            // Override android back button to manually control back logic
+            val backCallback = object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() = viewModel.onClose()
+            }
+            requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
         }
 
     override fun onStop() {
@@ -142,7 +165,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
     private fun FragmentVaccinationDetailsBinding.bindToolbar() = toolbar.apply {
         toolbar.navigationIcon = resources.mutateDrawable(R.drawable.ic_back, Color.WHITE)
-        setNavigationOnClickListener { popBackStack() }
+        setNavigationOnClickListener { viewModel.onClose() }
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_covid_certificate_delete -> {
@@ -209,5 +232,9 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 viewModel.onDeleteVaccinationCertificateConfirmed()
             }
         }.show()
+    }
+
+    companion object {
+        fun uri(certUuid: String) = "coronawarnapp://vaccination-certificate-details/?certUuid=$certUuid".toUri()
     }
 }
