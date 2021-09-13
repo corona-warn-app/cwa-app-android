@@ -4,20 +4,20 @@ import android.Manifest
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.OpenDocument
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.fragment.app.Fragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
+import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -63,19 +63,32 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked -> binding.qrCodeScanPreview.setTorch(isChecked) }
             qrCodeScanToolbar.setNavigationOnClickListener { popBackStack() }
             qrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
-            qrCodeScanSpinner.hide()
             buttonOpenFile.setOnClickListener {
                 filePickerLauncher.launch(arrayOf("image/*", "application/pdf"))
             }
         }
 
-        viewModel.navEvent.observe(viewLifecycleOwner) {
-            // TODO
-            Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
-        }
-        viewModel.error.observe(viewLifecycleOwner) {
-            // TODO
-            it.toErrorDialogBuilder(requireContext()).show()
+        viewModel.result.observe(viewLifecycleOwner) { scannerResult ->
+            if (scannerResult != InProgress) binding.qrCodeScanSpinner.hide()
+            when (scannerResult) {
+                is CoronaTestResult.DuplicateTest -> TODO()
+                is CoronaTestResult.RequestDcc -> TODO()
+                is CoronaTestResult.RegisTestState -> TODO()
+
+                is DccResult.Recovery -> TODO()
+                is DccResult.Test -> TODO()
+                is DccResult.Vaccination -> TODO()
+
+                is CheckInResult.Details -> TODO()
+                is CheckInResult.Error -> showCheckInQrCodeError(scannerResult.stringRes)
+
+                is Error -> scannerResult.error
+                    .toQrCodeErrorDialogBuilder(requireContext())
+                    .setOnDismissListener { popBackStack() }
+                    .show()
+
+                InProgress -> binding.qrCodeScanSpinner.show()
+            }
         }
     }
 
@@ -127,6 +140,19 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         showsPermissionDialog = true
         DialogHelper.showDialog(cameraPermissionRationaleDialogInstance)
     }
+
+    private fun showCheckInQrCodeError(lazyErrorText: LazyString) =
+        MaterialAlertDialogBuilder(requireContext()).apply {
+            val errorText = lazyErrorText.get(context)
+            setTitle(R.string.trace_location_attendee_invalid_qr_code_dialog_title)
+            setMessage(getString(R.string.trace_location_attendee_invalid_qr_code_dialog_message, errorText))
+            setPositiveButton(R.string.trace_location_attendee_invalid_qr_code_dialog_positive_button) { _, _ ->
+                startDecode()
+            }
+            setNegativeButton(R.string.trace_location_attendee_invalid_qr_code_dialog_negative_button) { _, _ ->
+                popBackStack()
+            }
+        }.show()
 
     private fun requestCameraPermission() = requestPermissionLauncher.launch(Manifest.permission.CAMERA)
 

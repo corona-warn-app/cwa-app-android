@@ -29,15 +29,15 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     private val coronaTestHandler: CoronaTestQrCodeHandler,
 ) : CWAViewModel(dispatcherProvider) {
 
-    val error = SingleLiveEvent<Throwable>()
-    val navEvent = SingleLiveEvent<String>() // TODO Change to event
+    val result = SingleLiveEvent<ScannerResult>()
 
     fun onImportFile(fileUri: Uri) = launch {
+        result.postValue(InProgress)
         Timber.tag(TAG).d("onImportFile(fileUri=$fileUri)")
         when (val parseResult = qrCodeFileParser.decodeQrCodeFile(fileUri)) {
             is QrCodeFileParser.ParseResult.Failure -> {
                 Timber.tag(TAG).d(parseResult.exception, "parseResult failed")
-                // TODO show error message
+                result.postValue(Error(error = parseResult.exception))
             }
             is QrCodeFileParser.ParseResult.Success -> {
                 Timber.tag(TAG).d("parseResult=$parseResult")
@@ -47,6 +47,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     }
 
     fun onScanResult(rawResult: String) = launch {
+        result.postValue(InProgress)
         Timber.tag(TAG).d("onScanResult(rawResult=$rawResult)")
         try {
             when (val qrCode = qrCodeValidator.validate(rawResult)) {
@@ -56,7 +57,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
             }
         } catch (e: Exception) {
             Timber.tag(TAG).d(e, "onScanResult failed")
-            error.postValue(e)
+            result.postValue(Error(error = e))
         }
     }
 
@@ -68,25 +69,22 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     private suspend fun onDccQrCode(qrCode: DccQrCode) {
         Timber.tag(TAG).d("onDccQrCode=$qrCode")
         val containerId = dccHandler.handleQrCode(qrCode)
-        // TODO open certificate details
         Timber.tag(TAG).d("containerId=$containerId")
-        navEvent.postValue(containerId.toString())
+        result.postValue(containerId.toDccResult())
     }
 
     private fun onCheckInQrCode(qrCode: CheckInQrCode) {
         Timber.tag(TAG).d("onCheckInQrCode=$qrCode")
-        val result = checkInHandler.handleQrCode(qrCode)
-        // TODO navigate or show error based on result
-        Timber.tag(TAG).d("result=$result")
-        navEvent.postValue(result.toString())
+        val checkInResult = checkInHandler.handleQrCode(qrCode)
+        Timber.tag(TAG).d("checkInResult=$checkInResult")
+        result.postValue(checkInResult.toCheckInResult())
     }
 
     private suspend fun onCoronaTestQrCode(qrCode: CoronaTestQRCode) {
         Timber.tag(TAG).d("onCoronaTestQrCode=$qrCode")
         val submissionEvent = coronaTestHandler.handleQrCode(qrCode)
-        // TODO navigate or show error based on result
         Timber.tag(TAG).d("submissionEvent=$submissionEvent")
-        navEvent.postValue(submissionEvent.toString())
+        result.postValue(submissionEvent.toCoronaTestResult())
     }
 
     @AssistedFactory
