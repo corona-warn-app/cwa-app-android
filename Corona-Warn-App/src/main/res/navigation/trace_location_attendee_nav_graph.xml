@@ -55,20 +55,12 @@
             android:name="editCheckInId"
             app:argType="long" />
     </fragment>
-    <fragment
-        android:id="@+id/scanCheckInQrCodeFragment"
-        android:name="de.rki.coronawarnapp.ui.presencetracing.attendee.scan.ScanCheckInQrCodeFragment"
-        android:label="ScanCheckInQrCodeFragment"
-        tools:layout="@layout/fragment_scan_qr_code" />
 
     <fragment
         android:id="@+id/checkInsFragment"
         android:name="de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment"
         android:label="CheckInsFragment"
         tools:layout="@layout/trace_location_attendee_checkins_fragment">
-        <action
-            android:id="@+id/action_checkInsFragment_to_scanCheckInQrCodeFragment"
-            app:destination="@id/scanCheckInQrCodeFragment" />
         <action
             android:id="@+id/action_checkInsFragment_to_confirmCheckInFragment"
             app:destination="@id/confirmCheckInFragment" />

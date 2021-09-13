@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent.TYPE_ANNOUNCEMENT
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
@@ -178,5 +179,6 @@ class ScanCheckInQrCodeFragment :
 
     companion object {
         private const val REQUEST_CAMERA_PERMISSION_CODE = 4000
+        val uri = "coronawarnapp://universal-scanner-check-in".toUri()
     }
 }

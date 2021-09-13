@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CameraPermissionVH
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CheckInsItem
 import de.rki.coronawarnapp.ui.presencetracing.attendee.edit.EditCheckInFragmentArgs
+import de.rki.coronawarnapp.ui.presencetracing.attendee.scan.ScanCheckInQrCodeFragment
 import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.setupSwipe
@@ -148,8 +149,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             setOnClickListener {
                 setupHoldTransition()
                 findNavController().navigate(
-                    R.id.action_checkInsFragment_to_scanCheckInQrCodeFragment,
-                    null,
+                    ScanCheckInQrCodeFragment.uri,
                     null,
                     FragmentNavigatorExtras(this to transitionName)
                 )
