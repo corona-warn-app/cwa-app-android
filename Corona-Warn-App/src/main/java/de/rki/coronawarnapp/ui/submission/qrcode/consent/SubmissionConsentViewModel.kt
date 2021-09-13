@@ -85,7 +85,7 @@ class SubmissionConsentViewModel @AssistedInject constructor(
 
         when {
             coronaTest != null -> {
-                SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode(
+                SubmissionNavigationEvents.NavigateToDuplicateWarningFragment(
                     coronaTestQRCode,
                     consentGiven = true
                 ).run { routeToScreen.postValue(this) }

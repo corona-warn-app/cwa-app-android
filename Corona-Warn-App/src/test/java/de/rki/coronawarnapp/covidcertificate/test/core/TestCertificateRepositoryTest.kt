@@ -32,6 +32,7 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.runBlocking
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -89,11 +90,12 @@ class TestCertificateRepositoryTest : BaseTest() {
             coEvery { storage.load() } answers { storageSet }
         }
 
-        qrCodeExtractor.apply {
-            coEvery { extract(any(), any()) } returns testData.personATest1CertQRCode
-            coEvery { extract(testData.personATest1CertQRCodeString) } returns testData.personATest1CertQRCode
+        runBlocking {
+            qrCodeExtractor.apply {
+                coEvery { extract(any(), any()) } returns testData.personATest1CertQRCode()
+                coEvery { extract(testData.personATest1CertQRCodeString) } returns testData.personATest1CertQRCode()
+            }
         }
-
         every { valueSetsRepository.latestTestCertificateValueSets } returns emptyFlow()
 
         every { timeStamper.nowUTC } returns Instant.ofEpochSecond(12345678)
@@ -160,12 +162,12 @@ class TestCertificateRepositoryTest : BaseTest() {
         val instance = createInstance(scope = this)
 
         instance.registerCertificate(
-            qrCode = testData.personATest1CertQRCode
+            qrCode = testData.personATest1CertQRCode()
         ).apply {
             this.qrCodeExtractor shouldBe qrCodeExtractor
 
             data.testCertificateQrCode shouldBe testData.personATest1CertQRCodeString
-            certificateId shouldBe testData.personATest1CertQRCode.uniqueCertificateIdentifier
+            certificateId shouldBe testData.personATest1CertQRCode().uniqueCertificateIdentifier
 
             isCertificateRetrievalPending shouldBe false
             isUpdatingData shouldBe false
@@ -181,7 +183,7 @@ class TestCertificateRepositoryTest : BaseTest() {
 
         shouldThrow<InvalidTestCertificateException> {
             instance.registerCertificate(
-                qrCode = testData.personATest1CertQRCode
+                qrCode = testData.personATest1CertQRCode()
             )
         }.errorCode shouldBe ErrorCode.ALREADY_REGISTERED
     }

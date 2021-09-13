@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.coronatest.qrcode
 
 import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 import testhelpers.BaseTest
 
@@ -12,7 +13,7 @@ class PcrQrCodeExtractorTest : BaseTest() {
     private val localhostLowerCase = "https://localhost/?"
     private val localhostMixedCase = "https://LOCALHOST/?"
 
-    private fun buildQRCodeCases(prefixString: String, guid: String, conditionToMatch: Boolean) {
+    private fun buildQRCodeCases(prefixString: String, guid: String, conditionToMatch: Boolean) = runBlockingTest {
         val extractor = PcrQrCodeExtractor()
         try {
             if (extractor.canHandle("$prefixString$guid")) {
@@ -76,7 +77,7 @@ class PcrQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun extractGUID() {
+    fun extractGUID() = runBlockingTest {
         PcrQrCodeExtractor().extract(
             "$localhostUpperCase$guidUpperCase",
         ).qrCodeGUID shouldBe guidUpperCase

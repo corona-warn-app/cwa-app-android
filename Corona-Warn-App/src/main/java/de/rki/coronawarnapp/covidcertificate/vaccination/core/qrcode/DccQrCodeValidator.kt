@@ -15,7 +15,7 @@ class DccQrCodeValidator @Inject constructor(
 ) {
     private val extractors = setOf(dccQrCodeExtractor)
 
-    fun validate(rawString: String): DccQrCode {
+    suspend fun validate(rawString: String): DccQrCode {
         // If there is more than one "extractor" in the future, check censoring again.
         // CertificateQrCodeCensor.addQRCodeStringToCensor(rawString)
         return findExtractor(rawString)
@@ -24,7 +24,7 @@ class DccQrCodeValidator @Inject constructor(
             ?: throw InvalidHealthCertificateException(HC_PREFIX_INVALID)
     }
 
-    private fun findExtractor(rawString: String): DccQrCodeExtractor? {
+    private suspend fun findExtractor(rawString: String): DccQrCodeExtractor? {
         return extractors.find { it.canHandle(rawString) }
     }
 }
