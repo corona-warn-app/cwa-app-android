@@ -26,7 +26,6 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     private val qrCodeFileParser: QrCodeFileParser,
     private val dccHandler: DccQrCodeHandler,
     private val checkInHandler: CheckInQrCodeHandler,
-    private val coronaTestHandler: CoronaTestQrCodeHandler,
 ) : CWAViewModel(dispatcherProvider) {
 
     val result = SingleLiveEvent<ScannerResult>()
@@ -80,11 +79,10 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         result.postValue(checkInResult.toCheckInResult())
     }
 
-    private suspend fun onCoronaTestQrCode(qrCode: CoronaTestQRCode) {
+    private fun onCoronaTestQrCode(qrCode: CoronaTestQRCode) {
         Timber.tag(TAG).d("onCoronaTestQrCode=$qrCode")
-        val submissionEvent = coronaTestHandler.handleQrCode(qrCode)
-        Timber.tag(TAG).d("submissionEvent=$submissionEvent")
-        result.postValue(submissionEvent.toCoronaTestResult())
+        // No registration at this point , user have to give consent
+        result.postValue(CoronaTestResult(qrCode))
     }
 
     @AssistedFactory

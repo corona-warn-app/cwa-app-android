@@ -23,17 +23,5 @@ sealed class CheckInResult : ScannerResult {
     data class Error(val stringRes: LazyString) : CheckInResult()
 }
 
-sealed class CoronaTestResult : ScannerResult {
-    /**
-     * Consent is not given at this point and shall always be false,so user should see consent screen after UQS
-     */
-    data class DuplicateTest(val qrcode: CoronaTestQRCode, val consentGiven: Boolean = false) : CoronaTestResult()
-
-    /**
-     * Consent is not given at this point and shall always be false,so user should see consent screen after UQS
-     */
-    data class RequestDcc(val qrcode: CoronaTestQRCode, val consentGiven: Boolean = false) : CoronaTestResult()
-    data class RegisTestState(val state: TestRegistrationStateProcessor.State) : CoronaTestResult()
-}
-
+data class CoronaTestResult(val qrcode: CoronaTestQRCode) : ScannerResult
 data class Error(val error: Throwable) : ScannerResult

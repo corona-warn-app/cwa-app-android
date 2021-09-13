@@ -151,18 +151,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     }
 
     private fun onCoronaTestResult(scannerResult: CoronaTestResult) {
-        when (scannerResult) {
-            is CoronaTestResult.DuplicateTest -> error("No implemented") // TODO
-            is CoronaTestResult.RequestDcc -> error("No implemented") // TODO
-            is CoronaTestResult.RegisTestState -> when (scannerResult.state) {
-                State.Idle,
-                State.Working -> Timber.tag(TAG).e("State=${scannerResult.state} isn't handled in UQS")
-                is State.TestRegistered -> error("No implemented") // TODO
-                is State.Error -> scannerResult.state.getDialogBuilder(requireContext())
-                    .setOnDismissListener { popBackStack() }
-                    .show()
-            }
-        }
+        // TODO open consent screen
     }
 
     private fun onDccResult(scannerResult: DccResult) {

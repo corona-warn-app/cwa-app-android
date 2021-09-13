@@ -51,10 +51,3 @@ fun CheckInQrCodeHandler.Result.toCheckInResult(): CheckInResult = when (this) {
     is CheckInQrCodeHandler.Result.Invalid -> CheckInResult.Error(errorTextRes.toResolvingString())
     is CheckInQrCodeHandler.Result.Valid -> CheckInResult.Details(verifiedTraceLocation)
 }
-
-fun SubmissionNavigationEvents.toCoronaTestResult(): CoronaTestResult = when (this) {
-    is SubmissionNavigationEvents.NavigateToDuplicateWarningFragment -> CoronaTestResult.DuplicateTest(coronaTestQRCode)
-    is SubmissionNavigationEvents.NavigateToRequestDccFragment -> CoronaTestResult.RequestDcc(coronaTestQRCode)
-    is SubmissionNavigationEvents.RegisterTestResult -> CoronaTestResult.RegisTestState(state)
-    else -> throw IllegalArgumentException("SubmissionNavigationEvent=$this isn't handled in UQS")
-}
