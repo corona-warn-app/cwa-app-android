@@ -9,6 +9,7 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.spyk
 import io.mockk.verify
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -27,7 +28,7 @@ class DccQrCodeValidatorTest : BaseTest() {
     }
 
     @Test
-    fun `validator uses strict extraction mode`() {
+    fun `validator uses strict extraction mode`() = runBlockingTest {
         val instance = DccQrCodeValidator(vacExtractorSpy)
         instance.validate(testData.personAVac1QRCodeString).apply {
             uniqueCertificateIdentifier shouldBe testData.personAVac1Container.certificateId
@@ -36,7 +37,7 @@ class DccQrCodeValidatorTest : BaseTest() {
     }
 
     @Test
-    fun `validator throws invalid vaccination exception for pcr test qr code`() {
+    fun `validator throws invalid vaccination exception for pcr test qr code`() = runBlockingTest {
         val instance = DccQrCodeValidator(vacExtractorSpy)
         shouldThrow<InvalidHealthCertificateException> {
             instance.validate("HTTPS://LOCALHOST/?123456-12345678-1234-4DA7-B166-B86D85475064")

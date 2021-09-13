@@ -180,5 +180,9 @@
         android:name="de.rki.coronawarnapp.test.booster.ui.BoosterTestFragment"
         android:label="BoosterTestFragment"
         tools:layout="@layout/fragment_test_booster" />
+    <fragment
+        android:id="@+id/qrCodeScannerFragment"
+        android:name="de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragment"
+        android:label="QrCodeScannerFragment" />
 
 </navigation>
