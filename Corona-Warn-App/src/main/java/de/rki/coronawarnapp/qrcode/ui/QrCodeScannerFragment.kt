@@ -82,8 +82,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 is CheckInResult.Details -> TODO()
                 is CheckInResult.Error -> showCheckInQrCodeError(scannerResult.stringRes)
 
-                is Error -> scannerResult.error
-                    .toQrCodeErrorDialogBuilder(requireContext())
+                is Error -> scannerResult.error.toQrCodeErrorDialogBuilder(requireContext())
                     .setOnDismissListener { popBackStack() }
                     .show()
 
