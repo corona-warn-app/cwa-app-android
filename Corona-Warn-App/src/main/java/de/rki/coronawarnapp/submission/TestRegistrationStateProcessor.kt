@@ -110,4 +110,17 @@ class TestRegistrationStateProcessor @Inject constructor(
             null
         }
     }
+
+    suspend fun registerCoronaTest(request: TestRegistrationRequest): State = mutex.withLock {
+        return try {
+            PcrQrCodeCensor.dateOfBirth = request.dateOfBirth
+            val coronaTest = submissionRepository.registerTest(request)
+            State.TestRegistered(test = coronaTest)
+        } catch (err: Exception) {
+            if (err !is CwaWebException && err !is AlreadyRedeemedException) {
+                err.report(ExceptionCategory.INTERNAL)
+            }
+            State.Error(exception = err)
+        }
+    }
 }

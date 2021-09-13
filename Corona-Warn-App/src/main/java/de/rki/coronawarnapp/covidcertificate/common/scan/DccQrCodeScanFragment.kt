@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertifi
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragment
 import de.rki.coronawarnapp.databinding.FragmentScanQrCodeBinding
+import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -29,13 +30,13 @@ import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
 class DccQrCodeScanFragment :
-    Fragment(R.layout.fragment_scan_qr_code),
+    Fragment(R.layout.fragment_qrcode_scanner),
     AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: DccQrCodeScanViewModel by cwaViewModels { viewModelFactory }
 
-    private val binding: FragmentScanQrCodeBinding by viewBinding()
+    private val binding: FragmentQrcodeScannerBinding by viewBinding()
     private var showsPermissionDialog = false
 
     private val requestPermissionLauncher =
@@ -73,7 +74,6 @@ class DccQrCodeScanFragment :
 
             qrCodeScanToolbar.setNavigationOnClickListener { popBackStack() }
             qrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
-            qrCodeScanViewfinderView.setCameraPreview(binding.qrCodeScanPreview)
             qrCodeScanSpinner.hide()
         }
 
@@ -119,7 +119,7 @@ class DccQrCodeScanFragment :
 
     override fun onResume() {
         super.onResume()
-        binding.checkInQrCodeScanContainer.sendAccessibilityEvent(TYPE_ANNOUNCEMENT)
+        binding.qrcodeScanContainer.sendAccessibilityEvent(TYPE_ANNOUNCEMENT)
         if (CameraPermissionHelper.hasCameraPermission(requireActivity())) {
             binding.qrCodeScanPreview.resume()
             startDecode()
