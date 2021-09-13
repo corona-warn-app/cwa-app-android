@@ -1,14 +1,15 @@
 package de.rki.coronawarnapp.coronatest.qrcode
 
 import de.rki.coronawarnapp.bugreporting.censors.submission.PcrQrCodeCensor
+import de.rki.coronawarnapp.qrcode.scanner.QrCodeExtractor
 import java.util.regex.Pattern
 import javax.inject.Inject
 
 class PcrQrCodeExtractor @Inject constructor() : QrCodeExtractor<CoronaTestQRCode> {
 
-    override fun canHandle(rawString: String): Boolean = rawString.startsWith(prefix, ignoreCase = true)
+    override suspend fun canHandle(rawString: String): Boolean = rawString.startsWith(prefix, ignoreCase = true)
 
-    override fun extract(rawString: String): CoronaTestQRCode.PCR {
+    override suspend fun extract(rawString: String): CoronaTestQRCode.PCR {
         val guid = extractGUID(rawString)
         PcrQrCodeCensor.lastGUID = guid
         return CoronaTestQRCode.PCR(guid)

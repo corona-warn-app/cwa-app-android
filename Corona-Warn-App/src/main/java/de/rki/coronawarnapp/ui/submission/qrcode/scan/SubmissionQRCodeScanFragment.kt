@@ -13,7 +13,7 @@ import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.errors.AlreadyRedeemedException
-import de.rki.coronawarnapp.databinding.FragmentSubmissionQrCodeScanBinding
+import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
@@ -31,7 +31,7 @@ import javax.inject.Inject
 /**
  * A simple [Fragment] subclass.
  */
-class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_code_scan), AutoInject {
+class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoInject {
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
     private val args by navArgs<SubmissionQRCodeScanFragmentArgs>()
@@ -44,7 +44,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
         }
     )
 
-    private val binding: FragmentSubmissionQrCodeScanBinding by viewBinding()
+    private val binding: FragmentQrcodeScannerBinding by viewBinding()
     private var showsPermissionDialog = false
 
     @Suppress("ComplexMethod")
@@ -52,20 +52,17 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
-            submissionQrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
-                submissionQrCodeScanPreview.setTorch(isChecked)
+            qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
+                qrCodeScanPreview.setTorch(isChecked)
             }
 
-            submissionQrCodeScanToolbar.setNavigationOnClickListener { viewModel.onClosePressed() }
-
-            submissionQrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
-
-            submissionQrCodeScanViewfinderView.setCameraPreview(submissionQrCodeScanPreview)
+            qrCodeScanToolbar.setNavigationOnClickListener { viewModel.onClosePressed() }
+            qrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
         }
 
         viewModel.events.observe2(this) {
             when (it) {
-                is SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode -> {
+                is SubmissionNavigationEvents.NavigateToDuplicateWarningFragment -> {
                     NavGraphDirections
                         .actionToSubmissionDeletionWarningFragment(
                             testRegistrationRequest = it.coronaTestQRCode,
@@ -87,9 +84,9 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 
         viewModel.registrationState.observe2(this) { state ->
             if (state is State.Working) {
-                binding.submissionQrCodeScanSpinner.show()
+                binding.qrCodeScanSpinner.show()
             } else {
-                binding.submissionQrCodeScanSpinner.hide()
+                binding.qrCodeScanSpinner.hide()
             }
             when (state) {
                 State.Idle,
@@ -123,7 +120,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
     }
 
     private fun startDecode() {
-        binding.submissionQrCodeScanPreview.decodeSingle {
+        binding.qrCodeScanPreview.decodeSingle {
             viewModel.registerCoronaTest(it.text)
         }
     }
@@ -168,10 +165,10 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 
     override fun onResume() {
         super.onResume()
-        binding.submissionQrCodeScanContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+        binding.qrcodeScanContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
 
         if (CameraPermissionHelper.hasCameraPermission(requireActivity())) {
-            binding.submissionQrCodeScanPreview.resume()
+            binding.qrCodeScanPreview.resume()
             startDecode()
             return
         }
@@ -232,7 +229,7 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 
     override fun onPause() {
         super.onPause()
-        binding.submissionQrCodeScanPreview.pause()
+        binding.qrCodeScanPreview.pause()
     }
 
     companion object {

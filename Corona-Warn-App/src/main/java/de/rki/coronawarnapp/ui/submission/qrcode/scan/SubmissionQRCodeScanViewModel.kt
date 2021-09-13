@@ -36,7 +36,7 @@ class SubmissionQRCodeScanViewModel @AssistedInject constructor(
             val coronaTest = submissionRepository.testForType(ctQrCode.type).first()
             when {
                 coronaTest != null -> events.postValue(
-                    SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode(
+                    SubmissionNavigationEvents.NavigateToDuplicateWarningFragment(
                         coronaTestQRCode = ctQrCode,
                         consentGiven = isConsentGiven
                     )

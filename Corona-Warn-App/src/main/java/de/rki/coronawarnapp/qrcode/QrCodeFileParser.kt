@@ -15,13 +15,13 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class QRCodeFileParser @Inject constructor(
+class QrCodeFileParser @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val qrCodeBitmapProvider: QRCodeBitmapProvider,
     private val qrCodeReader: QRCodeReader
 ) {
 
-    suspend fun decodeQrCodeFile(fileUri: Uri): QRCodeParseResult = withContext(dispatcherProvider.IO) {
+    suspend fun decodeQrCodeFile(fileUri: Uri): ParseResult = withContext(dispatcherProvider.IO) {
         when (val bitmapResult = qrCodeBitmapProvider.getBitmapsForUri(fileUri)) {
             is QRCodeBitmapProvider.BitmapResult.Success -> {
                 for (bitmap in bitmapResult.bitmaps) {
@@ -35,7 +35,7 @@ class QRCodeFileParser @Inject constructor(
                     try {
                         val content = qrCodeReader.decode(binaryBitmap).text
                         Timber.d("Parsed qr code from image: %s", content)
-                        return@withContext QRCodeParseResult.Success(content)
+                        return@withContext ParseResult.Success(content)
                     } catch (ex: ReaderException) {
                         Timber.d(ex, "Failed to Parse QR Code from bitmap")
                     }
@@ -43,18 +43,18 @@ class QRCodeFileParser @Inject constructor(
                     bitmap.recycle()
                 }
 
-                return@withContext QRCodeParseResult.Failure(
+                return@withContext ParseResult.Failure(
                     IllegalArgumentException("No valid QR Code found")
                 )
             }
             is QRCodeBitmapProvider.BitmapResult.Failed -> {
-                QRCodeParseResult.Failure(bitmapResult.error)
+                ParseResult.Failure(bitmapResult.error)
             }
         }
     }
 
-    sealed class QRCodeParseResult {
-        data class Success(val text: String) : QRCodeParseResult()
-        data class Failure(val exception: Exception) : QRCodeParseResult()
+    sealed class ParseResult {
+        data class Success(val text: String) : ParseResult()
+        data class Failure(val exception: Exception) : ParseResult()
     }
 }

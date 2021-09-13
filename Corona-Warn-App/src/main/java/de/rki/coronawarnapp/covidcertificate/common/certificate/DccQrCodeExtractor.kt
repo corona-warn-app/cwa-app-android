@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import de.rki.coronawarnapp.bugreporting.censors.dcc.DccQrCodeCensor
-import de.rki.coronawarnapp.coronatest.qrcode.QrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode.CERT_REC_LENIENT
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode.CERT_REC_STRICT
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode.CERT_SINGLE_STRICT
@@ -30,6 +29,7 @@ import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
+import de.rki.coronawarnapp.qrcode.scanner.QrCodeExtractor
 import de.rki.coronawarnapp.util.compression.deflate
 import de.rki.coronawarnapp.util.compression.inflate
 import de.rki.coronawarnapp.util.encoding.Base45Decoder
@@ -42,17 +42,17 @@ class DccQrCodeExtractor @Inject constructor(
     private val bodyParser: DccV1Parser,
 ) : QrCodeExtractor<DccQrCode> {
 
-    override fun canHandle(rawString: String): Boolean = rawString.startsWith(PREFIX)
+    override suspend fun canHandle(rawString: String): Boolean = rawString.startsWith(PREFIX)
 
     /**
      * May throw an **[InvalidHealthCertificateException]**
      */
-    override fun extract(rawString: String): DccQrCode = extract(rawString, CERT_SINGLE_STRICT)
+    override suspend fun extract(rawString: String): DccQrCode = extract(rawString, CERT_SINGLE_STRICT)
 
     /**
      * May throw an **[InvalidHealthCertificateException]**
      */
-    fun extractEncrypted(
+    suspend fun extractEncrypted(
         decryptionKey: ByteArray,
         rawCoseObjectEncrypted: ByteArray,
     ): DccQrCode {

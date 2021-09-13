@@ -13,7 +13,7 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.FragmentScanQrCodeBinding
+import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -28,13 +28,13 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class ScanCheckInQrCodeFragment :
-    Fragment(R.layout.fragment_scan_qr_code),
+    Fragment(R.layout.fragment_qrcode_scanner),
     AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: ScanCheckInQrCodeViewModel by cwaViewModels { viewModelFactory }
 
-    private val binding: FragmentScanQrCodeBinding by viewBinding()
+    private val binding: FragmentQrcodeScannerBinding by viewBinding()
     private var showsPermissionDialog = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,7 +55,6 @@ class ScanCheckInQrCodeFragment :
 
             qrCodeScanToolbar.setNavigationOnClickListener { viewModel.onNavigateUp() }
             qrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
-            qrCodeScanViewfinderView.setCameraPreview(binding.qrCodeScanPreview)
         }
 
         viewModel.events.observe2(this) { navEvent ->
@@ -77,7 +76,7 @@ class ScanCheckInQrCodeFragment :
 
     override fun onResume() {
         super.onResume()
-        binding.checkInQrCodeScanContainer.sendAccessibilityEvent(TYPE_ANNOUNCEMENT)
+        binding.qrcodeScanContainer.sendAccessibilityEvent(TYPE_ANNOUNCEMENT)
         if (CameraPermissionHelper.hasCameraPermission(requireActivity())) {
             binding.qrCodeScanPreview.resume()
             startDecode()

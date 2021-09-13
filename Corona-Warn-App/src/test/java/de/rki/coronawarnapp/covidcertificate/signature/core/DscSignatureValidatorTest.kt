@@ -425,7 +425,7 @@ class DscSignatureValidatorTest : BaseTest() {
         dscRepository = dscRepository
     )
 
-    private fun dccData(hc: String) = extractor.extract(hc).data
+    private suspend fun dccData(hc: String) = extractor.extract(hc).data
 
     companion object {
         private const val DSC_LIST_BASE64 =

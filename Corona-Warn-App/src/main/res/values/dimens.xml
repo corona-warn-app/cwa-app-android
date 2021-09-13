@@ -121,6 +121,7 @@
 
     <!-- QR Code Scan -->
     <dimen name="scan_qr_code_viewfinder_size">300dp</dimen>
+    <dimen name="scan_qr_code_viewfinder_safe_size">400dp</dimen>
     <dimen name="scan_qr_code_viewfinder_center_offset">150dp</dimen>
 
     <!-- Submission Country Select -->

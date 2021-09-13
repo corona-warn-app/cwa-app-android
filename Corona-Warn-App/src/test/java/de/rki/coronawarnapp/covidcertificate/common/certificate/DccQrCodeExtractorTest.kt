@@ -22,6 +22,7 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.verify
+import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -46,7 +47,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `happy path extraction 2`() {
+    fun `happy path extraction 2`() = runBlockingTest {
         extractor.extract(VaccinationQrCodeTestData.validVaccinationQrCode2)
     }
 
@@ -284,7 +285,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `happy path extraction recovery`() {
+    fun `happy path extraction recovery`() = runBlockingTest {
         extractor.extract(
             RecoveryQrCodeTestData.validRecovery,
         )

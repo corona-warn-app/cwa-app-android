@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.qrcode.provider.image.NewImageUriResolver
 import javax.inject.Singleton
 
 @Module
-class QrCodeFileParserModule {
+class QrCodeScannerModule {
     @Provides
     @Singleton
     fun bindImageResolver(
