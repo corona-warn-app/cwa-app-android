@@ -14,7 +14,6 @@ import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
 import de.rki.coronawarnapp.tag
-import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.ui.LazyString
@@ -109,35 +108,27 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     }
 
     private fun showCameraPermissionDeniedDialog() {
-        val permissionDeniedDialog = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.submission_qr_code_scan_permission_denied_dialog_headline,
-            R.string.submission_qr_code_scan_permission_denied_dialog_body,
-            R.string.submission_qr_code_scan_permission_denied_dialog_button,
-            cancelable = false,
-            positiveButtonFunction = { leave() }
-        )
+        MaterialAlertDialogBuilder(requireContext()).apply {
+            setTitle(R.string.submission_qr_code_scan_permission_denied_dialog_headline)
+            setMessage(R.string.submission_qr_code_scan_permission_denied_dialog_body)
+            setPositiveButton(R.string.submission_qr_code_scan_permission_denied_dialog_button) { _, _ -> leave() }
+        }.show()
         showsPermissionDialog = true
-        DialogHelper.showDialog(permissionDeniedDialog)
     }
 
     private fun showCameraPermissionRationaleDialog() {
-        val cameraPermissionRationaleDialogInstance = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.submission_qr_code_scan_permission_rationale_dialog_headline,
-            R.string.submission_qr_code_scan_permission_rationale_dialog_body,
-            R.string.submission_qr_code_scan_permission_rationale_dialog_button_positive,
-            R.string.submission_qr_code_scan_permission_rationale_dialog_button_negative,
-            false,
-            positiveButtonFunction = {
+        MaterialAlertDialogBuilder(requireContext()).apply {
+            setTitle(R.string.submission_qr_code_scan_permission_rationale_dialog_headline)
+            setMessage(R.string.submission_qr_code_scan_permission_rationale_dialog_body)
+            setPositiveButton(R.string.submission_qr_code_scan_permission_rationale_dialog_button_positive) { _, _ ->
                 showsPermissionDialog = false
                 requestCameraPermission()
-            },
-            negativeButtonFunction = { leave() }
-        )
-
+            }
+            setNegativeButton(R.string.submission_qr_code_scan_permission_rationale_dialog_button_negative) { _, _ ->
+                leave()
+            }
+        }.show()
         showsPermissionDialog = true
-        DialogHelper.showDialog(cameraPermissionRationaleDialogInstance)
     }
 
     private fun showCheckInQrCodeError(lazyErrorText: LazyString) =
