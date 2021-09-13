@@ -28,12 +28,12 @@ class DccExpirationNotificationService @Inject constructor(
 ) {
     private val mutex = Mutex()
 
-    suspend fun showNotificationIfStateChanged() = mutex.withLock {
-        Timber.tag(TAG).v("showNotificationIfStateChanged()")
+    suspend fun showNotificationIfStateChanged(ignoreLastCheck: Boolean = false) = mutex.withLock {
+        Timber.tag(TAG).v("showNotificationIfStateChanged(ignoreLastCheck=%s)", ignoreLastCheck)
 
         val lastCheck = covidCertificateSettings.lastDccStateBackgroundCheck.value
 
-        if (lastCheck.toLocalDateUtc() == timeStamper.nowUTC.toLocalDateUtc()) {
+        if (!ignoreLastCheck && lastCheck.toLocalDateUtc() == timeStamper.nowUTC.toLocalDateUtc()) {
             Timber.tag(TAG).d("Last check was within 24h, skipping.")
             return
         }
