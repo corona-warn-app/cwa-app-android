@@ -152,12 +152,12 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
 
     private fun onCoronaTestResult(scannerResult: CoronaTestResult) {
         when (scannerResult) {
-            is CoronaTestResult.DuplicateTest -> TODO()
-            is CoronaTestResult.RequestDcc -> TODO()
+            is CoronaTestResult.DuplicateTest -> error("No implemented") // TODO
+            is CoronaTestResult.RequestDcc -> error("No implemented") // TODO
             is CoronaTestResult.RegisTestState -> when (scannerResult.state) {
                 State.Idle,
                 State.Working -> Timber.tag(TAG).e("State=${scannerResult.state} isn't handled in UQS")
-                is State.TestRegistered -> TODO()
+                is State.TestRegistered -> error("No implemented") // TODO
                 is State.Error -> scannerResult.state.getDialogBuilder(requireContext())
                     .setOnDismissListener { popBackStack() }
                     .show()
@@ -167,15 +167,15 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
 
     private fun onDccResult(scannerResult: DccResult) {
         when (scannerResult) {
-            is DccResult.Recovery -> TODO()
-            is DccResult.Test -> TODO()
-            is DccResult.Vaccination -> TODO()
+            is DccResult.Recovery -> error("No implemented") // TODO
+            is DccResult.Test -> error("No implemented") // TODO
+            is DccResult.Vaccination -> error("No implemented") // TODO
         }
     }
 
     private fun onCheckInResult(scannerResult: CheckInResult) {
         when (scannerResult) {
-            is CheckInResult.Details -> TODO()
+            is CheckInResult.Details -> error("No implemented") // TODO
             is CheckInResult.Error -> showCheckInQrCodeError(scannerResult.stringRes)
         }
     }
