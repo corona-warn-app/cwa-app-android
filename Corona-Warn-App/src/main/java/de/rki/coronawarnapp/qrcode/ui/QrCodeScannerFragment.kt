@@ -13,6 +13,8 @@ import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
+import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
+import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
@@ -70,16 +72,9 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         viewModel.result.observe(viewLifecycleOwner) { scannerResult ->
             if (scannerResult != InProgress) binding.qrCodeScanSpinner.hide()
             when (scannerResult) {
-                is CoronaTestResult.DuplicateTest -> TODO()
-                is CoronaTestResult.RequestDcc -> TODO()
-                is CoronaTestResult.RegisTestState -> TODO()
-
-                is DccResult.Recovery -> TODO()
-                is DccResult.Test -> TODO()
-                is DccResult.Vaccination -> TODO()
-
-                is CheckInResult.Details -> TODO()
-                is CheckInResult.Error -> showCheckInQrCodeError(scannerResult.stringRes)
+                is CoronaTestResult -> onCoronaTestResult(scannerResult)
+                is DccResult -> onDccResult(scannerResult)
+                is CheckInResult -> onCheckInResult(scannerResult)
 
                 is Error -> scannerResult.error.toQrCodeErrorDialogBuilder(requireContext())
                     .setOnDismissListener { popBackStack() }
@@ -101,6 +96,11 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         if (showsPermissionDialog) return
 
         requestCameraPermission()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.qrCodeScanPreview.pause()
     }
 
     private fun startDecode() = binding.qrCodeScanPreview.decodeSingle { barcodeResult ->
@@ -151,9 +151,34 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         popBackStack()
     }
 
-    override fun onPause() {
-        super.onPause()
-        binding.qrCodeScanPreview.pause()
+    private fun onCoronaTestResult(scannerResult: CoronaTestResult) {
+        when (scannerResult) {
+            is CoronaTestResult.DuplicateTest -> TODO()
+            is CoronaTestResult.RequestDcc -> TODO()
+            is CoronaTestResult.RegisTestState -> when (scannerResult.state) {
+                State.Idle,
+                State.Working -> Timber.tag(TAG).e("State=${scannerResult.state} isn't handled in UQS")
+                is State.TestRegistered -> TODO()
+                is State.Error -> scannerResult.state.getDialogBuilder(requireContext())
+                    .setOnDismissListener { popBackStack() }
+                    .show()
+            }
+        }
+    }
+
+    private fun onDccResult(scannerResult: DccResult) {
+        when (scannerResult) {
+            is DccResult.Recovery -> TODO()
+            is DccResult.Test -> TODO()
+            is DccResult.Vaccination -> TODO()
+        }
+    }
+
+    private fun onCheckInResult(scannerResult: CheckInResult) {
+        when (scannerResult) {
+            is CheckInResult.Details -> TODO()
+            is CheckInResult.Error -> showCheckInQrCodeError(scannerResult.stringRes)
+        }
     }
 
     companion object {
