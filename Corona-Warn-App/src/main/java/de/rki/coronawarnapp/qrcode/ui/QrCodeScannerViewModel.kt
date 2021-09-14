@@ -10,12 +10,14 @@ import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.permission.CameraSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
 class QrCodeScannerViewModel @AssistedInject constructor(
@@ -25,6 +27,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     private val qrCodeFileParser: QrCodeFileParser,
     private val dccHandler: DccQrCodeHandler,
     private val checkInHandler: CheckInQrCodeHandler,
+    private val submissionRepository: SubmissionRepository,
 ) : CWAViewModel(dispatcherProvider) {
 
     val result = SingleLiveEvent<ScannerResult>()
@@ -49,7 +52,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         Timber.tag(TAG).d("onScanResult(rawResult=$rawResult)")
         try {
             when (val qrCode = qrCodeValidator.validate(rawResult)) {
-                is CoronaTestQRCode -> onCoronaTestQrCode(qrCode)
+                is CoronaTestQRCode -> onCoronaTestQrCode(qrCode, rawResult)
                 is CheckInQrCode -> onCheckInQrCode(qrCode)
                 is DccQrCode -> onDccQrCode(qrCode)
             }
@@ -78,10 +81,16 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         result.postValue(checkInResult.toCheckInResult())
     }
 
-    private fun onCoronaTestQrCode(qrCode: CoronaTestQRCode) {
+    private suspend fun onCoronaTestQrCode(qrCode: CoronaTestQRCode, rawResult: String) {
         Timber.tag(TAG).d("onCoronaTestQrCode=$qrCode")
-        // No registration at this point , user have to give consent
-        result.postValue(CoronaTestResult(qrCode))
+        val coronaTest = submissionRepository.testForType(qrCode.type).first()
+        val coronaTestResult = if (coronaTest != null) {
+            CoronaTestResult.DuplicateTest(rawResult)
+        } else {
+            CoronaTestResult.ConsentTest(rawResult)
+        }
+        Timber.tag(TAG).d("coronaTestResult=$coronaTestResult")
+        result.postValue(coronaTestResult)
     }
 
     @AssistedFactory
