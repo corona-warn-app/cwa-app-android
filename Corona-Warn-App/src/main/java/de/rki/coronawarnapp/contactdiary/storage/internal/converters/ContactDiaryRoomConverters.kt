@@ -1,19 +1,22 @@
 package de.rki.coronawarnapp.contactdiary.storage.internal.converters
 
 import androidx.room.TypeConverter
-import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
+import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter.DurationClassification
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
 import org.joda.time.Duration
 
 class ContactDiaryRoomConverters {
     @TypeConverter
-    fun toContactDurationClassification(value: String?): ContactDiaryPersonEncounter.DurationClassification? {
-        if (value == null) return null
-        return ContactDiaryPersonEncounter.DurationClassification.values().singleOrNull { it.key == value }
-    }
+    fun toContactDurationClassification(value: String?): DurationClassification? =
+        when (value) {
+            // Map old values
+            "LessThan15Minutes" -> DurationClassification.LESS_THAN_10_MINUTES
+            "MoreThan15Minutes" -> DurationClassification.MORE_THAN_10_MINUTES
+            else -> DurationClassification.values().singleOrNull { it.key == value }
+        }
 
     @TypeConverter
-    fun fromContactDurationClassification(value: ContactDiaryPersonEncounter.DurationClassification?): String? {
+    fun fromContactDurationClassification(value: DurationClassification?): String? {
         return value?.key
     }
 
