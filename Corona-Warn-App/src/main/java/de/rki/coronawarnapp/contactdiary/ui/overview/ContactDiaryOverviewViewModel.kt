@@ -9,8 +9,8 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
-import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter.DurationClassification.LESS_THAN_15_MINUTES
-import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter.DurationClassification.MORE_THAN_15_MINUTES
+import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter.DurationClassification.LESS_THAN_10_MINUTES
+import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter.DurationClassification.MORE_THAN_10_MINUTES
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryCleanTask
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
@@ -326,8 +326,8 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     private fun getPersonAttributes(personEncounter: ContactDiaryPersonEncounter): List<Int> =
         mutableListOf<Int>().apply {
             when (personEncounter.durationClassification) {
-                LESS_THAN_15_MINUTES -> add(R.string.contact_diary_person_encounter_duration_below_15_min)
-                MORE_THAN_15_MINUTES -> add(R.string.contact_diary_person_encounter_duration_above_15_min)
+                LESS_THAN_10_MINUTES -> add(R.string.contact_diary_person_encounter_duration_below_10_min)
+                MORE_THAN_10_MINUTES -> add(R.string.contact_diary_person_encounter_duration_above_10_min)
             }
 
             when (personEncounter.withMask) {
