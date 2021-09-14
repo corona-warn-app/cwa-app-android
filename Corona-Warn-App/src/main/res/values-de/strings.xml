@@ -945,6 +945,8 @@
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Sie können Check-ins scannen, um gelöschte Events wiederherzustellen."</string>
     <!-- XBUT: open image file button  -->
     <string name="qr_code_open_file">"Datei öffnen"</string>
+    <!-- XTXT: QR Code processing message  -->
+    <string name="qr_code_processing_message">QR-Code wird gelesen …</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->

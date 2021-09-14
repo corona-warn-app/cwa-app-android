@@ -5,12 +5,17 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
+import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragment
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
@@ -21,6 +26,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import timber.log.Timber
 import javax.inject.Inject
 
 class OrganizerWarnQrCodeScannerFragment :
@@ -33,6 +39,11 @@ class OrganizerWarnQrCodeScannerFragment :
     private val binding: FragmentQrcodeScannerBinding by viewBinding()
     private var showsPermissionDialog = false
 
+    private val filePickerLauncher = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        Timber.tag(TAG).d("Uri=$uri")
+        uri?.let { viewModel.onImportFile(uri) }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(binding) {
             qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
@@ -42,9 +53,13 @@ class OrganizerWarnQrCodeScannerFragment :
             qrCodeScanToolbar.setNavigationOnClickListener { viewModel.onNavigateUp() }
             qrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
             qrCodeScanSubtitle.setText(R.string.qr_code_scan_body_subtitle_vertretung_warnen)
+            buttonOpenFile.setOnClickListener {
+                filePickerLauncher.launch(arrayOf("image/*", "application/pdf"))
+            }
         }
 
         viewModel.events.observe2(this) { navEvent ->
+            binding.qrCodeProcessingView.isVisible = navEvent == OrganizerWarnQrCodeNavigation.InProgress
             when (navEvent) {
                 is OrganizerWarnQrCodeNavigation.BackNavigation -> popBackStack()
                 is OrganizerWarnQrCodeNavigation.InvalidQrCode -> showInvalidQrCodeInformation(navEvent.errorText)
@@ -56,6 +71,9 @@ class OrganizerWarnQrCodeScannerFragment :
                             )
                     )
                 }
+                is OrganizerWarnQrCodeNavigation.Error ->
+                    navEvent.exception.toErrorDialogBuilder(requireContext()).show()
+                OrganizerWarnQrCodeNavigation.InProgress -> binding.qrCodeProcessingView.isVisible = true
             }
         }
     }
@@ -94,7 +112,7 @@ class OrganizerWarnQrCodeScannerFragment :
 
     private fun startDecode() = binding.qrCodeScanPreview
         .decodeSingle { barcodeResult ->
-            viewModel.onScanResult(barcodeResult)
+            viewModel.onScanResult(barcodeResult.text)
         }
 
     private fun showCameraPermissionDeniedDialog() {
@@ -161,5 +179,6 @@ class OrganizerWarnQrCodeScannerFragment :
 
     companion object {
         private const val REQUEST_CAMERA_PERMISSION_CODE = 4000
+        private val TAG = tag<OrganizerWarnQrCodeScannerFragment>()
     }
 }

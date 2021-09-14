@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/qrcode_scan_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -57,12 +58,29 @@
         android:visibility="invisible"
         app:hideAnimationBehavior="inward"
         app:indicatorColor="@android:color/white"
-        app:indicatorSize="64dp"
         app:layout_constraintBottom_toBottomOf="@id/qr_code_scan_guideline_center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/qr_code_scan_guideline_center"
         app:trackColor="@android:color/transparent" />
+
+    <TextView
+        android:id="@+id/qr_code_processing_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/qr_code_processing_message"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/qr_code_scan_spinner" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/qr_code_processing_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="qr_code_processing_message,qr_code_scan_spinner"
+        tools:visibility="visible" />
 
     <Button
         android:id="@+id/button_open_file"
