@@ -14,7 +14,6 @@ import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
-import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragment
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
