@@ -21,7 +21,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource
 import testhelpers.BaseTest
 
 @Suppress("BlockingMethodInNonBlockingContext")
-class QRCodeUriParserTest : BaseTest() {
+class CheckInQrCodeExtractorTest : BaseTest() {
 
     @MockK lateinit var configProvider: AppConfigProvider
 
@@ -42,7 +42,7 @@ class QRCodeUriParserTest : BaseTest() {
         }
     }
 
-    fun createInstance() = QRCodeUriParser(configProvider)
+    fun createInstance() = CheckInQrCodeExtractor(configProvider)
 
     @ParameterizedTest
     @ArgumentsSource(Base64UrlProvider::class)
@@ -51,9 +51,9 @@ class QRCodeUriParserTest : BaseTest() {
         expectedPayload: QRCodePayload,
         expectedVendorData: CWALocationData
     ) = runBlockingTest {
-        val qrCodePayload = createInstance().getQrCodePayload(input)
-        qrCodePayload shouldBe expectedPayload
-        CWALocationData.parseFrom(qrCodePayload.vendorData) shouldBe expectedVendorData
+        val checkInQrCode = createInstance().extract(input)
+        checkInQrCode.qrCodePayload shouldBe expectedPayload
+        CWALocationData.parseFrom(checkInQrCode.qrCodePayload.vendorData) shouldBe expectedVendorData
     }
 
     @ParameterizedTest
@@ -76,16 +76,16 @@ class QRCodeUriParserTest : BaseTest() {
             )
         }
 
-        val qrCodePayload = createInstance().getQrCodePayload(input)
-        qrCodePayload shouldBe expectedPayload
-        CWALocationData.parseFrom(qrCodePayload.vendorData) shouldBe expectedVendorData
+        val checkInQrCode = createInstance().extract(input)
+        checkInQrCode.qrCodePayload shouldBe expectedPayload
+        CWALocationData.parseFrom(checkInQrCode.qrCodePayload.vendorData) shouldBe expectedVendorData
     }
 
     @ParameterizedTest
     @ArgumentsSource(InvalidUrlProvider::class)
     fun `Invalid URLs`(input: String) = runBlockingTest {
         shouldThrow<InvalidQrCodeUriException> {
-            createInstance().getQrCodePayload(input)
+            createInstance().extract(input)
         }
     }
 }

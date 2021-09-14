@@ -50,7 +50,7 @@ class ContactDiaryDatabaseTest : BaseTestInstrumentation() {
         id = 3,
         date = date,
         fkPersonId = person.personId,
-        durationClassification = ContactDiaryPersonEncounter.DurationClassification.MORE_THAN_15_MINUTES,
+        durationClassification = ContactDiaryPersonEncounter.DurationClassification.MORE_THAN_10_MINUTES,
         withMask = true,
         wasOutside = false,
         circumstances = "You could see the smile under his mask."
@@ -141,7 +141,7 @@ class ContactDiaryDatabaseTest : BaseTestInstrumentation() {
             id = 5,
             date = yesterday,
             fkPersonId = person.personId,
-            durationClassification = ContactDiaryPersonEncounter.DurationClassification.LESS_THAN_15_MINUTES,
+            durationClassification = ContactDiaryPersonEncounter.DurationClassification.LESS_THAN_10_MINUTES,
             withMask = false,
             wasOutside = false,
             circumstances = "encounter-yesterday"
@@ -150,7 +150,7 @@ class ContactDiaryDatabaseTest : BaseTestInstrumentation() {
             id = 6,
             date = tomorrow,
             fkPersonId = person.personId,
-            durationClassification = ContactDiaryPersonEncounter.DurationClassification.MORE_THAN_15_MINUTES,
+            durationClassification = ContactDiaryPersonEncounter.DurationClassification.MORE_THAN_10_MINUTES,
             withMask = true,
             wasOutside = true,
             circumstances = "encounter-today"
@@ -236,7 +236,7 @@ class ContactDiaryDatabaseTest : BaseTestInstrumentation() {
         val updatedEncounter = personEncounter.copy(
             withMask = true,
             wasOutside = false,
-            durationClassification = ContactDiaryPersonEncounter.DurationClassification.MORE_THAN_15_MINUTES,
+            durationClassification = ContactDiaryPersonEncounter.DurationClassification.MORE_THAN_10_MINUTES,
             circumstances = "He lend me a coffee cup but the handle broke and it dropped onto my laptop."
         )
         personEncounterDao.update(updatedEncounter)

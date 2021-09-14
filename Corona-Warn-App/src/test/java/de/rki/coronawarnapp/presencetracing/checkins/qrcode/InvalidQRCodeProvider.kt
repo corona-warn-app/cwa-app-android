@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.presencetracing.checkins.qrcode
 
+import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.util.toProtoByteString
 import okio.ByteString.Companion.decodeBase64
@@ -42,7 +43,7 @@ class InvalidQRCodeProvider : ArgumentsProvider {
                             .setStartTimestamp(2687991)
                             .build()
                     ).build(),
-                TraceLocationVerifier.VerificationResult.Invalid.StartEndTime
+                CheckInQrCodeHandler.Result.Invalid.StartEndTime
             ),
             Arguments.of(
                 baseValidQrCodeBuilder()
@@ -52,7 +53,7 @@ class InvalidQRCodeProvider : ArgumentsProvider {
                             .setEndTimestamp(2387991)
                             .build()
                     ).build(),
-                TraceLocationVerifier.VerificationResult.Invalid.StartEndTime
+                CheckInQrCodeHandler.Result.Invalid.StartEndTime
             ),
             Arguments.of(
                 baseValidQrCodeBuilder()
@@ -61,7 +62,7 @@ class InvalidQRCodeProvider : ArgumentsProvider {
                             .setDescription("")
                             .build()
                     ).build(),
-                TraceLocationVerifier.VerificationResult.Invalid.Description
+                CheckInQrCodeHandler.Result.Invalid.Description
             ),
             Arguments.of(
                 baseValidQrCodeBuilder()
@@ -70,7 +71,7 @@ class InvalidQRCodeProvider : ArgumentsProvider {
                             .clearDescription()
                             .build()
                     ).build(),
-                TraceLocationVerifier.VerificationResult.Invalid.Description
+                CheckInQrCodeHandler.Result.Invalid.Description
             ),
             Arguments.of(
                 baseValidQrCodeBuilder()
@@ -79,7 +80,7 @@ class InvalidQRCodeProvider : ArgumentsProvider {
                             .setDescription((0..101).joinToString { "a" })
                             .build()
                     ).build(),
-                TraceLocationVerifier.VerificationResult.Invalid.Description
+                CheckInQrCodeHandler.Result.Invalid.Description
             ),
             Arguments.of(
                 baseValidQrCodeBuilder()
@@ -88,7 +89,7 @@ class InvalidQRCodeProvider : ArgumentsProvider {
                             .setDescription("A \n B")
                             .build()
                     ).build(),
-                TraceLocationVerifier.VerificationResult.Invalid.Description
+                CheckInQrCodeHandler.Result.Invalid.Description
             ),
             Arguments.of(
                 baseValidQrCodeBuilder()
@@ -97,7 +98,7 @@ class InvalidQRCodeProvider : ArgumentsProvider {
                             .setAddress("")
                             .build()
                     ).build(),
-                TraceLocationVerifier.VerificationResult.Invalid.Address
+                CheckInQrCodeHandler.Result.Invalid.Address
             ),
             Arguments.of(
                 baseValidQrCodeBuilder()
@@ -106,7 +107,7 @@ class InvalidQRCodeProvider : ArgumentsProvider {
                             .clearAddress()
                             .build()
                     ).build(),
-                TraceLocationVerifier.VerificationResult.Invalid.Address
+                CheckInQrCodeHandler.Result.Invalid.Address
             ),
             Arguments.of(
                 baseValidQrCodeBuilder()
@@ -115,7 +116,7 @@ class InvalidQRCodeProvider : ArgumentsProvider {
                             .setAddress((0..101).joinToString { "a" })
                             .build()
                     ).build(),
-                TraceLocationVerifier.VerificationResult.Invalid.Address
+                CheckInQrCodeHandler.Result.Invalid.Address
             ),
             Arguments.of(
                 baseValidQrCodeBuilder()
@@ -124,7 +125,7 @@ class InvalidQRCodeProvider : ArgumentsProvider {
                             .setAddress("A \n B")
                             .build()
                     ).build(),
-                TraceLocationVerifier.VerificationResult.Invalid.Address
+                CheckInQrCodeHandler.Result.Invalid.Address
             ),
             Arguments.of(
                 baseValidQrCodeBuilder()
@@ -134,7 +135,7 @@ class InvalidQRCodeProvider : ArgumentsProvider {
                             .setPublicKey(PUB_KEY.decodeBase64()!!.toProtoByteString())
                             .setVersion(1)
                     ).build(),
-                TraceLocationVerifier.VerificationResult.Invalid.CryptographicSeed
+                CheckInQrCodeHandler.Result.Invalid.CryptographicSeed
             )
         )
     }

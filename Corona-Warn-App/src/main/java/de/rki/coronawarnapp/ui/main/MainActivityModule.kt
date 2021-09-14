@@ -6,6 +6,8 @@ import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
 import de.rki.coronawarnapp.covidcertificate.DigitalCovidCertificateUIModule
 import de.rki.coronawarnapp.datadonation.analytics.ui.AnalyticsUIModule
+import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragment
+import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentModule
 import de.rki.coronawarnapp.release.NewReleaseInfoFragment
 import de.rki.coronawarnapp.release.NewReleaseInfoFragmentModule
 import de.rki.coronawarnapp.statistics.ui.stateselection.FederalStateSelectionModule
@@ -57,6 +59,9 @@ abstract class MainActivityModule {
 
     @ContributesAndroidInjector(modules = [QrCodeFullScreenFragmentModule::class])
     abstract fun qrCodeFullScreenFragment(): QrCodeFullScreenFragment
+
+    @ContributesAndroidInjector(modules = [QrCodeScannerFragmentModule::class])
+    abstract fun qrCodeScannerFragment(): QrCodeScannerFragment
 
     @Binds
     @IntoMap

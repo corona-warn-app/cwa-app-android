@@ -16,6 +16,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -51,7 +52,7 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
     )
 
     @Test
-    fun scanStatusValid() {
+    fun scanStatusValid() = runBlockingTest {
         // valid guid
         val guid = "123456-12345678-1234-4DA7-B166-B86D85475064"
         val coronaTestQRCode = CoronaTestQRCode.PCR(
@@ -61,10 +62,10 @@ class SubmissionQRCodeScanViewModelTest : BaseTest() {
         val validQrCode = "https://localhost/?$guid"
         val invalidQrCode = "https://no-guid-here"
 
-        every { qrCodeValidator.validate(validQrCode) } returns coronaTestQRCode
+        coEvery { qrCodeValidator.validate(validQrCode) } returns coronaTestQRCode
 
         val expectedError = InvalidQRCodeException()
-        every { qrCodeValidator.validate(invalidQrCode) } throws expectedError
+        coEvery { qrCodeValidator.validate(invalidQrCode) } throws expectedError
 
         val viewModel = createViewModel()
 

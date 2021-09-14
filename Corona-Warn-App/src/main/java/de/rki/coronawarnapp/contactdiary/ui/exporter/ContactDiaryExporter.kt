@@ -25,9 +25,9 @@ class ContactDiaryExporter @Inject constructor(
     private val prefixPhone = context.getString(R.string.contact_diary_export_prefix_phone)
     private val prefixEMail = context.getString(R.string.contact_diary_export_prefix_email)
 
-    private val textDurationLessThan15Min = context.getString(R.string.contact_diary_export_durations_less_than_15min)
-    private val textDurationLongerThan15Min =
-        context.getString(R.string.contact_diary_export_durations_longer_than_15min)
+    private val textDurationLessThan10Min = context.getString(R.string.contact_diary_export_durations_less_than_10min)
+    private val textDurationLongerThan10Min =
+        context.getString(R.string.contact_diary_export_durations_longer_than_10min)
 
     private val textWithMask = context.getString(R.string.contact_diary_export_wearing_mask)
     private val textNoMask = context.getString(R.string.contact_diary_export_wearing_no_mask)
@@ -132,8 +132,8 @@ class ContactDiaryExporter @Inject constructor(
 
     private fun getDurationClassificationString(duration: ContactDiaryPersonEncounter.DurationClassification) =
         when (duration) {
-            ContactDiaryPersonEncounter.DurationClassification.LESS_THAN_15_MINUTES -> textDurationLessThan15Min
-            ContactDiaryPersonEncounter.DurationClassification.MORE_THAN_15_MINUTES -> textDurationLongerThan15Min
+            ContactDiaryPersonEncounter.DurationClassification.LESS_THAN_10_MINUTES -> textDurationLessThan10Min
+            ContactDiaryPersonEncounter.DurationClassification.MORE_THAN_10_MINUTES -> textDurationLongerThan10Min
         }
 
     // According to tech spec german locale only
