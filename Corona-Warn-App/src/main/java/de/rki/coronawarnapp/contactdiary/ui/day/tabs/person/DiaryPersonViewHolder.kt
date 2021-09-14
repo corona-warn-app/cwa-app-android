@@ -41,15 +41,15 @@ class DiaryPersonViewHolder(
         durationGroup.apply {
             clearOnButtonCheckedListeners()
             when (item.personEncounter?.durationClassification) {
-                DurationClassification.MORE_THAN_15_MINUTES -> check(R.id.duration_above_15)
-                DurationClassification.LESS_THAN_15_MINUTES -> check(R.id.duration_below_15)
+                DurationClassification.MORE_THAN_10_MINUTES -> check(R.id.duration_above_10)
+                DurationClassification.LESS_THAN_10_MINUTES -> check(R.id.duration_below_10)
                 null -> clearChecked()
             }
             setOnCheckedChangeListener { checkedId ->
                 hideKeyboard()
                 when (checkedId) {
-                    R.id.duration_above_15 -> DurationClassification.MORE_THAN_15_MINUTES
-                    R.id.duration_below_15 -> DurationClassification.LESS_THAN_15_MINUTES
+                    R.id.duration_above_10 -> DurationClassification.MORE_THAN_10_MINUTES
+                    R.id.duration_below_10 -> DurationClassification.LESS_THAN_10_MINUTES
                     else -> null
                 }.let { item.onDurationChanged(item, it) }
             }
