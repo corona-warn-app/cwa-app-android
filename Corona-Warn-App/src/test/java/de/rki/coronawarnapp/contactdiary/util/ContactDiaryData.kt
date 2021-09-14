@@ -69,7 +69,7 @@ object ContactDiaryData {
             ),
             withMask = true,
             wasOutside = true,
-            durationClassification = ContactDiaryPersonEncounter.DurationClassification.LESS_THAN_15_MINUTES
+            durationClassification = ContactDiaryPersonEncounter.DurationClassification.LESS_THAN_10_MINUTES
 
         ),
         DefaultContactDiaryPersonEncounter(
@@ -79,7 +79,7 @@ object ContactDiaryData {
             ),
             withMask = false,
             wasOutside = false,
-            durationClassification = ContactDiaryPersonEncounter.DurationClassification.MORE_THAN_15_MINUTES
+            durationClassification = ContactDiaryPersonEncounter.DurationClassification.MORE_THAN_10_MINUTES
         )
     )
 

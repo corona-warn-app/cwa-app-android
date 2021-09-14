@@ -62,6 +62,7 @@ class ContactDiaryLocationListFragment :
 
         viewModel.openDialog.observe2(this) {
             val durationPicker = DurationPicker.Builder()
+                .minutes(step = 10)
                 .duration(it)
                 .title(getString(R.string.duration_dialog_title))
                 .build()

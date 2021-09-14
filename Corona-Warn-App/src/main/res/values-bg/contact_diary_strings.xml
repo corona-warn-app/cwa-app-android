@@ -154,10 +154,6 @@
     <!-- XACT: Add Location Button (description for screen readers) -->
     <string name="accessibility_day_add_location">"Добавяне на място"</string>
 
-    <!-- XBUT: Option - person encounter - below 15 Min -->
-    <string name="contact_diary_person_encounter_duration_below_15_min">"По-малко от 15 мин"</string>
-    <!-- XBUT: Option - person encounter - above 15 Min -->
-    <string name="contact_diary_person_encounter_duration_above_15_min">"Повече от 15 мин"</string>
     <!-- XBUT: Option - person encounter - with mask -->
     <string name="contact_diary_person_encounter_mask_with">"С маска"</string>
     <!-- XBUT: Option - person encounter - without mask -->
