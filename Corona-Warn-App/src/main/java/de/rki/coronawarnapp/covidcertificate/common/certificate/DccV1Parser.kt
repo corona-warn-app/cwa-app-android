@@ -26,10 +26,9 @@ class DccV1Parser @Inject constructor(
             it[keyEuDgcV1] ?: throw InvalidHealthCertificateException(ErrorCode.HC_CWT_NO_DGC)
         }
 
-        val (rawBody, euExceptionBody, dcc) = dgcCbor.toCertificate()
-
+        val (rawBody, dcc) = dgcCbor.toCertificate()
         val checkedDcc = dcc.toValidated(mode)
-        euExceptionBody.checkSchema(mode)
+        rawBody.checkSchema(mode)
         Body(parsed = checkedDcc, raw = rawBody)
     } catch (e: InvalidHealthCertificateException) {
         throw e
@@ -37,10 +36,10 @@ class DccV1Parser @Inject constructor(
         throw InvalidHealthCertificateException(ErrorCode.HC_CBOR_DECODING_FAILED, cause = e)
     }
 
-    private fun CBORObject.toCertificate(): Triple<String, String, DccV1> = try {
-        val json = ToJSONString()
-        val euExceptionJson = gson.fromJson(json, JsonObject::class.java).filterExceptions().toString()
-        Triple(json, euExceptionJson, gson.fromJson(euExceptionJson))
+    private fun CBORObject.toCertificate(): Pair<String, DccV1> = try {
+        val originalJson = ToJSONString()
+        val correctedJson = gson.fromJson(originalJson, JsonObject::class.java).filterExceptions().toString()
+        correctedJson to gson.fromJson(correctedJson)
     } catch (e: InvalidHealthCertificateException) {
         throw e
     } catch (e: Throwable) {
