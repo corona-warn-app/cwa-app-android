@@ -33,7 +33,7 @@ object DiaryData {
             "Erika Musterfrau",
             null,
             listOf(
-                R.string.contact_diary_person_encounter_duration_below_15_min,
+                R.string.contact_diary_person_encounter_duration_below_10_min,
                 R.string.contact_diary_person_encounter_environment_outside
             ),
             null,
@@ -157,7 +157,7 @@ object DiaryData {
             personEncounter = DefaultContactDiaryPersonEncounter(
                 contactDiaryPerson = DefaultContactDiaryPerson(fullName = ""),
                 date = LocalDate.now(),
-                durationClassification = ContactDiaryPersonEncounter.DurationClassification.LESS_THAN_15_MINUTES,
+                durationClassification = ContactDiaryPersonEncounter.DurationClassification.LESS_THAN_10_MINUTES,
                 withMask = false,
                 wasOutside = true,
                 circumstances = "saßen nah beieinander"

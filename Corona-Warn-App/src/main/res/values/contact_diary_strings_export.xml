@@ -15,10 +15,10 @@
     <string name="contact_diary_export_prefix_phone" translatable="false">"Tel."</string>
     <!-- XTXT: EMail prefix in the contact journal export-->
     <string name="contact_diary_export_prefix_email" translatable="false">"E-Mail"</string>
-    <!-- XTXT: Additional information about duration that was longer than 15 minutes in the contact journal export-->
-    <string name="contact_diary_export_durations_longer_than_15min" translatable="false">"Kontaktdauer &gt; 15 Minuten"</string>
-    <!-- XTXT: Additional information about duration that was less than 15 minutes in the contact journal export-->
-    <string name="contact_diary_export_durations_less_than_15min" translatable="false">"Kontaktdauer &lt; 15 Minuten"</string>
+    <!-- XTXT: Additional information about duration that was longer than 10 minutes in the contact journal export-->
+    <string name="contact_diary_export_durations_longer_than_10min" translatable="false">"Kontaktdauer &gt; 10 Minuten"</string>
+    <!-- XTXT: Additional information about duration that was less than 10 minutes in the contact journal export-->
+    <string name="contact_diary_export_durations_less_than_10min" translatable="false">"Kontaktdauer &lt; 10 Minuten"</string>
     <!-- XTXT: Additional information about wearing a mask in the contact journal export-->
     <string name="contact_diary_export_wearing_mask" translatable="false">"mit Maske"</string>
     <!-- XTXT: Additional information about wearing no mask in the contact journal export-->
