@@ -150,7 +150,10 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     }
 
     private fun onCoronaTestResult(scannerResult: CoronaTestResult) {
-        // TODO open consent screen
+        when (scannerResult) {
+            is CoronaTestResult.ConsentTest -> error("No implemented") // TODO
+            is CoronaTestResult.DuplicateTest -> error("No implemented") // TODO
+        }
     }
 
     private fun onDccResult(scannerResult: DccResult) {
