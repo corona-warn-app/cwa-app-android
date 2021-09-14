@@ -45,8 +45,8 @@ class DccValidationPassedViewModel @AssistedInject constructor(
                     hideTitle = true,
                     ruleCount = validation.acceptanceRules.size
                 ),
-                validationPassedHintVHItem(),
-                validationFaqVHItem()
+                validationFaqVHItem(),
+                validationPassedHintVHItem()
             )
         }
     }
