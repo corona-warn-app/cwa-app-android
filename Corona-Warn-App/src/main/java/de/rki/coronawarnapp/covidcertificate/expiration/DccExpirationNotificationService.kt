@@ -95,9 +95,9 @@ class DccExpirationNotificationService @Inject constructor(
     }
 
     private suspend fun getCertificates(): Set<CwaCovidCertificate> {
-        val vacCerts = vaccinationRepository.vaccinationInfos.first().map { it.vaccinationCertificates }.flatten()
+        val vacCerts = vaccinationRepository.freshVaccinationInfos.first().map { it.vaccinationCertificates }.flatten()
         Timber.tag(TAG).d("Checking %d vaccination certificates", vacCerts.size)
-        val recCerts = recoveryRepository.certificates.first().map { it.recoveryCertificate }
+        val recCerts = recoveryRepository.freshCertificates.first().map { it.recoveryCertificate }
         Timber.tag(TAG).d("Checking %d recovery certificates", recCerts.size)
 
         return (vacCerts + recCerts).toSet()
