@@ -60,7 +60,6 @@ class DccValidationOpenViewModel @AssistedInject constructor(
             items.addAll(openRules)
         }
 
-
         return items.toList()
     }
 
