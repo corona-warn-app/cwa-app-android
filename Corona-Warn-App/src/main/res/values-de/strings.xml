@@ -597,9 +597,9 @@
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
     <string name="settings_tracing_status_bluetooth_headline">"Bluetooth aktivieren"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if bluetooth is disabled -->
-    <string name="settings_tracing_status_bluetooth_body">"Die Risiko-Ermittlung benötigt aktiviertes Bluetooth, um Begegnungen aufzuzeichnen. Bitte aktivieren Sie Bluetooth in Ihren Geräte-Einstellungen."</string>
+    <string name="settings_tracing_status_bluetooth_body">"Die Risiko-Ermittlung benötigt aktiviertes Bluetooth, um Begegnungen aufzuzeichnen. Bitte aktivieren Sie Bluetooth in Ihren Geräteeinstellungen."</string>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card -->
-    <string name="settings_tracing_status_bluetooth_button">"Geräte-Einstellungen öffnen"</string>
+    <string name="settings_tracing_status_bluetooth_button">"Geräteeinstellungen öffnen"</string>
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
     <string name="settings_tracing_status_location_headline">"Standort-Verwendung erlauben"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled -->
@@ -607,7 +607,7 @@
     <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled: URL -->
     <string name="settings_tracing_status_location_body_url">https://www.coronawarn.app/de/faq/#android_location</string>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
-    <string name="settings_tracing_status_location_button">"Geräte-Einstellungen öffnen"</string>
+    <string name="settings_tracing_status_location_button">"Geräteeinstellungen öffnen"</string>
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_illustration_description_active">"Drei Personen haben die Risiko-Ermittlung auf ihren Smartphones aktiviert, ihre Begegnung wird daher aufgezeichnet."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
@@ -652,7 +652,7 @@
     <!-- XHED: settings(reset) - on card, explains user to go to the operating system settings -->
     <string name="settings_reset_headline_keys">"Begegnungs-"<xliff:g id="line_break">"\n"</xliff:g>"Aufzeichnungen löschen"</string>
     <!-- XTXT: settings(reset) - on card -->
-    <string name="settings_reset_body_keys">"Die Begegnungs-Aufzeichnung muss separat in den Geräte-Einstellungen gelöscht werden."</string>
+    <string name="settings_reset_body_keys">"Die Begegnungs-Aufzeichnung muss separat in den Geräteeinstellungen gelöscht werden."</string>
     <!-- XBUT: settings(reset) - triggers reset -->
     <string name="settings_reset_button_positive">"Anwendung zurücksetzen"</string>
     <!-- XBUT: settings(reset) - cancel reset and navigates the suer back to the settings -->
@@ -921,7 +921,7 @@
     <!-- XHED: Dialog headline QR Scan permission denied  -->
     <string name="submission_qr_code_scan_permission_denied_dialog_headline">"Kamerazugriff benötigt"</string>
     <!-- YTXT: Dialog Body text for QR Scan permission denied -->
-    <string name="submission_qr_code_scan_permission_denied_dialog_body">"Bitte gehen Sie in die Systemeinstellungen und erlauben Sie der App die Benutzung der Kamera, um den QR-Code zu scannen."</string>
+    <string name="submission_qr_code_scan_permission_denied_dialog_body">"Bitte gehen Sie in die Geräteeinstellungen und erlauben Sie der App die Benutzung der Kamera, um den QR-Code zu scannen."</string>
     <!-- XBUT: Dialog(QR Scan permission denied) - button -->
     <string name="submission_qr_code_scan_permission_denied_dialog_button">"OK"</string>
 
@@ -1726,7 +1726,7 @@
     <!-- YMSW: Subtitle for the interoperability onboarding if country download fails -->
     <string name="interoperability_onboarding_list_subtitle_failrequest_no_network">Möglicherweise wurde Ihre Internet-Verbindung unterbrochen. Bitte stellen Sie sicher, dass Sie mit dem Internet verbunden sind.</string>
     <!-- XBUT: Title for the interoperability onboarding Settings-Button if no network is available -->
-    <string name="interoperability_onboarding_list_button_title_no_network">Geräte-Einstellungen öffnen</string>
+    <string name="interoperability_onboarding_list_button_title_no_network">Geräteeinstellungen öffnen</string>
 
     <!-- XHED: Title for the dialog on test result positive no consent screen  -->
     <string name="submission_test_result_positive_no_consent_dialog_title">Sie wollen keine Warnung verschicken?</string>
@@ -1906,7 +1906,7 @@
     <!--  XHED: Trace location check-ins camera permission card title-->
     <string name="trace_location_attendee_camera_card_title">Zugriff auf Kamera erlauben</string>
     <!--  XTXT: Trace location check-ins camera permission card susbtitle-->
-    <string name="trace_location_attendee_camera_card_subtitle">Um die Kamera für das Scannen des QR-Codes zu nutzen, müssen Sie die Verwendung der Kamera in den Geräte-Einstellungen zur App zulassen.</string>
+    <string name="trace_location_attendee_camera_card_subtitle">Um die Kamera für das Scannen des QR-Codes zu nutzen, müssen Sie die Verwendung der Kamera in den Geräteeinstellungen zur App zulassen.</string>
     <!--  XBUT: Trace location check-ins camera permission card button-->
     <string name="trace_location_attendee_camera_card_button">Einstellungen öffnen</string>
     <!--  YMSG: Trace location onboarding image description-->
