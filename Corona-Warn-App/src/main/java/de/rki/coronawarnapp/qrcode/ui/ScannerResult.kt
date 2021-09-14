@@ -22,5 +22,9 @@ sealed class CheckInResult : ScannerResult {
     data class Error(val stringRes: LazyString) : CheckInResult()
 }
 
-data class CoronaTestResult(val qrcode: CoronaTestQRCode) : ScannerResult
+sealed class CoronaTestResult : ScannerResult {
+    data class DuplicateTest(val rawQrCode: String) : CoronaTestResult()
+    data class ConsentTest(val rawQrCode: String) : CoronaTestResult()
+}
+
 data class Error(val error: Throwable) : ScannerResult
