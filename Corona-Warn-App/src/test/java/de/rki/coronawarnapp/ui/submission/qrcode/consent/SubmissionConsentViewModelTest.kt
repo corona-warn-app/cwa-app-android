@@ -76,12 +76,6 @@ class SubmissionConsentViewModelTest {
     }
 
     @Test
-    fun testOnBackButtonClick() {
-        //TODO: remember to change this as it will now fail
-        viewModel.routeToScreen.value shouldBe SubmissionNavigationEvents.NavigateToDispatcher
-    }
-
-    @Test
     fun testCountryList() {
         viewModel.countries.observeForever { }
         viewModel.countries.value shouldBe countryList
