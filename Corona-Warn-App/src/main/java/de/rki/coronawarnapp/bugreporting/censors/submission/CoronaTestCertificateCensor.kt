@@ -40,11 +40,11 @@ class CoronaTestCertificateCensor @Inject constructor(
 
         var newMessage = CensorContainer(message)
 
-        for (token in tokenHistory) {
-            if (!message.contains(token)) continue
-
-            newMessage = newMessage.censor(token, PLACEHOLDER + token.takeLast(4))
-        }
+        tokenHistory
+            .filter { message.contains(it) }
+            .forEach {
+                newMessage = newMessage.censor(it, PLACEHOLDER + it.takeLast(4))
+            }
 
         identifierHistory
             .filter { message.contains(it) }
