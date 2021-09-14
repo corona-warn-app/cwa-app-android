@@ -946,6 +946,8 @@
     <string name="qr_code_scan_body">"Position the QR code in the frame."</string>
     <!-- XBUT: open image file button  -->
     <string name="qr_code_open_file">"Datei öffnen"</string>
+    <!-- XTXT: unsupported qrcode message  -->
+    <string name="un_supported_qrcode_message">"Der QR-Code wird nicht in der Corona-Warn-App unterstützt. Bitte scannen Sie einen geeigneten QR-Code."</string>
     <!-- XTXT: QR Code processing message  -->
     <string name="qr_code_processing_message">QR-Code wird gelesen …</string>
 

@@ -947,6 +947,8 @@
     <string name="qr_code_open_file">"Datei öffnen"</string>
     <!-- XTXT: QR Code processing message  -->
     <string name="qr_code_processing_message">QR-Code wird gelesen …</string>
+    <!-- XTXT: unsupported qrcode message  -->
+    <string name="un_supported_qrcode_message">"Der QR-Code wird nicht in der Corona-Warn-App unterstützt. Bitte scannen Sie einen geeigneten QR-Code."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
