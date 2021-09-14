@@ -66,12 +66,19 @@ object ExternalActionHelper {
     }
 
     fun Fragment.openUrl(@StringRes urlRes: Int) = openUrl(getString(urlRes))
+    fun Context.openUrl(@StringRes urlRes: Int) = openUrl(getString(urlRes))
 
     /**
      * Opens a given url in the client default browser
      * @param url
      */
-    fun Fragment.openUrl(url: String) {
+    fun Fragment.openUrl(url: String) = requireContext().openUrl(url)
+
+    /**
+     * Opens a given url in the client default browser
+     * @param url
+     */
+    fun Context.openUrl(url: String) {
         try {
             startActivity(
                 Intent(Intent.ACTION_VIEW, Uri.parse(url))
