@@ -85,6 +85,8 @@ open class InvalidHealthCertificateException(
         ErrorCode.HC_DSC_EXPIRED,
     )
 
+    val isAlreadyRegistered: Boolean get() = errorCode == ErrorCode.ALREADY_REGISTERED
+
     open val errorMessage: LazyString
         get() = when (errorCode) {
             ErrorCode.STORING_FAILED -> CachedString { context ->
