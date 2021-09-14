@@ -47,9 +47,12 @@ class ExternalActionHelperTest : BaseTest() {
     @Test
     fun openUrlTest() {
         mockk<Fragment>().apply {
-            every { startActivity(any()) } just Runs
+            val context = mockk<Context>()
+            every { requireContext() } returns context.apply {
+                every { startActivity(any()) } just Runs
+            }
             openUrl(url = "url_path")
-            verify(exactly = 1) { startActivity(any()) }
+            verify(exactly = 1) { context.startActivity(any()) }
         }
     }
 
