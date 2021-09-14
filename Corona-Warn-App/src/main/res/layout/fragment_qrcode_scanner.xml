@@ -82,16 +82,17 @@
         app:constraint_referenced_ids="qr_code_processing_message,qr_code_scan_spinner"
         tools:visibility="visible" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/button_open_file"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_medium"
-        android:background="@color/colorTransparent"
-        android:backgroundTint="@color/colorQrCodeScanToolbar"
         android:text="@string/qr_code_open_file"
         android:textAllCaps="false"
+        android:textColor="@color/colorQrCodeScanToolbar"
         app:icon="@drawable/ic_image"
+        app:iconTint="@color/colorQrCodeScanToolbar"
         app:layout_constraintBottom_toBottomOf="@id/qr_code_scan_torch"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/qr_code_scan_torch" />
