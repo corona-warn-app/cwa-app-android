@@ -14,8 +14,8 @@ interface ContactDiaryPersonEncounter {
     enum class DurationClassification(
         val key: String
     ) {
-        LESS_THAN_15_MINUTES("LessThan15Minutes"),
-        MORE_THAN_15_MINUTES("MoreThan15Minutes")
+        LESS_THAN_10_MINUTES("LessThan10Minutes"),
+        MORE_THAN_10_MINUTES("MoreThan10Minutes")
     }
 }
 
