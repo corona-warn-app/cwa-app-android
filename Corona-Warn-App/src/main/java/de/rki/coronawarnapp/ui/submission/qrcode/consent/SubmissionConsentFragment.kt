@@ -39,7 +39,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
-        binding.submissionConsentHeader.setOnClickListener { popBackStack() }
+        binding.submissionConsentHeader.setNavigationOnClickListener { popBackStack() }
         viewModel.routeToScreen.observe2(this) {
             when (it) {
                 is SubmissionNavigationEvents.NavigateToDataPrivacy -> doNavigate(
