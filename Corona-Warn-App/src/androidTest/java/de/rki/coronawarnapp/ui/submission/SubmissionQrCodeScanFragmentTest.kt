@@ -27,7 +27,7 @@ class SubmissionQrCodeScanFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
         setupMockViewModel(
             object : SubmissionQRCodeScanViewModel.Factory {
-                override fun create(isConsentGiven: Boolean): SubmissionQRCodeScanViewModel = viewModel
+                override fun create(): SubmissionQRCodeScanViewModel = viewModel
             }
         )
     }
