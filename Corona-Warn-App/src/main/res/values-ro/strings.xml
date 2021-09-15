@@ -920,7 +920,7 @@
     <!-- XHED: Dialog headline QR Scan permission denied  -->
     <string name="submission_qr_code_scan_permission_denied_dialog_headline">"Este necesar accesul la camera foto"</string>
     <!-- YTXT: Dialog Body text for QR Scan permission denied -->
-    <string name="submission_qr_code_scan_permission_denied_dialog_body">"Apelați setările de sistem și permiteți-i aplicației să utilizeze camera foto pentru a scana codul QR."</string>
+    <string name="submission_qr_code_scan_permission_denied_dialog_body">"Apelați setările dispozitivului dvs. și permiteți-i aplicației să utilizeze camera foto pentru a scana codul QR."</string>
     <!-- XBUT: Dialog(QR Scan permission denied) - button -->
     <string name="submission_qr_code_scan_permission_denied_dialog_button">"OK"</string>
 
