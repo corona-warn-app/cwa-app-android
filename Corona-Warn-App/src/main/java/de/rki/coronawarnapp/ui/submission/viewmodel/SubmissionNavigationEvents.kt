@@ -18,8 +18,6 @@ sealed class SubmissionNavigationEvents {
 
     object NavigateToTAN : SubmissionNavigationEvents()
 
-    data class NavigateToConsent(val qrCode: String) : SubmissionNavigationEvents()
-
     object NavigateToMainActivity : SubmissionNavigationEvents()
 
     data class RegisterTestResult(val state: TestRegistrationStateProcessor.State) : SubmissionNavigationEvents()

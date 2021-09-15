@@ -16,16 +16,15 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
+import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertificateDetailsFragment
-import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment
-import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragment
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInFragment
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.ui.LazyString
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -161,29 +160,21 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
 
     private fun onCoronaTestResult(scannerResult: CoronaTestResult) {
         when (scannerResult) {
-            is CoronaTestResult.ConsentTest -> findNavController().navigate(
-                QrCodeScannerFragmentDirections
-                    .actionUniversalScannerToSubmissionConsentFragment(scannerResult.rawQrCode)
-            )
-            // TODO: DuplicateTest probably should be removed
-            is CoronaTestResult.DuplicateTest -> findNavController().navigate(
-                QrCodeScannerFragmentDirections
-                    .actionUniversalScannerToSubmissionConsentFragment(scannerResult.rawQrCode)
-            )
+            is CoronaTestResult.ConsentTest ->
+                NavGraphDirections.actionSubmissionConsentFragment(scannerResult.rawQrCode)
+            is CoronaTestResult.DuplicateTest ->
+                NavGraphDirections.actionSubmissionDeletionWarningFragment(scannerResult.coronaTestQrCode)
+        }.also {
+            doNavigate(it)
         }
     }
 
     private fun onDccResult(scannerResult: DccResult) {
-        val uri = when (scannerResult) {
-            is DccResult.Recovery -> RecoveryCertificateDetailsFragment.uri(scannerResult.containerId.identifier)
-            is DccResult.Test -> TestCertificateDetailsFragment.uri(scannerResult.containerId.identifier)
-            is DccResult.Vaccination -> VaccinationDetailsFragment.uri(scannerResult.containerId.identifier)
-        }
-
+        Timber.tag(TAG).d(" onDccResult(scannerResult=%s)", scannerResult)
         val navOptions = NavOptions.Builder()
             .setPopUpTo(R.id.universalScanner, true)
             .build()
-        findNavController().navigate(uri, navOptions)
+        findNavController().navigate(scannerResult.uri, navOptions)
     }
 
     private fun onCheckInResult(scannerResult: CheckInResult) {

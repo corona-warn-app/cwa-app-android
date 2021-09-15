@@ -38,9 +38,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
 
     @MockK lateinit var vaccinationDetailsViewModel: VaccinationDetailsViewModel
 
-    private val args = VaccinationDetailsFragmentArgs(
-        containerId = VaccinationCertificateContainerId("vaccinationCertificateId")
-    ).toBundle()
+    private val args = VaccinationDetailsFragmentArgs(certIdentifier = "vaccinationCertificateId").toBundle()
 
     @Before
     fun setUp() {

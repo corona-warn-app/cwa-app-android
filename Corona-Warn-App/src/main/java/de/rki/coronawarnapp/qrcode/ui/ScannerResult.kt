@@ -1,8 +1,7 @@
 package de.rki.coronawarnapp.qrcode.ui
 
-import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
+import android.net.Uri
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocation
 import de.rki.coronawarnapp.util.ui.LazyString
 
@@ -10,10 +9,18 @@ sealed interface ScannerResult
 
 object InProgress : ScannerResult
 
-sealed class DccResult : ScannerResult {
-    data class Test(val containerId: TestCertificateContainerId) : DccResult()
-    data class Vaccination(val containerId: VaccinationCertificateContainerId) : DccResult()
-    data class Recovery(val containerId: RecoveryCertificateContainerId) : DccResult()
+data class DccResult(val uri: Uri) : ScannerResult {
+    enum class Type(name: String) {
+        VACCINATION("VACCINATION"),
+        RECOVERY("RECOVERY"),
+        TEST("TEST");
+
+        companion object {
+            fun ofString(type: String?): Type? {
+                return values().find { it.name == type }
+            }
+        }
+    }
 }
 
 sealed class CheckInResult : ScannerResult {
@@ -22,7 +29,7 @@ sealed class CheckInResult : ScannerResult {
 }
 
 sealed class CoronaTestResult : ScannerResult {
-    data class DuplicateTest(val rawQrCode: String) : CoronaTestResult()
+    data class DuplicateTest(val coronaTestQrCode: CoronaTestQRCode) : CoronaTestResult()
     data class ConsentTest(val rawQrCode: String) : CoronaTestResult()
 }
 
