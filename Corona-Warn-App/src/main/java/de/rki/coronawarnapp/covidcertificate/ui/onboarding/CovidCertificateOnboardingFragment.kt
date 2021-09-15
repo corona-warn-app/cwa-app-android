@@ -88,6 +88,6 @@ class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_o
         fun uri(
             dccType: DccResult.Type,
             certIdentifier: String
-        ): Uri = "cwa://dcc.onboarding/?dccType=$dccType&certIdentifier=$certIdentifier".toUri()
+        ): Uri = "cwa://dcc.onboarding/?showBottomNav=false&dccType=$dccType&certIdentifier=$certIdentifier".toUri()
     }
 }
