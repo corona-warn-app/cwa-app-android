@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.qrcode.ui
 
 import android.net.Uri
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocation
 import de.rki.coronawarnapp.util.ui.LazyString
 
@@ -28,7 +29,7 @@ sealed class CheckInResult : ScannerResult {
 }
 
 sealed class CoronaTestResult : ScannerResult {
-    data class DuplicateTest(val rawQrCode: String) : CoronaTestResult()
+    data class DuplicateTest(val coronaTestQrCode: CoronaTestQRCode) : CoronaTestResult()
     data class ConsentTest(val rawQrCode: String) : CoronaTestResult()
 }
 

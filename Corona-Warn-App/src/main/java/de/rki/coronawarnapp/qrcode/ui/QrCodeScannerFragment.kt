@@ -9,12 +9,14 @@ import androidx.activity.result.contract.ActivityResultContracts.RequestPermissi
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavGraph
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
+import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
 import de.rki.coronawarnapp.tag
@@ -22,6 +24,7 @@ import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragmen
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.ui.LazyString
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -156,14 +159,12 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
 
     private fun onCoronaTestResult(scannerResult: CoronaTestResult) {
         when (scannerResult) {
-            is CoronaTestResult.ConsentTest -> findNavController().navigate(
-                QrCodeScannerFragmentDirections
-                    .actionUniversalScannerToSubmissionConsentFragment(scannerResult.rawQrCode)
-            )
-            is CoronaTestResult.DuplicateTest -> findNavController().navigate(
-                QrCodeScannerFragmentDirections
-                    .actionUniversalScannerToSubmissionConsentFragment(scannerResult.rawQrCode)
-            )
+            is CoronaTestResult.ConsentTest ->
+                NavGraphDirections.actionSubmissionConsentFragment(scannerResult.rawQrCode)
+            is CoronaTestResult.DuplicateTest ->
+                NavGraphDirections.actionSubmissionDeletionWarningFragment(scannerResult.coronaTestQrCode)
+        }.also {
+            doNavigate(it)
         }
     }
 
