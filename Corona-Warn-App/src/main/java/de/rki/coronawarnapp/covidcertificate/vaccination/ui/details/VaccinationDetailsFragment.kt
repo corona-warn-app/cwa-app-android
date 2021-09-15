@@ -53,14 +53,10 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         constructorCall = { factory, _ ->
             factory as VaccinationDetailsViewModel.Factory
             factory.create(
-                containerId = vaccinationCertificateContainerId()
+                containerId = VaccinationCertificateContainerId(args.certUuid)
             )
         }
     )
-
-    private fun vaccinationCertificateContainerId(): VaccinationCertificateContainerId =
-        args.containerId ?: args.certUuid?.let { VaccinationCertificateContainerId(it) }
-            ?: throw IllegalArgumentException("Either containerId or certUuid must be provided")
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {

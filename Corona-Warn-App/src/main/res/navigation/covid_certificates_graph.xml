@@ -50,16 +50,8 @@
         <deepLink app:uri="coronawarnapp://test-certificate-details/?certUuid={certUuid}" />
 
         <argument
-            android:name="containerId"
-            android:defaultValue="@null"
-            app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId"
-            app:nullable="true" />
-
-        <argument
             android:name="certUuid"
-            android:defaultValue="@null"
-            app:argType="string"
-            app:nullable="true" />
+            app:argType="string" />
 
         <action
             android:id="@+id/action_testCertificateDetailsFragment_to_validationStartFragment"
@@ -115,16 +107,8 @@
         <deepLink app:uri="coronawarnapp://vaccination-certificate-details/?certUuid={certUuid}" />
 
         <argument
-            android:name="containerId"
-            android:defaultValue="@null"
-            app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId"
-            app:nullable="true" />
-
-        <argument
             android:name="certUuid"
-            android:defaultValue="@null"
-            app:argType="string"
-            app:nullable="true" />
+            app:argType="string" />
 
         <action
             android:id="@+id/action_vaccinationDetailsFragment_to_validationStartFragment"
@@ -145,16 +129,8 @@
         <deepLink app:uri="coronawarnapp://recovery-certificate-details/?certUuid={certUuid}" />
 
         <argument
-            android:name="containerId"
-            android:defaultValue="@null"
-            app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId"
-            app:nullable="true" />
-
-        <argument
             android:name="certUuid"
-            android:defaultValue="@null"
-            app:argType="string"
-            app:nullable="true" />
+            app:argType="string" />
 
         <action
             android:id="@+id/action_recoveryCertificateDetailsFragment_to_validationStartFragment"

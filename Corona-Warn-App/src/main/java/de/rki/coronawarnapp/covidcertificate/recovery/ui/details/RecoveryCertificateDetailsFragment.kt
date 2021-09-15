@@ -53,14 +53,10 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         constructorCall = { factory, _ ->
             factory as RecoveryCertificateDetailsViewModel.Factory
             factory.create(
-                containerId = recoveryCertificateContainerId()
+                containerId = RecoveryCertificateContainerId(args.certUuid)
             )
         }
     )
-
-    private fun recoveryCertificateContainerId(): RecoveryCertificateContainerId =
-        args.containerId ?: args.certUuid?.let { RecoveryCertificateContainerId(it) }
-            ?: throw IllegalArgumentException("Either containerId or certUuid must be provided")
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
 
