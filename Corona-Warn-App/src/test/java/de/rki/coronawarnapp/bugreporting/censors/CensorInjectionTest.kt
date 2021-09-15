@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.bugreporting.BugReportingSharedModule
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.submission.SubmissionSettings
@@ -84,6 +85,12 @@ class MockProvider {
     @Provides
     fun coronaTestRepository(): CoronaTestRepository = mockk {
         every { coronaTests } returns flowOf(emptySet())
+    }
+
+    @Singleton
+    @Provides
+    fun coronaTestCertificateRepository(): TestCertificateRepository = mockk {
+        every { certificates } returns flowOf(emptySet())
     }
 
     @Singleton
