@@ -149,7 +149,8 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             setOnClickListener {
                 setupHoldTransition()
                 findNavController().navigate(
-                    QrCodeScannerFragment.uri,
+                    R.id.action_to_universal_scanner,
+                    null,
                     null,
                     FragmentNavigatorExtras(this to transitionName)
                 )

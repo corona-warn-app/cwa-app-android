@@ -87,9 +87,9 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
 
             ScanQrCode -> {
                 setupHoldTransition()
-                // TODO: replace with universal scanner
                 findNavController().navigate(
-                    QrCodeScannerFragment.uri,
+                    R.id.action_to_universal_scanner,
+                    null,
                     null,
                     FragmentNavigatorExtras(binding.scanQrcodeFab to binding.scanQrcodeFab.transitionName)
                 )

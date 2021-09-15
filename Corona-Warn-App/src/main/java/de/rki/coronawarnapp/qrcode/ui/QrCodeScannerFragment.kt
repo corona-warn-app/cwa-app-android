@@ -160,7 +160,6 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 QrCodeScannerFragmentDirections
                     .actionUniversalScannerToSubmissionConsentFragment(scannerResult.rawQrCode)
             )
-            // TODO: DuplicateTest probably should be removed
             is CoronaTestResult.DuplicateTest -> findNavController().navigate(
                 QrCodeScannerFragmentDirections
                     .actionUniversalScannerToSubmissionConsentFragment(scannerResult.rawQrCode)

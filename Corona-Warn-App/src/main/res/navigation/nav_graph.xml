@@ -273,9 +273,6 @@
         <action
             android:id="@+id/action_submissionDispatcherFragment_to_rapid_test_profile_nav_graph"
             app:destination="@id/rapid_test_profile_nav_graph" />
-        <action
-            android:id="@+id/action_submissionDispatcherFragment_to_universalScanner"
-            app:destination="@id/universalScanner" />
     </fragment>
     <fragment
         android:id="@+id/submissionResultPositiveOtherWarningNoConsentFragment"
@@ -839,14 +836,15 @@
             android:defaultValue="-1"
             app:argType="integer" />
     </fragment>
+    
+
+    <!--  Universal Scanner -->
 
     <fragment
         android:id="@+id/universalScanner"
         android:name="de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragment"
         android:label="QrCodeScannerFragment"
         tools:layout="@layout/fragment_qrcode_scanner">
-
-        <deepLink app:uri="coronawarnapp://universal-scanner" />
 
         <action
             android:id="@+id/action_universalScanner_to_submissionConsentFragment"
@@ -855,5 +853,9 @@
             app:popUpToInclusive="true" />
 
     </fragment>
+
+    <action
+        android:id="@+id/action_to_universal_scanner"
+        app:destination="@id/universalScanner" />
 
 </navigation>
