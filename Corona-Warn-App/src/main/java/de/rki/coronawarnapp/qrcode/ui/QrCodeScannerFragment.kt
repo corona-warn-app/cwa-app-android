@@ -16,9 +16,6 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertificateDetailsFragment
-import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment
-import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragment
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
@@ -165,16 +162,11 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     }
 
     private fun onDccResult(scannerResult: DccResult) {
-        val uri = when (scannerResult) {
-            is DccResult.Recovery -> RecoveryCertificateDetailsFragment.uri(scannerResult.containerId.identifier)
-            is DccResult.Test -> TestCertificateDetailsFragment.uri(scannerResult.containerId.identifier)
-            is DccResult.Vaccination -> VaccinationDetailsFragment.uri(scannerResult.containerId.identifier)
-        }
-
+        Timber.tag(TAG).d(" onDccResult(scannerResult=%s)", scannerResult)
         val navOptions = NavOptions.Builder()
             .setPopUpTo(R.id.universalScanner, true)
             .build()
-        findNavController().navigate(uri, navOptions)
+        findNavController().navigate(scannerResult.uri, navOptions)
     }
 
     private fun onCheckInResult(scannerResult: CheckInResult) {

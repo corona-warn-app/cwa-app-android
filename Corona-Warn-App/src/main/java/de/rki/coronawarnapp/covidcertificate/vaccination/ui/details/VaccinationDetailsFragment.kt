@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.ui.details
 
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -38,6 +39,8 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import timber.log.Timber
+import java.net.URLEncoder
 import java.util.Locale
 import javax.inject.Inject
 
@@ -51,8 +54,9 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as VaccinationDetailsViewModel.Factory
+            Timber.d("certIdentifier=" + args.certIdentifier)
             factory.create(
-                containerId = VaccinationCertificateContainerId(args.certUuid)
+                containerId = VaccinationCertificateContainerId(args.certIdentifier)
             )
         }
     )
@@ -214,6 +218,9 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     }
 
     companion object {
-        fun uri(certUuid: String) = "coronawarnapp://vaccination-certificate-details/?certUuid=$certUuid".toUri()
+        fun uri(certIdentifier: String): Uri {
+            val encodedId = URLEncoder.encode(certIdentifier, "UTF-8")
+            return "coronawarnapp://vaccination-certificate-details/?certIdentifier=$encodedId".toUri()
+        }
     }
 }
