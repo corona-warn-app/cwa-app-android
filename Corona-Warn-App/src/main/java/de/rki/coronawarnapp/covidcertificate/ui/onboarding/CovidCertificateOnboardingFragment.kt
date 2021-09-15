@@ -85,8 +85,9 @@ class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_o
     }
 
     companion object {
-        fun uri(dccType: DccResult.Type, certIdentifier: String): Uri =
-            "coronawarnapp://dcc.onboarding/?showBottomNav=false&dccType=$dccType&certIdentifier=$certIdentifier"
-                .toUri()
+        fun uri(
+            dccType: DccResult.Type,
+            certIdentifier: String
+        ): Uri = "cwa://dcc.onboarding/?dccType=$dccType&certIdentifier=$certIdentifier".toUri()
     }
 }
