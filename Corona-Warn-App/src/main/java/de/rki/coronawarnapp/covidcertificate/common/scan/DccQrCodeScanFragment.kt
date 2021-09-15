@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent.TYPE_ANNOUNCEMENT
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialContainerTransform
@@ -182,7 +181,7 @@ class DccQrCodeScanFragment :
         binding.qrCodeScanPreview.pause()
     }
 
-    companion object {
-        val uri = "coronawarnapp://universal-scanner".toUri()
-    }
+//    companion object {
+//        val uri = "coronawarnapp://universal-scanner".toUri()
+//    }
 }

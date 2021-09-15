@@ -862,21 +862,11 @@
 
     <fragment
         android:id="@+id/universalScanner"
-        android:name="de.rki.coronawarnapp.covidcertificate.common.scan.DccQrCodeScanFragment"
-        android:label="DccQrCodeScanFragment"
+        android:name="de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragment"
+        android:label="QrCodeScannerFragment"
         tools:layout="@layout/fragment_qrcode_scanner">
 
         <deepLink app:uri="coronawarnapp://universal-scanner" />
-
-    </fragment>
-
-    <fragment
-        android:id="@+id/scanCheckInQrCodeFragment"
-        android:name="de.rki.coronawarnapp.ui.presencetracing.attendee.scan.ScanCheckInQrCodeFragment"
-        android:label="ScanCheckInQrCodeFragment"
-        tools:layout="@layout/fragment_qrcode_scanner">
-
-        <deepLink app:uri="coronawarnapp://universal-scanner-check-in" />
 
     </fragment>
 

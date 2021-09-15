@@ -13,11 +13,11 @@ import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
-import de.rki.coronawarnapp.covidcertificate.common.scan.DccQrCodeScanFragment
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFragmentArgs
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CameraPermissionCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificatesItem
 import de.rki.coronawarnapp.databinding.PersonOverviewFragmentBinding
+import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragment
 import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -89,7 +89,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 setupHoldTransition()
                 // TODO: replace with universal scanner
                 findNavController().navigate(
-                    DccQrCodeScanFragment.uri,
+                    QrCodeScannerFragment.uri,
                     null,
                     FragmentNavigatorExtras(binding.scanQrcodeFab to binding.scanQrcodeFab.transitionName)
                 )

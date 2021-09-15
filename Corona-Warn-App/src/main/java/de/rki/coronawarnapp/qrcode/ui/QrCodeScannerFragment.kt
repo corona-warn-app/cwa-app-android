@@ -6,14 +6,21 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.activity.result.contract.ActivityResultContracts.OpenDocument
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertificateDetailsFragment
+import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment
+import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragment
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
 import de.rki.coronawarnapp.tag
+import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.ui.LazyString
@@ -155,20 +162,31 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
 
     private fun onDccResult(scannerResult: DccResult) {
         when (scannerResult) {
-            is DccResult.Recovery -> error("No implemented") // TODO
-            is DccResult.Test -> error("No implemented") // TODO
-            is DccResult.Vaccination -> error("No implemented") // TODO
+            is DccResult.Recovery ->
+                findNavController().navigate(RecoveryCertificateDetailsFragment.uri(scannerResult.containerId.identifier))
+            is DccResult.Test ->
+                findNavController().navigate(TestCertificateDetailsFragment.uri(scannerResult.containerId.identifier))
+            is DccResult.Vaccination ->
+                findNavController().navigate(VaccinationDetailsFragment.uri(scannerResult.containerId.identifier))
         }
     }
 
     private fun onCheckInResult(scannerResult: CheckInResult) {
         when (scannerResult) {
-            is CheckInResult.Details -> error("No implemented") // TODO
+            is CheckInResult.Details -> {
+                findNavController().navigate(
+                    CheckInsFragment.createDeepLink(scannerResult.verifiedLocation.traceLocation.locationUrl),
+                    NavOptions.Builder()
+                        .setPopUpTo(R.id.checkInsFragment, true)
+                        .build()
+                )
+            }
             is CheckInResult.Error -> showCheckInQrCodeError(scannerResult.stringRes)
         }
     }
 
     companion object {
         private val TAG = tag<QrCodeScannerFragment>()
+        val uri = "coronawarnapp://universal-scanner".toUri()
     }
 }
