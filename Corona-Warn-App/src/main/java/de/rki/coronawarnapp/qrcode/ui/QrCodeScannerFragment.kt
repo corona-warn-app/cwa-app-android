@@ -165,25 +165,16 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     }
 
     private fun onDccResult(scannerResult: DccResult) {
-        val navOptions = findNavController().currentBackStackEntry?.destination?.id?.let {
-            NavOptions.Builder()
-                .setPopUpTo(it, true)
-                .build()
+        val uri = when (scannerResult) {
+            is DccResult.Recovery -> RecoveryCertificateDetailsFragment.uri(scannerResult.containerId.identifier)
+            is DccResult.Test -> TestCertificateDetailsFragment.uri(scannerResult.containerId.identifier)
+            is DccResult.Vaccination -> VaccinationDetailsFragment.uri(scannerResult.containerId.identifier)
         }
-        when (scannerResult) {
-            is DccResult.Recovery -> findNavController().navigate(
-                RecoveryCertificateDetailsFragment.uri(scannerResult.containerId.identifier),
-                navOptions
-            )
-            is DccResult.Test -> findNavController().navigate(
-                TestCertificateDetailsFragment.uri(scannerResult.containerId.identifier),
-                navOptions
-            )
-            is DccResult.Vaccination -> findNavController().navigate(
-                VaccinationDetailsFragment.uri(scannerResult.containerId.identifier),
-                navOptions
-            )
-        }
+
+        val navOptions = NavOptions.Builder()
+            .setPopUpTo(R.id.universalScanner, true)
+            .build()
+        findNavController().navigate(uri, navOptions)
     }
 
     private fun onCheckInResult(scannerResult: CheckInResult) {
