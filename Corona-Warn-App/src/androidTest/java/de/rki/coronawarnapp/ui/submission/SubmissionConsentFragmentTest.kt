@@ -28,6 +28,7 @@ import testhelpers.takeScreenshot
 @RunWith(AndroidJUnit4::class)
 class SubmissionConsentFragmentTest : BaseUITest() {
 
+    @MockK lateinit var qrCode: String
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var interoperabilityRepository: InteroperabilityRepository
     @MockK lateinit var tekHistoryProvider: TEKHistoryProvider
@@ -37,7 +38,7 @@ class SubmissionConsentFragmentTest : BaseUITest() {
     private lateinit var viewModel: SubmissionConsentViewModel
 
     private val fragmentArgs = SubmissionConsentFragmentArgs(
-        qrCode = null
+        qrCode = qrCode
     ).toBundle()
 
     @Before
@@ -47,6 +48,7 @@ class SubmissionConsentFragmentTest : BaseUITest() {
         viewModel = SubmissionConsentViewModel(
             interoperabilityRepository,
             TestDispatcherProvider(),
+            qrCode,
             tekHistoryProvider,
             testRegistrationStateProcessor,
             submissionRepository,
@@ -54,7 +56,7 @@ class SubmissionConsentFragmentTest : BaseUITest() {
         )
         setupMockViewModel(
             object : SubmissionConsentViewModel.Factory {
-                override fun create(): SubmissionConsentViewModel = viewModel
+                override fun create(qrCode: String): SubmissionConsentViewModel = viewModel
             }
         )
     }

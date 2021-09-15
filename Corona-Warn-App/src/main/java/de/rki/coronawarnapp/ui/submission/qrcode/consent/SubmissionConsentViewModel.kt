@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.submission.qrcode.consent
 
 import androidx.lifecycle.asLiveData
 import com.google.android.gms.common.api.ApiException
+import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
@@ -14,13 +15,14 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
 class SubmissionConsentViewModel @AssistedInject constructor(
     interoperabilityRepository: InteroperabilityRepository,
     dispatcherProvider: DispatcherProvider,
+    @Assisted private val qrCode: String,
     private val tekHistoryProvider: TEKHistoryProvider,
     private val registrationStateProcessor: TestRegistrationStateProcessor,
     private val submissionRepository: SubmissionRepository,
@@ -34,14 +36,12 @@ class SubmissionConsentViewModel @AssistedInject constructor(
     val countries = interoperabilityRepository.countryList
         .asLiveData(context = dispatcherProvider.Default)
 
-    var qrCode: String? = null
-
     fun onConsentButtonClick() {
         launch {
             try {
                 val preAuthorized = tekHistoryProvider.preAuthorizeExposureKeyHistory()
                 // Proceed anyway, either user has already granted permission or it is older Api
-                proceed()
+                processQrCode(qrCode)
                 Timber.i("Pre-authorized:$preAuthorized")
             } catch (exception: Exception) {
                 if (exception is ApiException &&
@@ -51,18 +51,9 @@ class SubmissionConsentViewModel @AssistedInject constructor(
                     routeToScreen.postValue(SubmissionNavigationEvents.ResolvePlayServicesException(exception))
                 } else {
                     Timber.d(exception, "Pre-auth failed with unrecoverable exception")
-                    proceed()
+                    processQrCode(qrCode)
                 }
             }
-        }
-    }
-
-    private fun proceed() {
-        qrCode.let {
-            if (it == null)
-                routeToScreen.postValue(SubmissionNavigationEvents.NavigateToQRCodeScan)
-            else
-                processQrCode(it)
         }
     }
 
@@ -106,10 +97,6 @@ class SubmissionConsentViewModel @AssistedInject constructor(
         }
     }
 
-    fun onBackButtonClick() {
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToDispatcher)
-    }
-
     fun onDataPrivacyClick() {
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToDataPrivacy)
     }
@@ -117,9 +104,11 @@ class SubmissionConsentViewModel @AssistedInject constructor(
     fun giveGoogleConsentResult(accepted: Boolean) {
         Timber.i("User allowed Google consent:$accepted")
         // Navigate regardless of consent result
-        proceed()
+        processQrCode(qrCode)
     }
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<SubmissionConsentViewModel>
+    interface Factory : CWAViewModelFactory<SubmissionConsentViewModel> {
+        fun create(qrCode: String): SubmissionConsentViewModel
+    }
 }
