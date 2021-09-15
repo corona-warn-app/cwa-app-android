@@ -5,6 +5,7 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavGraph
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
@@ -87,10 +88,13 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
         val dispatcherCard = binding.submissionDispatcherQr.dispatcherCard.apply {
             transitionName = "shared_element_container"
         }
+        val navOptions = NavOptions.Builder()
+            .setPopUpTo(R.id.mainFragment, false)
+            .build()
         findNavController().navigate(
             R.id.action_to_universal_scanner,
             null,
-            null,
+            navOptions,
             FragmentNavigatorExtras(dispatcherCard to dispatcherCard.transitionName)
         )
     }

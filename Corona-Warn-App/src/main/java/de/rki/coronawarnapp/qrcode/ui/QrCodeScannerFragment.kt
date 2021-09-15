@@ -6,7 +6,6 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.activity.result.contract.ActivityResultContracts.OpenDocument
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
-import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
@@ -35,7 +34,7 @@ import javax.inject.Inject
 class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoInject {
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel by cwaViewModels<QrCodeScannerViewModel> { viewModelFactory }
-    private val sharedQrScannerViewModel: SharedQrScannerViewModel by navGraphViewModels(R.id.nav_graph)
+    private val locationViewModel: VerifiedLocationViewModel by navGraphViewModels(R.id.nav_graph)
 
     private val binding by viewBinding<FragmentQrcodeScannerBinding>()
     private var showsPermissionDialog = false
@@ -180,21 +179,20 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     private fun onCheckInResult(scannerResult: CheckInResult) {
         when (scannerResult) {
             is CheckInResult.Details -> {
-                val key = scannerResult.verifiedLocation.hashCode().toString()
-                sharedQrScannerViewModel.verifiedTraceLocationsHashMap.put(key, scannerResult.verifiedLocation)
+                val locationId = scannerResult.verifiedLocation.locationIdHex
+                locationViewModel.putVerifiedTraceLocation(scannerResult.verifiedLocation)
                 findNavController().navigate(
-                    ConfirmCheckInFragment.uri(key),
+                    ConfirmCheckInFragment.uri(locationId),
                     NavOptions.Builder()
                         .setPopUpTo(R.id.universalScanner, true)
                         .build()
                 )
             }
-            is CheckInResult.Error -> showCheckInQrCodeError(scannerResult.stringRes)
+            is CheckInResult.Error -> showCheckInQrCodeError(scannerResult.lazyMessage)
         }
     }
 
     companion object {
         private val TAG = tag<QrCodeScannerFragment>()
-        val uri = "coronawarnapp://universal-scanner".toUri()
     }
 }

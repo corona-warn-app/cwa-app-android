@@ -25,7 +25,7 @@ data class DccResult(val uri: Uri) : ScannerResult {
 
 sealed class CheckInResult : ScannerResult {
     data class Details(val verifiedLocation: VerifiedTraceLocation) : CheckInResult()
-    data class Error(val stringRes: LazyString) : CheckInResult()
+    data class Error(val lazyMessage: LazyString) : CheckInResult()
 }
 
 sealed class CoronaTestResult : ScannerResult {
