@@ -34,6 +34,8 @@ class DccValidationFailedViewModel @AssistedInject constructor(
             validationOverallResultVHItem(state = DccValidation.State.FAILURE)
         )
 
+        items.add(validationFaqVHItem())
+
         Timber.d("Generating items for state ${validation.state}")
         when (validation.state) {
             DccValidation.State.PASSED,
@@ -77,8 +79,6 @@ class DccValidationFailedViewModel @AssistedInject constructor(
                 }
             }
         }
-
-        items.add(validationFaqVHItem())
 
         return items.toList()
     }
