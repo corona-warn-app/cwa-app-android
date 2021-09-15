@@ -41,7 +41,7 @@ class SubmissionDispatcherViewModel @AssistedInject constructor(
     }
 
     fun onQRCodePressed() {
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToConsent)
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToQRCodeScan)
     }
 
     fun onClickProfileCard() {

@@ -7,6 +7,7 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.activity.result.contract.ActivityResultContracts.OpenDocument
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.core.net.toUri
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
@@ -75,7 +76,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         }
 
         viewModel.result.observe(viewLifecycleOwner) { scannerResult ->
-            if (scannerResult != InProgress) binding.qrCodeScanSpinner.hide()
+            binding.qrCodeProcessingView.isVisible = scannerResult == InProgress
             when (scannerResult) {
                 is CoronaTestResult -> onCoronaTestResult(scannerResult)
                 is DccResult -> onDccResult(scannerResult)
@@ -85,7 +86,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                     .setOnDismissListener { popBackStack() }
                     .show()
 
-                InProgress -> binding.qrCodeScanSpinner.show()
+                InProgress -> binding.qrCodeProcessingView.isVisible = true
             }
         }
     }
