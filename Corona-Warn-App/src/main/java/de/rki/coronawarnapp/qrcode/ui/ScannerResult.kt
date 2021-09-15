@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.qrcode.ui
 
-import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
@@ -22,5 +21,9 @@ sealed class CheckInResult : ScannerResult {
     data class Error(val stringRes: LazyString) : CheckInResult()
 }
 
-data class CoronaTestResult(val qrcode: CoronaTestQRCode) : ScannerResult
+sealed class CoronaTestResult : ScannerResult {
+    data class DuplicateTest(val rawQrCode: String) : CoronaTestResult()
+    data class ConsentTest(val rawQrCode: String) : CoronaTestResult()
+}
+
 data class Error(val error: Throwable) : ScannerResult
