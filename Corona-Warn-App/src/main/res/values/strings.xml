@@ -920,7 +920,7 @@
     <!-- XHED: Dialog headline QR Scan permission denied  -->
     <string name="submission_qr_code_scan_permission_denied_dialog_headline">"Camera access needed"</string>
     <!-- YTXT: Dialog Body text for QR Scan permission denied -->
-    <string name="submission_qr_code_scan_permission_denied_dialog_body">"Please call up the system settings and allow the app to use the camera to scan the QR code."</string>
+    <string name="submission_qr_code_scan_permission_denied_dialog_body">"Please call up your device settings and allow the app to use the camera to scan the QR code."</string>
     <!-- XBUT: Dialog(QR Scan permission denied) - button -->
     <string name="submission_qr_code_scan_permission_denied_dialog_button">"OK"</string>
 
