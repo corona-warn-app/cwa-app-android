@@ -8,6 +8,8 @@ import com.google.zxing.ReaderException
 import com.google.zxing.common.HybridBinarizer
 import com.google.zxing.qrcode.QRCodeReader
 import dagger.Reusable
+import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
+import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException.ErrorCode.QR_CODE_NOT_FOUND
 import de.rki.coronawarnapp.qrcode.provider.QRCodeBitmapProvider
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.withContext
@@ -43,9 +45,7 @@ class QrCodeFileParser @Inject constructor(
                     bitmap.recycle()
                 }
 
-                return@withContext ParseResult.Failure(
-                    IllegalArgumentException("No valid QR Code found")
-                )
+                return@withContext ParseResult.Failure(ImportDocumentException(QR_CODE_NOT_FOUND))
             }
             is QRCodeBitmapProvider.BitmapResult.Failed -> {
                 ParseResult.Failure(bitmapResult.error)

@@ -4,6 +4,8 @@ import android.net.Uri
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
+import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
+import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException.ErrorCode.CANT_READ_FILE
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCode
 import de.rki.coronawarnapp.qrcode.QrCodeFileParser
@@ -35,15 +37,20 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     fun onImportFile(fileUri: Uri) = launch {
         result.postValue(InProgress)
         Timber.tag(TAG).d("onImportFile(fileUri=$fileUri)")
-        when (val parseResult = qrCodeFileParser.decodeQrCodeFile(fileUri)) {
-            is QrCodeFileParser.ParseResult.Failure -> {
-                Timber.tag(TAG).d(parseResult.exception, "parseResult failed")
-                result.postValue(Error(error = parseResult.exception))
+        try {
+            when (val parseResult = qrCodeFileParser.decodeQrCodeFile(fileUri)) {
+                is QrCodeFileParser.ParseResult.Failure -> {
+                    Timber.tag(TAG).d(parseResult.exception, "parseResult failed")
+                    result.postValue(Error(error = parseResult.exception))
+                }
+                is QrCodeFileParser.ParseResult.Success -> {
+                    Timber.tag(TAG).d("parseResult=$parseResult")
+                    onScanResult(parseResult.text)
+                }
             }
-            is QrCodeFileParser.ParseResult.Success -> {
-                Timber.tag(TAG).d("parseResult=$parseResult")
-                onScanResult(parseResult.text)
-            }
+        } catch (exception: Exception) {
+            Timber.tag(TAG).d(exception, "onImportFile($fileUri) failed")
+            result.postValue(Error(ImportDocumentException(CANT_READ_FILE)))
         }
     }
 
