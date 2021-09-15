@@ -50,7 +50,7 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                 is SubmissionNavigationEvents.NavigateToQRCodeScan ->
                     doNavigate(
                         SubmissionDispatcherFragmentDirections
-                            .actionSubmissionDispatcherFragmentToSubmissionQRCodeScanFragment()
+                            .actionSubmissionDispatcherFragmentToUniversalScanner()
                     )
                 is SubmissionNavigationEvents.NavigateToCreateProfile -> {
                     val ratGraph = findNavController().graph.findNode(R.id.rapid_test_profile_nav_graph) as NavGraph

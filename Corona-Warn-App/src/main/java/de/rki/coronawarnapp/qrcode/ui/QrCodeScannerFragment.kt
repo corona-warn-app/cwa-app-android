@@ -156,8 +156,15 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
 
     private fun onCoronaTestResult(scannerResult: CoronaTestResult) {
         when (scannerResult) {
-            is CoronaTestResult.ConsentTest -> error("No implemented") // TODO
-            is CoronaTestResult.DuplicateTest -> error("No implemented") // TODO
+            is CoronaTestResult.ConsentTest -> findNavController().navigate(
+                QrCodeScannerFragmentDirections
+                    .actionUniversalScannerToSubmissionConsentFragment(scannerResult.rawQrCode)
+            )
+            // TODO: DuplicateTest probably should be removed
+            is CoronaTestResult.DuplicateTest -> findNavController().navigate(
+                QrCodeScannerFragmentDirections
+                    .actionUniversalScannerToSubmissionConsentFragment(scannerResult.rawQrCode)
+            )
         }
     }
 
