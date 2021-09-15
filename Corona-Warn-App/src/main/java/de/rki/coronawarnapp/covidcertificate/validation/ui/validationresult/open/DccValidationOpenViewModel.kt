@@ -34,6 +34,8 @@ class DccValidationOpenViewModel @AssistedInject constructor(
             validationOverallResultVHItem(state = DccValidation.State.OPEN)
         )
 
+        items.add(validationFaqVHItem())
+
         Timber.d("Generating items for state ${validation.state}")
 
         if (validation.state != DccValidation.State.OPEN) {
@@ -57,8 +59,6 @@ class DccValidationOpenViewModel @AssistedInject constructor(
             items.add(ruleHeaderVHItem(state = DccValidation.State.OPEN, hideTitle = true))
             items.addAll(openRules)
         }
-
-        items.add(validationFaqVHItem())
 
         return items.toList()
     }
