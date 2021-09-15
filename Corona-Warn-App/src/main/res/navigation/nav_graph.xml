@@ -271,11 +271,11 @@
             android:id="@+id/action_submissionDispatcherFragment_to_submissionContactFragment"
             app:destination="@id/submissionContactFragment" />
         <action
-            android:id="@+id/action_submissionDispatcherFragment_to_submissionConsentFragment"
-            app:destination="@id/submissionConsentFragment" />
-        <action
             android:id="@+id/action_submissionDispatcherFragment_to_rapid_test_profile_nav_graph"
             app:destination="@id/rapid_test_profile_nav_graph" />
+        <action
+            android:id="@+id/action_submissionDispatcherFragment_to_submissionQRCodeScanFragment"
+            app:destination="@id/submissionQRCodeScanFragment" />
     </fragment>
     <fragment
         android:id="@+id/submissionResultPositiveOtherWarningNoConsentFragment"
@@ -383,6 +383,11 @@
             android:id="@+id/action_submissionQRCodeScanFragment_to_submissionDispatcherFragment"
             app:popUpTo="@id/submissionQRCodeScanFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_submissionQRCodeScanFragment_to_submissionConsentFragment"
+            app:destination="@id/submissionConsentFragment"
+            app:popUpTo="@id/submissionConsentFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <action
@@ -484,16 +489,11 @@
         android:label="SubmissionConsentFragment"
         tools:layout="@layout/fragment_submission_consent">
         <action
-            android:id="@+id/action_submissionConsentFragment_to_submissionQRCodeScanFragment"
-            app:destination="@id/submissionQRCodeScanFragment" />
-        <action
             android:id="@+id/action_submissionConsentFragment_to_informationPrivacyFragment"
             app:destination="@id/informationPrivacyFragment" />
         <argument
             android:name="qrCode"
-            android:defaultValue="@null"
-            app:argType="string"
-            app:nullable="true" />
+            app:argType="string" />
     </fragment>
 
     <action

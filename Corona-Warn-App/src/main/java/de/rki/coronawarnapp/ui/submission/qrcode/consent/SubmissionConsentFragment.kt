@@ -20,33 +20,28 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
 class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: SubmissionConsentViewModel by cwaViewModels { viewModelFactory }
-    private val binding: FragmentSubmissionConsentBinding by viewBinding()
     private val navArgs by navArgs<SubmissionConsentFragmentArgs>()
+    private val viewModel: SubmissionConsentViewModel by cwaViewModelsAssisted(
+        factoryProducer = { viewModelFactory },
+        constructorCall = { factory, _ ->
+            factory as SubmissionConsentViewModel.Factory
+            factory.create(navArgs.qrCode)
+        }
+    )
+    private val binding: FragmentSubmissionConsentBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
-        navArgs.qrCode?.let {
-            viewModel.qrCode = it
-        }
-        binding.submissionConsentHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            viewModel.onBackButtonClick()
-        }
+        binding.submissionConsentHeader.setNavigationOnClickListener { popBackStack() }
         viewModel.routeToScreen.observe2(this) {
             when (it) {
-                is SubmissionNavigationEvents.NavigateToQRCodeScan ->
-                    doNavigate(
-                        SubmissionConsentFragmentDirections
-                            .actionSubmissionConsentFragmentToSubmissionQRCodeScanFragment(isConsentGiven = true)
-                    )
-                is SubmissionNavigationEvents.NavigateToDispatcher -> popBackStack()
                 is SubmissionNavigationEvents.NavigateToDataPrivacy -> doNavigate(
                     SubmissionConsentFragmentDirections.actionSubmissionConsentFragmentToInformationPrivacyFragment()
                 )
