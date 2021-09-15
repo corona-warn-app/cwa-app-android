@@ -42,9 +42,21 @@
         android:name="de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInFragment"
         android:label="fragment_confirm_check_in"
         tools:layout="@layout/fragment_confirm_check_in">
+
+        <deepLink app:uri="coronawarnapp://check-in/?key={key}" />
+
         <argument
             android:name="verifiedTraceLocation"
-            app:argType="de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocation" />
+            android:defaultValue="@null"
+            app:argType="de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocation"
+            app:nullable="true"/>
+
+        <argument
+            android:name="key"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+
     </fragment>
     <fragment
         android:id="@+id/editCheckInFragment"

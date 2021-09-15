@@ -2,13 +2,17 @@ package de.rki.coronawarnapp.ui.presencetracing.attendee.confirm
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.net.toUri
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.navGraphViewModels
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentConfirmCheckInBinding
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocation
+import de.rki.coronawarnapp.qrcode.ui.SharedQrScannerViewModel
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
@@ -28,9 +32,16 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as ConfirmCheckInViewModel.Factory
-            factory.create(navArgs.verifiedTraceLocation)
+            factory.create(
+                verifiedTraceLocation = verifiedTraceLocation()
+            )
         }
     )
+    private val sharedQrScannerViewModel: SharedQrScannerViewModel by navGraphViewModels(R.id.nav_graph)
+
+    private fun verifiedTraceLocation(): VerifiedTraceLocation =
+        navArgs.verifiedTraceLocation ?: navArgs.key?.let { sharedQrScannerViewModel.getVerifiedTraceLocationByKey(it) }
+            ?: throw IllegalArgumentException("Either navigation arguments or shared viewmodel must be provided")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,5 +127,6 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
 
     companion object {
         private const val DURATION_PICKER_TAG = "duration_picker"
+        fun uri(key: String) = "coronawarnapp://check-in/?key=$key".toUri()
     }
 }

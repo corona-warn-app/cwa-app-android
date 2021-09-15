@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.zxing.BarcodeFormat
@@ -21,7 +22,7 @@ import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDeta
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragment
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
 import de.rki.coronawarnapp.tag
-import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
+import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInFragment
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.ui.LazyString
@@ -35,6 +36,7 @@ import javax.inject.Inject
 class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoInject {
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel by cwaViewModels<QrCodeScannerViewModel> { viewModelFactory }
+    private val sharedQrScannerViewModel: SharedQrScannerViewModel by navGraphViewModels(R.id.nav_graph)
 
     private val binding by viewBinding<FragmentQrcodeScannerBinding>()
     private var showsPermissionDialog = false
@@ -187,10 +189,12 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     private fun onCheckInResult(scannerResult: CheckInResult) {
         when (scannerResult) {
             is CheckInResult.Details -> {
+                val key = scannerResult.verifiedLocation.hashCode().toString()
+                sharedQrScannerViewModel.verifiedTraceLocationsHashMap.put(key, scannerResult.verifiedLocation)
                 findNavController().navigate(
-                    CheckInsFragment.createDeepLink(scannerResult.verifiedLocation.traceLocation.locationUrl),
+                    ConfirmCheckInFragment.uri(key),
                     NavOptions.Builder()
-                        .setPopUpTo(R.id.checkInsFragment, true)
+                        .setPopUpTo(R.id.universalScanner, true)
                         .build()
                 )
             }
