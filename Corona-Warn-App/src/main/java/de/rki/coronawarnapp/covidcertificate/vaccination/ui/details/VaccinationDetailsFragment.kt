@@ -220,7 +220,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     companion object {
         fun uri(certIdentifier: String): Uri {
             val encodedId = URLEncoder.encode(certIdentifier, "UTF-8")
-            return "coronawarnapp://vaccination-certificate-details/?certIdentifier=$encodedId".toUri()
+            return "cwa://vaccination-certificate/?certIdentifier=$encodedId".toUri()
         }
     }
 }

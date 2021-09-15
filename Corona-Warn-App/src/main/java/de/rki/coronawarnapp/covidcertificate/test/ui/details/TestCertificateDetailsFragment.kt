@@ -53,7 +53,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         constructorCall = { factory, _ ->
             factory as TestCertificateDetailsViewModel.Factory
             factory.create(
-                containerId = TestCertificateContainerId(args.certUuid)
+                containerId = TestCertificateContainerId(args.certIdentifier)
             )
         }
     )
@@ -229,6 +229,6 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     }
 
     companion object {
-        fun uri(certUuid: String) = "coronawarnapp://test-certificate-details/?certUuid=$certUuid".toUri()
+        fun uri(certIdentifier: String) = "cwa://test-certificate/?certIdentifier=$certIdentifier".toUri()
     }
 }

@@ -52,7 +52,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         constructorCall = { factory, _ ->
             factory as RecoveryCertificateDetailsViewModel.Factory
             factory.create(
-                containerId = RecoveryCertificateContainerId(args.certUuid)
+                containerId = RecoveryCertificateContainerId(args.certIdentifier)
             )
         }
     )
@@ -197,6 +197,6 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
     }
 
     companion object {
-        fun uri(certUuid: String) = "coronawarnapp://recovery-certificate-details/?certUuid=$certUuid".toUri()
+        fun uri(certIdentifier: String) = "cwa://recovery-certificate/?certIdentifier=$certIdentifier".toUri()
     }
 }

@@ -22,7 +22,7 @@
         android:name="de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment"
         tools:layout="@layout/covid_certificate_onboarding_fragment">
 
-        <deepLink app:uri="coronawarnapp://dcc.onboarding/?showBottomNav={showBottomNav}&amp;dccType={dccType}&amp;certIdentifier={certIdentifier}" />
+        <deepLink app:uri="cwa://dcc.onboarding/?showBottomNav={showBottomNav}&amp;dccType={dccType}&amp;certIdentifier={certIdentifier}" />
 
         <argument
             android:name="showBottomNav"
@@ -63,10 +63,10 @@
         android:label="CovidCertificateDetailsFragment"
         tools:layout="@layout/fragment_test_certificate_details">
 
-        <deepLink app:uri="coronawarnapp://test-certificate-details/?certUuid={certUuid}" />
+        <deepLink app:uri="cwa://test-certificate/?certIdentifier={certIdentifier}" />
 
         <argument
-            android:name="certUuid"
+            android:name="certIdentifier"
             app:argType="string" />
 
         <action
@@ -117,7 +117,7 @@
         android:label="fragment_vaccination_details"
         tools:layout="@layout/fragment_vaccination_details">
 
-        <deepLink app:uri="coronawarnapp://vaccination-certificate-details/?certIdentifier={certIdentifier}" />
+        <deepLink app:uri="cwa://vaccination-certificate/?certIdentifier={certIdentifier}" />
 
         <argument
             android:name="certIdentifier"
@@ -136,10 +136,10 @@
         android:label="RecoveryCertificateDetailsFragment"
         tools:layout="@layout/fragment_recovery_certificate_details">
 
-        <deepLink app:uri="coronawarnapp://recovery-certificate-details/?certUuid={certUuid}" />
+        <deepLink app:uri="cwa://recovery-certificate/?certIdentifier={certIdentifier}" />
 
         <argument
-            android:name="certUuid"
+            android:name="certIdentifier"
             app:argType="string" />
 
         <action
