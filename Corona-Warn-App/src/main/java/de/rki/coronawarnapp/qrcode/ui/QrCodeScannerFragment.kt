@@ -167,11 +167,11 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     private fun onDccResult(scannerResult: DccResult) {
         when (scannerResult) {
             is DccResult.Recovery -> findNavController()
-                    .navigate(RecoveryCertificateDetailsFragment.uri(scannerResult.containerId.identifier))
+                .navigate(RecoveryCertificateDetailsFragment.uri(scannerResult.containerId.identifier))
             is DccResult.Test -> findNavController()
-                    .navigate(TestCertificateDetailsFragment.uri(scannerResult.containerId.identifier))
+                .navigate(TestCertificateDetailsFragment.uri(scannerResult.containerId.identifier))
             is DccResult.Vaccination -> findNavController()
-                    .navigate(VaccinationDetailsFragment.uri(scannerResult.containerId.identifier))
+                .navigate(VaccinationDetailsFragment.uri(scannerResult.containerId.identifier))
         }
     }
 

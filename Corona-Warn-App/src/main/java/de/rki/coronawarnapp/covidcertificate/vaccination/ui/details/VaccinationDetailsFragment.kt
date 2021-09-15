@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
-import androidx.activity.OnBackPressedCallback
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
@@ -114,17 +113,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
             viewModel.events.observe(viewLifecycleOwner) { event ->
                 when (event) {
-                    VaccinationDetailsNavigation.Back -> {
-                        // certUuid != null -> we came from universal scanner. Pressing back leads to person overview
-                        if (args.certUuid != null) {
-                            doNavigate(
-                                VaccinationDetailsFragmentDirections
-                                    .actionVaccinationDetailsFragmentToPersonOverviewFragment()
-                            )
-                        } else {
-                            popBackStack()
-                        }
-                    }
+                    VaccinationDetailsNavigation.Back -> popBackStack()
                     is VaccinationDetailsNavigation.FullQrCode -> findNavController().navigate(
                         R.id.action_global_qrCodeFullScreenFragment,
                         QrCodeFullScreenFragmentArgs(event.qrCode).toBundle(),
@@ -146,12 +135,6 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                     }
                 }
             }
-
-            // Override android back button to manually control back logic
-            val backCallback = object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() = viewModel.onClose()
-            }
-            requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
         }
 
     override fun onStop() {
