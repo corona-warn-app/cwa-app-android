@@ -264,7 +264,7 @@
     <!-- XHED: Toolbar title for the validation passed screen  -->
     <string name="validation_rules_result_valid_header">Gültiges Zertifikat</string>
     <!-- XTXT: No rules available text for the validation passed screen  -->
-    <string name="validation_no_rules_available_valid_text">Für diesen Zertifikattyp sind derzeit keine Einreiseregeln für das gewählte Land und den gewählten Zeitpunkt vorhanden. Bitte beachten Sie die folgenden Hinweise:</string>
+    <string name="validation_no_rules_available_valid_text">Für diesen Zertifikattyp sind derzeit keine Einreiseregeln für das gewählte Land und den gewählten Zeitpunkt vorhanden. Bitte beachten Sie die unten aufgelisteten Hinweise.</string>
     <!-- XTXT: Rule validation text for the validation passed screen  -->
     <string name="validation_rules_result_valid_rule_text">Es wurden %1$d Regeln des Reiselandes erfolgreich überprüft.</string>
     <!-- XTXT: Button text - Check another country -->

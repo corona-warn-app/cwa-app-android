@@ -47,10 +47,10 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                         SubmissionDispatcherFragmentDirections
                             .actionSubmissionDispatcherFragmentToSubmissionContactFragment()
                     )
-                is SubmissionNavigationEvents.NavigateToConsent ->
+                is SubmissionNavigationEvents.NavigateToQRCodeScan ->
                     doNavigate(
                         SubmissionDispatcherFragmentDirections
-                            .actionSubmissionDispatcherFragmentToSubmissionConsentFragment()
+                            .actionSubmissionDispatcherFragmentToSubmissionQRCodeScanFragment()
                     )
                 is SubmissionNavigationEvents.NavigateToCreateProfile -> {
                     val ratGraph = findNavController().graph.findNode(R.id.rapid_test_profile_nav_graph) as NavGraph

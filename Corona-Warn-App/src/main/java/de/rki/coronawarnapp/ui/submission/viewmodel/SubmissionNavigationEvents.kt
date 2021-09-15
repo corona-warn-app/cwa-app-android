@@ -18,7 +18,7 @@ sealed class SubmissionNavigationEvents {
 
     object NavigateToTAN : SubmissionNavigationEvents()
 
-    object NavigateToConsent : SubmissionNavigationEvents()
+    data class NavigateToConsent(val qrCode: String) : SubmissionNavigationEvents()
 
     object NavigateToMainActivity : SubmissionNavigationEvents()
 

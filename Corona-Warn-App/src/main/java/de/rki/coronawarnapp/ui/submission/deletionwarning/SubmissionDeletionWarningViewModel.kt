@@ -66,12 +66,6 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
         }.run { routeToScreen.postValue(this) }
     }
 
-    fun onCancelButtonClick() {
-        SubmissionDeletionWarningFragmentDirections
-            .actionSubmissionDeletionWarningFragmentToSubmissionConsentFragment()
-            .run { routeToScreen.postValue(this) }
-    }
-
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionDeletionWarningViewModel> {
         fun create(
