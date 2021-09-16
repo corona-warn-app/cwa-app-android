@@ -73,7 +73,9 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
                         findNavController().navigate(ConfirmCheckInFragment.uri(locationId), navOption)
                     } else {
                         doNavigate(
-                            CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToCheckInsFragment(args.uri)
+                            CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToCheckInsFragment(
+                                args.uri
+                            )
                         )
                     }
                 }
