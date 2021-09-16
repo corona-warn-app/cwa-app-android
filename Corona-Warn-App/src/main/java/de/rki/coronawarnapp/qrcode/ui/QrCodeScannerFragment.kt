@@ -160,7 +160,9 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     private fun onCoronaTestResult(scannerResult: CoronaTestResult) {
         when (scannerResult) {
             is CoronaTestResult.ConsentTest ->
-                QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionConsentFragment(scannerResult.rawQrCode)
+                QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionConsentFragment(
+                    scannerResult.rawQrCode
+                )
             is CoronaTestResult.DuplicateTest ->
                 QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionDeletionWarningFragment(
                     scannerResult.coronaTestQrCode
