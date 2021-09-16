@@ -5,6 +5,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
@@ -15,7 +16,6 @@ import timber.log.Timber
 
 class SubmissionDeletionWarningViewModel @AssistedInject constructor(
     @Assisted private val testRegistrationRequest: TestRegistrationRequest,
-    @Assisted private val isConsentGiven: Boolean,
     private val registrationStateProcessor: TestRegistrationStateProcessor,
 ) : CWAViewModel() {
 
@@ -25,52 +25,42 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
     internal fun getTestType(): CoronaTest.Type = testRegistrationRequest.type
 
     fun deleteExistingAndRegisterNewTest() = launch {
-        if (testRegistrationRequest.isDccSupportedByPoc) {
-            SubmissionDeletionWarningFragmentDirections
-                .actionSubmissionDeletionWarningFragmentToRequestCovidCertificateFragment(
-                    testRegistrationRequest = testRegistrationRequest,
-                    coronaTestConsent = isConsentGiven,
-                    deleteOldTest = true
-                ).run { routeToScreen.postValue(this) }
-        } else {
-            removeAndRegisterNew(testRegistrationRequest)
-        }
+        removeAndRegisterNew(testRegistrationRequest)
     }
 
     private suspend fun removeAndRegisterNew(request: TestRegistrationRequest) {
-        val newTest = registrationStateProcessor.startRegistration(
-            request = request,
-            isSubmissionConsentGiven = isConsentGiven,
-            allowReplacement = true
-        )
+        if (request is CoronaTestTAN) {
+            val newTest = registrationStateProcessor.startRegistration(
+                request = request,
+                isSubmissionConsentGiven = false,
+                allowReplacement = true
+            )
 
-        if (newTest == null) {
-            Timber.w("Test registration failed.")
-            return
-        } else {
-            Timber.d("Continuing with our new CoronaTest: %s", newTest)
-        }
+            if (newTest == null) {
+                Timber.w("Test registration failed.")
+                return
+            } else {
+                Timber.d("Continuing with our new CoronaTest: %s", newTest)
+            }
 
-        when (request) {
-            is CoronaTestTAN ->
+            routeToScreen.postValue(
                 SubmissionDeletionWarningFragmentDirections
                     .actionSubmissionDeletionFragmentToSubmissionTestResultNoConsentFragment(newTest.type)
+            )
+        }
 
-            else -> if (newTest.isPositive) {
+        if (request is CoronaTestQRCode) {
+            routeToScreen.postValue(
                 SubmissionDeletionWarningFragmentDirections
-                    .actionSubmissionDeletionWarningFragmentToSubmissionTestResultAvailableFragment(newTest.type)
-            } else {
-                SubmissionDeletionWarningFragmentDirections
-                    .actionSubmissionDeletionWarningFragmentToSubmissionTestResultPendingFragment(newTest.type)
-            }
-        }.run { routeToScreen.postValue(this) }
+                    .actionSubmissionDeletionWarningFragmentToSubmissionConsentFragment(request.rawQrCode, true)
+            )
+        }
     }
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionDeletionWarningViewModel> {
         fun create(
-            testRegistrationRequest: TestRegistrationRequest,
-            isConsentGiven: Boolean
+            testRegistrationRequest: TestRegistrationRequest
         ): SubmissionDeletionWarningViewModel
     }
 }

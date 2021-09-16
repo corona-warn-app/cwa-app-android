@@ -5,13 +5,19 @@ import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
+import de.rki.coronawarnapp.coronatest.qrcode.RapidAntigenQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.storage.OnboardingSettings
+import de.rki.coronawarnapp.submission.SubmissionRepository
+import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
+import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentFragment
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
@@ -31,6 +37,8 @@ class MainActivityViewModel @AssistedInject constructor(
     private val onboardingSettings: OnboardingSettings,
     private val traceLocationSettings: TraceLocationSettings,
     private val covidCertificateSettings: CovidCertificateSettings,
+    private val raExtractor: RapidAntigenQrCodeExtractor,
+    private val submissionRepository: SubmissionRepository,
     checkInRepository: CheckInRepository,
     personCertificatesProvider: PersonCertificatesProvider,
 ) : CWAViewModel(
@@ -97,6 +105,27 @@ class MainActivityViewModel @AssistedInject constructor(
     private suspend fun checkForEnergyOptimizedEnabled() {
         if (!backgroundModeStatus.isIgnoringBatteryOptimizations.first()) {
             showEnergyOptimizedEnabledForBackground.postValue(Unit)
+        }
+    }
+
+    fun onNavigationUri(uriString: String) = launch {
+        when {
+            CheckInsFragment.canHandle(uriString) -> {
+                // TODO navController.navigate(CheckInsFragment.createDeepLink(uriString))
+            }
+            SubmissionConsentFragment.canHandle(uriString) -> {
+                try {
+                    val qrCode = raExtractor.extract(rawString = uriString)
+                    val test = submissionRepository.testForType(qrCode.type).first()
+                    if (test != null) {
+                        // TODO Open duplicate
+                    } else {
+                        // TODO navController.navigate(NavGraphDirections.actionSubmissionConsentFragment(uriString))
+                    }
+                } catch (e: Exception) {
+                    e.report(ExceptionCategory.INTERNAL)
+                }
+            }
         }
     }
 

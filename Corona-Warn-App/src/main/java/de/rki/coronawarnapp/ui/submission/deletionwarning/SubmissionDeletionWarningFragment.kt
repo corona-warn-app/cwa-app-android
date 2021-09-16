@@ -34,7 +34,7 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionDeletionWarningViewModel.Factory
-            factory.create(args.testRegistrationRequest, args.isConsentGiven)
+            factory.create(args.testRegistrationRequest)
         }
     )
     private val binding: FragmentSubmissionDeletionWarningBinding by viewBinding()

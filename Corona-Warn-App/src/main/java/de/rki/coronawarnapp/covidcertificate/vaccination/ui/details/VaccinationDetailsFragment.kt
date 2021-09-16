@@ -1,10 +1,12 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.ui.details
 
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -16,6 +18,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
+import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.CertificateExportErrorDialog
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
@@ -36,6 +39,8 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import timber.log.Timber
+import java.net.URLEncoder
 import java.util.Locale
 import javax.inject.Inject
 
@@ -49,8 +54,9 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as VaccinationDetailsViewModel.Factory
+            Timber.d("certIdentifier=" + args.certIdentifier)
             factory.create(
-                containerId = args.containerId,
+                containerId = VaccinationCertificateContainerId(args.certIdentifier)
             )
         }
     )
@@ -142,7 +148,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
     private fun FragmentVaccinationDetailsBinding.bindToolbar() = toolbar.apply {
         toolbar.navigationIcon = resources.mutateDrawable(R.drawable.ic_back, Color.WHITE)
-        setNavigationOnClickListener { popBackStack() }
+        setNavigationOnClickListener { viewModel.onClose() }
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_covid_certificate_delete -> {
@@ -209,5 +215,12 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 viewModel.onDeleteVaccinationCertificateConfirmed()
             }
         }.show()
+    }
+
+    companion object {
+        fun uri(certIdentifier: String): Uri {
+            val encodedId = URLEncoder.encode(certIdentifier, "UTF-8")
+            return "cwa://vaccination-certificate/?certIdentifier=$encodedId".toUri()
+        }
     }
 }
