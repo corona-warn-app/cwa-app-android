@@ -15,6 +15,7 @@ data class VerifiedTraceLocation(
     private val protoQrCodePayload: TraceLocationOuterClass.QRCodePayload
 ) : Parcelable {
     @IgnoredOnParcel val traceLocation: TraceLocation = protoQrCodePayload.traceLocation()
+    @IgnoredOnParcel val locationIdHex: String = traceLocation.locationId.hex()
 }
 
 private object TraceLocationParceler : Parceler<TraceLocationOuterClass.TraceLocation> {

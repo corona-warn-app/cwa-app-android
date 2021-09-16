@@ -61,9 +61,12 @@ class DccExpirationNotification @Inject constructor(
         }
 
         val args: Bundle = when (containerId) {
-            is VaccinationCertificateContainerId -> VaccinationDetailsFragmentArgs(containerId).toBundle()
-            is TestCertificateContainerId -> TestCertificateDetailsFragmentArgs(containerId).toBundle()
-            is RecoveryCertificateContainerId -> RecoveryCertificateDetailsFragmentArgs(containerId).toBundle()
+            is VaccinationCertificateContainerId ->
+                VaccinationDetailsFragmentArgs(containerId.identifier).toBundle()
+            is TestCertificateContainerId ->
+                TestCertificateDetailsFragmentArgs(containerId.identifier).toBundle()
+            is RecoveryCertificateContainerId ->
+                RecoveryCertificateDetailsFragmentArgs(containerId.identifier).toBundle()
         }
 
         return deepLinkBuilderFactory.create(context)

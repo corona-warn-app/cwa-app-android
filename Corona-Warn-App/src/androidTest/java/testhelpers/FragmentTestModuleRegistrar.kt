@@ -36,7 +36,6 @@ import de.rki.coronawarnapp.ui.statistics.StatisticsExplanationFragmentTestModul
 import de.rki.coronawarnapp.ui.submission.SubmissionConsentFragmentTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionContactTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionDispatcherTestModule
-import de.rki.coronawarnapp.ui.submission.SubmissionQRScanFragmentModule
 import de.rki.coronawarnapp.ui.submission.SubmissionSymptomCalendarFragmentTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionSymptomIntroFragmentTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionTanTestModule
@@ -73,11 +72,9 @@ import de.rki.coronawarnapp.ui.vaccination.CovidCertificateInfoFragmentTestModul
         SubmissionTestResultConsentGivenTestModule::class,
         SubmissionSymptomIntroFragmentTestModule::class,
         SubmissionContactTestModule::class,
-        SubmissionQRScanFragmentModule::class,
         SubmissionConsentFragmentTestModule::class,
         SubmissionYourConsentFragmentTestModule::class,
         SubmissionSymptomCalendarFragmentTestModule::class,
-        SubmissionQRScanFragmentModule::class,
 
         // -------- Tracing --------
         TracingDetailsFragmentTestTestModule::class,
