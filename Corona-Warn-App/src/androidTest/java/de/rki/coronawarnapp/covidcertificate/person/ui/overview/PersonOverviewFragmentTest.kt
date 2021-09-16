@@ -96,7 +96,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
     @Screenshot
     fun capture_fragment_one_person_with_badge() {
         every { viewModel.personCertificates } returns MutableLiveData(onePersonItemWithBadgeCount())
-        takeSelfieWithBottomBarBadge("one_person_with_badge", R.id.covid_certificates_graph, 1)
+        takeSelfieWithBottomNavBadge("one_person_with_badge", R.id.covid_certificates_graph, 1)
     }
 
     @Test
@@ -117,7 +117,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
         clearAllViewModels()
     }
 
-    private fun takeSelfieWithBottomBarBadge(suffix: String, @IdRes badgeId: Int, count: Int) {
+    private fun takeSelfieWithBottomNavBadge(suffix: String, @IdRes badgeId: Int, count: Int) {
         val activityScenario = launchInMainActivity<PersonOverviewFragment>()
         activityScenario.onActivity {
             it.findViewById<BottomNavigationView>(R.id.fake_bottom_navigation).updateCountBadge(badgeId, count)
