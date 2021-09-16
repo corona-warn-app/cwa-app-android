@@ -127,6 +127,7 @@ class RAProcessorTest : BaseTest() {
         val request = CoronaTestQRCode.RapidAntigen(
             hash = "hash",
             createdAt = Instant.EPOCH,
+            rawQrCode = "rawQrCode"
         )
 
         val instance = createInstance()
@@ -160,6 +161,7 @@ class RAProcessorTest : BaseTest() {
         val request = CoronaTestQRCode.RapidAntigen(
             hash = "hash",
             createdAt = Instant.EPOCH,
+            rawQrCode = "rawQrCode"
         )
 
         values().forEach {
@@ -306,7 +308,8 @@ class RAProcessorTest : BaseTest() {
                 createdAt = Instant.EPOCH,
                 isDccConsentGiven = false,
                 dateOfBirth = LocalDate.parse("2021-06-02"),
-                isDccSupportedByPoc = false
+                isDccSupportedByPoc = false,
+                rawQrCode = "rawQrCode"
             )
         ).apply {
             isDccConsentGiven shouldBe false
@@ -321,7 +324,8 @@ class RAProcessorTest : BaseTest() {
                 createdAt = Instant.EPOCH,
                 isDccConsentGiven = true,
                 dateOfBirth = LocalDate.parse("2021-06-02"),
-                isDccSupportedByPoc = true
+                isDccSupportedByPoc = true,
+                rawQrCode = "rawQrCode"
             )
         ).apply {
             isDccConsentGiven shouldBe true
@@ -360,6 +364,7 @@ class RAProcessorTest : BaseTest() {
                 hash = "hash",
                 createdAt = Instant.EPOCH,
                 dateOfBirth = LocalDate.parse("2021-06-02"),
+                rawQrCode = "rawQrCode"
             )
         ).apply {
             this as RACoronaTest
