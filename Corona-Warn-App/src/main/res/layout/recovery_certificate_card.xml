@@ -49,6 +49,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
+        android:hyphenationFrequency="normal"
         android:text="@string/recovery_certificate_name"
         android:textSize="18sp"
         android:textStyle="bold"
