@@ -9,7 +9,9 @@
         android:name="de.rki.coronawarnapp.ui.presencetracing.attendee.onboarding.CheckInOnboardingFragment"
         android:label="CheckInOnboardingFragment"
         tools:layout="@layout/fragment_trace_location_onboarding">
-        <deepLink app:uri="coronawarnapp://check-ins/{uri}/?cleanHistory={cleanHistory}" />
+        <deepLink app:uri="cwa://check-in-onboarding/{uri}/?cleanHistory={cleanHistory}" />
+        <deepLink app:uri="cwa://check-in-onboarding/?showBottomNav={showBottomNav}&amp;locationId={locationId}" />
+
         <action
             android:id="@+id/action_checkInOnboardingFragment_to_checkInsFragment"
             app:destination="@id/checkInsFragment"
@@ -28,6 +30,12 @@
             app:argType="boolean" />
         <argument
             android:name="uri"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+
+        <argument
+            android:name="locationId"
             android:defaultValue="@null"
             app:argType="string"
             app:nullable="true" />

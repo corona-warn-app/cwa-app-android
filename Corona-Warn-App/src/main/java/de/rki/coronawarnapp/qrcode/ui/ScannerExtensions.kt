@@ -66,7 +66,11 @@ fun CertificateContainerId.toDccResult(requireOnboarding: Boolean): DccResult {
     return DccResult(uri)
 }
 
-fun CheckInQrCodeHandler.Result.toCheckInResult(): CheckInResult = when (this) {
+fun CheckInQrCodeHandler.Result.toCheckInResult(requireOnboarding: Boolean): CheckInResult = when (this) {
     is CheckInQrCodeHandler.Result.Invalid -> CheckInResult.Error(errorTextRes.toResolvingString())
-    is CheckInQrCodeHandler.Result.Valid -> CheckInResult.Details(verifiedTraceLocation)
+    is CheckInQrCodeHandler.Result.Valid -> if (requireOnboarding) {
+        CheckInResult.Onboarding(verifiedTraceLocation)
+    } else {
+        CheckInResult.Details(verifiedTraceLocation)
+    }
 }

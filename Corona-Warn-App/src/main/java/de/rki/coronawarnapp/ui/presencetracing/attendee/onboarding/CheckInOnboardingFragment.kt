@@ -2,11 +2,15 @@ package de.rki.coronawarnapp.ui.presencetracing.attendee.onboarding
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTraceLocationOnboardingBinding
+import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInFragment
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -46,7 +50,6 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
 
         with(binding) {
             checkInOnboardingAcknowledge.setOnClickListener { viewModel.onAcknowledged() }
-            // TODO if consent is already given: should the text be changed?
             if (viewModel.isOnboardingComplete) checkInOnboardingAcknowledge.visibility = View.GONE
             checkInOnboardingPrivacy.setOnClickListener { viewModel.onPrivacy() }
 
@@ -60,14 +63,28 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
         }
 
         viewModel.events.observe2(this) { navEvent ->
-            doNavigate(
-                when (navEvent) {
-                    CheckInOnboardingNavigation.AcknowledgedNavigation ->
-                        CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToCheckInsFragment(args.uri)
-                    CheckInOnboardingNavigation.DataProtectionNavigation ->
-                        CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToPrivacyFragment()
+            when (navEvent) {
+                CheckInOnboardingNavigation.AcknowledgedNavigation -> {
+                    val locationId = args.locationId
+                    if (locationId != null) {
+                        val navOption = NavOptions.Builder()
+                            .setPopUpTo(R.id.checkInOnboardingFragment, true)
+                            .build()
+                        findNavController().navigate(ConfirmCheckInFragment.uri(locationId), navOption)
+                    } else {
+                        doNavigate(
+                            CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToCheckInsFragment(args.uri)
+                        )
+                    }
                 }
-            )
+                CheckInOnboardingNavigation.DataProtectionNavigation -> doNavigate(
+                    CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToPrivacyFragment()
+                )
+            }
         }
+    }
+
+    companion object {
+        fun uri(locationId: String) = "cwa://check-in-onboarding/?showBottomNav=false&locationId=$locationId".toUri()
     }
 }

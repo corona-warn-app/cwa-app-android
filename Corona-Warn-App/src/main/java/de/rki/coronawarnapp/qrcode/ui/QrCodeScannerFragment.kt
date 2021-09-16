@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInFragment
+import de.rki.coronawarnapp.ui.presencetracing.attendee.onboarding.CheckInOnboardingFragment
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.ui.LazyString
@@ -183,6 +184,16 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 locationViewModel.putVerifiedTraceLocation(scannerResult.verifiedLocation)
                 findNavController().navigate(
                     ConfirmCheckInFragment.uri(locationId),
+                    NavOptions.Builder()
+                        .setPopUpTo(R.id.universalScanner, true)
+                        .build()
+                )
+            }
+            is CheckInResult.Onboarding -> {
+                val locationId = scannerResult.verifiedLocation.locationIdHex
+                locationViewModel.putVerifiedTraceLocation(scannerResult.verifiedLocation)
+                findNavController().navigate(
+                    CheckInOnboardingFragment.uri(locationId),
                     NavOptions.Builder()
                         .setPopUpTo(R.id.universalScanner, true)
                         .build()

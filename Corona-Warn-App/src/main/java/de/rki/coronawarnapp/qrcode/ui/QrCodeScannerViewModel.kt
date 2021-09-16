@@ -6,6 +6,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
+import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCode
 import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
@@ -30,6 +31,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     private val checkInHandler: CheckInQrCodeHandler,
     private val submissionRepository: SubmissionRepository,
     private val dccSettings: CovidCertificateSettings,
+    private val traceLocationSettings: TraceLocationSettings,
 ) : CWAViewModel(dispatcherProvider) {
 
     val result = SingleLiveEvent<ScannerResult>()
@@ -80,7 +82,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         Timber.tag(TAG).d("onCheckInQrCode=$qrCode")
         val checkInResult = checkInHandler.handleQrCode(qrCode)
         Timber.tag(TAG).d("checkInResult=$checkInResult")
-        result.postValue(checkInResult.toCheckInResult())
+        result.postValue(checkInResult.toCheckInResult(!traceLocationSettings.isOnboardingDone))
     }
 
     private suspend fun onCoronaTestQrCode(qrCode: CoronaTestQRCode, rawResult: String) {
