@@ -237,6 +237,14 @@ class CoronaTestRepository @Inject constructor(
         }
     }
 
+    suspend fun markBadgeAsViewed(identifier: TestIdentifier) {
+        Timber.tag(TAG).i("markBadgeAsViewed(identifier=%s)", identifier)
+
+        modifyTest(identifier) { processor, before ->
+            processor.markBadgeAsViewed(before)
+        }
+    }
+
     suspend fun updateSubmissionConsent(identifier: TestIdentifier, consented: Boolean) {
         Timber.tag(TAG).i("updateSubmissionConsent(identifier=%s, consented=%b)", identifier, consented)
 

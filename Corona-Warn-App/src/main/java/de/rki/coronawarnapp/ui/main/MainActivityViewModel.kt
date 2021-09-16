@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.environment.EnvironmentSetup
@@ -31,6 +32,7 @@ class MainActivityViewModel @AssistedInject constructor(
     private val onboardingSettings: OnboardingSettings,
     private val traceLocationSettings: TraceLocationSettings,
     private val covidCertificateSettings: CovidCertificateSettings,
+    private val coronaTestRepository: CoronaTestRepository,
     checkInRepository: CheckInRepository,
     personCertificatesProvider: PersonCertificatesProvider,
 ) : CWAViewModel(
@@ -53,6 +55,11 @@ class MainActivityViewModel @AssistedInject constructor(
         .asLiveData2()
 
     val personsBadgeCount: LiveData<Int> = personCertificatesProvider.personsBadgeCount.asLiveData2()
+
+    val testsBadgeCount: LiveData<Int> = coronaTestRepository.coronaTests
+        .map { coronaTests ->
+            coronaTests.filter { !it.didShowBadge }.count()
+        }.asLiveData2()
 
     init {
         if (CWADebug.isDeviceForTestersBuild) {
