@@ -7,8 +7,12 @@ import testhelpers.BaseTest
 
 class CoronaTestQRCodeTest : BaseTest() {
 
-    private val instancePCR = CoronaTestQRCode.PCR("pcr")
-    private val instanceRA = CoronaTestQRCode.RapidAntigen(hash = "ra", createdAt = Instant.EPOCH)
+    private val instancePCR = CoronaTestQRCode.PCR("pcr", rawQrCode = "rawQrCode")
+    private val instanceRA = CoronaTestQRCode.RapidAntigen(
+        hash = "ra",
+        createdAt = Instant.EPOCH,
+        rawQrCode = "rawQrCode"
+    )
 
     @Test
     fun `PCR defaults`() {
