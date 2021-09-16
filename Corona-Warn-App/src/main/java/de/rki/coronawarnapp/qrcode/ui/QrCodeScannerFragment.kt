@@ -15,7 +15,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
-import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
 import de.rki.coronawarnapp.tag
@@ -161,10 +160,10 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     private fun onCoronaTestResult(scannerResult: CoronaTestResult) {
         when (scannerResult) {
             is CoronaTestResult.ConsentTest ->
-                NavGraphDirections.actionSubmissionConsentFragment(scannerResult.rawQrCode)
+                QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionConsentFragment(scannerResult.rawQrCode)
             is CoronaTestResult.DuplicateTest ->
-                NavGraphDirections.actionSubmissionDeletionWarningFragment(
-                    scannerResult.coronaTestQrCode, qrCode = scannerResult.rawQrCode
+                QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionDeletionWarningFragment(
+                    scannerResult.coronaTestQrCode
                 )
         }.also {
             doNavigate(it)

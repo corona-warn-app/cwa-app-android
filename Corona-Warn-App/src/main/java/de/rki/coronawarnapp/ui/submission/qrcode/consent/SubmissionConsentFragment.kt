@@ -31,7 +31,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionConsentViewModel.Factory
-            factory.create(navArgs.qrCode)
+            factory.create(navArgs.qrCode, navArgs.allowTestReplacement)
         }
     )
     private val binding: FragmentSubmissionConsentBinding by viewBinding()
@@ -50,12 +50,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                         requireActivity(),
                         REQUEST_USER_RESOLUTION
                     )
-                is SubmissionNavigationEvents.NavigateToDuplicateWarningFragment -> doNavigate(
-                    NavGraphDirections.actionToSubmissionDeletionWarningFragment(
-                        testRegistrationRequest = it.coronaTestQRCode,
-                        isConsentGiven = it.consentGiven,
-                    )
-                )
+
                 is SubmissionNavigationEvents.NavigateToRequestDccFragment -> doNavigate(
                     NavGraphDirections.actionRequestCovidCertificateFragment(
                         testRegistrationRequest = it.coronaTestQRCode,
