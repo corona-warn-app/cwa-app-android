@@ -8,6 +8,9 @@ import androidx.activity.result.contract.ActivityResultContracts.OpenDocument
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.zxing.BarcodeFormat
@@ -15,9 +18,12 @@ import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
 import de.rki.coronawarnapp.tag
+import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInFragment
+import de.rki.coronawarnapp.ui.presencetracing.attendee.onboarding.CheckInOnboardingFragment
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.ui.LazyString
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -28,6 +34,7 @@ import javax.inject.Inject
 class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoInject {
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel by cwaViewModels<QrCodeScannerViewModel> { viewModelFactory }
+    private val locationViewModel: VerifiedLocationViewModel by navGraphViewModels(R.id.nav_graph)
 
     private val binding by viewBinding<FragmentQrcodeScannerBinding>()
     private var showsPermissionDialog = false
@@ -152,23 +159,44 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
 
     private fun onCoronaTestResult(scannerResult: CoronaTestResult) {
         when (scannerResult) {
-            is CoronaTestResult.ConsentTest -> error("No implemented") // TODO
-            is CoronaTestResult.DuplicateTest -> error("No implemented") // TODO
+            is CoronaTestResult.ConsentTest ->
+                QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionConsentFragment(
+                    scannerResult.rawQrCode
+                )
+            is CoronaTestResult.DuplicateTest ->
+                QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionDeletionWarningFragment(
+                    scannerResult.coronaTestQrCode
+                )
+        }.also {
+            doNavigate(it)
         }
     }
 
     private fun onDccResult(scannerResult: DccResult) {
-        when (scannerResult) {
-            is DccResult.Recovery -> error("No implemented") // TODO
-            is DccResult.Test -> error("No implemented") // TODO
-            is DccResult.Vaccination -> error("No implemented") // TODO
-        }
+        Timber.tag(TAG).d(" onDccResult(scannerResult=%s)", scannerResult)
+        val navOptions = NavOptions.Builder()
+            .setPopUpTo(R.id.universalScanner, true)
+            .build()
+        findNavController().navigate(scannerResult.uri, navOptions)
     }
 
     private fun onCheckInResult(scannerResult: CheckInResult) {
         when (scannerResult) {
-            is CheckInResult.Details -> error("No implemented") // TODO
-            is CheckInResult.Error -> showCheckInQrCodeError(scannerResult.stringRes)
+            is CheckInResult.Details -> {
+                val locationId = scannerResult.verifiedLocation.locationIdHex
+                val uri = when {
+                    scannerResult.requireOnboarding -> CheckInOnboardingFragment.uri(locationId)
+                    else -> ConfirmCheckInFragment.uri(locationId)
+                }
+                locationViewModel.putVerifiedTraceLocation(scannerResult.verifiedLocation)
+                findNavController().navigate(
+                    uri,
+                    NavOptions.Builder()
+                        .setPopUpTo(R.id.universalScanner, true)
+                        .build()
+                )
+            }
+            is CheckInResult.Error -> showCheckInQrCodeError(scannerResult.lazyMessage)
         }
     }
 

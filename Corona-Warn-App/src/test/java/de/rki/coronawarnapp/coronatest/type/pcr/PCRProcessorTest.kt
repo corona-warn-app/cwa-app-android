@@ -139,7 +139,7 @@ class PCRProcessorTest : BaseTest() {
 
         val instance = createInstance()
 
-        val request = CoronaTestQRCode.PCR(qrCodeGUID = "guid")
+        val request = CoronaTestQRCode.PCR(qrCodeGUID = "guid", rawQrCode = "rawQrCode")
 
         values().forEach {
             registrationData = registrationData.copy(
@@ -214,7 +214,7 @@ class PCRProcessorTest : BaseTest() {
             isResultAvailableNotificationSent shouldBe true
         }
 
-        instance.create(CoronaTestQRCode.PCR(qrCodeGUID = "thisIsAQRCodeGUID")).apply {
+        instance.create(CoronaTestQRCode.PCR(qrCodeGUID = "thisIsAQRCodeGUID", rawQrCode = "rawQrCode")).apply {
             isResultAvailableNotificationSent shouldBe false
         }
     }
@@ -298,6 +298,7 @@ class PCRProcessorTest : BaseTest() {
                 qrCodeGUID = "guid",
                 isDccConsentGiven = true,
                 dateOfBirth = LocalDate.parse("2021-06-02"),
+                rawQrCode = "rawQrCode"
             )
         ).apply {
             isDccConsentGiven shouldBe true
@@ -310,6 +311,7 @@ class PCRProcessorTest : BaseTest() {
             CoronaTestQRCode.PCR(
                 qrCodeGUID = "guid",
                 dateOfBirth = LocalDate.parse("2021-06-02"),
+                rawQrCode = "rawQrCode"
             )
         ).apply {
             isDccConsentGiven shouldBe false
@@ -347,6 +349,7 @@ class PCRProcessorTest : BaseTest() {
                 qrCodeGUID = "guid",
                 isDccConsentGiven = true,
                 dateOfBirth = LocalDate.parse("2021-06-02"),
+                rawQrCode = "rawQrCode"
             )
         ).apply {
             testResult shouldBe PCR_NEGATIVE
