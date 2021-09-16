@@ -16,6 +16,7 @@ import timber.log.Timber
 class SubmissionDeletionWarningViewModel @AssistedInject constructor(
     @Assisted private val testRegistrationRequest: TestRegistrationRequest,
     @Assisted private val isConsentGiven: Boolean,
+    @Assisted private val qrCode: String?, // TODO use it to open the consent before registration
     private val registrationStateProcessor: TestRegistrationStateProcessor,
 ) : CWAViewModel() {
 
@@ -70,7 +71,8 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
     interface Factory : CWAViewModelFactory<SubmissionDeletionWarningViewModel> {
         fun create(
             testRegistrationRequest: TestRegistrationRequest,
-            isConsentGiven: Boolean
+            isConsentGiven: Boolean,
+            qrCode: String?
         ): SubmissionDeletionWarningViewModel
     }
 }

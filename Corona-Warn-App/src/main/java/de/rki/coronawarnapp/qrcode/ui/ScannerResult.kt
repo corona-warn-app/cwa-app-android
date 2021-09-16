@@ -24,13 +24,12 @@ data class DccResult(val uri: Uri) : ScannerResult {
 }
 
 sealed class CheckInResult : ScannerResult {
-    data class Details(val verifiedLocation: VerifiedTraceLocation) : CheckInResult()
-    data class Onboarding(val verifiedLocation: VerifiedTraceLocation) : CheckInResult()
+    data class Details(val verifiedLocation: VerifiedTraceLocation, val requireOnboarding: Boolean) : CheckInResult()
     data class Error(val lazyMessage: LazyString) : CheckInResult()
 }
 
 sealed class CoronaTestResult : ScannerResult {
-    data class DuplicateTest(val coronaTestQrCode: CoronaTestQRCode) : CoronaTestResult()
+    data class DuplicateTest(val coronaTestQrCode: CoronaTestQRCode, val rawQrCode: String) : CoronaTestResult()
     data class ConsentTest(val rawQrCode: String) : CoronaTestResult()
 }
 

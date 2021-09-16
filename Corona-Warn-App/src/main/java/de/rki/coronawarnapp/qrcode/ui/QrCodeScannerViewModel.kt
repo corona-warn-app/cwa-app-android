@@ -89,7 +89,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         Timber.tag(TAG).d("onCoronaTestQrCode=$qrCode")
         val coronaTest = submissionRepository.testForType(qrCode.type).first()
         val coronaTestResult = if (coronaTest != null) {
-            CoronaTestResult.DuplicateTest(qrCode)
+            CoronaTestResult.DuplicateTest(qrCode, rawResult)
         } else {
             CoronaTestResult.ConsentTest(rawResult)
         }

@@ -163,7 +163,9 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             is CoronaTestResult.ConsentTest ->
                 NavGraphDirections.actionSubmissionConsentFragment(scannerResult.rawQrCode)
             is CoronaTestResult.DuplicateTest ->
-                NavGraphDirections.actionSubmissionDeletionWarningFragment(scannerResult.coronaTestQrCode)
+                NavGraphDirections.actionSubmissionDeletionWarningFragment(
+                    scannerResult.coronaTestQrCode, qrCode = scannerResult.rawQrCode
+                )
         }.also {
             doNavigate(it)
         }
@@ -181,19 +183,13 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         when (scannerResult) {
             is CheckInResult.Details -> {
                 val locationId = scannerResult.verifiedLocation.locationIdHex
+                val uri = when {
+                    scannerResult.requireOnboarding -> CheckInOnboardingFragment.uri(locationId)
+                    else -> ConfirmCheckInFragment.uri(locationId)
+                }
                 locationViewModel.putVerifiedTraceLocation(scannerResult.verifiedLocation)
                 findNavController().navigate(
-                    ConfirmCheckInFragment.uri(locationId),
-                    NavOptions.Builder()
-                        .setPopUpTo(R.id.universalScanner, true)
-                        .build()
-                )
-            }
-            is CheckInResult.Onboarding -> {
-                val locationId = scannerResult.verifiedLocation.locationIdHex
-                locationViewModel.putVerifiedTraceLocation(scannerResult.verifiedLocation)
-                findNavController().navigate(
-                    CheckInOnboardingFragment.uri(locationId),
+                    uri,
                     NavOptions.Builder()
                         .setPopUpTo(R.id.universalScanner, true)
                         .build()
