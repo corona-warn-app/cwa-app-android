@@ -31,7 +31,10 @@ class CovidCertificateOnboardingFragmentTest : BaseUITest() {
 
         setupMockViewModel(
             object : CovidCertificateOnboardingViewModel.Factory {
-                override fun create(): CovidCertificateOnboardingViewModel = viewModel
+                override fun create(
+                    dccType: String?,
+                    certIdentifier: String?
+                ): CovidCertificateOnboardingViewModel = viewModel
             }
         )
     }

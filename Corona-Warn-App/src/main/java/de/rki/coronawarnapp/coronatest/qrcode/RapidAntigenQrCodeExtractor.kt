@@ -35,6 +35,7 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
         payload.requireValidData()
 
         return CoronaTestQRCode.RapidAntigen(
+            rawQrCode = rawString,
             hash = payload.hash,
             createdAt = payload.createdAt,
             firstName = payload.firstName,

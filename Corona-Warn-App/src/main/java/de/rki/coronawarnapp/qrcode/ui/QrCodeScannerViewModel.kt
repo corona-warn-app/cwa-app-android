@@ -7,6 +7,8 @@ import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException.ErrorCode.CANT_READ_FILE
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
+import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCode
 import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
@@ -30,6 +32,8 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     private val dccHandler: DccQrCodeHandler,
     private val checkInHandler: CheckInQrCodeHandler,
     private val submissionRepository: SubmissionRepository,
+    private val dccSettings: CovidCertificateSettings,
+    private val traceLocationSettings: TraceLocationSettings,
 ) : CWAViewModel(dispatcherProvider) {
 
     val result = SingleLiveEvent<ScannerResult>()
@@ -78,21 +82,21 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         Timber.tag(TAG).d("onDccQrCode=$qrCode")
         val containerId = dccHandler.handleQrCode(qrCode)
         Timber.tag(TAG).d("containerId=$containerId")
-        result.postValue(containerId.toDccResult())
+        result.postValue(containerId.toDccResult(!dccSettings.isOnboarded.value))
     }
 
     private fun onCheckInQrCode(qrCode: CheckInQrCode) {
         Timber.tag(TAG).d("onCheckInQrCode=$qrCode")
         val checkInResult = checkInHandler.handleQrCode(qrCode)
         Timber.tag(TAG).d("checkInResult=$checkInResult")
-        result.postValue(checkInResult.toCheckInResult())
+        result.postValue(checkInResult.toCheckInResult(!traceLocationSettings.isOnboardingDone))
     }
 
     private suspend fun onCoronaTestQrCode(qrCode: CoronaTestQRCode, rawResult: String) {
         Timber.tag(TAG).d("onCoronaTestQrCode=$qrCode")
         val coronaTest = submissionRepository.testForType(qrCode.type).first()
         val coronaTestResult = if (coronaTest != null) {
-            CoronaTestResult.DuplicateTest(rawResult)
+            CoronaTestResult.DuplicateTest(qrCode)
         } else {
             CoronaTestResult.ConsentTest(rawResult)
         }

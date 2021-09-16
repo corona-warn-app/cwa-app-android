@@ -53,14 +53,10 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         constructorCall = { factory, _ ->
             factory as TestCertificateDetailsViewModel.Factory
             factory.create(
-                containerId = testCertificateContainerId()
+                containerId = TestCertificateContainerId(args.certIdentifier)
             )
         }
     )
-
-    private fun testCertificateContainerId(): TestCertificateContainerId =
-        args.containerId ?: args.certUuid?.let { TestCertificateContainerId(it) }
-            ?: throw IllegalArgumentException("Either containerId or certUuid must be provided")
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
 
@@ -193,7 +189,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
 
     private fun FragmentTestCertificateDetailsBinding.bindToolbar() = toolbar.apply {
         toolbar.navigationIcon = resources.mutateDrawable(R.drawable.ic_back, Color.WHITE)
-        setNavigationOnClickListener { popBackStack() }
+        setNavigationOnClickListener { viewModel.onClose() }
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_covid_certificate_delete -> {
@@ -233,6 +229,6 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     }
 
     companion object {
-        fun uri(certUuid: String) = "coronawarnapp://test-certificate-details/?certUuid=$certUuid".toUri()
+        fun uri(certIdentifier: String) = "cwa://test-certificate/?certIdentifier=$certIdentifier".toUri()
     }
 }
