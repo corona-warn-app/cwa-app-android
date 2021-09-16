@@ -383,10 +383,6 @@
         app:popUpTo="@id/mainFragment"
         app:popUpToInclusive="false" />
 
-    <action
-        android:id="@+id/action_to_submissionDeletionWarningFragment"
-        app:destination="@id/submissionDeletionWarningFragment" />
-
     <fragment
         android:id="@+id/submissionResultReadyFragment"
         android:name="de.rki.coronawarnapp.ui.submission.resultready.SubmissionResultReadyFragment"
@@ -471,19 +467,12 @@
         <argument
             android:name="qrCode"
             app:argType="string" />
+
+        <argument
+            android:name="allowTestReplacement"
+            android:defaultValue="false"
+            app:argType="boolean" />
     </fragment>
-
-    <action
-        android:id="@+id/action_submissionConsentFragment"
-        app:destination="@id/submissionConsentFragment"
-        app:popUpTo="@id/universalScanner"
-        app:popUpToInclusive="true" />
-
-    <action
-        android:id="@+id/action_submissionDeletionWarningFragment"
-        app:destination="@id/submissionDeletionWarningFragment"
-        app:popUpTo="@id/universalScanner"
-        app:popUpToInclusive="true" />
 
     <fragment
         android:id="@+id/submissionTestResultConsentGivenFragment"
@@ -701,16 +690,6 @@
             android:name="testRegistrationRequest"
             app:argType="de.rki.coronawarnapp.coronatest.TestRegistrationRequest" />
 
-        <argument
-            android:name="isConsentGiven"
-            android:defaultValue="false"
-            app:argType="boolean" />
-
-        <argument
-            android:name="qrCode"
-            android:defaultValue="@null"
-            app:argType="string"
-            app:nullable="true" />
         <action
             android:id="@+id/action_submissionDeletionWarningFragment_to_submissionDispatcherFragment"
             app:popUpTo="@id/submissionDispatcherFragment"
@@ -733,8 +712,8 @@
         <action
             android:id="@+id/action_submissionDeletionWarningFragment_to_submissionConsentFragment"
             app:destination="@id/submissionConsentFragment"
-            app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="false" />
+            app:popUpTo="@id/submissionDeletionWarningFragment"
+            app:popUpToInclusive="true" />
 
         <action
             android:id="@+id/action_submissionDeletionWarningFragment_to_requestCovidCertificateFragment"
@@ -857,7 +836,19 @@
         android:id="@+id/universalScanner"
         android:name="de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragment"
         android:label="QrCodeScannerFragment"
-        tools:layout="@layout/fragment_qrcode_scanner" />
+        tools:layout="@layout/fragment_qrcode_scanner">
+        <action
+            android:id="@+id/action_universalScanner_to_submissionConsentFragment"
+            app:destination="@id/submissionConsentFragment"
+            app:popUpTo="@id/universalScanner"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_universalScanner_to_submissionDeletionWarningFragment"
+            app:destination="@id/submissionDeletionWarningFragment"
+            app:popUpTo="@id/universalScanner"
+            app:popUpToInclusive="true" />
+    </fragment>
 
     <action
         android:id="@+id/action_to_universal_scanner"

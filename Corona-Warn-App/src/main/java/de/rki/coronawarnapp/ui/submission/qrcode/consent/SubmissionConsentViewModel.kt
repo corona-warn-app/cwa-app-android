@@ -9,23 +9,21 @@ import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.nearby.modules.tekhistory.TEKHistoryProvider
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
-import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
-import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
 class SubmissionConsentViewModel @AssistedInject constructor(
     interoperabilityRepository: InteroperabilityRepository,
     dispatcherProvider: DispatcherProvider,
     @Assisted private val qrCode: String,
+    @Assisted private val allowReplacement: Boolean,
     private val tekHistoryProvider: TEKHistoryProvider,
     private val registrationStateProcessor: TestRegistrationStateProcessor,
-    private val submissionRepository: SubmissionRepository,
     private val qrCodeValidator: CoronaTestQrCodeValidator
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -72,26 +70,19 @@ class SubmissionConsentViewModel @AssistedInject constructor(
             return
         }
 
-        val coronaTest = submissionRepository.testForType(coronaTestQRCode.type).first()
-
         when {
-            coronaTest != null -> {
-                SubmissionNavigationEvents.NavigateToDuplicateWarningFragment(
-                    coronaTestQRCode,
-                    consentGiven = true
-                ).run { routeToScreen.postValue(this) }
-            }
             coronaTestQRCode.isDccSupportedByPoc && !coronaTestQRCode.isDccConsentGiven -> {
                 SubmissionNavigationEvents.NavigateToRequestDccFragment(
                     coronaTestQRCode = coronaTestQRCode,
                     consentGiven = true,
+                    allowReplacement = allowReplacement
                 ).run { routeToScreen.postValue(this) }
             }
             else -> {
                 registrationStateProcessor.startRegistration(
                     request = coronaTestQRCode,
                     isSubmissionConsentGiven = true,
-                    allowReplacement = false
+                    allowReplacement = allowReplacement
                 )
             }
         }
@@ -109,6 +100,9 @@ class SubmissionConsentViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionConsentViewModel> {
-        fun create(qrCode: String): SubmissionConsentViewModel
+        fun create(
+            qrCode: String,
+            allowReplacement: Boolean
+        ): SubmissionConsentViewModel
     }
 }

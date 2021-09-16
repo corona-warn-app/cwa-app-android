@@ -59,15 +59,25 @@ class SubmissionConsentViewModelTest {
         }
 
         viewModel = SubmissionConsentViewModel(
-            interoperabilityRepository,
+            interoperabilityRepository = interoperabilityRepository,
             dispatcherProvider = TestDispatcherProvider(),
             mockedResult.text,
-            tekHistoryProvider,
-            testRegistrationStateProcessor,
-            submissionRepository,
-            qrCodeValidator
+            false,
+            tekHistoryProvider = tekHistoryProvider,
+            registrationStateProcessor = testRegistrationStateProcessor,
+            qrCodeValidator = qrCodeValidator
         )
     }
+
+    /*
+    interoperabilityRepository: InteroperabilityRepository,
+    dispatcherProvider: DispatcherProvider,
+    @Assisted private val qrCode: String,
+    @Assisted private val allowReplacement: Boolean,
+    private val tekHistoryProvider: TEKHistoryProvider,
+    private val registrationStateProcessor: TestRegistrationStateProcessor,
+    private val qrCodeValidator: CoronaTestQrCodeValidator
+     */
 
     @Test
     fun testOnConsentButtonClick() {
