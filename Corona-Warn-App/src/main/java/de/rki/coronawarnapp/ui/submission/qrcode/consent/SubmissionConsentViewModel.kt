@@ -75,6 +75,7 @@ class SubmissionConsentViewModel @AssistedInject constructor(
                 SubmissionNavigationEvents.NavigateToRequestDccFragment(
                     coronaTestQRCode = coronaTestQRCode,
                     consentGiven = true,
+                    allowReplacement = allowReplacement
                 ).run { routeToScreen.postValue(this) }
             }
             else -> {

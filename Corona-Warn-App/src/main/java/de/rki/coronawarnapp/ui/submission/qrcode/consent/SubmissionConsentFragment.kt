@@ -54,7 +54,8 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                 is SubmissionNavigationEvents.NavigateToRequestDccFragment -> doNavigate(
                     NavGraphDirections.actionRequestCovidCertificateFragment(
                         testRegistrationRequest = it.coronaTestQRCode,
-                        coronaTestConsent = it.consentGiven
+                        coronaTestConsent = it.consentGiven,
+                        deleteOldTest = it.allowReplacement
                     )
                 )
             }

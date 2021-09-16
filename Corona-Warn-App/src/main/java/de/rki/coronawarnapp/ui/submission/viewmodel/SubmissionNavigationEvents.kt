@@ -22,14 +22,10 @@ sealed class SubmissionNavigationEvents {
 
     data class RegisterTestResult(val state: TestRegistrationStateProcessor.State) : SubmissionNavigationEvents()
 
-    data class NavigateToDuplicateWarningFragment(
-        val coronaTestQRCode: CoronaTestQRCode,
-        val consentGiven: Boolean
-    ) : SubmissionNavigationEvents()
-
     data class NavigateToRequestDccFragment(
         val coronaTestQRCode: CoronaTestQRCode,
-        val consentGiven: Boolean
+        val consentGiven: Boolean,
+        val allowReplacement: Boolean
     ) : SubmissionNavigationEvents()
 
     data class NavigateToDeletionWarningFragmentFromTan(val coronaTestTan: CoronaTestTAN, val consentGiven: Boolean) :
