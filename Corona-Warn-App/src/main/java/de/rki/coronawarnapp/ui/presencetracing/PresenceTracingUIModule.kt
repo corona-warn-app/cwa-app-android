@@ -12,8 +12,6 @@ import de.rki.coronawarnapp.ui.presencetracing.attendee.edit.EditCheckInFragment
 import de.rki.coronawarnapp.ui.presencetracing.attendee.edit.EditCheckInModule
 import de.rki.coronawarnapp.ui.presencetracing.attendee.onboarding.CheckInOnboardingFragment
 import de.rki.coronawarnapp.ui.presencetracing.attendee.onboarding.CheckInOnboardingModule
-import de.rki.coronawarnapp.ui.presencetracing.attendee.scan.ScanCheckInQrCodeFragment
-import de.rki.coronawarnapp.ui.presencetracing.attendee.scan.ScanCheckInQrCodeModule
 import de.rki.coronawarnapp.ui.presencetracing.organizer.category.TraceLocationCategoryFragment
 import de.rki.coronawarnapp.ui.presencetracing.organizer.category.TraceLocationCategoryFragmentModule
 import de.rki.coronawarnapp.ui.presencetracing.organizer.create.TraceLocationCreateFragment
@@ -38,9 +36,6 @@ import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.tan.TraceLocationW
 
 @Module
 internal abstract class PresenceTracingUIModule {
-
-    @ContributesAndroidInjector(modules = [ScanCheckInQrCodeModule::class])
-    abstract fun scanCheckInQrCodeFragment(): ScanCheckInQrCodeFragment
 
     @ContributesAndroidInjector(modules = [ConfirmCheckInModule::class])
     abstract fun confirmCheckInFragment(): ConfirmCheckInFragment

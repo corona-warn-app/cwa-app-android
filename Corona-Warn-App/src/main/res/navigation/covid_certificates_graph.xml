@@ -15,19 +15,32 @@
         <action
             android:id="@+id/action_personOverviewFragment_to_personDetailsFragment"
             app:destination="@id/personDetailsFragment" />
-        <action
-            android:id="@+id/action_personOverviewFragment_to_dccQrCodeScanFragment"
-            app:destination="@id/dccQrCodeScanFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/covidCertificateOnboardingFragment"
         android:name="de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment"
         tools:layout="@layout/covid_certificate_onboarding_fragment">
+
+        <deepLink app:uri="cwa://dcc.onboarding/?showBottomNav={showBottomNav}&amp;dccType={dccType}&amp;certIdentifier={certIdentifier}" />
+
         <argument
             android:name="showBottomNav"
             android:defaultValue="true"
             app:argType="boolean" />
+
+        <argument
+            android:name="certIdentifier"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+
+        <argument
+            android:name="dccType"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+
         <action
             android:id="@+id/action_covidCertificateOnboardingFragment_to_personOverviewFragment"
             app:destination="@id/personOverviewFragment"
@@ -50,19 +63,11 @@
         android:label="CovidCertificateDetailsFragment"
         tools:layout="@layout/fragment_test_certificate_details">
 
-        <deepLink app:uri="coronawarnapp://test-certificate-details/?certUuid={certUuid}" />
+        <deepLink app:uri="cwa://test-certificate/?certIdentifier={certIdentifier}" />
 
         <argument
-            android:name="containerId"
-            android:defaultValue="@null"
-            app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId"
-            app:nullable="true" />
-
-        <argument
-            android:name="certUuid"
-            android:defaultValue="@null"
-            app:argType="string"
-            app:nullable="true" />
+            android:name="certIdentifier"
+            app:argType="string" />
 
         <action
             android:id="@+id/action_testCertificateDetailsFragment_to_validationStartFragment"
@@ -70,25 +75,6 @@
         <action
             android:id="@+id/action_testCertificateDetailsFragment_to_certificatePdfExportInfoFragment"
             app:destination="@id/certificatePdfExportInfoFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/dccQrCodeScanFragment"
-        android:name="de.rki.coronawarnapp.covidcertificate.common.scan.DccQrCodeScanFragment"
-        android:label="DccQrCodeScanFragment"
-        tools:layout="@layout/fragment_qrcode_scanner">
-        <action
-            android:id="@+id/action_dccQrCodeScanFragment_to_recoveryCertificateDetailsFragment"
-            app:destination="@id/recoveryCertificateDetailsFragment"
-            app:popUpTo="@id/personOverviewFragment" />
-        <action
-            android:id="@+id/action_dccQrCodeScanFragment_to_vaccinationDetailsFragment"
-            app:destination="@id/vaccinationDetailsFragment"
-            app:popUpTo="@id/personOverviewFragment" />
-        <action
-            android:id="@+id/action_dccQrCodeScanFragment_to_testCertificateDetailsFragment"
-            app:destination="@id/testCertificateDetailsFragment"
-            app:popUpTo="@id/personOverviewFragment" />
     </fragment>
 
     <fragment
@@ -130,9 +116,13 @@
         android:name="de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragment"
         android:label="fragment_vaccination_details"
         tools:layout="@layout/fragment_vaccination_details">
+
+        <deepLink app:uri="cwa://vaccination-certificate/?certIdentifier={certIdentifier}" />
+
         <argument
-            android:name="containerId"
-            app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId" />
+            android:name="certIdentifier"
+            app:argType="string" />
+
         <action
             android:id="@+id/action_vaccinationDetailsFragment_to_validationStartFragment"
             app:destination="@id/validationStartFragment" />
@@ -145,9 +135,13 @@
         android:name="de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertificateDetailsFragment"
         android:label="RecoveryCertificateDetailsFragment"
         tools:layout="@layout/fragment_recovery_certificate_details">
+
+        <deepLink app:uri="cwa://recovery-certificate/?certIdentifier={certIdentifier}" />
+
         <argument
-            android:name="containerId"
-            app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId" />
+            android:name="certIdentifier"
+            app:argType="string" />
+
         <action
             android:id="@+id/action_recoveryCertificateDetailsFragment_to_validationStartFragment"
             app:destination="@id/validationStartFragment" />

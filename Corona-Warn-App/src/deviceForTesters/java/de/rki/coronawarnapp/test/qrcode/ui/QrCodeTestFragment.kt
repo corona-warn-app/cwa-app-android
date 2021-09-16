@@ -15,7 +15,7 @@ class QrCodeTestFragment : Fragment(R.layout.fragment_test_qrcode) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.testQrcodeFileSelect.setOnClickListener {
-            findNavController().navigate(R.id.qrCodeScannerFragment)
+            findNavController().navigate(R.id.universalScanner)
         }
     }
 
