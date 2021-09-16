@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.Hold
@@ -18,6 +19,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsFragmentBinding
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
+import de.rki.coronawarnapp.qrcode.ui.VerifiedLocationViewModel
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CameraPermissionVH
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CheckInsItem
 import de.rki.coronawarnapp.ui.presencetracing.attendee.edit.EditCheckInFragmentArgs
@@ -56,6 +58,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
     )
     private val binding: TraceLocationAttendeeCheckinsFragmentBinding by viewBinding()
     private val checkInsAdapter = CheckInsAdapter()
+    private val locationViewModel by navGraphViewModels<VerifiedLocationViewModel>(R.id.nav_graph)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -80,19 +83,23 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
     private fun onNavigationEvent(event: CheckInEvent) {
         when (event) {
             is CheckInEvent.ConfirmCheckIn -> {
+                locationViewModel.putVerifiedTraceLocation(event.verifiedLocation)
                 setupAxisTransition()
                 doNavigate(
                     CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragment(
-                        verifiedTraceLocation = event.verifiedTraceLocation
+                        event.verifiedLocation.locationIdHex
                     )
                 )
             }
 
-            is CheckInEvent.ConfirmCheckInWithoutHistory -> doNavigate(
-                CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragmentCleanHistory(
-                    verifiedTraceLocation = event.verifiedTraceLocation
+            is CheckInEvent.ConfirmCheckInWithoutHistory -> {
+                locationViewModel.putVerifiedTraceLocation(event.verifiedTraceLocation)
+                doNavigate(
+                    CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragmentCleanHistory(
+                        event.verifiedTraceLocation.locationIdHex
+                    )
                 )
-            )
+            }
 
             is CheckInEvent.ConfirmSwipeItem -> showRemovalConfirmation(event.checkIn, event.position)
 
@@ -148,7 +155,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             setOnClickListener {
                 setupHoldTransition()
                 findNavController().navigate(
-                    R.id.action_checkInsFragment_to_scanCheckInQrCodeFragment,
+                    R.id.action_to_universal_scanner,
                     null,
                     null,
                     FragmentNavigatorExtras(this to transitionName)
@@ -223,7 +230,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                 Timber.d(e, "URL Encoding failed url($rootUri)")
                 rootUri // Pass original
             }
-            return "coronawarnapp://check-ins/$encodedUrl/?cleanHistory=$cleanHistory".toUri()
+            return "cwa://check-in-onboarding/$encodedUrl/?cleanHistory=$cleanHistory".toUri()
         }
 
         fun canHandle(rootUri: String): Boolean = rootUri.startsWith("https://e.coronawarn.app")

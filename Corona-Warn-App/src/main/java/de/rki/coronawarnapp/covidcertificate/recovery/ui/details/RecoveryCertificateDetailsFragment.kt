@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -15,6 +16,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
+import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.CertificateExportErrorDialog
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
@@ -49,7 +51,9 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as RecoveryCertificateDetailsViewModel.Factory
-            factory.create(args.containerId)
+            factory.create(
+                containerId = RecoveryCertificateContainerId(args.certIdentifier)
+            )
         }
     )
 
@@ -153,7 +157,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
 
     private fun FragmentRecoveryCertificateDetailsBinding.bindToolbar() = toolbar.apply {
         toolbar.navigationIcon = resources.mutateDrawable(R.drawable.ic_back, Color.WHITE)
-        setNavigationOnClickListener { popBackStack() }
+        setNavigationOnClickListener { viewModel.onClose() }
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_recovery_certificate_delete -> {
@@ -190,5 +194,9 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
                 viewModel.onDeleteRecoveryCertificateConfirmed()
             }
         }.show()
+    }
+
+    companion object {
+        fun uri(certIdentifier: String) = "cwa://recovery-certificate/?certIdentifier=$certIdentifier".toUri()
     }
 }
