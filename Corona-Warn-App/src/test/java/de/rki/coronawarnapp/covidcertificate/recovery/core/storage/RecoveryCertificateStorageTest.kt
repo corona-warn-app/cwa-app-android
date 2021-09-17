@@ -82,7 +82,8 @@ class RecoveryCertificateStorageTest : BaseTest() {
                   "isInvalidSignature": true,
                   "type": "Invalid"
                 },
-                "lastSeenStateChangeAt": 123
+                "lastSeenStateChangeAt": 123,
+                "certificateSeenByUser": true
               }, {
                 "recoveryCertificateQrCode": "${RecoveryQrCodeTestData.qrCode1}",
                 "notifiedExpiresSoonAt": 876,
@@ -91,7 +92,8 @@ class RecoveryCertificateStorageTest : BaseTest() {
                   "expiresAt": 456,
                   "type": "ExpiringSoon"
                 },
-                "lastSeenStateChangeAt": 123
+                "lastSeenStateChangeAt": 123,
+                "certificateSeenByUser": true
               }
             ]
         """.toComparableJsonPretty()
