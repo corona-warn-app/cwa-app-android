@@ -56,7 +56,8 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             factory as VaccinationDetailsViewModel.Factory
             Timber.d("certIdentifier=" + args.certIdentifier)
             factory.create(
-                containerId = VaccinationCertificateContainerId(args.certIdentifier)
+                containerId = VaccinationCertificateContainerId(args.certIdentifier),
+                fromScanner = args.fromScanner
             )
         }
     )
@@ -220,7 +221,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     companion object {
         fun uri(certIdentifier: String): Uri {
             val encodedId = URLEncoder.encode(certIdentifier, "UTF-8")
-            return "cwa://vaccination-certificate/?certIdentifier=$encodedId".toUri()
+            return "cwa://vaccination-certificate/?fromScanner=true&certIdentifier=$encodedId".toUri()
         }
     }
 }

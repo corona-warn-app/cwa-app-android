@@ -21,6 +21,7 @@ import timber.log.Timber
 class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     @Assisted private val containerId: RecoveryCertificateContainerId,
+    @Assisted private val fromScanner: Boolean,
     private val recoveryCertificateRepository: RecoveryCertificateRepository,
     private val dccValidationRepository: DccValidationRepository,
     @AppScope private val appScope: CoroutineScope
@@ -60,6 +61,7 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
     fun refreshCertState() = launch(scope = appScope) {
         Timber.v("refreshCertState()")
         recoveryCertificateRepository.acknowledgeState(containerId)
+        if (!fromScanner) recoveryCertificateRepository.markAsSeenByUser(containerId)
     }
 
     fun onExport() {
@@ -72,6 +74,9 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<RecoveryCertificateDetailsViewModel> {
-        fun create(containerId: RecoveryCertificateContainerId): RecoveryCertificateDetailsViewModel
+        fun create(
+            containerId: RecoveryCertificateContainerId,
+            fromScanner: Boolean
+        ): RecoveryCertificateDetailsViewModel
     }
 }
