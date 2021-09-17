@@ -72,6 +72,8 @@
     <string name="certificate_card_bookmark_info">"Currently used certificate"</string>
     <!-- XHED: Person certificate details title -->
     <string name="person_details_certificate_title">"EU Digital COVID Certificate"</string>
+    <!-- XHED: Person certificate CovPas Header Info-->
+    <string name="person_details_certificate_covpass_info_title">"Dieser QR Code lässt sich verlässlich mit der CovPassCheck-App überprüfen."</string>
     <!-- XTXT: Test Certificate CWA User card description -->
     <string name="person_details_cwa_user_description">"Please turn on this switch if you are %1$s and are the main user of the app. Your certificates will appear at the top of the list."</string>
     <!-- XTXT: Test Certificate CWA User card birthdate -->
