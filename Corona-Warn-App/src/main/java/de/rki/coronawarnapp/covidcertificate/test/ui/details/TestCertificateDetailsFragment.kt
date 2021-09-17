@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.test.ui.details
 
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -40,6 +41,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import java.net.URLEncoder
 import java.util.Locale
 import javax.inject.Inject
 
@@ -230,7 +232,9 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     }
 
     companion object {
-        fun uri(certIdentifier: String) =
-            "cwa://test-certificate/?fromScanner=true&certIdentifier=$certIdentifier".toUri()
+        fun uri(certIdentifier: String): Uri {
+            val encodedId = URLEncoder.encode(certIdentifier, "UTF-8")
+            return "cwa://test-certificate/?fromScanner=true&certIdentifier=$encodedId".toUri()
+        }
     }
 }
