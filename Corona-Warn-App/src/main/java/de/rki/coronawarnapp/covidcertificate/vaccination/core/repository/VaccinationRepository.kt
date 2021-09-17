@@ -120,6 +120,7 @@ class VaccinationRepository @Inject constructor(
             val newCertificate = qrCode.toVaccinationContainer(
                 scannedAt = timeStamper.nowUTC,
                 qrCodeExtractor = qrCodeExtractor,
+                certificateSeenByUser = false,
             )
 
             val newPersonData = matchingPerson.data.copy(
@@ -263,6 +264,28 @@ class VaccinationRepository @Inject constructor(
                 )
             )
 
+            this.minus(toUpdatePerson).plus(newPerson)
+        }
+    }
+
+    suspend fun markAsSeenByUser(containerId: VaccinationCertificateContainerId) {
+        Timber.tag(TAG).d("markAsSeenByUser(containerId=$containerId)")
+        internalData.updateBlocking {
+            val toUpdatePerson = singleOrNull { it.findVaccination(containerId) != null }
+
+            if (toUpdatePerson == null) {
+                Timber.tag(TAG).w("markAsSeenByUser Couldn't find %s", containerId)
+                return@updateBlocking this
+            }
+
+            val toUpdateVaccination = toUpdatePerson.findVaccination(containerId)!!
+            val newVaccination = toUpdateVaccination.copy(certificateSeenByUser = true)
+            newVaccination.qrCodeExtractor = qrCodeExtractor
+            val newPerson = toUpdatePerson.copy(
+                data = toUpdatePerson.data.copy(
+                    vaccinations = toUpdatePerson.data.vaccinations.minus(toUpdateVaccination).plus(newVaccination)
+                )
+            )
             this.minus(toUpdatePerson).plus(newPerson)
         }
     }
