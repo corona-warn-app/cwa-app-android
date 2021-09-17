@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmen
 import de.rki.coronawarnapp.databinding.ActivityMainBinding
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.ui.base.startActivitySafely
+import de.rki.coronawarnapp.ui.main.home.DeepLinkDirections
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
 import de.rki.coronawarnapp.ui.setupWithNavController2
@@ -113,13 +114,13 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
         vm.externalLinkEvents.observe(this) {
             when (it) {
-                is HomeFragmentEvents.GoToCheckInsFragment -> navController.navigate(
+                is DeepLinkDirections.GoToCheckInsFragment -> navController.navigate(
                     CheckInsFragment.createDeepLink(it.uriString)
                 )
-                is HomeFragmentEvents.GoToDeletionScreen -> navController.navigate(
+                is DeepLinkDirections.GoToDeletionScreen -> navController.navigate(
                     NavGraphDirections.actionToSubmissionDeletionWarningFragment(it.qrCode)
                 )
-                is HomeFragmentEvents.GoToSubmissionConsentFragment -> navController.navigate(
+                is DeepLinkDirections.GoToSubmissionConsentFragment -> navController.navigate(
                     NavGraphDirections.actionSubmissionConsentFragment(it.qrCodeRawString)
                 )
             }

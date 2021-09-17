@@ -50,10 +50,4 @@ sealed class HomeFragmentEvents {
     data class GoToTestResultAvailableFragment(val type: CoronaTest.Type) : HomeFragmentEvents()
 
     data class GoToTestResultPositiveFragment(val type: CoronaTest.Type) : HomeFragmentEvents()
-
-    data class GoToCheckInsFragment(val uriString: String) : HomeFragmentEvents()
-
-    data class GoToDeletionScreen(val qrCode: TestRegistrationRequest) : HomeFragmentEvents()
-
-    data class GoToSubmissionConsentFragment(val qrCodeRawString: String) : HomeFragmentEvents()
 }

@@ -481,7 +481,7 @@
     <action
         android:id="@+id/action_submissionConsentFragment"
         app:destination="@id/submissionConsentFragment"
-        app:popUpTo="@id/universalScanner"
+        app:popUpTo="@id/mainFragment"
         app:popUpToInclusive="true" />
 
     <fragment
