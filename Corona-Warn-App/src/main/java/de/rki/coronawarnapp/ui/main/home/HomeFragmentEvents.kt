@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ui.main.home
 
 import androidx.annotation.StringRes
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 
 sealed class HomeFragmentEvents {
