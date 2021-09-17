@@ -130,7 +130,7 @@ class ShareTestResultNotificationService @Inject constructor(
             RAPID_ANTIGEN -> {
                 if (cwaSettings.numberOfRemainingSharePositiveTestResultRemindersRat < 0 ||
                     (
-                        cwaSettings.idOfPositiveTestResultRemindersPcr != null &&
+                        cwaSettings.idOfPositiveTestResultRemindersRat != null &&
                             testId != cwaSettings.idOfPositiveTestResultRemindersRat
                         )
                 ) {
