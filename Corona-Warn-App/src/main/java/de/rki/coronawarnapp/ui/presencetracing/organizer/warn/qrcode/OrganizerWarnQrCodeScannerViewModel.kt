@@ -6,6 +6,8 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCodeExtractor
 import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
+import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
+import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException.ErrorCode.CANT_READ_FILE
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.permission.CameraSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -30,15 +32,20 @@ class OrganizerWarnQrCodeScannerViewModel @AssistedInject constructor(
     fun onImportFile(fileUri: Uri) = launch {
         events.postValue(OrganizerWarnQrCodeNavigation.InProgress)
         Timber.tag(TAG).d("onImportFile(fileUri=$fileUri)")
-        when (val parseResult = qrCodeFileParser.decodeQrCodeFile(fileUri)) {
-            is QrCodeFileParser.ParseResult.Failure -> {
-                Timber.tag(TAG).d(parseResult.exception, "parseResult failed")
-                events.postValue(OrganizerWarnQrCodeNavigation.Error(parseResult.exception))
+        try {
+            when (val parseResult = qrCodeFileParser.decodeQrCodeFile(fileUri)) {
+                is QrCodeFileParser.ParseResult.Failure -> {
+                    Timber.tag(TAG).d(parseResult.exception, "parseResult failed")
+                    events.postValue(OrganizerWarnQrCodeNavigation.Error(parseResult.exception))
+                }
+                is QrCodeFileParser.ParseResult.Success -> {
+                    Timber.tag(TAG).d("parseResult=$parseResult")
+                    onScanResult(parseResult.text)
+                }
             }
-            is QrCodeFileParser.ParseResult.Success -> {
-                Timber.tag(TAG).d("parseResult=$parseResult")
-                onScanResult(parseResult.text)
-            }
+        } catch (exception: Exception) {
+            Timber.tag(TAG).d(exception, "onImportFile($fileUri) failed")
+            events.postValue(OrganizerWarnQrCodeNavigation.Error(ImportDocumentException(CANT_READ_FILE)))
         }
     }
 

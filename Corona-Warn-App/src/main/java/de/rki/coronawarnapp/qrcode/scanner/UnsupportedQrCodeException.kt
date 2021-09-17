@@ -14,7 +14,8 @@ class UnsupportedQrCodeException(
 
     override fun toHumanReadableError(context: Context): HumanReadableError {
         return HumanReadableError(
-            description = context.getString(R.string.un_supported_qrcode_message)
+            title = context.getString(R.string.qr_code_no_suitable_qr_code_title),
+            description = context.getString(R.string.qr_code_no_suitable_qr_code_body)
         )
     }
 }
