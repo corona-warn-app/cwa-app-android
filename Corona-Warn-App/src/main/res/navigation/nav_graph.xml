@@ -383,6 +383,10 @@
         app:popUpTo="@id/mainFragment"
         app:popUpToInclusive="false" />
 
+    <action
+        android:id="@+id/action_to_submissionDeletionWarningFragment"
+        app:destination="@id/submissionDeletionWarningFragment" />
+
     <fragment
         android:id="@+id/submissionResultReadyFragment"
         android:name="de.rki.coronawarnapp.ui.submission.resultready.SubmissionResultReadyFragment"
@@ -473,6 +477,12 @@
             android:defaultValue="false"
             app:argType="boolean" />
     </fragment>
+
+    <action
+        android:id="@+id/action_submissionConsentFragment"
+        app:destination="@id/submissionConsentFragment"
+        app:popUpTo="@id/universalScanner"
+        app:popUpToInclusive="true" />
 
     <fragment
         android:id="@+id/submissionTestResultConsentGivenFragment"

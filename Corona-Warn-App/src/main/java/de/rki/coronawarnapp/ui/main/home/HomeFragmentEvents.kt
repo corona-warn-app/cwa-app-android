@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.main.home
 
 import androidx.annotation.StringRes
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 
 sealed class HomeFragmentEvents {
@@ -49,4 +50,10 @@ sealed class HomeFragmentEvents {
     data class GoToTestResultAvailableFragment(val type: CoronaTest.Type) : HomeFragmentEvents()
 
     data class GoToTestResultPositiveFragment(val type: CoronaTest.Type) : HomeFragmentEvents()
+
+    data class GoToCheckInsFragment(val uriString: String) : HomeFragmentEvents()
+
+    data class GoToDeletionScreen(val qrCode: TestRegistrationRequest) : HomeFragmentEvents()
+
+    data class GoToSubmissionConsentFragment(val qrCodeRawString: String) : HomeFragmentEvents()
 }
