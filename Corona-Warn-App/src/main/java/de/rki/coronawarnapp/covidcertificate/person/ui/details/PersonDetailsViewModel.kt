@@ -79,7 +79,12 @@ class PersonDetailsViewModel @AssistedInject constructor(
             }.also { colorShadeData.postValue(it) }
 
             add(
-                PersonDetailsQrCard.Item(priorityCertificate, isLoading) { onValidateCertificate(it) }
+                PersonDetailsQrCard.Item(
+                    priorityCertificate,
+                    isLoading,
+                    validateCertificate = { onValidateCertificate(it) },
+                    onCovPassInfoAction = { events.postValue(OpenCovPassInfo) }
+                )
             )
 
             // Find any vaccination certificate to determine the vaccination information
