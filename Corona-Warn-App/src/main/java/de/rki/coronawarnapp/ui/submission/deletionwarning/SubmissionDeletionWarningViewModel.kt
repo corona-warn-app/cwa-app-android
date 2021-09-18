@@ -29,31 +29,33 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
     }
 
     private suspend fun removeAndRegisterNew(request: TestRegistrationRequest) {
-        if (request is CoronaTestTAN) {
-            val newTest = registrationStateProcessor.startRegistration(
-                request = request,
-                isSubmissionConsentGiven = false,
-                allowReplacement = true
-            )
+        when (request) {
+            is CoronaTestTAN -> {
+                val newTest = registrationStateProcessor.startRegistration(
+                    request = request,
+                    isSubmissionConsentGiven = false,
+                    allowReplacement = true
+                )
 
-            if (newTest == null) {
-                Timber.w("Test registration failed.")
-                return
-            } else {
-                Timber.d("Continuing with our new CoronaTest: %s", newTest)
+                if (newTest == null) {
+                    Timber.w("Test registration failed.")
+                    return
+                } else {
+                    Timber.d("Continuing with our new CoronaTest: %s", newTest)
+                }
+
+                routeToScreen.postValue(
+                    SubmissionDeletionWarningFragmentDirections
+                        .actionSubmissionDeletionFragmentToSubmissionTestResultNoConsentFragment(newTest.type)
+                )
             }
 
-            routeToScreen.postValue(
-                SubmissionDeletionWarningFragmentDirections
-                    .actionSubmissionDeletionFragmentToSubmissionTestResultNoConsentFragment(newTest.type)
-            )
-        }
-
-        if (request is CoronaTestQRCode) {
-            routeToScreen.postValue(
-                SubmissionDeletionWarningFragmentDirections
-                    .actionSubmissionDeletionWarningFragmentToSubmissionConsentFragment(request.rawQrCode, true)
-            )
+            is CoronaTestQRCode -> {
+                routeToScreen.postValue(
+                    SubmissionDeletionWarningFragmentDirections
+                        .actionSubmissionDeletionWarningFragmentToSubmissionConsentFragment(request.rawQrCode, true)
+                )
+            }
         }
     }
 

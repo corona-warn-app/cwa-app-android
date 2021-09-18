@@ -7,6 +7,7 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.CalendarConstraints
@@ -21,7 +22,6 @@ import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -41,6 +41,7 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
     )
     private val binding by viewBinding<FragmentRequestCovidCertificateBinding>()
     private val args by navArgs<RequestCovidCertificateFragmentArgs>()
+    private val navOptions = NavOptions.Builder().setPopUpTo(R.id.requestCovidCertificateFragment, true).build()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
@@ -63,15 +64,6 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
             viewModel.events.observe(viewLifecycleOwner) { event ->
                 when (event) {
                     Back -> popBackStack()
-
-                    ToDispatcherScreen ->
-                        RequestCovidCertificateFragmentDirections
-                            .actionRequestCovidCertificateFragmentToDispatcherFragment()
-                            .run { doNavigate(this) }
-
-                    ToHomeScreen ->
-                        RequestCovidCertificateFragmentDirections.actionRequestCovidCertificateFragmentToHomeFragment()
-                            .run { doNavigate(this) }
                 }
             }
             viewModel.birthDate.observe(viewLifecycleOwner) { date -> agreeButton.isEnabled = !isPCR || date != null }
@@ -97,22 +89,22 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
                             viewModel.navigateBack()
                         }
                         setNegativeButton(R.string.submission_qr_code_scan_invalid_dialog_button_negative) { _, _ ->
-                            viewModel.navigateToDispatcherScreen()
+                            viewModel.navigateBack()
                         }
-                        setOnCancelListener { viewModel.navigateToDispatcherScreen() }
+                        setOnCancelListener { viewModel.navigateBack() }
                     } else {
-                        setOnDismissListener { viewModel.navigateToDispatcherScreen() }
+                        setOnDismissListener { viewModel.navigateBack() }
                     }
                 }.show()
             }
             is State.TestRegistered -> when {
                 state.test.isPositive ->
                     NavGraphDirections.actionToSubmissionTestResultAvailableFragment(testType = state.test.type)
-                        .run { doNavigate(this) }
+                        .run { findNavController().navigate(this, navOptions) }
 
                 else ->
                     NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = state.test.type)
-                        .run { doNavigate(this) }
+                        .run { findNavController().navigate(this, navOptions) }
             }
         }
     }
@@ -121,7 +113,7 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
         .setTitle(R.string.request_gc_dialog_title)
         .setMessage(R.string.request_gc_dialog_message)
         .setNegativeButton(R.string.request_gc_dialog_negative_button) { _, _ -> }
-        .setPositiveButton(R.string.request_gc_dialog_positive_button) { _, _ -> viewModel.navigateToHomeScreen() }
+        .setPositiveButton(R.string.request_gc_dialog_positive_button) { _, _ -> popBackStack() }
         .create()
         .show()
 
