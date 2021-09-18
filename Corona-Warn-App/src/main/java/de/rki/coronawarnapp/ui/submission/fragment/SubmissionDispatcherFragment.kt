@@ -8,8 +8,11 @@ import androidx.navigation.NavGraph
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDispatcherBinding
+import de.rki.coronawarnapp.qrcode.caller.QrCodeScannerCaller
+import de.rki.coronawarnapp.qrcode.caller.QrCodeScannerCallerViewModel
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherViewModel
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
@@ -23,11 +26,15 @@ import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import timber.log.Timber
 import javax.inject.Inject
 
-class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispatcher), AutoInject {
+class SubmissionDispatcherFragment :
+    Fragment(R.layout.fragment_submission_dispatcher),
+    AutoInject,
+    QrCodeScannerCaller {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: SubmissionDispatcherViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentSubmissionDispatcherBinding by viewBinding()
+    private val qrCodeScannerCallerViewModel: QrCodeScannerCallerViewModel by navGraphViewModels(R.id.nav_graph)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -85,6 +92,7 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
     }
 
     private fun openUniversalScanner() {
+        updateQrCodeCallerViewModel()
         val dispatcherCard = binding.submissionDispatcherQr.dispatcherCard.apply {
             transitionName = "shared_element_container"
         }
@@ -120,5 +128,9 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
         binding.submissionDispatcherTestCenter.dispatcherCard.setOnClickListener {
             viewModel.onTestCenterPressed()
         }
+    }
+
+    override fun updateQrCodeCallerViewModel() {
+        qrCodeScannerCallerViewModel.putCallerGlobalAction(R.id.action_to_main_screen)
     }
 }

@@ -854,4 +854,16 @@
         android:id="@+id/action_to_universal_scanner"
         app:destination="@id/universalScanner" />
 
+    <action
+        android:id="@+id/action_to_main_screen"
+        app:destination="@id/mainFragment" />
+
+    <action
+        android:id="@+id/action_to_covid_certificates"
+        app:destination="@id/covid_certificates_graph" />
+
+    <action
+        android:id="@+id/action_to_trace_location_attendee"
+        app:destination="@id/trace_location_attendee_nav_graph" />
+
 </navigation>

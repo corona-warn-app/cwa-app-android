@@ -19,6 +19,8 @@ import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsFragmentBinding
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
+import de.rki.coronawarnapp.qrcode.caller.QrCodeScannerCaller
+import de.rki.coronawarnapp.qrcode.caller.QrCodeScannerCallerViewModel
 import de.rki.coronawarnapp.qrcode.ui.VerifiedLocationViewModel
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CameraPermissionVH
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CheckInsItem
@@ -40,7 +42,7 @@ import timber.log.Timber
 import java.net.URLEncoder
 import javax.inject.Inject
 
-class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_fragment), AutoInject {
+class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_fragment), AutoInject, QrCodeScannerCaller {
 
     private val navArgs by navArgs<CheckInsFragmentArgs>()
 
@@ -59,6 +61,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
     private val binding: TraceLocationAttendeeCheckinsFragmentBinding by viewBinding()
     private val checkInsAdapter = CheckInsAdapter()
     private val locationViewModel by navGraphViewModels<VerifiedLocationViewModel>(R.id.nav_graph)
+    private val qrCodeScannerCallerViewModel: QrCodeScannerCallerViewModel by navGraphViewModels(R.id.nav_graph)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -153,6 +156,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
     private fun bindFAB() {
         binding.scanCheckinQrcodeFab.apply {
             setOnClickListener {
+                updateQrCodeCallerViewModel()
                 setupHoldTransition()
                 findNavController().navigate(
                     R.id.action_to_universal_scanner,
@@ -220,6 +224,10 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                 else -> onOptionsItemSelected(it)
             }
         }
+    }
+
+    override fun updateQrCodeCallerViewModel() {
+        qrCodeScannerCallerViewModel.putCallerGlobalAction(R.id.action_to_trace_location_attendee)
     }
 
     companion object {

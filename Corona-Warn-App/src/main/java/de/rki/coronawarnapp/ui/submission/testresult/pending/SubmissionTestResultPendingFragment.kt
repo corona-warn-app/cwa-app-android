@@ -4,17 +4,21 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.navGraphViewModels
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPendingBinding
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
+import de.rki.coronawarnapp.qrcode.caller.QrCodeScannerCallerViewModel
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -43,6 +47,8 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             factory.create(navArgs.testType, navArgs.forceTestResultUpdate)
         }
     )
+
+    private val qrCodeScannerCallerViewModel: QrCodeScannerCallerViewModel by navGraphViewModels(R.id.nav_graph)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -81,7 +87,9 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             }
 
             submissionTestResultButtonPendingRemoveTest.setOnClickListener { removeTestAfterConfirmation() }
-            submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener { navigateToMainScreen() }
+            submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener {
+                onBack()
+            }
             consentStatus.setOnClickListener { viewModel.onConsentClicked() }
         }
 
@@ -102,8 +110,13 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             }
         }
 
-        viewModel.routeToScreen.observe2(this) { it?.let { doNavigate(it) } ?: navigateToMainScreen() }
+        viewModel.routeToScreen.observe2(this) { it?.let { doNavigate(it) } ?: onBack() }
         viewModel.errorEvent.observe2(this) { it.toErrorDialogBuilder(requireContext()).show() }
+
+        val backCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() = onBack()
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
     }
 
     override fun onResume() {
@@ -143,8 +156,10 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         errorDialog = DialogHelper.showDialog(dialogInstance)
     }
 
-    private fun navigateToMainScreen() {
-        popBackStack()
+    private fun onBack() {
+        val action = qrCodeScannerCallerViewModel.callerGlobalAction()
+        if (action != null) findNavController().navigate(action)
+        else popBackStack()
     }
 
     private val networkErrorDialog: DialogHelper.DialogInstance
@@ -155,7 +170,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             R.string.submission_error_dialog_web_generic_error_button_positive,
             null,
             true,
-            ::navigateToMainScreen
+            ::onBack
         )
 
     private val genericErrorDialog: DialogHelper.DialogInstance
@@ -166,6 +181,6 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             R.string.submission_error_dialog_web_generic_error_button_positive,
             null,
             true,
-            ::navigateToMainScreen
+            ::onBack
         )
 }

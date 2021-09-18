@@ -7,6 +7,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.Hold
@@ -17,6 +18,8 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFrag
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CameraPermissionCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificatesItem
 import de.rki.coronawarnapp.databinding.PersonOverviewFragmentBinding
+import de.rki.coronawarnapp.qrcode.caller.QrCodeScannerCaller
+import de.rki.coronawarnapp.qrcode.caller.QrCodeScannerCallerViewModel
 import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -31,11 +34,12 @@ import timber.log.Timber
 import javax.inject.Inject
 
 // Shows a list of multiple persons
-class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), AutoInject {
+class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), AutoInject, QrCodeScannerCaller {
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: PersonOverviewViewModel by cwaViewModels { viewModelFactory }
     private val binding by viewBinding<PersonOverviewFragmentBinding>()
     private val personOverviewAdapter = PersonOverviewAdapter()
+    private val qrCodeScannerCallerViewModel: QrCodeScannerCallerViewModel by navGraphViewModels(R.id.nav_graph)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Timber.tag(TAG).d("onViewCreated(view=%s, savedInstanceState=%s)", view, savedInstanceState)
@@ -85,6 +89,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
             }.show()
 
             ScanQrCode -> {
+                updateQrCodeCallerViewModel()
                 setupHoldTransition()
                 findNavController().navigate(
                     R.id.action_to_universal_scanner,
@@ -140,6 +145,10 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
         itemAnimator = DefaultItemAnimator()
 
         with(scanQrcodeFab) { onScroll { extend -> if (extend) extend() else shrink() } }
+    }
+
+    override fun updateQrCodeCallerViewModel() {
+        qrCodeScannerCallerViewModel.putCallerGlobalAction(R.id.action_to_covid_certificates)
     }
 
     companion object {

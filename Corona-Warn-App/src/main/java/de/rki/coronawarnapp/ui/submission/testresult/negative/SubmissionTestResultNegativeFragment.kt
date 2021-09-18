@@ -4,14 +4,17 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.navGraphViewModels
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultNegativeBinding
+import de.rki.coronawarnapp.qrcode.caller.QrCodeScannerCallerViewModel
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
@@ -38,6 +41,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
     )
 
     private val binding: FragmentSubmissionTestResultNegativeBinding by viewBinding()
+    private val qrCodeScannerCallerViewModel: QrCodeScannerCallerViewModel by navGraphViewModels(R.id.nav_graph)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,7 +50,9 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
 
         binding.apply {
             submissionTestResultButtonNegativeRemoveTest.setOnClickListener { removeTestAfterConfirmation() }
-            submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener { popBackStack() }
+            submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener {
+                onBack()
+            }
             testCertificateCard.setOnClickListener { viewModel.onCertificateClicked() }
         }
 
@@ -90,7 +96,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
 
         viewModel.events.observe(viewLifecycleOwner) {
             when (it) {
-                is SubmissionTestResultNegativeNavigation.Back -> popBackStack()
+                is SubmissionTestResultNegativeNavigation.Back -> onBack()
                 is SubmissionTestResultNegativeNavigation.OpenTestCertificateDetails ->
                     findNavController().navigate(TestCertificateDetailsFragment.uri(it.containerId.identifier))
             }
@@ -102,6 +108,17 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
                 it?.testCertificate?.sampleCollectedAt?.toUserTimeZone()?.toDayFormat()
             )
         }
+
+        val backCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() = onBack()
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
+    }
+
+    private fun onBack() {
+        val action = qrCodeScannerCallerViewModel.callerGlobalAction()
+        if (action != null) findNavController().navigate(action)
+        else popBackStack()
     }
 
     override fun onResume() {
