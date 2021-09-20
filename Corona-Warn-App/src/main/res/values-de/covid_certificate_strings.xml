@@ -371,4 +371,17 @@
     <!-- XHED: PDF Export: Error message body -->
     <string name="pdf_export_error_message">Die Druckversion des Zertifikats kann nicht angezeigt werden, da das Zertifikat momentan nicht abgerufen werden kann. Bitte versuchen Sie es später noch einmal.</string>
 
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_title">"Zertifikatsprüfung durch Dritte"</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_subtitle">"Dritte können nur über die CovPassCheck-App verlässlich überprüfen, ob es sich um ein valides Impf-, Genesenen-, oder Testzertifikat handelt."</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_faq_link">"FAQ zur Zertifikatsprüfung durch Dritte"</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_section_one">"Sie selbst können Zertifikate in der Corona-Warn-App auf Gültigkeit prüfen und benötigen dazu nicht die CovPassCheck-App."</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_section_two">"Für Dritte reicht eine Sichtprüfung der Zertifikate nicht aus. Sie müssen in Deutschland die CovPassCheck-App nutzen."</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_section_three">"Bitte beachten Sie, dass in anderen Ländern gegebenenfalls andere Apps zur Zertifikatsprüfung durch Dritte verwendet werden."</string>
+
 </resources>
