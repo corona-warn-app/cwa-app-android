@@ -41,7 +41,6 @@ class PersonDetailsQrCard(parent: ViewGroup) :
 
             // bindValidityViews(certificate, isPersonDetails = true, onCovPassInfoAction = onCovPassInfoAction)
             bindValidityViews(certificate, isPersonDetails = true)
-
         }
     }
 

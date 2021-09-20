@@ -24,7 +24,7 @@ class CovPassInfoFragment : Fragment(R.layout.fragment_cov_pass_info), AutoInjec
             linkToFaq.setTextWithUrl(
                 R.string.cov_pass_info_faq_link,
                 R.string.cov_pass_info_faq_link,
-                R.string.vaccination_card_booster_eligible_faq_link //TBD
+                R.string.vaccination_card_booster_eligible_faq_link // TBD
             )
         }
     }
