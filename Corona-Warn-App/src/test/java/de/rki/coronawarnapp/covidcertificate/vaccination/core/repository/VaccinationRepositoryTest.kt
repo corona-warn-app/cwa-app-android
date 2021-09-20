@@ -107,7 +107,7 @@ class VaccinationRepositoryTest : BaseTest() {
         val dataAfter = vaccinationTestData.personAData2Vac.copy(
             vaccinations = setOf(
                 vaccinationTestData.personAVac1Container,
-                vaccinationTestData.personAVac2Container.copy(scannedAt = nowUTC)
+                vaccinationTestData.personAVac2Container.copy(scannedAt = nowUTC, certificateSeenByUser = false)
             ),
         )
         testStorage = setOf(dataBefore)
@@ -125,7 +125,14 @@ class VaccinationRepositoryTest : BaseTest() {
 
     @Test
     fun `add new certificate - does not match existing person`() = runBlockingTest2(ignoreActive = true) {
-        testStorage = setOf(vaccinationTestData.personAData2Vac)
+        testStorage =
+            setOf(
+                vaccinationTestData.personAData2Vac.copy(
+                    vaccinations = vaccinationTestData.personAData2Vac.vaccinations.map {
+                        it.copy(certificateSeenByUser = false)
+                    }.toSet()
+                )
+            )
 
         val instance = createInstance(this)
         advanceUntilIdle()

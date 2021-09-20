@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.main
 
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.qrcode.RapidAntigenQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
@@ -44,6 +45,7 @@ class MainActivityViewModelTest : BaseTest() {
     @MockK lateinit var covidCertificateSettings: CovidCertificateSettings
     @MockK lateinit var personCertificatesProvider: PersonCertificatesProvider
     @MockK lateinit var submissionRepository: SubmissionRepository
+    @MockK lateinit var coronTestRepository: CoronaTestRepository
 
     private val raExtractor = spyk(RapidAntigenQrCodeExtractor())
 
@@ -61,6 +63,7 @@ class MainActivityViewModelTest : BaseTest() {
         every { onboardingSettings.isBackgroundCheckDone } returns true
         every { checkInRepository.checkInsWithinRetention } returns MutableStateFlow(listOf())
         every { submissionRepository.testForType(any()) } returns flowOf()
+        every { coronTestRepository.coronaTests } returns flowOf()
 
         personCertificatesProvider.apply {
             every { personCertificates } returns emptyFlow()
@@ -80,7 +83,8 @@ class MainActivityViewModelTest : BaseTest() {
         covidCertificateSettings = covidCertificateSettings,
         personCertificatesProvider = personCertificatesProvider,
         raExtractor = raExtractor,
-        submissionRepository = submissionRepository
+        submissionRepository = submissionRepository,
+        coronaTestRepository = coronTestRepository,
     )
 
     @Test

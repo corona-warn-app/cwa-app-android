@@ -32,6 +32,9 @@ data class RACoronaTest(
     @SerializedName("isViewed")
     override val isViewed: Boolean = false,
 
+    @SerializedName("didShowBadge")
+    override val didShowBadge: Boolean = false,
+
     @SerializedName("isAdvancedConsentGiven")
     override val isAdvancedConsentGiven: Boolean = false,
 
