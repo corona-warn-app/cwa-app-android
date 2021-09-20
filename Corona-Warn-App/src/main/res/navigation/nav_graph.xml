@@ -480,9 +480,7 @@
 
     <action
         android:id="@+id/action_submissionConsentFragment"
-        app:destination="@id/submissionConsentFragment"
-        app:popUpTo="@id/mainFragment"
-        app:popUpToInclusive="true" />
+        app:destination="@id/submissionConsentFragment" />
 
     <fragment
         android:id="@+id/submissionTestResultConsentGivenFragment"
