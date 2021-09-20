@@ -188,7 +188,11 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
                         .actionTestCertificateDetailsFragmentToCertificatePdfExportInfoFragment(event.containerId)
                 )
             }
-            TestCertificateDetailsNavigation.OpenCovPassInfo -> doNavigate(TestCertificateDetailsFragmentDirections.actionTestCertificateDetailsFragmentToCovPassInfoFragment())
+            TestCertificateDetailsNavigation.OpenCovPassInfo ->
+                doNavigate(
+                    TestCertificateDetailsFragmentDirections.
+                    actionTestCertificateDetailsFragmentToCovPassInfoFragment()
+                )
         }
     }
 

@@ -49,7 +49,11 @@ class PersonCertificateCard(parent: ViewGroup) :
             setOnClickListener { curItem.onClickAction(curItem, adapterPosition) }
             transitionName = curItem.certificate.personIdentifier.codeSHA256
         }
-        qrCodeCard.bindValidityViews(curItem.certificate, isPersonOverview = true, badgeCount = curItem.badgeCount, onCovPassInfoAction = curItem.onCovPassInfoAction)
+        qrCodeCard.bindValidityViews(
+            curItem.certificate,
+            isPersonOverview = true,
+            badgeCount = curItem.badgeCount,
+            onCovPassInfoAction = curItem.onCovPassInfoAction)
     }
 
     private fun starsDrawable(colorShade: PersonColorShade) =
