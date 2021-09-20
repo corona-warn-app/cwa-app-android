@@ -88,7 +88,11 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     private fun FragmentTestCertificateDetailsBinding.onCertificateReady(
         certificate: TestCertificate
     ) {
-        qrCodeCard.bindValidityViews(certificate, isCertificateDetails = true)
+        qrCodeCard.bindValidityViews(
+            certificate,
+            isCertificateDetails = true,
+            onCovPassInfoAction = { onNavEvent(TestCertificateDetailsNavigation.OpenCovPassInfo) }
+        )
         name.text = certificate.fullNameFormatted
         icaoname.text = certificate.fullNameStandardizedFormatted
         dateOfBirth.text = certificate.dateOfBirthFormatted
@@ -184,6 +188,11 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
                         .actionTestCertificateDetailsFragmentToCertificatePdfExportInfoFragment(event.containerId)
                 )
             }
+            TestCertificateDetailsNavigation.OpenCovPassInfo ->
+                doNavigate(
+                    TestCertificateDetailsFragmentDirections
+                        .actionTestCertificateDetailsFragmentToCovPassInfoFragment()
+                )
         }
     }
 

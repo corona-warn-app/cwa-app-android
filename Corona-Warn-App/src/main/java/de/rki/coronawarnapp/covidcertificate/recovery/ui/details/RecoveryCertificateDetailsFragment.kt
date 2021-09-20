@@ -92,7 +92,11 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
     private fun FragmentRecoveryCertificateDetailsBinding.onCertificateReady(
         certificate: RecoveryCertificate
     ) {
-        qrCodeCard.bindValidityViews(certificate, isCertificateDetails = true)
+        qrCodeCard.bindValidityViews(
+            certificate,
+            isCertificateDetails = true,
+            onCovPassInfoAction = { onNavEvent(RecoveryCertificateDetailsNavigation.OpenCovPassInfo) }
+        )
         fullname.text = certificate.fullNameFormatted
         icaoname.text = certificate.fullNameStandardizedFormatted
         dateOfBirth.text = certificate.dateOfBirthFormatted
@@ -152,6 +156,11 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
                         .actionRecoveryCertificateDetailsFragmentToCertificatePdfExportInfoFragment(event.containerId)
                 )
             }
+            RecoveryCertificateDetailsNavigation.OpenCovPassInfo ->
+                doNavigate(
+                    RecoveryCertificateDetailsFragmentDirections
+                        .actionRecoveryCertificateDetailsFragmentToCovPassInfoFragment()
+                )
         }
     }
 

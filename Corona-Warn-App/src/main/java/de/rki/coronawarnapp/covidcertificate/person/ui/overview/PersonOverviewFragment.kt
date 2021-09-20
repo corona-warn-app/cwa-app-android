@@ -94,6 +94,8 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 )
             }
             OpenAppDeviceSettings -> openAppDetailsSettings()
+            OpenCovPassInfo ->
+                doNavigate(PersonOverviewFragmentDirections.actionPersonOverviewFragmentToCovPassInfoFragment())
         }
     }
 

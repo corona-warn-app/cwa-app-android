@@ -49,7 +49,12 @@ class PersonCertificateCard(parent: ViewGroup) :
             setOnClickListener { curItem.onClickAction(curItem, adapterPosition) }
             transitionName = curItem.certificate.personIdentifier.codeSHA256
         }
-        qrCodeCard.bindValidityViews(curItem.certificate, isPersonOverview = true, badgeCount = curItem.badgeCount)
+        qrCodeCard.bindValidityViews(
+            curItem.certificate,
+            isPersonOverview = true,
+            badgeCount = curItem.badgeCount,
+            onCovPassInfoAction = curItem.onCovPassInfoAction
+        )
     }
 
     private fun starsDrawable(colorShade: PersonColorShade) =
@@ -62,7 +67,8 @@ class PersonCertificateCard(parent: ViewGroup) :
         val certificate: CwaCovidCertificate,
         val colorShade: PersonColorShade,
         val badgeCount: Int,
-        val onClickAction: (Item, Int) -> Unit
+        val onClickAction: (Item, Int) -> Unit,
+        val onCovPassInfoAction: () -> Unit
     ) : PersonCertificatesItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
         override val stableId: Long = certificate.personIdentifier.codeSHA256.hashCode().toLong()
