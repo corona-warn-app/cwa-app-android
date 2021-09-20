@@ -21,3 +21,4 @@ data class OpenPersonDetailsFragment(
 
 object ScanQrCode : PersonOverviewFragmentEvents()
 object OpenAppDeviceSettings : PersonOverviewFragmentEvents()
+object OpenCovPassInfo: PersonOverviewFragmentEvents()

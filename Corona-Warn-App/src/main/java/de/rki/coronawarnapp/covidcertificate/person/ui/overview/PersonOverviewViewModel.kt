@@ -85,10 +85,12 @@ class PersonOverviewViewModel @AssistedInject constructor(
                     PersonCertificateCard.Item(
                         certificate = certificate,
                         colorShade = color,
-                        badgeCount = badgeCount
-                    ) { _, position ->
-                        events.postValue(OpenPersonDetailsFragment(person.personIdentifier.codeSHA256, position, color))
-                    }
+                        badgeCount = badgeCount,
+                        onClickAction = { _, position ->
+                            events.postValue(OpenPersonDetailsFragment(person.personIdentifier.codeSHA256, position, color))
+                        },
+                        onCovPassInfoAction = { events.postValue(OpenCovPassInfo) }
+                    )
                 )
             }
     }

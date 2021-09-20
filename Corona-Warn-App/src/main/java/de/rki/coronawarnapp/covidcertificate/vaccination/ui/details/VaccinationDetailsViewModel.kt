@@ -96,6 +96,10 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
         }
     }
 
+    fun onCovPassInfoAction() {
+        events.postValue(VaccinationDetailsNavigation.OpenCovPassInfo)
+    }
+
     @AssistedFactory
     interface Factory : CWAViewModelFactory<VaccinationDetailsViewModel> {
         fun create(

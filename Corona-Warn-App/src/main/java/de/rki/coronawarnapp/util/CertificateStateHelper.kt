@@ -20,12 +20,17 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     isPersonOverview: Boolean = false,
     isPersonDetails: Boolean = false,
     isCertificateDetails: Boolean = false,
-    badgeCount: Int = 0
+    badgeCount: Int = 0,
+    onCovPassInfoAction: () -> Unit
 ) {
     val valid = certificate.isValid
     val context = root.context
 
-    covpassInfoFlow.isVisible = valid
+    covpassInfoFlow.apply {
+        isVisible = valid
+        setOnClickListener { onCovPassInfoAction() }
+    }
+
 
     invalidOverlay.isGone = valid
     image.isEnabled = isCertificateDetails && valid // Disable Qr-Code image from opening full-screen mode
