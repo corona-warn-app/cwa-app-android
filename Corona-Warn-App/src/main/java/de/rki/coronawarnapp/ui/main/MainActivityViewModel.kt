@@ -19,7 +19,6 @@ import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.main.home.DeepLinkDirections
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
-import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentFragment
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
@@ -28,6 +27,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 
 @Suppress("LongParameterList")
 class MainActivityViewModel @AssistedInject constructor(
@@ -119,19 +119,19 @@ class MainActivityViewModel @AssistedInject constructor(
 
     fun onNavigationUri(uriString: String) = launch {
         when {
-            CheckInsFragment.canHandle(uriString) -> {
-                externalLinkEvents.postValue(DeepLinkDirections.GoToCheckInsFragment(uriString))
-            }
-            SubmissionConsentFragment.canHandle(uriString) -> {
+            CheckInsFragment.canHandle(uriString) -> externalLinkEvents.postValue(
+                DeepLinkDirections.GoToCheckInsFragment(uriString)
+            )
+            raExtractor.canHandle(uriString) -> {
                 try {
                     val qrCode = raExtractor.extract(rawString = uriString)
                     val test = submissionRepository.testForType(qrCode.type).first()
-                    if (test != null) {
-                        externalLinkEvents.postValue(DeepLinkDirections.GoToDeletionScreen(qrCode))
-                    } else {
-                        externalLinkEvents.postValue(DeepLinkDirections.GoToSubmissionConsentFragment(qrCode.rawQrCode))
+                    when {
+                        test != null -> externalLinkEvents.postValue(DeepLinkDirections.GoToDeletionScreen(qrCode))
+                        else -> externalLinkEvents.postValue(DeepLinkDirections.GoToSubmissionConsentFragment(qrCode))
                     }
                 } catch (e: Exception) {
+                    Timber.w(e, "onNavigationUri failed")
                     e.report(ExceptionCategory.INTERNAL)
                 }
             }

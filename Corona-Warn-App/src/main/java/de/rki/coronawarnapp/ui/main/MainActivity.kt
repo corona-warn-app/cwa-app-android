@@ -120,16 +120,16 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             binding.mainBottomNavigation.updateCountBadge(R.id.mainFragment, count)
         }
 
-        vm.externalLinkEvents.observe(this) {
-            when (it) {
+        vm.externalLinkEvents.observe(this) { direction ->
+            when (direction) {
                 is DeepLinkDirections.GoToCheckInsFragment -> navController.navigate(
-                    CheckInsFragment.createDeepLink(it.uriString)
+                    CheckInsFragment.createDeepLink(direction.uriString)
                 )
                 is DeepLinkDirections.GoToDeletionScreen -> navController.navigate(
-                    NavGraphDirections.actionToSubmissionDeletionWarningFragment(it.qrCode)
+                    NavGraphDirections.actionToSubmissionDeletionWarningFragment(direction.request)
                 )
                 is DeepLinkDirections.GoToSubmissionConsentFragment -> navController.navigate(
-                    NavGraphDirections.actionSubmissionConsentFragment(it.qrCodeRawString)
+                    NavGraphDirections.actionSubmissionConsentFragment(direction.request)
                 )
             }
         }

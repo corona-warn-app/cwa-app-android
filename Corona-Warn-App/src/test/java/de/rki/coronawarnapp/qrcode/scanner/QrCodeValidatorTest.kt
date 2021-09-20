@@ -52,7 +52,6 @@ class QrCodeValidatorTest : BaseTest() {
     fun `validator uses recognises PCR QrCode`() = runBlockingTest {
         qrCodeValidator.validate(pcrQrCode1).apply {
             this as CoronaTestQRCode
-            this.rawQrCode shouldBe pcrQrCode1
         }
     }
 
@@ -60,7 +59,6 @@ class QrCodeValidatorTest : BaseTest() {
     fun `validator uses recognises RAT QrCode`() = runBlockingTest {
         qrCodeValidator.validate(raQrCode3).apply {
             this as CoronaTestQRCode
-            this.rawQrCode shouldBe raQrCode3
         }
     }
 
