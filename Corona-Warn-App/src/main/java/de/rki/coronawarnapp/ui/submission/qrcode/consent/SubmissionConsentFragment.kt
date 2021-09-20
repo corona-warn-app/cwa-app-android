@@ -7,6 +7,8 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
@@ -35,6 +37,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
         }
     )
     private val binding: FragmentSubmissionConsentBinding by viewBinding()
+    private val navOptions = NavOptions.Builder().setPopUpTo(R.id.submissionConsentFragment, true).build()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,12 +54,13 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                         REQUEST_USER_RESOLUTION
                     )
 
-                is SubmissionNavigationEvents.NavigateToRequestDccFragment -> doNavigate(
+                is SubmissionNavigationEvents.NavigateToRequestDccFragment -> findNavController().navigate(
                     NavGraphDirections.actionRequestCovidCertificateFragment(
                         testRegistrationRequest = it.coronaTestQRCode,
                         coronaTestConsent = it.consentGiven,
                         deleteOldTest = it.allowReplacement
-                    )
+                    ),
+                    navOptions
                 )
             }
         }
@@ -80,17 +84,18 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                     // Handled above
                 }
                 is State.Error -> {
-                    state.getDialogBuilder(requireContext()).show()
-                    popBackStack()
+                    val dialog = state.getDialogBuilder(requireContext())
+                    dialog.setPositiveButton(android.R.string.ok) { _, _ -> popBackStack() }
+                    dialog.show()
                 }
                 is State.TestRegistered -> when {
                     state.test.isPositive ->
                         NavGraphDirections.actionToSubmissionTestResultAvailableFragment(testType = state.test.type)
-                            .run { doNavigate(this) }
+                            .run { findNavController().navigate(this, navOptions) }
 
                     else ->
                         NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = state.test.type)
-                            .run { doNavigate(this) }
+                            .run { findNavController().navigate(this, navOptions) }
                 }
             }
         }

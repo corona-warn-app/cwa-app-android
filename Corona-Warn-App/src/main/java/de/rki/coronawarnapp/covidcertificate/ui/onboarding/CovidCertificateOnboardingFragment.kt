@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import java.net.URLEncoder
 import javax.inject.Inject
 
 class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_onboarding_fragment), AutoInject {
@@ -88,6 +89,9 @@ class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_o
         fun uri(
             dccType: DccResult.Type,
             certIdentifier: String
-        ): Uri = "cwa://dcc.onboarding/?showBottomNav=false&dccType=$dccType&certIdentifier=$certIdentifier".toUri()
+        ): Uri {
+            val encodedId = URLEncoder.encode(certIdentifier, "UTF-8")
+            return "cwa://dcc.onboarding/?showBottomNav=false&dccType=$dccType&certIdentifier=$encodedId".toUri()
+        }
     }
 }

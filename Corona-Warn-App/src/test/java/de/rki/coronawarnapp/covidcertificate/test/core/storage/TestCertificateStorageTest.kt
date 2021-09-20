@@ -110,7 +110,8 @@ class TestCertificateStorageTest : BaseTest() {
               {
                 "identifier": "identifier2",
                 "registeredAt": 12345,
-                "testCertificateQrCode": "${certificateTestData.personATest2CertQRCodeString}"
+                "testCertificateQrCode": "${certificateTestData.personATest2CertQRCodeString}",
+                "certificateSeenByUser": true
               }
             ]
         """.toComparableJsonPretty()
