@@ -109,6 +109,10 @@
         <action
             android:id="@+id/action_personDetailsFragment_to_validationStartFragment"
             app:destination="@id/validationStartFragment" />
+
+        <action
+            android:id="@+id/action_personDetailsFragment_to_covPassInfoFragment"
+            app:destination="@id/covPassInfoFragment" />
     </fragment>
 
     <fragment
@@ -233,4 +237,8 @@
             android:name="containerId"
             app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId" />
     </fragment>
+    <fragment
+        android:id="@+id/covPassInfoFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.covpass.CovPassInfoFragment"
+        android:label="CovPassInfoFragment" />
 </navigation>

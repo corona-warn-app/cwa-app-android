@@ -39,7 +39,9 @@ class PersonDetailsQrCard(parent: ViewGroup) :
             }
             startValidationCheckButton.isLoading = curItem.isLoading
 
-            bindValidityViews(certificate, isPersonDetails = true, onCovPassInfoAction = onCovPassInfoAction)
+            // bindValidityViews(certificate, isPersonDetails = true, onCovPassInfoAction = onCovPassInfoAction)
+            bindValidityViews(certificate, isPersonDetails = true)
+
         }
     }
 
