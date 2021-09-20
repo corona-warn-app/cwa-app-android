@@ -45,7 +45,6 @@
                     style="@style/CWAToolbar.Close.Transparent"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:ellipsize="end"
                     app:expandedTitleGravity="top"
                     app:layout_collapseMode="pin"
                     app:navigationIcon="@drawable/ic_close"
