@@ -27,8 +27,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidatorTest
 import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.CertLogicEngineWrapperTest
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidatorTest
-import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass
-import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingQRCodeDescriptor.*
+import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingQRCodeDescriptor
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.mockk.coEvery
 import io.mockk.every
@@ -88,10 +87,10 @@ class CovidCertificateMockProvider {
             coEvery { getAppConfig() } returns mockk<ConfigData>().apply {
                 every { presenceTracing } returns PresenceTracingConfigContainer(
                     qrCodeDescriptors = listOf(
-                        newBuilder()
+                        PresenceTracingQRCodeDescriptor.newBuilder()
                             .setVersionGroupIndex(0)
                             .setEncodedPayloadGroupIndex(1)
-                            .setPayloadEncoding(PayloadEncoding.BASE64)
+                            .setPayloadEncoding(PresenceTracingQRCodeDescriptor.PayloadEncoding.BASE64)
                             .setRegexPattern("https://e\\.coronawarn\\.app\\?v=(\\d+)\\#(.+)")
                             .build()
                     )
