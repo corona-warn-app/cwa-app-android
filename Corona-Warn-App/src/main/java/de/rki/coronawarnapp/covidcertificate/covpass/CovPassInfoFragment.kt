@@ -5,15 +5,10 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentCovPassInfoBinding
-import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import setTextWithUrl
-import javax.inject.Inject
 
-class CovPassInfoFragment : Fragment(R.layout.fragment_cov_pass_info), AutoInject {
-
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+class CovPassInfoFragment : Fragment(R.layout.fragment_cov_pass_info) {
 
     private val binding: FragmentCovPassInfoBinding by viewBinding()
 
