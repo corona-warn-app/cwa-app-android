@@ -39,8 +39,8 @@ class QrCodeValidatorTest : BaseTest() {
     @Test
     fun `validator uses recognises CheckInQrCode`() = runBlockingTest {
         val checkInUrl = "https://e.coronawarn.app?v=1#CAESLAgBEhFNeSBCaXJ0aGRheSBQYXJ0eRoLYXQgbXkgcGxhY2Uo04ekATD3h6QBGmoIAR" +
-                "JgOMTa6eYSiaDv8lW13xdYEvGHOZ1EYTiFSxt51HEoPCD7CNnvCUiIYPhax1MpkN0UfNClCm9ZWYy0JH01CDVD9eq-vox" +
-                "Q1EcFJQkEIujVwoCNK0MNGuDK1ayjGxeDc4UDGgQxMjM0IgQIARAC"
+            "JgOMTa6eYSiaDv8lW13xdYEvGHOZ1EYTiFSxt51HEoPCD7CNnvCUiIYPhax1MpkN0UfNClCm9ZWYy0JH01CDVD9eq-vox" +
+            "Q1EcFJQkEIujVwoCNK0MNGuDK1ayjGxeDc4UDGgQxMjM0IgQIARAC"
 
         qrCodeValidator.validate(checkInUrl).apply {
             this as CheckInQrCode
@@ -61,7 +61,6 @@ class QrCodeValidatorTest : BaseTest() {
         qrCodeValidator.validate(raQrCode3).apply {
             this as CoronaTestQRCode
             this.rawQrCode shouldBe raQrCode3
-
         }
     }
 
