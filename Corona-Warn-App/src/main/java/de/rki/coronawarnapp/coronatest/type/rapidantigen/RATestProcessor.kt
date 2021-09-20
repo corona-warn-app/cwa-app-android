@@ -203,6 +203,13 @@ class RATestProcessor @Inject constructor(
         return test.copy(isViewed = true)
     }
 
+    override suspend fun markBadgeAsViewed(test: CoronaTest): CoronaTest {
+        Timber.tag(TAG).v("markBadgeAsViewed(test=%s)", test)
+        test as RACoronaTest
+
+        return test.copy(didShowBadge = true)
+    }
+
     override suspend fun updateSubmissionConsent(test: CoronaTest, consented: Boolean): CoronaTest {
         Timber.tag(TAG).v("updateSubmissionConsent(test=%s, consented=%b)", test, consented)
         test as RACoronaTest

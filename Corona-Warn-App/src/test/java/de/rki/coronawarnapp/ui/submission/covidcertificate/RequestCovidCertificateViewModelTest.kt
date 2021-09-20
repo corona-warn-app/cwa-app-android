@@ -200,20 +200,4 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
             events.getOrAwaitValue() shouldBe Back
         }
     }
-
-    @Test
-    fun navigateToHomeScreen() {
-        createInstance().apply {
-            navigateToHomeScreen()
-            events.getOrAwaitValue() shouldBe ToHomeScreen
-        }
-    }
-
-    @Test
-    fun navigateToDispatcherScreen() {
-        createInstance().apply {
-            navigateToDispatcherScreen()
-            events.getOrAwaitValue() shouldBe ToDispatcherScreen
-        }
-    }
 }

@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 
-@Suppress("LongParameterList")
+@Suppress("LongParameterList", "ComplexMethod")
 fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     certificate: CwaCovidCertificate,
     isPersonOverview: Boolean = false,
@@ -39,7 +39,9 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     notificationBadge.isVisible = if (isNewTestCertificate) {
         false
     } else {
-        isCertificateDetails && certificate.hasNotificationBadge
+        isCertificateDetails &&
+            certificate.hasNotificationBadge &&
+            certificate.getState() !is CwaCovidCertificate.State.Valid
     }
 
     qrTitle.isVisible = !isPersonOverview

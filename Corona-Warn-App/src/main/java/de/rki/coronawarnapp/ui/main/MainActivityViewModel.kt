@@ -6,6 +6,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.coronatest.qrcode.RapidAntigenQrCodeExtractor
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.environment.EnvironmentSetup
@@ -16,6 +17,7 @@ import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
+import de.rki.coronawarnapp.ui.main.home.DeepLinkDirections
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentFragment
 import de.rki.coronawarnapp.util.CWADebug
@@ -39,6 +41,7 @@ class MainActivityViewModel @AssistedInject constructor(
     private val covidCertificateSettings: CovidCertificateSettings,
     private val raExtractor: RapidAntigenQrCodeExtractor,
     private val submissionRepository: SubmissionRepository,
+    private val coronaTestRepository: CoronaTestRepository,
     checkInRepository: CheckInRepository,
     personCertificatesProvider: PersonCertificatesProvider,
 ) : CWAViewModel(
@@ -46,6 +49,7 @@ class MainActivityViewModel @AssistedInject constructor(
 ) {
 
     val showEnvironmentHint = SingleLiveEvent<String>()
+    val externalLinkEvents = SingleLiveEvent<DeepLinkDirections>()
 
     val showBackgroundJobDisabledNotification = SingleLiveEvent<Unit>()
     val showEnergyOptimizedEnabledForBackground = SingleLiveEvent<Unit>()
@@ -61,6 +65,11 @@ class MainActivityViewModel @AssistedInject constructor(
         .asLiveData2()
 
     val personsBadgeCount: LiveData<Int> = personCertificatesProvider.personsBadgeCount.asLiveData2()
+
+    val testsBadgeCount: LiveData<Int> = coronaTestRepository.coronaTests
+        .map { coronaTests ->
+            coronaTests.filter { !it.didShowBadge }.count()
+        }.asLiveData2()
 
     init {
         if (CWADebug.isDeviceForTestersBuild) {
@@ -111,16 +120,16 @@ class MainActivityViewModel @AssistedInject constructor(
     fun onNavigationUri(uriString: String) = launch {
         when {
             CheckInsFragment.canHandle(uriString) -> {
-                // TODO navController.navigate(CheckInsFragment.createDeepLink(uriString))
+                externalLinkEvents.postValue(DeepLinkDirections.GoToCheckInsFragment(uriString))
             }
             SubmissionConsentFragment.canHandle(uriString) -> {
                 try {
                     val qrCode = raExtractor.extract(rawString = uriString)
                     val test = submissionRepository.testForType(qrCode.type).first()
                     if (test != null) {
-                        // TODO Open duplicate
+                        externalLinkEvents.postValue(DeepLinkDirections.GoToDeletionScreen(qrCode))
                     } else {
-                        // TODO navController.navigate(NavGraphDirections.actionSubmissionConsentFragment(uriString))
+                        externalLinkEvents.postValue(DeepLinkDirections.GoToSubmissionConsentFragment(qrCode.rawQrCode))
                     }
                 } catch (e: Exception) {
                     e.report(ExceptionCategory.INTERNAL)

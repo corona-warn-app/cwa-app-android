@@ -36,7 +36,7 @@ fun TextView.setTextWithUrls(
             it.label.get(context) to it.url.get(context)
         }
         .forEach { (label, url) ->
-            val index = contentResolved.indexOf(label)
+            val index = contentResolved.lowercase().indexOf(label.lowercase())
             if (index == -1) {
                 Timber.w("Label $label was not found in $content")
                 return@forEach

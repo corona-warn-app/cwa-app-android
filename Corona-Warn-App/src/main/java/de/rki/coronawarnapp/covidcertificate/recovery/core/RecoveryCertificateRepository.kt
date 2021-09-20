@@ -77,17 +77,22 @@ class RecoveryCertificateRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
-    val certificates: Flow<Set<RecoveryCertificateWrapper>> =
-        combine(internalData.data, dscRepository.dscData) { set, _ ->
-            set.map { container ->
-                val state = dccStateChecker.checkState(container.certificateData).first()
-                RecoveryCertificateWrapper(
-                    valueSets = valueSetsRepository.latestVaccinationValueSets.first(),
-                    container = container,
-                    certificateState = state
-                )
-            }.toSet()
-        }.shareLatest(
+    val freshCertificates: Flow<Set<RecoveryCertificateWrapper>> = combine(
+        internalData.data,
+        dscRepository.dscData
+    ) { set, _ ->
+        set.map { container ->
+            val state = dccStateChecker.checkState(container.certificateData).first()
+            RecoveryCertificateWrapper(
+                valueSets = valueSetsRepository.latestVaccinationValueSets.first(),
+                container = container,
+                certificateState = state
+            )
+        }.toSet().also { Timber.d("Test: $it") }
+    }
+
+    val certificates: Flow<Set<RecoveryCertificateWrapper>> = freshCertificates
+        .shareLatest(
             tag = TAG,
             scope = appScope
         )
@@ -109,7 +114,8 @@ class RecoveryCertificateRepository @Inject constructor(
 
     private fun RecoveryCertificateQRCode.toContainer() = RecoveryCertificateContainer(
         data = StoredRecoveryCertificateData(
-            recoveryCertificateQrCode = qrCode
+            recoveryCertificateQrCode = qrCode,
+            certificateSeenByUser = false
         ),
         qrCodeExtractor = qrCodeExtractor,
         isUpdatingData = false
@@ -184,6 +190,23 @@ class RecoveryCertificateRepository @Inject constructor(
             this.minus(toUpdate).plus(
                 toUpdate.copy(data = newData).also {
                     Timber.tag(TAG).d("Updated %s", it)
+                }
+            )
+        }
+    }
+
+    suspend fun markAsSeenByUser(containerId: RecoveryCertificateContainerId) {
+        Timber.tag(TAG).d("markAsSeenByUser(containerId=$containerId)")
+        internalData.updateBlocking {
+            val toUpdate = singleOrNull { it.containerId == containerId }
+            if (toUpdate == null) {
+                Timber.tag(TAG).w("markAsSeenByUser Couldn't find %s", containerId)
+                return@updateBlocking this
+            }
+
+            this.minus(toUpdate).plus(
+                toUpdate.copy(data = toUpdate.data.copy(certificateSeenByUser = true)).also {
+                    Timber.tag(TAG).d("markAsSeenByUser Updated %s", it)
                 }
             )
         }

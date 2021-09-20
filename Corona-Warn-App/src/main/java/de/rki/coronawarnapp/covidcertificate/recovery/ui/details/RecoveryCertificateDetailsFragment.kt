@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.recovery.ui.details
 
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -39,6 +40,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import java.net.URLEncoder
 import java.util.Locale
 import javax.inject.Inject
 
@@ -52,7 +54,8 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         constructorCall = { factory, _ ->
             factory as RecoveryCertificateDetailsViewModel.Factory
             factory.create(
-                containerId = RecoveryCertificateContainerId(args.certIdentifier)
+                containerId = RecoveryCertificateContainerId(args.certIdentifier),
+                fromScanner = args.fromScanner
             )
         }
     )
@@ -206,6 +209,9 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
     }
 
     companion object {
-        fun uri(certIdentifier: String) = "cwa://recovery-certificate/?certIdentifier=$certIdentifier".toUri()
+        fun uri(certIdentifier: String): Uri {
+            val encodedId = URLEncoder.encode(certIdentifier, "UTF-8")
+            return "cwa://recovery-certificate/?fromScanner=true&certIdentifier=$encodedId".toUri()
+        }
     }
 }
