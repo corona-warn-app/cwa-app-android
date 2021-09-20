@@ -18,7 +18,6 @@ import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentRequestCovidCertificateBinding
-import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -83,19 +82,9 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
                 // Handled above
             }
             is State.Error -> {
-                state.getDialogBuilder(requireContext()).apply {
-                    if (state.exception is BadRequestException) {
-                        setPositiveButton(R.string.submission_qr_code_scan_invalid_dialog_button_positive) { _, _ ->
-                            viewModel.navigateBack()
-                        }
-                        setNegativeButton(R.string.submission_qr_code_scan_invalid_dialog_button_negative) { _, _ ->
-                            viewModel.navigateBack()
-                        }
-                        setOnCancelListener { viewModel.navigateBack() }
-                    } else {
-                        setOnDismissListener { viewModel.navigateBack() }
-                    }
-                }.show()
+                val dialog = state.getDialogBuilder(requireContext())
+                dialog.setPositiveButton(android.R.string.ok) { _, _ -> popBackStack() }
+                dialog.show()
             }
             is State.TestRegistered -> when {
                 state.test.isPositive ->

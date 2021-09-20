@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
+import de.rki.coronawarnapp.ui.main.home.DeepLinkDirections
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentFragment
 import de.rki.coronawarnapp.util.CWADebug
@@ -48,6 +49,7 @@ class MainActivityViewModel @AssistedInject constructor(
 ) {
 
     val showEnvironmentHint = SingleLiveEvent<String>()
+    val externalLinkEvents = SingleLiveEvent<DeepLinkDirections>()
 
     val showBackgroundJobDisabledNotification = SingleLiveEvent<Unit>()
     val showEnergyOptimizedEnabledForBackground = SingleLiveEvent<Unit>()
@@ -118,16 +120,16 @@ class MainActivityViewModel @AssistedInject constructor(
     fun onNavigationUri(uriString: String) = launch {
         when {
             CheckInsFragment.canHandle(uriString) -> {
-                // TODO navController.navigate(CheckInsFragment.createDeepLink(uriString))
+                externalLinkEvents.postValue(DeepLinkDirections.GoToCheckInsFragment(uriString))
             }
             SubmissionConsentFragment.canHandle(uriString) -> {
                 try {
                     val qrCode = raExtractor.extract(rawString = uriString)
                     val test = submissionRepository.testForType(qrCode.type).first()
                     if (test != null) {
-                        // TODO Open duplicate
+                        externalLinkEvents.postValue(DeepLinkDirections.GoToDeletionScreen(qrCode))
                     } else {
-                        // TODO navController.navigate(NavGraphDirections.actionSubmissionConsentFragment(uriString))
+                        externalLinkEvents.postValue(DeepLinkDirections.GoToSubmissionConsentFragment(qrCode.rawQrCode))
                     }
                 } catch (e: Exception) {
                     e.report(ExceptionCategory.INTERNAL)

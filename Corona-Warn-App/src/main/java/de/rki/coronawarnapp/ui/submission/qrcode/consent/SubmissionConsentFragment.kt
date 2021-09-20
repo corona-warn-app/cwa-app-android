@@ -84,8 +84,9 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                     // Handled above
                 }
                 is State.Error -> {
-                    state.getDialogBuilder(requireContext()).show()
-                    popBackStack()
+                    val dialog = state.getDialogBuilder(requireContext())
+                    dialog.setPositiveButton(android.R.string.ok) { _, _ -> popBackStack() }
+                    dialog.show()
                 }
                 is State.TestRegistered -> when {
                     state.test.isPositive ->

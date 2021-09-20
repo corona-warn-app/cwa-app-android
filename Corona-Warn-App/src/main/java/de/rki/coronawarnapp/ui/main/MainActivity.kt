@@ -15,12 +15,15 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmentDirections
 import de.rki.coronawarnapp.databinding.ActivityMainBinding
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.base.startActivitySafely
+import de.rki.coronawarnapp.ui.main.home.DeepLinkDirections
+import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
 import de.rki.coronawarnapp.ui.setupWithNavController2
 import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.CWADebug
@@ -115,6 +118,20 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         vm.testsBadgeCount.observe(this) { count ->
             Timber.tag(TAG).d("testsBadgeCount=$count")
             binding.mainBottomNavigation.updateCountBadge(R.id.mainFragment, count)
+        }
+
+        vm.externalLinkEvents.observe(this) {
+            when (it) {
+                is DeepLinkDirections.GoToCheckInsFragment -> navController.navigate(
+                    CheckInsFragment.createDeepLink(it.uriString)
+                )
+                is DeepLinkDirections.GoToDeletionScreen -> navController.navigate(
+                    NavGraphDirections.actionToSubmissionDeletionWarningFragment(it.qrCode)
+                )
+                is DeepLinkDirections.GoToSubmissionConsentFragment -> navController.navigate(
+                    NavGraphDirections.actionSubmissionConsentFragment(it.qrCodeRawString)
+                )
+            }
         }
 
         if (savedInstanceState == null) {
