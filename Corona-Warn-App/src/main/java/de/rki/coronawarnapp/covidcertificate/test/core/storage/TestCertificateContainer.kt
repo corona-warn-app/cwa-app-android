@@ -48,10 +48,7 @@ data class TestCertificateContainer(
         get() = testCertificateQRCode?.data?.certificate?.personIdentifier
 
     val certificateSeenByUser: Boolean
-        get() = when (data) {
-            is RetrievedTestCertificate -> data.certificateSeenByUser
-            is GenericTestCertificateData -> true // Immediately available
-        }
+        get() = data.certificateSeenByUser
 
     val registeredAt: Instant
         get() = data.registeredAt

@@ -49,7 +49,8 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
         setupMockViewModel(
             object : VaccinationDetailsViewModel.Factory {
                 override fun create(
-                    containerId: VaccinationCertificateContainerId
+                    containerId: VaccinationCertificateContainerId,
+                    fromScanner: Boolean
                 ): VaccinationDetailsViewModel = vaccinationDetailsViewModel
             }
         )

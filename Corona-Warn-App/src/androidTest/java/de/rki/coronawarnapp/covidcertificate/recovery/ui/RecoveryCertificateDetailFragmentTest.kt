@@ -51,7 +51,8 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
         setupMockViewModel(
             object : RecoveryCertificateDetailsViewModel.Factory {
                 override fun create(
-                    containerId: RecoveryCertificateContainerId
+                    containerId: RecoveryCertificateContainerId,
+                    fromScanner: Boolean
                 ): RecoveryCertificateDetailsViewModel = recoveryDetailsViewModel
             }
         )
