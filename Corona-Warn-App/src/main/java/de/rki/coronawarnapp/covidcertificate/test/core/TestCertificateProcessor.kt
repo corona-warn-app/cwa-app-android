@@ -9,6 +9,8 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.TestCertificateExc
 import de.rki.coronawarnapp.covidcertificate.common.exception.TestCertificateException.ErrorCode
 import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateComponents
 import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateServer
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.BaseTestCertificateData
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.GenericTestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RACertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RetrievedTestCertificate
@@ -214,13 +216,14 @@ class TestCertificateProcessor @Inject constructor(
     }
 
     fun updateSeenByUser(
-        data: RetrievedTestCertificate,
+        data: BaseTestCertificateData,
         seenByUser: Boolean,
-    ): RetrievedTestCertificate {
+    ): BaseTestCertificateData {
         Timber.tag(TAG).d("updateSeenByUser(data=%s, seenByUser=%b)", data, seenByUser)
         return when (data) {
             is PCRCertificateData -> data.copy(certificateSeenByUser = seenByUser)
             is RACertificateData -> data.copy(certificateSeenByUser = seenByUser)
+            is GenericTestCertificateData -> data.copy(certificateSeenByUser = seenByUser)
         }
     }
 

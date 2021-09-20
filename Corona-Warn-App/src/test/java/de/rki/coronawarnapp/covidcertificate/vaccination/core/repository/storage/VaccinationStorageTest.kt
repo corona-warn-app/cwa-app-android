@@ -78,10 +78,12 @@ class VaccinationStorageTest : BaseTest() {
                             "expiresAt": 1620062834471,
                             "type": "ExpiringSoon"
                         },
-                        "lastSeenStateChangeAt": 1620062834471
+                        "lastSeenStateChangeAt": 1620062834471,
+                        "certificateSeenByUser": true
                     }, {
                         "vaccinationQrCode": "${testData.personAVac2QRCodeString}",
-                        "scannedAt": 1620069934471
+                        "scannedAt": 1620069934471,
+                        "certificateSeenByUser": true
                     }
                 ]
             }

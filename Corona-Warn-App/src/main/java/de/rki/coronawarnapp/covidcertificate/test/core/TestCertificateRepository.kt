@@ -205,7 +205,8 @@ class TestCertificateRepository @Inject constructor(
                 identifier = UUID.randomUUID().toString(),
                 registeredAt = nowUtc,
                 certificateReceivedAt = nowUtc, // Set this as we don't need to retrieve one
-                testCertificateQrCode = qrCode.qrCode
+                testCertificateQrCode = qrCode.qrCode,
+                certificateSeenByUser = false // Just scanned, Should show badge
             )
             val container = TestCertificateContainer(
                 data = data,
@@ -375,11 +376,6 @@ class TestCertificateRepository @Inject constructor(
 
             if (current.isCertificateRetrievalPending) {
                 Timber.tag(TAG).w("Can't mark %s as seen, certificate has not been retrieved yet.", containerId)
-                return@updateBlocking this
-            }
-
-            if (current.data !is RetrievedTestCertificate) {
-                Timber.tag(TAG).w("%s is not a retrieved certificate, so it was immediately available.", containerId)
                 return@updateBlocking this
             }
 

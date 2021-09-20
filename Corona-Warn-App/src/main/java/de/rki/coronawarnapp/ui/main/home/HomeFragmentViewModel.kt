@@ -47,6 +47,7 @@ import de.rki.coronawarnapp.submission.ui.homecards.RapidTestReadyCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestSubmissionDoneCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestFetchingCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestUnregisteredCard
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.states.IncreasedRisk
 import de.rki.coronawarnapp.tracing.states.LowRisk
@@ -79,7 +80,9 @@ import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
@@ -132,6 +135,15 @@ class HomeFragmentViewModel @AssistedInject constructor(
             }.launchInViewModel()
         }
     }
+
+    val markTestBadgesAsSeen = coronaTestRepository.coronaTests
+        .onEach { tests ->
+            tests.filter { !it.didShowBadge }
+                .forEach {
+                    coronaTestRepository.markBadgeAsViewed(it.identifier)
+                }
+        }.catch { Timber.tag(TAG).d(it, "Mark tests badges as seen failed") }
+        .asLiveData2()
 
     private val combinedStatistics = combine(
         statisticsProvider.current,
@@ -400,4 +412,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<HomeFragmentViewModel>
+
+    companion object {
+        val TAG = tag<HomeFragmentViewModel>()
+    }
 }

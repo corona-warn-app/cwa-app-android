@@ -39,7 +39,9 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     notificationBadge.isVisible = if (isNewTestCertificate) {
         false
     } else {
-        isCertificateDetails && certificate.hasNotificationBadge
+        isCertificateDetails &&
+            certificate.hasNotificationBadge &&
+            certificate.getState() !is CwaCovidCertificate.State.Valid
     }
 
     qrTitle.isVisible = !isPersonOverview

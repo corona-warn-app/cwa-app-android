@@ -30,6 +30,7 @@ data class VaccinationContainer internal constructor(
     @SerializedName("notifiedInvalidAt") val notifiedInvalidAt: Instant? = null,
     @SerializedName("lastSeenStateChange") val lastSeenStateChange: State? = null,
     @SerializedName("lastSeenStateChangeAt") val lastSeenStateChangeAt: Instant? = null,
+    @SerializedName("certificateSeenByUser") val certificateSeenByUser: Boolean = true,
 ) : CertificateRepoContainer {
 
     // Either set by [ContainerPostProcessor] or via [toVaccinationContainer]
@@ -170,7 +171,7 @@ data class VaccinationContainer internal constructor(
         override val hasNotificationBadge: Boolean
             get() {
                 val state = getState()
-                return state !is State.Valid && state != lastSeenStateChange
+                return (state !is State.Valid && state != lastSeenStateChange) || !certificateSeenByUser
             }
 
         override fun toString(): String = "VaccinationCertificate($containerId)"
@@ -180,9 +181,11 @@ data class VaccinationContainer internal constructor(
 fun VaccinationCertificateQRCode.toVaccinationContainer(
     scannedAt: Instant,
     qrCodeExtractor: DccQrCodeExtractor,
+    certificateSeenByUser: Boolean,
 ) = VaccinationContainer(
     vaccinationQrCode = this.qrCode,
     scannedAt = scannedAt,
+    certificateSeenByUser = certificateSeenByUser,
 ).apply {
     this.qrCodeExtractor = qrCodeExtractor
     preParsedData = data

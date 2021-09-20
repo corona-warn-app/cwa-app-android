@@ -11,4 +11,5 @@ data class StoredRecoveryCertificateData(
     @SerializedName("notifiedInvalidAt") val notifiedInvalidAt: Instant? = null,
     @SerializedName("lastSeenStateChange") val lastSeenStateChange: State? = null,
     @SerializedName("lastSeenStateChangeAt") val lastSeenStateChangeAt: Instant? = null,
+    @SerializedName("certificateSeenByUser") val certificateSeenByUser: Boolean = true,
 )

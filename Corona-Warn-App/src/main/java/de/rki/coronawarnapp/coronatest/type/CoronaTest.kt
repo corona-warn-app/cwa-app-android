@@ -23,6 +23,8 @@ interface CoronaTest {
 
     val isPending: Boolean
 
+    val didShowBadge: Boolean
+
     /**
      * Has this test reached it's final state, i.e. can polling be stopped?
      */
