@@ -125,7 +125,7 @@ class DccCoseDecoder @Inject constructor(
         if (size() != 4) {
             throw InvalidHealthCertificateException(HC_COSE_MESSAGE_INVALID)
         }
-        if (!HasTag(18)) {
+        if (isTagged && !HasTag(18)) {
             throw InvalidHealthCertificateException(HC_COSE_TAG_INVALID)
         }
         return this

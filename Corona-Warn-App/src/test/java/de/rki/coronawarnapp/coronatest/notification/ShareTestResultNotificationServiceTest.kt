@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
+import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.main.CWASettings
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -30,6 +31,8 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
     )
     private var numberOfRemainingSharePositiveTestResultRemindersPcr: Int = Int.MIN_VALUE
     private var numberOfRemainingSharePositiveTestResultRemindersRat: Int = Int.MIN_VALUE
+    private var idOfPositiveTestResultRemindersPcr: TestIdentifier? = null
+    private var idOfPositiveTestResultRemindersRat: TestIdentifier? = null
 
     @BeforeEach
     fun setup() {
@@ -46,6 +49,18 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
         }
         every { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersRat } answers {
             numberOfRemainingSharePositiveTestResultRemindersRat
+        }
+        every { cwaSettings.idOfPositiveTestResultRemindersPcr = any() } answers {
+            idOfPositiveTestResultRemindersPcr = arg(0)
+        }
+        every { cwaSettings.idOfPositiveTestResultRemindersRat = any() } answers {
+            idOfPositiveTestResultRemindersRat = arg(0)
+        }
+        every { cwaSettings.idOfPositiveTestResultRemindersPcr } answers {
+            idOfPositiveTestResultRemindersPcr
+        }
+        every { cwaSettings.idOfPositiveTestResultRemindersRat } answers {
+            idOfPositiveTestResultRemindersRat
         }
 
         every { shareTestResultNotification.showSharePositiveTestResultNotification(any(), any()) } just Runs
@@ -66,11 +81,13 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
 
         coronaTestFlow.value = setOf(
             mockk<CoronaTest>().apply {
+                every { identifier } returns "PCR-ID"
                 every { type } returns PCR
                 every { isSubmissionAllowed } returns true
                 every { isSubmitted } returns false
             },
             mockk<CoronaTest>().apply {
+                every { identifier } returns "RAT-ID"
                 every { type } returns RAPID_ANTIGEN
                 every { isSubmissionAllowed } returns true
                 every { isSubmitted } returns false
@@ -84,6 +101,8 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
 
         verify { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr = 2 }
         verify { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersRat = 2 }
+        verify { cwaSettings.idOfPositiveTestResultRemindersPcr = "PCR-ID" }
+        verify { cwaSettings.idOfPositiveTestResultRemindersRat = "RAT-ID" }
     }
 
     @Test

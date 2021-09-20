@@ -9,10 +9,12 @@ import de.rki.coronawarnapp.bugreporting.censors.contactdiary.DiaryEncounterCens
 import de.rki.coronawarnapp.bugreporting.censors.contactdiary.DiaryLocationCensor
 import de.rki.coronawarnapp.bugreporting.censors.contactdiary.DiaryPersonCensor
 import de.rki.coronawarnapp.bugreporting.censors.contactdiary.DiaryVisitCensor
+import de.rki.coronawarnapp.bugreporting.censors.contactdiary.OrganizerRegistrationTokenCensor
 import de.rki.coronawarnapp.bugreporting.censors.dcc.DccQrCodeCensor
 import de.rki.coronawarnapp.bugreporting.censors.presencetracing.CheckInsCensor
 import de.rki.coronawarnapp.bugreporting.censors.presencetracing.TraceLocationCensor
 import de.rki.coronawarnapp.bugreporting.censors.submission.CoronaTestCensor
+import de.rki.coronawarnapp.bugreporting.censors.submission.CoronaTestCertificateCensor
 import de.rki.coronawarnapp.bugreporting.censors.submission.PcrQrCodeCensor
 import de.rki.coronawarnapp.bugreporting.censors.submission.PcrTeleTanCensor
 import de.rki.coronawarnapp.bugreporting.censors.submission.RACoronaTestCensor
@@ -82,6 +84,10 @@ class BugReportingSharedModule {
 
     @Provides
     @IntoSet
+    fun testCertificateCensor(censor: CoronaTestCertificateCensor): BugCensor = censor
+
+    @Provides
+    @IntoSet
     fun pcrQrCodeCensor(censor: PcrQrCodeCensor): BugCensor = censor
 
     @Provides
@@ -127,4 +133,8 @@ class BugReportingSharedModule {
     @Provides
     @IntoSet
     fun certificateQrCodeCensor(censor: DccQrCodeCensor): BugCensor = censor
+
+    @Provides
+    @IntoSet
+    fun organizerRegistrationTokenCensor(censor: OrganizerRegistrationTokenCensor): BugCensor = censor
 }

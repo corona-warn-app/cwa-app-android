@@ -31,4 +31,11 @@ class KidExtractionTest : BaseTest() {
             VaccinationQrCodeTestData.unprotectedKid
         ).data.kid shouldBe "yLHLNvSl428="
     }
+
+    @Test
+    fun `extract kid from COSE without TAG`() {
+        extractor.extract(
+            VaccinationQrCodeTestData.coseWithoutTag
+        ).data.kid shouldBe "f1sfUVIx8CA="
+    }
 }
