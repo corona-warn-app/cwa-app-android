@@ -53,7 +53,8 @@ class PersonCertificateCard(parent: ViewGroup) :
             curItem.certificate,
             isPersonOverview = true,
             badgeCount = curItem.badgeCount,
-            onCovPassInfoAction = curItem.onCovPassInfoAction)
+            onCovPassInfoAction = curItem.onCovPassInfoAction
+        )
     }
 
     private fun starsDrawable(colorShade: PersonColorShade) =

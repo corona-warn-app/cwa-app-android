@@ -6,5 +6,4 @@ import de.rki.coronawarnapp.R
 class CovPassInfoFragment : Fragment(R.layout.fragment_cov_pass_info) {
 
     // TODO: Will be implemented in another PR!!
-
 }

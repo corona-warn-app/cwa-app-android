@@ -158,8 +158,8 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
             }
             RecoveryCertificateDetailsNavigation.OpenCovPassInfo ->
                 doNavigate(
-                    RecoveryCertificateDetailsFragmentDirections.
-                    actionRecoveryCertificateDetailsFragmentToCovPassInfoFragment()
+                    RecoveryCertificateDetailsFragmentDirections
+                        .actionRecoveryCertificateDetailsFragmentToCovPassInfoFragment()
                 )
         }
     }

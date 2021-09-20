@@ -12,4 +12,4 @@ data class OpenRecoveryCertificateDetails(val containerId: RecoveryCertificateCo
 data class ValidationStart(val containerId: CertificateContainerId) : PersonDetailsEvents()
 data class ShowErrorDialog(val error: Throwable) : PersonDetailsEvents()
 object Back : PersonDetailsEvents()
-object OpenCovPassInfo: PersonDetailsEvents()
+object OpenCovPassInfo : PersonDetailsEvents()
