@@ -7,6 +7,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CameraPermissionCard
@@ -35,7 +36,8 @@ class PersonOverviewViewModel @AssistedInject constructor(
     valueSetsRepository: ValueSetsRepository,
     private val testCertificateRepository: TestCertificateRepository,
     @AppContext context: Context,
-    @AppScope private val appScope: CoroutineScope
+    @AppScope private val appScope: CoroutineScope,
+    private val expirationNotificationService: DccExpirationNotificationService
 ) : CWAViewModel(dispatcherProvider) {
 
     init {
@@ -124,6 +126,11 @@ class PersonOverviewViewModel @AssistedInject constructor(
     fun refreshCertificate(containerId: TestCertificateContainerId) = launch(scope = appScope) {
         val error = testCertificateRepository.refresh(containerId).mapNotNull { it.error }.singleOrNull()
         error?.let { events.postValue(ShowRefreshErrorDialog(error)) }
+    }
+
+    fun checkExpiration() = launch(scope = appScope) {
+        Timber.d("checkExpiration()")
+        expirationNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
     }
 
     @AssistedFactory

@@ -16,14 +16,14 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Ostrzegaj w imieniu innych"</item>
-        <item>"Natychmiastowe wyświetlanie statusu szczepień ozdrowieńców"</item>
+        <item>"Informacje o szczepieniach przypominających"</item>
+        <item>"Wersja certyfikatów szczepień do druku"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Jako organizator wydarzenia możesz teraz – na polecenie organów zdrowia publicznego – ostrzegać swoich gości w imieniu osoby, u której zdiagnozowano koronawirusa i która uczestniczyła w wydarzeniu, ale nie zameldowała się w aplikacji Corona- Warn-App."</item>
-        <item>"Aplikacja Corona-Warn-App wyświetla teraz pełną ochronę poszczepienną dla ozdrowieńców bezpośrednio po pierwszym szczepieniu. Dwutygodniowy okres oczekiwania zostaje zniesiony w przypadku wszystkich szczepionek z wyjątkiem Johnson &amp; Johnson."</item>
+        <item>"Aplikacja może teraz wyświetlać komunikat informujący o zbliżających się szczepieniach przypominających."</item>
+        <item>"Możesz teraz wyświetlić wersję do druku certyfikatów wydanych w Niemczech, co umożliwi Ci zapisanie certyfikatów jako dokumentów PDF i ich wydrukowanie."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
