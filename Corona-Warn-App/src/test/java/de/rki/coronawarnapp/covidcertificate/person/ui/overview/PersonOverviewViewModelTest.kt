@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 import android.content.Context
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
@@ -19,6 +20,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkStatic
+import io.mockk.runs
 import io.mockk.spyk
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
@@ -40,6 +42,7 @@ class PersonOverviewViewModelTest : BaseTest() {
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var context: Context
     @MockK lateinit var cameraPermissionProvider: CameraPermissionProvider
+    @MockK lateinit var expirationNotificationService: DccExpirationNotificationService
 
     @BeforeEach
     fun setup() {
@@ -53,6 +56,7 @@ class PersonOverviewViewModelTest : BaseTest() {
         every { context.getLocale() } returns Locale.GERMAN
         every { valueSetsRepository.triggerUpdateValueSet(any()) } just Runs
         every { cameraPermissionProvider.deniedPermanently } returns flowOf(false)
+        coEvery { expirationNotificationService.showNotificationIfStateChanged(any()) } just runs
     }
 
     @Test
@@ -175,6 +179,17 @@ class PersonOverviewViewModelTest : BaseTest() {
         }
     }
 
+    @Test
+    fun `checkExpiration calls expiration notification service`() {
+        instance.run {
+            checkExpiration()
+
+            coVerify {
+                expirationNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
+            }
+        }
+    }
+
     private val instance
         get() = PersonOverviewViewModel(
             dispatcherProvider = TestDispatcherProvider(),
@@ -183,6 +198,7 @@ class PersonOverviewViewModelTest : BaseTest() {
             valueSetsRepository = valueSetsRepository,
             context = context,
             cameraPermissionProvider = cameraPermissionProvider,
-            appScope = TestCoroutineScope()
+            appScope = TestCoroutineScope(),
+            expirationNotificationService = expirationNotificationService
         )
 }

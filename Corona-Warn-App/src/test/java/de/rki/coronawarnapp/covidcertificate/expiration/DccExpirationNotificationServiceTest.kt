@@ -69,7 +69,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
         }
 
         vaccinationRepository.apply {
-            every { vaccinationInfos } returns flowOf(setOf(vaccinatedPerson))
+            every { freshVaccinationInfos } returns flowOf(setOf(vaccinatedPerson))
             coEvery { setNotifiedState(any(), any(), any()) } just Runs
         }
         every { vaccinatedPerson.vaccinationCertificates } returns setOf(vaccinationCertificate)
@@ -82,7 +82,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
         }
 
         recoveryRepository.apply {
-            coEvery { certificates } returns flowOf(setOf(recoveryCertificateWrapper))
+            coEvery { freshCertificates } returns flowOf(setOf(recoveryCertificateWrapper))
             coEvery { setNotifiedState(any(), any(), any()) } just Runs
         }
         every { recoveryCertificateWrapper.recoveryCertificate } returns recoveryCertificate
@@ -120,8 +120,10 @@ class DccExpirationNotificationServiceTest : BaseTest() {
 
     @Test
     fun `only once per day`() = runBlockingTest {
-        lastDccStateBackgroundCheck.update { timeStamper.nowUTC.plus(Duration.standardDays(365)) }
+        lastDccStateBackgroundCheck.update { timeStamper.nowUTC }
         createInstance().apply {
+            showNotificationIfStateChanged()
+
             verify {
                 vaccinationRepository wasNot Called
                 recoveryRepository wasNot Called
@@ -131,15 +133,28 @@ class DccExpirationNotificationServiceTest : BaseTest() {
     }
 
     @Test
+    fun `check can be enforced`() = runBlockingTest {
+        lastDccStateBackgroundCheck.update { timeStamper.nowUTC }
+        createInstance().run {
+            showNotificationIfStateChanged(ignoreLastCheck = true)
+
+            verify {
+                vaccinationRepository.freshVaccinationInfos
+                recoveryRepository.freshCertificates
+            }
+        }
+    }
+
+    @Test
     fun `no certificates at all`() = runBlockingTest {
-        every { vaccinationRepository.vaccinationInfos } returns flowOf(emptySet())
-        every { recoveryRepository.certificates } returns flowOf(emptySet())
+        every { vaccinationRepository.freshVaccinationInfos } returns flowOf(emptySet())
+        every { recoveryRepository.freshCertificates } returns flowOf(emptySet())
 
         createInstance().showNotificationIfStateChanged()
 
         verify {
-            vaccinationRepository.vaccinationInfos
-            recoveryRepository.certificates
+            vaccinationRepository.freshVaccinationInfos
+            recoveryRepository.freshCertificates
             expirationNotification wasNot Called
         }
     }

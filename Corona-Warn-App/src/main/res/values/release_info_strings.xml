@@ -16,14 +16,14 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Warn for Others"</item>
-        <item>"Immediate Display of Vaccination Status for Recovered Persons"</item>
+        <item>"Information about Booster Vaccinations"</item>
+        <item>"Print Version of Vaccination Certificates"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"As the organizer of an event, you can now – when instructed to do so by the public health authorities – warn your guests on behalf of someone who has been diagnosed with coronavirus and who attended the event, but was not checked in with the Corona-Warn-App."</item>
-        <item>"The Corona-Warn-App now displays full vaccination protection for recovered persons directly after the first vaccination. The two-week waiting time is waived for all vaccines except Johnson &amp; Johnson."</item>
+        <item>"The app can now display a message that notifies you of any upcoming booster vaccinations."</item>
+        <item>"You can now display a print version of your certificates that were issued in Germany, which enables you to save the certificates as PDF documents and print them out."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

@@ -286,7 +286,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 dateOfBirthFormatted = "1943-04-18"
             )
             every { doseNumber } returns number
-            every { totalSeriesOfDoses } returns 2
+            every { totalSeriesOfDoses } returns if (booster) number else 2
             every { dateOfBirthFormatted } returns "1981-03-20"
             every { isFinalShot } returns final
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)

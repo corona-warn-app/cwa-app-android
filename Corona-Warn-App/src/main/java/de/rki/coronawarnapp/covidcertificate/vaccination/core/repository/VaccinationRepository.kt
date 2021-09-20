@@ -83,7 +83,7 @@ class VaccinationRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
-    val vaccinationInfos: Flow<Set<VaccinatedPerson>> = combine(
+    val freshVaccinationInfos: Flow<Set<VaccinatedPerson>> = combine(
         internalData.data,
         valueSetsRepository.latestVaccinationValueSets,
         dscRepository.dscData
@@ -91,8 +91,10 @@ class VaccinationRepository @Inject constructor(
         personDatas.map { person ->
             val stateMap = person.data.getStates()
             person.copy(valueSet = currentValueSet, certificateStates = stateMap)
-        }.toSet()
+        }.toSet().also { Timber.d("Test: $it") }
     }
+
+    val vaccinationInfos: Flow<Set<VaccinatedPerson>> = freshVaccinationInfos
         .shareLatest(
             tag = TAG,
             scope = appScope

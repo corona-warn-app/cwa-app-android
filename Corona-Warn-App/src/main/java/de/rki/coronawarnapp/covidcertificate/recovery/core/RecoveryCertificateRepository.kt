@@ -77,17 +77,22 @@ class RecoveryCertificateRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
-    val certificates: Flow<Set<RecoveryCertificateWrapper>> =
-        combine(internalData.data, dscRepository.dscData) { set, _ ->
-            set.map { container ->
-                val state = dccStateChecker.checkState(container.certificateData).first()
-                RecoveryCertificateWrapper(
-                    valueSets = valueSetsRepository.latestVaccinationValueSets.first(),
-                    container = container,
-                    certificateState = state
-                )
-            }.toSet()
-        }.shareLatest(
+    val freshCertificates: Flow<Set<RecoveryCertificateWrapper>> = combine(
+        internalData.data,
+        dscRepository.dscData
+    ) { set, _ ->
+        set.map { container ->
+            val state = dccStateChecker.checkState(container.certificateData).first()
+            RecoveryCertificateWrapper(
+                valueSets = valueSetsRepository.latestVaccinationValueSets.first(),
+                container = container,
+                certificateState = state
+            )
+        }.toSet().also { Timber.d("Test: $it") }
+    }
+
+    val certificates: Flow<Set<RecoveryCertificateWrapper>> = freshCertificates
+        .shareLatest(
             tag = TAG,
             scope = appScope
         )
