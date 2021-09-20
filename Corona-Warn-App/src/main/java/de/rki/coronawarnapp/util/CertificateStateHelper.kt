@@ -32,7 +32,6 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
         setOnClickListener { onCovPassInfoAction() }
     }
 
-
     invalidOverlay.isGone = valid
     image.isEnabled = isCertificateDetails && valid // Disable Qr-Code image from opening full-screen mode
 

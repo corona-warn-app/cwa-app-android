@@ -190,8 +190,8 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
             }
             TestCertificateDetailsNavigation.OpenCovPassInfo ->
                 doNavigate(
-                    TestCertificateDetailsFragmentDirections.
-                    actionTestCertificateDetailsFragmentToCovPassInfoFragment()
+                    TestCertificateDetailsFragmentDirections
+                        .actionTestCertificateDetailsFragmentToCovPassInfoFragment()
                 )
         }
     }

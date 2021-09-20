@@ -8,5 +8,5 @@ sealed class VaccinationDetailsNavigation {
     data class FullQrCode(val qrCode: CoilQrCode) : VaccinationDetailsNavigation()
     data class ValidationStart(val containerId: CertificateContainerId) : VaccinationDetailsNavigation()
     data class Export(val containerId: CertificateContainerId) : VaccinationDetailsNavigation()
-    object OpenCovPassInfo: VaccinationDetailsNavigation()
+    object OpenCovPassInfo : VaccinationDetailsNavigation()
 }
