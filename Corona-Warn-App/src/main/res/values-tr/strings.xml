@@ -1493,7 +1493,7 @@
     <!-- XTXT: Statistics explanation blog text -->
     <string name="statistics_explanation_blog">"Münferit önemli değerlerin içeriği hakkında daha ayrıntılı bilgi için blogumuzu okuyun."</string>
     <!-- XTXT: Statistics explanation blog text label -->
-    <string name="statistics_explanation_blog_label">"Blog."</string>
+    <string name="statistics_explanation_blog_label">"Blogumuzu"</string>
     <!-- XTXT: Statistics explanation blog text url -->
     <string name="statistics_eplanation_blog_url">"https://www.coronawarn.app/en/blog/2021-08-05-statistictiles"</string>
 
