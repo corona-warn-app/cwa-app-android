@@ -129,7 +129,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 isCwaUser = isCwa
             )
 
-            add(PersonDetailsQrCard.Item(testCertificate, false) {})
+            add(PersonDetailsQrCard.Item(testCertificate, false, {}, {}))
 
             add(
                 VaccinationInfoCard.Item(
@@ -204,7 +204,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 }
             }
 
-            add(PersonDetailsQrCard.Item(vaccinationCertificate1, false) {})
+            add(PersonDetailsQrCard.Item(vaccinationCertificate1, false, {}, {}))
 
             add(
                 VaccinationInfoCard.Item(
