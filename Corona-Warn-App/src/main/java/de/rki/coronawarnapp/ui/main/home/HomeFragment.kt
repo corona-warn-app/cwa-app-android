@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.HomeFragmentLayoutBinding
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.tracing.ui.TracingExplanationDialog
 import de.rki.coronawarnapp.ui.main.home.popups.DeviceTimeIncorrectDialog
 import de.rki.coronawarnapp.util.CWADebug
@@ -29,6 +30,7 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -86,6 +88,10 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                     setTitle(getString(testName) + " " + getString(R.string.errors_generic_headline_short))
                 }?.show()
             }
+        }
+
+        viewModel.markTestBadgesAsSeen.observe2(this) {
+            Timber.tag(TAG).d("markTestBadgesAsSeen=${it.size}")
         }
     }
 
@@ -199,5 +205,9 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             findNestedGraph(R.id.trace_location_organizer_nav_graph).startDestination = R.id.traceLocationsFragment
         }
         doNavigate(HomeFragmentDirections.actionMainFragmentToTraceLocationOrganizerNavGraph())
+    }
+
+    companion object {
+        val TAG = tag<HomeFragment>()
     }
 }

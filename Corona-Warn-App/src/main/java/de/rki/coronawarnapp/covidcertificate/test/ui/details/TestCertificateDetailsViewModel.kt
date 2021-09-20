@@ -21,6 +21,7 @@ import timber.log.Timber
 class TestCertificateDetailsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     @Assisted private val containerId: TestCertificateContainerId,
+    @Assisted private val fromScanner: Boolean,
     private val testCertificateRepository: TestCertificateRepository,
     private val dccValidationRepository: DccValidationRepository,
     @AppScope private val appScope: CoroutineScope
@@ -60,7 +61,7 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
 
     fun refreshCertState() = launch(scope = appScope) {
         Timber.v("refreshCertState()")
-        if (covidCertificate.value?.isNewlyRetrieved == true) {
+        if (covidCertificate.value?.isNewlyRetrieved == true && !fromScanner) {
             testCertificateRepository.markCertificateAsSeenByUser(containerId)
         } else {
             testCertificateRepository.acknowledgeState(containerId)
@@ -77,6 +78,6 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<TestCertificateDetailsViewModel> {
-        fun create(containerId: TestCertificateContainerId): TestCertificateDetailsViewModel
+        fun create(containerId: TestCertificateContainerId, fromScanner: Boolean): TestCertificateDetailsViewModel
     }
 }

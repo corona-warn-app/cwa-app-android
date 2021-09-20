@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmentDirections
 import de.rki.coronawarnapp.databinding.ActivityMainBinding
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.base.startActivitySafely
 import de.rki.coronawarnapp.ui.main.home.DeepLinkDirections
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
@@ -41,12 +42,14 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), HasAndroidInjector {
     companion object {
+        val TAG = tag<MainActivity>()
+
         fun start(context: Context, launchIntent: Intent) {
             Intent(context, MainActivity::class.java).apply {
                 flags = flags or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                Timber.i("launchIntent:$launchIntent")
+                Timber.tag(TAG).i("launchIntent:$launchIntent")
                 fillIn(launchIntent, Intent.FILL_IN_DATA)
-                Timber.i("filledIntent:$this")
+                Timber.tag(TAG).i("filledIntent:$this")
                 context.startActivity(this)
             }
         }
@@ -103,12 +106,18 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         }
 
         vm.activeCheckIns.observe(this) { count ->
+            Timber.tag(TAG).d("activeCheckIns=$count")
             binding.mainBottomNavigation.updateCountBadge(R.id.trace_location_attendee_nav_graph, count)
         }
 
         vm.personsBadgeCount.observe(this) { count ->
-            Timber.d("personsBadgeCount=$count")
+            Timber.tag(TAG).d("personsBadgeCount=$count")
             binding.mainBottomNavigation.updateCountBadge(R.id.covid_certificates_graph, count)
+        }
+
+        vm.testsBadgeCount.observe(this) { count ->
+            Timber.tag(TAG).d("testsBadgeCount=$count")
+            binding.mainBottomNavigation.updateCountBadge(R.id.mainFragment, count)
         }
 
         vm.externalLinkEvents.observe(this) {
