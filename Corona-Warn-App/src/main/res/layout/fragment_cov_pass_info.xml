@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorSurface"
     android:contentDescription="@string/cov_pass_info_title"
-    tools:context="de.rki.coronawarnapp.covidcertificate.pdf.ui.CertificatePdfExportInfoFragment">
+    tools:context=".covidcertificate.covpass.CovPassInfoFragment">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator_layout"
@@ -113,7 +113,7 @@
                         android:text="@string/cov_pass_info_section_one"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/bulletpoint_one"
+                        app:layout_constraintStart_toEndOf="@id/bulletpoint_one"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -144,7 +144,7 @@
                         android:text="@string/cov_pass_info_section_two"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/bulletpoint_two"
+                        app:layout_constraintStart_toEndOf="@id/bulletpoint_two"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -175,7 +175,7 @@
                         android:text="@string/cov_pass_info_section_three"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/bulletpoint_three"
+                        app:layout_constraintStart_toEndOf="@id/bulletpoint_three"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
