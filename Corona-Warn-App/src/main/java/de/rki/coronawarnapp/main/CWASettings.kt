@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.main
 import android.content.Context
 import androidx.core.content.edit
 import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
@@ -52,9 +53,17 @@ class CWASettings @Inject constructor(
         get() = prefs.getInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_PCR, Int.MIN_VALUE)
         set(value) = prefs.edit { putInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_PCR, value) }
 
+    var idOfPositiveTestResultRemindersPcr: TestIdentifier?
+        get() = prefs.getString(PKEY_POSITIVE_TEST_RESULT_REMINDER_ID_PCR, null)
+        set(value) = prefs.edit { putString(PKEY_POSITIVE_TEST_RESULT_REMINDER_ID_PCR, value) }
+
     var numberOfRemainingSharePositiveTestResultRemindersRat: Int
         get() = prefs.getInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_RAT, Int.MIN_VALUE)
         set(value) = prefs.edit { putInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_RAT, value) }
+
+    var idOfPositiveTestResultRemindersRat: TestIdentifier?
+        get() = prefs.getString(PKEY_POSITIVE_TEST_RESULT_REMINDER_ID_RAT, null)
+        set(value) = prefs.edit { putString(PKEY_POSITIVE_TEST_RESULT_REMINDER_ID_RAT, value) }
 
     val isNotificationsRiskEnabled = prefs.createFlowPreference(
         key = PKEY_NOTIFICATIONS_RISK_ENABLED,
@@ -87,6 +96,9 @@ class CWASettings @Inject constructor(
 
         private const val PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_PCR = "testresults.count"
         private const val PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_RAT = "testresults.count.rat"
+
+        private const val PKEY_POSITIVE_TEST_RESULT_REMINDER_ID_PCR = "testresults.id"
+        private const val PKEY_POSITIVE_TEST_RESULT_REMINDER_ID_RAT = "testresults.id.rat"
 
         private const val LAST_CHANGELOG_VERSION = "update.changelog.lastversion"
         private const val DEFAULT_APP_VERSION = 1L

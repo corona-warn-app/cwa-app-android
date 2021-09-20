@@ -56,12 +56,12 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
 
                 when (it.certificateState) {
                     SubmissionTestResultNegativeViewModel.CertificateState.NOT_REQUESTED -> {
-                        testResultNegativeStepsNegativeResult.setIsFinal(true)
+                        testResultNegativeStepsRemoveTest.setIsFinal(true)
                         testResultNegativeStepsCertificate.isGone = true
                         testCertificateCard.isGone = true
                     }
                     SubmissionTestResultNegativeViewModel.CertificateState.PENDING -> {
-                        testResultNegativeStepsNegativeResult.setIsFinal(false)
+                        testResultNegativeStepsRemoveTest.setIsFinal(false)
                         testResultNegativeStepsCertificate.isGone = false
                         testResultNegativeStepsCertificate.setEntryText(
                             getText(
@@ -74,7 +74,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
                         testCertificateCard.isGone = true
                     }
                     SubmissionTestResultNegativeViewModel.CertificateState.AVAILABLE -> {
-                        testResultNegativeStepsNegativeResult.setIsFinal(false)
+                        testResultNegativeStepsRemoveTest.setIsFinal(false)
                         testResultNegativeStepsCertificate.isGone = false
                         testResultNegativeStepsCertificate.setEntryText(
                             getText(R.string.coronatest_negative_result_certificate_info_body)
