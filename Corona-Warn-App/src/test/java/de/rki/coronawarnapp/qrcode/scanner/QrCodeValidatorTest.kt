@@ -1,51 +1,74 @@
 package de.rki.coronawarnapp.qrcode.scanner
 
-import org.junit.jupiter.api.AfterEach
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
+import de.rki.coronawarnapp.coronatest.qrcode.pcrQrCode1
+import de.rki.coronawarnapp.coronatest.qrcode.raQrCode3
+import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
+import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCode
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import javax.inject.Inject
 
-internal class QrCodeValidatorTest : BaseTest() {
+@Suppress("MaxLineLength")
+class QrCodeValidatorTest : BaseTest() {
+    @Inject
+    lateinit var testData: VaccinationTestData
 
-    /**
-     *   @BeforeEach
-    fun setup() {
-    DaggerCovidCertificateTestComponent.factory().create().inject(this)
-
-    vacExtractorSpy = spyk(vacExtractor)
-    }
-
-    @Test
-    fun `validator uses strict extraction mode`() = runBlockingTest {
-    val instance = DccQrCodeValidator(vacExtractorSpy)
-    instance.validate(testData.personAVac1QRCodeString).apply {
-    uniqueCertificateIdentifier shouldBe testData.personAVac1Container.certificateId
-    }
-    verify { vacExtractorSpy.extract(testData.personAVac1QRCodeString, DccV1Parser.Mode.CERT_SINGLE_STRICT) }
-    }
-
-    @Test
-    fun `validator throws invalid vaccination exception for pcr test qr code`() = runBlockingTest {
-    val instance = DccQrCodeValidator(vacExtractorSpy)
-    shouldThrow<InvalidHealthCertificateException> {
-    instance.validate("HTTPS://LOCALHOST/?123456-12345678-1234-4DA7-B166-B86D85475064")
-    }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.HC_PREFIX_INVALID
-    }
-     */
+    @Inject
+    lateinit var qrCodeValidator: QrCodeValidator
 
     @BeforeEach
-    fun setUp() {
-    }
-
-    @AfterEach
-    fun tearDown() {
+    fun setup() {
+        DaggerCovidCertificateTestComponent.factory().create().inject(this)
     }
 
     @Test
-    fun setExtractors() {
+    fun `validator uses recognises DccQrCode`() = runBlockingTest {
+        qrCodeValidator.validate(testData.personAVac1QRCodeString).apply {
+            this as DccQrCode
+            uniqueCertificateIdentifier shouldBe testData.personAVac1Container.certificateId
+        }
     }
 
     @Test
-    fun validate() {
+    fun `validator uses recognises CheckInQrCode`() = runBlockingTest {
+        val checkInUrl = "https://e.coronawarn.app?v=1#CAESLAgBEhFNeSBCaXJ0aGRheSBQYXJ0eRoLYXQgbXkgcGxhY2Uo04ekATD3h6QBGmoIAR" +
+                "JgOMTa6eYSiaDv8lW13xdYEvGHOZ1EYTiFSxt51HEoPCD7CNnvCUiIYPhax1MpkN0UfNClCm9ZWYy0JH01CDVD9eq-vox" +
+                "Q1EcFJQkEIujVwoCNK0MNGuDK1ayjGxeDc4UDGgQxMjM0IgQIARAC"
+
+        qrCodeValidator.validate(checkInUrl).apply {
+            this as CheckInQrCode
+            this.qrCodePayload.locationData.address shouldBe "at my place"
+        }
+    }
+
+    @Test
+    fun `validator uses recognises PCR QrCode`() = runBlockingTest {
+        qrCodeValidator.validate(pcrQrCode1).apply {
+            this as CoronaTestQRCode
+            this.rawQrCode shouldBe pcrQrCode1
+        }
+    }
+
+    @Test
+    fun `validator uses recognises RAT QrCode`() = runBlockingTest {
+        qrCodeValidator.validate(raQrCode3).apply {
+            this as CoronaTestQRCode
+            this.rawQrCode shouldBe raQrCode3
+
+        }
+    }
+
+    @Test
+    fun `validator throws unsupported Error`() = runBlockingTest {
+        shouldThrow<UnsupportedQrCodeException> {
+            qrCodeValidator.validate("some text")
+        }.errorCode shouldBe UnsupportedQrCodeException.ErrorCode.UNSUPPORTED_QR_CODE
     }
 }
