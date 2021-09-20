@@ -26,8 +26,8 @@
                 android:id="@+id/collapsing_toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="true"
                 android:background="@drawable/covid_certificate_validation_gradient"
+                android:nestedScrollingEnabled="true"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:titleEnabled="false">
 
@@ -45,6 +45,7 @@
                     style="@style/CWAToolbar.Close.Transparent"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
+                    android:ellipsize="end"
                     app:expandedTitleGravity="top"
                     app:layout_collapseMode="pin"
                     app:navigationIcon="@drawable/ic_close"
@@ -62,29 +63,29 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:padding="@dimen/spacing_normal"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_normal">
 
                 <TextView
                     android:id="@+id/subtitle"
                     style="@style/subtitleMedium"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/cov_pass_info_subtitle"/>
+                    android:text="@string/cov_pass_info_subtitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/link_to_faq"
-                    android:layout_marginTop="16dp"
                     style="@style/subtitle"
-                    app:layout_constraintTop_toBottomOf="@id/subtitle"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/cov_pass_info_faq_link"/>
+                    android:layout_marginTop="16dp"
+                    android:text="@string/cov_pass_info_faq_link"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/subtitle" />
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
