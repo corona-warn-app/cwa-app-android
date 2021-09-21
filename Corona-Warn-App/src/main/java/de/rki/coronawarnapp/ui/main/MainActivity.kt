@@ -17,6 +17,7 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmentDirections
 import de.rki.coronawarnapp.databinding.ActivityMainBinding
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
@@ -120,17 +121,18 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             binding.mainBottomNavigation.updateCountBadge(R.id.mainFragment, count)
         }
 
-        vm.externalLinkEvents.observe(this) { direction ->
-            when (direction) {
+        vm.externalLinkEvents.observe(this) { event ->
+            when (event) {
                 is DeepLinkDirections.GoToCheckInsFragment -> navController.navigate(
-                    CheckInsFragment.createDeepLink(direction.uriString)
+                    CheckInsFragment.createDeepLink(event.uriString)
                 )
                 is DeepLinkDirections.GoToDeletionScreen -> navController.navigate(
-                    NavGraphDirections.actionToSubmissionDeletionWarningFragment(direction.request)
+                    NavGraphDirections.actionToSubmissionDeletionWarningFragment(event.request)
                 )
                 is DeepLinkDirections.GoToSubmissionConsentFragment -> navController.navigate(
-                    NavGraphDirections.actionSubmissionConsentFragment(direction.request)
+                    NavGraphDirections.actionSubmissionConsentFragment(event.request)
                 )
+                is DeepLinkDirections.Error -> event.error.toErrorDialogBuilder(this).show()
             }
         }
 

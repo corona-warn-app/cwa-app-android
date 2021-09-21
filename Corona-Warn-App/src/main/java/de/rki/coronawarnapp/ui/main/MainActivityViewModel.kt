@@ -132,7 +132,7 @@ class MainActivityViewModel @AssistedInject constructor(
                     }
                 } catch (e: Exception) {
                     Timber.w(e, "onNavigationUri failed")
-                    e.report(ExceptionCategory.INTERNAL)
+                    externalLinkEvents.postValue(DeepLinkDirections.Error(e))
                 }
             }
         }

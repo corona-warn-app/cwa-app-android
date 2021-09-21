@@ -87,9 +87,6 @@ abstract class MainActivityTestModule {
     @ContributesAndroidInjector(modules = [HomeTestCardsFragmentModule::class])
     abstract fun homeTestCards(): HomeTestCardsFragment
 
-    @ContributesAndroidInjector(modules = [CoronaTestTestFragmentModule::class])
-    abstract fun coronaTest(): CoronaTestTestFragment
-
     @ContributesAndroidInjector(modules = [DscTestModule::class])
     abstract fun dscTest(): DscTestFragment
 

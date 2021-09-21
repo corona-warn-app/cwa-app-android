@@ -2,7 +2,12 @@ package de.rki.coronawarnapp.qrcode.scanner
 
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.pcrQrCode1
+import de.rki.coronawarnapp.coronatest.qrcode.pcrQrCode2
+import de.rki.coronawarnapp.coronatest.qrcode.pcrQrCode3
+import de.rki.coronawarnapp.coronatest.qrcode.raQrCode1
+import de.rki.coronawarnapp.coronatest.qrcode.raQrCode2
 import de.rki.coronawarnapp.coronatest.qrcode.raQrCode3
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
@@ -38,9 +43,10 @@ class QrCodeValidatorTest : BaseTest() {
 
     @Test
     fun `validator uses recognises CheckInQrCode`() = runBlockingTest {
-        val checkInUrl = "https://e.coronawarn.app?v=1#CAESLAgBEhFNeSBCaXJ0aGRheSBQYXJ0eRoLYXQgbXkgcGxhY2Uo04ekATD3h6QBGmoIAR" +
-            "JgOMTa6eYSiaDv8lW13xdYEvGHOZ1EYTiFSxt51HEoPCD7CNnvCUiIYPhax1MpkN0UfNClCm9ZWYy0JH01CDVD9eq-vox" +
-            "Q1EcFJQkEIujVwoCNK0MNGuDK1ayjGxeDc4UDGgQxMjM0IgQIARAC"
+        val checkInUrl =
+            "https://e.coronawarn.app?v=1#CAESLAgBEhFNeSBCaXJ0aGRheSBQYXJ0eRoLYXQgbXkgcGxhY2Uo04ekATD3h6QBGmoIAR" +
+                "JgOMTa6eYSiaDv8lW13xdYEvGHOZ1EYTiFSxt51HEoPCD7CNnvCUiIYPhax1MpkN0UfNClCm9ZWYy0JH01CDVD9eq-vox" +
+                "Q1EcFJQkEIujVwoCNK0MNGuDK1ayjGxeDc4UDGgQxMjM0IgQIARAC"
 
         qrCodeValidator.validate(checkInUrl).apply {
             this as CheckInQrCode
@@ -67,5 +73,15 @@ class QrCodeValidatorTest : BaseTest() {
         shouldThrow<UnsupportedQrCodeException> {
             qrCodeValidator.validate("some text")
         }.errorCode shouldBe UnsupportedQrCodeException.ErrorCode.UNSUPPORTED_QR_CODE
+    }
+
+    @Test
+    fun `valid codes are extracted by corresponding extractor`() = runBlockingTest {
+        (qrCodeValidator.validate(pcrQrCode1) as CoronaTestQRCode).type shouldBe CoronaTest.Type.PCR
+        (qrCodeValidator.validate(pcrQrCode2) as CoronaTestQRCode).type shouldBe CoronaTest.Type.PCR
+        (qrCodeValidator.validate(pcrQrCode3) as CoronaTestQRCode).type shouldBe CoronaTest.Type.PCR
+        (qrCodeValidator.validate(raQrCode1) as CoronaTestQRCode).type shouldBe CoronaTest.Type.RAPID_ANTIGEN
+        (qrCodeValidator.validate(raQrCode2) as CoronaTestQRCode).type shouldBe CoronaTest.Type.RAPID_ANTIGEN
+        (qrCodeValidator.validate(raQrCode3) as CoronaTestQRCode).type shouldBe CoronaTest.Type.RAPID_ANTIGEN
     }
 }
