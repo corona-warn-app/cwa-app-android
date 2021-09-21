@@ -52,9 +52,7 @@
         <action
             android:id="@+id/action_test_menu_fragment_to_homeTestCardsFragment"
             app:destination="@id/homeTestCardsFragment" />
-        <action
-            android:id="@+id/action_test_menu_fragment_to_coronaTestTestFragment"
-            app:destination="@id/coronaTestTestFragment" />
+
         <action
             android:id="@+id/action_test_menu_fragment_to_qrcodeFragment"
             app:destination="@id/test_qrcode_fragment" />
