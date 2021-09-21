@@ -117,9 +117,10 @@ class PersonDetailsFragmentTest : BaseUITest() {
         takeScreenshot<PersonDetailsFragment>("booster_2")
     }
 
-    private fun certificateData(isCwa: Boolean = false): LiveData<List<CertificateItem>> = MutableLiveData(
-        mutableListOf<CertificateItem>().apply {
-            val testCertificate = mockTestCertificate()
+    private fun certificateData(isCwa: Boolean = false): LiveData<PersonDetailsViewModel.UiState> {
+        var name: String
+        val certificateItems = mutableListOf<CertificateItem>().apply {
+            val testCertificate = mockTestCertificate().also { name = it.fullName }
             val vaccinationCertificate1 = mockVaccinationCertificate(number = 1, final = false)
             val vaccinationCertificate2 = mockVaccinationCertificate(number = 2, final = true)
             val vaccinationCertificate3 = mockVaccinationCertificate(number = 3, final = false, booster = true)
@@ -177,11 +178,15 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 ) {}
             )
         }
-    )
 
-    private fun boosterCertificateData(isCwa: Boolean = false): LiveData<List<CertificateItem>> = MutableLiveData(
-        mutableListOf<CertificateItem>().apply {
-            val vaccinationCertificate1 = mockVaccinationCertificate(number = 3, final = false, booster = true)
+        return MutableLiveData(PersonDetailsViewModel.UiState(name, certificateItems))
+    }
+
+    private fun boosterCertificateData(isCwa: Boolean = false): LiveData<PersonDetailsViewModel.UiState> {
+        var name: String
+        val certificateItems = mutableListOf<CertificateItem>().apply {
+            val vaccinationCertificate1 =
+                mockVaccinationCertificate(number = 3, final = false, booster = true).also { name = it.fullName }
 
             every { vaccinationCertificate1.hasNotificationBadge } returns true
 
@@ -229,7 +234,9 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 ) {}
             )
         }
-    )
+
+        return MutableLiveData(PersonDetailsViewModel.UiState(name, certificateItems))
+    }
 
     private fun mockTestCertificate(): TestCertificate = mockk<TestCertificate>().apply {
         every { certificateId } returns "testCertificateId"
