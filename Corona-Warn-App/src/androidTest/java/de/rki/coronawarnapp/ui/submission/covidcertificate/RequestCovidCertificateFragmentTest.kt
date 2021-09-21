@@ -53,7 +53,7 @@ class RequestCovidCertificateFragmentTest : BaseUITest() {
     @Test
     fun launch_fragment_pcr() {
         val args = RequestCovidCertificateFragmentArgs(
-            CoronaTestQRCode.PCR(qrCodeGUID = "GUID", rawQrCode = "rawqrcode")
+            CoronaTestQRCode.PCR(qrCodeGUID = "GUID")
         ).toBundle()
         launchFragmentInContainer2<RequestCovidCertificateFragment>(fragmentArgs = args)
     }
@@ -61,7 +61,7 @@ class RequestCovidCertificateFragmentTest : BaseUITest() {
     @Test
     fun launch_fragment_rat() {
         val args = RequestCovidCertificateFragmentArgs(
-            CoronaTestQRCode.RapidAntigen(hash = "hash", createdAt = Instant.EPOCH, rawQrCode = "rawqrcode")
+            CoronaTestQRCode.RapidAntigen(hash = "hash", createdAt = Instant.EPOCH)
         ).toBundle()
         launchFragmentInContainer2<RequestCovidCertificateFragment>(fragmentArgs = args)
     }
@@ -70,7 +70,7 @@ class RequestCovidCertificateFragmentTest : BaseUITest() {
     @Screenshot
     fun capture_fragment_pcr() {
         val args = RequestCovidCertificateFragmentArgs(
-            CoronaTestQRCode.PCR(qrCodeGUID = "GUID", rawQrCode = "rawqrcode")
+            CoronaTestQRCode.PCR(qrCodeGUID = "GUID")
         ).toBundle()
         launchFragmentInContainer2<RequestCovidCertificateFragment>(fragmentArgs = args)
         takeScreenshot<RequestCovidCertificateFragment>("pcr")
@@ -83,7 +83,7 @@ class RequestCovidCertificateFragmentTest : BaseUITest() {
     @Screenshot
     fun capture_fragment_pcr_birthdate_dialog() {
         val args = RequestCovidCertificateFragmentArgs(
-            CoronaTestQRCode.PCR(qrCodeGUID = "GUID", rawQrCode = "rawqrcode")
+            CoronaTestQRCode.PCR(qrCodeGUID = "GUID")
         ).toBundle()
         launchFragmentInContainer2<RequestCovidCertificateFragment>(fragmentArgs = args)
         onView(withId(R.id.date_input_edit)).perform(click())
@@ -94,7 +94,7 @@ class RequestCovidCertificateFragmentTest : BaseUITest() {
     @Screenshot
     fun capture_fragment_rat() {
         val args = RequestCovidCertificateFragmentArgs(
-            CoronaTestQRCode.RapidAntigen(hash = "hash", createdAt = Instant.EPOCH, rawQrCode = "rawqrcode")
+            CoronaTestQRCode.RapidAntigen(hash = "hash", createdAt = Instant.EPOCH)
         ).toBundle()
         launchFragmentInContainer2<RequestCovidCertificateFragment>(fragmentArgs = args)
         takeScreenshot<RequestCovidCertificateFragment>("rat")

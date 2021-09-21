@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.ui.submission
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.nearby.modules.tekhistory.TEKHistoryProvider
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
@@ -30,15 +30,15 @@ class SubmissionConsentFragmentTest : BaseUITest() {
     @MockK lateinit var interoperabilityRepository: InteroperabilityRepository
     @MockK lateinit var tekHistoryProvider: TEKHistoryProvider
     @MockK lateinit var testRegistrationStateProcessor: TestRegistrationStateProcessor
-    @MockK lateinit var qrCodeValidator: CoronaTestQrCodeValidator
 
     private val allowReplacement = true
-    private val qrCode = "rawqrcode"
+
+    private val request = CoronaTestQRCode.PCR(qrCodeGUID = "qrCodeGUID")
 
     private lateinit var viewModel: SubmissionConsentViewModel
 
     private val fragmentArgs = SubmissionConsentFragmentArgs(
-        qrCode = qrCode
+        coronaTestQrCode = request
     ).toBundle()
 
     @Before
@@ -46,17 +46,19 @@ class SubmissionConsentFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
         every { interoperabilityRepository.countryList } returns flowOf()
         viewModel = SubmissionConsentViewModel(
-            interoperabilityRepository,
             TestDispatcherProvider(),
-            qrCode,
+            interoperabilityRepository,
+            request,
             allowReplacement,
             tekHistoryProvider,
-            testRegistrationStateProcessor,
-            qrCodeValidator
+            testRegistrationStateProcessor
         )
         setupMockViewModel(
             object : SubmissionConsentViewModel.Factory {
-                override fun create(qrCode: String, allowReplacement: Boolean): SubmissionConsentViewModel = viewModel
+                override fun create(
+                    coronaTestQRCode: CoronaTestQRCode,
+                    allowReplacement: Boolean
+                ): SubmissionConsentViewModel = viewModel
             }
         )
     }
