@@ -4,6 +4,9 @@ import android.content.res.AssetManager
 import dagger.Component
 import dagger.Module
 import dagger.Provides
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.appconfig.PresenceTracingConfigContainer
 import de.rki.coronawarnapp.bugreporting.censors.dcc.DccQrCodeCensorTest
 import de.rki.coronawarnapp.covidcertificate.booster.DccBoosterRulesValidatorTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractorTest
@@ -18,13 +21,16 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainerTest
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorageTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPersonTest
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.DccQrCodeValidatorTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepositoryTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainerTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorageTest
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidatorTest
 import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.CertLogicEngineWrapperTest
+import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidatorTest
+import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerViewModelTest
+import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingQRCodeDescriptor
 import de.rki.coronawarnapp.util.serialization.SerializationModule
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import javax.inject.Singleton
@@ -44,7 +50,6 @@ interface CovidCertificateTestComponent {
     fun inject(testClass: DccQrCodeExtractorTest)
     fun inject(testClass: VaccinatedPersonTest)
     fun inject(testClass: VaccinationRepositoryTest)
-    fun inject(testClass: DccQrCodeValidatorTest)
     fun inject(testClass: TestCertificateContainerTest)
     fun inject(testClass: RecoveryCertificateContainerTest)
     fun inject(testClass: DccQrCodeCensorTest)
@@ -59,6 +64,8 @@ interface CovidCertificateTestComponent {
     fun inject(testClass: DccExpirationCheckerTest)
     fun inject(testClass: RecoveryCertificateStorageTest)
     fun inject(testClass: DccBoosterRulesValidatorTest)
+    fun inject(testClass: QrCodeValidatorTest)
+    fun inject(testClass: QrCodeScannerViewModelTest)
 
     @Component.Factory
     interface Factory {
@@ -73,6 +80,24 @@ class CovidCertificateMockProvider {
     fun assetManager(): AssetManager = mockk<AssetManager>().apply {
         every { open(any()) } answers {
             this.javaClass.classLoader!!.getResourceAsStream(arg<String>(0))
+        }
+    }
+
+    @Provides
+    fun appConfig(): AppConfigProvider {
+        return mockk<AppConfigProvider>().apply {
+            coEvery { getAppConfig() } returns mockk<ConfigData>().apply {
+                every { presenceTracing } returns PresenceTracingConfigContainer(
+                    qrCodeDescriptors = listOf(
+                        PresenceTracingQRCodeDescriptor.newBuilder()
+                            .setVersionGroupIndex(0)
+                            .setEncodedPayloadGroupIndex(1)
+                            .setPayloadEncoding(PresenceTracingQRCodeDescriptor.PayloadEncoding.BASE64)
+                            .setRegexPattern("https://e\\.coronawarn\\.app\\?v=(\\d+)\\#(.+)")
+                            .build()
+                    )
+                )
+            }
         }
     }
 }

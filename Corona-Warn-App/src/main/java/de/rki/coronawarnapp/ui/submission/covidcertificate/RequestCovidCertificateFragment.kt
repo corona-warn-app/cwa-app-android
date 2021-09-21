@@ -35,7 +35,7 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as RequestCovidCertificateViewModel.Factory
-            factory.create(args.testRegistrationRequest, args.coronaTestConsent, args.deleteOldTest)
+            factory.create(args.testRegistrationRequest, args.coronaTestConsent, args.allowTestReplacement)
         }
     )
     private val binding by viewBinding<FragmentRequestCovidCertificateBinding>()

@@ -35,10 +35,9 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
     private val ratQRCode = CoronaTestQRCode.RapidAntigen(
         hash = "hash",
         dateOfBirth = date,
-        createdAt = Instant.EPOCH,
-        rawQrCode = "rawQrCode"
+        createdAt = Instant.EPOCH
     )
-    private val pcrQRCode = CoronaTestQRCode.PCR(qrCodeGUID = "GUID", rawQrCode = "rawQrCode")
+    private val pcrQRCode = CoronaTestQRCode.PCR(qrCodeGUID = "GUID")
 
     @BeforeEach
     fun setup() {

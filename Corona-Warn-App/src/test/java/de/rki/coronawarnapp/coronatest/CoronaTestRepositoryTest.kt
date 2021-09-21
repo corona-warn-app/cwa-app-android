@@ -39,8 +39,7 @@ class CoronaTestRepositoryTest : BaseTest() {
     private var coronaTestsInStorage = mutableSetOf<CoronaTest>()
 
     private val pcrRegistrationRequest = CoronaTestQRCode.PCR(
-        qrCodeGUID = "pcr-guid",
-        rawQrCode = "rawQrCode"
+        qrCodeGUID = "pcr-guid"
     )
     private val pcrTest = PCRCoronaTest(
         identifier = pcrRegistrationRequest.identifier,
@@ -52,8 +51,7 @@ class CoronaTestRepositoryTest : BaseTest() {
 
     private val raRegistrationRequest = CoronaTestQRCode.RapidAntigen(
         hash = "ra-hash",
-        createdAt = Instant.EPOCH,
-        rawQrCode = "rawQrCode"
+        createdAt = Instant.EPOCH
     )
     private val raTest = RACoronaTest(
         identifier = raRegistrationRequest.identifier,

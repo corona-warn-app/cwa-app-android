@@ -30,7 +30,7 @@ sealed class CheckInResult : ScannerResult {
 
 sealed class CoronaTestResult : ScannerResult {
     data class DuplicateTest(val coronaTestQrCode: CoronaTestQRCode) : CoronaTestResult()
-    data class ConsentTest(val rawQrCode: String) : CoronaTestResult()
+    data class ConsentTest(val coronaTestQrCode: CoronaTestQRCode) : CoronaTestResult()
 }
 
 data class Error(val error: Throwable) : ScannerResult
