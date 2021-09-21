@@ -82,7 +82,8 @@ class QrCodeScannerViewModelTest : BaseTest() {
     fun `onScanResult reports UnsupportedQrCodeException`() {
         viewModel().apply {
             onScanResult("rawResult")
-            result.value.shouldBeInstanceOf<Error>().error.shouldBeInstanceOf<UnsupportedQrCodeException>().errorCode shouldBe
+            result.value.shouldBeInstanceOf<Error>().error
+                .shouldBeInstanceOf<UnsupportedQrCodeException>().errorCode shouldBe
                 UnsupportedQrCodeException.ErrorCode.UNSUPPORTED_QR_CODE
         }
     }
