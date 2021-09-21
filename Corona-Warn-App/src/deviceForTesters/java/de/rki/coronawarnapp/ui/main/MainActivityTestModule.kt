@@ -10,8 +10,6 @@ import de.rki.coronawarnapp.test.booster.ui.BoosterTestFragment
 import de.rki.coronawarnapp.test.booster.ui.BoosterTestModule
 import de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragment
 import de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragmentModule
-import de.rki.coronawarnapp.test.coronatest.ui.CoronaTestTestFragment
-import de.rki.coronawarnapp.test.coronatest.ui.CoronaTestTestFragmentModule
 import de.rki.coronawarnapp.test.datadonation.ui.DataDonationTestFragment
 import de.rki.coronawarnapp.test.datadonation.ui.DataDonationTestFragmentModule
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragment
