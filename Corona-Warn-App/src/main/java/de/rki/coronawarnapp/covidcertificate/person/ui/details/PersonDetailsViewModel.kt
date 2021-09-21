@@ -31,7 +31,11 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.mapNotNull
 import timber.log.Timber
 
 @Suppress("LongParameterList")
@@ -109,7 +113,6 @@ class PersonDetailsViewModel @AssistedInject constructor(
 
         return UiState(name = priorityCertificate.fullName, certificateItems = certificateItems)
     }
-
 
     private fun onValidateCertificate(containerId: CertificateContainerId) =
         launch {
