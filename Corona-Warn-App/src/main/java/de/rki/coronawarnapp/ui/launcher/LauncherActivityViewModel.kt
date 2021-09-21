@@ -64,7 +64,7 @@ class LauncherActivityViewModel @AssistedInject constructor(
         val appUpdateInfo = appUpdateManager.getUpdateInfo()
         Timber.tag(TAG).d("requestUpdate - appUpdateInfo=%s", appUpdateInfo?.updateAvailability())
         if (appUpdateInfo?.updateAvailability() == UPDATE_AVAILABLE) {
-            forceUpdateEvent(appUpdateInfo)
+            events.postValue(forceUpdateEvent(appUpdateInfo))
         }
     }
 
