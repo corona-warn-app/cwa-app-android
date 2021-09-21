@@ -160,11 +160,7 @@
         android:name="de.rki.coronawarnapp.test.hometestcards.ui.HomeTestCardsFragment"
         android:label="HomeTestCards"
         tools:layout="@layout/fragment_test_home_test_cards_layout" />
-    <fragment
-        android:id="@+id/coronaTestTestFragment"
-        android:name="de.rki.coronawarnapp.test.coronatest.ui.CoronaTestTestFragment"
-        android:label="CoronaTestTestFragment"
-        tools:layout="@layout/fragment_test_coronatest" />
+
     <fragment
         android:id="@+id/test_qrcode_fragment"
         android:name="de.rki.coronawarnapp.test.qrcode.ui.QrCodeTestFragment"
