@@ -33,8 +33,7 @@ class SubmissionRepositoryTest : BaseTest() {
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
 
     private val pcrRegistrationRequest = CoronaTestQRCode.PCR(
-        qrCodeGUID = "pcr-guid",
-        rawQrCode = "rawqrcode"
+        qrCodeGUID = "pcr-guid"
     )
     private val pcrTest = PCRCoronaTest(
         identifier = pcrRegistrationRequest.identifier,

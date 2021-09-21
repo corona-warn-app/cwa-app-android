@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.ui.submission.qrcode.consent
 
 import com.google.android.gms.common.api.ApiException
 import com.journeyapps.barcodescanner.BarcodeResult
-import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.nearby.modules.tekhistory.TEKHistoryProvider
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -34,7 +34,6 @@ class SubmissionConsentViewModelTest {
     @MockK lateinit var interoperabilityRepository: InteroperabilityRepository
     @MockK lateinit var tekHistoryProvider: TEKHistoryProvider
     @MockK lateinit var testRegistrationStateProcessor: TestRegistrationStateProcessor
-    @MockK lateinit var qrCodeValidator: CoronaTestQrCodeValidator
 
     lateinit var viewModel: SubmissionConsentViewModel
 
@@ -61,29 +60,11 @@ class SubmissionConsentViewModelTest {
         viewModel = SubmissionConsentViewModel(
             interoperabilityRepository = interoperabilityRepository,
             dispatcherProvider = TestDispatcherProvider(),
-            mockedResult.text,
-            false,
+            coronaTestQRCode = CoronaTestQRCode.PCR(qrCodeGUID = "qrCodeGUID"),
+            allowReplacement = false,
             tekHistoryProvider = tekHistoryProvider,
-            registrationStateProcessor = testRegistrationStateProcessor,
-            qrCodeValidator = qrCodeValidator
+            registrationStateProcessor = testRegistrationStateProcessor
         )
-    }
-
-    /*
-    interoperabilityRepository: InteroperabilityRepository,
-    dispatcherProvider: DispatcherProvider,
-    @Assisted private val qrCode: String,
-    @Assisted private val allowReplacement: Boolean,
-    private val tekHistoryProvider: TEKHistoryProvider,
-    private val registrationStateProcessor: TestRegistrationStateProcessor,
-    private val qrCodeValidator: CoronaTestQrCodeValidator
-     */
-
-    @Test
-    fun testOnConsentButtonClick() {
-        viewModel.onConsentButtonClick()
-        // TODO doesn't happen here anymore, we don't have a CoronaTest instance to store it with, see QR Code VM
-//        verify(exactly = 1) { submissionRepository.giveConsentToSubmission(any()) }
     }
 
     @Test
@@ -101,8 +82,6 @@ class SubmissionConsentViewModelTest {
     @Test
     fun `onConsentButtonClick sets normal consent and request new Google consent Api`() {
         viewModel.onConsentButtonClick()
-        // TODO doesn't happen here anymore, we don't have a CoronaTest instance to store it with, see QR Code VM
-//        verify(exactly = 1) { submissionRepository.giveConsentToSubmission(any()) }
         coVerify(exactly = 1) { tekHistoryProvider.preAuthorizeExposureKeyHistory() }
     }
 

@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.miscinfo.MiscInfoFragment
 import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragment
 import de.rki.coronawarnapp.test.booster.ui.BoosterTestFragment
 import de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragment
-import de.rki.coronawarnapp.test.coronatest.ui.CoronaTestTestFragment
 import de.rki.coronawarnapp.test.crash.ui.SettingsCrashReportFragment
 import de.rki.coronawarnapp.test.datadonation.ui.DataDonationTestFragment
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragment
@@ -43,7 +42,6 @@ class TestMenuFragmentViewModel @AssistedInject constructor() : CWAViewModel() {
             DeltaonboardingFragment.MENU_ITEM,
             PresenceTracingTestFragment.MENU_ITEM,
             HomeTestCardsFragment.MENU_ITEM,
-            CoronaTestTestFragment.MENU_ITEM,
             QrCodeTestFragment.MENU_ITEM,
             DscTestFragment.MENU_ITEM,
             BoosterTestFragment.MENU_ITEM,
