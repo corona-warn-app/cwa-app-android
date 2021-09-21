@@ -31,10 +31,21 @@
 
         <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="@dimen/spacing_normal"
-            android:focusable="true"
             android:backgroundTint="@{state.getBackgroundColor(context)}"
+            android:focusable="true"
+            android:foregroundTint="@{state.getIconColor(context)}"
+            android:icon="@drawable/ic_vaccination_arm"
+            android:text="@string/risk_details_normal_risk_faq_vaccination"
+            tools:backgroundTint="@color/colorSurface2"
+            tools:foregroundTint="@color/colorTextSemanticNeutral" />
+
+        <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@{state.getBackgroundColor(context)}"
+            android:focusable="true"
             android:foregroundTint="@{state.getIconColor(context)}"
             android:icon="@drawable/ic_risk_details_wash"
             android:text="@string/risk_details_behavior_body_wash_hands"
@@ -44,8 +55,8 @@
         <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="true"
             android:backgroundTint="@{state.getBackgroundColor(context)}"
+            android:focusable="true"
             android:foregroundTint="@{state.getIconColor(context)}"
             android:icon="@drawable/ic_risk_details_mask"
             android:text="@string/risk_details_behavior_body_wear_mask"
@@ -55,8 +66,8 @@
         <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="true"
             android:backgroundTint="@{state.getBackgroundColor(context)}"
+            android:focusable="true"
             android:foregroundTint="@{state.getIconColor(context)}"
             android:icon="@drawable/ic_risk_details_distance"
             android:text="@string/risk_details_behavior_body_stay_away"
@@ -66,8 +77,8 @@
         <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="true"
             android:backgroundTint="@{state.getBackgroundColor(context)}"
+            android:focusable="true"
             android:foregroundTint="@{state.getIconColor(context)}"
             android:icon="@drawable/ic_risk_details_sneeze"
             android:text="@string/risk_details_behavior_body_cough_sneeze"
@@ -77,11 +88,22 @@
         <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="true"
             android:backgroundTint="@{state.getBackgroundColor(context)}"
+            android:focusable="true"
             android:foregroundTint="@{state.getIconColor(context)}"
             android:icon="@drawable/ic_risk_details_ventilation"
             android:text="@string/risk_details_behavior_body_ventilation"
+            tools:backgroundTint="@color/colorSurface2"
+            tools:foregroundTint="@color/colorTextSemanticNeutral" />
+
+        <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="@{state.getBackgroundColor(context)}"
+            android:focusable="true"
+            android:foregroundTint="@{state.getIconColor(context)}"
+            android:icon="@drawable/ic_thermometer"
+            android:text="@string/risk_details_faq_symptoms"
             tools:backgroundTint="@color/colorSurface2"
             tools:foregroundTint="@color/colorTextSemanticNeutral" />
 
