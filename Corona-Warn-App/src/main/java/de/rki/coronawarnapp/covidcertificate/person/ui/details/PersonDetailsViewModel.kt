@@ -31,11 +31,7 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.*
 import timber.log.Timber
 
 @Suppress("LongParameterList")
@@ -62,17 +58,16 @@ class PersonDetailsViewModel @AssistedInject constructor(
         events.postValue(Back)
     }
 
-    val uiState: LiveData<List<CertificateItem>> = combine(
+    val uiState: LiveData<UiState> = combine(
         personCertificatesFlow,
         loadingButtonState
     ) { personSpecificCertificates, isLoading ->
-        assembleList(personSpecificCertificates, isLoading)
+        createUiState(personSpecificCertificates, isLoading)
     }.asLiveData2()
 
-    private suspend fun assembleList(personCertificates: PersonCertificates, isLoading: Boolean) =
-        mutableListOf<CertificateItem>().apply {
-            val priorityCertificate = personCertificates.highestPriorityCertificate
-
+    private suspend fun createUiState(personCertificates: PersonCertificates, isLoading: Boolean): UiState {
+        val priorityCertificate = personCertificates.highestPriorityCertificate
+        val certificateItems = mutableListOf<CertificateItem>().apply {
             when {
                 priorityCertificate.isValid -> colorShade
                 else -> PersonColorShade.COLOR_INVALID
@@ -111,6 +106,10 @@ class PersonDetailsViewModel @AssistedInject constructor(
 
             personCertificates.certificates.forEach { addCardItem(it, personCertificates.highestPriorityCertificate) }
         }
+
+        return UiState(name = priorityCertificate.fullName, certificateItems = certificateItems)
+    }
+
 
     private fun onValidateCertificate(containerId: CertificateContainerId) =
         launch {
@@ -175,6 +174,11 @@ class PersonDetailsViewModel @AssistedInject constructor(
         Timber.v("refreshBoosterRuleState personIdentifierCode=$personIdentifierCode")
         vaccinationRepository.acknowledgeBoosterRule(personIdentifierCode = personIdentifierCode)
     }
+
+    data class UiState(
+        val name: String,
+        val certificateItems: List<CertificateItem>
+    )
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<PersonDetailsViewModel> {

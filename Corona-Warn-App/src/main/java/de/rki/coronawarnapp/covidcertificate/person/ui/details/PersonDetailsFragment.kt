@@ -2,11 +2,11 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.details
 
 import android.os.Bundle
 import android.view.View
-import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
@@ -64,12 +64,14 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
             }
             appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
                 title.alpha = titleAlpha
+                name.alpha = titleAlpha
                 europaImage.alpha = subtitleAlpha
             }
 
             setToolbarOverlay()
             viewModel.uiState.observe(viewLifecycleOwner) {
-                personDetailsAdapter.update(it)
+                name.text = it.name
+                personDetailsAdapter.update(it.certificateItems)
             }
             viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
             viewModel.currentColorShade.observe(viewLifecycleOwner) { color ->
@@ -121,17 +123,16 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
     }
 
     private fun setToolbarOverlay() {
-
         val deviceWidth = requireContext().resources.displayMetrics.widthPixels
 
         val layoutParamsRecyclerView: CoordinatorLayout.LayoutParams = binding.recyclerViewCertificatesList.layoutParams
             as (CoordinatorLayout.LayoutParams)
 
-        val textParams = binding.title.layoutParams as (LinearLayout.LayoutParams)
+        val textParams = binding.toolbarLinearLayout.layoutParams as (CollapsingToolbarLayout.LayoutParams)
 
         val divider = 2
         textParams.bottomMargin = (deviceWidth / divider) - 24 /* 24 is space between screen border and Card */
-        binding.title.requestLayout()
+        binding.toolbarLinearLayout.requestLayout()
 
         val behavior: AppBarLayout.ScrollingViewBehavior =
             layoutParamsRecyclerView.behavior as (AppBarLayout.ScrollingViewBehavior)
