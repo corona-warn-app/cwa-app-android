@@ -50,12 +50,13 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
                 )
             }
 
-            is CoronaTestQRCode -> {
-                routeToScreen.postValue(
-                    SubmissionDeletionWarningFragmentDirections
-                        .actionSubmissionDeletionWarningFragmentToSubmissionConsentFragment(request.rawQrCode, true)
-                )
-            }
+            is CoronaTestQRCode -> routeToScreen.postValue(
+                SubmissionDeletionWarningFragmentDirections
+                    .actionSubmissionDeletionWarningFragmentToSubmissionConsentFragment(
+                        request,
+                        allowTestReplacement = true
+                    )
+            )
         }
     }
 

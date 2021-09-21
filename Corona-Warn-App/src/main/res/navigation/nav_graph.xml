@@ -409,9 +409,9 @@
     </fragment>
     <fragment
         android:id="@+id/submissionContactFragment"
-        tools:layout="@layout/fragment_submission_contact"
         android:name="de.rki.coronawarnapp.ui.submission.fragment.SubmissionContactFragment"
-        android:label="SubmissionContactFragment">
+        android:label="SubmissionContactFragment"
+        tools:layout="@layout/fragment_submission_contact">
         <action
             android:id="@+id/action_submissionContactFragment_to_submissionTanFragment"
             app:destination="@id/submissionTanFragment" />
@@ -475,8 +475,8 @@
             android:id="@+id/action_submissionConsentFragment_to_informationPrivacyFragment"
             app:destination="@id/informationPrivacyFragment" />
         <argument
-            android:name="qrCode"
-            app:argType="string" />
+            android:name="coronaTestQrCode"
+            app:argType="de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode" />
 
         <argument
             android:name="allowTestReplacement"
@@ -812,7 +812,7 @@
             app:argType="boolean" />
 
         <argument
-            android:name="deleteOldTest"
+            android:name="allowTestReplacement"
             android:defaultValue="false"
             app:argType="boolean" />
 

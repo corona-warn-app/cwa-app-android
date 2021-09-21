@@ -63,7 +63,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         Timber.tag(TAG).d("onScanResult(rawResult=$rawResult)")
         try {
             when (val qrCode = qrCodeValidator.validate(rawResult)) {
-                is CoronaTestQRCode -> onCoronaTestQrCode(qrCode, rawResult)
+                is CoronaTestQRCode -> onCoronaTestQrCode(qrCode)
                 is CheckInQrCode -> onCheckInQrCode(qrCode)
                 is DccQrCode -> onDccQrCode(qrCode)
             }
@@ -92,13 +92,13 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         result.postValue(checkInResult.toCheckInResult(!traceLocationSettings.isOnboardingDone))
     }
 
-    private suspend fun onCoronaTestQrCode(qrCode: CoronaTestQRCode, rawResult: String) {
+    private suspend fun onCoronaTestQrCode(qrCode: CoronaTestQRCode) {
         Timber.tag(TAG).d("onCoronaTestQrCode=$qrCode")
         val coronaTest = submissionRepository.testForType(qrCode.type).first()
         val coronaTestResult = if (coronaTest != null) {
             CoronaTestResult.DuplicateTest(qrCode)
         } else {
-            CoronaTestResult.ConsentTest(rawResult)
+            CoronaTestResult.ConsentTest(qrCode)
         }
         Timber.tag(TAG).d("coronaTestResult=$coronaTestResult")
         result.postValue(coronaTestResult)
