@@ -27,6 +27,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidatorTest
 import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.CertLogicEngineWrapperTest
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidatorTest
+import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerViewModelTest
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingQRCodeDescriptor
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.mockk.coEvery
@@ -64,6 +65,7 @@ interface CovidCertificateTestComponent {
     fun inject(testClass: RecoveryCertificateStorageTest)
     fun inject(testClass: DccBoosterRulesValidatorTest)
     fun inject(testClass: QrCodeValidatorTest)
+    fun inject(testClass: QrCodeScannerViewModelTest)
 
     @Component.Factory
     interface Factory {
