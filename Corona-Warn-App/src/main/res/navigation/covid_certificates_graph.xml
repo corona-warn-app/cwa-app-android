@@ -25,7 +25,7 @@
         android:name="de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment"
         tools:layout="@layout/covid_certificate_onboarding_fragment">
 
-        <deepLink app:uri="cwa://dcc.onboarding/?showBottomNav={showBottomNav}&amp;dccType={dccType}&amp;certIdentifier={certIdentifier}" />
+        <deepLink app:uri="cwa://dcc.onboarding/?showBottomNav={showBottomNav}&amp;certIdentifier={certIdentifier}" />
 
         <argument
             android:name="showBottomNav"
@@ -34,12 +34,6 @@
 
         <argument
             android:name="certIdentifier"
-            android:defaultValue="@null"
-            app:argType="string"
-            app:nullable="true" />
-
-        <argument
-            android:name="dccType"
             android:defaultValue="@null"
             app:argType="string"
             app:nullable="true" />

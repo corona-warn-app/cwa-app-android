@@ -16,6 +16,7 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInFragment
@@ -34,7 +35,7 @@ import javax.inject.Inject
 class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoInject {
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel by cwaViewModels<QrCodeScannerViewModel> { viewModelFactory }
-    private val locationViewModel: VerifiedLocationViewModel by navGraphViewModels(R.id.nav_graph)
+    private val qrcodeSharedViewModel: QrcodeSharedViewModel by navGraphViewModels(R.id.nav_graph)
 
     private val binding by viewBinding<FragmentQrcodeScannerBinding>()
     private var showsPermissionDialog = false
@@ -177,7 +178,15 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         val navOptions = NavOptions.Builder()
             .setPopUpTo(R.id.universalScanner, true)
             .build()
-        findNavController().navigate(scannerResult.uri, navOptions)
+        val uri = when (scannerResult) {
+            is DccResult.Details -> scannerResult.uri
+            is DccResult.Onboarding -> {
+                qrcodeSharedViewModel.putDccQrCode(scannerResult.dccQrCode)
+                CovidCertificateOnboardingFragment.uri(scannerResult.dccQrCode.uniqueCertificateIdentifier)
+            }
+        }
+
+        findNavController().navigate(uri, navOptions)
     }
 
     private fun onCheckInResult(scannerResult: CheckInResult) {
@@ -188,7 +197,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                     scannerResult.requireOnboarding -> CheckInOnboardingFragment.uri(locationId)
                     else -> ConfirmCheckInFragment.uri(locationId)
                 }
-                locationViewModel.putVerifiedTraceLocation(scannerResult.verifiedLocation)
+                qrcodeSharedViewModel.putVerifiedTraceLocation(scannerResult.verifiedLocation)
                 findNavController().navigate(
                     uri,
                     NavOptions.Builder()

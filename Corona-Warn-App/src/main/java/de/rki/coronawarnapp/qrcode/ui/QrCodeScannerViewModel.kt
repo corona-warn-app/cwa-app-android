@@ -80,9 +80,14 @@ class QrCodeScannerViewModel @AssistedInject constructor(
 
     private suspend fun onDccQrCode(qrCode: DccQrCode) {
         Timber.tag(TAG).d("onDccQrCode=$qrCode")
-        val containerId = dccHandler.handleQrCode(qrCode)
-        Timber.tag(TAG).d("containerId=$containerId")
-        result.postValue(containerId.toDccResult(!dccSettings.isOnboarded.value))
+        val event = if (dccSettings.isOnboarded.value) {
+            val containerId = dccHandler.handleQrCode(qrCode)
+            Timber.tag(TAG).d("containerId=$containerId")
+            containerId.toDccDetails()
+        } else {
+            DccResult.Onboarding(qrCode)
+        }
+        result.postValue(event)
     }
 
     private fun onCheckInQrCode(qrCode: CheckInQrCode) {
