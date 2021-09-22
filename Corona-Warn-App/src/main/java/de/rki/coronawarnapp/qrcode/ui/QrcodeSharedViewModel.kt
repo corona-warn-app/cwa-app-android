@@ -20,7 +20,6 @@ class QrcodeSharedViewModel : ViewModel() {
         val verifiedTraceLocation = verifiedTraceLocationCache[locationId] ?: throw IllegalArgumentException(
             "Location must be provided by putVerifiedTraceLocation() first from start destination"
         )
-
         verifiedTraceLocationCache.remove(locationId)
         return verifiedTraceLocation
     }
@@ -36,8 +35,10 @@ class QrcodeSharedViewModel : ViewModel() {
     }
 
     fun dccQrCode(certificateIdentifier: String): DccQrCode {
-        return dccQrCodeCache[certificateIdentifier] ?: throw IllegalArgumentException(
+        val dccQrCode = dccQrCodeCache[certificateIdentifier] ?: throw IllegalArgumentException(
             "DccQrCode must be provided by putDccQrCode first from start destination"
         )
+        dccQrCodeCache.remove(certificateIdentifier)
+        return dccQrCode
     }
 }
