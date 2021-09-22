@@ -31,7 +31,10 @@ class QrCodeFileParser @Inject constructor(
                     val usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()
                     val availableMemory = Runtime.getRuntime().maxMemory() - usedMemory
                     val arraySizeInMemory = bitmap.byteCount * Int.SIZE_BYTES
-                    Timber.d("decodeQrCodeFile() bitmap size = ${arraySizeInMemory}B, free memory = ${availableMemory}B")
+                    Timber.d(
+                        "decodeQrCodeFile() bitmap size = ${arraySizeInMemory}B," +
+                            "free memory = ${availableMemory}B"
+                    )
                     if (availableMemory > arraySizeInMemory) {
                         val pixelBuffer = IntArray(bitmap.byteCount)
                         bitmap.getPixels(pixelBuffer, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
