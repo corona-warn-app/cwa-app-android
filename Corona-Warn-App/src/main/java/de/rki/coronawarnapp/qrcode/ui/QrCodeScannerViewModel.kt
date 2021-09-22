@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException.ErrorCode.CANT_READ_FILE
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
+import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCode
@@ -65,7 +66,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
             when (val qrCode = qrCodeValidator.validate(rawResult)) {
                 is CoronaTestQRCode -> onCoronaTestQrCode(qrCode)
                 is CheckInQrCode -> onCheckInQrCode(qrCode)
-                is DccQrCode -> onDccQrCode(qrCode)
+                is DccQrCode -> onDccQrCode(qrCode, rawResult)
             }
         } catch (e: Exception) {
             Timber.tag(TAG).d(e, "onScanResult failed")
@@ -78,11 +79,16 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         cameraSettings.isCameraDeniedPermanently.update { denied }
     }
 
-    private suspend fun onDccQrCode(qrCode: DccQrCode) {
+    private suspend fun onDccQrCode(qrCode: DccQrCode, rawQrCode: String) {
         Timber.tag(TAG).d("onDccQrCode=$qrCode")
-        val containerId = dccHandler.handleQrCode(qrCode)
-        Timber.tag(TAG).d("containerId=$containerId")
-        result.postValue(containerId.toDccResult(!dccSettings.isOnboarded.value))
+        val event = if (dccSettings.isOnboarded.value) {
+            val containerId = dccHandler.handleQrCode(qrCode)
+            Timber.tag(TAG).d("containerId=$containerId")
+            containerId.toDccDetails()
+        } else {
+            DccResult.Onboarding(CovidCertificateOnboardingFragment.uri(rawQrCode))
+        }
+        result.postValue(event)
     }
 
     private fun onCheckInQrCode(qrCode: CheckInQrCode) {

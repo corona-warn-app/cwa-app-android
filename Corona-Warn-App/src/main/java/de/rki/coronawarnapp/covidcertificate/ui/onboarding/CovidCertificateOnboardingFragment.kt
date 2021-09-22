@@ -10,11 +10,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertificateDetailsFragment
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragment
 import de.rki.coronawarnapp.databinding.CovidCertificateOnboardingFragmentBinding
-import de.rki.coronawarnapp.qrcode.ui.DccResult
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -33,10 +35,7 @@ class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_o
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as CovidCertificateOnboardingViewModel.Factory
-            factory.create(
-                dccType = args.dccType,
-                certIdentifier = args.certIdentifier
-            )
+            factory.create(dccQrCode = args.dccQrCode)
         }
     )
 
@@ -70,11 +69,15 @@ class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_o
                     findNavController().navigate(
                         R.id.action_covidCertificateOnboardingFragment_to_personOverviewFragment
                     )
+
                 is CovidCertificateOnboardingViewModel.Event.NavigateToDccDetailsScreen -> {
-                    val uri = when (event.type) {
-                        DccResult.Type.VACCINATION -> VaccinationDetailsFragment.uri(event.certIdentifier)
-                        DccResult.Type.RECOVERY -> RecoveryCertificateDetailsFragment.uri(event.certIdentifier)
-                        DccResult.Type.TEST -> TestCertificateDetailsFragment.uri(event.certIdentifier)
+                    val uri = when (event.containerId) {
+                        is VaccinationCertificateContainerId ->
+                            VaccinationDetailsFragment.uri(event.containerId.identifier)
+                        is TestCertificateContainerId ->
+                            TestCertificateDetailsFragment.uri(event.containerId.identifier)
+                        is RecoveryCertificateContainerId ->
+                            RecoveryCertificateDetailsFragment.uri(event.containerId.identifier)
                     }
                     val navOption = NavOptions.Builder()
                         .setPopUpTo(R.id.covidCertificateOnboardingFragment, true)
@@ -87,11 +90,10 @@ class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_o
 
     companion object {
         fun uri(
-            dccType: DccResult.Type,
-            certIdentifier: String
+            dccQrCode: String
         ): Uri {
-            val encodedId = URLEncoder.encode(certIdentifier, "UTF-8")
-            return "cwa://dcc.onboarding/?showBottomNav=false&dccType=$dccType&certIdentifier=$encodedId".toUri()
+            val encodedDccQrCode = URLEncoder.encode(dccQrCode, "UTF-8")
+            return "cwa://dcc.onboarding/?showBottomNav=false&dccQrCode=$encodedDccQrCode".toUri()
         }
     }
 }

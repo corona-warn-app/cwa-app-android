@@ -9,18 +9,11 @@ sealed interface ScannerResult
 
 object InProgress : ScannerResult
 
-data class DccResult(val uri: Uri) : ScannerResult {
-    enum class Type(name: String) {
-        VACCINATION("VACCINATION"),
-        RECOVERY("RECOVERY"),
-        TEST("TEST");
+sealed class DccResult : ScannerResult {
+    abstract val uri: Uri
 
-        companion object {
-            fun ofString(type: String?): Type? {
-                return values().find { it.name == type }
-            }
-        }
-    }
+    data class Details(override val uri: Uri) : DccResult()
+    data class Onboarding(override val uri: Uri) : DccResult()
 }
 
 sealed class CheckInResult : ScannerResult {
