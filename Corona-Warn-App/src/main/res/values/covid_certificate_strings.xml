@@ -72,6 +72,8 @@
     <string name="certificate_card_bookmark_info">"Currently used certificate"</string>
     <!-- XHED: Person certificate details title -->
     <string name="person_details_certificate_title">"EU Digital COVID Certificate"</string>
+    <!-- XHED: Person certificate CovPas Header Info-->
+    <string name="person_details_certificate_covpass_info_title">"Dieser QR Code lässt sich verlässlich mit der CovPassCheck-App überprüfen."</string>
     <!-- XTXT: Test Certificate CWA User card description -->
     <string name="person_details_cwa_user_description">"Please turn on this switch if you are %1$s and are the main user of the app. Your certificates will appear at the top of the list."</string>
     <!-- XTXT: Test Certificate CWA User card birthdate -->
@@ -367,5 +369,18 @@
     <string name="pdf_export_error_title">"Cannot display print version"</string>
     <!-- XHED: PDF Export: Error message body -->
     <string name="pdf_export_error_message">"The print version of the certificate cannot be displayed because the certificate cannot be retrieved right now. Please try again later."</string>
+
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_title">"Zertifikatsprüfung durch Dritte"</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_subtitle">"Dritte können nur über die CovPassCheck-App verlässlich überprüfen, ob es sich um ein valides Impf-, Genesenen-, oder Testzertifikat handelt."</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_faq_link">"FAQ zur Zertifikatsprüfung durch Dritte"</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_section_one">"Sie selbst können Zertifikate in der Corona-Warn-App auf Gültigkeit prüfen und benötigen dazu nicht die CovPassCheck-App."</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_section_two">"Für Dritte reicht eine Sichtprüfung der Zertifikate nicht aus. Sie müssen in Deutschland die CovPassCheck-App nutzen."</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_section_three">"Bitte beachten Sie, dass in anderen Ländern gegebenenfalls andere Apps zur Zertifikatsprüfung durch Dritte verwendet werden."</string>
 
 </resources>
