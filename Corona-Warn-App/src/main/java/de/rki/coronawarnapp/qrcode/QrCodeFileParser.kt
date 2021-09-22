@@ -28,21 +28,32 @@ class QrCodeFileParser @Inject constructor(
             is QRCodeBitmapProvider.BitmapResult.Success -> {
                 for (bitmap in bitmapResult.bitmaps) {
 
-                    val pixelBuffer = IntArray(bitmap.byteCount)
-                    bitmap.getPixels(pixelBuffer, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
-                    val source: LuminanceSource = RGBLuminanceSource(bitmap.width, bitmap.height, pixelBuffer)
+                    val usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()
+                    val availableMemory = Runtime.getRuntime().maxMemory() - usedMemory
+                    val arraySizeInMemory = bitmap.byteCount * Int.SIZE_BYTES
+                    Timber.d(
+                        "decodeQrCodeFile() bitmap size = ${arraySizeInMemory}B," +
+                            "free memory = ${availableMemory}B"
+                    )
+                    if (availableMemory > arraySizeInMemory) {
+                        val pixelBuffer = IntArray(bitmap.byteCount)
+                        bitmap.getPixels(pixelBuffer, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
+                        val source: LuminanceSource = RGBLuminanceSource(bitmap.width, bitmap.height, pixelBuffer)
+                        val binaryBitmap = BinaryBitmap(HybridBinarizer(source))
 
-                    val binaryBitmap = BinaryBitmap(HybridBinarizer(source))
-
-                    try {
-                        val content = qrCodeReader.decode(binaryBitmap).text
-                        Timber.d("Parsed qr code from image: %s", content)
-                        return@withContext ParseResult.Success(content)
-                    } catch (ex: ReaderException) {
-                        Timber.d(ex, "Failed to Parse QR Code from bitmap")
+                        try {
+                            val content = qrCodeReader.decode(binaryBitmap).text
+                            Timber.d("Parsed qr code from image: %s", content)
+                            return@withContext ParseResult.Success(content)
+                        } catch (ex: ReaderException) {
+                            Timber.d(ex, "Failed to Parse QR Code from bitmap")
+                        } finally {
+                            bitmap.recycle()
+                        }
+                    } else {
+                        Timber.d("Not enough memory to convert the Bitmap!")
+                        break
                     }
-
-                    bitmap.recycle()
                 }
 
                 return@withContext ParseResult.Failure(ImportDocumentException(QR_CODE_NOT_FOUND))
