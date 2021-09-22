@@ -34,7 +34,6 @@
 
     <TextView
         android:id="@+id/certificate_subtitle"
-        style="@style/headline6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -43,7 +42,7 @@
         android:maxLines="1"
         android:text="@string/person_details_certificate_title"
         android:textColor="@color/colorTextPrimary1InvertedStable"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,11 +71,11 @@
         android:id="@+id/arrow_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="23dp"
         android:layout_marginEnd="22dp"
         android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="@+id/certificate_subtitle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/certificate_subtitle"
         app:srcCompat="@drawable/ic_person_overview_item_right_arrow"
         app:tint="@color/colorStableLight" />
 
