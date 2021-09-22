@@ -61,13 +61,12 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny"
             android:focusable="false">
 
             <ImageView
                 android:id="@+id/risk_details_behavior_bullet_point_1_icon"
-                android:layout_width="@dimen/behavior_bullet_point_size"
-                android:layout_height="@dimen/behavior_bullet_point_size"
+                android:layout_width="@dimen/bullet_point_size_contact_diary"
+                android:layout_height="@dimen/bullet_point_size_contact_diary"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_marginTop="@dimen/spacing_mega_tiny"
                 android:importantForAccessibility="no"
@@ -81,7 +80,7 @@
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginStart="@dimen/spacing_medium"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:focusable="true"
                 android:text="@string/risk_details_behavior_increased_body_1"
@@ -92,8 +91,8 @@
 
             <ImageView
                 android:id="@+id/risk_details_behavior_bullet_point_2_icon"
-                android:layout_width="@dimen/behavior_bullet_point_size"
-                android:layout_height="@dimen/behavior_bullet_point_size"
+                android:layout_width="@dimen/bullet_point_size_contact_diary"
+                android:layout_height="@dimen/bullet_point_size_contact_diary"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_marginTop="@dimen/spacing_mega_tiny"
                 android:importantForAccessibility="no"
@@ -107,7 +106,7 @@
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginStart="@dimen/spacing_medium"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:focusable="true"
                 android:text="@string/risk_details_behavior_increased_body_2"
@@ -119,8 +118,8 @@
 
             <ImageView
                 android:id="@+id/risk_details_behavior_bullet_point_3_icon"
-                android:layout_width="@dimen/behavior_bullet_point_size"
-                android:layout_height="@dimen/behavior_bullet_point_size"
+                android:layout_width="@dimen/bullet_point_size_contact_diary"
+                android:layout_height="@dimen/bullet_point_size_contact_diary"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_marginTop="@dimen/spacing_mega_tiny"
                 android:importantForAccessibility="no"
@@ -134,7 +133,7 @@
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginStart="@dimen/spacing_medium"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:focusable="true"
                 android:text="@string/risk_details_behavior_increased_body_3"
@@ -144,6 +143,26 @@
                 app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_bullet_point_2"
                 app:layout_constraintVertical_bias="0.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:backgroundTint="@color/colorSemanticHighRisk"
+            android:focusable="true"
+            android:foregroundTint="@color/colorStableLight"
+            android:icon="@drawable/ic_thermometer"
+            android:text="@string/risk_details_faq_symptoms" />
+
+        <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:backgroundTint="@color/colorSemanticHighRisk"
+            android:foregroundTint="@color/colorStableLight"
+            android:icon="@drawable/ic_vaccination_arm"
+            android:text="@string/risk_details_increased_risk_faq_vaccination"/>
 
         <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
             android:layout_width="match_parent"
