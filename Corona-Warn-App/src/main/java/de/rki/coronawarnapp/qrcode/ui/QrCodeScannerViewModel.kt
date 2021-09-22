@@ -65,7 +65,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
             when (val qrCode = qrCodeValidator.validate(rawResult)) {
                 is CoronaTestQRCode -> onCoronaTestQrCode(qrCode)
                 is CheckInQrCode -> onCheckInQrCode(qrCode)
-                is DccQrCode -> onDccQrCode(qrCode, rawResult)
+                is DccQrCode -> onDccQrCode(qrCode)
             }
         } catch (e: Exception) {
             Timber.tag(TAG).d(e, "onScanResult failed")
