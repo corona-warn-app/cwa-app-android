@@ -138,7 +138,7 @@
     <!-- XHED: Create RAT profile card title -->
     <string name="rat_profile_create_card_title">"Hızlı Test Profili Oluştur"</string>
     <!-- XTXT: Create RAT profile card subtitle -->
-    <string name="rat_profile_create_card_subtitle">"Kişisel verilerinizle bir profil oluşturabilir ve her katılan test noktasına QR kod aracılığıyla gönderebilirsiniz."</string>
+    <string name="rat_profile_create_card_subtitle">"Test noktalarında kaydınızı hızlandırmak için kişisel verilerinizi bir QR kod olarak kaydedin."</string>
     <!-- XHED: Open RAT profile card title -->
     <string name="rat_profile_open_card_title">"Hızlı Test Profili"</string>
     <!-- XTXT: Open RAT profile card subtitle -->
@@ -154,7 +154,7 @@
     <!-- XBUT: Create RAT profile save button -->
     <string name="rat_profile_create_button">"Kaydet"</string>
     <!-- XTXT: Create RAT profile description -->
-    <string name="rat_profile_create_description">"Kişisel verilerinizle bir profil oluşturabilir ve her katılan test noktasına QR kod aracılığıyla gönderebilirsiniz."</string>
+    <string name="rat_profile_create_description">"Test noktalarında kaydınızı hızlandırmak için kişisel verilerinizi bir QR kod olarak kaydedin."</string>
     <!-- XTXT: Create RAT profile street hint -->
     <string name="rat_profile_create_street_hint">"Sokak ve Konut Numarası"</string>
     <!-- XTXT: Create RAT profile post code hint -->
