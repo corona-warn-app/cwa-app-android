@@ -78,7 +78,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         cameraSettings.isCameraDeniedPermanently.update { denied }
     }
 
-    private suspend fun onDccQrCode(qrCode: DccQrCode, rawQrCode: String) {
+    private suspend fun onDccQrCode(qrCode: DccQrCode) {
         Timber.tag(TAG).d("onDccQrCode=$qrCode")
         val event = if (dccSettings.isOnboarded.value) {
             val containerId = dccHandler.handleQrCode(qrCode)
