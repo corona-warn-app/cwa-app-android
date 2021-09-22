@@ -16,24 +16,28 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Информация за ваксиниране с бустерни дози"</item>
-        <item>"Версия за печат на сертификатите за ваксинация"</item>
+        <item>"Универсален скенер за QR кодове"</item>
+        <item>"Импортиране не QR код"</item>
+        <item>"Коригиране на продължителността на контакта"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Приложението вече може да покаже съобщение, което Ви известява за предстоящо ваксиниране с бустерна доза."</item>
-        <item>"Вече можете да покажете версия за печат на Вашите сертификати, издадени в Германия, което Ви позволява да ги запазите като PDF документи и да ги разпечатате."</item>
+        <item>"Вече можете да сканирате всички поддържани от приложението Corona-Warn-App документи, независимо откъде отваряте скенера за QR кодове в CWA:\n\n• PCR тестове\n• Бързи тестове\n• Регистрации за събития\n• Сертификати"</item>
+        <item>"Вече можете да използвате скенера за QR кодове, за да импортирате QR кодове от снимки или PDF файлове."</item>
+        <item>"Минималната продължителност на контактите в дневника на контактите е намалена от 15 на 10 минути. Съществуващите записи на контакти се коригират автоматично. Прегледайте ги и ги коригирайте, ако е необходимо."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
         <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item/>
         <item/>
         <item/>
     </string-array>

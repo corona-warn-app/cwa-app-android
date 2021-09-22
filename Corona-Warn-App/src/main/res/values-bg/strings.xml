@@ -937,7 +937,31 @@
     <!-- QR Code Scan Screen -->
     <string name="qr_code_scan_title">"Сканиране на QR кода"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="qr_code_scan_body">"Позиционирайте QR кода в рамката."</string>
+    <string name="qr_code_scan_body_title">"Какви QR кодове можете да сканирате?"</string>
+    <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="qr_code_scan_body_subtitle">"PCR и бързи тестове, сертификати за тестове, ваксинация и възстановяване и регистрации."</string>
+    <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Можете да сканирате регистрации, за да възстановите събития, които сте изтрили."</string>
+    <!-- XBUT: open image file button  -->
+    <string name="qr_code_open_file">"Отваряне на файл"</string>
+    <!-- XTXT: QR Code processing message  -->
+    <string name="qr_code_processing_message">"Четене на QR код..."</string>
+    <!-- XTXT: unsupported qrcode message  -->
+    <string name="un_supported_qrcode_message">"QR кодът не се поддържа от Corona-Warn-App. Моля, сканирайте подходящ QR код."</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_file_not_readable_title">"Файлът не се чете"</string>
+    <!-- XTXT: QR Code error message body  -->
+    <string name="qr_code_file_not_readable_body">"Форматът на файла не се поддържа от Corona-Warn-App. Моля, изберете съвместим файл."</string>
+    <!-- XTXT: QR Code error message body  -->
+    <string name="qr_code_file_corrupted_body">"Възможно е избраният файл да е повреден или защитен с парола и не може да бъде прочетен. Моля, изберете подходящ файл."</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_qr_code_title">"Не е намерен QR код"</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_qr_code_body">"Моля, изберете документ или снимка с QR код."</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_suitable_qr_code_title">"Няма подходящ QR код"</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_suitable_qr_code_body">"QR кодът не може да бъде сканиран от Corona-Warn-App. Моля, изберете файл с подходящ QR код."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->

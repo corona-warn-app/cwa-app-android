@@ -937,7 +937,31 @@
     <!-- QR Code Scan Screen -->
     <string name="qr_code_scan_title">"Scanare cod QR"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="qr_code_scan_body">"Poziționați codul QR în cadru."</string>
+    <string name="qr_code_scan_body_title">"Ce coduri QR puteți scana?"</string>
+    <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="qr_code_scan_body_subtitle">"Teste PCR și teste rapide, certificate de test, certificate de vaccinare, certificate de recuperare și check-inuri."</string>
+    <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Puteți scana check-inurile pentru a restaura evenimentele pe care le-ați șters."</string>
+    <!-- XBUT: open image file button  -->
+    <string name="qr_code_open_file">"Deschidere fișier"</string>
+    <!-- XTXT: QR Code processing message  -->
+    <string name="qr_code_processing_message">"Citire cod QR..."</string>
+    <!-- XTXT: unsupported qrcode message  -->
+    <string name="un_supported_qrcode_message">"Codul QR nu este acceptat de Corona-Warn-App. Scanați un cod QR potrivit."</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_file_not_readable_title">"Fișier imposibil de citit"</string>
+    <!-- XTXT: QR Code error message body  -->
+    <string name="qr_code_file_not_readable_body">"Formatul de fișier nu este acceptat de Corona-Warn-App. Selectați un fișier compatibil."</string>
+    <!-- XTXT: QR Code error message body  -->
+    <string name="qr_code_file_corrupted_body">"Fișierul selectat poate să fie deteriorat sau protejat prin parolă și nu a putut fi citit. Selectați un fișier potrivit."</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_qr_code_title">"Niciun cod QR detectat"</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_qr_code_body">"Selectați un document sau o fotografie cu un cod QR."</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_suitable_qr_code_title">"Niciun cod QR potrivit"</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_suitable_qr_code_body">"Codul QR nu poate fi scanat de Corona-Warn-App. Selectați un fișier cu un cod QR potrivit."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
@@ -1493,7 +1517,7 @@
     <!-- XTXT: Statistics explanation blog text -->
     <string name="statistics_explanation_blog">"Pentru mai multe detalii despre conținutul indicatorilor individuali, citiți blogul nostru."</string>
     <!-- XTXT: Statistics explanation blog text label -->
-    <string name="statistics_explanation_blog_label">"Blogul"</string>
+    <string name="statistics_explanation_blog_label">"Blog."</string>
     <!-- XTXT: Statistics explanation blog text url -->
     <string name="statistics_eplanation_blog_url">"https://www.coronawarn.app/en/blog/2021-08-05-statistictiles"</string>
 
