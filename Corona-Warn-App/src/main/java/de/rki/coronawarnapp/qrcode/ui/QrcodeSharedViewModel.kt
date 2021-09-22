@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.qrcode.ui
 
 import androidx.lifecycle.ViewModel
+import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocation
 
 /**
@@ -9,9 +10,11 @@ import de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocatio
  * navigation from Main graph to Nested graph is required. To avoid verifying the location url multiple times in the
  * universal scanner and again in here this ViewModel is used to share the location
  */
-class VerifiedLocationViewModel : ViewModel() {
+class QrcodeSharedViewModel : ViewModel() {
 
     private val verifiedTraceLocationCache = mutableMapOf<String, VerifiedTraceLocation>()
+
+    private val dccQrCodeCache = mutableMapOf<String, DccQrCode>()
 
     fun verifiedTraceLocation(locationId: String): VerifiedTraceLocation {
         val verifiedTraceLocation = verifiedTraceLocationCache[locationId] ?: throw IllegalArgumentException(
@@ -26,5 +29,15 @@ class VerifiedLocationViewModel : ViewModel() {
         verifiedTraceLocation: VerifiedTraceLocation
     ) {
         verifiedTraceLocationCache[verifiedTraceLocation.locationIdHex] = verifiedTraceLocation
+    }
+
+    fun putDccQrCode(dccQrCode: DccQrCode) {
+        dccQrCodeCache[dccQrCode.uniqueCertificateIdentifier] = dccQrCode
+    }
+
+    fun dccQrCode(certificateIdentifier: String): DccQrCode {
+        return dccQrCodeCache[certificateIdentifier] ?: throw IllegalArgumentException(
+            "DccQrCode must be provided by putDccQrCode first from start destination"
+        )
     }
 }

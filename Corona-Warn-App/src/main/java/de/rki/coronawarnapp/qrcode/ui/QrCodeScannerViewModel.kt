@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException.ErrorCode.CANT_READ_FILE
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
-import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCode
@@ -86,7 +85,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
             Timber.tag(TAG).d("containerId=$containerId")
             containerId.toDccDetails()
         } else {
-            DccResult.Onboarding(CovidCertificateOnboardingFragment.uri(rawQrCode))
+            DccResult.Onboarding(qrCode)
         }
         result.postValue(event)
     }

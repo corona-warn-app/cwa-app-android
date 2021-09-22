@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.navGraphViewModels
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
@@ -17,6 +18,8 @@ import de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertifi
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragment
 import de.rki.coronawarnapp.databinding.CovidCertificateOnboardingFragmentBinding
+import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
+import de.rki.coronawarnapp.qrcode.ui.toQrCodeErrorDialogBuilder
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -31,11 +34,14 @@ class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_o
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val binding: CovidCertificateOnboardingFragmentBinding by viewBinding()
     private val args by navArgs<CovidCertificateOnboardingFragmentArgs>()
+    private val qrcodeSharedViewModel: QrcodeSharedViewModel by navGraphViewModels(R.id.nav_graph)
     private val viewModel: CovidCertificateOnboardingViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as CovidCertificateOnboardingViewModel.Factory
-            factory.create(dccQrCode = args.dccQrCode)
+            factory.create(
+                dccQrCode = args.certIdentifier?.let { qrcodeSharedViewModel.dccQrCode(it) }
+            )
         }
     )
 
@@ -84,16 +90,18 @@ class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_o
                         .build()
                     findNavController().navigate(uri, navOption)
                 }
+                is CovidCertificateOnboardingViewModel.Event.Error ->
+                    event.throwable.toQrCodeErrorDialogBuilder(requireContext()).show()
             }
         }
     }
 
     companion object {
         fun uri(
-            dccQrCode: String
+            certIdentifier: String
         ): Uri {
-            val encodedDccQrCode = URLEncoder.encode(dccQrCode, "UTF-8")
-            return "cwa://dcc.onboarding/?showBottomNav=false&dccQrCode=$encodedDccQrCode".toUri()
+            val encodedCertId = URLEncoder.encode(certIdentifier, "UTF-8")
+            return "cwa://dcc.onboarding/?showBottomNav=false&certIdentifier=$encodedCertId".toUri()
         }
     }
 }

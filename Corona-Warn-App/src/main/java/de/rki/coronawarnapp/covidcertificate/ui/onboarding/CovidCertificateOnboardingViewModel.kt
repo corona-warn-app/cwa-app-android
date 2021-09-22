@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.ui.onboarding
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
@@ -11,11 +11,11 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import timber.log.Timber
 
 class CovidCertificateOnboardingViewModel @AssistedInject constructor(
     private val covidCertificateSettings: CovidCertificateSettings,
-    @Assisted private val dccQrCode: String?,
-    private val dccQrCodeExtractor: DccQrCodeExtractor,
+    @Assisted private val dccQrCode: DccQrCode?,
     private val dccQrCodeHandler: DccQrCodeHandler,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider) {
@@ -25,9 +25,13 @@ class CovidCertificateOnboardingViewModel @AssistedInject constructor(
     fun onContinueClick() = launch {
         covidCertificateSettings.isOnboarded.update { true }
         val event = if (dccQrCode != null) {
-            val dccQrCode = dccQrCodeExtractor.extract(dccQrCode)
-            val containerId = dccQrCodeHandler.handleQrCode(dccQrCode)
-            Event.NavigateToDccDetailsScreen(containerId)
+            try {
+                val containerId = dccQrCodeHandler.handleQrCode(dccQrCode)
+                Event.NavigateToDccDetailsScreen(containerId)
+            } catch (e: Exception) {
+                Timber.d(e, "handleQrCode failed")
+                Event.Error(e)
+            }
         } else {
             Event.NavigateToPersonOverview
         }
@@ -41,7 +45,7 @@ class CovidCertificateOnboardingViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : CWAViewModelFactory<CovidCertificateOnboardingViewModel> {
         fun create(
-            @Assisted dccQrCode: String?,
+            @Assisted dccQrCode: DccQrCode?,
         ): CovidCertificateOnboardingViewModel
     }
 
@@ -49,5 +53,6 @@ class CovidCertificateOnboardingViewModel @AssistedInject constructor(
         object NavigateToDataPrivacy : Event()
         object NavigateToPersonOverview : Event()
         data class NavigateToDccDetailsScreen(val containerId: CertificateContainerId) : Event()
+        data class Error(val throwable: Throwable) : Event()
     }
 }
