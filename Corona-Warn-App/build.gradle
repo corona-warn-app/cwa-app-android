@@ -419,11 +419,11 @@ dependencies {
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
 
     // Play Services
-    implementation 'com.google.android.play:core:1.9.0'
-    implementation 'com.google.android.gms:play-services-base:17.5.0'
-    implementation 'com.google.android.gms:play-services-basement:17.5.0'
-    implementation 'com.google.android.gms:play-services-safetynet:17.0.0'
-    implementation 'com.google.android.gms:play-services-tasks:17.2.0'
+    implementation 'com.google.android.play:core:1.10.1'
+    implementation 'com.google.android.gms:play-services-base:17.6.0'
+    implementation 'com.google.android.gms:play-services-basement:17.6.0'
+    implementation 'com.google.android.gms:play-services-safetynet:17.0.1'
+    implementation 'com.google.android.gms:play-services-tasks:17.2.1'
 
     // HTTP
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
