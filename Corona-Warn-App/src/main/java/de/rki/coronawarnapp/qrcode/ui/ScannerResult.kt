@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.qrcode.ui
 
 import android.net.Uri
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
+import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocation
 import de.rki.coronawarnapp.util.ui.LazyString
 
@@ -9,18 +10,9 @@ sealed interface ScannerResult
 
 object InProgress : ScannerResult
 
-data class DccResult(val uri: Uri) : ScannerResult {
-    enum class Type(name: String) {
-        VACCINATION("VACCINATION"),
-        RECOVERY("RECOVERY"),
-        TEST("TEST");
-
-        companion object {
-            fun ofString(type: String?): Type? {
-                return values().find { it.name == type }
-            }
-        }
-    }
+sealed class DccResult : ScannerResult {
+    data class Details(val uri: Uri) : DccResult()
+    data class Onboarding(val dccQrCode: DccQrCode) : DccResult()
 }
 
 sealed class CheckInResult : ScannerResult {

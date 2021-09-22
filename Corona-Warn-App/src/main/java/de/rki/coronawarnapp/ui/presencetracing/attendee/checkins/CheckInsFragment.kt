@@ -19,7 +19,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsFragmentBinding
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
-import de.rki.coronawarnapp.qrcode.ui.VerifiedLocationViewModel
+import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CameraPermissionVH
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CheckInsItem
 import de.rki.coronawarnapp.ui.presencetracing.attendee.edit.EditCheckInFragmentArgs
@@ -58,7 +58,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
     )
     private val binding: TraceLocationAttendeeCheckinsFragmentBinding by viewBinding()
     private val checkInsAdapter = CheckInsAdapter()
-    private val locationViewModel by navGraphViewModels<VerifiedLocationViewModel>(R.id.nav_graph)
+    private val locationViewModel by navGraphViewModels<QrcodeSharedViewModel>(R.id.nav_graph)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
