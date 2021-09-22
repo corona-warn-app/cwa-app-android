@@ -34,7 +34,9 @@
     <!-- XTXT: Detail green certificate travel notice link de -->
     <string name="green_certificate_travel_notice_link_de">"https://reopen.europa.eu/de"</string>
     <!-- XTXT: Detail green certificate menu item: delete -->
-    <string name="green_certificate_details_menu_item_delete">"Remove"</string>
+    <string name="green_certificate_details_menu_item_delete">"Remove Certificate"</string>
+    <!-- XTXT: Detail green certificate menu item: print -->
+    <string name="green_certificate_details_menu_item_export">"Display Print Version"</string>
     <!-- XTXT: Detail green certificate diaglog title -->
     <string name="green_certificate_details_dialog_remove_test_title">"Do you want to remove the test certificate?"</string>
     <!-- XTXT: Detail green certificate diaglog message -->

@@ -48,7 +48,6 @@ class PersonOverviewFragmentTest : BaseUITest() {
         viewModel.apply {
             every { events } returns SingleLiveEvent()
             every { personCertificates } returns MutableLiveData()
-            every { markNewCertsAsSeen } returns MutableLiveData()
         }
         setupFakeImageLoader(
             createFakeImageLoaderForQrCodes()
@@ -129,6 +128,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     certificate = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_1,
+                    badgeCount = 0
                 )
             )
         }
@@ -148,6 +148,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     certificate = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_1,
+                    badgeCount = 0
                 )
             )
         }
@@ -159,6 +160,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     certificate = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_1,
+                    badgeCount = 5
                 )
             )
 
@@ -167,6 +169,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     certificate = mockTestCertificate("Mia Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_2,
+                    badgeCount = 3
                 )
             )
 
@@ -175,6 +178,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     certificate = mockTestCertificate("Thomas Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_3,
+                    badgeCount = 0
                 )
             )
         }
@@ -186,6 +190,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     certificate = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_1,
+                    badgeCount = 0
                 )
             )
         }
@@ -209,6 +214,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
         every { isValid } returns true
         every { sampleCollectedAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
         every { getState() } returns CwaCovidCertificate.State.Valid(headerExpiresAt)
+        every { isNewlyRetrieved } returns false
     }
 
     fun mockTestCertificateWrapper(isUpdating: Boolean) = mockk<TestCertificateWrapper>().apply {

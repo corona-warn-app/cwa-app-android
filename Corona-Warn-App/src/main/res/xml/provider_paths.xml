@@ -6,8 +6,10 @@
     <cache-path
         name="shared_logs"
         path="debuglog_snapshots/" />
-
     <cache-path
         name="Poster"
         path="poster/" />
+    <cache-path
+        name="export"
+        path="export/" />
 </paths>

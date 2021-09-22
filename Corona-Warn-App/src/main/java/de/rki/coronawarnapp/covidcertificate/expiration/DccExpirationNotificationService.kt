@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.covidcertificate.expiration
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
@@ -21,42 +23,59 @@ class DccExpirationNotificationService @Inject constructor(
     private val vaccinationRepository: VaccinationRepository,
     private val recoveryRepository: RecoveryCertificateRepository,
     private val covidCertificateSettings: CovidCertificateSettings,
+    private val testCertificateRepository: TestCertificateRepository,
     private val timeStamper: TimeStamper,
 ) {
     private val mutex = Mutex()
 
-    suspend fun showNotificationIfExpired() = mutex.withLock {
-        Timber.tag(TAG).v("checkStates()")
+    suspend fun showNotificationIfStateChanged(ignoreLastCheck: Boolean = false) = mutex.withLock {
+        Timber.tag(TAG).v("showNotificationIfStateChanged(ignoreLastCheck=%s)", ignoreLastCheck)
 
         val lastCheck = covidCertificateSettings.lastDccStateBackgroundCheck.value
 
-        if (lastCheck.toLocalDateUtc() == timeStamper.nowUTC.toLocalDateUtc()) {
+        if (!ignoreLastCheck && lastCheck.toLocalDateUtc() == timeStamper.nowUTC.toLocalDateUtc()) {
             Timber.tag(TAG).d("Last check was within 24h, skipping.")
             return
         }
 
-        val allCerts = getCertificates()
+        val vacRecCerts = getCertificates()
 
-        allCerts
+        vacRecCerts
             .filter { it.getState() is CwaCovidCertificate.State.Expired }
             .firstOrNull {
                 Timber.tag(TAG).w("Certificate expired: %s", it)
                 it.notifiedExpiredAt == null
             }
             ?.let {
-                if (dscCheckNotification.showExpiredNotification(it.containerId)) {
+                if (dscCheckNotification.showNotification(it.containerId)) {
                     setStateNotificationShown(it)
                 }
             }
 
-        allCerts
+        vacRecCerts
             .filter { it.getState() is CwaCovidCertificate.State.ExpiringSoon }
             .firstOrNull {
                 Timber.tag(TAG).w("Certificate expiring soon: %s", it)
                 it.notifiedExpiresSoonAt == null && it.notifiedExpiredAt == null
             }
             ?.let {
-                if (dscCheckNotification.showExpiresSoonNotification(it.containerId)) {
+                if (dscCheckNotification.showNotification(it.containerId)) {
+                    setStateNotificationShown(it)
+                }
+            }
+
+        val testCerts = testCertificateRepository.certificates.first().mapNotNull { it.testCertificate }
+        Timber.tag(TAG).d("Checking %d test certificates", testCerts.size)
+        val allCerts = vacRecCerts + testCerts
+
+        allCerts
+            .filter { it.getState() is CwaCovidCertificate.State.Invalid }
+            .firstOrNull {
+                Timber.tag(TAG).w("Certificate is invalid: %s", it)
+                it.notifiedInvalidAt == null
+            }
+            ?.let {
+                if (dscCheckNotification.showNotification(it.containerId)) {
                     setStateNotificationShown(it)
                 }
             }
@@ -70,14 +89,15 @@ class DccExpirationNotificationService @Inject constructor(
         when (certificate) {
             is RecoveryCertificate -> recoveryRepository.setNotifiedState(certificate.containerId, state, now)
             is VaccinationCertificate -> vaccinationRepository.setNotifiedState(certificate.containerId, state, now)
+            is TestCertificate -> testCertificateRepository.setNotifiedState(certificate.containerId, state, now)
             else -> throw UnsupportedOperationException("Class: ${certificate.javaClass.simpleName}")
         }
     }
 
     private suspend fun getCertificates(): Set<CwaCovidCertificate> {
-        val vacCerts = vaccinationRepository.vaccinationInfos.first().map { it.vaccinationCertificates }.flatten()
+        val vacCerts = vaccinationRepository.freshVaccinationInfos.first().map { it.vaccinationCertificates }.flatten()
         Timber.tag(TAG).d("Checking %d vaccination certificates", vacCerts.size)
-        val recCerts = recoveryRepository.certificates.first().map { it.recoveryCertificate }
+        val recCerts = recoveryRepository.freshCertificates.first().map { it.recoveryCertificate }
         Timber.tag(TAG).d("Checking %d recovery certificates", recCerts.size)
 
         return (vacCerts + recCerts).toSet()

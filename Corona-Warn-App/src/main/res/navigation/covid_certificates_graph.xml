@@ -67,6 +67,9 @@
         <action
             android:id="@+id/action_testCertificateDetailsFragment_to_validationStartFragment"
             app:destination="@id/validationStartFragment" />
+        <action
+            android:id="@+id/action_testCertificateDetailsFragment_to_certificatePdfExportInfoFragment"
+            app:destination="@id/certificatePdfExportInfoFragment" />
     </fragment>
 
     <fragment
@@ -74,20 +77,18 @@
         android:name="de.rki.coronawarnapp.covidcertificate.common.scan.DccQrCodeScanFragment"
         android:label="DccQrCodeScanFragment"
         tools:layout="@layout/fragment_scan_qr_code">
-
-        <!--
-        To avoid conflicting in the navigation flow between:
-        1- Scan screen -> any certificate details -> Person details  screen-> Person overview screen.
-        2- Person overview screen -> Person details screen -> any  certificate details.
-
-        Do navigate to "person details screen " and then to the relevant certificate details
-        to have the same flow all the time.
-        -->
         <action
-            android:id="@+id/action_dccQrCodeScanFragment_to_personDetailsFragment"
-            app:destination="@id/personDetailsFragment"
-            app:popUpTo="@id/dccQrCodeScanFragment"
-            app:popUpToInclusive="true" />
+            android:id="@+id/action_dccQrCodeScanFragment_to_recoveryCertificateDetailsFragment"
+            app:destination="@id/recoveryCertificateDetailsFragment"
+            app:popUpTo="@id/personOverviewFragment" />
+        <action
+            android:id="@+id/action_dccQrCodeScanFragment_to_vaccinationDetailsFragment"
+            app:destination="@id/vaccinationDetailsFragment"
+            app:popUpTo="@id/personOverviewFragment" />
+        <action
+            android:id="@+id/action_dccQrCodeScanFragment_to_testCertificateDetailsFragment"
+            app:destination="@id/testCertificateDetailsFragment"
+            app:popUpTo="@id/personOverviewFragment" />
     </fragment>
 
     <fragment
@@ -135,6 +136,9 @@
         <action
             android:id="@+id/action_vaccinationDetailsFragment_to_validationStartFragment"
             app:destination="@id/validationStartFragment" />
+        <action
+            android:id="@+id/action_vaccinationDetailsFragment_to_certificatePdfExportInfoFragment"
+            app:destination="@id/certificatePdfExportInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/recoveryCertificateDetailsFragment"
@@ -147,6 +151,9 @@
         <action
             android:id="@+id/action_recoveryCertificateDetailsFragment_to_validationStartFragment"
             app:destination="@id/validationStartFragment" />
+        <action
+            android:id="@+id/action_recoveryCertificateDetailsFragment_to_certificatePdfExportInfoFragment"
+            app:destination="@id/certificatePdfExportInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/validationStartFragment"
@@ -208,5 +215,28 @@
         <argument
             android:name="validation"
             app:argType="de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation" />
+    </fragment>
+    <fragment
+        android:id="@+id/certificatePdfExportInfoFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.pdf.ui.CertificatePdfExportInfoFragment"
+        android:label="certificate_pdf_export_info_fragment"
+        tools:layout="@layout/certificate_pdf_export_info_fragment">
+        <argument
+            android:name="containerId"
+            app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId" />
+        <action
+            android:id="@+id/action_certificatePdfExportInfoFragment_to_certificatePosterFragment"
+            app:destination="@id/certificatePosterFragment"
+            app:popUpTo="@id/certificatePdfExportInfoFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/certificatePosterFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.pdf.ui.poster.CertificatePosterFragment"
+        android:label="certificate_poster_fragment"
+        tools:layout="@layout/qr_code_poster_fragment">
+        <argument
+            android:name="containerId"
+            app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId" />
     </fragment>
 </navigation>

@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdap
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.databinding.TestCertificateCardBinding
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.displayExpirationState
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
@@ -31,7 +31,7 @@ class TestCertificateCard(parent: ViewGroup) :
         root.setOnClickListener { curItem.onClick() }
         certificateDate.text = context.getString(
             R.string.test_certificate_sampled_on,
-            certificate.sampleCollectedAt.toUserTimeZone().toDayFormat()
+            certificate.sampleCollectedAt.toUserTimeZone().toShortDayFormat()
         )
 
         when (certificate.rawCertificate.test.testType) {
@@ -59,6 +59,8 @@ class TestCertificateCard(parent: ViewGroup) :
             else -> color.defaultCertificateBg
         }
         certificateBg.setImageResource(background)
+
+        notificationBadge.isVisible = curItem.certificate.hasNotificationBadge
 
         certificateExpiration.displayExpirationState(curItem.certificate)
     }

@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.recovery.ui.details
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -13,12 +14,15 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
+import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
+import de.rki.coronawarnapp.covidcertificate.pdf.ui.CertificateExportErrorDialog
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
 import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationNoInternetErrorDialog
 import de.rki.coronawarnapp.databinding.FragmentRecoveryCertificateDetailsBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
+import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
@@ -27,11 +31,13 @@ import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.europaStarsResource
 import de.rki.coronawarnapp.util.expendedImageResource
+import de.rki.coronawarnapp.util.mutateDrawable
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import java.util.Locale
 import javax.inject.Inject
 
 class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_certificate_details), AutoInject {
@@ -66,10 +72,16 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         viewModel.errors.observe(viewLifecycleOwner) { onError(it) }
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
         viewModel.recoveryCertificate.observe(viewLifecycleOwner) { it?.let { onCertificateReady(it) } }
+
+        viewModel.exportError.observe(viewLifecycleOwner) {
+            CertificateExportErrorDialog.showDialog(
+                requireContext()
+            ) { openUrl(getString(R.string.certificate_export_error_dialog_faq_link)) }
+        }
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onStop() {
+        super.onStop()
         viewModel.refreshCertState()
     }
 
@@ -96,7 +108,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         )
 
         qrCodeCard.apply {
-            image.loadAny(certificate.qrCodeToDisplay) {
+            image.loadAny(certificate.getValidQrCode(Locale.getDefault().language)) {
                 crossfade(true)
                 loadingView(image, progressBar)
             }
@@ -130,15 +142,26 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
                         .actionRecoveryCertificateDetailsFragmentToValidationStartFragment(event.containerId)
                 )
             }
+            is RecoveryCertificateDetailsNavigation.Export -> {
+                doNavigate(
+                    RecoveryCertificateDetailsFragmentDirections
+                        .actionRecoveryCertificateDetailsFragmentToCertificatePdfExportInfoFragment(event.containerId)
+                )
+            }
         }
     }
 
     private fun FragmentRecoveryCertificateDetailsBinding.bindToolbar() = toolbar.apply {
+        toolbar.navigationIcon = resources.mutateDrawable(R.drawable.ic_back, Color.WHITE)
         setNavigationOnClickListener { popBackStack() }
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_recovery_certificate_delete -> {
                     showCertificateDeletionRequest()
+                    true
+                }
+                R.id.menu_recovery_certificate_export -> {
+                    viewModel.onExport()
                     true
                 }
                 else -> onOptionsItemSelected(it)

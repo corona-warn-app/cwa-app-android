@@ -19,7 +19,8 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     certificate: CwaCovidCertificate,
     isPersonOverview: Boolean = false,
     isPersonDetails: Boolean = false,
-    isCertificateDetails: Boolean = false
+    isCertificateDetails: Boolean = false,
+    badgeCount: Int = 0
 ) {
     val valid = certificate.isValid
     val context = root.context
@@ -27,29 +28,34 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     invalidOverlay.isGone = valid
     image.isEnabled = isCertificateDetails && valid // Disable Qr-Code image from opening full-screen mode
 
+    val isNewTestCertificate = certificate is TestCertificate && certificate.isNewlyRetrieved
+    notificationBadge.isVisible = if (isNewTestCertificate) {
+        false
+    } else {
+        isCertificateDetails && certificate.hasNotificationBadge
+    }
+
+    qrTitle.isVisible = !isPersonOverview
+    qrSubtitle.isVisible = !isPersonOverview
+
     when (certificate) {
         is TestCertificate -> {
             val dateTime = certificate.sampleCollectedAt.toLocalDateTimeUserTz().run {
                 "${toShortDayFormat()}, ${toShortTimeFormat()}"
             }
-            qrTitle.isVisible = !isPersonOverview
+
             qrTitle.text = context.getString(R.string.test_certificate_name)
-            qrSubtitle.isVisible = !isPersonOverview
             qrSubtitle.text = context.getString(R.string.test_certificate_qrcode_card_sampled_on, dateTime)
         }
         is VaccinationCertificate -> {
-            qrTitle.isVisible = !isPersonOverview
             qrTitle.text = context.getString(R.string.vaccination_details_subtitle)
-            qrSubtitle.isVisible = !isPersonOverview
             qrSubtitle.text = context.getString(
                 R.string.vaccination_certificate_vaccinated_on,
                 certificate.vaccinatedOn.toShortDayFormat()
             )
         }
         is RecoveryCertificate -> {
-            qrTitle.isVisible = !isPersonOverview
             qrTitle.text = context.getString(R.string.recovery_certificate_name)
-            qrSubtitle.isVisible = !isPersonOverview
             qrSubtitle.text = context.getString(
                 R.string.recovery_certificate_valid_until,
                 certificate.validUntil.toShortDayFormat()
@@ -58,10 +64,10 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     }
     when (certificate.displayedState()) {
         is CwaCovidCertificate.State.ExpiringSoon -> {
-            expirationStatusIcon.isVisible = true
+            expirationStatusIcon.isVisible = isCertificateDetails
             (expirationStatusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
             expirationStatusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_av_timer))
-            expirationStatusText.isVisible = true
+            expirationStatusText.isVisible = isCertificateDetails
             expirationStatusText.text = context.getString(
                 R.string.certificate_qr_expiration,
                 certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortDayFormat(),
@@ -73,10 +79,10 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
         }
 
         is CwaCovidCertificate.State.Expired -> {
-            expirationStatusIcon.isVisible = true
+            expirationStatusIcon.isVisible = badgeCount == 0
             (expirationStatusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 1.0f
             expirationStatusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
-            expirationStatusText.isVisible = true
+            expirationStatusText.isVisible = badgeCount == 0
             expirationStatusText.text = context.getText(R.string.certificate_qr_expired)
             expirationStatusBody.isVisible = isCertificateDetails
             expirationStatusBody.text = context.getText(R.string.expired_certificate_info)
@@ -85,10 +91,10 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
         }
 
         is CwaCovidCertificate.State.Invalid -> {
-            expirationStatusIcon.isVisible = true
+            expirationStatusIcon.isVisible = badgeCount == 0
             (expirationStatusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
             expirationStatusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
-            expirationStatusText.isVisible = true
+            expirationStatusText.isVisible = badgeCount == 0
             expirationStatusText.text = context.getText(R.string.certificate_qr_invalid_signature)
             expirationStatusBody.isVisible = isCertificateDetails
             expirationStatusBody.text = context.getText(R.string.invalid_certificate_signature_info)
@@ -105,6 +111,9 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
             startValidationCheckButton.isVisible = isPersonDetails
         }
     }
+    certificateBadgeCount.isVisible = badgeCount != 0
+    certificateBadgeCount.text = badgeCount.toString()
+    certificateBadgeText.isVisible = badgeCount != 0
 }
 
 fun TextView.displayExpirationState(certificate: CwaCovidCertificate) {
@@ -130,6 +139,10 @@ fun TextView.displayExpirationState(certificate: CwaCovidCertificate) {
 
         is CwaCovidCertificate.State.Valid -> {
             isVisible = false
+            if (certificate is TestCertificate && certificate.isNewlyRetrieved) {
+                isVisible = true
+                text = context.getText(R.string.test_certificate_qr_new)
+            }
         }
     }
 }

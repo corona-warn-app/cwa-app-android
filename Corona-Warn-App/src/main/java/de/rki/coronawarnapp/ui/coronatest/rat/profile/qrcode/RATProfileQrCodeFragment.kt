@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
 import de.rki.coronawarnapp.databinding.RatProfileQrCodeFragmentBinding
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.joinToSpannable
@@ -111,7 +112,7 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
         val birthDate = birthDate?.let {
             getString(
                 R.string.rat_qr_code_profile_birth_date,
-                birthDate.toString("dd.MM.yyyy").orEmpty()
+                birthDate.toDayFormat()
             )
         }.orEmpty()
 

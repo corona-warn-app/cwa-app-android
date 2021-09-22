@@ -77,17 +77,22 @@ class RecoveryCertificateRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
-    val certificates: Flow<Set<RecoveryCertificateWrapper>> =
-        combine(internalData.data, dscRepository.dscData) { set, _ ->
-            set.map { container ->
-                val state = dccStateChecker.checkState(container.certificateData).first()
-                RecoveryCertificateWrapper(
-                    valueSets = valueSetsRepository.latestVaccinationValueSets.first(),
-                    container = container,
-                    certificateState = state
-                )
-            }.toSet()
-        }.shareLatest(
+    val freshCertificates: Flow<Set<RecoveryCertificateWrapper>> = combine(
+        internalData.data,
+        dscRepository.dscData
+    ) { set, _ ->
+        set.map { container ->
+            val state = dccStateChecker.checkState(container.certificateData).first()
+            RecoveryCertificateWrapper(
+                valueSets = valueSetsRepository.latestVaccinationValueSets.first(),
+                container = container,
+                certificateState = state
+            )
+        }.toSet().also { Timber.d("Test: $it") }
+    }
+
+    val certificates: Flow<Set<RecoveryCertificateWrapper>> = freshCertificates
+        .shareLatest(
             tag = TAG,
             scope = appScope
         )
@@ -146,6 +151,7 @@ class RecoveryCertificateRepository @Inject constructor(
             val newData = when (state) {
                 is CwaCovidCertificate.State.Expired -> toUpdate.data.copy(notifiedExpiredAt = time)
                 is CwaCovidCertificate.State.ExpiringSoon -> toUpdate.data.copy(notifiedExpiresSoonAt = time)
+                is CwaCovidCertificate.State.Invalid -> toUpdate.data.copy(notifiedInvalidAt = time)
                 else -> throw UnsupportedOperationException("$state is not supported.")
             }
 

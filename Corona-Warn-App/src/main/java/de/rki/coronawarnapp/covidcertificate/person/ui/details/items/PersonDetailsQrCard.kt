@@ -4,12 +4,14 @@ import android.view.ViewGroup
 import coil.loadAny
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
 import de.rki.coronawarnapp.databinding.IncludeCertificateQrcodeCardBinding
 import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
+import java.util.Locale
 
 class PersonDetailsQrCard(parent: ViewGroup) :
     PersonDetailsAdapter.PersonDetailsItemVH<PersonDetailsQrCard.Item, IncludeCertificateQrcodeCardBinding>(
@@ -27,9 +29,7 @@ class PersonDetailsQrCard(parent: ViewGroup) :
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
 
         curItem.apply {
-            image.loadAny(
-                curItem.certificate.qrCodeToDisplay
-            ) {
+            image.loadAny(curItem.certificate.getValidQrCode(Locale.getDefault().language)) {
                 crossfade(true)
                 loadingView(image, progressBar)
             }

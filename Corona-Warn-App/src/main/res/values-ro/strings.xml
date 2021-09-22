@@ -920,7 +920,7 @@
     <!-- XHED: Dialog headline QR Scan permission denied  -->
     <string name="submission_qr_code_scan_permission_denied_dialog_headline">"Este necesar accesul la camera foto"</string>
     <!-- YTXT: Dialog Body text for QR Scan permission denied -->
-    <string name="submission_qr_code_scan_permission_denied_dialog_body">"Apelați setările de sistem și permiteți-i aplicației să utilizeze camera foto pentru a scana codul QR."</string>
+    <string name="submission_qr_code_scan_permission_denied_dialog_body">"Apelați setările dispozitivului dvs. și permiteți-i aplicației să utilizeze camera foto pentru a scana codul QR."</string>
     <!-- XBUT: Dialog(QR Scan permission denied) - button -->
     <string name="submission_qr_code_scan_permission_denied_dialog_button">"OK"</string>
 
@@ -1493,7 +1493,7 @@
     <!-- XTXT: Statistics explanation blog text -->
     <string name="statistics_explanation_blog">"Pentru mai multe detalii despre conținutul indicatorilor individuali, citiți blogul nostru."</string>
     <!-- XTXT: Statistics explanation blog text label -->
-    <string name="statistics_explanation_blog_label">"Blog."</string>
+    <string name="statistics_explanation_blog_label">"Blogul"</string>
     <!-- XTXT: Statistics explanation blog text url -->
     <string name="statistics_eplanation_blog_url">"https://www.coronawarn.app/en/blog/2021-08-05-statistictiles"</string>
 

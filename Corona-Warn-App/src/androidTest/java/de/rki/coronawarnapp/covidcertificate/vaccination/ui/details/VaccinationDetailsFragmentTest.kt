@@ -134,8 +134,8 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
         return mockk<VaccinationCertificate>().apply {
             every { fullName } returns "Max Mustermann"
             every { fullNameStandardizedFormatted } returns "MUSTERMANN, MAX"
-            every { dateOfBirthFormatted } returns "01.02.1976"
-            every { vaccinatedOnFormatted } returns "18.02.2021"
+            every { dateOfBirthFormatted } returns "1976-02-01"
+            every { vaccinatedOnFormatted } returns "2021-02-18"
             every { vaccinatedOn } returns LocalDate.parse("18.02.2021", formatter)
             every { targetDisease } returns "COVID-19"
             every { medicalProductName } returns "Comirnaty"
@@ -146,6 +146,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
             every { certificateId } returns "05930482748454836478695764787841"
             every { headerExpiresAt } returns Instant.parse("2021-05-16T00:00:00.000Z")
             every { totalSeriesOfDoses } returns 2
+            every { hasNotificationBadge } returns false
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)
             every { fullNameFormatted } returns "Mustermann, Max"
         }

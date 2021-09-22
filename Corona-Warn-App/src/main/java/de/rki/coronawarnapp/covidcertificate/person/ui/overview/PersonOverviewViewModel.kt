@@ -7,6 +7,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CameraPermissionCard
@@ -25,20 +26,18 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 
 class PersonOverviewViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     certificatesProvider: PersonCertificatesProvider,
-    private val testCertificateRepository: TestCertificateRepository,
+    cameraPermissionProvider: CameraPermissionProvider,
     valueSetsRepository: ValueSetsRepository,
+    private val testCertificateRepository: TestCertificateRepository,
     @AppContext context: Context,
-    private val cameraPermissionProvider: CameraPermissionProvider,
-    @AppScope private val appScope: CoroutineScope
+    @AppScope private val appScope: CoroutineScope,
+    private val expirationNotificationService: DccExpirationNotificationService
 ) : CWAViewModel(dispatcherProvider) {
 
     init {
@@ -62,40 +61,11 @@ class PersonOverviewViewModel @AssistedInject constructor(
         }
     }.asLiveData(dispatcherProvider.Default)
 
-    val markNewCertsAsSeen = testCertificateRepository.certificates
-        .onEach { wrappers ->
-            wrappers
-                .filter { !it.seenByUser && !it.isCertificateRetrievalPending }
-                .forEach {
-                    testCertificateRepository.markCertificateAsSeenByUser(it.containerId)
-                }
-        }
-        .catch { Timber.tag(TAG).w("Failed to mark certificates as seen.") }
-        .asLiveData2()
-
-    val markStateChangesAsSeen = certificatesProvider.personCertificates
-        .map { persons ->
-            persons.map { it.certificates }.flatten()
-        }
-        .onEach { certs ->
-            certs.forEach {
-                if (it.getState() == it.lastSeenStateChange) {
-                    return@forEach
-                } else {
-                    certificatesProvider.acknowledgeStateChange(it)
-                }
-            }
-        }
-        .catch { Timber.tag(TAG).w("Failed to mark certificates as seen.") }
-        .asLiveData2()
-
     fun deleteTestCertificate(containerId: TestCertificateContainerId) = launch {
         testCertificateRepository.deleteCertificate(containerId)
     }
 
     fun onScanQrCode() = events.postValue(ScanQrCode)
-
-    fun checkCameraSettings() = cameraPermissionProvider.checkSettings()
 
     private fun MutableList<PersonCertificatesItem>.addPersonItems(
         persons: Set<PersonCertificates>,
@@ -111,11 +81,13 @@ class PersonOverviewViewModel @AssistedInject constructor(
         persons.filterNotPending()
             .forEachIndexed { index, person ->
                 val certificate = person.highestPriorityCertificate
+                val badgeCount = person.badgeCount
                 val color = PersonColorShade.shadeFor(index)
                 add(
                     PersonCertificateCard.Item(
                         certificate = certificate,
-                        colorShade = color
+                        colorShade = color,
+                        badgeCount = badgeCount
                     ) { _, position ->
                         events.postValue(OpenPersonDetailsFragment(person.personIdentifier.codeSHA256, position, color))
                     }
@@ -150,6 +122,11 @@ class PersonOverviewViewModel @AssistedInject constructor(
     fun refreshCertificate(containerId: TestCertificateContainerId) = launch(scope = appScope) {
         val error = testCertificateRepository.refresh(containerId).mapNotNull { it.error }.singleOrNull()
         error?.let { events.postValue(ShowRefreshErrorDialog(error)) }
+    }
+
+    fun checkExpiration() = launch(scope = appScope) {
+        Timber.d("checkExpiration()")
+        expirationNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
     }
 
     @AssistedFactory

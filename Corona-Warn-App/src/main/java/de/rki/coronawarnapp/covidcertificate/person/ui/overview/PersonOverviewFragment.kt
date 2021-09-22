@@ -48,22 +48,11 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
         }
         viewModel.personCertificates.observe(viewLifecycleOwner) { binding.bindViews(it) }
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
-        viewModel.markNewCertsAsSeen.observe(viewLifecycleOwner) {
-            Timber.tag(TAG).d("markNewCertsAsSeen=%s", it)
+    }
 
-            /**
-             * This just needs to stay subscribed while the UI is open.
-             * It causes new certificates to be marked seen automatically.
-             */
-        }
-        viewModel.markStateChangesAsSeen.observe(viewLifecycleOwner) {
-            Timber.tag(TAG).d("markStateChangesAsSeen=%s", it)
-
-            /**
-             * This just needs to stay subscribed while the UI is open.
-             * It causes certificate state changes to be marked seen automatically.
-             */
-        }
+    override fun onStart() {
+        super.onStart()
+        viewModel.checkExpiration()
     }
 
     private fun onNavEvent(event: PersonOverviewFragmentEvents) {

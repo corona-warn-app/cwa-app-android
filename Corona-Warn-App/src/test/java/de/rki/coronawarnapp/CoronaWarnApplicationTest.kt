@@ -12,9 +12,9 @@ import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.notification.RATTestResultAvailableNotificationService
+import de.rki.coronawarnapp.covidcertificate.booster.BoosterCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalScheduler
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.execution.VaccinationUpdateScheduler
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.EnvironmentSetup
@@ -80,12 +80,11 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var localStatisticsRetrievalScheduler: LocalStatisticsRetrievalScheduler
     @MockK lateinit var pcrTestResultAvailableNotificationService: PCRTestResultAvailableNotificationService
     @MockK lateinit var raTestResultAvailableNotificationService: RATTestResultAvailableNotificationService
-    @MockK lateinit var vaccinationUpdateScheduler: VaccinationUpdateScheduler
-    @MockK lateinit var rollingLogHistory: Timber.Tree
     @MockK lateinit var environmentSetup: EnvironmentSetup
     @MockK lateinit var imageLoaderFactory: ImageLoaderFactory
     @MockK lateinit var dscCheckScheduler: DccStateCheckScheduler
     @MockK lateinit var securityProvider: SecurityProvider
+    @MockK lateinit var boosterCheckScheduler: BoosterCheckScheduler
 
     @ExperimentalCoroutinesApi
     @BeforeEach
@@ -136,7 +135,6 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.raTestResultScheduler = raTestResultScheduler
                 app.pcrTestResultAvailableNotificationService = pcrTestResultAvailableNotificationService
                 app.raTestResultAvailableNotificationService = raTestResultAvailableNotificationService
-                app.vaccinationUpdateScheduler = vaccinationUpdateScheduler
                 app.testCertificateRetrievalScheduler = testCertificateRetrievalScheduler
                 app.localStatisticsRetrievalScheduler = localStatisticsRetrievalScheduler
                 app.securityProvider = securityProvider
@@ -149,6 +147,7 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.environmentSetup = environmentSetup
                 app.imageLoaderFactory = imageLoaderFactory
                 app.dccStateCheckScheduler = dscCheckScheduler
+                app.boosterCheckScheduler = boosterCheckScheduler
             }
         }
     }
@@ -175,9 +174,6 @@ class CoronaWarnApplicationTest : BaseTest() {
             pcrTestResultAvailableNotificationService.setup()
             raTestResultAvailableNotificationService.setup()
             testCertificateRetrievalScheduler.setup()
-
-            vaccinationUpdateScheduler.setup()
-
             localStatisticsRetrievalScheduler.setup()
 
             deviceTimeHandler.launch()
@@ -189,6 +185,7 @@ class CoronaWarnApplicationTest : BaseTest() {
             traceLocationDbCleanupScheduler.scheduleDaily()
             shareTestResultNotificationService.setup()
             dscCheckScheduler.setup()
+            boosterCheckScheduler.setup()
         }
     }
 }

@@ -17,14 +17,14 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>In Vertretung warnen</item>
-        <item>Sofortige Impfstatusanzeige für Genesene</item>
+        <item>Information zu Auffrischungsimpfung</item>
+        <item>Druckversion von Impfzertifikaten</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>Als Organisator eines Events können Sie nun nach Aufforderung durch das Gesundheitsamt Ihre Gäste in Vertretung für eine positiv getestete Person warnen, die am Event teilgenommen hat, aber nicht über die Corona-Warn-App eingecheckt war.</item>
-        <item>Für Genesene wird ab jetzt direkt nach der ersten Impfung der vollständige Impfschutz in der Corona-Warn-App angezeigt. Die zweiwöchige Wartezeit entfällt bei allen Impfstoffen außer bei Johnson &amp; Johnson.</item>
+        <item>Die App kann Ihnen nun eine Mitteilung anzeigen, die Sie über eine eventuell anstehende Auffrischungsimpfung informiert.</item>
+        <item>Sie können nun eine Druckversion Ihrer in Deutschland ausgestellten Zertifikate anzeigen, die es Ihnen ermöglicht, die Zertifikate als PDF-Dokument zu speichern oder auszudrucken.</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

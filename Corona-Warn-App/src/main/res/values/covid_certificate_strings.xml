@@ -32,6 +32,8 @@
     <string name="certificate_qr_expired">"Certificate Expired"</string>
     <!-- XTXT: Certificate QR code invalid signature-->
     <string name="certificate_qr_invalid_signature">"Certificate (Signature) Invalid"</string>
+    <!-- XTXT: Certificate badge text -->
+    <string name="certificate_badge_text">"There is news about your certificates"</string>
 
     <!-- XTXT: Vaccination Consent subtitle-->
     <string name="vaccination_consent_headline">"Add Certificates"</string>
@@ -49,6 +51,21 @@
     <string name="vaccination_consent_onboarding_legal_information">"For more detailed information about data processing, please refer to the privacy notice."</string>
     <!-- XBUT: Text for vaccination consent accept button -->
     <string name="vaccination_consent_accept_button">"Continue"</string>
+
+    <!-- XTXT: Vaccination card immunity information: Days since last shot -->
+    <string name="vaccination_days_since_last_shot">"Last vaccination %1$d days ago"</string>
+    <!-- XTXT: Vaccination card immunity information card body when immunity is completed -->
+    <string name="vaccination_list_immunity_card_body">"You have received all currently planned vaccinations. Your vaccination protection is complete."</string>
+    <!-- XTXT: Vaccination card title -->
+    <string name="vaccination_state_title">"Vaccination Status"</string>
+    <!-- XTXT: Vaccination card booster eligible description -->
+    <string name="vaccination_card_booster_eligible_description">"%1$s (Rule ID: %2$s)."</string>
+    <!-- XTXT: Vaccination card booster eligible FAQ -->
+    <string name="vaccination_card_booster_eligible_faq">"For further information, please see our FAQ page."</string>
+    <!-- XTXT: Vaccination card booster eligible FAQ Link -->
+    <string name="vaccination_card_booster_eligible_faq_link">"https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-englisch/corona-warn-app-faq-1758636"</string>
+    <!-- XTXT: Vaccination card booster eligible faq link keyword -->
+    <string name="vaccination_card_booster_eligible_faq_link_container">"FAQ"</string>
 
 
     <!-- XTXT: Current priority certificate info -->
@@ -132,6 +149,8 @@
     <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#eu_dcc -->
     <string name="error_dcc_already_registered_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc"</string>
 
+    <!-- XTXT: Test Certificate QR code new text-->
+    <string name="test_certificate_qr_new">"New"</string>
 
     <!-- #####################################################
     VALIDATION RULES INFO SCREEN STRINGS BELOW
@@ -316,4 +335,37 @@
     <string name="dcc_notification_channel_title">"Certificates"</string>
     <!-- XTXT: certificate notification channel description -->
     <string name="dcc_notification_channel_description">"Manage Notifications for Certificates"</string>
+
+    <!-- PDF Export: Not possible dialog -->
+    <!-- XHED: PDF Export: Not possible dialog title -->
+    <string name="certificate_export_error_dialog_title">"Cannot display print version"</string>
+    <!-- XHED: PDF Export: Not possible dialog body -->
+    <string name="certificate_export_error_dialog_body">"The print version of the certificate cannot be displayed because the certificate was not issued in Germany"</string>
+    <!-- XBUT: PDF Export: Not possible dialog faq button -->
+    <string name="certificate_export_error_dialog_faq_button">"FAQ for Print Version"</string>
+    <!-- XBUT: PDF Export: Not possible dialog faq link -->
+    <string name="certificate_export_error_dialog_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc_export"</string>
+    <!-- XBUT: PDF Export: Not possible dialog ok button -->
+    <string name="certificate_export_error_dialog_ok_button">"OK"</string>
+
+    <!-- PDF Export: Info screen -->
+    <!-- XHED: PDF Export: Info screen title -->
+    <string name="pdf_export_info_title">"Display Print Version"</string>
+    <!-- XACT: PDF Export: Info screen illustration description-->
+    <string name="pdf_export_info_illustration_description">"The print version of a certificate is used to create an EU printout, to send from a smartphone to a printer."</string>
+    <!-- XTXT: PDF Export: Info screen subtitle-->
+    <string name="pdf_export_info_subtitle">"Generating the EU Printout"</string>
+    <!-- XTXT: PDF Export: Info screen point regarding PDF storage -->
+    <string name="pdf_export_info_point_pdf">"You can save the certificate as a PDF document. This step is voluntary. You are the only person who can access the PDF document at first. You can then decide whether you want to save it on your smartphone or import it into other apps."</string>
+    <!-- XTXT: PDF Export: Info screen point regarding sensitive information in PDF file -->
+    <string name="pdf_export_info_point_sensitive">"Please note that the PDF document contains sensitive information. We recommend handling it carefully and only showing it to people who you trust and who are authorized to check the certificate."</string>
+    <!-- XTXT: PDF Export: Info screen point with recommendations -->
+    <string name="pdf_export_info_point_recommendations">"We recommend that you not publish the PDF document, send it via e-mail, or share it through other apps."</string>
+
+    <!-- PDF Export: Error message -->
+    <!-- XHED: PDF Export: Error message title -->
+    <string name="pdf_export_error_title">"Cannot display print version"</string>
+    <!-- XHED: PDF Export: Error message body -->
+    <string name="pdf_export_error_message">"The print version of the certificate cannot be displayed because the certificate cannot be retrieved right now. Please try again later."</string>
+
 </resources>

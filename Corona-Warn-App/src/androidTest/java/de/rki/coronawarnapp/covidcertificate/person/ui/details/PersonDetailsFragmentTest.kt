@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.details
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -16,7 +15,6 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
-import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
@@ -27,11 +25,13 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.PersonDetai
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.RecoveryCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.TestCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationCertificateCard
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationInfoCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -51,6 +51,7 @@ import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.setupFakeImageLoader
 import testhelpers.takeScreenshot
+import java.util.Locale
 
 @RunWith(AndroidJUnit4::class)
 class PersonDetailsFragmentTest : BaseUITest() {
@@ -74,9 +75,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             object : PersonDetailsViewModel.Factory {
                 override fun create(
                     personIdentifierCode: String,
-                    colorShade: PersonColorShade,
-                    containerId: CertificateContainerId?,
-                    savedInstance: SavedStateHandle
+                    colorShade: PersonColorShade
                 ): PersonDetailsViewModel = viewModel
             }
         )
@@ -131,6 +130,17 @@ class PersonDetailsFragmentTest : BaseUITest() {
             )
 
             add(PersonDetailsQrCard.Item(testCertificate, false) {})
+
+            add(
+                VaccinationInfoCard.Item(
+                    vaccinationStatus = VaccinatedPerson.Status.IMMUNITY,
+                    daysUntilImmunity = null,
+                    boosterRule = null,
+                    daysSinceLastVaccination = 86,
+                    hasBoosterNotification = false
+                )
+            )
+
             add(CwaUserCard.Item(personCertificates) {})
             add(
                 VaccinationCertificateCard.Item(
@@ -172,12 +182,43 @@ class PersonDetailsFragmentTest : BaseUITest() {
     private fun boosterCertificateData(isCwa: Boolean = false): LiveData<List<CertificateItem>> = MutableLiveData(
         mutableListOf<CertificateItem>().apply {
             val vaccinationCertificate1 = mockVaccinationCertificate(number = 3, final = false, booster = true)
+
+            every { vaccinationCertificate1.hasNotificationBadge } returns true
+
             val personCertificates = PersonCertificates(
                 listOf(vaccinationCertificate1),
                 isCwaUser = isCwa
             )
 
+            val ruleDescriptionDE = mockk<DccValidationRule.Description> {
+                Locale.GERMAN.also {
+                    every { description } returns "Sie könnten für eine Auffrischungsimpfung berechtigt sein, da sie for mehr als 4 Monaten von COVID-19 genesen sind trotz einer vorherigen Impfung."
+                    every { languageCode } returns it.language
+                }
+            }
+
+            val ruleDescriptionEN = mockk<DccValidationRule.Description> {
+                Locale.ENGLISH.also {
+                    every { description } returns "You may be eligible for a booster because you recovered from COVID-19 more than 4 months ago despite a prior vaccination."
+                    every { languageCode } returns it.language
+                }
+            }
+
             add(PersonDetailsQrCard.Item(vaccinationCertificate1, false) {})
+
+            add(
+                VaccinationInfoCard.Item(
+                    vaccinationStatus = VaccinatedPerson.Status.BOOSTER_ELIGIBLE,
+                    daysUntilImmunity = null,
+                    boosterRule = mockk<DccValidationRule>().apply {
+                        every { identifier } returns "BNR-DE-4161"
+                        every { description } returns listOf(ruleDescriptionDE, ruleDescriptionEN)
+                    },
+                    daysSinceLastVaccination = 147,
+                    hasBoosterNotification = true
+                )
+            )
+
             add(CwaUserCard.Item(personCertificates) {})
             add(
                 VaccinationCertificateCard.Item(
@@ -215,6 +256,8 @@ class PersonDetailsFragmentTest : BaseUITest() {
         every { isValid } returns true
         every { sampleCollectedAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
         every { getState() } returns CwaCovidCertificate.State.Valid(headerExpiresAt)
+        every { isNewlyRetrieved } returns false
+        every { hasNotificationBadge } returns false
     }
 
     private fun mockVaccinationCertificate(
@@ -236,19 +279,20 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { containerId } returns vcContainerId
             every { vaccinatedOn } returns localDate
             every { personIdentifier } returns certificatePersonIdentifier
-            every { vaccinatedOn } returns Instant.parse("2021-06-01T11:35:00.000Z").toLocalDateUserTz()
+            every { vaccinatedOn } returns Instant.parse("2021-04-01T11:35:00.000Z").toLocalDateUserTz()
             every { personIdentifier } returns CertificatePersonIdentifier(
                 firstNameStandardized = "firstNameStandardized",
                 lastNameStandardized = "lastNameStandardized",
                 dateOfBirthFormatted = "1943-04-18"
             )
             every { doseNumber } returns number
-            every { totalSeriesOfDoses } returns 2
+            every { totalSeriesOfDoses } returns if (booster) number else 2
             every { dateOfBirthFormatted } returns "1981-03-20"
             every { isFinalShot } returns final
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)
             every { isValid } returns true
             every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
+            every { hasNotificationBadge } returns false
         }
 
     private fun mockRecoveryCertificate(): RecoveryCertificate =
@@ -256,12 +300,13 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { fullName } returns "Andrea Schneider"
             every { certificateId } returns "recoveryCertificateId"
             every { dateOfBirthFormatted } returns "1981-03-20"
-            every { validUntil } returns Instant.parse("2021-05-31T11:35:00.000Z").toLocalDateUserTz()
+            every { validUntil } returns Instant.parse("2021-03-31T11:35:00.000Z").toLocalDateUserTz()
             every { personIdentifier } returns certificatePersonIdentifier
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.recoveryCertificate)
             every { containerId } returns rcContainerId
             every { isValid } returns true
             every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
+            every { hasNotificationBadge } returns false
         }
 
     private val certificatePersonIdentifier = CertificatePersonIdentifier(

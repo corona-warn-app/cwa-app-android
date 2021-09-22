@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.playbook
 
 import androidx.annotation.VisibleForTesting
+import de.rki.coronawarnapp.bugreporting.censors.contactdiary.OrganizerRegistrationTokenCensor
 import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
 import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.coronatest.server.VerificationServer
@@ -70,6 +71,10 @@ class OrganizerPlaybook @Inject constructor(
         // Real registration token
         val (registrationToken, registrationException) = executeCapturingExceptions {
             verificationServer.retrieveRegistrationToken(tokenRequest)
+        }
+
+        if (registrationToken != null) {
+            OrganizerRegistrationTokenCensor.addRegistrationToken(registrationToken)
         }
 
         // if the registration succeeded continue with the real upload TAN retrieval

@@ -828,7 +828,7 @@
     <!-- YTXT: First section for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
     <string name="debugging_debuglog_legal_privacy_card_first_section">"To confirm the authenticity of your app, your smartphone generates a unique identifier that contains information about the version of your smartphone and the app. This is necessary to ensure that only people who actually use the Corona-Warn-App can send data to technical support and rule out manipulated error reports. To do so, the identifier is sent to Google. In this process, data may be transferred to the U.S. or other third countries, where the level of data privacy may not correspond to European law and you may not be able to enforce your European rights to data privacy. In particular, security services in the third country could access and analyze the data with Google, even if there is no grounds for suspicion, and link this data with other information, for example. This only involves the identifier that is sent to Google. Google does not receive the information from your error report, however, Google may be able to determine your identity based on the identifier and track that the authenticity check was performed on your smartphone."</string>
     <!-- YTXT: Second section for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
-    <string name="debugging_debuglog_legal_privacy_card_second_section">"If you do not consent to this transfer of your data to a third country, please do not tap on “Accept and Send”. You will still be able to use the app, but you cannot send error reports."</string>
+    <string name="debugging_debuglog_legal_privacy_card_second_section">"If you do not consent to this transfer of your data to a third country, please do not tap on “Agree and Send”. You will still be able to use the app, but you cannot send error reports."</string>
 
     <!-- YTXT: Dialog title if the log recording is stopped, and thus deleted. -->
     <string name="debugging_debuglog_stop_confirmation_title">"Stop the error analysis?"</string>
@@ -920,7 +920,7 @@
     <!-- XHED: Dialog headline QR Scan permission denied  -->
     <string name="submission_qr_code_scan_permission_denied_dialog_headline">"Camera access needed"</string>
     <!-- YTXT: Dialog Body text for QR Scan permission denied -->
-    <string name="submission_qr_code_scan_permission_denied_dialog_body">"Please call up the system settings and allow the app to use the camera to scan the QR code."</string>
+    <string name="submission_qr_code_scan_permission_denied_dialog_body">"Please call up your device settings and allow the app to use the camera to scan the QR code."</string>
     <!-- XBUT: Dialog(QR Scan permission denied) - button -->
     <string name="submission_qr_code_scan_permission_denied_dialog_button">"OK"</string>
 

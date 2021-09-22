@@ -122,9 +122,10 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
         every { targetDisease } returns "COVID-19"
         every { testedPositiveOnFormatted } returns "2021-05-24"
         every { certificateCountry } returns "Deutschland"
-        every { certificateIssuer } returns "Robert-Koch-Institut"
+        every { certificateIssuer } returns "Robert Koch-Institut"
         every { validFromFormatted } returns "2021-06-07"
         every { validUntilFormatted } returns "2021-11-10"
+        every { hasNotificationBadge } returns false
         every { certificateId } returns "05930482748454836478695764787841"
         every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.recoveryCertificate)
         every { validUntil } returns

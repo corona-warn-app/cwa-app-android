@@ -76,6 +76,39 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
     }
 
     @Test
+    fun `test decode COSE without tag`() {
+        val qrCode = extractor.extract(TestData.qrCodeCoseWithoutTag) as TestCertificateQRCode
+        with(qrCode.data.header) {
+            issuer shouldBe "DE"
+            issuedAt shouldBe Instant.parse("2021-09-20T11:51:11.000Z")
+            expiresAt shouldBe Instant.parse("2022-09-20T11:51:11.000Z")
+        }
+
+        with(qrCode.data.certificate) {
+            with(nameData) {
+                familyName shouldBe "Eins"
+                familyNameStandardized shouldBe "EINS"
+                givenName shouldBe "Andreas"
+                givenNameStandardized shouldBe "ANDREAS"
+            }
+            dateOfBirthFormatted shouldBe "1982-09-09"
+            version shouldBe "1.3.0"
+
+            with(test) {
+                uniqueCertificateIdentifier shouldBe "URN:UVCI:01DE/IZSAP00A/H2OMXVKJID4XILTQ3NU3Z#W"
+                certificateCountry shouldBe "DE"
+                certificateIssuer shouldBe "Robert Koch-Institut"
+                targetId shouldBe "840539006"
+                sampleCollectedAt shouldBe Instant.parse("2021-09-19T16:40:10.000Z")
+                testType shouldBe "LP6464-4"
+                testCenter shouldBe "General Practitioner 3"
+                testNameAndManufacturer shouldBe "1304"
+                testResult shouldBe "260415000"
+            }
+        }
+    }
+
+    @Test
     fun `happy path cose decryption with Ellen Cheng`() {
         with(TestData.EllenCheng()) {
             val coseObject = coseWithEncryptedPayload.decodeBase64()!!.toByteArray()
