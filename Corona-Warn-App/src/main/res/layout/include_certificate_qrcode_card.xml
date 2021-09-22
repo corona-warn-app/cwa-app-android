@@ -31,6 +31,8 @@
         android:layout_height="wrap_content"
         android:paddingBottom="10dp"
         app:constraint_referenced_ids="covpass_info_title,covpass_info_button"
+        app:flow_horizontalGap="15dp"
+        app:flow_wrapMode="chain"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
