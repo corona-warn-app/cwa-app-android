@@ -39,14 +39,15 @@ class PersonDetailsQrCard(parent: ViewGroup) :
             }
             startValidationCheckButton.isLoading = curItem.isLoading
 
-            bindValidityViews(certificate, isPersonDetails = true)
+            bindValidityViews(certificate, isPersonDetails = true, onCovPassInfoAction = onCovPassInfoAction)
         }
     }
 
     data class Item(
         val certificate: CwaCovidCertificate,
         val isLoading: Boolean,
-        val validateCertificate: (CertificateContainerId) -> Unit
+        val validateCertificate: (CertificateContainerId) -> Unit,
+        val onCovPassInfoAction: () -> Unit
     ) : CertificateItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
         override val stableId = certificate.personIdentifier.codeSHA256.hashCode().toLong()

@@ -138,6 +138,10 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                                 .actionVaccinationDetailsFragmentToCertificatePdfExportInfoFragment(event.containerId)
                         )
                     }
+                    VaccinationDetailsNavigation.OpenCovPassInfo ->
+                        doNavigate(
+                            VaccinationDetailsFragmentDirections.actionVaccinationDetailsFragmentToCovPassInfoFragment()
+                        )
                 }
             }
         }
@@ -168,7 +172,11 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     private fun FragmentVaccinationDetailsBinding.bindCertificateViews(
         certificate: VaccinationCertificate
     ) {
-        qrCodeCard.bindValidityViews(certificate, isCertificateDetails = true)
+        qrCodeCard.bindValidityViews(
+            certificate,
+            isCertificateDetails = true,
+            onCovPassInfoAction = { viewModel.onCovPassInfoAction() }
+        )
         fullname.text = certificate.fullNameFormatted
         icaoname.text = certificate.fullNameStandardizedFormatted
         dateOfBirth.text = certificate.dateOfBirthFormatted
