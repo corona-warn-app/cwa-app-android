@@ -60,6 +60,7 @@
                         android:layout_marginHorizontal="24dp"
                         android:layout_marginTop="80dp"
                         android:layout_marginBottom="8dp"
+                        android:gravity="center"
                         android:text="@string/person_details_certificate_title"
                         android:textColor="@android:color/white"
                         android:textSize="20sp" />
@@ -70,6 +71,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="24dp"
                         android:layout_marginBottom="0dp"
+                        android:gravity="center"
                         android:textColor="@android:color/white"
                         android:textSize="20sp"
                         android:textStyle="bold"
