@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateCo
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertificateDetailsFragment
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment
-import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragment
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
@@ -43,27 +42,13 @@ fun Throwable.toQrCodeErrorDialogBuilder(context: Context): MaterialAlertDialogB
     }
 }
 
-fun CertificateContainerId.toDccResult(requireOnboarding: Boolean): DccResult {
+fun CertificateContainerId.toDccDetails(): DccResult {
     val uri = when (this) {
-        is RecoveryCertificateContainerId -> if (requireOnboarding) {
-            CovidCertificateOnboardingFragment.uri(DccResult.Type.RECOVERY, identifier)
-        } else {
-            RecoveryCertificateDetailsFragment.uri(identifier)
-        }
-
-        is TestCertificateContainerId -> if (requireOnboarding) {
-            CovidCertificateOnboardingFragment.uri(DccResult.Type.TEST, identifier)
-        } else {
-            TestCertificateDetailsFragment.uri(identifier)
-        }
-
-        is VaccinationCertificateContainerId -> if (requireOnboarding) {
-            CovidCertificateOnboardingFragment.uri(DccResult.Type.VACCINATION, identifier)
-        } else {
-            VaccinationDetailsFragment.uri(identifier)
-        }
+        is RecoveryCertificateContainerId -> RecoveryCertificateDetailsFragment.uri(identifier)
+        is TestCertificateContainerId -> TestCertificateDetailsFragment.uri(identifier)
+        is VaccinationCertificateContainerId -> VaccinationDetailsFragment.uri(identifier)
     }
-    return DccResult(uri)
+    return DccResult.Details(uri)
 }
 
 fun CheckInQrCodeHandler.Result.toCheckInResult(requireOnboarding: Boolean): CheckInResult = when (this) {
