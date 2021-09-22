@@ -16,24 +16,28 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Hatırlatma Aşıları İle İlgili Bilgiler"</item>
-        <item>"Aşı Sertifikalarının Basılı Versiyonu"</item>
+        <item>"Evrensel QR Kod Tarayıcı"</item>
+        <item>"QR Kodu İçe Aktar"</item>
+        <item>"Temas Süresi Ayarlaması"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Uygulamada, yaklaşan hatırlatma aşıları konusunda sizi uyaran bir mesaj görüntülenebilir."</item>
-        <item>"Artık Almanya\'da düzenlenen sertifikalarınızın basılı versiyonunu görüntüleyebilirsiniz. Bu özellik, sertifikaları PDF belgeleri olarak kaydetmenize ve yazdırmanıza olanak sağlar."</item>
+        <item>"Artık Corona-Warn-App\'te QR kod tarayıcıyı nerede açarsanız açın CWA\'nın desteklediği tüm belgeleri tarayabilirsiniz:\n\n• PCR testleri\n• Hızlı testler\n• Etkinlik check-in\'leri\n• Sertifikalar"</item>
+        <item>"Artık QR kod tarayıcıyı kullanarak fotoğraf veya PDF dosyalarından QR kodları içe aktarabilirsiniz."</item>
+        <item>"Temas güncesindeki minimum temas süresi 15 dakika yerine 10 dakikaya indirildi. Mevcut temas girişleri otomatik olarak ayarlandı. Günce girişlerinizi gözden geçirin ve gerekiyorsa ayarlayın."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
         <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item/>
         <item/>
         <item/>
     </string-array>

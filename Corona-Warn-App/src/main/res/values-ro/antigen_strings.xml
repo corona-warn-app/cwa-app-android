@@ -138,7 +138,7 @@
     <!-- XHED: Create RAT profile card title -->
     <string name="rat_profile_create_card_title">"Crearea profilului de test rapid"</string>
     <!-- XTXT: Create RAT profile card subtitle -->
-    <string name="rat_profile_create_card_subtitle">"Puteți crea un profil cu datele dvs. personale, pe care îl puteți transmite prin intermediul codului QR la fiecare punct de testare participant."</string>
+    <string name="rat_profile_create_card_subtitle">"Salvați datele dvs. personale sub formă de cod QR pentru a grăbi înregistrarea în punctele de testare."</string>
     <!-- XHED: Open RAT profile card title -->
     <string name="rat_profile_open_card_title">"Profil de test rapid"</string>
     <!-- XTXT: Open RAT profile card subtitle -->
@@ -154,7 +154,7 @@
     <!-- XBUT: Create RAT profile save button -->
     <string name="rat_profile_create_button">"Salvare"</string>
     <!-- XTXT: Create RAT profile description -->
-    <string name="rat_profile_create_description">"Puteți crea un profil cu datele dvs. personale, pe care îl puteți transmite prin intermediul codului QR la fiecare punct de testare participant."</string>
+    <string name="rat_profile_create_description">"Salvați datele dvs. personale sub formă de cod QR pentru a grăbi înregistrarea în punctele de testare."</string>
     <!-- XTXT: Create RAT profile street hint -->
     <string name="rat_profile_create_street_hint">"Strada și numărul"</string>
     <!-- XTXT: Create RAT profile post code hint -->
