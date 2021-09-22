@@ -943,33 +943,33 @@
     <!-- QR Code Scan Screen -->
     <string name="qr_code_scan_title">"QR Code Scan"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="qr_code_scan_body_title">"Welche QR-Codes können Sie scannen?"</string>
-    <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="qr_code_scan_body_subtitle">"PCR-Test und Schnelltests, Testzertifikate, Impfzertifikate, Genesenenzertifikate und Check-ins."</string>
-    <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Sie können Check-ins scannen, um gelöschte Events wiederherzustellen."</string>
-    <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body">"Position the QR code in the frame."</string>
+    <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="qr_code_scan_body_title">"What QR codes can you scan?"</string>
+    <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="qr_code_scan_body_subtitle">"PCR tests and rapid tests, test certificates, vaccination certificates, certificates of recovery, and check-ins."</string>
+    <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="qr_code_scan_body_subtitle_vertretung_warnen">"You can scan check-ins to restore events that you deleted."</string>
     <!-- XBUT: open image file button  -->
-    <string name="qr_code_open_file">"Datei öffnen"</string>
-    <!-- XTXT: unsupported qrcode message  -->
-    <string name="un_supported_qrcode_message">"Der QR-Code wird nicht in der Corona-Warn-App unterstützt. Bitte scannen Sie einen geeigneten QR-Code."</string>
+    <string name="qr_code_open_file">"Open File"</string>
     <!-- XTXT: QR Code processing message  -->
-    <string name="qr_code_processing_message">QR-Code wird gelesen …</string>
+    <string name="qr_code_processing_message">"Reading QR code…"</string>
+    <!-- XTXT: unsupported qrcode message  -->
+    <string name="un_supported_qrcode_message">"The QR code is not supported by the Corona-Warn-App. Please scan a suitable QR code."</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_file_not_readable_title">Datei nicht lesbar</string>
+    <string name="qr_code_file_not_readable_title">"File Unreadable"</string>
     <!-- XTXT: QR Code error message body  -->
-    <string name="qr_code_file_not_readable_body">Das Dateiformat wird von Corona-Warn-App nicht unterstützt. Bitte wählen Sie eine kompatible Datei.</string>
+    <string name="qr_code_file_not_readable_body">"The file format is not supported by the Corona-Warn-App. Please select a compatible file."</string>
     <!-- XTXT: QR Code error message body  -->
-    <string name="qr_code_file_corrupted_body">Die gewählte Datei ist möglicherweise beschädigt oder passwortgeschützt und konnte daher nicht gelesen werden. Bitte wählen Sie eine geeignete Datei.</string>
+    <string name="qr_code_file_corrupted_body">"The selected file may be damaged or password-protected and could not be read. Please select a suitable file."</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_qr_code_title">Kein QR-Code erkannt</string>
+    <string name="qr_code_no_qr_code_title">"No QR Code Detected"</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_qr_code_body">Bitte wählen Sie ein Dokument oder ein Foto mit einem vorhanden QR-Code.</string>
+    <string name="qr_code_no_qr_code_body">"Please select a document or photo with a QR code."</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_suitable_qr_code_title">Kein geeigneter QR-Code</string>
+    <string name="qr_code_no_suitable_qr_code_title">"No Suitable QR Code"</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_suitable_qr_code_body">Der QR-Code kann nicht in der Corona-Warn-App gescannt werden. Bitte wählen Sie eine Datei mit einem geeigneten QR-Code.</string>
+    <string name="qr_code_no_suitable_qr_code_body">"The QR code cannot be canned by the Corona-Warn-App. Please select a file with a suitable QR code."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
