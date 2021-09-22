@@ -17,11 +17,9 @@ class QrcodeSharedViewModel : ViewModel() {
     private val dccQrCodeCache = mutableMapOf<String, DccQrCode>()
 
     fun verifiedTraceLocation(locationId: String): VerifiedTraceLocation {
-        val verifiedTraceLocation = verifiedTraceLocationCache[locationId] ?: throw IllegalArgumentException(
+        return verifiedTraceLocationCache.remove(locationId) ?: throw IllegalArgumentException(
             "Location must be provided by putVerifiedTraceLocation() first from start destination"
         )
-        verifiedTraceLocationCache.remove(locationId)
-        return verifiedTraceLocation
     }
 
     fun putVerifiedTraceLocation(
@@ -35,10 +33,8 @@ class QrcodeSharedViewModel : ViewModel() {
     }
 
     fun dccQrCode(certificateIdentifier: String): DccQrCode {
-        val dccQrCode = dccQrCodeCache[certificateIdentifier] ?: throw IllegalArgumentException(
+        return dccQrCodeCache.remove(certificateIdentifier) ?: throw IllegalArgumentException(
             "DccQrCode must be provided by putDccQrCode first from start destination"
         )
-        dccQrCodeCache.remove(certificateIdentifier)
-        return dccQrCode
     }
 }
