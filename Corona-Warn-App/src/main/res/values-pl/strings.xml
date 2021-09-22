@@ -937,7 +937,31 @@
     <!-- QR Code Scan Screen -->
     <string name="qr_code_scan_title">"Skan kodu QR"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="qr_code_scan_body">"Ustaw kod QR w ramce."</string>
+    <string name="qr_code_scan_body_title">"Jakie kody QR można zeskanować?"</string>
+    <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="qr_code_scan_body_subtitle">"Testy PCR i szybkie testy, certyfikaty testów, certyfikaty szczepień, certyfikaty statusu ozdrowieńca i zameldowania."</string>
+    <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Możesz zeskanować zameldowania, aby przywrócić usunięte wydarzenia."</string>
+    <!-- XBUT: open image file button  -->
+    <string name="qr_code_open_file">"Otwórz plik"</string>
+    <!-- XTXT: QR Code processing message  -->
+    <string name="qr_code_processing_message">"Odczytywanie kodu QR…"</string>
+    <!-- XTXT: unsupported qrcode message  -->
+    <string name="un_supported_qrcode_message">"Ten kod QR nie jest obsługiwany przez aplikację Corona-Warn-App. Zeskanuj odpowiedni kod QR."</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_file_not_readable_title">"Nie można odczytać pliku"</string>
+    <!-- XTXT: QR Code error message body  -->
+    <string name="qr_code_file_not_readable_body">"Format pliku nie jest obsługiwany przez aplikację Corona-Warn-App. Wybierz kompatybilny plik."</string>
+    <!-- XTXT: QR Code error message body  -->
+    <string name="qr_code_file_corrupted_body">"Wybrany plik może być uszkodzony lub chroniony hasłem i nie można go odczytać. Wybierz odpowiedni plik."</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_qr_code_title">"Nie wykryto kodu QR"</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_qr_code_body">"Wybierz dokument lub zdjęcie z kodem QR."</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_suitable_qr_code_title">"Brak odpowiedniego kodu QR"</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_suitable_qr_code_body">"Kod QR nie może zostać zeskanowany przez aplikację Corona-Warn-App. Wybierz plik z odpowiednim kodem QR."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
