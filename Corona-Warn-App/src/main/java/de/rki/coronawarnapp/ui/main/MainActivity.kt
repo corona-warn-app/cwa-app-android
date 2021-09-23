@@ -88,15 +88,8 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         }
 
         with(binding) {
-            mainBottomNavigation.setupWithNavController2(navController) { viewModel.onBottomNavSelected() }
-            scannerFab.setOnClickListener {
-                navController.navigate(
-                    R.id.universalScanner,
-                    null,
-                    null,
-                    FragmentNavigatorExtras(emptyAnimationView to emptyAnimationView.transitionName)
-                )
-            }
+            setupWithNavController2(navController) { viewModel.onBottomNavSelected() }
+            scannerFab.setOnClickListener { navController.navigate(R.id.universalScanner) }
         }
 
         viewModel.showBackgroundJobDisabledNotification.observe(this) {

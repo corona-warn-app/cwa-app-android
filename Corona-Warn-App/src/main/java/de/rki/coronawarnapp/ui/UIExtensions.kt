@@ -10,6 +10,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragment
+import de.rki.coronawarnapp.databinding.ActivityMainBinding
 import de.rki.coronawarnapp.ui.main.home.HomeFragment
 import java.lang.ref.WeakReference
 
@@ -28,12 +29,12 @@ fun NavController.doNavigate(direction: NavDirections) {
  * Similar to [setupWithNavController],but it executes the passed action on item selection
  * and shows [BottomNavigationView] on [HomeFragment], [ContactDiaryOverviewFragment] only
  */
-fun BottomNavigationView.setupWithNavController2(
+fun ActivityMainBinding.setupWithNavController2(
     navController: NavController,
     onItemSelected: () -> Unit
 ) {
-    setupWithNavController(navController)
-    setOnNavigationItemSelectedListener { item ->
+    mainBottomNavigation.setupWithNavController(navController)
+    mainBottomNavigation.setOnNavigationItemSelectedListener { item ->
         onItemSelected()
         NavigationUI.onNavDestinationSelected(item, navController)
     }
@@ -62,7 +63,10 @@ fun BottomNavigationView.setupWithNavController2(
                 // for example [ContactDiaryOnboardingFragment]
                 val hasShowArgument = arguments?.getBoolean("showBottomNav") ?: false
 
-                bottomView.isVisible = inShowList || hasShowArgument
+                val isVisible = inShowList || hasShowArgument
+                mainBottomNavigation.isVisible = isVisible
+                bottomAppBar.isVisible = isVisible
+                scannerFab.isVisible = isVisible
             }
         }
     )
