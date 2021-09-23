@@ -30,7 +30,6 @@ class PersonOverviewAdapter :
                     CovidTestCertificatePendingCard(it)
                 },
                 TypedVHCreatorMod({ data[it] is PersonCertificateCard.Item }) { PersonCertificateCard(it) },
-                TypedVHCreatorMod({ data[it] is CameraPermissionCard.Item }) { CameraPermissionCard(it) },
             )
         )
 

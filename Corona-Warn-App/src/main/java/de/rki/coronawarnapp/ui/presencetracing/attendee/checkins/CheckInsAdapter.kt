@@ -27,7 +27,6 @@ class CheckInsAdapter :
                 DataBinderMod<CheckInsItem, ItemVH<CheckInsItem, ViewBinding>>(data),
                 TypedVHCreatorMod({ data[it] is ActiveCheckInVH.Item }) { ActiveCheckInVH(it) },
                 TypedVHCreatorMod({ data[it] is PastCheckInVH.Item }) { PastCheckInVH(it) },
-                TypedVHCreatorMod({ data[it] is CameraPermissionVH.Item }) { CameraPermissionVH(it) },
             )
         )
     }
