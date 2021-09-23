@@ -34,10 +34,11 @@ fun NavController.doNavigate(direction: NavDirections) {
  */
 fun ActivityMainBinding.setupWithNavController2(
     navController: NavController,
-    onItemSelected: () -> Unit
+    onItemSelected: () -> Unit,
+    onDestinationChanged: (Boolean) -> Unit,
 ) {
     mainBottomNavigation.setupWithNavController(navController)
-    mainBottomNavigation.setOnNavigationItemSelectedListener { item ->
+    mainBottomNavigation.setOnItemSelectedListener { item ->
         onItemSelected()
         NavigationUI.onNavDestinationSelected(item, navController)
     }
@@ -68,6 +69,7 @@ fun ActivityMainBinding.setupWithNavController2(
 
                 val isVisible = inShowList || hasShowArgument
                 if (isVisible) showBottomBar() else hideBottomAppBar()
+                onDestinationChanged(isVisible)
             }
         }
     )

@@ -88,7 +88,14 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         }
 
         with(binding) {
-            setupWithNavController2(navController) { viewModel.onBottomNavSelected() }
+            setupWithNavController2(navController,
+                onItemSelected = { viewModel.onBottomNavSelected() },
+                onDestinationChanged = { isBarVisible ->
+                    if (isBarVisible) {
+                        resetCurrentFragmentTransition()
+                    }
+                }
+            )
             scannerFab.apply {
                 setShowMotionSpecResource(R.animator.fab_show)
                 setHideMotionSpecResource(R.animator.fab_hide)
@@ -283,6 +290,13 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             reenterTransition = MaterialElevationScale(true).apply { duration = animDuration }
         }
         navController.navigate(R.id.universalScanner)
+    }
+
+    private fun resetCurrentFragmentTransition() {
+        supportFragmentManager.currentNavigationFragment?.apply {
+            exitTransition = null
+            reenterTransition = null
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
