@@ -11,6 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <View
+            android:id="@+id/empty_animation_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:transitionName="shared_element_container"
+            app:layout_constraintBottom_toBottomOf="@id/scanner_fab"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
@@ -27,10 +36,22 @@
             android:id="@+id/main_bottom_navigation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:elevation="1dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:menu="@menu/menu_bottom_nav" />
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/scanner_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:elevation="1dp"
+            app:icon="@drawable/ic_qr_code"
+            app:layout_constraintBottom_toTopOf="@id/main_bottom_navigation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/main_bottom_navigation" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
