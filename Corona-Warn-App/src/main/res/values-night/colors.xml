@@ -80,4 +80,5 @@
 
     <!-- Bottom nav color -->
     <color name="navItemColorNormal">#A5A5A5</color>
+    <color name="fab_tint">#83D2F2</color>
 </resources>

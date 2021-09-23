@@ -40,6 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/bottom_nav_scanner_title"
+        app:backgroundTint="@color/fab_tint"
         app:elevation="2dp"
         app:layout_anchor="@id/bottom_app_bar"
         app:srcCompat="@drawable/ic_nav_qrcode"
