@@ -77,4 +77,7 @@
 
     <color name="dividerColor">#4DFFFFFF</color>
     <color name="qrcodeCardColor">@color/colorSurface2</color>
+
+    <!-- Bottom nav color -->
+    <color name="navItemColorNormal">#A5A5A5</color>
 </resources>
