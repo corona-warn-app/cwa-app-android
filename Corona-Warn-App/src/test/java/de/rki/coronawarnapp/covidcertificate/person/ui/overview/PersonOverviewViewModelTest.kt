@@ -41,7 +41,6 @@ class PersonOverviewViewModelTest : BaseTest() {
     @MockK lateinit var refreshResult: TestCertificateRepository.RefreshResult
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var context: Context
-    @MockK lateinit var cameraPermissionProvider: CameraPermissionProvider
     @MockK lateinit var expirationNotificationService: DccExpirationNotificationService
 
     @BeforeEach
@@ -55,7 +54,6 @@ class PersonOverviewViewModelTest : BaseTest() {
         every { testCertificateRepository.certificates } returns flowOf(setOf())
         every { context.getLocale() } returns Locale.GERMAN
         every { valueSetsRepository.triggerUpdateValueSet(any()) } just Runs
-        every { cameraPermissionProvider.deniedPermanently } returns flowOf(false)
         coEvery { expirationNotificationService.showNotificationIfStateChanged(any()) } just runs
     }
 
@@ -84,14 +82,6 @@ class PersonOverviewViewModelTest : BaseTest() {
         }
 
         coEvery { testCertificateRepository.deleteCertificate(any()) }
-    }
-
-    @Test
-    fun onScanQrCode() {
-        instance.apply {
-            onScanQrCode()
-            events.getOrAwaitValue() shouldBe ScanQrCode
-        }
     }
 
     @Test
@@ -197,7 +187,6 @@ class PersonOverviewViewModelTest : BaseTest() {
             certificatesProvider = personCertificatesProvider,
             valueSetsRepository = valueSetsRepository,
             context = context,
-            cameraPermissionProvider = cameraPermissionProvider,
             appScope = TestCoroutineScope(),
             expirationNotificationService = expirationNotificationService
         )
