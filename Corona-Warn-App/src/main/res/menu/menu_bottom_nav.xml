@@ -12,6 +12,11 @@
         android:title="@string/bottom_nav_certificates_title" />
 
     <item
+        android:id="@+id/scan_item"
+        android:enabled="false"
+        android:title="@string/bottom_nav_scanner_title" />
+
+    <item
         android:id="@+id/trace_location_attendee_nav_graph"
         android:icon="@drawable/ic_nav_checkin"
         android:title="@string/bottom_nav_check_ins_title" />
