@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.transition.MaterialElevationScale
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -88,7 +89,11 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
         with(binding) {
             setupWithNavController2(navController) { viewModel.onBottomNavSelected() }
-            scannerFab.setOnClickListener { navController.navigate(R.id.universalScanner) }
+            scannerFab.apply {
+                setShowMotionSpecResource(R.animator.fab_show)
+                setHideMotionSpecResource(R.animator.fab_hide)
+                setOnClickListener { navigateToScanner() }
+            }
         }
 
         viewModel.showBackgroundJobDisabledNotification.observe(this) {
@@ -269,6 +274,15 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             }
         )
         DialogHelper.showDialog(dialog)
+    }
+
+    private fun navigateToScanner() {
+        supportFragmentManager.currentNavigationFragment?.apply {
+            val animDuration = resources.getInteger(android.R.integer.config_longAnimTime).toLong()
+            exitTransition = MaterialElevationScale(false).apply { duration = animDuration }
+            reenterTransition = MaterialElevationScale(true).apply { duration = animDuration }
+        }
+        navController.navigate(R.id.universalScanner)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
