@@ -214,7 +214,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     }
 
     private fun setupTransition() {
-        val animationDuration = resources.getInteger(android.R.integer.config_longAnimTime).toLong()
+        val animationDuration = resources.getInteger(android.R.integer.config_mediumAnimTime).toLong()
         enterTransition = MaterialContainerTransform().apply {
             startView = requireActivity().findViewById(R.id.scanner_fab)
             endView = binding.root
