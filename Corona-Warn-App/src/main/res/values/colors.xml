@@ -82,8 +82,8 @@
     <color name="colorStatisticsTrendNeutral">#5D6F80</color>
 
     <!-- Bottom Nav bar-->
-    <color name="navItemColorSelected">@color/colorPrimary</color>
-    <color name="navItemColorNormal">#999999</color>
+    <color name="navItemColorSelected">@color/colorSecondary</color>
+    <color name="navItemColorNormal">#979797</color>
 
     <!-- Trace location -->
     <color name="colorTraceLocationIconDateBackground">#FFFFFF</color>

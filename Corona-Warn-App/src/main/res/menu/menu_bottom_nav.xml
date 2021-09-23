@@ -3,12 +3,12 @@
 
     <item
         android:id="@+id/mainFragment"
-        android:icon="@drawable/ic_nav_home"
+        android:icon="@drawable/ic_nav_status"
         android:title="@string/bottom_nav_home_title" />
 
     <item
         android:id="@+id/covid_certificates_graph"
-        android:icon="@drawable/ic_certificates"
+        android:icon="@drawable/ic_nav_certificates"
         android:title="@string/bottom_nav_certificates_title" />
 
     <item
