@@ -57,8 +57,6 @@ class PersonOverviewViewModel @AssistedInject constructor(
         testCertificateRepository.deleteCertificate(containerId)
     }
 
-    fun onScanQrCode() = events.postValue(ScanQrCode)
-
     private fun MutableList<PersonCertificatesItem>.addPersonItems(
         persons: Set<PersonCertificates>,
         tcWrappers: Set<TestCertificateWrapper>,
