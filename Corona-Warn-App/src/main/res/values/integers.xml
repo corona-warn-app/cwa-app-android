@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="fab_scanner_transition_duration">500</integer>
+    <integer name="fab_scanner_transition_duration">400</integer>
 </resources>
