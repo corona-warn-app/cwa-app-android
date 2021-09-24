@@ -24,7 +24,7 @@
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Sie können nun unabhängig davon, von wo ein QR-Code-Scanner in der CWA geöffnet wird, alle von der CWA unterstützen Dokumente scannen:
+        <item>"Sie können nun unabhängig davon, von wo ein QR-Code-Scanner in der Corona-Warn-App geöffnet wird, alle von der App unterstützen Dokumente scannen:
 
 • PCR-Tests
 • Schnelltests
