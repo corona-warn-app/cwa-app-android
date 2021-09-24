@@ -15,21 +15,21 @@
   -->
 <set xmlns:android="http://schemas.android.com/apk/res/android">
     <objectAnimator
-        android:duration="@android:integer/config_shortAnimTime"
+        android:duration="@integer/fab_scanner_transition_duration"
         android:interpolator="@android:interpolator/fast_out_slow_in"
         android:propertyName="scale"
         android:repeatMode="restart"
         android:valueFrom="1"
         android:valueTo="0" />
     <objectAnimator
-        android:duration="@android:integer/config_shortAnimTime"
+        android:duration="@integer/fab_scanner_transition_duration"
         android:interpolator="@android:interpolator/fast_out_slow_in"
         android:propertyName="iconScale"
         android:repeatMode="restart"
         android:valueFrom="1"
         android:valueTo="0" />
     <objectAnimator
-        android:duration="@android:integer/config_shortAnimTime"
+        android:duration="@integer/fab_scanner_transition_duration"
         android:interpolator="@android:interpolator/fast_out_slow_in"
         android:propertyName="opacity"
         android:repeatMode="restart"

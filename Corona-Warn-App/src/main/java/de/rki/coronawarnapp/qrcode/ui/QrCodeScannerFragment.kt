@@ -12,7 +12,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
+import androidx.transition.Fade
 import androidx.transition.Slide
+import androidx.transition.TransitionSet
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.zxing.BarcodeFormat
@@ -214,17 +216,21 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     }
 
     private fun setupTransition() {
-        val animationDuration = resources.getInteger(android.R.integer.config_mediumAnimTime).toLong()
+        val animationDuration = resources.getInteger(R.integer.fab_scanner_transition_duration).toLong()
         enterTransition = MaterialContainerTransform().apply {
             startView = requireActivity().findViewById(R.id.scanner_fab)
             endView = binding.root
             duration = animationDuration
             scrimColor = Color.TRANSPARENT
         }
-        returnTransition = Slide().apply {
-            duration = animationDuration
+
+        val transitionSet = TransitionSet().apply {
+            addTransition(Slide())
+            addTransition(Fade())
             addTarget(R.id.qrcode_scan_container)
+            duration = resources.getInteger(R.integer.fab_scanner_transition_duration).toLong()
         }
+        returnTransition = transitionSet
     }
 
     companion object {

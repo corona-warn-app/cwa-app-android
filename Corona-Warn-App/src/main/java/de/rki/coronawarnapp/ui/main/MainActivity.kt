@@ -286,7 +286,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
     private fun navigateToScanner() {
         supportFragmentManager.currentNavigationFragment?.apply {
-            val animDuration = resources.getInteger(android.R.integer.config_mediumAnimTime).toLong()
+            val animDuration = resources.getInteger(R.integer.fab_scanner_transition_duration).toLong()
             exitTransition = MaterialElevationScale(false).apply { duration = animDuration }
             reenterTransition = MaterialElevationScale(true).apply { duration = animDuration }
         }
