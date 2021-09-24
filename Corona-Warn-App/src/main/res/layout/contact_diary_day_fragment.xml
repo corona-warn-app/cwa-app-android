@@ -18,10 +18,10 @@
             android:elevation="@dimen/elevation_weak"
             android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:title="Mittwoch, 23.12.2020" />
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/contact_diary_day_tab_layout"
             android:layout_width="0dp"
