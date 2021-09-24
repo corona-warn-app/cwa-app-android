@@ -10,9 +10,9 @@
 
     <TextView
         android:id="@+id/covpass_info_title"
+        style="@style/body2Medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:text="@string/person_details_certificate_covpass_info_title" />
 
     <ImageButton
@@ -27,11 +27,10 @@
 
     <androidx.constraintlayout.helper.widget.Flow
         android:id="@+id/covpass_info_flow"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="10dp"
         app:constraint_referenced_ids="covpass_info_title,covpass_info_button"
-        app:flow_horizontalGap="15dp"
         app:flow_wrapMode="chain"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
