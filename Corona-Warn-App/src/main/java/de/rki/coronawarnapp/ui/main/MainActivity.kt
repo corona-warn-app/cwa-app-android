@@ -88,7 +88,8 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         }
 
         with(binding) {
-            setupWithNavController2(navController,
+            setupWithNavController2(
+                navController,
                 onItemSelected = { viewModel.onBottomNavSelected() },
                 onDestinationChanged = { isBarVisible ->
                     if (isBarVisible) {
