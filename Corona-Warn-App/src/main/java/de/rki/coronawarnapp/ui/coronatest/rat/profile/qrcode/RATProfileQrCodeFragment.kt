@@ -82,8 +82,12 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
         viewModel.events.observe(viewLifecycleOwner) {
             when (it) {
                 ProfileQrCodeNavigation.Back -> popBackStack()
-                ProfileQrCodeNavigation.SubmissionConsent ->
-                    findNavController().navigate(R.id.submissionConsentFragment)
+                ProfileQrCodeNavigation.OpenScanner -> findNavController().navigate(
+                    R.id.action_to_universal_scanner,
+                    null,
+                    null,
+                    FragmentNavigatorExtras(binding.nextButton to binding.nextButton.transitionName)
+                )
                 is ProfileQrCodeNavigation.FullQrCode -> findNavController().navigate(
                     R.id.action_global_qrCodeFullScreenFragment,
                     QrCodeFullScreenFragmentArgs(it.qrCode).toBundle(),
