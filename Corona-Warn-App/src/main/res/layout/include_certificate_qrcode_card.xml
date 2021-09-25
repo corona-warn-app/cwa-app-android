@@ -18,10 +18,12 @@
     <ImageButton
         android:id="@+id/covpass_info_button"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:background="?android:selectableItemBackground"
         android:minWidth="48dp"
+        android:minHeight="48dp"
+        android:paddingVertical="5dp"
         android:scaleType="center"
         app:srcCompat="@drawable/ic_info" />
 
@@ -31,7 +33,10 @@
         android:layout_height="wrap_content"
         android:paddingBottom="10dp"
         app:constraint_referenced_ids="covpass_info_title,covpass_info_button"
+        app:flow_horizontalGap="5dp"
+        app:flow_verticalAlign="top"
         app:flow_wrapMode="chain"
+        app:layout_constraintBottom_toTopOf="@id/image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
