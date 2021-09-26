@@ -140,7 +140,12 @@ private fun Collection<CwaCovidCertificate>.rule5findTooRecentFinalShot(
  */
 private fun Collection<CwaCovidCertificate>.rule6findOtherVaccinations(): CwaCovidCertificate? = this
     .filterIsInstance<VaccinationCertificate>()
-    .maxByOrNull { it.rawCertificate.vaccination.vaccinatedOn }
+    .maxWithOrNull(
+        compareBy(
+            { it.rawCertificate.vaccination.vaccinatedOn },
+            { it.headerIssuedAt }
+        )
+    )
 
 /**
  * 7
