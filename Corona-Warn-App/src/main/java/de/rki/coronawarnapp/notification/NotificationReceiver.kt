@@ -7,7 +7,9 @@ import dagger.android.AndroidInjection
 import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.notification.NotificationConstants.NOTIFICATION_ID
-import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_ID
+import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_LEGACY_RESULT_NOTIFICATION_ID
+import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_PCR_RESULT_NOTIFICATION_ID
+import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RAT_RESULT_NOTIFICATION_ID
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_TEST_TYPE
 import de.rki.coronawarnapp.tag
 import timber.log.Timber
@@ -22,7 +24,9 @@ class NotificationReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         AndroidInjection.inject(this, context)
         when (val notificationId = intent.getIntExtra(NOTIFICATION_ID, Int.MIN_VALUE)) {
-            POSITIVE_RESULT_NOTIFICATION_ID -> {
+            POSITIVE_LEGACY_RESULT_NOTIFICATION_ID,
+            POSITIVE_PCR_RESULT_NOTIFICATION_ID,
+            POSITIVE_RAT_RESULT_NOTIFICATION_ID -> {
                 val testTypeRaw = intent.getStringExtra(POSITIVE_RESULT_NOTIFICATION_TEST_TYPE)
                 val testType = CoronaTest.Type.values().first { it.raw == testTypeRaw }
                 Timber.tag(TAG).v(

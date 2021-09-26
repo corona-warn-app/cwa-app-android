@@ -7,6 +7,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_CANCEL_CURRENT
+import android.app.PendingIntent.FLAG_NO_CREATE
 import android.content.Context
 import android.content.Intent
 import android.media.AudioAttributes
@@ -19,6 +20,7 @@ import dagger.Reusable
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.notification.NotificationConstants.NOTIFICATION_ID
+import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_LEGACY_RESULT_NOTIFICATION_ID
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_TEST_TYPE
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.di.AppContext
@@ -66,11 +68,25 @@ class GeneralNotifications @Inject constructor(
     }
 
     fun cancelFutureNotifications(notificationId: Int, testType: CoronaTest.Type) {
-        val pendingIntent = createPendingIntentToScheduleNotification(notificationId, testType)
-        val manager =
-            context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        manager.cancel(pendingIntent)
-        Timber.tag(TAG).v("Canceled future notifications with id: %s", notificationId)
+        val manager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        // Cancel legacy notifications at first
+        val legacyPendingIntent =
+            createPendingIntentToScheduleNotification(POSITIVE_LEGACY_RESULT_NOTIFICATION_ID, testType, FLAG_NO_CREATE)
+        if (legacyPendingIntent != null) {
+            manager.cancel(legacyPendingIntent)
+            Timber.tag(TAG).v("Canceled future legacy notifications")
+        } else {
+            Timber.tag(TAG).v("No future legacy notifications")
+        }
+
+        val pendingIntent = createPendingIntentToScheduleNotification(notificationId, testType, FLAG_NO_CREATE)
+        if (pendingIntent != null) {
+            manager.cancel(pendingIntent)
+            Timber.tag(TAG).v("Canceled future notifications with id:$notificationId type:$testType")
+        } else {
+            Timber.tag(TAG).v("No future notifications with id:$notificationId type:$testType")
+        }
     }
 
     fun cancelCurrentNotification(notificationId: Int) {
@@ -85,8 +101,7 @@ class GeneralNotifications @Inject constructor(
         notificationId: NotificationId
     ) {
         val pendingIntent = createPendingIntentToScheduleNotification(notificationId, testType)
-        val manager =
-            context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val manager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         manager.setInexactRepeating(AlarmManager.RTC, initialTime.millis, interval.millis, pendingIntent)
     }
 
