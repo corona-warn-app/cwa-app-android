@@ -48,6 +48,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
         wrongOrder2 shouldNotBe expectedOrder
     }
 
+    @Suppress("LongMethod", "ComplexMethod")
     @Test
     fun `find Highest Priority Certificate`() {
         val first = mockk<TestCertificate>().apply {
@@ -75,6 +76,17 @@ class PersonCertificatesExtensionsTest : BaseTest() {
         }
 
         val third = mockk<VaccinationCertificate>().apply {
+            every { headerIssuedAt } returns Instant.parse("2021-06-24T14:00:00.000Z")
+            every { rawCertificate.vaccination.doseNumber } returns 2
+            every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
+            every {
+                rawCertificate.vaccination.vaccinatedOn
+            } returns time.minus(Duration.standardDays(15)).toLocalDateUtc()
+            every { getState() } returns mockk<State.Valid>()
+        }
+
+        val thirdIssuedAtAnotherDate = mockk<VaccinationCertificate>().apply {
+            every { headerIssuedAt } returns Instant.parse("2021-07-20T10:00:00.000Z")
             every { rawCertificate.vaccination.doseNumber } returns 2
             every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
             every {
@@ -89,6 +101,15 @@ class PersonCertificatesExtensionsTest : BaseTest() {
         }
 
         val fifth = mockk<VaccinationCertificate>().apply {
+            every { headerIssuedAt } returns Instant.parse("2021-06-24T14:00:00.000Z")
+            every { rawCertificate.vaccination.doseNumber } returns 2
+            every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
+            every { rawCertificate.vaccination.vaccinatedOn } returns time.toLocalDateUtc()
+            every { getState() } returns mockk<State.Valid>()
+        }
+
+        val fifthIssuedAtAnotherDate = mockk<VaccinationCertificate>().apply {
+            every { headerIssuedAt } returns Instant.parse("2021-07-24T10:00:00.000Z")
             every { rawCertificate.vaccination.doseNumber } returns 2
             every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
             every { rawCertificate.vaccination.vaccinatedOn } returns time.toLocalDateUtc()
@@ -134,8 +155,10 @@ class PersonCertificatesExtensionsTest : BaseTest() {
             seventh,
             sixth,
             fifth,
+            fifthIssuedAtAnotherDate,
             fourth,
             third,
+            thirdIssuedAtAnotherDate,
             second,
             first,
         )
@@ -145,10 +168,14 @@ class PersonCertificatesExtensionsTest : BaseTest() {
         certificates.remove(first)
         certificates.findHighestPriorityCertificate(time) shouldBe second
         certificates.remove(second)
+        certificates.findHighestPriorityCertificate(time) shouldBe thirdIssuedAtAnotherDate
+        certificates.remove(thirdIssuedAtAnotherDate)
         certificates.findHighestPriorityCertificate(time) shouldBe third
         certificates.remove(third)
         certificates.findHighestPriorityCertificate(time) shouldBe fourth
         certificates.remove(fourth)
+        certificates.findHighestPriorityCertificate(time) shouldBe fifthIssuedAtAnotherDate
+        certificates.remove(fifthIssuedAtAnotherDate)
         certificates.findHighestPriorityCertificate(time) shouldBe fifth
         certificates.remove(fifth)
         certificates.findHighestPriorityCertificate(time) shouldBe sixth
@@ -198,6 +225,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
     @Test
     fun `fallback behavior when there are no valid certificates`() {
         val first = mockk<VaccinationCertificate>().apply {
+            every { headerIssuedAt } returns Instant.parse("2021-01-20T14:00:00.000Z")
             every { rawCertificate.vaccination.doseNumber } returns 2
             every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
             every { rawCertificate.vaccination.vaccinatedOn } returns LocalDate.parse("2021-01-01")
@@ -205,6 +233,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
         }
 
         val second = mockk<VaccinationCertificate>().apply {
+            every { headerIssuedAt } returns Instant.parse("2021-02-20T14:00:00.000Z")
             every { rawCertificate.vaccination.doseNumber } returns 2
             every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
             every { rawCertificate.vaccination.vaccinatedOn } returns LocalDate.parse("2021-01-02")

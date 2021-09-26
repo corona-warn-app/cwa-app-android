@@ -81,7 +81,12 @@ private fun Collection<CwaCovidCertificate>.rule3FindRecentLastShot(
     .filter {
         Days.daysBetween(it.rawCertificate.vaccination.vaccinatedOn, nowUtc.toLocalDateUtc()).days > 14
     }
-    .maxByOrNull { it.rawCertificate.vaccination.vaccinatedOn }
+    .maxWithOrNull(
+        compareBy(
+            { it.rawCertificate.vaccination.vaccinatedOn },
+            { it.headerIssuedAt }
+        )
+    )
 
 /**
  * 4
@@ -119,7 +124,12 @@ private fun Collection<CwaCovidCertificate>.rule5findTooRecentFinalShot(
     .filter {
         Days.daysBetween(it.rawCertificate.vaccination.vaccinatedOn, nowUtc.toLocalDateUtc()).days <= 14
     }
-    .maxByOrNull { it.rawCertificate.vaccination.vaccinatedOn }
+    .maxWithOrNull(
+        compareBy(
+            { it.rawCertificate.vaccination.vaccinatedOn },
+            { it.headerIssuedAt }
+        )
+    )
 
 /**
  * 6
