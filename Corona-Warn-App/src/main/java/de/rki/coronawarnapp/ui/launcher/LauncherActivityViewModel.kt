@@ -37,7 +37,7 @@ class LauncherActivityViewModel @AssistedInject constructor(
 
     private fun checkForRoot() = launch {
         Timber.tag(TAG).d("checkForRoot()")
-        if (!rootDetectionCheck.checkRoot()) {
+        if (rootDetectionCheck.checkRoot()) {
             events.postValue(LauncherEvent.ShowRootedDialog)
         } else {
             checkForUpdate()

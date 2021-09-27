@@ -8,6 +8,7 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
+import de.rki.coronawarnapp.rootdetection.RootDetectionCheck
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.update.getUpdateInfo
 import io.kotest.matchers.shouldBe
@@ -35,6 +36,7 @@ class LauncherActivityViewModelTest : BaseTest() {
     @MockK lateinit var appUpdateManager: AppUpdateManager
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var onboardingSettings: OnboardingSettings
+    @MockK lateinit var rootDetectionCheck: RootDetectionCheck
 
     @BeforeEach
     fun setupFreshViewModel() {
@@ -65,7 +67,8 @@ class LauncherActivityViewModelTest : BaseTest() {
         appUpdateManager = appUpdateManager,
         dispatcherProvider = TestDispatcherProvider(),
         cwaSettings = cwaSettings,
-        onboardingSettings = onboardingSettings
+        onboardingSettings = onboardingSettings,
+        rootDetectionCheck = rootDetectionCheck
     )
 
     @Test

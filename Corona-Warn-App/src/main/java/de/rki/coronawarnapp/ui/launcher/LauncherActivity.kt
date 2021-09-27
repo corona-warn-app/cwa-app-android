@@ -7,6 +7,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
+import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -39,7 +40,7 @@ class LauncherActivity : AppCompatActivity() {
                 }
                 is LauncherEvent.ForceUpdate -> it.forceUpdate(this)
                 LauncherEvent.ShowUpdateDialog -> showUpdateNeededDialog()
-                is LauncherEvent.ShowRootedDialog -> showRootedDialog()
+                LauncherEvent.ShowRootedDialog -> showRootedDialog()
             }
         }
     }
@@ -54,7 +55,11 @@ class LauncherActivity : AppCompatActivity() {
             .setTitle(R.string.root_dialog_title)
             .setMessage(R.string.root_dialog_message)
             .setCancelable(false)
-            .setPositiveButton(R.string.root_dialog_button) { _, _ -> viewModel.checkForUpdate() }
+            .setPositiveButton(R.string.root_dialog_button) { _, _ -> }
+            .setNegativeButton(R.string.root_dialog_faq_link_label) { _, _ ->
+                openUrl(R.string.root_dialog_faq_link_url)
+            }
+            .setOnDismissListener { viewModel.checkForUpdate() }
             .show()
     }
 
