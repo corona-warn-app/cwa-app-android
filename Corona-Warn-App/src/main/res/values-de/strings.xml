@@ -1935,12 +1935,6 @@
     <string name="trace_location_onboarding_body_stay">Bitte geben Sie Ihre Aufenthaltszeit so genau wie möglich an, damit gezielt gewarnt werden kann.</string>
     <!-- XACT: Button/Dialog label to consent-->
     <string name="trace_location_onboarding_body_confirm">Einverstanden</string>
-    <!--  XHED: Trace location check-ins camera permission card title-->
-    <string name="trace_location_attendee_camera_card_title">Zugriff auf Kamera erlauben</string>
-    <!--  XTXT: Trace location check-ins camera permission card susbtitle-->
-    <string name="trace_location_attendee_camera_card_subtitle">Um die Kamera für das Scannen des QR-Codes zu nutzen, müssen Sie die Verwendung der Kamera in den Geräteeinstellungen zur App zulassen.</string>
-    <!--  XBUT: Trace location check-ins camera permission card button-->
-    <string name="trace_location_attendee_camera_card_button">Einstellungen öffnen</string>
     <!--  YMSG: Trace location onboarding image description-->
     <string name="trace_location_onboarding_content_description">Drei Personen an einem Stehtisch, zwei von ihnen schauen auf ihr Smartphone.</string>
     <!-- XMIT: Trace location poster print -->
@@ -2000,4 +1994,11 @@
     <string name="incompatible_link_advertising_not_supported">"https://www.coronawarn.app/de/faq/#part_incompat"</string>
     <!-- XTXT: Incompitability faq link for full incompatibility -->
     <string name="incompatible_link_scanning_not_supported">"https://www.coronawarn.app/de/faq/#full_incompat"</string>
+
+    <!-- XHED: UQS camera permission dialog title -->
+    <string name="camera_permission_dialog_title">Kamerazugriff benötigt</string>
+    <!-- XTXT: UQS camera permission dialog message -->
+    <string name="camera_permission_dialog_message">Bitte gehen Sie in die Systemeinstellungen und erlauben Sie der App die Benutzung der Kamera, um den QR-Code zu scannen.</string>
+    <!-- XBUT: UQS camera permission dialog settings -->
+    <string name="camera_permission_dialog_settings">Einstellungen</string>
 </resources>

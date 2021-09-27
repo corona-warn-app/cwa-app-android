@@ -15,11 +15,13 @@ import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
-import de.rki.coronawarnapp.ui.main.home.DeepLinkDirections
+import de.rki.coronawarnapp.ui.main.home.MainActivityEvent
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
+import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.permission.CameraPermissionProvider
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
+import de.rki.coronawarnapp.util.permission.CameraSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -39,7 +41,8 @@ class MainActivityViewModel @AssistedInject constructor(
     private val covidCertificateSettings: CovidCertificateSettings,
     private val raExtractor: RapidAntigenQrCodeExtractor,
     private val submissionRepository: SubmissionRepository,
-    private val coronaTestRepository: CoronaTestRepository,
+    private val cameraPermissionProvider: CameraPermissionProvider,
+    coronaTestRepository: CoronaTestRepository,
     checkInRepository: CheckInRepository,
     personCertificatesProvider: PersonCertificatesProvider,
 ) : CWAViewModel(
@@ -47,7 +50,7 @@ class MainActivityViewModel @AssistedInject constructor(
 ) {
 
     val showEnvironmentHint = SingleLiveEvent<String>()
-    val externalLinkEvents = SingleLiveEvent<DeepLinkDirections>()
+    val event = SingleLiveEvent<MainActivityEvent>()
 
     val showBackgroundJobDisabledNotification = SingleLiveEvent<Unit>()
     val showEnergyOptimizedEnabledForBackground = SingleLiveEvent<Unit>()
@@ -117,23 +120,27 @@ class MainActivityViewModel @AssistedInject constructor(
 
     fun onNavigationUri(uriString: String) = launch {
         when {
-            CheckInsFragment.canHandle(uriString) -> externalLinkEvents.postValue(
-                DeepLinkDirections.GoToCheckInsFragment(uriString)
+            CheckInsFragment.canHandle(uriString) -> event.postValue(
+                MainActivityEvent.GoToCheckInsFragment(uriString)
             )
             raExtractor.canHandle(uriString) -> {
                 try {
                     val qrCode = raExtractor.extract(rawString = uriString)
                     val test = submissionRepository.testForType(qrCode.type).first()
                     when {
-                        test != null -> externalLinkEvents.postValue(DeepLinkDirections.GoToDeletionScreen(qrCode))
-                        else -> externalLinkEvents.postValue(DeepLinkDirections.GoToSubmissionConsentFragment(qrCode))
+                        test != null -> event.postValue(MainActivityEvent.GoToDeletionScreen(qrCode))
+                        else -> event.postValue(MainActivityEvent.GoToSubmissionConsentFragment(qrCode))
                     }
                 } catch (e: Exception) {
                     Timber.w(e, "onNavigationUri failed")
-                    externalLinkEvents.postValue(DeepLinkDirections.Error(e))
+                    event.postValue(MainActivityEvent.Error(e))
                 }
             }
         }
+    }
+
+    fun openScanner() = launch {
+        event.postValue(MainActivityEvent.OpenScanner(cameraPermissionProvider.deniedPermanently.first()))
     }
 
     @AssistedFactory

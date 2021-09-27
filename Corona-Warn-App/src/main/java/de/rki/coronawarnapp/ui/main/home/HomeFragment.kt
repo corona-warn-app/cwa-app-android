@@ -66,6 +66,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
 
         binding.mainTracing.setOnClickListener {
+            resetTransitions()
             doNavigate(HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment())
         }
 
@@ -145,6 +146,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
     }
 
     private fun navigate(event: HomeFragmentEvents) {
+        resetTransitions()
         when (event) {
             HomeFragmentEvents.ShowErrorResetDialog -> {
                 RecoveryByResetDialogFactory(this).showDialog(
@@ -205,6 +207,11 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             findNestedGraph(R.id.trace_location_organizer_nav_graph).startDestination = R.id.traceLocationsFragment
         }
         doNavigate(HomeFragmentDirections.actionMainFragmentToTraceLocationOrganizerNavGraph())
+    }
+
+    private fun resetTransitions() {
+        exitTransition = null
+        reenterTransition = null
     }
 
     companion object {
