@@ -44,7 +44,7 @@ class NewReleaseInfoViewModelTest : BaseTest() {
         lastOnboardingVersionCode.value shouldBe 0L
 
         viewModel.onNextButtonClick()
-        viewModel.routeToScreen.value shouldBe NewReleaseInfoNavigationEvents.NavigateToOnboardingDeltaAnalyticsFragment
+        viewModel.routeToScreen.value shouldBe NewReleaseInfoNavigationEvents.NavigateToOnboardingDeltaNotificationManagementFragment
     }
 
     @Test

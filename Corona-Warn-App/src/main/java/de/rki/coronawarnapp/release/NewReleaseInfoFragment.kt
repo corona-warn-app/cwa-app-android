@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import setTextWithUrl
+import timber.log.Timber
 import javax.inject.Inject
 
 class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragment), AutoInject {
@@ -63,11 +64,13 @@ class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragmen
             when (it) {
                 is NewReleaseInfoNavigationEvents.CloseScreen ->
                     popBackStack()
-                is NewReleaseInfoNavigationEvents.NavigateToOnboardingDeltaAnalyticsFragment ->
+                is NewReleaseInfoNavigationEvents.NavigateToOnboardingDeltaNotificationManagementFragment -> {
+                    Timber.d("Yo, wtf?")
                     doNavigate(
                         NewReleaseInfoFragmentDirections
-                            .actionNewReleaseInfoFragmentToOnboardingDeltaAnalyticsFragment()
+                            .actionNewReleaseInfoFragmentToOnboardingDeltaNotificationManagementFragment()
                     )
+                }
             }
         }
     }

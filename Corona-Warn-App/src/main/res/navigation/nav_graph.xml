@@ -623,6 +623,11 @@
             app:destination="@id/onboardingDeltaAnalyticsFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_newReleaseInfoFragment_to_onboardingDeltaNotificationManagementFragment"
+            app:destination="@id/onboardingDeltaNotificationManagementFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false"/>
     </fragment>
     <fragment
         android:id="@+id/surveyConsentFragment"
@@ -856,5 +861,12 @@
     <action
         android:id="@+id/action_to_universal_scanner"
         app:destination="@id/universalScanner" />
+
+    <fragment
+        android:id="@+id/onboardingDeltaNotificationManagementFragment"
+        android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaNotificationManagementFragment"
+        android:label="OnboardingDeltaNotificationManagementFragment"
+        tools:layout="@layout/notification_management_delta_onboarding_fragment">
+    </fragment>
 
 </navigation>

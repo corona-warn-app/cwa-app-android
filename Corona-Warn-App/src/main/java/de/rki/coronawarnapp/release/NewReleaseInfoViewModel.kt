@@ -26,8 +26,11 @@ class NewReleaseInfoViewModel @AssistedInject constructor(
 
     fun onNextButtonClick() {
         appSettings.lastChangelogVersion.update { BuildConfigWrap.VERSION_CODE }
-        if (analyticsSettings.lastOnboardingVersionCode.value == 0L) {
-            routeToScreen.postValue(NewReleaseInfoNavigationEvents.NavigateToOnboardingDeltaAnalyticsFragment)
+        Timber.d("Last onboarding version: " + appSettings.lastOnboardingVersionCode.value)
+        if (appSettings.lastOnboardingVersionCode.value == 0L) {
+            routeToScreen.postValue(
+                NewReleaseInfoNavigationEvents.NavigateToOnboardingDeltaNotificationManagementFragment
+            )
         } else {
             routeToScreen.postValue(NewReleaseInfoNavigationEvents.CloseScreen)
         }
