@@ -48,6 +48,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
         wrongOrder2 shouldNotBe expectedOrder
     }
 
+    @Suppress("LongMethod", "ComplexMethod")
     @Test
     fun `find Highest Priority Certificate`() {
         val first = mockk<TestCertificate>().apply {
@@ -75,8 +76,39 @@ class PersonCertificatesExtensionsTest : BaseTest() {
         }
 
         val third = mockk<VaccinationCertificate>().apply {
+            every { headerIssuedAt } returns Instant.parse("2021-06-24T14:00:00.000Z")
             every { rawCertificate.vaccination.doseNumber } returns 2
             every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
+            every {
+                rawCertificate.vaccination.vaccinatedOn
+            } returns time.minus(Duration.standardDays(25)).toLocalDateUtc()
+            every { getState() } returns mockk<State.Valid>()
+        }
+
+        val thirdIssuedAtAnotherDate = mockk<VaccinationCertificate>().apply {
+            every { headerIssuedAt } returns Instant.parse("2021-07-20T10:00:00.000Z")
+            every { rawCertificate.vaccination.doseNumber } returns 2
+            every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
+            every {
+                rawCertificate.vaccination.vaccinatedOn
+            } returns time.minus(Duration.standardDays(25)).toLocalDateUtc()
+            every { getState() } returns mockk<State.Valid>()
+        }
+
+        val thirdIsBooster = mockk<VaccinationCertificate>().apply {
+            every { headerIssuedAt } returns Instant.parse("2021-11-05T14:00:00.000Z")
+            every { rawCertificate.vaccination.doseNumber } returns 3
+            every { rawCertificate.vaccination.totalSeriesOfDoses } returns 3
+            every {
+                rawCertificate.vaccination.vaccinatedOn
+            } returns time.minus(Duration.standardDays(15)).toLocalDateUtc()
+            every { getState() } returns mockk<State.Valid>()
+        }
+
+        val thirdIsBoosterIssuedAtAnotherDate = mockk<VaccinationCertificate>().apply {
+            every { headerIssuedAt } returns Instant.parse("2021-12-02T14:00:00.000Z")
+            every { rawCertificate.vaccination.doseNumber } returns 3
+            every { rawCertificate.vaccination.totalSeriesOfDoses } returns 3
             every {
                 rawCertificate.vaccination.vaccinatedOn
             } returns time.minus(Duration.standardDays(15)).toLocalDateUtc()
@@ -89,13 +121,47 @@ class PersonCertificatesExtensionsTest : BaseTest() {
         }
 
         val fifth = mockk<VaccinationCertificate>().apply {
+            every { headerIssuedAt } returns Instant.parse("2021-06-24T14:00:00.000Z")
             every { rawCertificate.vaccination.doseNumber } returns 2
             every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
             every { rawCertificate.vaccination.vaccinatedOn } returns time.toLocalDateUtc()
             every { getState() } returns mockk<State.Valid>()
         }
 
+        val fifthIssuedAtAnotherDate = mockk<VaccinationCertificate>().apply {
+            every { headerIssuedAt } returns Instant.parse("2021-07-24T10:00:00.000Z")
+            every { rawCertificate.vaccination.doseNumber } returns 2
+            every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
+            every { rawCertificate.vaccination.vaccinatedOn } returns time.toLocalDateUtc()
+            every { getState() } returns mockk<State.Valid>()
+        }
+
+        val fifthIsBooster = mockk<VaccinationCertificate>().apply {
+            every { headerIssuedAt } returns Instant.parse("2021-06-24T14:00:00.000Z")
+            every { rawCertificate.vaccination.doseNumber } returns 3
+            every { rawCertificate.vaccination.totalSeriesOfDoses } returns 3
+            every { rawCertificate.vaccination.vaccinatedOn } returns time.plus(oneDayDuration).toLocalDateUtc()
+            every { getState() } returns mockk<State.Valid>()
+        }
+
+        val fifthIsBoosterIssuedAtAnotherDate = mockk<VaccinationCertificate>().apply {
+            every { headerIssuedAt } returns Instant.parse("2021-07-24T10:00:00.000Z")
+            every { rawCertificate.vaccination.doseNumber } returns 3
+            every { rawCertificate.vaccination.totalSeriesOfDoses } returns 3
+            every { rawCertificate.vaccination.vaccinatedOn } returns time.plus(oneDayDuration).toLocalDateUtc()
+            every { getState() } returns mockk<State.Valid>()
+        }
+
         val sixth = mockk<VaccinationCertificate>().apply {
+            every { headerIssuedAt } returns Instant.parse("2021-06-24T10:00:00.000Z")
+            every { rawCertificate.vaccination.doseNumber } returns 1
+            every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
+            every { rawCertificate.vaccination.vaccinatedOn } returns time.toLocalDateUtc()
+            every { getState() } returns mockk<State.Valid>()
+        }
+
+        val sixthIssuedAtAnotherDate = mockk<VaccinationCertificate>().apply {
+            every { headerIssuedAt } returns Instant.parse("2021-06-24T14:00:00.000Z")
             every { rawCertificate.vaccination.doseNumber } returns 1
             every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
             every { rawCertificate.vaccination.vaccinatedOn } returns time.toLocalDateUtc()
@@ -132,10 +198,29 @@ class PersonCertificatesExtensionsTest : BaseTest() {
             ninth,
             eighth,
             seventh,
+
+            // First shot 1/2, same shot that has two different certificates issued on different dates
             sixth,
+            sixthIssuedAtAnotherDate,
+
+            // Complete shot 2/2, same shot that has two different certificates issued on different dates  <= 14
             fifth,
+            fifthIssuedAtAnotherDate,
+
+            // Complete shot 3/3, same shot that has two different certificates issued on different dates  <= 14
+            fifthIsBooster,
+            fifthIsBoosterIssuedAtAnotherDate,
+
             fourth,
+
+            // Complete shot 2/2, same shot that has two different certificates issued on different dates > 14
             third,
+            thirdIssuedAtAnotherDate,
+
+            // Booster shot 3/3, same shot that has two different certificates issued on different dates  > 14
+            thirdIsBooster,
+            thirdIsBoosterIssuedAtAnotherDate,
+
             second,
             first,
         )
@@ -143,20 +228,49 @@ class PersonCertificatesExtensionsTest : BaseTest() {
         // Valid
         certificates.findHighestPriorityCertificate(time) shouldBe first
         certificates.remove(first)
+
         certificates.findHighestPriorityCertificate(time) shouldBe second
         certificates.remove(second)
+
+        certificates.findHighestPriorityCertificate(time) shouldBe thirdIsBoosterIssuedAtAnotherDate
+        certificates.remove(thirdIsBoosterIssuedAtAnotherDate)
+
+        certificates.findHighestPriorityCertificate(time) shouldBe thirdIsBooster
+        certificates.remove(thirdIsBooster)
+
+        certificates.findHighestPriorityCertificate(time) shouldBe thirdIssuedAtAnotherDate
+        certificates.remove(thirdIssuedAtAnotherDate)
+
         certificates.findHighestPriorityCertificate(time) shouldBe third
         certificates.remove(third)
+
         certificates.findHighestPriorityCertificate(time) shouldBe fourth
         certificates.remove(fourth)
+
+        certificates.findHighestPriorityCertificate(time) shouldBe fifthIsBoosterIssuedAtAnotherDate
+        certificates.remove(fifthIsBoosterIssuedAtAnotherDate)
+
+        certificates.findHighestPriorityCertificate(time) shouldBe fifthIsBooster
+        certificates.remove(fifthIsBooster)
+
+        certificates.findHighestPriorityCertificate(time) shouldBe fifthIssuedAtAnotherDate
+        certificates.remove(fifthIssuedAtAnotherDate)
+
         certificates.findHighestPriorityCertificate(time) shouldBe fifth
         certificates.remove(fifth)
+
+        certificates.findHighestPriorityCertificate(time) shouldBe sixthIssuedAtAnotherDate
+        certificates.remove(sixthIssuedAtAnotherDate)
+
         certificates.findHighestPriorityCertificate(time) shouldBe sixth
         certificates.remove(sixth)
+
         certificates.findHighestPriorityCertificate(time) shouldBe seventh
         certificates.remove(seventh)
+
         certificates.findHighestPriorityCertificate(time) shouldBe eighth
         certificates.remove(eighth)
+
         certificates.findHighestPriorityCertificate(time) shouldBe ninth
         certificates.remove(ninth)
 
@@ -198,6 +312,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
     @Test
     fun `fallback behavior when there are no valid certificates`() {
         val first = mockk<VaccinationCertificate>().apply {
+            every { headerIssuedAt } returns Instant.parse("2021-01-20T14:00:00.000Z")
             every { rawCertificate.vaccination.doseNumber } returns 2
             every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
             every { rawCertificate.vaccination.vaccinatedOn } returns LocalDate.parse("2021-01-01")
@@ -205,6 +320,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
         }
 
         val second = mockk<VaccinationCertificate>().apply {
+            every { headerIssuedAt } returns Instant.parse("2021-02-20T14:00:00.000Z")
             every { rawCertificate.vaccination.doseNumber } returns 2
             every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
             every { rawCertificate.vaccination.vaccinatedOn } returns LocalDate.parse("2021-01-02")
