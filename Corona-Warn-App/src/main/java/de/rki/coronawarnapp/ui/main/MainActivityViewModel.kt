@@ -21,7 +21,6 @@ import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.permission.Came
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
-import de.rki.coronawarnapp.util.permission.CameraSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
