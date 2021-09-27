@@ -213,7 +213,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
     }
 
     /**
-     * Reset any assigned transitions from before such as Scanner 
+     * Reset any assigned transitions from before such as Scanner
      */
     private fun resetTransitions() {
         exitTransition = null
