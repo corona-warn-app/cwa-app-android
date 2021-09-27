@@ -68,6 +68,21 @@ class CertificatePosterViewModel @AssistedInject constructor(
         }
     }
 
+    private fun deleteFile() = launch(context = dispatcher.IO) {
+        try {
+            sharingIntent.value?.file?.delete()
+        } catch (e: Exception) {
+            Timber.d(e, "deleteFile failed")
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        // Delete exported pdf file
+        Timber.i("CertificatePosterFragment closed. Deleting pdf export now.")
+        deleteFile()
+    }
+
     @AssistedFactory
     interface Factory : CWAViewModelFactory<CertificatePosterViewModel> {
         fun create(containerId: CertificateContainerId): CertificatePosterViewModel
