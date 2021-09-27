@@ -82,8 +82,8 @@
     <color name="colorStatisticsTrendNeutral">#5D6F80</color>
 
     <!-- Bottom Nav bar-->
-    <color name="navItemColorSelected">@color/colorPrimary</color>
-    <color name="navItemColorNormal">#999999</color>
+    <color name="navItemColorSelected">@color/colorSecondary</color>
+    <color name="navItemColorNormal">#979797</color>
 
     <!-- Trace location -->
     <color name="colorTraceLocationIconDateBackground">#FFFFFF</color>
@@ -109,5 +109,6 @@
     <color name="starsColorInvalid">#576778</color>
     <color name="qrcodeCardColor">@color/colorSurface</color>
     <color name="badgeColor">#ED382F</color>
+    <color name="fab_tint">#0093C8</color>
 
 </resources>
