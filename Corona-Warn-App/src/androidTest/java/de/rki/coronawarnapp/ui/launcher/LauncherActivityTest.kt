@@ -11,6 +11,7 @@ import com.google.android.play.core.install.model.UpdateAvailability
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.main.CWASettings
+import de.rki.coronawarnapp.rootdetection.RootDetectionCheck
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.update.getUpdateInfo
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -36,6 +37,7 @@ class LauncherActivityTest : BaseUITest() {
     @MockK lateinit var appUpdateManager: AppUpdateManager
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var onboardingSettings: OnboardingSettings
+    @MockK lateinit var rootDetectionCheck: RootDetectionCheck
     lateinit var viewModel: LauncherActivityViewModel
 
     @Before
@@ -47,6 +49,8 @@ class LauncherActivityTest : BaseUITest() {
             mockk<AppUpdateInfo>().apply {
                 every { updateAvailability() } returns UpdateAvailability.UPDATE_NOT_AVAILABLE
             }
+
+        coEvery { rootDetectionCheck.checkRoot() } returns false
 
         every { onboardingSettings.isOnboarded } returns false
         viewModel = launcherActivityViewModel()
@@ -96,7 +100,8 @@ class LauncherActivityTest : BaseUITest() {
             appUpdateManager,
             TestDispatcherProvider(),
             cwaSettings,
-            onboardingSettings
+            onboardingSettings,
+            rootDetectionCheck
         )
     )
 }
