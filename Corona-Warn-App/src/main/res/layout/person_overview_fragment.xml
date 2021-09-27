@@ -59,7 +59,7 @@
             style="@style/body2Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:gravity="center"
             android:text="@string/person_overview_no_certificates_subtitle"
             app:autoSizeTextType="uniform" />
@@ -68,7 +68,7 @@
             style="@style/body2Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:gravity="center"
             android:text="@string/person_overview_no_certificates_subtitle_2"
             app:autoSizeTextType="uniform" />
