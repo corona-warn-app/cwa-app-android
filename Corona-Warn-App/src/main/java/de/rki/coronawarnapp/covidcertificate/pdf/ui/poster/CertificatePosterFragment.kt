@@ -74,6 +74,13 @@ class CertificatePosterFragment : Fragment(R.layout.certificate_poster_fragment)
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // Delete exported pdf file
+        Timber.i("CertificatePosterFragment closed. Deleting pdf export now.")
+        viewModel.sharingIntent.value?.file?.delete()
+    }
+
     private fun onShareIntent(fileIntent: FileSharing.FileIntentProvider) {
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
