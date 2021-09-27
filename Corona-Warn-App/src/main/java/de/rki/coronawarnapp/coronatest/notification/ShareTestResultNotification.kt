@@ -7,7 +7,6 @@ import dagger.Reusable
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.notification.GeneralNotifications
-import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_ID
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_INITIAL_OFFSET
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_INTERVAL
 import de.rki.coronawarnapp.tag
@@ -25,12 +24,12 @@ class ShareTestResultNotification @Inject constructor(
     private val notificationHelper: GeneralNotifications,
 ) {
 
-    fun scheduleSharePositiveTestResultReminder(testType: CoronaTest.Type) {
+    fun scheduleSharePositiveTestResultReminder(testType: CoronaTest.Type, notificationId: Int) {
         notificationHelper.scheduleRepeatingNotification(
             testType,
             timeStamper.nowUTC.plus(POSITIVE_RESULT_NOTIFICATION_INITIAL_OFFSET),
             POSITIVE_RESULT_NOTIFICATION_INTERVAL,
-            POSITIVE_RESULT_NOTIFICATION_ID
+            notificationId
         )
     }
 
@@ -58,8 +57,8 @@ class ShareTestResultNotification @Inject constructor(
         )
     }
 
-    fun cancelSharePositiveTestResultNotification(testType: CoronaTest.Type) {
-        notificationHelper.cancelFutureNotifications(POSITIVE_RESULT_NOTIFICATION_ID, testType)
+    fun cancelSharePositiveTestResultNotification(testType: CoronaTest.Type, notificationId: Int) {
+        notificationHelper.cancelFutureNotifications(notificationId, testType)
         Timber.tag(TAG).v("Future positive test result notifications have been canceled")
     }
 
