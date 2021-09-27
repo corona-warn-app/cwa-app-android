@@ -106,11 +106,6 @@
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/colorOnPrimary</item>
-
-    </style>
-
-    <style name="BottomNavigationTheme" parent="Theme.AppCompat.DayNight">
-        <item name="colorPrimary">@color/colorSecondary</item>
     </style>
 
     <style name="buttonReset" parent="button">
