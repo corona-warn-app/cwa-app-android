@@ -6,6 +6,8 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.main.CWASettings
+import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_PCR_RESULT_NOTIFICATION_ID
+import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RAT_RESULT_NOTIFICATION_ID
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -64,8 +66,8 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
         }
 
         every { shareTestResultNotification.showSharePositiveTestResultNotification(any(), any()) } just Runs
-        every { shareTestResultNotification.cancelSharePositiveTestResultNotification(any()) } just Runs
-        every { shareTestResultNotification.scheduleSharePositiveTestResultReminder(any()) } just Runs
+        every { shareTestResultNotification.cancelSharePositiveTestResultNotification(any(), any()) } just Runs
+        every { shareTestResultNotification.scheduleSharePositiveTestResultReminder(any(), any()) } just Runs
     }
 
     private fun createInstance(scope: CoroutineScope) = ShareTestResultNotificationService(
@@ -96,8 +98,18 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
 
         instance.setup()
 
-        verify(exactly = 1) { shareTestResultNotification.scheduleSharePositiveTestResultReminder(PCR) }
-        verify(exactly = 1) { shareTestResultNotification.scheduleSharePositiveTestResultReminder(RAPID_ANTIGEN) }
+        verify(exactly = 1) {
+            shareTestResultNotification.scheduleSharePositiveTestResultReminder(
+                PCR,
+                POSITIVE_PCR_RESULT_NOTIFICATION_ID
+            )
+        }
+        verify(exactly = 1) {
+            shareTestResultNotification.scheduleSharePositiveTestResultReminder(
+                RAPID_ANTIGEN,
+                POSITIVE_RAT_RESULT_NOTIFICATION_ID
+            )
+        }
 
         verify { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr = 2 }
         verify { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersRat = 2 }
@@ -130,13 +142,23 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
             numberOfRemainingSharePositiveTestResultRemindersPcr = 0
             instance.maybeShowSharePositiveTestResultNotification(1, PCR)
             numberOfRemainingSharePositiveTestResultRemindersPcr shouldBe 0
-            verify { shareTestResultNotification.cancelSharePositiveTestResultNotification(PCR) }
+            verify {
+                shareTestResultNotification.cancelSharePositiveTestResultNotification(
+                    PCR,
+                    POSITIVE_PCR_RESULT_NOTIFICATION_ID
+                )
+            }
 
             // RAT
             numberOfRemainingSharePositiveTestResultRemindersRat = 0
             instance.maybeShowSharePositiveTestResultNotification(1, RAPID_ANTIGEN)
             numberOfRemainingSharePositiveTestResultRemindersRat shouldBe 0
-            verify { shareTestResultNotification.cancelSharePositiveTestResultNotification(PCR) }
+            verify {
+                shareTestResultNotification.cancelSharePositiveTestResultNotification(
+                    RAPID_ANTIGEN,
+                    POSITIVE_RAT_RESULT_NOTIFICATION_ID
+                )
+            }
         }
 
     @Test
@@ -149,8 +171,18 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
 
         advanceUntilIdle()
 
-        verify { shareTestResultNotification.cancelSharePositiveTestResultNotification(PCR) }
-        verify { shareTestResultNotification.cancelSharePositiveTestResultNotification(RAPID_ANTIGEN) }
+        verify {
+            shareTestResultNotification.cancelSharePositiveTestResultNotification(
+                PCR,
+                POSITIVE_PCR_RESULT_NOTIFICATION_ID
+            )
+        }
+        verify {
+            shareTestResultNotification.cancelSharePositiveTestResultNotification(
+                RAPID_ANTIGEN,
+                POSITIVE_RAT_RESULT_NOTIFICATION_ID
+            )
+        }
         verify { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr = Int.MIN_VALUE }
         verify { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersRat = Int.MIN_VALUE }
     }
