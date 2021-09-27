@@ -4,7 +4,6 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.ActiveCheckInVH
-import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CameraPermissionVH
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CheckInsItem
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.PastCheckInVH
 import de.rki.coronawarnapp.util.lists.BindableVH
@@ -28,7 +27,6 @@ class CheckInsAdapter :
                 DataBinderMod<CheckInsItem, ItemVH<CheckInsItem, ViewBinding>>(data),
                 TypedVHCreatorMod({ data[it] is ActiveCheckInVH.Item }) { ActiveCheckInVH(it) },
                 TypedVHCreatorMod({ data[it] is PastCheckInVH.Item }) { PastCheckInVH(it) },
-                TypedVHCreatorMod({ data[it] is CameraPermissionVH.Item }) { CameraPermissionVH(it) },
             )
         )
     }

@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.transition.MaterialElevationScale
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -60,7 +61,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: MainActivityViewModel by cwaViewModels(
+    private val viewModel: MainActivityViewModel by cwaViewModels(
         ownerProducer = { viewModelStore },
         factoryProducer = { viewModelFactory }
     )
@@ -81,47 +82,61 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         setContentView(binding.root)
 
         if (CWADebug.isDeviceForTestersBuild) {
-            vm.showEnvironmentHint.observe(this) {
+            viewModel.showEnvironmentHint.observe(this) {
                 Toast.makeText(this, "Current environment: $it", Toast.LENGTH_SHORT).show()
             }
         }
 
-        vm.showBackgroundJobDisabledNotification.observe(this) {
+        with(binding) {
+            setupWithNavController2(
+                navController,
+                onItemSelected = { viewModel.onBottomNavSelected() },
+                onDestinationChanged = { isBarVisible ->
+                    if (isBarVisible) {
+                        resetCurrentFragmentTransition()
+                    }
+                }
+            )
+            scannerFab.apply {
+                setShowMotionSpecResource(R.animator.fab_show)
+                setHideMotionSpecResource(R.animator.fab_hide)
+                setOnClickListener { navigateToScanner() }
+            }
+        }
+
+        viewModel.showBackgroundJobDisabledNotification.observe(this) {
             showBackgroundJobDisabledNotification()
         }
-        vm.showEnergyOptimizedEnabledForBackground.observe(this) {
+        viewModel.showEnergyOptimizedEnabledForBackground.observe(this) {
             showEnergyOptimizedEnabledForBackground()
         }
 
-        binding.mainBottomNavigation.setupWithNavController2(navController) {
-            vm.onBottomNavSelected()
-        }
-        vm.isContactDiaryOnboardingDone.observe(this) { isOnboardingDone ->
+        viewModel.isContactDiaryOnboardingDone.observe(this) { isOnboardingDone ->
             startContactDiaryNestedGraphDestination(navController, isOnboardingDone)
         }
-        vm.isTraceLocationOnboardingDone.observe(this) { isOnboardingDone ->
+        viewModel.isTraceLocationOnboardingDone.observe(this) { isOnboardingDone ->
             startTraceLocationNestedGraphDestination(navController, isOnboardingDone)
         }
-        vm.isVaccinationConsentGiven.observe(this) { isConsentGiven ->
+        viewModel.isVaccinationConsentGiven.observe(this) { isConsentGiven ->
             startCertificatesNestedGraphDestination(navController, isConsentGiven)
         }
 
-        vm.activeCheckIns.observe(this) { count ->
+        viewModel.activeCheckIns.observe(this) { count ->
             Timber.tag(TAG).d("activeCheckIns=$count")
             binding.mainBottomNavigation.updateCountBadge(R.id.trace_location_attendee_nav_graph, count)
         }
 
-        vm.personsBadgeCount.observe(this) { count ->
+        viewModel.personsBadgeCount.observe(this) { count ->
             Timber.tag(TAG).d("personsBadgeCount=$count")
             binding.mainBottomNavigation.updateCountBadge(R.id.covid_certificates_graph, count)
         }
 
-        vm.testsBadgeCount.observe(this) { count ->
+        viewModel.testsBadgeCount.observe(this) { count ->
             Timber.tag(TAG).d("testsBadgeCount=$count")
             binding.mainBottomNavigation.updateCountBadge(R.id.mainFragment, count)
         }
 
-        vm.externalLinkEvents.observe(this) { event ->
+        viewModel.externalLinkEvents.observe(this) { event ->
             when (event) {
                 is DeepLinkDirections.GoToCheckInsFragment -> navController.navigate(
                     CheckInsFragment.createDeepLink(event.uriString)
@@ -160,7 +175,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             R.id.contact_diary_nav_graph
         val nestedGraph = navController.findNestedGraph(R.id.contact_diary_nav_graph)
 
-        if (vm.isContactDiaryOnboardingDone.value == true) {
+        if (viewModel.isContactDiaryOnboardingDone.value == true) {
             nestedGraph.startDestination = R.id.contactDiaryOverviewFragment
             navController.navigate(
                 ContactDiaryOverviewFragmentDirections.actionContactDiaryOverviewFragmentToContactDiaryDayFragment(
@@ -200,7 +215,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     private fun navigateByIntentUri(intent: Intent?) {
         val uriString = intent?.data?.toString() ?: return
         Timber.i("Uri:$uriString")
-        vm.onNavigationUri(uriString)
+        viewModel.onNavigationUri(uriString)
     }
 
     /**
@@ -208,7 +223,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
      */
     override fun onResume() {
         super.onResume()
-        vm.doBackgroundNoiseCheck()
+        viewModel.doBackgroundNoiseCheck()
         dataDonationAnalyticsScheduler.schedulePeriodic()
     }
 
@@ -260,13 +275,29 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
                 // show battery optimization system dialog after background processing dialog
-                vm.onUserOpenedBackgroundPriorityOptions()
+                viewModel.onUserOpenedBackgroundPriorityOptions()
             },
             negativeButtonFunction = {
                 // declined
             }
         )
         DialogHelper.showDialog(dialog)
+    }
+
+    private fun navigateToScanner() {
+        supportFragmentManager.currentNavigationFragment?.apply {
+            val animDuration = resources.getInteger(R.integer.fab_scanner_transition_duration).toLong()
+            exitTransition = MaterialElevationScale(false).apply { duration = animDuration }
+            reenterTransition = MaterialElevationScale(true).apply { duration = animDuration }
+        }
+        navController.navigate(R.id.universalScanner)
+    }
+
+    private fun resetCurrentFragmentTransition() {
+        supportFragmentManager.currentNavigationFragment?.apply {
+            exitTransition = null
+            reenterTransition = null
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
