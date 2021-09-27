@@ -71,7 +71,7 @@ class CertificatePosterViewModel @AssistedInject constructor(
         }
     }
 
-    private fun deleteFile() = launch(appScope) {
+    private fun deleteFile() = launch(scope = appScope, context = dispatcher.IO) {
         try {
             sharingIntent.value?.file?.delete()
         } catch (e: Exception) {
