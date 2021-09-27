@@ -55,7 +55,10 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(binding.toolbar) {
             menu.findItem(R.id.test_nav_graph).isVisible = CWADebug.isDeviceForTestersBuild
-            setOnMenuItemClickListener { it.onNavDestinationSelected(findNavController()) }
+            setOnMenuItemClickListener {
+                resetTransitions()
+                it.onNavDestinationSelected(findNavController())
+            }
         }
 
         binding.recyclerView.apply {
@@ -209,6 +212,9 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         doNavigate(HomeFragmentDirections.actionMainFragmentToTraceLocationOrganizerNavGraph())
     }
 
+    /**
+     * Reset any assigned transitions from before such as Scanner 
+     */
     private fun resetTransitions() {
         exitTransition = null
         reenterTransition = null
