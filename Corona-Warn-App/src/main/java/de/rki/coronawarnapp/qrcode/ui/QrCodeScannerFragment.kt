@@ -25,6 +25,7 @@ import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInFragment
 import de.rki.coronawarnapp.ui.presencetracing.attendee.onboarding.CheckInOnboardingFragment
+import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.ui.LazyString
@@ -121,23 +122,27 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     }
 
     private fun showCameraPermissionDeniedDialog() {
-        MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle(R.string.submission_qr_code_scan_permission_denied_dialog_headline)
-            setMessage(R.string.submission_qr_code_scan_permission_denied_dialog_body)
-            setPositiveButton(R.string.submission_qr_code_scan_permission_denied_dialog_button) { _, _ -> leave() }
-        }.show()
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.camera_permission_dialog_title)
+            .setMessage(R.string.camera_permission_dialog_message)
+            .setNegativeButton(R.string.camera_permission_dialog_settings) { _, _ ->
+                showsPermissionDialog = false
+                requireContext().openAppDetailsSettings()
+            }
+            .setPositiveButton(android.R.string.ok) { _, _ -> leave() }
+            .show()
         showsPermissionDialog = true
     }
 
     private fun showCameraPermissionRationaleDialog() {
         MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle(R.string.submission_qr_code_scan_permission_rationale_dialog_headline)
-            setMessage(R.string.submission_qr_code_scan_permission_rationale_dialog_body)
-            setPositiveButton(R.string.submission_qr_code_scan_permission_rationale_dialog_button_positive) { _, _ ->
+            setTitle(R.string.camera_permission_rationale_dialog_headline)
+            setMessage(R.string.camera_permission_rationale_dialog_body)
+            setPositiveButton(R.string.camera_permission_rationale_dialog_button_positive) { _, _ ->
                 showsPermissionDialog = false
                 requestCameraPermission()
             }
-            setNegativeButton(R.string.submission_qr_code_scan_permission_rationale_dialog_button_negative) { _, _ ->
+            setNegativeButton(R.string.camera_permission_rationale_dialog_button_negative) { _, _ ->
                 leave()
             }
         }.show()

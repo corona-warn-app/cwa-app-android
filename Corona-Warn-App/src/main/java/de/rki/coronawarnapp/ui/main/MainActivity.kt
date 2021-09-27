@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialElevationScale
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -24,12 +25,13 @@ import de.rki.coronawarnapp.databinding.ActivityMainBinding
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.base.startActivitySafely
-import de.rki.coronawarnapp.ui.main.home.DeepLinkDirections
+import de.rki.coronawarnapp.ui.main.home.MainActivityEvent
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
 import de.rki.coronawarnapp.ui.setupWithNavController2
 import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
 import de.rki.coronawarnapp.util.device.PowerManagement
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper.Companion.getShortcutExtra
@@ -100,7 +102,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             scannerFab.apply {
                 setShowMotionSpecResource(R.animator.fab_show)
                 setHideMotionSpecResource(R.animator.fab_hide)
-                setOnClickListener { navigateToScanner() }
+                setOnClickListener { viewModel.openScanner() }
             }
         }
 
@@ -136,24 +138,35 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             binding.mainBottomNavigation.updateCountBadge(R.id.mainFragment, count)
         }
 
-        viewModel.externalLinkEvents.observe(this) { event ->
+        viewModel.event.observe(this) { event ->
             when (event) {
-                is DeepLinkDirections.GoToCheckInsFragment -> navController.navigate(
+                is MainActivityEvent.GoToCheckInsFragment -> navController.navigate(
                     CheckInsFragment.createDeepLink(event.uriString)
                 )
-                is DeepLinkDirections.GoToDeletionScreen -> navController.navigate(
+                is MainActivityEvent.GoToDeletionScreen -> navController.navigate(
                     NavGraphDirections.actionToSubmissionDeletionWarningFragment(event.request)
                 )
-                is DeepLinkDirections.GoToSubmissionConsentFragment -> navController.navigate(
+                is MainActivityEvent.GoToSubmissionConsentFragment -> navController.navigate(
                     NavGraphDirections.actionSubmissionConsentFragment(event.request)
                 )
-                is DeepLinkDirections.Error -> event.error.toErrorDialogBuilder(this).show()
+                is MainActivityEvent.Error -> event.error.toErrorDialogBuilder(this).show()
+                is MainActivityEvent.OpenScanner ->
+                    if (event.requiresPermission) openPermissionDialog() else navigateToScanner()
             }
         }
 
         if (savedInstanceState == null) {
             processExtraParameters()
         }
+    }
+
+    private fun openPermissionDialog() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.camera_permission_dialog_title)
+            .setMessage(R.string.camera_permission_dialog_message)
+            .setNegativeButton(R.string.camera_permission_dialog_settings) { _, _ -> openAppDetailsSettings() }
+            .setPositiveButton(android.R.string.ok) { _, _ -> }
+            .show()
     }
 
     override fun onNewIntent(intent: Intent?) {

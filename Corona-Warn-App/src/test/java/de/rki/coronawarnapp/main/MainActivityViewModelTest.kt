@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.main.MainActivityViewModel
+import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.permission.CameraPermissionProvider
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import io.kotest.matchers.shouldBe
@@ -46,6 +47,7 @@ class MainActivityViewModelTest : BaseTest() {
     @MockK lateinit var personCertificatesProvider: PersonCertificatesProvider
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var coronTestRepository: CoronaTestRepository
+    @MockK lateinit var cameraPermissionProvider: CameraPermissionProvider
 
     private val raExtractor = spyk(RapidAntigenQrCodeExtractor())
 
@@ -85,6 +87,7 @@ class MainActivityViewModelTest : BaseTest() {
         raExtractor = raExtractor,
         submissionRepository = submissionRepository,
         coronaTestRepository = coronTestRepository,
+        cameraPermissionProvider = cameraPermissionProvider
     )
 
     @Test
