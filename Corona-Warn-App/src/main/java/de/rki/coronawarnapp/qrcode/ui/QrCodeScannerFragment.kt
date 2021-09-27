@@ -228,14 +228,12 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             duration = animationDuration
             scrimColor = Color.TRANSPARENT
         }
-
-        val transitionSet = TransitionSet().apply {
+        returnTransition = TransitionSet().apply {
             addTransition(Slide())
             addTransition(Fade())
             addTarget(R.id.qrcode_scan_container)
-            duration = resources.getInteger(R.integer.fab_scanner_transition_duration).toLong()
+            duration = animationDuration
         }
-        returnTransition = transitionSet
     }
 
     companion object {
