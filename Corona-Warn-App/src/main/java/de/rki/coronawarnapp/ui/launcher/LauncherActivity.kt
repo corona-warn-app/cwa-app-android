@@ -39,6 +39,7 @@ class LauncherActivity : AppCompatActivity() {
                 }
                 is LauncherEvent.ForceUpdate -> it.forceUpdate(this)
                 LauncherEvent.ShowUpdateDialog -> showUpdateNeededDialog()
+                is LauncherEvent.ShowRootedDialog -> showRootedDialog()
             }
         }
     }
@@ -46,6 +47,15 @@ class LauncherActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         viewModel.onResult(requestCode, resultCode)
+    }
+
+    private fun showRootedDialog() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.root_dialog_title)
+            .setMessage(R.string.root_dialog_message)
+            .setCancelable(false)
+            .setPositiveButton(R.string.root_dialog_button) { _, _ -> viewModel.checkForUpdate() }
+            .show()
     }
 
     private fun showUpdateNeededDialog() {
