@@ -1994,10 +1994,21 @@
     <!-- XTXT: Incompitability faq link for full incompatibility -->
     <string name="incompatible_link_scanning_not_supported">"https://www.coronawarn.app/en/faq/#full_incompat"</string>
 
+    <!-- Permission Denied Dialog -->
     <!-- XHED: UQS camera permission dialog title -->
     <string name="camera_permission_dialog_title">Kamerazugriff benötigt</string>
     <!-- XTXT: UQS camera permission dialog message -->
     <string name="camera_permission_dialog_message">Bitte gehen Sie in die Systemeinstellungen und erlauben Sie der App die Benutzung der Kamera, um den QR-Code zu scannen.</string>
     <!-- XBUT: UQS camera permission dialog settings -->
     <string name="camera_permission_dialog_settings">Einstellungen</string>
+
+    <!-- Permission Rationale Dialog -->
+    <!-- XHED: Dialog headline QR Scan permission rationale  -->
+    <string name="camera_permission_rationale_dialog_headline">"Camera authorization required"</string>
+    <!-- YTXT: Dialog Body text for QR Scan permission rationale -->
+    <string name="camera_permission_rationale_dialog_body">"Allow the app to use the camera to scan the QR code."</string>
+    <!-- XBUT: Dialog(QR Scan permission rationale) - positive button (right) -->
+    <string name="camera_permission_rationale_dialog_button_positive">"Allow"</string>
+    <!-- XBUT: Dialog(QR Scan permission rationale) - negative button (left) -->
+    <string name="camera_permission_rationale_dialog_button_negative">"Do Not Allow"</string>
 </resources>
