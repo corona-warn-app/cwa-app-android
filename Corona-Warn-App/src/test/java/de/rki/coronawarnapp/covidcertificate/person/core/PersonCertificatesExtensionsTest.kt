@@ -25,6 +25,12 @@ class PersonCertificatesExtensionsTest : BaseTest() {
     fun `certificate sort order`() {
 
         val certificateFirst = mockk<VaccinationCertificate>().apply {
+            every { headerIssuedAt } returns Instant.parse("2021-09-20T10:00:00.000Z")
+            every { vaccinatedOn } returns time.plus(oneDayDuration).toLocalDateUtc()
+        }
+
+        val certificateFirstIssuedAtAnotherDate = mockk<VaccinationCertificate>().apply {
+            every { headerIssuedAt } returns Instant.parse("2021-07-20T10:00:00.000Z")
             every { vaccinatedOn } returns time.plus(oneDayDuration).toLocalDateUtc()
         }
 
@@ -36,9 +42,12 @@ class PersonCertificatesExtensionsTest : BaseTest() {
             every { validFrom } returns time.minus(oneDayDuration).toLocalDateUtc()
         }
 
-        val expectedOrder = listOf(certificateFirst, certificateSecond, certificateThird)
-        val wrongOrder = listOf(certificateSecond, certificateFirst, certificateThird)
-        val wrongOrder2 = listOf(certificateThird, certificateSecond, certificateFirst)
+        val expectedOrder =
+            listOf(certificateFirstIssuedAtAnotherDate, certificateFirst, certificateSecond, certificateThird)
+        val wrongOrder =
+            listOf(certificateSecond, certificateFirst, certificateThird, certificateFirstIssuedAtAnotherDate)
+        val wrongOrder2 =
+            listOf(certificateThird, certificateSecond, certificateFirstIssuedAtAnotherDate, certificateFirst)
 
         expectedOrder.toCertificateSortOrder() shouldBe expectedOrder
         wrongOrder.toCertificateSortOrder() shouldBe expectedOrder
