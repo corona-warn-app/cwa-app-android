@@ -43,7 +43,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
         }
 
         val expectedOrder =
-            listOf(certificateFirstIssuedAtAnotherDate, certificateFirst, certificateSecond, certificateThird)
+            listOf(certificateFirst, certificateFirstIssuedAtAnotherDate, certificateSecond, certificateThird)
         val wrongOrder =
             listOf(certificateSecond, certificateFirst, certificateThird, certificateFirstIssuedAtAnotherDate)
         val wrongOrder2 =
