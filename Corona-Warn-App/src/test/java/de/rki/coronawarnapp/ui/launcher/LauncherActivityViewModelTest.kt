@@ -61,6 +61,8 @@ class LauncherActivityViewModelTest : BaseTest() {
                 any()
             )
         } returns true
+
+        coEvery { rootDetectionCheck.isRooted() } returns false
     }
 
     private fun createViewModel() = LauncherActivityViewModel(
