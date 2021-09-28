@@ -43,7 +43,7 @@ class LauncherActivityViewModel @AssistedInject constructor(
         }
     }
 
-    fun checkForUpdate() = launch {
+    private fun checkForUpdate() = launch {
         Timber.tag(TAG).d("checkForUpdate()")
         val appUpdateInfo = appUpdateManager.getUpdateInfo()
         Timber.tag(TAG).d("appUpdateInfo=%s", appUpdateInfo?.updateAvailability())
@@ -52,6 +52,11 @@ class LauncherActivityViewModel @AssistedInject constructor(
             isJustInstalledOrUpdated() -> LauncherEvent.GoToOnboarding
             else -> LauncherEvent.GoToMainActivity
         }.let { events.postValue(it) }
+    }
+
+    fun onRootedDialogDismiss() {
+        Timber.tag(TAG).d("onRootedDialogDismiss()")
+        checkForUpdate()
     }
 
     fun onResume() = launch {

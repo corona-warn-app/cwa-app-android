@@ -40,7 +40,7 @@ class LauncherActivity : AppCompatActivity() {
                 }
                 is LauncherEvent.ForceUpdate -> it.forceUpdate(this)
                 LauncherEvent.ShowUpdateDialog -> showUpdateNeededDialog()
-                LauncherEvent.ShowRootedDialog -> showRootDetectionDialog { viewModel.checkForUpdate() }
+                LauncherEvent.ShowRootedDialog -> showRootDetectionDialog { viewModel.onRootedDialogDismiss() }
             }
         }
     }

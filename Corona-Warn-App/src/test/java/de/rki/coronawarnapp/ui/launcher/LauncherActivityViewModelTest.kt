@@ -15,6 +15,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.instanceOf
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
@@ -28,6 +29,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
+import testhelpers.extensions.getOrAwaitValue
 import testhelpers.preferences.mockFlowPreference
 
 @ExtendWith(InstantExecutorExtension::class)
@@ -191,5 +193,30 @@ class LauncherActivityViewModelTest : BaseTest() {
         val vm = createViewModel()
 
         vm.events.value shouldBe LauncherEvent.GoToMainActivity
+    }
+
+    @Test
+    fun `rooted device triggers root dialog`() {
+        coEvery { rootDetectionCheck.isRooted() } returns true
+        createViewModel().run {
+            events.getOrAwaitValue() shouldBe LauncherEvent.ShowRootedDialog
+        }
+
+        coVerify {
+            rootDetectionCheck.isRooted()
+        }
+    }
+
+    @Test
+    fun `onRootedDialogDismiss triggers update check`() {
+        coEvery { appUpdateManager.getUpdateInfo() } returns
+            mockk<AppUpdateInfo>().apply {
+                every { updateAvailability() } returns UpdateAvailability.UPDATE_AVAILABLE
+            }
+
+        createViewModel().run {
+            onRootedDialogDismiss()
+            events.getOrAwaitValue() shouldBe instanceOf(LauncherEvent.ForceUpdate::class)
+        }
     }
 }
