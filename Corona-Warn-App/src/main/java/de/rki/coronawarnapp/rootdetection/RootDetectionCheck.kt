@@ -14,11 +14,15 @@ class RootDetectionCheck @Inject constructor(
     // Check should run in a background thread cause it uses I/O
     suspend fun isRooted() = withContext(dispatcherProvider.IO) {
         Timber.d("isRooted()")
-        try {
+        isRooted
+            .also { Timber.d("Device is rooted: %s", it) }
+    }
+
+    private val isRooted: Boolean
+        get() = try {
             rootBeer.isRooted
         } catch (e: Exception) {
-            Timber.e(e, "Root detection failed")
+            Timber.e(e, "Root detection failed. Returning false")
             false
-        }.also { Timber.d("Device is rooted: %s", it) }
-    }
+        }
 }
