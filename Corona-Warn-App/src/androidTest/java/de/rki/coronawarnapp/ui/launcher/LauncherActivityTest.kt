@@ -50,7 +50,7 @@ class LauncherActivityTest : BaseUITest() {
                 every { updateAvailability() } returns UpdateAvailability.UPDATE_NOT_AVAILABLE
             }
 
-        coEvery { rootDetectionCheck.checkRoot() } returns false
+        coEvery { rootDetectionCheck.isRooted() } returns false
 
         every { onboardingSettings.isOnboarded } returns false
         viewModel = launcherActivityViewModel()

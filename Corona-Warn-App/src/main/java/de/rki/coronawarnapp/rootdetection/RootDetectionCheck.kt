@@ -12,8 +12,8 @@ class RootDetectionCheck @Inject constructor(
 ) {
 
     // Check should run in a background thread cause it uses I/O
-    suspend fun checkRoot() = withContext(dispatcherProvider.IO) {
-        Timber.d("checkRoot()")
+    suspend fun isRooted() = withContext(dispatcherProvider.IO) {
+        Timber.d("isRooted()")
         try {
             rootBeer.isRooted
         } catch (e: Exception) {
