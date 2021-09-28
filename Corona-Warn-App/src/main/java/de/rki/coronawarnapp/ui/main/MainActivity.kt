@@ -8,11 +8,16 @@ import android.provider.Settings
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
+import androidx.core.view.isVisible
+import androidx.core.view.setPadding
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.snackbar.SnackbarContentLayout
 import com.google.android.material.transition.MaterialElevationScale
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -22,6 +27,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmentDirections
 import de.rki.coronawarnapp.databinding.ActivityMainBinding
+import de.rki.coronawarnapp.databinding.FabTooltipBinding
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.base.startActivitySafely
@@ -97,13 +103,23 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
                     if (isBarVisible) {
                         resetCurrentFragmentTransition()
                     }
+
+                    binding.fabTooltip.root.isVisible = isBarVisible && viewModel.isToolTipVisible.value == true
                 }
             )
+
+            fabTooltip.close.setOnClickListener {
+                viewModel.dismissTooltip()
+            }
             scannerFab.apply {
                 setShowMotionSpecResource(R.animator.fab_show)
                 setHideMotionSpecResource(R.animator.fab_hide)
                 setOnClickListener { viewModel.openScanner() }
             }
+        }
+
+        viewModel.isToolTipVisible.observe(this) { visible ->
+            binding.fabTooltip.root.isVisible = visible
         }
 
         viewModel.showBackgroundJobDisabledNotification.observe(this) {

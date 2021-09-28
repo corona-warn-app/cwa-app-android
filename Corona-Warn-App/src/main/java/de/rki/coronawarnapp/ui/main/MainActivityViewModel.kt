@@ -48,6 +48,9 @@ class MainActivityViewModel @AssistedInject constructor(
     dispatcherProvider = dispatcherProvider
 ) {
 
+    val isToolTipVisible: LiveData<Boolean> = onboardingSettings.fabScannerOnboardingDone.flow.map { done ->
+        !done
+    }.asLiveData2()
     val showEnvironmentHint = SingleLiveEvent<String>()
     val event = SingleLiveEvent<MainActivityEvent>()
 
@@ -140,6 +143,10 @@ class MainActivityViewModel @AssistedInject constructor(
 
     fun openScanner() = launch {
         event.postValue(MainActivityEvent.OpenScanner(cameraPermissionProvider.deniedPermanently.first()))
+    }
+
+    fun dismissTooltip() {
+        onboardingSettings.fabScannerOnboardingDone.update { false }
     }
 
     @AssistedFactory

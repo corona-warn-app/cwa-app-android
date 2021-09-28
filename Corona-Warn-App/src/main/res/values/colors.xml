@@ -111,4 +111,9 @@
     <color name="badgeColor">#ED382F</color>
     <color name="fab_tint">#0093C8</color>
 
+    <!-- Tip -->
+    <color name="tipBackgroundColor">#333333</color>
+    <color name="tipTitleColor">#FFFFFF</color>
+    <color name="tipSubtitleColor">#9E9E9E</color>
+
 </resources>

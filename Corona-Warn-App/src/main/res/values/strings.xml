@@ -2011,4 +2011,6 @@
     <string name="camera_permission_rationale_dialog_button_positive">"Allow"</string>
     <!-- XBUT: Dialog(QR Scan permission rationale) - negative button (left) -->
     <string name="camera_permission_rationale_dialog_button_negative">"Do Not Allow"</string>
+    <string name="fab_scanner_tip_title">QR-Code-Scanner</string>
+    <string name="fab_scanner_tip_subtitle">Scannen Sie Tests, Zertifikate und Check-ins mit diesem Scanner.</string>
 </resources>

@@ -46,4 +46,13 @@
         app:srcCompat="@drawable/ic_nav_qrcode"
         app:tint="@android:color/white" />
 
+    <include
+        android:id="@+id/fab_tooltip"
+        layout="@layout/fab_tooltip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginBottom="100dp" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
