@@ -25,7 +25,7 @@ import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentModule
 import de.rki.coronawarnapp.ui.settings.SettingFragmentsModule
 import de.rki.coronawarnapp.ui.settings.SettingsResetFragment
 import de.rki.coronawarnapp.ui.settings.SettingsResetModule
-import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaNotificationManagementModule
+import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaNotificationsModule
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionFragmentModule
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -33,7 +33,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module(
     includes = [
-        OnboardingDeltaNotificationManagementModule::class,
+        OnboardingDeltaNotificationsModule::class,
         OnboardingDeltaAnalyticsModule::class,
         OnboardingDeltaInteroperabilityModule::class,
         HomeFragmentModule::class,

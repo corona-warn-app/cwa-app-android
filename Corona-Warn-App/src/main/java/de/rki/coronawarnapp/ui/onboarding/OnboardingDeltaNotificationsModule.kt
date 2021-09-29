@@ -9,15 +9,15 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class OnboardingDeltaNotificationManagementModule {
+abstract class OnboardingDeltaNotificationsModule {
 
     @Binds
     @IntoMap
-    @CWAViewModelKey(OnboardingDeltaNotificationManagementViewModel::class)
+    @CWAViewModelKey(OnboardingDeltaNotificationsViewModel::class)
     abstract fun notificationManagementDeltaOnboardingViewModel(
-        factory: OnboardingDeltaNotificationManagementViewModel.Factory
+        factory: OnboardingDeltaNotificationsViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 
     @ContributesAndroidInjector
-    abstract fun notificationManagementDeltaOnboardingFragment(): OnboardingDeltaNotificationManagementFragment
+    abstract fun notificationManagementDeltaOnboardingFragment(): OnboardingDeltaNotificationsFragment
 }

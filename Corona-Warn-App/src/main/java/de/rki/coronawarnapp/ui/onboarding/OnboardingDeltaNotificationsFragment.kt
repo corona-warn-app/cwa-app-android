@@ -6,24 +6,27 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.NotificationManagementDeltaOnboardingFragmentBinding
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import setTextWithUrls
 import javax.inject.Inject
 import android.content.Intent
 import android.os.Build
 import android.provider.Settings
+import de.rki.coronawarnapp.databinding.NotificationsDeltaOnboardingFragmentBinding
+import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
+import setTextWithUrls
 
-class OnboardingDeltaNotificationManagementFragment : Fragment(R.layout.notification_management_delta_onboarding_fragment) {
+class OnboardingDeltaNotificationsFragment :
+    Fragment(R.layout.notifications_delta_onboarding_fragment),
+    AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: OnboardingDeltaNotificationManagementViewModel by cwaViewModels { viewModelFactory }
-    private val binding: NotificationManagementDeltaOnboardingFragmentBinding by viewBinding()
+    private val viewModel: OnboardingDeltaNotificationsViewModel by cwaViewModels { viewModelFactory }
+    private val binding: NotificationsDeltaOnboardingFragmentBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,8 +50,16 @@ class OnboardingDeltaNotificationManagementFragment : Fragment(R.layout.notifica
             )
         }
 
-        viewModel.completedOnboardingEvent.observe2(this) {
-            popBackStack()
+        viewModel.routeToScreen.observe2(this) {
+            when (it) {
+                is OnboardingDeltaNotificationsNavigationEvents.CloseScreen ->
+                    (requireActivity() as OnboardingActivity).completeOnboarding()
+                is OnboardingDeltaNotificationsNavigationEvents.NavigateToOnboardingDeltaAnalyticsFragment ->
+                    doNavigate(
+                        OnboardingDeltaNotificationsFragmentDirections
+                            .actionOnboardingDeltaNotificationsFragmentToOnboardingDeltaAnalyticsFragment()
+                    )
+            }
         }
     }
 

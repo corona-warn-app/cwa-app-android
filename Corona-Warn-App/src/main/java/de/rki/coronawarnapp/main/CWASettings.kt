@@ -80,8 +80,8 @@ class CWASettings @Inject constructor(
         defaultValue = DEFAULT_APP_VERSION
     )
 
-    val lastOnboardingVersionCode = prefs.createFlowPreference(
-        key = PKEY_ONBOARDED_VERSION_CODE,
+    val lastNotificationsOnboardingVersionCode = prefs.createFlowPreference(
+        key = PKEY_NOTIFICATIONS_ONBOARDED_VERSION_CODE,
         defaultValue = 0L
     )
 
@@ -108,6 +108,6 @@ class CWASettings @Inject constructor(
         private const val LAST_CHANGELOG_VERSION = "update.changelog.lastversion"
         private const val DEFAULT_APP_VERSION = 1L
 
-        private const val PKEY_ONBOARDED_VERSION_CODE = "onboarding.versionCode"
+        private const val PKEY_NOTIFICATIONS_ONBOARDED_VERSION_CODE = "notifications.onboarding.versionCode"
     }
 }

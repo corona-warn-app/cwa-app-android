@@ -49,6 +49,7 @@ class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
 
     fun setDeltaOnboardingDone(value: Boolean) {
         settings.wasInteroperabilityShownAtLeastOnce = value
+        settings.lastNotificationsOnboardingVersionCode.update { if (value) BuildConfigWrap.VERSION_CODE else 0L }
     }
 
     fun isAttendeeOnboardingDone() =
