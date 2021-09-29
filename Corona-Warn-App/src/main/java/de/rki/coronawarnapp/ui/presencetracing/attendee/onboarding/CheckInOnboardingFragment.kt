@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.presencetracing.attendee.onboarding
 import android.os.Bundle
 import android.view.View
 import androidx.core.net.toUri
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
@@ -59,6 +60,8 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
                     navigationContentDescription = getString(R.string.accessibility_close)
                     setNavigationOnClickListener { popBackStack() }
                 }
+            } else {
+                binding.root.updatePadding(bottom = resources.getDimensionPixelSize(R.dimen.spacing_fab_padding))
             }
         }
 

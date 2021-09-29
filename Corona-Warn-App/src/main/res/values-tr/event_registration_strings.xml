@@ -8,7 +8,7 @@
     <!-- XHED: My check-ins: Title for list explanation when there are no check-ins -->
     <string name="trace_location_checkins_empty_label">"Henüz hiçbir giriş yok"</string>
     <!-- XTXT: My check-ins: Description for list explanation when there are no check-ins -->
-    <string name="trace_location_checkins_empty_description">"Bir etkinliğe ya da yere check-in yapmak için QR kod taradığınızda otomatik olarak bir giriş oluşturulur."</string>
+    <string name="trace_location_checkins_empty_description_1">"Bir etkinliğe ya da yere check-in yapmak için QR kod taradığınızda otomatik olarak bir giriş oluşturulur."</string>
     <!-- XTXT: My check-ins: Accessibility description for empty check-ins illustration -->
     <string name="trace_location_checkins_empty_illustration_accessibility">"Arka planda QR kod sembolü bulunan bir bina."</string>
 

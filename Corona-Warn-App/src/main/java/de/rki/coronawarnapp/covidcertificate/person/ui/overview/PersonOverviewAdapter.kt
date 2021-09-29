@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
-import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CameraPermissionCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificatesItem
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
@@ -31,7 +30,6 @@ class PersonOverviewAdapter :
                     CovidTestCertificatePendingCard(it)
                 },
                 TypedVHCreatorMod({ data[it] is PersonCertificateCard.Item }) { PersonCertificateCard(it) },
-                TypedVHCreatorMod({ data[it] is CameraPermissionCard.Item }) { CameraPermissionCard(it) },
             )
         )
 

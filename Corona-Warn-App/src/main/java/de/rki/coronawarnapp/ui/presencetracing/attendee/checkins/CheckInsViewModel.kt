@@ -12,10 +12,8 @@ import de.rki.coronawarnapp.presencetracing.checkins.checkout.CheckOutHandler
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCodeExtractor
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.ActiveCheckInVH
-import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CameraPermissionVH
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CheckInsItem
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.PastCheckInVH
-import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.permission.CameraPermissionProvider
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.intervalFlow
@@ -38,13 +36,11 @@ class CheckInsViewModel @AssistedInject constructor(
     private val checkInQrCodeExtractor: CheckInQrCodeExtractor,
     private val checkInsRepository: CheckInRepository,
     private val checkOutHandler: CheckOutHandler,
-    private val cameraPermissionProvider: CameraPermissionProvider,
     private val checkInQrCodeHandler: CheckInQrCodeHandler
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<CheckInEvent>()
     val errorEvent = SingleLiveEvent<Throwable>()
-    private val cameraItem by lazy { cameraPermissionItem() }
 
     init {
         deepLink?.let {
@@ -60,15 +56,9 @@ class CheckInsViewModel @AssistedInject constructor(
 
     val checkins: LiveData<List<CheckInsItem>> = combine(
         intervalFlow(1000),
-        checkInsRepository.checkInsWithinRetention,
-        cameraPermissionProvider.deniedPermanently
-    ) { _, checkIns, denied ->
+        checkInsRepository.checkInsWithinRetention
+    ) { _, checkIns ->
         mutableListOf<CheckInsItem>().apply {
-            // Camera permission item
-            if (denied) {
-                add(cameraItem)
-            }
-            // CheckIns items
             addAll(mapCheckIns(checkIns))
         }
     }.asLiveData(context = dispatcherProvider.Default)
@@ -93,12 +83,6 @@ class CheckInsViewModel @AssistedInject constructor(
         Timber.d("onInformationClicked()")
         events.postValue(CheckInEvent.ShowInformation)
     }
-
-    private fun cameraPermissionItem() = CameraPermissionVH.Item(
-        onOpenSettings = {
-            events.postValue(CheckInEvent.OpenDeviceSettings)
-        }
-    )
 
     private fun mapCheckIns(checkIns: List<CheckIn>): List<CheckInsItem> = run {
         val active = checkIns.filter { !it.completed }.sortedBy { it.checkInEnd }
@@ -161,10 +145,6 @@ class CheckInsViewModel @AssistedInject constructor(
             val msg = e.message ?: "QR-Code was invalid"
             events.postValue(CheckInEvent.InvalidQrCode(msg.toLazyString()))
         }
-    }
-
-    fun checkCameraSettings() {
-        cameraPermissionProvider.checkSettings()
     }
 
     companion object {
