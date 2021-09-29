@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -14,15 +13,12 @@ import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFragmentArgs
-import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CameraPermissionCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificatesItem
 import de.rki.coronawarnapp.databinding.PersonOverviewFragmentBinding
-import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
-import de.rki.coronawarnapp.util.onScroll
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -44,7 +40,6 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
         binding.apply {
             bindToolbar()
             bindRecycler()
-            scanQrcodeFab.setOnClickListener { viewModel.onScanQrCode() }
         }
         viewModel.personCertificates.observe(viewLifecycleOwner) { binding.bindViews(it) }
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
@@ -89,18 +84,9 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 }
             }.show()
 
-            ScanQrCode -> {
-                setupHoldTransition()
-                findNavController().navigate(
-                    R.id.action_to_universal_scanner,
-                    null,
-                    null,
-                    FragmentNavigatorExtras(binding.scanQrcodeFab to binding.scanQrcodeFab.transitionName)
-                )
-            }
-            OpenAppDeviceSettings -> openAppDetailsSettings()
-            OpenCovPassInfo ->
-                doNavigate(PersonOverviewFragmentDirections.actionPersonOverviewFragmentToCovPassInfoFragment())
+            OpenCovPassInfo -> doNavigate(
+                PersonOverviewFragmentDirections.actionPersonOverviewFragmentToCovPassInfoFragment()
+            )
         }
     }
 
@@ -133,7 +119,6 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
 
     private fun PersonOverviewFragmentBinding.bindViews(items: List<PersonCertificatesItem>) {
         Timber.tag(TAG).d("bindViews(items=%s)", items)
-        scanQrcodeFab.isGone = items.any { it is CameraPermissionCard.Item }
         emptyLayout.isVisible = items.isEmpty()
         personOverviewAdapter.update(items)
 
@@ -145,8 +130,6 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
         adapter = personOverviewAdapter
         addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
         itemAnimator = DefaultItemAnimator()
-
-        with(scanQrcodeFab) { onScroll { extend -> if (extend) extend() else shrink() } }
     }
 
     companion object {

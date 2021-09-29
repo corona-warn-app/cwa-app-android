@@ -20,15 +20,12 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsFragmentBinding
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
-import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CameraPermissionVH
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CheckInsItem
 import de.rki.coronawarnapp.ui.presencetracing.attendee.edit.EditCheckInFragmentArgs
-import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.setupSwipe
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
-import de.rki.coronawarnapp.util.onScroll
 import de.rki.coronawarnapp.util.tryHumanReadableError
 import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -63,21 +60,13 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupMenu(binding.toolbar)
-
         bindRecycler()
-        bindFAB()
-
         viewModel.checkins.observe2(this) { items -> updateViews(items) }
         viewModel.events.observe2(this) { it?.let { onNavigationEvent(it) } }
         viewModel.errorEvent.observe2(this) {
             val errorForHumans = it.tryHumanReadableError(requireContext())
             Toast.makeText(requireContext(), errorForHumans.description, Toast.LENGTH_LONG).show()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.checkCameraSettings()
     }
 
     private fun onNavigationEvent(event: CheckInEvent) {
@@ -125,7 +114,6 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                 setupAxisTransition()
                 doNavigate(CheckInsFragmentDirections.actionCheckInsFragmentToCheckInOnboardingFragment(false))
             }
-            is CheckInEvent.OpenDeviceSettings -> openAppDetailsSettings()
             is CheckInEvent.InvalidQrCode -> showInvalidQrCodeInformation(event.errorText)
         }
     }
@@ -144,23 +132,8 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
     private fun updateViews(items: List<CheckInsItem>) {
         checkInsAdapter.update(items)
         binding.apply {
-            scanCheckinQrcodeFab.isGone = items.any { it is CameraPermissionVH.Item }
             emptyListInfoContainer.isGone = items.isNotEmpty()
             checkInsList.isGone = items.isEmpty()
-        }
-    }
-
-    private fun bindFAB() {
-        binding.scanCheckinQrcodeFab.apply {
-            setOnClickListener {
-                setupHoldTransition()
-                findNavController().navigate(
-                    R.id.action_to_universal_scanner,
-                    null,
-                    null,
-                    FragmentNavigatorExtras(this to transitionName)
-                )
-            }
         }
     }
 
@@ -179,13 +152,6 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             adapter = checkInsAdapter
             addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
             itemAnimator = DefaultItemAnimator()
-
-            with(binding.scanCheckinQrcodeFab) {
-                onScroll { extend ->
-                    if (extend) extend() else shrink()
-                }
-            }
-
             setupSwipe(context = requireContext())
         }
     }
