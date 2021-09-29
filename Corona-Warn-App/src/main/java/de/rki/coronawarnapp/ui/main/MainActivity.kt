@@ -8,10 +8,13 @@ import android.provider.Settings
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.transition.MaterialElevationScale
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -23,12 +26,13 @@ import de.rki.coronawarnapp.databinding.ActivityMainBinding
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.base.startActivitySafely
-import de.rki.coronawarnapp.ui.main.home.DeepLinkDirections
+import de.rki.coronawarnapp.ui.main.home.MainActivityEvent
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
 import de.rki.coronawarnapp.ui.setupWithNavController2
 import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
 import de.rki.coronawarnapp.util.device.PowerManagement
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper.Companion.getShortcutExtra
@@ -60,7 +64,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val vm: MainActivityViewModel by cwaViewModels(
+    private val viewModel: MainActivityViewModel by cwaViewModels(
         ownerProducer = { viewModelStore },
         factoryProducer = { viewModelFactory }
     )
@@ -81,64 +85,98 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         setContentView(binding.root)
 
         if (CWADebug.isDeviceForTestersBuild) {
-            vm.showEnvironmentHint.observe(this) {
+            viewModel.showEnvironmentHint.observe(this) {
                 Toast.makeText(this, "Current environment: $it", Toast.LENGTH_SHORT).show()
             }
         }
 
-        vm.showBackgroundJobDisabledNotification.observe(this) {
+        with(binding) {
+            setupWithNavController2(
+                navController,
+                onItemSelected = { viewModel.onBottomNavSelected() },
+                onDestinationChanged = { isBarVisible ->
+                    if (isBarVisible) {
+                        resetCurrentFragmentTransition()
+                    }
+
+                    binding.fabTooltip.root.isVisible = isBarVisible && viewModel.isToolTipVisible.value == true
+                }
+            )
+
+            fabTooltip.close.setOnClickListener { viewModel.dismissTooltip() }
+
+            scannerFab.apply {
+                setShowMotionSpecResource(R.animator.fab_show)
+                setHideMotionSpecResource(R.animator.fab_hide)
+                setOnClickListener { viewModel.openScanner() }
+            }
+        }
+
+        viewModel.isToolTipVisible.observe(this) { visible ->
+            binding.fabTooltip.root.isVisible = visible
+        }
+
+        viewModel.showBackgroundJobDisabledNotification.observe(this) {
             showBackgroundJobDisabledNotification()
         }
-        vm.showEnergyOptimizedEnabledForBackground.observe(this) {
+        viewModel.showEnergyOptimizedEnabledForBackground.observe(this) {
             showEnergyOptimizedEnabledForBackground()
         }
 
-        binding.mainBottomNavigation.setupWithNavController2(navController) {
-            vm.onBottomNavSelected()
-        }
-        vm.isContactDiaryOnboardingDone.observe(this) { isOnboardingDone ->
+        viewModel.isContactDiaryOnboardingDone.observe(this) { isOnboardingDone ->
             startContactDiaryNestedGraphDestination(navController, isOnboardingDone)
         }
-        vm.isTraceLocationOnboardingDone.observe(this) { isOnboardingDone ->
+        viewModel.isTraceLocationOnboardingDone.observe(this) { isOnboardingDone ->
             startTraceLocationNestedGraphDestination(navController, isOnboardingDone)
         }
-        vm.isVaccinationConsentGiven.observe(this) { isConsentGiven ->
+        viewModel.isVaccinationConsentGiven.observe(this) { isConsentGiven ->
             startCertificatesNestedGraphDestination(navController, isConsentGiven)
         }
 
-        vm.activeCheckIns.observe(this) { count ->
+        viewModel.activeCheckIns.observe(this) { count ->
             Timber.tag(TAG).d("activeCheckIns=$count")
             binding.mainBottomNavigation.updateCountBadge(R.id.trace_location_attendee_nav_graph, count)
         }
 
-        vm.personsBadgeCount.observe(this) { count ->
+        viewModel.personsBadgeCount.observe(this) { count ->
             Timber.tag(TAG).d("personsBadgeCount=$count")
             binding.mainBottomNavigation.updateCountBadge(R.id.covid_certificates_graph, count)
         }
 
-        vm.testsBadgeCount.observe(this) { count ->
+        viewModel.testsBadgeCount.observe(this) { count ->
             Timber.tag(TAG).d("testsBadgeCount=$count")
             binding.mainBottomNavigation.updateCountBadge(R.id.mainFragment, count)
         }
 
-        vm.externalLinkEvents.observe(this) { event ->
+        viewModel.event.observe(this) { event ->
             when (event) {
-                is DeepLinkDirections.GoToCheckInsFragment -> navController.navigate(
+                is MainActivityEvent.GoToCheckInsFragment -> navController.navigate(
                     CheckInsFragment.createDeepLink(event.uriString)
                 )
-                is DeepLinkDirections.GoToDeletionScreen -> navController.navigate(
+                is MainActivityEvent.GoToDeletionScreen -> navController.navigate(
                     NavGraphDirections.actionToSubmissionDeletionWarningFragment(event.request)
                 )
-                is DeepLinkDirections.GoToSubmissionConsentFragment -> navController.navigate(
+                is MainActivityEvent.GoToSubmissionConsentFragment -> navController.navigate(
                     NavGraphDirections.actionSubmissionConsentFragment(event.request)
                 )
-                is DeepLinkDirections.Error -> event.error.toErrorDialogBuilder(this).show()
+                is MainActivityEvent.Error -> event.error.toErrorDialogBuilder(this).show()
+                is MainActivityEvent.OpenScanner ->
+                    if (event.requiresPermission) openPermissionDialog() else navigateToScanner()
             }
         }
 
         if (savedInstanceState == null) {
             processExtraParameters()
         }
+    }
+
+    private fun openPermissionDialog() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.camera_permission_dialog_title)
+            .setMessage(R.string.camera_permission_dialog_message)
+            .setNegativeButton(R.string.camera_permission_dialog_settings) { _, _ -> openAppDetailsSettings() }
+            .setPositiveButton(android.R.string.ok) { _, _ -> }
+            .show()
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -160,7 +198,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             R.id.contact_diary_nav_graph
         val nestedGraph = navController.findNestedGraph(R.id.contact_diary_nav_graph)
 
-        if (vm.isContactDiaryOnboardingDone.value == true) {
+        if (viewModel.isContactDiaryOnboardingDone.value == true) {
             nestedGraph.startDestination = R.id.contactDiaryOverviewFragment
             navController.navigate(
                 ContactDiaryOverviewFragmentDirections.actionContactDiaryOverviewFragmentToContactDiaryDayFragment(
@@ -200,7 +238,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     private fun navigateByIntentUri(intent: Intent?) {
         val uriString = intent?.data?.toString() ?: return
         Timber.i("Uri:$uriString")
-        vm.onNavigationUri(uriString)
+        viewModel.onNavigationUri(uriString)
     }
 
     /**
@@ -208,7 +246,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
      */
     override fun onResume() {
         super.onResume()
-        vm.doBackgroundNoiseCheck()
+        viewModel.doBackgroundNoiseCheck()
         dataDonationAnalyticsScheduler.schedulePeriodic()
     }
 
@@ -260,13 +298,29 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
                 // show battery optimization system dialog after background processing dialog
-                vm.onUserOpenedBackgroundPriorityOptions()
+                viewModel.onUserOpenedBackgroundPriorityOptions()
             },
             negativeButtonFunction = {
                 // declined
             }
         )
         DialogHelper.showDialog(dialog)
+    }
+
+    private fun navigateToScanner() {
+        supportFragmentManager.currentNavigationFragment?.apply {
+            val animDuration = resources.getInteger(R.integer.fab_scanner_transition_duration).toLong()
+            exitTransition = MaterialElevationScale(false).apply { duration = animDuration }
+            reenterTransition = MaterialElevationScale(true).apply { duration = animDuration }
+        }
+        navController.navigate(R.id.universalScanner)
+    }
+
+    private fun resetCurrentFragmentTransition() {
+        supportFragmentManager.currentNavigationFragment?.apply {
+            exitTransition = null
+            reenterTransition = null
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
