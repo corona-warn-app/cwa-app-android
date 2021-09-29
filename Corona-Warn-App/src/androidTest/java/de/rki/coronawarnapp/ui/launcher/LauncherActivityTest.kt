@@ -10,6 +10,7 @@ import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.install.model.UpdateAvailability
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayFragment
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.rootdetection.RootDetectionCheck
 import de.rki.coronawarnapp.storage.OnboardingSettings
@@ -29,7 +30,9 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
+import testhelpers.Screenshot
 import testhelpers.TestDispatcherProvider
+import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
 class LauncherActivityTest : BaseUITest() {
@@ -87,6 +90,21 @@ class LauncherActivityTest : BaseUITest() {
         // Host is case sensitive and it should be only in lowercase
         val uri = Uri.parse("HTTPS://CORONAWARN.APP/E1/SOME_PATH_GOES_HERE")
         launchActivity<LauncherActivity>(getIntent(uri))
+    }
+
+    @Screenshot
+    @Test
+    fun capture_root_dialog_screenshot() {
+        coEvery { rootDetectionCheck.isRooted() } returns true
+
+        setupMockViewModel(
+            object : LauncherActivityViewModel.Factory {
+                override fun create(): LauncherActivityViewModel = launcherActivityViewModel()
+            }
+        )
+
+        launchActivity<LauncherActivity>()
+        takeScreenshot<LauncherActivity>("launcher_root")
     }
 
     private fun getIntent(uri: Uri) = Intent(Intent.ACTION_VIEW, uri).apply {
