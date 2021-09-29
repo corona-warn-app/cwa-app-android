@@ -146,7 +146,7 @@ class MainActivityViewModel @AssistedInject constructor(
     }
 
     fun dismissTooltip() {
-        onboardingSettings.fabScannerOnboardingDone.update { false }
+        onboardingSettings.fabScannerOnboardingDone.update { true }
     }
 
     @AssistedFactory

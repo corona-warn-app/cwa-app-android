@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.main
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -103,9 +104,8 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
                 }
             )
 
-            fabTooltip.close.setOnClickListener {
-                viewModel.dismissTooltip()
-            }
+            fabTooltip.close.setOnClickListener { viewModel.dismissTooltip() }
+
             scannerFab.apply {
                 setShowMotionSpecResource(R.animator.fab_show)
                 setHideMotionSpecResource(R.animator.fab_hide)
