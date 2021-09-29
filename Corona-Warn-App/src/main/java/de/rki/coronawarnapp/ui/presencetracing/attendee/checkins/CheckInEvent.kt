@@ -21,6 +21,4 @@ sealed class CheckInEvent {
     data class InvalidQrCode(val errorText: LazyString) : CheckInEvent()
 
     object ShowInformation : CheckInEvent()
-
-    object OpenDeviceSettings : CheckInEvent()
 }
