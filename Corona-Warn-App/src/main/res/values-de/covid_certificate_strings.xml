@@ -74,7 +74,7 @@
     <!-- XHED: Person certificate details title -->
     <string name="person_details_certificate_title">"Digitales COVID-Zertifikat der EU"</string>
     <!-- XHED: Person certificate CovPas Header Info-->
-    <string name="person_details_certificate_covpass_info_title">"Dieser QR Code lässt sich verlässlich mit der CovPassCheck-App überprüfen."</string>
+    <string name="person_details_certificate_covpass_info_title">"Dieser QR-Code lässt sich verlässlich mit der CovPassCheck-App überprüfen."</string>
     <!-- XTXT: Test Certificate CWA User card description -->
     <string name="person_details_cwa_user_description">"Bitte aktivieren Sie diesen Schalter, wenn Sie selbst %1$s sind und die App hauptsächlich nutzen. Ihre Zertifikate erscheinen in der Liste an erster Stelle."</string>
     <!-- XTXT: Test Certificate CWA User card birthdate -->
@@ -374,7 +374,7 @@
     <!-- XHED: Cov Pass Info Fragment title -->
     <string name="cov_pass_info_title">"Zertifikatsprüfung durch Dritte"</string>
     <!-- XHED: Cov Pass Info Fragment title -->
-    <string name="cov_pass_info_subtitle">"Dritte können nur über die CovPassCheck-App verlässlich überprüfen, ob es sich um ein valides Impf-, Genesenen-, oder Testzertifikat handelt."</string>
+    <string name="cov_pass_info_subtitle">"Dritte können mit der CovPassCheck-App verlässlich überprüfen, ob es sich um ein valides Impf-, Genesenen-, oder Testzertifikat handelt."</string>
     <!-- XHED: Cov Pass Info Fragment title -->
     <string name="cov_pass_info_faq_link">"FAQ zur Zertifikatsprüfung durch Dritte"</string>
     <!-- XHED: Cov Pass Info Fragment title -->
