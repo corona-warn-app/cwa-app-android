@@ -5,12 +5,21 @@
     tools:ignore="MissingConstraints">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/persons_vaccinated_completely_container"
+        android:id="@+id/seven_day_hospitalization_card_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:layout_height="wrap_content"
         tools:layout_width="@dimen/statistics_card_width"
         tools:showIn="@layout/home_statistics_cards_basecard_layout">
+
+        <ImageButton
+            android:id="@+id/info_statistics"
+            style="@style/StatisticsCardInfoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/statistics_info_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/title"
@@ -20,7 +29,7 @@
             android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_normal"
             android:maxLines="2"
-            android:text="@string/statistics_vaccinated_completely_card_title"
+            android:text="@string/statistics_seven_day_hospitalization_card_title"
             app:autoSizeTextType="uniform"
             app:layout_constraintEnd_toStartOf="@id/info_statistics"
             app:layout_constraintStart_toStartOf="parent"
@@ -37,15 +46,6 @@
             app:layout_constraintStart_toStartOf="@id/title"
             app:layout_constraintTop_toBottomOf="@id/title" />
 
-        <ImageButton
-            android:id="@+id/info_statistics"
-            style="@style/StatisticsCardInfoButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/statistics_info_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <ImageView
             android:id="@+id/background_image"
             android:layout_width="wrap_content"
@@ -55,7 +55,7 @@
             android:importantForAccessibility="no"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/nationwide_text"
-            app:srcCompat="@drawable/ic_vaccinated_completely" />
+            app:srcCompat="@drawable/ic_seven_day_hospitalization" />
 
         <TextView
             android:id="@+id/primary_label"
@@ -71,41 +71,28 @@
             style="@style/StatisticsCardPrimaryValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:focusable="true"
             android:includeFontPadding="false"
             app:layout_constraintStart_toStartOf="@id/primary_label"
             app:layout_constraintTop_toBottomOf="@id/primary_label"
-            tools:text="8.6%" />
+            tools:text="1,74" />
+
+        <de.rki.coronawarnapp.statistics.ui.TrendArrowView
+            android:id="@+id/trend_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_tiny"
+            app:layout_constraintBottom_toBottomOf="@id/primary_value"
+            app:layout_constraintStart_toEndOf="@id/primary_value"
+            app:layout_constraintTop_toTopOf="@id/primary_value" />
 
         <TextView
-            android:id="@+id/primary_footnote"
-            style="@style/StatisticsCardValueLabel"
+            android:id="@+id/primary_subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_small"
-            android:text="@string/statistics_vaccination_primary_value_footnote"
+            android:text="@string/statistics_seven_day_hospitalization_per_inhabitants_text"
             app:layout_constraintEnd_toStartOf="@id/background_image"
             app:layout_constraintStart_toStartOf="@id/primary_value"
             app:layout_constraintTop_toBottomOf="@id/primary_value" />
-
-        <TextView
-            android:id="@+id/secondary_label"
-            style="@style/StatisticsCardValueLabel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/statistics_card_infections_tertiary_label"
-            app:layout_constraintStart_toStartOf="@id/primary_footnote"
-            app:layout_constraintTop_toBottomOf="@id/background_image" />
-
-        <TextView
-            android:id="@+id/secondary_value"
-            style="@style/StatisticsCardSecondaryValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            app:layout_constraintStart_toStartOf="@id/secondary_label"
-            app:layout_constraintTop_toBottomOf="@id/secondary_label"
-            tools:text="7.145.486" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
