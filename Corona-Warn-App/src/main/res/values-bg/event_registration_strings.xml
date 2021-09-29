@@ -8,7 +8,7 @@
     <!-- XHED: My check-ins: Title for list explanation when there are no check-ins -->
     <string name="trace_location_checkins_empty_label">"Все още няма записи"</string>
     <!-- XTXT: My check-ins: Description for list explanation when there are no check-ins -->
-    <string name="trace_location_checkins_empty_description">"Създаването на запис се извършва автоматично, когато сканирате QR код, за да се регистрирате на дадено събитие или място."</string>
+    <string name="trace_location_checkins_empty_description_1">"Създаването на запис се извършва автоматично, когато сканирате QR код, за да се регистрирате на дадено събитие или място."</string>
     <!-- XTXT: My check-ins: Accessibility description for empty check-ins illustration -->
     <string name="trace_location_checkins_empty_illustration_accessibility">"Сграда, на чийто фон се вижда символ за QR код"</string>
 
