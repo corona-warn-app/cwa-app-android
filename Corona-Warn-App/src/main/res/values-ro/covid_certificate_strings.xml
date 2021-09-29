@@ -52,8 +52,6 @@
     <!-- XBUT: Text for vaccination consent accept button -->
     <string name="vaccination_consent_accept_button">"Continuare"</string>
 
-    <!-- XTXT: Vaccination card immunity information: Days since last shot -->
-    <string name="vaccination_days_since_last_shot">"Ultima vaccinare: acum %1$d zi(le)"</string>
     <!-- XTXT: Vaccination card immunity information card body when immunity is completed -->
     <string name="vaccination_list_immunity_card_body">"Ați primit toate vaccinările planificate în acest moment. Protecția prin vaccinare este completă."</string>
     <!-- XTXT: Vaccination card title -->

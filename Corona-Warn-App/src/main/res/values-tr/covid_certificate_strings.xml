@@ -52,8 +52,6 @@
     <!-- XBUT: Text for vaccination consent accept button -->
     <string name="vaccination_consent_accept_button">"Devam Et"</string>
 
-    <!-- XTXT: Vaccination card immunity information: Days since last shot -->
-    <string name="vaccination_days_since_last_shot">"Son aşı %1$d gün önce yapıldı"</string>
     <!-- XTXT: Vaccination card immunity information card body when immunity is completed -->
     <string name="vaccination_list_immunity_card_body">"Geçerli olarak planlanan tüm aşıları yaptırdınız. Aşı korumanız tamamlandı."</string>
     <!-- XTXT: Vaccination card title -->

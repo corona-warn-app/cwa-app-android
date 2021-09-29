@@ -53,7 +53,14 @@
     <string name="vaccination_consent_accept_button">"Continue"</string>
 
     <!-- XTXT: Vaccination card immunity information: Days since last shot -->
-    <string name="vaccination_days_since_last_shot">"Last vaccination %1$d days ago"</string>
+    <plurals name="vaccination_days_since_last_shot">
+        <item quantity="one">"Last vaccination %1$d day ago"</item>
+        <item quantity="other">"Last vaccination %1$d days ago"</item>
+        <item quantity="zero">"Last vaccination today"</item>
+        <item quantity="two">"Last vaccination %1$d days ago"</item>
+        <item quantity="few">"Last vaccination %1$d days ago"</item>
+        <item quantity="many">"Last vaccination %1$d days ago"</item>
+    </plurals>
     <!-- XTXT: Vaccination card immunity information card body when immunity is completed -->
     <string name="vaccination_list_immunity_card_body">"You have received all currently planned vaccinations. Your vaccination protection is complete."</string>
     <!-- XTXT: Vaccination card title -->
