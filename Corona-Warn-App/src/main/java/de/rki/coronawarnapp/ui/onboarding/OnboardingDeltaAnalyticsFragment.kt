@@ -70,7 +70,7 @@ class OnboardingDeltaAnalyticsFragment : Fragment(R.layout.fragment_onboarding_d
             }
         }
         viewModel.completedOnboardingEvent.observe2(this) {
-            popBackStack()
+            (requireActivity() as OnboardingActivity).completeOnboarding()
         }
         viewModel.ageGroup.observe2(this) {
             binding.ageGroupRowBody.text = getString(it.labelStringRes)

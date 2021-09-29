@@ -7,7 +7,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -18,6 +17,7 @@ import android.provider.Settings
 import de.rki.coronawarnapp.databinding.NotificationsDeltaOnboardingFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.toResolvingString
 import setTextWithUrls
 
 class OnboardingDeltaNotificationsFragment :
@@ -42,10 +42,10 @@ class OnboardingDeltaNotificationsFragment :
             deviceSettingsButton.setOnClickListener { onOpenDeviceSettings() }
 
             faq.setTextWithUrls(
-                R.string.nm_delta_onboarding_faq.toResolvingString(),
+                R.string.nm_faq.toResolvingString(),
                 TextViewUrlSet(
-                    labelResource = R.string.nm_delta_onboarding_faq_label,
-                    urlResource = R.string.nm_delta_onboarding_faq_link
+                    labelResource = R.string.nm_faq_label,
+                    urlResource = R.string.nm_faq_link
                 )
             )
         }
