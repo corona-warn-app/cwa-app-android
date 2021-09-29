@@ -31,7 +31,7 @@ class DccExpirationNotification @Inject constructor(
 ) {
     fun showNotification(containerId: CertificateContainerId): Boolean {
         Timber.d("showNotification(containerId=$containerId)")
-        showNotification(containerId, R.string.notification_body)
+        showNotification(containerId, R.string.notification_body_certificate)
         return true // we always show it independent of foreground state
     }
 
