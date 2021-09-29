@@ -35,6 +35,7 @@ import testhelpers.Screenshot
 import testhelpers.launchFragment2
 import testhelpers.launchInMainActivity
 import testhelpers.recyclerScrollTo
+import testhelpers.setViewVisibility
 import testhelpers.takeScreenshot
 import timber.log.Timber
 
@@ -74,6 +75,17 @@ class HomeFragmentTest : BaseUITest() {
         // also scroll down and capture a screenshot of the faq card
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo())
         takeScreenshot<HomeFragment>("faq_card")
+    }
+
+    @Screenshot
+    @Test
+    fun captureHomeFragmentLowRiskNoEncounters_Tooltip() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
+            HomeData.Tracing.LOW_RISK_ITEM_NO_ENCOUNTERS
+        )
+        launchInMainActivity<HomeFragment>()
+        onView(withId(R.id.fake_fab_tooltip)).perform(setViewVisibility(true))
+        takeScreenshot<HomeFragment>("fab_tooltip")
     }
 
     @Screenshot
