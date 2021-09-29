@@ -8,6 +8,18 @@
     android:contentDescription="@string/qr_code_scan_body"
     android:transitionName="shared_element_container">
 
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/qr_code_scan_toolbar"
+        style="@style/CWAToolbar.BackArrow.Transparent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIconTint="@color/colorQrCodeScanToolbar"
+        app:title="@string/qr_code_scan_title"
+        app:titleTextColor="@color/colorQrCodeScanToolbar" />
+
     <com.journeyapps.barcodescanner.BarcodeView
         android:id="@+id/qr_code_scan_preview"
         android:layout_width="0dp"
@@ -93,9 +105,8 @@
         android:textColor="@color/colorQrCodeScanToolbar"
         app:icon="@drawable/ic_image"
         app:iconTint="@color/colorQrCodeScanToolbar"
-        app:layout_constraintBottom_toBottomOf="@id/qr_code_scan_torch"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/qr_code_scan_torch" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ToggleButton
         android:id="@+id/qr_code_scan_torch"
@@ -109,20 +120,6 @@
         android:textOn=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/qr_code_scan_toolbar"
-        style="@style/CWAToolbar.BackArrow.Transparent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navigationIconTint="@color/colorQrCodeScanToolbar"
-        app:title="@string/qr_code_scan_title"
-        app:titleTextColor="@color/colorQrCodeScanToolbar">
-
-    </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/qr_code_scan_guideline_center"

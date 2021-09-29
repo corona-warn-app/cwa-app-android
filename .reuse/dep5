@@ -75,3 +75,11 @@ License: Apache-2.0
 Files: Corona-Warn-App/src/main/java/de/rki/coronawarnapp/covidcertificate/signature/core/CborEncoding.kt
 Copyright: Copyright (C) 2021 T-Systems International GmbH and all other contributors
 License: Apache-2.0
+
+Files: Corona-Warn-App/src/main/res/animator/fab_hide.xml
+Copyright: 2019 Google Inc.
+License: Apache-2.0
+
+Files: Corona-Warn-App/src/main/res/animator/fab_show.xml
+Copyright: 2019 Google Inc.
+License: Apache-2.0
