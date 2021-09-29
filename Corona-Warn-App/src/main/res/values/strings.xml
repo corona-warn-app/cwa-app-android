@@ -2006,7 +2006,7 @@
     <string name="incompatible_link_advertising_not_supported">"https://www.coronawarn.app/en/faq/#part_incompat"</string>
     <!-- XTXT: Incompitability faq link for full incompatibility -->
     <string name="incompatible_link_scanning_not_supported">"https://www.coronawarn.app/en/faq/#full_incompat"</string>
-    
+
     <!-- Permission Denied Dialog -->
     <!-- XHED: UQS camera permission dialog title -->
     <string name="camera_permission_dialog_title">Kamerazugriff benötigt</string>
