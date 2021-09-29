@@ -164,6 +164,8 @@
     <string name="trace_location_organiser_list_title">"Moje kody QR"</string>
     <!-- XBUT: Event organiser qr codes list: new qr code button  -->
     <string name="trace_location_organiser_list_new_button">"Kod QR"</string>
+    <!-- XBUT: Event organiser qr codes list: new qr code button description -->
+    <string name="trace_location_organiser_list_new_button_description"></string>
     <!-- XTXT: Event organiser qr codes list: new qr code button  -->
     <string name="trace_location_organiser_list_no_codes_title">"Nie utworzono jeszcze kodów QR"</string>
     <!-- XTXT: Event organiser qr codes list: new qr code button  -->
