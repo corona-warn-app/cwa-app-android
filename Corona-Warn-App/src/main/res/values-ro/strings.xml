@@ -270,6 +270,10 @@
     <string name="risk_details_increased_risk_faq_link_label">"Întrebările frecvente"</string>
     <!-- XTXT: Explains user about increased risk level: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
     <string name="risk_details_increased_risk_faq_url">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
+    <!-- XTXT: risk details - symptoms bullet point -->
+    <string name="risk_details_faq_symptoms">"Fiți vigilenți pentru depistarea simptomelor specifice pentru COVID-19. Chiar și persoanele vaccinate pot prezenta simptome în caz de infectare post-vaccinare. Dacă observați simptome suspecte, testați-vă."</string>
+    <!-- XTXT: risk details - vaccination bullet point -->
+    <string name="risk_details_increased_risk_faq_vaccination">"Dacă încă nu v-ați vaccinat, consultați telefonic medicul de familie sau serviciul medical de urgență pentru a stabili efectuarea unui test. După testare, discutați opțiunile de vaccinare împotriva SARS-CoV-2 cu medicul dvs. de familie."</string>
 
     <!-- XMSG: risk details - ventilation bullet point -->
     <string name="risk_details_behavior_body_ventilation">"Aerisiți spațiile interioare de mai multe ori pe zi. Astfel, deschideți ferestrele cât mai larg posibil timp de câteva minute („ventilație șoc”)."</string>
@@ -936,6 +940,8 @@
 
     <!-- QR Code Scan Screen -->
     <string name="qr_code_scan_title">"Scanare cod QR"</string>
+    <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="qr_code_scan_body">"Poziționați codul QR în cadru."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_title">"Ce coduri QR puteți scana?"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
