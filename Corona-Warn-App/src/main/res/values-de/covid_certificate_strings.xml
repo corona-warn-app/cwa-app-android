@@ -62,6 +62,8 @@
         <item quantity="few">"letzte Impfung vor %1$d Tagen"</item>
         <item quantity="many">"letzte Impfung vor %1$d Tagen"</item>
     </plurals>
+    <!-- XTXT: Vaccination card immunity information: Days since last shot today -->
+    <string name="vaccination_days_since_last_shot_today">"letzte Impfung heute"</string>
     <!-- XTXT: Vaccination card immunity information card body when immunity is completed -->
     <string name="vaccination_list_immunity_card_body">"Sie haben nun alle derzeit geplanten Impfungen erhalten. Ihr Impfschutz ist vollständig."</string>
     <!-- XTXT: Vaccination card title -->
@@ -97,7 +99,7 @@
     <string name="vaccination_certificate_name">Impfzertifikat</string>
 
     <!-- XTXT: Vaccination card immunity information card body-->
-    <plurals name="vaccination_certificate_days_unti_immunity" tools:ignore="UnusedQuantity">
+    <plurals name="vaccination_certificate_days_until_immunity" tools:ignore="UnusedQuantity">
         <item quantity="one">Sie haben nun alle derzeit geplanten Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tag vollständig.</item>
         <item quantity="other">Sie haben nun alle derzeit geplanten Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
         <item quantity="zero">Sie haben nun alle derzeit geplanten Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
