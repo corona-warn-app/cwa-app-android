@@ -165,8 +165,10 @@
 
     <!-- XHED: Event organiser qr codes list: title -->
     <string name="trace_location_organiser_list_title">"Meine QR-Codes"</string>
-    <!-- XBUT: Event organiser qr codes list: new qr code button  -->
+    <!-- XBUT: Event organiser qr codes list: new qr code button -->
     <string name="trace_location_organiser_list_new_button">"QR-Code"</string>
+    <!-- XBUT: Event organiser qr codes list: new qr code button description -->
+    <string name="trace_location_organiser_list_new_button_description">"QR-Code hinzufügen"</string>
     <!-- XTXT: Event organiser qr codes list: new qr code button  -->
     <string name="trace_location_organiser_list_no_codes_title">"Noch keine QR-Codes erstellt"</string>
     <!-- XTXT: Event organiser qr codes list: new qr code button  -->
