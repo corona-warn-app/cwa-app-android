@@ -8,6 +8,7 @@ import android.provider.Settings
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
@@ -97,13 +98,22 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
                     if (isBarVisible) {
                         resetCurrentFragmentTransition()
                     }
+
+                    binding.fabTooltip.root.isVisible = isBarVisible && viewModel.isToolTipVisible.value == true
                 }
             )
+
+            fabTooltip.close.setOnClickListener { viewModel.dismissTooltip() }
+
             scannerFab.apply {
                 setShowMotionSpecResource(R.animator.fab_show)
                 setHideMotionSpecResource(R.animator.fab_hide)
                 setOnClickListener { viewModel.openScanner() }
             }
+        }
+
+        viewModel.isToolTipVisible.observe(this) { visible ->
+            binding.fabTooltip.root.isVisible = visible
         }
 
         viewModel.showBackgroundJobDisabledNotification.observe(this) {
