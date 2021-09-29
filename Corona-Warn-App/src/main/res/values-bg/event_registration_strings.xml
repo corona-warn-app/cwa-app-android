@@ -164,8 +164,6 @@
     <string name="trace_location_organiser_list_title">"Моите QR кодове"</string>
     <!-- XBUT: Event organiser qr codes list: new qr code button  -->
     <string name="trace_location_organiser_list_new_button">"QR код"</string>
-    <!-- XBUT: Event organiser qr codes list: new qr code button description -->
-    <string name="trace_location_organiser_list_new_button_description"></string>
     <!-- XTXT: Event organiser qr codes list: new qr code button  -->
     <string name="trace_location_organiser_list_no_codes_title">"Все още няма създадени QR кодове"</string>
     <!-- XTXT: Event organiser qr codes list: new qr code button  -->
