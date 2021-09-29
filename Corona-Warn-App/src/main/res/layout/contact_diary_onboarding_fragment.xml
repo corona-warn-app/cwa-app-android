@@ -22,6 +22,7 @@
             app:title="@string/contact_diary_title" />
 
         <ScrollView
+            android:id="@+id/scroll_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/spacing_small"
