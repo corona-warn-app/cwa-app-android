@@ -275,7 +275,8 @@
     <string name="risk_details_faq_symptoms">"Achten Sie auf COVID-19-typische Symptome. Symptome können in seltenen Fällen auch bei geimpften Personen auftreten. Sobald Symptome auftreten, lassen Sie sich testen."</string>
     <!-- XTXT: risk details - vaccination bullet point -->
     <string name="risk_details_increased_risk_faq_vaccination">"Sollten Sie bisher nicht geimpft sein, lassen Sie sich nach Rücksprache mit Ihrer Hausarztpraxis oder dem kassenärztlichen Bereitschaftsdienst testen. Besprechen Sie ebenfalls die SARS-CoV-2-Impfung nach der Testung mit Ihrer Hausarztpraxis."</string>
-
+    <!-- XTXT: risk details - normal risk vaccination bullet -->
+    <string name="risk_details_normal_risk_faq_vaccination">"Lassen Sie sich gegen SARS-CoV-2 impfen, falls Sie noch nicht geimpft sind."</string>
     <!-- XMSG: risk details - ventilation bullet point -->
     <string name="risk_details_behavior_body_ventilation">"Lüften Sie Innenräume mehrmals täglich. Öffnen Sie dazu die Fenster einige Minuten lang so weit wie möglich (Stoßlüftung)."</string>
     <!-- XMSG: risk details - cough/sneeze, something like a bullet point -->

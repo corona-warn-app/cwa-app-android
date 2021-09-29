@@ -306,6 +306,8 @@
     <string name="risk_details_information_body_period_logged_assessment">"The app automatically deletes older logs, as these are no longer relevant for infection prevention."</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk">"This is how your risk is calculated."</string>
+    <!-- XTXT: risk details - normal risk vaccination bullet -->
+    <string name="risk_details_normal_risk_faq_vaccination">"Lassen Sie sich gegen SARS-CoV-2 impfen, falls Sie noch nicht geimpft sind."</string>
     <!-- YTXT: risk details - low risk explanation text -->
     <string name="risk_details_information_body_low_risk">"You have a low risk of infection because no exposure to people later diagnosed with coronavirus was logged, or because your encounters were only for a short time and at a greater distance."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
