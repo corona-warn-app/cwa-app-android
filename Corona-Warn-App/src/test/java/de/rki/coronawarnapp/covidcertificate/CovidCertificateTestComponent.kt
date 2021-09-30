@@ -33,6 +33,7 @@ import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.flow.flowOf
 import javax.inject.Singleton
 
 @Singleton
@@ -86,18 +87,20 @@ class CovidCertificateMockProvider {
     @Provides
     fun appConfig(): AppConfigProvider {
         return mockk<AppConfigProvider>().apply {
-            coEvery { getAppConfig() } returns mockk<ConfigData>().apply {
-                every { presenceTracing } returns PresenceTracingConfigContainer(
-                    qrCodeDescriptors = listOf(
-                        PresenceTracingQRCodeDescriptor.newBuilder()
-                            .setVersionGroupIndex(0)
-                            .setEncodedPayloadGroupIndex(1)
-                            .setPayloadEncoding(PresenceTracingQRCodeDescriptor.PayloadEncoding.BASE64)
-                            .setRegexPattern("https://e\\.coronawarn\\.app\\?v=(\\d+)\\#(.+)")
-                            .build()
+            coEvery { currentConfig } returns flowOf(
+                mockk<ConfigData>().apply {
+                    every { presenceTracing } returns PresenceTracingConfigContainer(
+                        qrCodeDescriptors = listOf(
+                            PresenceTracingQRCodeDescriptor.newBuilder()
+                                .setVersionGroupIndex(0)
+                                .setEncodedPayloadGroupIndex(1)
+                                .setPayloadEncoding(PresenceTracingQRCodeDescriptor.PayloadEncoding.BASE64)
+                                .setRegexPattern("https://e\\.coronawarn\\.app\\?v=(\\d+)\\#(.+)")
+                                .build()
+                        )
                     )
-                )
-            }
+                }
+            )
         }
     }
 }

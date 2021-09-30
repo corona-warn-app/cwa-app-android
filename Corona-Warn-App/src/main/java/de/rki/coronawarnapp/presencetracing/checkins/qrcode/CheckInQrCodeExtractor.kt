@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParamete
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingQRCodeDescriptorOrBuilder
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.encoding.decodeBase32
+import kotlinx.coroutines.flow.first
 import okio.ByteString.Companion.toByteString
 import timber.log.Timber
 import javax.inject.Inject
@@ -54,7 +55,7 @@ class CheckInQrCodeExtractor @Inject constructor(
     }
 
     private suspend fun descriptor(input: String): PresenceTracingQRCodeDescriptorOrBuilder? {
-        val descriptors = configProvider.getAppConfig().presenceTracing.qrCodeDescriptors
+        val descriptors = configProvider.currentConfig.first().presenceTracing.qrCodeDescriptors
         Timber.tag(TAG).d("descriptors=$descriptors")
         val descriptor = descriptors.find { it.regexPattern.toRegex(RegexOption.IGNORE_CASE).matches(input) }
         Timber.tag(TAG).d("descriptor=$descriptor")

@@ -14,6 +14,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
@@ -28,18 +29,20 @@ class CheckInQrCodeExtractorTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        coEvery { configProvider.getAppConfig() } returns mockk<ConfigData>().apply {
-            every { presenceTracing } returns PresenceTracingConfigContainer(
-                qrCodeDescriptors = listOf(
-                    PresenceTracingQRCodeDescriptor.newBuilder()
-                        .setVersionGroupIndex(0)
-                        .setEncodedPayloadGroupIndex(1)
-                        .setPayloadEncoding(PayloadEncoding.BASE64)
-                        .setRegexPattern("https://e\\.coronawarn\\.app\\?v=(\\d+)\\#(.+)")
-                        .build()
+        coEvery { configProvider.currentConfig } returns flowOf(
+            mockk<ConfigData>().apply {
+                every { presenceTracing } returns PresenceTracingConfigContainer(
+                    qrCodeDescriptors = listOf(
+                        PresenceTracingQRCodeDescriptor.newBuilder()
+                            .setVersionGroupIndex(0)
+                            .setEncodedPayloadGroupIndex(1)
+                            .setPayloadEncoding(PayloadEncoding.BASE64)
+                            .setRegexPattern("https://e\\.coronawarn\\.app\\?v=(\\d+)\\#(.+)")
+                            .build()
+                    )
                 )
-            )
-        }
+            }
+        )
     }
 
     fun createInstance() = CheckInQrCodeExtractor(configProvider)
@@ -63,18 +66,20 @@ class CheckInQrCodeExtractorTest : BaseTest() {
         expectedPayload: QRCodePayload,
         expectedVendorData: CWALocationData
     ) = runBlockingTest {
-        coEvery { configProvider.getAppConfig() } returns mockk<ConfigData>().apply {
-            every { presenceTracing } returns PresenceTracingConfigContainer(
-                qrCodeDescriptors = listOf(
-                    PresenceTracingQRCodeDescriptor.newBuilder()
-                        .setVersionGroupIndex(0)
-                        .setEncodedPayloadGroupIndex(1)
-                        .setPayloadEncoding(PayloadEncoding.BASE32)
-                        .setRegexPattern("https://e\\.coronawarn\\.app\\?v=(\\d+)\\#(.+)")
-                        .build()
+        coEvery { configProvider.currentConfig } returns flowOf(
+            mockk<ConfigData>().apply {
+                every { presenceTracing } returns PresenceTracingConfigContainer(
+                    qrCodeDescriptors = listOf(
+                        PresenceTracingQRCodeDescriptor.newBuilder()
+                            .setVersionGroupIndex(0)
+                            .setEncodedPayloadGroupIndex(1)
+                            .setPayloadEncoding(PayloadEncoding.BASE32)
+                            .setRegexPattern("https://e\\.coronawarn\\.app\\?v=(\\d+)\\#(.+)")
+                            .build()
+                    )
                 )
-            )
-        }
+            }
+        )
 
         val checkInQrCode = createInstance().extract(input)
         checkInQrCode.qrCodePayload shouldBe expectedPayload
