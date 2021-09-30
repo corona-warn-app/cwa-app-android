@@ -2,7 +2,7 @@
 <resources>
 
     <!-- Brand Colors -->
-    <color name="colorSecondary">#80CDEC</color>
+    <color name="colorSecondary">#83D2F2</color>
     <color name="colorSurface">#000000</color>
     <color name="colorSurface1">#232324</color>
     <color name="colorSurface1Pressed">#39393A</color>
@@ -77,4 +77,13 @@
 
     <color name="dividerColor">#4DFFFFFF</color>
     <color name="qrcodeCardColor">@color/colorSurface2</color>
+
+    <!-- Bottom nav color -->
+    <color name="navItemColorNormal">#A5A5A5</color>
+    <color name="fab_tint">#83D2F2</color>
+
+    <!-- Tip-->
+    <color name="tipBackgroundColor">#FFFFFF</color>
+    <color name="tipTitleColor">#000000</color>
+
 </resources>

@@ -16,7 +16,7 @@
     <!-- XTXT: Person overview no certificates subtitle-->
     <string name="person_overview_no_certificates_subtitle">Hier werden die gespeicherten digitalen Impfzertifikate, Genesenenzertifikate und Testzertifikate angezeigt.</string>
     <!-- XTXT: Person overview no certificates subtitle 2-->
-    <string name="person_overview_no_certificates_subtitle_2">Um ein Zertifikat hinzuzufügen, scannen Sie bitte den dazugehörigen QR-Code.</string>
+    <string name="person_overview_no_certificates_subtitle_2">"Scannen Sie den QR-Code des Zertifikats mit Hilfe des „Scannen“ Buttons in der unteren Navigationsleiste."</string>
     <!-- XBUT: Person overview certificates scan button-->
     <string name="person_overview_scan_button">Zertifikat</string>
     <!-- XTXT: Person overview no certificates image content description-->
@@ -74,7 +74,7 @@
     <!-- XHED: Person certificate details title -->
     <string name="person_details_certificate_title">"Digitales COVID-Zertifikat der EU"</string>
     <!-- XHED: Person certificate CovPas Header Info-->
-    <string name="person_details_certificate_covpass_info_title">"Dieser QR Code lässt sich verlässlich mit der CovPassCheck-App überprüfen."</string>
+    <string name="person_details_certificate_covpass_info_title">"Dieser QR-Code lässt sich verlässlich mit der CovPassCheck-App überprüfen."</string>
     <!-- XTXT: Test Certificate CWA User card description -->
     <string name="person_details_cwa_user_description">"Bitte aktivieren Sie diesen Schalter, wenn Sie selbst %1$s sind und die App hauptsächlich nutzen. Ihre Zertifikate erscheinen in der Liste an erster Stelle."</string>
     <!-- XTXT: Test Certificate CWA User card birthdate -->
@@ -100,7 +100,7 @@
     </plurals>
 
     <!-- XTXT: Vaccination only one shot required -->
-    <string name="vaccination_certificate_one_shot">Es handelt sich hier um einen Impfstoff, bei dem nur eine Impfdosis erforderlich ist, oder um eine Impfung für Genesene, die nur eine Impfdosis benötigt.</string>
+    <string name="vaccination_certificate_one_shot">Es handelt sich hier um einen Impfstoff, bei dem nur eine Impfdosis erforderlich ist oder um eine Impfung für Genesene, die nur eine Impfdosis benötigt.</string>
     <!-- XTXT: Vaccination is not complete information card body-->
     <string name="vaccination_certificate_incomplete_vaccination">"Sie haben noch nicht alle derzeit geplanten Impfungen erhalten. Daher ist Ihr Impfschutz noch nicht vollständig."</string>
 
@@ -374,7 +374,7 @@
     <!-- XHED: Cov Pass Info Fragment title -->
     <string name="cov_pass_info_title">"Zertifikatsprüfung durch Dritte"</string>
     <!-- XHED: Cov Pass Info Fragment title -->
-    <string name="cov_pass_info_subtitle">"Dritte können nur über die CovPassCheck-App verlässlich überprüfen, ob es sich um ein valides Impf-, Genesenen-, oder Testzertifikat handelt."</string>
+    <string name="cov_pass_info_subtitle">"Dritte können mit der CovPassCheck-App verlässlich überprüfen, ob es sich um ein valides Impf-, Genesenen-, oder Testzertifikat handelt."</string>
     <!-- XHED: Cov Pass Info Fragment title -->
     <string name="cov_pass_info_faq_link">"FAQ zur Zertifikatsprüfung durch Dritte"</string>
     <!-- XHED: Cov Pass Info Fragment title -->

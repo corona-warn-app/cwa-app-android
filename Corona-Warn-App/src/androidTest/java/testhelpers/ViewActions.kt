@@ -12,6 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
+import androidx.core.view.isVisible
 
 fun recyclerScrollTo(
     position: Int? = null,
@@ -75,5 +76,19 @@ fun selectBottomNavTab(@IdRes id: Int): ViewAction {
             val navigationView = view as BottomNavigationView
             navigationView.selectedItemId = id
         }
+    }
+}
+
+fun setViewVisibility(value: Boolean): ViewAction = object : ViewAction {
+    override fun getConstraints(): Matcher<View> {
+        return isAssignableFrom(View::class.java)
+    }
+
+    override fun perform(uiController: UiController, view: View) {
+        view.isVisible = value
+    }
+
+    override fun getDescription(): String {
+        return "Show / Hide View"
     }
 }

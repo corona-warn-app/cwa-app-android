@@ -19,6 +19,4 @@ data class OpenPersonDetailsFragment(
     val colorShade: PersonColorShade
 ) : PersonOverviewFragmentEvents()
 
-object ScanQrCode : PersonOverviewFragmentEvents()
-object OpenAppDeviceSettings : PersonOverviewFragmentEvents()
 object OpenCovPassInfo : PersonOverviewFragmentEvents()

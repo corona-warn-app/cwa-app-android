@@ -15,7 +15,7 @@
     <!-- XTXT: Person overview no certificates subtitle-->
     <string name="person_overview_no_certificates_subtitle">"The saved digital vaccination certificates, certificates of recovery, and test certificates are displayed here."</string>
     <!-- XTXT: Person overview no certificates subtitle 2-->
-    <string name="person_overview_no_certificates_subtitle_2">"To add a certificate, please scan the corresponding QR code."</string>
+    <string name="person_overview_no_certificates_subtitle_2">"Scannen Sie den QR-Code des Zertifikats mit Hilfe des „Scannen“ Buttons in der unteren Navigationsleiste."</string>
     <!-- XBUT: Person overview certificates scan button-->
     <string name="person_overview_scan_button">"Certificate"</string>
     <!-- XTXT: Person overview no certificates image content description-->

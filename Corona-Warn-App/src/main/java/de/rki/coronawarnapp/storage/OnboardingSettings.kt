@@ -39,6 +39,11 @@ class OnboardingSettings @Inject constructor(
     val isOnboardedFlow: Flow<Boolean>
         get() = onboardingCompletedTimestamp.flow.map { it != null }
 
+    val fabScannerOnboardingDone = prefs.createFlowPreference(
+        key = ONBOARDING_FAB_SCANNER_DONE,
+        defaultValue = false
+    )
+
     var isBackgroundCheckDone: Boolean
         get() = prefs.getBoolean(BACKGROUND_CHECK_DONE, false)
         set(value) = prefs.edit { putBoolean(BACKGROUND_CHECK_DONE, value) }
@@ -48,5 +53,6 @@ class OnboardingSettings @Inject constructor(
     companion object {
         private const val ONBOARDING_COMPLETED_TIMESTAMP = "onboarding.done.timestamp"
         private const val BACKGROUND_CHECK_DONE = "onboarding.background.checked"
+        private const val ONBOARDING_FAB_SCANNER_DONE = "onboarding.fab.scanner.done"
     }
 }

@@ -11,9 +11,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCodeExtract
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.ActiveCheckInVH
-import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CameraPermissionVH
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.PastCheckInVH
-import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.permission.CameraPermissionProvider
 import io.kotest.assertions.throwables.shouldNotThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -25,7 +23,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
@@ -45,7 +42,6 @@ class CheckInsViewModelTest : BaseTest() {
     @MockK lateinit var checkInQrCodeExtractor: CheckInQrCodeExtractor
     @MockK lateinit var checkInsRepository: CheckInRepository
     @MockK lateinit var checkOutHandler: CheckOutHandler
-    @MockK lateinit var cameraPermissionProvider: CameraPermissionProvider
     @MockK lateinit var checkInQrCodeHandler: CheckInQrCodeHandler
 
     @BeforeEach
@@ -53,7 +49,6 @@ class CheckInsViewModelTest : BaseTest() {
         MockKAnnotations.init(this)
         every { savedState.set(any(), any<String>()) } just Runs
         every { checkInsRepository.checkInsWithinRetention } returns flowOf()
-        every { cameraPermissionProvider.deniedPermanently } returns flowOf(false)
         every { checkInQrCodeHandler.handleQrCode(any()) } returns
             CheckInQrCodeHandler.Result.Valid(mockk())
     }
@@ -158,35 +153,6 @@ class CheckInsViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `Camera item`() = runBlockingTest {
-        val checkIn = mockk<CheckIn>().apply {
-            every { id } returns 1
-            every { checkInEnd } returns Instant.parse("2020-04-01T00:00:00.000Z")
-            every { completed } returns false
-        }
-
-        every { checkInsRepository.checkInsWithinRetention } returns flowOf(listOf(checkIn))
-        every { cameraPermissionProvider.deniedPermanently } returns flowOf(true)
-
-        createInstance(deepLink = null, scope = this).apply {
-            checkins.getOrAwaitValue().apply {
-                size shouldBe 2
-                get(0).shouldBeInstanceOf<CameraPermissionVH.Item>()
-                get(1).shouldBeInstanceOf<ActiveCheckInVH.Item>()
-            }
-        }
-    }
-
-    @Test
-    fun `Check camera settings`() = runBlockingTest {
-        every { cameraPermissionProvider.checkSettings() } just Runs
-        createInstance(deepLink = null, scope = this).apply {
-            checkCameraSettings()
-            verify { cameraPermissionProvider.checkSettings() }
-        }
-    }
-
-    @Test
     fun `Handle uri InvalidQrCodeUriException`() = runBlockingTest {
         every { savedState.get<String>("deeplink.last") } returns null
         coEvery { checkInQrCodeExtractor.extract(any()) } throws InvalidQrCodeUriException("Invalid")
@@ -221,7 +187,6 @@ class CheckInsViewModelTest : BaseTest() {
             checkInQrCodeExtractor = checkInQrCodeExtractor,
             checkInsRepository = checkInsRepository,
             checkOutHandler = checkOutHandler,
-            cameraPermissionProvider = cameraPermissionProvider,
             checkInQrCodeHandler = checkInQrCodeHandler,
             cleanHistory = false
         )
