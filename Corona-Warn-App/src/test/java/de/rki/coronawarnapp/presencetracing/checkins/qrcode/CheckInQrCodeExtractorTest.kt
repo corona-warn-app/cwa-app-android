@@ -66,18 +66,20 @@ class CheckInQrCodeExtractorTest : BaseTest() {
         expectedPayload: QRCodePayload,
         expectedVendorData: CWALocationData
     ) = runBlockingTest {
-        coEvery { configProvider.getAppConfig() } returns mockk<ConfigData>().apply {
-            every { presenceTracing } returns PresenceTracingConfigContainer(
-                qrCodeDescriptors = listOf(
-                    PresenceTracingQRCodeDescriptor.newBuilder()
-                        .setVersionGroupIndex(0)
-                        .setEncodedPayloadGroupIndex(1)
-                        .setPayloadEncoding(PayloadEncoding.BASE32)
-                        .setRegexPattern("https://e\\.coronawarn\\.app\\?v=(\\d+)\\#(.+)")
-                        .build()
+        coEvery { configProvider.currentConfig } returns flowOf(
+            mockk<ConfigData>().apply {
+                every { presenceTracing } returns PresenceTracingConfigContainer(
+                    qrCodeDescriptors = listOf(
+                        PresenceTracingQRCodeDescriptor.newBuilder()
+                            .setVersionGroupIndex(0)
+                            .setEncodedPayloadGroupIndex(1)
+                            .setPayloadEncoding(PayloadEncoding.BASE32)
+                            .setRegexPattern("https://e\\.coronawarn\\.app\\?v=(\\d+)\\#(.+)")
+                            .build()
+                    )
                 )
-            )
-        }
+            }
+        )
 
         val checkInQrCode = createInstance().extract(input)
         checkInQrCode.qrCodePayload shouldBe expectedPayload
