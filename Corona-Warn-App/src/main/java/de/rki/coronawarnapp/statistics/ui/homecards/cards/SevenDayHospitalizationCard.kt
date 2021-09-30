@@ -61,9 +61,7 @@ class SevenDayHospitalizationCard(parent: ViewGroup) :
                     )
                 )
                 .append(getContentDescriptionForTrends(context, sevenDayValue.trend))
-
             trendArrow.setTrend(sevenDayValue.trend, sevenDayValue.trendSemantic)
-
         }
     }
 
