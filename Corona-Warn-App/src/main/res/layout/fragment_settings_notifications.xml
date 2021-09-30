@@ -91,7 +91,7 @@
                     app:layout_constraintEnd_toStartOf="@+id/notification_icon"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="@string/settings_notifications_headline_card" />
+                    tools:text="@string/nm_notification_enabled" />
 
                 <ImageView
                     android:id="@+id/notification_icon"
