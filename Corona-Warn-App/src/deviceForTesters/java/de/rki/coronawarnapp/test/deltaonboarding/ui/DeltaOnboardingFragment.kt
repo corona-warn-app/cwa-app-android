@@ -14,7 +14,7 @@ import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
 @SuppressLint("SetTextI18n")
-class DeltaonboardingFragment : Fragment(R.layout.fragment_test_deltaonboarding), AutoInject {
+class DeltaOnboardingFragment : Fragment(R.layout.fragment_test_deltaonboarding), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: DeltaOnboardingFragmentViewModel by cwaViewModels { viewModelFactory }
