@@ -16,11 +16,10 @@ data class NotificationSettingsState(val isNotificationsEnabled: Boolean) {
     /**
      * Formats the settings notifications details illustration depending on notifications status
      */
-    fun getNotificationsImage(): Int =
-        if (isNotificationsEnabled)
-            R.drawable.ic_illustration_notification_on
-        else
-            R.drawable.ic_settings_illustration_notification_off
+    fun getNotificationsImage(): Int = if (isNotificationsEnabled)
+        R.drawable.ic_illustration_notification_on
+    else
+        R.drawable.ic_settings_illustration_notification_off
 
     /**
      * Formats the settings notifications details illustration description depending on notifications status
@@ -30,10 +29,8 @@ data class NotificationSettingsState(val isNotificationsEnabled: Boolean) {
         else R.string.settings_notifications_illustration_description_inactive
     )
 
-    fun getNotificationStatusText(): Int =
-        if (isNotificationsEnabled)
-            R.string.settings_on
-        else
-            R.string.settings_off
-
+    fun getNotificationStatusText(): Int = if (isNotificationsEnabled)
+        R.string.settings_on
+    else
+        R.string.settings_off
 }
