@@ -1,13 +1,16 @@
 package de.rki.coronawarnapp.deadman
 
 import dagger.Reusable
+import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
-import de.rki.coronawarnapp.diagnosiskeys.storage.pkgDateTime
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
+import org.joda.time.DateTime
 import org.joda.time.DateTimeConstants
-import org.joda.time.Hours
+import org.joda.time.DateTimeZone
 import org.joda.time.Instant
+import org.joda.time.LocalTime
+import org.joda.time.Minutes
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -18,36 +21,44 @@ class DeadmanNotificationTimeCalculation @Inject constructor(
 ) {
 
     /**
-     * Calculate initial delay in minutes for deadman notification
-     */
-    fun getHoursDiff(lastSuccess: Instant): Int {
-        val hoursDiff = Hours.hoursBetween(lastSuccess, timeStamper.nowUTC)
-        return (DEADMAN_NOTIFICATION_DELAY - hoursDiff.hours) * DateTimeConstants.MINUTES_PER_HOUR
-    }
-
-    /**
      * Get initial delay in minutes for deadman notification
-     * If last success date time is null (eg: on application first start) - return [DEADMAN_NOTIFICATION_DELAY]
+     * If last success date time is null (eg: on application first start) - return [DEADMAN_NOTIFICATION_DELAY_MINUTES]
      */
-    suspend fun getDelay(): Long {
+    suspend fun getDelayInMinutes(): Long {
         val lastSuccess = keyCacheRepository.allCachedKeys()
             .first()
             .filter { it.info.isDownloadComplete }
-            .maxByOrNull { it.info.pkgDateTime }
+            .maxByOrNull { it.info.sortDateTime }
             ?.info
 
         Timber.d("Last successful diagnosis key package download: $lastSuccess")
-        return if (lastSuccess != null) {
-            getHoursDiff(lastSuccess.createdAt).toLong()
-        } else {
-            (DEADMAN_NOTIFICATION_DELAY * DateTimeConstants.MINUTES_PER_HOUR).toLong()
-        }
+        return calculateDelay(lastSuccess?.createdAt).toLong()
+    }
+
+    /**
+     * Calculate initial delay in minutes for deadman notification
+     */
+    internal fun calculateDelay(lastSuccess: Instant?): Int {
+        val minutesSinceLastSuccess = if (lastSuccess != null)
+            Minutes.minutesBetween(lastSuccess, timeStamper.nowUTC).minutes
+        else 0
+        return DEADMAN_NOTIFICATION_DELAY_MINUTES - minutesSinceLastSuccess
     }
 
     companion object {
         /**
          * Deadman notification background job delay set to 36 hours
          */
-        const val DEADMAN_NOTIFICATION_DELAY = 36
+        const val DEADMAN_NOTIFICATION_DELAY_MINUTES = 36 * DateTimeConstants.MINUTES_PER_HOUR
     }
+
+    private val CachedKeyInfo.sortDateTime: DateTime
+        get() = when (type) {
+            CachedKeyInfo.Type.LOCATION_DAY -> day.toDateTime(endOfDay, DateTimeZone.UTC)
+            CachedKeyInfo.Type.LOCATION_HOUR -> day.toDateTime(hour, DateTimeZone.UTC)
+        }
+
+    // use end of day to ensure correct order of packages when day and hour packages are mixed
+    private val endOfDay: LocalTime
+        get() = LocalTime(23, 59, 59)
 }
