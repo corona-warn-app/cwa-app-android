@@ -131,7 +131,7 @@
         tools:layout="@layout/fragment_test_datadonation" />
     <fragment
         android:id="@+id/test_deltaonboarding_fragment"
-        android:name="de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaonboardingFragment"
+        android:name="de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaOnboardingFragment"
         android:label="DeltaonboardingFragment"
         tools:layout="@layout/fragment_test_deltaonboarding" />
     <fragment

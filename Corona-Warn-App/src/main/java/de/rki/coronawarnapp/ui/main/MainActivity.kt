@@ -77,6 +77,11 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     @Inject lateinit var powerManagement: PowerManagement
     @Inject lateinit var dataDonationAnalyticsScheduler: DataDonationAnalyticsScheduler
 
+    /**
+     * To avoid opening the scanner multiple times
+     */
+    private var lastFabClickTime = 0L
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AppInjector.setup(this)
         super.onCreate(savedInstanceState)
@@ -108,7 +113,13 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             scannerFab.apply {
                 setShowMotionSpecResource(R.animator.fab_show)
                 setHideMotionSpecResource(R.animator.fab_hide)
-                setOnClickListener { viewModel.openScanner() }
+                setOnClickListener {
+                    val time = System.currentTimeMillis()
+                    if (time - lastFabClickTime >= 1000) {
+                        lastFabClickTime = time
+                        viewModel.openScanner()
+                    }
+                }
             }
         }
 
