@@ -36,5 +36,4 @@ data class NotificationSettingsState(val isNotificationsEnabled: Boolean) {
         else
             R.string.settings_off
 
-    fun isNotificationCardVisible() = !isNotificationsEnabled
 }
