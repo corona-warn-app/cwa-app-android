@@ -1,15 +1,12 @@
 package de.rki.coronawarnapp.deadman
 
 import dagger.Reusable
-import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
+import de.rki.coronawarnapp.diagnosiskeys.storage.sortDateTime
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
-import org.joda.time.DateTime
 import org.joda.time.DateTimeConstants
-import org.joda.time.DateTimeZone
 import org.joda.time.Instant
-import org.joda.time.LocalTime
 import org.joda.time.Minutes
 import timber.log.Timber
 import javax.inject.Inject
@@ -51,14 +48,4 @@ class DeadmanNotificationTimeCalculation @Inject constructor(
          */
         const val DEADMAN_NOTIFICATION_DELAY_MINUTES = 36 * DateTimeConstants.MINUTES_PER_HOUR
     }
-
-    private val CachedKeyInfo.sortDateTime: DateTime
-        get() = when (type) {
-            CachedKeyInfo.Type.LOCATION_DAY -> day.toDateTime(endOfDay, DateTimeZone.UTC)
-            CachedKeyInfo.Type.LOCATION_HOUR -> day.toDateTime(hour, DateTimeZone.UTC)
-        }
-
-    // use end of day to ensure correct order of packages when day and hour packages are mixed
-    private val endOfDay: LocalTime
-        get() = LocalTime(23, 59, 59)
 }
