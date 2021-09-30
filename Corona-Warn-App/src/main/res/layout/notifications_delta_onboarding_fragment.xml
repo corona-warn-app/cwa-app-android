@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/content_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSurface"
+    android:contentDescription="@string/nm_title"
+    android:focusable="true">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAToolbar.Close"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/nm_title" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/spacing_small"
+        app:layout_constraintBottom_toTopOf="@id/button_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/illustration"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/onboarding_notifications_illustration_description"
+                android:focusable="true"
+                android:scaleType="fitXY"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_illustration_notification_on" />
+
+            <TextView
+                android:id="@+id/body"
+                style="@style/subtitleMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:focusable="true"
+                android:text="@string/nm_delta_onboarding_body"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/illustration" />
+
+            <TextView
+                android:id="@+id/subtitle"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:focusable="true"
+                android:text="@string/nm_delta_onboarding_subtitle"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/body" />
+
+            <include
+                android:id="@+id/bulletpoint_1"
+                layout="@layout/include_bullet_point"
+                android:layout_width="@dimen/bullet_point_size"
+                android:layout_height="@dimen/bullet_point_size"
+                android:layout_marginStart="10dp"
+                app:layout_constraintBaseline_toBaselineOf="@id/point_1"
+                app:layout_constraintStart_toEndOf="@id/guideline_start" />
+
+            <TextView
+                android:id="@+id/point_1"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginTop="8dp"
+                android:focusable="true"
+                android:text="@string/nm_point_overall"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toEndOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/subtitle" />
+
+            <include
+                android:id="@+id/bulletpoint_2"
+                layout="@layout/include_bullet_point"
+                android:layout_width="@dimen/bullet_point_size"
+                android:layout_height="@dimen/bullet_point_size"
+                android:layout_marginStart="10dp"
+                app:layout_constraintBaseline_toBaselineOf="@id/point_2"
+                app:layout_constraintStart_toEndOf="@id/guideline_start" />
+
+            <TextView
+                android:id="@+id/point_2"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginTop="4dp"
+                android:focusable="true"
+                android:text="@string/nm_point_block_screen"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toEndOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/point_1" />
+
+            <include
+                android:id="@+id/bulletpoint_3"
+                layout="@layout/include_bullet_point"
+                android:layout_width="@dimen/bullet_point_size"
+                android:layout_height="@dimen/bullet_point_size"
+                android:layout_marginStart="10dp"
+                app:layout_constraintBaseline_toBaselineOf="@id/point_3"
+                app:layout_constraintStart_toEndOf="@id/guideline_start" />
+
+            <TextView
+                android:id="@+id/point_3"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginTop="4dp"
+                android:focusable="true"
+                android:text="@string/nm_point_unclock_screen"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toEndOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/point_2" />
+
+            <TextView
+                android:id="@+id/faq"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:focusable="true"
+                android:text="@string/nm_delta_onboarding_subtitle"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/point_3" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/guideline_start" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/guideline_end" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/button_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorSurface1"
+        android:elevation="8dp"
+        android:orientation="vertical"
+        android:paddingStart="24dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/device_settings_button"
+            style="@style/buttonPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/nm_delta_onboarding_device_settings_button" />
+
+        <Button
+            android:id="@+id/next_button"
+            style="@style/buttonPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/onboarding_button_next" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
