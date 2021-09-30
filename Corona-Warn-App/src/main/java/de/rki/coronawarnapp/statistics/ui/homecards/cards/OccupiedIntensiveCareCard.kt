@@ -58,9 +58,7 @@ class OccupiedIntensiveCareCard(parent: ViewGroup) :
                     )
                 )
                 .append(getContentDescriptionForTrends(context, occupationRatio.trend))
-
             trendArrow.setTrend(occupationRatio.trend, occupationRatio.trendSemantic)
-
         }
     }
 
