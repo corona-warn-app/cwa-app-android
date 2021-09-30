@@ -22,6 +22,7 @@
             app:title="@string/contact_diary_title" />
 
         <ScrollView
+            android:id="@+id/scroll_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/spacing_small"
@@ -45,8 +46,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_contact_diary_illustration_onboarding"
-                    tools:src="@drawable/ic_contact_diary_illustration_onboarding" />
+                    app:srcCompat="@drawable/ic_contact_diary_illustration_onboarding"/>
 
                 <TextView
                     android:id="@+id/onboarding_headline"

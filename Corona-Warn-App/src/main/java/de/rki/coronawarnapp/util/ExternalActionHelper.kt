@@ -141,7 +141,7 @@ object ExternalActionHelper {
     /**
      * Open App's device details settings such as permissions
      */
-    fun Fragment.openAppDetailsSettings() {
+    fun Context.openAppDetailsSettings() {
         try {
             startActivity(
                 Intent(
@@ -151,7 +151,7 @@ object ExternalActionHelper {
             )
         } catch (e: ActivityNotFoundException) {
             Timber.e(e, "Could not open device settings")
-            Toast.makeText(requireContext(), R.string.errors_generic_headline, Toast.LENGTH_LONG).show()
+            Toast.makeText(this, R.string.errors_generic_headline, Toast.LENGTH_LONG).show()
         }
     }
 }

@@ -15,7 +15,7 @@
     <!-- XTXT: Person overview no certificates subtitle-->
     <string name="person_overview_no_certificates_subtitle">"The saved digital vaccination certificates, certificates of recovery, and test certificates are displayed here."</string>
     <!-- XTXT: Person overview no certificates subtitle 2-->
-    <string name="person_overview_no_certificates_subtitle_2">"To add a certificate, please scan the corresponding QR code."</string>
+    <string name="person_overview_no_certificates_subtitle_2">"Scannen Sie den QR-Code des Zertifikats mit Hilfe des „Scannen“ Buttons in der unteren Navigationsleiste."</string>
     <!-- XBUT: Person overview certificates scan button-->
     <string name="person_overview_scan_button">"Certificate"</string>
     <!-- XTXT: Person overview no certificates image content description-->
@@ -53,7 +53,16 @@
     <string name="vaccination_consent_accept_button">"Continue"</string>
 
     <!-- XTXT: Vaccination card immunity information: Days since last shot -->
-    <string name="vaccination_days_since_last_shot">"Last vaccination %1$d days ago"</string>
+    <plurals name="vaccination_days_since_last_shot">
+        <item quantity="one">"Last vaccination %1$d day ago"</item>
+        <item quantity="other">"Last vaccination %1$d days ago"</item>
+        <item quantity="zero">"Last vaccination today"</item>
+        <item quantity="two">"Last vaccination %1$d days ago"</item>
+        <item quantity="few">"Last vaccination %1$d days ago"</item>
+        <item quantity="many">"Last vaccination %1$d days ago"</item>
+    </plurals>
+    <!-- XTXT: Vaccination card immunity information: Days since last shot today -->
+    <string name="vaccination_days_since_last_shot_today">"Last vaccination today"</string>
     <!-- XTXT: Vaccination card immunity information card body when immunity is completed -->
     <string name="vaccination_list_immunity_card_body">"You have received all currently planned vaccinations. Your vaccination protection is complete."</string>
     <!-- XTXT: Vaccination card title -->
@@ -89,7 +98,7 @@
     <string name="vaccination_certificate_name">"Vaccination Certificate"</string>
 
     <!-- XTXT: Vaccination card immunity information card body-->
-    <plurals name="vaccination_certificate_days_unti_immunity" tools:ignore="UnusedQuantity">
+    <plurals name="vaccination_certificate_days_until_immunity" tools:ignore="UnusedQuantity">
         <item quantity="one">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete for another %1$d day."</item>
         <item quantity="other">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
         <item quantity="zero">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete for another %1$d days."</item>
