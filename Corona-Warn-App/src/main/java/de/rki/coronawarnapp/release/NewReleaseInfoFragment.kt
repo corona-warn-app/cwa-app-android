@@ -63,11 +63,12 @@ class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragmen
             when (it) {
                 is NewReleaseInfoNavigationEvents.CloseScreen ->
                     popBackStack()
-                is NewReleaseInfoNavigationEvents.NavigateToOnboardingDeltaAnalyticsFragment ->
+                is NewReleaseInfoNavigationEvents.NavigateToOnboardingDeltaNotificationsFragment -> {
                     doNavigate(
                         NewReleaseInfoFragmentDirections
-                            .actionNewReleaseInfoFragmentToOnboardingDeltaAnalyticsFragment()
+                            .actionNewReleaseInfoFragmentToOnboardingDeltaNotificationsFragment()
                     )
+                }
             }
         }
     }

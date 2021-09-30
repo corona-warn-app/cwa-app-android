@@ -6,6 +6,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
+import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
@@ -15,6 +16,7 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
 class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
     private val settings: CWASettings,
+    private val analyticsSettings: AnalyticsSettings,
     private val traceLocationSettings: TraceLocationSettings,
     private val contactDiarySettings: ContactDiarySettings,
     private val covidCertificateSettings: CovidCertificateSettings,
@@ -65,6 +67,18 @@ class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
 
     fun setVaccinationRegistrationOnboardingDone(value: Boolean) {
         covidCertificateSettings.isOnboarded.update { value }
+    }
+
+    fun isNotificationsOnboardingDone() = settings.lastNotificationsOnboardingVersionCode.value != 0L
+
+    fun setNotificationsOnboardingDone(value: Boolean) {
+        settings.lastNotificationsOnboardingVersionCode.update { if (value) BuildConfigWrap.VERSION_CODE else 0L }
+    }
+
+    fun isAnalyticsOnboardingDone() = analyticsSettings.lastOnboardingVersionCode.value != 0L
+
+    fun setAnalyticsOnboardingDone(value: Boolean) {
+        analyticsSettings.lastOnboardingVersionCode.update { if (value) BuildConfigWrap.VERSION_CODE else 0L }
     }
 
     @AssistedFactory
