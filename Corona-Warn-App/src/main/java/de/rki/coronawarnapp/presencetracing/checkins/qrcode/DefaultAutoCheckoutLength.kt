@@ -18,8 +18,8 @@ fun TraceLocation.getDefaultAutoCheckoutLengthInMinutes(now: Instant): Int {
     // max valid value is 23:45h
     val maxDefaultAutoCheckOutLengthInMinutes = (TimeUnit.HOURS.toMinutes(23) + 45).toInt()
 
-    // for permanent traceLocations, a defaultCheckInLength is always available
-    if (defaultCheckInLengthInMinutes != null) {
+    // for permanent traceLocations, a defaultCheckInLength is always available and not equal to zero
+    if (defaultCheckInLengthInMinutes != null && defaultCheckInLengthInMinutes != 0) {
 
         if (defaultCheckInLengthInMinutes < 15) {
             return minDefaultAutoCheckOutLengthInMinutes
