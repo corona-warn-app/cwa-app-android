@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -70,7 +69,7 @@ class OnboardingDeltaAnalyticsFragment : Fragment(R.layout.fragment_onboarding_d
             }
         }
         viewModel.completedOnboardingEvent.observe2(this) {
-            popBackStack()
+            (requireActivity() as OnboardingActivity).completeOnboarding()
         }
         viewModel.ageGroup.observe2(this) {
             binding.ageGroupRowBody.text = getString(it.labelStringRes)
