@@ -58,7 +58,9 @@ sealed class GlobalStatsItem(val cardType: Type) : GenericStatsItem() {
         SEVEN_DAY_RVALUE(4),
         PERSONS_VACCINATED_ONCE(5),
         PERSONS_VACCINATED_COMPLETELY(6),
-        APPLIED_VACCINATION_RATES(7)
+        APPLIED_VACCINATION_RATES(7),
+        SEVEN_DAY_HOSPITALIZATION(8),
+        OCCUPIED_INTENSIVE_CARE_BEDS(9)
     }
 
     abstract fun requireValidity()
@@ -248,6 +250,37 @@ data class AppliedVaccinationRatesStats(
         }
         requireNotNull(keyFigures.singleOrNull { it.rank == KeyFigure.Rank.TERTIARY }) {
             Timber.w("AppliedVaccinationRatesStats is missing tertiary value")
+        }
+    }
+}
+
+data class SevenDayHospitalizationStats(
+    override val updatedAt: Instant,
+    override val keyFigures: List<KeyFigure>
+) : GlobalStatsItem(cardType = Type.SEVEN_DAY_HOSPITALIZATION) {
+
+    val sevenDayValue: KeyFigure
+        get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }
+
+    override fun requireValidity() {
+        require(keyFigures.size == 1)
+        requireNotNull(keyFigures.singleOrNull { it.rank == KeyFigure.Rank.PRIMARY }) {
+            Timber.w("SevenDayHospitalizationStats is missing primary value")
+        }
+    }
+}
+
+data class OccupiedIntensiveCareStats(
+    override val updatedAt: Instant,
+    override val keyFigures: List<KeyFigure>
+) : GlobalStatsItem(cardType = Type.OCCUPIED_INTENSIVE_CARE_BEDS) {
+    val occupationRatio: KeyFigure
+        get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }
+
+    override fun requireValidity() {
+        require(keyFigures.size == 1)
+        requireNotNull(keyFigures.singleOrNull { it.rank == KeyFigure.Rank.PRIMARY }) {
+            Timber.w("OccupiedIntensiveCareStats is missing primary value")
         }
     }
 }
