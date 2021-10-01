@@ -41,7 +41,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
-            android:text="@string/statistics_vaccinated_nationwide_text"
+            android:text="@string/statistics_nationwide_text"
             android:textSize="@dimen/font_small"
             app:layout_constraintEnd_toStartOf="@id/info_statistics"
             app:layout_constraintStart_toStartOf="parent"

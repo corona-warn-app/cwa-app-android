@@ -1530,7 +1530,7 @@
     <!-- XHED: Title for vaccinated once statistics card -->
     <string name="statistics_vaccinated_once_card_title">"Persoane care au primit cel puțin o doză de vaccin"</string>
     <!-- XTXT: Nationwide text -->
-    <string name="statistics_vaccinated_nationwide_text">"La nivel național"</string>
+    <string name="statistics_nationwide_text">"La nivel național"</string>
     <!-- XTXT: Vaccination primary value footnote text -->
     <string name="statistics_vaccination_primary_value_footnote">"din numărul total al populației"</string>
 

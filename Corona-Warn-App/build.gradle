@@ -464,4 +464,7 @@ dependencies {
 
     // HCert
     implementation("com.upokecenter:cbor:4.4.1")
+
+    // ROOT
+    implementation 'com.scottyab:rootbeer-lib:0.1.0'
 }
