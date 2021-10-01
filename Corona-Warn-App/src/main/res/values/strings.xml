@@ -1995,6 +1995,17 @@
     <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">"Cancel"</string>
 
+    <!-- XHED: App Root Detection dialog title -->
+    <string name="root_dialog_title">"Sicherheitshinweis"</string>
+    <!-- XTXT: App Root Detection dialog message -->
+    <string name="root_dialog_message">"Wir haben auf Ihrem Gerät Anzeichen für Administrator-Berechtigungen (auch bekannt als Root-Berechtigungen) gefunden. Es besteht daher ein erhöhtes Risiko, dass andere Anwendungen auf Ihrem Smartphone auf Daten der Corona-Warn-App zugreifen können."</string>
+    <!-- XTXT: App Root Detection link label -->
+    <string name="root_dialog_faq_link_label">"FAQ zur Sicherheit der App"</string>
+    <!-- XTXT: Informs user about root detection: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#root_detection_android -->
+    <string name="root_dialog_faq_link_url">"https://www.coronawarn.app/en/faq/#root_detection_android"</string>
+    <!-- XBUT: App Root Detection button -->
+    <string name="root_dialog_button">"OK"</string>
+
     <!-- ####################################
         Incompatibility warning card
     ###################################### -->
@@ -2033,4 +2044,5 @@
     <string name="fab_scanner_tip_title">QR-Code-Scanner</string>
     <!-- XTXT: UQS Tooltip subtitle -->
     <string name="fab_scanner_tip_subtitle">Scannen Sie Tests, Zertifikate und Check-ins mit diesem Scanner.</string>
+
 </resources>

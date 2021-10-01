@@ -11,6 +11,7 @@ import com.google.android.play.core.install.model.UpdateAvailability
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.main.CWASettings
+import de.rki.coronawarnapp.rootdetection.RootDetectionCheck
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.update.getUpdateInfo
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -28,7 +29,9 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
+import testhelpers.Screenshot
 import testhelpers.TestDispatcherProvider
+import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
 class LauncherActivityTest : BaseUITest() {
@@ -36,6 +39,7 @@ class LauncherActivityTest : BaseUITest() {
     @MockK lateinit var appUpdateManager: AppUpdateManager
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var onboardingSettings: OnboardingSettings
+    @MockK lateinit var rootDetectionCheck: RootDetectionCheck
     lateinit var viewModel: LauncherActivityViewModel
 
     @Before
@@ -47,6 +51,8 @@ class LauncherActivityTest : BaseUITest() {
             mockk<AppUpdateInfo>().apply {
                 every { updateAvailability() } returns UpdateAvailability.UPDATE_NOT_AVAILABLE
             }
+
+        coEvery { rootDetectionCheck.isRooted() } returns false
 
         every { onboardingSettings.isOnboarded } returns false
         viewModel = launcherActivityViewModel()
@@ -85,6 +91,21 @@ class LauncherActivityTest : BaseUITest() {
         launchActivity<LauncherActivity>(getIntent(uri))
     }
 
+    @Screenshot
+    @Test
+    fun capture_root_dialog_screenshot() {
+        coEvery { rootDetectionCheck.isRooted() } returns true
+
+        setupMockViewModel(
+            object : LauncherActivityViewModel.Factory {
+                override fun create(): LauncherActivityViewModel = launcherActivityViewModel()
+            }
+        )
+
+        launchActivity<LauncherActivity>()
+        takeScreenshot<LauncherActivity>("launcher_root")
+    }
+
     private fun getIntent(uri: Uri) = Intent(Intent.ACTION_VIEW, uri).apply {
         setPackage(InstrumentationRegistry.getInstrumentation().targetContext.packageName)
         addCategory(Intent.CATEGORY_BROWSABLE)
@@ -96,7 +117,8 @@ class LauncherActivityTest : BaseUITest() {
             appUpdateManager,
             TestDispatcherProvider(),
             cwaSettings,
-            onboardingSettings
+            onboardingSettings,
+            rootDetectionCheck
         )
     )
 }
