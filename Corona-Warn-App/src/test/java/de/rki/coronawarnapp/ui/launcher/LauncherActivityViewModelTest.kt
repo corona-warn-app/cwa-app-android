@@ -8,12 +8,14 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
+import de.rki.coronawarnapp.rootdetection.RootDetectionCheck
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.update.getUpdateInfo
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.instanceOf
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
@@ -27,6 +29,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
+import testhelpers.extensions.getOrAwaitValue
 import testhelpers.preferences.mockFlowPreference
 
 @ExtendWith(InstantExecutorExtension::class)
@@ -35,6 +38,7 @@ class LauncherActivityViewModelTest : BaseTest() {
     @MockK lateinit var appUpdateManager: AppUpdateManager
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var onboardingSettings: OnboardingSettings
+    @MockK lateinit var rootDetectionCheck: RootDetectionCheck
 
     @BeforeEach
     fun setupFreshViewModel() {
@@ -59,13 +63,16 @@ class LauncherActivityViewModelTest : BaseTest() {
                 any()
             )
         } returns true
+
+        coEvery { rootDetectionCheck.isRooted() } returns false
     }
 
     private fun createViewModel() = LauncherActivityViewModel(
         appUpdateManager = appUpdateManager,
         dispatcherProvider = TestDispatcherProvider(),
         cwaSettings = cwaSettings,
-        onboardingSettings = onboardingSettings
+        onboardingSettings = onboardingSettings,
+        rootDetectionCheck = rootDetectionCheck
     )
 
     @Test
@@ -186,5 +193,30 @@ class LauncherActivityViewModelTest : BaseTest() {
         val vm = createViewModel()
 
         vm.events.value shouldBe LauncherEvent.GoToMainActivity
+    }
+
+    @Test
+    fun `rooted device triggers root dialog`() {
+        coEvery { rootDetectionCheck.isRooted() } returns true
+        createViewModel().run {
+            events.getOrAwaitValue() shouldBe LauncherEvent.ShowRootedDialog
+        }
+
+        coVerify {
+            rootDetectionCheck.isRooted()
+        }
+    }
+
+    @Test
+    fun `onRootedDialogDismiss triggers update check`() {
+        coEvery { appUpdateManager.getUpdateInfo() } returns
+            mockk<AppUpdateInfo>().apply {
+                every { updateAvailability() } returns UpdateAvailability.UPDATE_AVAILABLE
+            }
+
+        createViewModel().run {
+            onRootedDialogDismiss()
+            events.getOrAwaitValue() shouldBe instanceOf(LauncherEvent.ForceUpdate::class)
+        }
     }
 }
