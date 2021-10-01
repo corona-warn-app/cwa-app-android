@@ -109,7 +109,7 @@
     <color name="starsColorInvalid">#576778</color>
     <color name="qrcodeCardColor">@color/colorSurface</color>
     <color name="badgeColor">#ED382F</color>
-    <color name="fab_tint">#0093C8</color>
+    <color name="fab_tint">#409CC8</color>
 
     <!-- Tip -->
     <color name="tipBackgroundColor">#333333</color>
