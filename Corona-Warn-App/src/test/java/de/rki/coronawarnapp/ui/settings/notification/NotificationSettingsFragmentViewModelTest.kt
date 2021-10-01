@@ -29,8 +29,6 @@ class NotificationSettingsFragmentViewModelTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { notificationSettings.isNotificationsEnabled } returns flow { emit(true) }
-        every { notificationSettings.isNotificationsRiskEnabled } returns flow { emit(false) }
-        every { notificationSettings.isNotificationsTestEnabled } returns flow { emit(true) }
     }
 
     private fun createInstance(): NotificationSettingsFragmentViewModel =
@@ -49,8 +47,6 @@ class NotificationSettingsFragmentViewModelTest : BaseTest() {
         }
 
         every { notificationSettings.isNotificationsEnabled } returns flow { emit(false) }
-        every { notificationSettings.isNotificationsRiskEnabled } returns flow { emit(true) }
-        every { notificationSettings.isNotificationsTestEnabled } returns flow { emit(false) }
         createInstance().apply {
             notificationSettingsState.observeForTesting { }
             notificationSettingsState.value shouldBe NotificationSettingsState(

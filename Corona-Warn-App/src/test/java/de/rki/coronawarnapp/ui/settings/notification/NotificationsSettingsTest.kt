@@ -33,8 +33,7 @@ class NotificationsSettingsTest : BaseTest() {
 
     private fun createInstance() = NotificationSettings(
         foregroundState = foregroundState,
-        notificationManagerCompat = notificationManagerCompat,
-        cwaSettings = cwaSettings
+        notificationManagerCompat = notificationManagerCompat
     )
 
     @Test

@@ -52,7 +52,6 @@ class RATestResultAvailableNotificationServiceTest : BaseTest() {
         every { context.getSystemService(Context.NOTIFICATION_SERVICE) } returns notificationManager
         every { navDeepLinkBuilderProvider.get() } returns navDeepLinkBuilder
         every { navDeepLinkBuilder.createPendingIntent() } returns pendingIntent
-        every { cwaSettings.isNotificationsTestEnabled.value } returns true
 
         every { notificationHelper.newBaseBuilder() } returns mockk(relaxed = true)
     }
@@ -62,7 +61,6 @@ class RATestResultAvailableNotificationServiceTest : BaseTest() {
         foregroundState = foregroundState,
         navDeepLinkBuilderProvider = navDeepLinkBuilderProvider,
         notificationHelper = notificationHelper,
-        cwaSettings = cwaSettings,
         coronaTestRepository = coronaTestRepository,
         appScope = scope,
     )
@@ -106,7 +104,6 @@ class RATestResultAvailableNotificationServiceTest : BaseTest() {
     @Test
     fun `test notification in background disabled`() = runBlockingTest {
         coEvery { foregroundState.isInForeground } returns flow { emit(false) }
-        every { cwaSettings.isNotificationsTestEnabled.value } returns false
 
         createInstance().apply {
             showTestResultAvailableNotification(mockk())
