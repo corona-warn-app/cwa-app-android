@@ -16,7 +16,6 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.preferences.mockFlowPreference
 
 class NotificationsSettingsTest : BaseTest() {
 
@@ -28,8 +27,6 @@ class NotificationsSettingsTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { cwaSettings.isNotificationsRiskEnabled } returns mockFlowPreference(true)
-        every { cwaSettings.isNotificationsTestEnabled } returns mockFlowPreference(true)
         every { notificationManagerCompat.areNotificationsEnabled() } returns true
         coEvery { foregroundState.isInForeground } returns flow { emit(true) }
     }
@@ -48,20 +45,6 @@ class NotificationsSettingsTest : BaseTest() {
                 foregroundState.isInForeground
                 notificationManagerCompat.areNotificationsEnabled()
             }
-        }
-    }
-
-    @Test
-    fun isNotificationsRiskEnabled() = runBlockingTest {
-        createInstance().apply {
-            isNotificationsRiskEnabled.first() shouldBe true
-        }
-    }
-
-    @Test
-    fun isNotificationsTestEnabled() = runBlockingTest {
-        createInstance().apply {
-            isNotificationsTestEnabled.first() shouldBe true
         }
     }
 }
