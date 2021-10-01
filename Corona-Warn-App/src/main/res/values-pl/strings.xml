@@ -1530,7 +1530,7 @@
     <!-- XHED: Title for vaccinated once statistics card -->
     <string name="statistics_vaccinated_once_card_title">"Osoby, które otrzymały co najmniej jedną dawkę szczepionki"</string>
     <!-- XTXT: Nationwide text -->
-    <string name="statistics_vaccinated_nationwide_text">"W całym kraju"</string>
+    <string name="statistics_nationwide_text">"W całym kraju"</string>
     <!-- XTXT: Vaccination primary value footnote text -->
     <string name="statistics_vaccination_primary_value_footnote">"ogółu populacji"</string>
 
