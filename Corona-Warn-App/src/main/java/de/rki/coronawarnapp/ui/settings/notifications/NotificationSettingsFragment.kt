@@ -46,6 +46,7 @@ class NotificationSettingsFragment :
             }
 
             openSystemSettingsButton.setOnClickListener {
+                viewModel.createNotificationChannels()
                 requireContext().openAppNotificationSettings()
             }
 

@@ -2,7 +2,10 @@ package de.rki.coronawarnapp.ui.settings.notifications
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.covidcertificate.common.notification.DigitalCovidCertificateNotifications
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
+import de.rki.coronawarnapp.notification.GeneralNotifications
+import de.rki.coronawarnapp.presencetracing.common.PresenceTracingNotifications
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -20,6 +23,9 @@ class NotificationSettingsFragmentTest : BaseUITest() {
 
     @MockK lateinit var settings: NotificationSettings
     @MockK lateinit var analytics: AnalyticsSettings
+    @MockK lateinit var generalNotifications: GeneralNotifications
+    @MockK lateinit var presenceTracingNotifications: PresenceTracingNotifications
+    @MockK lateinit var digitalCovidCertificateNotifications: DigitalCovidCertificateNotifications
 
     @Before
     fun setup() {
@@ -31,6 +37,9 @@ class NotificationSettingsFragmentTest : BaseUITest() {
                     NotificationSettingsFragmentViewModel(
                         notificationSettings = settings,
                         dispatcherProvider = TestDispatcherProvider(),
+                        generalNotifications = generalNotifications,
+                        presenceTracingNotifications = presenceTracingNotifications,
+                        digitalCovidCertificateNotifications = digitalCovidCertificateNotifications,
                     )
             }
         )

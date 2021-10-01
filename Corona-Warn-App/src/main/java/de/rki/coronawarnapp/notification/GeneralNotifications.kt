@@ -43,7 +43,7 @@ class GeneralNotifications @Inject constructor(
     private var isNotificationChannelSetup = false
 
     @TargetApi(Build.VERSION_CODES.O)
-    private fun setupNotificationChannel() {
+    fun setupNotificationChannel() {
         Timber.tag(TAG).d("setupChannel()")
 
         val channel = NotificationChannel(
