@@ -14,6 +14,7 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorSurface"
         android:contentDescription="@string/main_title"
         android:orientation="vertical"
         tools:context=".ui.main.MainActivity">
@@ -23,8 +24,7 @@
             style="@style/CWAToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:menu="@menu/menu_main"
-           >
+            app:menu="@menu/menu_main">
             <ImageView
                 android:id="@+id/main_header_logo"
                 android:layout_width="wrap_content"
@@ -87,6 +87,8 @@
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="@dimen/spacing_fab_padding"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 tools:itemCount="3"
                 tools:listitem="@layout/home_submission_status_card_unregistered" />
