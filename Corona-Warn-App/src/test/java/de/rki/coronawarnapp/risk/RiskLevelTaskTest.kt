@@ -275,4 +275,24 @@ class RiskLevelTaskTest : BaseTest() {
             task.run(arguments)
         }
     }
+
+    @Test
+    fun `areKeyPkgsOutDated returns true`() = runBlockingTest {
+        val now = DateTime.parse("2020-12-28T00:00+00:00")
+        val cachedKey = mockCachedKey(now.minusHours(49)) //outdated > 48h
+
+        coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
+
+        createTask().areKeyPkgsOutDated(now.toInstant()) shouldBe true
+    }
+
+    @Test
+    fun `areKeyPkgsOutDated returns false`() = runBlockingTest {
+        val now = DateTime.parse("2020-12-28T00:00+00:00")
+        val cachedKey = mockCachedKey(now.minusHours(47)) // not outdated > 48h
+
+        coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
+
+        createTask().areKeyPkgsOutDated(now.toInstant()) shouldBe false
+    }
 }

@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.risk
 
+import androidx.annotation.VisibleForTesting
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
@@ -125,7 +126,8 @@ class RiskLevelTask @Inject constructor(
         return calculateRiskLevel(configData)
     }
 
-    private suspend fun areKeyPkgsOutDated(nowUTC: Instant): Boolean {
+    @VisibleForTesting
+    internal suspend fun areKeyPkgsOutDated(nowUTC: Instant): Boolean {
         Timber.tag(TAG).d("Evaluating areKeyPkgsOutDated(nowUTC=%s)", nowUTC)
 
         val latestDownload = keyCacheRepository.getAllCachedKeys().maxByOrNull {

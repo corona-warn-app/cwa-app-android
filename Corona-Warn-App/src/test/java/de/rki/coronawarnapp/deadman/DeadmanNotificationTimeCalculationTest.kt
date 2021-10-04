@@ -133,12 +133,23 @@ class DeadmanNotificationTimeCalculationTest : BaseTest() {
     fun `ensure correct order`() = runBlockingTest {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-30T14:00:00.000Z")
         allCachedKeysFlow.value = listOf(
-            mockCachedKey(keyDay = LocalDate.parse("2020-08-26")), // day package
+            mockCachedKey(keyDay = LocalDate.parse("2020-08-26")),
             mockCachedKey(keyDay = LocalDate.parse("2020-08-27"), keyHour = LocalTime.parse("14:00:00")),
-            mockCachedKey(keyDay = LocalDate.parse("2020-08-27")), // day package -> newest here
+            mockCachedKey(keyDay = LocalDate.parse("2020-08-27")),// newest
             mockCachedKey(keyDay = LocalDate.parse("2020-08-27"), keyHour = LocalTime.parse("23:00:00")),
         )
 
         createTimeCalculator().getDelayInMinutes() shouldBe -3000
+    }
+
+    @Test
+    fun `ensure correct order 2`() = runBlockingTest {
+        every { timeStamper.nowUTC } returns Instant.parse("2020-08-30T10:00:00.000Z")
+        allCachedKeysFlow.value = listOf(
+            mockCachedKey(keyDay = LocalDate.parse("2020-08-26")), // day package
+            mockCachedKey(keyDay = LocalDate.parse("2020-08-26"), keyHour = LocalTime.parse("14:00:00")),
+            mockCachedKey(keyDay = LocalDate.parse("2020-08-27"), keyHour = LocalTime.parse("23:00:00")), // newest
+        )
+        createTimeCalculator().getDelayInMinutes() shouldBe -1380
     }
 }
