@@ -70,6 +70,8 @@
     <string name="certificate_card_bookmark_info">"Şu anda kullanılan sertifika"</string>
     <!-- XHED: Person certificate details title -->
     <string name="person_details_certificate_title">"AB Dijital COVID Sertifikası"</string>
+    <!-- XHED: Person certificate CovPas Header Info-->
+    <string name="person_details_certificate_covpass_info_title">"Bu QR kod, CovPassCheck uygulaması ile güvenilir şekilde doğrulanabilir."</string>
     <!-- XTXT: Test Certificate CWA User card description -->
     <string name="person_details_cwa_user_description">"%1$s ve uygulamanın ana kullanıcısıysanız lütfen bu anahtarı açın. Sertifikalarınız listenin en üstünde görünecektir."</string>
     <!-- XTXT: Test Certificate CWA User card birthdate -->
@@ -365,5 +367,20 @@
     <string name="pdf_export_error_title">"Basılı versiyon görüntülenemiyor"</string>
     <!-- XHED: PDF Export: Error message body -->
     <string name="pdf_export_error_message">"Sertifika şu anda alınamadığı için sertifikanın basılı versiyonu görüntülenemiyor. Lütfen daha sonra tekrar deneyin."</string>
+
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_title">"Üçüncü Taraflarca Sertifika Doğrulaması"</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_subtitle">"Üçüncü taraflar aşı sertifikasının, iyileşme sertifikasının veya test sertifikasının geçerli olup olmadığını güvenilir şekilde doğrulamak için CovPassCheck uygulamasını kullanabilir."</string>
+    <!-- XTXT: Cov Pass Info Fragment link label -->
+    <string name="cov_pass_info_faq_link_label">"Üçüncü Taraflarca Sertifika Doğrulaması için SSS"</string>
+    <!-- XTXT: Explains user about cov pass: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#eu_dcc_check -->
+    <string name="cov_pass_info_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc_check"</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_section_one">"Corona-Warn-App\'te sertifikaların geçerliliğini kendiniz doğrulayabilirsiniz ve CovPassCheck uygulamasını kullanmanız gerekmez."</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_section_two">"Ancak üçüncü tarafların sertifikaları görsel olarak doğrulaması yeterli değildir. Üçüncü tarafların Almanya\'da CovPassCheck uygulamasını kullanması gerekir."</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_section_three">"Diğer ülkelerdeki üçüncü tarafların sertifika doğrulaması için başka uygulamaları kullanabileceğini lütfen unutmayın."</string>
 
 </resources>

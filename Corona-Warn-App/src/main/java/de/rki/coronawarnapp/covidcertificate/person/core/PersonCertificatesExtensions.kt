@@ -13,19 +13,31 @@ import timber.log.Timber
 
 /*
     The list items shall be sorted descending by the following date attributes depending on the type of the DGC:
-    for Vaccination Certificates (i.e. DGC with v[0]): the date of the vaccination v[0].dt
+    for Vaccination Certificates (i.e. DGC with v[0]): the date of the vaccination v[0].dt and issuedAt date
     for Test Certificates (i.e. DGC with t[0]): the date of the sample collection t[0].sc
     for Recovery Certificates (i.e. DGC with r[0]): the date of begin of the validity r[0].df
  */
 fun Collection<CwaCovidCertificate>.toCertificateSortOrder(): List<CwaCovidCertificate> {
-    return this.sortedByDescending {
-        when (it) {
-            is VaccinationCertificate -> it.vaccinatedOn
-            is TestCertificate -> it.sampleCollectedAt.toLocalDateUserTz()
-            is RecoveryCertificate -> it.validFrom
-            else -> throw IllegalStateException("Can't sort $it")
-        }
-    }
+    return this.sortedWith(
+        compareBy(
+            {
+                when (it) {
+                    is VaccinationCertificate -> it.vaccinatedOn
+                    is TestCertificate -> it.sampleCollectedAt.toLocalDateUserTz()
+                    is RecoveryCertificate -> it.validFrom
+                    else -> throw IllegalStateException("Can't sort $it")
+                }
+            },
+            {
+                when (it) {
+                    is VaccinationCertificate -> it.headerIssuedAt
+                    is TestCertificate -> it.sampleCollectedAt.toLocalDateUserTz()
+                    is RecoveryCertificate -> it.validFrom
+                    else -> throw IllegalStateException("Can't sort $it")
+                }
+            }
+        )
+    ).reversed()
 }
 
 /**
@@ -81,7 +93,12 @@ private fun Collection<CwaCovidCertificate>.rule3FindRecentLastShot(
     .filter {
         Days.daysBetween(it.rawCertificate.vaccination.vaccinatedOn, nowUtc.toLocalDateUtc()).days > 14
     }
-    .maxByOrNull { it.rawCertificate.vaccination.vaccinatedOn }
+    .maxWithOrNull(
+        compareBy(
+            { it.rawCertificate.vaccination.vaccinatedOn },
+            { it.headerIssuedAt }
+        )
+    )
 
 /**
  * 4
@@ -119,7 +136,12 @@ private fun Collection<CwaCovidCertificate>.rule5findTooRecentFinalShot(
     .filter {
         Days.daysBetween(it.rawCertificate.vaccination.vaccinatedOn, nowUtc.toLocalDateUtc()).days <= 14
     }
-    .maxByOrNull { it.rawCertificate.vaccination.vaccinatedOn }
+    .maxWithOrNull(
+        compareBy(
+            { it.rawCertificate.vaccination.vaccinatedOn },
+            { it.headerIssuedAt }
+        )
+    )
 
 /**
  * 6
@@ -130,7 +152,12 @@ private fun Collection<CwaCovidCertificate>.rule5findTooRecentFinalShot(
  */
 private fun Collection<CwaCovidCertificate>.rule6findOtherVaccinations(): CwaCovidCertificate? = this
     .filterIsInstance<VaccinationCertificate>()
-    .maxByOrNull { it.rawCertificate.vaccination.vaccinatedOn }
+    .maxWithOrNull(
+        compareBy(
+            { it.rawCertificate.vaccination.vaccinatedOn },
+            { it.headerIssuedAt }
+        )
+    )
 
 /**
  * 7

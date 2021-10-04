@@ -121,7 +121,8 @@ class EnvironmentSetupTest : BaseTest() {
         EnvironmentSetup.Type.TESTER_MOCK.rawKey shouldBe "TESTER-MOCK"
         EnvironmentSetup.Type.LOCAL.rawKey shouldBe "LOCAL"
         EnvironmentSetup.Type.MOCK_CLOUD.rawKey shouldBe "MOCK-CLOUD"
-        EnvironmentSetup.Type.values().size shouldBe 9
+        EnvironmentSetup.Type.MOCK_TSI_MMS.rawKey shouldBe "MOCK-TSI-MMS"
+        EnvironmentSetup.Type.values().size shouldBe 10
 
         EnvironmentSetup.EnvKey.USE_EUR_KEY_PKGS.rawKey shouldBe "USE_EUR_KEY_PKGS"
         EnvironmentSetup.EnvKey.SUBMISSION.rawKey shouldBe "SUBMISSION_CDN_URL"
@@ -209,6 +210,7 @@ class EnvironmentSetupTest : BaseTest() {
             EnvironmentSetup.Type.TESTER_MOCK,
             EnvironmentSetup.Type.LOCAL,
             EnvironmentSetup.Type.MOCK_CLOUD,
+            EnvironmentSetup.Type.MOCK_TSI_MMS,
         )
         private const val GOOD_JSON =
             """
@@ -330,6 +332,19 @@ class EnvironmentSetupTest : BaseTest() {
                     "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-MOCK-CLOUD",
                     "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-MOCK-CLOUD",
                     "DCC_SERVER_URL": "https://dcc-MOCK-CLOUD"
+                  },
+                "MOCK-TSI-MMS": {
+                    "USE_EUR_KEY_PKGS" : true,
+                    "SUBMISSION_CDN_URL": "https://submission-MOCK-TSI-MMS",
+                    "DOWNLOAD_CDN_URL": "https://download-MOCK-TSI-MMS",
+                    "VERIFICATION_CDN_URL": "https://verification-MOCK-TSI-MMS",
+                    "DATA_DONATION_CDN_URL": "https://datadonation-MOCK-TSI-MMS",
+                    "LOG_UPLOAD_SERVER_URL": "https://logupload-MOCK-TSI-MMS",
+                    "VACCINATION_CDN_URL": "https://vaccination-MOCK-TSI-MMS",
+                    "SAFETYNET_API_KEY": "placeholder-MOCK-TSI-MMS",
+                    "PUB_KEYS_SIGNATURE_VERIFICATION": "12345678-MOCK-TSI-MMS",
+                    "CROWD_NOTIFIER_PUBLIC_KEY": "123_abc-MOCK-TSI-MMS",
+                    "DCC_SERVER_URL": "https://dcc-MOCK-TSI-MMS"
                   }
             }
         """

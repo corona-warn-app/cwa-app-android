@@ -45,7 +45,7 @@ class RATProfileQrCodeFragmentViewModel @AssistedInject constructor(
 
     fun onNext() {
         Timber.d("onNext")
-        events.postValue(ProfileQrCodeNavigation.SubmissionConsent)
+        events.postValue(ProfileQrCodeNavigation.OpenScanner)
     }
 
     fun openFullScreen() = qrCodeString?.let {
