@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorSurface"
-    android:contentDescription="@string/nm_title"
+    android:contentDescription="@string/nm_notification_settings"
     android:focusable="true">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -16,7 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/nm_title" />
+        app:title="@string/nm_notification_settings" />
 
     <ScrollView
         android:layout_width="0dp"
