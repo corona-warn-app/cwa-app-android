@@ -32,40 +32,21 @@ class NotificationSettingsStateTest : BaseTest() {
     }
 
     private fun createInstance(
-        isNotificationsEnabled: Boolean = true,
-        isNotificationsRiskEnabled: Boolean = true,
-        isNotificationsTestEnabled: Boolean = true
+        isNotificationsEnabled: Boolean = true
     ) = NotificationSettingsState(
-        isNotificationsEnabled = isNotificationsEnabled,
-        isNotificationsRiskEnabled = isNotificationsRiskEnabled,
-        isNotificationsTestEnabled = isNotificationsTestEnabled
+        isNotificationsEnabled = isNotificationsEnabled
     )
 
     @Test
-    fun getNotificationsTitle() {
-        createInstance().getNotificationsTitle(context)
-
-        createInstance(isNotificationsEnabled = false).getNotificationsTitle(context)
-        verify(exactly = 1) { context.getString(R.string.settings_notifications_headline_active) }
-        verify(exactly = 1) { context.getString(any()) }
-    }
-
-    @Test
-    fun getNotificationsDescription() {
-        createInstance().getNotificationsDescription(context)
-
-        createInstance(isNotificationsEnabled = false).getNotificationsDescription(context)
-        verify(exactly = 1) { context.getString(R.string.settings_notifications_body_active) }
-        verify(exactly = 1) { context.getString(any()) }
+    fun getNotificationsHeader() {
+        createInstance().getNotificationsHeader() shouldBe R.string.nm_notification_enabled
+        createInstance(false).getNotificationsHeader() shouldBe R.string.nm_notification_settings
     }
 
     @Test
     fun getNotificationsImage() {
-        createInstance().getNotificationsImage(context)
-        verify(exactly = 1) { context.getDrawableCompat(R.drawable.ic_illustration_notification_on) }
-
-        createInstance(isNotificationsEnabled = false).getNotificationsImage(context)
-        verify(exactly = 1) { context.getDrawableCompat(R.drawable.ic_settings_illustration_notification_off) }
+        createInstance().getNotificationsImage() shouldBe R.drawable.ic_illustration_notification_on
+        createInstance(false).getNotificationsImage() shouldBe R.drawable.ic_settings_illustration_notification_off
     }
 
     @Test
@@ -78,26 +59,8 @@ class NotificationSettingsStateTest : BaseTest() {
     }
 
     @Test
-    fun getRiskNotificationStatusText() {
-        createInstance().getRiskNotificationStatusText(context)
-        verify(exactly = 1) { context.getString(R.string.settings_on) }
-
-        createInstance(isNotificationsRiskEnabled = false).getRiskNotificationStatusText(context)
-        verify(exactly = 1) { context.getString(R.string.settings_off) }
-    }
-
-    @Test
     fun getTestNotificationStatusText() {
-        createInstance().getTestNotificationStatusText(context)
-        verify(exactly = 1) { context.getString(R.string.settings_on) }
-
-        createInstance(isNotificationsTestEnabled = false).getTestNotificationStatusText(context)
-        verify(exactly = 1) { context.getString(R.string.settings_off) }
-    }
-
-    @Test
-    fun isNotificationCardVisible() {
-        createInstance(isNotificationsEnabled = true).isNotificationCardVisible() shouldBe false
-        createInstance(isNotificationsEnabled = false).isNotificationCardVisible() shouldBe true
+        createInstance().getNotificationStatusText() shouldBe R.string.settings_on
+        createInstance(false).getNotificationStatusText() shouldBe R.string.settings_off
     }
 }
