@@ -8,18 +8,6 @@
     android:contentDescription="@string/qr_code_scan_body"
     android:transitionName="shared_element_container">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/qr_code_scan_toolbar"
-        style="@style/CWAToolbar.BackArrow.Transparent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navigationIconTint="@color/colorQrCodeScanToolbar"
-        app:title="@string/qr_code_scan_title"
-        app:titleTextColor="@color/colorQrCodeScanToolbar" />
-
     <com.journeyapps.barcodescanner.BarcodeView
         android:id="@+id/qr_code_scan_preview"
         android:layout_width="0dp"
@@ -127,5 +115,17 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.4" />
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/qr_code_scan_toolbar"
+        style="@style/CWAToolbar.BackArrow.Transparent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIconTint="@color/colorQrCodeScanToolbar"
+        app:title="@string/qr_code_scan_title"
+        app:titleTextColor="@color/colorQrCodeScanToolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,8 +26,8 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
 ) {
     val valid = certificate.isValid
     val context = root.context
-
-    covpassInfoFlow.isVisible = valid
+    covpassInfoTitle.isVisible = valid
+    covpassInfoButton.isVisible = valid
     covpassInfoButton.setOnClickListener { onCovPassInfoAction() }
 
     invalidOverlay.isGone = valid
