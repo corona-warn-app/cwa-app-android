@@ -50,8 +50,7 @@
             android:text="@{title}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/navigation_row_icon"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/settings_notifications_button_open_settings" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/navigation_row_subtitle"
