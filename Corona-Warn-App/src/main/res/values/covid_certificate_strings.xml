@@ -82,7 +82,7 @@
     <!-- XHED: Person certificate details title -->
     <string name="person_details_certificate_title">"EU Digital COVID Certificate"</string>
     <!-- XHED: Person certificate CovPas Header Info-->
-    <string name="person_details_certificate_covpass_info_title">"Dieser QR Code lässt sich verlässlich mit der CovPassCheck-App überprüfen."</string>
+    <string name="person_details_certificate_covpass_info_title">"This QR code can be verified reliably with the CovPassCheck app."</string>
     <!-- XTXT: Test Certificate CWA User card description -->
     <string name="person_details_cwa_user_description">"Please turn on this switch if you are %1$s and are the main user of the app. Your certificates will appear at the top of the list."</string>
     <!-- XTXT: Test Certificate CWA User card birthdate -->
@@ -380,16 +380,18 @@
     <string name="pdf_export_error_message">"The print version of the certificate cannot be displayed because the certificate cannot be retrieved right now. Please try again later."</string>
 
     <!-- XHED: Cov Pass Info Fragment title -->
-    <string name="cov_pass_info_title">"Zertifikatsprüfung durch Dritte"</string>
+    <string name="cov_pass_info_title">"Certificate Verification by Third Parties"</string>
     <!-- XHED: Cov Pass Info Fragment title -->
-    <string name="cov_pass_info_subtitle">"Dritte können nur über die CovPassCheck-App verlässlich überprüfen, ob es sich um ein valides Impf-, Genesenen-, oder Testzertifikat handelt."</string>
+    <string name="cov_pass_info_subtitle">"Third parties can use the CovPassCheck app to reliably verify whether the vaccination certificate, certificate of recovery, or test certificate is valid."</string>
+    <!-- XTXT: Cov Pass Info Fragment link label -->
+    <string name="cov_pass_info_faq_link_label">"FAQ for Certificate Verification by Third Parties"</string>
+    <!-- XTXT: Explains user about cov pass: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#eu_dcc_check -->
+    <string name="cov_pass_info_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc_check"</string>
     <!-- XHED: Cov Pass Info Fragment title -->
-    <string name="cov_pass_info_faq_link">"FAQ zur Zertifikatsprüfung durch Dritte"</string>
+    <string name="cov_pass_info_section_one">"You can check the validity of certificates in the Corona-Warn-App yourself and do not need the CovPassCheck app."</string>
     <!-- XHED: Cov Pass Info Fragment title -->
-    <string name="cov_pass_info_section_one">"Sie selbst können Zertifikate in der Corona-Warn-App auf Gültigkeit prüfen und benötigen dazu nicht die CovPassCheck-App."</string>
+    <string name="cov_pass_info_section_two">"A visual check of the certificates is not sufficient for third parties, however. They must use the CovPassCheck app in Germany."</string>
     <!-- XHED: Cov Pass Info Fragment title -->
-    <string name="cov_pass_info_section_two">"Für Dritte reicht eine Sichtprüfung der Zertifikate nicht aus. Sie müssen in Deutschland die CovPassCheck-App nutzen."</string>
-    <!-- XHED: Cov Pass Info Fragment title -->
-    <string name="cov_pass_info_section_three">"Bitte beachten Sie, dass in anderen Ländern gegebenenfalls andere Apps zur Zertifikatsprüfung durch Dritte verwendet werden."</string>
+    <string name="cov_pass_info_section_three">"Please note that third parties in other countries may use other apps to verify certificates."</string>
 
 </resources>
