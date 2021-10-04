@@ -30,7 +30,8 @@
         android:scaleType="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_info" />
+        app:srcCompat="@drawable/ic_info"
+        app:tint="@color/colorSecondary" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/image"
