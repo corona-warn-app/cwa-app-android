@@ -12,8 +12,12 @@
         android:id="@+id/covpass_info_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="@string/person_details_certificate_covpass_info_title" />
+        android:layout_marginEnd="@dimen/spacing_small"
+        android:paddingBottom="@dimen/spacing_small"
+        android:text="@string/person_details_certificate_covpass_info_title"
+        app:layout_constraintEnd_toStartOf="@id/covpass_info_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/covpass_info_button"
@@ -21,21 +25,13 @@
         android:layout_height="0dp"
         android:adjustViewBounds="true"
         android:background="?android:selectableItemBackground"
+        android:contentDescription="@string/cov_pass_info_title"
         android:minWidth="48dp"
         android:scaleType="center"
-        app:srcCompat="@drawable/ic_info" />
-
-    <androidx.constraintlayout.helper.widget.Flow
-        android:id="@+id/covpass_info_flow"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        app:constraint_referenced_ids="covpass_info_title,covpass_info_button"
-        app:flow_horizontalGap="15dp"
-        app:flow_wrapMode="chain"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_info"
+        app:tint="@color/colorSecondary" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/image"
@@ -46,7 +42,7 @@
         app:layout_constraintDimensionRatio="H,1:1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/covpass_info_flow"
+        app:layout_constraintTop_toBottomOf="@id/covpass_info_title"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay"
         tools:src="@drawable/ic_qrcode"
         tools:tint="@android:color/black" />

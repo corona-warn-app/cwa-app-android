@@ -98,7 +98,7 @@
     <plurals name="risk_card_low_risk_encounter_days_body">
         <item quantity="one">"Exposures with low risk on %1$d day"</item>
         <item quantity="other">"Exposures with low risk on %1$d days"</item>
-        <item quantity="zero">"Exposures with low risk on %1$d days"</item>
+        <item quantity="zero">"No exposures"</item>
         <item quantity="two">"Exposures with low risk on %1$d days"</item>
         <item quantity="few">"Exposures with low risk on %1$d days"</item>
         <item quantity="many">"Exposures with low risk on %1$d days"</item>
@@ -107,7 +107,7 @@
     <plurals name="risk_card_low_risk_encounter_days_body_description">
         <item quantity="one">"Exposures with low risk on one day"</item>
         <item quantity="other">"Exposures with low risk on %1$d days"</item>
-        <item quantity="zero">"Exposures with low risk on %1$d days"</item>
+        <item quantity="zero">"No exposures"</item>
         <item quantity="two">"Exposures with low risk on %1$d days"</item>
         <item quantity="few">"Exposures with low risk on %1$d days"</item>
         <item quantity="many">"Exposures with low risk on %1$d days"</item>
@@ -274,12 +274,11 @@
     <!-- XTXT: Explains user about increased risk level: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
     <string name="risk_details_increased_risk_faq_url">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
     <!-- XTXT: risk details - symptoms bullet point -->
-    <string name="risk_details_faq_symptoms">"Achten Sie auf COVID-19-typische Symptome. Symptome können in seltenen Fällen auch bei geimpften Personen auftreten. Sobald Symptome auftreten, lassen Sie sich testen."</string>
-    <!-- XTXT: risk details - increased risk vaccination bullet point -->
-    <string name="risk_details_increased_risk_faq_vaccination">"Sollten Sie bisher nicht geimpft sein, lassen Sie sich nach Rücksprache mit Ihrer Hausarztpraxis oder dem kassenärztlichen Bereitschaftsdienst testen. Besprechen Sie ebenfalls die SARS-CoV-2-Impfung nach der Testung mit Ihrer Hausarztpraxis."</string>
+    <string name="risk_details_faq_symptoms">"Be alert for typical COVID-19 symptoms. Even vaccinated people can show symptoms in breakthrough cases. If you notice any suspicious symptoms, get tested."</string>
+    <!-- XTXT: risk details - vaccination bullet point -->
+    <string name="risk_details_increased_risk_faq_vaccination">"If you have not been vaccinated yet, consult with your family doctor or the general medical emergency service number to arrange a test. After your test, discuss the SARS-CoV-2 vaccination with your family doctor."</string>
     <!-- XTXT: risk details - normal risk vaccination bullet -->
-    <string name="risk_details_normal_risk_faq_vaccination">"Lassen Sie sich gegen SARS-CoV-2 impfen, falls Sie noch nicht geimpft sind."</string>
-
+    <string name="risk_details_normal_risk_faq_vaccination">"Get vaccinated against the SARS-CoV-2 virus if you have not already done so."</string>
     <!-- XMSG: risk details - ventilation bullet point -->
     <string name="risk_details_behavior_body_ventilation">"Air out indoor spaces several times per day. To do so, open the windows as far as possible for several minutes (“shock ventilation”)."</string>
     <!-- XMSG: risk details - cough/sneeze, something like a bullet point -->
@@ -287,7 +286,7 @@
     <!-- XMSG: risk details - contact your doctor, bullet point -->
     <string name="risk_details_behavior_increased_body_1">"Your general practitioner"</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point -->
-    <string name="risk_details_behavior_increased_body_2">"General medical emergency service on telephone number 116 117"</string>
+    <string name="risk_details_behavior_increased_body_2">"The general medical emergency service on telephone number 116 117"</string>
     <!-- XMSG: risk details - public health department, bullet point -->
     <string name="risk_details_behavior_increased_body_3">"Your public health authority"</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
@@ -972,7 +971,7 @@
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_suitable_qr_code_title">"No Suitable QR Code"</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_suitable_qr_code_body">"The QR code cannot be canned by the Corona-Warn-App. Please select a file with a suitable QR code."</string>
+    <string name="qr_code_no_suitable_qr_code_body">"The QR code cannot be scanned by the Corona-Warn-App. Please select a file with a suitable QR code."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
@@ -1541,7 +1540,7 @@
     <!-- XHED: Title for vaccinated once statistics card -->
     <string name="statistics_vaccinated_once_card_title">"People Who Have Received at Least One Vaccine Dose"</string>
     <!-- XTXT: Nationwide text -->
-    <string name="statistics_vaccinated_nationwide_text">"Nationwide"</string>
+    <string name="statistics_nationwide_text">"Nationwide"</string>
     <!-- XTXT: Vaccination primary value footnote text -->
     <string name="statistics_vaccination_primary_value_footnote">"of the population"</string>
 
@@ -1570,6 +1569,20 @@
     <string name="statistics_people_vaccinated_at_least_once_text">"Number of persons reported to the RKI who have received the first dose of the vaccine."</string>
     <!-- XTXT: Statistics FAQ text -->
     <string name="statistics_faq_text">"For further information, please see our FAQ page:"</string>
+
+    <!-- Seven Day Hospitalization Statistics Card -->
+    <!-- XHED: Title for seven day hospitalization stats -->
+    <string name="statistics_seven_day_hospitalization_card_title">"7-Tage-Inzidenz Hospitalisierung"</string>
+    <!-- XTXT: Nationwide text -->
+    <string name="statistics_seven_day_hospitalization_nationwide_text">"Bundesweit"</string>
+    <!-- XTXT: Hospitalizations per 100.000 inhabitants -->
+    <string name="statistics_seven_day_hospitalization_per_inhabitants_text">"COVID-19-Hospitalisierungen je 100.000 Einwohner"</string>
+
+    <!-- Occupied Intensive Care Statistics Card -->
+    <!-- XHED: Title for occupied intensive care card -->
+    <string name="statistics_occupied_intensive_care_card_title">"COVID-19-Erkrankte auf Intensivstationen"</string>
+    <!-- XTXT: Ocupation of all intensive care beds -->
+    <string name="statistics_occupied_intensive_care_beds_text">"COVID-19-Belegung aller betreibbaren Intensivbetten"</string>
 
     <!-- Statistics Add new tile -->
     <!-- XTXT: Statistics add card title -->
@@ -1981,6 +1994,17 @@
     <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">"Cancel"</string>
 
+    <!-- XHED: App Root Detection dialog title -->
+    <string name="root_dialog_title">"Sicherheitshinweis"</string>
+    <!-- XTXT: App Root Detection dialog message -->
+    <string name="root_dialog_message">"Wir haben auf Ihrem Gerät Anzeichen für Administrator-Berechtigungen (auch bekannt als Root-Berechtigungen) gefunden. Es besteht daher ein erhöhtes Risiko, dass andere Anwendungen auf Ihrem Smartphone auf Daten der Corona-Warn-App zugreifen können."</string>
+    <!-- XTXT: App Root Detection link label -->
+    <string name="root_dialog_faq_link_label">"FAQ zur Sicherheit der App"</string>
+    <!-- XTXT: Informs user about root detection: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#root_detection_android -->
+    <string name="root_dialog_faq_link_url">"https://www.coronawarn.app/en/faq/#root_detection_android"</string>
+    <!-- XBUT: App Root Detection button -->
+    <string name="root_dialog_button">"OK"</string>
+
     <!-- ####################################
         Incompatibility warning card
     ###################################### -->
@@ -2019,4 +2043,5 @@
     <string name="fab_scanner_tip_title">QR-Code-Scanner</string>
     <!-- XTXT: UQS Tooltip subtitle -->
     <string name="fab_scanner_tip_subtitle">Scannen Sie Tests, Zertifikate und Check-ins mit diesem Scanner.</string>
+
 </resources>

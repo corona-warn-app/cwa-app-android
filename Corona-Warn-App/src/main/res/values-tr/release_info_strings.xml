@@ -23,7 +23,7 @@
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Artık Corona-Warn-App\'te QR kod tarayıcıyı nerede açarsanız açın CWA\'nın desteklediği tüm belgeleri tarayabilirsiniz:\n\n• PCR testleri\n• Hızlı testler\n• Etkinlik check-in\'leri\n• Sertifikalar"</item>
+        <item>"Artık Corona-Warn-App\'te QR kod tarayıcıyı nerede açarsanız açın uygulamanın desteklediği tüm belgeleri tarayabilirsiniz:\n\n• PCR testleri\n• Hızlı testler\n• Etkinlik check-in\'leri\n• Sertifikalar"</item>
         <item>"Artık QR kod tarayıcıyı kullanarak fotoğraf veya PDF dosyalarından QR kodları içe aktarabilirsiniz."</item>
         <item>"Temas güncesindeki minimum temas süresi 15 dakika yerine 10 dakikaya indirildi. Mevcut temas girişleri otomatik olarak ayarlandı. Günce girişlerinizi gözden geçirin ve gerekiyorsa ayarlayın."</item>
     </string-array>

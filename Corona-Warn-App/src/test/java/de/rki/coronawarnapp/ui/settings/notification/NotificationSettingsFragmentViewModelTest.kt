@@ -8,7 +8,6 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.verify
 import kotlinx.coroutines.flow.flow
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -45,9 +44,7 @@ class NotificationSettingsFragmentViewModelTest : BaseTest() {
         createInstance().apply {
             notificationSettingsState.observeForTesting { }
             notificationSettingsState.value shouldBe NotificationSettingsState(
-                isNotificationsEnabled = true,
-                isNotificationsRiskEnabled = false,
-                isNotificationsTestEnabled = true
+                isNotificationsEnabled = true
             )
         }
 
@@ -57,22 +54,8 @@ class NotificationSettingsFragmentViewModelTest : BaseTest() {
         createInstance().apply {
             notificationSettingsState.observeForTesting { }
             notificationSettingsState.value shouldBe NotificationSettingsState(
-                isNotificationsEnabled = false,
-                isNotificationsRiskEnabled = true,
-                isNotificationsTestEnabled = false
+                isNotificationsEnabled = false
             )
         }
-    }
-
-    @Test
-    fun `toggle risk notifications`() {
-        createInstance().toggleNotificationsRiskEnabled()
-        verify { notificationSettings.toggleNotificationsRiskEnabled() }
-    }
-
-    @Test
-    fun `toggle test notifications`() {
-        createInstance().toggleNotificationsTestEnabled()
-        verify { notificationSettings.toggleNotificationsTestEnabled() }
     }
 }

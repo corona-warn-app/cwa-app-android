@@ -23,7 +23,7 @@
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"You can now scan all documents supported by the Corona-Warn-App, regardless of where you open a QR code scanner in the CWA:\n\n• PCR tests\n• Rapid tests\n• Event check-ins\n• Certificates"</item>
+        <item>"You can now scan all documents supported by the Corona-Warn-App, regardless of where you open a QR code scanner in the app:\n\n• PCR tests\n• Rapid tests\n• Event check-ins\n• Certificates"</item>
         <item>"You can now use the QR code scanner to import QR codes from photos or PDF files."</item>
         <item>"The minimum contact duration in the contact journal has been reduced from 15 minutes to 10 minutes. Existing entries for contacts with people have been adjusted automatically. Review your journal entries and adjust them if needed."</item>
     </string-array>

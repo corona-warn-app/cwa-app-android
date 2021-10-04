@@ -270,6 +270,10 @@
     <string name="risk_details_increased_risk_faq_link_label">"Często zadawanych pytaniach"</string>
     <!-- XTXT: Explains user about increased risk level: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
     <string name="risk_details_increased_risk_faq_url">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
+    <!-- XTXT: risk details - symptoms bullet point -->
+    <string name="risk_details_faq_symptoms">"Zwróć uwagę na typowe objawy COVID-19. W przełomowych przypadkach objawy mogą wystąpić nawet u osób zaszczepionych. Jeśli zauważysz jakiekolwiek podejrzane objawy, zrób test."</string>
+    <!-- XTXT: risk details - vaccination bullet point -->
+    <string name="risk_details_increased_risk_faq_vaccination">"Jeśli nie jesteś jeszcze zaszczepiony(-a), skonsultuj się z lekarzem rodzinnym lub pogotowiem ratunkowym, aby umówić się na test. Po wykonaniu testu omów kwestię szczepienia przeciw SARS-CoV-2 ze swoim lekarzem rodzinnym."</string>
 
     <!-- XMSG: risk details - ventilation bullet point -->
     <string name="risk_details_behavior_body_ventilation">"Wietrz pomieszczenia kilka razy dziennie. W tym celu maksymalnie otwórz okna na kilka minut („wentylacja szokowa”)."</string>
@@ -937,6 +941,8 @@
     <!-- QR Code Scan Screen -->
     <string name="qr_code_scan_title">"Skan kodu QR"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="qr_code_scan_body">"Ustaw kod QR w ramce."</string>
+    <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_title">"Jakie kody QR można zeskanować?"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle">"Testy PCR i szybkie testy, certyfikaty testów, certyfikaty szczepień, certyfikaty statusu ozdrowieńca i zameldowania."</string>
@@ -1530,7 +1536,7 @@
     <!-- XHED: Title for vaccinated once statistics card -->
     <string name="statistics_vaccinated_once_card_title">"Osoby, które otrzymały co najmniej jedną dawkę szczepionki"</string>
     <!-- XTXT: Nationwide text -->
-    <string name="statistics_vaccinated_nationwide_text">"W całym kraju"</string>
+    <string name="statistics_nationwide_text">"W całym kraju"</string>
     <!-- XTXT: Vaccination primary value footnote text -->
     <string name="statistics_vaccination_primary_value_footnote">"ogółu populacji"</string>
 

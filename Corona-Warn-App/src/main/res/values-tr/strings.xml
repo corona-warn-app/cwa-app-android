@@ -270,6 +270,10 @@
     <string name="risk_details_increased_risk_faq_link_label">"SSS"</string>
     <!-- XTXT: Explains user about increased risk level: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
     <string name="risk_details_increased_risk_faq_url">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
+    <!-- XTXT: risk details - symptoms bullet point -->
+    <string name="risk_details_faq_symptoms">"Tipik COVID-19 belirtilerine karşı dikkatli olun. Nadir durumlarda, aşı olmuş kişiler bile belirti gösterebilir. Herhangi bir şüpheli belirti fark ederseniz test yaptırın."</string>
+    <!-- XTXT: risk details - vaccination bullet point -->
+    <string name="risk_details_increased_risk_faq_vaccination">"Henüz aşı olmadıysanız bir test randevusu oluşturmak için aile hekiminize veya genel acil servis numarasına danışın. Testinizi yaptırdıktan sonra aile hekiminizle SARS-CoV-2 aşısı hakkında görüşün."</string>
 
     <!-- XMSG: risk details - ventilation bullet point -->
     <string name="risk_details_behavior_body_ventilation">"Kapalı alanları günde birkaç kez havalandırın. Bunun için, pencereleri birkaç dakika süreyle sonuna dek açın (“şok havalandırma”)."</string>
@@ -937,6 +941,8 @@
     <!-- QR Code Scan Screen -->
     <string name="qr_code_scan_title">"QR Kod Tarama"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="qr_code_scan_body">"QR kodu çerçeveye sığdırın."</string>
+    <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_title">"Hangi QR kodları tarayabilirsiniz?"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle">"PCR testleri ve hızlı testler, test sertifikaları, aşı sertifikaları, iyileşme sertifikaları ve check-in\'ler."</string>
@@ -1530,7 +1536,7 @@
     <!-- XHED: Title for vaccinated once statistics card -->
     <string name="statistics_vaccinated_once_card_title">"En Az Bir Doz Aşı Olan Kişiler"</string>
     <!-- XTXT: Nationwide text -->
-    <string name="statistics_vaccinated_nationwide_text">"Ülke genelinde"</string>
+    <string name="statistics_nationwide_text">"Ülke genelinde"</string>
     <!-- XTXT: Vaccination primary value footnote text -->
     <string name="statistics_vaccination_primary_value_footnote">"(popülasyona göre)"</string>
 

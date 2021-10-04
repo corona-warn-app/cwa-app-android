@@ -30,9 +30,9 @@ class CovPassInfoFragment : Fragment(R.layout.fragment_cov_pass_info) {
             toolbar.setNavigationOnClickListener { popBackStack() }
 
             linkToFaq.setTextWithUrl(
-                R.string.cov_pass_info_faq_link,
-                R.string.cov_pass_info_faq_link,
-                R.string.vaccination_card_booster_eligible_faq_link
+                R.string.cov_pass_info_faq_link_label,
+                R.string.cov_pass_info_faq_link_label,
+                R.string.cov_pass_info_faq_link
             )
 
             appBarLayout.onOffsetChange { _, subtitleAlpha ->
