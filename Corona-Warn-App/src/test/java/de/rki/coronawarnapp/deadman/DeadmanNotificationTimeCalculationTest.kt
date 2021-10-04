@@ -135,7 +135,7 @@ class DeadmanNotificationTimeCalculationTest : BaseTest() {
         allCachedKeysFlow.value = listOf(
             mockCachedKey(keyDay = LocalDate.parse("2020-08-26")),
             mockCachedKey(keyDay = LocalDate.parse("2020-08-27"), keyHour = LocalTime.parse("14:00:00")),
-            mockCachedKey(keyDay = LocalDate.parse("2020-08-27")),// newest
+            mockCachedKey(keyDay = LocalDate.parse("2020-08-27")), // newest
             mockCachedKey(keyDay = LocalDate.parse("2020-08-27"), keyHour = LocalTime.parse("23:00:00")),
         )
 
