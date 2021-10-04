@@ -11,16 +11,19 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.pdf.core.PdfGenerator
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.CertificateExportException
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.files.FileSharing
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import kotlinx.coroutines.CoroutineScope
 import timber.log.Timber
 import java.io.File
 
 class CertificatePosterViewModel @AssistedInject constructor(
     @Assisted private val containerId: CertificateContainerId,
+    @AppScope private val appScope: CoroutineScope,
     private val certificateProvider: CertificateProvider,
     private val dispatcher: DispatcherProvider,
     private val fileSharing: FileSharing,
@@ -66,6 +69,21 @@ class CertificatePosterViewModel @AssistedInject constructor(
             Timber.e(e, "Generating poster failed")
             error.postValue(CertificateExportException(e.cause, e.message))
         }
+    }
+
+    private fun deleteFile() = launch(scope = appScope, context = dispatcher.IO) {
+        try {
+            sharingIntent.value?.file?.delete()
+        } catch (e: Exception) {
+            Timber.d(e, "deleteFile failed")
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        // Delete exported pdf file
+        Timber.i("CertificatePosterFragment closed. Deleting pdf export now.")
+        deleteFile()
     }
 
     @AssistedFactory

@@ -70,6 +70,8 @@
     <string name="certificate_card_bookmark_info">"Certificat utilizat în prezent"</string>
     <!-- XHED: Person certificate details title -->
     <string name="person_details_certificate_title">"Certificat COVID digital UE"</string>
+    <!-- XHED: Person certificate CovPas Header Info-->
+    <string name="person_details_certificate_covpass_info_title">"Acest cod QR poate fi verificat cu încredere cu aplicația CovPassCheck."</string>
     <!-- XTXT: Test Certificate CWA User card description -->
     <string name="person_details_cwa_user_description">"Activați acest comutator dacă sunteți %1$s și sunteți utilizatorul principal al aplicației. Certificatele dvs. vor apărea în partea de sus a listei."</string>
     <!-- XTXT: Test Certificate CWA User card birthdate -->
@@ -365,5 +367,20 @@
     <string name="pdf_export_error_title">"Imposibil de afișat versiunea de tipărire"</string>
     <!-- XHED: PDF Export: Error message body -->
     <string name="pdf_export_error_message">"Versiunea de tipărire a certificatului nu poate fi afișată deoarece certificatul nu poate fi obținut în acest moment. Încercați din nou mai târziu."</string>
+
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_title">"Verificare certificat de către parteneri (terți)"</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_subtitle">"Terții pot utiliza aplicația CovPassCheck pentru a verifica, cu încredere, dacă certificatul de vaccinare, certificatul de recuperare sau certificatul de test este valabil."</string>
+    <!-- XTXT: Cov Pass Info Fragment link label -->
+    <string name="cov_pass_info_faq_link_label">"Întrebări frecvente pentru verificarea certificatului de către terți"</string>
+    <!-- XTXT: Explains user about cov pass: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#eu_dcc_check -->
+    <string name="cov_pass_info_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc_check"</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_section_one">"Puteți verifica chiar dvs. valabilitatea certificatelor în Corona-Warn-App și nu aveți nevoie de aplicația CovPassCheck."</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_section_two">"Totuși, o verificare vizuală a certificatelor nu este suficientă pentru terți. Aceștia trebuie să utilizeze aplicația CovPassCheck în Germania."</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_section_three">"Rețineți că terții din alte țări pot utiliza alte aplicații pentru a verifica certificatele."</string>
 
 </resources>

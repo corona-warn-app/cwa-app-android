@@ -51,7 +51,8 @@ class EnvironmentSetup @Inject constructor(
         WRU_XD("WRU-XD"), // (aka Germany)
         TESTER_MOCK("TESTER-MOCK"), // (aka Germany)
         LOCAL("LOCAL"), // Emulator/CLI tooling
-        MOCK_CLOUD("MOCK-CLOUD"); // Mock-cloud
+        MOCK_CLOUD("MOCK-CLOUD"), // Mock-cloud
+        MOCK_TSI_MMS("MOCK-TSI-MMS"); // MOCK-TSI-MMS
 
         companion object {
             internal fun String.toEnvironmentType(): Type = values().single {
