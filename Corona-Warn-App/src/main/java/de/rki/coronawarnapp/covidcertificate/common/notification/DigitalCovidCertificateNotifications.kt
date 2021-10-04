@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.common.notification
 
-import android.annotation.TargetApi
 import android.app.Notification
 import android.content.Context
 import android.os.Build
@@ -32,7 +31,6 @@ class DigitalCovidCertificateNotifications @Inject constructor(
     private val channelId = "${context.packageName}.notification.digitalCovidCertificateChannelId"
     private var isNotificationChannelSetup = false
 
-    @TargetApi(Build.VERSION_CODES.O)
     fun setupChannel() {
         Timber.d("setupChannel()")
 
