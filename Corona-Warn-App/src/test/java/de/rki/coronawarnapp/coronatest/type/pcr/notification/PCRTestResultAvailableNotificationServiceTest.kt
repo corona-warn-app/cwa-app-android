@@ -100,20 +100,4 @@ class PCRTestResultAvailableNotificationServiceTest : BaseTest() {
             )
         }
     }
-
-    @Test
-    fun `test notification in background disabled`() = runBlockingTest {
-        coEvery { foregroundState.isInForeground } returns flow { emit(false) }
-
-        createInstance().apply {
-            showTestResultAvailableNotification(mockk())
-
-            verify(exactly = 0) {
-                notificationHelper.sendNotification(
-                    notificationId = any(),
-                    notification = any()
-                )
-            }
-        }
-    }
 }
