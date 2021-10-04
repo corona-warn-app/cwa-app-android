@@ -263,7 +263,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
         every { isValid } returns true
         every { sampleCollectedAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
         every { getState() } returns CwaCovidCertificate.State.Valid(headerExpiresAt)
-        every { isNewlyRetrieved } returns false
+        every { isNew } returns false
         every { hasNotificationBadge } returns false
     }
 
