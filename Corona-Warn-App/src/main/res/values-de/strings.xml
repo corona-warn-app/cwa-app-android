@@ -625,24 +625,10 @@
 
     <!-- XHED: settings(notification) - notification page title -->
     <string name="settings_notifications_title">"Mitteilungen"</string>
-    <!-- XHED: settings(notification) - multiline headline below illustration, active -->
-    <string name="settings_notifications_headline_active">"Möchten Sie Mitteilungen zu Ihrem COVID-19-Risikostatus aktivieren?"</string>
     <!-- XTXT: settings(notification) - text in row on settings overview -->
     <string name="settings_notifications_body_description">"Erlauben Sie automatische Benachrichtigungen zu Ihrem COVID-19-Risikostatus."</string>
-    <!-- YTXT: settings(notification) - description text when it notifications are enabled -->
-    <string name="settings_notifications_body_active">"Legen Sie fest, zu welchen Themen Sie informiert bleiben möchten."</string>
     <!-- XTXT: settings(notification) - explains what the user has to do to activate settings -->
     <string name="settings_notifications_body_inactive">"Um Mitteilungen in der Corona-Warn-App zu aktivieren, müssen Sie Mitteilungen in Ihren Geräteeinstellungen zulassen."</string>
-    <!-- XHED: settings(notification) - card headline -->
-    <string name="settings_notifications_headline_card">"Mitteilungen aktivieren"</string>
-    <!-- XHED: settings - notification headline on settings overview -->
-    <string name="settings_notifications_subtitle_notification">"Mitteilungen"</string>
-    <!-- XTXT: settings(notification) - next to a switch -->
-    <string name="settings_notifications_subtitle_update_risk">"Ändern Ihres Infektionsrisikos"</string>
-    <!-- XTXT: settings(notification) - next to a switch -->
-    <string name="settings_notifications_subtitle_update_test">"Status Ihres Coronavirus-Tests"</string>
-    <!-- XBUT: settings(notification) - go to operating settings -->
-    <string name="settings_notifications_button_open_settings">"Geräteeinstellungen öffnen"</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, active -->
     <string name="settings_notifications_illustration_description_active">"Eine Frau erhält eine Mitteilung von ihrer Corona-Warn-App."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, inactive -->
@@ -937,7 +923,7 @@
     <!-- XTXT: QR Code processing message  -->
     <string name="qr_code_processing_message">QR-Code wird gelesen …</string>
     <!-- XTXT: unsupported qrcode message  -->
-    <string name="un_supported_qrcode_message">"Der QR-Code wird nicht in der Corona-Warn-App unterstützt. Bitte scannen Sie einen geeigneten QR-Code."</string>
+    <string name="un_supported_qrcode_message">"Der QR-Code wird nicht von der Corona-Warn-App unterstützt. Bitte scannen Sie einen geeigneten QR-Code."</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_file_not_readable_title">Datei nicht lesbar</string>
     <!-- XTXT: QR Code error message body  -->
