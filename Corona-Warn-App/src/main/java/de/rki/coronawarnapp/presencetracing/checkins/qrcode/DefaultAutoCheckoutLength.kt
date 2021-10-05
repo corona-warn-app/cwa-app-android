@@ -46,15 +46,11 @@ fun TraceLocation.getDefaultAutoCheckoutLengthInMinutes(now: Instant): Int {
 
         val minutesUntilEndDate = Duration(now, endDate).standardMinutes.toInt()
 
-        if (minutesUntilEndDate < minDefaultAutoCheckOutLengthInMinutes) {
-            return minDefaultAutoCheckOutLengthInMinutes
-        }
-
         if (minutesUntilEndDate > maxDefaultAutoCheckOutLengthInMinutes) {
             return maxDefaultAutoCheckOutLengthInMinutes
         }
 
-        return roundToNearest15Minutes(minutesUntilEndDate)
+        return minutesUntilEndDate
     }
 }
 
