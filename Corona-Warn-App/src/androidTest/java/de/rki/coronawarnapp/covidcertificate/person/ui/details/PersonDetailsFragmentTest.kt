@@ -263,7 +263,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
         every { isValid } returns true
         every { sampleCollectedAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
         every { getState() } returns CwaCovidCertificate.State.Valid(headerExpiresAt)
-        every { isNewlyRetrieved } returns false
+        every { isNew } returns false
         every { hasNotificationBadge } returns false
     }
 
@@ -300,6 +300,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { isValid } returns true
             every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
             every { hasNotificationBadge } returns false
+            every { isNew } returns false
         }
 
     private fun mockRecoveryCertificate(): RecoveryCertificate =
@@ -314,6 +315,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { isValid } returns true
             every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
             every { hasNotificationBadge } returns false
+            every { isNew } returns false
         }
 
     private val certificatePersonIdentifier = CertificatePersonIdentifier(
