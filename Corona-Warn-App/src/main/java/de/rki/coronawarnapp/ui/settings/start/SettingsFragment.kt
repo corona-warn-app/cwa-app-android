@@ -32,7 +32,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), AutoInject {
         vm.tracingState.observe2(this) {
             binding.tracingState = it
         }
-        vm.notificationState.observe2(this) {
+        vm.notificationSettingsState.observe2(this) {
             binding.notificationState = it
         }
         vm.backgroundPriorityState.observe2(this) {
