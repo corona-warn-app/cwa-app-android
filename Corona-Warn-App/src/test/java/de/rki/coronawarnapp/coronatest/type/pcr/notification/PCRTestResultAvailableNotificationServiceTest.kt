@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.coronatest.type.pcr.notification
 
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import androidx.navigation.NavDeepLinkBuilder
@@ -37,7 +36,6 @@ class PCRTestResultAvailableNotificationServiceTest : BaseTest() {
     @MockK(relaxed = true) lateinit var navDeepLinkBuilder: NavDeepLinkBuilder
     @MockK lateinit var pendingIntent: PendingIntent
     @MockK lateinit var navDeepLinkBuilderProvider: Provider<NavDeepLinkBuilder>
-    @MockK lateinit var notificationManager: NotificationManager
     @MockK lateinit var notificationHelper: GeneralNotifications
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
@@ -49,7 +47,6 @@ class PCRTestResultAvailableNotificationServiceTest : BaseTest() {
         mockkObject(CoronaWarnApplication)
 
         every { CoronaWarnApplication.getAppContext() } returns context
-        every { context.getSystemService(Context.NOTIFICATION_SERVICE) } returns notificationManager
         every { navDeepLinkBuilderProvider.get() } returns navDeepLinkBuilder
         every { navDeepLinkBuilder.createPendingIntent() } returns pendingIntent
 
