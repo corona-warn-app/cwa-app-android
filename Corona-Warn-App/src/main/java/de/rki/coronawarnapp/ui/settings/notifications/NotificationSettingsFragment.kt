@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.databinding.FragmentSettingsNotificationsBinding
 import de.rki.coronawarnapp.util.ExternalActionHelper.openAppNotificationSettings
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -49,6 +50,8 @@ class NotificationSettingsFragment :
                 viewModel.createNotificationChannels()
                 requireContext().openAppNotificationSettings()
             }
+
+            settingsNotificationsHeader.setNavigationOnClickListener { popBackStack() }
 
             faq.setTextWithUrls(
                 R.string.nm_faq.toResolvingString(),
