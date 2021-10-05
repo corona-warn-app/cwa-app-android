@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
-// TODO: will be refactored in EXPOSUREAPP-9618
 @Singleton
 class NotificationSettings @Inject constructor(
     foregroundState: ForegroundState,

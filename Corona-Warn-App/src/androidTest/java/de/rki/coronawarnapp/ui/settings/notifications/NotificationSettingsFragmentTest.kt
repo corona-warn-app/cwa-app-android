@@ -1,11 +1,8 @@
 package de.rki.coronawarnapp.ui.settings.notifications
 
+import androidx.lifecycle.asLiveData
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.covidcertificate.common.notification.DigitalCovidCertificateNotifications
-import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
-import de.rki.coronawarnapp.notification.GeneralNotifications
-import de.rki.coronawarnapp.presencetracing.common.PresenceTracingNotifications
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -15,17 +12,12 @@ import org.junit.Before
 import org.junit.Test
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 
 class NotificationSettingsFragmentTest : BaseUITest() {
 
-    @MockK lateinit var settings: NotificationSettings
-    @MockK lateinit var analytics: AnalyticsSettings
-    @MockK lateinit var generalNotifications: GeneralNotifications
-    @MockK lateinit var presenceTracingNotifications: PresenceTracingNotifications
-    @MockK lateinit var digitalCovidCertificateNotifications: DigitalCovidCertificateNotifications
+    @MockK lateinit var viewModel: NotificationSettingsFragmentViewModel
 
     @Before
     fun setup() {
@@ -33,14 +25,7 @@ class NotificationSettingsFragmentTest : BaseUITest() {
 
         setupMockViewModel(
             object : NotificationSettingsFragmentViewModel.Factory {
-                override fun create(): NotificationSettingsFragmentViewModel =
-                    NotificationSettingsFragmentViewModel(
-                        notificationSettings = settings,
-                        dispatcherProvider = TestDispatcherProvider(),
-                        generalNotifications = generalNotifications,
-                        presenceTracingNotifications = presenceTracingNotifications,
-                        digitalCovidCertificateNotifications = digitalCovidCertificateNotifications,
-                    )
+                override fun create(): NotificationSettingsFragmentViewModel = viewModel
             }
         )
     }
@@ -53,7 +38,7 @@ class NotificationSettingsFragmentTest : BaseUITest() {
     @Screenshot
     @Test
     fun notifications_enabled_screenshot() {
-        every { settings.isNotificationsEnabled } returns flowOf(true)
+        every { viewModel.notificationSettingsState } returns flowOf(NotificationSettingsState(true)).asLiveData()
 
         launchFragmentInContainer2<NotificationSettingsFragment>()
         takeScreenshot<NotificationSettingsFragment>("enabled")
@@ -62,7 +47,7 @@ class NotificationSettingsFragmentTest : BaseUITest() {
     @Screenshot
     @Test
     fun notifications_disabled_screenshot() {
-        every { settings.isNotificationsEnabled } returns flowOf(false)
+        every { viewModel.notificationSettingsState } returns flowOf(NotificationSettingsState(true)).asLiveData()
 
         launchFragmentInContainer2<NotificationSettingsFragment>()
         takeScreenshot<NotificationSettingsFragment>("disabled")
@@ -70,7 +55,7 @@ class NotificationSettingsFragmentTest : BaseUITest() {
 }
 
 @Module
-abstract class NotificationSettingsFragmentModule {
+abstract class NotificationSettingsFragmentTestModule {
     @ContributesAndroidInjector
     abstract fun notificationSettingsFragment(): NotificationSettingsFragment
 }

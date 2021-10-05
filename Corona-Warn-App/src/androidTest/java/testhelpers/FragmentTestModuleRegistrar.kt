@@ -34,7 +34,7 @@ import de.rki.coronawarnapp.ui.onboarding.OnboardingTracingFragmentTestModule
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.duration.TraceLocationWarnDurationFragmentTestModule
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.TraceLocationSelectionFragmentTestModule
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.tan.TraceLocationWarnTanFragmentTestModule
-import de.rki.coronawarnapp.ui.settings.notifications.NotificationSettingsFragmentModule
+import de.rki.coronawarnapp.ui.settings.notifications.NotificationSettingsFragmentTestModule
 import de.rki.coronawarnapp.ui.statistics.StatisticsExplanationFragmentTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionConsentFragmentTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionContactTestModule
@@ -124,7 +124,7 @@ import de.rki.coronawarnapp.ui.vaccination.CovidCertificateInfoFragmentTestModul
         QrCodeScannerFragmentTestModule::class,
 
         // --------- Settings ---------
-        NotificationSettingsFragmentModule::class,
+        NotificationSettingsFragmentTestModule::class,
     ]
 )
 class FragmentTestModuleRegistrar
