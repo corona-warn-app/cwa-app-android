@@ -28,12 +28,13 @@
 
     <TextView
         android:id="@+id/qr_code_scan_title"
-        style="@style/qrCodeScanBody"
+        style="@style/subtitle"
         android:layout_width="@dimen/scan_qr_code_viewfinder_size"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/scan_qr_code_viewfinder_center_offset"
         android:paddingTop="@dimen/spacing_normal"
         android:text="@string/qr_code_scan_body_title"
+        android:textAlignment="center"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/qr_code_scan_preview"
         app:layout_constraintStart_toStartOf="@id/qr_code_scan_preview"
@@ -41,11 +42,12 @@
 
     <TextView
         android:id="@+id/qr_code_scan_subtitle"
-        style="@style/qrCodeScanBody"
+        style="@style/body2Medium"
         android:layout_width="@dimen/scan_qr_code_viewfinder_size"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_small"
         android:text="@string/qr_code_scan_body_subtitle"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="@id/qr_code_scan_preview"
         app:layout_constraintStart_toStartOf="@id/qr_code_scan_preview"
         app:layout_constraintTop_toBottomOf="@id/qr_code_scan_title" />
@@ -92,16 +94,18 @@
         android:textAllCaps="false"
         android:textColor="@color/colorQrCodeScanToolbar"
         app:icon="@drawable/ic_image"
+        app:iconPadding="11dp"
         app:iconTint="@color/colorQrCodeScanToolbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ToggleButton
         android:id="@+id/qr_code_scan_torch"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
         android:layout_gravity="end"
-        android:layout_margin="@dimen/spacing_medium"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_medium"
         android:background="@drawable/ic_torch_toggle"
         android:backgroundTint="@color/colorQrCodeScanToolbar"
         android:textOff=""
