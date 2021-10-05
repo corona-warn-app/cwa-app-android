@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.latestRAT
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.common.TestResultAvailableNotificationService
-import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -28,7 +27,6 @@ class RATTestResultAvailableNotificationService @Inject constructor(
     foregroundState: ForegroundState,
     navDeepLinkBuilderProvider: Provider<NavDeepLinkBuilder>,
     private val notificationHelper: GeneralNotifications,
-    cwaSettings: CWASettings,
     private val coronaTestRepository: CoronaTestRepository,
     @AppScope private val appScope: CoroutineScope,
 ) : TestResultAvailableNotificationService(
@@ -36,7 +34,6 @@ class RATTestResultAvailableNotificationService @Inject constructor(
     foregroundState,
     navDeepLinkBuilderProvider,
     notificationHelper,
-    cwaSettings,
     NotificationConstants.RAT_TEST_RESULT_AVAILABLE_NOTIFICATION_ID,
     logTag = TAG,
 ) {

@@ -34,11 +34,7 @@ class SettingsFragmentViewModelTest : BaseTest() {
         MockKAnnotations.init(this)
         every { tracingStatus.generalStatus } returns flowOf(GeneralTracingStatus.Status.TRACING_ACTIVE)
         every { notificationSettings.isNotificationsEnabled } returns flow { emit(true) }
-        every { notificationSettings.isNotificationsRiskEnabled } returns flow { emit(false) }
-        every { notificationSettings.isNotificationsTestEnabled } returns flow { emit(true) }
-
         every { backgroundModeStatus.isIgnoringBatteryOptimizations } returns flow { emit(true) }
-
         every { analytics.isAnalyticsEnabledFlow() } returns flow { emit(true) }
     }
 
@@ -62,16 +58,12 @@ class SettingsFragmentViewModelTest : BaseTest() {
     @Test
     fun `notification status is forwarded`() {
         createInstance().apply {
-            notificationState.observeForever { }
-            notificationState.value shouldBe SettingsNotificationState(
+            notificationSettingsState.observeForever { }
+            notificationSettingsState.value shouldBe SettingsNotificationState(
                 isNotificationsEnabled = true,
-                isNotificationsRiskEnabled = false,
-                isNotificationsTestEnabled = true
             )
         }
         verify { notificationSettings.isNotificationsEnabled }
-        verify { notificationSettings.isNotificationsRiskEnabled }
-        verify { notificationSettings.isNotificationsTestEnabled }
     }
 
     @Test
