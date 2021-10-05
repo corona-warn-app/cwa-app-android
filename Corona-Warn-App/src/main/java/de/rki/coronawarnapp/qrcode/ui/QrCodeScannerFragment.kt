@@ -83,10 +83,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 is DccResult -> onDccResult(scannerResult)
                 is CheckInResult -> onCheckInResult(scannerResult)
 
-                is Error -> scannerResult.error.toQrCodeErrorDialogBuilder(requireContext())
-                    .setOnDismissListener { popBackStack() }
-                    .show()
-
+                is Error -> showScannerResultErrorDialog(scannerResult.error)
                 InProgress -> binding.qrCodeProcessingView.isVisible = true
             }
         }
@@ -150,6 +147,12 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 popBackStack()
             }
         }.show()
+
+    private fun showScannerResultErrorDialog(error: Throwable) = error
+        .toQrCodeErrorDialogBuilder(requireContext())
+        .setNeutralButton(null, null) //Remove details
+        .setOnDismissListener { startDecode() }
+        .show()
 
     private fun requestCameraPermission() = requestPermissionLauncher.launch(Manifest.permission.CAMERA)
 
