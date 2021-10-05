@@ -33,6 +33,15 @@
                     app:layout_collapseMode="parallax"
                     app:srcCompat="@drawable/certificate_complete_gradient" />
 
+                <ImageView
+                    android:id="@+id/europa_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginStart="50dp"
+                    android:importantForAccessibility="no"
+                    app:layout_collapseMode="parallax"
+                    app:srcCompat="@drawable/ic_eu_stars_blue" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -90,14 +99,7 @@
                             android:layout_marginEnd="32dp"
                             android:importantForAccessibility="no"
                             app:srcCompat="@drawable/ic_cwa_logo_white" />
-                        <ImageView
-                            android:id="@+id/europa_image"
-                            android:layout_width="match_parent"
-                            android:layout_height="250dp"
-                            android:layout_marginStart="50dp"
-                            android:importantForAccessibility="no"
-                            app:layout_collapseMode="parallax"
-                            app:srcCompat="@drawable/ic_eu_stars_blue" />
+
                     </LinearLayout>
 
                 </com.google.android.material.appbar.MaterialToolbar>
