@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.navigation.NavDeepLinkBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationId
 import de.rki.coronawarnapp.ui.main.MainActivity
@@ -20,7 +19,6 @@ open class TestResultAvailableNotificationService(
     private val foregroundState: ForegroundState,
     private val navDeepLinkBuilderProvider: Provider<NavDeepLinkBuilder>,
     private val notificationHelper: GeneralNotifications,
-    private val cwaSettings: CWASettings,
     private val notificationId: NotificationId,
     private val logTag: String,
 ) {
@@ -30,11 +28,6 @@ open class TestResultAvailableNotificationService(
 
         if (foregroundState.isInForeground.first()) {
             Timber.tag(logTag).d("App in foreground, skipping notification.")
-            return
-        }
-
-        if (!cwaSettings.isNotificationsTestEnabled.value) {
-            Timber.tag(logTag).i("User has disabled test result notifications.")
             return
         }
 

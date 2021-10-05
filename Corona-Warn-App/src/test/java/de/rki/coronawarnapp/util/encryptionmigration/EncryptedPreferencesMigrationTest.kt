@@ -102,10 +102,6 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
         // SettingsLocalData
         every { cwaSettings.wasInteroperabilityShownAtLeastOnce = true } just Runs
         every { cwaSettings.wasTracingExplanationDialogShown = true } just Runs
-        val mockRiskPreference = mockFlowPreference(true)
-        every { cwaSettings.isNotificationsRiskEnabled } returns mockRiskPreference
-        val mockTestPreference = mockFlowPreference(true)
-        every { cwaSettings.isNotificationsTestEnabled } returns mockTestPreference
         every { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr = Int.MAX_VALUE } just Runs
 
         // OnboardingLocalData
@@ -130,10 +126,6 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
         val migrationInstance = createInstance()
 
         migrationInstance.doMigration()
-
-        // SettingsLocalData
-        mockRiskPreference.value shouldBe false
-        mockTestPreference.value shouldBe false
 
         // TracingLocalData
         mockNotificationPreference.value shouldBe true
