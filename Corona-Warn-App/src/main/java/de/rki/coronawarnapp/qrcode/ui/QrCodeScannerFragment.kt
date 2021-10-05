@@ -150,7 +150,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
 
     private fun showScannerResultErrorDialog(error: Throwable) = error
         .toQrCodeErrorDialogBuilder(requireContext())
-        .setNeutralButton(null, null) //Remove details
+        .setNeutralButton(null, null) // Remove details
         .setOnDismissListener { startDecode() }
         .show()
 
