@@ -141,8 +141,11 @@ data class RecoveryCertificateContainer(
             override val hasNotificationBadge: Boolean
                 get() {
                     val state = getState()
-                    return (state !is State.Valid && state != lastSeenStateChange) || !data.certificateSeenByUser
+                    return (state !is State.Valid && state != lastSeenStateChange) || isNew
                 }
+
+            override val isNew: Boolean
+                get() = !data.certificateSeenByUser
 
             override fun toString(): String = "RecoveryCertificate($containerId)"
         }
