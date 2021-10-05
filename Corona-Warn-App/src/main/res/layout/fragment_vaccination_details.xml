@@ -99,6 +99,7 @@
                             android:layout_marginEnd="32dp"
                             android:importantForAccessibility="no"
                             app:srcCompat="@drawable/ic_cwa_logo_white" />
+
                     </LinearLayout>
 
                 </com.google.android.material.appbar.MaterialToolbar>
@@ -146,13 +147,14 @@
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
                         tools:text="Andrea Schneider" />
 
                     <TextView
                         style="@style/body1Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="16dp"
                         android:text="@string/covid_certificate_attribute_icao_name" />
 
                     <TextView
@@ -160,13 +162,14 @@
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
                         tools:text="SCHNEIDER, ANDREA" />
 
                     <TextView
                         style="@style/body1Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="16dp"
                         android:text="@string/covid_certificate_attribute_date_of_birth" />
 
                     <TextView
@@ -174,14 +177,14 @@
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="2dp"
                         tools:text="1943-02-23" />
 
                     <TextView
                         style="@style/body1Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="16dp"
                         android:text="@string/covid_certificate_attribute_disease_type" />
 
                     <TextView
@@ -189,14 +192,14 @@
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="2dp"
                         tools:text="COVID-19" />
 
                     <TextView
                         style="@style/body1Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="16dp"
                         android:text="@string/vaccination_certificate_attribute_vaccine_name" />
 
                     <TextView
@@ -204,14 +207,14 @@
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="2dp"
                         tools:text="Comirnaty" />
 
                     <TextView
                         style="@style/body1Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="16dp"
                         android:text="@string/vaccination_certificate_attribute_vaccine_type" />
 
                     <TextView
@@ -219,14 +222,14 @@
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="2dp"
                         tools:text="mRNA" />
 
                     <TextView
                         style="@style/body1Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="16dp"
                         android:text="@string/vaccination_certificate_attribute_manufacturer" />
 
                     <TextView
@@ -234,14 +237,14 @@
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="2dp"
                         tools:text="BioNTech" />
 
                     <TextView
                         style="@style/body1Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="16dp"
                         android:text="@string/vaccination_certificate_attribute_vaccination_number" />
 
                     <TextView
@@ -249,14 +252,14 @@
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="2dp"
                         tools:text="2 of 2" />
 
                     <TextView
                         style="@style/body1Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="16dp"
                         android:text="@string/vaccination_certificate_attribute_vaccination_date" />
 
                     <TextView
@@ -264,14 +267,14 @@
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="2dp"
                         tools:text="2021-05-23" />
 
                     <TextView
                         style="@style/body1Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="16dp"
                         android:text="@string/vaccination_certificate_attribute_certificate_country" />
 
                     <TextView
@@ -279,14 +282,14 @@
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="2dp"
                         tools:text="Germany" />
 
                     <TextView
                         style="@style/body1Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="16dp"
                         android:text="@string/covid_certificate_attribute_certificate_issuer" />
 
                     <TextView
@@ -294,14 +297,14 @@
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="2dp"
                         tools:text="RKI" />
 
                     <TextView
                         style="@style/body1Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="16dp"
                         android:text="@string/covid_certificate_attribute_certificate_id" />
 
                     <TextView
@@ -309,7 +312,7 @@
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="2dp"
                         tools:text="05930482748454836478695764787840" />
 
                 </LinearLayout>
@@ -335,7 +338,7 @@
                     tools:visibility="visible">
 
                     <TextView
-                        style="@style/body1"
+                        style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/vaccination_certificate_one_shot" />

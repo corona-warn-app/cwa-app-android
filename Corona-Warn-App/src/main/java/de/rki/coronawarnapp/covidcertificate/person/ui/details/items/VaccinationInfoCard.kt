@@ -31,10 +31,14 @@ class VaccinationInfoCard(parent: ViewGroup) :
         val boosterRule = curItem.boosterRule
         val daysSinceLastVaccination = curItem.daysSinceLastVaccination
         title.text = context.resources.getString(R.string.vaccination_state_title)
-        subtitle.text = context.resources.getString(
-            R.string.vaccination_days_since_last_shot,
-            daysSinceLastVaccination
-        )
+        subtitle.text = when (daysSinceLastVaccination) {
+            0 -> context.resources.getString(R.string.vaccination_days_since_last_shot_today)
+            else -> context.resources.getQuantityString(
+                R.plurals.vaccination_days_since_last_shot,
+                daysSinceLastVaccination ?: 0,
+                daysSinceLastVaccination
+            )
+        }
 
         when (vaccinationStatus) {
             VaccinatedPerson.Status.COMPLETE -> {
@@ -43,7 +47,7 @@ class VaccinationInfoCard(parent: ViewGroup) :
                         R.string.vaccination_list_immunity_tomorrow_card_body
                     )
                     daysUntilImmunity != null -> context.resources.getQuantityString(
-                        R.plurals.vaccination_certificate_days_unti_immunity,
+                        R.plurals.vaccination_certificate_days_until_immunity,
                         daysUntilImmunity,
                         daysUntilImmunity
                     )

@@ -8,7 +8,7 @@
     <!-- XHED: My check-ins: Title for list explanation when there are no check-ins -->
     <string name="trace_location_checkins_empty_label">"Nicio intrare încă"</string>
     <!-- XTXT: My check-ins: Description for list explanation when there are no check-ins -->
-    <string name="trace_location_checkins_empty_description">"Când scanați un cod QR pentru a face check-in la un eveniment sau într-un loc, este creată automat o intrare."</string>
+    <string name="trace_location_checkins_empty_description_1">"Când scanați un cod QR pentru a face check-in la un eveniment sau într-un loc, este creată automat o intrare."</string>
     <!-- XTXT: My check-ins: Accessibility description for empty check-ins illustration -->
     <string name="trace_location_checkins_empty_illustration_accessibility">"O clădire cu un simbol de cod QR în fundal."</string>
 

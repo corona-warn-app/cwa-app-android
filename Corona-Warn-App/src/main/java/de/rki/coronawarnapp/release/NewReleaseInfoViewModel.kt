@@ -4,7 +4,6 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -16,8 +15,7 @@ import timber.log.Timber
 
 class NewReleaseInfoViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val appSettings: CWASettings,
-    private val analyticsSettings: AnalyticsSettings
+    private val appSettings: CWASettings
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val routeToScreen: SingleLiveEvent<NewReleaseInfoNavigationEvents> = SingleLiveEvent()
@@ -26,8 +24,10 @@ class NewReleaseInfoViewModel @AssistedInject constructor(
 
     fun onNextButtonClick() {
         appSettings.lastChangelogVersion.update { BuildConfigWrap.VERSION_CODE }
-        if (analyticsSettings.lastOnboardingVersionCode.value == 0L) {
-            routeToScreen.postValue(NewReleaseInfoNavigationEvents.NavigateToOnboardingDeltaAnalyticsFragment)
+        if (appSettings.lastNotificationsOnboardingVersionCode.value == 0L) {
+            routeToScreen.postValue(
+                NewReleaseInfoNavigationEvents.NavigateToOnboardingDeltaNotificationsFragment
+            )
         } else {
             routeToScreen.postValue(NewReleaseInfoNavigationEvents.CloseScreen)
         }

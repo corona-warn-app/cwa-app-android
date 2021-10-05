@@ -159,6 +159,6 @@
     <dimen name="swipe_icon_margin">33dp</dimen>
 
     <!-- Padding for the collapsed floating action button -->
-    <dimen name="spacing_fab_padding">72dp</dimen>
+    <dimen name="spacing_fab_padding">80dp</dimen>
 
 </resources>

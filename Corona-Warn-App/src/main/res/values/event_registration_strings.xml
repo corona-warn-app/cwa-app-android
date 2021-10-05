@@ -7,8 +7,10 @@
     <string name="trace_location_checkins_title">"My Check-Ins"</string>
     <!-- XHED: My check-ins: Title for list explanation when there are no check-ins -->
     <string name="trace_location_checkins_empty_label">"No entries yet"</string>
-    <!-- XTXT: My check-ins: Description for list explanation when there are no check-ins -->
-    <string name="trace_location_checkins_empty_description">"When you scan a QR code to check in to an event or place, an entry is created automatically."</string>
+    <!-- XTXT: My check-ins: First Description for list explanation when there are no check-ins -->
+    <string name="trace_location_checkins_empty_description_1">"When you scan a QR code to check in to an event or place, an entry is created automatically."</string>
+    <!-- XTXT: My check-ins: Second Description trace_location_checkins_empty_description_2 for list explanation when there are no check-ins -->
+    <string name="trace_location_checkins_empty_description_2">"Scannen Sie den QR-Code des Zertifikats mit Hilfe des „Scannen“ Buttons in der unteren Navigationsleiste."</string>
     <!-- XTXT: My check-ins: Accessibility description for empty check-ins illustration -->
     <string name="trace_location_checkins_empty_illustration_accessibility">"A building with a QR code symbol in the background."</string>
 
@@ -164,6 +166,8 @@
     <string name="trace_location_organiser_list_title">"My QR Codes"</string>
     <!-- XBUT: Event organiser qr codes list: new qr code button  -->
     <string name="trace_location_organiser_list_new_button">"QR Code"</string>
+    <!-- XBUT: Event organiser qr codes list: new qr code button description -->
+    <string name="trace_location_organiser_list_new_button_description">"Add QR Code"</string>
     <!-- XTXT: Event organiser qr codes list: new qr code button  -->
     <string name="trace_location_organiser_list_no_codes_title">"No QR codes created yet"</string>
     <!-- XTXT: Event organiser qr codes list: new qr code button  -->

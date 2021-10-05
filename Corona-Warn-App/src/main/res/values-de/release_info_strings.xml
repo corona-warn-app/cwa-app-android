@@ -17,21 +17,21 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>Universeller QR-Code-Scanner</item>
-        <item>QR-Code importieren</item>
-        <item>Anpassung Kontaktdauer</item>
+        <item>Erweiterung Statistiken</item>
+        <item>Mitteilungen verwalten</item>
+        <item>Direkter Zugriff QR-Code-Scanner</item>
+        <item>Prüfung der Administrator-Berechtigungen</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Sie können nun unabhängig davon, von wo ein QR-Code-Scanner in der Corona-Warn-App geöffnet wird, alle von der App unterstützen Dokumente scannen:
+        <item>"Es sind nun folgende Statistiken in der App verfügbar:
 
-• PCR-Tests
-• Schnelltests
-• Event Check-ins
-• Zertifikate"</item>
-        <item>"Sie können nun auch QR-Codes von Fotos oder PDF-Dateien über den QR-Code-Scanner importieren."</item>
-        <item>"Die minimale Kontaktdauer im Kontakttagebuch wurde von 15 auf 10 Minuten reduziert. Existierende Einträge zu Kontakten mit Personen wurden automatisch angepasst. Überprüfen und passen Sie die Einträge gegebenenfalls noch einmal an."</item>
+• 7-Tage-Inzidenz Hospitalisierung
+• COVID-19-Erkrankte auf Intensivstationen"</item>
+        <item>"Einstellungen für Mitteilungen werden ab jetzt zentral in den Einstellungen Ihres Smartphones verwaltet. Überprüfen Sie Ihre Mitteilungseinstellungen für die Corona-Warn-App in den Geräteeinstellungen erneut."</item>
+        <item>"Sie haben nun von der unteren Navigationsleiste aus direkten Zugriff auf den universellen QR-Code-Scanner."</item>
+        <item>"Die App prüft bei einem Neustart, ob auf Ihrem Smartphone Administrator-Berechtigungen (auch bekannt also Root-Berechtigungen) aktiv sind, und zeigt gegebenenfalls einen Sicherheitshinweis an."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
@@ -39,10 +39,12 @@
         <item></item>
         <item></item>
         <item></item>
+        <item></item>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item></item>
         <item></item>
         <item></item>
         <item></item>

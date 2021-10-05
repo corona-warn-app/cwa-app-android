@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
     <!-- ####################################
                      Generics
     ###################################### -->
@@ -34,6 +35,8 @@
     <string name="notification_headline">"Corona-Warn-App"</string>
     <!-- XTXT: Notification body -->
     <string name="notification_body">"You have new messages from your Corona-Warn-App."</string>
+    <!-- XTXT: Notification body certificate -->
+    <string name="notification_body_certificate">"Überprüfen Sie die Gültigkeit Ihrer Zertifikate."</string>
     <!-- XHED: Notification title - Reminder to share a positive test result-->
     <string name="notification_headline_share_positive_result">"You can help!"</string>
     <!-- XTXT: Notification body - Reminder to share a positive test result-->
@@ -95,7 +98,7 @@
     <plurals name="risk_card_low_risk_encounter_days_body">
         <item quantity="one">"Exposures with low risk on %1$d day"</item>
         <item quantity="other">"Exposures with low risk on %1$d days"</item>
-        <item quantity="zero">"Exposures with low risk on %1$d days"</item>
+        <item quantity="zero">"No exposures"</item>
         <item quantity="two">"Exposures with low risk on %1$d days"</item>
         <item quantity="few">"Exposures with low risk on %1$d days"</item>
         <item quantity="many">"Exposures with low risk on %1$d days"</item>
@@ -104,7 +107,7 @@
     <plurals name="risk_card_low_risk_encounter_days_body_description">
         <item quantity="one">"Exposures with low risk on one day"</item>
         <item quantity="other">"Exposures with low risk on %1$d days"</item>
-        <item quantity="zero">"Exposures with low risk on %1$d days"</item>
+        <item quantity="zero">"No exposures"</item>
         <item quantity="two">"Exposures with low risk on %1$d days"</item>
         <item quantity="few">"Exposures with low risk on %1$d days"</item>
         <item quantity="many">"Exposures with low risk on %1$d days"</item>
@@ -274,7 +277,8 @@
     <string name="risk_details_faq_symptoms">"Be alert for typical COVID-19 symptoms. Even vaccinated people can show symptoms in breakthrough cases. If you notice any suspicious symptoms, get tested."</string>
     <!-- XTXT: risk details - vaccination bullet point -->
     <string name="risk_details_increased_risk_faq_vaccination">"If you have not been vaccinated yet, consult with your family doctor or the general medical emergency service number to arrange a test. After your test, discuss the SARS-CoV-2 vaccination with your family doctor."</string>
-
+    <!-- XTXT: risk details - normal risk vaccination bullet -->
+    <string name="risk_details_normal_risk_faq_vaccination">"Get vaccinated against the SARS-CoV-2 virus if you have not already done so."</string>
     <!-- XMSG: risk details - ventilation bullet point -->
     <string name="risk_details_behavior_body_ventilation">"Air out indoor spaces several times per day. To do so, open the windows as far as possible for several minutes (“shock ventilation”)."</string>
     <!-- XMSG: risk details - cough/sneeze, something like a bullet point -->
@@ -306,8 +310,6 @@
     <string name="risk_details_information_body_period_logged_assessment">"The app automatically deletes older logs, as these are no longer relevant for infection prevention."</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk">"This is how your risk is calculated."</string>
-    <!-- XTXT: risk details - normal risk vaccination bullet -->
-    <string name="risk_details_normal_risk_faq_vaccination">"Lassen Sie sich gegen SARS-CoV-2 impfen, falls Sie noch nicht geimpft sind."</string>
     <!-- YTXT: risk details - low risk explanation text -->
     <string name="risk_details_information_body_low_risk">"You have a low risk of infection because no exposure to people later diagnosed with coronavirus was logged, or because your encounters were only for a short time and at a greater distance."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
@@ -620,7 +622,7 @@
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_bluetooth_illustration_description_inactive">"A person has turned off Bluetooth on their smartphone, so an encounter with two other persons is not logged."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
-    <string name="settings_tracing_location_illustration_description_inactive"/>
+    <string name="settings_tracing_location_illustration_description_inactive" />
 
     <!-- XHED: settings(notification) - notification page title -->
     <string name="settings_notifications_title">"Notifications"</string>
@@ -969,7 +971,7 @@
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_suitable_qr_code_title">"No Suitable QR Code"</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_suitable_qr_code_body">"The QR code cannot be canned by the Corona-Warn-App. Please select a file with a suitable QR code."</string>
+    <string name="qr_code_no_suitable_qr_code_body">"The QR code cannot be scanned by the Corona-Warn-App. Please select a file with a suitable QR code."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
@@ -1106,7 +1108,7 @@
     <!-- XHED: Subtitle text for test result card with consent given -->
     <string name="submission_test_result_consent_given_subtitle">"Thank you for helping to stop the spread of coronavirus."</string>
     <!-- YTXT: body text for test result card with consent given -->
-    <string name="submission_test_result_consent_given_body"><b>"Others you have had contact with will now be warned."</b>" "<br/><br/>"You can now help to improve the accuracy of the warnings. To do so, in the next step, tell us when you first developed symptoms. You can cancel this step at any time."</string>
+    <string name="submission_test_result_consent_given_body"><b>"Others you have had contact with will now be warned."</b>" "<br /><br />"You can now help to improve the accuracy of the warnings. To do so, in the next step, tell us when you first developed symptoms. You can cancel this step at any time."</string>
     <!-- XBUT: button text for the 'break up' button option on test result consent given page -->
     <string name="submission_test_result_consent_given_breakup_button">"Exit"</string>
 
@@ -1538,7 +1540,7 @@
     <!-- XHED: Title for vaccinated once statistics card -->
     <string name="statistics_vaccinated_once_card_title">"People Who Have Received at Least One Vaccine Dose"</string>
     <!-- XTXT: Nationwide text -->
-    <string name="statistics_vaccinated_nationwide_text">"Nationwide"</string>
+    <string name="statistics_nationwide_text">"Nationwide"</string>
     <!-- XTXT: Vaccination primary value footnote text -->
     <string name="statistics_vaccination_primary_value_footnote">"of the population"</string>
 
@@ -1567,6 +1569,20 @@
     <string name="statistics_people_vaccinated_at_least_once_text">"Number of persons reported to the RKI who have received the first dose of the vaccine."</string>
     <!-- XTXT: Statistics FAQ text -->
     <string name="statistics_faq_text">"For further information, please see our FAQ page:"</string>
+
+    <!-- Seven Day Hospitalization Statistics Card -->
+    <!-- XHED: Title for seven day hospitalization stats -->
+    <string name="statistics_seven_day_hospitalization_card_title">"7-Tage-Inzidenz Hospitalisierung"</string>
+    <!-- XTXT: Nationwide text -->
+    <string name="statistics_seven_day_hospitalization_nationwide_text">"Bundesweit"</string>
+    <!-- XTXT: Hospitalizations per 100.000 inhabitants -->
+    <string name="statistics_seven_day_hospitalization_per_inhabitants_text">"COVID-19-Hospitalisierungen je 100.000 Einwohner"</string>
+
+    <!-- Occupied Intensive Care Statistics Card -->
+    <!-- XHED: Title for occupied intensive care card -->
+    <string name="statistics_occupied_intensive_care_card_title">"COVID-19-Erkrankte auf Intensivstationen"</string>
+    <!-- XTXT: Ocupation of all intensive care beds -->
+    <string name="statistics_occupied_intensive_care_beds_text">"COVID-19-Belegung aller betreibbaren Intensivbetten"</string>
 
     <!-- Statistics Add new tile -->
     <!-- XTXT: Statistics add card title -->
@@ -1787,13 +1803,15 @@
     <string name="statistics_trend_stable">"Trend: Steady"</string>
 
     <!-- XHED: Title for BottomNav main screen title -->
-    <string name="bottom_nav_home_title">"Start Screen"</string>
+    <string name="bottom_nav_home_title">"Status"</string>
     <!-- XHED: Title for BottomNav diary screen title -->
     <string name="bottom_nav_diary_title">"Journal"</string>
     <!-- XHED: Title for BottomNav check-in screen title -->
     <string name="bottom_nav_check_ins_title">"Check In"</string>
     <!-- XHED: Title for BottomNav certificates screen title -->
     <string name="bottom_nav_certificates_title">"Certificates"</string>
+    <!-- XHED: Title for BottomNav scanner screen title -->
+    <string name="bottom_nav_scanner_title">"Scan"</string>
     <!-- ####################################
            Data Donation & Survey
     ###################################### -->
@@ -1976,6 +1994,17 @@
     <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">"Cancel"</string>
 
+    <!-- XHED: App Root Detection dialog title -->
+    <string name="root_dialog_title">"Sicherheitshinweis"</string>
+    <!-- XTXT: App Root Detection dialog message -->
+    <string name="root_dialog_message">"Wir haben auf Ihrem Gerät Anzeichen für Administrator-Berechtigungen (auch bekannt als Root-Berechtigungen) gefunden. Es besteht daher ein erhöhtes Risiko, dass andere Anwendungen auf Ihrem Smartphone auf Daten der Corona-Warn-App zugreifen können."</string>
+    <!-- XTXT: App Root Detection link label -->
+    <string name="root_dialog_faq_link_label">"FAQ zur Sicherheit der App"</string>
+    <!-- XTXT: Informs user about root detection: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#root_detection_android -->
+    <string name="root_dialog_faq_link_url">"https://www.coronawarn.app/en/faq/#root_detection_android"</string>
+    <!-- XBUT: App Root Detection button -->
+    <string name="root_dialog_button">"OK"</string>
+
     <!-- ####################################
         Incompatibility warning card
     ###################################### -->
@@ -1990,4 +2019,29 @@
     <string name="incompatible_link_advertising_not_supported">"https://www.coronawarn.app/en/faq/#part_incompat"</string>
     <!-- XTXT: Incompitability faq link for full incompatibility -->
     <string name="incompatible_link_scanning_not_supported">"https://www.coronawarn.app/en/faq/#full_incompat"</string>
+
+    <!-- Permission Denied Dialog -->
+    <!-- XHED: UQS camera permission dialog title -->
+    <string name="camera_permission_dialog_title">Kamerazugriff benötigt</string>
+    <!-- XTXT: UQS camera permission dialog message -->
+    <string name="camera_permission_dialog_message">Bitte gehen Sie in die Systemeinstellungen und erlauben Sie der App die Benutzung der Kamera, um den QR-Code zu scannen.</string>
+    <!-- XBUT: UQS camera permission dialog settings -->
+    <string name="camera_permission_dialog_settings">Einstellungen</string>
+
+    <!-- Permission Rationale Dialog -->
+    <!-- XHED: Dialog headline QR Scan permission rationale  -->
+    <string name="camera_permission_rationale_dialog_headline">"Camera authorization required"</string>
+    <!-- YTXT: Dialog Body text for QR Scan permission rationale -->
+    <string name="camera_permission_rationale_dialog_body">"Allow the app to use the camera to scan the QR code."</string>
+    <!-- XBUT: Dialog(QR Scan permission rationale) - positive button (right) -->
+    <string name="camera_permission_rationale_dialog_button_positive">"Allow"</string>
+    <!-- XBUT: Dialog(QR Scan permission rationale) - negative button (left) -->
+    <string name="camera_permission_rationale_dialog_button_negative">"Do Not Allow"</string>
+
+    <!--    UQS Tooltip-->
+    <!-- XHED: UQS Tooltip title -->
+    <string name="fab_scanner_tip_title">QR-Code-Scanner</string>
+    <!-- XTXT: UQS Tooltip subtitle -->
+    <string name="fab_scanner_tip_subtitle">Scannen Sie Tests, Zertifikate und Check-ins mit diesem Scanner.</string>
+
 </resources>

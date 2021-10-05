@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.qrcode.ui
 
 import android.Manifest
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
@@ -11,6 +12,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
+import androidx.transition.Fade
+import androidx.transition.Slide
+import androidx.transition.TransitionSet
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.zxing.BarcodeFormat
@@ -21,6 +25,7 @@ import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInFragment
 import de.rki.coronawarnapp.ui.presencetracing.attendee.onboarding.CheckInOnboardingFragment
+import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.ui.LazyString
@@ -87,6 +92,8 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 InProgress -> binding.qrCodeProcessingView.isVisible = true
             }
         }
+
+        setupTransition()
     }
 
     override fun onResume() {
@@ -112,23 +119,27 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     }
 
     private fun showCameraPermissionDeniedDialog() {
-        MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle(R.string.submission_qr_code_scan_permission_denied_dialog_headline)
-            setMessage(R.string.submission_qr_code_scan_permission_denied_dialog_body)
-            setPositiveButton(R.string.submission_qr_code_scan_permission_denied_dialog_button) { _, _ -> leave() }
-        }.show()
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.camera_permission_dialog_title)
+            .setMessage(R.string.camera_permission_dialog_message)
+            .setNegativeButton(R.string.camera_permission_dialog_settings) { _, _ ->
+                showsPermissionDialog = false
+                requireContext().openAppDetailsSettings()
+            }
+            .setPositiveButton(android.R.string.ok) { _, _ -> leave() }
+            .show()
         showsPermissionDialog = true
     }
 
     private fun showCameraPermissionRationaleDialog() {
         MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle(R.string.submission_qr_code_scan_permission_rationale_dialog_headline)
-            setMessage(R.string.submission_qr_code_scan_permission_rationale_dialog_body)
-            setPositiveButton(R.string.submission_qr_code_scan_permission_rationale_dialog_button_positive) { _, _ ->
+            setTitle(R.string.camera_permission_rationale_dialog_headline)
+            setMessage(R.string.camera_permission_rationale_dialog_body)
+            setPositiveButton(R.string.camera_permission_rationale_dialog_button_positive) { _, _ ->
                 showsPermissionDialog = false
                 requestCameraPermission()
             }
-            setNegativeButton(R.string.submission_qr_code_scan_permission_rationale_dialog_button_negative) { _, _ ->
+            setNegativeButton(R.string.camera_permission_rationale_dialog_button_negative) { _, _ ->
                 leave()
             }
         }.show()
@@ -209,6 +220,22 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 )
             }
             is CheckInResult.Error -> showCheckInQrCodeError(scannerResult.lazyMessage)
+        }
+    }
+
+    private fun setupTransition() {
+        val animationDuration = resources.getInteger(R.integer.fab_scanner_transition_duration).toLong()
+        enterTransition = MaterialContainerTransform().apply {
+            startView = requireActivity().findViewById(R.id.scanner_fab)
+            endView = binding.root
+            duration = animationDuration
+            scrimColor = Color.TRANSPARENT
+        }
+        returnTransition = TransitionSet().apply {
+            addTransition(Slide())
+            addTransition(Fade())
+            addTarget(R.id.qrcode_scan_container)
+            duration = animationDuration
         }
     }
 
