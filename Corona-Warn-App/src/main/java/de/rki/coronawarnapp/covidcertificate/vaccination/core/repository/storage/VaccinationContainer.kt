@@ -171,8 +171,10 @@ data class VaccinationContainer internal constructor(
         override val hasNotificationBadge: Boolean
             get() {
                 val state = getState()
-                return (state !is State.Valid && state != lastSeenStateChange) || !certificateSeenByUser
+                return (state !is State.Valid && state != lastSeenStateChange) || isNew
             }
+
+        override val isNew: Boolean get() = !certificateSeenByUser
 
         override fun toString(): String = "VaccinationCertificate($containerId)"
     }
