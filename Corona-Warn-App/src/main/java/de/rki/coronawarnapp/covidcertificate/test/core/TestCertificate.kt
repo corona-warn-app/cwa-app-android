@@ -32,11 +32,6 @@ interface TestCertificate : CwaCovidCertificate {
     val isCertificateRetrievalPending: Boolean
 
     /**
-     * Newly retrieved from backend and user has not seen it yet
-     */
-    val isNewlyRetrieved: Boolean get() = false
-
-    /**
      * Not supported by this type of certificate (at the moment)
      */
     override val notifiedExpiredAt: Instant?

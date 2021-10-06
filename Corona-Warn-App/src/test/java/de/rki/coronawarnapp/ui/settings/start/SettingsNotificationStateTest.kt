@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.ContextExtensions
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
-import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -31,51 +30,14 @@ class SettingsNotificationStateTest : BaseTest() {
     }
 
     @Test
-    fun `enabled state`() {
-        SettingsNotificationState(
-            isNotificationsEnabled = true,
-            isNotificationsRiskEnabled = true,
-            isNotificationsTestEnabled = true
-        ).isEnabled shouldBe true
-
-        SettingsNotificationState(
-            isNotificationsEnabled = false,
-            isNotificationsRiskEnabled = true,
-            isNotificationsTestEnabled = true
-        ).isEnabled shouldBe false
-
-        SettingsNotificationState(
-            isNotificationsEnabled = true,
-            isNotificationsRiskEnabled = false,
-            isNotificationsTestEnabled = false
-        ).isEnabled shouldBe false
-
-        SettingsNotificationState(
-            isNotificationsEnabled = true,
-            isNotificationsRiskEnabled = false,
-            isNotificationsTestEnabled = true
-        ).isEnabled shouldBe true
-
-        SettingsNotificationState(
-            isNotificationsEnabled = true,
-            isNotificationsRiskEnabled = true,
-            isNotificationsTestEnabled = false
-        ).isEnabled shouldBe true
-    }
-
-    @Test
     fun getNotificationIconColor() = runBlockingTest {
         SettingsNotificationState(
             isNotificationsEnabled = true,
-            isNotificationsRiskEnabled = true,
-            isNotificationsTestEnabled = true
         ).getNotificationIconColor(context)
         verify { context.getColorCompat(R.color.colorAccentTintIcon) }
 
         SettingsNotificationState(
             isNotificationsEnabled = false,
-            isNotificationsRiskEnabled = true,
-            isNotificationsTestEnabled = true
         ).getNotificationIconColor(context)
         verify { context.getColorCompat(R.color.colorTextSemanticRed) }
     }
@@ -84,15 +46,11 @@ class SettingsNotificationStateTest : BaseTest() {
     fun getNotificationIcon() = runBlockingTest {
         SettingsNotificationState(
             isNotificationsEnabled = true,
-            isNotificationsRiskEnabled = true,
-            isNotificationsTestEnabled = true
         ).getNotificationIcon(context)
         verify { context.getDrawableCompat(R.drawable.ic_settings_notification_active) }
 
         SettingsNotificationState(
             isNotificationsEnabled = false,
-            isNotificationsRiskEnabled = true,
-            isNotificationsTestEnabled = true
         ).getNotificationIcon(context)
         verify {
             context.getDrawableCompat(
@@ -105,15 +63,11 @@ class SettingsNotificationStateTest : BaseTest() {
     fun getNotificationStatusText() {
         SettingsNotificationState(
             isNotificationsEnabled = true,
-            isNotificationsRiskEnabled = true,
-            isNotificationsTestEnabled = true
         ).getNotificationStatusText(context)
         verify { context.getString(R.string.settings_on) }
 
         SettingsNotificationState(
             isNotificationsEnabled = false,
-            isNotificationsRiskEnabled = true,
-            isNotificationsTestEnabled = true
         ).getNotificationStatusText(context)
         verify { context.getString(R.string.settings_off) }
     }

@@ -1,10 +1,7 @@
 package de.rki.coronawarnapp.notification
 
-import android.annotation.TargetApi
 import android.app.AlarmManager
 import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_CANCEL_CURRENT
 import android.app.PendingIntent.FLAG_NO_CREATE
@@ -14,6 +11,7 @@ import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.os.Build
 import androidx.annotation.VisibleForTesting
+import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import dagger.Reusable
@@ -38,33 +36,28 @@ import javax.inject.Inject
 @Reusable
 class GeneralNotifications @Inject constructor(
     @AppContext private val context: Context,
-    private val notificationManagerCompat: NotificationManagerCompat,
-    private val notificationManager: NotificationManager
+    private val notificationManagerCompat: NotificationManagerCompat
 ) {
 
     private var isNotificationChannelSetup = false
 
-    @TargetApi(Build.VERSION_CODES.O)
-    private fun setupNotificationChannel() {
+    fun setupNotificationChannel() {
         Timber.tag(TAG).d("setupChannel()")
-
-        val channel = NotificationChannel(
+        val channel = NotificationChannelCompat.Builder(
             MAIN_CHANNEL_ID,
-            context.getString(R.string.general_notification_channel_title),
-            NotificationManager.IMPORTANCE_HIGH
-        ).apply {
-            description = context.getString(R.string.general_notification_channel_description)
-
-            setSound(
+            NotificationManagerCompat.IMPORTANCE_HIGH
+        )
+            .setName(context.getString(R.string.general_notification_channel_title))
+            .setDescription(context.getString(R.string.general_notification_channel_description))
+            .setSound(
                 RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION),
-                AudioAttributes.Builder().apply {
-                    setUsage(AudioAttributes.USAGE_NOTIFICATION)
-                    setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                }.build()
-            )
-        }
+                AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build()
 
-        notificationManager.createNotificationChannel(channel)
+            ).build()
+        notificationManagerCompat.createNotificationChannel(channel)
     }
 
     fun cancelFutureNotifications(notificationId: Int, testType: CoronaTest.Type) {
