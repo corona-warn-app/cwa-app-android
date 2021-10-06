@@ -148,6 +148,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
             every { hasNotificationBadge } returns false
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)
             every { fullNameFormatted } returns "Mustermann, Max"
+            every { isFinalShot } returns false
         }
     }
 
