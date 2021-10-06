@@ -52,9 +52,7 @@
         <action
             android:id="@+id/action_test_menu_fragment_to_homeTestCardsFragment"
             app:destination="@id/homeTestCardsFragment" />
-        <action
-            android:id="@+id/action_test_menu_fragment_to_coronaTestTestFragment"
-            app:destination="@id/coronaTestTestFragment" />
+
         <action
             android:id="@+id/action_test_menu_fragment_to_qrcodeFragment"
             app:destination="@id/test_qrcode_fragment" />
@@ -160,11 +158,7 @@
         android:name="de.rki.coronawarnapp.test.hometestcards.ui.HomeTestCardsFragment"
         android:label="HomeTestCards"
         tools:layout="@layout/fragment_test_home_test_cards_layout" />
-    <fragment
-        android:id="@+id/coronaTestTestFragment"
-        android:name="de.rki.coronawarnapp.test.coronatest.ui.CoronaTestTestFragment"
-        android:label="CoronaTestTestFragment"
-        tools:layout="@layout/fragment_test_coronatest" />
+
     <fragment
         android:id="@+id/test_qrcode_fragment"
         android:name="de.rki.coronawarnapp.test.qrcode.ui.QrCodeTestFragment"
@@ -180,5 +174,9 @@
         android:name="de.rki.coronawarnapp.test.booster.ui.BoosterTestFragment"
         android:label="BoosterTestFragment"
         tools:layout="@layout/fragment_test_booster" />
+    <fragment
+        android:id="@+id/qrCodeScannerFragment"
+        android:name="de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragment"
+        android:label="QrCodeScannerFragment" />
 
 </navigation>

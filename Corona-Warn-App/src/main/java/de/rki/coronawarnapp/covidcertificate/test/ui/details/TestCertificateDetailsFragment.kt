@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.test.ui.details
 
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -40,6 +41,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import java.net.URLEncoder
 import java.util.Locale
 import javax.inject.Inject
 
@@ -53,14 +55,11 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         constructorCall = { factory, _ ->
             factory as TestCertificateDetailsViewModel.Factory
             factory.create(
-                containerId = testCertificateContainerId()
+                containerId = TestCertificateContainerId(args.certIdentifier),
+                fromScanner = args.fromScanner
             )
         }
     )
-
-    private fun testCertificateContainerId(): TestCertificateContainerId =
-        args.containerId ?: args.certUuid?.let { TestCertificateContainerId(it) }
-            ?: throw IllegalArgumentException("Either containerId or certUuid must be provided")
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
 
@@ -92,7 +91,11 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     private fun FragmentTestCertificateDetailsBinding.onCertificateReady(
         certificate: TestCertificate
     ) {
-        qrCodeCard.bindValidityViews(certificate, isCertificateDetails = true)
+        qrCodeCard.bindValidityViews(
+            certificate,
+            isCertificateDetails = true,
+            onCovPassInfoAction = { onNavEvent(TestCertificateDetailsNavigation.OpenCovPassInfo) }
+        )
         name.text = certificate.fullNameFormatted
         icaoname.text = certificate.fullNameStandardizedFormatted
         dateOfBirth.text = certificate.dateOfBirthFormatted
@@ -188,12 +191,17 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
                         .actionTestCertificateDetailsFragmentToCertificatePdfExportInfoFragment(event.containerId)
                 )
             }
+            TestCertificateDetailsNavigation.OpenCovPassInfo ->
+                doNavigate(
+                    TestCertificateDetailsFragmentDirections
+                        .actionTestCertificateDetailsFragmentToCovPassInfoFragment()
+                )
         }
     }
 
     private fun FragmentTestCertificateDetailsBinding.bindToolbar() = toolbar.apply {
         toolbar.navigationIcon = resources.mutateDrawable(R.drawable.ic_back, Color.WHITE)
-        setNavigationOnClickListener { popBackStack() }
+        setNavigationOnClickListener { viewModel.onClose() }
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_covid_certificate_delete -> {
@@ -233,6 +241,9 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     }
 
     companion object {
-        fun uri(certUuid: String) = "coronawarnapp://test-certificate-details/?certUuid=$certUuid".toUri()
+        fun uri(certIdentifier: String): Uri {
+            val encodedId = URLEncoder.encode(certIdentifier, "UTF-8")
+            return "cwa://test-certificate/?fromScanner=true&certIdentifier=$encodedId".toUri()
+        }
     }
 }

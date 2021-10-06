@@ -270,6 +270,10 @@
     <string name="risk_details_increased_risk_faq_link_label">"Często zadawanych pytaniach"</string>
     <!-- XTXT: Explains user about increased risk level: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
     <string name="risk_details_increased_risk_faq_url">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
+    <!-- XTXT: risk details - symptoms bullet point -->
+    <string name="risk_details_faq_symptoms">"Zwróć uwagę na typowe objawy COVID-19. W przełomowych przypadkach objawy mogą wystąpić nawet u osób zaszczepionych. Jeśli zauważysz jakiekolwiek podejrzane objawy, zrób test."</string>
+    <!-- XTXT: risk details - vaccination bullet point -->
+    <string name="risk_details_increased_risk_faq_vaccination">"Jeśli nie jesteś jeszcze zaszczepiony(-a), skonsultuj się z lekarzem rodzinnym lub pogotowiem ratunkowym, aby umówić się na test. Po wykonaniu testu omów kwestię szczepienia przeciw SARS-CoV-2 ze swoim lekarzem rodzinnym."</string>
 
     <!-- XMSG: risk details - ventilation bullet point -->
     <string name="risk_details_behavior_body_ventilation">"Wietrz pomieszczenia kilka razy dziennie. W tym celu maksymalnie otwórz okna na kilka minut („wentylacja szokowa”)."</string>
@@ -278,7 +282,7 @@
     <!-- XMSG: risk details - contact your doctor, bullet point -->
     <string name="risk_details_behavior_increased_body_1">"Twój lekarz rodzinny"</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point -->
-    <string name="risk_details_behavior_increased_body_2">"Pogotowie ratunkowe pod numerem telefonu 116117"</string>
+    <string name="risk_details_behavior_increased_body_2">"Pogotowie ratunkowe pod numerem telefonu 116 117"</string>
     <!-- XMSG: risk details - public health department, bullet point -->
     <string name="risk_details_behavior_increased_body_3">"Organ ds. zdrowia publicznego"</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
@@ -938,6 +942,32 @@
     <string name="qr_code_scan_title">"Skan kodu QR"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body">"Ustaw kod QR w ramce."</string>
+    <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="qr_code_scan_body_title">"Jakie kody QR można zeskanować?"</string>
+    <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="qr_code_scan_body_subtitle">"Testy PCR i szybkie testy, certyfikaty testów, certyfikaty szczepień, certyfikaty statusu ozdrowieńca i zameldowania."</string>
+    <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Możesz zeskanować zameldowania, aby przywrócić usunięte wydarzenia."</string>
+    <!-- XBUT: open image file button  -->
+    <string name="qr_code_open_file">"Otwórz plik"</string>
+    <!-- XTXT: QR Code processing message  -->
+    <string name="qr_code_processing_message">"Odczytywanie kodu QR…"</string>
+    <!-- XTXT: unsupported qrcode message  -->
+    <string name="un_supported_qrcode_message">"Ten kod QR nie jest obsługiwany przez aplikację Corona-Warn-App. Zeskanuj odpowiedni kod QR."</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_file_not_readable_title">"Nie można odczytać pliku"</string>
+    <!-- XTXT: QR Code error message body  -->
+    <string name="qr_code_file_not_readable_body">"Format pliku nie jest obsługiwany przez aplikację Corona-Warn-App. Wybierz kompatybilny plik."</string>
+    <!-- XTXT: QR Code error message body  -->
+    <string name="qr_code_file_corrupted_body">"Wybrany plik może być uszkodzony lub chroniony hasłem i nie można go odczytać. Wybierz odpowiedni plik."</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_qr_code_title">"Nie wykryto kodu QR"</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_qr_code_body">"Wybierz dokument lub zdjęcie z kodem QR."</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_suitable_qr_code_title">"Brak odpowiedniego kodu QR"</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_suitable_qr_code_body">"Kod QR nie może zostać zeskanowany przez aplikację Corona-Warn-App. Wybierz plik z odpowiednim kodem QR."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->

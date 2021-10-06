@@ -5,6 +5,8 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
@@ -16,6 +18,7 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -26,6 +29,7 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
+    private val navOptions = NavOptions.Builder().setPopUpTo(R.id.submissionDeletionWarningFragment, true).build()
     private val args by navArgs<SubmissionDeletionWarningFragmentArgs>()
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
 
@@ -33,7 +37,7 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionDeletionWarningViewModel.Factory
-            factory.create(args.testRegistrationRequest, args.isConsentGiven)
+            factory.create(args.testRegistrationRequest)
         }
     )
     private val binding: FragmentSubmissionDeletionWarningBinding by viewBinding()
@@ -56,7 +60,7 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
 
             continueButton.setOnClickListener { viewModel.deleteExistingAndRegisterNewTest() }
 
-            toolbar.setNavigationOnClickListener { viewModel.onCancelButtonClick() }
+            toolbar.setNavigationOnClickListener { popBackStack() }
         }
 
         viewModel.registrationState.observe2(this) { state ->
@@ -72,18 +76,16 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                 }
                 is State.Error -> {
                     state.getDialogBuilder(requireContext()).show()
-                    SubmissionDeletionWarningFragmentDirections
-                        .actionSubmissionDeletionWarningFragmentToSubmissionDispatcherFragment()
-                        .run { doNavigate(this) }
+                    popBackStack()
                 }
                 is State.TestRegistered -> when {
                     state.test.isPositive ->
                         NavGraphDirections.actionToSubmissionTestResultAvailableFragment(testType = state.test.type)
-                            .run { doNavigate(this) }
+                            .run { findNavController().navigate(this, navOptions) }
 
                     else ->
                         NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = state.test.type)
-                            .run { doNavigate(this) }
+                            .run { findNavController().navigate(this, navOptions) }
                 }
             }
 

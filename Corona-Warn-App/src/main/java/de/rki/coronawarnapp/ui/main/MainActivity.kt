@@ -17,13 +17,15 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmentDirections
 import de.rki.coronawarnapp.databinding.ActivityMainBinding
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.base.startActivitySafely
+import de.rki.coronawarnapp.ui.main.home.DeepLinkDirections
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
 import de.rki.coronawarnapp.ui.setupWithNavController2
-import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentFragment
 import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.DialogHelper
@@ -41,12 +43,14 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), HasAndroidInjector {
     companion object {
+        val TAG = tag<MainActivity>()
+
         fun start(context: Context, launchIntent: Intent) {
             Intent(context, MainActivity::class.java).apply {
                 flags = flags or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                Timber.i("launchIntent:$launchIntent")
+                Timber.tag(TAG).i("launchIntent:$launchIntent")
                 fillIn(launchIntent, Intent.FILL_IN_DATA)
-                Timber.i("filledIntent:$this")
+                Timber.tag(TAG).i("filledIntent:$this")
                 context.startActivity(this)
             }
         }
@@ -103,12 +107,33 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         }
 
         vm.activeCheckIns.observe(this) { count ->
+            Timber.tag(TAG).d("activeCheckIns=$count")
             binding.mainBottomNavigation.updateCountBadge(R.id.trace_location_attendee_nav_graph, count)
         }
 
         vm.personsBadgeCount.observe(this) { count ->
-            Timber.d("personsBadgeCount=$count")
+            Timber.tag(TAG).d("personsBadgeCount=$count")
             binding.mainBottomNavigation.updateCountBadge(R.id.covid_certificates_graph, count)
+        }
+
+        vm.testsBadgeCount.observe(this) { count ->
+            Timber.tag(TAG).d("testsBadgeCount=$count")
+            binding.mainBottomNavigation.updateCountBadge(R.id.mainFragment, count)
+        }
+
+        vm.externalLinkEvents.observe(this) { event ->
+            when (event) {
+                is DeepLinkDirections.GoToCheckInsFragment -> navController.navigate(
+                    CheckInsFragment.createDeepLink(event.uriString)
+                )
+                is DeepLinkDirections.GoToDeletionScreen -> navController.navigate(
+                    NavGraphDirections.actionToSubmissionDeletionWarningFragment(event.request)
+                )
+                is DeepLinkDirections.GoToSubmissionConsentFragment -> navController.navigate(
+                    NavGraphDirections.actionSubmissionConsentFragment(event.request)
+                )
+                is DeepLinkDirections.Error -> event.error.toErrorDialogBuilder(this).show()
+            }
         }
 
         if (savedInstanceState == null) {
@@ -175,12 +200,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     private fun navigateByIntentUri(intent: Intent?) {
         val uriString = intent?.data?.toString() ?: return
         Timber.i("Uri:$uriString")
-        when {
-            CheckInsFragment.canHandle(uriString) ->
-                navController.navigate(CheckInsFragment.createDeepLink(uriString))
-            SubmissionConsentFragment.canHandle(uriString) ->
-                navController.navigate(NavGraphDirections.actionSubmissionConsentFragment(uriString))
-        }
+        vm.onNavigationUri(uriString)
     }
 
     /**

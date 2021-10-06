@@ -154,10 +154,10 @@
     <!-- XACT: Add Location Button (description for screen readers) -->
     <string name="accessibility_day_add_location">"Yer Ekle"</string>
 
-    <!-- XBUT: Option - person encounter - below 15 Min -->
-    <string name="contact_diary_person_encounter_duration_below_15_min">"15 dakikadan az"</string>
-    <!-- XBUT: Option - person encounter - above 15 Min -->
-    <string name="contact_diary_person_encounter_duration_above_15_min">"15 dakikadan fazla"</string>
+    <!-- XBUT: Option - person encounter - below 10 Min -->
+    <string name="contact_diary_person_encounter_duration_below_10_min">"En fazla 10 dk"</string>
+    <!-- XBUT: Option - person encounter - above 10 Min -->
+    <string name="contact_diary_person_encounter_duration_above_10_min">"En az 10 dk"</string>
     <!-- XBUT: Option - person encounter - with mask -->
     <string name="contact_diary_person_encounter_mask_with">"Maskeli"</string>
     <!-- XBUT: Option - person encounter - without mask -->

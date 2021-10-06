@@ -7,6 +7,8 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
@@ -20,33 +22,29 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
 class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: SubmissionConsentViewModel by cwaViewModels { viewModelFactory }
-    private val binding: FragmentSubmissionConsentBinding by viewBinding()
     private val navArgs by navArgs<SubmissionConsentFragmentArgs>()
+    private val viewModel: SubmissionConsentViewModel by cwaViewModelsAssisted(
+        factoryProducer = { viewModelFactory },
+        constructorCall = { factory, _ ->
+            factory as SubmissionConsentViewModel.Factory
+            factory.create(navArgs.coronaTestQrCode, navArgs.allowTestReplacement)
+        }
+    )
+    private val binding: FragmentSubmissionConsentBinding by viewBinding()
+    private val navOptions = NavOptions.Builder().setPopUpTo(R.id.submissionConsentFragment, true).build()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
-        navArgs.qrCode?.let {
-            viewModel.qrCode = it
-        }
-        binding.submissionConsentHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            viewModel.onBackButtonClick()
-        }
+        binding.submissionConsentHeader.setNavigationOnClickListener { popBackStack() }
         viewModel.routeToScreen.observe2(this) {
             when (it) {
-                is SubmissionNavigationEvents.NavigateToQRCodeScan ->
-                    doNavigate(
-                        SubmissionConsentFragmentDirections
-                            .actionSubmissionConsentFragmentToSubmissionQRCodeScanFragment(isConsentGiven = true)
-                    )
-                is SubmissionNavigationEvents.NavigateToDispatcher -> popBackStack()
                 is SubmissionNavigationEvents.NavigateToDataPrivacy -> doNavigate(
                     SubmissionConsentFragmentDirections.actionSubmissionConsentFragmentToInformationPrivacyFragment()
                 )
@@ -55,17 +53,14 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                         requireActivity(),
                         REQUEST_USER_RESOLUTION
                     )
-                is SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromQrCode -> doNavigate(
-                    NavGraphDirections.actionToSubmissionDeletionWarningFragment(
-                        testRegistrationRequest = it.coronaTestQRCode,
-                        isConsentGiven = it.consentGiven,
-                    )
-                )
-                is SubmissionNavigationEvents.NavigateToRequestDccFragment -> doNavigate(
+
+                is SubmissionNavigationEvents.NavigateToRequestDccFragment -> findNavController().navigate(
                     NavGraphDirections.actionRequestCovidCertificateFragment(
                         testRegistrationRequest = it.coronaTestQRCode,
-                        coronaTestConsent = it.consentGiven
-                    )
+                        coronaTestConsent = it.consentGiven,
+                        allowTestReplacement = it.allowReplacement
+                    ),
+                    navOptions
                 )
             }
         }
@@ -89,17 +84,18 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                     // Handled above
                 }
                 is State.Error -> {
-                    state.getDialogBuilder(requireContext()).show()
-                    popBackStack()
+                    val dialog = state.getDialogBuilder(requireContext())
+                    dialog.setPositiveButton(android.R.string.ok) { _, _ -> popBackStack() }
+                    dialog.show()
                 }
                 is State.TestRegistered -> when {
                     state.test.isPositive ->
                         NavGraphDirections.actionToSubmissionTestResultAvailableFragment(testType = state.test.type)
-                            .run { doNavigate(this) }
+                            .run { findNavController().navigate(this, navOptions) }
 
                     else ->
                         NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = state.test.type)
-                            .run { doNavigate(this) }
+                            .run { findNavController().navigate(this, navOptions) }
                 }
             }
         }

@@ -297,7 +297,7 @@ class PCRProcessorTest : BaseTest() {
             CoronaTestQRCode.PCR(
                 qrCodeGUID = "guid",
                 isDccConsentGiven = true,
-                dateOfBirth = LocalDate.parse("2021-06-02"),
+                dateOfBirth = LocalDate.parse("2021-06-02")
             )
         ).apply {
             isDccConsentGiven shouldBe true
@@ -309,7 +309,7 @@ class PCRProcessorTest : BaseTest() {
         createInstance().create(
             CoronaTestQRCode.PCR(
                 qrCodeGUID = "guid",
-                dateOfBirth = LocalDate.parse("2021-06-02"),
+                dateOfBirth = LocalDate.parse("2021-06-02")
             )
         ).apply {
             isDccConsentGiven shouldBe false
@@ -346,7 +346,7 @@ class PCRProcessorTest : BaseTest() {
             CoronaTestQRCode.PCR(
                 qrCodeGUID = "guid",
                 isDccConsentGiven = true,
-                dateOfBirth = LocalDate.parse("2021-06-02"),
+                dateOfBirth = LocalDate.parse("2021-06-02")
             )
         ).apply {
             testResult shouldBe PCR_NEGATIVE

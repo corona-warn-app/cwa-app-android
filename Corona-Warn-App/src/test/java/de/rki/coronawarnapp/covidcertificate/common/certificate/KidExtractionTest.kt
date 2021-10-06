@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.common.certificate
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeTestData
 import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -18,21 +19,21 @@ class KidExtractionTest : BaseTest() {
     }
 
     @Test
-    fun `extract kid from protected header`() {
+    fun `extract kid from protected header`() = runBlockingTest {
         extractor.extract(
             VaccinationQrCodeTestData.protectedKid
         ).data.kid shouldBe "yLHLNvSl428="
     }
 
     @Test
-    fun `extract kid from unprotected header`() {
+    fun `extract kid from unprotected header`() = runBlockingTest {
         extractor.extract(
             VaccinationQrCodeTestData.unprotectedKid
         ).data.kid shouldBe "yLHLNvSl428="
     }
 
     @Test
-    fun `extract kid from COSE without TAG`() {
+    fun `extract kid from COSE without TAG`() = runBlockingTest {
         extractor.extract(
             VaccinationQrCodeTestData.coseWithoutTag
         ).data.kid shouldBe "f1sfUVIx8CA="

@@ -20,6 +20,7 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.test.runBlockingTest
 import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
@@ -43,7 +44,7 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
     private val extractor = DccQrCodeExtractor(coseDecoder, headerParser, bodyParser)
 
     @Test
-    fun `happy path qr code`() {
+    fun `happy path qr code`() = runBlockingTest {
         val qrCode = extractor.extract(TestData.qrCodeTestCertificate) as TestCertificateQRCode
         with(qrCode.data.header) {
             issuer shouldBe "AT"
@@ -76,7 +77,7 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `test decode COSE without tag`() {
+    fun `test decode COSE without tag`() = runBlockingTest {
         val qrCode = extractor.extract(TestData.qrCodeCoseWithoutTag) as TestCertificateQRCode
         with(qrCode.data.header) {
             issuer shouldBe "DE"
@@ -109,7 +110,7 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `happy path cose decryption with Ellen Cheng`() {
+    fun `happy path cose decryption with Ellen Cheng`() = runBlockingTest {
         with(TestData.EllenCheng()) {
             val coseObject = coseWithEncryptedPayload.decodeBase64()!!.toByteArray()
             val dek = dek.decodeBase64()!!.toByteArray()
@@ -127,7 +128,7 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `happy path cose decryption with Brian Calamandrei`() {
+    fun `happy path cose decryption with Brian Calamandrei`() = runBlockingTest {
         with(TestData.BrianCalamandrei()) {
             val coseObject = coseWithEncryptedPayload.decodeBase64()!!.toByteArray()
             val dek = dek.decodeBase64()!!.toByteArray()
@@ -145,21 +146,21 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `valid encoding but not a health certificate fails with HC_CWT_NO_ISS`() {
+    fun `valid encoding but not a health certificate fails with HC_CWT_NO_ISS`() = runBlockingTest {
         shouldThrow<InvalidHealthCertificateException> {
             extractor.extract(VaccinationQrCodeTestData.validEncoded)
         }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.HC_CWT_NO_ISS
     }
 
     @Test
-    fun `random string fails with HC_BASE45_DECODING_FAILED`() {
+    fun `random string fails with HC_BASE45_DECODING_FAILED`() = runBlockingTest {
         shouldThrow<InvalidHealthCertificateException> {
             extractor.extract("nothing here to see")
         }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
     }
 
     @Test
-    fun `uncompressed base45 string fails with HC_ZLIB_DECOMPRESSION_FAILED`() {
+    fun `uncompressed base45 string fails with HC_ZLIB_DECOMPRESSION_FAILED`() = runBlockingTest {
         shouldThrow<InvalidHealthCertificateException> {
             extractor.extract("6BFOABCDEFGHIJKLMNOPQRSTUVWXYZ %*+-./:")
         }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
@@ -173,14 +174,14 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `required values that are null fail with JSON_SCHEMA_INVALID`() {
+    fun `required values that are null fail with JSON_SCHEMA_INVALID`() = runBlockingTest {
         shouldThrow<InvalidHealthCertificateException> {
             extractor.extract(TestData.qrCodeMissingRequiredValues)
         }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.HC_JSON_SCHEMA_INVALID
     }
 
     @Test
-    fun `not required values that are null pass schema validation`() {
+    fun `not required values that are null pass schema validation`() = runBlockingTest {
         val qrCode = extractor.extract(TestData.qrCodeMissingNotRequiredValues) as TestCertificateQRCode
         with(qrCode.data.header) {
             issuer shouldBe "DE"
@@ -214,7 +215,7 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `whitespaces in JSON attributes are trimmed and pass schema validation`() {
+    fun `whitespaces in JSON attributes are trimmed and pass schema validation`() = runBlockingTest {
         val qrCode = extractor.extract(TestData.qrCodeWhiteSpacesInAttributes) as VaccinationCertificateQRCode
         with(qrCode.data.header) {
             issuer shouldBe "DE"

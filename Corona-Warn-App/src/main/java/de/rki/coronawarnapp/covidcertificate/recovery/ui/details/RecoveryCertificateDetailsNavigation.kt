@@ -8,4 +8,5 @@ sealed class RecoveryCertificateDetailsNavigation {
     data class FullQrCode(val qrCode: CoilQrCode) : RecoveryCertificateDetailsNavigation()
     data class ValidationStart(val containerId: CertificateContainerId) : RecoveryCertificateDetailsNavigation()
     data class Export(val containerId: CertificateContainerId) : RecoveryCertificateDetailsNavigation()
+    object OpenCovPassInfo : RecoveryCertificateDetailsNavigation()
 }

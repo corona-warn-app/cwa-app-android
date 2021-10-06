@@ -38,14 +38,6 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
         events.postValue(Back)
     }
 
-    fun navigateToHomeScreen() {
-        events.postValue(ToHomeScreen)
-    }
-
-    fun navigateToDispatcherScreen() {
-        events.postValue(ToDispatcherScreen)
-    }
-
     private fun registerAndMaybeDelete(dccConsent: Boolean) = launch {
         val consentedQrCode = when (testRegistrationRequest) {
             is CoronaTestQRCode.PCR -> testRegistrationRequest.copy(

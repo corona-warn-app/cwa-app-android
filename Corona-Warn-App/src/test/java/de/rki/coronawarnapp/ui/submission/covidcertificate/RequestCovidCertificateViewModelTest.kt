@@ -32,8 +32,12 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
         DateTimeFormat.forPattern("dd.MM.yyyy")
     )
 
-    private val ratQRCode = CoronaTestQRCode.RapidAntigen(hash = "hash", dateOfBirth = date, createdAt = Instant.EPOCH)
-    private val pcrQRCode = CoronaTestQRCode.PCR("GUID")
+    private val ratQRCode = CoronaTestQRCode.RapidAntigen(
+        hash = "hash",
+        dateOfBirth = date,
+        createdAt = Instant.EPOCH
+    )
+    private val pcrQRCode = CoronaTestQRCode.PCR(qrCodeGUID = "GUID")
 
     @BeforeEach
     fun setup() {
@@ -193,22 +197,6 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
         createInstance().apply {
             navigateBack()
             events.getOrAwaitValue() shouldBe Back
-        }
-    }
-
-    @Test
-    fun navigateToHomeScreen() {
-        createInstance().apply {
-            navigateToHomeScreen()
-            events.getOrAwaitValue() shouldBe ToHomeScreen
-        }
-    }
-
-    @Test
-    fun navigateToDispatcherScreen() {
-        createInstance().apply {
-            navigateToDispatcherScreen()
-            events.getOrAwaitValue() shouldBe ToDispatcherScreen
         }
     }
 }

@@ -15,15 +15,20 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 
+@Suppress("LongParameterList", "ComplexMethod")
 fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     certificate: CwaCovidCertificate,
     isPersonOverview: Boolean = false,
     isPersonDetails: Boolean = false,
     isCertificateDetails: Boolean = false,
-    badgeCount: Int = 0
+    badgeCount: Int = 0,
+    onCovPassInfoAction: () -> Unit
 ) {
     val valid = certificate.isValid
     val context = root.context
+
+    covpassInfoFlow.isVisible = valid
+    covpassInfoButton.setOnClickListener { onCovPassInfoAction() }
 
     invalidOverlay.isGone = valid
     image.isEnabled = isCertificateDetails && valid // Disable Qr-Code image from opening full-screen mode
@@ -32,7 +37,9 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     notificationBadge.isVisible = if (isNewTestCertificate) {
         false
     } else {
-        isCertificateDetails && certificate.hasNotificationBadge
+        isCertificateDetails &&
+            certificate.hasNotificationBadge &&
+            certificate.getState() !is CwaCovidCertificate.State.Valid
     }
 
     qrTitle.isVisible = !isPersonOverview

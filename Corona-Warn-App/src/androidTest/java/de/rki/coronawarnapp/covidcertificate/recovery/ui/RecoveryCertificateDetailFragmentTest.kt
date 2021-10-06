@@ -40,9 +40,7 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
 
     @MockK lateinit var recoveryDetailsViewModel: RecoveryCertificateDetailsViewModel
 
-    private val args = RecoveryCertificateDetailsFragmentArgs(
-        containerId = RecoveryCertificateContainerId("recoveryCertificateId")
-    ).toBundle()
+    private val args = RecoveryCertificateDetailsFragmentArgs(certIdentifier = "recoveryCertificateId").toBundle()
 
     @Before
     fun setUp() {
@@ -53,7 +51,8 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
         setupMockViewModel(
             object : RecoveryCertificateDetailsViewModel.Factory {
                 override fun create(
-                    containerId: RecoveryCertificateContainerId
+                    containerId: RecoveryCertificateContainerId,
+                    fromScanner: Boolean
                 ): RecoveryCertificateDetailsViewModel = recoveryDetailsViewModel
             }
         )

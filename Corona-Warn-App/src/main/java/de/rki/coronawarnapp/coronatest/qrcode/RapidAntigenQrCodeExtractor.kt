@@ -4,6 +4,7 @@ import com.google.common.io.BaseEncoding
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.bugreporting.censors.submission.RatQrCodeCensor
+import de.rki.coronawarnapp.qrcode.scanner.QrCodeExtractor
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.hashing.isSha256Hash
 import de.rki.coronawarnapp.util.serialization.fromJson
@@ -15,11 +16,11 @@ import javax.inject.Inject
 
 class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<CoronaTestQRCode> {
 
-    override fun canHandle(rawString: String): Boolean {
+    override suspend fun canHandle(rawString: String): Boolean {
         return rawString.startsWith(PREFIX1, ignoreCase = true) || rawString.startsWith(PREFIX2, ignoreCase = true)
     }
 
-    override fun extract(rawString: String): CoronaTestQRCode.RapidAntigen {
+    override suspend fun extract(rawString: String): CoronaTestQRCode.RapidAntigen {
         Timber.v("extract(rawString=%s)", rawString)
         val payload = CleanPayload(extractData(rawString))
 

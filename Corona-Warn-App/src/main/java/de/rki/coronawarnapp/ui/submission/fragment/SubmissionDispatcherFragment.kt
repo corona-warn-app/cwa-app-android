@@ -5,6 +5,8 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavGraph
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDispatcherBinding
@@ -47,11 +49,8 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                         SubmissionDispatcherFragmentDirections
                             .actionSubmissionDispatcherFragmentToSubmissionContactFragment()
                     )
-                is SubmissionNavigationEvents.NavigateToConsent ->
-                    doNavigate(
-                        SubmissionDispatcherFragmentDirections
-                            .actionSubmissionDispatcherFragmentToSubmissionConsentFragment()
-                    )
+                is SubmissionNavigationEvents.NavigateToQRCodeScan -> openUniversalScanner()
+
                 is SubmissionNavigationEvents.NavigateToCreateProfile -> {
                     val ratGraph = findNavController().graph.findNode(R.id.rapid_test_profile_nav_graph) as NavGraph
                     ratGraph.startDestination = if (it.onboarded)
@@ -83,6 +82,21 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                 }
             }
         }
+    }
+
+    private fun openUniversalScanner() {
+        val dispatcherCard = binding.submissionDispatcherQr.dispatcherCard.apply {
+            transitionName = "shared_element_container"
+        }
+        val navOptions = NavOptions.Builder()
+            .setPopUpTo(R.id.mainFragment, false)
+            .build()
+        findNavController().navigate(
+            R.id.action_to_universal_scanner,
+            null,
+            navOptions,
+            FragmentNavigatorExtras(dispatcherCard to dispatcherCard.transitionName)
+        )
     }
 
     override fun onResume() {

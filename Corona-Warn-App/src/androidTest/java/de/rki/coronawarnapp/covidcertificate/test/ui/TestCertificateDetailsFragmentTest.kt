@@ -44,9 +44,7 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
     @MockK lateinit var vaccinationDetailsViewModel: TestCertificateDetailsViewModel
     @MockK lateinit var certificatePersonIdentifier: CertificatePersonIdentifier
 
-    private val args = TestCertificateDetailsFragmentArgs(
-        containerId = TestCertificateContainerId("testCertificateIdentifier")
-    ).toBundle()
+    private val args = TestCertificateDetailsFragmentArgs(certIdentifier = "testCertificateIdentifier").toBundle()
 
     @Before
     fun setUp() {
@@ -56,7 +54,7 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
         )
         setupMockViewModel(
             object : TestCertificateDetailsViewModel.Factory {
-                override fun create(containerId: TestCertificateContainerId):
+                override fun create(containerId: TestCertificateContainerId, fromScanner: Boolean):
                     TestCertificateDetailsViewModel = vaccinationDetailsViewModel
             }
         )

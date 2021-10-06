@@ -22,6 +22,7 @@ import timber.log.Timber
 
 class VaccinationDetailsViewModel @AssistedInject constructor(
     @Assisted private val containerId: VaccinationCertificateContainerId,
+    @Assisted private val fromScanner: Boolean,
     private val vaccinationRepository: VaccinationRepository,
     private val dccValidationRepository: DccValidationRepository,
     @AppScope private val appScope: CoroutineScope,
@@ -86,6 +87,7 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
     fun refreshCertState() = launch(scope = appScope) {
         Timber.v("refreshCertState()")
         vaccinationRepository.acknowledgeState(containerId)
+        if (!fromScanner) vaccinationRepository.markAsSeenByUser(containerId)
     }
 
     fun onExport() {
@@ -96,10 +98,15 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
         }
     }
 
+    fun onCovPassInfoAction() {
+        events.postValue(VaccinationDetailsNavigation.OpenCovPassInfo)
+    }
+
     @AssistedFactory
     interface Factory : CWAViewModelFactory<VaccinationDetailsViewModel> {
         fun create(
             containerId: VaccinationCertificateContainerId,
+            fromScanner: Boolean,
         ): VaccinationDetailsViewModel
     }
 }

@@ -73,6 +73,8 @@
     <string name="certificate_card_bookmark_info">Aktuell verwendetes Zertifikat</string>
     <!-- XHED: Person certificate details title -->
     <string name="person_details_certificate_title">"Digitales COVID-Zertifikat der EU"</string>
+    <!-- XHED: Person certificate CovPas Header Info-->
+    <string name="person_details_certificate_covpass_info_title">"Dieser QR Code lässt sich verlässlich mit der CovPassCheck-App überprüfen."</string>
     <!-- XTXT: Test Certificate CWA User card description -->
     <string name="person_details_cwa_user_description">"Bitte aktivieren Sie diesen Schalter, wenn Sie selbst %1$s sind und die App hauptsächlich nutzen. Ihre Zertifikate erscheinen in der Liste an erster Stelle."</string>
     <!-- XTXT: Test Certificate CWA User card birthdate -->
@@ -264,7 +266,7 @@
     <!-- XHED: Toolbar title for the validation passed screen  -->
     <string name="validation_rules_result_valid_header">Gültiges Zertifikat</string>
     <!-- XTXT: No rules available text for the validation passed screen  -->
-    <string name="validation_no_rules_available_valid_text">Für diesen Zertifikattyp sind derzeit keine Einreiseregeln für das gewählte Land und den gewählten Zeitpunkt vorhanden. Bitte beachten Sie die folgenden Hinweise:</string>
+    <string name="validation_no_rules_available_valid_text">Für diesen Zertifikattyp sind derzeit keine Einreiseregeln für das gewählte Land und den gewählten Zeitpunkt vorhanden. Bitte beachten Sie die unten aufgelisteten Hinweise.</string>
     <!-- XTXT: Rule validation text for the validation passed screen  -->
     <string name="validation_rules_result_valid_rule_text">Es wurden %1$d Regeln des Reiselandes erfolgreich überprüft.</string>
     <!-- XTXT: Button text - Check another country -->
@@ -368,5 +370,20 @@
     <string name="pdf_export_error_title">Druckversion anzeigen nicht möglich</string>
     <!-- XHED: PDF Export: Error message body -->
     <string name="pdf_export_error_message">Die Druckversion des Zertifikats kann nicht angezeigt werden, da das Zertifikat momentan nicht abgerufen werden kann. Bitte versuchen Sie es später noch einmal.</string>
+
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_title">"Zertifikatsprüfung durch Dritte"</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_subtitle">"Dritte können nur über die CovPassCheck-App verlässlich überprüfen, ob es sich um ein valides Impf-, Genesenen-, oder Testzertifikat handelt."</string>
+    <!-- XTXT: Cov Pass Info Fragment link label -->
+    <string name="cov_pass_info_faq_link_label">"FAQ zur Zertifikatsprüfung durch Dritte"</string>
+    <!-- XTXT: Explains user about cov pass: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#eu_dcc_check -->
+    <string name="cov_pass_info_faq_link">"https://www.coronawarn.app/de/faq/#eu_dcc_check"</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_section_one">"Sie selbst können Zertifikate in der Corona-Warn-App auf Gültigkeit prüfen und benötigen dazu nicht die CovPassCheck-App."</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_section_two">"Für Dritte reicht eine Sichtprüfung der Zertifikate nicht aus. Sie müssen in Deutschland die CovPassCheck-App nutzen."</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_section_three">"Bitte beachten Sie, dass in anderen Ländern gegebenenfalls andere Apps zur Zertifikatsprüfung durch Dritte verwendet werden."</string>
 
 </resources>

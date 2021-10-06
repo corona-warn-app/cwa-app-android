@@ -270,6 +270,10 @@
     <string name="risk_details_increased_risk_faq_link_label">"FAQ"</string>
     <!-- XTXT: Explains user about increased risk level: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
     <string name="risk_details_increased_risk_faq_url">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
+    <!-- XTXT: risk details - symptoms bullet point -->
+    <string name="risk_details_faq_symptoms">"Be alert for typical COVID-19 symptoms. Even vaccinated people can show symptoms in breakthrough cases. If you notice any suspicious symptoms, get tested."</string>
+    <!-- XTXT: risk details - vaccination bullet point -->
+    <string name="risk_details_increased_risk_faq_vaccination">"If you have not been vaccinated yet, consult with your family doctor or the general medical emergency service number to arrange a test. After your test, discuss the SARS-CoV-2 vaccination with your family doctor."</string>
 
     <!-- XMSG: risk details - ventilation bullet point -->
     <string name="risk_details_behavior_body_ventilation">"Air out indoor spaces several times per day. To do so, open the windows as far as possible for several minutes (“shock ventilation”)."</string>
@@ -278,7 +282,7 @@
     <!-- XMSG: risk details - contact your doctor, bullet point -->
     <string name="risk_details_behavior_increased_body_1">"Your general practitioner"</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point -->
-    <string name="risk_details_behavior_increased_body_2">"General medical emergency service on telephone number 116117"</string>
+    <string name="risk_details_behavior_increased_body_2">"The general medical emergency service on telephone number 116 117"</string>
     <!-- XMSG: risk details - public health department, bullet point -->
     <string name="risk_details_behavior_increased_body_3">"Your public health authority"</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
@@ -302,6 +306,8 @@
     <string name="risk_details_information_body_period_logged_assessment">"The app automatically deletes older logs, as these are no longer relevant for infection prevention."</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk">"This is how your risk is calculated."</string>
+    <!-- XTXT: risk details - normal risk vaccination bullet -->
+    <string name="risk_details_normal_risk_faq_vaccination">"Lassen Sie sich gegen SARS-CoV-2 impfen, falls Sie noch nicht geimpft sind."</string>
     <!-- YTXT: risk details - low risk explanation text -->
     <string name="risk_details_information_body_low_risk">"You have a low risk of infection because no exposure to people later diagnosed with coronavirus was logged, or because your encounters were only for a short time and at a greater distance."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
@@ -938,6 +944,32 @@
     <string name="qr_code_scan_title">"QR Code Scan"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body">"Position the QR code in the frame."</string>
+    <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="qr_code_scan_body_title">"What QR codes can you scan?"</string>
+    <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="qr_code_scan_body_subtitle">"PCR tests and rapid tests, test certificates, vaccination certificates, certificates of recovery, and check-ins."</string>
+    <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="qr_code_scan_body_subtitle_vertretung_warnen">"You can scan check-ins to restore events that you deleted."</string>
+    <!-- XBUT: open image file button  -->
+    <string name="qr_code_open_file">"Open File"</string>
+    <!-- XTXT: QR Code processing message  -->
+    <string name="qr_code_processing_message">"Reading QR code…"</string>
+    <!-- XTXT: unsupported qrcode message  -->
+    <string name="un_supported_qrcode_message">"The QR code is not supported by the Corona-Warn-App. Please scan a suitable QR code."</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_file_not_readable_title">"File Unreadable"</string>
+    <!-- XTXT: QR Code error message body  -->
+    <string name="qr_code_file_not_readable_body">"The file format is not supported by the Corona-Warn-App. Please select a compatible file."</string>
+    <!-- XTXT: QR Code error message body  -->
+    <string name="qr_code_file_corrupted_body">"The selected file may be damaged or password-protected and could not be read. Please select a suitable file."</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_qr_code_title">"No QR Code Detected"</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_qr_code_body">"Please select a document or photo with a QR code."</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_suitable_qr_code_title">"No Suitable QR Code"</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_suitable_qr_code_body">"The QR code cannot be canned by the Corona-Warn-App. Please select a file with a suitable QR code."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->

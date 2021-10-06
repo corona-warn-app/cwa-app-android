@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.main
 
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.qrcode.RapidAntigenQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.environment.EnvironmentSetup
@@ -8,6 +10,7 @@ import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.storage.OnboardingSettings
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.main.MainActivityViewModel
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
@@ -16,6 +19,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
+import io.mockk.spyk
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
@@ -40,6 +44,10 @@ class MainActivityViewModelTest : BaseTest() {
     @MockK lateinit var checkInRepository: CheckInRepository
     @MockK lateinit var covidCertificateSettings: CovidCertificateSettings
     @MockK lateinit var personCertificatesProvider: PersonCertificatesProvider
+    @MockK lateinit var submissionRepository: SubmissionRepository
+    @MockK lateinit var coronTestRepository: CoronaTestRepository
+
+    private val raExtractor = spyk(RapidAntigenQrCodeExtractor())
 
     @BeforeEach
     fun setup() {
@@ -54,6 +62,9 @@ class MainActivityViewModelTest : BaseTest() {
         )
         every { onboardingSettings.isBackgroundCheckDone } returns true
         every { checkInRepository.checkInsWithinRetention } returns MutableStateFlow(listOf())
+        every { submissionRepository.testForType(any()) } returns flowOf()
+        every { coronTestRepository.coronaTests } returns flowOf()
+
         personCertificatesProvider.apply {
             every { personCertificates } returns emptyFlow()
             every { personsBadgeCount } returns flowOf(0)
@@ -70,7 +81,10 @@ class MainActivityViewModelTest : BaseTest() {
         checkInRepository = checkInRepository,
         traceLocationSettings = traceLocationSettings,
         covidCertificateSettings = covidCertificateSettings,
-        personCertificatesProvider = personCertificatesProvider
+        personCertificatesProvider = personCertificatesProvider,
+        raExtractor = raExtractor,
+        submissionRepository = submissionRepository,
+        coronaTestRepository = coronTestRepository,
     )
 
     @Test

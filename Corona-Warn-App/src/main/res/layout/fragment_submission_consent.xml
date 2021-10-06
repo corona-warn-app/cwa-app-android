@@ -18,16 +18,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/submission_consent_header"
-            layout="@layout/include_header"
-            android:layout_width="0dp"
+            style="@style/CWAToolbar.Close.Transparent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:icon="@{@drawable/ic_close}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@{@string/submission_consent_main_headline}" />
+            app:navigationIconTint="@color/colorQrCodeScanToolbar"
+            app:title="@string/submission_consent_main_headline"
+            app:titleTextColor="@color/colorQrCodeScanToolbar" />
 
         <ScrollView
             android:layout_width="0dp"

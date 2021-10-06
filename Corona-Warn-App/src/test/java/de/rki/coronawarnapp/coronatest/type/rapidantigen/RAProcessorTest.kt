@@ -126,7 +126,7 @@ class RAProcessorTest : BaseTest() {
     fun `registering a new test`() = runBlockingTest {
         val request = CoronaTestQRCode.RapidAntigen(
             hash = "hash",
-            createdAt = Instant.EPOCH,
+            createdAt = Instant.EPOCH
         )
 
         val instance = createInstance()
@@ -159,7 +159,7 @@ class RAProcessorTest : BaseTest() {
 
         val request = CoronaTestQRCode.RapidAntigen(
             hash = "hash",
-            createdAt = Instant.EPOCH,
+            createdAt = Instant.EPOCH
         )
 
         values().forEach {
@@ -359,7 +359,7 @@ class RAProcessorTest : BaseTest() {
             CoronaTestQRCode.RapidAntigen(
                 hash = "hash",
                 createdAt = Instant.EPOCH,
-                dateOfBirth = LocalDate.parse("2021-06-02"),
+                dateOfBirth = LocalDate.parse("2021-06-02")
             )
         ).apply {
             this as RACoronaTest

@@ -26,7 +26,7 @@ import de.rki.coronawarnapp.nearby.ENFModule
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.playbook.PlaybookModule
 import de.rki.coronawarnapp.presencetracing.PresenceTracingModule
-import de.rki.coronawarnapp.qrcode.QrCodeFileParserModule
+import de.rki.coronawarnapp.qrcode.QrCodeScannerModule
 import de.rki.coronawarnapp.receiver.ReceiverBinder
 import de.rki.coronawarnapp.risk.RiskModule
 import de.rki.coronawarnapp.service.ServiceBinder
@@ -37,6 +37,7 @@ import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.internal.TaskModule
 import de.rki.coronawarnapp.test.DeviceForTestersModule
 import de.rki.coronawarnapp.ui.ActivityBinder
+import de.rki.coronawarnapp.update.InAppUpdateModule
 import de.rki.coronawarnapp.util.coil.CoilModule
 import de.rki.coronawarnapp.util.coroutine.AppCoroutineScope
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -84,7 +85,8 @@ import javax.inject.Singleton
         PresenceTracingModule::class,
         CoronaTestModule::class,
         DigitalCovidCertificateModule::class,
-        QrCodeFileParserModule::class,
+        QrCodeScannerModule::class,
+        InAppUpdateModule::class,
     ]
 )
 interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {

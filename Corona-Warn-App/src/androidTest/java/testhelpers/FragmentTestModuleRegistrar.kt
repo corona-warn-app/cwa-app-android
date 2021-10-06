@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewFr
 import de.rki.coronawarnapp.covidcertificate.recovery.ui.RecoveryCertificateDetailsFragmentTestModule
 import de.rki.coronawarnapp.covidcertificate.test.ui.CovidCertificateDetailsFragmentTestModule
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragmentTestModule
+import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryDayFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryEditLocationsFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryEditPersonsFragmentTestModule
@@ -36,7 +37,6 @@ import de.rki.coronawarnapp.ui.statistics.StatisticsExplanationFragmentTestModul
 import de.rki.coronawarnapp.ui.submission.SubmissionConsentFragmentTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionContactTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionDispatcherTestModule
-import de.rki.coronawarnapp.ui.submission.SubmissionQRScanFragmentModule
 import de.rki.coronawarnapp.ui.submission.SubmissionSymptomCalendarFragmentTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionSymptomIntroFragmentTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionTanTestModule
@@ -73,11 +73,9 @@ import de.rki.coronawarnapp.ui.vaccination.CovidCertificateInfoFragmentTestModul
         SubmissionTestResultConsentGivenTestModule::class,
         SubmissionSymptomIntroFragmentTestModule::class,
         SubmissionContactTestModule::class,
-        SubmissionQRScanFragmentModule::class,
         SubmissionConsentFragmentTestModule::class,
         SubmissionYourConsentFragmentTestModule::class,
         SubmissionSymptomCalendarFragmentTestModule::class,
-        SubmissionQRScanFragmentModule::class,
 
         // -------- Tracing --------
         TracingDetailsFragmentTestTestModule::class,
@@ -119,6 +117,8 @@ import de.rki.coronawarnapp.ui.vaccination.CovidCertificateInfoFragmentTestModul
         RATProfileCreateFragmentTestModule::class,
         RATProfileOnboardingFragmentTestModule::class,
         RATProfileQrCodeFragmentTestModule::class,
+
+        QrCodeScannerFragmentTestModule::class,
     ]
 )
 class FragmentTestModuleRegistrar

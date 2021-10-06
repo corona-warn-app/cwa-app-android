@@ -8,6 +8,39 @@
     android:layout_marginHorizontal="24dp"
     android:padding="16dp">
 
+    <TextView
+        android:id="@+id/covpass_info_title"
+        style="@style/body2Medium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/person_details_certificate_covpass_info_title" />
+
+    <ImageButton
+        android:id="@+id/covpass_info_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:background="?android:selectableItemBackground"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        android:paddingVertical="5dp"
+        android:scaleType="center"
+        app:srcCompat="@drawable/ic_info" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/covpass_info_flow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        app:constraint_referenced_ids="covpass_info_title,covpass_info_button"
+        app:flow_horizontalGap="5dp"
+        app:flow_verticalAlign="top"
+        app:flow_wrapMode="chain"
+        app:layout_constraintBottom_toTopOf="@id/image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/image"
         android:layout_width="0dp"
@@ -17,7 +50,7 @@
         app:layout_constraintDimensionRatio="H,1:1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/covpass_info_flow"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay"
         tools:src="@drawable/ic_qrcode"
         tools:tint="@android:color/black" />

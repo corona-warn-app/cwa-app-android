@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.vaccination
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment
 import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragmentArgs
 import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingViewModel
@@ -31,7 +32,9 @@ class CovidCertificateOnboardingFragmentTest : BaseUITest() {
 
         setupMockViewModel(
             object : CovidCertificateOnboardingViewModel.Factory {
-                override fun create(): CovidCertificateOnboardingViewModel = viewModel
+                override fun create(
+                    dccQrCode: DccQrCode?
+                ): CovidCertificateOnboardingViewModel = viewModel
             }
         )
     }

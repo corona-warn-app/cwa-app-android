@@ -4,10 +4,11 @@ import androidx.lifecycle.SavedStateHandle
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.CheckOutHandler
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCode
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.InvalidQrCodeDataException
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.InvalidQrCodeUriException
-import de.rki.coronawarnapp.presencetracing.checkins.qrcode.QRCodeUriParser
-import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationVerifier
+import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCodeExtractor
+import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.ActiveCheckInVH
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CameraPermissionVH
@@ -41,11 +42,11 @@ import testhelpers.extensions.getOrAwaitValue
 class CheckInsViewModelTest : BaseTest() {
 
     @MockK lateinit var savedState: SavedStateHandle
-    @MockK lateinit var qrCodeUriParser: QRCodeUriParser
+    @MockK lateinit var checkInQrCodeExtractor: CheckInQrCodeExtractor
     @MockK lateinit var checkInsRepository: CheckInRepository
     @MockK lateinit var checkOutHandler: CheckOutHandler
     @MockK lateinit var cameraPermissionProvider: CameraPermissionProvider
-    @MockK lateinit var traceLocationVerifier: TraceLocationVerifier
+    @MockK lateinit var checkInQrCodeHandler: CheckInQrCodeHandler
 
     @BeforeEach
     fun setup() {
@@ -53,8 +54,8 @@ class CheckInsViewModelTest : BaseTest() {
         every { savedState.set(any(), any<String>()) } just Runs
         every { checkInsRepository.checkInsWithinRetention } returns flowOf()
         every { cameraPermissionProvider.deniedPermanently } returns flowOf(false)
-        every { traceLocationVerifier.verifyTraceLocation(any()) } returns
-            TraceLocationVerifier.VerificationResult.Valid(mockk())
+        every { checkInQrCodeHandler.handleQrCode(any()) } returns
+            CheckInQrCodeHandler.Result.Valid(mockk())
     }
 
     @Test
@@ -87,14 +88,16 @@ class CheckInsViewModelTest : BaseTest() {
     @Test
     fun `DeepLink verification`() = runBlockingTest {
         every { savedState.get<String>(any()) } returns null
-        coEvery { qrCodeUriParser.getQrCodePayload(any()) } returns
-            TraceLocationOuterClass.QRCodePayload.newBuilder().build()
+        coEvery { checkInQrCodeExtractor.extract(any()) } returns
+            CheckInQrCode(
+                qrCodePayload = TraceLocationOuterClass.QRCodePayload.newBuilder().build()
+            )
 
         createInstance(deepLink = DEEP_LINK, scope = this).apply {
             events.getOrAwaitValue().shouldBeInstanceOf<CheckInEvent.ConfirmCheckIn>()
             coVerify {
                 savedState.get<String>(any())
-                qrCodeUriParser.getQrCodePayload(any())
+                checkInQrCodeExtractor.extract(any())
                 savedState.set(any(), any<String>())
             }
         }
@@ -186,7 +189,7 @@ class CheckInsViewModelTest : BaseTest() {
     @Test
     fun `Handle uri InvalidQrCodeUriException`() = runBlockingTest {
         every { savedState.get<String>("deeplink.last") } returns null
-        coEvery { qrCodeUriParser.getQrCodePayload(any()) } throws InvalidQrCodeUriException("Invalid")
+        coEvery { checkInQrCodeExtractor.extract(any()) } throws InvalidQrCodeUriException("Invalid")
         val url = "https://e.coronawarn.app?v=1#place_holder"
 
         shouldNotThrow<InvalidQrCodeUriException> {
@@ -199,7 +202,7 @@ class CheckInsViewModelTest : BaseTest() {
     @Test
     fun `Handle uri InvalidQrCodeDataException`() = runBlockingTest {
         every { savedState.get<String>("deeplink.last") } returns null
-        coEvery { qrCodeUriParser.getQrCodePayload(any()) } throws InvalidQrCodeDataException("Invalid")
+        coEvery { checkInQrCodeExtractor.extract(any()) } throws InvalidQrCodeDataException("Invalid")
         val url = "https://e.coronawarn.app?v=1#place_holder"
 
         shouldNotThrow<InvalidQrCodeDataException> {
@@ -215,11 +218,11 @@ class CheckInsViewModelTest : BaseTest() {
             deepLink = deepLink,
             dispatcherProvider = TestDispatcherProvider(),
             appScope = scope,
-            qrCodeUriParser = qrCodeUriParser,
+            checkInQrCodeExtractor = checkInQrCodeExtractor,
             checkInsRepository = checkInsRepository,
             checkOutHandler = checkOutHandler,
             cameraPermissionProvider = cameraPermissionProvider,
-            traceLocationVerifier = traceLocationVerifier,
+            checkInQrCodeHandler = checkInQrCodeHandler,
             cleanHistory = false
         )
 

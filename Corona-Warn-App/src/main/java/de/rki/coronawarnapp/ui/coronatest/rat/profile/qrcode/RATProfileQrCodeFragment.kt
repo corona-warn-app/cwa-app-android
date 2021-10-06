@@ -7,6 +7,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import coil.loadAny
@@ -82,8 +83,17 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
         viewModel.events.observe(viewLifecycleOwner) {
             when (it) {
                 ProfileQrCodeNavigation.Back -> popBackStack()
-                ProfileQrCodeNavigation.SubmissionConsent ->
-                    findNavController().navigate(R.id.submissionConsentFragment)
+                ProfileQrCodeNavigation.OpenScanner -> {
+                    val navOptions = NavOptions.Builder()
+                        .setPopUpTo(R.id.mainFragment, false)
+                        .build()
+                    findNavController().navigate(
+                        R.id.action_to_universal_scanner,
+                        null,
+                        navOptions,
+                        FragmentNavigatorExtras(binding.nextButton to binding.nextButton.transitionName)
+                    )
+                }
                 is ProfileQrCodeNavigation.FullQrCode -> findNavController().navigate(
                     R.id.action_global_qrCodeFullScreenFragment,
                     QrCodeFullScreenFragmentArgs(it.qrCode).toBundle(),

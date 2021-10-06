@@ -89,7 +89,7 @@ class PersonDetailsViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `List items and navigation`() {
+    fun `Ui state and navigation`() {
         val vaccCert1 = mockVaccinationCertificate(1)
         val vaccCert2 = mockVaccinationCertificate(2)
         every { personCertificatesProvider.personCertificates } returns flowOf(
@@ -120,34 +120,38 @@ class PersonDetailsViewModelTest : BaseTest() {
         every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPerson))
         personDetailsViewModel(certificatePersonIdentifier.codeSHA256)
             .apply {
-                uiState.getOrAwaitValue().apply {
+                uiState.getOrAwaitValue().also {
 
-                    get(0) as PersonDetailsQrCard.Item
+                    it.name shouldBe vaccCert1.fullName
 
-                    get(1) as VaccinationInfoCard.Item
+                    it.certificateItems.run {
+                        get(0) as PersonDetailsQrCard.Item
 
-                    (get(2) as CwaUserCard.Item).apply {
-                        onSwitch(true)
-                        coVerify { personCertificatesProvider.setCurrentCwaUser(any()) }
-                    }
-                    (get(3) as RecoveryCertificateCard.Item).apply {
-                        onClick()
-                        events.getOrAwaitValue() shouldBe OpenRecoveryCertificateDetails(rcContainerId)
-                    }
+                        get(1) as VaccinationInfoCard.Item
 
-                    (get(4) as TestCertificateCard.Item).apply {
-                        onClick()
-                        events.getOrAwaitValue() shouldBe OpenTestCertificateDetails(tcsContainerId)
-                    }
+                        (get(2) as CwaUserCard.Item).apply {
+                            onSwitch(true)
+                            coVerify { personCertificatesProvider.setCurrentCwaUser(any()) }
+                        }
+                        (get(3) as RecoveryCertificateCard.Item).apply {
+                            onClick()
+                            events.getOrAwaitValue() shouldBe OpenRecoveryCertificateDetails(rcContainerId)
+                        }
 
-                    (get(5) as VaccinationCertificateCard.Item).apply {
-                        onClick()
-                        events.getOrAwaitValue() shouldBe OpenVaccinationCertificateDetails(vcContainerId)
-                    }
+                        (get(4) as TestCertificateCard.Item).apply {
+                            onClick()
+                            events.getOrAwaitValue() shouldBe OpenTestCertificateDetails(tcsContainerId)
+                        }
 
-                    (get(6) as VaccinationCertificateCard.Item).apply {
-                        onClick()
-                        events.getOrAwaitValue() shouldBe OpenVaccinationCertificateDetails(vcContainerId)
+                        (get(5) as VaccinationCertificateCard.Item).apply {
+                            onClick()
+                            events.getOrAwaitValue() shouldBe OpenVaccinationCertificateDetails(vcContainerId)
+                        }
+
+                        (get(6) as VaccinationCertificateCard.Item).apply {
+                            onClick()
+                            events.getOrAwaitValue() shouldBe OpenVaccinationCertificateDetails(vcContainerId)
+                        }
                     }
                 }
             }
@@ -189,6 +193,7 @@ class PersonDetailsViewModelTest : BaseTest() {
         mockk<VaccinationCertificate>().apply {
             val localDate = Instant.parse("2021-06-01T11:35:00.000Z").toLocalDateUserTz()
             every { certificateId } returns "vaccinationCertificateId$number"
+            every { fullName } returns "Andrea Schneider"
             every { rawCertificate } returns mockk<VaccinationDccV1>().apply {
                 every { vaccination } returns mockk<DccV1.VaccinationData>().apply {
                     every { doseNumber } returns number

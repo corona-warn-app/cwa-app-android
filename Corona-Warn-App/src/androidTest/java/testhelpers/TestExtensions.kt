@@ -9,6 +9,7 @@ import androidx.annotation.StyleRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.testing.FragmentScenario
+import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.launchActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -66,14 +67,14 @@ inline fun <reified F : Fragment> launchFragment2(
  * takeScreenshot<HomeFragment>()
  * ```
  */
-inline fun <reified F : Fragment> launchInMainActivity() {
+inline fun <reified F : Fragment> launchInMainActivity(): ActivityScenario<FakeMainActivity> {
     val intent = Intent(
         ApplicationProvider.getApplicationContext(),
         FakeMainActivity::class.java
     ).apply {
         putExtra(FakeMainActivity.FRAGMENT_CLASS, F::class.qualifiedName)
     }
-    launchActivity<FakeMainActivity>(intent)
+    return launchActivity(intent)
 }
 
 /**

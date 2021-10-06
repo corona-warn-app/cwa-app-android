@@ -1,9 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
+import androidx.annotation.IdRes
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
@@ -18,6 +20,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
+import de.rki.coronawarnapp.util.ui.updateCountBadge
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -91,6 +94,13 @@ class PersonOverviewFragmentTest : BaseUITest() {
 
     @Test
     @Screenshot
+    fun capture_fragment_one_person_with_badge() {
+        every { viewModel.personCertificates } returns MutableLiveData(onePersonItemWithBadgeCount())
+        takeSelfieWithBottomNavBadge("one_person_with_badge", R.id.covid_certificates_graph, 1)
+    }
+
+    @Test
+    @Screenshot
     fun capture_fragment_many_persons() {
         every { viewModel.personCertificates } returns MutableLiveData(personsItems())
         takeSelfie("many_persons")
@@ -105,6 +115,15 @@ class PersonOverviewFragmentTest : BaseUITest() {
     @After
     fun teardown() {
         clearAllViewModels()
+    }
+
+    private fun takeSelfieWithBottomNavBadge(suffix: String, @IdRes badgeId: Int, count: Int) {
+        val activityScenario = launchInMainActivity<PersonOverviewFragment>()
+        activityScenario.onActivity {
+            it.findViewById<BottomNavigationView>(R.id.fake_bottom_navigation).updateCountBadge(badgeId, count)
+        }
+        onView(withId(R.id.fake_bottom_navigation)).perform(selectBottomNavTab(R.id.covid_certificates_graph))
+        takeScreenshot<PersonOverviewFragment>(suffix)
     }
 
     private fun takeSelfie(suffix: String) {
@@ -128,7 +147,8 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     certificate = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_1,
-                    badgeCount = 0
+                    badgeCount = 0,
+                    onCovPassInfoAction = {}
                 )
             )
         }
@@ -148,7 +168,8 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     certificate = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_1,
-                    badgeCount = 0
+                    badgeCount = 0,
+                    onCovPassInfoAction = {}
                 )
             )
         }
@@ -160,7 +181,8 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     certificate = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_1,
-                    badgeCount = 5
+                    badgeCount = 5,
+                    onCovPassInfoAction = {}
                 )
             )
 
@@ -169,7 +191,8 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     certificate = mockTestCertificate("Mia Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_2,
-                    badgeCount = 3
+                    badgeCount = 3,
+                    onCovPassInfoAction = {}
                 )
             )
 
@@ -178,7 +201,8 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     certificate = mockTestCertificate("Thomas Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_3,
-                    badgeCount = 0
+                    badgeCount = 0,
+                    onCovPassInfoAction = {}
                 )
             )
         }
@@ -190,7 +214,21 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     certificate = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_1,
-                    badgeCount = 0
+                    badgeCount = 0,
+                    onCovPassInfoAction = {}
+                )
+            )
+        }
+
+    private fun onePersonItemWithBadgeCount() = mutableListOf<PersonCertificatesItem>()
+        .apply {
+            add(
+                PersonCertificateCard.Item(
+                    certificate = mockTestCertificate("Andrea Schneider"),
+                    onClickAction = { _, _ -> },
+                    colorShade = PersonColorShade.COLOR_1,
+                    badgeCount = 1,
+                    onCovPassInfoAction = {}
                 )
             )
         }
@@ -217,7 +255,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
         every { isNewlyRetrieved } returns false
     }
 
-    fun mockTestCertificateWrapper(isUpdating: Boolean) = mockk<TestCertificateWrapper>().apply {
+    private fun mockTestCertificateWrapper(isUpdating: Boolean) = mockk<TestCertificateWrapper>().apply {
         every { isCertificateRetrievalPending } returns true
         every { isUpdatingData } returns isUpdating
         every { registeredAt } returns Instant.EPOCH

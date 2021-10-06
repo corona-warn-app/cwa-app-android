@@ -270,6 +270,10 @@
     <string name="risk_details_increased_risk_faq_link_label">"Întrebările frecvente"</string>
     <!-- XTXT: Explains user about increased risk level: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
     <string name="risk_details_increased_risk_faq_url">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
+    <!-- XTXT: risk details - symptoms bullet point -->
+    <string name="risk_details_faq_symptoms">"Fiți vigilenți pentru depistarea simptomelor specifice pentru COVID-19. Chiar și persoanele vaccinate pot prezenta simptome în caz de infectare post-vaccinare. Dacă observați simptome suspecte, testați-vă."</string>
+    <!-- XTXT: risk details - vaccination bullet point -->
+    <string name="risk_details_increased_risk_faq_vaccination">"Dacă încă nu v-ați vaccinat, consultați telefonic medicul de familie sau serviciul medical de urgență pentru a stabili efectuarea unui test. După testare, discutați opțiunile de vaccinare împotriva SARS-CoV-2 cu medicul dvs. de familie."</string>
 
     <!-- XMSG: risk details - ventilation bullet point -->
     <string name="risk_details_behavior_body_ventilation">"Aerisiți spațiile interioare de mai multe ori pe zi. Astfel, deschideți ferestrele cât mai larg posibil timp de câteva minute („ventilație șoc”)."</string>
@@ -278,7 +282,7 @@
     <!-- XMSG: risk details - contact your doctor, bullet point -->
     <string name="risk_details_behavior_increased_body_1">"Medicul de familie"</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point -->
-    <string name="risk_details_behavior_increased_body_2">"Serviciul general de urgență la numărul de telefon 116117"</string>
+    <string name="risk_details_behavior_increased_body_2">"Serviciul general de urgență la numărul de telefon 116 117"</string>
     <!-- XMSG: risk details - public health department, bullet point -->
     <string name="risk_details_behavior_increased_body_3">"Autoritatea de sănătate publică relevantă"</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
@@ -938,6 +942,32 @@
     <string name="qr_code_scan_title">"Scanare cod QR"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body">"Poziționați codul QR în cadru."</string>
+    <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="qr_code_scan_body_title">"Ce coduri QR puteți scana?"</string>
+    <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="qr_code_scan_body_subtitle">"Teste PCR și teste rapide, certificate de test, certificate de vaccinare, certificate de recuperare și check-inuri."</string>
+    <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Puteți scana check-inurile pentru a restaura evenimentele pe care le-ați șters."</string>
+    <!-- XBUT: open image file button  -->
+    <string name="qr_code_open_file">"Deschidere fișier"</string>
+    <!-- XTXT: QR Code processing message  -->
+    <string name="qr_code_processing_message">"Citire cod QR..."</string>
+    <!-- XTXT: unsupported qrcode message  -->
+    <string name="un_supported_qrcode_message">"Codul QR nu este acceptat de Corona-Warn-App. Scanați un cod QR potrivit."</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_file_not_readable_title">"Fișier imposibil de citit"</string>
+    <!-- XTXT: QR Code error message body  -->
+    <string name="qr_code_file_not_readable_body">"Formatul de fișier nu este acceptat de Corona-Warn-App. Selectați un fișier compatibil."</string>
+    <!-- XTXT: QR Code error message body  -->
+    <string name="qr_code_file_corrupted_body">"Fișierul selectat poate să fie deteriorat sau protejat prin parolă și nu a putut fi citit. Selectați un fișier potrivit."</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_qr_code_title">"Niciun cod QR detectat"</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_qr_code_body">"Selectați un document sau o fotografie cu un cod QR."</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_suitable_qr_code_title">"Niciun cod QR potrivit"</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_suitable_qr_code_body">"Codul QR nu poate fi scanat de Corona-Warn-App. Selectați un fișier cu un cod QR potrivit."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
@@ -1493,7 +1523,7 @@
     <!-- XTXT: Statistics explanation blog text -->
     <string name="statistics_explanation_blog">"Pentru mai multe detalii despre conținutul indicatorilor individuali, citiți blogul nostru."</string>
     <!-- XTXT: Statistics explanation blog text label -->
-    <string name="statistics_explanation_blog_label">"Blogul"</string>
+    <string name="statistics_explanation_blog_label">"Blog."</string>
     <!-- XTXT: Statistics explanation blog text url -->
     <string name="statistics_eplanation_blog_url">"https://www.coronawarn.app/en/blog/2021-08-05-statistictiles"</string>
 

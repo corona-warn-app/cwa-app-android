@@ -72,6 +72,8 @@
     <string name="certificate_card_bookmark_info">"Aktualnie używany certyfikat"</string>
     <!-- XHED: Person certificate details title -->
     <string name="person_details_certificate_title">"Unijny cyfrowy certyfikat COVID"</string>
+    <!-- XHED: Person certificate CovPas Header Info-->
+    <string name="person_details_certificate_covpass_info_title">"Ten kod QR można wiarygodnie zweryfikować za pomocą aplikacji CovPassCheck."</string>
     <!-- XTXT: Test Certificate CWA User card description -->
     <string name="person_details_cwa_user_description">"Włącz ten przełącznik, jeśli jesteś %1$s oraz głównym użytkownikiem aplikacji. Twoje certyfikaty pojawią się na górze listy."</string>
     <!-- XTXT: Test Certificate CWA User card birthdate -->
@@ -263,7 +265,7 @@
     <!-- XHED: Toolbar title for the validation passed screen  -->
     <string name="validation_rules_result_valid_header">"Certyfikat jest ważny."</string>
     <!-- XTXT: No rules available text for the validation passed screen  -->
-    <string name="validation_no_rules_available_valid_text">"Obecnie nie obowiązują żadne zasady dotyczące wjazdu do wybranego kraju i wybranego czasu dla tego typu certyfikatu. Zwróć uwagę na następujące kwestie:"</string>
+    <string name="validation_no_rules_available_valid_text">"Obecnie nie obowiązują żadne zasady dotyczące wjazdu do wybranego kraju i wybranego czasu dla tego typu certyfikatu. Zapoznaj się z poniższymi informacjami."</string>
     <!-- XTXT: Rule validation text for the validation passed screen  -->
     <string name="validation_rules_result_valid_rule_text">"%1$d zasady obowiązujące w kraju docelowym zostały pomyślnie zweryfikowane."</string>
     <!-- XTXT: Button text - Check another country -->
@@ -367,5 +369,20 @@
     <string name="pdf_export_error_title">"Nie można wyświetlić wersji do druku"</string>
     <!-- XHED: PDF Export: Error message body -->
     <string name="pdf_export_error_message">"Nie można wyświetlić wersji certyfikatu do druku, ponieważ nie można teraz pobrać certyfikatu. Spróbuj ponownie później."</string>
+
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_title">"Weryfikacja certyfikatów przez osoby trzecie"</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_subtitle">"Osoby trzecie mogą korzystać z aplikacji CovPassCheck, aby wiarygodnie sprawdzić, czy certyfikat szczepienia, certyfikat statusu ozdrowieńca lub certyfikat testu jest ważny."</string>
+    <!-- XTXT: Cov Pass Info Fragment link label -->
+    <string name="cov_pass_info_faq_link_label">"Często zadawane pytania dotyczące weryfikacji certyfikatu przez osoby trzecie"</string>
+    <!-- XTXT: Explains user about cov pass: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#eu_dcc_check -->
+    <string name="cov_pass_info_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc_check"</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_section_one">"Ważność certyfikatów możesz sprawdzić samodzielnie w aplikacji Corona-Warn-App bez korzystania z aplikacji CovPassCheck."</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_section_two">"Dla osób trzecich nie wystarczy jednak wizualna kontrola certyfikatów. Muszą one korzystać z aplikacji CovPassCheck w Niemczech."</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_section_three">"Należy pamiętać, że osoby trzecie w innych krajach mogą używać innych aplikacji do weryfikacji certyfikatów."</string>
 
 </resources>

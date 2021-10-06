@@ -109,7 +109,7 @@ class DccQrCodeCensorTest : BaseTest() {
 
     @Test
     fun `censoring of test certificate works`() = runBlockingTest {
-        val data = certificateTestData.personATest1CertQRCode.data
+        val data = certificateTestData.personATest1CertQRCode().data
         DccQrCodeCensor.addCertificateToCensor(data)
         val censor = createInstance()
 

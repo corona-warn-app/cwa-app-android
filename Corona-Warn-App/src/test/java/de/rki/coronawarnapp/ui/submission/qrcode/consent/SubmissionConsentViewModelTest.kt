@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.ui.submission.qrcode.consent
 
 import com.google.android.gms.common.api.ApiException
-import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQrCodeValidator
+import com.journeyapps.barcodescanner.BarcodeResult
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.nearby.modules.tekhistory.TEKHistoryProvider
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -33,7 +34,6 @@ class SubmissionConsentViewModelTest {
     @MockK lateinit var interoperabilityRepository: InteroperabilityRepository
     @MockK lateinit var tekHistoryProvider: TEKHistoryProvider
     @MockK lateinit var testRegistrationStateProcessor: TestRegistrationStateProcessor
-    @MockK lateinit var qrCodeValidator: CoronaTestQrCodeValidator
 
     lateinit var viewModel: SubmissionConsentViewModel
 
@@ -44,6 +44,13 @@ class SubmissionConsentViewModelTest {
         MockKAnnotations.init(this)
         every { interoperabilityRepository.countryList } returns MutableStateFlow(countryList)
         coEvery { submissionRepository.giveConsentToSubmission(any()) } just Runs
+        val codeContent = "https://coronawarn.app/E1/SOME_PATH_GOES_HERE"
+        val mockedResult = mockk<BarcodeResult> {
+            every { result } returns mockk {
+                every { text } returns codeContent
+            }
+        }
+        every { mockedResult.text } returns ""
 
         testRegistrationStateProcessor.apply {
             every { state } returns flowOf(TestRegistrationStateProcessor.State.Idle)
@@ -51,20 +58,13 @@ class SubmissionConsentViewModelTest {
         }
 
         viewModel = SubmissionConsentViewModel(
-            interoperabilityRepository,
+            interoperabilityRepository = interoperabilityRepository,
             dispatcherProvider = TestDispatcherProvider(),
-            tekHistoryProvider,
-            testRegistrationStateProcessor,
-            submissionRepository,
-            qrCodeValidator
+            coronaTestQRCode = CoronaTestQRCode.PCR(qrCodeGUID = "qrCodeGUID"),
+            allowReplacement = false,
+            tekHistoryProvider = tekHistoryProvider,
+            registrationStateProcessor = testRegistrationStateProcessor
         )
-    }
-
-    @Test
-    fun testOnConsentButtonClick() {
-        viewModel.onConsentButtonClick()
-        // TODO doesn't happen here anymore, we don't have a CoronaTest instance to store it with, see QR Code VM
-//        verify(exactly = 1) { submissionRepository.giveConsentToSubmission(any()) }
     }
 
     @Test
@@ -74,34 +74,14 @@ class SubmissionConsentViewModelTest {
     }
 
     @Test
-    fun testOnBackButtonClick() {
-        viewModel.onBackButtonClick()
-        viewModel.routeToScreen.value shouldBe SubmissionNavigationEvents.NavigateToDispatcher
-    }
-
-    @Test
     fun testCountryList() {
         viewModel.countries.observeForever { }
         viewModel.countries.value shouldBe countryList
     }
 
     @Test
-    fun `giveGoogleConsentResult when user Allows routes to QR Code scan`() {
-        viewModel.giveGoogleConsentResult(true)
-        viewModel.routeToScreen.value shouldBe SubmissionNavigationEvents.NavigateToQRCodeScan
-    }
-
-    @Test
-    fun `giveGoogleConsentResult when user Doesn't Allow routes to QR Code scan`() {
-        viewModel.giveGoogleConsentResult(false)
-        viewModel.routeToScreen.value shouldBe SubmissionNavigationEvents.NavigateToQRCodeScan
-    }
-
-    @Test
     fun `onConsentButtonClick sets normal consent and request new Google consent Api`() {
         viewModel.onConsentButtonClick()
-        // TODO doesn't happen here anymore, we don't have a CoronaTest instance to store it with, see QR Code VM
-//        verify(exactly = 1) { submissionRepository.giveConsentToSubmission(any()) }
         coVerify(exactly = 1) { tekHistoryProvider.preAuthorizeExposureKeyHistory() }
     }
 
@@ -116,14 +96,5 @@ class SubmissionConsentViewModelTest {
         viewModel.onConsentButtonClick()
 
         viewModel.routeToScreen.value shouldBe SubmissionNavigationEvents.ResolvePlayServicesException(apiException)
-    }
-
-    @Test
-    fun `onConsentButtonClick routes to QR scan when unrecoverable Error is thrown`() {
-        coEvery { tekHistoryProvider.preAuthorizeExposureKeyHistory() } throws Exception("Unrecoverable Error")
-
-        viewModel.onConsentButtonClick()
-
-        viewModel.routeToScreen.value shouldBe SubmissionNavigationEvents.NavigateToQRCodeScan
     }
 }

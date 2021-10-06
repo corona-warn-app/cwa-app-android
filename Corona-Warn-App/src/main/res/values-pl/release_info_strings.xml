@@ -16,24 +16,28 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Informacje o szczepieniach przypominających"</item>
-        <item>"Wersja certyfikatów szczepień do druku"</item>
+        <item>"Uniwersalny skaner kodów QR"</item>
+        <item>"Importuj kod QR"</item>
+        <item>"Dostosowanie do czasu trwania kontaktu"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Aplikacja może teraz wyświetlać komunikat informujący o zbliżających się szczepieniach przypominających."</item>
-        <item>"Możesz teraz wyświetlić wersję do druku certyfikatów wydanych w Niemczech, co umożliwi Ci zapisanie certyfikatów jako dokumentów PDF i ich wydrukowanie."</item>
+        <item>"Możesz teraz skanować wszystkie dokumenty obsługiwane przez aplikację Corona-Warn-App, niezależnie od tego, gdzie otworzysz skaner kodów QR w aplikacji:\n\n• Testy PCR\n• Szybkie testy\n• Zameldowania obecności w wydarzeniach\n• Certyfikaty"</item>
+        <item>"Możesz teraz używać skanera kodów QR do importowania kodów QR ze zdjęć lub plików PDF."</item>
+        <item>"Minimalny czas trwania kontaktu w dzienniku kontaktów został skrócony z 15 minut do 10 minut. Dokonane już wpisy dotyczące kontaktów zostały automatycznie dostosowane. Przejrzyj wpisy w dzienniku i dostosuj je w razie potrzeby."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
         <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item/>
         <item/>
         <item/>
     </string-array>

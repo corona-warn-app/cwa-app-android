@@ -16,24 +16,28 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Information about Booster Vaccinations"</item>
-        <item>"Print Version of Vaccination Certificates"</item>
+        <item>"Universal QR Code Scanner"</item>
+        <item>"Import QR Code"</item>
+        <item>"Adjustment to Contact Duration"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"The app can now display a message that notifies you of any upcoming booster vaccinations."</item>
-        <item>"You can now display a print version of your certificates that were issued in Germany, which enables you to save the certificates as PDF documents and print them out."</item>
+        <item>"You can now scan all documents supported by the Corona-Warn-App, regardless of where you open a QR code scanner in the app:\n\n• PCR tests\n• Rapid tests\n• Event check-ins\n• Certificates"</item>
+        <item>"You can now use the QR code scanner to import QR codes from photos or PDF files."</item>
+        <item>"The minimum contact duration in the contact journal has been reduced from 15 minutes to 10 minutes. Existing entries for contacts with people have been adjusted automatically. Review your journal entries and adjust them if needed."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
         <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item/>
         <item/>
         <item/>
     </string-array>

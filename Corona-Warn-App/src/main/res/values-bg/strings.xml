@@ -270,6 +270,10 @@
     <string name="risk_details_increased_risk_faq_link_label">"ЧЗВ"</string>
     <!-- XTXT: Explains user about increased risk level: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
     <string name="risk_details_increased_risk_faq_url">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
+    <!-- XTXT: risk details - symptoms bullet point -->
+    <string name="risk_details_faq_symptoms">"Следете за типичните симптоми на COVID-19. Дори ваксинираните хора проявяват такива при случаи на пробив в защитата на ваксината. Направете си тест, ако забележите съмнителни симптоми."</string>
+    <!-- XTXT: risk details - vaccination bullet point -->
+    <string name="risk_details_increased_risk_faq_vaccination">"Ако все още не сте се ваксинирали, консултирайте се с личния си лекар или се обадете на телефона на Общата служба за медицинска помощ, за да си запазите час за тест. След теста обсъдете с личния си лекар възможността за ваксинация срещу SARS-CoV-2."</string>
 
     <!-- XMSG: risk details - ventilation bullet point -->
     <string name="risk_details_behavior_body_ventilation">"Проветрявайте затворените помещения по няколко пъти на ден. За целта отворете прозорците възможно най-широко за няколко минути (т.нар. ударно проветряване)."</string>
@@ -278,7 +282,7 @@
     <!-- XMSG: risk details - contact your doctor, bullet point -->
     <string name="risk_details_behavior_increased_body_1">"Вашия личен лекар"</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point -->
-    <string name="risk_details_behavior_increased_body_2">"Общата служба за медицинска помощ на телефон 116117"</string>
+    <string name="risk_details_behavior_increased_body_2">"Общата служба за медицинска помощ на телефон 116 117"</string>
     <!-- XMSG: risk details - public health department, bullet point -->
     <string name="risk_details_behavior_increased_body_3">"Местна служба за обществено здравеопазване"</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
@@ -938,6 +942,32 @@
     <string name="qr_code_scan_title">"Сканиране на QR кода"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body">"Позиционирайте QR кода в рамката."</string>
+    <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="qr_code_scan_body_title">"Какви QR кодове можете да сканирате?"</string>
+    <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="qr_code_scan_body_subtitle">"PCR и бързи тестове, сертификати за тестове, ваксинация и възстановяване и регистрации."</string>
+    <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Можете да сканирате регистрации, за да възстановите събития, които сте изтрили."</string>
+    <!-- XBUT: open image file button  -->
+    <string name="qr_code_open_file">"Отваряне на файл"</string>
+    <!-- XTXT: QR Code processing message  -->
+    <string name="qr_code_processing_message">"Четене на QR код..."</string>
+    <!-- XTXT: unsupported qrcode message  -->
+    <string name="un_supported_qrcode_message">"QR кодът не се поддържа от Corona-Warn-App. Моля, сканирайте подходящ QR код."</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_file_not_readable_title">"Файлът не се чете"</string>
+    <!-- XTXT: QR Code error message body  -->
+    <string name="qr_code_file_not_readable_body">"Форматът на файла не се поддържа от Corona-Warn-App. Моля, изберете съвместим файл."</string>
+    <!-- XTXT: QR Code error message body  -->
+    <string name="qr_code_file_corrupted_body">"Възможно е избраният файл да е повреден или защитен с парола и не може да бъде прочетен. Моля, изберете подходящ файл."</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_qr_code_title">"Не е намерен QR код"</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_qr_code_body">"Моля, изберете документ или снимка с QR код."</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_suitable_qr_code_title">"Няма подходящ QR код"</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_suitable_qr_code_body">"QR кодът не може да бъде сканиран от Corona-Warn-App. Моля, изберете файл с подходящ QR код."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->

@@ -270,6 +270,10 @@
     <string name="risk_details_increased_risk_faq_link_label">"SSS"</string>
     <!-- XTXT: Explains user about increased risk level: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
     <string name="risk_details_increased_risk_faq_url">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
+    <!-- XTXT: risk details - symptoms bullet point -->
+    <string name="risk_details_faq_symptoms">"Tipik COVID-19 belirtilerine karşı dikkatli olun. Nadir durumlarda, aşı olmuş kişiler bile belirti gösterebilir. Herhangi bir şüpheli belirti fark ederseniz test yaptırın."</string>
+    <!-- XTXT: risk details - vaccination bullet point -->
+    <string name="risk_details_increased_risk_faq_vaccination">"Henüz aşı olmadıysanız bir test randevusu oluşturmak için aile hekiminize veya genel acil servis numarasına danışın. Testinizi yaptırdıktan sonra aile hekiminizle SARS-CoV-2 aşısı hakkında görüşün."</string>
 
     <!-- XMSG: risk details - ventilation bullet point -->
     <string name="risk_details_behavior_body_ventilation">"Kapalı alanları günde birkaç kez havalandırın. Bunun için, pencereleri birkaç dakika süreyle sonuna dek açın (“şok havalandırma”)."</string>
@@ -278,7 +282,7 @@
     <!-- XMSG: risk details - contact your doctor, bullet point -->
     <string name="risk_details_behavior_increased_body_1">"Aile hekiminiz"</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point -->
-    <string name="risk_details_behavior_increased_body_2">"116117 numaralı telefondan genel acil servis"</string>
+    <string name="risk_details_behavior_increased_body_2">"116 117 numaralı telefondan genel acil servis"</string>
     <!-- XMSG: risk details - public health department, bullet point -->
     <string name="risk_details_behavior_increased_body_3">"Kamu sağlığı yetkiliniz"</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
@@ -938,6 +942,32 @@
     <string name="qr_code_scan_title">"QR Kod Tarama"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body">"QR kodu çerçeveye sığdırın."</string>
+    <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="qr_code_scan_body_title">"Hangi QR kodları tarayabilirsiniz?"</string>
+    <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="qr_code_scan_body_subtitle">"PCR testleri ve hızlı testler, test sertifikaları, aşı sertifikaları, iyileşme sertifikaları ve check-in\'ler."</string>
+    <!-- YTXT: instruction text for QR code scanning  -->
+    <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Sildiğiniz etkinlikleri geri yüklemek için check-in\'leri tarayabilirsiniz."</string>
+    <!-- XBUT: open image file button  -->
+    <string name="qr_code_open_file">"Dosya Aç"</string>
+    <!-- XTXT: QR Code processing message  -->
+    <string name="qr_code_processing_message">"QR kod okunuyor…"</string>
+    <!-- XTXT: unsupported qrcode message  -->
+    <string name="un_supported_qrcode_message">"Corona-Warn-App QR kodu desteklemiyor. Lütfen uygun bir QR kod tarayın."</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_file_not_readable_title">"Dosya Okunamıyor"</string>
+    <!-- XTXT: QR Code error message body  -->
+    <string name="qr_code_file_not_readable_body">"Corona-Warn-App dosya biçimini desteklemiyor. Lütfen uyumlu bir dosya seçin."</string>
+    <!-- XTXT: QR Code error message body  -->
+    <string name="qr_code_file_corrupted_body">"Seçilen dosya bozuk ya da parola korumalı olabilir. Dosya okunamadı. Lütfen uygun bir dosya seçin."</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_qr_code_title">"QR Kod Tespit Edilmedi"</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_qr_code_body">"Lütfen QR kod bulunan bir belge veya fotoğraf seçin."</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_suitable_qr_code_title">"Uygun QR Kod Yok"</string>
+    <!-- XTXT: QR Code error message title  -->
+    <string name="qr_code_no_suitable_qr_code_body">"Corona-Warn-App QR kodu tarayamııyor. Lütfen uygun QR kod içeren bir dosya seçin."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
@@ -1493,7 +1523,7 @@
     <!-- XTXT: Statistics explanation blog text -->
     <string name="statistics_explanation_blog">"Münferit önemli değerlerin içeriği hakkında daha ayrıntılı bilgi için blogumuzu okuyun."</string>
     <!-- XTXT: Statistics explanation blog text label -->
-    <string name="statistics_explanation_blog_label">"Blogumuzu"</string>
+    <string name="statistics_explanation_blog_label">"Blog."</string>
     <!-- XTXT: Statistics explanation blog text url -->
     <string name="statistics_eplanation_blog_url">"https://www.coronawarn.app/en/blog/2021-08-05-statistictiles"</string>
 
