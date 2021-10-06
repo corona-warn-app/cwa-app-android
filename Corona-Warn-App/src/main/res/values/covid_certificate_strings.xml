@@ -15,7 +15,7 @@
     <!-- XTXT: Person overview no certificates subtitle-->
     <string name="person_overview_no_certificates_subtitle">"The saved digital vaccination certificates, certificates of recovery, and test certificates are displayed here."</string>
     <!-- XTXT: Person overview no certificates subtitle 2-->
-    <string name="person_overview_no_certificates_subtitle_2">"Scannen Sie den QR-Code des Zertifikats mit Hilfe des „Scannen“ Buttons in der unteren Navigationsleiste."</string>
+    <string name="person_overview_no_certificates_subtitle_2">"To scan the QR code of the certificate, use the “Scan” button in the lower navigation bar."</string>
     <!-- XBUT: Person overview certificates scan button-->
     <string name="person_overview_scan_button">"Certificate"</string>
     <!-- XTXT: Person overview no certificates image content description-->
@@ -53,7 +53,7 @@
     <string name="vaccination_consent_accept_button">"Continue"</string>
 
     <!-- XTXT: Vaccination card immunity information: Days since last shot -->
-    <plurals name="vaccination_days_since_last_shot">
+    <plurals name="vaccination_days_since_last_shot" tools:ignore="UnusedQuantity">
         <item quantity="one">"Last vaccination %1$d day ago"</item>
         <item quantity="other">"Last vaccination %1$d days ago"</item>
         <item quantity="zero">"Last vaccination today"</item>

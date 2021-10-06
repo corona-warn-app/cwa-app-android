@@ -7,8 +7,10 @@
     <string name="trace_location_checkins_title">"Check-inurile mele"</string>
     <!-- XHED: My check-ins: Title for list explanation when there are no check-ins -->
     <string name="trace_location_checkins_empty_label">"Nicio intrare încă"</string>
-    <!-- XTXT: My check-ins: Description for list explanation when there are no check-ins -->
+    <!-- XTXT: My check-ins: First Description for list explanation when there are no check-ins -->
     <string name="trace_location_checkins_empty_description_1">"Când scanați un cod QR pentru a face check-in la un eveniment sau într-un loc, este creată automat o intrare."</string>
+    <!-- XTXT: My check-ins: Second Descriptiontrace_location_checkins_empty_description_2 for list explanation when there are no check-ins -->
+    <string name="trace_location_checkins_empty_description_2">"Pentru a scana codul QR al certificatului, utilizați butonul “Scanare” din bara de navigare inferioară."</string>
     <!-- XTXT: My check-ins: Accessibility description for empty check-ins illustration -->
     <string name="trace_location_checkins_empty_illustration_accessibility">"O clădire cu un simbol de cod QR în fundal."</string>
 
@@ -162,8 +164,10 @@
 
     <!-- XHED: Event organiser qr codes list: title -->
     <string name="trace_location_organiser_list_title">"Codurile mele QR"</string>
-    <!-- XBUT: Event organiser qr codes list: new qr code button  -->
+    <!-- XBUT: Event organiser qr codes list: new qr code button -->
     <string name="trace_location_organiser_list_new_button">"Cod QR"</string>
+    <!-- XBUT: Event organiser qr codes list: new qr code button description -->
+    <string name="trace_location_organiser_list_new_button_description">"Adăugare cod QR"</string>
     <!-- XTXT: Event organiser qr codes list: new qr code button  -->
     <string name="trace_location_organiser_list_no_codes_title">"Niciun cod QR creat încă"</string>
     <!-- XTXT: Event organiser qr codes list: new qr code button  -->
