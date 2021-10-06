@@ -16,16 +16,18 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Scanner universal de coduri QR"</item>
-        <item>"Importare cod QR"</item>
-        <item>"Ajustare la durata contactului"</item>
+        <item>"Statistică extinsă"</item>
+        <item>"Gestionare notificări"</item>
+        <item>"Acces direct la scannerul de coduri QR"</item>
+        <item>"Verificare autorizații de administrare"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Acum puteți scana toate documentele acceptate de Corona-Warn-App, indiferent de locul din care deschideți scannerul de coduri QR din aplicație:\n\n• Teste PCR\n• Teste rapide\n• Check-inuri la evenimente\n• Certificate"</item>
-        <item>"Acum puteți utiliza scannerul de coduri QR pentru a importa codurile QR din fotografii sau fișiere PDF."</item>
-        <item>"Durata minimă a contactului din jurnalul de contacte a fost redusă de la 15 minute la 10 minute. Intrările existente pentru contactele cu persoanele au fost ajustate automat. Revizuiți intrările din jurnal și ajustați-le, dacă este necesar."</item>
+        <item>"Următoarea statistică este acum disponibilă în aplicație:\n\n• Incidența spitalizării pe 7 zile\n• Pacienți cu COVID-19 în unități de terapie intensivă"</item>
+        <item>"Acum setările pentru notificări sunt gestionate central în setările smartphone-ului dvs. Verificați din nou setările dvs. de notificare pentru Corona-Warn-App în setările dispozitivului dvs."</item>
+        <item>"Acum aveți acces direct la scannerul de coduri QR universal în bara de navigare inferioară."</item>
+        <item>"După o repornire, aplicația verifică dacă autorizațiile de administrare (cunoscute și ca autorizații rădăcină) sunt active pe smartphone-ul dvs. și afișează o notă de securitate, dacă este aplicabil."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
@@ -33,10 +35,12 @@
         <item/>
         <item/>
         <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item/>
         <item/>
         <item/>
         <item/>
