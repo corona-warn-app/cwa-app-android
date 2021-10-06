@@ -34,6 +34,8 @@
     <string name="notification_headline">"Corona-Warn-App"</string>
     <!-- XTXT: Notification body -->
     <string name="notification_body">"Имате нови съобщения от приложението Corona-Warn-App."</string>
+    <!-- XTXT: Notification body certificate -->
+    <string name="notification_body_certificate">"Проверете валидността на своите сертификати."</string>
     <!-- XHED: Notification title - Reminder to share a positive test result-->
     <string name="notification_headline_share_positive_result">"Можете да помогнете!"</string>
     <!-- XTXT: Notification body - Reminder to share a positive test result-->
@@ -95,7 +97,7 @@
     <plurals name="risk_card_low_risk_encounter_days_body">
         <item quantity="one">"Брой дни с излагания с нисък риск - %1$d"</item>
         <item quantity="other">"Брой дни с излагания с нисък риск - %1$d"</item>
-        <item quantity="zero">"Брой дни с излагания с нисък риск - %1$d"</item>
+        <item quantity="zero">"Няма излагане на риск"</item>
         <item quantity="two">"Брой дни с излагания с нисък риск - %1$d"</item>
         <item quantity="few">"Брой дни с излагания с нисък риск - %1$d"</item>
         <item quantity="many">"Брой дни с излагания с нисък риск - %1$d"</item>
@@ -104,7 +106,7 @@
     <plurals name="risk_card_low_risk_encounter_days_body_description">
         <item quantity="one">"Брой дни с излагания на нисък риск: 1"</item>
         <item quantity="other">"Брой дни с излагания с нисък риск - %1$d"</item>
-        <item quantity="zero">"Брой дни с излагания с нисък риск - %1$d"</item>
+        <item quantity="zero">"Няма излагане на риск"</item>
         <item quantity="two">"Брой дни с излагания с нисък риск - %1$d"</item>
         <item quantity="few">"Брой дни с излагания с нисък риск - %1$d"</item>
         <item quantity="many">"Брой дни с излагания с нисък риск - %1$d"</item>
@@ -274,7 +276,8 @@
     <string name="risk_details_faq_symptoms">"Следете за типичните симптоми на COVID-19. Дори ваксинираните хора проявяват такива при случаи на пробив в защитата на ваксината. Направете си тест, ако забележите съмнителни симптоми."</string>
     <!-- XTXT: risk details - vaccination bullet point -->
     <string name="risk_details_increased_risk_faq_vaccination">"Ако все още не сте се ваксинирали, консултирайте се с личния си лекар или се обадете на телефона на Общата служба за медицинска помощ, за да си запазите час за тест. След теста обсъдете с личния си лекар възможността за ваксинация срещу SARS-CoV-2."</string>
-
+    <!-- XTXT: risk details - normal risk vaccination bullet -->
+    <string name="risk_details_normal_risk_faq_vaccination">"Ваксинирайте се срещу вируса SARS-CoV-2, ако все още не сте го направили."</string>
     <!-- XMSG: risk details - ventilation bullet point -->
     <string name="risk_details_behavior_body_ventilation">"Проветрявайте затворените помещения по няколко пъти на ден. За целта отворете прозорците възможно най-широко за няколко минути (т.нар. ударно проветряване)."</string>
     <!-- XMSG: risk details - cough/sneeze, something like a bullet point -->
@@ -622,24 +625,10 @@
 
     <!-- XHED: settings(notification) - notification page title -->
     <string name="settings_notifications_title">"Известия"</string>
-    <!-- XHED: settings(notification) - multiline headline below illustration, active -->
-    <string name="settings_notifications_headline_active">"Желаете ли да активирате известията за Вашия статус на риск от заразяване с COVID-19?"</string>
     <!-- XTXT: settings(notification) - text in row on settings overview -->
     <string name="settings_notifications_body_description">"Разрешаване на автоматични известия за Вашия статус на риск от заразяване с COVID-19."</string>
-    <!-- YTXT: settings(notification) - description text when it notifications are enabled -->
-    <string name="settings_notifications_body_active">"Посочете за какво желаете да получавате известия"</string>
     <!-- XTXT: settings(notification) - explains what the user has to do to activate settings -->
     <string name="settings_notifications_body_inactive">"За да активирате известията от Corona-Warn-App, трябва да разрешите известяването от настройките на Вашето устройство."</string>
-    <!-- XHED: settings(notification) - card headline -->
-    <string name="settings_notifications_headline_card">"Активиране на известия"</string>
-    <!-- XHED: settings - notification headline on settings overview -->
-    <string name="settings_notifications_subtitle_notification">"Известия"</string>
-    <!-- XTXT: settings(notification) - next to a switch -->
-    <string name="settings_notifications_subtitle_update_risk">"Промяна на Вашия риск от заразяване"</string>
-    <!-- XTXT: settings(notification) - next to a switch -->
-    <string name="settings_notifications_subtitle_update_test">"Статус на Вашия тест за коронавирус"</string>
-    <!-- XBUT: settings(notification) - go to operating settings -->
-    <string name="settings_notifications_button_open_settings">"Към настройките на устройството"</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, active -->
     <string name="settings_notifications_illustration_description_active">"Жена, която получава известие от приложението Corona-Warn-App."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, inactive -->
@@ -909,25 +898,6 @@
     <string name="submission_error_dialog_confirm_cancellation_button_positive">"Да"</string>
     <!-- XBUT: Negative button for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_button_negative">"Не"</string>
-
-    <!-- Permission Rationale Dialog -->
-    <!-- XHED: Dialog headline QR Scan permission rationale  -->
-    <string name="submission_qr_code_scan_permission_rationale_dialog_headline">"Изисква се разрешение за използване на камерата"</string>
-    <!-- YTXT: Dialog Body text for QR Scan permission rationale -->
-    <string name="submission_qr_code_scan_permission_rationale_dialog_body">"Разрешете на приложението да използва камерата, за да сканира QR кода."</string>
-    <!-- XBUT: Dialog(QR Scan permission rationale) - positive button (right) -->
-    <string name="submission_qr_code_scan_permission_rationale_dialog_button_positive">"Разрешавам"</string>
-    <!-- XBUT: Dialog(QR Scan permission rationale) - negative button (left) -->
-    <string name="submission_qr_code_scan_permission_rationale_dialog_button_negative">"Не разрешавам"</string>
-
-    <!-- Permission Denied Dialog -->
-    <!-- XHED: Dialog headline QR Scan permission denied  -->
-    <string name="submission_qr_code_scan_permission_denied_dialog_headline">"Необходим е достъп до камерата"</string>
-    <!-- YTXT: Dialog Body text for QR Scan permission denied -->
-    <string name="submission_qr_code_scan_permission_denied_dialog_body">"Моля, отворете настройките на устройството си и разрешете на приложението да сканира QR кода през камерата."</string>
-    <!-- XBUT: Dialog(QR Scan permission denied) - button -->
-    <string name="submission_qr_code_scan_permission_denied_dialog_button">"OK"</string>
-
     <!-- QR Code Scan Invalid Dialog -->
     <!-- XHED: Dialog headline for invalid QR code  -->
     <string name="submission_qr_code_scan_invalid_dialog_headline">"Невалиден QR код"</string>
@@ -1566,6 +1536,20 @@
     <!-- XTXT: Statistics FAQ text -->
     <string name="statistics_faq_text">"За повече информация вижте страницата „ЧЗВ“:"</string>
 
+    <!-- Seven Day Hospitalization Statistics Card -->
+    <!-- XHED: Title for seven day hospitalization stats -->
+    <string name="statistics_seven_day_hospitalization_card_title">"7-дневна заболеваемост с хоспитализация"</string>
+    <!-- XTXT: Nationwide text -->
+    <string name="statistics_seven_day_hospitalization_nationwide_text">"В национален мащаб"</string>
+    <!-- XTXT: Hospitalizations per 100.000 inhabitants -->
+    <string name="statistics_seven_day_hospitalization_per_inhabitants_text">"Хоспитализации на пациенти с COVID-19 на 100 000 души"</string>
+
+    <!-- Occupied Intensive Care Statistics Card -->
+    <!-- XHED: Title for occupied intensive care card -->
+    <string name="statistics_occupied_intensive_care_card_title">"Пациенти с COVID-19 в интензивни отделения"</string>
+    <!-- XTXT: Ocupation of all intensive care beds -->
+    <string name="statistics_occupied_intensive_care_beds_text">"Процент на заетостта от пациенти с COVID-19 на всички легла от интензивните отделения."</string>
+
     <!-- Statistics Add new tile -->
     <!-- XTXT: Statistics add card title -->
     <string name="statistics_add_card_title">"Добавяне на 7-дневна заболеваемост на местно ниво"</string>
@@ -1785,13 +1769,15 @@
     <string name="statistics_trend_stable">"Тенденция: Стабилизиране"</string>
 
     <!-- XHED: Title for BottomNav main screen title -->
-    <string name="bottom_nav_home_title">"Начален екран"</string>
+    <string name="bottom_nav_home_title">"Статус"</string>
     <!-- XHED: Title for BottomNav diary screen title -->
     <string name="bottom_nav_diary_title">"Дневник"</string>
     <!-- XHED: Title for BottomNav check-in screen title -->
     <string name="bottom_nav_check_ins_title">"Регистрация"</string>
     <!-- XHED: Title for BottomNav certificates screen title -->
     <string name="bottom_nav_certificates_title">"Сертификати"</string>
+    <!-- XHED: Title for BottomNav scanner screen title -->
+    <string name="bottom_nav_scanner_title">"Сканиране"</string>
     <!-- ####################################
            Data Donation & Survey
     ###################################### -->
@@ -1932,12 +1918,6 @@
     <string name="trace_location_onboarding_body_stay">"Моля, отбележете продължителността на престоя си възможно най-точно, за да може да получите адекватни предупреждения."</string>
     <!-- XACT: Button/Dialog label to consent-->
     <string name="trace_location_onboarding_body_confirm">"Приемам"</string>
-    <!--  XHED: Trace location check-ins camera permission card title-->
-    <string name="trace_location_attendee_camera_card_title">"Разрешаване на достъп до камерата"</string>
-    <!--  XTXT: Trace location check-ins camera permission card susbtitle-->
-    <string name="trace_location_attendee_camera_card_subtitle">"За да използвате камерата на телефона си за сканиране на QR кодове, трябва да разрешите на приложението да получи достъп до нея от настройките на устройството си."</string>
-    <!--  XBUT: Trace location check-ins camera permission card button-->
-    <string name="trace_location_attendee_camera_card_button">"Отворете менюто за настройки"</string>
     <!--  YMSG: Trace location onboarding image description-->
     <string name="trace_location_onboarding_content_description">"Трима души стоят до висока маса и двама от тях гледат телефоните си."</string>
     <!-- XMIT: Trace location poster print -->
@@ -1988,4 +1968,44 @@
     <string name="incompatible_link_advertising_not_supported">"https://www.coronawarn.app/en/faq/#part_incompat"</string>
     <!-- XTXT: Incompitability faq link for full incompatibility -->
     <string name="incompatible_link_scanning_not_supported">"https://www.coronawarn.app/en/faq/#full_incompat"</string>
+
+    <!-- XHED: App Root Detection dialog title -->
+    <string name="root_dialog_title">"Бележка за сигурността"</string>
+    <!-- XTXT: App Root Detection dialog message -->
+    <string name="root_dialog_message">"Открихме признаци за администраторски правомощия (известни и като основни правомощия) на устройството ви. Това означава, че има увеличен риск други приложения на смартфона ви да осъществят достъп до данните в приложението Corona-Warn-App."</string>
+    <!-- XTXT: App Root Detection link label -->
+    <string name="root_dialog_faq_link_label">"ЧЗВ относно сигурността на приложението"</string>
+    <!-- XTXT: Informs user about root detection: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#root_detection_android -->
+    <string name="root_dialog_faq_link_url">"https://www.coronawarn.app/en/faq/#root_detection_android"</string>
+    <!-- XBUT: App Root Detection button -->
+    <string name="root_dialog_button">"ОК"</string>
+
+    <!-- ####################################
+        Incompatibility warning card
+    ###################################### -->
+
+    <!-- Permission Denied Dialog -->
+    <!-- XHED: UQS camera permission dialog title -->
+    <string name="camera_permission_dialog_title">"Изисква се достъп до камерата"</string>
+    <!-- XTXT: UQS camera permission dialog message -->
+    <string name="camera_permission_dialog_message">"Моля, отворете системните настройки и разрешете на приложението да сканира QR кода."</string>
+    <!-- XBUT: UQS camera permission dialog settings -->
+    <string name="camera_permission_dialog_settings">"Настройки"</string>
+
+    <!-- Permission Rationale Dialog -->
+    <!-- XHED: Dialog headline QR Scan permission rationale  -->
+    <string name="camera_permission_rationale_dialog_headline">"Изисква се достъп до камерата"</string>
+    <!-- YTXT: Dialog Body text for QR Scan permission rationale -->
+    <string name="camera_permission_rationale_dialog_body">"Разрешете на приложението да използва камерата, за да сканира QR кода."</string>
+    <!-- XBUT: Dialog(QR Scan permission rationale) - positive button (right) -->
+    <string name="camera_permission_rationale_dialog_button_positive">"Разрешавам"</string>
+    <!-- XBUT: Dialog(QR Scan permission rationale) - negative button (left) -->
+    <string name="camera_permission_rationale_dialog_button_negative">"Не разрешавам"</string>
+
+    <!--    UQS Tooltip-->
+    <!-- XHED: UQS Tooltip title -->
+    <string name="fab_scanner_tip_title">"Скенер за QR кодове"</string>
+    <!-- XTXT: UQS Tooltip subtitle -->
+    <string name="fab_scanner_tip_subtitle">"Използвайте този скенер, за да сканирате тестове, сертификати и регистрации."</string>
+
 </resources>
