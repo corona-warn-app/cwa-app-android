@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
     <!-- ####################################
                      Generics
     ###################################### -->
@@ -36,7 +35,7 @@
     <!-- XTXT: Notification body -->
     <string name="notification_body">"You have new messages from your Corona-Warn-App."</string>
     <!-- XTXT: Notification body certificate -->
-    <string name="notification_body_certificate">"Überprüfen Sie die Gültigkeit Ihrer Zertifikate."</string>
+    <string name="notification_body_certificate">"Check the validity of your certificates."</string>
     <!-- XHED: Notification title - Reminder to share a positive test result-->
     <string name="notification_headline_share_positive_result">"You can help!"</string>
     <!-- XTXT: Notification body - Reminder to share a positive test result-->
@@ -622,28 +621,14 @@
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_bluetooth_illustration_description_inactive">"A person has turned off Bluetooth on their smartphone, so an encounter with two other persons is not logged."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
-    <string name="settings_tracing_location_illustration_description_inactive" />
+    <string name="settings_tracing_location_illustration_description_inactive"/>
 
     <!-- XHED: settings(notification) - notification page title -->
     <string name="settings_notifications_title">"Notifications"</string>
-    <!-- XHED: settings(notification) - multiline headline below illustration, active -->
-    <string name="settings_notifications_headline_active">"Do you want to activate notifications of your COVID-19 risk status?"</string>
     <!-- XTXT: settings(notification) - text in row on settings overview -->
     <string name="settings_notifications_body_description">"Allow automatic notifications of your COVID-19 risk status."</string>
-    <!-- YTXT: settings(notification) - description text when it notifications are enabled -->
-    <string name="settings_notifications_body_active">"Specify which areas you want to continue to receive notifications for."</string>
     <!-- XTXT: settings(notification) - explains what the user has to do to activate settings -->
     <string name="settings_notifications_body_inactive">"To activate notifications in the Corona-Warn-App, you must allow notifications in your device settings."</string>
-    <!-- XHED: settings(notification) - card headline -->
-    <string name="settings_notifications_headline_card">"Activate Notifications"</string>
-    <!-- XHED: settings - notification headline on settings overview -->
-    <string name="settings_notifications_subtitle_notification">"Notifications"</string>
-    <!-- XTXT: settings(notification) - next to a switch -->
-    <string name="settings_notifications_subtitle_update_risk">"Your risk of infection changed"</string>
-    <!-- XTXT: settings(notification) - next to a switch -->
-    <string name="settings_notifications_subtitle_update_test">"Status of your coronavirus test"</string>
-    <!-- XBUT: settings(notification) - go to operating settings -->
-    <string name="settings_notifications_button_open_settings">"Open Device Settings"</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, active -->
     <string name="settings_notifications_illustration_description_active">"A woman receives a notification from her Corona-Warn-App."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, inactive -->
@@ -913,25 +898,6 @@
     <string name="submission_error_dialog_confirm_cancellation_button_positive">"Yes"</string>
     <!-- XBUT: Negative button for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_button_negative">"No"</string>
-
-    <!-- Permission Rationale Dialog -->
-    <!-- XHED: Dialog headline QR Scan permission rationale  -->
-    <string name="submission_qr_code_scan_permission_rationale_dialog_headline">"Camera authorization required"</string>
-    <!-- YTXT: Dialog Body text for QR Scan permission rationale -->
-    <string name="submission_qr_code_scan_permission_rationale_dialog_body">"Allow the app to use the camera to scan the QR code."</string>
-    <!-- XBUT: Dialog(QR Scan permission rationale) - positive button (right) -->
-    <string name="submission_qr_code_scan_permission_rationale_dialog_button_positive">"Allow"</string>
-    <!-- XBUT: Dialog(QR Scan permission rationale) - negative button (left) -->
-    <string name="submission_qr_code_scan_permission_rationale_dialog_button_negative">"Do Not Allow"</string>
-
-    <!-- Permission Denied Dialog -->
-    <!-- XHED: Dialog headline QR Scan permission denied  -->
-    <string name="submission_qr_code_scan_permission_denied_dialog_headline">"Camera access needed"</string>
-    <!-- YTXT: Dialog Body text for QR Scan permission denied -->
-    <string name="submission_qr_code_scan_permission_denied_dialog_body">"Please call up your device settings and allow the app to use the camera to scan the QR code."</string>
-    <!-- XBUT: Dialog(QR Scan permission denied) - button -->
-    <string name="submission_qr_code_scan_permission_denied_dialog_button">"OK"</string>
-
     <!-- QR Code Scan Invalid Dialog -->
     <!-- XHED: Dialog headline for invalid QR code  -->
     <string name="submission_qr_code_scan_invalid_dialog_headline">"QR code is invalid"</string>
@@ -1108,7 +1074,7 @@
     <!-- XHED: Subtitle text for test result card with consent given -->
     <string name="submission_test_result_consent_given_subtitle">"Thank you for helping to stop the spread of coronavirus."</string>
     <!-- YTXT: body text for test result card with consent given -->
-    <string name="submission_test_result_consent_given_body"><b>"Others you have had contact with will now be warned."</b>" "<br /><br />"You can now help to improve the accuracy of the warnings. To do so, in the next step, tell us when you first developed symptoms. You can cancel this step at any time."</string>
+    <string name="submission_test_result_consent_given_body"><b>"Others you have had contact with will now be warned."</b>" "<br/><br/>"You can now help to improve the accuracy of the warnings. To do so, in the next step, tell us when you first developed symptoms. You can cancel this step at any time."</string>
     <!-- XBUT: button text for the 'break up' button option on test result consent given page -->
     <string name="submission_test_result_consent_given_breakup_button">"Exit"</string>
 
@@ -1572,17 +1538,17 @@
 
     <!-- Seven Day Hospitalization Statistics Card -->
     <!-- XHED: Title for seven day hospitalization stats -->
-    <string name="statistics_seven_day_hospitalization_card_title">"7-Tage-Inzidenz Hospitalisierung"</string>
+    <string name="statistics_seven_day_hospitalization_card_title">"7-Day Hospitalization Incidence"</string>
     <!-- XTXT: Nationwide text -->
-    <string name="statistics_seven_day_hospitalization_nationwide_text">"Bundesweit"</string>
+    <string name="statistics_seven_day_hospitalization_nationwide_text">"Nationwide"</string>
     <!-- XTXT: Hospitalizations per 100.000 inhabitants -->
-    <string name="statistics_seven_day_hospitalization_per_inhabitants_text">"COVID-19-Hospitalisierungen je 100.000 Einwohner"</string>
+    <string name="statistics_seven_day_hospitalization_per_inhabitants_text">"COVID-19 Hospitalizations per 100,000 Residents"</string>
 
     <!-- Occupied Intensive Care Statistics Card -->
     <!-- XHED: Title for occupied intensive care card -->
-    <string name="statistics_occupied_intensive_care_card_title">"COVID-19-Erkrankte auf Intensivstationen"</string>
+    <string name="statistics_occupied_intensive_care_card_title">"COVID-19 Patients in Intensive Care Units"</string>
     <!-- XTXT: Ocupation of all intensive care beds -->
-    <string name="statistics_occupied_intensive_care_beds_text">"COVID-19-Belegung aller betreibbaren Intensivbetten"</string>
+    <string name="statistics_occupied_intensive_care_beds_text">"COVID-19 Occupancy Rate of All Intensive Care Beds"</string>
 
     <!-- Statistics Add new tile -->
     <!-- XTXT: Statistics add card title -->
@@ -1952,12 +1918,6 @@
     <string name="trace_location_onboarding_body_stay">"Please specify your length of stay as precisely as possible to enable targeted warnings."</string>
     <!-- XACT: Button/Dialog label to consent-->
     <string name="trace_location_onboarding_body_confirm">"Accept"</string>
-    <!--  XHED: Trace location check-ins camera permission card title-->
-    <string name="trace_location_attendee_camera_card_title">"Allow Access to Camera"</string>
-    <!--  XTXT: Trace location check-ins camera permission card susbtitle-->
-    <string name="trace_location_attendee_camera_card_subtitle">"To use your smartphone camera to scan QR codes, you have to allow access to the camera in the device settings for the app."</string>
-    <!--  XBUT: Trace location check-ins camera permission card button-->
-    <string name="trace_location_attendee_camera_card_button">"Open Settings"</string>
     <!--  YMSG: Trace location onboarding image description-->
     <string name="trace_location_onboarding_content_description">"Three persons are standing at a high table, two of them are looking at their smartphones."</string>
     <!-- XMIT: Trace location poster print -->
@@ -1994,17 +1954,6 @@
     <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
     <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">"Cancel"</string>
 
-    <!-- XHED: App Root Detection dialog title -->
-    <string name="root_dialog_title">"Sicherheitshinweis"</string>
-    <!-- XTXT: App Root Detection dialog message -->
-    <string name="root_dialog_message">"Wir haben auf Ihrem Gerät Anzeichen für Administrator-Berechtigungen (auch bekannt als Root-Berechtigungen) gefunden. Es besteht daher ein erhöhtes Risiko, dass andere Anwendungen auf Ihrem Smartphone auf Daten der Corona-Warn-App zugreifen können."</string>
-    <!-- XTXT: App Root Detection link label -->
-    <string name="root_dialog_faq_link_label">"FAQ zur Sicherheit der App"</string>
-    <!-- XTXT: Informs user about root detection: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#root_detection_android -->
-    <string name="root_dialog_faq_link_url">"https://www.coronawarn.app/en/faq/#root_detection_android"</string>
-    <!-- XBUT: App Root Detection button -->
-    <string name="root_dialog_button">"OK"</string>
-
     <!-- ####################################
         Incompatibility warning card
     ###################################### -->
@@ -2020,17 +1969,32 @@
     <!-- XTXT: Incompitability faq link for full incompatibility -->
     <string name="incompatible_link_scanning_not_supported">"https://www.coronawarn.app/en/faq/#full_incompat"</string>
 
+    <!-- XHED: App Root Detection dialog title -->
+    <string name="root_dialog_title">"Security Note"</string>
+    <!-- XTXT: App Root Detection dialog message -->
+    <string name="root_dialog_message">"We have found signs of administrator authorizations (also known as root authorizations) on your device. This means there is an increased risk that other apps on your smartphone could access data from the Corona-Warn-App."</string>
+    <!-- XTXT: App Root Detection link label -->
+    <string name="root_dialog_faq_link_label">"FAQ on App Security"</string>
+    <!-- XTXT: Informs user about root detection: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#root_detection_android -->
+    <string name="root_dialog_faq_link_url">"https://www.coronawarn.app/en/faq/#root_detection_android"</string>
+    <!-- XBUT: App Root Detection button -->
+    <string name="root_dialog_button">"OK"</string>
+
+    <!-- ####################################
+        Incompatibility warning card
+    ###################################### -->
+
     <!-- Permission Denied Dialog -->
     <!-- XHED: UQS camera permission dialog title -->
-    <string name="camera_permission_dialog_title">Kamerazugriff benötigt</string>
+    <string name="camera_permission_dialog_title">"Camera access required"</string>
     <!-- XTXT: UQS camera permission dialog message -->
-    <string name="camera_permission_dialog_message">Bitte gehen Sie in die Systemeinstellungen und erlauben Sie der App die Benutzung der Kamera, um den QR-Code zu scannen.</string>
+    <string name="camera_permission_dialog_message">"Please call up the system settings and allow the app to use the camera to scan the QR code."</string>
     <!-- XBUT: UQS camera permission dialog settings -->
-    <string name="camera_permission_dialog_settings">Einstellungen</string>
+    <string name="camera_permission_dialog_settings">"Settings"</string>
 
     <!-- Permission Rationale Dialog -->
     <!-- XHED: Dialog headline QR Scan permission rationale  -->
-    <string name="camera_permission_rationale_dialog_headline">"Camera authorization required"</string>
+    <string name="camera_permission_rationale_dialog_headline">"Camera access required"</string>
     <!-- YTXT: Dialog Body text for QR Scan permission rationale -->
     <string name="camera_permission_rationale_dialog_body">"Allow the app to use the camera to scan the QR code."</string>
     <!-- XBUT: Dialog(QR Scan permission rationale) - positive button (right) -->
@@ -2040,8 +2004,8 @@
 
     <!--    UQS Tooltip-->
     <!-- XHED: UQS Tooltip title -->
-    <string name="fab_scanner_tip_title">QR-Code-Scanner</string>
+    <string name="fab_scanner_tip_title">"QR Code Scanner"</string>
     <!-- XTXT: UQS Tooltip subtitle -->
-    <string name="fab_scanner_tip_subtitle">Scannen Sie Tests, Zertifikate und Check-ins mit diesem Scanner.</string>
+    <string name="fab_scanner_tip_subtitle">"Use this scanner to scan tests, certificates, and check-ins."</string>
 
 </resources>

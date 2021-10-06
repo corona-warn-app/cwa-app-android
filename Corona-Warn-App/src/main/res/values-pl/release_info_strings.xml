@@ -16,16 +16,18 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Uniwersalny skaner kodów QR"</item>
-        <item>"Importuj kod QR"</item>
-        <item>"Dostosowanie do czasu trwania kontaktu"</item>
+        <item>"Rozszerzone statystyki"</item>
+        <item>"Zarządzaj powiadomieniami"</item>
+        <item>"Bezpośredni dostęp do skanera kodów QR"</item>
+        <item>"Kontrola uprawnień administratora"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Możesz teraz skanować wszystkie dokumenty obsługiwane przez aplikację Corona-Warn-App, niezależnie od tego, gdzie otworzysz skaner kodów QR w aplikacji:\n\n• Testy PCR\n• Szybkie testy\n• Zameldowania obecności w wydarzeniach\n• Certyfikaty"</item>
-        <item>"Możesz teraz używać skanera kodów QR do importowania kodów QR ze zdjęć lub plików PDF."</item>
-        <item>"Minimalny czas trwania kontaktu w dzienniku kontaktów został skrócony z 15 minut do 10 minut. Dokonane już wpisy dotyczące kontaktów zostały automatycznie dostosowane. Przejrzyj wpisy w dzienniku i dostosuj je w razie potrzeby."</item>
+        <item>"W aplikacji dostępne są teraz następujące statystyki:\n\n• 7-dniowy współczynnik hospitalizacji\n• Pacjenci z COVID-19 na oddziałach intensywnej terapii"</item>
+        <item>"Ustawienia powiadomień są teraz zarządzane centralnie w ustawieniach Twojego smartfona. Sprawdź ponownie ustawienia powiadomień dla aplikacji Corona-Warn-App w ustawieniach swojego urządzenia."</item>
+        <item>"Masz teraz bezpośredni dostęp do uniwersalnego skanera kodów QR na dolnym pasku nawigacyjnym."</item>
+        <item>"Po ponownym uruchomieniu aplikacja sprawdza, czy uprawnienia administratora (znane również jako uprawnienia roota) są aktywne na smartfonie i w razie potrzeby wyświetla uwagę dotyczącą bezpieczeństwa."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
@@ -33,10 +35,12 @@
         <item/>
         <item/>
         <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item/>
         <item/>
         <item/>
         <item/>
