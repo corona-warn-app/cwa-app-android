@@ -15,4 +15,5 @@ sealed class BaseTestCertificateData {
     abstract val lastSeenStateChangeAt: Instant?
     abstract val testCertificateQrCode: String?
     abstract val certificateSeenByUser: Boolean
+    abstract val recycledAt: Instant?
 }

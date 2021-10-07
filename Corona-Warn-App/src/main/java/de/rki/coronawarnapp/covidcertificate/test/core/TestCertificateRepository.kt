@@ -31,6 +31,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -75,6 +76,8 @@ class TestCertificateRepository @Inject constructor(
                 Timber.tag(TAG).v("Restored TestCertificate data: %s", it)
             }
     }
+
+    val recycledCertificates: Flow<Set<TestCertificate>> = emptyFlow()
 
     val certificates: Flow<Set<TestCertificateWrapper>> = combine(
         internalData.data,
@@ -194,6 +197,8 @@ class TestCertificateRepository @Inject constructor(
 
         val updatedData = internalData.updateBlocking {
 
+            // TODO throw an exception with
+            //  InvalidHealthCertificateException.ErrorCode.IN_RECYCLE_BIN when certificate is in recycled state
             if (values.any { it.certificateId == qrCode.uniqueCertificateIdentifier }) {
                 Timber.tag(TAG).e("Certificate entry already exists for %s", qrCode)
                 throw InvalidTestCertificateException(InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED)
@@ -456,6 +461,14 @@ class TestCertificateRepository @Inject constructor(
             Timber.tag(TAG).d("Updated= %s", updated)
             mutate { this[containerId] = updated }
         }
+    }
+
+    suspend fun recycleCertificate(containerId: TestCertificateContainerId) {
+        // TODO
+    }
+
+    suspend fun restoreCertificate(containerId: TestCertificateContainerId) {
+        // TODO
     }
 
     private fun updateLastSeenStateData(
