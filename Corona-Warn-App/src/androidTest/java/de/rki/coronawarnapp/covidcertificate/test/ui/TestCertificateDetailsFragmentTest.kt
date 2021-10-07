@@ -197,6 +197,8 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
         return object : AbstractTestCertificate(testDate, certificatePersonIdentifier) {
             override val isNew: Boolean get() = false
 
+            override val recycledAt: Instant? get() = null
+
             override fun getState(): CwaCovidCertificate.State = state
         }
     }
