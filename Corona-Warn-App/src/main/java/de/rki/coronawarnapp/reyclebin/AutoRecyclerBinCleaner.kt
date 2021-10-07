@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.reyclebin
 
-import de.rki.coronawarnapp.reyclebin.task.RecycleBinCleanTask
 import de.rki.coronawarnapp.task.TaskController
-import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import javax.inject.Inject
 
 class AutoRecyclerBinCleaner @Inject constructor(
@@ -10,11 +8,12 @@ class AutoRecyclerBinCleaner @Inject constructor(
 ) {
 
     fun run() {
+        /* TODO
         taskController.submit(
             DefaultTaskRequest(
                 RecycleBinCleanTask::class,
                 originTag = "RecycleBinCleanTaskRun"
             )
-        )
+        )*/
     }
 }
