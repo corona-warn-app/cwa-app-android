@@ -32,6 +32,11 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import timber.log.Timber
 import javax.inject.Inject
+import android.text.Spannable
+import android.text.style.ImageSpan
+import android.text.SpannableString
+import android.graphics.drawable.Drawable
+import android.view.Menu
 
 /**
  * After the user has finished the onboarding this fragment will be the heart of the application.
@@ -54,7 +59,8 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(binding.toolbar) {
-            menu.findItem(R.id.test_nav_graph).isVisible = CWADebug.isDeviceForTestersBuild
+            setupMenuIcons(menu)
+            setupDebugMenu(menu)
             setOnMenuItemClickListener {
                 resetTransitions()
                 it.onNavDestinationSelected(findNavController())
@@ -104,6 +110,34 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         viewModel.refreshRequiredData()
         viewModel.restoreAppShortcuts()
         binding.container.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+    }
+
+    private fun menuIconWithText(drawable: Drawable?, title: CharSequence): CharSequence {
+        if (drawable == null) return title
+        return SpannableString("    $title").apply {
+            drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
+            setSpan(ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+    }
+
+    private fun setupMenuIcons(menu: Menu) {
+        listOf(
+            R.id.settingsFragment,
+            R.id.trashOverviewFragment,
+            R.id.informationFragment,
+            R.id.mainOverviewFragment
+        ).forEach { id ->
+            menu.findItem(id).apply {
+                title = menuIconWithText(
+                    drawable = icon,
+                    title = title
+                )
+            }
+        }
+    }
+
+    private fun setupDebugMenu(menu: Menu) {
+        menu.findItem(R.id.test_nav_graph).isVisible = CWADebug.isDeviceForTestersBuild
     }
 
     private fun showRemoveTestDialog(type: CoronaTest.Type, submission: Boolean) {
