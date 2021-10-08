@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException.ErrorCode.CANT_READ_FILE
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
+import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCode
@@ -14,6 +15,7 @@ import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
+import de.rki.coronawarnapp.reyclebin.RecycledItemsProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -34,6 +36,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository,
     private val dccSettings: CovidCertificateSettings,
     private val traceLocationSettings: TraceLocationSettings,
+    private val recycledItemsProvider: RecycledItemsProvider,
 ) : CWAViewModel(dispatcherProvider) {
 
     val result = SingleLiveEvent<ScannerResult>()
@@ -74,18 +77,29 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     }
 
     fun setCameraDeniedPermanently(denied: Boolean) {
-        Timber.d("setCameraDeniedPermanently(denied=$denied)")
+        Timber.tag(TAG).d("setCameraDeniedPermanently(denied=$denied)")
         cameraSettings.isCameraDeniedPermanently.update { denied }
     }
 
-    private suspend fun onDccQrCode(qrCode: DccQrCode) {
-        Timber.tag(TAG).d("onDccQrCode=$qrCode")
-        val event = if (dccSettings.isOnboarded.value) {
-            val containerId = dccHandler.handleQrCode(qrCode)
-            Timber.tag(TAG).d("containerId=$containerId")
-            containerId.toDccDetails()
-        } else {
-            DccResult.Onboarding(qrCode)
+    fun restoreCertificate(containerId: CertificateContainerId) = launch {
+        Timber.tag(TAG).d("restoreCertificate(containerId=%s)", containerId)
+        recycledItemsProvider.restoreCertificate(containerId)
+    }
+
+    private suspend fun onDccQrCode(dccQrCode: DccQrCode) {
+        Timber.tag(TAG).d("onDccQrCode=$dccQrCode")
+        val recycledContainerId = recycledItemsProvider.findCertificate(dccQrCode.qrCode)
+        val event = when {
+            recycledContainerId != null -> {
+                Timber.tag(TAG).d("recycledContainerId=$recycledContainerId")
+                DccResult.InRecycleBin(recycledContainerId)
+            }
+            dccSettings.isOnboarded.value -> {
+                val containerId = dccHandler.handleQrCode(dccQrCode)
+                Timber.tag(TAG).d("containerId=$containerId")
+                containerId.toDccDetails()
+            }
+            else -> DccResult.Onboarding(dccQrCode)
         }
         result.postValue(event)
     }

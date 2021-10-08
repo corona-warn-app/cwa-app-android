@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
 import de.rki.coronawarnapp.qrcode.scanner.UnsupportedQrCodeException
+import de.rki.coronawarnapp.reyclebin.RecycledItemsProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.util.permission.CameraSettings
 import io.kotest.matchers.shouldBe
@@ -39,6 +40,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var dccSettings: CovidCertificateSettings
     @MockK lateinit var traceLocationSettings: TraceLocationSettings
+    @MockK lateinit var recycledItemsProvider: RecycledItemsProvider
 
     @BeforeEach
     fun setup() {
@@ -103,6 +105,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
         traceLocationSettings = traceLocationSettings,
         dispatcherProvider = TestDispatcherProvider(),
         cameraSettings = cameraSettings,
-        qrCodeValidator = qrCodeValidator
+        qrCodeValidator = qrCodeValidator,
+        recycledItemsProvider = recycledItemsProvider
     )
 }
