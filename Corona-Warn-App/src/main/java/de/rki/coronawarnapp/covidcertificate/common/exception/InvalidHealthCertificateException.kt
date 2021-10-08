@@ -54,7 +54,6 @@ open class InvalidHealthCertificateException(
         HC_DSC_OID_MISMATCH_RC("Recovery certificate OID mismatch."),
         HC_DSC_NOT_YET_VALID("DSC is not valid yet."),
         HC_DSC_EXPIRED("DSC expired."),
-        IN_RECYCLE_BIN("Certificate is in the recycle bin."),
     }
 
     val isCertificateInvalid: Boolean get() = errorCode in codesCertificateInvalid
