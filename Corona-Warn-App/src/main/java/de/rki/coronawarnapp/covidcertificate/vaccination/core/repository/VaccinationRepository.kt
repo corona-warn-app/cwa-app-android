@@ -29,9 +29,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.plus
@@ -84,8 +84,6 @@ class VaccinationRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
-    val recycledCertificates: Flow<Set<VaccinationCertificate>> = emptyFlow()
-
     val freshVaccinationInfos: Flow<Set<VaccinatedPerson>> = combine(
         internalData.data,
         valueSetsRepository.latestVaccinationValueSets,
@@ -102,6 +100,18 @@ class VaccinationRepository @Inject constructor(
             tag = TAG,
             scope = appScope
         )
+
+    /**
+     * Returns a flow with a set of [VaccinationCertificate] matching the predicate [CwaCovidCertificate.isRecycled]
+     */
+    val recycledCertificates: Flow<Set<VaccinationCertificate>> = vaccinationInfos
+        .map { persons ->
+            persons
+                .map { it.vaccinationCertificates }
+                .flatten()
+                .filter { it.isRecycled }
+                .toSet()
+        }
 
     suspend fun registerCertificate(
         qrCode: VaccinationCertificateQRCode,

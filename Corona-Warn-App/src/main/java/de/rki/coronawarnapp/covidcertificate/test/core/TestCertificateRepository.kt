@@ -31,9 +31,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.plus
@@ -77,8 +77,6 @@ class TestCertificateRepository @Inject constructor(
             }
     }
 
-    val recycledCertificates: Flow<Set<TestCertificate>> = emptyFlow()
-
     val certificates: Flow<Set<TestCertificateWrapper>> = combine(
         internalData.data,
         valueSetsRepository.latestTestCertificateValueSets,
@@ -103,6 +101,17 @@ class TestCertificateRepository @Inject constructor(
             tag = TAG,
             scope = appScope
         )
+
+    /**
+     * Returns a flow with a set of [TestCertificate] matching the predicate [CwaCovidCertificate.isRecycled]
+     */
+    val recycledCertificates: Flow<Set<TestCertificate>> = certificates
+        .map { wrappers ->
+            wrappers
+                .mapNotNull { it.testCertificate }
+                .filter { it.isRecycled }
+                .toSet()
+        }
 
     init {
         internalData.data

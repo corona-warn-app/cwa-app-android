@@ -49,6 +49,12 @@ interface CwaCovidCertificate {
     val recycledAt: Instant?
 
     /**
+     * Indicates if the user has moved this certificate into the recycle bin
+     */
+    val isRecycled: Boolean
+        get() = recycledAt != null
+
+    /**
      * Indicates that certificate has updates regarding its status
      * for example state changed to Expiring_Soon, Expired, Invalid or
      * retrieved Test certificate became available
