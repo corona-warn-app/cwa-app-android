@@ -26,6 +26,7 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
+@Suppress("LongParameterList")
 class QrCodeScannerViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val cameraSettings: CameraSettings,
