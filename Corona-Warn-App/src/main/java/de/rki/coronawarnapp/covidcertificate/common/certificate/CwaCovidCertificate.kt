@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
+import de.rki.coronawarnapp.covidcertificate.common.recycle.Recyclable
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
@@ -12,7 +13,7 @@ import org.joda.time.Instant
 /**
  * For use with the UI
  */
-interface CwaCovidCertificate {
+interface CwaCovidCertificate: Recyclable {
     // Header
     val headerIssuer: String
     val headerIssuedAt: Instant
@@ -45,14 +46,6 @@ interface CwaCovidCertificate {
 
     val lastSeenStateChange: State?
     val lastSeenStateChangeAt: Instant?
-
-    val recycledAt: Instant?
-
-    /**
-     * Indicates if the user has moved this certificate into the recycle bin
-     */
-    val isRecycled: Boolean
-        get() = recycledAt != null
 
     /**
      * Indicates that certificate has updates regarding its status

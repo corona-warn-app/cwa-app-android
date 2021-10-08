@@ -31,7 +31,7 @@ data class VaccinationContainer internal constructor(
     @SerializedName("lastSeenStateChange") val lastSeenStateChange: State? = null,
     @SerializedName("lastSeenStateChangeAt") val lastSeenStateChangeAt: Instant? = null,
     @SerializedName("certificateSeenByUser") val certificateSeenByUser: Boolean = true,
-    @SerializedName("recycledAt") val recycledAt: Instant? = null,
+    @SerializedName("recycledAt") override val recycledAt: Instant? = null,
 ) : CertificateRepoContainer {
 
     // Either set by [ContainerPostProcessor] or via [toVaccinationContainer]

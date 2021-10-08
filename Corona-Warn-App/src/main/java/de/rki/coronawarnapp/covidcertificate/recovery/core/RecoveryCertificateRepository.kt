@@ -99,7 +99,7 @@ class RecoveryCertificateRepository @Inject constructor(
         )
 
     /**
-     * Returns a flow with a set of [RecoveryCertificate] matching the predicate [CwaCovidCertificate.isRecycled]
+     * Returns a flow with a set of [RecoveryCertificate] matching the predicate [RecoveryCertificate.isRecycled]
      */
     val recycledCertificates: Flow<Set<RecoveryCertificate>> = certificates
         .map { wrappers ->

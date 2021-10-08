@@ -38,6 +38,9 @@ data class TestCertificateContainer(
     override val containerId: TestCertificateContainerId
         get() = TestCertificateContainerId(data.identifier)
 
+    override val recycledAt: Instant?
+        get() = data.recycledAt
+
     val registrationToken: String?
         get() = when (data) {
             is RetrievedTestCertificate -> data.registrationToken
