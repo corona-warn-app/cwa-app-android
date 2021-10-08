@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -55,6 +56,31 @@ class PersonCertificatesExtensionsTest : BaseTest() {
 
         wrongOrder shouldNotBe expectedOrder
         wrongOrder2 shouldNotBe expectedOrder
+    }
+
+    @Test
+    fun `certificate sort order -  crash EXPOSUREAPP-9880`() {
+        val vc1 = mockk<VaccinationCertificate>().apply {
+            every { headerIssuedAt } returns Instant.parse("2021-09-20T10:00:00.000Z")
+            every { vaccinatedOn } returns Instant.parse("2021-06-24T14:00:00.000Z").toLocalDateUtc()
+        }
+
+        val vc2 = mockk<VaccinationCertificate>().apply {
+            every { headerIssuedAt } returns Instant.parse("2021-09-20T10:00:00.000Z")
+            every { vaccinatedOn } returns Instant.parse("2021-04-25T14:00:00.000Z").toLocalDateUtc()
+        }
+
+        val rc1 = mockk<RecoveryCertificate>().apply {
+            every { validFrom } returns Instant.parse("2021-04-25T14:00:00.000Z").toLocalDateUtc()
+        }
+
+        val tc2 = mockk<TestCertificate>().apply {
+            every { sampleCollectedAt } returns Instant.parse("2021-08-23T14:00:00.000Z")
+        }
+
+        shouldNotThrowAny {
+            listOf(vc1, vc2, rc1, tc2).toCertificateSortOrder()
+        }
     }
 
     @Suppress("LongMethod", "ComplexMethod")
