@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.covidcertificate.common.recycle.Recyclable
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import java.util.Locale
 
-interface CertificateRepoContainer: Recyclable {
+interface CertificateRepoContainer : Recyclable {
     val containerId: CertificateContainerId
 
     /**

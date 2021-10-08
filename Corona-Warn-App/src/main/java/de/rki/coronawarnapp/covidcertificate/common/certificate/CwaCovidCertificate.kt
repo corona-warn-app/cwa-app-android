@@ -13,7 +13,7 @@ import org.joda.time.Instant
 /**
  * For use with the UI
  */
-interface CwaCovidCertificate: Recyclable {
+interface CwaCovidCertificate : Recyclable {
     // Header
     val headerIssuer: String
     val headerIssuedAt: Instant
