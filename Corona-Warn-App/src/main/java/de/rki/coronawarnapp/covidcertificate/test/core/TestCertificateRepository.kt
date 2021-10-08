@@ -77,7 +77,7 @@ class TestCertificateRepository @Inject constructor(
             }
     }
 
-    val certificates: Flow<Set<TestCertificateWrapper>> = combine(
+    private val testCertificateWrappers: Flow<Set<TestCertificateWrapper>> = combine(
         internalData.data,
         valueSetsRepository.latestTestCertificateValueSets,
         dscRepository.dscData
@@ -102,16 +102,31 @@ class TestCertificateRepository @Inject constructor(
             scope = appScope
         )
 
+    val certificates: Flow<Set<TestCertificateWrapper>> = testCertificateWrappers
+        .map { wrappers ->
+            wrappers
+                .filter { it.recycleInfo.isNotRecycled }
+                .toSet()
+        }
+        .shareLatest(
+            tag = TAG,
+            scope = appScope
+        )
+
     /**
      * Returns a flow with a set of [TestCertificate] matching the predicate [TestCertificate.isRecycled]
      */
-    val recycledCertificates: Flow<Set<TestCertificate>> = certificates
+    val recycledCertificates: Flow<Set<TestCertificate>> = testCertificateWrappers
         .map { wrappers ->
             wrappers
+                .filter { it.recycleInfo.isRecycled }
                 .mapNotNull { it.testCertificate }
-                .filter { it.isRecycled }
                 .toSet()
         }
+        .shareLatest(
+            tag = TAG,
+            scope = appScope
+        )
 
     init {
         internalData.data

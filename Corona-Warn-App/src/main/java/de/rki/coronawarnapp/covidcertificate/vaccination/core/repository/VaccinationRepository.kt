@@ -29,6 +29,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -107,11 +108,14 @@ class VaccinationRepository @Inject constructor(
     val recycledCertificates: Flow<Set<VaccinationCertificate>> = vaccinationInfos
         .map { persons ->
             persons
-                .map { it.vaccinationCertificates }
+                .map { it.recycledVaccinationCertificates }
                 .flatten()
-                .filter { it.isRecycled }
                 .toSet()
         }
+        .shareLatest(
+            tag = TAG,
+            scope = appScope
+        )
 
     suspend fun registerCertificate(
         qrCode: VaccinationCertificateQRCode,

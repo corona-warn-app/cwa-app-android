@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.test.core
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.common.recycle.Recyclable
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
@@ -21,6 +22,8 @@ data class TestCertificateWrapper(
     val registeredAt: Instant get() = container.registeredAt
 
     val registrationToken: String? get() = container.registrationToken
+
+    val recycleInfo: Recyclable get() = container
 
     val testCertificate: TestCertificate? by lazy {
         container.toTestCertificate(

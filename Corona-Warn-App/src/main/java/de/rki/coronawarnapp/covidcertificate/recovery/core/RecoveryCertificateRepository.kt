@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -78,7 +79,7 @@ class RecoveryCertificateRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
-    val freshCertificates: Flow<Set<RecoveryCertificateWrapper>> = combine(
+    private val recoveryCertificateWrappers: Flow<Set<RecoveryCertificateWrapper>> = combine(
         internalData.data,
         dscRepository.dscData
     ) { set, _ ->
@@ -92,6 +93,13 @@ class RecoveryCertificateRepository @Inject constructor(
         }.toSet().also { Timber.d("Test: $it") }
     }
 
+    val freshCertificates: Flow<Set<RecoveryCertificateWrapper>> = recoveryCertificateWrappers
+        .map { wrapper ->
+            wrapper
+                .filter { it.recycleInfo.isNotRecycled }
+                .toSet()
+        }
+
     val certificates: Flow<Set<RecoveryCertificateWrapper>> = freshCertificates
         .shareLatest(
             tag = TAG,
@@ -101,13 +109,17 @@ class RecoveryCertificateRepository @Inject constructor(
     /**
      * Returns a flow with a set of [RecoveryCertificate] matching the predicate [RecoveryCertificate.isRecycled]
      */
-    val recycledCertificates: Flow<Set<RecoveryCertificate>> = certificates
+    val recycledCertificates: Flow<Set<RecoveryCertificate>> = recoveryCertificateWrappers
         .map { wrappers ->
             wrappers
+                .filter { it.recycleInfo.isRecycled }
                 .map { it.recoveryCertificate }
-                .filter { it.isRecycled }
                 .toSet()
         }
+        .shareLatest(
+            tag = TAG,
+            scope = appScope
+        )
 
     @Throws(InvalidRecoveryCertificateException::class)
     suspend fun registerCertificate(qrCode: RecoveryCertificateQRCode): RecoveryCertificateContainer {
