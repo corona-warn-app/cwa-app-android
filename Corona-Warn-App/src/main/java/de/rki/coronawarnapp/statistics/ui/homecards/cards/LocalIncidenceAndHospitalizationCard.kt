@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.statistics.ui.homecards.cards
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.HomeStatisticsCardsLocalIncidenceLayoutBinding
+import de.rki.coronawarnapp.databinding.HomeStatisticsCardsLocalIncidenceAndHospitalizationLayoutBinding
 import de.rki.coronawarnapp.datadonation.analytics.common.labelStringRes
 import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass
 import de.rki.coronawarnapp.statistics.LocalIncidenceStats
@@ -17,21 +17,21 @@ import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithLineBreak
 import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithTrailingSpace
 import de.rki.coronawarnapp.util.formatter.getPrimaryLabel
 
-class LocalIncidenceCard(parent: ViewGroup) :
-    StatisticsCardAdapter.ItemVH<LocalStatisticsCardItem, HomeStatisticsCardsLocalIncidenceLayoutBinding>(
+class LocalIncidenceAndHospitalizationCard(parent: ViewGroup) :
+    StatisticsCardAdapter.ItemVH<LocalStatisticsCardItem, HomeStatisticsCardsLocalIncidenceAndHospitalizationLayoutBinding>(
         R.layout.home_statistics_cards_basecard_layout,
         parent
     ) {
 
     override val viewBinding = lazy {
-        HomeStatisticsCardsLocalIncidenceLayoutBinding.inflate(
+        HomeStatisticsCardsLocalIncidenceAndHospitalizationLayoutBinding.inflate(
             layoutInflater,
             itemView.findViewById(R.id.card_container),
             true
         )
     }
 
-    override val onBindData: HomeStatisticsCardsLocalIncidenceLayoutBinding.(
+    override val onBindData: HomeStatisticsCardsLocalIncidenceAndHospitalizationLayoutBinding.(
         item: LocalStatisticsCardItem,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
@@ -47,8 +47,8 @@ class LocalIncidenceCard(parent: ViewGroup) :
                 }
             }
 
-            incidenceContainer.contentDescription =
-                buildAccessibilityStringForLocalIncidenceCard(curItem.stats, sevenDayIncidence)
+            sevenDayIncidenceAndHospitalizationCardContainer.contentDescription =
+                buildAccessibilityStringForLocalIncidenceCard(curItem.stats, sevenDayIncidence, sevenDayHospitalization)
 
             locationLabel.text = when (selectedLocation) {
                 is SelectedStatisticsLocation.SelectedDistrict ->
@@ -75,13 +75,33 @@ class LocalIncidenceCard(parent: ViewGroup) :
                 )
                 .append(getContentDescriptionForTrends(context, sevenDayIncidence.trend))
 
-            trendArrow.setTrend(sevenDayIncidence.trend, sevenDayIncidence.trendSemantic)
+            primaryTrendArrow.setTrend(sevenDayIncidence.trend, sevenDayIncidence.trendSemantic)
+
+            secondaryLabel.text = getPrimaryLabel(context)
+            secondaryLabel.text = getLocalizedSpannableString(
+                context,
+                formatStatisticalValue(context, sevenDayHospitalization.value, sevenDayHospitalization.decimals)
+            )
+            secondaryValue.contentDescription = StringBuilder()
+                .appendWithTrailingSpace(context.getString(R.string.statistics_card_local_incidence_title))
+                .appendWithTrailingSpace(getPrimaryLabel(context))
+                .appendWithTrailingSpace(
+                    formatStatisticalValue(
+                        context,
+                        sevenDayHospitalization.value,
+                        sevenDayHospitalization.decimals
+                    )
+                )
+                .append(getContentDescriptionForTrends(context, sevenDayHospitalization.trend))
+
+            secondaryTrendArrow.setTrend(sevenDayHospitalization.trend, sevenDayHospitalization.trendSemantic)
         }
     }
 
     private fun buildAccessibilityStringForLocalIncidenceCard(
         item: LocalStatsItem,
-        sevenDayIncidence: KeyFigureCardOuterClass.KeyFigure
+        sevenDayIncidence: KeyFigureCardOuterClass.KeyFigure,
+        sevenDayHospitalization: KeyFigureCardOuterClass.KeyFigure
     ): StringBuilder {
 
         return StringBuilder()
@@ -97,6 +117,14 @@ class LocalIncidenceCard(parent: ViewGroup) :
             )
             .appendWithTrailingSpace(context.getString(R.string.statistics_card_local_incidence_value_description))
             .appendWithLineBreak(getContentDescriptionForTrends(context, sevenDayIncidence.trend))
+            .appendWithTrailingSpace(item.getPrimaryLabel(context))
+            .appendWithTrailingSpace(
+                formatStatisticalValue(
+                    context,
+                    sevenDayHospitalization.value,
+                    sevenDayHospitalization.decimals
+                )
+            )
             .append(context.getString(R.string.accessibility_statistics_card_navigation_information))
     }
 }
