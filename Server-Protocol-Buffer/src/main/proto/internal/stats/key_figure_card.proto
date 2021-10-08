@@ -39,4 +39,5 @@ message KeyFigure {
   int32 decimals = 3; // zero by default; formatted as integer then
   Trend trend = 4;
   TrendSemantic trendSemantic = 5;
+  int64 updatedAt = 6; // may overrule header.updatedAt if != 0
 }
