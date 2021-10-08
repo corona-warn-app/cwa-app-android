@@ -89,6 +89,7 @@
             android:id="@+id/primary_subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:hyphenationFrequency="full"
             android:text="@string/statistics_seven_day_hospitalization_per_inhabitants_text"
             app:layout_constraintEnd_toStartOf="@id/background_image"
             app:layout_constraintStart_toStartOf="@id/primary_value"
