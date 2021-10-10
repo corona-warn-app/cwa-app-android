@@ -46,6 +46,8 @@ interface CwaCovidCertificate {
     val lastSeenStateChange: State?
     val lastSeenStateChangeAt: Instant?
 
+    val recycledAt: Instant?
+
     /**
      * Indicates that certificate has updates regarding its status
      * for example state changed to Expiring_Soon, Expired, Invalid or

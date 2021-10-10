@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -77,6 +78,8 @@ class RecoveryCertificateRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
+    val recycledCertificates: Flow<Set<RecoveryCertificate>> = emptyFlow()
+
     val freshCertificates: Flow<Set<RecoveryCertificateWrapper>> = combine(
         internalData.data,
         dscRepository.dscData
@@ -103,6 +106,8 @@ class RecoveryCertificateRepository @Inject constructor(
         val newContainer = qrCode.toContainer()
         internalData.updateBlocking {
             if (any { it.certificateId == newContainer.certificateId }) {
+                // TODO throw an exception with
+                //  InvalidHealthCertificateException.ErrorCode.IN_RECYCLE_BIN when certificate is in recycled state
                 throw InvalidRecoveryCertificateException(
                     InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
                 )
@@ -210,6 +215,14 @@ class RecoveryCertificateRepository @Inject constructor(
                 }
             )
         }
+    }
+
+    suspend fun recycleCertificate(containerId: RecoveryCertificateContainerId) {
+        // TODO
+    }
+
+    suspend fun restoreCertificate(containerId: RecoveryCertificateContainerId) {
+        // TODO
     }
 
     companion object {

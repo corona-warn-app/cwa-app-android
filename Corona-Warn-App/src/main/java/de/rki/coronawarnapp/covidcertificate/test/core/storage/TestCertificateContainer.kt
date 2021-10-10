@@ -167,6 +167,9 @@ data class TestCertificateContainer(
                     return (state is State.Invalid && state != lastSeenStateChange) || isNew
                 }
 
+            override val recycledAt: Instant?
+                get() = data.recycledAt
+
             override fun toString(): String = "TestCertificate($containerId)"
         }
     }

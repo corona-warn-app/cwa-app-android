@@ -29,6 +29,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -83,6 +84,8 @@ class VaccinationRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
+    val recycledCertificates: Flow<Set<VaccinationCertificate>> = emptyFlow()
+
     val freshVaccinationInfos: Flow<Set<VaccinatedPerson>> = combine(
         internalData.data,
         valueSetsRepository.latestVaccinationValueSets,
@@ -113,6 +116,9 @@ class VaccinationRepository @Inject constructor(
                 certificateStates = emptyMap(),
                 valueSet = null,
             ).also { Timber.tag(TAG).i("Creating new person for %s", qrCode) }
+
+            // TODO throw an exception with
+            //  InvalidHealthCertificateException.ErrorCode.IN_RECYCLE_BIN when certificate is in recycled state
 
             if (matchingPerson.data.vaccinations.any { it.certificateId == qrCode.uniqueCertificateIdentifier }) {
                 Timber.tag(TAG).e("Certificate is already registered: %s", qrCode.uniqueCertificateIdentifier)
@@ -359,6 +365,14 @@ class VaccinationRepository @Inject constructor(
 
             this.minus(vaccinatedPerson).plus(updatedPerson)
         }
+    }
+
+    suspend fun recycleCertificate(containerId: VaccinationCertificateContainerId) {
+        // TODO
+    }
+
+    suspend fun restoreCertificate(containerId: VaccinationCertificateContainerId) {
+        // TODO
     }
 
     companion object {
