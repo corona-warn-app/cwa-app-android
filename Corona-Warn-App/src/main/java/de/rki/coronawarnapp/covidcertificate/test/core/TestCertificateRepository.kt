@@ -77,37 +77,28 @@ class TestCertificateRepository @Inject constructor(
             }
     }
 
-    private val testCertificateWrappers: Flow<Set<TestCertificateWrapper>> = combine(
+    val certificates: Flow<Set<TestCertificateWrapper>> = combine(
         internalData.data,
         valueSetsRepository.latestTestCertificateValueSets,
         dscRepository.dscData
     ) { certMap, valueSets, _ ->
-        certMap.values.map { container ->
-            val state = when {
-                container.isCertificateRetrievalPending -> CwaCovidCertificate.State.Invalid()
-                else -> container.testCertificateQRCode?.data?.let {
-                    dccStateChecker.checkState(it).first()
-                } ?: CwaCovidCertificate.State.Invalid()
-            }
+        certMap.values
+            .filter { it.isNotRecycled }
+            .map { container ->
+                val state = when {
+                    container.isCertificateRetrievalPending -> CwaCovidCertificate.State.Invalid()
+                    else -> container.testCertificateQRCode?.data?.let {
+                        dccStateChecker.checkState(it).first()
+                    } ?: CwaCovidCertificate.State.Invalid()
+                }
 
-            TestCertificateWrapper(
-                valueSets = valueSets,
-                container = container,
-                certificateState = state,
-            )
-        }.toSet()
+                TestCertificateWrapper(
+                    valueSets = valueSets,
+                    container = container,
+                    certificateState = state,
+                )
+            }.toSet()
     }
-        .shareLatest(
-            tag = TAG,
-            scope = appScope
-        )
-
-    val certificates: Flow<Set<TestCertificateWrapper>> = testCertificateWrappers
-        .map { wrappers ->
-            wrappers
-                .filter { it.recycleInfo.isNotRecycled }
-                .toSet()
-        }
         .shareLatest(
             tag = TAG,
             scope = appScope
@@ -116,11 +107,11 @@ class TestCertificateRepository @Inject constructor(
     /**
      * Returns a flow with a set of [TestCertificate] matching the predicate [TestCertificate.isRecycled]
      */
-    val recycledCertificates: Flow<Set<TestCertificate>> = testCertificateWrappers
-        .map { wrappers ->
-            wrappers
-                .filter { it.recycleInfo.isRecycled }
-                .mapNotNull { it.testCertificate }
+    val recycledCertificates: Flow<Set<TestCertificate>> = internalData.data
+        .map { certMap ->
+            certMap.values
+                .filter { it.isRecycled }
+                .mapNotNull { it.toTestCertificate(certificateState = CwaCovidCertificate.State.Recycled) }
                 .toSet()
         }
         .shareLatest(

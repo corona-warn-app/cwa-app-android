@@ -13,7 +13,7 @@ import org.joda.time.Instant
 /**
  * For use with the UI
  */
-interface CwaCovidCertificate : Recyclable {
+interface CwaCovidCertificate: Recyclable {
     // Header
     val headerIssuer: String
     val headerIssuedAt: Instant
@@ -95,6 +95,8 @@ interface CwaCovidCertificate : Recyclable {
                 const val URL_INVALID_SIGNATURE_EN = "https://www.coronawarn.app/en/faq/#hc_signature_invalid"
             }
         }
+
+        object Recycled: State("Recycled")
 
         companion object {
             val typeAdapter: RuntimeTypeAdapterFactory<State> = RuntimeTypeAdapterFactory
