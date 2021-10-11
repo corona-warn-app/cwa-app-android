@@ -123,7 +123,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
     private fun setupMenuIcons(menu: Menu) {
         listOf(
             R.id.settingsFragment,
-            R.id.trashOverviewFragment,
+            R.id.recyclerBinOverviewFragment,
             R.id.informationFragment,
             R.id.mainOverviewFragment
         ).forEach { id ->

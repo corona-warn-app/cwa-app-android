@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+    <!-- ####################################
+                Recycler Bin
+    ###################################### -->
+    <string name="recycler_bin_title">"Papierkorb"</string>
+    <string name="recycler_bin_empty_label">"Ihr Papierkorb ist leer"</string>
+    <string name="recycler_bin_empty_description">"Wenn Sie Tests und Zertifikate entfernen, werden sie in den Papierkorb verschoben und hier angezeigt."</string>
+
+</resources>
