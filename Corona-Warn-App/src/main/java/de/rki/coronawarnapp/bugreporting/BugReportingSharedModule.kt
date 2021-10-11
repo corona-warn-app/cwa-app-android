@@ -37,6 +37,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.protobuf.ProtoConverterFactory
 import javax.inject.Singleton
 
+@Suppress("TooManyFunctions")
 @Module
 class BugReportingSharedModule {
 

@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.mockFlowPreference
 
+@Suppress("MaxLineLength")
 class CwaUserCensorTest : BaseTest() {
 
     @MockK lateinit var personCertificatesSettings: PersonCertificatesSettings

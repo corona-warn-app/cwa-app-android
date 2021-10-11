@@ -38,7 +38,7 @@ class CwaUserCensor @Inject constructor(
             "cwaUser/lastNameStandardized"
         )
 
-        cwaUser.firstNameStandardized?.let { firstNameStandardized->
+        cwaUser.firstNameStandardized?.let { firstNameStandardized ->
             newMessage = newMessage.censor(
                 firstNameStandardized,
                 "cwaUser/firstNameStandardized"
