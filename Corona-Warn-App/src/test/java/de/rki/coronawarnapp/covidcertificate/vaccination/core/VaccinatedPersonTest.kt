@@ -42,6 +42,7 @@ class VaccinatedPersonTest : BaseTest() {
         val vaccinationContainer = mockk<VaccinationContainer>().apply {
             every { toVaccinationCertificate(any(), any()) } returns certificate
             every { containerId } returns conId
+            every { isNotRecycled } returns true
         }
         val personData = mockk<VaccinatedPersonData>().apply {
             every { vaccinations } returns setOf(vaccinationContainer)
@@ -188,6 +189,7 @@ class VaccinatedPersonTest : BaseTest() {
                             every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1528"
                         }
                     every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
+                    every { isNotRecycled } returns true
                 }
             )
         }
@@ -232,6 +234,7 @@ class VaccinatedPersonTest : BaseTest() {
                         }
 
                     every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
+                    every { isNotRecycled } returns true
                 }
             )
         }
@@ -287,6 +290,7 @@ class VaccinatedPersonTest : BaseTest() {
                         }
 
                     every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
+                    every { isNotRecycled } returns true
                 }
             )
         }
@@ -324,6 +328,7 @@ class VaccinatedPersonTest : BaseTest() {
                         }
 
                     every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
+                    every { isNotRecycled } returns true
                 }
             )
         }
@@ -361,6 +366,7 @@ class VaccinatedPersonTest : BaseTest() {
                         }
 
                     every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
+                    every { isNotRecycled } returns true
                 }
             )
         }
@@ -398,6 +404,7 @@ class VaccinatedPersonTest : BaseTest() {
                         }
 
                     every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
+                    every { isNotRecycled } returns true
                 }
             )
         }
