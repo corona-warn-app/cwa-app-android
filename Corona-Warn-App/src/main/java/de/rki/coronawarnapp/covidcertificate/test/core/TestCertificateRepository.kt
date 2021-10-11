@@ -197,8 +197,6 @@ class TestCertificateRepository @Inject constructor(
 
         val updatedData = internalData.updateBlocking {
 
-            // TODO throw an exception with
-            //  InvalidHealthCertificateException.ErrorCode.IN_RECYCLE_BIN when certificate is in recycled state
             if (values.any { it.certificateId == qrCode.uniqueCertificateIdentifier }) {
                 Timber.tag(TAG).e("Certificate entry already exists for %s", qrCode)
                 throw InvalidTestCertificateException(InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED)

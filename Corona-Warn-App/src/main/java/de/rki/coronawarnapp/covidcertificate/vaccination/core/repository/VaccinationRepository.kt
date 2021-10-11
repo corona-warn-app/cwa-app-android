@@ -117,9 +117,6 @@ class VaccinationRepository @Inject constructor(
                 valueSet = null,
             ).also { Timber.tag(TAG).i("Creating new person for %s", qrCode) }
 
-            // TODO throw an exception with
-            //  InvalidHealthCertificateException.ErrorCode.IN_RECYCLE_BIN when certificate is in recycled state
-
             if (matchingPerson.data.vaccinations.any { it.certificateId == qrCode.uniqueCertificateIdentifier }) {
                 Timber.tag(TAG).e("Certificate is already registered: %s", qrCode.uniqueCertificateIdentifier)
                 throw InvalidVaccinationCertificateException(ALREADY_REGISTERED)

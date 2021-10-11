@@ -106,8 +106,6 @@ class RecoveryCertificateRepository @Inject constructor(
         val newContainer = qrCode.toContainer()
         internalData.updateBlocking {
             if (any { it.certificateId == newContainer.certificateId }) {
-                // TODO throw an exception with
-                //  InvalidHealthCertificateException.ErrorCode.IN_RECYCLE_BIN when certificate is in recycled state
                 throw InvalidRecoveryCertificateException(
                     InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
                 )

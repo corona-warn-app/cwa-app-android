@@ -192,15 +192,20 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         val navOptions = NavOptions.Builder()
             .setPopUpTo(R.id.universalScanner, true)
             .build()
-        val uri = when (scannerResult) {
-            is DccResult.Details -> scannerResult.uri
+        when (scannerResult) {
+            is DccResult.Details -> findNavController().navigate(scannerResult.uri, navOptions)
             is DccResult.Onboarding -> {
                 qrcodeSharedViewModel.putDccQrCode(scannerResult.dccQrCode)
-                CovidCertificateOnboardingFragment.uri(scannerResult.dccQrCode.uniqueCertificateIdentifier)
+                findNavController().navigate(
+                    CovidCertificateOnboardingFragment.uri(scannerResult.dccQrCode.uniqueCertificateIdentifier),
+                    navOptions
+                )
+            }
+            is DccResult.InRecycleBin -> {
+                // TODO: Show dialog to restore cert by EXPOSUREAPP-9843 and call
+                //  viewModel.restoreCertificate(scannerResult.recycledContainerId) after user confirmation
             }
         }
-
-        findNavController().navigate(uri, navOptions)
     }
 
     private fun onCheckInResult(scannerResult: CheckInResult) {
