@@ -4,7 +4,6 @@ import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsCardsIncidenceLayoutBinding
 import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass
-import de.rki.coronawarnapp.statistics.GlobalStatsItem
 import de.rki.coronawarnapp.statistics.IncidenceAndHospitalizationStats
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter
 import de.rki.coronawarnapp.statistics.util.formatStatisticalValue
@@ -66,8 +65,8 @@ class IncidenceAndHospitalizationCard(parent: ViewGroup) :
             primaryTrendArrow.setTrend(sevenDayIncidence.trend, sevenDayIncidence.trendSemantic)
 
             // Secondary
-//            secondaryLabel.text = getSecondaryLabel(context, sevenDayIncidence.updatedAt)
-            secondaryLabel.text = getSecondaryLabel(context, Instant.now())
+            val secondaryLabelText = getSecondaryLabel(context, Instant(sevenDayIncidenceSecondary.updatedAt * 1000))
+            secondaryLabel.text = secondaryLabelText
             secondaryValue.text = getLocalizedSpannableString(
                 context,
                 formatStatisticalValue(context, sevenDayIncidenceSecondary.value, sevenDayIncidenceSecondary.decimals)
@@ -75,7 +74,7 @@ class IncidenceAndHospitalizationCard(parent: ViewGroup) :
 
             secondaryValue.contentDescription = StringBuilder()
                 .appendWithTrailingSpace(context.getString(R.string.statistics_explanation_seven_day_incidence_title))
-                .appendWithTrailingSpace(getPrimaryLabel(context))
+                .appendWithTrailingSpace(secondaryLabelText)
                 .appendWithTrailingSpace(
                     formatStatisticalValue(
                         context,
@@ -90,7 +89,7 @@ class IncidenceAndHospitalizationCard(parent: ViewGroup) :
     }
 
     private fun buildAccessibilityStringForIncidenceCard(
-        item: GlobalStatsItem,
+        item: IncidenceAndHospitalizationStats,
         sevenDayIncidence: KeyFigureCardOuterClass.KeyFigure,
         sevenDayIncidenceSecondary: KeyFigureCardOuterClass.KeyFigure,
     ): StringBuilder {
@@ -108,6 +107,19 @@ class IncidenceAndHospitalizationCard(parent: ViewGroup) :
             )
             .appendWithTrailingSpace(context.getString(R.string.statistics_card_incidence_value_description))
             .appendWithLineBreak(getContentDescriptionForTrends(context, sevenDayIncidence.trend))
+            .appendWithLineBreak(context.getString(R.string.statistics_seven_day_hospitalization_card_title))
+            .appendWithTrailingSpace(
+                item.getSecondaryLabel(context, Instant(sevenDayIncidenceSecondary.updatedAt * 1000))
+            )
+            .appendWithTrailingSpace(
+                formatStatisticalValue(
+                    context,
+                    sevenDayIncidenceSecondary.value,
+                    sevenDayIncidenceSecondary.decimals
+                )
+            )
+            .appendWithTrailingSpace(context.getString(R.string.statistics_seven_day_hospitalization_nationwide_text))
+            .appendWithLineBreak(getContentDescriptionForTrends(context, sevenDayIncidenceSecondary.trend))
             .append(context.getString(R.string.accessibility_statistics_card_navigation_information))
     }
 }
