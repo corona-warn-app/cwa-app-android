@@ -54,7 +54,7 @@
     <string name="vaccination_consent_accept_button">"Weiter"</string>
 
     <!-- XTXT: Vaccination card immunity information: Days since last shot -->
-    <string name="vaccination_days_since_last_shot">"letzte Impfung vor %1$d Tagen"</string>
+    <string name="vaccination_days_since_last_shot">"Letzte Impfung vor %1$d Tagen"</string>
     <!-- XTXT: Vaccination card immunity information card body when immunity is completed -->
     <string name="vaccination_list_immunity_card_body">"Sie haben nun alle derzeit geplanten Impfungen erhalten. Ihr Impfschutz ist vollständig."</string>
     <!-- XTXT: Vaccination card title -->
@@ -78,12 +78,12 @@
     <!-- XTXT: Test Certificate CWA User card description -->
     <string name="person_details_cwa_user_description">"Bitte aktivieren Sie diesen Schalter, wenn Sie selbst %1$s sind und die App hauptsächlich nutzen. Ihre Zertifikate erscheinen in der Liste an erster Stelle."</string>
     <!-- XTXT: Test Certificate CWA User card birthdate -->
-    <string name="person_details_cwa_user_birthdate">"geboren %1$s"</string>
+    <string name="person_details_cwa_user_birthdate">"Geboren %1$s"</string>
     <!-- #####################################################
          VACCINATION CERTIFICATE STRINGS BELOW
          ##################################################### -->
     <!-- XTXT: Vaccination certificate vaccinated on -->
-    <string name="vaccination_certificate_vaccinated_on">"geimpft am %s"</string>
+    <string name="vaccination_certificate_vaccinated_on">"Geimpft am %s"</string>
     <!-- XTXT: Vaccination  card doses-->
     <string name="vaccination_certificate_doses">Impfung %1$d von %2$d</string>
     <!-- XTXT: Vaccination card name-->
