@@ -17,6 +17,12 @@ class CertificatePersonIdentifierTest : BaseTest() {
         lastNameStandardized = "ASTRA<EINS"
     )
 
+    private val testPersonMaxDataFuzzy = CertificatePersonIdentifier(
+        dateOfBirthFormatted = "1966-11-11",
+        firstNameStandardized = "ANDREAS  ",
+        lastNameStandardized = " ASTRA<<EINS "
+    )
+
     private val testPersonMin = CertificatePersonIdentifier(
         dateOfBirthFormatted = "1900-01-01",
         lastNameStandardized = "#",
@@ -81,5 +87,10 @@ class CertificatePersonIdentifierTest : BaseTest() {
             lastNameStandardized = "",
             firstNameStandardized = null
         ).code shouldBe "##null"
+    }
+
+    @Test
+    fun `groupingkey should match`() {
+        testPersonMaxData.groupingKey shouldBe testPersonMaxDataFuzzy.groupingKey
     }
 }
