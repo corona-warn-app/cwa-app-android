@@ -197,8 +197,6 @@ class TestCertificateRepository @Inject constructor(
 
         val updatedData = internalData.updateBlocking {
 
-            // TODO throw an exception with
-            //  InvalidHealthCertificateException.ErrorCode.IN_RECYCLE_BIN when certificate is in recycled state
             if (values.any { it.certificateId == qrCode.uniqueCertificateIdentifier }) {
                 Timber.tag(TAG).e("Certificate entry already exists for %s", qrCode)
                 throw InvalidTestCertificateException(InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED)
@@ -463,12 +461,56 @@ class TestCertificateRepository @Inject constructor(
         }
     }
 
+    /**
+     * Move Test certificate to recycled state.
+     * it does not throw any exception if certificate is not found
+     */
     suspend fun recycleCertificate(containerId: TestCertificateContainerId) {
-        // TODO
+        Timber.tag(TAG).d("recycleCertificate(containerId=%s)", containerId)
+        internalData.updateBlocking {
+            val current = this[containerId]
+            if (current == null) {
+                Timber.tag(TAG).w("recycleCertificate couldn't find %s", containerId)
+                return@updateBlocking this
+            }
+
+            if (current.isCertificateRetrievalPending) {
+                Timber.tag(TAG).w("recycleCertificate couldn't recycle pending TC %s", containerId)
+                return@updateBlocking this
+            }
+
+            val updated = current.copy(
+                data = updateRecycledAt(current.data, timeStamper.nowUTC)
+            )
+
+            mutate { this[containerId] = updated }
+        }
     }
 
+    /**
+     * Restore Test certificate from recycled state.
+     * it does not throw any exception if certificate is not found
+     */
     suspend fun restoreCertificate(containerId: TestCertificateContainerId) {
-        // TODO
+        Timber.tag(TAG).d("restoreCertificate(containerId=%s)", containerId)
+        internalData.updateBlocking {
+            val current = this[containerId]
+            if (current == null) {
+                Timber.tag(TAG).w("restoreCertificate couldn't find %s", containerId)
+                return@updateBlocking this
+            }
+
+            if (current.isCertificateRetrievalPending) {
+                Timber.tag(TAG).w("restoreCertificate couldn't restore pending TC %s", containerId)
+                return@updateBlocking this
+            }
+
+            val updated = current.copy(
+                data = updateRecycledAt(current.data, null)
+            )
+
+            mutate { this[containerId] = updated }
+        }
     }
 
     private fun updateLastSeenStateData(
@@ -499,6 +541,17 @@ class TestCertificateRepository @Inject constructor(
             is PCRCertificateData -> data.copy(notifiedInvalidAt = now)
             is RACertificateData -> data.copy(notifiedInvalidAt = now)
             is GenericTestCertificateData -> data.copy(notifiedInvalidAt = now)
+        }
+    }
+
+    private fun updateRecycledAt(
+        data: BaseTestCertificateData,
+        time: Instant?
+    ): BaseTestCertificateData {
+        return when (data) {
+            is PCRCertificateData -> data.copy(recycledAt = time)
+            is RACertificateData -> data.copy(recycledAt = time)
+            is GenericTestCertificateData -> data.copy(recycledAt = time)
         }
     }
 

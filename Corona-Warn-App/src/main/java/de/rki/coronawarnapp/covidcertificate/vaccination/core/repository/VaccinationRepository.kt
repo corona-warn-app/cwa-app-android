@@ -117,9 +117,6 @@ class VaccinationRepository @Inject constructor(
                 valueSet = null,
             ).also { Timber.tag(TAG).i("Creating new person for %s", qrCode) }
 
-            // TODO throw an exception with
-            //  InvalidHealthCertificateException.ErrorCode.IN_RECYCLE_BIN when certificate is in recycled state
-
             if (matchingPerson.data.vaccinations.any { it.certificateId == qrCode.uniqueCertificateIdentifier }) {
                 Timber.tag(TAG).e("Certificate is already registered: %s", qrCode.uniqueCertificateIdentifier)
                 throw InvalidVaccinationCertificateException(ALREADY_REGISTERED)
@@ -367,12 +364,56 @@ class VaccinationRepository @Inject constructor(
         }
     }
 
+    /**
+     * Move Vaccination certificate to recycled state.
+     * it does not throw any exception if certificate is not found
+     */
     suspend fun recycleCertificate(containerId: VaccinationCertificateContainerId) {
-        // TODO
+        Timber.tag(TAG).d("recycleCertificate(containerId=$containerId)")
+        internalData.updateBlocking {
+            val toUpdatePerson = singleOrNull { it.findVaccination(containerId) != null }
+
+            if (toUpdatePerson == null) {
+                Timber.tag(TAG).w("recycleCertificate couldn't find %s", containerId)
+                return@updateBlocking this
+            }
+
+            val toUpdateVaccination = toUpdatePerson.findVaccination(containerId)!!
+            val newVaccination = toUpdateVaccination.copy(recycledAt = timeStamper.nowUTC)
+            newVaccination.qrCodeExtractor = qrCodeExtractor
+            val newPerson = toUpdatePerson.copy(
+                data = toUpdatePerson.data.copy(
+                    vaccinations = toUpdatePerson.data.vaccinations.minus(toUpdateVaccination).plus(newVaccination)
+                )
+            )
+            this.minus(toUpdatePerson).plus(newPerson)
+        }
     }
 
+    /**
+     * Restore Vaccination certificate from recycled state.
+     * it does not throw any exception if certificate is not found
+     */
     suspend fun restoreCertificate(containerId: VaccinationCertificateContainerId) {
-        // TODO
+        Timber.tag(TAG).d("restoreCertificate(containerId=$containerId)")
+        internalData.updateBlocking {
+            val toUpdatePerson = singleOrNull { it.findVaccination(containerId) != null }
+
+            if (toUpdatePerson == null) {
+                Timber.tag(TAG).w("restoreCertificate couldn't find %s", containerId)
+                return@updateBlocking this
+            }
+
+            val toUpdateVaccination = toUpdatePerson.findVaccination(containerId)!!
+            val newVaccination = toUpdateVaccination.copy(recycledAt = null)
+            newVaccination.qrCodeExtractor = qrCodeExtractor
+            val newPerson = toUpdatePerson.copy(
+                data = toUpdatePerson.data.copy(
+                    vaccinations = toUpdatePerson.data.vaccinations.minus(toUpdateVaccination).plus(newVaccination)
+                )
+            )
+            this.minus(toUpdatePerson).plus(newPerson)
+        }
     }
 
     companion object {

@@ -106,8 +106,6 @@ class RecoveryCertificateRepository @Inject constructor(
         val newContainer = qrCode.toContainer()
         internalData.updateBlocking {
             if (any { it.certificateId == newContainer.certificateId }) {
-                // TODO throw an exception with
-                //  InvalidHealthCertificateException.ErrorCode.IN_RECYCLE_BIN when certificate is in recycled state
                 throw InvalidRecoveryCertificateException(
                     InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
                 )
@@ -217,12 +215,46 @@ class RecoveryCertificateRepository @Inject constructor(
         }
     }
 
+    /**
+     * Move Recovery certificate to recycled state.
+     * it does not throw any exception if certificate is not found
+     */
     suspend fun recycleCertificate(containerId: RecoveryCertificateContainerId) {
-        // TODO
+        Timber.tag(TAG).d("recycleCertificate(containerId=$containerId)")
+        internalData.updateBlocking {
+            val toUpdate = singleOrNull { it.containerId == containerId }
+            if (toUpdate == null) {
+                Timber.tag(TAG).w("recycleCertificate couldn't find %s", containerId)
+                return@updateBlocking this
+            }
+
+            this.minus(toUpdate).plus(
+                toUpdate.copy(data = toUpdate.data.copy(recycledAt = timeStamper.nowUTC)).also {
+                    Timber.tag(TAG).d("recycleCertificate updated %s", it)
+                }
+            )
+        }
     }
 
+    /**
+     * Restore Recovery certificate from recycled state.
+     * it does not throw any exception if certificate is not found
+     */
     suspend fun restoreCertificate(containerId: RecoveryCertificateContainerId) {
-        // TODO
+        Timber.tag(TAG).d("restoreCertificate(containerId=$containerId)")
+        internalData.updateBlocking {
+            val toUpdate = singleOrNull { it.containerId == containerId }
+            if (toUpdate == null) {
+                Timber.tag(TAG).w("restoreCertificate couldn't find %s", containerId)
+                return@updateBlocking this
+            }
+
+            this.minus(toUpdate).plus(
+                toUpdate.copy(data = toUpdate.data.copy(recycledAt = null)).also {
+                    Timber.tag(TAG).d("restoreCertificate updated %s", it)
+                }
+            )
+        }
     }
 
     companion object {
