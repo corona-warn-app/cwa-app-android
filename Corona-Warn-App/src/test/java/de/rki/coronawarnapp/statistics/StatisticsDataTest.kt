@@ -44,19 +44,24 @@ class StatisticsDataTest {
 
     @Test
     fun `incidence mapping`() {
-        val stats = IncidenceStats(
+        val stats = IncidenceAndHospitalizationStats(
             updatedAt = Instant.EPOCH,
             keyFigures = listOf(
                 KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
                     rank = KeyFigureCardOuterClass.KeyFigure.Rank.PRIMARY
                     value = 1.0
+                }.build(),
+                KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
+                    rank = KeyFigureCardOuterClass.KeyFigure.Rank.SECONDARY
+                    value = 1.0
                 }.build()
             )
         )
         stats.apply {
-            cardType shouldBe GlobalStatsItem.Type.INCIDENCE
-            cardType.id shouldBe 2
+            cardType shouldBe GlobalStatsItem.Type.INCIDENCE_AND_HOSPITALIZATION
+            cardType.id shouldBe 10
             sevenDayIncidence.value shouldBe 1.0
+            sevenDayIncidenceSecondary.value shouldBe 1.0
         }
 
         stats.requireValidity()

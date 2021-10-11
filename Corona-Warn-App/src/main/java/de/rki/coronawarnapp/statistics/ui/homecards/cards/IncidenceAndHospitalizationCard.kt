@@ -65,7 +65,7 @@ class IncidenceAndHospitalizationCard(parent: ViewGroup) :
             primaryTrendArrow.setTrend(sevenDayIncidence.trend, sevenDayIncidence.trendSemantic)
 
             // Secondary
-            val secondaryLabelText = getSecondaryLabel(context, Instant(sevenDayIncidenceSecondary.updatedAt * 1000))
+            val secondaryLabelText = getSecondaryLabel(context, Instant.ofEpochSecond(sevenDayIncidenceSecondary.updatedAt))
             secondaryLabel.text = secondaryLabelText
             secondaryValue.text = getLocalizedSpannableString(
                 context,
@@ -109,7 +109,7 @@ class IncidenceAndHospitalizationCard(parent: ViewGroup) :
             .appendWithLineBreak(getContentDescriptionForTrends(context, sevenDayIncidence.trend))
             .appendWithLineBreak(context.getString(R.string.statistics_seven_day_hospitalization_card_title))
             .appendWithTrailingSpace(
-                item.getSecondaryLabel(context, Instant(sevenDayIncidenceSecondary.updatedAt * 1000))
+                item.getSecondaryLabel(context, Instant.ofEpochSecond(sevenDayIncidenceSecondary.updatedAt))
             )
             .appendWithTrailingSpace(
                 formatStatisticalValue(
