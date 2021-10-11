@@ -75,7 +75,8 @@ class FormatterStatisticsHelperTest : BaseTest() {
         IncidenceAndHospitalizationStats(today, listOf()).getSecondaryLabel(context, today) shouldBe UNTIL_TODAY
 
         IncidenceAndHospitalizationStats(yesterday, listOf()).getPrimaryLabel(context) shouldBe UNTIL_YESTERDAY
-        IncidenceAndHospitalizationStats(yesterday, listOf()).getSecondaryLabel(context, yesterday) shouldBe UNTIL_YESTERDAY
+        IncidenceAndHospitalizationStats(yesterday, listOf())
+            .getSecondaryLabel(context, yesterday) shouldBe UNTIL_YESTERDAY
 
         IncidenceAndHospitalizationStats(
             Instant.parse("2021-01-13T00:00:00Z"),
