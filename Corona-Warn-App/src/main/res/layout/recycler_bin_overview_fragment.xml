@@ -9,20 +9,19 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
+        style="@style/CWAToolbar.Close"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/menu_trace_location_attendee_checkins"
+        app:menu="@menu/menu_recycler_bin"
         app:title="@string/recycler_bin_title" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/check_ins_list"
+        android:id="@+id/recycler_bin_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:clipToPadding="false"
-        android:paddingBottom="@dimen/spacing_fab_padding"
         android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -35,11 +34,10 @@
         android:id="@+id/empty_list_info_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="@dimen/spacing_small"
+        android:layout_marginHorizontal="@dimen/spacing_normal"
         android:gravity="center"
         android:orientation="vertical"
         android:paddingBottom="@dimen/spacing_fab_padding"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +47,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/trace_location_checkins_empty_illustration_accessibility"
+            android:contentDescription="@null"
             app:srcCompat="@drawable/ic_recycler_bin_icon" />
 
         <TextView
@@ -57,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="@dimen/spacing_medium"
             android:text="@string/recycler_bin_empty_label"
             android:textStyle="bold" />
 
@@ -65,7 +63,7 @@
             style="@style/body2Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/spacing_small"
             android:gravity="center"
             android:text="@string/recycler_bin_empty_description"
             app:autoSizeTextType="uniform" />

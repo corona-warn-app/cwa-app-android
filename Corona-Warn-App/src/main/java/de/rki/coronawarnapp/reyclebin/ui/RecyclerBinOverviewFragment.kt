@@ -4,9 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.FragmentStatisticsExplanationBinding
 import de.rki.coronawarnapp.databinding.RecyclerBinOverviewFragmentBinding
-import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsFragmentViewModel
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -20,5 +19,9 @@ class RecyclerBinOverviewFragment : Fragment(R.layout.recycler_bin_overview_frag
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        with(binding) {
+            toolbar.setNavigationOnClickListener { popBackStack() }
+        }
     }
 }
