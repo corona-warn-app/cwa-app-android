@@ -5,14 +5,11 @@ import android.net.Uri
 import androidx.test.core.app.launchActivity
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.google.android.play.core.appupdate.AppUpdateInfo
-import com.google.android.play.core.appupdate.AppUpdateManager
-import com.google.android.play.core.install.model.UpdateAvailability
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.storage.OnboardingSettings
-import de.rki.coronawarnapp.update.getUpdateInfo
+import de.rki.coronawarnapp.update.UpdateChecker
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -21,7 +18,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkStatic
 import io.mockk.spyk
 import org.junit.After
 import org.junit.Before
@@ -33,7 +29,7 @@ import testhelpers.TestDispatcherProvider
 @RunWith(AndroidJUnit4::class)
 class LauncherActivityTest : BaseUITest() {
 
-    @MockK lateinit var appUpdateManager: AppUpdateManager
+    @MockK lateinit var updateChecker: UpdateChecker
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var onboardingSettings: OnboardingSettings
     lateinit var viewModel: LauncherActivityViewModel
@@ -41,13 +37,8 @@ class LauncherActivityTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        mockkStatic("de.rki.coronawarnapp.update.InAppUpdateKt")
 
-        coEvery { appUpdateManager.getUpdateInfo() } returns
-            mockk<AppUpdateInfo>().apply {
-                every { updateAvailability() } returns UpdateAvailability.UPDATE_NOT_AVAILABLE
-            }
-
+        coEvery { updateChecker.checkForUpdate() } returns UpdateChecker.Result(isUpdateNeeded = false)
         every { onboardingSettings.isOnboarded } returns false
         viewModel = launcherActivityViewModel()
         setupMockViewModel(
@@ -93,7 +84,7 @@ class LauncherActivityTest : BaseUITest() {
 
     private fun launcherActivityViewModel() = spyk(
         LauncherActivityViewModel(
-            appUpdateManager,
+            updateChecker,
             TestDispatcherProvider(),
             cwaSettings,
             onboardingSettings

@@ -37,7 +37,6 @@ import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.internal.TaskModule
 import de.rki.coronawarnapp.test.DeviceForTestersModule
 import de.rki.coronawarnapp.ui.ActivityBinder
-import de.rki.coronawarnapp.update.InAppUpdateModule
 import de.rki.coronawarnapp.util.coil.CoilModule
 import de.rki.coronawarnapp.util.coroutine.AppCoroutineScope
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -86,7 +85,6 @@ import javax.inject.Singleton
         CoronaTestModule::class,
         DigitalCovidCertificateModule::class,
         QrCodeScannerModule::class,
-        InAppUpdateModule::class,
     ]
 )
 interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
