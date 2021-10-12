@@ -148,32 +148,28 @@ class DefaultAutoCheckoutLengthTest : BaseTest() {
                 defaultCheckInLengthInMinutes = null,
                 startDate = Instant.parse("2021-12-24T15:00:00.000Z"),
                 endDate = Instant.parse("2021-12-24T17:00:00.000Z"),
-                // Event ends in 29min ->  we round to the nearest 15 minutes
-                expectedDefaultAutoCheckoutLength = 30
+                expectedDefaultAutoCheckoutLength = 29
             ),
             DefaultAutoCheckoutLengthTestCase(
                 now = Instant.parse("2021-12-24T16:38:00.000Z"),
                 defaultCheckInLengthInMinutes = null,
                 startDate = Instant.parse("2021-12-24T15:00:00.000Z"),
                 endDate = Instant.parse("2021-12-24T17:00:00.000Z"),
-                // Event ends in 22min ->  we round to the nearest 15 minutes
-                expectedDefaultAutoCheckoutLength = 15
+                expectedDefaultAutoCheckoutLength = 22
             ),
             DefaultAutoCheckoutLengthTestCase(
                 now = Instant.parse("2021-12-24T16:59:00.000Z"),
                 defaultCheckInLengthInMinutes = null,
                 startDate = Instant.parse("2021-12-24T15:00:00.000Z"),
                 endDate = Instant.parse("2021-12-24T17:00:00.000Z"),
-                // Event ends in 1min ->  we are not rounding to 0 but to the min value (15min)
-                expectedDefaultAutoCheckoutLength = 15
+                expectedDefaultAutoCheckoutLength = 1
             ),
             DefaultAutoCheckoutLengthTestCase(
                 now = Instant.parse("2021-12-24T17:00:00.000Z"),
                 defaultCheckInLengthInMinutes = null,
                 startDate = Instant.parse("2021-12-24T15:00:00.000Z"),
                 endDate = Instant.parse("2021-12-24T17:00:00.000Z"),
-                // We check in at event end, return min value (15min)
-                expectedDefaultAutoCheckoutLength = 15
+                expectedDefaultAutoCheckoutLength = 0
             )
         )
     }
