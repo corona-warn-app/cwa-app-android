@@ -20,6 +20,7 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
 import de.rki.coronawarnapp.tag
@@ -201,10 +202,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                     navOptions
                 )
             }
-            is DccResult.InRecycleBin -> {
-                // TODO: Show dialog to restore cert by EXPOSUREAPP-9843 and call
-                //  viewModel.restoreCertificate(scannerResult.recycledContainerId) after user confirmation
-            }
+            is DccResult.InRecycleBin -> showRestoreDgcConfirmation(scannerResult.recycledContainerId)
         }
     }
 
@@ -242,6 +240,14 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             addTarget(R.id.qrcode_scan_container)
             duration = animationDuration
         }
+    }
+
+    private fun showRestoreDgcConfirmation(containerId: CertificateContainerId) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.recycle_bin_restore_dgc_dialog_title)
+            .setMessage(R.string.recycle_bin_restore_dgc_dialog_message)
+            .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.restoreCertificate(containerId) }
+            .show()
     }
 
     companion object {
