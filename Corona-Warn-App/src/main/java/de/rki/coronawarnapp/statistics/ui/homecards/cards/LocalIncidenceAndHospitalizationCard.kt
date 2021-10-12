@@ -98,9 +98,7 @@ class LocalIncidenceAndHospitalizationCard(parent: ViewGroup) :
             secondaryTrendArrow.setTrend(sevenDayHospitalization.trend, sevenDayHospitalization.trendSemantic)
             secondarySubtitle.text = when (selectedLocation) {
                 is SelectedStatisticsLocation.SelectedDistrict ->
-                    context.getString(
-                        R.string.statistics_card_local_hospitalization_text
-                    ).format(
+                    context.getString(R.string.statistics_card_local_hospitalization_text).format(
                         when (selectedLocation.district.federalStateShortName) {
                             "BW" -> context.getString(R.string.analytics_userinput_federalstate_bw)
                             "BY" -> context.getString(R.string.analytics_userinput_federalstate_by)
@@ -122,7 +120,9 @@ class LocalIncidenceAndHospitalizationCard(parent: ViewGroup) :
                         }
                     )
                 is SelectedStatisticsLocation.SelectedFederalState ->
-                    context.getString(selectedLocation.federalState.labelStringRes)
+                    context.getString(R.string.statistics_card_local_hospitalization_text).format(
+                        context.getString(selectedLocation.federalState.labelStringRes)
+                    )
             }
         }
     }

@@ -66,9 +66,6 @@ class LocalStatisticsParser @Inject constructor(
             try {
                 val updatedAt = Instant.ofEpochSecond(rawState.updatedAt)
                 val administrativeUnitIncidenceKeyFigure = rawState.sevenDayIncidence.toKeyFigure()
-                var administrativeUnitHospitalizationKeyFigure =
-                    rawState.sevenDayHospitalizationIncidence.toKeyFigure(KeyFigure.Rank.SECONDARY)
-                var hospitalizationUpdatedAt = Instant.ofEpochSecond(rawState.sevenDayHospitalizationIncidenceUpdatedAt)
 
                 val leftPaddedShortId = rawState.administrativeUnitShortId
                     .toString()
@@ -90,24 +87,26 @@ class LocalStatisticsParser @Inject constructor(
                         firstAndLastLettersOfState == shortFederalStateName
                     }
                     if (federalStateOfDistrict != null) {
-                        administrativeUnitHospitalizationKeyFigure =
+                        val administrativeUnitHospitalizationKeyFigure =
                             federalStateOfDistrict.sevenDayHospitalizationIncidence.toKeyFigure(
                                 KeyFigure.Rank.SECONDARY
                             )
-                        hospitalizationUpdatedAt =
+                        val hospitalizationUpdatedAt =
                             Instant.ofEpochSecond(federalStateOfDistrict.sevenDayHospitalizationIncidenceUpdatedAt)
-                    }
-                    LocalIncidenceAndHospitalizationStats(
-                        updatedAt = updatedAt,
-                        keyFigures = listOf(
-                            administrativeUnitIncidenceKeyFigure,
-                            administrativeUnitHospitalizationKeyFigure
-                        ),
-                        hospitalizationUpdatedAt = hospitalizationUpdatedAt,
-                        selectedLocation = selectedDistrict
-                    ).also {
-                        Timber.tag(TAG).v("Parsed %s", it.toString().replace("\n", ", "))
-                        it.requireValidity()
+                        LocalIncidenceAndHospitalizationStats(
+                            updatedAt = updatedAt,
+                            keyFigures = listOf(
+                                administrativeUnitIncidenceKeyFigure,
+                                administrativeUnitHospitalizationKeyFigure
+                            ),
+                            hospitalizationUpdatedAt = hospitalizationUpdatedAt,
+                            selectedLocation = selectedDistrict
+                        ).also {
+                            Timber.tag(TAG).v("Parsed %s", it.toString().replace("\n", ", "))
+                            it.requireValidity()
+                        }
+                    } else {
+                        throw IllegalStateException("Could not determine federal state of selected district")
                     }
                 } else {
                     Timber.tag(TAG).v(
