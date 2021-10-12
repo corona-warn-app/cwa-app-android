@@ -18,7 +18,7 @@ class LauncherActivity : AppCompatActivity() {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
-    private val vm: LauncherActivityViewModel by cwaViewModels(
+    private val viewModel: LauncherActivityViewModel by cwaViewModels(
         ownerProducer = { viewModelStore },
         factoryProducer = { viewModelFactory }
     )
@@ -27,7 +27,7 @@ class LauncherActivity : AppCompatActivity() {
         AppInjector.setup(this)
         super.onCreate(savedInstanceState)
 
-        vm.events.observe(this) {
+        viewModel.events.observe(this) {
             when (it) {
                 LauncherEvent.GoToOnboarding -> {
                     OnboardingActivity.start(this, intent)
@@ -43,7 +43,6 @@ class LauncherActivity : AppCompatActivity() {
                     showUpdateNeededDialog(it.updateIntent)
                 }
 
-                LauncherEvent.ShowUpdateDialog -> showUpdateNeededDialog(it.updateIntent)
                 LauncherEvent.ShowRootedDialog -> showRootDetectionDialog { viewModel.onRootedDialogDismiss() }
             }
         }
