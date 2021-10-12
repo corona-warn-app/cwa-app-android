@@ -55,21 +55,21 @@ class DeadmanNotificationTimeCalculationTest : BaseTest() {
     fun `12 hours difference`() {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-28T14:00:00")
 
-        createTimeCalculator().getHoursDiff(Instant.parse("2020-08-27T14:00:00")) shouldBe 720
+        createTimeCalculator().calculateDelay(Instant.parse("2020-08-27T14:00:00")) shouldBe 720
     }
 
     @Test
     fun `negative time difference`() {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-30T14:00:00")
 
-        createTimeCalculator().getHoursDiff(Instant.parse("2020-08-27T14:00:00")) shouldBe -2160
+        createTimeCalculator().calculateDelay(Instant.parse("2020-08-27T14:00:00")) shouldBe -2160
     }
 
     @Test
     fun `success in future case`() {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-27T14:00:00")
 
-        createTimeCalculator().getHoursDiff(Instant.parse("2020-08-27T15:00:00")) shouldBe 2220
+        createTimeCalculator().calculateDelay(Instant.parse("2020-08-27T15:00:00")) shouldBe 2220
     }
 
     @Test
@@ -79,7 +79,7 @@ class DeadmanNotificationTimeCalculationTest : BaseTest() {
             mockCachedKey(keyDay = LocalDate.parse("2020-08-27"), keyHour = LocalTime.parse("14:00:00"))
         )
 
-        createTimeCalculator().getDelay() shouldBe 720
+        createTimeCalculator().getDelayInMinutes() shouldBe 720
 
         coVerify(exactly = 1) { keyCacheRepository.allCachedKeys() }
     }
@@ -96,7 +96,7 @@ class DeadmanNotificationTimeCalculationTest : BaseTest() {
             )
         )
 
-        createTimeCalculator().getDelay() shouldBe 720
+        createTimeCalculator().getDelayInMinutes() shouldBe 720
 
         coVerify(exactly = 1) { keyCacheRepository.allCachedKeys() }
     }
@@ -108,7 +108,7 @@ class DeadmanNotificationTimeCalculationTest : BaseTest() {
             mockCachedKey(keyDay = LocalDate.parse("2020-08-27"), keyHour = LocalTime.parse("14:00:00")),
         )
 
-        createTimeCalculator().getDelay() shouldBe -2160
+        createTimeCalculator().getDelayInMinutes() shouldBe -2160
     }
 
     @Test
@@ -118,7 +118,7 @@ class DeadmanNotificationTimeCalculationTest : BaseTest() {
             mockCachedKey(keyDay = LocalDate.parse("2020-08-27"), keyHour = LocalTime.parse("15:00:00")),
         )
 
-        createTimeCalculator().getDelay() shouldBe 2220
+        createTimeCalculator().getDelayInMinutes() shouldBe 2220
     }
 
     @Test
@@ -126,6 +126,30 @@ class DeadmanNotificationTimeCalculationTest : BaseTest() {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-27T14:00:00")
         allCachedKeysFlow.value = emptyList()
 
-        createTimeCalculator().getDelay() shouldBe 2160
+        createTimeCalculator().getDelayInMinutes() shouldBe 2160
+    }
+
+    @Test
+    fun `ensure correct order`() = runBlockingTest {
+        every { timeStamper.nowUTC } returns Instant.parse("2020-08-30T14:00:00.000Z")
+        allCachedKeysFlow.value = listOf(
+            mockCachedKey(keyDay = LocalDate.parse("2020-08-26")),
+            mockCachedKey(keyDay = LocalDate.parse("2020-08-27"), keyHour = LocalTime.parse("14:00:00")),
+            mockCachedKey(keyDay = LocalDate.parse("2020-08-27")), // newest
+            mockCachedKey(keyDay = LocalDate.parse("2020-08-27"), keyHour = LocalTime.parse("23:00:00")),
+        )
+
+        createTimeCalculator().getDelayInMinutes() shouldBe -3000
+    }
+
+    @Test
+    fun `ensure correct order 2`() = runBlockingTest {
+        every { timeStamper.nowUTC } returns Instant.parse("2020-08-30T10:00:00.000Z")
+        allCachedKeysFlow.value = listOf(
+            mockCachedKey(keyDay = LocalDate.parse("2020-08-26")), // day package
+            mockCachedKey(keyDay = LocalDate.parse("2020-08-26"), keyHour = LocalTime.parse("14:00:00")),
+            mockCachedKey(keyDay = LocalDate.parse("2020-08-27"), keyHour = LocalTime.parse("23:00:00")), // newest
+        )
+        createTimeCalculator().getDelayInMinutes() shouldBe -1380
     }
 }
