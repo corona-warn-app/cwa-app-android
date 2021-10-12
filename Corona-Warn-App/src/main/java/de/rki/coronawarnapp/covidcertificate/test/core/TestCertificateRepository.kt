@@ -32,7 +32,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -77,7 +76,7 @@ class TestCertificateRepository @Inject constructor(
             }
     }
 
-    val recycledCertificates: Flow<Set<TestCertificate>> = flowOf(emptySet()) // TODO: expose certs
+    val recycledCertificates: Flow<Set<TestCertificate>> = emptyFlow()
 
     val certificates: Flow<Set<TestCertificateWrapper>> = combine(
         internalData.data,

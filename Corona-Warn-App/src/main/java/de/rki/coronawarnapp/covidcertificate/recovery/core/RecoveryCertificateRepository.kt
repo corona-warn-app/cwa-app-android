@@ -25,7 +25,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -78,7 +77,7 @@ class RecoveryCertificateRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
-    val recycledCertificates: Flow<Set<RecoveryCertificate>> = flowOf(emptySet()) // TODO: expose certs
+    val recycledCertificates: Flow<Set<RecoveryCertificate>> = emptyFlow()
 
     val freshCertificates: Flow<Set<RecoveryCertificateWrapper>> = combine(
         internalData.data,
