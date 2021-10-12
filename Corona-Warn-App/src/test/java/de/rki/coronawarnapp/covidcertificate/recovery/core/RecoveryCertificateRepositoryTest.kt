@@ -128,8 +128,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
                 wrapper.recoveryCertificate.getState() shouldBe CwaCovidCertificate.State.Valid(nowUTC)
                 wrapper.recycleInfo.isNotRecycled shouldBe true
             }
-
-
+            
             recycledCertificates.first().also {
                 it.size shouldBe 1
 
