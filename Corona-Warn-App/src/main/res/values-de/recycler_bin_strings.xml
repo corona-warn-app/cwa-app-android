@@ -25,7 +25,7 @@
     <!-- XTXT: Recycle Bin - recycle certificate dialog message -->
     <string name="recycle_bin_recycle_certificate_dialog_message">"Das Zertifikat wird in den Papierkorb verschoben. Den Papierkorb finden Sie auf der Status-Registerkarte unter den drei Punkten oben rechts.Dort können Sie es endgültig löschen oder wiederherstellen. Nach 30 Tagen wird das Zertifikat automatisch gelöscht."</string>
     <!-- XBUT: Recycle Bin - recycle certificate dialog positive button -->
-    <string name="recycle_bin_recycle_certificate_dialog_positive_button">"Zertifikat EntFernen"</string>
+    <string name="recycle_bin_recycle_certificate_dialog_positive_button">"Zertifikat Entfernen"</string>
     <!-- XBUT: Recycle Bin - recycle certificate dialog negative button -->
     <string name="recycle_bin_recycle_certificate_dialog_negative_button">"Abbrechen"</string>
 </resources>
