@@ -58,4 +58,4 @@ data class CertificatePersonIdentifier(
     }
 }
 
-internal fun String.condense() = this.replace("\\s+".toRegex(), " ").replace("<+".toRegex(), " ")
+internal fun String.condense() = this.replace("\\s+".toRegex(), " ").replace("<+".toRegex(), "<")
