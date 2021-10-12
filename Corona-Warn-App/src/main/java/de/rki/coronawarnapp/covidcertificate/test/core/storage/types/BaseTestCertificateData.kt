@@ -7,7 +7,7 @@ import org.joda.time.Instant
 /**
  * Common data for test certificates, independent of whether they were retrieved or scanned.
  */
-sealed class BaseTestCertificateData: Recyclable {
+sealed class BaseTestCertificateData : Recyclable {
     abstract val identifier: String
     abstract val registeredAt: Instant
     abstract val certificateReceivedAt: Instant?
