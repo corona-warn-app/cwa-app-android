@@ -17,7 +17,7 @@
         android:title="@string/menu_settings" />
 
     <item
-        android:id="@+id/trashOverviewFragment"
+        android:id="@+id/recyclerBinOverviewFragment"
         android:icon="@drawable/ic_menu_trash"
         android:title="@string/menu_trash" />
 

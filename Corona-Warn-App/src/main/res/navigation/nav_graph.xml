@@ -79,6 +79,9 @@
         <action
             android:id="@+id/action_mainFragment_to_federalStateSelectionFragment"
             app:destination="@id/federalStateSelectionFragment" />
+        <action
+            android:id="@+id/action_RecyclerBinOverviewFragment_self"
+            app:destination="@id/recyclerBinOverviewFragment" />
     </fragment>
 
     <fragment
@@ -92,6 +95,12 @@
         android:name="de.rki.coronawarnapp.ui.main.overview.MainOverviewFragment"
         android:label="@layout/fragment_main_overview"
         tools:layout="@layout/fragment_main_overview" />
+
+    <fragment
+        android:id="@+id/recyclerBinOverviewFragment"
+        android:name="de.rki.coronawarnapp.reyclebin.ui.RecyclerBinOverviewFragment"
+        android:label="@layout/recycler_bin_overview_fragment"
+        tools:layout="@layout/recycler_bin_overview_fragment" />
 
     <!-- Settings -->
     <fragment
