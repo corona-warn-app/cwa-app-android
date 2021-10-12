@@ -97,7 +97,11 @@ class LauncherActivityViewModelTest : BaseTest() {
 
     @Test
     fun `onRootedDialogDismiss triggers update check`() {
-        coEvery { updateChecker.checkForUpdate() } returns UpdateChecker.Result(isUpdateNeeded = true)
+        coEvery { updateChecker.checkForUpdate() } returns UpdateChecker.Result(
+            isUpdateNeeded = true,
+            updateIntent = { mockk() }
+        )
+
         createViewModel().run {
             onRootedDialogDismiss()
             events.getOrAwaitValue() shouldBe instanceOf(LauncherEvent.ShowUpdateDialog::class)
