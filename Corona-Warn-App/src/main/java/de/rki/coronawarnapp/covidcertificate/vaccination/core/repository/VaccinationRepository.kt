@@ -31,6 +31,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -84,7 +85,7 @@ class VaccinationRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
-    val recycledCertificates: Flow<Set<VaccinationCertificate>> = emptyFlow()
+    val recycledCertificates: Flow<Set<VaccinationCertificate>> = flowOf(emptySet()) // TODO: expose certs
 
     val freshVaccinationInfos: Flow<Set<VaccinatedPerson>> = combine(
         internalData.data,
