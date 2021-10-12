@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.bugreporting.censors.contactdiary.DiaryLocationCenso
 import de.rki.coronawarnapp.bugreporting.censors.contactdiary.DiaryPersonCensor
 import de.rki.coronawarnapp.bugreporting.censors.contactdiary.DiaryVisitCensor
 import de.rki.coronawarnapp.bugreporting.censors.contactdiary.OrganizerRegistrationTokenCensor
+import de.rki.coronawarnapp.bugreporting.censors.dcc.CwaUserCensor
 import de.rki.coronawarnapp.bugreporting.censors.dcc.DccQrCodeCensor
 import de.rki.coronawarnapp.bugreporting.censors.presencetracing.CheckInsCensor
 import de.rki.coronawarnapp.bugreporting.censors.presencetracing.TraceLocationCensor
@@ -36,6 +37,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.protobuf.ProtoConverterFactory
 import javax.inject.Singleton
 
+@Suppress("TooManyFunctions")
 @Module
 class BugReportingSharedModule {
 
@@ -137,4 +139,8 @@ class BugReportingSharedModule {
     @Provides
     @IntoSet
     fun organizerRegistrationTokenCensor(censor: OrganizerRegistrationTokenCensor): BugCensor = censor
+
+    @Provides
+    @IntoSet
+    fun cwaUserCensor(censor: CwaUserCensor): BugCensor = censor
 }

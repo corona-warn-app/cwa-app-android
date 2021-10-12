@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.bugreporting.BugReportingSharedModule
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
@@ -19,6 +20,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.preferences.mockFlowPreference
 import timber.log.Timber
 import javax.inject.Singleton
 
@@ -108,4 +110,10 @@ class MockProvider {
     @Singleton
     @Provides
     fun ratProfileSettings(): RATProfileSettings = mockk()
+
+    @Singleton
+    @Provides
+    fun personCertificatesSettings(): PersonCertificatesSettings = mockk {
+        every { currentCwaUser } returns mockFlowPreference(null)
+    }
 }
