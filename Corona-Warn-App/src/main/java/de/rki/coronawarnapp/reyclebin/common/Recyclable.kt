@@ -5,7 +5,7 @@ import org.joda.time.Instant
 interface Recyclable {
 
     /**
-     *
+     * The time when the user has moved this certificate into the recycle bin
      */
     val recycledAt: Instant?
 
