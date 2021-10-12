@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.common.recycle
+package de.rki.coronawarnapp.reyclebin.common
 
 import org.joda.time.Instant
 
