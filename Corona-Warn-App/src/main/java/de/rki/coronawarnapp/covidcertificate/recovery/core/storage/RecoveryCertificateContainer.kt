@@ -44,7 +44,7 @@ data class RecoveryCertificateContainer(
     val personIdentifier: CertificatePersonIdentifier
         get() = certificateData.certificate.personIdentifier
 
-    val recycledAt: Instant? = data.recycledAt
+    override val recycledAt: Instant? = data.recycledAt
 
     fun toRecoveryCertificate(
         valueSet: VaccinationValueSets? = null,

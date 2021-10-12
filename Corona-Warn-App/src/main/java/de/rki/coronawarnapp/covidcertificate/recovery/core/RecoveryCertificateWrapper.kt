@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
+import de.rki.coronawarnapp.reyclebin.common.Recyclable
 
 data class RecoveryCertificateWrapper(
     private val valueSets: VaccinationValueSets,
@@ -14,6 +15,8 @@ data class RecoveryCertificateWrapper(
     val containerId: RecoveryCertificateContainerId get() = container.containerId
 
     val isUpdatingData = container.isUpdatingData
+
+    val recycleInfo: Recyclable get() = container
 
     val recoveryCertificate: RecoveryCertificate by lazy {
         container.toRecoveryCertificate(

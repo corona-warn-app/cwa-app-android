@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
+import de.rki.coronawarnapp.reyclebin.common.Recyclable
 import org.joda.time.Instant
 
 data class TestCertificateWrapper(
@@ -21,6 +22,8 @@ data class TestCertificateWrapper(
     val registeredAt: Instant get() = container.registeredAt
 
     val registrationToken: String? get() = container.registrationToken
+
+    val recycleInfo: Recyclable get() = container
 
     val testCertificate: TestCertificate? by lazy {
         container.toTestCertificate(
