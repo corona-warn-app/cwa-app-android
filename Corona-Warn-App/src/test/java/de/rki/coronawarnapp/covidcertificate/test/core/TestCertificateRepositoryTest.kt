@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.BaseTestCer
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.GenericTestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertificateData
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyTestCertificateValueSets
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
 import io.kotest.assertions.throwables.shouldThrow
@@ -28,7 +29,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
@@ -69,6 +69,8 @@ class TestCertificateRepositoryTest : BaseTest() {
 
     private var storageSet = mutableSetOf<BaseTestCertificateData>()
 
+    private var nowUTC = Instant.parse("2021-05-13T09:25:00.000Z")
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
@@ -96,7 +98,7 @@ class TestCertificateRepositoryTest : BaseTest() {
                 coEvery { extract(testData.personATest1CertQRCodeString) } returns testData.personATest1CertQRCode()
             }
         }
-        every { valueSetsRepository.latestTestCertificateValueSets } returns emptyFlow()
+        every { valueSetsRepository.latestTestCertificateValueSets } returns flowOf(emptyTestCertificateValueSets)
 
         every { timeStamper.nowUTC } returns Instant.ofEpochSecond(12345678)
 
@@ -196,5 +198,34 @@ class TestCertificateRepositoryTest : BaseTest() {
 
         coVerify { storage.load() }
         coVerify(exactly = 0) { storage.save(any()) }
+    }
+
+    @Test
+    fun `filter by recycled`() = runBlockingTest2(ignoreActive = true) {
+        val data = testData.personATest1StoredData
+        val recycled = data.copy(identifier = "Recycled", recycledAt = nowUTC)
+        val notRecycled = data.copy(identifier = "NotRecycled", recycledAt = null)
+
+        coEvery { storage.load() } returns setOf(recycled, notRecycled)
+
+        createInstance(this).run {
+            certificates.first().also {
+                it.size shouldBe 1
+
+                val wrapper = it.first()
+                wrapper.containerId.identifier shouldBe notRecycled.identifier
+                wrapper.recycleInfo.isNotRecycled shouldBe true
+                wrapper.testCertificate!!.getState() shouldBe CwaCovidCertificate.State.Invalid()
+            }
+
+            recycledCertificates.first().also {
+                it.size shouldBe 1
+
+                val cert = it.first()
+                cert.containerId.identifier shouldBe recycled.identifier
+                cert.isRecycled shouldBe true
+                cert.getState() shouldBe CwaCovidCertificate.State.Recycled
+            }
+        }
     }
 }
