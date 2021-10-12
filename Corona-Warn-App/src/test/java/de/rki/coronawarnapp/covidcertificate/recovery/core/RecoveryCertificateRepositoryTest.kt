@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.recovery.core
 
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.recovery.RecoveryQrCodeTestData
@@ -20,6 +21,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
@@ -101,5 +103,40 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
 
         coVerify { storage.load() }
         coVerify(exactly = 0) { storage.save(any()) }
+    }
+
+    @Test
+    fun `filter by recycled`() = runBlockingTest2(ignoreActive = true) {
+        val notRecycled = mockk<StoredRecoveryCertificateData> {
+            every { recoveryCertificateQrCode } returns RecoveryQrCodeTestData.validRecovery
+            every { recycledAt } returns null
+        }
+
+        val recycled = mockk<StoredRecoveryCertificateData> {
+            every { recoveryCertificateQrCode } returns RecoveryQrCodeTestData.validRecovery
+            every { recycledAt } returns nowUTC
+        }
+
+        coEvery { storage.load() } returns setOf(recycled, notRecycled)
+        coEvery { dccStateChecker.checkState(any()) } returns flowOf(CwaCovidCertificate.State.Valid(nowUTC))
+
+        createInstance(this).run {
+            certificates.first().also {
+                it.size shouldBe 1
+
+                val wrapper = it.first()
+                wrapper.recoveryCertificate.getState() shouldBe CwaCovidCertificate.State.Valid(nowUTC)
+                wrapper.recycleInfo.isNotRecycled shouldBe true
+            }
+
+
+            recycledCertificates.first().also {
+                it.size shouldBe 1
+
+                val cert = it.first()
+                cert.getState() shouldBe CwaCovidCertificate.State.Recycled
+                cert.isRecycled shouldBe true
+            }
+        }
     }
 }
