@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.qrcode.ui
 
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
+import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.qrcode.QrCodeFileParser
@@ -15,10 +16,12 @@ import de.rki.coronawarnapp.util.permission.CameraSettings
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
@@ -94,6 +97,14 @@ class QrCodeScannerViewModelTest : BaseTest() {
     fun setCameraDeniedPermanently() {
         viewModel().setCameraDeniedPermanently(true)
         verify { cameraSettings.isCameraDeniedPermanently }
+    }
+
+    @Test
+    fun `restoreCertificate asks provider to restore DGC`() {
+        coEvery { recycledItemsProvider.restoreCertificate(any()) } just Runs
+        val containerId = mockk<CertificateContainerId>()
+        viewModel().restoreCertificate(containerId)
+        coVerify { recycledItemsProvider.restoreCertificate(any()) }
     }
 
     fun viewModel() = QrCodeScannerViewModel(
