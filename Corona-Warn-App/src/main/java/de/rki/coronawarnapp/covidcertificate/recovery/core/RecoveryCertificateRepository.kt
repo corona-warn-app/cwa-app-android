@@ -24,9 +24,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.plus
@@ -78,23 +78,40 @@ class RecoveryCertificateRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
-    val recycledCertificates: Flow<Set<RecoveryCertificate>> = emptyFlow()
-
     val freshCertificates: Flow<Set<RecoveryCertificateWrapper>> = combine(
         internalData.data,
         dscRepository.dscData
     ) { set, _ ->
-        set.map { container ->
-            val state = dccStateChecker.checkState(container.certificateData).first()
-            RecoveryCertificateWrapper(
-                valueSets = valueSetsRepository.latestVaccinationValueSets.first(),
-                container = container,
-                certificateState = state
-            )
-        }.toSet().also { Timber.d("Test: $it") }
+        set
+            .filter { it.isNotRecycled }
+            .map { container ->
+                val state = dccStateChecker.checkState(container.certificateData).first()
+                RecoveryCertificateWrapper(
+                    valueSets = valueSetsRepository.latestVaccinationValueSets.first(),
+                    container = container,
+                    certificateState = state
+                )
+            }.toSet()
     }
 
     val certificates: Flow<Set<RecoveryCertificateWrapper>> = freshCertificates
+        .shareLatest(
+            tag = TAG,
+            scope = appScope
+        )
+
+    /**
+     * Returns a flow with a set of [RecoveryCertificate] matching the predicate [RecoveryCertificate.isRecycled]
+     */
+    val recycledCertificates: Flow<Set<RecoveryCertificate>> = internalData.data
+        .map { container ->
+            container
+                .filter { it.isRecycled }
+                .map {
+                    it.toRecoveryCertificate(certificateState = CwaCovidCertificate.State.Recycled)
+                }
+                .toSet()
+        }
         .shareLatest(
             tag = TAG,
             scope = appScope

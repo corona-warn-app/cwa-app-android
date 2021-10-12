@@ -1,9 +1,10 @@
 package de.rki.coronawarnapp.covidcertificate.common.repository
 
+import de.rki.coronawarnapp.reyclebin.common.Recyclable
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import java.util.Locale
 
-interface CertificateRepoContainer {
+interface CertificateRepoContainer : Recyclable {
     val containerId: CertificateContainerId
 
     /**

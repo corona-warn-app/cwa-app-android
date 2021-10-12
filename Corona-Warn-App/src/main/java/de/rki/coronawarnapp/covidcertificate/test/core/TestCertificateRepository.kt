@@ -31,9 +31,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.plus
@@ -77,28 +77,43 @@ class TestCertificateRepository @Inject constructor(
             }
     }
 
-    val recycledCertificates: Flow<Set<TestCertificate>> = emptyFlow()
-
     val certificates: Flow<Set<TestCertificateWrapper>> = combine(
         internalData.data,
         valueSetsRepository.latestTestCertificateValueSets,
         dscRepository.dscData
     ) { certMap, valueSets, _ ->
-        certMap.values.map { container ->
-            val state = when {
-                container.isCertificateRetrievalPending -> CwaCovidCertificate.State.Invalid()
-                else -> container.testCertificateQRCode?.data?.let {
-                    dccStateChecker.checkState(it).first()
-                } ?: CwaCovidCertificate.State.Invalid()
-            }
+        certMap.values
+            .filter { it.isNotRecycled }
+            .map { container ->
+                val state = when {
+                    container.isCertificateRetrievalPending -> CwaCovidCertificate.State.Invalid()
+                    else -> container.testCertificateQRCode?.data?.let {
+                        dccStateChecker.checkState(it).first()
+                    } ?: CwaCovidCertificate.State.Invalid()
+                }
 
-            TestCertificateWrapper(
-                valueSets = valueSets,
-                container = container,
-                certificateState = state,
-            )
-        }.toSet()
+                TestCertificateWrapper(
+                    valueSets = valueSets,
+                    container = container,
+                    certificateState = state,
+                )
+            }.toSet()
     }
+        .shareLatest(
+            tag = TAG,
+            scope = appScope
+        )
+
+    /**
+     * Returns a flow with a set of [TestCertificate] matching the predicate [TestCertificate.isRecycled]
+     */
+    val recycledCertificates: Flow<Set<TestCertificate>> = internalData.data
+        .map { certMap ->
+            certMap.values
+                .filter { it.isRecycled }
+                .mapNotNull { it.toTestCertificate(certificateState = CwaCovidCertificate.State.Recycled) }
+                .toSet()
+        }
         .shareLatest(
             tag = TAG,
             scope = appScope
