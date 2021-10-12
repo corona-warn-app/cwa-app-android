@@ -22,7 +22,7 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.toSubmissionState
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.statistics.AddStatsItem
-import de.rki.coronawarnapp.statistics.LocalIncidenceStats
+import de.rki.coronawarnapp.statistics.LocalIncidenceAndHospitalizationStats
 import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
 import de.rki.coronawarnapp.statistics.local.storage.LocalStatisticsConfigStorage
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
@@ -82,7 +82,6 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
@@ -225,7 +224,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                         },
                         onRemoveListener = { statsItem ->
                             when (statsItem) {
-                                is LocalIncidenceStats -> {
+                                is LocalIncidenceAndHospitalizationStats -> {
                                     localStatisticsConfigStorage.activeSelections.update {
                                         it.withoutLocation(
                                             statsItem.selectedLocation

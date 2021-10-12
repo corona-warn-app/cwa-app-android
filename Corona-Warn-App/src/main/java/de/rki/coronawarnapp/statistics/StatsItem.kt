@@ -13,27 +13,27 @@ data class StatisticsData(
 
     override fun toString(): String {
         return "StatisticsData(cards=${
-            items.map {
-                when (it) {
-                    is AddStatsItem -> "AddCard(${it.isEnabled})"
-                    is GlobalStatsItem -> it.cardType.name + " " + it.updatedAt
-                    is LocalStatsItem -> it.cardType.name + " " + it.updatedAt
-                }
+        items.map {
+            when (it) {
+                is AddStatsItem -> "AddCard(${it.isEnabled})"
+                is GlobalStatsItem -> it.cardType.name + " " + it.updatedAt
+                is LocalStatsItem -> it.cardType.name + " " + it.updatedAt
             }
+        }
         })"
     }
 }
 
 data class LocalStatisticsData(
-    val items: List<LocalIncidenceStats> = emptyList()
+    val items: List<LocalIncidenceAndHospitalizationStats> = emptyList()
 ) {
     val isDataAvailable: Boolean = items.isNotEmpty()
 
     override fun toString(): String {
         return "StatisticsData(cards=${
-            items.map {
-                it.cardType.name + " " + it.updatedAt
-            }
+        items.map {
+            it.cardType.name + " " + it.updatedAt
+        }
         })"
     }
 }
@@ -121,9 +121,10 @@ data class IncidenceStats(
     }
 }
 
-data class LocalIncidenceStats(
+data class LocalIncidenceAndHospitalizationStats(
     override val updatedAt: Instant,
     override val keyFigures: List<KeyFigure>,
+    val hospitalizationUpdatedAt: Instant,
     val selectedLocation: SelectedStatisticsLocation,
 ) : LocalStatsItem(cardType = Type.LOCAL_INCIDENCE) {
 
@@ -134,12 +135,12 @@ data class LocalIncidenceStats(
         get() = keyFigures.single { it.rank == KeyFigure.Rank.SECONDARY }
 
     override fun requireValidity() {
-        require(keyFigures.size == 2)
+        require(keyFigures.isNotEmpty())
         requireNotNull(keyFigures.singleOrNull { it.rank == KeyFigure.Rank.PRIMARY }) {
-            Timber.w("LocalIncidenceStats is missing primary value")
+            Timber.w("LocalIncidenceAndHospitalizationStats is missing primary value")
         }
         requireNotNull(keyFigures.singleOrNull { it.rank == KeyFigure.Rank.SECONDARY }) {
-            Timber.w("LocalIncidenceStats is missing secondary value")
+            Timber.w("LocalIncidenceAndHospitalizationStats is missing secondary value")
         }
     }
 }

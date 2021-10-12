@@ -97,9 +97,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
-            android:text="@string/statistics_primary_value_until_yesterday"
             app:layout_constraintStart_toStartOf="@id/location_label"
-            app:layout_constraintTop_toBottomOf="@id/primary_subtitle" />
+            app:layout_constraintTop_toBottomOf="@id/primary_subtitle"
+            tools:text="@string/statistics_primary_value_until_yesterday" />
 
         <TextView
             android:id="@+id/secondary_value"

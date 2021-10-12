@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsCardsLocalIncidenceAndHospitalizationLayoutBinding
 import de.rki.coronawarnapp.datadonation.analytics.common.labelStringRes
 import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass
-import de.rki.coronawarnapp.statistics.LocalIncidenceStats
+import de.rki.coronawarnapp.statistics.LocalIncidenceAndHospitalizationStats
 import de.rki.coronawarnapp.statistics.LocalStatsItem
 import de.rki.coronawarnapp.statistics.local.storage.SelectedStatisticsLocation
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter
@@ -18,7 +18,8 @@ import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithTrailingSpace
 import de.rki.coronawarnapp.util.formatter.getPrimaryLabel
 
 class LocalIncidenceAndHospitalizationCard(parent: ViewGroup) :
-    StatisticsCardAdapter.ItemVH<LocalStatisticsCardItem, HomeStatisticsCardsLocalIncidenceAndHospitalizationLayoutBinding>(
+    StatisticsCardAdapter
+    .ItemVH<LocalStatisticsCardItem, HomeStatisticsCardsLocalIncidenceAndHospitalizationLayoutBinding>(
         R.layout.home_statistics_cards_basecard_layout,
         parent
     ) {
@@ -37,7 +38,7 @@ class LocalIncidenceAndHospitalizationCard(parent: ViewGroup) :
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<LocalStatisticsCardItem>().singleOrNull() ?: item
 
-        with(curItem.stats as LocalIncidenceStats) {
+        with(curItem.stats as LocalIncidenceAndHospitalizationStats) {
 
             overflowMenuButton.setupMenu(R.menu.menu_statistics_local_incidence) {
                 when (it.itemId) {
@@ -77,8 +78,8 @@ class LocalIncidenceAndHospitalizationCard(parent: ViewGroup) :
 
             primaryTrendArrow.setTrend(sevenDayIncidence.trend, sevenDayIncidence.trendSemantic)
 
-            secondaryLabel.text = getPrimaryLabel(context)
-            secondaryLabel.text = getLocalizedSpannableString(
+            secondaryLabel.text = getPrimaryLabel(context, hospitalizationUpdatedAt)
+            secondaryValue.text = getLocalizedSpannableString(
                 context,
                 formatStatisticalValue(context, sevenDayHospitalization.value, sevenDayHospitalization.decimals)
             )
@@ -95,6 +96,34 @@ class LocalIncidenceAndHospitalizationCard(parent: ViewGroup) :
                 .append(getContentDescriptionForTrends(context, sevenDayHospitalization.trend))
 
             secondaryTrendArrow.setTrend(sevenDayHospitalization.trend, sevenDayHospitalization.trendSemantic)
+            secondarySubtitle.text = when (selectedLocation) {
+                is SelectedStatisticsLocation.SelectedDistrict ->
+                    context.getString(
+                        R.string.statistics_card_local_hospitalization_text
+                    ).format(
+                        when (selectedLocation.district.federalStateShortName) {
+                            "BW" -> context.getString(R.string.analytics_userinput_federalstate_bw)
+                            "BY" -> context.getString(R.string.analytics_userinput_federalstate_by)
+                            "BE" -> context.getString(R.string.analytics_userinput_federalstate_be)
+                            "BB" -> context.getString(R.string.analytics_userinput_federalstate_bb)
+                            "HB" -> context.getString(R.string.analytics_userinput_federalstate_hb)
+                            "HH" -> context.getString(R.string.analytics_userinput_federalstate_hh)
+                            "HE" -> context.getString(R.string.analytics_userinput_federalstate_he)
+                            "MV" -> context.getString(R.string.analytics_userinput_federalstate_mv)
+                            "NI" -> context.getString(R.string.analytics_userinput_federalstate_ni)
+                            "NW" -> context.getString(R.string.analytics_userinput_federalstate_nrw)
+                            "RP" -> context.getString(R.string.analytics_userinput_federalstate_rp)
+                            "SL" -> context.getString(R.string.analytics_userinput_federalstate_sl)
+                            "SN" -> context.getString(R.string.analytics_userinput_federalstate_sn)
+                            "ST" -> context.getString(R.string.analytics_userinput_federalstate_st)
+                            "SH" -> context.getString(R.string.analytics_userinput_federalstate_sh)
+                            "TH" -> context.getString(R.string.analytics_userinput_federalstate_bw)
+                            else -> context.getString(R.string.statistics_nationwide_text)
+                        }
+                    )
+                is SelectedStatisticsLocation.SelectedFederalState ->
+                    context.getString(selectedLocation.federalState.labelStringRes)
+            }
         }
     }
 
