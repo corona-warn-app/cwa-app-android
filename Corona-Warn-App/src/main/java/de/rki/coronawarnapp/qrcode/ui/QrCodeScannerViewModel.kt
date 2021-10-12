@@ -85,6 +85,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     fun restoreCertificate(containerId: CertificateContainerId) = launch {
         Timber.tag(TAG).d("restoreCertificate(containerId=%s)", containerId)
         recycledItemsProvider.restoreCertificate(containerId)
+        result.postValue(containerId.toDccDetails())
     }
 
     private suspend fun onDccQrCode(dccQrCode: DccQrCode) {

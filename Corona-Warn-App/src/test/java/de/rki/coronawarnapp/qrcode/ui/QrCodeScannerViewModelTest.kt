@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.qrcode.ui
 
+import android.net.Uri
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
-import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.qrcode.QrCodeFileParser
@@ -23,6 +24,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.mockkStatic
 import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -30,6 +32,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
+import testhelpers.extensions.getOrAwaitValue
 import testhelpers.preferences.mockFlowPreference
 import javax.inject.Inject
 
@@ -48,9 +51,11 @@ class QrCodeScannerViewModelTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+        mockkStatic(Uri::class)
         DaggerCovidCertificateTestComponent.factory().create().inject(this)
 
         every { cameraSettings.isCameraDeniedPermanently } returns mockFlowPreference(false)
+        every { Uri.parse(any()) } returns mockk()
         coEvery { qrCodeFileParser.decodeQrCodeFile(any()) } returns QrCodeFileParser.ParseResult.Success("qrcode")
     }
 
@@ -102,8 +107,11 @@ class QrCodeScannerViewModelTest : BaseTest() {
     @Test
     fun `restoreCertificate asks provider to restore DGC`() {
         coEvery { recycledItemsProvider.restoreCertificate(any()) } just Runs
-        val containerId = mockk<CertificateContainerId>()
-        viewModel().restoreCertificate(containerId)
+        val containerId = TestCertificateContainerId("ceruuid")
+        viewModel().apply {
+            restoreCertificate(containerId)
+            result.getOrAwaitValue().shouldBeInstanceOf<DccResult.Details>()
+        }
         coVerify { recycledItemsProvider.restoreCertificate(any()) }
     }
 
