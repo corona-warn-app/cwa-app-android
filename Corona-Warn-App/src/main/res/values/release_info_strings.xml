@@ -16,16 +16,18 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Universal QR Code Scanner"</item>
-        <item>"Import QR Code"</item>
-        <item>"Adjustment to Contact Duration"</item>
+        <item>"Extended Statistics"</item>
+        <item>"Manage Notifications"</item>
+        <item>"Direct Access to QR Code Scanner"</item>
+        <item>"Check of Administrator Authorizations"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"You can now scan all documents supported by the Corona-Warn-App, regardless of where you open a QR code scanner in the app:\n\n• PCR tests\n• Rapid tests\n• Event check-ins\n• Certificates"</item>
-        <item>"You can now use the QR code scanner to import QR codes from photos or PDF files."</item>
-        <item>"The minimum contact duration in the contact journal has been reduced from 15 minutes to 10 minutes. Existing entries for contacts with people have been adjusted automatically. Review your journal entries and adjust them if needed."</item>
+        <item>"The following statistics are now available in the app:\n\n• 7-day hospitalization incidence\n• COVID-19 patients in intensive care units"</item>
+        <item>"The settings for notifications are now managed centrally in your smartphone settings. Check your notification settings for the Corona-Warn-App again in your device settings."</item>
+        <item>"You now have direct access to the universal QR code scanner in the lower navigation bar."</item>
+        <item>"After a restart, the app checks whether administrator authorizations (also known as root authorizations) are active on your smartphone and displays a security note if applicable."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
@@ -33,10 +35,12 @@
         <item/>
         <item/>
         <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item/>
         <item/>
         <item/>
         <item/>

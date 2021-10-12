@@ -8,6 +8,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.main.CWASettings
+import de.rki.coronawarnapp.rootdetection.RootDetectionCheck
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.update.UpdateChecker
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -24,7 +25,9 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
+import testhelpers.Screenshot
 import testhelpers.TestDispatcherProvider
+import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
 class LauncherActivityTest : BaseUITest() {
@@ -32,11 +35,14 @@ class LauncherActivityTest : BaseUITest() {
     @MockK lateinit var updateChecker: UpdateChecker
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var onboardingSettings: OnboardingSettings
+    @MockK lateinit var rootDetectionCheck: RootDetectionCheck
     lateinit var viewModel: LauncherActivityViewModel
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
+
+        coEvery { rootDetectionCheck.isRooted() } returns false
 
         coEvery { updateChecker.checkForUpdate() } returns UpdateChecker.Result(isUpdateNeeded = false)
         every { onboardingSettings.isOnboarded } returns false
@@ -76,6 +82,21 @@ class LauncherActivityTest : BaseUITest() {
         launchActivity<LauncherActivity>(getIntent(uri))
     }
 
+    @Screenshot
+    @Test
+    fun capture_root_dialog_screenshot() {
+        coEvery { rootDetectionCheck.isRooted() } returns true
+
+        setupMockViewModel(
+            object : LauncherActivityViewModel.Factory {
+                override fun create(): LauncherActivityViewModel = launcherActivityViewModel()
+            }
+        )
+
+        launchActivity<LauncherActivity>()
+        takeScreenshot<LauncherActivity>("launcher_root")
+    }
+
     private fun getIntent(uri: Uri) = Intent(Intent.ACTION_VIEW, uri).apply {
         setPackage(InstrumentationRegistry.getInstrumentation().targetContext.packageName)
         addCategory(Intent.CATEGORY_BROWSABLE)
@@ -87,7 +108,8 @@ class LauncherActivityTest : BaseUITest() {
             updateChecker,
             TestDispatcherProvider(),
             cwaSettings,
-            onboardingSettings
+            onboardingSettings,
+            rootDetectionCheck
         )
     )
 }

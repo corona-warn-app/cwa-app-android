@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.rootdetection.showRootDetectionDialog
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
 import de.rki.coronawarnapp.util.di.AppInjector
@@ -41,6 +42,9 @@ class LauncherActivity : AppCompatActivity() {
                 is LauncherEvent.ShowUpdateDialog -> {
                     showUpdateNeededDialog(it.updateIntent)
                 }
+
+                LauncherEvent.ShowUpdateDialog -> showUpdateNeededDialog(it.updateIntent)
+                LauncherEvent.ShowRootedDialog -> showRootDetectionDialog { viewModel.onRootedDialogDismiss() }
             }
         }
     }

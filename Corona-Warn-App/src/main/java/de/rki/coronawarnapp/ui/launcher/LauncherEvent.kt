@@ -8,4 +8,6 @@ sealed class LauncherEvent {
     data class ShowUpdateDialog(
         val updateIntent: Intent
     ) : LauncherEvent()
+
+    object ShowRootedDialog : LauncherEvent()
 }

@@ -35,12 +35,12 @@
         <TextView
             android:id="@+id/dispatcher_card_title"
             style="@style/headline6"
-            android:accessibilityHeading="true"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_small"
+            android:accessibilityHeading="true"
             android:text="@{headline}"
             app:layout_constraintEnd_toStartOf="@+id/dispatcher_card_icon"
             app:layout_constraintStart_toStartOf="parent"
@@ -71,12 +71,12 @@
             android:layout_marginEnd="@dimen/spacing_small"
             android:layout_marginBottom="@dimen/spacing_normal"
             android:text="@{body}"
-            bind:cwaContentDescription="@{body}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/dispatcher_card_illustration"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dispatcher_card_title"
             app:layout_constraintVertical_bias="0.0"
+            bind:cwaContentDescription="@{body}"
             tools:text="@string/submission_dispatcher_qr_card_text" />
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -89,6 +89,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dispatcher_card_icon"
+            app:layout_constraintVertical_bias="1.0"
             app:shapeAppearanceOverlay="@style/dispatcherImageStyle"
             tools:src="@drawable/ic_submission_illustration_qr_code_card" />
 

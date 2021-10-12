@@ -15,7 +15,7 @@
     <!-- XTXT: Person overview no certificates subtitle-->
     <string name="person_overview_no_certificates_subtitle">"W tym miejscu wyświetlane są zapisane cyfrowe certyfikaty szczepień, certyfikaty statusu ozdrowieńca i certyfikaty testów."</string>
     <!-- XTXT: Person overview no certificates subtitle 2-->
-    <string name="person_overview_no_certificates_subtitle_2">"Aby dodać certyfikat, zeskanuj odpowiedni kod QR."</string>
+    <string name="person_overview_no_certificates_subtitle_2">"Aby zeskanować kod QR certyfikatu, użyj przycisku „Skanuj” na dolnym pasku nawigacyjnym."</string>
     <!-- XBUT: Person overview certificates scan button-->
     <string name="person_overview_scan_button">"Certyfikat"</string>
     <!-- XTXT: Person overview no certificates image content description-->
@@ -53,7 +53,16 @@
     <string name="vaccination_consent_accept_button">"Kontynuuj"</string>
 
     <!-- XTXT: Vaccination card immunity information: Days since last shot -->
-    <string name="vaccination_days_since_last_shot">"Ostatnie szczepienie %1$d dni temu"</string>
+    <plurals name="vaccination_days_since_last_shot" tools:ignore="UnusedQuantity">
+        <item quantity="one">"Ostatnie szczepienie %1$d dzień temu"</item>
+        <item quantity="other">"Ostatnie szczepienie %1$d dnia temu"</item>
+        <item quantity="zero">"Ostatnie szczepienie dzisiaj"</item>
+        <item quantity="two">"Ostatnie szczepienie %1$d dni temu"</item>
+        <item quantity="few">"Ostatnie szczepienie %1$d dni temu"</item>
+        <item quantity="many">"Ostatnie szczepienie %1$d dni temu"</item>
+    </plurals>
+    <!-- XTXT: Vaccination card immunity information: Days since last shot today -->
+    <string name="vaccination_days_since_last_shot_today">"Ostatnie szczepienie dzisiaj"</string>
     <!-- XTXT: Vaccination card immunity information card body when immunity is completed -->
     <string name="vaccination_list_immunity_card_body">"Otrzymałeś(-aś) wszystkie aktualnie zaplanowane szczepienia. Masz pełną ochronę poszczepienną."</string>
     <!-- XTXT: Vaccination card title -->
@@ -89,9 +98,9 @@
     <string name="vaccination_certificate_name">"Certyfikat szczepienia"</string>
 
     <!-- XTXT: Vaccination card immunity information card body-->
-    <plurals name="vaccination_certificate_days_unti_immunity" tools:ignore="UnusedQuantity">
+    <plurals name="vaccination_certificate_days_until_immunity" tools:ignore="UnusedQuantity">
         <item quantity="one">"Otrzymałeś(-aś) już wszystkie zaplanowane dotychczas szczepienia, jednak pełną ochronę poszczepienną uzyskasz dopiero za %1$d dzień."</item>
-        <item quantity="other">"Otrzymałeś(-aś) już wszystkie zaplanowane dotychczas szczepienia, jednak pełną ochronę poszczepienną uzyskasz dopiero za %1$d dnia."</item>
+        <item quantity="other">"Otrzymałeś(-aś) już wszystkie zaplanowane dotychczas szczepienia, jednak pełną ochronę poszczepienną uzyskasz dopiero za %1$d dni."</item>
         <item quantity="zero">"Otrzymałeś(-aś) już wszystkie zaplanowane dotychczas szczepienia, jednak pełną ochronę poszczepienną uzyskasz dopiero za %1$d dni."</item>
         <item quantity="two">"Otrzymałeś(-aś) już wszystkie zaplanowane dotychczas szczepienia, jednak pełną ochronę poszczepienną uzyskasz dopiero za %1$d dni."</item>
         <item quantity="few">"Otrzymałeś(-aś) już wszystkie zaplanowane dotychczas szczepienia, jednak pełną ochronę poszczepienną uzyskasz dopiero za %1$d dni."</item>

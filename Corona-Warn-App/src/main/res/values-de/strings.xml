@@ -35,6 +35,8 @@
     <string name="notification_headline">"Corona-Warn-App"</string>
     <!-- XTXT: Notification body -->
     <string name="notification_body">"Es gibt Neuigkeiten von Ihrer Corona-Warn-App."</string>
+    <!-- XTXT: Notification body certificate -->
+    <string name="notification_body_certificate">"Überprüfen Sie die Gültigkeit Ihrer Zertifikate."</string>
     <!-- XHED: Notification title - Reminder to share a positive test result-->
     <string name="notification_headline_share_positive_result">"Helfen Sie mit!"</string>
     <!-- XTXT: Notification body - Reminder to share a positive test result-->
@@ -624,24 +626,10 @@
 
     <!-- XHED: settings(notification) - notification page title -->
     <string name="settings_notifications_title">"Mitteilungen"</string>
-    <!-- XHED: settings(notification) - multiline headline below illustration, active -->
-    <string name="settings_notifications_headline_active">"Möchten Sie Mitteilungen zu Ihrem COVID-19-Risikostatus aktivieren?"</string>
     <!-- XTXT: settings(notification) - text in row on settings overview -->
     <string name="settings_notifications_body_description">"Erlauben Sie automatische Benachrichtigungen zu Ihrem COVID-19-Risikostatus."</string>
-    <!-- YTXT: settings(notification) - description text when it notifications are enabled -->
-    <string name="settings_notifications_body_active">"Legen Sie fest, zu welchen Themen Sie informiert bleiben möchten."</string>
     <!-- XTXT: settings(notification) - explains what the user has to do to activate settings -->
     <string name="settings_notifications_body_inactive">"Um Mitteilungen in der Corona-Warn-App zu aktivieren, müssen Sie Mitteilungen in Ihren Geräteeinstellungen zulassen."</string>
-    <!-- XHED: settings(notification) - card headline -->
-    <string name="settings_notifications_headline_card">"Mitteilungen aktivieren"</string>
-    <!-- XHED: settings - notification headline on settings overview -->
-    <string name="settings_notifications_subtitle_notification">"Mitteilungen"</string>
-    <!-- XTXT: settings(notification) - next to a switch -->
-    <string name="settings_notifications_subtitle_update_risk">"Ändern Ihres Infektionsrisikos"</string>
-    <!-- XTXT: settings(notification) - next to a switch -->
-    <string name="settings_notifications_subtitle_update_test">"Status Ihres Coronavirus-Tests"</string>
-    <!-- XBUT: settings(notification) - go to operating settings -->
-    <string name="settings_notifications_button_open_settings">"Geräteeinstellungen öffnen"</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, active -->
     <string name="settings_notifications_illustration_description_active">"Eine Frau erhält eine Mitteilung von ihrer Corona-Warn-App."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, inactive -->
@@ -911,25 +899,6 @@
     <string name="submission_error_dialog_confirm_cancellation_button_positive">"Ja"</string>
     <!-- XBUT: Negative button for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_button_negative">"Nein"</string>
-
-    <!-- Permission Rationale Dialog -->
-    <!-- XHED: Dialog headline QR Scan permission rationale  -->
-    <string name="submission_qr_code_scan_permission_rationale_dialog_headline">"Kamera-Zugriff benötigt"</string>
-    <!-- YTXT: Dialog Body text for QR Scan permission rationale -->
-    <string name="submission_qr_code_scan_permission_rationale_dialog_body">"Bitte erlauben Sie der App die Benutzung der Kamera, um den QR-Code zu scannen."</string>
-    <!-- XBUT: Dialog(QR Scan permission rationale) - positive button (right) -->
-    <string name="submission_qr_code_scan_permission_rationale_dialog_button_positive">"Erlauben"</string>
-    <!-- XBUT: Dialog(QR Scan permission rationale) - negative button (left) -->
-    <string name="submission_qr_code_scan_permission_rationale_dialog_button_negative">"Nicht erlauben"</string>
-
-    <!-- Permission Denied Dialog -->
-    <!-- XHED: Dialog headline QR Scan permission denied  -->
-    <string name="submission_qr_code_scan_permission_denied_dialog_headline">"Kamerazugriff benötigt"</string>
-    <!-- YTXT: Dialog Body text for QR Scan permission denied -->
-    <string name="submission_qr_code_scan_permission_denied_dialog_body">"Bitte gehen Sie in die Geräteeinstellungen und erlauben Sie der App die Benutzung der Kamera, um den QR-Code zu scannen."</string>
-    <!-- XBUT: Dialog(QR Scan permission denied) - button -->
-    <string name="submission_qr_code_scan_permission_denied_dialog_button">"OK"</string>
-
     <!-- QR Code Scan Invalid Dialog -->
     <!-- XHED: Dialog headline for invalid QR code  -->
     <string name="submission_qr_code_scan_invalid_dialog_headline">"QR-Code ist ungültig"</string>
@@ -955,7 +924,7 @@
     <!-- XTXT: QR Code processing message  -->
     <string name="qr_code_processing_message">QR-Code wird gelesen …</string>
     <!-- XTXT: unsupported qrcode message  -->
-    <string name="un_supported_qrcode_message">"Der QR-Code wird nicht in der Corona-Warn-App unterstützt. Bitte scannen Sie einen geeigneten QR-Code."</string>
+    <string name="un_supported_qrcode_message">"Der QR-Code wird nicht von der Corona-Warn-App unterstützt. Bitte scannen Sie einen geeigneten QR-Code."</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_file_not_readable_title">Datei nicht lesbar</string>
     <!-- XTXT: QR Code error message body  -->
@@ -969,7 +938,7 @@
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_suitable_qr_code_title">Kein geeigneter QR-Code</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_suitable_qr_code_body">Der QR-Code kann nicht in der Corona-Warn-App gescannt werden. Bitte wählen Sie eine Datei mit einem geeigneten QR-Code.</string>
+    <string name="qr_code_no_suitable_qr_code_body">Der QR-Code kann nicht in der Corona-Warn-App gescannt werden. Bitte wählen Sie einen geeigneten QR-Code.</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
@@ -1538,7 +1507,7 @@
     <!-- XHED: Title for vaccinated once statistics card -->
     <string name="statistics_vaccinated_once_card_title">"Mindestens einmal geimpfte Personen"</string>
     <!-- XTXT: Nationwide text -->
-    <string name="statistics_vaccinated_nationwide_text">"Bundesweit"</string>
+    <string name="statistics_nationwide_text">"Bundesweit"</string>
     <!-- XTXT: Vaccination primary value footnote text -->
     <string name="statistics_vaccination_primary_value_footnote">"der Bevölkerung"</string>
 
@@ -1567,6 +1536,20 @@
     <string name="statistics_people_vaccinated_at_least_once_text">"Anzahl der an das RKI übermittelten Personen, die die erste Impfdosis erhalten haben."</string>
     <!-- XTXT: Statistics FAQ text -->
     <string name="statistics_faq_text">"Weitere Informationen finden Sie in den FAQ:"</string>
+
+    <!-- Seven Day Hospitalization Statistics Card -->
+    <!-- XHED: Title for seven day hospitalization stats -->
+    <string name="statistics_seven_day_hospitalization_card_title">"7-Tage-Inzidenz Hospitalisierung"</string>
+    <!-- XTXT: Nationwide text -->
+    <string name="statistics_seven_day_hospitalization_nationwide_text">"Bundesweit"</string>
+    <!-- XTXT: Hospitalizations per 100.000 inhabitants -->
+    <string name="statistics_seven_day_hospitalization_per_inhabitants_text">"COVID-19-Hospitalisierungen je 100.000 Einwohner"</string>
+
+    <!-- Occupied Intensive Care Statistics Card -->
+    <!-- XHED: Title for occupied intensive care card -->
+    <string name="statistics_occupied_intensive_care_card_title">"COVID-19-Erkrankte auf Intensivstationen"</string>
+    <!-- XTXT: Ocupation of all intensive care beds -->
+    <string name="statistics_occupied_intensive_care_beds_text">"COVID-19-Belegung aller betreibbaren Intensivbetten"</string>
 
     <!-- Statistics Add new tile -->
     <!-- XTXT: Statistics add card title -->
@@ -1787,13 +1770,15 @@
     <string name="statistics_trend_stable">Trend stabil</string>
 
     <!-- XHED: Title for BottomNav main screen title -->
-    <string name="bottom_nav_home_title">Startseite</string>
+    <string name="bottom_nav_home_title">Status</string>
     <!-- XHED: Title for BottomNav diary screen title -->
     <string name="bottom_nav_diary_title">Tagebuch</string>
     <!-- XHED: Title for BottomNav check-in screen title -->
     <string name="bottom_nav_check_ins_title">Check-in</string>
     <!-- XHED: Title for BottomNav certificates screen title -->
     <string name="bottom_nav_certificates_title">"Zertifikate"</string>
+    <!-- XHED: Title for BottomNav scanner screen title -->
+    <string name="bottom_nav_scanner_title">"Scannen"</string>
     <!-- ####################################
            Data Donation & Survey
     ###################################### -->
@@ -1934,12 +1919,6 @@
     <string name="trace_location_onboarding_body_stay">Bitte geben Sie Ihre Aufenthaltszeit so genau wie möglich an, damit gezielt gewarnt werden kann.</string>
     <!-- XACT: Button/Dialog label to consent-->
     <string name="trace_location_onboarding_body_confirm">Einverstanden</string>
-    <!--  XHED: Trace location check-ins camera permission card title-->
-    <string name="trace_location_attendee_camera_card_title">Zugriff auf Kamera erlauben</string>
-    <!--  XTXT: Trace location check-ins camera permission card susbtitle-->
-    <string name="trace_location_attendee_camera_card_subtitle">Um die Kamera für das Scannen des QR-Codes zu nutzen, müssen Sie die Verwendung der Kamera in den Geräteeinstellungen zur App zulassen.</string>
-    <!--  XBUT: Trace location check-ins camera permission card button-->
-    <string name="trace_location_attendee_camera_card_button">Einstellungen öffnen</string>
     <!--  YMSG: Trace location onboarding image description-->
     <string name="trace_location_onboarding_content_description">Drei Personen an einem Stehtisch, zwei von ihnen schauen auf ihr Smartphone.</string>
     <!-- XMIT: Trace location poster print -->
@@ -1999,4 +1978,44 @@
     <string name="incompatible_link_advertising_not_supported">"https://www.coronawarn.app/de/faq/#part_incompat"</string>
     <!-- XTXT: Incompitability faq link for full incompatibility -->
     <string name="incompatible_link_scanning_not_supported">"https://www.coronawarn.app/de/faq/#full_incompat"</string>
+
+    <!-- XHED: App Root Detection dialog title -->
+    <string name="root_dialog_title">"Sicherheitshinweis"</string>
+    <!-- XTXT: App Root Detection dialog message -->
+    <string name="root_dialog_message">"Wir haben auf Ihrem Gerät Anzeichen für Administrator-Berechtigungen (auch bekannt als Root-Berechtigungen) gefunden. Es besteht daher ein erhöhtes Risiko, dass andere Anwendungen auf Ihrem Smartphone auf Daten der Corona-Warn-App zugreifen können."</string>
+    <!-- XTXT: App Root Detection link label -->
+    <string name="root_dialog_faq_link_label">"FAQ zur Sicherheit der App"</string>
+    <!-- XTXT: Informs user about root detection: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#root_detection_android -->
+    <string name="root_dialog_faq_link_url">"https://www.coronawarn.app/de/faq/#root_detection_android"</string>
+    <!-- XBUT: App Root Detection button -->
+    <string name="root_dialog_button">"OK"</string>
+
+    <!-- ####################################
+        Incompatibility warning card
+    ###################################### -->
+
+    <!-- Permission Denied Dialog -->
+    <!-- XHED: UQS camera permission dialog title -->
+    <string name="camera_permission_dialog_title">Kamerazugriff benötigt</string>
+    <!-- XTXT: UQS camera permission dialog message -->
+    <string name="camera_permission_dialog_message">Bitte gehen Sie in die Systemeinstellungen und erlauben Sie der App die Benutzung der Kamera, um den QR-Code zu scannen.</string>
+    <!-- XBUT: UQS camera permission dialog settings -->
+    <string name="camera_permission_dialog_settings">Einstellungen</string>
+
+    <!-- Permission Rationale Dialog -->
+    <!-- XHED: Dialog headline QR Scan permission rationale  -->
+    <string name="camera_permission_rationale_dialog_headline">"Kamera-Zugriff benötigt"</string>
+    <!-- YTXT: Dialog Body text for QR Scan permission rationale -->
+    <string name="camera_permission_rationale_dialog_body">"Bitte erlauben Sie der App die Benutzung der Kamera, um den QR-Code zu scannen."</string>
+    <!-- XBUT: Dialog(QR Scan permission rationale) - positive button (right) -->
+    <string name="camera_permission_rationale_dialog_button_positive">"Erlauben"</string>
+    <!-- XBUT: Dialog(QR Scan permission rationale) - negative button (left) -->
+    <string name="camera_permission_rationale_dialog_button_negative">"Nicht erlauben"</string>
+
+    <!--    UQS Tooltip-->
+    <!-- XHED: UQS Tooltip title -->
+    <string name="fab_scanner_tip_title">QR-Code-Scanner</string>
+    <!-- XTXT: UQS Tooltip subtitle -->
+    <string name="fab_scanner_tip_subtitle">Scannen Sie Tests, Zertifikate und Check-ins mit diesem Scanner.</string>
+
 </resources>

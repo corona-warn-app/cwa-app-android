@@ -32,7 +32,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_small"
-            android:text="@string/statistics_vaccinated_nationwide_text"
+            android:text="@string/statistics_nationwide_text"
             android:textSize="@dimen/font_small"
             app:layout_constraintStart_toStartOf="@id/title"
             app:layout_constraintTop_toBottomOf="@id/title" />

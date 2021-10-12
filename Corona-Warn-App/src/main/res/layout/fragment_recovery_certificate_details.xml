@@ -148,13 +148,14 @@
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
                         tools:text="Andrea Schneider" />
 
                     <TextView
                         style="@style/body1Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="16dp"
                         android:text="@string/covid_certificate_attribute_icao_name" />
 
                     <TextView
@@ -162,13 +163,14 @@
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
                         tools:text="SCHNEIDER, ANDREA" />
 
                     <TextView
                         style="@style/body1Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="16dp"
                         android:text="@string/covid_certificate_attribute_date_of_birth" />
 
                     <TextView
@@ -176,14 +178,14 @@
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="2dp"
                         tools:text="1943-02-23" />
 
                     <TextView
                         style="@style/body1Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="16dp"
                         android:text="@string/recovery_certificate_attribute_recovered_from" />
 
                     <TextView
@@ -191,14 +193,14 @@
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="2dp"
                         tools:text="COVID-19" />
 
                     <TextView
                         style="@style/body1Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="16dp"
                         android:text="@string/recovery_certificate_attribute_first_positive_test_result" />
 
                     <TextView
@@ -206,14 +208,14 @@
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="2dp"
                         tools:text="2021-05-23" />
 
                     <TextView
                         style="@style/body1Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="16dp"
                         android:text="@string/test_certificate_attribute_state_of_testing" />
 
                     <TextView
@@ -221,14 +223,14 @@
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="2dp"
                         tools:text="Germany" />
 
                     <TextView
                         style="@style/body1Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="16dp"
                         android:text="@string/covid_certificate_attribute_certificate_issuer" />
 
                     <TextView
@@ -236,7 +238,7 @@
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="2dp"
                         tools:text="G05930482748454836478695764787840" />
 
 
@@ -244,7 +246,7 @@
                         style="@style/body1Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="16dp"
                         android:text="@string/recovery_certificate_attribute_certificate_certification_period_start" />
 
                     <TextView
@@ -252,14 +254,14 @@
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="2dp"
                         tools:text="2021-05-23" />
 
                     <TextView
                         style="@style/body1Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="16dp"
                         android:text="@string/recovery_certificate_attribute_certificate_certification_period_end" />
 
                     <TextView
@@ -267,14 +269,14 @@
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="2dp"
                         tools:text="2021-11-23" />
 
                     <TextView
                         style="@style/body1Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="16dp"
                         android:text="@string/covid_certificate_attribute_certificate_id" />
 
                     <TextView
@@ -282,7 +284,7 @@
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="2dp"
                         tools:text="05930482748454836478695764787840" />
                 </LinearLayout>
 

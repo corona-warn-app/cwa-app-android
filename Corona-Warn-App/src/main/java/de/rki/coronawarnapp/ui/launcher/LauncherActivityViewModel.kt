@@ -4,6 +4,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
+import de.rki.coronawarnapp.rootdetection.RootDetectionCheck
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.update.UpdateChecker
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -15,7 +16,8 @@ class LauncherActivityViewModel @AssistedInject constructor(
     private val updateChecker: UpdateChecker,
     dispatcherProvider: DispatcherProvider,
     private val cwaSettings: CWASettings,
-    private val onboardingSettings: OnboardingSettings
+    private val onboardingSettings: OnboardingSettings,
+    private val rootDetectionCheck: RootDetectionCheck
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val events = SingleLiveEvent<LauncherEvent>()
@@ -29,6 +31,32 @@ class LauncherActivityViewModel @AssistedInject constructor(
                 else -> LauncherEvent.GoToMainActivity
             }.let { events.postValue(it) }
         }
+        Timber.tag(TAG).d("init()")
+        checkForRoot()
+    }
+
+    private fun checkForRoot() = launch {
+        Timber.tag(TAG).d("checkForRoot()")
+        when (rootDetectionCheck.isRooted()) {
+            true -> events.postValue(LauncherEvent.ShowRootedDialog)
+            false -> checkForUpdate()
+        }
+    }
+
+    private fun checkForUpdate() = launch {
+        Timber.tag(TAG).d("checkForUpdate()")
+        val appUpdateInfo = appUpdateManager.getUpdateInfo()
+        Timber.tag(TAG).d("appUpdateInfo=%s", appUpdateInfo?.updateAvailability())
+        when {
+            appUpdateInfo?.updateAvailability() == UPDATE_AVAILABLE -> forceUpdateEvent(appUpdateInfo)
+            isJustInstalledOrUpdated() -> LauncherEvent.GoToOnboarding
+            else -> LauncherEvent.GoToMainActivity
+        }.let { events.postValue(it) }
+    }
+
+    fun onRootedDialogDismiss() {
+        Timber.tag(TAG).d("onRootedDialogDismiss()")
+        checkForUpdate()
     }
 
     private fun isJustInstalledOrUpdated() =

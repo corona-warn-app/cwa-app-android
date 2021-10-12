@@ -65,19 +65,14 @@ class CWASettings @Inject constructor(
         get() = prefs.getString(PKEY_POSITIVE_TEST_RESULT_REMINDER_ID_RAT, null)
         set(value) = prefs.edit { putString(PKEY_POSITIVE_TEST_RESULT_REMINDER_ID_RAT, value) }
 
-    val isNotificationsRiskEnabled = prefs.createFlowPreference(
-        key = PKEY_NOTIFICATIONS_RISK_ENABLED,
-        defaultValue = true
-    )
-
-    val isNotificationsTestEnabled = prefs.createFlowPreference(
-        key = PKEY_NOTIFICATIONS_TEST_ENABLED,
-        defaultValue = true
-    )
-
     val lastChangelogVersion = prefs.createFlowPreference(
         key = LAST_CHANGELOG_VERSION,
         defaultValue = DEFAULT_APP_VERSION
+    )
+
+    val lastNotificationsOnboardingVersionCode = prefs.createFlowPreference(
+        key = PKEY_NOTIFICATIONS_ONBOARDED_VERSION_CODE,
+        defaultValue = 0L
     )
 
     fun clear() {
@@ -102,5 +97,7 @@ class CWASettings @Inject constructor(
 
         private const val LAST_CHANGELOG_VERSION = "update.changelog.lastversion"
         private const val DEFAULT_APP_VERSION = 1L
+
+        private const val PKEY_NOTIFICATIONS_ONBOARDED_VERSION_CODE = "notifications.onboarding.versionCode"
     }
 }

@@ -52,8 +52,6 @@ class EncryptedPreferencesMigration @Inject constructor(
         SettingsLocalData(encryptedSharedPreferences).apply {
             cwaSettings.wasInteroperabilityShownAtLeastOnce = wasInteroperabilityShown()
             cwaSettings.wasTracingExplanationDialogShown = wasTracingExplanationDialogShown()
-            cwaSettings.isNotificationsRiskEnabled.update { isNotificationsRiskEnabled() }
-            cwaSettings.isNotificationsTestEnabled.update { isNotificationsTestEnabled() }
             cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr =
                 numberOfRemainingSharePositiveTestResultReminders()
         }
@@ -104,10 +102,6 @@ class EncryptedPreferencesMigration @Inject constructor(
         fun wasInteroperabilityShown() = sharedPreferences.getBoolean(PKEY_INTEROPERABILITY_WAS_USED, false)
 
         fun wasTracingExplanationDialogShown() = sharedPreferences.getBoolean(PKEY_TRACING_EXPLANATION_WAS_SHOWN, false)
-
-        fun isNotificationsRiskEnabled(): Boolean = sharedPreferences.getBoolean(PKEY_NOTIFICATIONS_RISK_ENABLED, true)
-
-        fun isNotificationsTestEnabled(): Boolean = sharedPreferences.getBoolean(PKEY_NOTIFICATIONS_TEST_ENABLED, true)
 
         fun numberOfRemainingSharePositiveTestResultReminders(): Int =
             sharedPreferences.getInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT, Int.MIN_VALUE)

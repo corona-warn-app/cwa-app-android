@@ -7,8 +7,10 @@
     <string name="trace_location_checkins_title">"Моите регистрации"</string>
     <!-- XHED: My check-ins: Title for list explanation when there are no check-ins -->
     <string name="trace_location_checkins_empty_label">"Все още няма записи"</string>
-    <!-- XTXT: My check-ins: Description for list explanation when there are no check-ins -->
-    <string name="trace_location_checkins_empty_description">"Създаването на запис се извършва автоматично, когато сканирате QR код, за да се регистрирате на дадено събитие или място."</string>
+    <!-- XTXT: My check-ins: First Description for list explanation when there are no check-ins -->
+    <string name="trace_location_checkins_empty_description_1">"Създаването на запис се извършва автоматично, когато сканирате QR код, за да се регистрирате на дадено събитие или място."</string>
+    <!-- XTXT: My check-ins: Second Descriptiontrace_location_checkins_empty_description_2 for list explanation when there are no check-ins -->
+    <string name="trace_location_checkins_empty_description_2">"За да сканирате QR кода на сертификата, използвайте бутона \"Сканиране\", който се намира на долната лента за навигация."</string>
     <!-- XTXT: My check-ins: Accessibility description for empty check-ins illustration -->
     <string name="trace_location_checkins_empty_illustration_accessibility">"Сграда, на чийто фон се вижда символ за QR код"</string>
 
@@ -162,8 +164,10 @@
 
     <!-- XHED: Event organiser qr codes list: title -->
     <string name="trace_location_organiser_list_title">"Моите QR кодове"</string>
-    <!-- XBUT: Event organiser qr codes list: new qr code button  -->
+    <!-- XBUT: Event organiser qr codes list: new qr code button -->
     <string name="trace_location_organiser_list_new_button">"QR код"</string>
+    <!-- XBUT: Event organiser qr codes list: new qr code button description -->
+    <string name="trace_location_organiser_list_new_button_description">"Добавяне на QR код"</string>
     <!-- XTXT: Event organiser qr codes list: new qr code button  -->
     <string name="trace_location_organiser_list_no_codes_title">"Все още няма създадени QR кодове"</string>
     <!-- XTXT: Event organiser qr codes list: new qr code button  -->
