@@ -1476,7 +1476,7 @@
     <!-- XHED: Explanation screen trend title -->
     <string name="statistics_explanation_trend_title">"Trend"</string>
     <!-- YTXT: Explanation screen trend text -->
-    <string name="statistics_explanation_trend_text">"Die Pfeilrichtung zeigt an, ob der Trend nach oben oder nach unten geht oder relativ stabil ist, d.h. eine Abweichung von weniger als 1%% im Vortagesvergleich bzw. 5%% im Vorwochenvergleich aufweist. Die Farbe bewertet diesen Trend als positiv (grün), negativ (rot) oder neutral (grau). Der Trend vergleicht den Wert vom Vortag mit dem Wert von vor zwei Tagen bzw. für die 7-Tage-Trends den Mittelwert der letzten 7 Tage mit dem der vorausgegangenen 7 Tage."</string>
+    <string name="statistics_explanation_trend_text">"Der Trend vergleicht den Wert vom Vortag mit dem Wert von vor zwei Tagen (betr. 7-Tage-Inzidenz, 7-Tage-Inzidenz Hospitalisierung, COVID-19-Erkrankte auf Intensivstationen, 7-Tage-R-Wert) bzw. für die 7-Tage-Trends den Mittelwert der letzten 7 Tage mit dem der vorausgegangenen 7 Tage (7-Tage-Mittelwert der bestätigten Neuinfektionen, der warnenden Personen, der verabreichten Impfdosen). Dabei wird jeweils der Datenstand der Erstveröffentlichung genommen; nachfolgende Aktualisierungen werden nicht berücksichtigt.\n\nDie Pfeilrichtung zeigt an, ob der Trend nach oben oder nach unten geht oder relativ stabil ist, d.h. eine Abweichung (jeweils unter Berücksichtigung nur der angezeigten Nachkommastellen) von weniger als 1%% im Vortagesvergleich bzw. 5%% im Vorwochenvergleich aufweist. Die Farbe bewertet diesen Trend als positiv (grün), negativ (rot) oder neutral (grau)."</string>
     <!-- XHED: Explanation screen trend icons title -->
     <string name="statistics_explanation_trend_icons_title">"Beispiele für die angezeigten Trends:"</string>
     <!-- XHED: Explanation screen trend increasing title -->
@@ -1497,6 +1497,18 @@
     <string name="statistics_explanation_blog_label">"Blog."</string>
     <!-- XTXT: Statistics explanation blog text url -->
     <string name="statistics_eplanation_blog_url">"https://www.coronawarn.app/de/blog/2021-08-05-statistictiles"</string>
+    <!-- XTXT: Explanation screen 7 days incidents confirmed new infections text -->
+    <string name="statistics_explanation_7_day_confirmed_new_infection_text">"Für Gestern / Bis gestern wird die Zahl für den Vortag / bis zum Vortag angezeigt. Wenn für den Vortag noch keine Zahl vorliegt, wird das Datum des letzten Tages angezeigt, für den eine Zahl vorliegt."</string>
+    <!-- XTXT: Explanation screen 7 days hospitalisation title -->
+    <string name="statistics_explanation_7_day_hospitalisation_title">"Hospitalisierung"</string>
+    <!-- XTXT: Explanation screen 7 days hospitalisation text -->
+    <string name="statistics_explanation_7_day_hospitalisation_text">"Gesamtzahl der Krankenhausaufnnahmen aufgrund von Covid-19 der letzten 7 Tage (nach Meldedatum) pro 100.000 Einwohner."</string>
+    <!-- XTXT: Explanation screen 7 days locale incidents text -->
+    <string name="statistics_explanation_7_day_locale_incidents_text">"Gesamtzahl der bestätigten Neuinfektionen bzw. Hospitalisierungen der letzten 7 Tage (nach Meldedatum) pro 100.000 Einwohner im konfigurierten Kreis oder Bundesland. Die Hospitalisierungsdaten beziehen sich auf das zugehörige Bundesland."</string>
+    <!-- XTXT: Explanation screen 7 days intensive care title -->
+    <string name="statistics_explanation_intensive_care_title">"COVID-19-Erkrankte auf Intensivstationen"</string>
+    <!-- XTXT: Explanation screen 7 days intensive care text -->
+    <string name="statistics_explanation_intensive_care_text">"Anteil der an COVID-19 erkrankten Personen auf Intensivstationen im Verhältnis zur Gesamtbettenanzahl."</string>
 
     <!-- XTXT: Statistics Card Announcement -->
     <string name="accessibility_statistics_card_announcement">"Statistikkarte"</string>

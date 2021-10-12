@@ -127,6 +127,83 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_seven_day_incidence_title"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_seven_day_incidence_title" />
+
+                <TextView
+                    style="@style/headline6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_confirmed_new_infection_title"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_confirmed_new_infection_title" />
+
+                <TextView
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_7_day_confirmed_new_infection_text"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_7_day_confirmed_new_infection_text" />
+
+                <TextView
+                    style="@style/headline6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="23dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_7_day_hospitalisation_title"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_7_day_hospitalisation_title" />
+
+                <TextView
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_7_day_hospitalisation_text"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_7_day_hospitalisation_text" />
+
+                <TextView
+                    style="@style/headline6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="23dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_local_incidence_title"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_local_incidence_title" />
+
+                <TextView
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_7_day_locale_incidents_text"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_7_day_locale_incidents_text" />
+
+                <TextView
+                    style="@style/headline5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="36dp"
                     android:layout_marginEnd="@dimen/guideline_end"
                     android:contentDescription="@string/statistics_explanation_local_seven_day_incidence_title"
@@ -151,11 +228,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="36dp"
+                    android:layout_marginTop="32dp"
                     android:layout_marginEnd="@dimen/guideline_end"
-                    android:contentDescription="@string/statistics_explanation_local_incidence_title"
+                    android:contentDescription="@string/statistics_explanation_intensive_care_title"
                     android:focusable="true"
-                    android:text="@string/statistics_explanation_local_incidence_title" />
+                    android:text="@string/statistics_explanation_intensive_care_title" />
 
                 <TextView
                     style="@style/body2"
@@ -164,38 +241,16 @@
                     android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="@dimen/guideline_end"
-                    android:contentDescription="@string/statistics_explanation_local_incidence_text"
+                    android:contentDescription="@string/statistics_explanation_intensive_care_text"
                     android:focusable="true"
-                    android:text="@string/statistics_explanation_local_incidence_text" />
+                    android:text="@string/statistics_explanation_intensive_care_text" />
 
                 <TextView
                     style="@style/headline5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="36dp"
-                    android:layout_marginEnd="@dimen/guideline_end"
-                    android:contentDescription="@string/statistics_explanation_seven_day_incidence_title"
-                    android:focusable="true"
-                    android:text="@string/statistics_explanation_seven_day_incidence_title" />
-
-                <TextView
-                    style="@style/body2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="@dimen/guideline_end"
-                    android:contentDescription="@string/statistics_explanation_seven_day_incidence_text"
-                    android:focusable="true"
-                    android:text="@string/statistics_explanation_seven_day_incidence_text" />
-
-                <TextView
-                    style="@style/headline5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="41dp"
+                    android:layout_marginTop="32dp"
                     android:layout_marginEnd="@dimen/guideline_end"
                     android:contentDescription="@string/statistics_explanation_confirmed_new_infection_title"
                     android:focusable="true"
@@ -217,7 +272,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="36dp"
+                    android:layout_marginTop="32dp"
                     android:layout_marginEnd="@dimen/guideline_end"
                     android:contentDescription="@string/statistics_explanation_warned_persons_title"
                     android:focusable="true"
@@ -239,7 +294,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="36dp"
+                    android:layout_marginTop="32dp"
                     android:layout_marginEnd="@dimen/guideline_end"
                     android:contentDescription="@string/statistics_explanation_seven_day_r_value_title"
                     android:focusable="true"
@@ -261,7 +316,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="36dp"
+                    android:layout_marginTop="32dp"
                     android:layout_marginEnd="@dimen/guideline_end"
                     android:contentDescription="@string/statistics_people_vaccinated_at_least_once_title"
                     android:focusable="true"
@@ -283,7 +338,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="36dp"
+                    android:layout_marginTop="32dp"
                     android:layout_marginEnd="@dimen/guideline_end"
                     android:contentDescription="@string/statistics_fully_vaccinated_people_title"
                     android:focusable="true"
@@ -305,7 +360,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="36dp"
+                    android:layout_marginTop="32dp"
                     android:layout_marginEnd="@dimen/guideline_end"
                     android:contentDescription="@string/statistics_number_of_vaccine_doses_title"
                     android:focusable="true"
@@ -328,7 +383,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="36dp"
+                    android:layout_marginTop="32dp"
                     android:layout_marginEnd="@dimen/guideline_end"
                     android:contentDescription="@string/statistics_faq_text"
                     android:focusable="true"
@@ -356,7 +411,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="45dp"
+                    android:layout_marginTop="40dp"
                     android:layout_marginEnd="@dimen/guideline_end"
                     android:contentDescription="@string/statistics_explanation_legend_title"
                     android:focusable="true"
@@ -374,77 +429,22 @@
                     android:text="@string/statistics_explanation_period_title" />
 
                 <TextView
-                    style="@style/subtitleMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="22dp"
-                    android:layout_marginEnd="@dimen/guideline_end"
-                    android:contentDescription="@string/statistics_explanation_period_yesterday_subtitle"
-                    android:focusable="true"
-                    android:text="@string/statistics_explanation_period_yesterday_subtitle" />
-
-                <TextView
                     style="@style/body2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="12dp"
                     android:layout_marginEnd="@dimen/guideline_end"
                     android:contentDescription="@string/statistics_explanation_period_yesterday_text"
                     android:focusable="true"
                     android:text="@string/statistics_explanation_period_yesterday_text" />
 
                 <TextView
-                    style="@style/subtitleMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="22dp"
-                    android:layout_marginEnd="@dimen/guideline_end"
-                    android:contentDescription="@string/statistics_explanation_period_seven_day_subtitle"
-                    android:focusable="true"
-                    android:text="@string/statistics_explanation_period_seven_day_subtitle" />
-
-                <TextView
-                    style="@style/body2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="@dimen/guideline_end"
-                    android:contentDescription="@string/statistics_explanation_period_seven_day_text"
-                    android:focusable="true"
-                    android:text="@string/statistics_explanation_period_seven_day_text" />
-
-                <TextView
-                    style="@style/subtitleMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="22dp"
-                    android:layout_marginEnd="@dimen/guideline_end"
-                    android:contentDescription="@string/statistics_explanation_period_total_subtitle"
-                    android:focusable="true"
-                    android:text="@string/statistics_explanation_period_total_subtitle" />
-
-                <TextView
-                    style="@style/body2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="@dimen/guideline_end"
-                    android:contentDescription="@string/statistics_explanation_period_total_text"
-                    android:focusable="true"
-                    android:text="@string/statistics_explanation_period_total_text" />
-
-                <TextView
                     style="@style/headline6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="47dp"
+                    android:layout_marginTop="32dp"
                     android:layout_marginEnd="@dimen/guideline_end"
                     android:contentDescription="@string/statistics_explanation_trend_title"
                     android:focusable="true"
@@ -456,7 +456,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="14dp"
+                    android:layout_marginTop="12dp"
                     android:layout_marginEnd="@dimen/guideline_end"
                     android:focusable="true"
                     tools:text="@string/statistics_explanation_trend_text" />
@@ -466,7 +466,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="35dp"
+                    android:layout_marginTop="32dp"
                     android:layout_marginEnd="@dimen/guideline_end"
                     android:contentDescription="@string/statistics_explanation_trend_icons_title"
                     android:focusable="true"
@@ -563,7 +563,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="32dp"
                     android:layout_marginEnd="@dimen/guideline_end"
                     android:contentDescription="@string/statistics_explanation_trend_description"
                     android:focusable="true"
