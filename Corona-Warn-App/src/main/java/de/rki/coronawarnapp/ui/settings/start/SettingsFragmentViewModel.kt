@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 
 class SettingsFragmentViewModel @AssistedInject constructor(
@@ -28,17 +27,10 @@ class SettingsFragmentViewModel @AssistedInject constructor(
         .map { it.toSettingsTracingState() }
         .asLiveData(dispatcherProvider.Default)
 
-    val notificationState: LiveData<SettingsNotificationState> = combine(
-        notificationSettings.isNotificationsEnabled,
-        notificationSettings.isNotificationsRiskEnabled,
-        notificationSettings.isNotificationsTestEnabled
-    ) { args ->
-        SettingsNotificationState(
-            isNotificationsEnabled = args[0],
-            isNotificationsRiskEnabled = args[1],
-            isNotificationsTestEnabled = args[2]
-        )
-    }.asLiveData(dispatcherProvider.Default)
+    val notificationSettingsState: LiveData<SettingsNotificationState> = notificationSettings
+        .isNotificationsEnabled
+        .map { SettingsNotificationState(it) }
+        .asLiveData(dispatcherProvider.Default)
 
     val backgroundPriorityState: LiveData<SettingsBackgroundState> =
         backgroundModeStatus.isIgnoringBatteryOptimizations

@@ -25,6 +25,7 @@ import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationsFragmen
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentTestModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingAnalyticsFragmentTestModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityFragmentTestModule
+import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaNotificationsFragmentTestModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingFragmentTestModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingNotificationsTestModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingPrivacyTestModule
@@ -33,6 +34,7 @@ import de.rki.coronawarnapp.ui.onboarding.OnboardingTracingFragmentTestModule
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.duration.TraceLocationWarnDurationFragmentTestModule
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.TraceLocationSelectionFragmentTestModule
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.tan.TraceLocationWarnTanFragmentTestModule
+import de.rki.coronawarnapp.ui.settings.notifications.NotificationSettingsFragmentTestModule
 import de.rki.coronawarnapp.ui.statistics.StatisticsExplanationFragmentTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionConsentFragmentTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionContactTestModule
@@ -62,6 +64,7 @@ import de.rki.coronawarnapp.ui.vaccination.CovidCertificateInfoFragmentTestModul
         OnboardingTestFragmentModule::class,
         OnboardingTracingFragmentTestModule::class,
         OnboardingAnalyticsFragmentTestModule::class,
+        OnboardingDeltaNotificationsFragmentTestModule::class,
 
         // -------- Submission --------
         SubmissionDispatcherTestModule::class,
@@ -119,6 +122,9 @@ import de.rki.coronawarnapp.ui.vaccination.CovidCertificateInfoFragmentTestModul
         RATProfileQrCodeFragmentTestModule::class,
 
         QrCodeScannerFragmentTestModule::class,
+
+        // --------- Settings ---------
+        NotificationSettingsFragmentTestModule::class,
     ]
 )
 class FragmentTestModuleRegistrar

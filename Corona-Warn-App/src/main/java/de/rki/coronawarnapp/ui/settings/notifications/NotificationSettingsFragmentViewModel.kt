@@ -4,39 +4,33 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.covidcertificate.common.notification.DigitalCovidCertificateNotifications
+import de.rki.coronawarnapp.notification.GeneralNotifications
+import de.rki.coronawarnapp.presencetracing.common.PresenceTracingNotifications
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import kotlinx.coroutines.flow.combine
-import timber.log.Timber
+import kotlinx.coroutines.flow.map
 
 class NotificationSettingsFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val notificationSettings: NotificationSettings
+    notificationSettings: NotificationSettings,
+    private val generalNotifications: GeneralNotifications,
+    private val presenceTracingNotifications: PresenceTracingNotifications,
+    private val digitalCovidCertificateNotifications: DigitalCovidCertificateNotifications,
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
 
-    val notificationSettingsState: LiveData<NotificationSettingsState> = combine(
-        notificationSettings.isNotificationsEnabled,
-        notificationSettings.isNotificationsRiskEnabled,
-        notificationSettings.isNotificationsTestEnabled
-    ) { args ->
-        NotificationSettingsState(
-            isNotificationsEnabled = args[0],
-            isNotificationsRiskEnabled = args[1],
-            isNotificationsTestEnabled = args[2]
-        ).also {
-            Timber.v("New notification state: %s", it)
-        }
-    }.asLiveData(dispatcherProvider.Default)
+    val notificationSettingsState: LiveData<NotificationSettingsState> = notificationSettings
+        .isNotificationsEnabled
+        .map { NotificationSettingsState(it) }
+        .asLiveData(dispatcherProvider.Default)
 
-    fun toggleNotificationsRiskEnabled() {
-        notificationSettings.toggleNotificationsRiskEnabled()
-    }
-
-    fun toggleNotificationsTestEnabled() {
-        notificationSettings.toggleNotificationsTestEnabled()
+    fun createNotificationChannels() {
+        generalNotifications.setupNotificationChannel()
+        presenceTracingNotifications.setupChannel()
+        digitalCovidCertificateNotifications.setupChannel()
     }
 
     @AssistedFactory

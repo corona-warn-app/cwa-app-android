@@ -34,6 +34,8 @@
     <string name="notification_headline">"Corona-Warn-App"</string>
     <!-- XTXT: Notification body -->
     <string name="notification_body">"Corona-Warn-App uygulamasından yeni mesajlarınız var."</string>
+    <!-- XTXT: Notification body certificate -->
+    <string name="notification_body_certificate">"Sertifikalarınızın geçerliliğini kontrol edin."</string>
     <!-- XHED: Notification title - Reminder to share a positive test result-->
     <string name="notification_headline_share_positive_result">"Yardımcı olabilirsiniz!"</string>
     <!-- XTXT: Notification body - Reminder to share a positive test result-->
@@ -95,7 +97,7 @@
     <plurals name="risk_card_low_risk_encounter_days_body">
         <item quantity="one">"%1$d gün için düşük riskli maruz kalmalar"</item>
         <item quantity="other">"%1$d gün için düşük riskli maruz kalmalar"</item>
-        <item quantity="zero">"%1$d gün için düşük riskli maruz kalmalar"</item>
+        <item quantity="zero">"Hiçbir maruz kalma yok"</item>
         <item quantity="two">"%1$d gün için düşük riskli maruz kalmalar"</item>
         <item quantity="few">"%1$d gün için düşük riskli maruz kalmalar"</item>
         <item quantity="many">"%1$d gün için düşük riskli maruz kalmalar"</item>
@@ -104,7 +106,7 @@
     <plurals name="risk_card_low_risk_encounter_days_body_description">
         <item quantity="one">"Bir gün için düşük riskli maruz kalmalar"</item>
         <item quantity="other">"%1$d gün için düşük riskli maruz kalmalar"</item>
-        <item quantity="zero">"%1$d gün için düşük riskli maruz kalmalar"</item>
+        <item quantity="zero">"Hiçbir maruz kalma yok"</item>
         <item quantity="two">"%1$d gün için düşük riskli maruz kalmalar"</item>
         <item quantity="few">"%1$d gün için düşük riskli maruz kalmalar"</item>
         <item quantity="many">"%1$d gün için düşük riskli maruz kalmalar"</item>
@@ -274,7 +276,8 @@
     <string name="risk_details_faq_symptoms">"Tipik COVID-19 belirtilerine karşı dikkatli olun. Nadir durumlarda, aşı olmuş kişiler bile belirti gösterebilir. Herhangi bir şüpheli belirti fark ederseniz test yaptırın."</string>
     <!-- XTXT: risk details - vaccination bullet point -->
     <string name="risk_details_increased_risk_faq_vaccination">"Henüz aşı olmadıysanız bir test randevusu oluşturmak için aile hekiminize veya genel acil servis numarasına danışın. Testinizi yaptırdıktan sonra aile hekiminizle SARS-CoV-2 aşısı hakkında görüşün."</string>
-
+    <!-- XTXT: risk details - normal risk vaccination bullet -->
+    <string name="risk_details_normal_risk_faq_vaccination">"Henüz olmadıysanız SARS-CoV-2 virüsüne karşı aşı olun."</string>
     <!-- XMSG: risk details - ventilation bullet point -->
     <string name="risk_details_behavior_body_ventilation">"Kapalı alanları günde birkaç kez havalandırın. Bunun için, pencereleri birkaç dakika süreyle sonuna dek açın (“şok havalandırma”)."</string>
     <!-- XMSG: risk details - cough/sneeze, something like a bullet point -->
@@ -622,24 +625,10 @@
 
     <!-- XHED: settings(notification) - notification page title -->
     <string name="settings_notifications_title">"Bildirimler"</string>
-    <!-- XHED: settings(notification) - multiline headline below illustration, active -->
-    <string name="settings_notifications_headline_active">"COVID-19 risk durumunuz ile ilgili bildirimleri etkinleştirmek istiyor musunuz?"</string>
     <!-- XTXT: settings(notification) - text in row on settings overview -->
     <string name="settings_notifications_body_description">"COVID-19 risk durumunuz ile ilgili otomatik bildirimlere izin verin."</string>
-    <!-- YTXT: settings(notification) - description text when it notifications are enabled -->
-    <string name="settings_notifications_body_active">"Hangi konularda bildirim almaya devam etmek istediğinizi belirtin."</string>
     <!-- XTXT: settings(notification) - explains what the user has to do to activate settings -->
     <string name="settings_notifications_body_inactive">"Corona-Warn-App uygulamasında bildirimleri etkinleştirmek için cihazınızın ayarlarında bildirimlere izin vermeniz gerekir."</string>
-    <!-- XHED: settings(notification) - card headline -->
-    <string name="settings_notifications_headline_card">"Bildirimleri Etkinleştir"</string>
-    <!-- XHED: settings - notification headline on settings overview -->
-    <string name="settings_notifications_subtitle_notification">"Bildirimler"</string>
-    <!-- XTXT: settings(notification) - next to a switch -->
-    <string name="settings_notifications_subtitle_update_risk">"Enfeksiyon riskiniz değişti"</string>
-    <!-- XTXT: settings(notification) - next to a switch -->
-    <string name="settings_notifications_subtitle_update_test">"Koronavirüs testinizin durumu"</string>
-    <!-- XBUT: settings(notification) - go to operating settings -->
-    <string name="settings_notifications_button_open_settings">"Cihaz Ayarlarını Aç"</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, active -->
     <string name="settings_notifications_illustration_description_active">"Bir kadın Corona-Warn-App uygulamasından bildirim alıyor."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, inactive -->
@@ -909,25 +898,6 @@
     <string name="submission_error_dialog_confirm_cancellation_button_positive">"Evet"</string>
     <!-- XBUT: Negative button for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_button_negative">"Hayır"</string>
-
-    <!-- Permission Rationale Dialog -->
-    <!-- XHED: Dialog headline QR Scan permission rationale  -->
-    <string name="submission_qr_code_scan_permission_rationale_dialog_headline">"Kamera yetkisi gereklidir"</string>
-    <!-- YTXT: Dialog Body text for QR Scan permission rationale -->
-    <string name="submission_qr_code_scan_permission_rationale_dialog_body">"Uygulamanın QR kodu taramak için kamerayı kullanmasına izin verin."</string>
-    <!-- XBUT: Dialog(QR Scan permission rationale) - positive button (right) -->
-    <string name="submission_qr_code_scan_permission_rationale_dialog_button_positive">"İzin Ver"</string>
-    <!-- XBUT: Dialog(QR Scan permission rationale) - negative button (left) -->
-    <string name="submission_qr_code_scan_permission_rationale_dialog_button_negative">"İzin Verme"</string>
-
-    <!-- Permission Denied Dialog -->
-    <!-- XHED: Dialog headline QR Scan permission denied  -->
-    <string name="submission_qr_code_scan_permission_denied_dialog_headline">"Kamera erişimi gerekli"</string>
-    <!-- YTXT: Dialog Body text for QR Scan permission denied -->
-    <string name="submission_qr_code_scan_permission_denied_dialog_body">"Lütfen cihazınızın ayarlarını arayın ve uygulamanın QR kodu taramak için kamerayı kullanmasına izin verin."</string>
-    <!-- XBUT: Dialog(QR Scan permission denied) - button -->
-    <string name="submission_qr_code_scan_permission_denied_dialog_button">"Tamam"</string>
-
     <!-- QR Code Scan Invalid Dialog -->
     <!-- XHED: Dialog headline for invalid QR code  -->
     <string name="submission_qr_code_scan_invalid_dialog_headline">"QR kod geçersiz"</string>
@@ -967,7 +937,7 @@
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_suitable_qr_code_title">"Uygun QR Kod Yok"</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_suitable_qr_code_body">"Corona-Warn-App QR kodu tarayamııyor. Lütfen uygun QR kod içeren bir dosya seçin."</string>
+    <string name="qr_code_no_suitable_qr_code_body">"Corona-Warn-App QR kodu tarayamıyor. Lütfen uygun QR kod içeren bir dosya seçin."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
@@ -1536,7 +1506,7 @@
     <!-- XHED: Title for vaccinated once statistics card -->
     <string name="statistics_vaccinated_once_card_title">"En Az Bir Doz Aşı Olan Kişiler"</string>
     <!-- XTXT: Nationwide text -->
-    <string name="statistics_vaccinated_nationwide_text">"Ülke genelinde"</string>
+    <string name="statistics_nationwide_text">"Ülke genelinde"</string>
     <!-- XTXT: Vaccination primary value footnote text -->
     <string name="statistics_vaccination_primary_value_footnote">"(popülasyona göre)"</string>
 
@@ -1565,6 +1535,20 @@
     <string name="statistics_people_vaccinated_at_least_once_text">"RKI\'ye aşının ilk dozunu aldıkları bildirilen kişilerin sayısı."</string>
     <!-- XTXT: Statistics FAQ text -->
     <string name="statistics_faq_text">"Daha fazla bilgi için lütfen SSS sayfamıza bakın:"</string>
+
+    <!-- Seven Day Hospitalization Statistics Card -->
+    <!-- XHED: Title for seven day hospitalization stats -->
+    <string name="statistics_seven_day_hospitalization_card_title">"7 Günlük Hastaneye Yatış Olayı"</string>
+    <!-- XTXT: Nationwide text -->
+    <string name="statistics_seven_day_hospitalization_nationwide_text">"Ülke genelinde"</string>
+    <!-- XTXT: Hospitalizations per 100.000 inhabitants -->
+    <string name="statistics_seven_day_hospitalization_per_inhabitants_text">"COVID-19 Nedeniyle Her 100.000 Vatandaşta Hastaneye Yatış Sayısı"</string>
+
+    <!-- Occupied Intensive Care Statistics Card -->
+    <!-- XHED: Title for occupied intensive care card -->
+    <string name="statistics_occupied_intensive_care_card_title">"Yoğun Bakım Ünitelerindeki COVID-19 Hastaları"</string>
+    <!-- XTXT: Ocupation of all intensive care beds -->
+    <string name="statistics_occupied_intensive_care_beds_text">"COVID-19 Nedeniyle Yatak Kullanımının Tüm Yoğun Bakım Yatakları Sayısına Oranı"</string>
 
     <!-- Statistics Add new tile -->
     <!-- XTXT: Statistics add card title -->
@@ -1785,13 +1769,15 @@
     <string name="statistics_trend_stable">"Trend: Sabit"</string>
 
     <!-- XHED: Title for BottomNav main screen title -->
-    <string name="bottom_nav_home_title">"Başlangıç Ekranı"</string>
+    <string name="bottom_nav_home_title">"Durum"</string>
     <!-- XHED: Title for BottomNav diary screen title -->
     <string name="bottom_nav_diary_title">"Günce"</string>
     <!-- XHED: Title for BottomNav check-in screen title -->
     <string name="bottom_nav_check_ins_title">"Check In"</string>
     <!-- XHED: Title for BottomNav certificates screen title -->
     <string name="bottom_nav_certificates_title">"Sertifikalar"</string>
+    <!-- XHED: Title for BottomNav scanner screen title -->
+    <string name="bottom_nav_scanner_title">"Tara"</string>
     <!-- ####################################
            Data Donation & Survey
     ###################################### -->
@@ -1932,12 +1918,6 @@
     <string name="trace_location_onboarding_body_stay">"Hedeflenen uyarıları etkinleştirmek için lütfen kalış sürenizi mümkün olduğunca net bir biçimde belirtin."</string>
     <!-- XACT: Button/Dialog label to consent-->
     <string name="trace_location_onboarding_body_confirm">"Kabul Et"</string>
-    <!--  XHED: Trace location check-ins camera permission card title-->
-    <string name="trace_location_attendee_camera_card_title">"Kamera Erişimine İzin Ver"</string>
-    <!--  XTXT: Trace location check-ins camera permission card susbtitle-->
-    <string name="trace_location_attendee_camera_card_subtitle">"Akıllı telefonunuzun kamerasını kullanarak QR kodları taramak için uygulamanın cihaz ayarlarında kamera erişimine izin vermeniz gerekir."</string>
-    <!--  XBUT: Trace location check-ins camera permission card button-->
-    <string name="trace_location_attendee_camera_card_button">"Ayarları Aç"</string>
     <!--  YMSG: Trace location onboarding image description-->
     <string name="trace_location_onboarding_content_description">"Üç kişi yüksek bir masanın etrafında ayakta duruyor, ikisi akıllı telefonuna bakıyor."</string>
     <!-- XMIT: Trace location poster print -->
@@ -1988,4 +1968,44 @@
     <string name="incompatible_link_advertising_not_supported">"https://www.coronawarn.app/en/faq/#part_incompat"</string>
     <!-- XTXT: Incompitability faq link for full incompatibility -->
     <string name="incompatible_link_scanning_not_supported">"https://www.coronawarn.app/en/faq/#full_incompat"</string>
+
+    <!-- XHED: App Root Detection dialog title -->
+    <string name="root_dialog_title">"Güvenlik Notu"</string>
+    <!-- XTXT: App Root Detection dialog message -->
+    <string name="root_dialog_message">"Cihazınızda yönetim yetkisi işaretleri (aynı zamanda kök yetkiler olarak bilinir) bulduk. Bu, akıllı telefonunuzdaki diğer uygulamaların Corona-Warn-App\'teki verilere erişme riskinin daha yüksek olduğu anlamına geliyor."</string>
+    <!-- XTXT: App Root Detection link label -->
+    <string name="root_dialog_faq_link_label">"Uygulama Güvenliği ile ilgili SSS"</string>
+    <!-- XTXT: Informs user about root detection: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#root_detection_android -->
+    <string name="root_dialog_faq_link_url">"https://www.coronawarn.app/en/faq/#root_detection_android"</string>
+    <!-- XBUT: App Root Detection button -->
+    <string name="root_dialog_button">"Tamam"</string>
+
+    <!-- ####################################
+        Incompatibility warning card
+    ###################################### -->
+
+    <!-- Permission Denied Dialog -->
+    <!-- XHED: UQS camera permission dialog title -->
+    <string name="camera_permission_dialog_title">"Kamera erişimi gereklidir"</string>
+    <!-- XTXT: UQS camera permission dialog message -->
+    <string name="camera_permission_dialog_message">"Lütfen sistem ayarlarını arayın ve uygulamanın QR kodu taramak için kamerayı kullanmasına izin verin."</string>
+    <!-- XBUT: UQS camera permission dialog settings -->
+    <string name="camera_permission_dialog_settings">"Ayarlar"</string>
+
+    <!-- Permission Rationale Dialog -->
+    <!-- XHED: Dialog headline QR Scan permission rationale  -->
+    <string name="camera_permission_rationale_dialog_headline">"Kamera erişimi gereklidir"</string>
+    <!-- YTXT: Dialog Body text for QR Scan permission rationale -->
+    <string name="camera_permission_rationale_dialog_body">"Uygulamanın QR kodu taramak için kamerayı kullanmasına izin verin."</string>
+    <!-- XBUT: Dialog(QR Scan permission rationale) - positive button (right) -->
+    <string name="camera_permission_rationale_dialog_button_positive">"İzin Ver"</string>
+    <!-- XBUT: Dialog(QR Scan permission rationale) - negative button (left) -->
+    <string name="camera_permission_rationale_dialog_button_negative">"İzin Verme"</string>
+
+    <!--    UQS Tooltip-->
+    <!-- XHED: UQS Tooltip title -->
+    <string name="fab_scanner_tip_title">"QR Kod Tarayıcı"</string>
+    <!-- XTXT: UQS Tooltip subtitle -->
+    <string name="fab_scanner_tip_subtitle">"Testleri, sertifikaları ve check-in\'leri taramak için bu tarayıcıyı kullanın."</string>
+
 </resources>

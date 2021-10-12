@@ -54,6 +54,11 @@ interface CwaCovidCertificate {
     val hasNotificationBadge: Boolean
 
     /**
+     * Certificate is newly scanned or retrieved from server in case of TC
+     */
+    val isNew: Boolean
+
+    /**
      * The current state of the certificate, see [State]
      */
     fun getState(): State

@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.release
 
-import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.util.preferences.FlowPreference
 import io.kotest.matchers.shouldBe
@@ -21,7 +20,6 @@ import testhelpers.preferences.mockFlowPreference
 class NewReleaseInfoViewModelTest : BaseTest() {
 
     @MockK lateinit var appSettings: CWASettings
-    @MockK lateinit var analyticsSettings: AnalyticsSettings
     private lateinit var lastOnboardingVersionCode: FlowPreference<Long>
     lateinit var viewModel: NewReleaseInfoViewModel
 
@@ -29,26 +27,26 @@ class NewReleaseInfoViewModelTest : BaseTest() {
     fun setUp() {
         MockKAnnotations.init(this)
         lastOnboardingVersionCode = mockFlowPreference(0L)
-        every { analyticsSettings.lastOnboardingVersionCode } returns lastOnboardingVersionCode
+        every { appSettings.lastNotificationsOnboardingVersionCode } returns lastOnboardingVersionCode
 
         every { appSettings.lastChangelogVersion.update(any()) } just Runs
         viewModel = NewReleaseInfoViewModel(
             TestDispatcherProvider(),
-            appSettings,
-            analyticsSettings
+            appSettings
         )
     }
 
     @Test
-    fun `if analytics onboarding has not yet been done, navigate to it`() {
+    fun `if notifications onboarding has not yet been done, navigate to it`() {
         lastOnboardingVersionCode.value shouldBe 0L
 
         viewModel.onNextButtonClick()
-        viewModel.routeToScreen.value shouldBe NewReleaseInfoNavigationEvents.NavigateToOnboardingDeltaAnalyticsFragment
+        viewModel.routeToScreen.value shouldBe NewReleaseInfoNavigationEvents
+            .NavigateToOnboardingDeltaNotificationsFragment
     }
 
     @Test
-    fun `if analytics onboarding is done, just close the release screen`() {
+    fun `if notifications onboarding is done, just close the release screen`() {
         lastOnboardingVersionCode.update { 1130000L }
 
         viewModel.onNextButtonClick()

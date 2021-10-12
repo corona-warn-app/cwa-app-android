@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.util.di
 import android.app.ActivityManager
 import android.app.AlarmManager
 import android.app.Application
-import android.app.NotificationManager
 import android.bluetooth.BluetoothAdapter
 import android.content.ContentResolver
 import android.content.Context
@@ -44,12 +43,6 @@ class AndroidModule {
     fun notificationManagerCompat(
         @AppContext context: Context
     ): NotificationManagerCompat = NotificationManagerCompat.from(context)
-
-    @Provides
-    @Singleton
-    fun notificationManager(
-        @AppContext context: Context
-    ): NotificationManager = context.getSystemService()!!
 
     @Provides
     @Singleton

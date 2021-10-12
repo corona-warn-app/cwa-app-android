@@ -7,8 +7,10 @@
     <string name="trace_location_checkins_title">"Moje zameldowania"</string>
     <!-- XHED: My check-ins: Title for list explanation when there are no check-ins -->
     <string name="trace_location_checkins_empty_label">"Nie ma jeszcze żadnych wpisów"</string>
-    <!-- XTXT: My check-ins: Description for list explanation when there are no check-ins -->
-    <string name="trace_location_checkins_empty_description">"Gdy zeskanujesz kod QR, aby zameldować swoją obecność w wydarzeniu lub miejscu, wpis zostanie utworzony automatycznie."</string>
+    <!-- XTXT: My check-ins: First Description for list explanation when there are no check-ins -->
+    <string name="trace_location_checkins_empty_description_1">"Gdy zeskanujesz kod QR, aby zameldować swoją obecność w wydarzeniu lub miejscu, wpis zostanie utworzony automatycznie."</string>
+    <!-- XTXT: My check-ins: Second Descriptiontrace_location_checkins_empty_description_2 for list explanation when there are no check-ins -->
+    <string name="trace_location_checkins_empty_description_2">"Aby zeskanować kod QR certyfikatu, użyj przycisku „Skanuj” na dolnym pasku nawigacyjnym."</string>
     <!-- XTXT: My check-ins: Accessibility description for empty check-ins illustration -->
     <string name="trace_location_checkins_empty_illustration_accessibility">"Budynek z symbolem kodu QR w tle."</string>
 
@@ -162,8 +164,10 @@
 
     <!-- XHED: Event organiser qr codes list: title -->
     <string name="trace_location_organiser_list_title">"Moje kody QR"</string>
-    <!-- XBUT: Event organiser qr codes list: new qr code button  -->
+    <!-- XBUT: Event organiser qr codes list: new qr code button -->
     <string name="trace_location_organiser_list_new_button">"Kod QR"</string>
+    <!-- XBUT: Event organiser qr codes list: new qr code button description -->
+    <string name="trace_location_organiser_list_new_button_description">"Dodaj kod QR"</string>
     <!-- XTXT: Event organiser qr codes list: new qr code button  -->
     <string name="trace_location_organiser_list_no_codes_title">"Nie utworzono jeszcze kodów QR"</string>
     <!-- XTXT: Event organiser qr codes list: new qr code button  -->

@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.net.toUri
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
@@ -59,6 +60,8 @@ class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_o
                     navigationIcon = context.getDrawableCompat(R.drawable.ic_close)
                     navigationContentDescription = getString(R.string.accessibility_close)
                 }
+            } else {
+                binding.root.updatePadding(bottom = resources.getDimensionPixelSize(R.dimen.spacing_fab_padding))
             }
             toolbar.setNavigationOnClickListener { popBackStack() }
             privacyInformation.setOnClickListener { viewModel.onDataPrivacyClick() }
