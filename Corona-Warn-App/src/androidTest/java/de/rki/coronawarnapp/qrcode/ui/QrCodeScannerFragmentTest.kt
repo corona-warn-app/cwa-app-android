@@ -3,8 +3,12 @@ package de.rki.coronawarnapp.qrcode.ui
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -23,9 +27,6 @@ class QrCodeScannerFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        with(qrcodeScannerViewModel) {
-        }
-
         setupMockViewModel(
             object : QrCodeScannerViewModel.Factory {
                 override fun create(): QrCodeScannerViewModel = qrcodeScannerViewModel
@@ -36,6 +37,15 @@ class QrCodeScannerFragmentTest : BaseUITest() {
     @Screenshot
     @Test
     fun qrcodeScannerScreenshot() {
+        launchFragmentInContainer2<QrCodeScannerFragment>()
+        takeScreenshot<QrCodeScannerFragment>()
+    }
+
+    @Screenshot
+    @Test
+    fun restoreDgcDialog() {
+        every { qrcodeScannerViewModel.result } returns SingleLiveEvent<ScannerResult>()
+            .apply { postValue(DccResult.InRecycleBin(mockk())) }
         launchFragmentInContainer2<QrCodeScannerFragment>()
         takeScreenshot<QrCodeScannerFragment>()
     }
