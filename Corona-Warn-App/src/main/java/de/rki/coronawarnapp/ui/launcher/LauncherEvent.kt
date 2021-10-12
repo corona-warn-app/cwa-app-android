@@ -1,14 +1,13 @@
 package de.rki.coronawarnapp.ui.launcher
 
-import android.app.Activity
+import android.content.Intent
 
 sealed class LauncherEvent {
     object GoToOnboarding : LauncherEvent()
     object GoToMainActivity : LauncherEvent()
-    data class ForceUpdate(
-        val forceUpdate: (Activity) -> Unit
+    data class ShowUpdateDialog(
+        val updateIntent: Intent
     ) : LauncherEvent()
 
-    object ShowUpdateDialog : LauncherEvent()
     object ShowRootedDialog : LauncherEvent()
 }
