@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.launcher
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.rootdetection.showRootDetectionDialog
@@ -38,24 +39,23 @@ class LauncherActivity : AppCompatActivity() {
                     this.overridePendingTransition(0, 0)
                     finish()
                 }
-                is LauncherEvent.ForceUpdate -> it.forceUpdate(this)
-                LauncherEvent.ShowUpdateDialog -> showUpdateNeededDialog()
+                is LauncherEvent.ShowUpdateDialog -> {
+                    showUpdateNeededDialog(it.updateIntent)
+                }
+
                 LauncherEvent.ShowRootedDialog -> showRootDetectionDialog { viewModel.onRootedDialogDismiss() }
             }
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        viewModel.onResult(requestCode, resultCode)
-    }
-
-    private fun showUpdateNeededDialog() {
+    private fun showUpdateNeededDialog(intent: Intent) {
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.update_dialog_title)
             .setMessage(R.string.update_dialog_message)
             .setCancelable(false)
-            .setPositiveButton(R.string.update_dialog_button) { _, _ -> viewModel.requestUpdate() }
+            .setPositiveButton(R.string.update_dialog_button) { _, _ ->
+                ContextCompat.startActivity(this, intent, null)
+            }
             .show()
     }
 }
