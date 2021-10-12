@@ -198,14 +198,14 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
     }
 
     private fun showCertificateDeletionRequest() {
-        MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle(R.string.recovery_certificate_details_dialog_remove_test_title)
-            setMessage(R.string.recovery_certificate_details_dialog_remove_test_message)
-            setNegativeButton(R.string.green_certificate_details_dialog_remove_test_button_negative) { _, _ -> }
-            setPositiveButton(R.string.green_certificate_details_dialog_remove_test_button_positive) { _, _ ->
-                viewModel.onDeleteRecoveryCertificateConfirmed()
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.recycle_bin_recycle_certificate_dialog_title)
+            .setMessage(R.string.recycle_bin_recycle_certificate_dialog_message)
+            .setNegativeButton(R.string.recycle_bin_recycle_certificate_dialog_negative_button) { _, _ -> }
+            .setPositiveButton(R.string.recycle_bin_recycle_certificate_dialog_positive_button) { _, _ ->
+                viewModel.recycleRecoveryCertificateConfirmed()
             }
-        }.show()
+            .show()
     }
 
     companion object {
