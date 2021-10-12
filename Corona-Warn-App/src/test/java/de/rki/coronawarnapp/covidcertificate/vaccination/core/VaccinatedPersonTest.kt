@@ -420,4 +420,73 @@ class VaccinatedPersonTest : BaseTest() {
             }
         }
     }
+
+    @Test
+    fun `vaccination filtered by recycle`() {
+        val recycledID = VaccinationCertificateContainerId("Recycled")
+        val notRecycledID = VaccinationCertificateContainerId("NotRecycled")
+
+        val personData = mockk<VaccinatedPersonData>().apply {
+            every { boosterRule } returns null
+            every { lastSeenBoosterRuleIdentifier } returns null
+            every { lastBoosterNotifiedAt } returns null
+            every { vaccinations } returns setOf(
+                mockk<VaccinationContainer>().apply {
+                    every { toVaccinationCertificate(any(), any()) } returns
+                        mockk<VaccinationCertificate>().apply {
+                            every { containerId } returns notRecycledID
+                            every { vaccinatedOn } returns LocalDate.parse("2021-01-01")
+                            every { doseNumber } returns 1
+                            every { totalSeriesOfDoses } returns 1
+                            every { rawCertificate.vaccination.doseNumber } returns doseNumber
+                            every { rawCertificate.vaccination.medicalProductId } returns "EU/1/21/1529" // ASTRA
+                            every { isNotRecycled } returns true
+                        }
+
+                    every { containerId } returns notRecycledID
+                    every { isNotRecycled } returns true
+                    every { isRecycled } returns false
+                },
+                mockk<VaccinationContainer>().apply {
+                    every { toVaccinationCertificate(any(), any()) } returns
+                        mockk<VaccinationCertificate>().apply {
+                            every { containerId } returns recycledID
+                            every { vaccinatedOn } returns LocalDate.parse("2021-01-01")
+                            every { doseNumber } returns 1
+                            every { totalSeriesOfDoses } returns 1
+                            every { rawCertificate.vaccination.doseNumber } returns doseNumber
+                            every { rawCertificate.vaccination.medicalProductId } returns "EU/1/21/1529" // ASTRA
+                            every { isRecycled } returns true
+                        }
+
+                    every { containerId } returns recycledID
+                    every { isNotRecycled } returns false
+                    every { isRecycled } returns true
+                }
+            )
+        }
+
+        VaccinatedPerson(
+            data = personData,
+            valueSet = null,
+            certificateStates = personData.vaccinations
+                .associate { it.containerId to CwaCovidCertificate.State.Invalid() }
+        ).run {
+            recycledVaccinationCertificates.also {
+                it.size shouldBe 1
+
+                val cert = it.first()
+                cert.containerId.identifier shouldBe "Recycled"
+                cert.isRecycled shouldBe true
+            }
+
+            vaccinationCertificates.also {
+                it.size shouldBe 1
+
+                val cert = it.first()
+                cert.containerId.identifier shouldBe "NotRecycled"
+                cert.isNotRecycled shouldBe true
+            }
+        }
+    }
 }
