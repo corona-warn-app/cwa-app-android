@@ -59,7 +59,7 @@ class DeadmanNotificationScheduler @Inject constructor(
      */
     suspend fun scheduleOneTime() {
         // Get initial delay
-        val delay = timeCalculation.getDelay()
+        val delay = timeCalculation.getDelayInMinutes()
 
         if (delay < 0) {
             return

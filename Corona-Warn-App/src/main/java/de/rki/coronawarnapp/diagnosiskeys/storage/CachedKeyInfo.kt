@@ -90,3 +90,13 @@ val CachedKeyInfo.pkgDateTime: DateTime
         CachedKeyInfo.Type.LOCATION_DAY -> day.toDateTimeAtStartOfDay(DateTimeZone.UTC)
         CachedKeyInfo.Type.LOCATION_HOUR -> day.toDateTime(hour, DateTimeZone.UTC)
     }
+
+val CachedKeyInfo.sortDateTime: DateTime
+    get() = when (type) {
+        CachedKeyInfo.Type.LOCATION_DAY -> day.toDateTime(endOfDay, DateTimeZone.UTC)
+        CachedKeyInfo.Type.LOCATION_HOUR -> day.toDateTime(hour, DateTimeZone.UTC)
+    }
+
+// use end of day to ensure correct order of packages when day and hour packages are mixed
+private val endOfDay: LocalTime
+    get() = LocalTime(23, 59, 59)
