@@ -76,7 +76,7 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
 
     @Test
     fun `one time work was scheduled`() = runBlockingTest {
-        coEvery { timeCalculation.getDelay() } returns 10L
+        coEvery { timeCalculation.getDelayInMinutes() } returns 10L
 
         createScheduler(this).scheduleOneTime()
 
@@ -91,7 +91,7 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
 
     @Test
     fun `one time work was not scheduled`() = runBlockingTest {
-        coEvery { timeCalculation.getDelay() } returns -10L
+        coEvery { timeCalculation.getDelayInMinutes() } returns -10L
 
         createScheduler(this).scheduleOneTime()
 
