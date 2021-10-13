@@ -8,5 +8,4 @@ internal abstract class RecyclerBinUIModule {
 
     @ContributesAndroidInjector(modules = [RecyclerBinOverviewFragmentModule::class])
     abstract fun recyclerBinOverviewFragment(): RecyclerBinOverviewFragment
-
 }

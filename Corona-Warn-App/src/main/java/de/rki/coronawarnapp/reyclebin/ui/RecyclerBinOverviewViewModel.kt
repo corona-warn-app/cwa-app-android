@@ -32,13 +32,11 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
                             VaccinationCertificateCard.Item(
                                 certificate = it
                             ) {
-
                             }
                         )
                     }
                     is RecoveryCertificate -> add(
                         RecoveryCertificateCard.Item(it) {
-
                         }
                     )
                 }

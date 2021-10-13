@@ -11,7 +11,8 @@ import de.rki.coronawarnapp.util.lists.modular.mods.DataBinderMod
 import de.rki.coronawarnapp.util.lists.modular.mods.StableIdMod
 import de.rki.coronawarnapp.util.lists.modular.mods.TypedVHCreatorMod
 
-class RecyclerBinAdapter: ModularAdapter<RecyclerBinAdapter.ItemVH<RecyclerBinItem, ViewBinding>>(),
+class RecyclerBinAdapter :
+    ModularAdapter<RecyclerBinAdapter.ItemVH<RecyclerBinItem, ViewBinding>>(),
     AsyncDiffUtilAdapter<RecyclerBinItem> {
 
     override val asyncDiffer: AsyncDiffer<RecyclerBinItem> = AsyncDiffer(adapter = this)
