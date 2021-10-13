@@ -28,4 +28,7 @@
     <string name="recycle_bin_recycle_certificate_dialog_positive_button">"Zertifikat EntFernen"</string>
     <!-- XBUT: Recycle Bin - recycle certificate dialog negative button -->
     <string name="recycle_bin_recycle_certificate_dialog_negative_button">"Abbrechen"</string>
+
+    <!-- XBUT: Recycle Bin - overview subheader -->
+    <string name="recycle_bin_overview_subheader">"Tippen Sie bei einem Element auf die drei Punkte, um es wiederherzustellen. Nach 30 Tagen wird ein Element automatisch gelöscht."</string>
 </resources>
