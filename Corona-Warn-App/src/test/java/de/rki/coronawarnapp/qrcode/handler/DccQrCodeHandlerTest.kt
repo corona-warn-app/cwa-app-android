@@ -45,7 +45,7 @@ class DccQrCodeHandlerTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        coEvery { dscSignatureValidator.validateSignature(any()) } just Runs
+        coEvery { dscSignatureValidator.validateSignature(any(), any(), any()) } just Runs
 
         coEvery { testCertificateRepository.registerCertificate(any()) } returns testCertificateContainer
             .apply { every { containerId } returns testCertID }
@@ -62,7 +62,7 @@ class DccQrCodeHandlerTest : BaseTest() {
         }
         handler().handleQrCode(dccQrCode) shouldBe vaccinationCertID
         coVerifySequence {
-            dscSignatureValidator.validateSignature(any())
+            dscSignatureValidator.validateSignature(any(), any(), any())
             vaccinationRepository.registerCertificate(any())
         }
     }
@@ -74,7 +74,7 @@ class DccQrCodeHandlerTest : BaseTest() {
         }
         handler().handleQrCode(dccQrCode) shouldBe testCertID
         coVerifySequence {
-            dscSignatureValidator.validateSignature(any())
+            dscSignatureValidator.validateSignature(any(), any(), any())
             testCertificateRepository.registerCertificate(any())
         }
     }
@@ -86,7 +86,7 @@ class DccQrCodeHandlerTest : BaseTest() {
         }
         handler().handleQrCode(dccQrCode) shouldBe recoveryCertID
         coVerifySequence {
-            dscSignatureValidator.validateSignature(any())
+            dscSignatureValidator.validateSignature(any(), any(), any())
             recoverCertificateRepository.registerCertificate(any())
         }
     }

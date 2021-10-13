@@ -50,7 +50,7 @@ class DccStateCheckerTest : BaseTest() {
 
         every { timeStamper.nowUTC } returns Instant.ofEpochSecond(1234567890)
 
-        coEvery { dscSignatureValidator.validateSignature(any(), any()) } just Runs
+        coEvery { dscSignatureValidator.validateSignature(any(), any(), any()) } just Runs
     }
 
     fun createInstance() = DccStateChecker(
@@ -69,7 +69,7 @@ class DccStateCheckerTest : BaseTest() {
         createInstance().checkState(mockData).first() shouldBe state
 
         coVerify {
-            dscSignatureValidator.validateSignature(mockData, mockDscData)
+            dscSignatureValidator.validateSignature(mockData, mockDscData, any())
             expirationChecker.getExpirationState(
                 dccData = mockData,
                 expirationThreshold = Duration.standardDays(10),
@@ -85,7 +85,7 @@ class DccStateCheckerTest : BaseTest() {
 
         createInstance().checkState(mockData).first() shouldBe state
 
-        coVerify { dscSignatureValidator.validateSignature(mockData, mockDscData) }
+        coVerify { dscSignatureValidator.validateSignature(mockData, mockDscData, any()) }
     }
 
     @Test
@@ -95,28 +95,28 @@ class DccStateCheckerTest : BaseTest() {
 
         createInstance().checkState(mockData).first() shouldBe state
 
-        coVerify { dscSignatureValidator.validateSignature(mockData, mockDscData) }
+        coVerify { dscSignatureValidator.validateSignature(mockData, mockDscData, any()) }
     }
 
     @Test
     fun `invalid signature and expires soon`() = runBlockingTest {
-        coEvery { dscSignatureValidator.validateSignature(any(), any()) } throws Exception()
+        coEvery { dscSignatureValidator.validateSignature(any(), any(), any()) } throws Exception()
         val state = CwaCovidCertificate.State.ExpiringSoon(expiresAt = Instant.EPOCH)
         coEvery { expirationChecker.getExpirationState(any(), any(), any()) } returns state
 
         createInstance().checkState(mockData).first() shouldBe CwaCovidCertificate.State.Invalid()
 
-        coVerify { dscSignatureValidator.validateSignature(mockData, mockDscData) }
+        coVerify { dscSignatureValidator.validateSignature(mockData, mockDscData, any()) }
     }
 
     @Test
     fun `invalid signature and expired`() = runBlockingTest {
-        coEvery { dscSignatureValidator.validateSignature(any(), any()) } throws Exception()
+        coEvery { dscSignatureValidator.validateSignature(any(), any(), any()) } throws Exception()
         val state = CwaCovidCertificate.State.Expired(expiredAt = Instant.EPOCH)
         coEvery { expirationChecker.getExpirationState(any(), any(), any()) } returns state
 
         createInstance().checkState(mockData).first() shouldBe CwaCovidCertificate.State.Invalid()
 
-        coVerify { dscSignatureValidator.validateSignature(mockData, mockDscData) }
+        coVerify { dscSignatureValidator.validateSignature(mockData, mockDscData, any()) }
     }
 }
