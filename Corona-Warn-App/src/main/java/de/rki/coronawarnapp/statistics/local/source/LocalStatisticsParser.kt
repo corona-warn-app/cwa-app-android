@@ -80,11 +80,9 @@ class LocalStatisticsParser @Inject constructor(
                 if (selectedDistrict != null) {
                     val shortFederalStateName = selectedDistrict.district.federalStateShortName
                     val federalStateOfDistrict = parsed.federalStateDataList.firstOrNull { state ->
-                        val stateName = state.federalState.name
-                            .takeLast(3)
-                            .filter { it.isLetter() }
-                        val firstAndLastLettersOfState = "${stateName.first()}${stateName.last()}"
-                        firstAndLastLettersOfState == shortFederalStateName
+                        shortFederalStateName == state.federalState.name
+                            .substringAfterLast('_')
+                            .run { "${first()}${last()}" }
                     }
                     if (federalStateOfDistrict != null) {
                         val administrativeUnitHospitalizationKeyFigure =
