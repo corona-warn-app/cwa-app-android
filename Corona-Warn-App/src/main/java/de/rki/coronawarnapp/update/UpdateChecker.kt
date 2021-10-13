@@ -1,9 +1,6 @@
 package de.rki.coronawarnapp.update
 
-import android.content.Intent
-import android.net.Uri
 import dagger.Reusable
-import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.CWAConfig
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationCorruptException
@@ -19,7 +16,7 @@ class UpdateChecker @Inject constructor(
 
     suspend fun checkForUpdate(): Result = try {
         if (isUpdateNeeded()) {
-            Result(isUpdateNeeded = true, updateIntent = createUpdateAction())
+            Result(isUpdateNeeded = true)
         } else {
             Result(isUpdateNeeded = false)
         }
@@ -29,7 +26,7 @@ class UpdateChecker @Inject constructor(
             exception.localizedMessage
         )
 
-        Result(isUpdateNeeded = true, updateIntent = createUpdateAction())
+        Result(isUpdateNeeded = true)
     } catch (e: Exception) {
         Timber.tag(TAG).e(e, "Update check failed, network connection?")
         Result(isUpdateNeeded = false)
@@ -52,22 +49,9 @@ class UpdateChecker @Inject constructor(
         return needsImmediateUpdate
     }
 
-    private fun createUpdateAction(): () -> Intent = {
-        val uriStringInPlayStore = STORE_PREFIX + BuildConfig.APPLICATION_ID
-        Intent(Intent.ACTION_VIEW).apply {
-            data = Uri.parse(uriStringInPlayStore)
-            setPackage(COM_ANDROID_VENDING)
-        }
-    }
-
-    data class Result(
-        val isUpdateNeeded: Boolean,
-        val updateIntent: (() -> Intent)? = null
-    )
-
+    data class Result(val isUpdateNeeded: Boolean)
     companion object {
-        private const val TAG: String = "UpdateChecker"
-        private const val STORE_PREFIX = "https://play.google.com/store/apps/details?id="
-        private const val COM_ANDROID_VENDING = "com.android.vending"
+
+        private const val TAG = "UpdateChecker"
     }
 }

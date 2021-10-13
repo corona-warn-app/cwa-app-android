@@ -22,8 +22,8 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import timber.log.Timber
 
 class LauncherActivityViewModel @AssistedInject constructor(
-    private val updateChecker: UpdateChecker,
     dispatcherProvider: DispatcherProvider,
+    private val updateChecker: UpdateChecker,
     private val cwaSettings: CWASettings,
     private val onboardingSettings: OnboardingSettings,
     private val rootDetectionCheck: RootDetectionCheck,
@@ -35,29 +35,6 @@ class LauncherActivityViewModel @AssistedInject constructor(
     init {
         Timber.tag(TAG).d("init()")
         checkForRoot()
-    }
-
-    private fun checkForRoot() = launch {
-        Timber.tag(TAG).d("checkForRoot()")
-        when (rootDetectionCheck.isRooted()) {
-            true -> events.postValue(LauncherEvent.ShowRootedDialog)
-            false -> checkForUpdate()
-        }
-    }
-
-    private fun checkForUpdate() = launch {
-        Timber.tag(TAG).d("checkForUpdate()")
-        val updateResult = updateChecker.checkForUpdate()
-        val appUpdateInfo = appUpdateManager.getUpdateInfo()
-        Timber.tag(TAG).d("checkForUpdate - appUpdateInfo=%s", appUpdateInfo?.updateAvailability())
-        when {
-            // Trigger update process ONLY when AppConfig and InAppUpdate are both indicating there is an update
-            updateResult.isUpdateNeeded && appUpdateInfo?.updateAvailability() == UPDATE_AVAILABLE ->
-                forceUpdateEvent(appUpdateInfo)
-
-            isJustInstalledOrUpdated() -> LauncherEvent.GoToOnboarding
-            else -> LauncherEvent.GoToMainActivity
-        }.let { events.postValue(it) }
     }
 
     fun onRootedDialogDismiss() {
@@ -83,14 +60,7 @@ class LauncherActivityViewModel @AssistedInject constructor(
         }
     }
 
-    fun requestUpdate() = launch {
-        Timber.tag(TAG).d("requestUpdate()")
-        val appUpdateInfo = appUpdateManager.getUpdateInfo()
-        Timber.tag(TAG).d("requestUpdate - appUpdateInfo=%s", appUpdateInfo?.updateAvailability())
-        if (appUpdateInfo?.updateAvailability() == UPDATE_AVAILABLE) {
-            events.postValue(forceUpdateEvent(appUpdateInfo))
-        }
-    }
+    fun requestUpdate() = checkForUpdate()
 
     private fun forceUpdateEvent(appUpdateInfo: AppUpdateInfo) =
         LauncherEvent.ForceUpdate { activity ->
@@ -102,6 +72,29 @@ class LauncherActivityViewModel @AssistedInject constructor(
                 events.postValue(LauncherEvent.ShowUpdateDialog)
             }
         }
+
+    private fun checkForRoot() = launch {
+        Timber.tag(TAG).d("checkForRoot()")
+        when (rootDetectionCheck.isRooted()) {
+            true -> events.postValue(LauncherEvent.ShowRootedDialog)
+            false -> checkForUpdate()
+        }
+    }
+
+    private fun checkForUpdate() = launch {
+        Timber.tag(TAG).d("checkForUpdate()")
+        val updateResult = updateChecker.checkForUpdate()
+        val appUpdateInfo = appUpdateManager.getUpdateInfo()
+        Timber.tag(TAG).d("checkForUpdate - appUpdateInfo=%s, updateResult=%s", appUpdateInfo, updateResult)
+        when {
+            // Trigger update process ONLY when AppConfig and InAppUpdate are both indicating there is an update
+            updateResult.isUpdateNeeded && appUpdateInfo?.updateAvailability() == UPDATE_AVAILABLE ->
+                forceUpdateEvent(appUpdateInfo)
+
+            isJustInstalledOrUpdated() -> LauncherEvent.GoToOnboarding
+            else -> LauncherEvent.GoToMainActivity
+        }.let { events.postValue(it) }
+    }
 
     private fun isJustInstalledOrUpdated() =
         !onboardingSettings.isOnboarded || !cwaSettings.wasInteroperabilityShownAtLeastOnce ||
