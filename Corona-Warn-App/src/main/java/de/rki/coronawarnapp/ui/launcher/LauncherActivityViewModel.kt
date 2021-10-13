@@ -51,6 +51,7 @@ class LauncherActivityViewModel @AssistedInject constructor(
         val appUpdateInfo = appUpdateManager.getUpdateInfo()
         Timber.tag(TAG).d("checkForUpdate - appUpdateInfo=%s", appUpdateInfo?.updateAvailability())
         when {
+            // Trigger update process ONLY when AppConfig and InAppUpdate are both indicating there is an update
             updateResult.isUpdateNeeded && appUpdateInfo?.updateAvailability() == UPDATE_AVAILABLE ->
                 forceUpdateEvent(appUpdateInfo)
 

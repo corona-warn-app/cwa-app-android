@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.launcher
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.rootdetection.showRootDetectionDialog

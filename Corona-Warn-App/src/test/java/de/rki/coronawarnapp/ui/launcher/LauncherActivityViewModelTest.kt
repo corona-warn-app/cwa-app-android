@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.update.UpdateChecker
 import de.rki.coronawarnapp.update.getUpdateInfo
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.types.instanceOf
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -80,7 +81,8 @@ class LauncherActivityViewModelTest : BaseTest() {
     )
 
     @Test
-    fun `update is available and checked in init`() = runBlockingTest {
+    fun `Force update - Works only if AppConfig + InAppUpdate are requiring and update`() = runBlockingTest {
+        coEvery { updateChecker.checkForUpdate() } returns UpdateChecker.Result(isUpdateNeeded = true)
         coEvery { appUpdateManager.getUpdateInfo() } returns
             mockk<AppUpdateInfo>().apply {
                 every { updateAvailability() } returns UpdateAvailability.UPDATE_AVAILABLE
@@ -91,11 +93,35 @@ class LauncherActivityViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `Force update event triggers update`() {
+    fun `Force update - NOT triggered if AppConfig is not enabled`() = runBlockingTest {
+        coEvery { updateChecker.checkForUpdate() } returns UpdateChecker.Result(isUpdateNeeded = false)
         coEvery { appUpdateManager.getUpdateInfo() } returns
             mockk<AppUpdateInfo>().apply {
                 every { updateAvailability() } returns UpdateAvailability.UPDATE_AVAILABLE
             }
+        val vm = createViewModel()
+
+        vm.events.value shouldNotBe instanceOf(LauncherEvent.ForceUpdate::class)
+    }
+
+    @Test
+    fun `Force update - NOT triggered if no InAppUpdate available`() = runBlockingTest {
+        coEvery { updateChecker.checkForUpdate() } returns UpdateChecker.Result(isUpdateNeeded = true)
+        coEvery { appUpdateManager.getUpdateInfo() } returns
+            mockk<AppUpdateInfo>().apply {
+                every { updateAvailability() } returns UpdateAvailability.UPDATE_NOT_AVAILABLE
+            }
+        val vm = createViewModel()
+
+        vm.events.value shouldNotBe instanceOf(LauncherEvent.ForceUpdate::class)
+    }
+
+    @Test
+    fun `Force update event triggers update InAppUpdate process`() {
+        coEvery { updateChecker.checkForUpdate() } returns UpdateChecker.Result(isUpdateNeeded = true)
+        coEvery { appUpdateManager.getUpdateInfo() } returns mockk<AppUpdateInfo>().apply {
+            every { updateAvailability() } returns UpdateAvailability.UPDATE_AVAILABLE
+        }
         val vm = createViewModel()
 
         (vm.events.value as LauncherEvent.ForceUpdate).apply {
@@ -112,11 +138,10 @@ class LauncherActivityViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `On resume update is resumed`() {
-        coEvery { appUpdateManager.getUpdateInfo() } returns
-            mockk<AppUpdateInfo>().apply {
-                every { updateAvailability() } returns UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
-            }
+    fun `onResume update is resumed`() {
+        coEvery { appUpdateManager.getUpdateInfo() } returns mockk<AppUpdateInfo>().apply {
+            every { updateAvailability() } returns UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS
+        }
         val vm = createViewModel()
         vm.onResume()
         (vm.events.value as LauncherEvent.ForceUpdate).apply {
@@ -161,24 +186,13 @@ class LauncherActivityViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `update is available`() = runBlockingTest {
-        coEvery { updateChecker.checkForUpdate() } returns UpdateChecker.Result(
-            isUpdateNeeded = true,
-            updateIntent = { mockk() }
-        )
-
-        val vm = createViewModel()
-
-        vm.events.value shouldBe instanceOf(LauncherEvent.ShowUpdateDialog::class)
-    }
-
-    @Test
-    fun `request update event triggers update`() {
+    fun `requestUpdate event triggers update`() {
         coEvery { appUpdateManager.getUpdateInfo() } returns
             mockk<AppUpdateInfo>().apply {
                 every { updateAvailability() } returns UpdateAvailability.UPDATE_AVAILABLE
             }
         val vm = createViewModel()
+        vm.requestUpdate()
 
         (vm.events.value as LauncherEvent.ForceUpdate).apply {
             forceUpdate(mockk())
@@ -225,14 +239,15 @@ class LauncherActivityViewModelTest : BaseTest() {
 
     @Test
     fun `onRootedDialogDismiss triggers update check`() {
-        coEvery { updateChecker.checkForUpdate() } returns UpdateChecker.Result(
-            isUpdateNeeded = true,
-            updateIntent = { mockk() }
-        )
+        coEvery { updateChecker.checkForUpdate() } returns UpdateChecker.Result(isUpdateNeeded = true)
+        coEvery { appUpdateManager.getUpdateInfo() } returns
+            mockk<AppUpdateInfo>().apply {
+                every { updateAvailability() } returns UpdateAvailability.UPDATE_AVAILABLE
+            }
 
         createViewModel().run {
             onRootedDialogDismiss()
-            events.getOrAwaitValue() shouldBe instanceOf(LauncherEvent.ShowUpdateDialog::class)
+            events.getOrAwaitValue() shouldBe instanceOf(LauncherEvent.ForceUpdate::class)
         }
     }
 }
