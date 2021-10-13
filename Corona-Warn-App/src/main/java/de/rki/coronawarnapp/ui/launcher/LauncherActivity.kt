@@ -39,23 +39,24 @@ class LauncherActivity : AppCompatActivity() {
                     this.overridePendingTransition(0, 0)
                     finish()
                 }
-                is LauncherEvent.ShowUpdateDialog -> {
-                    showUpdateNeededDialog(it.updateIntent)
-                }
-
+                is LauncherEvent.ForceUpdate -> it.forceUpdate(this)
+                LauncherEvent.ShowUpdateDialog -> showUpdateNeededDialog()
                 LauncherEvent.ShowRootedDialog -> showRootDetectionDialog { viewModel.onRootedDialogDismiss() }
             }
         }
     }
 
-    private fun showUpdateNeededDialog(intent: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        viewModel.onResult(requestCode, resultCode)
+    }
+
+    private fun showUpdateNeededDialog() {
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.update_dialog_title)
             .setMessage(R.string.update_dialog_message)
             .setCancelable(false)
-            .setPositiveButton(R.string.update_dialog_button) { _, _ ->
-                ContextCompat.startActivity(this, intent, null)
-            }
+            .setPositiveButton(R.string.update_dialog_button) { _, _ -> viewModel.requestUpdate() }
             .show()
     }
 }
