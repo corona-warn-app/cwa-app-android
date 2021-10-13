@@ -19,4 +19,13 @@
     <!-- XTXT: Recycle Bin  - Restore DGC dialog message -->
     <string name="recycle_bin_restore_dgc_dialog_message">"Der QR-Code wurde bereits auf Ihrem Smartphone registriert. Sie können das Zertifikat aus dem Papierkorb wiederherstellen. "</string>
 
+    <!-- DGC  - Recycle certificate dialog-->
+    <!-- XHED: Recycle Bin - recycle certificate dialog title -->
+    <string name="recycle_bin_recycle_certificate_dialog_title">"Wollen Sie das Zertifikat entfernen?"</string>
+    <!-- XTXT: Recycle Bin - recycle certificate dialog message -->
+    <string name="recycle_bin_recycle_certificate_dialog_message">"Das Zertifikat wird in den Papierkorb verschoben. Den Papierkorb finden Sie auf der Status-Registerkarte unter den drei Punkten oben rechts.Dort können Sie es endgültig löschen oder wiederherstellen. Nach 30 Tagen wird das Zertifikat automatisch gelöscht."</string>
+    <!-- XBUT: Recycle Bin - recycle certificate dialog positive button -->
+    <string name="recycle_bin_recycle_certificate_dialog_positive_button">"Zertifikat EntFernen"</string>
+    <!-- XBUT: Recycle Bin - recycle certificate dialog negative button -->
+    <string name="recycle_bin_recycle_certificate_dialog_negative_button">"Abbrechen"</string>
 </resources>
