@@ -62,8 +62,9 @@ class LauncherActivityViewModel @AssistedInject constructor(
 
     fun requestUpdate() = checkForUpdate()
 
-    private fun forceUpdateEvent(appUpdateInfo: AppUpdateInfo) =
-        LauncherEvent.ForceUpdate { activity ->
+    private fun forceUpdateEvent(appUpdateInfo: AppUpdateInfo): LauncherEvent {
+        Timber.tag(TAG).d("forceUpdateEvent(appUpdateInfo=%s)", appUpdateInfo)
+        return LauncherEvent.ForceUpdate { activity ->
             try {
                 appUpdateManager.startUpdateFlowForResult(appUpdateInfo, IMMEDIATE, activity, UPDATE_CODE)
             } catch (e: Exception) {
@@ -72,6 +73,7 @@ class LauncherActivityViewModel @AssistedInject constructor(
                 events.postValue(LauncherEvent.ShowUpdateDialog)
             }
         }
+    }
 
     private fun checkForRoot() = launch {
         Timber.tag(TAG).d("checkForRoot()")

@@ -39,13 +39,13 @@ class UpdateChecker @Inject constructor(
 
         val currentVersion = BuildConfigWrap.VERSION_CODE
 
-        Timber.tag(TAG).d("minVersionFromServer:%s", minVersionFromServer)
-        Timber.tag(TAG).d("Current app version:%s", currentVersion)
+        Timber.tag(TAG).d("Config minVersionCode:%s", minVersionFromServer)
+        Timber.tag(TAG).d("App versionCode:%s", currentVersion)
         val needsImmediateUpdate = VersionComparator.isVersionOlder(
             currentVersion,
             minVersionFromServer
         )
-        Timber.tag(TAG).e("needs update:$needsImmediateUpdate")
+        Timber.tag(TAG).d("Needs update:$needsImmediateUpdate")
         return needsImmediateUpdate
     }
 
