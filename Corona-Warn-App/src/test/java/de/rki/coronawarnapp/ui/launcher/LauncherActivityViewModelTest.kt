@@ -93,6 +93,15 @@ class LauncherActivityViewModelTest : BaseTest() {
     }
 
     @Test
+    fun `Force update - NOT triggered if InAppUpdate info is missing`() = runBlockingTest {
+        coEvery { updateChecker.checkForUpdate() } returns UpdateChecker.Result(isUpdateNeeded = true)
+        coEvery { appUpdateManager.getUpdateInfo() } returns null
+        val vm = createViewModel()
+
+        vm.events.value shouldNotBe instanceOf(LauncherEvent.ForceUpdate::class)
+    }
+
+    @Test
     fun `Force update - NOT triggered if AppConfig is not enabled`() = runBlockingTest {
         coEvery { updateChecker.checkForUpdate() } returns UpdateChecker.Result(isUpdateNeeded = false)
         coEvery { appUpdateManager.getUpdateInfo() } returns
@@ -117,23 +126,26 @@ class LauncherActivityViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `Force update event triggers update InAppUpdate process`() {
+    fun `Force update Error - Asks user to try again`() {
         coEvery { updateChecker.checkForUpdate() } returns UpdateChecker.Result(isUpdateNeeded = true)
         coEvery { appUpdateManager.getUpdateInfo() } returns mockk<AppUpdateInfo>().apply {
             every { updateAvailability() } returns UpdateAvailability.UPDATE_AVAILABLE
         }
-        val vm = createViewModel()
 
+        every {
+            appUpdateManager.startUpdateFlowForResult(
+                any(),
+                AppUpdateType.IMMEDIATE,
+                any<Activity>(),
+                any()
+            )
+        } throws Exception("Crash!")
+
+        val vm = createViewModel()
+        vm.requestUpdate()
         (vm.events.value as LauncherEvent.ForceUpdate).apply {
             forceUpdate(mockk())
-            verify {
-                appUpdateManager.startUpdateFlowForResult(
-                    any(),
-                    AppUpdateType.IMMEDIATE,
-                    any<Activity>(),
-                    any()
-                )
-            }
+            vm.events.getOrAwaitValue() shouldBe LauncherEvent.ShowUpdateDialog
         }
     }
 
