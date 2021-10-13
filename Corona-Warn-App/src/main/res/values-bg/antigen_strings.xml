@@ -173,7 +173,7 @@
     <!--RAT profile onboarding-->
     <string name="rat_profile_onboarding_image_content_description">"Жена със смартфон в ръката стои пред сграда. QR кодът символизира профила за бързи тестове, който трябва да се сканира."</string>
     <!-- XTXT: Create RAT profile onboarding title -->
-    <string name="rat_profile_onboarding_title">"Можете да създадете профил с личните си данни, който да представяте чрез QR код във всеки включен пункт за тестване."</string>
+    <string name="rat_profile_onboarding_title">"Запазете личните си данни като QR код, за да ускорите регистрацията в пунктовете за тестване."</string>
     <!-- XTXT: Create RAT profile onboarding subtitle -->
     <string name="rat_profile_onboarding_subtitle">"Ако си създадете профил за бързи тестове, няма да се налага да попълвате личните си данни наново при всеки антигенен тест."</string>
     <!-- XTXT: Create RAT profile onboarding next button -->

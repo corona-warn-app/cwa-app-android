@@ -7,6 +7,7 @@ import dagger.Provides
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.PresenceTracingConfigContainer
+import de.rki.coronawarnapp.bugreporting.censors.dcc.CwaUserCensorTest
 import de.rki.coronawarnapp.bugreporting.censors.dcc.DccQrCodeCensorTest
 import de.rki.coronawarnapp.covidcertificate.booster.DccBoosterRulesValidatorTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractorTest
@@ -67,6 +68,7 @@ interface CovidCertificateTestComponent {
     fun inject(testClass: DccBoosterRulesValidatorTest)
     fun inject(testClass: QrCodeValidatorTest)
     fun inject(testClass: QrCodeScannerViewModelTest)
+    fun inject(testClass: CwaUserCensorTest)
 
     @Component.Factory
     interface Factory {
