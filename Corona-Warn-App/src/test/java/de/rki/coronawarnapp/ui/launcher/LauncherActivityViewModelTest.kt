@@ -187,10 +187,10 @@ class LauncherActivityViewModelTest : BaseTest() {
 
     @Test
     fun `requestUpdate event triggers update`() {
-        coEvery { appUpdateManager.getUpdateInfo() } returns
-            mockk<AppUpdateInfo>().apply {
-                every { updateAvailability() } returns UpdateAvailability.UPDATE_AVAILABLE
-            }
+        coEvery { updateChecker.checkForUpdate() } returns UpdateChecker.Result(isUpdateNeeded = true)
+        coEvery { appUpdateManager.getUpdateInfo() } returns mockk<AppUpdateInfo>().apply {
+            every { updateAvailability() } returns UpdateAvailability.UPDATE_AVAILABLE
+        }
         val vm = createViewModel()
         vm.requestUpdate()
 

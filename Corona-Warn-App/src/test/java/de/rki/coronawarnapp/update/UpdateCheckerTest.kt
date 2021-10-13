@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationCorruptException
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
@@ -42,7 +41,6 @@ class UpdateCheckerTest : BaseTest() {
 
         createInstance().checkForUpdate().apply {
             isUpdateNeeded shouldBe true
-            updateIntent shouldNotBe null
         }
 
         coVerifySequence {
@@ -58,7 +56,6 @@ class UpdateCheckerTest : BaseTest() {
 
         createInstance().checkForUpdate().apply {
             isUpdateNeeded shouldBe false
-            updateIntent shouldBe null
         }
 
         coVerifySequence {
@@ -73,7 +70,6 @@ class UpdateCheckerTest : BaseTest() {
 
         createInstance().checkForUpdate().apply {
             isUpdateNeeded shouldBe false
-            updateIntent shouldBe null
         }
     }
 
@@ -83,7 +79,6 @@ class UpdateCheckerTest : BaseTest() {
 
         createInstance().checkForUpdate().apply {
             isUpdateNeeded shouldBe true
-            updateIntent shouldNotBe null
         }
 
         coVerifySequence {
