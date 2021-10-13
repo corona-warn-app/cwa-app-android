@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.reyclebin.ui
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.RecyclerBinOverviewFragmentBinding
@@ -32,8 +33,9 @@ class RecyclerBinOverviewFragment : Fragment(R.layout.recycler_bin_overview_frag
             recyclerBinList.adapter = adapter
         }
 
-        viewModel.recycledCertificates.observe2(this) {
-            adapter.update(listOf(OverviewSubHeaderItem))
+        viewModel.listItems.observe2(this) {
+            binding.emptyListInfoContainer.isVisible = it.isEmpty()
+            adapter.update(it)
         }
     }
 }

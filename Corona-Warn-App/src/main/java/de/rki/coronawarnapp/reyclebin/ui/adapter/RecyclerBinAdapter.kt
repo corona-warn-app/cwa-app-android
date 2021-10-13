@@ -21,7 +21,9 @@ class RecyclerBinAdapter: ModularAdapter<RecyclerBinAdapter.ItemVH<RecyclerBinIt
             listOf(
                 StableIdMod(data),
                 DataBinderMod<RecyclerBinItem, ItemVH<RecyclerBinItem, ViewBinding>>(data),
-//                TypedVHCreatorMod({ data[it] is DayOverviewItem }) { DayOverviewVH(it) },
+                TypedVHCreatorMod({ data[it] is VaccinationCertificateCard.Item }) { VaccinationCertificateCard(it) },
+                TypedVHCreatorMod({ data[it] is TestCertificateCard.Item }) { TestCertificateCard(it) },
+                TypedVHCreatorMod({ data[it] is RecoveryCertificateCard.Item }) { RecoveryCertificateCard(it) },
                 TypedVHCreatorMod({ data[it] is OverviewSubHeaderItem }) { OverviewSubHeaderVH(it) },
             )
         )
