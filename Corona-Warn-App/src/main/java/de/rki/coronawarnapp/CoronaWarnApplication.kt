@@ -26,6 +26,7 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.notification.RATTestRes
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalScheduler
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.EnvironmentSetup
@@ -52,6 +53,7 @@ import de.rki.coronawarnapp.util.hasAPILevel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -93,6 +95,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var dccStateCheckScheduler: DccStateCheckScheduler
     @Inject lateinit var securityProvider: SecurityProvider
     @Inject lateinit var boosterCheckScheduler: BoosterCheckScheduler
+    @Inject lateinit var vaccinationStorage: VaccinationStorage
 
     @AppScope
     @Inject lateinit var appScope: CoroutineScope
@@ -109,6 +112,8 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
                 Timber.v("Calling EncryptedPreferencesMigration.doMigration()")
                 compPreview.encryptedMigration.get().doMigration()
             }
+
+            runBlocking { vaccinationStorage.reorganizeData() }
 
             CWADebug.initAfterInjection(compPreview)
 
