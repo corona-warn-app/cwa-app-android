@@ -910,7 +910,7 @@
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Abbrechen"</string>
 
     <!-- QR Code Scan Screen -->
-    <string name="qr_code_scan_title">"QR-Code Scan"</string>
+    <string name="qr_code_scan_title">"QR-Code-Scanner"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body">"Positionieren Sie den QR-Code in den Rahmen."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
