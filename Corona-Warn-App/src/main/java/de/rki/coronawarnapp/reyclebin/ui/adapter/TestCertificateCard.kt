@@ -2,8 +2,10 @@ package de.rki.coronawarnapp.reyclebin.ui.adapter
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.databinding.RecyclerBinCertificateItemBinding
+import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.BaseCheckInVH.Companion.setupMenu
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
@@ -24,7 +26,6 @@ class TestCertificateCard(parent: ViewGroup) :
 
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
         val certificate = curItem.certificate
-        root.setOnClickListener { curItem.onClick() }
         certificateInfoLine2.text = context.getString(
             R.string.test_certificate_sampled_on,
             certificate.sampleCollectedAt.toUserTimeZone().toShortDayFormat()
@@ -38,12 +39,21 @@ class TestCertificateCard(parent: ViewGroup) :
         }.also { certificateInfoLine1.setText(it) }
 
         certificatePersonName.text = certificate.fullNameFormatted
-        certificateType.setText(R.string.recovery_certificate_name)
+        certificateType.setText(R.string.test_certificate_name)
+
+        menuAction.setupMenu(R.menu.menu_recycler_bin_list_item) {
+            when (it.itemId) {
+                R.id.menu_remove_permanently -> item.onRemove(item.certificate).let { true }
+                R.id.menu_restore -> item.onRestore(item.certificate).let { true }
+                else -> false
+            }
+        }
     }
 
     data class Item(
         val certificate: TestCertificate,
-        val onClick: () -> Unit
+        val onRemove: (TestCertificate) -> Unit,
+        val onRestore: (TestCertificate) -> Unit
     ) : RecyclerBinItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
         override val stableId = certificate.containerId.hashCode().toLong()

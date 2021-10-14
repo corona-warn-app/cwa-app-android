@@ -17,7 +17,7 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.map
 
 class RecyclerBinOverviewViewModel @AssistedInject constructor(
-    private val recycledItemsProvider: RecycledItemsProvider
+    recycledItemsProvider: RecycledItemsProvider
 ) : CWAViewModel() {
 
     val listItems: LiveData<List<RecyclerBinItem>> = recycledItemsProvider.recycledCertificates.map { certificates ->
@@ -25,19 +25,13 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
             certificates.forEach {
                 when (it) {
                     is TestCertificate -> add(
-                        TestCertificateCard.Item(it) { }
+                        TestCertificateCard.Item(certificate = it, onRemove = {}, onRestore = {})
                     )
-                    is VaccinationCertificate -> {
-                        add(
-                            VaccinationCertificateCard.Item(
-                                certificate = it
-                            ) {
-                            }
-                        )
-                    }
+                    is VaccinationCertificate -> add(
+                        VaccinationCertificateCard.Item(certificate = it, onRemove = {}, onRestore = {})
+                    )
                     is RecoveryCertificate -> add(
-                        RecoveryCertificateCard.Item(it) {
-                        }
+                        RecoveryCertificateCard.Item(certificate = it, onRemove = {}, onRestore = {})
                     )
                 }
             }

@@ -29,6 +29,11 @@
     <!-- XBUT: Recycle Bin - recycle certificate dialog negative button -->
     <string name="recycle_bin_recycle_certificate_dialog_negative_button">"Abbrechen"</string>
 
-    <!-- XBUT: Recycle Bin - overview subheader -->
+    <!-- XTXT: Recycle Bin - overview subheader -->
     <string name="recycle_bin_overview_subheader">"Tippen Sie bei einem Element auf die drei Punkte, um es wiederherzustellen. Nach 30 Tagen wird ein Element automatisch gelöscht."</string>
+    <!-- XTXT: Recycle Bin - restore -->
+    <string name="recycle_bin_restore">"Wiederherstellen"</string>
+    <!-- XTXT: Recycle Bin - remove permanently -->
+    <string name="recycle_bin_remove_permanently">"Entgültig entfernen"</string>
+
 </resources>
