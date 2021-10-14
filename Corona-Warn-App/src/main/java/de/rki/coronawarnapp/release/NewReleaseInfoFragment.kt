@@ -35,11 +35,11 @@ class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragmen
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             newReleaseInfoNextButton.setOnClickListener {
-                vm.onNextButtonClick()
+                vm.onNextButtonClick(args.comesFromInfoScreen)
             }
 
             toolbar.setNavigationOnClickListener {
-                vm.onNextButtonClick()
+                vm.onNextButtonClick(args.comesFromInfoScreen)
             }
 
             headline.text = vm.title.get(requireContext())
@@ -55,7 +55,7 @@ class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragmen
 
         // Override android back button to bypass the infinite loop
         val backCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() = vm.onNextButtonClick()
+            override fun handleOnBackPressed() = vm.onNextButtonClick(args.comesFromInfoScreen)
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
@@ -96,18 +96,18 @@ private class ItemAdapter(
         BindableVH<NewReleaseInfoItem, NewReleaseInfoItemBinding> {
         override val viewBinding:
             Lazy<NewReleaseInfoItemBinding> =
-                lazy { NewReleaseInfoItemBinding.bind(itemView) }
+            lazy { NewReleaseInfoItemBinding.bind(itemView) }
 
         override val onBindData:
             NewReleaseInfoItemBinding.(item: NewReleaseInfoItem, payloads: List<Any>) -> Unit =
-                { item, _ ->
-                    title.text = item.title
-                    if (item is NewReleaseInfoItemLinked) {
-                        body.setTextWithUrl(item.body, item.linkifiedLabel, item.linkTarget)
-                    } else {
-                        body.text = item.body
-                    }
+            { item, _ ->
+                title.text = item.title
+                if (item is NewReleaseInfoItemLinked) {
+                    body.setTextWithUrl(item.body, item.linkifiedLabel, item.linkTarget)
+                } else {
+                    body.text = item.body
                 }
+            }
     }
 
     override fun onCreateBaseVH(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(parent)
