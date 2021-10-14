@@ -113,8 +113,6 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
                 compPreview.encryptedMigration.get().doMigration()
             }
 
-            runBlocking { vaccinationStorage.reorganizeData() }
-
             CWADebug.initAfterInjection(compPreview)
 
             Timber.v("Completing application injection")
@@ -124,6 +122,8 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         Timber.plant(rollingLogHistory)
 
         Timber.v("onCreate(): WorkManager setup done: $workManager")
+
+        runBlocking { vaccinationStorage.reorganizeData() }
 
         securityProvider.setup()
         // See de.rki.coronawarnapp.util.coil.CoilModule::class
