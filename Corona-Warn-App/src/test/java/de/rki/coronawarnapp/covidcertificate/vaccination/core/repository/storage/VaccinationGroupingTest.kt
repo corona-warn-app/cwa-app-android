@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import javax.inject.Inject
 
+@Suppress("MaxLineLength")
 class VaccinationGroupingTest : BaseTest() {
 
     @Inject lateinit var testData: VaccinationTestData

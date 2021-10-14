@@ -31,8 +31,8 @@ class CertificatePersonIdentifierTest : BaseTest() {
 
     @Test
     fun `internal identifier code`() {
-        testPersonMaxData.code shouldBe "1966-11-11#ASTRA<EINS#ANDREAS"
-        testPersonMin.code shouldBe "1900-01-01###null"
+        testPersonMaxData.groupingKey shouldBe "1966-11-11#ASTRA<EINS#ANDREAS"
+        testPersonMin.groupingKey shouldBe "1900-01-01###null"
     }
 
     @Test
@@ -51,7 +51,7 @@ class CertificatePersonIdentifierTest : BaseTest() {
         )
 
         person1 shouldBe person2
-        person1.code shouldBe person2.code
+        person1.groupingKey shouldBe person2.groupingKey
         person1.codeSHA256 shouldBe person2.codeSHA256
     }
 
@@ -80,13 +80,13 @@ class CertificatePersonIdentifierTest : BaseTest() {
             dateOfBirthFormatted = "",
             firstNameStandardized = "",
             lastNameStandardized = ""
-        ).code shouldBe "##"
+        ).groupingKey shouldBe "##"
 
         CertificatePersonIdentifier(
             dateOfBirthFormatted = "",
             lastNameStandardized = "",
             firstNameStandardized = null
-        ).code shouldBe "##null"
+        ).groupingKey shouldBe "##null"
     }
 
     @Test

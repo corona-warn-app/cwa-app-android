@@ -60,7 +60,7 @@ class VaccinationStorage @Inject constructor(
                 val raw = gson.toJson(it)
                 val identifier = it.identifier
                 Timber.tag(TAG).v("Storing vaccinatedPerson %s -> %s", identifier, raw)
-                putString("$PKEY_PERSON_PREFIX${identifier.code}", raw)
+                putString("$PKEY_PERSON_PREFIX${identifier.groupingKey}", raw)
             }
         }
     }

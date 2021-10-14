@@ -13,6 +13,9 @@ data class CertificatePersonIdentifier(
     @SerializedName("givenNameStandardized") val firstNameStandardized: String?
 ) {
 
+    /**
+     * Used internally to group and store the data related to this person.
+     */
     internal val groupingKey: String
         get() {
             val lastName = lastNameStandardized.trim()
@@ -20,19 +23,13 @@ data class CertificatePersonIdentifier(
             return "$dateOfBirthFormatted#$lastName#$firstName".condense()
         }
 
-    /**
-     * Used internally to identify and store the data related to this person.
-     */
-    internal val code: String
-        get() = groupingKey
-
     override fun equals(other: Any?): Boolean {
         if (other == null || other !is CertificatePersonIdentifier) return false
-        return groupingKey == other.groupingKey
+        return this.groupingKey == other.groupingKey
     }
 
     override fun hashCode(): Int {
-        return groupingKey.hashCode()
+        return this.groupingKey.hashCode()
     }
 
     /**
@@ -40,7 +37,7 @@ data class CertificatePersonIdentifier(
      * e.g. pass this identifier as uri argument.
      */
     val codeSHA256: String
-        get() = groupingKey.toSHA256()
+        get() = this.groupingKey.toSHA256()
 
     internal fun requireMatch(other: CertificatePersonIdentifier) {
         if (lastNameStandardized != other.lastNameStandardized) {
