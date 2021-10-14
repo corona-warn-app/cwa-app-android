@@ -1,11 +1,13 @@
 package de.rki.coronawarnapp.update
 
+import androidx.annotation.VisibleForTesting
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.CWAConfig
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationCorruptException
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withTimeout
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -41,17 +43,31 @@ class UpdateChecker @Inject constructor(
 
         Timber.tag(TAG).d("Config minVersionCode:%s", minVersionFromServer)
         Timber.tag(TAG).d("App versionCode:%s", currentVersion)
-        val needsImmediateUpdate = VersionComparator.isVersionOlder(
-            currentVersion,
-            minVersionFromServer
-        )
+        val needsImmediateUpdate = VersionComparator.isVersionOlder(currentVersion, minVersionFromServer)
         Timber.tag(TAG).d("Needs update:$needsImmediateUpdate")
-        return needsImmediateUpdate
+        return if (needsImmediateUpdate) assertUpdateIsNeeded() else needsImmediateUpdate
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal suspend fun assertUpdateIsNeeded(): Boolean {
+        val cwaAppConfig: CWAConfig = try {
+            withTimeout(UPDATE_CHECK_TIMEOUT) { appConfigProvider.getAppConfig() }
+        } catch (e: Exception) {
+            Timber.tag(TAG).d(e, "assertUpdateIsNeeded failed, rolling back to cached config")
+            appConfigProvider.currentConfig.first()
+        }
+        val updateStillNeeded = VersionComparator.isVersionOlder(
+            BuildConfigWrap.VERSION_CODE,
+            cwaAppConfig.minVersionCode
+        )
+
+        Timber.tag(TAG).d("assertUpdateIsNeeded updateStillNeeded:$updateStillNeeded")
+        return updateStillNeeded
     }
 
     data class Result(val isUpdateNeeded: Boolean)
     companion object {
-
+        private const val UPDATE_CHECK_TIMEOUT = 5_000L
         private const val TAG = "UpdateChecker"
     }
 }
