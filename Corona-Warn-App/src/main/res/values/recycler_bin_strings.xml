@@ -34,6 +34,6 @@
     <!-- XTXT: Recycle Bin - restore -->
     <string name="recycle_bin_restore">"Wiederherstellen"</string>
     <!-- XTXT: Recycle Bin - remove permanently -->
-    <string name="recycle_bin_remove_permanently">"Entgültig entfernen"</string>
+    <string name="recycle_bin_remove_permanently">"Endgültig entfernen"</string>
 
 </resources>
