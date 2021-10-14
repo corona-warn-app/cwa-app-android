@@ -40,7 +40,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <TextView
         android:id="@+id/certificate_person_name"
         style="@style/body2"
@@ -69,7 +68,6 @@
         android:id="@+id/certificate_info_line_2"
         style="@style/body2Medium"
         android:layout_width="0dp"
-        app:layout_goneMarginTop="@dimen/spacing_small"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_small"
         android:layout_marginTop="@dimen/spacing_mega_tiny"
@@ -77,6 +75,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/certificate_icon"
         app:layout_constraintTop_toBottomOf="@id/certificate_info_line_1"
+        app:layout_goneMarginTop="@dimen/spacing_small"
         tools:text="geimpft am 01.06.21" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

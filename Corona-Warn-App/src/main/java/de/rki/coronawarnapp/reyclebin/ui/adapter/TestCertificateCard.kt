@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.reyclebin.ui.adapter
 
 import android.view.ViewGroup
+import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
@@ -31,6 +32,8 @@ class TestCertificateCard(parent: ViewGroup) :
 
         latestItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
         val certificate = latestItem!!.certificate
+
+        certificateInfoLine1.isGone = false
         certificateInfoLine2.text = context.getString(
             R.string.test_certificate_sampled_on,
             certificate.sampleCollectedAt.toUserTimeZone().toShortDayFormat()

@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.reyclebin.ui.adapter
 
 import android.view.ViewGroup
+import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
@@ -29,6 +30,8 @@ class VaccinationCertificateCard(parent: ViewGroup) :
 
         latestItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
         val certificate = latestItem!!.certificate
+
+        certificateInfoLine1.isGone = false
         certificateInfoLine1.text = context.getString(
             R.string.vaccination_certificate_doses,
             certificate.doseNumber,
