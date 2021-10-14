@@ -112,7 +112,7 @@ class IncidenceAndHospitalizationCard(parent: ViewGroup) :
             .appendWithLineBreak(getContentDescriptionForTrends(context, sevenDayIncidence.trend))
             .appendWithLineBreak(context.getString(R.string.statistics_seven_day_hospitalization_card_title))
             .appendWithTrailingSpace(
-                item.getSecondaryLabel(context, Instant.ofEpochSecond(sevenDayIncidenceSecondary.updatedAt))
+                getSecondaryLabel(context, Instant.ofEpochSecond(sevenDayIncidenceSecondary.updatedAt))
             )
             .appendWithTrailingSpace(
                 formatStatisticalValue(

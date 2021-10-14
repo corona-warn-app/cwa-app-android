@@ -72,20 +72,16 @@ class FormatterStatisticsHelperTest : BaseTest() {
     @Test
     fun `IncidenceAndHospitalizationStats primary and secondary label test`() {
         IncidenceAndHospitalizationStats(today, listOf()).getPrimaryLabel(context) shouldBe UNTIL_TODAY
-        IncidenceAndHospitalizationStats(today, listOf()).getSecondaryLabel(context, today) shouldBe UNTIL_TODAY
+        getSecondaryLabel(context, today) shouldBe UNTIL_TODAY
 
         IncidenceAndHospitalizationStats(yesterday, listOf()).getPrimaryLabel(context) shouldBe UNTIL_YESTERDAY
-        IncidenceAndHospitalizationStats(yesterday, listOf())
-            .getSecondaryLabel(context, yesterday) shouldBe UNTIL_YESTERDAY
+        getSecondaryLabel(context, yesterday) shouldBe UNTIL_YESTERDAY
 
         IncidenceAndHospitalizationStats(
             Instant.parse("2021-01-13T00:00:00Z"),
             listOf()
         ).getPrimaryLabel(context) shouldBe "Until 13.01.2021"
-        IncidenceAndHospitalizationStats(
-            Instant.parse("2021-01-13T00:00:00Z"),
-            listOf()
-        ).getSecondaryLabel(context, Instant.parse("2021-01-13T00:00:00Z")) shouldBe "Until 13.01.2021"
+        getSecondaryLabel(context, Instant.parse("2021-01-13T00:00:00Z")) shouldBe "Until 13.01.2021"
     }
 
     @Test

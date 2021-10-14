@@ -49,7 +49,7 @@ fun GlobalStatsItem.getPrimaryLabel(context: Context): String {
     }
 }
 
-fun IncidenceAndHospitalizationStats.getSecondaryLabel(context: Context, updatedAt: Instant): String {
+fun getSecondaryLabel(context: Context, updatedAt: Instant): String {
     val today = LocalDate()
     val yesterday = today.minusDays(1)
     val updatedAtDate = LocalDate(updatedAt.toUserTimeZone())

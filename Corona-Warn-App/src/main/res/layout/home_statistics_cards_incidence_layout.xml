@@ -124,6 +124,7 @@
             style="@style/StatisticsCardValueLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/spacing_small"
             android:text="@string/statistics_secondary_value_description"
             app:layout_constraintStart_toStartOf="@id/secondary_value"
             app:layout_constraintTop_toBottomOf="@id/secondary_value" />
