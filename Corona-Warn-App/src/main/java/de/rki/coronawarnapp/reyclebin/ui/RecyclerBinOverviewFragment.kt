@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.RecyclerBinOverviewFragmentBinding
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecyclerBinAdapter
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.list.setupSwipe
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -25,16 +26,19 @@ class RecyclerBinOverviewFragment : Fragment(R.layout.recycler_bin_overview_frag
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = RecyclerBinAdapter()
+        val recyclerBinAdapter = RecyclerBinAdapter()
 
         with(binding) {
             toolbar.setNavigationOnClickListener { popBackStack() }
-            recyclerBinList.adapter = adapter
+            recyclerBinList.apply {
+                adapter = recyclerBinAdapter
+                setupSwipe(context = requireContext())
+            }
         }
 
         viewModel.listItems.observe2(this) {
             binding.emptyListInfoContainer.isVisible = it.isEmpty()
-            adapter.update(it)
+            recyclerBinAdapter.update(it)
         }
     }
 }

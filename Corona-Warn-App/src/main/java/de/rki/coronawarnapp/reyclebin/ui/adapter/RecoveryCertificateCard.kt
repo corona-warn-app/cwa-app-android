@@ -2,18 +2,22 @@ package de.rki.coronawarnapp.reyclebin.ui.adapter
 
 import android.view.ViewGroup
 import androidx.core.view.isGone
+import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.databinding.RecyclerBinCertificateItemBinding
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.BaseCheckInVH.Companion.setupMenu
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
+import de.rki.coronawarnapp.util.list.Swipeable
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class RecoveryCertificateCard(parent: ViewGroup) :
     RecyclerBinAdapter.ItemVH<RecoveryCertificateCard.Item, RecyclerBinCertificateItemBinding>(
         layoutRes = R.layout.recycler_bin_certificate_item,
         parent = parent
-    ) {
+    ), Swipeable {
+
+    private var latestItem: Item? = null
 
     override val viewBinding: Lazy<RecyclerBinCertificateItemBinding> = lazy {
         RecyclerBinCertificateItemBinding.bind(itemView)
@@ -23,8 +27,8 @@ class RecoveryCertificateCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
 
-        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
-        val certificate = curItem.certificate
+        latestItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        val certificate = latestItem!!.certificate
 
         certificateInfoLine1.isGone = true
         certificateInfoLine2.text = context.getString(
@@ -50,5 +54,11 @@ class RecoveryCertificateCard(parent: ViewGroup) :
     ) : RecyclerBinItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
         override val stableId: Long = certificate.containerId.hashCode().toLong()
+    }
+
+    override fun onSwipe(holder: RecyclerView.ViewHolder, direction: Int) {
+        latestItem?.let {
+            it.onRemove(it.certificate)
+        }
     }
 }
