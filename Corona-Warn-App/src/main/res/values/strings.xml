@@ -1430,6 +1430,10 @@
     <string name="statistics_primary_value_current">"Currently"</string>
     <!-- XTXT: Until [date] refers to statistics timestamp in the past -->
     <string name="statistics_primary_value_until">"Up to %s"</string>
+    <!-- XTXT: Statistics primary value description -->
+    <string name="statistics_primary_value_description">"Neuinfektionen"</string>
+    <!-- XTXT: Statistics secondary value description -->
+    <string name="statistics_secondary_value_description">"Hospitalisierungen"</string>
 
     <!-- Explanation screen -->
     <!-- XHED: Explanation screen title -->
