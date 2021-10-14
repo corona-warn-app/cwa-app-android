@@ -22,9 +22,9 @@ class NewReleaseInfoViewModel @AssistedInject constructor(
 
     val title = R.string.release_info_version_title.toResolvingString(BuildConfig.VERSION_NAME)
 
-    fun onNextButtonClick() {
+    fun onNextButtonClick(comesFromInfoScreen: Boolean) {
         appSettings.lastChangelogVersion.update { BuildConfigWrap.VERSION_CODE }
-        if (appSettings.lastNotificationsOnboardingVersionCode.value == 0L) {
+        if (appSettings.lastNotificationsOnboardingVersionCode.value == 0L && !comesFromInfoScreen) {
             routeToScreen.postValue(
                 NewReleaseInfoNavigationEvents.NavigateToOnboardingDeltaNotificationsFragment
             )
