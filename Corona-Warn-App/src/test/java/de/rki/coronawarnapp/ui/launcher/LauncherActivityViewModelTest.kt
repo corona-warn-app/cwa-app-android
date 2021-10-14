@@ -89,7 +89,7 @@ class LauncherActivityViewModelTest : BaseTest() {
             }
         val vm = createViewModel()
 
-        vm.events.value shouldBe instanceOf(LauncherEvent.ForceUpdate::class)
+        vm.events.value shouldBe instanceOf(LauncherEvent.ShowUpdateDialog::class)
     }
 
     @Test
@@ -259,7 +259,7 @@ class LauncherActivityViewModelTest : BaseTest() {
 
         createViewModel().run {
             onRootedDialogDismiss()
-            events.getOrAwaitValue() shouldBe instanceOf(LauncherEvent.ForceUpdate::class)
+            events.getOrAwaitValue() shouldBe instanceOf(LauncherEvent.ShowUpdateDialog::class)
         }
     }
 }
