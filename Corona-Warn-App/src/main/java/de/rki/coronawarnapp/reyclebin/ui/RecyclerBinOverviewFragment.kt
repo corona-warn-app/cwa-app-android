@@ -40,5 +40,22 @@ class RecyclerBinOverviewFragment : Fragment(R.layout.recycler_bin_overview_frag
             binding.emptyListInfoContainer.isVisible = it.isEmpty()
             recyclerBinAdapter.update(it)
         }
+
+        viewModel.events.observe2(this) {
+            when (it) {
+                RecyclerBinEvent.ConfirmRemoveAll -> {
+                    // TODO implement dialogs
+                }
+                is RecyclerBinEvent.ConfirmRemoveItem -> {
+                    // TODO implement dialogs
+                    if (it.position != null) {
+                        recyclerBinAdapter.notifyItemChanged(it.position)
+                    }
+                }
+                is RecyclerBinEvent.ConfirmRestoreItem -> {
+                    // TODO implement dialogs
+                }
+            }
+        }
     }
 }

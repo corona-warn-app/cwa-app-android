@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.reyclebin.ui.adapter.RecoveryCertificateCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecyclerBinItem
 import de.rki.coronawarnapp.reyclebin.ui.adapter.TestCertificateCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.VaccinationCertificateCard
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.map
@@ -20,18 +21,44 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
     recycledItemsProvider: RecycledItemsProvider
 ) : CWAViewModel() {
 
+    val events = SingleLiveEvent<RecyclerBinEvent>()
+
     val listItems: LiveData<List<RecyclerBinItem>> = recycledItemsProvider.recycledCertificates.map { certificates ->
         val certificateItems = mutableListOf<RecyclerBinItem>().apply {
             certificates.forEach {
                 when (it) {
                     is TestCertificate -> add(
-                        TestCertificateCard.Item(certificate = it, onRemove = {}, onRestore = {})
+                        TestCertificateCard.Item(
+                            certificate = it,
+                            onRemove = { certificate, position ->
+                                events.postValue(RecyclerBinEvent.ConfirmRemoveItem(certificate, position))
+                            },
+                            onRestore = { certificate ->
+                                events.postValue(RecyclerBinEvent.ConfirmRestoreItem(certificate))
+                            }
+                        )
                     )
                     is VaccinationCertificate -> add(
-                        VaccinationCertificateCard.Item(certificate = it, onRemove = {}, onRestore = {})
+                        VaccinationCertificateCard.Item(
+                            certificate = it,
+                            onRemove = { certificate, position ->
+                                events.postValue(RecyclerBinEvent.ConfirmRemoveItem(certificate, position))
+                            },
+                            onRestore = { certificate ->
+                                events.postValue(RecyclerBinEvent.ConfirmRestoreItem(certificate))
+                            }
+                        )
                     )
                     is RecoveryCertificate -> add(
-                        RecoveryCertificateCard.Item(certificate = it, onRemove = {}, onRestore = {})
+                        RecoveryCertificateCard.Item(
+                            certificate = it,
+                            onRemove = { certificate, position ->
+                                events.postValue(RecyclerBinEvent.ConfirmRemoveItem(certificate, position))
+                            },
+                            onRestore = { certificate ->
+                                events.postValue(RecyclerBinEvent.ConfirmRestoreItem(certificate))
+                            }
+                        )
                     )
                 }
             }

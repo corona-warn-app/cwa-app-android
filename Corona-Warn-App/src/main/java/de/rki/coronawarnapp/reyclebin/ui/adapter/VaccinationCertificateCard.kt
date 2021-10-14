@@ -43,7 +43,7 @@ class VaccinationCertificateCard(parent: ViewGroup) :
 
         menuAction.setupMenu(R.menu.menu_recycler_bin_list_item) {
             when (it.itemId) {
-                R.id.menu_remove_permanently -> item.onRemove(item.certificate).let { true }
+                R.id.menu_remove_permanently -> item.onRemove(item.certificate, null).let { true }
                 R.id.menu_restore -> item.onRestore(item.certificate).let { true }
                 else -> false
             }
@@ -52,7 +52,7 @@ class VaccinationCertificateCard(parent: ViewGroup) :
 
     data class Item(
         val certificate: VaccinationCertificate,
-        val onRemove: (VaccinationCertificate) -> Unit,
+        val onRemove: (VaccinationCertificate, Int?) -> Unit,
         val onRestore: (VaccinationCertificate) -> Unit
     ) : RecyclerBinItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
@@ -61,7 +61,7 @@ class VaccinationCertificateCard(parent: ViewGroup) :
 
     override fun onSwipe(holder: RecyclerView.ViewHolder, direction: Int) {
         latestItem?.let {
-            it.onRemove(it.certificate)
+            it.onRemove(it.certificate, holder.absoluteAdapterPosition)
         }
     }
 }

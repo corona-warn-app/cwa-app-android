@@ -15,7 +15,8 @@ class RecoveryCertificateCard(parent: ViewGroup) :
     RecyclerBinAdapter.ItemVH<RecoveryCertificateCard.Item, RecyclerBinCertificateItemBinding>(
         layoutRes = R.layout.recycler_bin_certificate_item,
         parent = parent
-    ), Swipeable {
+    ),
+    Swipeable {
 
     private var latestItem: Item? = null
 
@@ -40,7 +41,7 @@ class RecoveryCertificateCard(parent: ViewGroup) :
 
         menuAction.setupMenu(R.menu.menu_recycler_bin_list_item) {
             when (it.itemId) {
-                R.id.menu_remove_permanently -> item.onRemove(item.certificate).let { true }
+                R.id.menu_remove_permanently -> item.onRemove(item.certificate, null).let { true }
                 R.id.menu_restore -> item.onRestore(item.certificate).let { true }
                 else -> false
             }
@@ -49,7 +50,7 @@ class RecoveryCertificateCard(parent: ViewGroup) :
 
     data class Item(
         val certificate: RecoveryCertificate,
-        val onRemove: (RecoveryCertificate) -> Unit,
+        val onRemove: (RecoveryCertificate, Int?) -> Unit,
         val onRestore: (RecoveryCertificate) -> Unit
     ) : RecyclerBinItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
@@ -58,7 +59,7 @@ class RecoveryCertificateCard(parent: ViewGroup) :
 
     override fun onSwipe(holder: RecyclerView.ViewHolder, direction: Int) {
         latestItem?.let {
-            it.onRemove(it.certificate)
+            it.onRemove(it.certificate, holder.absoluteAdapterPosition)
         }
     }
 }
