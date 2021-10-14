@@ -4,8 +4,7 @@ import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsCardsIncidenceLayoutBinding
 import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass
-import de.rki.coronawarnapp.statistics.GlobalStatsItem
-import de.rki.coronawarnapp.statistics.IncidenceStats
+import de.rki.coronawarnapp.statistics.IncidenceAndHospitalizationStats
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter
 import de.rki.coronawarnapp.statistics.util.formatStatisticalValue
 import de.rki.coronawarnapp.statistics.util.getContentDescriptionForTrends
@@ -13,8 +12,10 @@ import de.rki.coronawarnapp.statistics.util.getLocalizedSpannableString
 import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithLineBreak
 import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithTrailingSpace
 import de.rki.coronawarnapp.util.formatter.getPrimaryLabel
+import de.rki.coronawarnapp.util.formatter.getSecondaryLabel
+import org.joda.time.Instant
 
-class IncidenceCard(parent: ViewGroup) :
+class IncidenceAndHospitalizationCard(parent: ViewGroup) :
     StatisticsCardAdapter.ItemVH<GlobalStatisticsCardItem, HomeStatisticsCardsIncidenceLayoutBinding>(
         R.layout.home_statistics_cards_basecard_layout,
         parent
@@ -38,10 +39,10 @@ class IncidenceCard(parent: ViewGroup) :
             item.onClickListener(item.stats)
         }
 
-        with(item.stats as IncidenceStats) {
+        with(item.stats as IncidenceAndHospitalizationStats) {
 
             incidenceContainer.contentDescription =
-                buildAccessibilityStringForIncidenceCard(item.stats, sevenDayIncidence)
+                buildAccessibilityStringForIncidenceCard(item.stats, sevenDayIncidence, sevenDayIncidenceSecondary)
 
             primaryLabel.text = getPrimaryLabel(context)
             primaryValue.text = getLocalizedSpannableString(
@@ -61,13 +62,39 @@ class IncidenceCard(parent: ViewGroup) :
                 )
                 .append(getContentDescriptionForTrends(context, sevenDayIncidence.trend))
 
-            trendArrow.setTrend(sevenDayIncidence.trend, sevenDayIncidence.trendSemantic)
+            primaryTrendArrow.setTrend(sevenDayIncidence.trend, sevenDayIncidence.trendSemantic)
+
+            // Secondary
+            val secondaryLabelText = getSecondaryLabel(
+                context,
+                Instant.ofEpochSecond(sevenDayIncidenceSecondary.updatedAt)
+            )
+            secondaryLabel.text = secondaryLabelText
+            secondaryValue.text = getLocalizedSpannableString(
+                context,
+                formatStatisticalValue(context, sevenDayIncidenceSecondary.value, sevenDayIncidenceSecondary.decimals)
+            )
+
+            secondaryValue.contentDescription = StringBuilder()
+                .appendWithTrailingSpace(context.getString(R.string.statistics_explanation_seven_day_incidence_title))
+                .appendWithTrailingSpace(secondaryLabelText)
+                .appendWithTrailingSpace(
+                    formatStatisticalValue(
+                        context,
+                        sevenDayIncidenceSecondary.value,
+                        sevenDayIncidenceSecondary.decimals
+                    )
+                )
+                .append(getContentDescriptionForTrends(context, sevenDayIncidenceSecondary.trend))
+
+            secondaryTrendArrow.setTrend(sevenDayIncidenceSecondary.trend, sevenDayIncidenceSecondary.trendSemantic)
         }
     }
 
     private fun buildAccessibilityStringForIncidenceCard(
-        item: GlobalStatsItem,
-        sevenDayIncidence: KeyFigureCardOuterClass.KeyFigure
+        item: IncidenceAndHospitalizationStats,
+        sevenDayIncidence: KeyFigureCardOuterClass.KeyFigure,
+        sevenDayIncidenceSecondary: KeyFigureCardOuterClass.KeyFigure,
     ): StringBuilder {
 
         return StringBuilder()
@@ -83,6 +110,19 @@ class IncidenceCard(parent: ViewGroup) :
             )
             .appendWithTrailingSpace(context.getString(R.string.statistics_card_incidence_value_description))
             .appendWithLineBreak(getContentDescriptionForTrends(context, sevenDayIncidence.trend))
+            .appendWithLineBreak(context.getString(R.string.statistics_seven_day_hospitalization_card_title))
+            .appendWithTrailingSpace(
+                getSecondaryLabel(context, Instant.ofEpochSecond(sevenDayIncidenceSecondary.updatedAt))
+            )
+            .appendWithTrailingSpace(
+                formatStatisticalValue(
+                    context,
+                    sevenDayIncidenceSecondary.value,
+                    sevenDayIncidenceSecondary.decimals
+                )
+            )
+            .appendWithTrailingSpace(context.getString(R.string.statistics_seven_day_hospitalization_nationwide_text))
+            .appendWithLineBreak(getContentDescriptionForTrends(context, sevenDayIncidenceSecondary.trend))
             .append(context.getString(R.string.accessibility_statistics_card_navigation_information))
     }
 }

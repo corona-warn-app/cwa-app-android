@@ -4,13 +4,12 @@ import dagger.Reusable
 import de.rki.coronawarnapp.server.protocols.internal.stats.StatisticsOuterClass
 import de.rki.coronawarnapp.statistics.AppliedVaccinationRatesStats
 import de.rki.coronawarnapp.statistics.GlobalStatsItem
-import de.rki.coronawarnapp.statistics.IncidenceStats
+import de.rki.coronawarnapp.statistics.IncidenceAndHospitalizationStats
 import de.rki.coronawarnapp.statistics.InfectionStats
 import de.rki.coronawarnapp.statistics.KeySubmissionsStats
 import de.rki.coronawarnapp.statistics.OccupiedIntensiveCareStats
 import de.rki.coronawarnapp.statistics.PersonsVaccinatedCompletelyStats
 import de.rki.coronawarnapp.statistics.PersonsVaccinatedOnceStats
-import de.rki.coronawarnapp.statistics.SevenDayHospitalizationStats
 import de.rki.coronawarnapp.statistics.SevenDayRValue
 import de.rki.coronawarnapp.statistics.StatisticsData
 import org.joda.time.Instant
@@ -37,7 +36,10 @@ class StatisticsParser @Inject constructor() {
                 val keyFigures = rawCard.keyFiguresList
                 when (GlobalStatsItem.Type.values().singleOrNull { it.id == rawCard.header.cardId }) {
                     GlobalStatsItem.Type.INFECTION -> InfectionStats(updatedAt = updatedAt, keyFigures = keyFigures)
-                    GlobalStatsItem.Type.INCIDENCE -> IncidenceStats(updatedAt = updatedAt, keyFigures = keyFigures)
+                    GlobalStatsItem.Type.INCIDENCE_AND_HOSPITALIZATION -> IncidenceAndHospitalizationStats(
+                        updatedAt = updatedAt,
+                        keyFigures = keyFigures
+                    )
                     GlobalStatsItem.Type.KEYSUBMISSION -> KeySubmissionsStats(
                         updatedAt = updatedAt,
                         keyFigures = keyFigures
@@ -55,10 +57,6 @@ class StatisticsParser @Inject constructor() {
                         keyFigures = keyFigures
                     )
                     GlobalStatsItem.Type.APPLIED_VACCINATION_RATES -> AppliedVaccinationRatesStats(
-                        updatedAt = updatedAt,
-                        keyFigures = keyFigures
-                    )
-                    GlobalStatsItem.Type.SEVEN_DAY_HOSPITALIZATION -> SevenDayHospitalizationStats(
                         updatedAt = updatedAt,
                         keyFigures = keyFigures
                     )
