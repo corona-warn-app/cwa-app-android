@@ -35,11 +35,11 @@ class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragmen
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             newReleaseInfoNextButton.setOnClickListener {
-                vm.onNextButtonClick()
+                vm.onNextButtonClick(args.comesFromInfoScreen)
             }
 
             toolbar.setNavigationOnClickListener {
-                vm.onNextButtonClick()
+                vm.onNextButtonClick(args.comesFromInfoScreen)
             }
 
             headline.text = vm.title.get(requireContext())
@@ -55,7 +55,7 @@ class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragmen
 
         // Override android back button to bypass the infinite loop
         val backCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() = vm.onNextButtonClick()
+            override fun handleOnBackPressed() = vm.onNextButtonClick(args.comesFromInfoScreen)
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
