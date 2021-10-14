@@ -1,14 +1,13 @@
 package de.rki.coronawarnapp.update
 
-import android.content.Intent
-import android.net.Uri
+import androidx.annotation.VisibleForTesting
 import dagger.Reusable
-import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.CWAConfig
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationCorruptException
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withTimeout
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -19,7 +18,7 @@ class UpdateChecker @Inject constructor(
 
     suspend fun checkForUpdate(): Result = try {
         if (isUpdateNeeded()) {
-            Result(isUpdateNeeded = true, updateIntent = createUpdateAction())
+            Result(isUpdateNeeded = true)
         } else {
             Result(isUpdateNeeded = false)
         }
@@ -29,7 +28,7 @@ class UpdateChecker @Inject constructor(
             exception.localizedMessage
         )
 
-        Result(isUpdateNeeded = true, updateIntent = createUpdateAction())
+        Result(isUpdateNeeded = true)
     } catch (e: Exception) {
         Timber.tag(TAG).e(e, "Update check failed, network connection?")
         Result(isUpdateNeeded = false)
@@ -42,32 +41,33 @@ class UpdateChecker @Inject constructor(
 
         val currentVersion = BuildConfigWrap.VERSION_CODE
 
-        Timber.tag(TAG).d("minVersionFromServer:%s", minVersionFromServer)
-        Timber.tag(TAG).d("Current app version:%s", currentVersion)
-        val needsImmediateUpdate = VersionComparator.isVersionOlder(
-            currentVersion,
-            minVersionFromServer
-        )
-        Timber.tag(TAG).e("needs update:$needsImmediateUpdate")
-        return needsImmediateUpdate
+        Timber.tag(TAG).d("Config minVersionCode:%s", minVersionFromServer)
+        Timber.tag(TAG).d("App versionCode:%s", currentVersion)
+        val needsImmediateUpdate = VersionComparator.isVersionOlder(currentVersion, minVersionFromServer)
+        Timber.tag(TAG).d("Needs update:$needsImmediateUpdate")
+        return if (needsImmediateUpdate) assertUpdateIsNeeded() else needsImmediateUpdate
     }
 
-    private fun createUpdateAction(): () -> Intent = {
-        val uriStringInPlayStore = STORE_PREFIX + BuildConfig.APPLICATION_ID
-        Intent(Intent.ACTION_VIEW).apply {
-            data = Uri.parse(uriStringInPlayStore)
-            setPackage(COM_ANDROID_VENDING)
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal suspend fun assertUpdateIsNeeded(): Boolean {
+        val cwaAppConfig: CWAConfig = try {
+            withTimeout(UPDATE_CHECK_TIMEOUT) { appConfigProvider.getAppConfig() }
+        } catch (e: Exception) {
+            Timber.tag(TAG).d(e, "assertUpdateIsNeeded failed, rolling back to cached config")
+            appConfigProvider.currentConfig.first()
         }
+        val updateStillNeeded = VersionComparator.isVersionOlder(
+            BuildConfigWrap.VERSION_CODE,
+            cwaAppConfig.minVersionCode
+        )
+
+        Timber.tag(TAG).d("assertUpdateIsNeeded updateStillNeeded:$updateStillNeeded")
+        return updateStillNeeded
     }
 
-    data class Result(
-        val isUpdateNeeded: Boolean,
-        val updateIntent: (() -> Intent)? = null
-    )
-
+    data class Result(val isUpdateNeeded: Boolean)
     companion object {
-        private const val TAG: String = "UpdateChecker"
-        private const val STORE_PREFIX = "https://play.google.com/store/apps/details?id="
-        private const val COM_ANDROID_VENDING = "com.android.vending"
+        private const val UPDATE_CHECK_TIMEOUT = 5_000L
+        private const val TAG = "UpdateChecker"
     }
 }

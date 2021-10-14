@@ -937,7 +937,7 @@
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_suitable_qr_code_title">"No Suitable QR Code"</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_suitable_qr_code_body">"The QR code cannot be scanned by the Corona-Warn-App. Please select a file with a suitable QR code."</string>
+    <string name="qr_code_no_suitable_qr_code_body">"The QR code cannot be scanned by the Corona-Warn-App. Please select a suitable QR code."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
