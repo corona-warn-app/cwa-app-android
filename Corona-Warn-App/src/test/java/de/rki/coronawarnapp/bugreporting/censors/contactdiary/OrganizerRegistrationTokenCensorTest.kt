@@ -34,9 +34,9 @@ class OrganizerRegistrationTokenCensorTest {
 
         testRegistrationTokens.forEach {
             OrganizerRegistrationTokenCensor.addRegistrationToken(it)
-            val toCensor = "I'm a shy registrationToken: $it"
+            val toCensor = "I'm shy: $it"
             instance.checkLog(toCensor)!!
-                .compile()!!.censored shouldBe "I'm a shy registrationToken: ########-####-####-####-########${it.takeLast(3)}"
+                .compile()!!.censored shouldBe "I'm shy: ########-####-####-####-########${it.takeLast(3)}"
         }
     }
 

@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.notification.RATTestRes
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalScheduler
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.EnvironmentSetup
@@ -85,6 +86,7 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var dscCheckScheduler: DccStateCheckScheduler
     @MockK lateinit var securityProvider: SecurityProvider
     @MockK lateinit var boosterCheckScheduler: BoosterCheckScheduler
+    @MockK lateinit var vaccinationStorage: VaccinationStorage
 
     @ExperimentalCoroutinesApi
     @BeforeEach
@@ -148,6 +150,7 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.imageLoaderFactory = imageLoaderFactory
                 app.dccStateCheckScheduler = dscCheckScheduler
                 app.boosterCheckScheduler = boosterCheckScheduler
+                app.vaccinationStorage = vaccinationStorage
             }
         }
     }
