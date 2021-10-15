@@ -58,8 +58,6 @@ class RecycledItemsProviderTest : BaseTest() {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        every { vaccinationRepository.recycledCertificates } returns flowOf(setOf(vc))
-
         with(recoveryCertificateRepository) {
             every { recycledCertificates } returns flowOf(setOf(rc))
             coEvery { restoreCertificate(any()) } just Runs
@@ -120,10 +118,6 @@ class RecycledItemsProviderTest : BaseTest() {
 
     @Test
     fun deleteAllCertificate() = runBlockingTest {
-        val tcContainerId = mockk<TestCertificateContainerId>()
-        val vcContainerId = mockk<VaccinationCertificateContainerId>()
-        val rcContainerId = mockk<RecoveryCertificateContainerId>()
-
         provider().deleteAllCertificate(setOf(tcContainerId, vcContainerId, rcContainerId))
 
         coVerify(exactly = 1) {
