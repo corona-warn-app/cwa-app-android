@@ -11,7 +11,7 @@
     <!-- XTXT: My check-ins: First Description for list explanation when there are no check-ins -->
     <string name="trace_location_checkins_empty_description_1">Wenn Sie einen QR-Code scannen, um sich für ein Event oder einen Ort einzuchecken, wird automatisch ein Eintrag angelegt.</string>
     <!-- XTXT: My check-ins: Second Descriptiontrace_location_checkins_empty_description_2 for list explanation when there are no check-ins -->
-    <string name="trace_location_checkins_empty_description_2">"Scannen Sie den QR-Code des Zertifikats mit Hilfe des „Scannen“ Buttons in der unteren Navigationsleiste."</string>
+    <string name="trace_location_checkins_empty_description_2">"Scannen Sie den QR-Code des Events oder Orts mit Hilfe des „Scannen“ Buttons in der unteren Navigationsleiste."</string>
     <!-- XTXT: My check-ins: Accessibility description for empty check-ins illustration -->
     <string name="trace_location_checkins_empty_illustration_accessibility">Gebäude mit QR-Code-Symbol im Hintergrund.</string>
 

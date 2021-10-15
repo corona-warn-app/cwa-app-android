@@ -13,7 +13,8 @@
             "antigen_strings.xml",
             "vaccination_strings.xml",
             "green_certificate_strings.xml",
-            "covid_certificate_strings.xml"
+            "covid_certificate_strings.xml",
+            "notifications_strings.xml"
           ],
           "targetFolderPath": "../[langCode]"
         }
