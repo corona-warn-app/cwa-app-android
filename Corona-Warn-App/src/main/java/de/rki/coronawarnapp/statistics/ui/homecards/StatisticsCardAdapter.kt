@@ -19,7 +19,7 @@ import de.rki.coronawarnapp.statistics.ui.homecards.cards.GlobalStatisticsCardIt
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.IncidenceAndHospitalizationCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.InfectionsCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.KeySubmissionsCard
-import de.rki.coronawarnapp.statistics.ui.homecards.cards.LocalIncidenceCard
+import de.rki.coronawarnapp.statistics.ui.homecards.cards.LocalIncidenceAndHospitalizationCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.LocalStatisticsCardItem
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.OccupiedIntensiveCareCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.PersonsVaccinatedCompletelyCard
@@ -47,7 +47,7 @@ class StatisticsCardAdapter :
             TypedVHCreatorMod({
                 val item = data[it]
                 item is LocalStatisticsCardItem
-            }) { LocalIncidenceCard(it) },
+            }) { LocalIncidenceAndHospitalizationCard(it) },
             TypedVHCreatorMod({
                 val item = data[it]
                 item is GlobalStatisticsCardItem && item.stats is IncidenceAndHospitalizationStats
