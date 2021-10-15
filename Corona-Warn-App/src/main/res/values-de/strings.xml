@@ -164,7 +164,7 @@
     <!-- XHED: main, FAQ -->
     <string name="main_about_headline">"Häufige Fragen"</string>
     <!-- XTXT: main, explains faq on card -->
-    <string name="main_about_body">"Hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App. Sie werden auf eine externe Website der Bundesregierung weitergeleitet."</string>
+    <string name="main_about_body">"Hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App. Sie werden auf die externe Website coronawarn.app weitergeleitet."</string>
     <!-- XTXT: FAQ link, should be translated with https://www.coronawarn.app/en/faq/ for languages other than de -->
     <string name="main_about_link">"https://www.coronawarn.app/de/faq/"</string>
     <!-- XACT: Opens external webpage -->
@@ -912,7 +912,7 @@
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Abbrechen"</string>
 
     <!-- QR Code Scan Screen -->
-    <string name="qr_code_scan_title">"QR-Code Scan"</string>
+    <string name="qr_code_scan_title">"QR-Code-Scanner"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body">"Positionieren Sie den QR-Code in den Rahmen."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
@@ -1431,6 +1431,10 @@
     <string name="statistics_primary_value_current">"Aktuell"</string>
     <!-- XTXT: Until [date] refers to statistics timestamp in the past -->
     <string name="statistics_primary_value_until">"Bis %s"</string>
+    <!-- XTXT: Statistics primary value description -->
+    <string name="statistics_primary_value_description">"Neuinfektionen"</string>
+    <!-- XTXT: Statistics secondary value description -->
+    <string name="statistics_secondary_value_description">"Hospitalisierungen"</string>
 
     <!-- Explanation screen -->
     <!-- XHED: Explanation screen title -->

@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.test.core.app.launchActivity
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.google.android.play.core.appupdate.AppUpdateManager
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.main.CWASettings
@@ -36,6 +37,7 @@ class LauncherActivityTest : BaseUITest() {
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var onboardingSettings: OnboardingSettings
     @MockK lateinit var rootDetectionCheck: RootDetectionCheck
+    @MockK lateinit var appUpdateManager: AppUpdateManager
     lateinit var viewModel: LauncherActivityViewModel
 
     @Before
@@ -105,11 +107,12 @@ class LauncherActivityTest : BaseUITest() {
 
     private fun launcherActivityViewModel() = spyk(
         LauncherActivityViewModel(
-            updateChecker,
-            TestDispatcherProvider(),
-            cwaSettings,
-            onboardingSettings,
-            rootDetectionCheck
+            updateChecker = updateChecker,
+            dispatcherProvider = TestDispatcherProvider(),
+            cwaSettings = cwaSettings,
+            onboardingSettings = onboardingSettings,
+            rootDetectionCheck = rootDetectionCheck,
+            appUpdateManager = appUpdateManager
         )
     )
 }

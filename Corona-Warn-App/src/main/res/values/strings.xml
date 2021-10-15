@@ -939,7 +939,7 @@
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_suitable_qr_code_title">"No Suitable QR Code"</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_suitable_qr_code_body">"The QR code cannot be scanned by the Corona-Warn-App. Please select a file with a suitable QR code."</string>
+    <string name="qr_code_no_suitable_qr_code_body">"The QR code cannot be scanned by the Corona-Warn-App. Please select a suitable QR code."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
@@ -1430,6 +1430,10 @@
     <string name="statistics_primary_value_current">"Currently"</string>
     <!-- XTXT: Until [date] refers to statistics timestamp in the past -->
     <string name="statistics_primary_value_until">"Up to %s"</string>
+    <!-- XTXT: Statistics primary value description -->
+    <string name="statistics_primary_value_description">"Neuinfektionen"</string>
+    <!-- XTXT: Statistics secondary value description -->
+    <string name="statistics_secondary_value_description">"Hospitalisierungen"</string>
 
     <!-- Explanation screen -->
     <!-- XHED: Explanation screen title -->
