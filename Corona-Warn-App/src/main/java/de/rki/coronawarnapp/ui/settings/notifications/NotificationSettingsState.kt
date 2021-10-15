@@ -8,9 +8,9 @@ data class NotificationSettingsState(val isNotificationsEnabled: Boolean) {
      * Formats the settings notifications title display depending on notifications status
      */
     fun getNotificationsHeader(): Int = if (isNotificationsEnabled) {
-        R.string.nm_notification_enabled
-    } else {
         R.string.nm_notification_settings
+    } else {
+        R.string.nm_notification_enabled
     }
 
     /**

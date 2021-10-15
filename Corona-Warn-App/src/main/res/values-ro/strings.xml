@@ -937,7 +937,7 @@
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_suitable_qr_code_title">"Niciun cod QR potrivit"</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_suitable_qr_code_body">"Codul QR nu poate fi scanat de Corona-Warn-App. Selectați un fișier cu un cod QR potrivit."</string>
+    <string name="qr_code_no_suitable_qr_code_body">"Codul QR nu poate fi scanat de Corona-Warn-App. Selectați un cod QR potrivit."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
