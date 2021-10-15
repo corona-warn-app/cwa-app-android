@@ -116,4 +116,10 @@ class MockProvider {
     fun personCertificatesSettings(): PersonCertificatesSettings = mockk {
         every { currentCwaUser } returns mockFlowPreference(null)
     }
+
+    @Singleton
+    @Provides
+    fun contactDiaryRepository(): ContactDiaryRepository = mockk {
+        every { testResults } returns flowOf(emptyList())
+    }
 }
