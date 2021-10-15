@@ -23,11 +23,8 @@ class RecycleBinCleanUpScheduler @Inject constructor(
 
         foregroundState.isInForeground
             .distinctUntilChanged()
-            .filter { it }
-            .onEach {
-                Timber.d("Thread: ${Thread.currentThread().name}")
-                recycleBinCleanUpService.clearRecycledCertificates()
-            }
+            .filter { it } // Only when going into foreground
+            .onEach { recycleBinCleanUpService.clearRecycledCertificates() }
             .launchIn(appScope)
     }
 }
