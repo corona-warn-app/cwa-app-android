@@ -31,7 +31,6 @@ class TranslationsAssertTest : BaseTest() {
             .sortedBy { it.toString() }
             .toList()
 
-
         translationsFiles shouldBe fileNames
     }
 }
