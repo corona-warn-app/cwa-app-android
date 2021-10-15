@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.nearby.ExposureStateUpdateWorker
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOutWorker
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingWarningWorker
 import de.rki.coronawarnapp.presencetracing.storage.retention.TraceLocationDbCleanUpPeriodicWorker
+import de.rki.coronawarnapp.reyclebin.cleanup.RecycleBinCleanUpWorker
 import de.rki.coronawarnapp.submission.auto.SubmissionWorker
 
 @Module
@@ -142,5 +143,12 @@ abstract class WorkerBinder {
     @WorkerKey(BoosterCheckWorker::class)
     abstract fun boosterCheckWorker(
         factory: BoosterCheckWorker.Factory
+    ): InjectedWorkerFactory<out ListenableWorker>
+
+    @Binds
+    @IntoMap
+    @WorkerKey(RecycleBinCleanUpWorker::class)
+    abstract fun recycleBinCleanUpWorker(
+        factory: RecycleBinCleanUpWorker.Factory
     ): InjectedWorkerFactory<out ListenableWorker>
 }
