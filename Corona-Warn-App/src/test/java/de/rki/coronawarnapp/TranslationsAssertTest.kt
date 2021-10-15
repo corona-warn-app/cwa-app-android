@@ -12,7 +12,7 @@ class TranslationsAssertTest : BaseTest() {
     fun assertTranslationsFiles() {
         val translationsFiles = File("./src/main/res/values-de")
             .listFiles()
-            ?.filter { it.name.contains("strings.xml") && !it.name.contains("legal") && !it.name.contains("dairy") }
+            ?.filter { it.name.contains("strings.xml") && !it.name.contains("legal") }
             ?.map { it.name.substringAfterLast("/") }
             .orEmpty()
             .sortedBy { it }
