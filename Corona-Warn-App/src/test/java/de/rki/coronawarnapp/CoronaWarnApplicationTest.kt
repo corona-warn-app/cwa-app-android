@@ -22,7 +22,6 @@ import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingRiskWorkScheduler
 import de.rki.coronawarnapp.presencetracing.storage.retention.TraceLocationDbCleanUpScheduler
-import de.rki.coronawarnapp.reyclebin.AutoRecyclerBinCleaner
 import de.rki.coronawarnapp.risk.changedetection.CombinedRiskLevelChangeDetector
 import de.rki.coronawarnapp.risk.changedetection.EwRiskLevelChangeDetector
 import de.rki.coronawarnapp.risk.execution.ExposureWindowRiskWorkScheduler
