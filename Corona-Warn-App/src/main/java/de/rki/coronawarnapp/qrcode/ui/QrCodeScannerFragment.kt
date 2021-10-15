@@ -245,6 +245,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     private fun showRestoreDgcConfirmation(containerId: CertificateContainerId) {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.recycle_bin_restore_dgc_dialog_title)
+            .setCancelable(false)
             .setMessage(R.string.recycle_bin_restore_dgc_dialog_message)
             .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.restoreCertificate(containerId) }
             .show()
