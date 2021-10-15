@@ -85,7 +85,12 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
         val certWith32DaysOfRetention = createCert(32)
 
         every { recycledItemsProvider.recycledCertificates } returns flowOf(
-            setOf(certWith29DaysOfRetention, certWith30DaysOfRetention, certWith31DaysOfRetention, certWith32DaysOfRetention)
+            setOf(
+                certWith29DaysOfRetention,
+                certWith30DaysOfRetention,
+                certWith31DaysOfRetention,
+                certWith32DaysOfRetention
+            )
         )
 
         createInstance().clearRecycledCertificates()
