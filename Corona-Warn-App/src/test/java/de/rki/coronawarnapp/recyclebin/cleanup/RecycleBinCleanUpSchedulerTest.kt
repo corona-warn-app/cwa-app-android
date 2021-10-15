@@ -3,12 +3,16 @@ package de.rki.coronawarnapp.recyclebin.cleanup
 import de.rki.coronawarnapp.reyclebin.cleanup.RecycleBinCleanUpScheduler
 import de.rki.coronawarnapp.reyclebin.cleanup.RecycleBinCleanUpService
 import de.rki.coronawarnapp.util.device.ForegroundState
+import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.mockk.Called
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.just
+import io.mockk.runs
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.jupiter.api.BeforeEach
@@ -57,6 +61,30 @@ class RecycleBinCleanUpSchedulerTest : BaseTest() {
 
             coVerify(exactly = 1) { recycleBinCleanUpService.clearRecycledCertificates() }
 
+            isForeground.value = true
+            advanceUntilIdle()
+
+            coVerify(exactly = 2) { recycleBinCleanUpService.clearRecycledCertificates() }
+        }
+    }
+
+    @Test
+    fun `clean up errors won't break scheduling`() = runBlockingTest2(ignoreActive = true) {
+        coEvery { recycleBinCleanUpService.clearRecycledCertificates() } throws Exception("Test error")
+
+        createInstance(this).run {
+            setup()
+            advanceUntilIdle()
+
+            shouldNotThrowAny {
+                isForeground.value = true
+                advanceUntilIdle()
+            }
+
+            coEvery { recycleBinCleanUpService.clearRecycledCertificates() } just runs
+
+            isForeground.value = false
+            advanceUntilIdle()
             isForeground.value = true
             advanceUntilIdle()
 

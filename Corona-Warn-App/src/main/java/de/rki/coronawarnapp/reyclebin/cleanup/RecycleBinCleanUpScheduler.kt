@@ -24,7 +24,14 @@ class RecycleBinCleanUpScheduler @Inject constructor(
         foregroundState.isInForeground
             .distinctUntilChanged()
             .filter { it } // Only when going into foreground
-            .onEach { recycleBinCleanUpService.clearRecycledCertificates() }
+            .onEach { startCleanUpSafely() }
             .launchIn(appScope)
+    }
+
+    private suspend fun startCleanUpSafely(): Unit = try {
+        Timber.v("startCleanUpSafely()")
+        recycleBinCleanUpService.clearRecycledCertificates()
+    } catch (e: Throwable) {
+        Timber.e(e, "Clean up failed")
     }
 }
