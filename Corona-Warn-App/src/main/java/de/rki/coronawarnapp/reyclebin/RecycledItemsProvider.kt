@@ -32,7 +32,7 @@ class RecycledItemsProvider @Inject constructor(
             .sortedByDescending { it.recycledAt }
             .toSet()
             .also {
-                Timber.tag(TAG).d("recycledCertificates=%s", it)
+                Timber.tag(TAG).d("recycledCertificates=%s", it.size)
             }
     }
 
