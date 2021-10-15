@@ -10,7 +10,7 @@
     <!-- XTXT: My check-ins: First Description for list explanation when there are no check-ins -->
     <string name="trace_location_checkins_empty_description_1">"When you scan a QR code to check in to an event or place, an entry is created automatically."</string>
     <!-- XTXT: My check-ins: Second Descriptiontrace_location_checkins_empty_description_2 for list explanation when there are no check-ins -->
-    <string name="trace_location_checkins_empty_description_2">"To scan the QR code of the certificate, use the “Scan” button in the lower navigation bar."</string>
+    <string name="trace_location_checkins_empty_description_2">"To scan the QR code of the event or location, use the “Scan” button in the lower navigation bar."</string>
     <!-- XTXT: My check-ins: Accessibility description for empty check-ins illustration -->
     <string name="trace_location_checkins_empty_illustration_accessibility">"A building with a QR code symbol in the background."</string>
 
