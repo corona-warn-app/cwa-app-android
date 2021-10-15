@@ -1,37 +1,20 @@
 package de.rki.coronawarnapp.reyclebin.cleanup
 
-import androidx.work.BackoffPolicy
-import androidx.work.ExistingWorkPolicy
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
-import dagger.Reusable
-import de.rki.coronawarnapp.worker.BackgroundConstants
+import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.device.ForegroundState
+import kotlinx.coroutines.CoroutineScope
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@Reusable
+@Singleton
 class RecycleBinCleanUpScheduler @Inject constructor(
-    private val workManager: WorkManager
+    @AppScope private val appScope: CoroutineScope,
+    private val foregroundState: ForegroundState,
+    private val recycleBinCleanUpService: RecycleBinCleanUpService
 ) {
 
     fun setup() {
         Timber.d("setup()")
-        scheduleOneTimeWorker()
     }
-
-    private fun scheduleOneTimeWorker() {
-        Timber.v("Setting up one time worker for recycle bin clean up")
-        workManager.enqueueUniqueWork(UNIQUE_WORKER_NAME, ExistingWorkPolicy.KEEP, buildWorkRequest())
-    }
-
-    private fun buildWorkRequest() = OneTimeWorkRequestBuilder<RecycleBinCleanUpWorker>()
-        .setBackoffCriteria(
-            BackoffPolicy.LINEAR,
-            BackgroundConstants.KIND_DELAY,
-            TimeUnit.MINUTES
-        )
-        .build()
 }
-
-private const val UNIQUE_WORKER_NAME = "BoosterCheckWorker"
