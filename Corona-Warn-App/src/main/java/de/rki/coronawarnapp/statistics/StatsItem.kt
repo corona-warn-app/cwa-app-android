@@ -25,7 +25,7 @@ data class StatisticsData(
 }
 
 data class LocalStatisticsData(
-    val items: List<LocalIncidenceStats> = emptyList()
+    val items: List<LocalIncidenceAndHospitalizationStats> = emptyList()
 ) {
     val isDataAvailable: Boolean = items.isNotEmpty()
 
@@ -126,19 +126,26 @@ data class IncidenceAndHospitalizationStats(
     }
 }
 
-data class LocalIncidenceStats(
+data class LocalIncidenceAndHospitalizationStats(
     override val updatedAt: Instant,
     override val keyFigures: List<KeyFigure>,
+    val hospitalizationUpdatedAt: Instant,
     val selectedLocation: SelectedStatisticsLocation,
 ) : LocalStatsItem(cardType = Type.LOCAL_INCIDENCE) {
 
     val sevenDayIncidence: KeyFigure
         get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }
 
+    val sevenDayHospitalization: KeyFigure
+        get() = keyFigures.single { it.rank == KeyFigure.Rank.SECONDARY }
+
     override fun requireValidity() {
-        require(keyFigures.size == 1)
+        require(keyFigures.isNotEmpty())
         requireNotNull(keyFigures.singleOrNull { it.rank == KeyFigure.Rank.PRIMARY }) {
-            Timber.w("IncidenceStats is missing primary value")
+            Timber.w("LocalIncidenceAndHospitalizationStats is missing primary value")
+        }
+        requireNotNull(keyFigures.singleOrNull { it.rank == KeyFigure.Rank.SECONDARY }) {
+            Timber.w("LocalIncidenceAndHospitalizationStats is missing secondary value")
         }
     }
 }

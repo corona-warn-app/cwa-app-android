@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.statistics.local.source
 import dagger.Reusable
 import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass.KeyFigure
 import de.rki.coronawarnapp.server.protocols.internal.stats.LocalStatisticsOuterClass
-import de.rki.coronawarnapp.statistics.LocalIncidenceStats
+import de.rki.coronawarnapp.statistics.LocalIncidenceAndHospitalizationStats
 import de.rki.coronawarnapp.statistics.LocalStatisticsData
 import de.rki.coronawarnapp.statistics.local.storage.LocalStatisticsConfigStorage
 import de.rki.coronawarnapp.statistics.local.storage.SelectedStatisticsLocation
@@ -21,20 +21,27 @@ class LocalStatisticsParser @Inject constructor(
         val activeSelections = localStatisticsConfigStorage.activeSelections.value.locations
 
         val states = activeSelections.filterIsInstance<SelectedStatisticsLocation.SelectedFederalState>()
+        parsed.federalStateDataList.size
 
         val mappedFederalState = parsed.federalStateDataList.mapNotNull { rawState ->
             try {
-                val updatedAt = Instant.ofEpochSecond(rawState.updatedAt)
-                val federalStateKeyFigure = rawState.sevenDayIncidence.toKeyFigure()
-
+                val incidenceUpdatedAt = Instant.ofEpochSecond(rawState.updatedAt)
+                val federalStateLocalIncidenceKeyFigure = rawState.sevenDayIncidence.toKeyFigure()
+                val federalStateLocalHospitalizationKeyFigure =
+                    rawState.sevenDayHospitalizationIncidence.toKeyFigure(rank = KeyFigure.Rank.SECONDARY)
+                val hospitalizationUpdatedAt = Instant.ofEpochSecond(rawState.sevenDayHospitalizationIncidenceUpdatedAt)
                 val selectedFederalState = states.firstOrNull {
                     it.federalState.name == rawState.federalState.name
                 }
 
                 if (selectedFederalState != null) {
-                    LocalIncidenceStats(
-                        updatedAt = updatedAt,
-                        keyFigures = listOf(federalStateKeyFigure),
+                    LocalIncidenceAndHospitalizationStats(
+                        updatedAt = incidenceUpdatedAt,
+                        keyFigures = listOf(
+                            federalStateLocalIncidenceKeyFigure,
+                            federalStateLocalHospitalizationKeyFigure
+                        ),
+                        hospitalizationUpdatedAt = hospitalizationUpdatedAt,
                         selectedLocation = selectedFederalState
                     ).also {
                         Timber.tag(TAG).v("Parsed %s", it.toString().replace("\n", ", "))
@@ -71,13 +78,33 @@ class LocalStatisticsParser @Inject constructor(
                 }
 
                 if (selectedDistrict != null) {
-                    LocalIncidenceStats(
-                        updatedAt = updatedAt,
-                        keyFigures = listOf(administrativeUnitIncidenceKeyFigure),
-                        selectedLocation = selectedDistrict
-                    ).also {
-                        Timber.tag(TAG).v("Parsed %s", it.toString().replace("\n", ", "))
-                        it.requireValidity()
+                    val shortFederalStateName = selectedDistrict.district.federalStateShortName
+                    val federalStateOfDistrict = parsed.federalStateDataList.firstOrNull { state ->
+                        shortFederalStateName == state.federalState.name
+                            .substringAfterLast('_')
+                            .run { "${first()}${last()}" }
+                    }
+                    if (federalStateOfDistrict != null) {
+                        val administrativeUnitHospitalizationKeyFigure =
+                            federalStateOfDistrict.sevenDayHospitalizationIncidence.toKeyFigure(
+                                KeyFigure.Rank.SECONDARY
+                            )
+                        val hospitalizationUpdatedAt =
+                            Instant.ofEpochSecond(federalStateOfDistrict.sevenDayHospitalizationIncidenceUpdatedAt)
+                        LocalIncidenceAndHospitalizationStats(
+                            updatedAt = updatedAt,
+                            keyFigures = listOf(
+                                administrativeUnitIncidenceKeyFigure,
+                                administrativeUnitHospitalizationKeyFigure
+                            ),
+                            hospitalizationUpdatedAt = hospitalizationUpdatedAt,
+                            selectedLocation = selectedDistrict
+                        ).also {
+                            Timber.tag(TAG).v("Parsed %s", it.toString().replace("\n", ", "))
+                            it.requireValidity()
+                        }
+                    } else {
+                        throw IllegalStateException("Could not determine federal state of selected district")
                     }
                 } else {
                     Timber.tag(TAG).v(
@@ -87,7 +114,7 @@ class LocalStatisticsParser @Inject constructor(
                     null
                 }
             } catch (e: Exception) {
-                Timber.tag(TAG).e("Failed to parse raw federal state: %s", rawState)
+                Timber.tag(TAG).e("Failed to parse raw administrative unit: %s", rawState)
                 null
             }
         }
@@ -111,9 +138,14 @@ class LocalStatisticsParser @Inject constructor(
                 KeyFigure.TrendSemantic.UNRECOGNIZED
         }
 
-    private fun LocalStatisticsOuterClass.SevenDayIncidenceData.toKeyFigure(): KeyFigure =
+    /** For Local Statistics, ProtoBuf doesn't distinguish
+     * between PRIMARY and SECONDARY keyfigures rank so we have to manually do it here
+     */
+    private fun LocalStatisticsOuterClass.SevenDayIncidenceData.toKeyFigure(
+        rank: KeyFigure.Rank = KeyFigure.Rank.PRIMARY
+    ): KeyFigure =
         KeyFigure.newBuilder()
-            .setRank(KeyFigure.Rank.PRIMARY)
+            .setRank(rank)
             .setValue(value)
             .setDecimals(1)
             .setTrend(trend)
