@@ -7,7 +7,7 @@ typealias DialogAction = () -> Unit
 
 object RecycleBinDialogHelper {
 
-    fun showRemoveAllDialog(
+    fun showRemoveAllConfirmationDialog(
         fragment: Fragment,
         positiveButtonAction: DialogAction,
         negativeButtonAction: DialogAction = { },
