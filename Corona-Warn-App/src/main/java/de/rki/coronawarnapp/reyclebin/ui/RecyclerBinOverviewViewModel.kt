@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.reyclebin.ui
 import androidx.lifecycle.LiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
@@ -12,18 +13,24 @@ import de.rki.coronawarnapp.reyclebin.ui.adapter.RecoveryCertificateCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecyclerBinItem
 import de.rki.coronawarnapp.reyclebin.ui.adapter.TestCertificateCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.VaccinationCertificateCard
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 
 class RecyclerBinOverviewViewModel @AssistedInject constructor(
-    recycledItemsProvider: RecycledItemsProvider
-) : CWAViewModel() {
+    dispatcherProvider: DispatcherProvider,
+    private val recycledItemsProvider: RecycledItemsProvider
+) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val events = SingleLiveEvent<RecyclerBinEvent>()
 
-    val listItems: LiveData<List<RecyclerBinItem>> = recycledItemsProvider.recycledCertificates.map { certificates ->
+    private val recycledCertificates = recycledItemsProvider.recycledCertificates
+
+    val listItems: LiveData<List<RecyclerBinItem>> = recycledCertificates.map { certificates ->
         val certificateItems = mutableListOf<RecyclerBinItem>().apply {
             certificates.forEach {
                 when (it) {
@@ -31,7 +38,7 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
                         TestCertificateCard.Item(
                             certificate = it,
                             onRemove = { certificate, position ->
-                                events.postValue(RecyclerBinEvent.ConfirmRemoveItem(certificate, position))
+                                events.postValue(RecyclerBinEvent.RemoveItem(certificate, position))
                             },
                             onRestore = { certificate ->
                                 events.postValue(RecyclerBinEvent.ConfirmRestoreItem(certificate))
@@ -42,7 +49,7 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
                         VaccinationCertificateCard.Item(
                             certificate = it,
                             onRemove = { certificate, position ->
-                                events.postValue(RecyclerBinEvent.ConfirmRemoveItem(certificate, position))
+                                events.postValue(RecyclerBinEvent.RemoveItem(certificate, position))
                             },
                             onRestore = { certificate ->
                                 events.postValue(RecyclerBinEvent.ConfirmRestoreItem(certificate))
@@ -53,7 +60,7 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
                         RecoveryCertificateCard.Item(
                             certificate = it,
                             onRemove = { certificate, position ->
-                                events.postValue(RecyclerBinEvent.ConfirmRemoveItem(certificate, position))
+                                events.postValue(RecyclerBinEvent.RemoveItem(certificate, position))
                             },
                             onRestore = { certificate ->
                                 events.postValue(RecyclerBinEvent.ConfirmRestoreItem(certificate))
@@ -69,6 +76,22 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
             emptyList()
         }
     }.asLiveData2()
+
+    fun onRemoveAllItemsConfirmation() = launch {
+        Timber.d("onRemoveAllItemsConfirmation()")
+        val itemToDelete = recycledCertificates.first().map { it.containerId }
+        recycledItemsProvider.deleteAllCertificate(itemToDelete)
+    }
+
+    fun onRemoveItem(item: CwaCovidCertificate) = launch {
+        Timber.d("onRemoveSingleItemConfirmation(item=%s)", item)
+        recycledItemsProvider.deleteCertificate(item.containerId)
+    }
+
+    fun onRestoreConfirmation(item: CwaCovidCertificate) = launch {
+        Timber.d("onRestoreConfirmation(item=%s)", item)
+        recycledItemsProvider.restoreCertificate(item.containerId)
+    }
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<RecyclerBinOverviewViewModel>

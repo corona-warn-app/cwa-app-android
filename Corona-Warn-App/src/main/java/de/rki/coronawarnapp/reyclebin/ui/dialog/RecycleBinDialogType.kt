@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.R
 sealed class RecycleBinDialogType {
     abstract val config: RecycleBinDialogFragment.Config
 
-    object RemoveAllConfirmation : RecycleBinDialogType() {
+    object RemoveAllItemsConfirmation : RecycleBinDialogType() {
         override val config: RecycleBinDialogFragment.Config
             get() = RecycleBinDialogFragment.Config(
                 titleRes = R.string.recycle_bin_remove_all_dialog_title,

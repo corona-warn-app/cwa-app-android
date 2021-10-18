@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.RecyclerBinOverviewFragmentBinding
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecyclerBinAdapter
+import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
+import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.setupSwipe
 import de.rki.coronawarnapp.util.lists.diffutil.update
@@ -43,18 +45,17 @@ class RecyclerBinOverviewFragment : Fragment(R.layout.recycler_bin_overview_frag
 
         viewModel.events.observe2(this) {
             when (it) {
-                RecyclerBinEvent.ConfirmRemoveAll -> {
-                    // TODO implement dialogs
-                }
-                is RecyclerBinEvent.ConfirmRemoveItem -> {
-                    // TODO implement dialogs
-                    if (it.position != null) {
-                        recyclerBinAdapter.notifyItemChanged(it.position)
-                    }
-                }
-                is RecyclerBinEvent.ConfirmRestoreItem -> {
-                    // TODO implement dialogs
-                }
+                RecyclerBinEvent.ConfirmRemoveAll -> RecycleBinDialogType.RemoveAllItemsConfirmation.show(
+                    fragment = this,
+                    positiveButtonAction = { viewModel.onRemoveAllItemsConfirmation() }
+                )
+
+                is RecyclerBinEvent.RemoveItem -> viewModel.onRemoveItem(it.item)
+
+                is RecyclerBinEvent.ConfirmRestoreItem -> RecycleBinDialogType.RestoreCertificateConfirmation.show(
+                    fragment = this,
+                    positiveButtonAction = { viewModel.onRestoreConfirmation(it.item) }
+                )
             }
         }
     }
