@@ -68,13 +68,15 @@ class OrganizerPlaybook @Inject constructor(
     ): String {
         Timber.i("[$uid] New Initial Registration Playbook")
 
+        OrganizerRegistrationTokenCensor.addRegistrationRequestToCensor(tokenRequest)
+
         // Real registration token
         val (registrationToken, registrationException) = executeCapturingExceptions {
             verificationServer.retrieveRegistrationToken(tokenRequest)
         }
 
         if (registrationToken != null) {
-            OrganizerRegistrationTokenCensor.addRegistrationToken(registrationToken)
+            OrganizerRegistrationTokenCensor.addTan(registrationToken)
         }
 
         // if the registration succeeded continue with the real upload TAN retrieval
@@ -85,6 +87,8 @@ class OrganizerPlaybook @Inject constructor(
             ignoreExceptions { verificationServer.retrieveTanFake() }
             null to null
         }
+
+        uploadTan?.let { OrganizerRegistrationTokenCensor.addTan(it) }
 
         // fake submission
         ignoreExceptions { submissionServer.submitFakePayload() }

@@ -58,11 +58,12 @@ class RecycledItemsProvider @Inject constructor(
         }
     }
 
-    suspend fun deleteAllCertificate(containerIds: Set<CertificateContainerId>) {
+    suspend fun deleteAllCertificate(containerIds: Collection<CertificateContainerId>) {
         Timber.tag(TAG).d("deleteAllCertificate(containerIds=%s)", containerIds)
-        containerIds.forEach { containerId ->
-            deleteCertificate(containerId)
-        }
+        containerIds.toSet()
+            .forEach { containerId ->
+                deleteCertificate(containerId)
+            }
     }
 
     companion object {
