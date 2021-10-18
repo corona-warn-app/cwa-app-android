@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.reyclebin.ui.dialog
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.annotation.StringRes
@@ -23,7 +24,6 @@ class RecycleBinDialogFragment : DialogFragment() {
                 .setMessage(msgRes)
                 .setPositiveButton(positiveButtonRes) { _, _ -> setAction(Action.PositiveButtonClicked) }
                 .setNegativeButton(negativeButtonRes) { _, _ -> setAction(Action.NegativeButtonClicked) }
-                .setOnDismissListener { setAction(Action.Dismissed) }
                 .create()
         }
     }
@@ -31,6 +31,11 @@ class RecycleBinDialogFragment : DialogFragment() {
     private fun setAction(action: Action) {
         Timber.d("setAction(action=%s)", action)
         setFragmentResult(REQUEST_KEY, bundleOf(PARAM_DIALOG_ACTION to action))
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        setAction(Action.Dismissed)
+        super.onDismiss(dialog)
     }
 
     enum class Action {
