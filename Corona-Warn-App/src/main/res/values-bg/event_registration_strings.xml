@@ -10,7 +10,7 @@
     <!-- XTXT: My check-ins: First Description for list explanation when there are no check-ins -->
     <string name="trace_location_checkins_empty_description_1">"Създаването на запис се извършва автоматично, когато сканирате QR код, за да се регистрирате на дадено събитие или място."</string>
     <!-- XTXT: My check-ins: Second Descriptiontrace_location_checkins_empty_description_2 for list explanation when there are no check-ins -->
-    <string name="trace_location_checkins_empty_description_2">"За да сканирате QR кода на сертификата, използвайте бутона \"Сканиране\", който се намира на долната лента за навигация."</string>
+    <string name="trace_location_checkins_empty_description_2">"За да сканирате QR кода на събитието или местоположението, използвайте бутона \"Сканиране\", който се намира на долната лента за навигация."</string>
     <!-- XTXT: My check-ins: Accessibility description for empty check-ins illustration -->
     <string name="trace_location_checkins_empty_illustration_accessibility">"Сграда, на чийто фон се вижда символ за QR код"</string>
 
