@@ -26,9 +26,14 @@ class RecycledItemsProvider @Inject constructor(
         testCertificateRepository.recycledCertificates,
         recoveryCertificateRepository.recycledCertificates
     ) { recycledVacCerts, recycledTestCerts, recycledRecCerts ->
-        recycledVacCerts.plus(recycledTestCerts).plus(recycledRecCerts).also {
-            Timber.tag(TAG).d("recycledCertificates=%s", it)
-        }
+        recycledVacCerts
+            .plus(recycledTestCerts)
+            .plus(recycledRecCerts)
+            .sortedByDescending { it.recycledAt }
+            .toSet()
+            .also {
+                Timber.tag(TAG).d("recycledCertificates=%s", it.size)
+            }
     }
 
     /**
