@@ -9,9 +9,39 @@ sealed class RecycleBinDialogType {
         override val config: RecycleBinDialogFragment.Config
             get() = RecycleBinDialogFragment.Config(
                 titleRes = R.string.recycle_bin_remove_all_dialog_title,
-                msgRes = R.string.recycle_bin_remove_all_dialog__message,
-                positiveButtonRes = R.string.recycle_bin_remove_all_dialog__positive_button,
-                negativeButtonRes = R.string.recycle_bin_remove_all_dialog__negative_button
+                msgRes = R.string.recycle_bin_remove_all_dialog_message,
+                positiveButtonRes = R.string.recycle_bin_remove_all_dialog_positive_button,
+                negativeButtonRes = R.string.recycle_bin_remove_all_dialog_negative_button
+            )
+    }
+
+    object RecycleCertificateConfirmation : RecycleBinDialogType() {
+        override val config: RecycleBinDialogFragment.Config
+            get() = RecycleBinDialogFragment.Config(
+                titleRes = R.string.recycle_bin_recycle_certificate_dialog_title,
+                msgRes = R.string.recycle_bin_recycle_certificate_dialog_message,
+                positiveButtonRes = R.string.recycle_bin_recycle_certificate_dialog_positive_button,
+                negativeButtonRes = R.string.recycle_bin_recycle_certificate_dialog_negative_button
+            )
+    }
+
+    object RestoreCertificateConfirmation : RecycleBinDialogType() {
+        override val config: RecycleBinDialogFragment.Config
+            get() = RecycleBinDialogFragment.Config(
+                titleRes = R.string.recycle_bin_restore_certificate_dialog_title,
+                msgRes = R.string.recycle_bin_restore_certificate_dialog_message,
+                positiveButtonRes = R.string.recycle_bin_restore_certificate_dialog_positive_button,
+                negativeButtonRes = R.string.recycle_bin_restore_certificate_dialog_negative_button
+            )
+    }
+
+    object RestoreTestConfirmation : RecycleBinDialogType() {
+        override val config: RecycleBinDialogFragment.Config
+            get() = RecycleBinDialogFragment.Config(
+                titleRes = R.string.recycle_bin_restore_test_dialog_title,
+                msgRes = R.string.recycle_bin_restore_test_dialog_message,
+                positiveButtonRes = R.string.recycle_bin_restore_test_dialog_positive_button,
+                negativeButtonRes = R.string.recycle_bin_restore_test_dialog_negative_button
             )
     }
 }
