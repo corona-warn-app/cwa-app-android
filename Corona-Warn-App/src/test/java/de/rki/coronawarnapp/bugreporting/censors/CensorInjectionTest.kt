@@ -77,6 +77,7 @@ class MockProvider {
         every { personEncounters } returns flowOf(emptyList())
         every { locations } returns flowOf(emptyList())
         every { locationVisits } returns flowOf(emptyList())
+        every { testResults } returns flowOf(emptyList())
     }
 
     @Singleton
@@ -115,11 +116,5 @@ class MockProvider {
     @Provides
     fun personCertificatesSettings(): PersonCertificatesSettings = mockk {
         every { currentCwaUser } returns mockFlowPreference(null)
-    }
-
-    @Singleton
-    @Provides
-    fun contactDiaryRepository(): ContactDiaryRepository = mockk {
-        every { testResults } returns flowOf(emptyList())
     }
 }
