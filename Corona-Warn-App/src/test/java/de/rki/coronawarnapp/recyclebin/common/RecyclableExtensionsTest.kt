@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.recyclebin.common
 
 import de.rki.coronawarnapp.reyclebin.common.Recyclable
-import de.rki.coronawarnapp.reyclebin.common.retentionDaysInRecycleBin
+import de.rki.coronawarnapp.reyclebin.common.retentionTimeInRecycleBin
 import io.kotest.matchers.shouldBe
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -24,15 +24,15 @@ class RecyclableExtensionsTest : BaseTest() {
     @Test
     fun `Not recycled returns 0`() {
         recyclable.recycledAt shouldBe null
-        recyclable.retentionDaysInRecycleBin(now) shouldBe 0
+        recyclable.retentionTimeInRecycleBin(now) shouldBe 0
     }
 
     @Test
     fun `Days in retention calculation with ms precision`() {
         recyclable.recycledAt = Instant.parse("2021-10-11T12:00:00.001Z")
-        recyclable.retentionDaysInRecycleBin(now) shouldBe 1
+        recyclable.retentionTimeInRecycleBin(now) shouldBe 1
 
         recyclable.recycledAt = Instant.parse("2021-10-11T12:00:00.000Z")
-        recyclable.retentionDaysInRecycleBin(now) shouldBe 2
+        recyclable.retentionTimeInRecycleBin(now) shouldBe 2
     }
 }

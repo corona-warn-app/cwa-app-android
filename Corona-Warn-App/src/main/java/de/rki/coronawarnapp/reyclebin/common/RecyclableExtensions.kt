@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.reyclebin.common
 
-import org.joda.time.Days
+import org.joda.time.Duration
 import org.joda.time.Instant
 
-fun Recyclable.retentionDaysInRecycleBin(now: Instant): Int = recycledAt?.let { Days.daysBetween(it, now).days } ?: 0
+fun Recyclable.retentionTimeInRecycleBin(now: Instant): Duration =
+    recycledAt?.let { Duration(it, now) } ?: Duration.ZERO
