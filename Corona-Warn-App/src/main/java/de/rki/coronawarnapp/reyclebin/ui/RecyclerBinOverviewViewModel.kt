@@ -77,6 +77,11 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
         }
     }.asLiveData2()
 
+    fun onRemoveAllItemsClicked() {
+        Timber.d("onRemoveAllItemsClicked()")
+        events.postValue(RecyclerBinEvent.ConfirmRemoveAll)
+    }
+
     fun onRemoveAllItemsConfirmation() = launch {
         Timber.d("onRemoveAllItemsConfirmation()")
         val itemToDelete = recycledCertificates.first().map { it.containerId }

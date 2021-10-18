@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.reyclebin.ui
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -31,7 +32,11 @@ class RecyclerBinOverviewFragment : Fragment(R.layout.recycler_bin_overview_frag
         val recyclerBinAdapter = RecyclerBinAdapter()
 
         with(binding) {
-            toolbar.setNavigationOnClickListener { popBackStack() }
+            toolbar.apply {
+                setNavigationOnClickListener { popBackStack() }
+                setOnMenuItemClickListener { onMenuItemClicked(it) }
+            }
+
             recyclerBinList.apply {
                 adapter = recyclerBinAdapter
                 setupSwipe(context = requireContext())
@@ -43,20 +48,28 @@ class RecyclerBinOverviewFragment : Fragment(R.layout.recycler_bin_overview_frag
             recyclerBinAdapter.update(it)
         }
 
-        viewModel.events.observe2(this) {
-            when (it) {
-                RecyclerBinEvent.ConfirmRemoveAll -> RecycleBinDialogType.RemoveAllItemsConfirmation.show(
-                    fragment = this,
-                    positiveButtonAction = { viewModel.onRemoveAllItemsConfirmation() }
-                )
+        viewModel.events.observe2(this) { handleRecyclerEvent(it) }
+    }
 
-                is RecyclerBinEvent.RemoveItem -> viewModel.onRemoveItem(it.item)
+    private fun handleRecyclerEvent(event: RecyclerBinEvent): Unit = when (event) {
+        RecyclerBinEvent.ConfirmRemoveAll -> RecycleBinDialogType.RemoveAllItemsConfirmation.show(
+            fragment = this,
+            positiveButtonAction = { viewModel.onRemoveAllItemsConfirmation() }
+        )
 
-                is RecyclerBinEvent.ConfirmRestoreItem -> RecycleBinDialogType.RestoreCertificateConfirmation.show(
-                    fragment = this,
-                    positiveButtonAction = { viewModel.onRestoreConfirmation(it.item) }
-                )
-            }
+        is RecyclerBinEvent.RemoveItem -> viewModel.onRemoveItem(event.item)
+
+        is RecyclerBinEvent.ConfirmRestoreItem -> RecycleBinDialogType.RestoreCertificateConfirmation.show(
+            fragment = this,
+            positiveButtonAction = { viewModel.onRestoreConfirmation(event.item) }
+        )
+    }
+
+    private fun onMenuItemClicked(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.menu_remove_all -> {
+            viewModel.onRemoveAllItemsClicked()
+            true
         }
+        else -> onOptionsItemSelected(item)
     }
 }
