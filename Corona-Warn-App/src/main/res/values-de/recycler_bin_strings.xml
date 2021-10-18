@@ -36,4 +36,13 @@
     <!-- XTXT: Recycle Bin - remove permanently -->
     <string name="recycle_bin_remove_permanently">"Endgültig entfernen"</string>
 
+    <!-- Recycle bin remove all dialog-->
+    <!-- XHED: Recycle Bin - remove all dialog title -->
+    <string name="recycle_bin_remove_all_dialog_title">"Wollen Sie den Inhalt des Papierkorbs wirklich entfernen?"</string>
+    <!-- XTXT: Recycle Bin - remove all dialog message -->
+    <string name="recycle_bin_remove_all_dialog__message">"Dieser kann dann nicht wiederhergestellt werden."</string>
+    <!-- XBUT: Recycle Bin - remove all dialog positive button -->
+    <string name="recycle_bin_remove_all_dialog__positive_button">"Entfernen"</string>
+    <!-- XBUT: Recycle Bin - remove all dialog negative button -->
+    <string name="recycle_bin_remove_all_dialog__negative_button">"Abbrechen"</string>
 </resources>
