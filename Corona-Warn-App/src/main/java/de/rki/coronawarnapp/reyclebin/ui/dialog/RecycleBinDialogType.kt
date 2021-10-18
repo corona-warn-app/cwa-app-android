@@ -2,6 +2,10 @@ package de.rki.coronawarnapp.reyclebin.ui.dialog
 
 import de.rki.coronawarnapp.R
 
+/**
+ * Use the extension [RecycleBinDialogType.show] to display a dialog
+ * e.g. RecycleBinDialogType.RemoveAllConfirmation.show(...)
+ */
 sealed class RecycleBinDialogType {
     abstract val config: RecycleBinDialogFragment.Config
 

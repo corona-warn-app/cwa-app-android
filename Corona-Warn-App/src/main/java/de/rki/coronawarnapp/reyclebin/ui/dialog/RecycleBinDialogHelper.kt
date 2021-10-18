@@ -4,6 +4,9 @@ import androidx.fragment.app.Fragment
 
 typealias DialogAction = () -> Unit
 
+/**
+ * Display the dialog and register actions for button clicks or dismissal
+ */
 fun RecycleBinDialogType.show(
     fragment: Fragment,
     positiveButtonAction: DialogAction,
