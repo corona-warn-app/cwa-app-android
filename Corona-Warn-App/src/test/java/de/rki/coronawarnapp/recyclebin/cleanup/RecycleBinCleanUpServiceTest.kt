@@ -40,8 +40,12 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
     )
 
     private fun createCert(days: Int): CwaCovidCertificate {
-        val mockContainerId = mockk<CertificateContainerId>()
         val recycleTime = now.minus(Days.days(days).toStandardDuration())
+        return createCert(recycleTime)
+    }
+
+    private fun createCert(recycleTime: Instant): CwaCovidCertificate {
+        val mockContainerId = mockk<CertificateContainerId>()
         return mockk {
             every { recycledAt } returns recycleTime
             every { containerId } returns mockContainerId
@@ -78,24 +82,21 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
     }
 
     @Test
-    fun `Only deletes certs with more than 30 days of retention in recycle bin`() = runBlockingTest {
-        val certWith29DaysOfRetention = createCert(29)
-        val certWith30DaysOfRetention = createCert(30)
-        val certWith31DaysOfRetention = createCert(31)
-        val certWith32DaysOfRetention = createCert(32)
+    fun `Time difference between recycledAt and now is greater than 30 days with ms precision`() = runBlockingTest {
+        val nowMinus30Days = now.minus(Days.days(30).toStandardDuration())
+        val certExact30Days = createCert(nowMinus30Days)
+        val cert30DaysAnd1Ms = createCert(nowMinus30Days.minus(1))
 
         every { recycledItemsProvider.recycledCertificates } returns flowOf(
             setOf(
-                certWith29DaysOfRetention,
-                certWith30DaysOfRetention,
-                certWith31DaysOfRetention,
-                certWith32DaysOfRetention
+                certExact30Days,
+                cert30DaysAnd1Ms
             )
         )
 
         createInstance().clearRecycledCertificates()
 
-        val containerIds = listOf(certWith31DaysOfRetention.containerId, certWith32DaysOfRetention.containerId)
+        val containerIds = listOf(cert30DaysAnd1Ms.containerId)
         coVerify(exactly = 1) { recycledItemsProvider.deleteAllCertificate(containerIds) }
     }
 }
