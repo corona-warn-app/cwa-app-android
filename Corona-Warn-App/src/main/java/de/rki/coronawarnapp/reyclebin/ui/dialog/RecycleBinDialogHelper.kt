@@ -1,33 +1,15 @@
 package de.rki.coronawarnapp.reyclebin.ui.dialog
 
 import androidx.fragment.app.Fragment
-import de.rki.coronawarnapp.R
 
 typealias DialogAction = () -> Unit
 
-object RecycleBinDialogHelper {
-
-    fun showRemoveAllConfirmationDialog(
-        fragment: Fragment,
-        positiveButtonAction: DialogAction,
-        negativeButtonAction: DialogAction = { },
-        dismissAction: DialogAction = { }
-    ) {
-        val config = RecycleBinDialogFragment.Config(
-            titleRes = R.string.recycle_bin_remove_all_dialog_title,
-            msgRes = R.string.recycle_bin_remove_all_dialog__message,
-            positiveButtonRes = R.string.recycle_bin_remove_all_dialog__positive_button,
-            negativeButtonRes = R.string.recycle_bin_remove_all_dialog__negative_button
-        )
-
-        fragment.showRecyclerDialog(
-            dialogConfig = config,
-            positiveButtonAction = positiveButtonAction,
-            negativeButtonAction = negativeButtonAction,
-            dismissAction
-        )
-    }
-}
+fun RecycleBinDialogType.show(
+    fragment: Fragment,
+    positiveButtonAction: DialogAction,
+    negativeButtonAction: DialogAction = { },
+    dismissAction: DialogAction = { }
+) = fragment.showRecyclerDialog(config, positiveButtonAction, negativeButtonAction, dismissAction)
 
 private fun Fragment.showRecyclerDialog(
     dialogConfig: RecycleBinDialogFragment.Config,
