@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.statistics.ui.homecards.cards
 
 import de.rki.coronawarnapp.statistics.AddStatsItem
 import de.rki.coronawarnapp.statistics.GlobalStatsItem
-import de.rki.coronawarnapp.statistics.LocalIncidenceStats
+import de.rki.coronawarnapp.statistics.LocalIncidenceAndHospitalizationStats
 import de.rki.coronawarnapp.statistics.LocalStatsItem
 import de.rki.coronawarnapp.util.lists.HasStableId
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
@@ -27,10 +27,10 @@ data class AddLocalStatisticsCardItem(
 
 data class LocalStatisticsCardItem(
     val stats: LocalStatsItem,
-    val onClickListener: (LocalIncidenceStats) -> Unit,
-    val onRemoveListener: (LocalIncidenceStats) -> Unit,
+    val onClickListener: (LocalIncidenceAndHospitalizationStats) -> Unit,
+    val onRemoveListener: (LocalIncidenceAndHospitalizationStats) -> Unit,
 ) : StatisticsCardItem() {
     override val stableId: Long = when (stats) {
-        is LocalIncidenceStats -> stats.selectedLocation.uniqueID
+        is LocalIncidenceAndHospitalizationStats -> stats.selectedLocation.uniqueID
     }
 }
