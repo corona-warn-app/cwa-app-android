@@ -1546,7 +1546,7 @@
     <!-- XTXT: Statistics number of fully vaccinated people title -->
     <string name="statistics_fully_vaccinated_people_title">"People who are fully vaccinated"</string>
     <!-- XTXT: Statistics number of fully vaccinated people text -->
-    <string name="statistics_fully_vaccinated_people_text">"Anzahl der an das RKI übermittelten Personen, die die alle notwendigen Impfdosen erhalten haben."</string>
+    <string name="statistics_fully_vaccinated_people_text">"Anzahl der an das RKI übermittelten Personen, die alle notwendigen Impfdosen erhalten haben."</string>
     <!-- XTXT: Statistics number of vaccinated people at least title -->
     <string name="statistics_people_vaccinated_at_least_once_title">"People who have received at least one vaccine dose"</string>
     <!-- XTXT: Statistics number of vaccinated people at least text -->
