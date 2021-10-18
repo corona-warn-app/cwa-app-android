@@ -88,7 +88,7 @@ class OrganizerPlaybook @Inject constructor(
             null to null
         }
 
-        uploadTan?.let {  OrganizerRegistrationTokenCensor.addTan(it) }
+        uploadTan?.let { OrganizerRegistrationTokenCensor.addTan(it) }
 
         // fake submission
         ignoreExceptions { submissionServer.submitFakePayload() }

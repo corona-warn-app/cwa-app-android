@@ -19,8 +19,8 @@ class OrganizerRegistrationTokenCensorTest {
     )
 
     private val testRegistrationRequests = listOf(
-        RegistrationRequest("1234567890",VerificationKeyType.TELETAN),
-        RegistrationRequest("9876543210",VerificationKeyType.TELETAN),
+        RegistrationRequest("1234567890", VerificationKeyType.TELETAN),
+        RegistrationRequest("9876543210", VerificationKeyType.TELETAN),
     )
 
     @BeforeEach
@@ -76,5 +76,4 @@ class OrganizerRegistrationTokenCensorTest {
             instance.checkLog(toCensor) shouldBe null
         }
     }
-
 }
