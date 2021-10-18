@@ -30,9 +30,9 @@ class RecycleBinDialogFragment : DialogFragment() {
         setFragmentResult(REQUEST_KEY, bundleOf(PARAM_DIALOG_ACTION to action))
     }
 
-    sealed class Action {
-        object PositiveButtonClicked : Action()
-        object NegativeButtonClicked : Action()
+    enum class Action {
+        PositiveButtonClicked,
+        NegativeButtonClicked
     }
 
     @Parcelize
@@ -44,11 +44,10 @@ class RecycleBinDialogFragment : DialogFragment() {
     ) : Parcelable
 
     companion object {
-        private val TAG: String = RecycleBinDialogFragment::class.java.simpleName
-        private val PARAM_DIALOG_CONFIG = "${TAG}_PARAM_DIALOG_CONFIG"
-
+        val TAG: String = RecycleBinDialogFragment::class.java.simpleName
         val REQUEST_KEY = "${TAG}_REQUEST_KEY"
         val PARAM_DIALOG_ACTION = "${TAG}_PARAM_DIALOG_ACTION"
+        private val PARAM_DIALOG_CONFIG = "${TAG}_PARAM_DIALOG_CONFIG"
 
         fun newInstance(
             @StringRes titleRes: Int,
