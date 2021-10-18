@@ -23,6 +23,7 @@ class RecycleBinDialogFragment : DialogFragment() {
                 .setMessage(msgRes)
                 .setPositiveButton(positiveButtonRes) { _, _ -> setAction(Action.PositiveButtonClicked) }
                 .setNegativeButton(negativeButtonRes) { _, _ -> setAction(Action.NegativeButtonClicked) }
+                .setOnDismissListener { setAction(Action.Dismissed) }
                 .create()
         }
     }
@@ -34,7 +35,8 @@ class RecycleBinDialogFragment : DialogFragment() {
 
     enum class Action {
         PositiveButtonClicked,
-        NegativeButtonClicked
+        NegativeButtonClicked,
+        Dismissed
     }
 
     @Parcelize
