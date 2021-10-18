@@ -85,7 +85,7 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
                 ProfileQrCodeNavigation.Back -> popBackStack()
                 ProfileQrCodeNavigation.OpenScanner -> {
                     val navOptions = NavOptions.Builder()
-                        .setPopUpTo(R.id.mainFragment, false)
+                        .setPopUpTo(R.id.ratProfileQrCodeFragment, false)
                         .build()
                     findNavController().navigate(
                         R.id.action_to_universal_scanner,

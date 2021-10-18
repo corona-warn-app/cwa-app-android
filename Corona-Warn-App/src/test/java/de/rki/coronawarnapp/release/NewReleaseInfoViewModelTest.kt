@@ -40,7 +40,7 @@ class NewReleaseInfoViewModelTest : BaseTest() {
     fun `if notifications onboarding has not yet been done, navigate to it`() {
         lastOnboardingVersionCode.value shouldBe 0L
 
-        viewModel.onNextButtonClick()
+        viewModel.onNextButtonClick(false)
         viewModel.routeToScreen.value shouldBe NewReleaseInfoNavigationEvents
             .NavigateToOnboardingDeltaNotificationsFragment
     }
@@ -49,7 +49,7 @@ class NewReleaseInfoViewModelTest : BaseTest() {
     fun `if notifications onboarding is done, just close the release screen`() {
         lastOnboardingVersionCode.update { 1130000L }
 
-        viewModel.onNextButtonClick()
+        viewModel.onNextButtonClick(false)
         viewModel.routeToScreen.value shouldBe NewReleaseInfoNavigationEvents.CloseScreen
 
         lastOnboardingVersionCode.value shouldBe 1130000L

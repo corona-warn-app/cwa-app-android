@@ -162,7 +162,7 @@
     <!-- XHED: main, FAQ -->
     <string name="main_about_headline">"Häufige Fragen"</string>
     <!-- XTXT: main, explains faq on card -->
-    <string name="main_about_body">"Hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App. Sie werden auf eine externe Website der Bundesregierung weitergeleitet."</string>
+    <string name="main_about_body">"Hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App. Sie werden auf die externe Website coronawarn.app weitergeleitet."</string>
     <!-- XTXT: FAQ link, should be translated with https://www.coronawarn.app/en/faq/ for languages other than de -->
     <string name="main_about_link">"https://www.coronawarn.app/de/faq/"</string>
     <!-- XACT: Opens external webpage -->
@@ -1397,11 +1397,13 @@
     <!-- XHED: Title for local incident statistics card -->
     <string name="statistics_card_local_incidence_title">"Lokale 7-Tage-Inzidenz"</string>
     <!-- XTXT: Description in statistics card that is displayed below the local incidence value-->
-    <string name="statistics_card_local_incidence_value_description">"bestätigte Neuinfektionen je 100.000 Einwohner"</string>
+    <string name="statistics_card_local_incidence_value_description">"Neuinfektionen"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu info button -->
     <string name="statistics_card_local_incidence_menu_info">"Information"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu delete button -->
     <string name="statistics_card_local_incidence_menu_delete">"Entfernen"</string>
+    <!-- XTXT: Local hospitalization statistics text -->
+    <string name="statistics_card_local_hospitalization_text">"Hospitalisierungen in %s"</string>
 
     <!-- Infections statistics card -->
     <!-- XHED: Title for infections statistics card -->
