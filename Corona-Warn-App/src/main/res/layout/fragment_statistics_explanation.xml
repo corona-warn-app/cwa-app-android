@@ -378,7 +378,7 @@
                     android:text="@string/statistics_number_of_vaccine_doses_text" />
 
                 <TextView
-                    android:id="@+id/statistics_faq_text"
+                    android:id="@+id/statistics_faq"
                     style="@style/body2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -389,21 +389,10 @@
                     android:focusable="true"
                     android:text="@string/statistics_faq_text" />
 
-                <TextView
-                    android:id="@+id/statistics_faq_link"
-                    style="@style/body2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginEnd="@dimen/guideline_end"
-                    android:contentDescription="@string/statistics_explanation_seven_day_r_link_label"
-                    android:focusable="true"
-                    android:text="@string/statistics_faq_text" />
-
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/card_divider"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="44dp"
                     android:background="@color/dividerColor" />
 
                 <TextView

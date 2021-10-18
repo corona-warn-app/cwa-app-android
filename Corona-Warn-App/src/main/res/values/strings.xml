@@ -1457,7 +1457,7 @@
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-Day R Value"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
-    <string name="statistics_explanation_seven_day_r_value_text">"The reproduction figure, R, indicates how many people an average infected person has infected further. The current value takes data up to the last 5 days into account."</string>
+    <string name="statistics_explanation_seven_day_r_value_text">"Die Reproduktionszahl R gibt an, wie viele Personen im Durchschnitt von einer infizierten Person angesteckt wurden."</string>
     <!-- XTXT: Explanation screen seven day r-value link label  - the characters have to match the last part of the text label above -->
     <string name="statistics_explanation_seven_day_r_link_label">"FAQ for the statistics"</string>
     <!-- XHED: Explanation screen legend title -->
@@ -1467,7 +1467,7 @@
     <!-- XHED: Explanation screen period yesterday subtitle -->
     <string name="statistics_explanation_period_yesterday_subtitle">"Yesterday/Up to yesterday"</string>
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"Number for the previous day/up to the previous day. If no figures are available yet for the previous day, the last date for which figures are available is displayed."</string>
+    <string name="statistics_explanation_period_yesterday_text">"Für Gestern / Bis gestern wird die Zahl für den Vortag / bis zum Vortag angezeigt. Wenn für den Vortag noch keine Zahl vorliegt, wird das Datum des letzten Tages angezeigt, für den eine Zahl vorliegt."</string>
     <!-- XHED: Explanation screen period seven day subtitle -->
     <string name="statistics_explanation_period_seven_day_subtitle">"7-Day Average"</string>
     <!-- XTXT: Explanation screen period seven day text -->
@@ -1495,17 +1495,17 @@
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Abstract picture of a smartphone with four placeholders for information"</string>
     <!-- XTXT: Statistics explanation blog text -->
-    <string name="statistics_explanation_blog">"For more details about the content of the individual key figures, read our blog."</string>
+    <string name="statistics_explanation_blog">"Mehr inhaltliche Details zu den einzelnen Kennzahlen finden Sie im Blog."</string>
     <!-- XTXT: Statistics explanation blog text label -->
     <string name="statistics_explanation_blog_label">"Blog."</string>
     <!-- XTXT: Statistics explanation blog text url -->
     <string name="statistics_eplanation_blog_url">"https://www.coronawarn.app/en/blog/2021-08-05-statistictiles"</string>
     <!-- XTXT: Explanation screen 7 days incidents confirmed new infections text -->
-    <string name="statistics_explanation_7_day_confirmed_new_infection_text">"Gesamtzahl der bestätigten Neuinfektionen der letzten 7 Tage (nach Meldedatum) pro 100.000 Einwohner."</string>
+    <string name="statistics_explanation_7_day_confirmed_new_infection_text">"Für Gestern / Bis gestern wird die Zahl für den Vortag / bis zum Vortag angezeigt. Wenn für den Vortag noch keine Zahl vorliegt, wird das Datum des letzten Tages angezeigt, für den eine Zahl vorliegt."</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation title -->
     <string name="statistics_explanation_7_day_hospitalisation_title">"Hospitalisierung"</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation text -->
-    <string name="statistics_explanation_7_day_hospitalisation_text">"Gesamtzahl der Krankenhausaufnnahmen aufgrund von Covid-19 der letzten 7 Tage (nach Meldedatum) pro 100.000 Einwohner."</string>
+    <string name="statistics_explanation_7_day_hospitalisation_text">"Gesamtzahl der Krankenhausaufnahmen aufgrund von Covid-19 der letzten 7 Tage (nach Meldedatum) pro 100.000 Einwohner."</string>
     <!-- XTXT: Explanation screen 7 days locale incidents text -->
     <string name="statistics_explanation_7_day_locale_incidents_text">"Gesamtzahl der bestätigten Neuinfektionen bzw. Hospitalisierungen der letzten 7 Tage (nach Meldedatum) pro 100.000 Einwohner im konfigurierten Kreis oder Bundesland. Die Hospitalisierungsdaten beziehen sich auf das zugehörige Bundesland."</string>
     <!-- XTXT: Explanation screen 7 days intensive care title -->
@@ -1544,13 +1544,15 @@
     <!-- XTXT: Statistics number of fully vaccinated people title -->
     <string name="statistics_fully_vaccinated_people_title">"People who are fully vaccinated"</string>
     <!-- XTXT: Statistics number of fully vaccinated people text -->
-    <string name="statistics_fully_vaccinated_people_text">"Number of persons reported to the RKI who have received all the necessary vaccine doses."</string>
+    <string name="statistics_fully_vaccinated_people_text">"Anzahl der an das RKI übermittelten Personen, die die alle notwendigen Impfdosen erhalten haben."</string>
     <!-- XTXT: Statistics number of vaccinated people at least title -->
     <string name="statistics_people_vaccinated_at_least_once_title">"People who have received at least one vaccine dose"</string>
     <!-- XTXT: Statistics number of vaccinated people at least text -->
-    <string name="statistics_people_vaccinated_at_least_once_text">"Number of persons reported to the RKI who have received the first dose of the vaccine."</string>
+    <string name="statistics_people_vaccinated_at_least_once_text">"Anzahl der an das RKI übermittelten Personen, die die erste Impfdosis erhalten haben."</string>
     <!-- XTXT: Statistics FAQ text -->
-    <string name="statistics_faq_text">"For further information, please see our FAQ page:"</string>
+    <string name="statistics_faq_text">"Häufig gestellte Fragen und die passenden Antworten finden Sie in den FAQ."</string>
+    <!-- XTXT: Statistics FAQ label -->
+    <string name="statistics_faq_label">"FAQ"</string>
 
     <!-- Seven Day Hospitalization Statistics Card -->
     <!-- XHED: Title for seven day hospitalization stats -->
