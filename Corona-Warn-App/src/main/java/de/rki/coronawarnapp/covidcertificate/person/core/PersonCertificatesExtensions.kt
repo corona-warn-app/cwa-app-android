@@ -74,6 +74,24 @@ private fun Collection<CwaCovidCertificate>.rule2FindRecentRaCertificate(
     .filter { Duration(it.rawCertificate.test.sampleCollectedAt, nowUtc) <= Duration.standardHours(24) }
     .maxByOrNull { it.rawCertificate.test.sampleCollectedAt }
 
+//private fun Collection<CwaCovidCertificate>.rule3FindBoosterShot(
+//    nowUtc: Instant
+//): CwaCovidCertificate? {
+//    val vaccinesWithTwoDoses = listOf("EU/1/20/1528", "EU/1/21/1529", "EU/1/20/1507")
+//    return this
+//        .filterIsInstance<VaccinationCertificate>()
+//        .filter {
+//            with(it.rawCertificate.vaccination) { doseNumber == totalSeriesOfDoses }
+//        }
+//        .filter {
+//            with(it.rawCertificate.vaccination) {
+//                if(totalSeriesOfDoses > 2 && vaccinesWithTwoDoses.contains(medicalProductId)) {
+//                    return it
+//                } else if (totalSeriesOfDoses <= 2 && !vaccinesWithTwoDoses.contains(medicalProductId))
+//            }
+//        }
+//}
+
 /**
  * 3
  * Series-completing Vaccination Certificate > 14 days:
@@ -85,20 +103,31 @@ private fun Collection<CwaCovidCertificate>.rule2FindRecentRaCertificate(
  */
 private fun Collection<CwaCovidCertificate>.rule3FindRecentLastShot(
     nowUtc: Instant
-): CwaCovidCertificate? = this
-    .filterIsInstance<VaccinationCertificate>()
-    .filter {
-        with(it.rawCertificate.vaccination) { doseNumber == totalSeriesOfDoses }
-    }
-    .filter {
-        Days.daysBetween(it.rawCertificate.vaccination.vaccinatedOn, nowUtc.toLocalDateUtc()).days > 14
-    }
-    .maxWithOrNull(
-        compareBy(
-            { it.rawCertificate.vaccination.vaccinatedOn },
-            { it.headerIssuedAt }
+): CwaCovidCertificate? {
+    val vaccinesWithTwoDoses = listOf("EU/1/20/1528", "EU/1/21/1529", "EU/1/20/1507")
+    return this
+        .filterIsInstance<VaccinationCertificate>()
+        .filter {
+            with(it.rawCertificate.vaccination) { doseNumber == totalSeriesOfDoses }
+        }
+        .filter {
+            with(it.rawCertificate.vaccination) {
+                if (totalSeriesOfDoses > 2 && vaccinesWithTwoDoses.contains(medicalProductId)) {
+                    return it
+                } else if (totalSeriesOfDoses <= 2 && !vaccinesWithTwoDoses.contains(medicalProductId)) {
+                    return it
+                } else {
+                    Days.daysBetween(it.rawCertificate.vaccination.vaccinatedOn, nowUtc.toLocalDateUtc()).days > 14
+                }
+            }
+        }
+        .maxWithOrNull(
+            compareBy(
+                { it.rawCertificate.vaccination.vaccinatedOn },
+                { it.headerIssuedAt }
+            )
         )
-    )
+}
 
 /**
  * 4
