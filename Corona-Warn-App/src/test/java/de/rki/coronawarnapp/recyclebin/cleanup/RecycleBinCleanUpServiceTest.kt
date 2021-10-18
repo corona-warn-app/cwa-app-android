@@ -39,10 +39,7 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
         timeStamper = timeStamper
     )
 
-    private fun createCert(days: Int): CwaCovidCertificate {
-        val recycleTime = now.minus(Days.days(days).toStandardDuration())
-        return createCert(recycleTime)
-    }
+    private fun createCert(days: Int) = createCert(recycleTime = now.minus(Days.days(days).toStandardDuration()))
 
     private fun createCert(recycleTime: Instant): CwaCovidCertificate {
         val mockContainerId = mockk<CertificateContainerId>()
