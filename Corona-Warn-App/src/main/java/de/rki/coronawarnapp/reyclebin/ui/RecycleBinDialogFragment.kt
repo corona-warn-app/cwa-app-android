@@ -9,6 +9,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.parcelize.Parcelize
+import timber.log.Timber
 
 class RecycleBinDialogFragment : DialogFragment() {
 
@@ -27,6 +28,7 @@ class RecycleBinDialogFragment : DialogFragment() {
     }
 
     private fun setAction(action: Action) {
+        Timber.d("setAction(action=%s)", action)
         setFragmentResult(REQUEST_KEY, bundleOf(PARAM_DIALOG_ACTION to action))
     }
 
@@ -36,7 +38,7 @@ class RecycleBinDialogFragment : DialogFragment() {
     }
 
     @Parcelize
-    private data class Config(
+    data class Config(
         @StringRes val titleRes: Int,
         @StringRes val msgRes: Int,
         @StringRes val positiveButtonRes: Int,
@@ -49,13 +51,7 @@ class RecycleBinDialogFragment : DialogFragment() {
         val PARAM_DIALOG_ACTION = "${TAG}_PARAM_DIALOG_ACTION"
         private val PARAM_DIALOG_CONFIG = "${TAG}_PARAM_DIALOG_CONFIG"
 
-        fun newInstance(
-            @StringRes titleRes: Int,
-            @StringRes msgRes: Int,
-            @StringRes positiveButtonRes: Int,
-            @StringRes negativeButtonRes: Int,
-        ) = RecycleBinDialogFragment().apply {
-            val dialogConfig = Config(titleRes, msgRes, positiveButtonRes, negativeButtonRes)
+        fun newInstance(dialogConfig: Config) = RecycleBinDialogFragment().apply {
             arguments = bundleOf(PARAM_DIALOG_CONFIG to dialogConfig)
         }
     }
