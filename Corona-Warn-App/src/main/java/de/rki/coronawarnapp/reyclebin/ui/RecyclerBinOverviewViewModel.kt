@@ -26,7 +26,8 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
     private val recycledItemsProvider: RecycledItemsProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val events = SingleLiveEvent<RecyclerBinEvent>()
+    private val currentEvent = SingleLiveEvent<RecyclerBinEvent>()
+    val events: LiveData<RecyclerBinEvent> = currentEvent
 
     private val recycledCertificates = recycledItemsProvider.recycledCertificates
 
@@ -38,10 +39,10 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
                         TestCertificateCard.Item(
                             certificate = it,
                             onRemove = { certificate, position ->
-                                events.postValue(RecyclerBinEvent.RemoveItem(certificate, position))
+                                currentEvent.postValue(RecyclerBinEvent.RemoveItem(certificate, position))
                             },
                             onRestore = { certificate ->
-                                events.postValue(RecyclerBinEvent.ConfirmRestoreItem(certificate))
+                                currentEvent.postValue(RecyclerBinEvent.ConfirmRestoreItem(certificate))
                             }
                         )
                     )
@@ -49,10 +50,10 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
                         VaccinationCertificateCard.Item(
                             certificate = it,
                             onRemove = { certificate, position ->
-                                events.postValue(RecyclerBinEvent.RemoveItem(certificate, position))
+                                currentEvent.postValue(RecyclerBinEvent.RemoveItem(certificate, position))
                             },
                             onRestore = { certificate ->
-                                events.postValue(RecyclerBinEvent.ConfirmRestoreItem(certificate))
+                                currentEvent.postValue(RecyclerBinEvent.ConfirmRestoreItem(certificate))
                             }
                         )
                     )
@@ -60,10 +61,10 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
                         RecoveryCertificateCard.Item(
                             certificate = it,
                             onRemove = { certificate, position ->
-                                events.postValue(RecyclerBinEvent.RemoveItem(certificate, position))
+                                currentEvent.postValue(RecyclerBinEvent.RemoveItem(certificate, position))
                             },
                             onRestore = { certificate ->
-                                events.postValue(RecyclerBinEvent.ConfirmRestoreItem(certificate))
+                                currentEvent.postValue(RecyclerBinEvent.ConfirmRestoreItem(certificate))
                             }
                         )
                     )
@@ -79,7 +80,7 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
 
     fun onRemoveAllItemsClicked() {
         Timber.d("onRemoveAllItemsClicked()")
-        events.postValue(RecyclerBinEvent.ConfirmRemoveAll)
+        currentEvent.postValue(RecyclerBinEvent.ConfirmRemoveAll)
     }
 
     fun onRemoveAllItemsConfirmation() = launch {
