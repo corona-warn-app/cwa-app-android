@@ -89,7 +89,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     }
 
     private suspend fun onDccQrCode(dccQrCode: DccQrCode) {
-        Timber.tag(TAG).d("onDccQrCode=$dccQrCode")
+        Timber.tag(TAG).d("onDccQrCode()")
         val recycledContainerId = recycledItemsProvider.findCertificate(dccQrCode.qrCode)
         val event = when {
             recycledContainerId != null -> {
@@ -107,21 +107,21 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     }
 
     private fun onCheckInQrCode(qrCode: CheckInQrCode) {
-        Timber.tag(TAG).d("onCheckInQrCode=$qrCode")
+        Timber.tag(TAG).d("onCheckInQrCode()")
         val checkInResult = checkInHandler.handleQrCode(qrCode)
-        Timber.tag(TAG).d("checkInResult=$checkInResult")
+        Timber.tag(TAG).d("checkInResult=${checkInResult::class.simpleName}")
         result.postValue(checkInResult.toCheckInResult(!traceLocationSettings.isOnboardingDone))
     }
 
     private suspend fun onCoronaTestQrCode(qrCode: CoronaTestQRCode) {
-        Timber.tag(TAG).d("onCoronaTestQrCode=$qrCode")
+        Timber.tag(TAG).d("onCoronaTestQrCode()")
         val coronaTest = submissionRepository.testForType(qrCode.type).first()
         val coronaTestResult = if (coronaTest != null) {
             CoronaTestResult.DuplicateTest(qrCode)
         } else {
             CoronaTestResult.ConsentTest(qrCode)
         }
-        Timber.tag(TAG).d("coronaTestResult=$coronaTestResult")
+        Timber.tag(TAG).d("coronaTestResult=${coronaTestResult::class.simpleName}")
         result.postValue(coronaTestResult)
     }
 

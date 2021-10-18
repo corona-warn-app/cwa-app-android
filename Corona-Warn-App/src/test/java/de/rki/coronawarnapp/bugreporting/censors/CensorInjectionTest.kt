@@ -77,6 +77,7 @@ class MockProvider {
         every { personEncounters } returns flowOf(emptyList())
         every { locations } returns flowOf(emptyList())
         every { locationVisits } returns flowOf(emptyList())
+        every { testResults } returns flowOf(emptyList())
     }
 
     @Singleton
