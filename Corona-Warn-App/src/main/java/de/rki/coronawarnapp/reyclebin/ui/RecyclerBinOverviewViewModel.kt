@@ -32,51 +32,46 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
     private val recycledCertificates = recycledItemsProvider.recycledCertificates
 
     val listItems: LiveData<List<RecyclerBinItem>> = recycledCertificates.map { certificates ->
-        val certificateItems = mutableListOf<RecyclerBinItem>().apply {
-            certificates.forEach {
-                when (it) {
-                    is TestCertificate -> add(
-                        TestCertificateCard.Item(
-                            certificate = it,
-                            onRemove = { certificate, position ->
-                                currentEvent.postValue(RecyclerBinEvent.RemoveItem(certificate, position))
-                            },
-                            onRestore = { certificate ->
-                                currentEvent.postValue(RecyclerBinEvent.ConfirmRestoreItem(certificate))
-                            }
-                        )
-                    )
-                    is VaccinationCertificate -> add(
-                        VaccinationCertificateCard.Item(
-                            certificate = it,
-                            onRemove = { certificate, position ->
-                                currentEvent.postValue(RecyclerBinEvent.RemoveItem(certificate, position))
-                            },
-                            onRestore = { certificate ->
-                                currentEvent.postValue(RecyclerBinEvent.ConfirmRestoreItem(certificate))
-                            }
-                        )
-                    )
-                    is RecoveryCertificate -> add(
-                        RecoveryCertificateCard.Item(
-                            certificate = it,
-                            onRemove = { certificate, position ->
-                                currentEvent.postValue(RecyclerBinEvent.RemoveItem(certificate, position))
-                            },
-                            onRestore = { certificate ->
-                                currentEvent.postValue(RecyclerBinEvent.ConfirmRestoreItem(certificate))
-                            }
-                        )
-                    )
-                }
-            }
-        }
-        if (certificateItems.isNotEmpty()) {
-            listOf(OverviewSubHeaderItem).plus(certificateItems)
-        } else {
-            emptyList()
+        val certificateItems = certificates.mapNotNull { mapCertToCertItem(it) }
+
+        when (certificateItems.isNotEmpty()) {
+            true -> listOf(OverviewSubHeaderItem).plus(certificateItems)
+            false -> emptyList()
         }
     }.asLiveData2()
+
+    private fun mapCertToCertItem(cert: CwaCovidCertificate): RecyclerBinItem? = when (cert) {
+        is TestCertificate -> TestCertificateCard.Item(
+            certificate = cert,
+            onRemove = { certificate, position ->
+                currentEvent.postValue(RecyclerBinEvent.RemoveItem(certificate, position))
+            },
+            onRestore = { certificate ->
+                currentEvent.postValue(RecyclerBinEvent.ConfirmRestoreItem(certificate))
+            }
+        )
+
+        is VaccinationCertificate -> VaccinationCertificateCard.Item(
+            certificate = cert,
+            onRemove = { certificate, position ->
+                currentEvent.postValue(RecyclerBinEvent.RemoveItem(certificate, position))
+            },
+            onRestore = { certificate ->
+                currentEvent.postValue(RecyclerBinEvent.ConfirmRestoreItem(certificate))
+            }
+        )
+
+        is RecoveryCertificate -> RecoveryCertificateCard.Item(
+            certificate = cert,
+            onRemove = { certificate, position ->
+                currentEvent.postValue(RecyclerBinEvent.RemoveItem(certificate, position))
+            },
+            onRestore = { certificate ->
+                currentEvent.postValue(RecyclerBinEvent.ConfirmRestoreItem(certificate))
+            }
+        )
+        else -> null
+    }.also { Timber.v("Mapped cert=%s to certItem=%s", cert, it) }
 
     fun onRemoveAllItemsClicked() {
         Timber.d("onRemoveAllItemsClicked()")
