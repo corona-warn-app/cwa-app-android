@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
-import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
