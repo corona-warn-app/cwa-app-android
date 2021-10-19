@@ -24,6 +24,7 @@ import java.security.cert.CertificateExpiredException
 import java.security.cert.CertificateFactory
 import java.security.cert.CertificateNotYetValidException
 import java.security.cert.X509Certificate
+import java.util.Date
 import javax.inject.Inject
 
 /**
@@ -60,12 +61,16 @@ class DscSignatureValidator @Inject constructor(
     /**
      * @throws InvalidHealthCertificateException if validation fail, otherwise it is OK!
      */
-    suspend fun validateSignature(dccData: DccData<*>, preFetchedDscData: DscData? = null) {
+    suspend fun validateSignature(
+        dccData: DccData<*>,
+        preFetchedDscData: DscData? = null,
+        date: Date = Date()
+    ) {
         val dscData = preFetchedDscData ?: dscRepository.dscData.first()
         Timber.tag(TAG).d("validateSignature(dscListSize=%s)", dscData.dscList.size)
 
         findDscCertificate(dscData, dccData.dscMessage).apply {
-            validate()
+            validate(date)
             checkOidsIntersect(dccData)
         }
     }
@@ -118,9 +123,9 @@ class DscSignatureValidator @Inject constructor(
             certificateFactory.generateCertificate(it) as X509Certificate
         }
 
-    private fun X509Certificate.validate() {
+    private fun X509Certificate.validate(date: Date) {
         try {
-            checkValidity()
+            checkValidity(date)
         } catch (e: CertificateExpiredException) {
             throw InvalidHealthCertificateException(HC_DSC_EXPIRED)
         } catch (e: CertificateNotYetValidException) {
