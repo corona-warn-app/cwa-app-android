@@ -31,14 +31,18 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
 
     private val recycledCertificates = recycledItemsProvider.recycledCertificates
 
-    val listItems: LiveData<List<RecyclerBinItem>> = recycledCertificates.map { certificates ->
-        val certificateItems = certificates.mapNotNull { mapCertToCertItem(it) }
+    val listItems: LiveData<List<RecyclerBinItem>> = recycledCertificates
+        .map { it.toRecyclerBinItems() }
+        .asLiveData2()
 
-        when (certificateItems.isNotEmpty()) {
+    private fun Collection<CwaCovidCertificate>.toRecyclerBinItems(): List<RecyclerBinItem> {
+        val certificateItems = mapNotNull { mapCertToCertItem(it) }
+
+        return when (certificateItems.isNotEmpty()) {
             true -> listOf(OverviewSubHeaderItem).plus(certificateItems)
             false -> emptyList()
-        }
-    }.asLiveData2()
+        }.also { Timber.d("Created recycler bin items=%s from certs=%s", it, this) }
+    }
 
     private fun mapCertToCertItem(cert: CwaCovidCertificate): RecyclerBinItem? = when (cert) {
         is TestCertificate -> TestCertificateCard.Item(
@@ -71,7 +75,7 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
             }
         )
         else -> null
-    }.also { Timber.v("Mapped cert=%s to certItem=%s", cert, it) }
+    }.also { Timber.v("Mapped cert=%s to recycler bin item=%s", cert, it) }
 
     fun onRemoveAllItemsClicked() {
         Timber.d("onRemoveAllItemsClicked()")
