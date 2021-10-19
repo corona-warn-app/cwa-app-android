@@ -25,9 +25,9 @@ class StatisticsExplanationFragment : Fragment(R.layout.fragment_statistics_expl
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
         binding.apply {
-            statisticsFaqLink.setTextWithUrl(
-                R.string.statistics_explanation_seven_day_r_link_label,
-                R.string.statistics_explanation_seven_day_r_link_label,
+            statisticsFaq.setTextWithUrl(
+                R.string.statistics_faq_text,
+                R.string.statistics_faq_label,
                 R.string.statistics_explanation_faq_url
             )
 
