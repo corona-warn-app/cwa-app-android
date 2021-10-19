@@ -45,4 +45,7 @@ internal abstract class OnboardingActivityModule {
 
     @ContributesAndroidInjector(modules = [OnboardingDeltaAnalyticsModule::class])
     abstract fun onboardingDeltaAnalyticsFragment(): OnboardingDeltaAnalyticsFragment
+
+    @ContributesAndroidInjector(modules = [OnboardingDeltaNotificationsModule::class])
+    abstract fun onboardingDeltaNotificationsFragment(): OnboardingDeltaNotificationsFragment
 }

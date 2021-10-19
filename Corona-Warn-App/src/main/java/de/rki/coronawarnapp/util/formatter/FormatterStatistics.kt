@@ -10,8 +10,10 @@ import de.rki.coronawarnapp.statistics.InfectionStats
 import de.rki.coronawarnapp.statistics.KeySubmissionsStats
 import de.rki.coronawarnapp.statistics.LocalIncidenceStats
 import de.rki.coronawarnapp.statistics.LocalStatsItem
+import de.rki.coronawarnapp.statistics.OccupiedIntensiveCareStats
 import de.rki.coronawarnapp.statistics.PersonsVaccinatedCompletelyStats
 import de.rki.coronawarnapp.statistics.PersonsVaccinatedOnceStats
+import de.rki.coronawarnapp.statistics.SevenDayHospitalizationStats
 import de.rki.coronawarnapp.statistics.SevenDayRValue
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import org.joda.time.LocalDate
@@ -26,14 +28,16 @@ fun GlobalStatsItem.getPrimaryLabel(context: Context): String {
     return when (this) {
         is InfectionStats,
         is KeySubmissionsStats,
-        is AppliedVaccinationRatesStats -> when (updatedAtDate) {
+        is AppliedVaccinationRatesStats,
+        is OccupiedIntensiveCareStats -> when (updatedAtDate) {
             today -> context.getString(R.string.statistics_primary_value_today)
             yesterday -> context.getString(R.string.statistics_primary_value_yesterday)
             else -> dateTimeFormatter.print(updatedAtDate)
         }
         is IncidenceStats,
         is PersonsVaccinatedOnceStats,
-        is PersonsVaccinatedCompletelyStats -> when (updatedAtDate) {
+        is PersonsVaccinatedCompletelyStats,
+        is SevenDayHospitalizationStats -> when (updatedAtDate) {
             today -> context.getString(R.string.statistics_primary_value_until_today)
             yesterday -> context.getString(R.string.statistics_primary_value_until_yesterday)
             else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.print(updatedAtDate))

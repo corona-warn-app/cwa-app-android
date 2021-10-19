@@ -26,14 +26,14 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
 ) {
     val valid = certificate.isValid
     val context = root.context
-
-    covpassInfoFlow.isVisible = valid
+    covpassInfoTitle.isVisible = valid
+    covpassInfoButton.isVisible = valid
     covpassInfoButton.setOnClickListener { onCovPassInfoAction() }
 
     invalidOverlay.isGone = valid
     image.isEnabled = isCertificateDetails && valid // Disable Qr-Code image from opening full-screen mode
 
-    val isNewTestCertificate = certificate is TestCertificate && certificate.isNewlyRetrieved
+    val isNewTestCertificate = certificate is TestCertificate && certificate.isNew
     notificationBadge.isVisible = if (isNewTestCertificate) {
         false
     } else {
@@ -146,7 +146,7 @@ fun TextView.displayExpirationState(certificate: CwaCovidCertificate) {
 
         is CwaCovidCertificate.State.Valid -> {
             isVisible = false
-            if (certificate is TestCertificate && certificate.isNewlyRetrieved) {
+            if (certificate.isNew) {
                 isVisible = true
                 text = context.getText(R.string.test_certificate_qr_new)
             }

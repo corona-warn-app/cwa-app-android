@@ -107,6 +107,11 @@
             app:destination="@id/onboardingDeltaAnalyticsFragment"
             app:popUpTo="@id/loadingFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_newReleaseInfoFragment_to_onboardingDeltaNotificationsFragment"
+            app:destination="@id/onboardingDeltaNotificationsFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false"/>
     </fragment>
     <fragment
         android:id="@+id/onboardingDeltaAnalyticsFragment"
@@ -135,4 +140,17 @@
         android:name="de.rki.coronawarnapp.ui.information.InformationTermsFragment"
         android:label="@layout/fragment_information_terms"
         tools:layout="@layout/fragment_information_terms" />
+
+    <fragment
+        android:id="@+id/onboardingDeltaNotificationsFragment"
+        android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaNotificationsFragment"
+        android:label="OnboardingDeltaNotificationsFragment"
+        tools:layout="@layout/notifications_delta_onboarding_fragment">
+        <action
+            android:id="@+id/action_onboardingDeltaNotificationsFragment_to_onboardingDeltaAnalyticsFragment"
+            app:destination="@id/onboardingDeltaAnalyticsFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false"/>
+    </fragment>
+
 </navigation>

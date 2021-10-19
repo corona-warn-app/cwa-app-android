@@ -4,10 +4,14 @@ import dagger.Reusable
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensorContainer
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
+import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -17,6 +21,7 @@ import javax.inject.Inject
 class CoronaTestCensor @Inject constructor(
     @DebuggerScope debugScope: CoroutineScope,
     coronaTestRepository: CoronaTestRepository,
+    contactDiaryRepository: ContactDiaryRepository
 ) : BugCensor {
 
     private val mutex = Mutex()
@@ -26,13 +31,26 @@ class CoronaTestCensor @Inject constructor(
     private val identifierHistory = mutableSetOf<String>()
 
     init {
-        coronaTestRepository.coronaTests
+        listOf(
+            contactDiaryRepository.testResults,
+            coronaTestRepository.coronaTests
+        ).merge()
             .filterNotNull()
             .onEach { tests ->
                 mutex.withLock {
-                    // The Registration Token is received after registration of PCR and RAT tests. It is required to poll the test result.
-                    tokenHistory.addAll(tests.map { it.registrationToken })
-                    identifierHistory.addAll(tests.map { it.identifier })
+                    tests.forEach { test ->
+                        when (test) {
+                            is CoronaTest -> {
+                                // The Registration Token is received after registration of PCR and RAT tests. It is required to poll the test result.
+                                tokenHistory.add(test.registrationToken)
+                                identifierHistory.add(test.identifier)
+                            }
+                            is ContactDiaryCoronaTestEntity -> {
+                                // Test ids stay in the contact diary DB even after test is removed from the device
+                                tokenHistory.add(test.id)
+                            }
+                        }
+                    }
                 }
             }.launchIn(debugScope)
     }

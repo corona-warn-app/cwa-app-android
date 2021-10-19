@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.bugreporting.censors.contactdiary
 
 import dagger.Reusable
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensorContainer
+import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
@@ -9,13 +11,15 @@ import javax.inject.Inject
 @Reusable
 class OrganizerRegistrationTokenCensor @Inject constructor() : BugCensor {
 
-    override suspend fun checkLog(message: String): BugCensor.CensorContainer? = mutex.withLock {
-        if (registrationToken.isEmpty()) return null
+    override suspend fun checkLog(message: String): CensorContainer? = mutex.withLock {
+        var container = CensorContainer(message)
 
-        var container = BugCensor.CensorContainer(message)
-
-        registrationToken.forEach {
+        tan.forEach {
             container = container.censor(it, PLACEHOLDER + it.takeLast(3))
+        }
+
+        registrationRequestToCensor.forEach {
+            container = container.censor(it.key, REQUEST_PLACEHOLDER + it.key.takeLast(4))
         }
 
         return container.nullIfEmpty()
@@ -23,15 +27,26 @@ class OrganizerRegistrationTokenCensor @Inject constructor() : BugCensor {
 
     companion object {
         private val mutex = Mutex()
-        private val registrationToken = mutableSetOf<String>()
-        suspend fun addRegistrationToken(tan: String) = mutex.withLock {
-            registrationToken.add(tan)
+
+        private val tan = mutableSetOf<String>()
+        suspend fun addTan(tan: String) = mutex.withLock {
+            this.tan.add(tan)
         }
 
-        suspend fun clearRegistrationTokens() = mutex.withLock {
-            registrationToken.clear()
+        suspend fun clearTan() = mutex.withLock {
+            tan.clear()
+        }
+
+        private val registrationRequestToCensor = mutableSetOf<RegistrationRequest>()
+        suspend fun addRegistrationRequestToCensor(item: RegistrationRequest) = mutex.withLock {
+            registrationRequestToCensor.add(item)
+        }
+
+        suspend fun clearRegistrationRequests() = mutex.withLock {
+            registrationRequestToCensor.clear()
         }
 
         private const val PLACEHOLDER = "########-####-####-####-########"
+        private const val REQUEST_PLACEHOLDER = "###-###-"
     }
 }
