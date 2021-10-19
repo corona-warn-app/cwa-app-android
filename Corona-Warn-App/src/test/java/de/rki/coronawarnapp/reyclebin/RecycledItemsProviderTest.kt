@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -21,6 +22,7 @@ import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -130,6 +132,7 @@ class RecycledItemsProviderTest : BaseTest() {
     fun provider() = RecycledItemsProvider(
         testCertificateRepository = testCertificateRepository,
         recoveryCertificateRepository = recoveryCertificateRepository,
-        vaccinationRepository = vaccinationRepository
+        vaccinationRepository = vaccinationRepository,
+        appScope = TestCoroutineScope()
     )
 }
