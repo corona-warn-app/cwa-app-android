@@ -4,23 +4,23 @@
                   Common
     ###################################### -->
     <!-- XHED: notification management: delta onboarding: header -->
-    <string name="nm_notification_settings">"Manage Notifications"</string>
+    <string name="nm_notification_settings">"Bildirimleri Yönet"</string>
     <!-- XHED: notification management: delta onboarding: header -->
-    <string name="nm_notification_enabled">"Activate Notifications"</string>
+    <string name="nm_notification_enabled">"Bildirimleri Etkinleştir"</string>
     <!-- XTXT: notification management: inactive text -->
-    <string name="nm_notifications_body_inactive">"To activate notifications in the Corona-Warn-App, you must allow notifications in your device settings."</string>
+    <string name="nm_notifications_body_inactive">"Corona-Warn-App uygulamasında bildirimleri etkinleştirmek için cihazınızın ayarlarında bildirimlere izin vermeniz gerekir."</string>
     <!-- XTXT: notification management: active text -->
-    <string name="nm_notifications_body_active_beginning">"You can define the following settings here:"</string>
+    <string name="nm_notifications_body_active_beginning">"Burada şu ayarları tanımlayabilirsiniz:"</string>
     <!-- XTXT: notification management: delta onboarding: point 1 -->
-    <string name="nm_point_overall">"You want to receive notifications in general"</string>
+    <string name="nm_point_overall">"Genel olarak bildirim almak istiyorsunuz"</string>
     <!-- XTXT: notification management: delta onboarding: point 2 -->
-    <string name="nm_point_block_screen">"You want notification texts to be displayed on your lock screen"</string>
+    <string name="nm_point_block_screen">"Kilit ekranınızda bildirim metinlerinin görüntülenmesini istiyorsunuz"</string>
     <!-- XTXT: notification management: delta onboarding: point 3 -->
-    <string name="nm_point_unclock_screen">"You do not want notification texts to be displayed until you unlock your smartphone"</string>
+    <string name="nm_point_unclock_screen">"Akıllı telefonunuzun kilidini açana dek bildirim metinlerinin görüntülenmesini istemiyorsunuz"</string>
     <!-- XHED: notification management: delta onboarding: faq -->
-    <string name="nm_faq">"For details on the settings for your operating system, please see our FAQ page."</string>
+    <string name="nm_faq">"İşletim sisteminizin ayarlarına ilişkin ayrıntılı bilgi için lütfen SSS sayfamıza bakın."</string>
     <!-- XTXT: notification management: delta onboarding: faq label -->
-    <string name="nm_faq_label">"FAQ"</string>
+    <string name="nm_faq_label">"SSS"</string>
     <!-- XTXT: notification management: delta onboarding: faq link -->
     <string name="nm_faq_link">"https://www.coronawarn.app/en/faq/#notification_settings"</string>
 
@@ -29,10 +29,10 @@
     ###################################### -->
 
     <!-- XTXT: notification management: delta onboarding: body -->
-    <string name="nm_delta_onboarding_body">"The settings for notifications are now managed centrally in the device settings of your smartphone."</string>
+    <string name="nm_delta_onboarding_body">"Bildirimlere ilişkin ayarlar artık akıllı telefonunuzun cihaz ayarlarında merkezi olarak yönetilir."</string>
     <!-- XTXT: notification management: delta onboarding: subtitle -->
-    <string name="nm_delta_onboarding_subtitle">"Depending on your operating system version and device model, you can define:"</string>
+    <string name="nm_delta_onboarding_subtitle">"İşletim sisteminizin versiyonuna ve cihazınızın modeline bağlı olarak şunları tanımlayabilirsiniz:"</string>
     <!-- XBUT: notification management: delta onboarding: device settings button -->
-    <string name="nm_delta_onboarding_device_settings_button">"Open Device Settings"</string>
+    <string name="nm_delta_onboarding_device_settings_button">"Cihaz Ayarlarını Aç"</string>
 
 </resources>

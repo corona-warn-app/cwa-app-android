@@ -4,28 +4,26 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
 import de.rki.coronawarnapp.statistics.AppliedVaccinationRatesStats
-import de.rki.coronawarnapp.statistics.IncidenceStats
+import de.rki.coronawarnapp.statistics.IncidenceAndHospitalizationStats
 import de.rki.coronawarnapp.statistics.InfectionStats
 import de.rki.coronawarnapp.statistics.KeySubmissionsStats
 import de.rki.coronawarnapp.statistics.OccupiedIntensiveCareStats
 import de.rki.coronawarnapp.statistics.PersonsVaccinatedCompletelyStats
 import de.rki.coronawarnapp.statistics.PersonsVaccinatedOnceStats
-import de.rki.coronawarnapp.statistics.SevenDayHospitalizationStats
 import de.rki.coronawarnapp.statistics.SevenDayRValue
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter.ItemVH
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.AddCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.AddLocalStatisticsCardItem
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.AppliedVaccinationRatesCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.GlobalStatisticsCardItem
-import de.rki.coronawarnapp.statistics.ui.homecards.cards.IncidenceCard
+import de.rki.coronawarnapp.statistics.ui.homecards.cards.IncidenceAndHospitalizationCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.InfectionsCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.KeySubmissionsCard
-import de.rki.coronawarnapp.statistics.ui.homecards.cards.LocalIncidenceCard
+import de.rki.coronawarnapp.statistics.ui.homecards.cards.LocalIncidenceAndHospitalizationCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.LocalStatisticsCardItem
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.OccupiedIntensiveCareCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.PersonsVaccinatedCompletelyCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.PersonsVaccinatedOnceCard
-import de.rki.coronawarnapp.statistics.ui.homecards.cards.SevenDayHospitalizationCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.SevenDayRValueCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.StatisticsCardItem
 import de.rki.coronawarnapp.util.lists.BindableVH
@@ -49,15 +47,11 @@ class StatisticsCardAdapter :
             TypedVHCreatorMod({
                 val item = data[it]
                 item is LocalStatisticsCardItem
-            }) { LocalIncidenceCard(it) },
+            }) { LocalIncidenceAndHospitalizationCard(it) },
             TypedVHCreatorMod({
                 val item = data[it]
-                item is GlobalStatisticsCardItem && item.stats is IncidenceStats
-            }) { IncidenceCard(it) },
-            TypedVHCreatorMod({
-                val item = data[it]
-                item is GlobalStatisticsCardItem && item.stats is SevenDayHospitalizationStats
-            }) { SevenDayHospitalizationCard(it) },
+                item is GlobalStatisticsCardItem && item.stats is IncidenceAndHospitalizationStats
+            }) { IncidenceAndHospitalizationCard(it) },
             TypedVHCreatorMod({
                 val item = data[it]
                 item is GlobalStatisticsCardItem && item.stats is OccupiedIntensiveCareStats

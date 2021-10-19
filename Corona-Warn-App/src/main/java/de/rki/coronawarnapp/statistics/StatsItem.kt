@@ -25,7 +25,7 @@ data class StatisticsData(
 }
 
 data class LocalStatisticsData(
-    val items: List<LocalIncidenceStats> = emptyList()
+    val items: List<LocalIncidenceAndHospitalizationStats> = emptyList()
 ) {
     val isDataAvailable: Boolean = items.isNotEmpty()
 
@@ -53,14 +53,13 @@ sealed class GlobalStatsItem(val cardType: Type) : GenericStatsItem() {
 
     enum class Type(val id: Int) {
         INFECTION(1),
-        INCIDENCE(2),
         KEYSUBMISSION(3),
         SEVEN_DAY_RVALUE(4),
         PERSONS_VACCINATED_ONCE(5),
         PERSONS_VACCINATED_COMPLETELY(6),
         APPLIED_VACCINATION_RATES(7),
-        SEVEN_DAY_HOSPITALIZATION(8),
-        OCCUPIED_INTENSIVE_CARE_BEDS(9)
+        OCCUPIED_INTENSIVE_CARE_BEDS(9),
+        INCIDENCE_AND_HOSPITALIZATION(10)
     }
 
     abstract fun requireValidity()
@@ -105,35 +104,48 @@ data class InfectionStats(
     }
 }
 
-data class IncidenceStats(
+data class IncidenceAndHospitalizationStats(
     override val updatedAt: Instant,
     override val keyFigures: List<KeyFigure>
-) : GlobalStatsItem(cardType = Type.INCIDENCE) {
+) : GlobalStatsItem(cardType = Type.INCIDENCE_AND_HOSPITALIZATION) {
 
     val sevenDayIncidence: KeyFigure
         get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }
 
+    val sevenDayIncidenceSecondary: KeyFigure
+        get() = keyFigures.single { it.rank == KeyFigure.Rank.SECONDARY }
+
     override fun requireValidity() {
-        require(keyFigures.size == 1)
+        require(keyFigures.size == 2)
         requireNotNull(keyFigures.singleOrNull { it.rank == KeyFigure.Rank.PRIMARY }) {
-            Timber.w("IncidenceStats is missing primary value")
+            Timber.w("Global Incidence And Hospitalization Stats is missing primary value")
+        }
+        requireNotNull(keyFigures.singleOrNull { it.rank == KeyFigure.Rank.SECONDARY }) {
+            Timber.w("Global Incidence And Hospitalization Stats is missing secondary value")
         }
     }
 }
 
-data class LocalIncidenceStats(
+data class LocalIncidenceAndHospitalizationStats(
     override val updatedAt: Instant,
     override val keyFigures: List<KeyFigure>,
+    val hospitalizationUpdatedAt: Instant,
     val selectedLocation: SelectedStatisticsLocation,
 ) : LocalStatsItem(cardType = Type.LOCAL_INCIDENCE) {
 
     val sevenDayIncidence: KeyFigure
         get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }
 
+    val sevenDayHospitalization: KeyFigure
+        get() = keyFigures.single { it.rank == KeyFigure.Rank.SECONDARY }
+
     override fun requireValidity() {
-        require(keyFigures.size == 1)
+        require(keyFigures.isNotEmpty())
         requireNotNull(keyFigures.singleOrNull { it.rank == KeyFigure.Rank.PRIMARY }) {
-            Timber.w("IncidenceStats is missing primary value")
+            Timber.w("LocalIncidenceAndHospitalizationStats is missing primary value")
+        }
+        requireNotNull(keyFigures.singleOrNull { it.rank == KeyFigure.Rank.SECONDARY }) {
+            Timber.w("LocalIncidenceAndHospitalizationStats is missing secondary value")
         }
     }
 }
@@ -250,22 +262,6 @@ data class AppliedVaccinationRatesStats(
         }
         requireNotNull(keyFigures.singleOrNull { it.rank == KeyFigure.Rank.TERTIARY }) {
             Timber.w("AppliedVaccinationRatesStats is missing tertiary value")
-        }
-    }
-}
-
-data class SevenDayHospitalizationStats(
-    override val updatedAt: Instant,
-    override val keyFigures: List<KeyFigure>
-) : GlobalStatsItem(cardType = Type.SEVEN_DAY_HOSPITALIZATION) {
-
-    val sevenDayValue: KeyFigure
-        get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }
-
-    override fun requireValidity() {
-        require(keyFigures.size == 1)
-        requireNotNull(keyFigures.singleOrNull { it.rank == KeyFigure.Rank.PRIMARY }) {
-            Timber.w("SevenDayHospitalizationStats is missing primary value")
         }
     }
 }

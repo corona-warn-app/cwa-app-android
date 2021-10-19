@@ -5,12 +5,19 @@
     tools:ignore="MissingConstraints">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/incidence_container"
+        android:id="@+id/seven_day_incidence_and_hospitalization_card_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:layout_height="wrap_content"
         tools:layout_width="@dimen/statistics_card_width"
         tools:showIn="@layout/home_statistics_cards_basecard_layout">
+
+        <ImageButton
+            android:id="@+id/overflow_menu_button"
+            style="@style/CardOverFlowButton"
+            android:contentDescription="@string/button_menu"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/title"
@@ -19,57 +26,53 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_normal"
-            android:text="@string/statistics_explanation_seven_day_incidence_title"
-            app:layout_constraintEnd_toStartOf="@id/info_statistics"
+            android:maxLines="2"
+            android:text="@string/statistics_card_local_incidence_title"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintEnd_toStartOf="@id/overflow_menu_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/nationwide_text"
-            style="@style/StatisticsCardValueLabel"
+            android:id="@+id/location_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/card_padding"
             android:layout_marginBottom="@dimen/spacing_small"
-            android:text="@string/statistics_nationwide_text"
             android:textSize="@dimen/font_small"
-            app:layout_constraintEnd_toStartOf="@id/info_statistics"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title" />
+            app:layout_constraintStart_toStartOf="@id/title"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            tools:text="Potsdam" />
 
         <ImageView
             android:id="@+id/background_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="38dp"
             android:contentDescription="@null"
             android:importantForAccessibility="no"
             android:paddingStart="0dp"
             android:paddingEnd="@dimen/spacing_small"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/nationwide_text"
-            app:srcCompat="@drawable/ic_statistics_incidence" />
+            app:layout_constraintTop_toBottomOf="@id/location_label"
+            app:srcCompat="@drawable/ic_statistics_local_incidence" />
 
         <TextView
             android:id="@+id/primary_label"
-            style="@style/StatisticsCardValueLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="42dp"
-            app:layout_constraintStart_toStartOf="@id/nationwide_text"
-            app:layout_constraintTop_toBottomOf="@id/nationwide_text"
-            tools:text="Bis gestern" />
+            android:layout_marginTop="@dimen/spacing_small"
+            android:text="@string/statistics_primary_value_until_yesterday"
+            app:layout_constraintStart_toStartOf="@id/location_label"
+            app:layout_constraintTop_toTopOf="@id/background_image" />
 
         <TextView
             android:id="@+id/primary_value"
             style="@style/StatisticsCardPrimaryValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:focusable="true"
             android:includeFontPadding="false"
             app:layout_constraintStart_toStartOf="@id/primary_label"
             app:layout_constraintTop_toBottomOf="@id/primary_label"
-            tools:text="98,9" />
+            tools:text="37.4" />
 
         <de.rki.coronawarnapp.statistics.ui.TrendArrowView
             android:id="@+id/primary_trend_arrow"
@@ -81,34 +84,32 @@
             app:layout_constraintTop_toTopOf="@id/primary_value" />
 
         <TextView
-            android:id="@+id/primary_description"
-            style="@style/StatisticsCardValueLabel"
+            android:id="@+id/primary_subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/statistics_primary_value_description"
+            android:text="@string/statistics_card_local_incidence_value_description"
+            app:layout_constraintEnd_toStartOf="@id/background_image"
             app:layout_constraintStart_toStartOf="@id/primary_value"
             app:layout_constraintTop_toBottomOf="@id/primary_value" />
 
         <TextView
             android:id="@+id/secondary_label"
-            style="@style/StatisticsCardValueLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            app:layout_constraintStart_toStartOf="@id/primary_description"
-            app:layout_constraintTop_toBottomOf="@id/primary_description"
-            tools:text="Bis gestern" />
+            android:layout_marginTop="@dimen/spacing_small"
+            app:layout_constraintStart_toStartOf="@id/location_label"
+            app:layout_constraintTop_toBottomOf="@id/primary_subtitle"
+            tools:text="@string/statistics_primary_value_until_yesterday" />
 
         <TextView
             android:id="@+id/secondary_value"
             style="@style/StatisticsCardPrimaryValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:focusable="true"
             android:includeFontPadding="false"
             app:layout_constraintStart_toStartOf="@id/secondary_label"
             app:layout_constraintTop_toBottomOf="@id/secondary_label"
-            tools:text="98,9" />
+            tools:text="1,74" />
 
         <de.rki.coronawarnapp.statistics.ui.TrendArrowView
             android:id="@+id/secondary_trend_arrow"
@@ -120,30 +121,14 @@
             app:layout_constraintTop_toTopOf="@id/secondary_value" />
 
         <TextView
-            android:id="@+id/secondary_description"
-            style="@style/StatisticsCardValueLabel"
+            android:id="@+id/secondary_subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/spacing_small"
-            android:text="@string/statistics_secondary_value_description"
-            app:layout_constraintStart_toStartOf="@id/secondary_value"
-            app:layout_constraintTop_toBottomOf="@id/secondary_value" />
-
-        <ImageButton
-            android:id="@+id/info_statistics"
-            style="@style/StatisticsCardInfoButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/statistics_info_button"
+            android:layout_marginEnd="@dimen/spacing_huge"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/horizontal_guideline"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="@dimen/guideline_statistics_card_content" />
+            app:layout_constraintStart_toStartOf="@id/secondary_value"
+            app:layout_constraintTop_toBottomOf="@id/secondary_value"
+            tools:text="Hospitalisierungen in Brandenburg" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

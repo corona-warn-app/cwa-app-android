@@ -39,8 +39,8 @@ class NotificationSettingsStateTest : BaseTest() {
 
     @Test
     fun getNotificationsHeader() {
-        createInstance().getNotificationsHeader() shouldBe R.string.nm_notification_enabled
-        createInstance(false).getNotificationsHeader() shouldBe R.string.nm_notification_settings
+        createInstance().getNotificationsHeader() shouldBe R.string.nm_notification_settings
+        createInstance(false).getNotificationsHeader() shouldBe R.string.nm_notification_enabled
     }
 
     @Test
