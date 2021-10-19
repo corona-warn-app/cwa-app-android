@@ -21,6 +21,7 @@ import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -130,6 +131,7 @@ class RecycledItemsProviderTest : BaseTest() {
     fun provider() = RecycledItemsProvider(
         testCertificateRepository = testCertificateRepository,
         recoveryCertificateRepository = recoveryCertificateRepository,
-        vaccinationRepository = vaccinationRepository
+        vaccinationRepository = vaccinationRepository,
+        appScope = TestCoroutineScope()
     )
 }

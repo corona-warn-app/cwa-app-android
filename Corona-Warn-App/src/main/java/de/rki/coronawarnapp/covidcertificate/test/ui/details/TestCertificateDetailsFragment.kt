@@ -14,7 +14,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.loadAny
 import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
@@ -24,6 +23,8 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
 import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationNoInternetErrorDialog
 import de.rki.coronawarnapp.databinding.FragmentTestCertificateDetailsBinding
+import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
+import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
@@ -230,14 +231,10 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     }
 
     private fun showCertificateDeletionRequest() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.recycle_bin_recycle_certificate_dialog_title)
-            .setMessage(R.string.recycle_bin_recycle_certificate_dialog_message)
-            .setNegativeButton(R.string.recycle_bin_recycle_certificate_dialog_negative_button) { _, _ -> }
-            .setPositiveButton(R.string.recycle_bin_recycle_certificate_dialog_positive_button) { _, _ ->
-                viewModel.recycleTestCertificateConfirmed()
-            }
-            .show()
+        RecycleBinDialogType.RecycleCertificateConfirmation.show(
+            fragment = this,
+            positiveButtonAction = { viewModel.recycleTestCertificateConfirmed() }
+        )
     }
 
     companion object {

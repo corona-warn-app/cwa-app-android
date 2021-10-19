@@ -44,6 +44,8 @@ class VaccinationCertificateCard(parent: ViewGroup) :
         certificatePersonName.text = certificate.fullNameFormatted
         certificateType.setText(R.string.vaccination_certificate_name)
 
+        root.setOnClickListener { item.onRestore(item.certificate) }
+
         menuAction.setupMenu(R.menu.menu_recycler_bin_list_item) {
             when (it.itemId) {
                 R.id.menu_remove_permanently -> item.onRemove(item.certificate, null).let { true }

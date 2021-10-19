@@ -23,9 +23,9 @@
     <!-- XHED: Recycle Bin - recycle certificate dialog title -->
     <string name="recycle_bin_recycle_certificate_dialog_title">"Wollen Sie das Zertifikat entfernen?"</string>
     <!-- XTXT: Recycle Bin - recycle certificate dialog message -->
-    <string name="recycle_bin_recycle_certificate_dialog_message">"Das Zertifikat wird in den Papierkorb verschoben. Den Papierkorb finden Sie auf der Status-Registerkarte unter den drei Punkten oben rechts.Dort können Sie es endgültig löschen oder wiederherstellen. Nach 30 Tagen wird das Zertifikat automatisch gelöscht."</string>
+    <string name="recycle_bin_recycle_certificate_dialog_message">"Das Zertifikat wird in den Papierkorb verschoben. Den Papierkorb finden Sie auf der Status-Registerkarte unter den drei Punkten oben rechts. Dort können Sie es endgültig löschen oder wiederherstellen. Nach 30 Tagen wird das Zertifikat automatisch gelöscht."</string>
     <!-- XBUT: Recycle Bin - recycle certificate dialog positive button -->
-    <string name="recycle_bin_recycle_certificate_dialog_positive_button">"Zertifikat EntFernen"</string>
+    <string name="recycle_bin_recycle_certificate_dialog_positive_button">"Zertifikat Entfernen"</string>
     <!-- XBUT: Recycle Bin - recycle certificate dialog negative button -->
     <string name="recycle_bin_recycle_certificate_dialog_negative_button">"Abbrechen"</string>
 
@@ -36,4 +36,33 @@
     <!-- XTXT: Recycle Bin - remove permanently -->
     <string name="recycle_bin_remove_permanently">"Endgültig entfernen"</string>
 
+    <!-- Recycle bin remove all dialog-->
+    <!-- XHED: Recycle Bin - remove all dialog title -->
+    <string name="recycle_bin_remove_all_dialog_title">"Wollen Sie den Inhalt des Papierkorbs wirklich entfernen?"</string>
+    <!-- XTXT: Recycle Bin - remove all dialog message -->
+    <string name="recycle_bin_remove_all_dialog_message">"Dieser kann dann nicht wiederhergestellt werden."</string>
+    <!-- XBUT: Recycle Bin - remove all dialog positive button -->
+    <string name="recycle_bin_remove_all_dialog_positive_button">"Entfernen"</string>
+    <!-- XBUT: Recycle Bin - remove all dialog negative button -->
+    <string name="recycle_bin_remove_all_dialog_negative_button">"Abbrechen"</string>
+
+    <!-- Recycle bin restore certificate dialog-->
+    <!-- XHED: Recycle Bin - restore certificate dialog title -->
+    <string name="recycle_bin_restore_certificate_dialog_title">"Zertifikat wiederherstellen"</string>
+    <!-- XTXT: Recycle Bin - restore certificate dialog message -->
+    <string name="recycle_bin_restore_certificate_dialog_message">"Das wiederhergestellte Zertifikat wird an seinen ursprünglichen Ort verschoben. Sie finden es dann in der Registerkarte „Zertifikate“."</string>
+    <!-- XBUT: Recycle Bin - restore certificate dialog positive button -->
+    <string name="recycle_bin_restore_certificate_dialog_positive_button">"Wiederherstellen"</string>
+    <!-- XBUT: Recycle Bin - restore certificate dialog negative button -->
+    <string name="recycle_bin_restore_certificate_dialog_negative_button">"Abbrechen"</string>
+
+    <!-- Recycle bin restore test dialog-->
+    <!-- XHED: Recycle Bin - restore test dialog title -->
+    <string name="recycle_bin_restore_test_dialog_title">"Test wiederherstellen"</string>
+    <!-- XTXT: Recycle Bin - restore test dialog message -->
+    <string name="recycle_bin_restore_test_dialog_message">"Der wiederhergestellte Test wird an seinen ursprünglichen Ort verschoben. Sie finden ihn dann in der Registerkarte „Status“."</string>
+    <!-- XBUT: Recycle Bin - restore test dialog positive button -->
+    <string name="recycle_bin_restore_test_dialog_positive_button">"Wiederherstellen"</string>
+    <!-- XBUT: Recycle Bin - restore test dialog negative button -->
+    <string name="recycle_bin_restore_test_dialog_negative_button">"Abbrechen"</string>
 </resources>

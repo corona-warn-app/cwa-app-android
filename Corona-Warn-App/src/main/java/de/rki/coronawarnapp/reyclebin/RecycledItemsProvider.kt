@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.reyclebin
 
+import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
@@ -9,16 +10,21 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRe
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.tag
+import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.flow.shareLatest
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Inject
 
+@Reusable
 class RecycledItemsProvider @Inject constructor(
     private val vaccinationRepository: VaccinationRepository,
     private val testCertificateRepository: TestCertificateRepository,
     private val recoveryCertificateRepository: RecoveryCertificateRepository,
+    @AppScope appScope: CoroutineScope
 ) {
 
     val recycledCertificates: Flow<Set<CwaCovidCertificate>> = combine(
@@ -34,7 +40,7 @@ class RecycledItemsProvider @Inject constructor(
             .also {
                 Timber.tag(TAG).d("recycledCertificates=%s", it.size)
             }
-    }
+    }.shareLatest(scope = appScope)
 
     /**
      * Find certificate in recycled items
