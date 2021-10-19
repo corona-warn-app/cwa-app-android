@@ -62,16 +62,10 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
         )
     }
 
-    fun onDeleteVaccinationCertificateConfirmed() {
-        launch(scope = appScope) {
-            try {
-                vaccinationRepository.deleteCertificate(containerId)
-                events.postValue(VaccinationDetailsNavigation.Back)
-            } catch (exception: Exception) {
-                errors.postValue(exception)
-                Timber.e(exception, "Something went wrong when trying to delete a vaccination certificate.")
-            }
-        }
+    fun recycleVaccinationCertificateConfirmed() = launch(scope = appScope) {
+        Timber.d("Recycling Vaccination Certificate=$containerId")
+        vaccinationRepository.recycleCertificate(containerId)
+        events.postValue(VaccinationDetailsNavigation.Back)
     }
 
     fun startValidationRulesDownload() = launch {

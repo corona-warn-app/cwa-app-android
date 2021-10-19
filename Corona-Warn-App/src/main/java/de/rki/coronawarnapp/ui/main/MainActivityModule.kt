@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragment
 import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentModule
 import de.rki.coronawarnapp.release.NewReleaseInfoFragment
 import de.rki.coronawarnapp.release.NewReleaseInfoFragmentModule
+import de.rki.coronawarnapp.reyclebin.ui.RecyclerBinUIModule
 import de.rki.coronawarnapp.statistics.ui.stateselection.FederalStateSelectionModule
 import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsFragmentModule
 import de.rki.coronawarnapp.ui.coronatest.rat.profile.RATProfileUIModule
@@ -47,6 +48,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
         PresenceTracingUIModule::class,
         RATProfileUIModule::class,
         DigitalCovidCertificateUIModule::class,
+        RecyclerBinUIModule::class,
     ]
 )
 abstract class MainActivityModule {

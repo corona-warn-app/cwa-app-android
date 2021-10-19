@@ -36,6 +36,7 @@ import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingRiskWorkScheduler
 import de.rki.coronawarnapp.presencetracing.storage.retention.TraceLocationDbCleanUpScheduler
+import de.rki.coronawarnapp.reyclebin.cleanup.RecycleBinCleanUpScheduler
 import de.rki.coronawarnapp.risk.changedetection.CombinedRiskLevelChangeDetector
 import de.rki.coronawarnapp.risk.changedetection.EwRiskLevelChangeDetector
 import de.rki.coronawarnapp.risk.execution.ExposureWindowRiskWorkScheduler
@@ -95,6 +96,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var dccStateCheckScheduler: DccStateCheckScheduler
     @Inject lateinit var securityProvider: SecurityProvider
     @Inject lateinit var boosterCheckScheduler: BoosterCheckScheduler
+    @Inject lateinit var recycleBinCleanUpScheduler: RecycleBinCleanUpScheduler
     @Inject lateinit var vaccinationStorage: VaccinationStorage
 
     @AppScope
@@ -171,6 +173,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         shareTestResultNotificationService.setup()
         dccStateCheckScheduler.setup()
         boosterCheckScheduler.setup()
+        recycleBinCleanUpScheduler.setup()
     }
 
     private val activityLifecycleCallback = object : ActivityLifecycleCallbacks {
