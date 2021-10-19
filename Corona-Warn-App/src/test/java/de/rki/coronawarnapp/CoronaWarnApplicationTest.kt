@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingRiskWorkScheduler
 import de.rki.coronawarnapp.presencetracing.storage.retention.TraceLocationDbCleanUpScheduler
+import de.rki.coronawarnapp.reyclebin.cleanup.RecycleBinCleanUpScheduler
 import de.rki.coronawarnapp.risk.changedetection.CombinedRiskLevelChangeDetector
 import de.rki.coronawarnapp.risk.changedetection.EwRiskLevelChangeDetector
 import de.rki.coronawarnapp.risk.execution.ExposureWindowRiskWorkScheduler
@@ -85,6 +86,7 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var dscCheckScheduler: DccStateCheckScheduler
     @MockK lateinit var securityProvider: SecurityProvider
     @MockK lateinit var boosterCheckScheduler: BoosterCheckScheduler
+    @MockK lateinit var recycleBinCleanUpScheduler: RecycleBinCleanUpScheduler
 
     @ExperimentalCoroutinesApi
     @BeforeEach
@@ -148,6 +150,7 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.imageLoaderFactory = imageLoaderFactory
                 app.dccStateCheckScheduler = dscCheckScheduler
                 app.boosterCheckScheduler = boosterCheckScheduler
+                app.recycleBinCleanUpScheduler = recycleBinCleanUpScheduler
             }
         }
     }
@@ -186,6 +189,7 @@ class CoronaWarnApplicationTest : BaseTest() {
             shareTestResultNotificationService.setup()
             dscCheckScheduler.setup()
             boosterCheckScheduler.setup()
+            recycleBinCleanUpScheduler.setup()
         }
     }
 }

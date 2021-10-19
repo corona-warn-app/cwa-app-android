@@ -23,6 +23,8 @@
     <string name="menu_information">"App-Informationen"</string>
     <!-- XMIT: application settings -->
     <string name="menu_settings">"Einstellungen"</string>
+    <!-- XMIT: application trash -->
+    <string name="menu_trash">"Papierkorb"</string>
 
     <!-- ####################################
                Notification

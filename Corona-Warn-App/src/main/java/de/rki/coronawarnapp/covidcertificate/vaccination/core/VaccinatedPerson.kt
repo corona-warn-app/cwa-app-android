@@ -24,13 +24,25 @@ data class VaccinatedPerson(
         get() = data.vaccinations
 
     val vaccinationCertificates: Set<VaccinationCertificate> by lazy {
-        vaccinationContainers.map {
-            it.toVaccinationCertificate(
-                valueSet,
-                certificateState = certificateStates.getValue(it.containerId)
-            )
-        }.toSet()
+        vaccinationContainers
+            .filter { it.isNotRecycled }
+            .mapToVaccinationCertificateSet()
     }
+
+    val recycledVaccinationCertificates: Set<VaccinationCertificate> by lazy {
+        vaccinationContainers
+            .filter { it.isRecycled }
+            .mapToVaccinationCertificateSet(state = CwaCovidCertificate.State.Recycled)
+    }
+
+    private fun Collection<VaccinationContainer>.mapToVaccinationCertificateSet(
+        state: CwaCovidCertificate.State? = null
+    ): Set<VaccinationCertificate> = map {
+        it.toVaccinationCertificate(
+            valueSet,
+            certificateState = state ?: certificateStates.getValue(it.containerId)
+        )
+    }.toSet()
 
     val hasBoosterNotification: Boolean
         get() = data.boosterRule?.identifier != data.lastSeenBoosterRuleIdentifier

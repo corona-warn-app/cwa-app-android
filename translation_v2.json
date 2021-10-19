@@ -14,6 +14,7 @@
             "vaccination_strings.xml",
             "green_certificate_strings.xml",
             "covid_certificate_strings.xml",
+            "recycler_bin_strings.xml",
             "notifications_strings.xml"
           ],
           "targetFolderPath": "../[langCode]"
