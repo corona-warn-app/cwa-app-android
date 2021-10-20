@@ -16,18 +16,18 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Extended Statistics"</item>
-        <item>"Manage Notifications"</item>
-        <item>"Direct Access to QR Code Scanner"</item>
-        <item>"Check of Administrator Authorizations"</item>
+        <item>"Local 7-Day Hospitalization Incidence"</item>
+        <item>"Change of Link to FAQ"</item>
+        <item>"Certificate Assignment"</item>
+        <item>"Restore Certificates"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"The following statistics are now available in the app:\n\n• 7-day hospitalization incidence\n• COVID-19 patients in intensive care units"</item>
-        <item>"The settings for notifications are now managed centrally in your smartphone settings. Check your notification settings for the Corona-Warn-App again in your device settings."</item>
-        <item>"You now have direct access to the universal QR code scanner in the lower navigation bar."</item>
-        <item>"After a restart, the app checks whether administrator authorizations (also known as root authorizations) are active on your smartphone and displays a security note if applicable."</item>
+        <item>"The local tiles for the 7-day incidence of new infections now also displays the 7-day hospitalization incidence. Since this key figure is only available at the state level, if a district is selected, the hospitalization rate for the respective state will be displayed."</item>
+        <item>"When you call a FAQ in the app, you are now forwarded to pages at coronawarn.app. You will find more details about your questions there."</item>
+        <item>"The assignment of certificates to people has been made more error-tolerant. The app now ignores different numbers of spaces in names, making it possible to assign the certificates to the same person despite such differences."</item>
+        <item>"Removed certificates are moved to the trash. They can be restored within 30 days."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

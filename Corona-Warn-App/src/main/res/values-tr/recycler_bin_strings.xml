@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+    <!-- ####################################
+                Recycler Bin
+    ###################################### -->
+
+    <!-- XHED: recycler bin overview title -->
+    <string name="recycler_bin_title">"Çöp kutusu"</string>
+    <!-- XHED: empty recycler bin label -->
+    <string name="recycler_bin_empty_label">"Çöp Kutusu Boş"</string>
+    <!-- XHED: empty recycler bin description -->
+    <string name="recycler_bin_empty_description">"Testler ve sertifikalar, kaldırdığınızda çöp kutusuna taşınır ve burada görüntülenir."</string>
+    <!-- XHED: recycler bin remove all menu item -->
+    <string name="recycler_bin_remove_all">"Tümünü Kaldır"</string>
+
+    <!-- Recycle Bin  - Restore Dgc on scanning confirmation-->
+    <!-- XHED: Recycle Bin  - Restore DGC dialog title -->
+    <string name="recycle_bin_restore_dgc_dialog_title">"Sertifikayı Geri Yükle"</string>
+    <!-- XTXT: Recycle Bin  - Restore DGC dialog message -->
+    <string name="recycle_bin_restore_dgc_dialog_message">"QR kod zaten akıllı telefonunuza kayıtlı. Sertifikayı çöp kutusundan geri yükleyebilirsiniz. "</string>
+
+    <!-- DGC  - Recycle certificate dialog-->
+    <!-- XHED: Recycle Bin - recycle certificate dialog title -->
+    <string name="recycle_bin_recycle_certificate_dialog_title">"Sertifikayı kaldırmak istiyor musunuz?"</string>
+    <!-- XTXT: Recycle Bin - recycle certificate dialog message -->
+    <string name="recycle_bin_recycle_certificate_dialog_message">"Sertifika çöp kutusuna taşınacak. Çöp kutusunu, sağ üst kısımdaki üç noktanın altında yer durum sekme sayfasında bulabilirsiniz. Burada sertifikayı kalıcı olarak silebilir veya geri yükleyebilirsiniz. Sertifika 30 gün sonra otomatik olarak silinir."</string>
+    <!-- XBUT: Recycle Bin - recycle certificate dialog positive button -->
+    <string name="recycle_bin_recycle_certificate_dialog_positive_button">"Sertifikayı Kaldır"</string>
+    <!-- XBUT: Recycle Bin - recycle certificate dialog negative button -->
+    <string name="recycle_bin_recycle_certificate_dialog_negative_button">"İptal"</string>
+
+    <!-- XTXT: Recycle Bin - overview subheader -->
+    <string name="recycle_bin_overview_subheader">"Geri yüklemek için bir öğenin yanındaki üç noktaya dokunun. Öğeler 30 gün sonra otomatik olarak silinir."</string>
+    <!-- XTXT: Recycle Bin - restore -->
+    <string name="recycle_bin_restore">"Geri Yükle"</string>
+    <!-- XTXT: Recycle Bin - remove permanently -->
+    <string name="recycle_bin_remove_permanently">"Kalıcı olarak sil"</string>
+
+    <!-- Recycle bin remove all dialog-->
+    <!-- XHED: Recycle Bin - remove all dialog title -->
+    <string name="recycle_bin_remove_all_dialog_title">"Çöp kutusunu boşaltmak istiyor musunuz?"</string>
+    <!-- XTXT: Recycle Bin - remove all dialog message -->
+    <string name="recycle_bin_remove_all_dialog_message">"İçindekileri geri yükleyemeyeceksiniz."</string>
+    <!-- XBUT: Recycle Bin - remove all dialog positive button -->
+    <string name="recycle_bin_remove_all_dialog_positive_button">"Kaldır"</string>
+    <!-- XBUT: Recycle Bin - remove all dialog negative button -->
+    <string name="recycle_bin_remove_all_dialog_negative_button">"İptal Et"</string>
+
+    <!-- Recycle bin restore certificate dialog-->
+    <!-- XHED: Recycle Bin - restore certificate dialog title -->
+    <string name="recycle_bin_restore_certificate_dialog_title">"Sertifikayı Geri Yükle"</string>
+    <!-- XTXT: Recycle Bin - restore certificate dialog message -->
+    <string name="recycle_bin_restore_certificate_dialog_message">"Geri yüklenen sertifika orijinal konumuna taşınır. Daha sonra \"Sertifikalar\" sekme sayfasında bulabilirsiniz."</string>
+    <!-- XBUT: Recycle Bin - restore certificate dialog positive button -->
+    <string name="recycle_bin_restore_certificate_dialog_positive_button">"Geri Yükle"</string>
+    <!-- XBUT: Recycle Bin - restore certificate dialog negative button -->
+    <string name="recycle_bin_restore_certificate_dialog_negative_button">"İptal"</string>
+
+    <!-- Recycle bin restore test dialog-->
+    <!-- XHED: Recycle Bin - restore test dialog title -->
+    <string name="recycle_bin_restore_test_dialog_title">"Testi Geri Yükle"</string>
+    <!-- XTXT: Recycle Bin - restore test dialog message -->
+    <string name="recycle_bin_restore_test_dialog_message">"Geri yüklenen test orijinal konumuna taşınır. Daha sonra \"Durum\" sekme sayfasında bulabilirsiniz."</string>
+    <!-- XBUT: Recycle Bin - restore test dialog positive button -->
+    <string name="recycle_bin_restore_test_dialog_positive_button">"Geri Yükle"</string>
+    <!-- XBUT: Recycle Bin - restore test dialog negative button -->
+    <string name="recycle_bin_restore_test_dialog_negative_button">"İptal"</string>
+</resources>

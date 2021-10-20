@@ -6,10 +6,6 @@
     <string name="vaccination_list_immunity_tomorrow_card_body">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă până mâine."</string>
     <!-- XBUT: Vaccination List delete button -->
     <string name="vaccination_list_delete_button">"Ștergere"</string>
-    <!-- XTXT: Vaccination List deletion dialog title-->
-    <string name="vaccination_list_deletion_dialog_title">"Doriți să ștergeți certificatul de vaccinare?"</string>
-    <!-- XTXT: Vaccination List deletion dialog message-->
-    <string name="vaccination_list_deletion_dialog_message">"Vă recomandăm să păstrați certificatele de vaccinare în aplicație, chiar dacă nu mai sunt de actualitate."</string>
     <!-- XACT: Vaccination List Qr-Code for screen readers -->
     <string name="vaccination_list_qr_code_accessibility">"Cod QR"</string>
 
