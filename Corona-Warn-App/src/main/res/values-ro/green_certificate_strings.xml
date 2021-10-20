@@ -37,14 +37,6 @@
     <string name="green_certificate_details_menu_item_delete">"Eliminare certificat"</string>
     <!-- XTXT: Detail green certificate menu item: print -->
     <string name="green_certificate_details_menu_item_export">"Afișare versiune de tipărire"</string>
-    <!-- XTXT: Detail green certificate diaglog title -->
-    <string name="green_certificate_details_dialog_remove_test_title">"Doriți să eliminați certificatul de test?"</string>
-    <!-- XTXT: Detail green certificate diaglog message -->
-    <string name="green_certificate_details_dialog_remove_test_message">"Dacă eliminați certificatul de test, nu îl mai puteți utiliza ca dovadă în aplicație."</string>
-    <!-- XTXT: Detail green certificate diaglog positive -->
-    <string name="green_certificate_details_dialog_remove_test_button_positive">"Eliminare"</string>
-    <!-- XTXT: Detail green certificate diaglog negative -->
-    <string name="green_certificate_details_dialog_remove_test_button_negative">"Anulare"</string>
 
     <!-- XTXT: Green certificate main screen title -->
     <string name="certification_screen_title">"Certificate"</string>
