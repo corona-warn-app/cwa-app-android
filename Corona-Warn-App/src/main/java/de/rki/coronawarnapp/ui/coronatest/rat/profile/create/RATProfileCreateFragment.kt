@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
 import de.rki.coronawarnapp.databinding.RatProfileCreateFragmentBinding
-import de.rki.coronawarnapp.ui.coronatest.rat.profile.create.RATProfileCreateFragmentViewModel.Companion.format
 import de.rki.coronawarnapp.ui.view.addEmojiFilter
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -21,15 +20,24 @@ import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import org.joda.time.LocalDate
+import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment), AutoInject {
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
+    private val formatter: DateTimeFormatter = DateTimeFormat.mediumDate()
     private val binding: RatProfileCreateFragmentBinding by viewBinding()
-    private val viewModel: RATProfileCreateFragmentViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: RATProfileCreateFragmentViewModel by cwaViewModelsAssisted(
+        factoryProducer = { viewModelFactory },
+        constructorCall = { factory, _ ->
+            factory as RATProfileCreateFragmentViewModel.Factory
+            factory.create(formatter)
+        }
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
@@ -70,7 +78,7 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
             phoneInputEdit.setOnFocusChangeListener { _, hasFocus ->
                 // Validate phone number
                 if (!hasFocus && !Patterns.PHONE.matcher(phoneInputEdit.text.toString()).matches()) {
-                    phoneInputLayout.error = getRoot().getResources().getString(R.string.rat_profile_create_phone_error)
+                    phoneInputLayout.error = root.resources.getString(R.string.rat_profile_create_phone_error)
                 } else {
                     phoneInputLayout.error = null
                 }
@@ -89,7 +97,7 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
             emailInputEdit.setOnFocusChangeListener { _, hasFocus ->
                 // Validate email
                 if (!hasFocus && !Patterns.EMAIL_ADDRESS.matcher(emailInputEdit.text.toString()).matches()) {
-                    emailInputLayout.error = getRoot().getResources().getString(R.string.rat_profile_create_email_error)
+                    emailInputLayout.error = root.resources.getString(R.string.rat_profile_create_email_error)
                 } else {
                     emailInputLayout.error = null
                 }
@@ -135,7 +143,7 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
-                    binding.birthDateInputEdit.setText(LocalDate(it).toString(format))
+                    binding.birthDateInputEdit.setText(LocalDate(it).toString(formatter))
                 }
             }
             .show(childFragmentManager, "RATProfileCreateFragment.MaterialDatePicker")
