@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -59,13 +60,41 @@ class VaccinationStorage @Inject constructor(
                 val raw = gson.toJson(it)
                 val identifier = it.identifier
                 Timber.tag(TAG).v("Storing vaccinatedPerson %s -> %s", identifier, raw)
-                putString("$PKEY_PERSON_PREFIX${identifier.code}", raw)
+                putString("$PKEY_PERSON_PREFIX${identifier.groupingKey}", raw)
             }
         }
+    }
+
+    /*
+    * Groups vaccinations by identifier
+    * Performs data migration if identifier changes
+    */
+    suspend fun reorganizeData() {
+        save(load().groupDataByIdentifier())
     }
 
     companion object {
         private const val TAG = "VaccinationStorage"
         private const val PKEY_PERSON_PREFIX = "vaccination.person."
     }
+}
+
+internal fun Set<VaccinatedPersonData>.groupDataByIdentifier(): Set<VaccinatedPersonData> {
+    return groupBy {
+        it.identifier
+    }.filter {
+        !it.value.isNullOrEmpty()
+    }.map {
+        if (it.value.size > 1) {
+            val newestData = it.value.maxByOrNull {
+                it.lastBoosterNotifiedAt ?: Instant.EPOCH
+            }
+            val vaccinations = it.value.flatMap {
+                it.vaccinations
+            }.toSet()
+            newestData!!.copy(vaccinations)
+        } else {
+            it.value.first()
+        }
+    }.toSet()
 }

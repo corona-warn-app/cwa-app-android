@@ -14,23 +14,32 @@ data class CertificatePersonIdentifier(
 ) {
 
     /**
-     * Used internally to idenitify and store the data related to this person.
+     * Used internally to group and store the data related to this person.
      */
-    internal val code: String
+    internal val groupingKey: String
         get() {
-            val lastName = lastNameStandardized
-            val firstName = firstNameStandardized
-            return "$dateOfBirthFormatted#$lastName#$firstName"
+            val lastName = lastNameStandardized.trim()
+            val firstName = firstNameStandardized?.trim()
+            return "$dateOfBirthFormatted#$lastName#$firstName".condense()
         }
+
+    override fun equals(other: Any?): Boolean {
+        if (other == null || other !is CertificatePersonIdentifier) return false
+        return this.groupingKey == other.groupingKey
+    }
+
+    override fun hashCode(): Int {
+        return this.groupingKey.hashCode()
+    }
 
     /**
      * Can be used as external identifier for the data set representing this person.
      * e.g. pass this identifier as uri argument.
      */
     val codeSHA256: String
-        get() = code.toSHA256()
+        get() = this.groupingKey.toSHA256()
 
-    fun requireMatch(other: CertificatePersonIdentifier) {
+    internal fun requireMatch(other: CertificatePersonIdentifier) {
         if (lastNameStandardized != other.lastNameStandardized) {
             Timber.d("Family name does not match, got ${other.lastNameStandardized}, expected $lastNameStandardized")
             throw InvalidVaccinationCertificateException(NAME_MISMATCH)
@@ -45,3 +54,5 @@ data class CertificatePersonIdentifier(
         }
     }
 }
+
+internal fun String.condense() = this.replace("\\s+".toRegex(), " ").replace("<+".toRegex(), "<")

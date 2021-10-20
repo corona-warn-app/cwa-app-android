@@ -38,19 +38,17 @@ class PersonCertificatesProvider @Inject constructor(
             recoveryWrappers.map { it.recoveryCertificate }
         },
         personCertificatesSettings.currentCwaUser.flow,
-    ) { vaccPersons, tests, recos, cwaUser ->
-        Timber.tag(TAG).d("vaccPersons=%s, tests=%s, recos=%s, cwaUser=%s", vaccPersons, tests, recos, cwaUser)
-        val mapping = mutableMapOf<CertificatePersonIdentifier, MutableSet<CwaCovidCertificate>>()
+    ) { vaccPersons, tests, recoveries, cwaUser ->
+        Timber.tag(TAG).d("vaccPersons=%s, tests=%s, recos=%s, cwaUser=%s", vaccPersons, tests, recoveries, cwaUser)
 
-        val allVaccs = vaccPersons.flatMap { it.vaccinationCertificates }.toSet()
-        val allCerts: Set<CwaCovidCertificate> = (allVaccs + tests + recos)
-        allCerts.forEach {
-            mapping[it.personIdentifier] = (mapping[it.personIdentifier] ?: mutableSetOf()).apply {
-                add(it)
-            }
+        val vaccinations = vaccPersons.flatMap { it.vaccinationCertificates }.toSet()
+        val allCerts: Set<CwaCovidCertificate> = (vaccinations + tests + recoveries)
+
+        val personCertificatesMap = allCerts.groupBy {
+            it.personIdentifier
         }
 
-        mapping.entries.map { (personIdentifier, certs) ->
+        personCertificatesMap.entries.map { (personIdentifier, certs) ->
             Timber.tag(TAG).v("PersonCertificates for %s with %d certs.", personIdentifier, certs.size)
 
             val badgeCount = certs.filter { it.hasNotificationBadge }.count() +
