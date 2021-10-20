@@ -37,14 +37,6 @@
     <string name="green_certificate_details_menu_item_delete">"Remove Certificate"</string>
     <!-- XTXT: Detail green certificate menu item: print -->
     <string name="green_certificate_details_menu_item_export">"Display Print Version"</string>
-    <!-- XTXT: Detail green certificate diaglog title -->
-    <string name="green_certificate_details_dialog_remove_test_title">"Do you want to remove the test certificate?"</string>
-    <!-- XTXT: Detail green certificate diaglog message -->
-    <string name="green_certificate_details_dialog_remove_test_message">"If you remove the test certificate, you can no longer use it as proof in the app."</string>
-    <!-- XTXT: Detail green certificate diaglog positive -->
-    <string name="green_certificate_details_dialog_remove_test_button_positive">"Remove"</string>
-    <!-- XTXT: Detail green certificate diaglog negative -->
-    <string name="green_certificate_details_dialog_remove_test_button_negative">"Cancel"</string>
 
     <!-- XTXT: Green certificate main screen title -->
     <string name="certification_screen_title">"Certificates"</string>

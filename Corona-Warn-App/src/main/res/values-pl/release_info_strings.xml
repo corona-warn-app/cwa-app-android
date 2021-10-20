@@ -16,18 +16,18 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Rozszerzone statystyki"</item>
-        <item>"Zarządzaj powiadomieniami"</item>
-        <item>"Bezpośredni dostęp do skanera kodów QR"</item>
-        <item>"Kontrola uprawnień administratora"</item>
+        <item>"Lokalny 7-dniowy wskaźnik hospitalizacji"</item>
+        <item>"Zmiana linku do Często zadawanych pytań"</item>
+        <item>"Przypisywanie certyfikatów"</item>
+        <item>"Odzyskaj certyfikaty"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"W aplikacji dostępne są teraz następujące statystyki:\n\n• 7-dniowy współczynnik hospitalizacji\n• Pacjenci z COVID-19 na oddziałach intensywnej terapii"</item>
-        <item>"Ustawienia powiadomień są teraz zarządzane centralnie w ustawieniach Twojego smartfona. Sprawdź ponownie ustawienia powiadomień dla aplikacji Corona-Warn-App w ustawieniach swojego urządzenia."</item>
-        <item>"Masz teraz bezpośredni dostęp do uniwersalnego skanera kodów QR na dolnym pasku nawigacyjnym."</item>
-        <item>"Po ponownym uruchomieniu aplikacja sprawdza, czy uprawnienia administratora (znane również jako uprawnienia roota) są aktywne na smartfonie i w razie potrzeby wyświetla uwagę dotyczącą bezpieczeństwa."</item>
+        <item>"Na lokalnych kafelkach 7-dniowej zapadalności na nowe zakażenia wyświetlany jest teraz również 7-dniowy wskaźnik hospitalizacji. Ponieważ jest on dostępny tylko na poziomie kraju związkowego, po wybraniu okręgu zostanie wyświetlony wskaźnik hospitalizacji dla danego kraju związkowego."</item>
+        <item>"Po wywołaniu Często zadawanych pytań w aplikacji następuje przekierowanie na strony w coronawarn.app. Tam znajdziesz więcej informacji dotyczących Twoich pytań."</item>
+        <item>"Przypisywanie certyfikatów do osób jest teraz bardziej odporne na błędy. Aplikacja ignoruje teraz różne liczby spacji w nazwiskach, dzięki czemu możliwe jest przypisanie certyfikatów do tej samej osoby pomimo takich różnic."</item>
+        <item>"Usunięte certyfikaty są przenoszone do kosza. Można je odzyskać w ciągu 30 dni."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
