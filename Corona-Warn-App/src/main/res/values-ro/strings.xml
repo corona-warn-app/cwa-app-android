@@ -22,6 +22,8 @@
     <string name="menu_information">"Info aplicație"</string>
     <!-- XMIT: application settings -->
     <string name="menu_settings">"Setări"</string>
+    <!-- XMIT: application trash -->
+    <string name="menu_trash">"Coș de gunoi"</string>
 
     <!-- ####################################
                Notification
@@ -161,9 +163,9 @@
     <!-- XHED: main, FAQ -->
     <string name="main_about_headline">"Întrebări frecvente"</string>
     <!-- XTXT: main, explains faq on card -->
-    <string name="main_about_body">"Aici puteți găsi răspunsuri la întrebările frecvente legate de aplicația Corona-Warn. Veți fi redirecționat către un site web extern al guvernului german."</string>
-    <!-- XTXT: FAQ link, should be translated  -->
-    <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq-englisch"</string>
+    <string name="main_about_body">"Aici puteți găsi răspunsuri la întrebările frecvente legate de aplicația Corona-Warn. Veți fi redirecționat către site-ul web extern coronawarn.app."</string>
+    <!-- XTXT: FAQ link, should be translated with https://www.coronawarn.app/en/faq/ for languages other than de -->
+    <string name="main_about_link">"https://www.coronawarn.app/en/faq/"</string>
     <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">"Aici puteți găsi răspunsuri la întrebările frecvente legate de aplicația Corona-Warn. Veți fi redirecționat către un site web extern."</string>
 
@@ -909,7 +911,7 @@
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Anulare"</string>
 
     <!-- QR Code Scan Screen -->
-    <string name="qr_code_scan_title">"Scanare cod QR"</string>
+    <string name="qr_code_scan_title">"Scanner de coduri QR"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body">"Poziționați codul QR în cadru."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
@@ -1396,11 +1398,13 @@
     <!-- XHED: Title for local incident statistics card -->
     <string name="statistics_card_local_incidence_title">"Incidența pe 7 zile la nivel local"</string>
     <!-- XTXT: Description in statistics card that is displayed below the local incidence value-->
-    <string name="statistics_card_local_incidence_value_description">"infecții noi confirmate la 100.000 de locuitori"</string>
+    <string name="statistics_card_local_incidence_value_description">"Infectări noi"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu info button -->
     <string name="statistics_card_local_incidence_menu_info">"Informații"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu delete button -->
     <string name="statistics_card_local_incidence_menu_delete">"Eliminare"</string>
+    <!-- XTXT: Local hospitalization statistics text -->
+    <string name="statistics_card_local_hospitalization_text">"Spitalizări în %s"</string>
 
     <!-- Infections statistics card -->
     <!-- XHED: Title for infections statistics card -->
@@ -1428,6 +1432,10 @@
     <string name="statistics_primary_value_current">"Curentă"</string>
     <!-- XTXT: Until [date] refers to statistics timestamp in the past -->
     <string name="statistics_primary_value_until">"Până %s"</string>
+    <!-- XTXT: Statistics primary value description -->
+    <string name="statistics_primary_value_description">"Infectări noi"</string>
+    <!-- XTXT: Statistics secondary value description -->
+    <string name="statistics_secondary_value_description">"Spitalizări"</string>
 
     <!-- Explanation screen -->
     <!-- XHED: Explanation screen title -->
@@ -1453,7 +1461,7 @@
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"Valoarea R pe 7 zile"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
-    <string name="statistics_explanation_seven_day_r_value_text">"Numărul de reproducție R indică câte persoane a infectat mai departe, în medie, o persoană infectată. Valoarea curentă ia în considerare cel mult ultimele 5 zile."</string>
+    <string name="statistics_explanation_seven_day_r_value_text">"Numărul de reproducție R indică câte persoane a infectat mai departe, în medie, o persoană infectată."</string>
     <!-- XTXT: Explanation screen seven day r-value link label  - the characters have to match the last part of the text label above -->
     <string name="statistics_explanation_seven_day_r_link_label">"Întrebări frecvente despre statistică"</string>
     <!-- XHED: Explanation screen legend title -->
@@ -1463,7 +1471,7 @@
     <!-- XHED: Explanation screen period yesterday subtitle -->
     <string name="statistics_explanation_period_yesterday_subtitle">"Ieri/Până ieri"</string>
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"Numărul pentru ziua anterioară/până la ziua anterioară. Dacă încă nu sunt disponibile cifrele pentru ziua anterioară, este afișată ultima dată pentru care sunt disponibile cifrele."</string>
+    <string name="statistics_explanation_period_yesterday_text">"Pentru „Ieri/Până ieri”, este afișat numărul pentru ziua anterioară/până la ziua anterioară. Dacă încă nu sunt disponibile cifrele pentru ziua anterioară, este afișată ultima dată pentru care sunt disponibile cifrele."</string>
     <!-- XHED: Explanation screen period seven day subtitle -->
     <string name="statistics_explanation_period_seven_day_subtitle">"Media pe 7 zile"</string>
     <!-- XTXT: Explanation screen period seven day text -->
@@ -1475,7 +1483,7 @@
     <!-- XHED: Explanation screen trend title -->
     <string name="statistics_explanation_trend_title">"Tendință"</string>
     <!-- YTXT: Explanation screen trend text -->
-    <string name="statistics_explanation_trend_text">"Direcția săgeții indică dacă tendința este în creștere, în scădere sau dacă rămâne constantă – mai exact, demonstrează o abatere de sub 1%% în comparație cu ziua precedentă sau de 5%% în comparație cu săptămâna precedentă. Culoarea indică faptul că tendința este pozitivă (verde), negativă (roșu) sau neutră (gri). Tendința compară valoarea din ziua precedentă cu valoarea de acum două zile sau, pentru tendințele pe 7 zile, valoarea medie din ultimele 7 zile cu valoarea medie din ultimele 7 zile anterioare acesteia."</string>
+    <string name="statistics_explanation_trend_text">"Tendința compară valoarea din ziua anterioară cu valoarea de acum două zile (pentru incidența pe 7 zile, incidența spitalizării pe 7 zile, pacienții COVID-19 din unitățile de terapie intensivă, valoarea R pe 7 zile) sau, pentru tendințele pe 7 zile, valoarea medie din ultimele 7 zile cu valoarea medie din cele 7 zile anterioare acestora (pentru valoarea medie pe 7 zile a infectărilor noi confirmate, avertizări de către utilizatorii aplicației, dozele de vaccin administrate). Este utilizată versiunea respectivă a datelor publicate inițial; actualizările ulterioare nu sunt luate în considerare.\n\nDirecția săgeții indică dacă tendința este în creștere, în scădere sau dacă rămâne constantă – mai exact, demonstrează o abatere de sub 1%% în comparație cu ziua precedentă sau de 5%% în comparație cu săptămâna precedentă (ținând cont de pozițiile zecimale). Culoarea indică faptul că tendința este pozitivă (verde), negativă (roșu) sau neutră (gri)."</string>
     <!-- XHED: Explanation screen trend icons title -->
     <string name="statistics_explanation_trend_icons_title">"Pot fi afișate următoarele tendințe:"</string>
     <!-- XHED: Explanation screen trend increasing title -->
@@ -1491,11 +1499,23 @@
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"O imagine abstractă a unui smartphone cu patru substituenți pentru informații"</string>
     <!-- XTXT: Statistics explanation blog text -->
-    <string name="statistics_explanation_blog">"Pentru mai multe detalii despre conținutul indicatorilor individuali, citiți blogul nostru."</string>
+    <string name="statistics_explanation_blog">"Pentru mai multe detalii despre indicatorii individuali, citiți blogul nostru."</string>
     <!-- XTXT: Statistics explanation blog text label -->
     <string name="statistics_explanation_blog_label">"Blog."</string>
     <!-- XTXT: Statistics explanation blog text url -->
     <string name="statistics_eplanation_blog_url">"https://www.coronawarn.app/en/blog/2021-08-05-statistictiles"</string>
+    <!-- XTXT: Explanation screen 7 days incidents confirmed new infections text -->
+    <string name="statistics_explanation_7_day_confirmed_new_infection_text">"Pentru „Ieri/Până ieri”, este afișat numărul pentru ziua anterioară/până la ziua anterioară. Dacă încă nu sunt disponibile cifrele pentru ziua anterioară, este afișată ultima dată pentru care sunt disponibile cifrele."</string>
+    <!-- XTXT: Explanation screen 7 days hospitalisation title -->
+    <string name="statistics_explanation_7_day_hospitalisation_title">"Spitalizare"</string>
+    <!-- XTXT: Explanation screen 7 days hospitalisation text -->
+    <string name="statistics_explanation_7_day_hospitalisation_text">"Numărul total de admiteri în spital din cauza COVID-19 în ultimele 7 zile (după data raportării) la 100.000 de locuitori."</string>
+    <!-- XTXT: Explanation screen 7 days locale incidents text -->
+    <string name="statistics_explanation_7_day_locale_incidents_text">"Numărul total de infectări noi confirmate în ultimele 7 zile (după data de raportare) la 100.000 de locuitori în districtul sau statul federal configurat. Data spitalizării se referă la statul german corespondent."</string>
+    <!-- XTXT: Explanation screen 7 days intensive care title -->
+    <string name="statistics_explanation_intensive_care_title">"Pacienți COVID-19 în unități de terapie intensivă"</string>
+    <!-- XTXT: Explanation screen 7 days intensive care text -->
+    <string name="statistics_explanation_intensive_care_text">"Proporția de persoane în unitățile de terapie intensivă din cauza COVID-19 în raport cu capacitatea ATI totală."</string>
 
     <!-- XTXT: Statistics Card Announcement -->
     <string name="accessibility_statistics_card_announcement">"Mozaic statistică"</string>
@@ -1535,6 +1555,8 @@
     <string name="statistics_people_vaccinated_at_least_once_text">"Numărul de persoane raportat la RKI care au primit prima doză de vaccin."</string>
     <!-- XTXT: Statistics FAQ text -->
     <string name="statistics_faq_text">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente:"</string>
+    <!-- XTXT: Statistics FAQ label -->
+    <string name="statistics_faq_label">"Întrebări frecvente"</string>
 
     <!-- Seven Day Hospitalization Statistics Card -->
     <!-- XHED: Title for seven day hospitalization stats -->
