@@ -91,7 +91,7 @@
          VACCINATION CERTIFICATE STRINGS BELOW
          ##################################################### -->
     <!-- XTXT: Vaccination certificate vaccinated on -->
-    <string name="vaccination_certificate_vaccinated_on">"vaccinated on %s"</string>
+    <string name="vaccination_certificate_vaccinated_on">"Vaccinated on %s"</string>
     <!-- XTXT: Vaccination  card doses-->
     <string name="vaccination_certificate_doses">"Vaccination %1$d of %2$d"</string>
     <!-- XTXT: Vaccination card name-->
@@ -124,12 +124,6 @@
     <string name="recovery_certificate_name">"Certificate of Recovery"</string>
     <!-- XTXT: Recovery certificate valid until -->
     <string name="recovery_certificate_valid_until">"valid to %s"</string>
-
-    <!-- XTXT: Detail green certificate diaglog title -->
-    <string name="recovery_certificate_details_dialog_remove_test_title">"Do you want to remove the certificate?"</string>
-    <!-- XTXT: Detail green certificate diaglog message -->
-    <string name="recovery_certificate_details_dialog_remove_test_message">"If you remove the certificate of recovery, you can no longer use it as proof in the app."</string>
-
     <!-- #####################################################
          TEST CERTIFICATE STRINGS BELOW
          ##################################################### -->
