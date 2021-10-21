@@ -15,9 +15,12 @@ import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
-import de.rki.coronawarnapp.reyclebin.RecycledItemsProvider
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTest
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsRepository
+import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.tag
+import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.permission.CameraSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -37,7 +40,8 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository,
     private val dccSettings: CovidCertificateSettings,
     private val traceLocationSettings: TraceLocationSettings,
-    private val recycledItemsProvider: RecycledItemsProvider,
+    private val recycledCertificatesProvider: RecycledCertificatesProvider,
+    private val recycledCoronaTestsRepository: RecycledCoronaTestsRepository,
 ) : CWAViewModel(dispatcherProvider) {
 
     val result = SingleLiveEvent<ScannerResult>()
@@ -84,13 +88,17 @@ class QrCodeScannerViewModel @AssistedInject constructor(
 
     fun restoreCertificate(containerId: CertificateContainerId) = launch {
         Timber.tag(TAG).d("restoreCertificate(containerId=%s)", containerId)
-        recycledItemsProvider.restoreCertificate(containerId)
+        recycledCertificatesProvider.restoreCertificate(containerId)
         result.postValue(containerId.toDccDetails())
+    }
+
+    fun restoreCoronaTest(recycledCoronaTest: RecycledCoronaTest) {
+        // TODO check for duplicate and then restore
     }
 
     private suspend fun onDccQrCode(dccQrCode: DccQrCode) {
         Timber.tag(TAG).d("onDccQrCode()")
-        val recycledContainerId = recycledItemsProvider.findCertificate(dccQrCode.qrCode)
+        val recycledContainerId = recycledCertificatesProvider.findCertificate(dccQrCode.qrCode)
         val event = when {
             recycledContainerId != null -> {
                 Timber.tag(TAG).d("recycledContainerId=$recycledContainerId")
@@ -115,6 +123,12 @@ class QrCodeScannerViewModel @AssistedInject constructor(
 
     private suspend fun onCoronaTestQrCode(qrCode: CoronaTestQRCode) {
         Timber.tag(TAG).d("onCoronaTestQrCode()")
+        val recycledCoronaTest = recycledCoronaTestsRepository.findCoronaTest(qrCode.rawQrCode.toSHA256())
+
+        if (recycledCoronaTest != null) {
+            // TODO show the dialog
+        }
+        // TODO navigate to right destination based on recycled Corona
         val coronaTest = submissionRepository.testForType(qrCode.type).first()
         val coronaTestResult = if (coronaTest != null) {
             CoronaTestResult.DuplicateTest(qrCode)

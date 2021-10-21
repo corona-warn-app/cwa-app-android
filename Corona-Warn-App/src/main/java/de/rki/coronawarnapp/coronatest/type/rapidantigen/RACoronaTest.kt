@@ -77,6 +77,9 @@ data class RACoronaTest(
 
     @SerializedName("labId")
     override val labId: String? = null,
+
+    @SerializedName("qrCodeHash")
+    override val qrCodeHash: String = "",
 ) : CoronaTest {
 
     override val type: CoronaTest.Type

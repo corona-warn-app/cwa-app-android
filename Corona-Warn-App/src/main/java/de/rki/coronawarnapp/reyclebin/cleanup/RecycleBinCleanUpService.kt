@@ -2,8 +2,9 @@ package de.rki.coronawarnapp.reyclebin.cleanup
 
 import androidx.annotation.VisibleForTesting
 import dagger.Reusable
-import de.rki.coronawarnapp.reyclebin.RecycledItemsProvider
+import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.reyclebin.common.retentionTimeInRecycleBin
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsRepository
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
@@ -16,7 +17,8 @@ import javax.inject.Inject
 
 @Reusable
 class RecycleBinCleanUpService @Inject constructor(
-    private val recycledItemsProvider: RecycledItemsProvider,
+    private val recycledCertificatesProvider: RecycledCertificatesProvider,
+    private val recycledCoronaTestsRepository: RecycledCoronaTestsRepository,
     private val timeStamper: TimeStamper
 ) {
 
@@ -28,7 +30,7 @@ class RecycleBinCleanUpService @Inject constructor(
         val now = timeStamper.nowUTC
         Timber.tag(TAG).d("now=%s", now)
 
-        val allRecycledCerts = recycledItemsProvider.recycledCertificates.first()
+        val allRecycledCerts = recycledCertificatesProvider.recycledCertificates.first()
         Timber.tag(TAG).d("allRecycledCerts=%s", allRecycledCerts)
 
         val recycledCertsExceededRetentionDays = allRecycledCerts
@@ -43,8 +45,10 @@ class RecycleBinCleanUpService @Inject constructor(
             return
         }
 
+        // TODO clean up outdated recycled tests
+
         recycledCertsExceededRetentionDays.map { it.containerId }
-            .also { recycledItemsProvider.deleteAllCertificate(it) }
+            .also { recycledCertificatesProvider.deleteAllCertificate(it) }
 
         Timber.tag(TAG).d("clearRecycledCertificates() - Finished")
     }

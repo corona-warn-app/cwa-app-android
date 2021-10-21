@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -28,7 +29,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class RecycledItemsProviderTest : BaseTest() {
+class RecycledCertificatesProviderTest : BaseTest() {
     @MockK lateinit var vaccinationRepository: VaccinationRepository
     @MockK lateinit var testCertificateRepository: TestCertificateRepository
     @MockK lateinit var recoveryCertificateRepository: RecoveryCertificateRepository
@@ -128,7 +129,7 @@ class RecycledItemsProviderTest : BaseTest() {
         }
     }
 
-    fun provider() = RecycledItemsProvider(
+    fun provider() = RecycledCertificatesProvider(
         testCertificateRepository = testCertificateRepository,
         recoveryCertificateRepository = recoveryCertificateRepository,
         vaccinationRepository = vaccinationRepository,

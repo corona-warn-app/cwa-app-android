@@ -159,6 +159,10 @@ class CoronaTestRepository @Inject constructor(
         return removedTest!!
     }
 
+    suspend fun restoreTest(coronaTest: CoronaTest) {
+        // TODO
+    }
+
     /**
      * Passing **null** will refresh all test types.
      */

@@ -7,7 +7,8 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertif
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.reyclebin.RecycledItemsProvider
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsRepository
+import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.reyclebin.ui.RecyclerBinEvent
 import de.rki.coronawarnapp.reyclebin.ui.RecyclerBinOverviewViewModel
 import de.rki.coronawarnapp.reyclebin.ui.adapter.OverviewSubHeaderItem
@@ -34,7 +35,8 @@ import testhelpers.extensions.getOrAwaitValue
 @ExtendWith(InstantExecutorExtension::class)
 class RecyclerBinOverviewViewModelTest : BaseTest() {
 
-    @RelaxedMockK private lateinit var recycledItemsProvider: RecycledItemsProvider
+    @RelaxedMockK private lateinit var recycledCertificatesProvider: RecycledCertificatesProvider
+    @RelaxedMockK private lateinit var recycledCoronaTestsRepository: RecycledCoronaTestsRepository
 
     private val recCert: RecoveryCertificate = mockk {
         every { containerId } returns RecoveryCertificateContainerId("recCert")
@@ -55,25 +57,30 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
     private val instance: RecyclerBinOverviewViewModel
         get() = RecyclerBinOverviewViewModel(
             dispatcherProvider = TestDispatcherProvider(),
-            recycledItemsProvider = recycledItemsProvider
+            recycledCertificatesProvider = recycledCertificatesProvider,
+            recycledCoronaTestsRepository = recycledCoronaTestsRepository,
         )
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { recycledItemsProvider.recycledCertificates } returns flowOf(setOf(recCert, testCert, vaccCert))
+        every { recycledCertificatesProvider.recycledCertificates } returns
+            flowOf(setOf(recCert, testCert, vaccCert))
+
+        every { recycledCoronaTestsRepository.tests } returns flowOf(emptySet())
     }
 
     @Test
     fun `No recycled items - empty list`() {
-        every { recycledItemsProvider.recycledCertificates } returns flowOf(emptySet())
+        every { recycledCertificatesProvider.recycledCertificates } returns flowOf(emptySet())
         instance.listItems.getOrAwaitValue() shouldBe emptyList()
     }
 
     @Test
     fun `Creates list with sub header and cert items and removes unknown types`() {
-        every { recycledItemsProvider.recycledCertificates } returns flowOf(setOf(recCert, testCert, vaccCert, cwaCert))
+        every { recycledCertificatesProvider.recycledCertificates } returns
+            flowOf(setOf(recCert, testCert, vaccCert, cwaCert))
 
         val items = instance.listItems.getOrAwaitValue()
         items.size shouldBe 4
@@ -135,7 +142,7 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
         instance.onRemoveAllItemsConfirmation()
 
         coVerify {
-            with(recycledItemsProvider) {
+            with(recycledCertificatesProvider) {
                 recycledCertificates
                 deleteAllCertificate(containerIds)
             }
@@ -148,7 +155,7 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
         instance.onRemoveItem(testCert)
 
         coVerify {
-            recycledItemsProvider.deleteCertificate(containerId)
+            recycledCertificatesProvider.deleteCertificate(containerId)
         }
     }
 
@@ -158,7 +165,7 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
         instance.onRestoreConfirmation(testCert)
 
         coVerify {
-            recycledItemsProvider.restoreCertificate(containerId)
+            recycledCertificatesProvider.restoreCertificate(containerId)
         }
     }
 }
