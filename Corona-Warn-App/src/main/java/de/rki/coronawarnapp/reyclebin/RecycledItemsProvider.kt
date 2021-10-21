@@ -31,6 +31,7 @@ class RecycledItemsProvider @Inject constructor(
         vaccinationRepository.recycledCertificates,
         testCertificateRepository.recycledCertificates,
         recoveryCertificateRepository.recycledCertificates
+        // TODO provide recycled Corona Tests
     ) { recycledVacCerts, recycledTestCerts, recycledRecCerts ->
         recycledVacCerts
             .plus(recycledTestCerts)
