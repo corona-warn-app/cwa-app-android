@@ -117,7 +117,7 @@
     <!-- XHED: submission result antigen negative result counter title -->
     <string name="submission_test_result_antigen_negative_counter_title">"Ergebnis liegt vor seit"</string>
     <!-- XHED: coronatest negative antigen result first info title -->
-    <string name="coronatest_negative_antigen_result_first_info_title">"Ihr Schnelltest wurde hinzugefügt."</string>
+    <string name="coronatest_negative_antigen_result_first_info_title">"Ihr Schnelltest wurde hinzugefügt"</string>
     <!-- XTXT: coronatest negative antigen result first info body -->
     <string name="coronatest_negative_antigen_result_first_info_body">"Das Test-Ergebnis wird 48 Stunden hier angezeigt."</string>
     <!-- XHED: coronatest negative antigen result second info title -->
