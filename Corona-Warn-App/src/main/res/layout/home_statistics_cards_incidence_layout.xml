@@ -32,7 +32,7 @@
             android:layout_marginStart="@dimen/card_padding"
             android:layout_marginBottom="@dimen/spacing_small"
             android:text="@string/statistics_nationwide_text"
-            android:textSize="@dimen/font_small"
+            android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@id/info_statistics"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title" />
@@ -56,6 +56,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="42dp"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@id/nationwide_text"
             app:layout_constraintTop_toBottomOf="@id/nationwide_text"
             tools:text="Bis gestern" />
@@ -86,6 +87,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/statistics_primary_value_description"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@id/primary_value"
             app:layout_constraintTop_toBottomOf="@id/primary_value" />
 
@@ -95,6 +97,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@id/primary_description"
             app:layout_constraintTop_toBottomOf="@id/primary_description"
             tools:text="Bis gestern" />
@@ -126,6 +129,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/spacing_small"
             android:text="@string/statistics_secondary_value_description"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@id/secondary_value"
             app:layout_constraintTop_toBottomOf="@id/secondary_value" />
 
