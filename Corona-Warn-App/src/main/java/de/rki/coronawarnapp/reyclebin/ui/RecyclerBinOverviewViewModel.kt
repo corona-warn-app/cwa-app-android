@@ -7,7 +7,9 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.reyclebin.RecycledItemsProvider
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTest
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsRepository
+import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.reyclebin.ui.adapter.OverviewSubHeaderItem
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecoveryCertificateCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecyclerBinItem
@@ -17,23 +19,28 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 class RecyclerBinOverviewViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val recycledItemsProvider: RecycledItemsProvider
+    private val recycledCertificatesProvider: RecycledCertificatesProvider,
+    recycledCoronaTestsRepository: RecycledCoronaTestsRepository,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val currentEvent = SingleLiveEvent<RecyclerBinEvent>()
     val events: LiveData<RecyclerBinEvent> = currentEvent
 
-    private val recycledCertificates = recycledItemsProvider.recycledCertificates
+    private val recycledCertificates = recycledCertificatesProvider.recycledCertificates
 
-    val listItems: LiveData<List<RecyclerBinItem>> = recycledCertificates
-        .map { it.toRecyclerBinItems() }
-        .asLiveData2()
+    val listItems: LiveData<List<RecyclerBinItem>> = combine(
+        recycledCoronaTestsRepository.tests,
+        recycledCertificates
+    ) { recycledTests, recycledCertificates ->
+        recycledTests.toRecycledItems() +
+            recycledCertificates.toRecyclerBinItems()
+    }.asLiveData2()
 
     private fun Collection<CwaCovidCertificate>.toRecyclerBinItems(): List<RecyclerBinItem> {
         val certificateItems = mapNotNull { mapCertToCertItem(it) }
@@ -42,6 +49,11 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
             true -> listOf(OverviewSubHeaderItem).plus(certificateItems)
             false -> emptyList()
         }.also { Timber.d("Created recycler bin items=%s from certs=%s", it, this) }
+    }
+
+    private fun Collection<RecycledCoronaTest>.toRecycledItems(): List<RecyclerBinItem> {
+        // TODO
+        return emptyList()
     }
 
     private fun mapCertToCertItem(cert: CwaCovidCertificate): RecyclerBinItem? = when (cert) {
@@ -85,17 +97,17 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
     fun onRemoveAllItemsConfirmation() = launch {
         Timber.d("onRemoveAllItemsConfirmation()")
         val itemToDelete = recycledCertificates.first().map { it.containerId }
-        recycledItemsProvider.deleteAllCertificate(itemToDelete)
+        recycledCertificatesProvider.deleteAllCertificate(itemToDelete)
     }
 
     fun onRemoveItem(item: CwaCovidCertificate) = launch {
         Timber.d("onRemoveSingleItemConfirmation(item=%s)", item)
-        recycledItemsProvider.deleteCertificate(item.containerId)
+        recycledCertificatesProvider.deleteCertificate(item.containerId)
     }
 
     fun onRestoreConfirmation(item: CwaCovidCertificate) = launch {
         Timber.d("onRestoreConfirmation(item=%s)", item)
-        recycledItemsProvider.restoreCertificate(item.containerId)
+        recycledCertificatesProvider.restoreCertificate(item.containerId)
     }
 
     @AssistedFactory

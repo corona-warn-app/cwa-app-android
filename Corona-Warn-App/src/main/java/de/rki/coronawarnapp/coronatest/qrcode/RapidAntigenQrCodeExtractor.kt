@@ -42,7 +42,8 @@ class RapidAntigenQrCodeExtractor @Inject constructor() : QrCodeExtractor<Corona
             dateOfBirth = payload.dateOfBirth,
             testId = payload.testId,
             salt = payload.salt,
-            isDccSupportedByPoc = payload.isDccSupportedByPoc
+            isDccSupportedByPoc = payload.isDccSupportedByPoc,
+            rawQrCode = rawString
         )
     }
 

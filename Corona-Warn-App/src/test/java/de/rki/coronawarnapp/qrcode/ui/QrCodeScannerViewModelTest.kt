@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
 import de.rki.coronawarnapp.qrcode.scanner.UnsupportedQrCodeException
-import de.rki.coronawarnapp.reyclebin.RecycledItemsProvider
+import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.util.permission.CameraSettings
 import io.kotest.matchers.shouldBe
@@ -46,7 +46,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var dccSettings: CovidCertificateSettings
     @MockK lateinit var traceLocationSettings: TraceLocationSettings
-    @MockK lateinit var recycledItemsProvider: RecycledItemsProvider
+    @MockK lateinit var recycledCertificatesProvider: RecycledCertificatesProvider
 
     @BeforeEach
     fun setup() {
@@ -106,13 +106,13 @@ class QrCodeScannerViewModelTest : BaseTest() {
 
     @Test
     fun `restoreCertificate asks provider to restore DGC`() {
-        coEvery { recycledItemsProvider.restoreCertificate(any()) } just Runs
+        coEvery { recycledCertificatesProvider.restoreCertificate(any()) } just Runs
         val containerId = TestCertificateContainerId("ceruuid")
         viewModel().apply {
             restoreCertificate(containerId)
             result.getOrAwaitValue().shouldBeInstanceOf<DccResult.Details>()
         }
-        coVerify { recycledItemsProvider.restoreCertificate(any()) }
+        coVerify { recycledCertificatesProvider.restoreCertificate(any()) }
     }
 
     fun viewModel() = QrCodeScannerViewModel(
@@ -125,6 +125,6 @@ class QrCodeScannerViewModelTest : BaseTest() {
         dispatcherProvider = TestDispatcherProvider(),
         cameraSettings = cameraSettings,
         qrCodeValidator = qrCodeValidator,
-        recycledItemsProvider = recycledItemsProvider
+        recycledItemsProvider = recycledCertificatesProvider
     )
 }
