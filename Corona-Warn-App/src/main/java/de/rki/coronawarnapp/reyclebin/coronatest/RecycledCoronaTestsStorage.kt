@@ -11,6 +11,7 @@ class RecycledCoronaTestsStorage @Inject constructor() {
 
     suspend fun findTest(coronaTestQrCodeHash: String): RecycledCoronaTest? {
         // TODO
+        @Suppress("FunctionOnlyReturningConstant")
         return null
     }
 }

@@ -73,7 +73,8 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
 
     @Test
     fun `Creates list with sub header and cert items and removes unknown types`() {
-        every { recycledCertificatesProvider.recycledCertificates } returns flowOf(setOf(recCert, testCert, vaccCert, cwaCert))
+        every { recycledCertificatesProvider.recycledCertificates } returns
+            flowOf(setOf(recCert, testCert, vaccCert, cwaCert))
 
         val items = instance.listItems.getOrAwaitValue()
         items.size shouldBe 4
