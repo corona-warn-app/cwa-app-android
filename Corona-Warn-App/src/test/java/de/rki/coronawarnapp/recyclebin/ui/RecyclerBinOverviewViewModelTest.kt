@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertif
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsRepository
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.reyclebin.ui.RecyclerBinEvent
 import de.rki.coronawarnapp.reyclebin.ui.RecyclerBinOverviewViewModel
@@ -35,6 +36,7 @@ import testhelpers.extensions.getOrAwaitValue
 class RecyclerBinOverviewViewModelTest : BaseTest() {
 
     @RelaxedMockK private lateinit var recycledCertificatesProvider: RecycledCertificatesProvider
+    @RelaxedMockK private lateinit var recycledCoronaTestsRepository: RecycledCoronaTestsRepository
 
     private val recCert: RecoveryCertificate = mockk {
         every { containerId } returns RecoveryCertificateContainerId("recCert")
@@ -55,14 +57,18 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
     private val instance: RecyclerBinOverviewViewModel
         get() = RecyclerBinOverviewViewModel(
             dispatcherProvider = TestDispatcherProvider(),
-            recycledItemsProvider = recycledCertificatesProvider
+            recycledCertificatesProvider = recycledCertificatesProvider,
+            recycledCoronaTestsRepository = recycledCoronaTestsRepository,
         )
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { recycledCertificatesProvider.recycledCertificates } returns flowOf(setOf(recCert, testCert, vaccCert))
+        every { recycledCertificatesProvider.recycledCertificates } returns
+            flowOf(setOf(recCert, testCert, vaccCert))
+
+        every { recycledCoronaTestsRepository.tests } returns flowOf(emptySet())
     }
 
     @Test

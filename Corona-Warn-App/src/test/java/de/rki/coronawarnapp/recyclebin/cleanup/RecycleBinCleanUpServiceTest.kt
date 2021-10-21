@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.reyclebin.cleanup.RecycleBinCleanUpService
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -12,6 +13,8 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Days
@@ -26,16 +29,19 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
 
     @MockK lateinit var timeStamper: TimeStamper
     @RelaxedMockK lateinit var recycledCertificatesProvider: RecycledCertificatesProvider
+    @MockK lateinit var recycledCoronaTestsRepository: RecycledCoronaTestsRepository
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
         every { timeStamper.nowUTC } returns Instant.parse("2021-10-13T12:00:00.000Z")
+        every { recycledCoronaTestsRepository.tests } returns emptyFlow()
     }
 
     private fun createInstance() = RecycleBinCleanUpService(
-        recycledItemsProvider = recycledCertificatesProvider,
+        recycledCertificatesProvider = recycledCertificatesProvider,
+        recycledCoronaTestsRepository = recycledCoronaTestsRepository,
         timeStamper = timeStamper
     )
 
