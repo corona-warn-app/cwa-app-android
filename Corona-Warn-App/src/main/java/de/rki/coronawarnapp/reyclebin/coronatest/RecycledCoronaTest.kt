@@ -7,4 +7,4 @@ import org.joda.time.Instant
 data class RecycledCoronaTest(
     override val recycledAt: Instant,
     val coronaTest: CoronaTest,
-): Recyclable
+) : Recyclable
