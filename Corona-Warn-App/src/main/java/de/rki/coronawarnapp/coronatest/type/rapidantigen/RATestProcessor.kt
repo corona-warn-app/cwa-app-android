@@ -28,6 +28,7 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -95,7 +96,8 @@ class RATestProcessor @Inject constructor(
             sampleCollectedAt = sampleCollectedAt,
             isDccSupportedByPoc = request.isDccSupportedByPoc,
             isDccConsentGiven = request.isDccConsentGiven,
-            labId = registrationData.testResultResponse.labId
+            labId = registrationData.testResultResponse.labId,
+            qrCodeHash = request.rawQrCode.toSHA256()
         )
     }
 
