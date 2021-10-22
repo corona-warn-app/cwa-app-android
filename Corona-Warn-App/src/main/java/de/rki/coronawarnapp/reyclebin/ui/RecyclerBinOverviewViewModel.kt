@@ -65,7 +65,8 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
         test = recycledTest,
         onRemove = { test, position ->
             currentEvent.postValue(RecyclerBinEvent.RemoveTest(test, position))
-        }, onRestore = { test ->
+        },
+        onRestore = { test ->
             currentEvent.postValue(RecyclerBinEvent.ConfirmRestoreTest(test))
         }
     )

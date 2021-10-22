@@ -50,7 +50,7 @@ class CoronaTestStorage @Inject constructor(
                         requireNotNull(it.identifier)
                         requireNotNull(it.type) { "PCR type should not be null, GSON footgun." }
                     }
-                } catch (e:Exception) {
+                } catch (e: Exception) {
                     Timber.e(e)
                     emptySet()
                 }
@@ -64,7 +64,7 @@ class CoronaTestStorage @Inject constructor(
                         requireNotNull(it.identifier)
                         requireNotNull(it.type) { "RA type should not be null, GSON footgun." }
                     }
-                } catch (e:Exception) {
+                } catch (e: Exception) {
                     Timber.e(e)
                     emptySet()
                 }
