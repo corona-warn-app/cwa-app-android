@@ -100,9 +100,9 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
                 val pos = 1
                 it.certificate shouldBe cert
                 it.onRemove(cert, pos)
-                events.getOrAwaitValue() shouldBe RecyclerBinEvent.RemoveItem(cert, pos)
+                events.getOrAwaitValue() shouldBe RecyclerBinEvent.RemoveCertificate(cert, pos)
                 it.onRestore(cert)
-                events.getOrAwaitValue() shouldBe RecyclerBinEvent.ConfirmRestoreItem(cert)
+                events.getOrAwaitValue() shouldBe RecyclerBinEvent.ConfirmRestoreCertificate(cert)
             }
 
             (items[2] as TestCertificateCard.Item).also {
@@ -110,9 +110,9 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
                 val pos = 2
                 it.certificate shouldBe cert
                 it.onRemove(cert, pos)
-                events.getOrAwaitValue() shouldBe RecyclerBinEvent.RemoveItem(cert, pos)
+                events.getOrAwaitValue() shouldBe RecyclerBinEvent.RemoveCertificate(cert, pos)
                 it.onRestore(cert)
-                events.getOrAwaitValue() shouldBe RecyclerBinEvent.ConfirmRestoreItem(cert)
+                events.getOrAwaitValue() shouldBe RecyclerBinEvent.ConfirmRestoreCertificate(cert)
             }
 
             (items[3] as VaccinationCertificateCard.Item).also {
@@ -120,9 +120,9 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
                 val pos = 3
                 it.certificate shouldBe cert
                 it.onRemove(cert, pos)
-                events.getOrAwaitValue() shouldBe RecyclerBinEvent.RemoveItem(cert, pos)
+                events.getOrAwaitValue() shouldBe RecyclerBinEvent.RemoveCertificate(cert, pos)
                 it.onRestore(cert)
-                events.getOrAwaitValue() shouldBe RecyclerBinEvent.ConfirmRestoreItem(cert)
+                events.getOrAwaitValue() shouldBe RecyclerBinEvent.ConfirmRestoreCertificate(cert)
             }
         }
     }

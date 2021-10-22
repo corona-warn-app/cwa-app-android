@@ -44,19 +44,29 @@ class CoronaTestStorage @Inject constructor(
 
             val pcrTests: Set<PCRCoronaTest> = run {
                 val raw = prefs.getString(PKEY_DATA_PCR, null) ?: return@run emptySet()
-                gson.fromJson<Set<PCRCoronaTest>>(raw, typeTokenPCR).onEach {
-                    Timber.tag(TAG).v("PCR loaded: %s", it)
-                    requireNotNull(it.identifier)
-                    requireNotNull(it.type) { "PCR type should not be null, GSON footgun." }
+                try {
+                    gson.fromJson<Set<PCRCoronaTest>>(raw, typeTokenPCR).onEach {
+                        Timber.tag(TAG).v("PCR loaded: %s", it)
+                        requireNotNull(it.identifier)
+                        requireNotNull(it.type) { "PCR type should not be null, GSON footgun." }
+                    }
+                } catch (e:Exception) {
+                    Timber.e(e)
+                    emptySet()
                 }
             }
 
             val raTests: Set<RACoronaTest> = run {
                 val raw = prefs.getString(PKEY_DATA_RA, null) ?: return@run emptySet()
-                gson.fromJson<Set<RACoronaTest>>(raw, typeTokenRA).onEach {
-                    Timber.tag(TAG).v("RA loaded: %s", it)
-                    requireNotNull(it.identifier)
-                    requireNotNull(it.type) { "RA type should not be null, GSON footgun." }
+                try {
+                    gson.fromJson<Set<RACoronaTest>>(raw, typeTokenRA).onEach {
+                        Timber.tag(TAG).v("RA loaded: %s", it)
+                        requireNotNull(it.identifier)
+                        requireNotNull(it.type) { "RA type should not be null, GSON footgun." }
+                    }
+                } catch (e:Exception) {
+                    Timber.e(e)
+                    emptySet()
                 }
             }
 

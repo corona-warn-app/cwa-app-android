@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
+import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
@@ -13,9 +15,11 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertif
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTest
 import de.rki.coronawarnapp.reyclebin.ui.adapter.OverviewSubHeaderItem
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecoveryCertificateCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecyclerBinItem
+import de.rki.coronawarnapp.reyclebin.ui.adapter.TestCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.TestCertificateCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.VaccinationCertificateCard
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
@@ -84,6 +88,20 @@ class RecyclerBinOverviewFragmentTest : BaseUITest() {
                     )
                 )
                 add(
+                    TestCard.Item(
+                        test = mockRATest(),
+                        onRemove = { _, _ -> },
+                        onRestore = {}
+                    )
+                )
+                add(
+                    TestCard.Item(
+                        test = mockPCRTest(),
+                        onRemove = { _, _ -> },
+                        onRestore = {}
+                    )
+                )
+                add(
                     RecoveryCertificateCard.Item(
                         certificate = mockRecoveryCertificate(),
                         onRemove = { _, _ -> },
@@ -121,6 +139,22 @@ class RecyclerBinOverviewFragmentTest : BaseUITest() {
             every { fullNameFormatted } returns "Thomas Schneider"
             every { validUntil } returns Instant.parse("2021-11-23T11:35:00.000Z").toLocalDateUserTz()
         }
+
+    private fun mockRATest(): RecycledCoronaTest =
+        RecycledCoronaTest(
+            coronaTest = mockk<RACoronaTest> {
+                every { testTakenAt } returns Instant.parse("2021-06-01T11:35:00.000Z")
+            },
+            recycledAt = Instant.now()
+        )
+
+    private fun mockPCRTest(): RecycledCoronaTest =
+        RecycledCoronaTest(
+            coronaTest = mockk<PCRCoronaTest> {
+                every { registeredAt } returns Instant.parse("2021-06-01T11:35:00.000Z")
+            },
+            recycledAt = Instant.now()
+        )
 }
 
 @Module
