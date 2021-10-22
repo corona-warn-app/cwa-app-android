@@ -48,6 +48,11 @@ class PersonCertificatesProvider @Inject constructor(
             it.personIdentifier
         }
 
+        if (!personCertificatesMap.containsKey(cwaUser)) {
+            Timber.tag(TAG).v("Resetting cwa user")
+            personCertificatesSettings.currentCwaUser.update { null }
+        }
+
         personCertificatesMap.entries.map { (personIdentifier, certs) ->
             Timber.tag(TAG).v("PersonCertificates for %s with %d certs.", personIdentifier, certs.size)
 
