@@ -1448,8 +1448,16 @@
     <string name="statistics_explanation_local_incidence_text">"Numărul total de infecții noi confirmate în ultimele 7 zile (după data de raportare) la 100.000 de locuitori în districtul sau statul federal configurat."</string>
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"Incidența pe 7 zile"</string>
+    <!-- XHED: Explanation screen seven day hospitalization title -->
+    <string name="statistics_explanation_seven_day_hospitalization_title">"Incidența spitalizării pe 7 zile"</string>
+    <!-- XHED: Explanation screen occupied beds in intensive care title -->
+    <string name="statistics_explanation_occupied_beds_in_intensive_care_title">"Pacienți COVID-19 în unități de terapie intensivă"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
     <string name="statistics_explanation_seven_day_incidence_text">"Numărul total de infecții noi confirmate în ultimele 7 zile (după data de raportare) la 100.000 de locuitori."</string>
+    <!-- XTXT: Explanation screen seven day hospitalization text -->
+    <string name="statistics_explanation_seven_day_hospitalization_text">"Numărul total de admiteri în spital din cauza COVID-19 în ultimele 7 zile (după data raportării) la 100.000 de locuitori."</string>
+    <!-- XHED: Explanation screen occupied beds in intensive care text -->
+    <string name="statistics_explanation_occupied_beds_in_intensive_care_text">"Proporția de persoane în unitățile de terapie intensivă din cauza COVID-19 în raport cu capacitatea ATI totală."</string>
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"Valoarea R pe 7 zile"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
@@ -1474,8 +1482,10 @@
     <string name="statistics_explanation_period_total_text">"Numărul total de la începutul anului sau de la lansarea aplicației (15 iunie 2020)"</string>
     <!-- XHED: Explanation screen trend title -->
     <string name="statistics_explanation_trend_title">"Tendință"</string>
+    <!-- XTXT: Explanation screen trend text -->
+    <string name="statistics_explanation_trend">"Tendința compară valoarea din ziua anterioară cu valoarea de acum două zile (pentru incidența pe 7 zile, incidența spitalizării pe 7 zile, pacienții COVID-19 din unitățile de terapie intensivă, valoarea R pe 7 zile) sau, pentru tendințele pe 7 zile, valoarea medie din ultimele 7 zile cu valoarea medie din cele 7 zile anterioare acestora (pentru valoarea medie pe 7 zile a infectărilor noi confirmate, avertizări de către utilizatorii aplicației, dozele de vaccin administrate). Este utilizată versiunea respectivă a datelor publicate inițial; actualizările ulterioare nu sunt luate în considerare."</string>
     <!-- YTXT: Explanation screen trend text -->
-    <string name="statistics_explanation_trend_text">"Direcția săgeții indică dacă tendința este în creștere, în scădere sau dacă rămâne constantă – mai exact, demonstrează o abatere de sub 1%% în comparație cu ziua precedentă sau de 5%% în comparație cu săptămâna precedentă. Culoarea indică faptul că tendința este pozitivă (verde), negativă (roșu) sau neutră (gri). Tendința compară valoarea din ziua precedentă cu valoarea de acum două zile sau, pentru tendințele pe 7 zile, valoarea medie din ultimele 7 zile cu valoarea medie din ultimele 7 zile anterioare acesteia."</string>
+    <string name="statistics_explanation_trend_text">"Direcția săgeții indică dacă tendința este în creștere, în scădere sau dacă rămâne constantă – mai exact, demonstrează o abatere de sub 1% în comparație cu ziua precedentă sau de 5% în comparație cu săptămâna precedentă. Culoarea indică faptul că tendința este pozitivă (verde), negativă (roșu) sau neutră (gri)."</string>
     <!-- XHED: Explanation screen trend icons title -->
     <string name="statistics_explanation_trend_icons_title">"Pot fi afișate următoarele tendințe:"</string>
     <!-- XHED: Explanation screen trend increasing title -->
