@@ -8,7 +8,7 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class RecycledCoronaTestTest: BaseTest() {
+class RecycledCoronaTestTest : BaseTest() {
 
     @Test
     fun `Create RecycledCoronaTest from CoronaTest`() {

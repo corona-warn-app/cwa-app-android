@@ -92,7 +92,6 @@ class RecycledCoronaTestsRepositoryTest : BaseTest() {
                 recycledCoronaTestsStorage.load()
             }
 
-
             coEvery { recycledCoronaTestsStorage.load() } returns testSet
 
             createInstance(this).tests.first() shouldBe testSet
