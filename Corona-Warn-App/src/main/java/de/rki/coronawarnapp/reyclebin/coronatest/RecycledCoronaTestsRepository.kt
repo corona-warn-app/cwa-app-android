@@ -22,6 +22,7 @@ import kotlinx.coroutines.plus
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.jvm.Throws
 
 @Singleton
 class RecycledCoronaTestsRepository @Inject constructor(
@@ -73,19 +74,15 @@ class RecycledCoronaTestsRepository @Inject constructor(
             .also { Timber.tag(TAG).d("returning %s", it) }
     }
 
+    @Throws(CoronaTestNotFoundException::class)
     suspend fun addCoronaTest(coronaTest: CoronaTest) {
         Timber.tag(TAG).d("addCoronaTest(coronaTest=%s)", coronaTest)
         val now = timeStamper.nowUTC
         internalData.updateBlocking {
-            try {
-                val testToRecycle = coronaTestRepository.removeTest(coronaTest.identifier)
-                    .toRecycledCoronaTest(recycledAt = now)
-                Timber.d("Adding %s to recycled tests", testToRecycle)
-                this.plus(testToRecycle)
-            } catch (e: CoronaTestNotFoundException) {
-                Timber.tag(TAG).e(e, "Failed to recycle test=%s", coronaTest)
-                this
-            }
+            val testToRecycle = coronaTestRepository.removeTest(coronaTest.identifier)
+                .toRecycledCoronaTest(recycledAt = now)
+            Timber.d("Adding %s to recycled tests", testToRecycle)
+            this.plus(testToRecycle)
         }
     }
 
