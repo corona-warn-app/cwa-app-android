@@ -78,6 +78,11 @@ class RecycledCoronaTestsRepository @Inject constructor(
     }
 
     suspend fun clear() {
+        Timber.tag(TAG).d("clear()")
+        internalData.updateBlocking {
+            Timber.tag(TAG).d("Deleting %s", this)
+            emptySet()
+        }
     }
 
     companion object {
