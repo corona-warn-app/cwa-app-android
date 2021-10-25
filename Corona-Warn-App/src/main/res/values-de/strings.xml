@@ -979,7 +979,7 @@
     <!-- YTXT: Body for no consent section first point  -->
     <string name="submission_no_consent_first_point">"Ihr Einverständnis ist freiwillig."</string>
     <!-- YTXT: Body for no consent section second point  -->
-    <string name="submission_no_consent_second_point">"Sie können Ihr Testergebnis auch abrufen, wenn Sie dies nicht teilen. Wenn Sie ihr Testergebnis teilen, helfen Sie jedoch mit, Ihre Mitmenschen vor Ansteckungen zu schützen."</string>
+    <string name="submission_no_consent_second_point">"Wenn Sie Ihr Testergebnis teilen, helfen Sie jedoch mit, Ihre Mitmenschen vor Ansteckungen zu schützen."</string>
     <!-- YTXT: Body for no consent section third point  -->
     <string name="submission_no_consent_third_point">"Ihre Identität bleibt geheim. Andere Nutzer erfahren nicht, wer sein Testergebnis geteilt hat."</string>
     <!-- YTXT: Body for no consent section fourth point  -->
