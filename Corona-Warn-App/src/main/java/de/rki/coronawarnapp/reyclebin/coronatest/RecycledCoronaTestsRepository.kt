@@ -1,17 +1,61 @@
 package de.rki.coronawarnapp.reyclebin.coronatest
 
+import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.tag
+import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.flow.HotDataFlow
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.plus
+import timber.log.Timber
 import javax.inject.Inject
 
 class RecycledCoronaTestsRepository @Inject constructor(
+    @AppScope private val appScope: CoroutineScope,
+    private val dispatcherProvider: DispatcherProvider,
     private val coronaTestRepository: CoronaTestRepository,
     private val recycledCoronaTestsStorage: RecycledCoronaTestsStorage,
 
-) {
+    ) {
 
-    val tests: Flow<Set<RecycledCoronaTest>> = recycledCoronaTestsStorage.tests
+    private val appScopeIO: CoroutineScope
+        get() = appScope + dispatcherProvider.IO
+
+    private val internalData: HotDataFlow<Set<RecycledCoronaTest>> = HotDataFlow(
+        loggingTag = TAG,
+        scope = appScopeIO,
+        sharingBehavior = SharingStarted.Lazily,
+        startValueProvider = {
+            recycledCoronaTestsStorage.load()
+                .also { Timber.tag(TAG).d("Restored recycledTests=%s", it) }
+        }
+    )
+
+    init {
+        internalData.data
+            .onStart { Timber.tag(TAG).d("Observing recycled tests") }
+            .drop(1) // Skip restored data
+            .onEach {
+                Timber.tag(TAG).v("Recycled test changed: %s", it)
+                recycledCoronaTestsStorage.save(it)
+            }
+            .catch {
+                it.reportProblem(TAG, "Storing recycled tests failed")
+                throw it
+            }
+            .launchIn(scope = appScopeIO)
+    }
+
+    val tests: Flow<Set<RecycledCoronaTest>> = internalData.data
 
     suspend fun findCoronaTest(coronaTestQrCodeHash: String): RecycledCoronaTest? {
         return recycledCoronaTestsStorage.findTest(coronaTestQrCodeHash)
@@ -34,6 +78,9 @@ class RecycledCoronaTestsRepository @Inject constructor(
     }
 
     suspend fun clear() {
-        // TODO
+    }
+
+    companion object {
+        private val TAG = tag<RecycledCoronaTestsRepository>()
     }
 }
