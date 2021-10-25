@@ -57,12 +57,20 @@ class RecyclerBinOverviewFragment : Fragment(R.layout.recycler_bin_overview_frag
             positiveButtonAction = { viewModel.onRemoveAllItemsConfirmation() }
         )
 
-        is RecyclerBinEvent.RemoveItem -> viewModel.onRemoveItem(event.item)
+        is RecyclerBinEvent.RemoveCertificate -> viewModel.onRemoveItem(event.item)
 
-        is RecyclerBinEvent.ConfirmRestoreItem -> RecycleBinDialogType.RestoreCertificateConfirmation.show(
+        is RecyclerBinEvent.ConfirmRestoreCertificate -> RecycleBinDialogType.RestoreCertificateConfirmation.show(
             fragment = this,
             positiveButtonAction = { viewModel.onRestoreConfirmation(event.item) }
         )
+
+        is RecyclerBinEvent.ConfirmRestoreTest -> {
+            // TODO
+        }
+
+        is RecyclerBinEvent.RemoveTest -> {
+            // TODO
+        }
     }
 
     private fun onMenuItemClicked(item: MenuItem): Boolean = when (item.itemId) {
