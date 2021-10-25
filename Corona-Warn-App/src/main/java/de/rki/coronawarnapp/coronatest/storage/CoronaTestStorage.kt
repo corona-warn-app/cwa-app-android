@@ -44,6 +44,7 @@ class CoronaTestStorage @Inject constructor(
 
             val pcrTests: Set<PCRCoronaTest> = run {
                 val raw = prefs.getString(PKEY_DATA_PCR, null) ?: return@run emptySet()
+                // TODO: replace with proper error handling
                 try {
                     gson.fromJson<Set<PCRCoronaTest>>(raw, typeTokenPCR).onEach {
                         Timber.tag(TAG).v("PCR loaded: %s", it)
@@ -58,6 +59,7 @@ class CoronaTestStorage @Inject constructor(
 
             val raTests: Set<RACoronaTest> = run {
                 val raw = prefs.getString(PKEY_DATA_RA, null) ?: return@run emptySet()
+                // TODO: replace with proper error handling
                 try {
                     gson.fromJson<Set<RACoronaTest>>(raw, typeTokenRA).onEach {
                         Timber.tag(TAG).v("RA loaded: %s", it)
