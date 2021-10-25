@@ -27,7 +27,7 @@ class AnalyticsTestResultCollector @Inject constructor(
     private val riskLevelStorage: RiskLevelStorage,
     private val enfClient: ENFClient,
     private val timeStamper: TimeStamper,
-    private val ewRepository: AnalyticsTestResultEWRepository
+    private val ewRepository: AnalyticsTestResultEwRepository
 ) {
 
     suspend fun reportTestRegistered(type: CoronaTest.Type) {

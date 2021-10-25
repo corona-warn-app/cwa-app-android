@@ -10,7 +10,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AnalyticsTestResultEWRepository @Inject constructor(
+class AnalyticsTestResultEwRepository @Inject constructor(
     private val databaseFactory: AnalyticsTestResultEwDatabase.Factory,
     private val timeStamper: TimeStamper
 ) {

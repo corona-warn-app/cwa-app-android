@@ -17,7 +17,7 @@ import javax.inject.Singleton
 @Singleton
 class AnalyticsPCRTestResultDonor @Inject constructor(
     testResultSettings: AnalyticsPCRTestResultSettings,
-    ewRepository: AnalyticsTestResultEWRepository,
+    ewRepository: AnalyticsTestResultEwRepository,
     timeStamper: TimeStamper,
 ) : AnalyticsTestResultDonor(testResultSettings, ewRepository, timeStamper) {
     override val type = CoronaTest.Type.PCR
@@ -26,7 +26,7 @@ class AnalyticsPCRTestResultDonor @Inject constructor(
 @Singleton
 class AnalyticsRATestResultDonor @Inject constructor(
     testResultSettings: AnalyticsRATestResultSettings,
-    ewRepository: AnalyticsTestResultEWRepository,
+    ewRepository: AnalyticsTestResultEwRepository,
     timeStamper: TimeStamper,
 ) : AnalyticsTestResultDonor(testResultSettings, ewRepository, timeStamper) {
     override val type = CoronaTest.Type.RAPID_ANTIGEN
@@ -34,7 +34,7 @@ class AnalyticsRATestResultDonor @Inject constructor(
 
 abstract class AnalyticsTestResultDonor(
     private val testResultSettings: AnalyticsTestResultSettings,
-    private val ewRepository: AnalyticsTestResultEWRepository,
+    private val ewRepository: AnalyticsTestResultEwRepository,
     private val timeStamper: TimeStamper,
 ) : DonorModule {
 
