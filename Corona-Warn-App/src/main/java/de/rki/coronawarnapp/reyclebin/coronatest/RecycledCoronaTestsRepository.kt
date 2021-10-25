@@ -58,23 +58,34 @@ class RecycledCoronaTestsRepository @Inject constructor(
     val tests: Flow<Set<RecycledCoronaTest>> = internalData.data
 
     suspend fun findCoronaTest(coronaTestQrCodeHash: String): RecycledCoronaTest? {
+        Timber.tag(TAG).d("findCoronaTest(coronaTestQrCodeHash=%s)", coronaTestQrCodeHash)
         return recycledCoronaTestsStorage.findTest(coronaTestQrCodeHash)
     }
 
-    suspend fun addCoronTest(coronaTest: CoronaTest) {
+    suspend fun addCoronaTest(coronaTest: CoronaTest) {
+        Timber.tag(TAG).d("addCoronaTest(coronaTest=%s)", coronaTest)
         // TODO
     }
 
     suspend fun restoreCoronaTest(recycledCoronaTest: RecycledCoronaTest) {
+        Timber.tag(TAG).d("restoreCoronaTest(recycledCoronaTest=%s)", recycledCoronaTest)
         // TODO
     }
 
     suspend fun deleteCoronaTest(recycledCoronaTest: RecycledCoronaTest) {
-        // TODO
+        Timber.tag(TAG).d("deleteCoronaTest(recycledCoronaTest=%s)", recycledCoronaTest)
+        internalData.updateBlocking {
+            this.minus(recycledCoronaTest)
+                .also { Timber.d("Recycled tests before=%s, after=%s", this, it) }
+        }
     }
 
-    suspend fun deleteAllCoronaTest(recycledCoronaTests: Set<RecycledCoronaTest>) {
-        // TODO
+    suspend fun deleteAllCoronaTest(recycledCoronaTests: Collection<RecycledCoronaTest>) {
+        Timber.tag(TAG).d("deleteAllCoronaTest(recycledCoronaTests=%s)", recycledCoronaTests)
+        internalData.updateBlocking {
+            this.minus(recycledCoronaTests)
+                .also { Timber.d("Recycled tests before=%s, after=%s", this, it) }
+        }
     }
 
     suspend fun clear() {
