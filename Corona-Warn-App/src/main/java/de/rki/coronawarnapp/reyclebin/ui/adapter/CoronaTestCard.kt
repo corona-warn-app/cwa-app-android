@@ -14,8 +14,8 @@ import de.rki.coronawarnapp.util.list.Swipeable
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import java.lang.IllegalStateException
 
-class TestCard(parent: ViewGroup) :
-    RecyclerBinAdapter.ItemVH<TestCard.Item, RecyclerBinCertificateItemBinding>(
+class CoronaTestCard(parent: ViewGroup) :
+    RecyclerBinAdapter.ItemVH<CoronaTestCard.Item, RecyclerBinCertificateItemBinding>(
         layoutRes = R.layout.recycler_bin_certificate_item,
         parent = parent
     ),

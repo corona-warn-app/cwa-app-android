@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvi
 import de.rki.coronawarnapp.reyclebin.ui.adapter.OverviewSubHeaderItem
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecoveryCertificateCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecyclerBinItem
-import de.rki.coronawarnapp.reyclebin.ui.adapter.TestCard
+import de.rki.coronawarnapp.reyclebin.ui.adapter.CoronaTestCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.TestCertificateCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.VaccinationCertificateCard
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -61,7 +61,7 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
         }.also { Timber.d("Created recycler bin items=%s from certs=%s", it, this) }
     }
 
-    private fun mapTestToRecyclerBinItem(recycledTest: RecycledCoronaTest): RecyclerBinItem? = TestCard.Item(
+    private fun mapTestToRecyclerBinItem(recycledTest: RecycledCoronaTest): RecyclerBinItem? = CoronaTestCard.Item(
         test = recycledTest,
         onRemove = { test, position ->
             currentEvent.postValue(RecyclerBinEvent.RemoveTest(test, position))

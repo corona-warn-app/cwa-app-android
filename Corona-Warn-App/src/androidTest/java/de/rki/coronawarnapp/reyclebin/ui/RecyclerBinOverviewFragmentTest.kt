@@ -19,7 +19,7 @@ import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTest
 import de.rki.coronawarnapp.reyclebin.ui.adapter.OverviewSubHeaderItem
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecoveryCertificateCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecyclerBinItem
-import de.rki.coronawarnapp.reyclebin.ui.adapter.TestCard
+import de.rki.coronawarnapp.reyclebin.ui.adapter.CoronaTestCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.TestCertificateCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.VaccinationCertificateCard
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
@@ -88,14 +88,14 @@ class RecyclerBinOverviewFragmentTest : BaseUITest() {
                     )
                 )
                 add(
-                    TestCard.Item(
+                    CoronaTestCard.Item(
                         test = mockRATest(),
                         onRemove = { _, _ -> },
                         onRestore = {}
                     )
                 )
                 add(
-                    TestCard.Item(
+                    CoronaTestCard.Item(
                         test = mockPCRTest(),
                         onRemove = { _, _ -> },
                         onRestore = {}

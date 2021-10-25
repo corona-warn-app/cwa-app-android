@@ -25,7 +25,7 @@ class RecyclerBinAdapter :
                 TypedVHCreatorMod({ data[it] is VaccinationCertificateCard.Item }) { VaccinationCertificateCard(it) },
                 TypedVHCreatorMod({ data[it] is TestCertificateCard.Item }) { TestCertificateCard(it) },
                 TypedVHCreatorMod({ data[it] is RecoveryCertificateCard.Item }) { RecoveryCertificateCard(it) },
-                TypedVHCreatorMod({ data[it] is TestCard.Item }) { TestCard(it) },
+                TypedVHCreatorMod({ data[it] is CoronaTestCard.Item }) { CoronaTestCard(it) },
                 TypedVHCreatorMod({ data[it] is OverviewSubHeaderItem }) { OverviewSubHeaderVH(it) },
             )
         )
