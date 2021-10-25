@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighPtR
 import de.rki.coronawarnapp.datadonation.analytics.common.isFinal
 import de.rki.coronawarnapp.datadonation.analytics.common.toMetadataRiskLevel
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
+import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
@@ -24,7 +25,9 @@ class AnalyticsTestResultCollector @Inject constructor(
     private val pcrSettings: AnalyticsPCRTestResultSettings,
     private val raSettings: AnalyticsRATestResultSettings,
     private val riskLevelStorage: RiskLevelStorage,
+    private val enfClient: ENFClient,
     private val timeStamper: TimeStamper,
+    private val ewRepository: AnalyticsTestResultEWRepository
 ) {
 
     suspend fun reportTestRegistered(type: CoronaTest.Type) {
@@ -86,6 +89,9 @@ class AnalyticsTestResultCollector @Inject constructor(
         type.settings.ptRiskLevelAtTestRegistration.update {
             lastResult.ptRiskLevelResult.riskState.toMetadataRiskLevel()
         }
+
+        val exposureWindows = enfClient.exposureWindows()
+        ewRepository.add(type, exposureWindows)
     }
 
     fun reportTestResultReceived(testResult: CoronaTestResult, type: CoronaTest.Type) {
@@ -115,9 +121,11 @@ class AnalyticsTestResultCollector @Inject constructor(
     /**
      * Clear saved test donor saved metadata
      */
-    fun clear(type: CoronaTest.Type) {
+    suspend fun clear(type: CoronaTest.Type) {
         Timber.d("clear TestResultDonorSettings")
         type.settings.clear()
+        Timber.d("clear AnalyticsTestResultEWRepository")
+        ewRepository.deleteAll(type)
     }
 
     private val analyticsDisabled: Boolean

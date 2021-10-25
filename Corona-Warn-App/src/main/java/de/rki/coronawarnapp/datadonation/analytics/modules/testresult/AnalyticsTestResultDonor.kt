@@ -16,21 +16,24 @@ import javax.inject.Singleton
 @Singleton
 class AnalyticsPCRTestResultDonor @Inject constructor(
     testResultSettings: AnalyticsPCRTestResultSettings,
+    ewRepository: AnalyticsTestResultEWRepository,
     timeStamper: TimeStamper,
-) : AnalyticsTestResultDonor(testResultSettings, timeStamper) {
+) : AnalyticsTestResultDonor(testResultSettings, ewRepository, timeStamper) {
     override val type = CoronaTest.Type.PCR
 }
 
 @Singleton
 class AnalyticsRATestResultDonor @Inject constructor(
     testResultSettings: AnalyticsRATestResultSettings,
+    ewRepository: AnalyticsTestResultEWRepository,
     timeStamper: TimeStamper,
-) : AnalyticsTestResultDonor(testResultSettings, timeStamper) {
+) : AnalyticsTestResultDonor(testResultSettings, ewRepository, timeStamper) {
     override val type = CoronaTest.Type.RAPID_ANTIGEN
 }
 
 abstract class AnalyticsTestResultDonor(
     private val testResultSettings: AnalyticsTestResultSettings,
+    private val ewRepository: AnalyticsTestResultEWRepository,
     private val timeStamper: TimeStamper,
 ) : DonorModule {
 
@@ -84,11 +87,10 @@ abstract class AnalyticsTestResultDonor(
         }
     }
 
-    override suspend fun deleteData() = cleanUp()
-
-    private fun cleanUp() {
+    override suspend fun deleteData() {
         Timber.d("Cleaning data")
         testResultSettings.clear()
+        ewRepository.deleteAll(type)
     }
 
     private fun pendingTestMetadataDonation(
@@ -115,10 +117,10 @@ abstract class AnalyticsTestResultDonor(
             .build()
 
         Timber.i("Pending test result metadata:%s", formString(testResultMetaData))
-        return TestResultMetadataContribution(testResultMetaData, ::cleanUp)
+        return TestResultMetadataContribution(testResultMetaData, ::deleteData)
     }
 
-    private fun finalTestMetadataDonation(
+    private suspend fun finalTestMetadataDonation(
         registrationTime: Instant,
         testResult: CoronaTestResult,
     ): DonorModule.Contribution {
@@ -145,10 +147,11 @@ abstract class AnalyticsTestResultDonor(
             .setTestResult(testResult.toPPATestResult())
             .setRiskLevelAtTestRegistration(testResultSettings.ewRiskLevelAtTestRegistration.value)
             .setPtRiskLevelAtTestRegistration(testResultSettings.ptRiskLevelAtTestRegistration.value)
+            // TODO .setExposureWindowsAtTestRegistration(ewRepository.getAll())
             .build()
 
         Timber.i("Final test result metadata:\n%s", formString(testResultMetaData))
-        return TestResultMetadataContribution(testResultMetaData, ::cleanUp)
+        return TestResultMetadataContribution(testResultMetaData, ::deleteData)
     }
 
     private fun CoronaTestResult.toPPATestResult(): PpaData.PPATestResult {
