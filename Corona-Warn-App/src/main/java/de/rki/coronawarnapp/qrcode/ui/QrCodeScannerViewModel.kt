@@ -143,15 +143,10 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         Timber.tag(TAG).d("onCoronaTestQrCode()")
         val recycledCoronaTest = recycledCoronaTestsRepository.findCoronaTest(qrCode.rawQrCode.toSHA256())
 
-        if (recycledCoronaTest != null) {
-            // TODO show the dialog
-        }
-        // TODO navigate to right destination based on recycled Corona
-        val coronaTest = submissionRepository.testForType(qrCode.type).first()
-        val coronaTestResult = if (coronaTest != null) {
-            CoronaTestResult.DuplicateTest(qrCode)
-        } else {
-            CoronaTestResult.ConsentTest(qrCode)
+        val coronaTestResult = when {
+            recycledCoronaTest != null -> CoronaTestResult.InRecycleBin(recycledCoronaTest)
+            submissionRepository.testForType(qrCode.type).first() != null -> CoronaTestResult.DuplicateTest(qrCode)
+            else -> CoronaTestResult.ConsentTest(qrCode)
         }
         Timber.tag(TAG).d("coronaTestResult=${coronaTestResult::class.simpleName}")
         result.postValue(coronaTestResult)

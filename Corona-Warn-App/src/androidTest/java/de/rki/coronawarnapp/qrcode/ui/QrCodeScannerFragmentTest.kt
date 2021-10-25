@@ -49,6 +49,15 @@ class QrCodeScannerFragmentTest : BaseUITest() {
         takeScreenshot<QrCodeScannerFragment>()
     }
 
+    @Screenshot
+    @Test
+    fun restoreCoronaTestDialog() {
+        every { qrcodeScannerViewModel.result } returns SingleLiveEvent<ScannerResult>()
+            .apply { postValue(CoronaTestResult.InRecycleBin(mockk())) }
+        launchFragmentInContainer2<QrCodeScannerFragment>()
+        takeScreenshot<QrCodeScannerFragment>()
+    }
+
     @Test
     fun launch() {
         launchFragment2<QrCodeScannerFragment>()

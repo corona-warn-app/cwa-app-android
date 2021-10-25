@@ -29,6 +29,7 @@ sealed class CoronaTestResult : ScannerResult {
     data class RestoreDuplicateTest(val recycledCoronaTest: RecycledCoronaTest) : CoronaTestResult()
     data class TestResult(val coronaTest: CoronaTest) : CoronaTestResult()
     data class ConsentTest(val coronaTestQrCode: CoronaTestQRCode) : CoronaTestResult()
+    data class InRecycleBin(val recycledCoronaTest: RecycledCoronaTest) : CoronaTestResult()
     object Home : CoronaTestResult()
 }
 
