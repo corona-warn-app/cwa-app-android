@@ -74,6 +74,16 @@ class CoronaTestStorageTest : BaseTest() {
         isDccDataSetCreated = true,
     )
 
+    private val pcrTest1 = pcrTest.copy(
+        identifier = "identifier-pcr1",
+        qrCodeHash = "pcrQrCodeHash"
+    )
+
+    private val raTest1 = raTest.copy(
+        identifier = "identifier-ra1",
+        qrCodeHash = "raQrCodeHash"
+    )
+
     @Test
     fun `init is sideeffect free`() {
         createInstance()
@@ -134,6 +144,43 @@ class CoronaTestStorageTest : BaseTest() {
     }
 
     @Test
+    fun `store only PCRT that has QrCode Hash`() {
+        val instance = createInstance()
+        instance.coronaTests = setOf(pcrTest1)
+
+        val json = (mockPreferences.dataMapPeek["coronatest.data.pcr"] as String)
+
+        json.toComparableJsonPretty() shouldBe """
+            [
+                {
+                    "identifier": "identifier-pcr1",
+                    "registeredAt": 1000,
+                    "registrationToken": "regtoken-pcr",
+                    "isSubmitted": true,
+                    "isViewed": true,
+                     "didShowBadge": false,
+                    "isAdvancedConsentGiven": true,
+                    "isResultAvailableNotificationSent": false,
+                    "testResultReceivedAt": 2000,
+                    "testResult": 2,
+                    "lastUpdatedAt": 2001,
+                    "isDccConsentGiven": true,
+                    "isDccDataSetCreated": true,
+                    "qrCodeHash": "pcrQrCodeHash"
+                }
+            ]
+        """.toComparableJsonPretty()
+
+        instance.coronaTests.single().apply {
+            this shouldBe pcrTest1.copy(
+                lastError = null,
+                isProcessing = false
+            )
+            type shouldBe CoronaTest.Type.PCR
+        }
+    }
+
+    @Test
     fun `store only RAT`() {
         val instance = createInstance()
         instance.coronaTests = setOf(
@@ -176,6 +223,45 @@ class CoronaTestStorageTest : BaseTest() {
                 lastError = null,
                 isProcessing = false
             )
+            type shouldBe CoronaTest.Type.RAPID_ANTIGEN
+        }
+    }
+
+    @Test
+    fun `store only RAT that has QrCodeHash`() {
+        val instance = createInstance()
+        instance.coronaTests = setOf(raTest1)
+
+        val json = (mockPreferences.dataMapPeek["coronatest.data.ra"] as String)
+
+        json.toComparableJsonPretty() shouldBe """
+            [
+                {
+                    "identifier": "identifier-ra1",
+                    "registeredAt": 1000,
+                    "registrationToken": "regtoken-ra",
+                    "isSubmitted": true,
+                    "isViewed": true,
+                    "didShowBadge": false,
+                    "isAdvancedConsentGiven": true,
+                    "isResultAvailableNotificationSent": false,
+                    "testResultReceivedAt": 2000,
+                    "lastUpdatedAt": 2001,
+                    "testResult": 7,
+                    "testedAt": 3000,
+                    "firstName": "firstname",
+                    "lastName": "lastname",
+                    "dateOfBirth": "2021-12-24",
+                    "isDccSupportedByPoc": true,
+                    "isDccConsentGiven": true,
+                    "isDccDataSetCreated": true,
+                    "qrCodeHash": "raQrCodeHash"
+                }
+            ]
+        """.toComparableJsonPretty()
+
+        instance.coronaTests.single().apply {
+            this shouldBe raTest1
             type shouldBe CoronaTest.Type.RAPID_ANTIGEN
         }
     }

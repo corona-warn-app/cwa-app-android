@@ -31,6 +31,7 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -73,7 +74,7 @@ class PCRTestProcessor @Inject constructor(
             Timber.tag(TAG).d("Request %s gave us %s", request, it)
         }
 
-        return createCoronaTest(request, registrationData)
+        return createCoronaTest(request, registrationData, request.rawQrCode.toSHA256())
     }
 
     private suspend fun createTAN(request: CoronaTestTAN.PCR): CoronaTest {
@@ -99,7 +100,8 @@ class PCRTestProcessor @Inject constructor(
 
     private suspend fun createCoronaTest(
         request: TestRegistrationRequest,
-        response: RegistrationData
+        response: RegistrationData,
+        qrCodeHash: String = ""
     ): PCRCoronaTest {
 
         val testResult = response.testResultResponse.coronaTestResult.let {
@@ -129,7 +131,8 @@ class PCRTestProcessor @Inject constructor(
             testResult = testResult,
             testResultReceivedAt = determineReceivedDate(null, testResult),
             isDccConsentGiven = request.isDccConsentGiven,
-            labId = response.testResultResponse.labId
+            labId = response.testResultResponse.labId,
+            qrCodeHash = qrCodeHash
         )
     }
 
