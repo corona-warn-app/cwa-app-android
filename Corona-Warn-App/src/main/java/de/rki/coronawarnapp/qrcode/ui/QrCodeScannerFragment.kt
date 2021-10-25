@@ -187,9 +187,15 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 )
             )
             is CoronaTestResult.InRecycleBin -> showRestoreCoronaTestConfirmation(scannerResult.recycledCoronaTest)
-            is CoronaTestResult.RestoreDuplicateTest -> error("TODO: Not implemented yet")
-            is CoronaTestResult.TestResult -> error("TODO: Not implemented yet")
-            CoronaTestResult.Home -> error("TODO: Not implemented yet")
+            is CoronaTestResult.RestoreDuplicateTest -> {
+                // TODO
+            }
+            is CoronaTestResult.TestResult -> {
+                // TODO
+            }
+            CoronaTestResult.Home -> {
+                // TODO
+            }
         }
     }
 
