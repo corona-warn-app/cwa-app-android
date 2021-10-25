@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.testresult
 
+import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.common.isFinal
@@ -147,8 +148,9 @@ abstract class AnalyticsTestResultDonor(
             .setTestResult(testResult.toPPATestResult())
             .setRiskLevelAtTestRegistration(testResultSettings.ewRiskLevelAtTestRegistration.value)
             .setPtRiskLevelAtTestRegistration(testResultSettings.ptRiskLevelAtTestRegistration.value)
-            // TODO .setExposureWindowsAtTestRegistration(ewRepository.getAll())
+            .addAllExposureWindowsAtTestRegistration(ewRepository.getAll(type).asPpaData())
             .build()
+
 
         Timber.i("Final test result metadata:\n%s", formString(testResultMetaData))
         return TestResultMetadataContribution(testResultMetaData, ::deleteData)
@@ -202,4 +204,29 @@ abstract class AnalyticsTestResultDonor(
     companion object {
         private const val DEFAULT_HOURS_SINCE_TEST_REGISTRATION_TIME = -1
     }
+}
+
+@VisibleForTesting
+internal fun List<AnalyticsTestResultEwEntityWrapper>.asPpaData() = map {
+    val scanInstances = it.scanInstanceEntities.map { scanInstance ->
+        PpaData.PPAExposureWindowScanInstance.newBuilder()
+            .setMinAttenuation(scanInstance.minAttenuation)
+            .setTypicalAttenuation(scanInstance.typicalAttenuation)
+            .setSecondsSinceLastScan(scanInstance.secondsSinceLastScan)
+            .build()
+    }
+
+    val exposureWindow = PpaData.PPAExposureWindow.newBuilder()
+        .setDate(it.exposureWindowEntity.dateMillis / 1000)
+        .setCalibrationConfidence(it.exposureWindowEntity.calibrationConfidence)
+        .setInfectiousnessValue(it.exposureWindowEntity.infectiousness)
+        .setReportTypeValue(it.exposureWindowEntity.reportType)
+        .addAllScanInstances(scanInstances)
+        .build()
+
+    PpaData.PPANewExposureWindow.newBuilder()
+        .setExposureWindow(exposureWindow)
+        .setNormalizedTime(it.exposureWindowEntity.normalizedTime)
+        .setTransmissionRiskLevel(it.exposureWindowEntity.transmissionRiskLevel)
+        .build()
 }

@@ -90,8 +90,7 @@ class AnalyticsTestResultCollector @Inject constructor(
             lastResult.ptRiskLevelResult.riskState.toMetadataRiskLevel()
         }
 
-        val exposureWindows = enfClient.exposureWindows()
-        ewRepository.add(type, exposureWindows)
+        ewRepository.add(type, enfClient.exposureWindows())
     }
 
     fun reportTestResultReceived(testResult: CoronaTestResult, type: CoronaTest.Type) {

@@ -15,6 +15,9 @@ import androidx.room.Relation
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.Transaction
+import androidx.room.TypeConverter
+import androidx.room.TypeConverters
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.util.di.AppContext
 import javax.inject.Inject
 
@@ -25,6 +28,7 @@ import javax.inject.Inject
     ],
     version = 1
 )
+@TypeConverters(TestTypeConverter::class)
 abstract class AnalyticsTestResultEwDatabase : RoomDatabase() {
     abstract fun analyticsExposureWindowDao(): AnalyticsTestResultEWDao
 
@@ -43,11 +47,8 @@ abstract class AnalyticsTestResultEwDatabase : RoomDatabase() {
 @Dao
 interface AnalyticsTestResultEWDao {
     @Transaction
-    @Query("SELECT * FROM AnalyticsTestResultEwEntity")
-    suspend fun getAll(): List<AnalyticsTestResultEwEntityWrapper>
-
-    @Delete
-    suspend fun deleteScanInstances(entities: List<AnalyticsTestResultScanInstanceEntity>)
+    @Query("SELECT * FROM AnalyticsTestResultEwEntity WHERE testType LIKE :type")
+    suspend fun getAll(type: CoronaTest.Type): List<AnalyticsTestResultEwEntityWrapper>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertExposureWindows(entities: List<AnalyticsTestResultEwEntity>): List<Long>
@@ -61,8 +62,11 @@ interface AnalyticsTestResultEWDao {
         insertScanInstances(wrappers.flatMap { it.scanInstanceEntities })
     }
 
-    @Query("DELETE FROM AnalyticsTestResultEwEntity")
-    suspend fun deleteAll()
+    @Delete
+    suspend fun deleteAll(entities: List<AnalyticsTestResultEwEntity>)
+
+    @Delete
+    suspend fun deleteScanInstances(entities: List<AnalyticsTestResultScanInstanceEntity>)
 }
 
 class AnalyticsTestResultEwEntityWrapper(
@@ -73,7 +77,8 @@ class AnalyticsTestResultEwEntityWrapper(
 
 @Entity
 data class AnalyticsTestResultEwEntity(
-    @PrimaryKey(autoGenerate = false) val sha256Hash: String,
+    @PrimaryKey(autoGenerate = true) val id: Long?,
+    val testType: CoronaTest.Type,
     val calibrationConfidence: Int,
     val dateMillis: Long,
     val infectiousness: Int,
@@ -92,11 +97,35 @@ data class AnalyticsTestResultScanInstanceEntity(
         onDelete = ForeignKey.CASCADE,
         deferred = true
     )
-    val fkSha256Hash: String,
+    val fkId: Long?,
     val minAttenuation: Int,
     val typicalAttenuation: Int,
     val secondsSinceLastScan: Int
 )
 
-private const val PARENT_COLUMN = "sha256Hash"
-private const val CHILD_COLUMN = "fkSha256Hash"
+private const val PARENT_COLUMN = "id"
+private const val CHILD_COLUMN = "fkId"
+
+class TestTypeConverter {
+    @TypeConverter
+    fun toTestTypeCode(value: String?): CoronaTest.Type? = value?.toCoronaTestType()
+
+    @TypeConverter
+    fun fromTestTypeCode(code: CoronaTest.Type?): String? = code?.toCode()
+
+    private fun CoronaTest.Type.toCode() = when (this) {
+        CoronaTest.Type.PCR -> PCR
+        CoronaTest.Type.RAPID_ANTIGEN -> RA
+    }
+
+    private fun String.toCoronaTestType() = when (this) {
+        PCR -> CoronaTest.Type.PCR
+        RA -> CoronaTest.Type.RAPID_ANTIGEN
+        else -> null
+    }
+
+    companion object {
+        private const val PCR = "PCR"
+        private const val RA = "RA"
+    }
+}

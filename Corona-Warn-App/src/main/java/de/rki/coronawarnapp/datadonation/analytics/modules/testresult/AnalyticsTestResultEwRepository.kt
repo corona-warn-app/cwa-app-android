@@ -1,7 +1,10 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.testresult
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
+import com.google.android.gms.nearby.exposurenotification.ScanInstance
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsScanInstance
+import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsScanInstanceEntity
 import de.rki.coronawarnapp.util.TimeStamper
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,18 +22,20 @@ class AnalyticsTestResultEWRepository @Inject constructor(
         database.analyticsExposureWindowDao()
     }
 
-    suspend fun getAll(): List<AnalyticsTestResultEwEntityWrapper> {
-        return dao.getAll()
+    suspend fun getAll(type: CoronaTest.Type): List<AnalyticsTestResultEwEntityWrapper> {
+        return dao.getAll(type)
     }
 
     suspend fun add(type: CoronaTest.Type, exposureWindows: List<ExposureWindow>) {
-        // TODO covert to dao.insert(analyticsExposureWindows)
+        val wrappers = exposureWindows.map {
+            it.toWrapper(type)
+        }
+        dao.insert(wrappers)
     }
 
     suspend fun deleteAll(type: CoronaTest.Type) {
-        val wrapperList = dao.getAll()
-        dao.deleteExposureWindows(wrapperList.map { it.exposureWindowEntity })
-        //dao.deleteScanInstances(wrapperList.flatMap { it.scanInstanceEntities })
+        val wrapperList = dao.getAll(type)
+        dao.deleteAll(wrapperList.map { it.exposureWindowEntity })
     }
 }
 
@@ -41,3 +46,26 @@ private fun AnalyticsScanInstance.toEntity(foreignKey: String) =
         typicalAttenuation = typicalAttenuation,
         secondsSinceLastScan = secondsSinceLastScan
     )
+
+private fun ExposureWindow.toWrapper(type: CoronaTest.Type) = AnalyticsTestResultEwEntityWrapper(
+    exposureWindowEntity = toEntity(type),
+    scanInstanceEntities = scanInstances.map { it.toEntity() }
+)
+
+private fun ExposureWindow.toEntity(type: CoronaTest.Type) = AnalyticsTestResultEwEntity(
+    id = null,
+    testType = type,
+    calibrationConfidence = calibrationConfidence,
+    dateMillis = dateMillisSinceEpoch,
+    infectiousness = infectiousness,
+    reportType = reportType,
+    normalizedTime = 0.0,
+    transmissionRiskLevel = 0
+)
+
+private fun ScanInstance.toEntity() = AnalyticsTestResultScanInstanceEntity(
+    fkId = null,
+    minAttenuation = minAttenuationDb,
+    typicalAttenuation = typicalAttenuationDb,
+    secondsSinceLastScan = secondsSinceLastScan
+)
