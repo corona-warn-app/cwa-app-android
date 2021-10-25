@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.qrcode.ui
 import android.net.Uri
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException.ErrorCode.CANT_READ_FILE
@@ -42,6 +43,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     private val traceLocationSettings: TraceLocationSettings,
     private val recycledCertificatesProvider: RecycledCertificatesProvider,
     private val recycledCoronaTestsRepository: RecycledCoronaTestsRepository,
+    private val coronaTestRepository: CoronaTestRepository,
 ) : CWAViewModel(dispatcherProvider) {
 
     val result = SingleLiveEvent<ScannerResult>()
@@ -92,8 +94,24 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         result.postValue(containerId.toDccDetails())
     }
 
-    fun restoreCoronaTest(recycledCoronaTest: RecycledCoronaTest) {
-        // TODO check for duplicate and then restore
+    fun restoreCoronaTest(recycledCoronaTest: RecycledCoronaTest) = launch {
+        val coronaTest = submissionRepository.testForType(recycledCoronaTest.coronaTest.type).first()
+        when {
+            coronaTest != null -> CoronaTestResult.RestoreDuplicateTest(recycledCoronaTest)
+            // Test result was available on recycling time
+            !recycledCoronaTest.coronaTest.isPending -> CoronaTestResult.Home
+            // Test was pending and No active test of same type, Restore the test and refresh to get latest result
+            else -> try {
+                recycledCoronaTestsRepository.restoreCoronaTest(recycledCoronaTest)
+                val test = coronaTestRepository.refresh(recycledCoronaTest.coronaTest.type).first()
+                CoronaTestResult.TestResult(test)
+            } catch (e: Exception) {
+                Timber.tag(TAG).e(e, "Refreshing restored pending test failed")
+                Error(error = e)
+            }
+        }.also {
+            result.postValue(it)
+        }
     }
 
     private suspend fun onDccQrCode(dccQrCode: DccQrCode) {

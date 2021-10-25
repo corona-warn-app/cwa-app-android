@@ -183,6 +183,9 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionDeletionWarningFragment(
                     scannerResult.coronaTestQrCode
                 )
+            is CoronaTestResult.RestoreDuplicateTest -> error("TODO: Not implemented yet")
+            is CoronaTestResult.TestResult -> error("TODO: Not implemented yet")
+            CoronaTestResult.Home -> error("TODO: Not implemented yet")
         }.also {
             doNavigate(it)
         }
