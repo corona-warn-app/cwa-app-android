@@ -33,13 +33,13 @@ data class DccV1(
         val fullNameFormatted: String
             get() = when {
                 firstName.isNullOrBlank() -> lastName
-                else -> "$lastName, $firstName "
+                else -> "$lastName, $firstName"
             }
 
         val fullNameStandardizedFormatted: String
             get() = when {
-                givenNameStandardized.isNullOrBlank() -> familyNameStandardized
-                else -> "$familyNameStandardized, $givenNameStandardized"
+                givenNameStandardized.isNullOrBlank() -> familyNameStandardized.trim()
+                else -> familyNameStandardized.trim() + "<<" + givenNameStandardized.trim()
             }
     }
 
