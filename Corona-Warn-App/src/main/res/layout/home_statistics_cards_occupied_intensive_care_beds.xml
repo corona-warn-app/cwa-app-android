@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_small"
             android:text="@string/statistics_nationwide_text"
-            android:textSize="@dimen/font_small"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@id/title"
             app:layout_constraintTop_toBottomOf="@id/title" />
 
@@ -62,6 +62,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/statistics_primary_value_until_yesterday"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@id/nationwide_text"
             app:layout_constraintTop_toTopOf="@id/background_image" />
 
@@ -89,6 +90,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/statistics_occupied_intensive_care_beds_text"
+            android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@id/background_image"
             app:layout_constraintStart_toStartOf="@id/primary_value"
             app:layout_constraintTop_toBottomOf="@id/primary_value" />
