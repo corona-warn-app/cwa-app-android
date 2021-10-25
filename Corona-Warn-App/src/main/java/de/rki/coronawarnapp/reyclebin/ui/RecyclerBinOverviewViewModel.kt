@@ -13,15 +13,18 @@ import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvi
 import de.rki.coronawarnapp.reyclebin.ui.adapter.OverviewSubHeaderItem
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecoveryCertificateCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecyclerBinItem
+import de.rki.coronawarnapp.reyclebin.ui.adapter.CoronaTestCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.TestCertificateCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.VaccinationCertificateCard
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.merge
 import timber.log.Timber
+import java.lang.IllegalArgumentException
 
 class RecyclerBinOverviewViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
@@ -33,57 +36,69 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
     val events: LiveData<RecyclerBinEvent> = currentEvent
 
     private val recycledCertificates = recycledCertificatesProvider.recycledCertificates
+    private val recycledTests = recycledCoronaTestsRepository.tests
 
-    val listItems: LiveData<List<RecyclerBinItem>> = combine(
-        recycledCoronaTestsRepository.tests,
-        recycledCertificates
-    ) { recycledTests, recycledCertificates ->
-        recycledTests.toRecycledItems() +
-            recycledCertificates.toRecyclerBinItems()
-    }.asLiveData2()
+    val listItems: LiveData<List<RecyclerBinItem>> = listOf(
+        recycledCertificates,
+        recycledTests,
+    )
+        .merge()
+        .map { it.toRecyclerBinItems() }
+        .asLiveData2()
 
-    private fun Collection<CwaCovidCertificate>.toRecyclerBinItems(): List<RecyclerBinItem> {
-        val certificateItems = mapNotNull { mapCertToCertItem(it) }
+    private fun Collection<Any>.toRecyclerBinItems(): List<RecyclerBinItem> {
+        val recyclerBinItems = mapNotNull {
+            when (it) {
+                is CwaCovidCertificate -> mapCertToRecyclerBinItem(it)
+                is RecycledCoronaTest -> mapTestToRecyclerBinItem(it)
+                else -> throw IllegalArgumentException("Can't convert $it to RecyclerBinItem")
+            }
+        }
 
-        return when (certificateItems.isNotEmpty()) {
-            true -> listOf(OverviewSubHeaderItem).plus(certificateItems)
+        return when (recyclerBinItems.isNotEmpty()) {
+            true -> listOf(OverviewSubHeaderItem).plus(recyclerBinItems)
             false -> emptyList()
         }.also { Timber.d("Created recycler bin items=%s from certs=%s", it, this) }
     }
 
-    private fun Collection<RecycledCoronaTest>.toRecycledItems(): List<RecyclerBinItem> {
-        // TODO
-        return emptyList()
-    }
+    private fun mapTestToRecyclerBinItem(recycledTest: RecycledCoronaTest): RecyclerBinItem? = CoronaTestCard.Item(
+        test = recycledTest,
+        onRemove = { test, position ->
+            currentEvent.postValue(RecyclerBinEvent.RemoveTest(test, position))
+        },
+        onRestore = { test ->
+            currentEvent.postValue(RecyclerBinEvent.ConfirmRestoreTest(test))
+        }
+    )
 
-    private fun mapCertToCertItem(cert: CwaCovidCertificate): RecyclerBinItem? = when (cert) {
+    private fun mapCertToRecyclerBinItem(cert: CwaCovidCertificate): RecyclerBinItem? = when (cert) {
         is TestCertificate -> TestCertificateCard.Item(
             certificate = cert,
             onRemove = { certificate, position ->
-                currentEvent.postValue(RecyclerBinEvent.RemoveItem(certificate, position))
+                currentEvent.postValue(RecyclerBinEvent.RemoveCertificate(certificate, position))
             },
             onRestore = { certificate ->
-                currentEvent.postValue(RecyclerBinEvent.ConfirmRestoreItem(certificate))
+                currentEvent.postValue(RecyclerBinEvent.ConfirmRestoreCertificate(certificate))
             }
         )
 
         is VaccinationCertificate -> VaccinationCertificateCard.Item(
             certificate = cert,
             onRemove = { certificate, position ->
-                currentEvent.postValue(RecyclerBinEvent.RemoveItem(certificate, position))
+                currentEvent.postValue(RecyclerBinEvent.RemoveCertificate(certificate, position))
             },
             onRestore = { certificate ->
-                currentEvent.postValue(RecyclerBinEvent.ConfirmRestoreItem(certificate))
+                currentEvent.postValue(RecyclerBinEvent.ConfirmRestoreCertificate(certificate))
             }
         )
 
         is RecoveryCertificate -> RecoveryCertificateCard.Item(
             certificate = cert,
             onRemove = { certificate, position ->
-                currentEvent.postValue(RecyclerBinEvent.RemoveItem(certificate, position))
+                currentEvent.postValue(RecyclerBinEvent.RemoveCertificate(certificate, position))
             },
             onRestore = { certificate ->
-                currentEvent.postValue(RecyclerBinEvent.ConfirmRestoreItem(certificate))
+                currentEvent.postValue(RecyclerBinEvent.ConfirmRestoreCertificate(certificate))
             }
         )
         else -> null
