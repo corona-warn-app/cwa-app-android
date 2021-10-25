@@ -151,7 +151,6 @@ abstract class AnalyticsTestResultDonor(
             .addAllExposureWindowsAtTestRegistration(ewRepository.getAll(type).asPpaData())
             .build()
 
-
         Timber.i("Final test result metadata:\n%s", formString(testResultMetaData))
         return TestResultMetadataContribution(testResultMetaData, ::deleteData)
     }
