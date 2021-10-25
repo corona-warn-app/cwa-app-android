@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.reyclebin
+package de.rki.coronawarnapp.reyclebin.covidcertificate
 
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
-import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
