@@ -1485,7 +1485,7 @@
     <!-- XTXT: Explanation screen trend text -->
     <string name="statistics_explanation_trend">"The trend compares the value from the previous day with the value from two days ago (for the 7-day incidence, 7-day hospitalization incidence, COVID-19 patients in intensive care units, 7-day R value) or, for the 7-day trends, the average value from the last 7 days with the average value from the 7 days prior to that (for the 7-day mean value of confirmed new infections, warnings by app users, vaccine doses administered). The respective version of the data as initially published is used; subsequent updates are not taken into account."</string>
     <!-- YTXT: Explanation screen trend text -->
-    <string name="statistics_explanation_trend_text">"The arrow direction indicates whether the trend is increasing, decreasing, or remaining steady – that is, demonstrates a deviation of less than 1% compared to the previous day or 5% compared to the previous week (taking decimal places into account). The color indicates this trend as positive (green), negative (red), or neutral (gray)."</string>
+    <string name="statistics_explanation_trend_text">"The arrow direction indicates whether the trend is increasing, decreasing, or remaining steady – that is, demonstrates a deviation of less than 1%% compared to the previous day or 5%% compared to the previous week (taking decimal places into account). The color indicates this trend as positive (green), negative (red), or neutral (gray)."</string>
     <!-- XHED: Explanation screen trend icons title -->
     <string name="statistics_explanation_trend_icons_title">"The following trends can be shown:"</string>
     <!-- XHED: Explanation screen trend increasing title -->
