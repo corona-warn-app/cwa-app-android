@@ -1,17 +1,31 @@
 package de.rki.coronawarnapp.reyclebin.coronatest
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import timber.log.Timber
 import javax.inject.Inject
 
 class RecycledCoronaTestsStorage @Inject constructor() {
 
-    // TODO
-    val tests: Flow<Set<RecycledCoronaTest>> = emptyFlow()
+    private val mutex = Mutex()
 
     suspend fun findTest(coronaTestQrCodeHash: String): RecycledCoronaTest? {
         // TODO
         @Suppress("FunctionOnlyReturningConstant")
         return null
+    }
+
+    suspend fun load(): Set<RecycledCoronaTest> = mutex.withLock {
+        Timber.d("load()")
+
+        //TODO
+
+        return emptySet()
+    }
+
+    suspend fun save(recycledCoronaTests: Set<RecycledCoronaTest>) = mutex.withLock {
+        Timber.d("save(recycledCoronaTests=%s)", recycledCoronaTests)
+
+        // TODO
     }
 }
