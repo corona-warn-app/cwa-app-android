@@ -8,3 +8,6 @@ data class RecycledCoronaTest(
     override val recycledAt: Instant,
     val coronaTest: CoronaTest,
 ) : Recyclable
+
+fun CoronaTest.toRecycledCoronaTest(recycledAt: Instant): RecycledCoronaTest =
+    RecycledCoronaTest(recycledAt = recycledAt, coronaTest = this)

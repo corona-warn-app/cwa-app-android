@@ -9,12 +9,6 @@ class RecycledCoronaTestsStorage @Inject constructor() {
 
     private val mutex = Mutex()
 
-    suspend fun findTest(coronaTestQrCodeHash: String): RecycledCoronaTest? {
-        // TODO
-        @Suppress("FunctionOnlyReturningConstant")
-        return null
-    }
-
     suspend fun load(): Set<RecycledCoronaTest> = mutex.withLock {
         Timber.d("load()")
 
