@@ -100,7 +100,10 @@ class QrCodeScannerViewModel @AssistedInject constructor(
                 recycledCoronaTest.toRestoreRecycledTestRequest()
             )
             // Test result was available on recycling time
-            !recycledCoronaTest.isPending -> CoronaTestResult.Home
+            !recycledCoronaTest.isPending -> {
+                recycledCoronaTestsRepository.restoreCoronaTest(recycledCoronaTest.identifier)
+                CoronaTestResult.Home
+            }
             // Test was pending and No active test of same type
             else -> {
                 recycledCoronaTestsRepository.restoreCoronaTest(recycledCoronaTest.identifier)
