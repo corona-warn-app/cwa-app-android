@@ -30,7 +30,7 @@ import javax.inject.Inject
 )
 @TypeConverters(TestTypeConverter::class)
 abstract class AnalyticsTestResultEwDatabase : RoomDatabase() {
-    abstract fun analyticsExposureWindowDao(): AnalyticsTestResultEWDao
+    abstract fun analyticsTestResultEWDao(): AnalyticsTestResultEwDao
 
     class Factory @Inject constructor(@AppContext private val context: Context) {
         fun create(): AnalyticsTestResultEwDatabase = Room
@@ -45,7 +45,7 @@ abstract class AnalyticsTestResultEwDatabase : RoomDatabase() {
 }
 
 @Dao
-interface AnalyticsTestResultEWDao {
+interface AnalyticsTestResultEwDao {
     @Transaction
     @Query("SELECT * FROM AnalyticsTestResultEwEntity WHERE testType LIKE :type")
     suspend fun getAll(type: CoronaTest.Type): List<AnalyticsTestResultEwEntityWrapper>

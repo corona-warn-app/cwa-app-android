@@ -19,7 +19,7 @@ class AnalyticsTestResultEwRepository @Inject constructor(
     }
 
     private val dao by lazy {
-        database.analyticsExposureWindowDao()
+        database.analyticsTestResultEWDao()
     }
 
     suspend fun getAll(type: CoronaTest.Type): List<AnalyticsTestResultEwEntityWrapper> {
@@ -59,6 +59,7 @@ private fun ExposureWindow.toEntity(type: CoronaTest.Type) = AnalyticsTestResult
     dateMillis = dateMillisSinceEpoch,
     infectiousness = infectiousness,
     reportType = reportType,
+    // TODO ?
     normalizedTime = 0.0,
     transmissionRiskLevel = 0
 )

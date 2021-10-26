@@ -26,6 +26,7 @@ import testhelpers.preferences.mockFlowPreference
 
 class AnalyticsPCRTestResultDonorTest : BaseTest() {
     @MockK lateinit var testResultSettings: AnalyticsPCRTestResultSettings
+    @MockK lateinit var ewRepository: AnalyticsTestResultEwRepository
     @MockK lateinit var timeStamper: TimeStamper
 
     private lateinit var testResultDonor: AnalyticsTestResultDonor
@@ -48,6 +49,7 @@ class AnalyticsPCRTestResultDonorTest : BaseTest() {
 
         testResultDonor = AnalyticsPCRTestResultDonor(
             testResultSettings,
+            ewRepository,
             timeStamper
         )
     }
