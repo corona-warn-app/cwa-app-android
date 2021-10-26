@@ -274,7 +274,9 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             .setTitle(R.string.recycle_bin_restore_corona_test_dialog_title)
             .setCancelable(false)
             .setMessage(R.string.recycle_bin_restore_corona_test_dialog_message)
-            .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.restoreCoronaTest(recycledCoronaTest) }
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                viewModel.restoreCoronaTest(recycledCoronaTest.coronaTest)
+            }
             .show()
     }
 

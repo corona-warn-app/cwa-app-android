@@ -4,6 +4,7 @@ import android.net.Uri
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException.ErrorCode.CANT_READ_FILE
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
@@ -15,7 +16,6 @@ import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
-import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTest
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsRepository
 import de.rki.coronawarnapp.reyclebin.coronatest.request.toRestoreRecycledTestRequest
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
@@ -93,18 +93,18 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         result.postValue(containerId.toDccDetails())
     }
 
-    fun restoreCoronaTest(recycledCoronaTest: RecycledCoronaTest) = launch {
-        val coronaTest = submissionRepository.testForType(recycledCoronaTest.coronaTest.type).first()
+    fun restoreCoronaTest(recycledCoronaTest: CoronaTest) = launch {
+        val currentCoronaTest = submissionRepository.testForType(recycledCoronaTest.type).first()
         when {
-            coronaTest != null -> CoronaTestResult.RestoreDuplicateTest(
-                recycledCoronaTest.coronaTest.toRestoreRecycledTestRequest()
+            currentCoronaTest != null -> CoronaTestResult.RestoreDuplicateTest(
+                recycledCoronaTest.toRestoreRecycledTestRequest()
             )
             // Test result was available on recycling time
-            !recycledCoronaTest.coronaTest.isPending -> CoronaTestResult.Home
+            !recycledCoronaTest.isPending -> CoronaTestResult.Home
             // Test was pending and No active test of same type
             else -> {
-                recycledCoronaTestsRepository.restoreCoronaTest(recycledCoronaTest.coronaTest.identifier)
-                CoronaTestResult.PendingTestResult(recycledCoronaTest.coronaTest)
+                recycledCoronaTestsRepository.restoreCoronaTest(recycledCoronaTest.identifier)
+                CoronaTestResult.PendingTestResult(recycledCoronaTest)
             }
         }.also {
             result.postValue(it)
