@@ -18,7 +18,7 @@
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
         <item>Lokale 7-Tage-Inzidenz Hospitalisierung</item>
-        <item>Änderung des Links zu häufige Fragen</item>
+        <item>Änderung des Links zu Häufige Fragen</item>
         <item>Zuordnung von Zertifikaten</item>
         <item>Zertifikate wiederherstellen</item>
     </string-array>

@@ -35,6 +35,7 @@ class PersonCertificatesProviderTest : BaseTest() {
 
     private val identifierA = mockk<CertificatePersonIdentifier>()
     private val identifierB = mockk<CertificatePersonIdentifier>()
+    private val identifierC = mockk<CertificatePersonIdentifier>()
 
     private val vaccinatedPersonACertificate1 = mockk<VaccinationCertificate>().apply {
         every { personIdentifier } returns identifierA
@@ -154,6 +155,47 @@ class PersonCertificatesProviderTest : BaseTest() {
             recoveryRepo.certificates
             testRepo.certificates
             vaccinationRepo.vaccinationInfos
+        }
+
+        verify(exactly = 0) {
+            personCertificatesSettings.currentCwaUser
+        }
+    }
+
+    @Test
+    fun `data combination and cwa user is not in the list`() = runBlockingTest2(ignoreActive = true) {
+        personCertificatesSettings.apply {
+            every { currentCwaUser } returns mockFlowPreference(identifierC)
+        }
+        val instance = createInstance(this)
+
+        instance.personCertificates.first() shouldBe listOf(
+            PersonCertificates(
+                certificates = listOf(
+                    vaccinatedPersonACertificate1,
+                    testWrapperACertificate,
+                    recoveryWrapperACertificate
+                ),
+                isCwaUser = true,
+                badgeCount = 2
+            ),
+            PersonCertificates(
+                certificates = listOf(
+                    testCertificateB,
+                    recoveryCertificateB
+                ),
+                isCwaUser = false,
+                badgeCount = 2
+            )
+        )
+
+        instance.personsBadgeCount.first() shouldBe 4
+
+        verify {
+            recoveryRepo.certificates
+            testRepo.certificates
+            vaccinationRepo.vaccinationInfos
+            personCertificatesSettings.currentCwaUser
         }
     }
 }

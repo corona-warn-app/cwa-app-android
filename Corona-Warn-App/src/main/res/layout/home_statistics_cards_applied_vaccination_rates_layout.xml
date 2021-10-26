@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_small"
             android:text="@string/statistics_nationwide_text"
-            android:textSize="@dimen/font_small"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@id/title"
             app:layout_constraintTop_toBottomOf="@id/title" />
 
@@ -63,6 +63,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/statistics_primary_value_yesterday"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@id/nationwide_text"
             app:layout_constraintTop_toTopOf="@id/background_image" />
 
@@ -87,6 +88,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/statistics_card_infections_secondary_label"
+            android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@id/secondary_value"
             app:layout_constraintStart_toStartOf="@id/primary_value" />
 
@@ -118,6 +120,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/statistics_card_infections_tertiary_label"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@id/secondary_value"
             app:layout_constraintTop_toBottomOf="@id/background_image" />
 
