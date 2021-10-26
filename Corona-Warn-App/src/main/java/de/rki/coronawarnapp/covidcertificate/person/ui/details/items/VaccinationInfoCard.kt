@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.comm
 import de.rki.coronawarnapp.databinding.VaccinationInfoCardBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import setTextWithUrl
+import java.util.Locale
 
 class VaccinationInfoCard(parent: ViewGroup) :
     PersonDetailsAdapter.PersonDetailsItemVH<VaccinationInfoCard.Item, VaccinationInfoCardBinding>(
@@ -64,10 +65,14 @@ class VaccinationInfoCard(parent: ViewGroup) :
 
                 body2Faq.isVisible = true
                 boosterBadge.isVisible = curItem.hasBoosterNotification
+                val faqLink = when (Locale.getDefault().language) {
+                    Locale.GERMAN.language -> R.string.vaccination_card_booster_eligible_faq_link_german
+                    else -> R.string.vaccination_card_booster_eligible_faq_link_english
+                }
                 body2Faq.setTextWithUrl(
                     R.string.vaccination_card_booster_eligible_faq,
                     R.string.vaccination_card_booster_eligible_faq_link_container,
-                    R.string.vaccination_card_booster_eligible_faq_link
+                    faqLink
                 )
             }
 

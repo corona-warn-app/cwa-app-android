@@ -32,7 +32,7 @@ class StatisticsExplanationFragment : Fragment(R.layout.fragment_statistics_expl
             )
 
             statisticsExplanationTrendText.apply {
-                val label = String.format(getString(R.string.statistics_explanation_trend_text))
+                val label = context.getString(R.string.statistics_explanation_trend_text)
                 text = label
                 contentDescription = label
             }

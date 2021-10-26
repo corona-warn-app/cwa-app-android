@@ -16,7 +16,6 @@ class RootDetectionDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = MaterialAlertDialogBuilder(requireContext())
         .setTitle(R.string.root_dialog_title)
         .setMessage(R.string.root_dialog_message)
-        .setCancelable(false)
         .setPositiveButton(R.string.root_dialog_button) { _, _ ->
             setFragmentResult(REQUEST_KEY, bundleOf())
         }
@@ -43,5 +42,6 @@ fun AppCompatActivity.showRootDetectionDialog(onPositiveAction: () -> Unit) {
         REQUEST_KEY,
         this
     ) { _, _ -> onPositiveAction() }
+    dialog.isCancelable = false
     dialog.show(supportFragmentManager, TAG)
 }
