@@ -19,6 +19,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
+import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment
@@ -188,14 +189,19 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             )
             is CoronaTestResult.InRecycleBin -> showRestoreCoronaTestConfirmation(scannerResult.recycledCoronaTest)
             is CoronaTestResult.RestoreDuplicateTest -> {
-                // TODO
+//                doNavigate(
+//                    NavGraphDirections.actionUniversalScannerToSubmissionDeletionWarningFragment()
+//                )
             }
-            is CoronaTestResult.TestResult -> {
-                // TODO
-            }
-            CoronaTestResult.Home -> {
-                // TODO
-            }
+            is CoronaTestResult.PendingTestResult -> doNavigate(
+                QrCodeScannerFragmentDirections.actionUniversalScannerToPendingTestResult(
+                    testType = scannerResult.coronaTest.type,
+                    forceTestResultUpdate = true
+                )
+            )
+            CoronaTestResult.Home -> doNavigate(
+                QrCodeScannerFragmentDirections.actionUniversalScannerToMainFragment()
+            )
         }
     }
 

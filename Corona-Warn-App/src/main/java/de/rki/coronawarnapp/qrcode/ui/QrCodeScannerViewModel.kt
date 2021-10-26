@@ -100,14 +100,10 @@ class QrCodeScannerViewModel @AssistedInject constructor(
             coronaTest != null -> CoronaTestResult.RestoreDuplicateTest(recycledCoronaTest)
             // Test result was available on recycling time
             !recycledCoronaTest.coronaTest.isPending -> CoronaTestResult.Home
-            // Test was pending and No active test of same type, Restore the test and refresh to get latest result
-            else -> try {
+            // Test was pending and No active test of same type
+            else -> {
                 recycledCoronaTestsRepository.restoreCoronaTest(recycledCoronaTest)
-                val test = coronaTestRepository.refresh(recycledCoronaTest.coronaTest.type).first()
-                CoronaTestResult.TestResult(test)
-            } catch (e: Exception) {
-                Timber.tag(TAG).e(e, "Refreshing restored pending test failed")
-                Error(error = e)
+                CoronaTestResult.PendingTestResult(recycledCoronaTest.coronaTest)
             }
         }.also {
             result.postValue(it)
