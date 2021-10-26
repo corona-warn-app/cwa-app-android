@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.common.isFinal
 import de.rki.coronawarnapp.datadonation.analytics.common.isPending
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
+import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindow
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeStamper
 import org.joda.time.Duration
@@ -17,24 +18,24 @@ import javax.inject.Singleton
 @Singleton
 class AnalyticsPCRTestResultDonor @Inject constructor(
     testResultSettings: AnalyticsPCRTestResultSettings,
-    ewRepository: AnalyticsTestResultEwRepository,
+    exposureWindowSettings: AnalyticsExposureWindowsSettings,
     timeStamper: TimeStamper,
-) : AnalyticsTestResultDonor(testResultSettings, ewRepository, timeStamper) {
+) : AnalyticsTestResultDonor(testResultSettings, exposureWindowSettings, timeStamper) {
     override val type = CoronaTest.Type.PCR
 }
 
 @Singleton
 class AnalyticsRATestResultDonor @Inject constructor(
     testResultSettings: AnalyticsRATestResultSettings,
-    ewRepository: AnalyticsTestResultEwRepository,
+    exposureWindowSettings: AnalyticsExposureWindowsSettings,
     timeStamper: TimeStamper,
-) : AnalyticsTestResultDonor(testResultSettings, ewRepository, timeStamper) {
+) : AnalyticsTestResultDonor(testResultSettings, exposureWindowSettings, timeStamper) {
     override val type = CoronaTest.Type.RAPID_ANTIGEN
 }
 
 abstract class AnalyticsTestResultDonor(
     private val testResultSettings: AnalyticsTestResultSettings,
-    private val ewRepository: AnalyticsTestResultEwRepository,
+    private val exposureWindowSettings: AnalyticsExposureWindowsSettings,
     private val timeStamper: TimeStamper,
 ) : DonorModule {
 
@@ -91,7 +92,6 @@ abstract class AnalyticsTestResultDonor(
     override suspend fun deleteData() {
         Timber.d("Cleaning data")
         testResultSettings.clear()
-        ewRepository.deleteAll(type)
     }
 
     private fun pendingTestMetadataDonation(
@@ -137,6 +137,8 @@ abstract class AnalyticsTestResultDonor(
             DEFAULT_HOURS_SINCE_TEST_REGISTRATION_TIME
         }
 
+        val exposureWindows = testResultSettings.exposureWindowsAtTestRegistration.value?.asPpaData() ?: emptyList()
+
         val testResultMetaData = PpaData.PPATestResultMetadata.newBuilder()
             .setHoursSinceTestRegistration(hoursSinceTestRegistrationTime)
             .setHoursSinceHighRiskWarningAtTestRegistration(
@@ -148,7 +150,7 @@ abstract class AnalyticsTestResultDonor(
             .setTestResult(testResult.toPPATestResult())
             .setRiskLevelAtTestRegistration(testResultSettings.ewRiskLevelAtTestRegistration.value)
             .setPtRiskLevelAtTestRegistration(testResultSettings.ptRiskLevelAtTestRegistration.value)
-            .addAllExposureWindowsAtTestRegistration(ewRepository.getAll(type).asPpaData())
+            .addAllExposureWindowsAtTestRegistration(exposureWindows)
             .build()
 
         Timber.i("Final test result metadata:\n%s", formString(testResultMetaData))
@@ -206,8 +208,8 @@ abstract class AnalyticsTestResultDonor(
 }
 
 @VisibleForTesting
-internal fun List<AnalyticsTestResultEwEntityWrapper>.asPpaData() = map {
-    val scanInstances = it.scanInstanceEntities.map { scanInstance ->
+internal fun List<AnalyticsExposureWindow>.asPpaData() = map {
+    val scanInstances = it.analyticsScanInstances.map { scanInstance ->
         PpaData.PPAExposureWindowScanInstance.newBuilder()
             .setMinAttenuation(scanInstance.minAttenuation)
             .setTypicalAttenuation(scanInstance.typicalAttenuation)
@@ -216,16 +218,16 @@ internal fun List<AnalyticsTestResultEwEntityWrapper>.asPpaData() = map {
     }
 
     val exposureWindow = PpaData.PPAExposureWindow.newBuilder()
-        .setDate(it.exposureWindowEntity.dateMillis / 1000)
-        .setCalibrationConfidence(it.exposureWindowEntity.calibrationConfidence)
-        .setInfectiousnessValue(it.exposureWindowEntity.infectiousness)
-        .setReportTypeValue(it.exposureWindowEntity.reportType)
+        .setDate(it.dateMillis / 1000)
+        .setCalibrationConfidence(it.calibrationConfidence)
+        .setInfectiousnessValue(it.infectiousness)
+        .setReportTypeValue(it.reportType)
         .addAllScanInstances(scanInstances)
         .build()
 
     PpaData.PPANewExposureWindow.newBuilder()
         .setExposureWindow(exposureWindow)
-        .setNormalizedTime(it.exposureWindowEntity.normalizedTime)
-        .setTransmissionRiskLevel(it.exposureWindowEntity.transmissionRiskLevel)
+        .setNormalizedTime(it.normalizedTime)
+        .setTransmissionRiskLevel(it.transmissionRiskLevel)
         .build()
 }

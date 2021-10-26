@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.testresult
 
+import com.google.android.gms.nearby.exposurenotification.ExposureWindow
+import com.google.android.gms.nearby.exposurenotification.ScanInstance
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
@@ -9,9 +11,11 @@ import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighEwR
 import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighPtRiskBefore
 import de.rki.coronawarnapp.datadonation.analytics.common.isFinal
 import de.rki.coronawarnapp.datadonation.analytics.common.toMetadataRiskLevel
+import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindow
+import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsScanInstance
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
-import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.risk.RiskState
+import de.rki.coronawarnapp.risk.result.RiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
@@ -25,10 +29,18 @@ class AnalyticsTestResultCollector @Inject constructor(
     private val pcrSettings: AnalyticsPCRTestResultSettings,
     private val raSettings: AnalyticsRATestResultSettings,
     private val riskLevelStorage: RiskLevelStorage,
-    private val enfClient: ENFClient,
     private val timeStamper: TimeStamper,
-    private val ewRepository: AnalyticsTestResultEwRepository
+    private val exposureWindowsSettings: AnalyticsExposureWindowsSettings
 ) {
+
+    fun reportRiskResultsPerWindow(riskResultsPerWindow: Map<ExposureWindow, RiskResult>) {
+        val exposureWindows = riskResultsPerWindow.map {
+            it.key.toModel(it.value)
+        }
+        exposureWindowsSettings.currentExposureWindows.update {
+            exposureWindows
+        }
+    }
 
     suspend fun reportTestRegistered(type: CoronaTest.Type) {
         if (analyticsDisabled) return
@@ -90,7 +102,9 @@ class AnalyticsTestResultCollector @Inject constructor(
             lastResult.ptRiskLevelResult.riskState.toMetadataRiskLevel()
         }
 
-        ewRepository.add(type, enfClient.exposureWindows())
+        type.settings.exposureWindowsAtTestRegistration.update {
+            exposureWindowsSettings.currentExposureWindows.value
+        }
     }
 
     fun reportTestResultReceived(testResult: CoronaTestResult, type: CoronaTest.Type) {
@@ -123,8 +137,6 @@ class AnalyticsTestResultCollector @Inject constructor(
     suspend fun clear(type: CoronaTest.Type) {
         Timber.d("clear TestResultDonorSettings")
         type.settings.clear()
-        Timber.d("clear AnalyticsTestResultEWRepository")
-        ewRepository.deleteAll(type)
     }
 
     private val analyticsDisabled: Boolean
@@ -136,3 +148,19 @@ class AnalyticsTestResultCollector @Inject constructor(
             RAPID_ANTIGEN -> raSettings
         }
 }
+
+private fun ExposureWindow.toModel(result: RiskResult) = AnalyticsExposureWindow(
+    calibrationConfidence = calibrationConfidence,
+    dateMillis = dateMillisSinceEpoch,
+    infectiousness = infectiousness,
+    reportType = reportType,
+    normalizedTime = result.normalizedTime,
+    transmissionRiskLevel = result.transmissionRiskLevel,
+    analyticsScanInstances = scanInstances.map { it.toModel() }
+)
+
+private fun ScanInstance.toModel() = AnalyticsScanInstance(
+    minAttenuation = minAttenuationDb,
+    typicalAttenuation = typicalAttenuationDb,
+    secondsSinceLastScan = secondsSinceLastScan
+)
