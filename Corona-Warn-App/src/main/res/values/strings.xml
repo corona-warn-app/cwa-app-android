@@ -1448,8 +1448,16 @@
     <string name="statistics_explanation_local_incidence_text">"Total number of confirmed new infections in the last 7 days (by reporting date) per 100,000 residents in the configured district or federal state."</string>
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7-Day Incidence"</string>
+    <!-- XHED: Explanation screen seven day hospitalization title -->
+    <string name="statistics_explanation_seven_day_hospitalization_title">"7-Day Hospitalization Incidence"</string>
+    <!-- XHED: Explanation screen occupied beds in intensive care title -->
+    <string name="statistics_explanation_occupied_beds_in_intensive_care_title">"COVID-19 Patients in Intensive Care Units"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
     <string name="statistics_explanation_seven_day_incidence_text">"Total number of confirmed new infections in the last 7 days (by reporting date) per 100,000 residents."</string>
+    <!-- XTXT: Explanation screen seven day hospitalization text -->
+    <string name="statistics_explanation_seven_day_hospitalization_text">"Total number of hospital admissions due to COVID-19 in the last 7 days (by reporting date) per 100,000 residents."</string>
+    <!-- XHED: Explanation screen occupied beds in intensive care text -->
+    <string name="statistics_explanation_occupied_beds_in_intensive_care_text">"Proportion of people in intensive care units due to COVID-19 in relation to total ICU capacity."</string>
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-Day R Value"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
@@ -1474,8 +1482,10 @@
     <string name="statistics_explanation_period_total_text">"Total number since the start of the year or launch of the app (June 15, 2020)"</string>
     <!-- XHED: Explanation screen trend title -->
     <string name="statistics_explanation_trend_title">"Trend"</string>
+    <!-- XTXT: Explanation screen trend text -->
+    <string name="statistics_explanation_trend">"The trend compares the value from the previous day with the value from two days ago (for the 7-day incidence, 7-day hospitalization incidence, COVID-19 patients in intensive care units, 7-day R value) or, for the 7-day trends, the average value from the last 7 days with the average value from the 7 days prior to that (for the 7-day mean value of confirmed new infections, warnings by app users, vaccine doses administered). The respective version of the data as initially published is used; subsequent updates are not taken into account."</string>
     <!-- YTXT: Explanation screen trend text -->
-    <string name="statistics_explanation_trend_text">"The arrow direction indicates whether the trend is increasing, decreasing, or remaining steady – that is, demonstrates a deviation of less than 1%% compared to the previous day or 5%% compared to the previous week. The color indicates this trend as positive (green), negative (red), or neutral (gray). The trend compares the value from the previous day with the value from two days ago or, for the 7-day trends, the average value from the last 7 days with the average value from the 7 days prior to that."</string>
+    <string name="statistics_explanation_trend_text">"The arrow direction indicates whether the trend is increasing, decreasing, or remaining steady – that is, demonstrates a deviation of less than 1%% compared to the previous day or 5%% compared to the previous week (taking decimal places into account). The color indicates this trend as positive (green), negative (red), or neutral (gray)."</string>
     <!-- XHED: Explanation screen trend icons title -->
     <string name="statistics_explanation_trend_icons_title">"The following trends can be shown:"</string>
     <!-- XHED: Explanation screen trend increasing title -->

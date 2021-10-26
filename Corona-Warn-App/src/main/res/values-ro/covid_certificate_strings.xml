@@ -71,8 +71,10 @@
     <string name="vaccination_card_booster_eligible_description">"%1$s (ID regulă: %2$s)."</string>
     <!-- XTXT: Vaccination card booster eligible FAQ -->
     <string name="vaccination_card_booster_eligible_faq">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente."</string>
-    <!-- XTXT: Vaccination card booster eligible FAQ Link -->
-    <string name="vaccination_card_booster_eligible_faq_link">"https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-englisch/corona-warn-app-faq-1758636"</string>
+    <!-- XTXT: Vaccination card booster eligible FAQ Link English-->
+    <string name="vaccination_card_booster_eligible_faq_link_english">"https://www.coronawarn.app/en/faq/#vac_booster"</string>
+    <!-- XTXT: Vaccination card booster eligible FAQ Link German-->
+    <string name="vaccination_card_booster_eligible_faq_link_german">"https://www.coronawarn.app/de/faq/#vac_booster"</string>
     <!-- XTXT: Vaccination card booster eligible faq link keyword -->
     <string name="vaccination_card_booster_eligible_faq_link_container">"Întrebări frecvente"</string>
 
