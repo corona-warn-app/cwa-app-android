@@ -54,7 +54,7 @@ interface CoronaTest {
     //  The ID of the lab that uploaded the test result
     val labId: String?
 
-    val qrCodeHash: String
+    val qrCodeHash: String?
 
     enum class Type(val raw: String) {
         @SerializedName("PCR")
