@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTest
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsRepository
+import de.rki.coronawarnapp.reyclebin.coronatest.request.toRestoreRecycledTestRequest
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.tag
@@ -42,8 +43,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     private val dccSettings: CovidCertificateSettings,
     private val traceLocationSettings: TraceLocationSettings,
     private val recycledCertificatesProvider: RecycledCertificatesProvider,
-    private val recycledCoronaTestsRepository: RecycledCoronaTestsRepository,
-    private val coronaTestRepository: CoronaTestRepository,
+    private val recycledCoronaTestsRepository: RecycledCoronaTestsRepository
 ) : CWAViewModel(dispatcherProvider) {
 
     val result = SingleLiveEvent<ScannerResult>()
@@ -97,12 +97,14 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     fun restoreCoronaTest(recycledCoronaTest: RecycledCoronaTest) = launch {
         val coronaTest = submissionRepository.testForType(recycledCoronaTest.coronaTest.type).first()
         when {
-            coronaTest != null -> CoronaTestResult.RestoreDuplicateTest(recycledCoronaTest)
+            coronaTest != null -> CoronaTestResult.RestoreDuplicateTest(
+                recycledCoronaTest.coronaTest.toRestoreRecycledTestRequest()
+            )
             // Test result was available on recycling time
             !recycledCoronaTest.coronaTest.isPending -> CoronaTestResult.Home
             // Test was pending and No active test of same type
             else -> {
-                recycledCoronaTestsRepository.restoreCoronaTest(recycledCoronaTest)
+                recycledCoronaTestsRepository.restoreCoronaTest(recycledCoronaTest.coronaTest.identifier)
                 CoronaTestResult.PendingTestResult(recycledCoronaTest.coronaTest)
             }
         }.also {
