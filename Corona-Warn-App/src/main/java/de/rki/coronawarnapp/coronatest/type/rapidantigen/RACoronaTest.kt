@@ -79,7 +79,7 @@ data class RACoronaTest(
     override val labId: String? = null,
 
     @SerializedName("qrCodeHash")
-    override val qrCodeHash: String = "",
+    override val qrCodeHash: String? = "",
 ) : CoronaTest {
 
     override val type: CoronaTest.Type
