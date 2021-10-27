@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.reyclebin.ui.adapter.OverviewSubHeaderItem
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecoveryCertificateCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.TestCertificateCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.VaccinationCertificateCard
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.beInstanceOf
@@ -37,6 +38,7 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
 
     @RelaxedMockK private lateinit var recycledCertificatesProvider: RecycledCertificatesProvider
     @RelaxedMockK private lateinit var recycledCoronaTestsRepository: RecycledCoronaTestsRepository
+    @RelaxedMockK private lateinit var submissionRepository: SubmissionRepository
 
     private val recCert: RecoveryCertificate = mockk {
         every { containerId } returns RecoveryCertificateContainerId("recCert")
@@ -59,6 +61,7 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
             dispatcherProvider = TestDispatcherProvider(),
             recycledCertificatesProvider = recycledCertificatesProvider,
             recycledCoronaTestsRepository = recycledCoronaTestsRepository,
+            submissionRepository = submissionRepository
         )
 
     @BeforeEach
