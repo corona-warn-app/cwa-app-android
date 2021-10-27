@@ -16,7 +16,7 @@
     <!-- XHED: Recycle Bin  - Restore DGC dialog title -->
     <string name="recycle_bin_restore_dgc_dialog_title">"Sertifikayı Geri Yükle"</string>
     <!-- XTXT: Recycle Bin  - Restore DGC dialog message -->
-    <string name="recycle_bin_restore_dgc_dialog_message">"QR kod zaten akıllı telefonunuza kayıtlı. Sertifikayı çöp kutusundan geri yükleyebilirsiniz. "</string>
+    <string name="recycle_bin_restore_dgc_dialog_message">"QR kod zaten akıllı telefonunuza kayıtlı. Sertifika geri dönüşüm kutusundan geri yüklenecektir."</string>
 
     <!-- DGC  - Recycle certificate dialog-->
     <!-- XHED: Recycle Bin - recycle certificate dialog title -->

@@ -16,7 +16,7 @@
     <!-- XHED: Recycle Bin  - Restore DGC dialog title -->
     <string name="recycle_bin_restore_dgc_dialog_title">"Restaurare certificat"</string>
     <!-- XTXT: Recycle Bin  - Restore DGC dialog message -->
-    <string name="recycle_bin_restore_dgc_dialog_message">"Codul QR a fost deja înregistrat pe smartphone-ul dvs. Puteți restaura certificatul din coșul de gunoi. "</string>
+    <string name="recycle_bin_restore_dgc_dialog_message">"Codul QR a fost deja înregistrat pe smartphone-ul dvs. Certificatul va fi restaurat din coșul de reciclare."</string>
 
     <!-- DGC  - Recycle certificate dialog-->
     <!-- XHED: Recycle Bin - recycle certificate dialog title -->
