@@ -18,24 +18,21 @@ import javax.inject.Singleton
 @Singleton
 class AnalyticsPCRTestResultDonor @Inject constructor(
     testResultSettings: AnalyticsPCRTestResultSettings,
-    exposureWindowSettings: AnalyticsExposureWindowsSettings,
     timeStamper: TimeStamper,
-) : AnalyticsTestResultDonor(testResultSettings, exposureWindowSettings, timeStamper) {
+) : AnalyticsTestResultDonor(testResultSettings, timeStamper) {
     override val type = CoronaTest.Type.PCR
 }
 
 @Singleton
 class AnalyticsRATestResultDonor @Inject constructor(
     testResultSettings: AnalyticsRATestResultSettings,
-    exposureWindowSettings: AnalyticsExposureWindowsSettings,
     timeStamper: TimeStamper,
-) : AnalyticsTestResultDonor(testResultSettings, exposureWindowSettings, timeStamper) {
+) : AnalyticsTestResultDonor(testResultSettings, timeStamper) {
     override val type = CoronaTest.Type.RAPID_ANTIGEN
 }
 
 abstract class AnalyticsTestResultDonor(
     private val testResultSettings: AnalyticsTestResultSettings,
-    private val exposureWindowSettings: AnalyticsExposureWindowsSettings,
     private val timeStamper: TimeStamper,
 ) : DonorModule {
 
@@ -98,6 +95,7 @@ abstract class AnalyticsTestResultDonor(
         hoursSinceTestRegistrationTime: Int,
         testResult: CoronaTestResult,
     ): DonorModule.Contribution {
+        val exposureWindows = testResultSettings.exposureWindowsAtTestRegistration.value?.asPpaData() ?: emptyList()
         val testResultMetaData = PpaData.PPATestResultMetadata.newBuilder()
             .setHoursSinceTestRegistration(hoursSinceTestRegistrationTime)
             .setHoursSinceHighRiskWarningAtTestRegistration(
@@ -115,6 +113,7 @@ abstract class AnalyticsTestResultDonor(
             .setTestResult(testResult.toPPATestResult())
             .setRiskLevelAtTestRegistration(testResultSettings.ewRiskLevelAtTestRegistration.value)
             .setPtRiskLevelAtTestRegistration(testResultSettings.ptRiskLevelAtTestRegistration.value)
+            .addAllExposureWindowsAtTestRegistration(exposureWindows)
             .build()
 
         Timber.i("Pending test result metadata:%s", formString(testResultMetaData))

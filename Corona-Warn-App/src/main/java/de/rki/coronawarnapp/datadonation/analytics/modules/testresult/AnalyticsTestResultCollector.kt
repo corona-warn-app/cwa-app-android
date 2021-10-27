@@ -134,7 +134,7 @@ class AnalyticsTestResultCollector @Inject constructor(
     /**
      * Clear saved test donor saved metadata
      */
-    suspend fun clear(type: CoronaTest.Type) {
+    fun clear(type: CoronaTest.Type) {
         Timber.d("clear TestResultDonorSettings")
         type.settings.clear()
     }

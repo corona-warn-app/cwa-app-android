@@ -1,8 +1,12 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.testresult
 
 import android.content.Context
+import com.google.gson.Gson
+import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
+import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindow
+import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsScanInstance
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
-import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.serialization.BaseGson
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -13,18 +17,23 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.MockSharedPreferences
+import javax.inject.Inject
 
 class AnalyticsTestResultSettingsTest : BaseTest() {
     @MockK lateinit var context: Context
-    @MockK lateinit var timeStamper: TimeStamper
     lateinit var preferences: MockSharedPreferences
     lateinit var pcrStorage: AnalyticsPCRTestResultSettings
     lateinit var raStorage: AnalyticsRATestResultSettings
+    @MockK lateinit var analyticsExposureWindow: AnalyticsExposureWindow
+    @MockK lateinit var analyticsScanInstance: AnalyticsScanInstance
+
+    @Inject @BaseGson lateinit var gson: Gson
     private val sharedPrefKey = "analytics_testResultDonor"
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+        DaggerCovidCertificateTestComponent.factory().create().inject(this)
         preferences = MockSharedPreferences()
         every {
             context.getSharedPreferences(
@@ -40,12 +49,28 @@ class AnalyticsTestResultSettingsTest : BaseTest() {
         } returns preferences
         pcrStorage = AnalyticsPCRTestResultSettings(
             context = context,
-            timeStamper = timeStamper
+            gson
         )
         raStorage = AnalyticsRATestResultSettings(
             context = context,
-            timeStamper = timeStamper
+            gson
         )
+
+        with(analyticsScanInstance) {
+            every { minAttenuation } returns 1
+            every { typicalAttenuation } returns 2
+            every { secondsSinceLastScan } returns 3
+        }
+
+        with(analyticsExposureWindow) {
+            every { analyticsScanInstances } returns listOf(analyticsScanInstance)
+            every { calibrationConfidence } returns 4
+            every { dateMillis } returns 1000L
+            every { infectiousness } returns 5
+            every { reportType } returns 6
+            every { normalizedTime } returns 1.1
+            every { transmissionRiskLevel } returns 7
+        }
     }
 
     @AfterEach
@@ -87,5 +112,9 @@ class AnalyticsTestResultSettingsTest : BaseTest() {
         pcrStorage.ptRiskLevelAtTestRegistration.update { PpaData.PPARiskLevel.RISK_LEVEL_HIGH }
         pcrStorage.ptRiskLevelAtTestRegistration.value shouldBe PpaData.PPARiskLevel.RISK_LEVEL_HIGH
         raStorage.ptRiskLevelAtTestRegistration.value shouldBe PpaData.PPARiskLevel.RISK_LEVEL_LOW
+
+        pcrStorage.exposureWindowsAtTestRegistration.update { listOf(analyticsExposureWindow) }
+        pcrStorage.exposureWindowsAtTestRegistration.value shouldBe listOf(analyticsExposureWindow)
+        raStorage.exposureWindowsAtTestRegistration.value shouldBe null
     }
 }

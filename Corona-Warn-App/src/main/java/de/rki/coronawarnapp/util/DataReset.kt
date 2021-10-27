@@ -82,7 +82,7 @@ class DataReset @Inject constructor(
     private val recoveryCertificateRepository: RecoveryCertificateRepository,
     private val dscRepository: DscRepository,
     private val boosterRulesRepository: BoosterRulesRepository,
-    private val exposureWindowSettings: AnalyticsExposureWindowsSettings,
+    private val exposureWindowsSettings: AnalyticsExposureWindowsSettings,
 ) {
 
     private val mutex = Mutex()
@@ -96,7 +96,7 @@ class DataReset @Inject constructor(
         Timber.w("CWA LOCAL DATA DELETION INITIATED.")
         // Triggers deletion of all analytics contributed data
         analytics.setAnalyticsEnabled(false)
-        exposureWindowSettings.clear()
+        exposureWindowsSettings.clear()
 
         // Reset the current states stored in LiveData
         submissionRepository.reset()
