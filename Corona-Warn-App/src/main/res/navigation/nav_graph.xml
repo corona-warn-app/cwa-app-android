@@ -100,7 +100,22 @@
         android:id="@+id/recyclerBinOverviewFragment"
         android:name="de.rki.coronawarnapp.reyclebin.ui.RecyclerBinOverviewFragment"
         android:label="@layout/recycler_bin_overview_fragment"
-        tools:layout="@layout/recycler_bin_overview_fragment" />
+        tools:layout="@layout/recycler_bin_overview_fragment">
+
+        <action
+            android:id="@+id/action_recyclerBinOverviewFragment_to_submissionDeletionWarningFragment"
+            app:destination="@id/submissionDeletionWarningFragment" />
+
+        <action
+            android:id="@+id/action_recyclerBinOverviewFragment_to_pendingTestResult"
+            app:destination="@id/submissionTestResultPendingFragment" />
+
+        <action
+            android:id="@+id/action_recyclerBinOverviewFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
 
     <!-- Settings -->
     <fragment

@@ -1,5 +1,9 @@
 package de.rki.coronawarnapp.recyclebin.ui
 
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
+import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
@@ -8,6 +12,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsRepository
+import de.rki.coronawarnapp.reyclebin.coronatest.request.toRestoreRecycledTestRequest
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.reyclebin.ui.RecyclerBinEvent
 import de.rki.coronawarnapp.reyclebin.ui.RecyclerBinOverviewViewModel
@@ -20,11 +25,15 @@ import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.beInstanceOf
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
+import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
+import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -39,6 +48,46 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
     @RelaxedMockK private lateinit var recycledCertificatesProvider: RecycledCertificatesProvider
     @RelaxedMockK private lateinit var recycledCoronaTestsRepository: RecycledCoronaTestsRepository
     @RelaxedMockK private lateinit var submissionRepository: SubmissionRepository
+
+    private val recycledRAT = RACoronaTest(
+        identifier = "rat-identifier",
+        lastUpdatedAt = Instant.EPOCH,
+        registeredAt = Instant.EPOCH,
+        registrationToken = "token",
+        testResult = CoronaTestResult.RAT_REDEEMED,
+        testedAt = Instant.EPOCH,
+        isDccConsentGiven = false,
+        isDccSupportedByPoc = false
+    )
+
+    private val anotherRAT = RACoronaTest(
+        identifier = "rat-identifier-another",
+        lastUpdatedAt = Instant.EPOCH,
+        registeredAt = Instant.EPOCH,
+        registrationToken = "token-another",
+        testResult = CoronaTestResult.RAT_REDEEMED,
+        testedAt = Instant.EPOCH,
+        isDccConsentGiven = false,
+        isDccSupportedByPoc = false
+    )
+
+    private val recycledPCR = PCRCoronaTest(
+        identifier = "pcr-identifier",
+        lastUpdatedAt = Instant.EPOCH,
+        registeredAt = Instant.EPOCH,
+        registrationToken = "token",
+        testResult = CoronaTestResult.PCR_NEGATIVE,
+        isDccConsentGiven = true
+    )
+
+    private val anotherPCR = PCRCoronaTest(
+        identifier = "pcr-identifier-another",
+        lastUpdatedAt = Instant.EPOCH,
+        registeredAt = Instant.EPOCH,
+        registrationToken = "token-another",
+        testResult = CoronaTestResult.PCR_NEGATIVE,
+        isDccConsentGiven = true
+    )
 
     private val recCert: RecoveryCertificate = mockk {
         every { containerId } returns RecoveryCertificateContainerId("recCert")
@@ -72,6 +121,7 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
             flowOf(setOf(recCert, testCert, vaccCert))
 
         every { recycledCoronaTestsRepository.tests } returns flowOf(emptySet())
+        coEvery { recycledCoronaTestsRepository.restoreCoronaTest(any()) } just Runs
     }
 
     @Test
@@ -170,5 +220,72 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
         coVerify {
             recycledCertificatesProvider.restoreCertificate(containerId)
         }
+    }
+
+    @Test
+    fun `restoreCoronaTest PCR test when another PCR is active`() {
+        every { submissionRepository.testForType(CoronaTest.Type.PCR) } returns flowOf(anotherPCR)
+        instance.apply {
+            onRestoreTestConfirmation(recycledPCR)
+            events.getOrAwaitValue() shouldBe
+                RecyclerBinEvent.RestoreDuplicateTest(recycledPCR.toRestoreRecycledTestRequest())
+        }
+        coVerify(exactly = 0) { recycledCoronaTestsRepository.restoreCoronaTest(any()) }
+    }
+
+    @Test
+    fun `restoreCoronaTest RAT test when another RAT is active`() {
+        every { submissionRepository.testForType(CoronaTest.Type.RAPID_ANTIGEN) } returns flowOf(anotherRAT)
+
+        instance.apply {
+            onRestoreTestConfirmation(recycledRAT)
+            events.getOrAwaitValue() shouldBe
+                RecyclerBinEvent.RestoreDuplicateTest(recycledRAT.toRestoreRecycledTestRequest())
+        }
+        coVerify(exactly = 0) { recycledCoronaTestsRepository.restoreCoronaTest(any()) }
+    }
+
+    @Test
+    fun `restoreCoronaTest PCR test is pending`() {
+        every { submissionRepository.testForType(CoronaTest.Type.PCR) } returns flowOf(null)
+        val recycledCoronaTest = recycledPCR.copy(testResult = CoronaTestResult.PCR_OR_RAT_PENDING)
+        instance.apply {
+            onRestoreTestConfirmation(recycledCoronaTest)
+            events.getOrAwaitValue() shouldBe RecyclerBinEvent.PendingTestResult(recycledCoronaTest)
+        }
+        coVerify { recycledCoronaTestsRepository.restoreCoronaTest(any()) }
+    }
+
+    @Test
+    fun `restoreCoronaTest RAT test is pending`() {
+        every { submissionRepository.testForType(CoronaTest.Type.RAPID_ANTIGEN) } returns flowOf(null)
+
+        val recycledCoronaTest = recycledRAT.copy(testResult = CoronaTestResult.PCR_OR_RAT_PENDING)
+        instance.apply {
+            onRestoreTestConfirmation(recycledCoronaTest)
+            events.getOrAwaitValue() shouldBe RecyclerBinEvent.PendingTestResult(recycledCoronaTest)
+        }
+        coVerify { recycledCoronaTestsRepository.restoreCoronaTest(any()) }
+    }
+
+    @Test
+    fun `restoreCoronaTest PCR test is not pending`() {
+        every { submissionRepository.testForType(CoronaTest.Type.PCR) } returns flowOf(null)
+        instance.apply {
+            onRestoreTestConfirmation(recycledPCR)
+            events.getOrAwaitValue() shouldBe RecyclerBinEvent.Home
+        }
+        coVerify { recycledCoronaTestsRepository.restoreCoronaTest(any()) }
+    }
+
+    @Test
+    fun `restoreCoronaTest RAT test is not pending`() {
+        every { submissionRepository.testForType(CoronaTest.Type.RAPID_ANTIGEN) } returns flowOf(null)
+
+        instance.apply {
+            onRestoreTestConfirmation(recycledRAT)
+            events.getOrAwaitValue() shouldBe RecyclerBinEvent.Home
+        }
+        coVerify { recycledCoronaTestsRepository.restoreCoronaTest(any()) }
     }
 }
