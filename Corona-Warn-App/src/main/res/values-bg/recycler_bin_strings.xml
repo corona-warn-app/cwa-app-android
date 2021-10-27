@@ -16,7 +16,7 @@
     <!-- XHED: Recycle Bin  - Restore DGC dialog title -->
     <string name="recycle_bin_restore_dgc_dialog_title">"Възстановяване на сертификат"</string>
     <!-- XTXT: Recycle Bin  - Restore DGC dialog message -->
-    <string name="recycle_bin_restore_dgc_dialog_message">"QR кодът вече е регистриран на устройството ви. Можете да възстановите сертификата от кошчето. "</string>
+    <string name="recycle_bin_restore_dgc_dialog_message">"QR кодът вече е регистриран на устройството Ви. Сертификатът ще бъде възстановен от кошчето."</string>
 
     <!-- DGC  - Recycle certificate dialog-->
     <!-- XHED: Recycle Bin - recycle certificate dialog title -->

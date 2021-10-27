@@ -930,17 +930,17 @@
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_file_not_readable_title">Datei nicht lesbar</string>
     <!-- XTXT: QR Code error message body  -->
-    <string name="qr_code_file_not_readable_body">Das Dateiformat wird von Corona-Warn-App nicht unterstützt. Bitte wählen Sie eine kompatible Datei.</string>
+    <string name="qr_code_file_not_readable_body">Der QR-Code wird nicht von der Corona-Warn-App unterstützt. Bitte wählen Sie eine Datei mit einem geeigneten QR-Code.</string>
     <!-- XTXT: QR Code error message body  -->
     <string name="qr_code_file_corrupted_body">Die gewählte Datei ist möglicherweise beschädigt oder passwortgeschützt und konnte daher nicht gelesen werden. Bitte wählen Sie eine geeignete Datei.</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_qr_code_title">Kein QR-Code erkannt</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_qr_code_body">Bitte wählen Sie ein Dokument oder ein Foto mit einem vorhanden QR-Code.</string>
+    <string name="qr_code_no_qr_code_body">In der gewählten Datei konnte kein QR-Code erkannt werden. Bitte wählen Sie eine andere Datei.</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_suitable_qr_code_title">Kein geeigneter QR-Code</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_suitable_qr_code_body">Der QR-Code kann nicht in der Corona-Warn-App gescannt werden. Bitte wählen Sie einen geeigneten QR-Code.</string>
+    <string name="qr_code_no_suitable_qr_code_body">Der QR-Code wird nicht von der Corona-Warn-App unterstützt. Bitte wählen Sie einen geeigneten QR-Code.</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
