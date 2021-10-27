@@ -963,7 +963,7 @@
     <!-- YTXT: Page bottom text for consent screen -->
     <string name="submission_consent_main_bottom_body">"Подробна информация за обработването на данни и Вашето съгласие"</string>
     <!-- YTXT: Body for consent main section first point  -->
-    <string name="submission_consent_main_first_point">"Можете да получите резултата от Вашия тест, без да е необходимо да го споделяте. Ако обаче споделите резултата си, ще помогнете на другите да се предпазят от заразяване."</string>
+    <string name="submission_consent_main_first_point">"Ако споделите резултата си, ще помогнете на другите да се предпазят от заразяване."</string>
     <!-- YTXT: Body for consent main section second point  -->
     <string name="submission_consent_main_second_point">"Вашата самоличност няма да бъде разкрита. Другите потребители няма да узнаят кой е споделил резултата от теста си."</string>
     <!-- YTXT: Body for consent main section third point  -->
@@ -978,7 +978,7 @@
     <!-- YTXT: Body for no consent section first point  -->
     <string name="submission_no_consent_first_point">"Вашето съгласие е доброволно."</string>
     <!-- YTXT: Body for no consent section second point  -->
-    <string name="submission_no_consent_second_point">"Можете да получите резултата от Вашия тест, без да е необходимо да го споделяте, но ако споделите резултата си, ще помогнете на другите да се предпазят от заразяване."</string>
+    <string name="submission_no_consent_second_point">"Ако споделите резултата си, ще помогнете на другите да се предпазят от заразяване."</string>
     <!-- YTXT: Body for no consent section third point  -->
     <string name="submission_no_consent_third_point">"Вашата самоличност няма да бъде разкрита. Другите потребители няма да узнаят кой е споделил резултата от теста си."</string>
     <!-- YTXT: Body for no consent section fourth point  -->
@@ -1479,7 +1479,7 @@
     <!-- XHED: Explanation screen period yesterday subtitle -->
     <string name="statistics_explanation_period_yesterday_subtitle">"Вчера/до вчера"</string>
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"За \"Вчера/до вчера\" се показва броят за предишния ден/до предишния ден. Ако все още няма данни за предишния ден, се показва последната дата, за която има данни."</string>
+    <string name="statistics_explanation_period_yesterday_text">"Общ брой потвърдени нови случаи на заразяване за последните 7 дни (по дата на регистриране) на 100 000 души."</string>
     <!-- XHED: Explanation screen period seven day subtitle -->
     <string name="statistics_explanation_period_seven_day_subtitle">"7 дни средно"</string>
     <!-- XTXT: Explanation screen period seven day text -->
