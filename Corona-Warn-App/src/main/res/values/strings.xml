@@ -963,7 +963,7 @@
     <!-- YTXT: Page bottom text for consent screen -->
     <string name="submission_consent_main_bottom_body">"Detailed Information on Data Processing and Your Consent"</string>
     <!-- YTXT: Body for consent main section first point  -->
-    <string name="submission_consent_main_first_point">"You can retrieve your test result even if you do not want to share it. But if you share your test result, you will help to protect others against infection."</string>
+    <string name="submission_consent_main_first_point">"If you share your test result, you will help to protect others against infection."</string>
     <!-- YTXT: Body for consent main section second point  -->
     <string name="submission_consent_main_second_point">"Your identity will remain secret. Other users will not find out who has shared a test result."</string>
     <!-- YTXT: Body for consent main section third point  -->
@@ -978,7 +978,7 @@
     <!-- YTXT: Body for no consent section first point  -->
     <string name="submission_no_consent_first_point">"Your consent is voluntary."</string>
     <!-- YTXT: Body for no consent section second point  -->
-    <string name="submission_no_consent_second_point">"You can retrieve your test result even if you do not choose to share it. But if you share your test result, you will help to protect others against infection."</string>
+    <string name="submission_no_consent_second_point">"If you share your test result, you will help to protect others against infection."</string>
     <!-- YTXT: Body for no consent section third point  -->
     <string name="submission_no_consent_third_point">"Your identity will remain secret. Other users will not find out who has shared a test result."</string>
     <!-- YTXT: Body for no consent section fourth point  -->
@@ -1479,7 +1479,7 @@
     <!-- XHED: Explanation screen period yesterday subtitle -->
     <string name="statistics_explanation_period_yesterday_subtitle">"Yesterday/Up to yesterday"</string>
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"For “Yesterday/Up to yesterday”, the number for the previous day/up to the previous day is displayed. If no figures are available yet for the previous day, the last date for which figures are available is displayed."</string>
+    <string name="statistics_explanation_period_yesterday_text">"Total number of confirmed new infections in the last 7 days (by reporting date) per 100,000 residents."</string>
     <!-- XHED: Explanation screen period seven day subtitle -->
     <string name="statistics_explanation_period_seven_day_subtitle">"7-Day Average"</string>
     <!-- XTXT: Explanation screen period seven day text -->
