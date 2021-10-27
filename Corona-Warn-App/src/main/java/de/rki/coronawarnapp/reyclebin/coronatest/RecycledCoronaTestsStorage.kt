@@ -13,7 +13,7 @@ class RecycledCoronaTestsStorage @Inject constructor() {
     suspend fun load(): Set<RecycledCoronaTest> = mutex.withLock {
         Timber.d("load()")
 
-        //TODO
+        // TODO
 
         return emptySet()
     }

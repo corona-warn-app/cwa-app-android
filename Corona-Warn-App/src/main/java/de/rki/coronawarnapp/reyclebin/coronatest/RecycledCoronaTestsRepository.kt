@@ -89,7 +89,7 @@ class RecycledCoronaTestsRepository @Inject constructor(
 
     suspend fun restoreCoronaTest(recycledCoronaTest: RecycledCoronaTest) {
         Timber.tag(TAG).d("restoreCoronaTest(recycledCoronaTest=%s)", recycledCoronaTest)
-        //coronaTestRepository.restoreTest(recycledCoronaTest.coronaTest)
+        // coronaTestRepository.restoreTest(recycledCoronaTest.coronaTest)
         deleteCoronaTest(recycledCoronaTest)
     }
 
