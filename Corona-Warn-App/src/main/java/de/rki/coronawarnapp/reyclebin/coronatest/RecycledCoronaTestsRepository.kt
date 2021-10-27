@@ -12,7 +12,7 @@ class RecycledCoronaTestsRepository @Inject constructor(
 
 ) {
 
-    val tests: Flow<Set<RecycledCoronaTest>> = recycledCoronaTestsStorage.tests
+    val tests: Flow<Set<CoronaTest>> = recycledCoronaTestsStorage.tests
 
     suspend fun findCoronaTest(coronaTestQrCodeHash: String): RecycledCoronaTest? {
         return recycledCoronaTestsStorage.findTest(coronaTestQrCodeHash)
@@ -26,11 +26,11 @@ class RecycledCoronaTestsRepository @Inject constructor(
         // TODO
     }
 
-    suspend fun deleteCoronaTest(recycledCoronaTest: RecycledCoronaTest) {
+    suspend fun deleteCoronaTest(recycledCoronaTest: CoronaTest) {
         // TODO
     }
 
-    suspend fun deleteAllCoronaTest(recycledCoronaTests: Set<RecycledCoronaTest>) {
+    suspend fun deleteAllCoronaTest(recycledCoronaTests: Set<CoronaTest>) {
         // TODO
     }
 

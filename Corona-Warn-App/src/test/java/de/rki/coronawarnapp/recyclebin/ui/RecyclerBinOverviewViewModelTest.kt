@@ -152,7 +152,7 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
     @Test
     fun `onRemoveItem triggers deletion`() {
         val containerId = testCert.containerId
-        instance.onRemoveItem(testCert)
+        instance.onRemoveCertificate(testCert)
 
         coVerify {
             recycledCertificatesProvider.deleteCertificate(containerId)
@@ -162,7 +162,7 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
     @Test
     fun `onRestoreConfirmation triggers restoration`() {
         val containerId = testCert.containerId
-        instance.onRestoreConfirmation(testCert)
+        instance.onRestoreCertificateConfirmation(testCert)
 
         coVerify {
             recycledCertificatesProvider.restoreCertificate(containerId)
