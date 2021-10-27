@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest.State.INVALID
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest.State.NEGATIVE
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest.State.PENDING
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest.State.POSITIVE
+import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest.State.RECYCLED
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest.State.REDEEMED
 import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR.FetchingResult
 import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR.NoTest
@@ -29,5 +30,6 @@ fun PCRCoronaTest?.toSubmissionState() = when {
         NEGATIVE -> TestNegative(testRegisteredAt = registeredAt)
         REDEEMED -> TestInvalid
         PENDING -> TestPending
+        RECYCLED -> NoTest
     }
 }

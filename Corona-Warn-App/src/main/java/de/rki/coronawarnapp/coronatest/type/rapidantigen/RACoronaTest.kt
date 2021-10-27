@@ -80,6 +80,9 @@ data class RACoronaTest(
 
     @SerializedName("qrCodeHash")
     override val qrCodeHash: String = "",
+
+    @SerializedName("recycledAt")
+    override var recycledAt: Instant? = null,
 ) : CoronaTest {
 
     override val type: CoronaTest.Type
@@ -88,21 +91,20 @@ data class RACoronaTest(
     private fun isOutdated(nowUTC: Instant, testConfig: CoronaTestConfig): Boolean =
         testTakenAt.plus(testConfig.coronaRapidAntigenTestParameters.hoursToDeemTestOutdated).isBefore(nowUTC)
 
-    fun getState(nowUTC: Instant, testConfig: CoronaTestConfig) =
-        if (testResult == RAT_NEGATIVE && isOutdated(nowUTC, testConfig)) {
-            State.OUTDATED
-        } else {
-            when (testResult) {
-                PCR_OR_RAT_PENDING,
-                RAT_PENDING -> State.PENDING
-                RAT_NEGATIVE -> State.NEGATIVE
-                RAT_POSITIVE -> State.POSITIVE
-                RAT_INVALID -> State.INVALID
-                PCR_OR_RAT_REDEEMED,
-                RAT_REDEEMED -> State.REDEEMED
-                else -> throw IllegalArgumentException("Invalid RAT test state $testResult")
-            }
+    fun getState(nowUTC: Instant, testConfig: CoronaTestConfig) = when {
+        isRecycled -> State.RECYCLED
+        testResult == RAT_NEGATIVE && isOutdated(nowUTC, testConfig) -> State.OUTDATED
+        else -> when (testResult) {
+            PCR_OR_RAT_PENDING,
+            RAT_PENDING -> State.PENDING
+            RAT_NEGATIVE -> State.NEGATIVE
+            RAT_POSITIVE -> State.POSITIVE
+            RAT_INVALID -> State.INVALID
+            PCR_OR_RAT_REDEEMED,
+            RAT_REDEEMED -> State.REDEEMED
+            else -> throw IllegalArgumentException("Invalid RAT test state $testResult")
         }
+    }
 
     val testTakenAt: Instant
         get() = sampleCollectedAt ?: testedAt
@@ -132,5 +134,6 @@ data class RACoronaTest(
         NEGATIVE,
         REDEEMED,
         OUTDATED,
+        RECYCLED,
     }
 }

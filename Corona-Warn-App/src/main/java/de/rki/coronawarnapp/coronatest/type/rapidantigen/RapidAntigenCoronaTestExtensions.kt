@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest.State.NEGA
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest.State.OUTDATED
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest.State.PENDING
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest.State.POSITIVE
+import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest.State.RECYCLED
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest.State.REDEEMED
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT.FetchingResult
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT.NoTest
@@ -35,5 +36,6 @@ fun RACoronaTest?.toSubmissionState(nowUTC: Instant = Instant.now(), coronaTestC
         REDEEMED -> TestInvalid
         PENDING -> TestPending
         OUTDATED -> TestOutdated
+        RECYCLED -> NoTest
     }
 }
