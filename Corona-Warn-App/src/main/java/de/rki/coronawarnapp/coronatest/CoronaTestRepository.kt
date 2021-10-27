@@ -159,8 +159,42 @@ class CoronaTestRepository @Inject constructor(
         return removedTest!!
     }
 
-    suspend fun restoreTest(coronaTest: CoronaTest) {
-        // TODO
+    /**
+     * Move Corona test to recycled state.
+     * it does not throw any exception if certificate is not found
+     */
+    suspend fun recycleTest(identifier: TestIdentifier) {
+        Timber.tag(TAG).d("recycleTest(identifier=%s)", identifier)
+        updateTest(identifier) {
+            getProcessor(it.type).recycle(it)
+        }
+    }
+
+    /**
+     * Restore Corona Test from recycled state.
+     * it does not throw any exception if certificate is not found
+     */
+    suspend fun restoreTest(identifier: TestIdentifier) {
+        Timber.tag(TAG).d("restoreTest(identifier=%s)", identifier)
+        updateTest(identifier) {
+            getProcessor(it.type).restore(it)
+        }
+    }
+
+    private suspend fun updateTest(identifier: TestIdentifier, updateAction: suspend (CoronaTest) -> CoronaTest) {
+        internalData.updateBlocking {
+            val toBeUpdated = get(identifier)
+
+            if (toBeUpdated == null) {
+                Timber.tag(TAG).d("Couldn't find test for %s", identifier)
+                return@updateBlocking this
+            }
+
+            val identifierTestPair = identifier to updateAction(toBeUpdated)
+                .also { Timber.tag(TAG).d("Updated test=%s", it) }
+
+            minus(identifier).plus(identifierTestPair)
+        }
     }
 
     /**

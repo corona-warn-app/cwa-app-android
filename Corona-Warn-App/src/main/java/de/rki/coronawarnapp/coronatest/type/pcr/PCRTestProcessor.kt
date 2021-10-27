@@ -263,6 +263,20 @@ class PCRTestProcessor @Inject constructor(
         return test.copy(isDccDataSetCreated = created)
     }
 
+    override suspend fun recycle(test: CoronaTest): CoronaTest {
+        Timber.tag(TAG).v("recycle(test=%s)", test)
+        test as PCRCoronaTest
+
+        return test.copy(recycledAt = timeStamper.nowUTC)
+    }
+
+    override suspend fun restore(test: CoronaTest): CoronaTest {
+        Timber.tag(TAG).v("restore(test=%s)", test)
+        test as PCRCoronaTest
+
+        return test.copy(recycledAt = null)
+    }
+
     companion object {
         private val FINAL_STATES = setOf(PCR_POSITIVE, PCR_NEGATIVE, PCR_OR_RAT_REDEEMED)
         internal const val TAG = "PCRTestProcessor"
