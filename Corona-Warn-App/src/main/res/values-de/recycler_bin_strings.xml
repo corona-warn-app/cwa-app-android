@@ -9,7 +9,7 @@
     <!-- XHED: empty recycler bin label -->
     <string name="recycler_bin_empty_label">"Ihr Papierkorb ist leer"</string>
     <!-- XHED: empty recycler bin description -->
-    <string name="recycler_bin_empty_description">"Wenn Sie Tests und Zertifikate entfernen, werden sie in den Papierkorb verschoben und hier angezeigt."</string>
+    <string name="recycler_bin_empty_description">"Wenn Sie Zertifikate entfernen, werden sie in den Papierkorb verschoben und hier angezeigt."</string>
     <!-- XHED: recycler bin remove all menu item -->
     <string name="recycler_bin_remove_all">"Alle entfernen"</string>
 
