@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.reyclebin.common.Recyclable
 import org.joda.time.Instant
 
+@Deprecated("Probably not needed. Remove later")
 data class RecycledCoronaTest(
     override val recycledAt: Instant,
     val coronaTest: CoronaTest,

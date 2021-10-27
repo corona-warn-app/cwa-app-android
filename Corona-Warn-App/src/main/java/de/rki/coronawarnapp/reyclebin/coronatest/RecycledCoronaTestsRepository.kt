@@ -24,6 +24,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.jvm.Throws
 
+@Deprecated("Probably not needed. Remove later")
 @Singleton
 class RecycledCoronaTestsRepository @Inject constructor(
     @AppScope private val appScope: CoroutineScope,

@@ -5,6 +5,7 @@ import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
 import javax.inject.Inject
 
+@Deprecated("Probably not needed. Remove later")
 class RecycledCoronaTestsStorage @Inject constructor() {
 
     private val mutex = Mutex()
@@ -12,7 +13,7 @@ class RecycledCoronaTestsStorage @Inject constructor() {
     suspend fun load(): Set<RecycledCoronaTest> = mutex.withLock {
         Timber.d("load()")
 
-        // TODO
+        //TODO
 
         return emptySet()
     }
