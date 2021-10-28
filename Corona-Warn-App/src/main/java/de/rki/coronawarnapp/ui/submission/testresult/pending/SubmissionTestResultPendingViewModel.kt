@@ -120,10 +120,8 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
         .map { it.lastError!! }
         .asLiveData()
 
-    fun deregisterTestFromDevice() = launch {
-        Timber.d("deregisterTestFromDevice()")
-        submissionRepository.removeTestFromDevice(type = testType)
-        routeToScreen.postValue(null)
+    fun moveTestToRecycleBinStorage() {
+        // TODO
     }
 
     fun updateTestResult() = launch {

@@ -46,8 +46,8 @@ class SubmissionTestResultKeysSharedViewModel @AssistedInject constructor(
         showDeleteTestDialog.postValue(Unit)
     }
 
-    fun onDeleteTestConfirmed() {
-        submissionRepository.removeTestFromDevice(type = testType)
+    fun moveTestToRecycleBinStorage() {
+        // TODO
     }
 
     @AssistedFactory

@@ -42,7 +42,7 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
         viewModel.onTestOpened()
 
         binding.apply {
-            submissionTestResultButtonInvalidRemoveTest.setOnClickListener { removeTestAfterConfirmation() }
+            submissionTestResultButtonInvalidRemoveTest.setOnClickListener { moveTestToRecycleBin() }
             submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener { popBackStack() }
         }
 
@@ -74,20 +74,17 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
-    private fun removeTestAfterConfirmation() {
-        val removeTestDialog = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.submission_test_result_dialog_remove_test_title,
-            R.string.submission_test_result_dialog_remove_test_message,
-            R.string.submission_test_result_dialog_remove_test_button_positive,
-            R.string.submission_test_result_dialog_remove_test_button_negative,
+    private fun moveTestToRecycleBin() {
+        val moveTestDialog = DialogHelper.DialogInstance(
+            context = requireActivity(),
+            title = R.string.submission_test_result_dialog_move_test_to_recycle_bin_title,
+            message = R.string.submission_test_result_dialog_move_test_to_recycle_bin_body,
+            positiveButton = R.string.submission_test_result_dialog_move_test_to_recycle_bin_button,
+            negativeButton = R.string.submission_test_result_dialog_remove_test_button_negative,
             positiveButtonFunction = {
-                viewModel.deregisterTestFromDevice()
+                viewModel.moveTestToRecycleBinStorage()
             }
         )
-        DialogHelper.showDialog(removeTestDialog).apply {
-            getButton(DialogInterface.BUTTON_POSITIVE)
-                .setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
-        }
+        DialogHelper.showDialog(moveTestDialog)
     }
 }

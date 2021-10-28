@@ -37,11 +37,8 @@ class SubmissionTestResultInvalidViewModel @AssistedInject constructor(
             TestResultUIState(coronaTest = test)
         }.asLiveData(context = dispatcherProvider.Default)
 
-    fun deregisterTestFromDevice() = launch {
-        Timber.d("deregisterTestFromDevice()")
-
-        submissionRepository.removeTestFromDevice(type = testType)
-        routeToScreen.postValue(null)
+    fun moveTestToRecycleBinStorage() {
+        // TODO
     }
 
     fun onTestOpened() = launch {

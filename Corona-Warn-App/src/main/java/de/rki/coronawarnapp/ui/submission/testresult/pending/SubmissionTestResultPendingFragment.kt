@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.submission.testresult.pending
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
@@ -10,12 +9,11 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPendingBinding
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
-import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -80,7 +78,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
                 binding.submissionTestResultSection.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
             }
 
-            submissionTestResultButtonPendingRemoveTest.setOnClickListener { removeTestAfterConfirmation() }
+            submissionTestResultButtonPendingRemoveTest.setOnClickListener { moveTestToRecycleBin() }
             submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener { navigateToMainScreen() }
             consentStatus.setOnClickListener { viewModel.onConsentClicked() }
         }
@@ -118,21 +116,18 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         super.onPause()
     }
 
-    private fun removeTestAfterConfirmation() {
-        val removeTestDialog = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.submission_test_result_dialog_remove_test_title,
-            R.string.submission_test_result_dialog_remove_test_message,
-            R.string.submission_test_result_dialog_remove_test_button_positive,
-            R.string.submission_test_result_dialog_remove_test_button_negative,
+    private fun moveTestToRecycleBin() {
+        val moveTestDialog = DialogHelper.DialogInstance(
+            context = requireActivity(),
+            title = R.string.submission_test_result_dialog_move_test_to_recycle_bin_title,
+            message = R.string.submission_test_result_dialog_move_test_to_recycle_bin_body,
+            positiveButton = R.string.submission_test_result_dialog_move_test_to_recycle_bin_button,
+            negativeButton = R.string.submission_test_result_dialog_remove_test_button_negative,
             positiveButtonFunction = {
-                viewModel.deregisterTestFromDevice()
+                viewModel.moveTestToRecycleBinStorage()
             }
         )
-        DialogHelper.showDialog(removeTestDialog).apply {
-            getButton(DialogInterface.BUTTON_POSITIVE)
-                .setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
-        }
+        DialogHelper.showDialog(moveTestDialog)
     }
 
     private fun handleError(exception: Throwable) {

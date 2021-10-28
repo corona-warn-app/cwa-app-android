@@ -62,7 +62,7 @@ class SubmissionTestResultKeysSharedFragment :
             }
         }
 
-        viewModel.showDeleteTestDialog.observe2(this) { showDeleteTestDialog() }
+        viewModel.showDeleteTestDialog.observe2(this) { moveTestToRecycleBin() }
     }
 
     override fun onResume() {
@@ -74,21 +74,18 @@ class SubmissionTestResultKeysSharedFragment :
         popBackStack()
     }
 
-    private fun showDeleteTestDialog() {
-        val removeTestDialog = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.submission_test_result_dialog_remove_test_title,
-            R.string.submission_test_result_dialog_remove_test_message,
-            R.string.submission_test_result_dialog_remove_test_button_positive,
-            R.string.submission_test_result_dialog_remove_test_button_negative,
+    private fun moveTestToRecycleBin() {
+        val moveTestDialog =  DialogHelper.DialogInstance(
+            context = requireActivity(),
+            title = R.string.submission_test_result_dialog_move_test_to_recycle_bin_title,
+            message = R.string.submission_test_result_dialog_move_test_to_recycle_bin_body,
+            positiveButton = R.string.submission_test_result_dialog_move_test_to_recycle_bin_button,
+            negativeButton = R.string.submission_test_result_dialog_remove_test_button_negative,
             positiveButtonFunction = {
-                viewModel.onDeleteTestConfirmed()
+                viewModel.moveTestToRecycleBinStorage()
                 navigateBack()
             }
         )
-        DialogHelper.showDialog(removeTestDialog).apply {
-            getButton(DialogInterface.BUTTON_POSITIVE)
-                .setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
-        }
+        DialogHelper.showDialog(moveTestDialog)
     }
 }

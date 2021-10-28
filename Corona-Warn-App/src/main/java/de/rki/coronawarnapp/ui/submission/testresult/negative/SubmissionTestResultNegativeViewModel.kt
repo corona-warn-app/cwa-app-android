@@ -60,11 +60,8 @@ class SubmissionTestResultNegativeViewModel @AssistedInject constructor(
         cert
     }.asLiveData(context = dispatcherProvider.Default)
 
-    fun deregisterTestFromDevice() = launch {
-        Timber.tag(TAG).d("deregisterTestFromDevice()")
-        submissionRepository.removeTestFromDevice(type = testType)
-
-        events.postValue(SubmissionTestResultNegativeNavigation.Back)
+    fun moveTestToRecycleBinStorage() {
+        // TODO
     }
 
     fun onTestOpened() = launch {
